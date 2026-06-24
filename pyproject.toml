@@ -9,5 +9,8 @@ description = "Semi-analytic IMRI minidisk limit-cycle model for QPEs."
 requires-python = ">=3.10"
 dependencies = ["numpy"]
 
+[project.optional-dependencies]
+solver = ["scipy>=1.11"]
+
 [tool.setuptools.packages.find]
 where = ["src"]

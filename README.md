@@ -154,6 +154,31 @@ order-unity residuals and unphysical thickness. The next step is therefore a
 transonic slim-disk solver with radial momentum and sonic regularity, before
 stream, tide, or wind are reintroduced.
 
+### Transonic Milestone T1 smoke test
+
+The first isolated, no-wind, pseudo-Newtonian transonic solver scaffold is now
+implemented. It uses algebraic alpha stress, radial momentum, stress-shear
+heating, entropy advection from the radial solution, and a free-boundary
+collocation residual with sonic matrix regularity conditions.
+
+Current smoke-test output:
+
+![Transonic branch smoke test](outputs/figures/transonic_branch_summary.png)
+
+Summary table:
+
+```text
+outputs/tables/transonic_solver_audit.md
+```
+
+The low-rate point `Mdot/Mdot_Edd = 1e-3` converges with max collocation
+residual `8.8e-5`, `R_son ~= 4.2 r_g`, and `H/R ~= 0.0034`. This is a genuine
+first transonic eigenvalue success. Continuation beyond the lowest rates is
+not robust yet: the current implementation relies on finite-difference local
+partials inside a finite-difference global Jacobian, so the next numerical
+hardening step is analytic or complex-step local derivatives plus improved
+continuation before interpreting high-rate failures physically.
+
 ### Layer 3 one-zone cycle
 
 The reduced relaxation oscillator reproduces the fiducial day-scale recurrence:
@@ -261,6 +286,6 @@ PYTHONPATH=src python3 -m unittest discover -s tests
 Current expected result:
 
 ```text
-Ran 71 tests
+Ran 90 tests
 OK
 ```

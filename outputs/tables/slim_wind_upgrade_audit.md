@@ -164,6 +164,8 @@ Numerical summary from the fiducial run:
 | Isolated low-rate thin-disk benchmark | pass |
 | Isolated reduced advective branch through moderate rates | pass |
 | Isolated reduced branch at QPE target | fail/outside Keplerian validity |
+| Transonic low-rate sonic eigenvalue smoke test | pass |
+| Transonic continuation to moderate/high rates | not robust yet |
 | Faithful steady advective/wind hot branch | not yet |
 | `xi_eff(R)` matching the imposed local hot branch | fail |
 | Global conservation residual diagnostic | pass |
@@ -173,21 +175,26 @@ Numerical summary from the fiducial run:
 ## Next Analysis Step
 
 The next meaningful calculation is not another local S-curve with tuned `xi`.
-It is a true transonic slim-disk solve. Sprint B has now repaired the simplest
-isolated no-wind reduced model: it validates the thin disk and follows a
-smooth advective sequence through `Mdot/Mdot_Edd ~= 10`, but `H/R` exceeds
-`0.4` by a few `Mdot_Edd`, far below the QPE target near `94 Mdot_Edd`.
-The next step is therefore to promote the solver beyond the nearly Keplerian
-closure:
+The first true transonic solver scaffold now exists and passes a low-rate
+sonic-eigenvalue smoke test:
 
-1. Choose a radial grid from `R_in` to `R_out`.
-2. Add radial momentum, including pressure support and inertial terms.
-3. Enforce a sonic/critical regularity condition rather than prescribing a
-   purely Keplerian inner closure.
-4. Compute `T ds/dR` from the radial profiles and evaluate
-   `Q_adv = Sigma v_R T ds/dR`.
-5. Diagnose `xi_eff(R)` and check whether a hot/slim branch still exists at
-   the QPE target.
+```text
+outputs/figures/transonic_branch_summary.png
+outputs/tables/transonic_solver_audit.md
+```
+
+At `Mdot/Mdot_Edd = 1e-3`, the solver finds a free sonic radius
+`R_son ~= 4.2 r_g` with max collocation residual `8.8e-5`. However,
+continuation is not robust yet beyond the lowest rates. The current
+implementation uses finite-difference local partials inside a finite-difference
+global Jacobian, so the next step is numerical hardening:
+
+1. Replace finite-difference local partials with analytic or complex-step
+   derivatives.
+2. Improve residual scaling and continuation/remapping.
+3. Re-run grid convergence at `Mdot/Mdot_Edd = 1e-3`.
+4. Continue to `0.01`, `0.1`, `1`, and then toward the QPE target only after
+   lower-rate convergence is robust.
 
 Only after this succeeds should the hot branch be called physical rather than
 parameterized. The current diagnostic is useful because it says the local
@@ -198,6 +205,6 @@ parameterized. The current diagnostic is useful because it says the local
 Current test result:
 
 ```text
-Ran 71 tests
+Ran 90 tests
 OK
 ```
