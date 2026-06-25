@@ -55,6 +55,7 @@ Implemented:
 - Local differential residual F(g)=A g+c with numerical partials.
 - Sonic matrix diagnostics D and N.
 - Free-boundary midpoint collocation residual.
+- Block-local sparse finite-difference Jacobian for the collocation system.
 - scipy.optimize.least_squares solver wrapper.
 - Mdot continuation/remapping helpers.
 - First diagnostic figure/table:
@@ -64,17 +65,18 @@ Implemented:
 Current result:
 - Analytic local partials now replace the original finite-difference local
   partials.
-- Mdot/Mdot_Edd = 1e-3 converges with max residual ~= 6.5e-5.
-- Mdot/Mdot_Edd = 0.003 and 0.01 also satisfy the current smoke-test
+- Mdot/Mdot_Edd = 1e-3 converges with max residual ~= 7.8e-5.
+- Mdot/Mdot_Edd = 0.003, 0.01, 0.02, and 0.03 also satisfy the current smoke-test
   residual tolerance.
 - Sonic regularity is satisfied at a free sonic radius on the converged
   low-rate branch.
-- Continuation is not robust yet at Mdot/Mdot_Edd = 0.1 or 1.
+- Continuation is not robust yet at Mdot/Mdot_Edd = 0.05, 0.1, or 1.
 
 Current numerical caveat:
-- The remaining finite-difference global Jacobian and branch-remapping
-  strategy are still fragile. The next hardening step is an analytic/sparse
-  global Jacobian or staged Newton solve plus better continuation/scaling.
+- The block-local sparse Jacobian improves the continuation frontier, but the
+  solver still uses finite differences for global block derivatives. The next
+  hardening step is a true analytic global Jacobian or staged Newton solve
+  plus better continuation/scaling.
 ```
 
 ---

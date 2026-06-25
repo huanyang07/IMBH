@@ -164,7 +164,7 @@ Numerical summary from the fiducial run:
 | Isolated low-rate thin-disk benchmark | pass |
 | Isolated reduced advective branch through moderate rates | pass |
 | Isolated reduced branch at QPE target | fail/outside Keplerian validity |
-| Transonic low-rate sonic eigenvalue smoke test | pass through `Mdot/Mdot_Edd = 0.01` |
+| Transonic low-rate sonic eigenvalue smoke test | pass through `Mdot/Mdot_Edd = 0.03` |
 | Transonic continuation to moderate/high rates | not robust yet |
 | Faithful steady advective/wind hot branch | not yet |
 | `xi_eff(R)` matching the imposed local hot branch | fail |
@@ -183,17 +183,18 @@ outputs/figures/transonic_branch_summary.png
 outputs/tables/transonic_solver_audit.md
 ```
 
-After replacing local finite-difference partials with analytic derivatives,
-the solver now satisfies the current smoke-test tolerance through
-`Mdot/Mdot_Edd = 0.01`. However, continuation is not robust yet at
-`Mdot/Mdot_Edd = 0.1` or `1`. The remaining finite-difference global Jacobian
-and branch-remapping strategy are the next numerical bottlenecks:
+After replacing local finite-difference partials with analytic derivatives and
+replacing SciPy's full-residual finite-difference Jacobian with a block-local
+sparse Jacobian, the solver now satisfies the current smoke-test tolerance
+through `Mdot/Mdot_Edd = 0.03`. However, continuation is not robust yet at
+`Mdot/Mdot_Edd = 0.05`, `0.1`, or `1`. The next numerical bottlenecks are:
 
-1. Replace the finite-difference global Jacobian with an analytic/sparse
-   Jacobian or staged Newton solve.
+1. Replace the block-local finite-difference Jacobian with a true analytic
+   global Jacobian or staged Newton solve.
 2. Improve residual scaling and continuation/remapping.
-3. Re-run grid convergence at `Mdot/Mdot_Edd = 1e-3`, `0.003`, and `0.01`.
-4. Continue to `0.1`, `1`, and then toward the QPE target only after
+3. Re-run grid convergence at `Mdot/Mdot_Edd = 1e-3`, `0.003`, `0.01`, and
+   `0.03`.
+4. Continue to `0.05`, `0.1`, `1`, and then toward the QPE target only after
    moderate-rate convergence is robust.
 
 Only after this succeeds should the hot branch be called physical rather than
@@ -205,6 +206,6 @@ parameterized. The current diagnostic is useful because it says the local
 Current test result:
 
 ```text
-Ran 92 tests
+Ran 93 tests
 OK
 ```

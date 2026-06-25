@@ -43,10 +43,11 @@ A first transonic Milestone-T1 implementation now exists. It is an isolated,
 no-wind, pseudo-Newtonian free-boundary collocation solver with radial
 momentum, stress-shear heating, entropy advection, and sonic matrix
 regularity conditions. The current result is a smoke-test success at
-low accretion rates through `Mdot/Mdot_Edd = 0.01`, after replacing local
-finite-difference partials with analytic derivatives. Continuation to `0.1`
-and above is not robust yet. The next step is to harden the global Jacobian and
-continuation numerically, not to add stream, tide, or wind.
+low accretion rates through `Mdot/Mdot_Edd = 0.03`, after replacing local
+finite-difference partials with analytic derivatives and replacing SciPy's
+full-residual finite-difference Jacobian with a block-local sparse Jacobian.
+Continuation to `0.05` and above is not robust yet. The next step is a true
+analytic global Jacobian or staged Newton solve, not stream, tide, or wind.
 
 ## Key Outputs
 
@@ -89,7 +90,7 @@ PYTHONPATH=src python3 -m unittest discover -s tests -q
 Current expected result:
 
 ```text
-Ran 92 tests
+Ran 93 tests
 OK
 ```
 

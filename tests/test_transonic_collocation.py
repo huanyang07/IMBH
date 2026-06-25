@@ -7,6 +7,7 @@ import numpy as np
 from imri_qpe.constants import C
 from imri_qpe.layer3_minidisk_1d.transonic_collocation import (
     TransonicSlimParams,
+    collocation_jacobian,
     collocation_residual,
     computational_grid,
     jac_sparsity_pattern,
@@ -68,6 +69,19 @@ class TransonicCollocationTests(unittest.TestCase):
         self.assertIsNotNone(pattern)
         self.assertEqual(pattern.shape, (self.z.size, self.z.size))
         self.assertGreater(pattern.nnz, 0)
+
+    def test_block_local_jacobian_matches_full_finite_difference_columns(self) -> None:
+        jac = collocation_jacobian(self.z, self.params).toarray()
+        columns = [0, 1, self.params.n_nodes, self.params.n_nodes + 1, self.z.size - 2, self.z.size - 1]
+        for column in columns:
+            step = 1.0e-6 * max(1.0, abs(float(self.z[column])))
+            plus = np.array(self.z, copy=True)
+            minus = np.array(self.z, copy=True)
+            plus[column] += step
+            minus[column] -= step
+            finite = (collocation_residual(plus, self.params) - collocation_residual(minus, self.params)) / (2.0 * step)
+            scale = np.maximum(np.maximum(np.abs(finite), np.abs(jac[:, column])), 1.0)
+            self.assertLess(float(np.max(np.abs(jac[:, column] - finite) / scale)), 1.0e-4, column)
 
     def test_profile_from_state_vector_is_finite(self) -> None:
         profile = profile_from_state_vector(self.z, self.params)

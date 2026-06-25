@@ -47,6 +47,7 @@ def continue_in_mdot(
     mdot_values,
     initial_guess=None,
     reset_after_failure: bool = True,
+    keep_last_accepted_on_failure: bool = False,
 ) -> TransonicContinuationResult:
     """Continue the transonic outer branch through a sequence of ``Mdot`` values."""
 
@@ -72,6 +73,6 @@ def continue_in_mdot(
             previous_profile = result.profile
         elif reset_after_failure:
             previous_profile = None
-        else:
+        elif not keep_last_accepted_on_failure:
             previous_profile = result.profile
     return TransonicContinuationResult(results=tuple(results), mdot_values=mdot_values)

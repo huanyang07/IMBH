@@ -171,13 +171,13 @@ Summary table:
 outputs/tables/transonic_solver_audit.md
 ```
 
-After replacing the local finite-difference partials with analytic derivatives,
-the smoke-test branch converges through `Mdot/Mdot_Edd = 0.01`. At
-`Mdot/Mdot_Edd = 1e-3`, the max collocation residual is `6.5e-5`; at
-`Mdot/Mdot_Edd = 0.01`, it is `4.1e-4`. Continuation to `0.1` and `1` is still
-not robust enough for physical interpretation. The remaining numerical
-hardening target is the finite-difference global Jacobian and branch remapping,
-not the local thermodynamic derivative layer.
+After replacing the local finite-difference partials with analytic derivatives
+and replacing SciPy's full-residual finite-difference Jacobian with a
+block-local sparse Jacobian, staged continuation now converges through
+`Mdot/Mdot_Edd = 0.03`. At `Mdot/Mdot_Edd = 1e-3`, the max collocation
+residual is `7.8e-5`; at `Mdot/Mdot_Edd = 0.03`, it is `8.8e-4`.
+Continuation stalls just above this, with `H/R` already approaching the thick
+disk regime, so rates `>= 0.05` should not yet be interpreted physically.
 
 ### Layer 3 one-zone cycle
 
@@ -286,6 +286,6 @@ PYTHONPATH=src python3 -m unittest discover -s tests
 Current expected result:
 
 ```text
-Ran 92 tests
+Ran 93 tests
 OK
 ```

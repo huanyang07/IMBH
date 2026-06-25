@@ -216,6 +216,60 @@ def _heating_terms_from_gradient(logR: float, y, g, lambda0: float, params: Tran
     return Q_visc, state.Q_rad, Q_adv, energy
 
 
+def _interval_residual_from_unpacked(logu, logT, logR, lambda0: float, params: TransonicSlimParams, idx: int) -> np.ndarray:
+    """Return the scaled residual for one midpoint collocation interval."""
+
+    dx = logR[idx + 1] - logR[idx]
+    ym = np.array(
+        [
+            0.5 * (logu[idx] + logu[idx + 1]),
+            0.5 * (logT[idx] + logT[idx + 1]),
+        ]
+    )
+    gm = np.array(
+        [
+            (logu[idx + 1] - logu[idx]) / dx,
+            (logT[idx + 1] - logT[idx]) / dx,
+        ]
+    )
+    xm = 0.5 * (logR[idx] + logR[idx + 1])
+    raw = differential_residual(xm, ym, gm, lambda0, params)
+    radial_scale, energy_scale = _residual_scales(xm, ym, params, lambda0)
+    return raw / np.array([radial_scale, energy_scale])
+
+
+def _interval_residual_block(z, params: TransonicSlimParams, idx: int) -> np.ndarray:
+    try:
+        logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
+        if np.any(np.diff(logR) <= 0.0):
+            raise ValueError("mapped radius must increase")
+        return _interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+    except Exception:
+        return np.full(2, 1.0e6)
+
+
+def _outer_residual_block(z, params: TransonicSlimParams) -> np.ndarray:
+    try:
+        logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
+        return _outer_boundary_residual(
+            logR[-1],
+            np.array([logu[-1], logT[-1]]),
+            lambda0,
+            params,
+        )
+    except Exception:
+        return np.full(2, 1.0e6)
+
+
+def _sonic_residual_block(z, params: TransonicSlimParams) -> np.ndarray:
+    try:
+        logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
+        sonic = sonic_diagnostics(logR[0], np.array([logu[0], logT[0]]), lambda0, params)
+        return np.array([sonic.D, sonic.N], dtype=float)
+    except Exception:
+        return np.full(2, 1.0e6)
+
+
 def collocation_residual(z, params: TransonicSlimParams) -> np.ndarray:
     """Return the scaled free-boundary collocation residual."""
 
@@ -226,34 +280,12 @@ def collocation_residual(z, params: TransonicSlimParams) -> np.ndarray:
             raise ValueError("mapped radius must increase")
         row = 0
         for idx in range(params.n_nodes - 1):
-            dx = logR[idx + 1] - logR[idx]
-            ym = np.array(
-                [
-                    0.5 * (logu[idx] + logu[idx + 1]),
-                    0.5 * (logT[idx] + logT[idx + 1]),
-                ]
-            )
-            gm = np.array(
-                [
-                    (logu[idx + 1] - logu[idx]) / dx,
-                    (logT[idx + 1] - logT[idx]) / dx,
-                ]
-            )
-            xm = 0.5 * (logR[idx] + logR[idx + 1])
-            raw = differential_residual(xm, ym, gm, lambda0, params)
-            radial_scale, energy_scale = _residual_scales(xm, ym, params, lambda0)
-            residual[row : row + 2] = raw / np.array([radial_scale, energy_scale])
+            residual[row : row + 2] = _interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
             row += 2
 
-        residual[row : row + 2] = _outer_boundary_residual(
-            logR[-1],
-            np.array([logu[-1], logT[-1]]),
-            lambda0,
-            params,
-        )
+        residual[row : row + 2] = _outer_residual_block(z, params)
         row += 2
-        sonic = sonic_diagnostics(logR[0], np.array([logu[0], logT[0]]), lambda0, params)
-        residual[row : row + 2] = np.array([sonic.D, sonic.N])
+        residual[row : row + 2] = _sonic_residual_block(z, params)
     except Exception:
         residual.fill(1.0e6)
     return residual
@@ -308,6 +340,76 @@ def jac_sparsity_pattern(params: TransonicSlimParams):
     for col in (0, params.n_nodes, size - 2, size - 1):
         pattern[row : row + 2, col] = 1
     return pattern.tocsr()
+
+
+def _finite_difference_column(block_func, z, params: TransonicSlimParams, column: int, lower, upper, rel_step: float) -> np.ndarray:
+    """Return one block-Jacobian column with bound-aware finite differences."""
+
+    value = float(z[column])
+    step = rel_step * max(1.0, abs(value))
+    step = min(step, 0.25 * max(upper[column] - lower[column], 1.0e-300))
+    if step <= 0.0:
+        return np.zeros(2)
+
+    if value - step >= lower[column] and value + step <= upper[column]:
+        plus = np.array(z, copy=True)
+        minus = np.array(z, copy=True)
+        plus[column] += step
+        minus[column] -= step
+        return (block_func(plus, params) - block_func(minus, params)) / (2.0 * step)
+    if value + step <= upper[column]:
+        plus = np.array(z, copy=True)
+        plus[column] += step
+        return (block_func(plus, params) - block_func(z, params)) / step
+    if value - step >= lower[column]:
+        minus = np.array(z, copy=True)
+        minus[column] -= step
+        return (block_func(z, params) - block_func(minus, params)) / step
+    return np.zeros(2)
+
+
+def collocation_jacobian(z, params: TransonicSlimParams, rel_step: float = 1.0e-6):
+    """Return a block-local sparse finite-difference Jacobian.
+
+    SciPy's sparse finite-difference Jacobian still calls the full residual
+    repeatedly. This routine perturbs the same unknowns but evaluates only the
+    residual block that depends on each column.
+    """
+
+    try:
+        from scipy.sparse import lil_matrix
+    except Exception as exc:
+        raise RuntimeError("scipy is required for collocation_jacobian") from exc
+
+    if rel_step <= 0.0:
+        raise ValueError("rel_step must be positive")
+    z = np.asarray(z, dtype=float)
+    lower, upper = state_bounds(params)
+    size = 2 * params.n_nodes + 2
+    jac = lil_matrix((size, size), dtype=float)
+
+    row = 0
+    for idx in range(params.n_nodes - 1):
+        columns = [
+            idx,
+            idx + 1,
+            params.n_nodes + idx,
+            params.n_nodes + idx + 1,
+            size - 2,
+            size - 1,
+        ]
+        block_func = lambda trial, p, interval_idx=idx: _interval_residual_block(trial, p, interval_idx)
+        for col in columns:
+            jac[row : row + 2, col] = _finite_difference_column(block_func, z, params, col, lower, upper, rel_step)[:, None]
+        row += 2
+
+    for col in (params.n_nodes - 1, 2 * params.n_nodes - 1, size - 2, size - 1):
+        jac[row : row + 2, col] = _finite_difference_column(_outer_residual_block, z, params, col, lower, upper, rel_step)[:, None]
+    row += 2
+    for col in (0, params.n_nodes, size - 2, size - 1):
+        jac[row : row + 2, col] = _finite_difference_column(_sonic_residual_block, z, params, col, lower, upper, rel_step)[:, None]
+
+    return jac.tocsr()
 
 
 def _interp_log_profile(logR_nodes: np.ndarray, R_source: np.ndarray, values: np.ndarray) -> np.ndarray:
@@ -499,8 +601,8 @@ def solve_transonic_outer_branch(
     result = least_squares(
         lambda z: collocation_residual(z, params),
         z0,
+        jac=lambda z: collocation_jacobian(z, params),
         bounds=(lower, upper),
-        jac_sparsity=jac_sparsity_pattern(params),
         x_scale="jac",
         ftol=1.0e-10,
         xtol=1.0e-10,
