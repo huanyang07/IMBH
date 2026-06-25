@@ -52,11 +52,17 @@ class SonicDiagnostics:
     """Matrix criticality and compatibility diagnostics."""
 
     D: float
+    C1: float
+    C2: float
     N: float
     smin_over_smax: float
     singular_values: np.ndarray
     left_null: np.ndarray
     right_null: np.ndarray
+    null_radial_fraction: float
+    M_eff: float
+    radial_scale: float
+    energy_scale: float
 
 
 def algebraic_state(logR: float, logu: float, logT: float, lambda0: float, params) -> AlgebraicTransonicState:
@@ -257,6 +263,38 @@ def differential_matrix(logR: float, y, lambda0: float, params) -> tuple[np.ndar
     return np.column_stack([col0, col1]), c
 
 
+def differential_residual_scales(logR: float, y, lambda0: float, params, floor: float = 1.0e-300) -> tuple[float, float]:
+    """Return smooth radial-momentum and energy scales for local residuals."""
+
+    state = algebraic_state(logR, float(y[0]), float(y[1]), lambda0, params)
+    radial_scale = float(
+        np.sqrt(
+            state.u**4
+            + (state.R**2 * state.Omega_K**2) ** 2
+            + (state.Pi / state.Sigma) ** 2
+            + floor**2
+        )
+    )
+    energy_scale = float(
+        np.sqrt(
+            (state.W * state.Omega) ** 2
+            + state.Q_rad**2
+            + (state.Sigma * state.u * state.e / state.R) ** 2
+            + floor**2
+        )
+    )
+    return radial_scale, energy_scale
+
+
+def scaled_differential_matrix(logR: float, y, lambda0: float, params) -> tuple[np.ndarray, np.ndarray, float, float]:
+    """Return the local differential matrix after smooth equation scaling."""
+
+    A, c = differential_matrix(logR, y, lambda0, params)
+    radial_scale, energy_scale = differential_residual_scales(logR, y, lambda0, params)
+    scales = np.array([radial_scale, energy_scale], dtype=float)
+    return A / scales[:, None], c / scales, radial_scale, energy_scale
+
+
 def local_gradient(logR: float, y, lambda0: float, params) -> np.ndarray:
     """Return the nonsingular local gradient solving ``A g + c = 0``."""
 
@@ -286,20 +324,37 @@ def xi_eff_from_gradient(logR: float, y, g, lambda0: float, params) -> float:
 def sonic_diagnostics(logR: float, y, lambda0: float, params, floor: float = 1.0e-300) -> SonicDiagnostics:
     """Return critical determinant and compatibility diagnostics."""
 
-    A, c = differential_matrix(logR, y, lambda0, params)
+    A, c, radial_scale, energy_scale = scaled_differential_matrix(logR, y, lambda0, params)
     U, singular_values, Vt = np.linalg.svd(A)
-    det_norm = np.linalg.norm(A[:, 0]) * np.linalg.norm(A[:, 1]) + floor
-    D = float(np.linalg.det(A) / det_norm)
+    a, b = float(A[0, 0]), float(A[0, 1])
+    cmat, d = float(A[1, 0]), float(A[1, 1])
+    e, f = float(c[0]), float(c[1])
+    c_norm = float(np.sqrt(e**2 + f**2))
+    col0_norm = float(np.sqrt(a**2 + cmat**2))
+    col1_norm = float(np.sqrt(b**2 + d**2))
+    D = float((a * d - b * cmat) / (col0_norm * col1_norm + floor))
+    C1 = float((d * e - b * f) / (np.sqrt(d**2 + b**2) * c_norm + floor))
+    C2 = float((a * f - cmat * e) / (np.sqrt(a**2 + cmat**2) * c_norm + floor))
     left_null = U[:, -1]
     right_null = Vt[-1, :]
-    N = float(np.dot(left_null, c) / (np.linalg.norm(c) + floor))
+    N = float(max(abs(C1), abs(C2)))
     smax = float(np.max(singular_values))
     smin = float(np.min(singular_values))
+    null_norm = float(np.linalg.norm(right_null))
+    null_radial_fraction = float(abs(right_null[0]) / (null_norm + floor))
+    state = algebraic_state(logR, float(np.asarray(y, dtype=float)[0]), float(np.asarray(y, dtype=float)[1]), lambda0, params)
+    M_eff = float(state.u / (state.H * state.Omega_K + floor))
     return SonicDiagnostics(
         D=D,
+        C1=C1,
+        C2=C2,
         N=N,
         smin_over_smax=smin / (smax + floor),
         singular_values=singular_values,
         left_null=left_null,
         right_null=right_null,
+        null_radial_fraction=null_radial_fraction,
+        M_eff=M_eff,
+        radial_scale=radial_scale,
+        energy_scale=energy_scale,
     )

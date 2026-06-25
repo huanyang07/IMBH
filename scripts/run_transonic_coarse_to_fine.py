@@ -1,0 +1,185 @@
+"""Coarse-to-fine refinement audit for the transonic homotopy branch."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import numpy as np
+
+from imri_qpe.layer3_minidisk_1d import (
+    TransonicSlimParams,
+    remap_profile_to_new_sonic_grid,
+    solve_low_mdot_transonic_homotopy,
+)
+from imri_qpe.parameters import FiducialParams
+from imri_qpe.scales import eddington_mdot
+
+
+ROOT = Path(__file__).resolve().parents[1]
+TABLE_OUTPUT = ROOT / "outputs" / "tables" / "transonic_coarse_to_fine.md"
+WARMUP_SONIC_WEIGHTS = (1.0,)
+TARGET_SONIC_WEIGHTS = (0.3, 1.0, 3.0)
+
+
+def fmt(value: float) -> str:
+    if not np.isfinite(value):
+        return "nan"
+    return f"{value:.4g}"
+
+
+def usable(status) -> bool:
+    return bool(
+        status.physically_valid
+        or (
+            status.optimizer_acceptable
+            and status.equations_converged
+            and status.sonic_regular
+            and status.active_bounds_clear
+            and status.outer_thin
+        )
+    )
+
+
+def solve_one(
+    M2_g,
+    mdot_edd,
+    alpha,
+    ratio: float,
+    n_nodes: int,
+    R_out_rg: float,
+    seed_profile,
+    sonic_weight_sequence: tuple[float, ...],
+):
+    params = TransonicSlimParams(
+        M2_g=M2_g,
+        Mdot_g_s=ratio * mdot_edd,
+        alpha=alpha,
+        n_nodes=n_nodes,
+        R_out_rg=R_out_rg,
+        max_nfev=1200,
+        residual_tol=3.0e-4,
+    )
+    guess = remap_profile_to_new_sonic_grid(seed_profile, params) if seed_profile is not None else None
+    return params, solve_low_mdot_transonic_homotopy(
+        params,
+        initial_guess=guess,
+        max_nfev_per_stage=700,
+        final_max_nfev=1200,
+        sonic_weight_sequence=sonic_weight_sequence,
+    )
+
+
+def append_row(rows, label: str, ratio: float, n_nodes: int, R_out_rg: float, params, result):
+    final = result.final_result
+    profile = final.profile
+    audit = final.residual_audit
+    status = final.status
+    b2_stages = [stage for stage in result.stages if stage.name.startswith("B2_")]
+    rows.append(
+        {
+            "label": label,
+            "ratio": ratio,
+            "n_nodes": n_nodes,
+            "R_out_rg": R_out_rg,
+            "usable": usable(status),
+            "physical": status.physically_valid,
+            "equations": status.equations_converged,
+            "sonic": status.sonic_regular,
+            "lambda_ratio": audit.lambda0_over_lK_isco,
+            "Rson_rg": profile.sonic_radius / params.r_g,
+            "max_HR": float(np.max(profile.H_over_R)),
+            "max_residual": final.max_residual,
+            "interval_radial": audit.interval_radial_max,
+            "outer_omega": audit.outer_omega,
+            "sonic_D": audit.sonic_D,
+            "sonic_C1": audit.sonic_C1,
+            "sonic_C2": audit.sonic_C2,
+            "stage_B2_last": b2_stages[-1].max_residual if b2_stages else np.nan,
+            "nfev": final.nfev,
+            "message": final.message,
+        }
+    )
+
+
+def main() -> None:
+    fiducial = FiducialParams()
+    mdot_edd = eddington_mdot(fiducial.M2_g)
+    R_out_rg = 1000.0
+    rows = []
+
+    seed_profile = None
+    for ratio in [1.0e-3, 2.5e-3, 5.0e-3, 1.0e-2, 2.0e-2, 3.0e-2]:
+        params, result = solve_one(fiducial.M2_g, mdot_edd, fiducial.alpha_cool, ratio, 24, R_out_rg, seed_profile, WARMUP_SONIC_WEIGHTS)
+        append_row(rows, "coarse_warmup", ratio, 24, R_out_rg, params, result)
+        final = result.final_result
+        status = final.status
+        is_usable = usable(status)
+        print(
+            f"warmup N=24 rate={ratio:g} usable={is_usable} max={final.max_residual:.4g}",
+            flush=True,
+        )
+        if is_usable or (status.sonic_regular and final.max_residual < 8.0e-4):
+            seed_profile = final.profile
+
+    if seed_profile is not None:
+        for n_nodes in [32, 48]:
+            refine_seed = seed_profile
+            for ratio in [5.0e-2, 0.1]:
+                params, result = solve_one(fiducial.M2_g, mdot_edd, fiducial.alpha_cool, ratio, n_nodes, R_out_rg, refine_seed, TARGET_SONIC_WEIGHTS)
+                append_row(rows, "refine_target", ratio, n_nodes, R_out_rg, params, result)
+                final = result.final_result
+                status = final.status
+                is_usable = usable(status)
+                audit = final.residual_audit
+                print(
+                    f"refine N={n_nodes} rate={ratio:g} usable={is_usable} "
+                    f"max={final.max_residual:.4g} outer={audit.outer_omega:.4g} "
+                    f"sonic={audit.sonic_D:.4g} B2={result.stages[-2].max_residual:.4g}",
+                    flush=True,
+                )
+                if is_usable or (status.sonic_regular and final.max_residual < 8.0e-4):
+                    refine_seed = final.profile
+
+    TABLE_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    lines = [
+        "# Transonic Coarse-to-Fine Refinement Audit",
+        "",
+        "Generated by `scripts/run_transonic_coarse_to_fine.py`.",
+        "",
+        "| stage | N | R_out/r_g | Mdot/Mdot_Edd | usable | physical | equations | sonic | lambda/lK_ISCO | R_son/r_g | max H/R | max residual | interval R | outer Omega | D | C1 | C2 | B2 max | nfev | message |",
+        "|---|---:|---:|---:|:---:|:---:|:---:|:---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|",
+    ]
+    for row in rows:
+        lines.append(
+            "| {label} | {n_nodes} | {R_out_rg} | {ratio} | {usable} | {physical} | "
+            "{equations} | {sonic} | {lambda_ratio} | {Rson_rg} | {max_HR} | {max_residual} | "
+            "{interval_radial} | {outer_omega} | {sonic_D} | {sonic_C1} | {sonic_C2} | {stage_B2_last} | "
+            "{nfev} | {message} |".format(
+                label=row["label"],
+                n_nodes=row["n_nodes"],
+                R_out_rg=fmt(row["R_out_rg"]),
+                ratio=fmt(row["ratio"]),
+                usable="yes" if row["usable"] else "no",
+                physical="yes" if row["physical"] else "no",
+                equations="yes" if row["equations"] else "no",
+                sonic="yes" if row["sonic"] else "no",
+                lambda_ratio=fmt(row["lambda_ratio"]),
+                Rson_rg=fmt(row["Rson_rg"]),
+                max_HR=fmt(row["max_HR"]),
+                max_residual=fmt(row["max_residual"]),
+                interval_radial=fmt(row["interval_radial"]),
+                outer_omega=fmt(row["outer_omega"]),
+                sonic_D=fmt(row["sonic_D"]),
+                sonic_C1=fmt(row["sonic_C1"]),
+                sonic_C2=fmt(row["sonic_C2"]),
+                stage_B2_last=fmt(row["stage_B2_last"]),
+                nfev=row["nfev"],
+                message=row["message"].replace("|", "/"),
+            )
+        )
+    TABLE_OUTPUT.write_text("\n".join(lines) + "\n")
+    print(f"wrote {TABLE_OUTPUT}")
+
+
+if __name__ == "__main__":
+    main()

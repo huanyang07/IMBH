@@ -10,11 +10,13 @@ from imri_qpe.layer3_minidisk_1d import (
     algebraic_state,
     analytic_state_partials,
     differential_matrix,
+    differential_residual_scales,
     differential_residual,
     finite_difference_state_partials,
     integrated_stress,
     local_gradient,
     radiative_cooling,
+    scaled_differential_matrix,
     sonic_diagnostics,
     surface_density,
     vertical_state,
@@ -97,6 +99,16 @@ class TransonicLocalTests(unittest.TestCase):
 
         self.assertLess(float(np.max(np.abs(direct - linear) / scale)), 1.0e-12)
 
+    def test_scaled_differential_matrix_matches_smooth_scales(self) -> None:
+        A, c = differential_matrix(self.logR, self.y, self.lambda0, self.params)
+        radial_scale, energy_scale = differential_residual_scales(self.logR, self.y, self.lambda0, self.params)
+        A_scaled, c_scaled, radial_returned, energy_returned = scaled_differential_matrix(self.logR, self.y, self.lambda0, self.params)
+
+        np.testing.assert_allclose(A_scaled, A / np.array([[radial_scale], [energy_scale]]))
+        np.testing.assert_allclose(c_scaled, c / np.array([radial_scale, energy_scale]))
+        self.assertAlmostEqual(radial_returned, radial_scale)
+        self.assertAlmostEqual(energy_returned, energy_scale)
+
     def test_analytic_partials_match_finite_difference_partials(self) -> None:
         analytic = analytic_state_partials(self.logR, self.y, self.lambda0, self.params)
         finite = finite_difference_state_partials(self.logR, self.y, self.lambda0, self.params, eps_x=3.0e-6, eps_y=3.0e-6)
@@ -126,8 +138,14 @@ class TransonicLocalTests(unittest.TestCase):
         diagnostics = sonic_diagnostics(self.logR, self.y, self.lambda0, self.params)
 
         self.assertTrue(np.isfinite(diagnostics.D))
+        self.assertTrue(np.isfinite(diagnostics.C1))
+        self.assertTrue(np.isfinite(diagnostics.C2))
         self.assertTrue(np.isfinite(diagnostics.N))
         self.assertTrue(np.isfinite(diagnostics.smin_over_smax))
+        self.assertTrue(np.isfinite(diagnostics.null_radial_fraction))
+        self.assertTrue(np.isfinite(diagnostics.M_eff))
+        self.assertGreater(diagnostics.radial_scale, 0.0)
+        self.assertGreater(diagnostics.energy_scale, 0.0)
         self.assertEqual(diagnostics.singular_values.shape, (2,))
         self.assertEqual(diagnostics.left_null.shape, (2,))
         self.assertEqual(diagnostics.right_null.shape, (2,))
