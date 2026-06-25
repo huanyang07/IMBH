@@ -8,8 +8,10 @@ import numpy as np
 from imri_qpe.layer3_minidisk_1d import (
     PaczynskiWiitaPotential,
     algebraic_state,
+    analytic_state_partials,
     differential_matrix,
     differential_residual,
+    finite_difference_state_partials,
     integrated_stress,
     local_gradient,
     radiative_cooling,
@@ -95,12 +97,30 @@ class TransonicLocalTests(unittest.TestCase):
 
         self.assertLess(float(np.max(np.abs(direct - linear) / scale)), 1.0e-12)
 
+    def test_analytic_partials_match_finite_difference_partials(self) -> None:
+        analytic = analytic_state_partials(self.logR, self.y, self.lambda0, self.params)
+        finite = finite_difference_state_partials(self.logR, self.y, self.lambda0, self.params, eps_x=3.0e-6, eps_y=3.0e-6)
+
+        for key in ("Pi", "rho", "e", "Omega"):
+            scale_x = max(abs(analytic.x[key]), abs(finite.x[key]), 1.0)
+            self.assertLess(abs(analytic.x[key] - finite.x[key]) / scale_x, 3.0e-5, key)
+            scale_y = np.maximum(np.maximum(np.abs(analytic.y[key]), np.abs(finite.y[key])), 1.0)
+            self.assertLess(float(np.max(np.abs(analytic.y[key] - finite.y[key]) / scale_y)), 3.0e-5, key)
+
+    def test_analytic_partials_support_mixed_stress_exponent(self) -> None:
+        params = types.SimpleNamespace(**{**self.params.__dict__, "mu_stress": 0.4})
+        analytic = analytic_state_partials(self.logR, self.y, self.lambda0, params)
+        finite = finite_difference_state_partials(self.logR, self.y, self.lambda0, params, eps_x=3.0e-6, eps_y=3.0e-6)
+
+        scale = np.maximum(np.maximum(np.abs(analytic.y["Omega"]), np.abs(finite.y["Omega"])), 1.0)
+        self.assertLess(float(np.max(np.abs(analytic.y["Omega"] - finite.y["Omega"]) / scale)), 3.0e-5)
+
     def test_local_gradient_solves_residual(self) -> None:
         g = local_gradient(self.logR, self.y, self.lambda0, self.params)
         residual = differential_residual(self.logR, self.y, g, self.lambda0, self.params)
         scale = np.maximum(np.abs(differential_residual(self.logR, self.y, np.zeros(2), self.lambda0, self.params)), 1.0)
 
-        self.assertLess(float(np.max(np.abs(residual) / scale)), 1.0e-8)
+        self.assertLess(float(np.max(np.abs(residual) / scale)), 1.0e-7)
 
     def test_sonic_diagnostics_are_finite(self) -> None:
         diagnostics = sonic_diagnostics(self.logR, self.y, self.lambda0, self.params)

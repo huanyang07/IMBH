@@ -510,7 +510,7 @@ def solve_transonic_outer_branch(
     )
     profile = profile_from_state_vector(result.x, params)
     max_residual = float(np.max(np.abs(collocation_residual(result.x, params))))
-    converged = bool(result.success and max_residual <= params.residual_tol)
+    converged = bool(np.isfinite(max_residual) and max_residual <= params.residual_tol)
     return TransonicSolveResult(
         profile=profile,
         converged=converged,

@@ -164,7 +164,7 @@ Numerical summary from the fiducial run:
 | Isolated low-rate thin-disk benchmark | pass |
 | Isolated reduced advective branch through moderate rates | pass |
 | Isolated reduced branch at QPE target | fail/outside Keplerian validity |
-| Transonic low-rate sonic eigenvalue smoke test | pass |
+| Transonic low-rate sonic eigenvalue smoke test | pass through `Mdot/Mdot_Edd = 0.01` |
 | Transonic continuation to moderate/high rates | not robust yet |
 | Faithful steady advective/wind hot branch | not yet |
 | `xi_eff(R)` matching the imposed local hot branch | fail |
@@ -175,26 +175,26 @@ Numerical summary from the fiducial run:
 ## Next Analysis Step
 
 The next meaningful calculation is not another local S-curve with tuned `xi`.
-The first true transonic solver scaffold now exists and passes a low-rate
-sonic-eigenvalue smoke test:
+The first true transonic solver scaffold now exists and passes low-rate
+sonic-eigenvalue smoke tests:
 
 ```text
 outputs/figures/transonic_branch_summary.png
 outputs/tables/transonic_solver_audit.md
 ```
 
-At `Mdot/Mdot_Edd = 1e-3`, the solver finds a free sonic radius
-`R_son ~= 4.2 r_g` with max collocation residual `8.8e-5`. However,
-continuation is not robust yet beyond the lowest rates. The current
-implementation uses finite-difference local partials inside a finite-difference
-global Jacobian, so the next step is numerical hardening:
+After replacing local finite-difference partials with analytic derivatives,
+the solver now satisfies the current smoke-test tolerance through
+`Mdot/Mdot_Edd = 0.01`. However, continuation is not robust yet at
+`Mdot/Mdot_Edd = 0.1` or `1`. The remaining finite-difference global Jacobian
+and branch-remapping strategy are the next numerical bottlenecks:
 
-1. Replace finite-difference local partials with analytic or complex-step
-   derivatives.
+1. Replace the finite-difference global Jacobian with an analytic/sparse
+   Jacobian or staged Newton solve.
 2. Improve residual scaling and continuation/remapping.
-3. Re-run grid convergence at `Mdot/Mdot_Edd = 1e-3`.
-4. Continue to `0.01`, `0.1`, `1`, and then toward the QPE target only after
-   lower-rate convergence is robust.
+3. Re-run grid convergence at `Mdot/Mdot_Edd = 1e-3`, `0.003`, and `0.01`.
+4. Continue to `0.1`, `1`, and then toward the QPE target only after
+   moderate-rate convergence is robust.
 
 Only after this succeeds should the hot branch be called physical rather than
 parameterized. The current diagnostic is useful because it says the local
@@ -205,6 +205,6 @@ parameterized. The current diagnostic is useful because it says the local
 Current test result:
 
 ```text
-Ran 90 tests
+Ran 92 tests
 OK
 ```

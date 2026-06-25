@@ -171,13 +171,13 @@ Summary table:
 outputs/tables/transonic_solver_audit.md
 ```
 
-The low-rate point `Mdot/Mdot_Edd = 1e-3` converges with max collocation
-residual `8.8e-5`, `R_son ~= 4.2 r_g`, and `H/R ~= 0.0034`. This is a genuine
-first transonic eigenvalue success. Continuation beyond the lowest rates is
-not robust yet: the current implementation relies on finite-difference local
-partials inside a finite-difference global Jacobian, so the next numerical
-hardening step is analytic or complex-step local derivatives plus improved
-continuation before interpreting high-rate failures physically.
+After replacing the local finite-difference partials with analytic derivatives,
+the smoke-test branch converges through `Mdot/Mdot_Edd = 0.01`. At
+`Mdot/Mdot_Edd = 1e-3`, the max collocation residual is `6.5e-5`; at
+`Mdot/Mdot_Edd = 0.01`, it is `4.1e-4`. Continuation to `0.1` and `1` is still
+not robust enough for physical interpretation. The remaining numerical
+hardening target is the finite-difference global Jacobian and branch remapping,
+not the local thermodynamic derivative layer.
 
 ### Layer 3 one-zone cycle
 
@@ -286,6 +286,6 @@ PYTHONPATH=src python3 -m unittest discover -s tests
 Current expected result:
 
 ```text
-Ran 90 tests
+Ran 92 tests
 OK
 ```

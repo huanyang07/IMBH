@@ -62,15 +62,19 @@ Implemented:
   outputs/tables/transonic_solver_audit.md
 
 Current result:
-- Mdot/Mdot_Edd = 1e-3 converges with max residual ~= 8.8e-5.
-- Sonic regularity is satisfied at a free sonic radius R_son ~= 4.2 r_g.
-- Continuation is not robust yet beyond the lowest rates.
+- Analytic local partials now replace the original finite-difference local
+  partials.
+- Mdot/Mdot_Edd = 1e-3 converges with max residual ~= 6.5e-5.
+- Mdot/Mdot_Edd = 0.003 and 0.01 also satisfy the current smoke-test
+  residual tolerance.
+- Sonic regularity is satisfied at a free sonic radius on the converged
+  low-rate branch.
+- Continuation is not robust yet at Mdot/Mdot_Edd = 0.1 or 1.
 
 Current numerical caveat:
-- The implementation uses finite-difference local partials inside a
-  finite-difference global Jacobian, so branch continuation is slow and
-  fragile. The next hardening step is analytic or complex-step local partials
-  plus better continuation/scaling.
+- The remaining finite-difference global Jacobian and branch-remapping
+  strategy are still fragile. The next hardening step is an analytic/sparse
+  global Jacobian or staged Newton solve plus better continuation/scaling.
 ```
 
 ---

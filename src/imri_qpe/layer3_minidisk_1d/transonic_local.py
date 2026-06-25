@@ -6,7 +6,8 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from imri_qpe.constants import C
+from imri_qpe.constants import A_RAD, C
+from imri_qpe.scales import gas_constant_per_gram
 
 from .transonic_potential import PaczynskiWiitaPotential
 from .transonic_thermo import integrated_stress, radiative_cooling, surface_density, vertical_state
@@ -115,8 +116,15 @@ def _quantity_vector(logR: float, y, lambda0: float, params) -> dict[str, float]
     }
 
 
-def state_partials(logR: float, y, lambda0: float, params, eps_x: float = 1.0e-5, eps_y: float = 1.0e-5) -> LocalPartials:
-    """Return numerical partial derivatives in ``x=ln R`` and ``y``."""
+def finite_difference_state_partials(
+    logR: float,
+    y,
+    lambda0: float,
+    params,
+    eps_x: float = 1.0e-5,
+    eps_y: float = 1.0e-5,
+) -> LocalPartials:
+    """Return finite-difference partial derivatives in ``x=ln R`` and ``y``."""
 
     y = np.asarray(y, dtype=float)
     keys = tuple(_quantity_vector(logR, y, lambda0, params).keys())
@@ -136,6 +144,86 @@ def state_partials(logR: float, y, lambda0: float, params, eps_x: float = 1.0e-5
         y_partials[key] = np.asarray(columns, dtype=float)
 
     return LocalPartials(x=x_partials, y=y_partials)
+
+
+def _directional_derivatives(state: AlgebraicTransonicState, params, dln_sigma: float, dln_T: float, dln_omega_k: float, dln_R: float) -> dict[str, float]:
+    """Return analytic local derivatives for one log-variable direction."""
+
+    R_gas = gas_constant_per_gram(params.mu_mol)
+    omega2 = state.Omega_K**2
+    radiation_term = 2.0 * A_RAD * state.T**4 / (3.0 * state.Sigma)
+    dA = R_gas * state.T * dln_T
+    dB = radiation_term * (4.0 * dln_T - dln_sigma)
+    dOmega2 = 2.0 * omega2 * dln_omega_k
+    denominator = 2.0 * omega2 * state.H - radiation_term
+    dH = (state.H * dB + dA - state.H**2 * dOmega2) / denominator
+    dln_H = dH / state.H
+    dln_rho = dln_sigma - dln_H
+    drho = state.rho * dln_rho
+
+    dP_gas = state.P_gas * (dln_rho + dln_T)
+    dP_rad = state.P_rad * 4.0 * dln_T
+    dP = dP_gas + dP_rad
+    dPi = state.Pi * (dln_H + dP / state.P)
+
+    e_gas = R_gas * state.T / (params.gamma_gas - 1.0)
+    e_rad = A_RAD * state.T**4 / state.rho
+    de = e_gas * dln_T + e_rad * (4.0 * dln_T - dln_rho)
+
+    dln_P_gas = dP_gas / state.P_gas
+    dln_P = dP / state.P
+    dW = state.W * (dln_H + params.mu_stress * dln_P_gas + (1.0 - params.mu_stress) * dln_P)
+    dOmega = -2.0 * (state.l0 / state.R**2) * dln_R + (2.0 * np.pi / params.Mdot_g_s) * dW
+
+    return {
+        "Pi": float(dPi),
+        "rho": float(drho),
+        "e": float(de),
+        "Omega": float(dOmega),
+    }
+
+
+def analytic_state_partials(logR: float, y, lambda0: float, params) -> LocalPartials:
+    """Return analytic partial derivatives in ``x=ln R`` and ``y``."""
+
+    y = np.asarray(y, dtype=float)
+    state = algebraic_state(logR, float(y[0]), float(y[1]), lambda0, params)
+    potential = PaczynskiWiitaPotential(params.M2_g)
+    dln_omega_k_dlnR = float(potential.dln_omega_k_dlnR(state.R))
+
+    x_partials = _directional_derivatives(
+        state,
+        params,
+        dln_sigma=-1.0,
+        dln_T=0.0,
+        dln_omega_k=dln_omega_k_dlnR,
+        dln_R=1.0,
+    )
+    logu_partials = _directional_derivatives(
+        state,
+        params,
+        dln_sigma=-1.0,
+        dln_T=0.0,
+        dln_omega_k=0.0,
+        dln_R=0.0,
+    )
+    logT_partials = _directional_derivatives(
+        state,
+        params,
+        dln_sigma=0.0,
+        dln_T=1.0,
+        dln_omega_k=0.0,
+        dln_R=0.0,
+    )
+    y_partials = {key: np.asarray([logu_partials[key], logT_partials[key]], dtype=float) for key in x_partials}
+    return LocalPartials(x=x_partials, y=y_partials)
+
+
+def state_partials(logR: float, y, lambda0: float, params, eps_x: float = 1.0e-5, eps_y: float = 1.0e-5) -> LocalPartials:
+    """Return analytic partial derivatives in ``x=ln R`` and ``y``."""
+
+    _ = eps_x, eps_y
+    return analytic_state_partials(logR, y, lambda0, params)
 
 
 def differential_residual(logR: float, y, g, lambda0: float, params) -> np.ndarray:
