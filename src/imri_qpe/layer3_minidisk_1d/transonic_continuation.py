@@ -231,7 +231,7 @@ def remap_profile_to_new_sonic_grid(profile, new_params: TransonicSlimParams, te
 
 def _resolve_continuation_pivot(z, params: TransonicSlimParams, pivot: str) -> str:
     if pivot == "auto":
-        return "K"
+        return select_sonic_compatibility_pivot(z, params)
     if pivot == "svd":
         return "K"
     if pivot not in {"C1", "C2", "K"}:

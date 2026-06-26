@@ -407,7 +407,7 @@ def select_sonic_compatibility_pivot(z, params: TransonicSlimParams) -> str:
 
 def _resolve_sonic_pivot(z, params: TransonicSlimParams, pivot: str) -> str:
     if pivot == "auto":
-        return "K"
+        return select_sonic_compatibility_pivot(z, params)
     if pivot == "svd":
         return "K"
     if pivot not in {"C1", "C2", "K"}:
