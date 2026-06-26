@@ -13,7 +13,9 @@ from imri_qpe.layer3_minidisk_1d.transonic_collocation import (
     computational_grid,
     jacobian_directional_error,
     jac_sparsity_pattern,
+    matched_outer_state,
     pack_state,
+    pressure_supported_omega_target,
     profile_from_state_vector,
     residual_audit_from_state_vector,
     select_sonic_compatibility_pivot,
@@ -28,7 +30,7 @@ from imri_qpe.layer3_minidisk_1d.transonic_collocation import (
     unused_sonic_compatibility,
     unpack_state,
 )
-from imri_qpe.layer3_minidisk_1d.transonic_local import sonic_diagnostics
+from imri_qpe.layer3_minidisk_1d.transonic_local import local_gradient, sonic_diagnostics
 from imri_qpe.layer3_minidisk_1d.transonic_potential import PaczynskiWiitaPotential
 from imri_qpe.scales import eddington_mdot
 from imri_qpe.units import solar_masses_to_g
@@ -100,6 +102,120 @@ class TransonicCollocationTests(unittest.TestCase):
         self.assertTrue(np.all(np.isfinite(pair)))
         self.assertTrue(np.isfinite(unused))
         self.assertLess(float(np.max(np.abs(residual))), 1.0e6)
+
+    def test_pressure_supported_outer_closure_is_opt_in_and_finite(self) -> None:
+        params = replace(
+            self.params,
+            outer_closure="pressure_supported_thin_energy",
+            outer_match_log_slopes=(-1.5, -0.75),
+        )
+        pivot = select_sonic_compatibility_pivot(self.z, params)
+        residual = square_collocation_residual(self.z, params, pivot=pivot)
+        logu, logT, _logR_son, lambda0, logR = unpack_state(self.z, params)
+        target = pressure_supported_omega_target(
+            logR[-1],
+            np.array([logu[-1], logT[-1]], dtype=float),
+            params.outer_match_log_slopes,
+            lambda0,
+            params,
+        )
+
+        self.assertEqual(residual.shape, self.z.shape)
+        self.assertTrue(np.all(np.isfinite(residual)))
+        self.assertTrue(np.isfinite(target))
+        self.assertLess(abs(target), 1.0)
+
+    def test_matched_outer_state_closure_is_opt_in_and_finite(self) -> None:
+        params = replace(
+            self.params,
+            outer_closure="matched_outer_state",
+            outer_match_log_slopes=(-1.5, -0.75),
+        )
+        pivot = select_sonic_compatibility_pivot(self.z, params)
+        residual = square_collocation_residual(self.z, params, pivot=pivot)
+        logu, logT, _logR_son, lambda0, logR = unpack_state(self.z, params)
+        y_match = matched_outer_state(
+            logR[-1],
+            lambda0,
+            params,
+            g_match=params.outer_match_log_slopes,
+            initial_y=np.array([logu[-1], logT[-1]], dtype=float),
+        )
+
+        self.assertEqual(residual.shape, self.z.shape)
+        self.assertTrue(np.all(np.isfinite(residual)))
+        self.assertEqual(y_match.shape, (2,))
+        self.assertTrue(np.all(np.isfinite(y_match)))
+
+    def test_invalid_outer_closure_is_rejected(self) -> None:
+        with self.assertRaises(ValueError):
+            replace(self.params, outer_closure="not_a_closure")
+
+    def test_integrated_interval_form_scales_differential_residuals_by_dx(self) -> None:
+        integrated = replace(self.params, interval_residual_form="integrated")
+        pivot = select_sonic_compatibility_pivot(self.z, self.params)
+        differential_residual = square_collocation_residual(self.z, self.params, pivot=pivot)
+        integrated_residual = square_collocation_residual(self.z, integrated, pivot=pivot)
+        _logu, _logT, _logR_son, _lambda0, logR = unpack_state(self.z, self.params)
+
+        for idx, dx in enumerate(np.diff(logR)):
+            row = 2 * idx
+            np.testing.assert_allclose(
+                integrated_residual[row : row + 2],
+                dx * differential_residual[row : row + 2],
+                rtol=1.0e-10,
+                atol=1.0e-12,
+            )
+
+    def test_integrated_interval_form_supports_physical_row_weighting(self) -> None:
+        sqrt_weighted = replace(
+            self.params,
+            interval_residual_form="integrated",
+            integrated_residual_weighting="inverse_sqrt_dx",
+        )
+        dx_weighted = replace(
+            self.params,
+            interval_residual_form="integrated",
+            integrated_residual_weighting="inverse_dx",
+        )
+        pivot = select_sonic_compatibility_pivot(self.z, self.params)
+        differential_residual = square_collocation_residual(self.z, self.params, pivot=pivot)
+        sqrt_residual = square_collocation_residual(self.z, sqrt_weighted, pivot=pivot)
+        dx_residual = square_collocation_residual(self.z, dx_weighted, pivot=pivot)
+        _logu, _logT, _logR_son, _lambda0, logR = unpack_state(self.z, self.params)
+
+        for idx, dx in enumerate(np.diff(logR)):
+            row = 2 * idx
+            np.testing.assert_allclose(
+                sqrt_residual[row : row + 2],
+                np.sqrt(dx) * differential_residual[row : row + 2],
+                rtol=1.0e-10,
+                atol=1.0e-12,
+            )
+            np.testing.assert_allclose(
+                dx_residual[row : row + 2],
+                differential_residual[row : row + 2],
+                rtol=1.0e-10,
+                atol=1.0e-12,
+            )
+
+    def test_invalid_interval_residual_form_is_rejected(self) -> None:
+        with self.assertRaises(ValueError):
+            replace(self.params, interval_residual_form="not_a_form")
+
+    def test_invalid_integrated_residual_weighting_is_rejected(self) -> None:
+        with self.assertRaises(ValueError):
+            replace(self.params, integrated_residual_weighting="not_a_weighting")
+
+    def test_pressure_supported_target_matches_radial_equation_sign(self) -> None:
+        logu, logT, _logR_son, lambda0, logR = unpack_state(self.z, self.params)
+        y = np.array([logu[-1], logT[-1]], dtype=float)
+        gradient = local_gradient(logR[-1], y, lambda0, self.params)
+        target = pressure_supported_omega_target(logR[-1], y, gradient, lambda0, self.params)
+        profile = profile_from_state_vector(self.z, self.params)
+        actual = float(np.log(profile.Omega[-1] / profile.Omega_K[-1]))
+
+        self.assertLess(abs(target - actual), 1.0e-6)
 
     def test_jac_sparsity_shape(self) -> None:
         pattern = jac_sparsity_pattern(self.params)

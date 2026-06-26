@@ -44,6 +44,10 @@ class TransonicSlimParams:
     logT_bounds: tuple[float, float] = (np.log(1.0e3), np.log(1.0e10))
     R_son_bounds_rg: tuple[float, float] = (2.05, 60.0)
     lambda0_bounds: tuple[float, float] = (0.01, 12.0)
+    outer_closure: str = "thin_value"
+    outer_match_log_slopes: tuple[float, float] | None = None
+    interval_residual_form: str = "differential"
+    integrated_residual_weighting: str = "none"
     max_nfev: int = 400
     residual_tol: float = 1.0e-5
 
@@ -80,6 +84,17 @@ class TransonicSlimParams:
             raise ValueError("R_son_bounds_rg must be outside the pseudo-horizon and increasing")
         if self.lambda0_bounds[1] <= self.lambda0_bounds[0]:
             raise ValueError("lambda0_bounds must be increasing")
+        if self.outer_closure not in {"thin_value", "pressure_supported_thin_energy", "matched_outer_state"}:
+            raise ValueError("outer_closure must be 'thin_value', 'pressure_supported_thin_energy', or 'matched_outer_state'")
+        if self.interval_residual_form not in {"differential", "integrated"}:
+            raise ValueError("interval_residual_form must be 'differential' or 'integrated'")
+        if self.integrated_residual_weighting not in {"none", "inverse_sqrt_dx", "inverse_dx"}:
+            raise ValueError("integrated_residual_weighting must be 'none', 'inverse_sqrt_dx', or 'inverse_dx'")
+        if self.outer_match_log_slopes is not None:
+            if len(self.outer_match_log_slopes) != 2:
+                raise ValueError("outer_match_log_slopes must be a pair (dlnu/dlnR, dlnT/dlnR)")
+            if not np.all(np.isfinite(np.asarray(self.outer_match_log_slopes, dtype=float))):
+                raise ValueError("outer_match_log_slopes must be finite")
 
     @property
     def potential(self) -> PaczynskiWiitaPotential:
@@ -304,7 +319,7 @@ def _optimizer_tolerance(params: TransonicSlimParams) -> float:
     return float(min(2.0e-6, max(1.0e-10, 1.0e-2 * params.residual_tol)))
 
 
-def _outer_boundary_residual(logR: float, y, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
+def _outer_thin_boundary_residual(logR: float, y, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
     state = algebraic_state(logR, float(y[0]), float(y[1]), lambda0, params)
     potential = params.potential
     shear = float(potential.dln_omega_k_dlnR(state.R))
@@ -312,6 +327,185 @@ def _outer_boundary_residual(logR: float, y, lambda0: float, params: TransonicSl
     B_omega = np.log(state.Omega / state.Omega_K)
     B_energy = (Q_visc_thin - state.Q_rad) / (abs(Q_visc_thin) + abs(state.Q_rad) + 1.0e-300)
     return np.asarray([B_omega, B_energy], dtype=float)
+
+
+def _outer_log_slope(values: np.ndarray, radii: np.ndarray, n_fit: int = 8) -> float:
+    """Return a smoothed outer ``d ln(value) / d ln(R)`` estimate."""
+
+    values = np.asarray(values, dtype=float)
+    radii = np.asarray(radii, dtype=float)
+    if values.shape != radii.shape:
+        raise ValueError("values and radii must have the same shape")
+    if len(values) < 3:
+        raise ValueError("at least three points are required for an outer slope")
+    count = min(int(n_fit), len(values))
+    x = np.log(radii[-count:])
+    y = np.log(values[-count:])
+    degree = min(2, count - 1)
+    coeff = np.polyfit(x - x[-1], y, degree)
+    return float(np.polyder(np.poly1d(coeff))(0.0))
+
+
+def reduced_outer_log_slopes(params: TransonicSlimParams, lambda0: float, n_grid: int | None = None) -> tuple[float, float]:
+    """Return reduced-solver outer slopes ``(dlnu/dlnR, dlnT/dlnR)``.
+
+    The reduced solve uses the same accretion rate, opacity, thermodynamics,
+    and the transonic eigenvalue as its inner angular-momentum constant.  The
+    slope is measured from a small polynomial fit over the outer annulus, not
+    from a single noisy two-point derivative.
+    """
+
+    potential = params.potential
+    n_grid = max(int(n_grid or 2 * params.n_nodes), 24)
+    inner_candidates = (
+        1.08 * potential.r_isco,
+        params.R_out * np.exp(-3.0),
+        params.R_out * np.exp(-2.0),
+        params.R_out * np.exp(-1.0),
+    )
+    last_message = "not attempted"
+    profile = None
+    for R_in in inner_candidates:
+        R_in = max(float(R_in), 1.08 * potential.r_isco)
+        if R_in >= 0.95 * params.R_out:
+            continue
+        grid = make_log_grid(R_in, params.R_out, n_grid)
+        reduced_params = IsolatedSlimParams(
+            M2_g=params.M2_g,
+            Mdot_g_s=params.Mdot_g_s,
+            R_in=R_in,
+            alpha=params.alpha,
+            mu_mol=params.mu_mol,
+            kappa=params.kappa,
+            gamma_gas=params.gamma_gas,
+            l_in=float(lambda0 * params.r_g * C),
+            sigma_brackets=120,
+            T_bounds=(np.exp(params.logT_bounds[0]), np.exp(params.logT_bounds[1])),
+        )
+        result = solve_isolated_slim_disk(grid, reduced_params, max_iter=100, tol=3.0e-3, damping=0.6)
+        last_message = result.message
+        if result.profile is not None:
+            profile = result.profile
+            break
+    if profile is None:
+        raise RuntimeError(f"reduced outer-slope solve failed: {last_message}")
+    u = -np.asarray(profile.v_R, dtype=float)
+    if np.any(u <= 0.0) or np.any(profile.T <= 0.0):
+        raise RuntimeError("reduced outer-slope solve returned non-positive u or T")
+    return (
+        _outer_log_slope(u, profile.R),
+        _outer_log_slope(profile.T, profile.R),
+    )
+
+
+def pressure_supported_omega_target(
+    logR: float,
+    y,
+    g_match: tuple[float, float] | np.ndarray,
+    lambda0: float,
+    params: TransonicSlimParams,
+) -> float:
+    """Return the finite-radius target for ``ln(Omega/Omega_K)``.
+
+    The sign follows the implemented radial residual convention
+    ``u^2 g_u - R^2 (Omega^2 - Omega_K^2) + dPi/dx/Sigma = 0``.
+    For a smooth outer disk with outwardly declining pressure, this target is
+    typically negative.  A positive target requires either radial inertia or a
+    pressure gradient large enough to make the right-hand side positive.
+    """
+
+    g_match = np.asarray(g_match, dtype=float)
+    state = algebraic_state(logR, float(y[0]), float(y[1]), lambda0, params)
+    partials = state_partials(logR, y, lambda0, params, eps_x=params.partial_eps, eps_y=params.partial_eps)
+    dPi_dx = partials.x["Pi"] + float(np.dot(partials.y["Pi"], g_match))
+    g_Pi = dPi_dx / (state.Pi + 1.0e-300)
+    denom = state.R**2 * state.Omega_K**2 + 1.0e-300
+    fractional_omega2 = float((state.u**2 / denom) * g_match[0] + (state.Pi / (state.Sigma * denom)) * g_Pi)
+    if fractional_omega2 <= -1.0:
+        return -1.0e6
+    return float(0.5 * np.log1p(fractional_omega2))
+
+
+def _outer_pressure_supported_boundary_residual(logR: float, y, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
+    thin = _outer_thin_boundary_residual(logR, y, lambda0, params)
+    g_match = params.outer_match_log_slopes
+    if g_match is None:
+        g_match = reduced_outer_log_slopes(params, lambda0)
+    target = pressure_supported_omega_target(logR, y, g_match, lambda0, params)
+    return np.asarray([thin[0] - target, thin[1]], dtype=float)
+
+
+def _scaled_local_differential_residual(logR: float, y, g_match, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
+    raw = differential_residual(logR, y, g_match, lambda0, params)
+    radial_scale, energy_scale = _residual_scales(logR, y, params, lambda0)
+    return raw / np.array([radial_scale, energy_scale], dtype=float)
+
+
+def matched_outer_state(
+    logR: float,
+    lambda0: float,
+    params: TransonicSlimParams,
+    *,
+    g_match: tuple[float, float] | np.ndarray | None = None,
+    initial_y=None,
+) -> np.ndarray:
+    """Return local full-equation outer match ``[logu, logT]``.
+
+    The supplied slopes are treated as the asymptotic outer-annulus slopes.
+    The returned state solves the local radial and energy equations at
+    ``R_out`` using those slopes; the global BVP can then impose value matching
+    without forcing exact Keplerian rotation at finite radius.
+    """
+
+    try:
+        from scipy.optimize import least_squares
+    except Exception as exc:
+        raise RuntimeError("scipy is required for matched_outer_state") from exc
+
+    if g_match is None:
+        g_match = params.outer_match_log_slopes
+    if g_match is None:
+        g_match = reduced_outer_log_slopes(params, lambda0)
+    g_match = np.asarray(g_match, dtype=float)
+    if g_match.shape != (2,) or not np.all(np.isfinite(g_match)):
+        raise ValueError("g_match must be a finite pair")
+    lower = np.array([params.logu_bounds[0], params.logT_bounds[0]], dtype=float)
+    upper = np.array([params.logu_bounds[1], params.logT_bounds[1]], dtype=float)
+    if initial_y is None:
+        initial_y = np.array([0.5 * (lower[0] + upper[0]), 0.5 * (lower[1] + upper[1])], dtype=float)
+    y0 = np.clip(np.asarray(initial_y, dtype=float), lower + 1.0e-12, upper - 1.0e-12)
+
+    result = least_squares(
+        lambda trial: _scaled_local_differential_residual(logR, trial, g_match, lambda0, params),
+        y0,
+        bounds=(lower, upper),
+        x_scale="jac",
+        diff_step=3.0e-5,
+        ftol=1.0e-12,
+        xtol=1.0e-12,
+        gtol=1.0e-10,
+        max_nfev=80,
+    )
+    return np.asarray(result.x, dtype=float)
+
+
+def _outer_matched_state_boundary_residual(logR: float, y, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
+    g_match = params.outer_match_log_slopes
+    if g_match is None:
+        g_match = reduced_outer_log_slopes(params, lambda0)
+    y = np.asarray(y, dtype=float)
+    y_match = matched_outer_state(logR, lambda0, params, g_match=g_match, initial_y=y)
+    return y - y_match
+
+
+def _outer_boundary_residual(logR: float, y, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
+    if params.outer_closure == "thin_value":
+        return _outer_thin_boundary_residual(logR, y, lambda0, params)
+    if params.outer_closure == "pressure_supported_thin_energy":
+        return _outer_pressure_supported_boundary_residual(logR, y, lambda0, params)
+    if params.outer_closure == "matched_outer_state":
+        return _outer_matched_state_boundary_residual(logR, y, lambda0, params)
+    raise ValueError(f"unknown outer_closure {params.outer_closure!r}")
 
 
 def _heating_terms_from_gradient(logR: float, y, g, lambda0: float, params: TransonicSlimParams) -> tuple[float, float, float, float]:
@@ -327,26 +521,62 @@ def _heating_terms_from_gradient(logR: float, y, g, lambda0: float, params: Tran
     return Q_visc, state.Q_rad, Q_adv, energy
 
 
-def _interval_residual_from_unpacked(logu, logT, logR, lambda0: float, params: TransonicSlimParams, idx: int) -> np.ndarray:
-    """Return the scaled residual for one midpoint collocation interval."""
-
+def _interval_geometry(logu, logT, logR, idx: int) -> tuple[float, np.ndarray, np.ndarray, float]:
     dx = logR[idx + 1] - logR[idx]
-    ym = np.array(
-        [
-            0.5 * (logu[idx] + logu[idx + 1]),
-            0.5 * (logT[idx] + logT[idx + 1]),
-        ]
-    )
-    gm = np.array(
-        [
-            (logu[idx + 1] - logu[idx]) / dx,
-            (logT[idx + 1] - logT[idx]) / dx,
-        ]
-    )
+    y_left = np.array([logu[idx], logT[idx]], dtype=float)
+    y_right = np.array([logu[idx + 1], logT[idx + 1]], dtype=float)
+    ym = 0.5 * (y_left + y_right)
     xm = 0.5 * (logR[idx] + logR[idx + 1])
+    return float(dx), y_left, y_right, float(xm)
+
+
+def _differential_interval_residual_from_unpacked(logu, logT, logR, lambda0: float, params: TransonicSlimParams, idx: int) -> np.ndarray:
+    """Return the scaled differential residual for one midpoint interval."""
+
+    dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
+    ym = 0.5 * (y_left + y_right)
+    gm = (y_right - y_left) / dx
     raw = differential_residual(xm, ym, gm, lambda0, params)
     radial_scale, energy_scale = _residual_scales(xm, ym, params, lambda0)
     return raw / np.array([radial_scale, energy_scale])
+
+
+def _integrated_interval_residual_from_unpacked(logu, logT, logR, lambda0: float, params: TransonicSlimParams, idx: int) -> np.ndarray:
+    """Return the integrated collocation defect for one midpoint interval."""
+
+    dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
+    ym = 0.5 * (y_left + y_right)
+    Abar, cbar, _radial_scale, _energy_scale = scaled_differential_matrix(xm, ym, lambda0, params)
+    residual = Abar @ (y_right - y_left) + dx * cbar
+    if params.integrated_residual_weighting == "none":
+        return residual
+    if params.integrated_residual_weighting == "inverse_sqrt_dx":
+        return residual / np.sqrt(dx)
+    if params.integrated_residual_weighting == "inverse_dx":
+        return residual / dx
+    raise ValueError(f"unknown integrated_residual_weighting {params.integrated_residual_weighting!r}")
+
+
+def _interval_residual_from_unpacked(logu, logT, logR, lambda0: float, params: TransonicSlimParams, idx: int) -> np.ndarray:
+    """Return the configured residual for one midpoint collocation interval."""
+
+    if params.interval_residual_form == "differential":
+        return _differential_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+    if params.interval_residual_form == "integrated":
+        return _integrated_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+    raise ValueError(f"unknown interval_residual_form {params.interval_residual_form!r}")
+
+
+def _differential_interval_residuals_from_unpacked(logu, logT, logR, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
+    """Return physical differential residuals independent of solver scaling."""
+
+    return np.asarray(
+        [
+            _differential_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+            for idx in range(len(logR) - 1)
+        ],
+        dtype=float,
+    )
 
 
 def _interval_residual_block(z, params: TransonicSlimParams, idx: int) -> np.ndarray:
@@ -1324,10 +1554,7 @@ def residual_audit_from_state_vector(z, params: TransonicSlimParams) -> Transoni
     """Return separated residual blocks and physical sanity diagnostics."""
 
     logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
-    interval = np.asarray(
-        [_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx) for idx in range(params.n_nodes - 1)],
-        dtype=float,
-    )
+    interval = _differential_interval_residuals_from_unpacked(logu, logT, logR, lambda0, params)
     outer = _outer_boundary_residual(logR[-1], np.array([logu[-1], logT[-1]]), lambda0, params)
     sonic = sonic_diagnostics(logR[0], np.array([logu[0], logT[0]]), lambda0, params)
 
