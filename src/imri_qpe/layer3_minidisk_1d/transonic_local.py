@@ -54,6 +54,7 @@ class SonicDiagnostics:
     D: float
     C1: float
     C2: float
+    compatibility: float
     N: float
     smin_over_smax: float
     singular_values: np.ndarray
@@ -322,7 +323,7 @@ def xi_eff_from_gradient(logR: float, y, g, lambda0: float, params) -> float:
 
 
 def sonic_diagnostics(logR: float, y, lambda0: float, params, floor: float = 1.0e-300) -> SonicDiagnostics:
-    """Return critical determinant and compatibility diagnostics."""
+    """Return criticality and compatibility diagnostics."""
 
     A, c, radial_scale, energy_scale = scaled_differential_matrix(logR, y, lambda0, params)
     U, singular_values, Vt = np.linalg.svd(A)
@@ -332,14 +333,19 @@ def sonic_diagnostics(logR: float, y, lambda0: float, params, floor: float = 1.0
     c_norm = float(np.sqrt(e**2 + f**2))
     col0_norm = float(np.sqrt(a**2 + cmat**2))
     col1_norm = float(np.sqrt(b**2 + d**2))
-    D = float((a * d - b * cmat) / (col0_norm * col1_norm + floor))
+    det_angle = float((a * d - b * cmat) / (col0_norm * col1_norm + floor))
     C1 = float((d * e - b * f) / (np.sqrt(d**2 + b**2) * c_norm + floor))
     C2 = float((a * f - cmat * e) / (np.sqrt(a**2 + cmat**2) * c_norm + floor))
     left_null = U[:, -1]
+    orient_idx = int(np.argmax(np.abs(left_null)))
+    if left_null[orient_idx] < 0.0:
+        left_null = -left_null
     right_null = Vt[-1, :]
+    compatibility = float(np.dot(left_null, np.array([e, f], dtype=float)) / (c_norm + floor))
     N = float(max(abs(C1), abs(C2)))
     smax = float(np.max(singular_values))
     smin = float(np.min(singular_values))
+    D = float(np.sign(det_angle) * smin / (smax + floor))
     null_norm = float(np.linalg.norm(right_null))
     null_radial_fraction = float(abs(right_null[0]) / (null_norm + floor))
     state = algebraic_state(logR, float(np.asarray(y, dtype=float)[0]), float(np.asarray(y, dtype=float)[1]), lambda0, params)
@@ -348,6 +354,7 @@ def sonic_diagnostics(logR: float, y, lambda0: float, params, floor: float = 1.0
         D=D,
         C1=C1,
         C2=C2,
+        compatibility=compatibility,
         N=N,
         smin_over_smax=smin / (smax + floor),
         singular_values=singular_values,

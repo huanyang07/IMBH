@@ -13,7 +13,12 @@ from imri_qpe.layer3_minidisk_1d.transonic_collocation import (
     replace_mdot,
     unpack_state,
 )
-from imri_qpe.layer3_minidisk_1d.transonic_continuation import remap_profile_to_new_sonic_grid
+from imri_qpe.layer3_minidisk_1d.transonic_continuation import (
+    blockwise_continuation_metric,
+    pseudo_arclength_step,
+    remap_profile_to_new_sonic_grid,
+    tangent_audit_from_scaled_tangent,
+)
 from imri_qpe.layer3_minidisk_1d.transonic_potential import PaczynskiWiitaPotential
 from imri_qpe.scales import eddington_mdot
 from imri_qpe.units import solar_masses_to_g
@@ -54,6 +59,60 @@ class TransonicContinuationTests(unittest.TestCase):
         self.assertAlmostEqual(np.exp(logR_son), self.profile.sonic_radius)
         self.assertAlmostEqual(lambda0, self.profile.lambda0)
         self.assertTrue(np.all(np.diff(logR) > 0.0))
+
+    def test_blockwise_continuation_metric_reports_tangent_fractions(self) -> None:
+        previous_params = replace_mdot(self.params, self.params.Mdot_g_s)
+        current_params = replace_mdot(self.params, 1.2 * self.params.Mdot_g_s)
+        z_previous = remap_profile_to_new_sonic_grid(self.profile, previous_params)
+        z_current = remap_profile_to_new_sonic_grid(self.profile, current_params)
+        metric = blockwise_continuation_metric(z_previous, 1.0, z_current, 1.2, current_params)
+        scales = metric.scale_vector()
+        tangent = (np.concatenate([z_current, [np.log(1.2)]]) - np.concatenate([z_previous, [0.0]])) / scales
+        tangent = tangent / np.linalg.norm(tangent)
+        audit = tangent_audit_from_scaled_tangent(tangent, metric, method="secant")
+
+        self.assertEqual(scales.shape, (z_current.size + 1,))
+        self.assertGreaterEqual(metric.logu_scale, 2.0e-2)
+        self.assertGreaterEqual(metric.logT_scale, 1.0e-2)
+        self.assertAlmostEqual(
+            audit.logu_fraction
+            + audit.logT_fraction
+            + audit.logR_son_fraction
+            + audit.lambda0_fraction
+            + audit.mu_fraction,
+            1.0,
+        )
+        self.assertEqual(audit.method, "secant")
+
+    def test_pseudo_arclength_step_accepts_jacobian_tangent_mode(self) -> None:
+        previous_params = replace_mdot(self.params, self.params.Mdot_g_s)
+        current_params = replace_mdot(self.params, 1.05 * self.params.Mdot_g_s)
+        previous_profile = profile_from_state_vector(remap_profile_to_new_sonic_grid(self.profile, previous_params), previous_params)
+        current_profile = profile_from_state_vector(remap_profile_to_new_sonic_grid(self.profile, current_params), current_params)
+
+        result = pseudo_arclength_step(
+            self.params,
+            self.params.Mdot_g_s,
+            previous_profile,
+            1.0,
+            current_profile,
+            1.05,
+            step_multiplier=0.1,
+            max_nfev=1,
+            residual_tol=1.0e-3,
+            residual_mode="square",
+            sonic_pivot="K",
+            metric_mode="blockwise",
+            tangent_mode="jacobian",
+        )
+
+        self.assertEqual(result.tangent.shape, (2 * self.params.n_nodes + 3,))
+        self.assertEqual(result.metric.n_nodes, self.params.n_nodes)
+        self.assertIn(result.tangent_audit.method, {"jacobian", "jacobian_mu", "secant_fallback"})
+        self.assertIn(result.corrector_method, {"bordered_newton", "hybrid_least_squares", "least_squares"})
+        self.assertTrue(np.isfinite(result.initial_max_residual))
+        self.assertTrue(np.isfinite(result.predictor_correction_norm))
+        self.assertTrue(np.isfinite(result.arclength_residual))
 
 
 if __name__ == "__main__":

@@ -539,7 +539,11 @@ def continue_branch(fiducial: FiducialParams, mdot_edd: float, rows: list[dict[s
             mdot_ratio_bounds=(0.25, 1.35),
             max_nfev=1100,
             residual_tol=RESIDUAL_TOL,
-            arclength_weight=10.0,
+            arclength_weight=1.0,
+            residual_mode="square",
+            sonic_pivot="K",
+            metric_mode="blockwise",
+            tangent_mode="jacobian",
         )
         row = row_from_arc(result, step_multiplier)
         append_row(rows, row, resumed=resumed)

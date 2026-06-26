@@ -16,6 +16,7 @@ from .transonic_local import (
     differential_residual_scales,
     differential_residual,
     entropy_gradient_log,
+    scaled_differential_matrix,
     sonic_diagnostics,
     state_partials,
     xi_eff_from_gradient,
@@ -126,6 +127,7 @@ class TransonicSlimProfile:
     sonic_D: np.ndarray
     sonic_C1: np.ndarray
     sonic_C2: np.ndarray
+    sonic_K: np.ndarray
     sonic_N: np.ndarray
     sonic_smin_over_smax: np.ndarray
     sonic_null_radial_fraction: np.ndarray
@@ -153,6 +155,7 @@ class TransonicResidualAudit:
     sonic_D: float
     sonic_C1: float
     sonic_C2: float
+    sonic_K: float
     sonic_N: float
     sonic_smin_over_smax: float
     sonic_null_radial_fraction: float
@@ -221,6 +224,37 @@ class TransonicHomotopyResult:
     fixed_lambda0: float
 
 
+@dataclass(frozen=True)
+class TransonicJacobianDirectionalAudit:
+    """Directional finite-difference check of a sparse residual Jacobian."""
+
+    steps: np.ndarray
+    median_relative_error: np.ndarray
+    max_relative_error: np.ndarray
+    best_step: float
+    best_median_error: float
+    n_directions: int
+    pivot: str
+
+
+@dataclass(frozen=True)
+class TransonicSquarePolishResult:
+    """Fixed-Mdot polish result using the square sonic residual system."""
+
+    z: np.ndarray
+    pivot: str
+    method: str
+    result: TransonicSolveResult
+    initial_square_max_residual: float
+    final_square_max_residual: float
+    unused_compatibility: float
+    iterations: int
+    line_search_reductions: int
+    final_step_norm: float
+    final_linear_damping: float
+    final_merit: float
+
+
 def computational_grid(params: TransonicSlimParams, logR_son: float) -> np.ndarray:
     """Return collocation node positions in ``ln R``."""
 
@@ -260,6 +294,10 @@ def _residual_scales(logR: float, y, params: TransonicSlimParams, lambda0: float
 
 def _residual_size(params: TransonicSlimParams) -> int:
     return 2 * params.n_nodes + 3
+
+
+def _square_residual_size(params: TransonicSlimParams) -> int:
+    return 2 * params.n_nodes + 2
 
 
 def _optimizer_tolerance(params: TransonicSlimParams) -> float:
@@ -343,6 +381,66 @@ def _sonic_residual_block(z, params: TransonicSlimParams) -> np.ndarray:
         return np.full(3, 1.0e6)
 
 
+def select_sonic_compatibility_pivot(z, params: TransonicSlimParams) -> str:
+    """Choose the better-conditioned sonic compatibility residual.
+
+    The determinant ``D`` is always kept.  Only one compatibility equation is
+    needed in the square fixed-Mdot system.  The pivot rule follows the column
+    norm of the scaled local differential matrix at the sonic point and should
+    be frozen for a Newton/corrector step.
+    """
+
+    try:
+        logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
+        A, _rhs, _radial_scale, _energy_scale = scaled_differential_matrix(
+            logR[0],
+            np.array([logu[0], logT[0]]),
+            lambda0,
+            params,
+        )
+        col0_norm2 = float(A[0, 0] ** 2 + A[1, 0] ** 2)
+        col1_norm2 = float(A[0, 1] ** 2 + A[1, 1] ** 2)
+        return "C2" if col0_norm2 >= col1_norm2 else "C1"
+    except Exception:
+        return "C1"
+
+
+def _resolve_sonic_pivot(z, params: TransonicSlimParams, pivot: str) -> str:
+    if pivot == "auto":
+        return "K"
+    if pivot == "svd":
+        return "K"
+    if pivot not in {"C1", "C2", "K"}:
+        raise ValueError("sonic compatibility pivot must be 'auto', 'svd', 'K', 'C1', or 'C2'")
+    return pivot
+
+
+def sonic_residual_pair(z, params: TransonicSlimParams, pivot: str = "auto") -> np.ndarray:
+    """Return the square sonic residual pair ``[D, C_selected]``."""
+
+    resolved = _resolve_sonic_pivot(z, params, pivot)
+    try:
+        D, C1, C2 = _sonic_residual_block(z, params)
+        if resolved == "K":
+            return _sonic_component_values(z, params, ("D", "K"))
+        return np.array([D, C1 if resolved == "C1" else C2], dtype=float)
+    except Exception:
+        return np.full(2, 1.0e6)
+
+
+def unused_sonic_compatibility(z, params: TransonicSlimParams, pivot: str = "auto") -> float:
+    """Return the compatibility residual not used by ``sonic_residual_pair``."""
+
+    resolved = _resolve_sonic_pivot(z, params, pivot)
+    try:
+        _D, C1, C2 = _sonic_residual_block(z, params)
+        if resolved == "K":
+            return float(max(abs(C1), abs(C2)))
+        return float(C2 if resolved == "C1" else C1)
+    except Exception:
+        return 1.0e6
+
+
 def _sonic_component_values(z, params: TransonicSlimParams, components: tuple[str, ...]) -> np.ndarray:
     logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
     sonic = sonic_diagnostics(logR[0], np.array([logu[0], logT[0]]), lambda0, params)
@@ -350,14 +448,134 @@ def _sonic_component_values(z, params: TransonicSlimParams, components: tuple[st
         "D": sonic.D,
         "C1": sonic.C1,
         "C2": sonic.C2,
+        "K": sonic.compatibility,
     }
     return np.asarray([values[name] for name in components], dtype=float)
+
+
+def _sonic_component_values_local(local, params: TransonicSlimParams, components: tuple[str, ...]) -> np.ndarray:
+    local = np.asarray(local, dtype=float)
+    sonic = sonic_diagnostics(float(local[2]), np.array([local[0], local[1]]), float(local[3]), params)
+    values = {
+        "D": sonic.D,
+        "C1": sonic.C1,
+        "C2": sonic.C2,
+        "K": sonic.compatibility,
+    }
+    return np.asarray([values[name] for name in components], dtype=float)
+
+
+def _richardson_finite_difference_column_vector(
+    block_func,
+    x,
+    column: int,
+    lower,
+    upper,
+    rel_step: float = 1.0e-6,
+    base=None,
+) -> np.ndarray:
+    if base is None:
+        base = block_func(x)
+    value = float(x[column])
+    step = rel_step * max(1.0, abs(value))
+    step = min(step, 0.25 * max(upper[column] - lower[column], 1.0e-300))
+    if step <= 0.0:
+        return np.zeros_like(base)
+
+    def central(width: float):
+        if value - width < lower[column] or value + width > upper[column]:
+            return None
+        plus = np.array(x, copy=True)
+        minus = np.array(x, copy=True)
+        plus[column] += width
+        minus[column] -= width
+        return (block_func(plus) - block_func(minus)) / (2.0 * width)
+
+    full = central(step)
+    half = central(0.5 * step)
+    if full is not None and half is not None:
+        return (4.0 * half - full) / 3.0
+    if half is not None:
+        return half
+    if full is not None:
+        return full
+    if value + step <= upper[column]:
+        plus = np.array(x, copy=True)
+        plus[column] += step
+        half_plus = np.array(x, copy=True)
+        half_plus[column] += 0.5 * step
+        first = (block_func(plus) - base) / step
+        second = (block_func(half_plus) - base) / (0.5 * step)
+        return 2.0 * second - first
+    if value - step >= lower[column]:
+        minus = np.array(x, copy=True)
+        minus[column] -= step
+        half_minus = np.array(x, copy=True)
+        half_minus[column] -= 0.5 * step
+        first = (base - block_func(minus)) / step
+        second = (base - block_func(half_minus)) / (0.5 * step)
+        return 2.0 * second - first
+    return np.zeros_like(base)
+
+
+def sonic_residual_jacobian(
+    z,
+    params: TransonicSlimParams,
+    *,
+    components: tuple[str, ...] = ("D", "C1", "C2"),
+    rel_step: float = 1.0e-6,
+) -> np.ndarray:
+    """Return the local sonic-residual Jacobian in ``[logu0, logT0, logR_son, lambda0]``."""
+
+    if rel_step <= 0.0:
+        raise ValueError("rel_step must be positive")
+    logu, logT, logR_son, lambda0, _logR = unpack_state(z, params)
+    lower, upper = state_bounds(params)
+    local = np.array([logu[0], logT[0], logR_son, lambda0], dtype=float)
+    lower_local = np.array([lower[0], lower[params.n_nodes], lower[-2], lower[-1]], dtype=float)
+    upper_local = np.array([upper[0], upper[params.n_nodes], upper[-2], upper[-1]], dtype=float)
+    block_func = lambda trial: _sonic_component_values_local(trial, params, components)
+    base = block_func(local)
+    jac = np.zeros((len(components), 4), dtype=float)
+    for col in range(4):
+        jac[:, col] = _richardson_finite_difference_column_vector(
+            block_func,
+            local,
+            col,
+            lower_local,
+            upper_local,
+            rel_step=rel_step,
+            base=base,
+        )
+    return jac
 
 
 def collocation_residual(z, params: TransonicSlimParams) -> np.ndarray:
     """Return the scaled free-boundary collocation residual."""
 
     return _collocation_residual_weighted(z, params)
+
+
+def square_collocation_residual(z, params: TransonicSlimParams, pivot: str = "auto") -> np.ndarray:
+    """Return the square free-boundary residual using two sonic equations."""
+
+    resolved = _resolve_sonic_pivot(z, params, pivot)
+    residual = np.zeros(_square_residual_size(params), dtype=float)
+    try:
+        logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
+        if np.any(np.diff(logR) <= 0.0):
+            raise ValueError("mapped radius must increase")
+        row = 0
+        for idx in range(params.n_nodes - 1):
+            residual[row : row + 2] = _interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+            row += 2
+
+        residual[row : row + 2] = _outer_residual_block(z, params)
+        row += 2
+        residual[row : row + 2] = sonic_residual_pair(z, params, pivot=resolved)
+    except Exception:
+        residual.fill(1.0e6)
+    return residual
 
 
 def _collocation_residual_weighted(
@@ -713,6 +931,37 @@ def jac_sparsity_pattern(params: TransonicSlimParams):
     return pattern.tocsr()
 
 
+def square_jac_sparsity_pattern(params: TransonicSlimParams):
+    """Return the block-banded sparsity pattern for the square residual."""
+
+    try:
+        from scipy.sparse import lil_matrix
+    except Exception:
+        return None
+
+    unknown_size = 2 * params.n_nodes + 2
+    pattern = lil_matrix((_square_residual_size(params), unknown_size), dtype=int)
+    row = 0
+    for idx in range(params.n_nodes - 1):
+        columns = [
+            idx,
+            idx + 1,
+            params.n_nodes + idx,
+            params.n_nodes + idx + 1,
+            unknown_size - 2,
+            unknown_size - 1,
+        ]
+        for col in columns:
+            pattern[row : row + 2, col] = 1
+        row += 2
+    for col in (params.n_nodes - 1, 2 * params.n_nodes - 1, unknown_size - 2, unknown_size - 1):
+        pattern[row : row + 2, col] = 1
+    row += 2
+    for col in (0, params.n_nodes, unknown_size - 2, unknown_size - 1):
+        pattern[row : row + 2, col] = 1
+    return pattern.tocsr()
+
+
 def _finite_difference_column(block_func, z, params: TransonicSlimParams, column: int, lower, upper, rel_step: float, base=None) -> np.ndarray:
     """Return one block-Jacobian column with bound-aware finite differences."""
 
@@ -781,9 +1030,53 @@ def collocation_jacobian(z, params: TransonicSlimParams, rel_step: float = 1.0e-
     for col in (params.n_nodes - 1, 2 * params.n_nodes - 1, unknown_size - 2, unknown_size - 1):
         jac[row : row + 2, col] = _finite_difference_column(_outer_residual_block, z, params, col, lower, upper, rel_step, base=outer_base)[:, None]
     row += 2
-    sonic_base = _sonic_residual_block(z, params)
-    for col in (0, params.n_nodes, unknown_size - 2, unknown_size - 1):
-        jac[row : row + 3, col] = _finite_difference_column(_sonic_residual_block, z, params, col, lower, upper, rel_step, base=sonic_base)[:, None]
+    sonic_jac = sonic_residual_jacobian(z, params, rel_step=min(rel_step, 1.0e-6))
+    for local_col, col in enumerate((0, params.n_nodes, unknown_size - 2, unknown_size - 1)):
+        jac[row : row + 3, col] = sonic_jac[:, local_col][:, None]
+
+    return jac.tocsr()
+
+
+def square_collocation_jacobian(z, params: TransonicSlimParams, pivot: str = "auto", rel_step: float = 3.0e-5):
+    """Return a sparse finite-difference Jacobian for ``square_collocation_residual``."""
+
+    try:
+        from scipy.sparse import lil_matrix
+    except Exception as exc:
+        raise RuntimeError("scipy is required for square_collocation_jacobian") from exc
+
+    if rel_step <= 0.0:
+        raise ValueError("rel_step must be positive")
+    z = np.asarray(z, dtype=float)
+    resolved = _resolve_sonic_pivot(z, params, pivot)
+    lower, upper = state_bounds(params)
+    unknown_size = 2 * params.n_nodes + 2
+    jac = lil_matrix((_square_residual_size(params), unknown_size), dtype=float)
+
+    row = 0
+    for idx in range(params.n_nodes - 1):
+        columns = [
+            idx,
+            idx + 1,
+            params.n_nodes + idx,
+            params.n_nodes + idx + 1,
+            unknown_size - 2,
+            unknown_size - 1,
+        ]
+        block_func = lambda trial, p, interval_idx=idx: _interval_residual_block(trial, p, interval_idx)
+        base = block_func(z, params)
+        for col in columns:
+            jac[row : row + 2, col] = _finite_difference_column(block_func, z, params, col, lower, upper, rel_step, base=base)[:, None]
+        row += 2
+
+    outer_base = _outer_residual_block(z, params)
+    for col in (params.n_nodes - 1, 2 * params.n_nodes - 1, unknown_size - 2, unknown_size - 1):
+        jac[row : row + 2, col] = _finite_difference_column(_outer_residual_block, z, params, col, lower, upper, rel_step, base=outer_base)[:, None]
+    row += 2
+    sonic_components = ("D", resolved)
+    sonic_jac = sonic_residual_jacobian(z, params, components=sonic_components, rel_step=min(rel_step, 1.0e-6))
+    for local_col, col in enumerate((0, params.n_nodes, unknown_size - 2, unknown_size - 1)):
+        jac[row : row + 2, col] = sonic_jac[:, local_col][:, None]
 
     return jac.tocsr()
 
@@ -809,6 +1102,198 @@ def _collocation_jacobian_weighted(
     weights[outer_row : outer_row + 2] = outer_weight
     weights[outer_row + 2 : outer_row + 5] = sonic_weight
     return diags(weights) @ collocation_jacobian(z, params, rel_step=rel_step)
+
+
+def jacobian_directional_error(
+    z,
+    params: TransonicSlimParams,
+    *,
+    pivot: str = "auto",
+    steps: tuple[float, ...] = (1.0e-3, 3.0e-4, 1.0e-4, 3.0e-5, 1.0e-5, 3.0e-6, 1.0e-6),
+    n_directions: int = 4,
+    seed: int = 1234,
+    jacobian_rel_step: float = 3.0e-5,
+) -> TransonicJacobianDirectionalAudit:
+    """Compare the square sparse Jacobian against directional finite differences."""
+
+    if n_directions <= 0:
+        raise ValueError("n_directions must be positive")
+    if len(steps) == 0 or any(step <= 0.0 for step in steps):
+        raise ValueError("steps must be positive")
+    z = np.asarray(z, dtype=float)
+    resolved = _resolve_sonic_pivot(z, params, pivot)
+    jac = square_collocation_jacobian(z, params, pivot=resolved, rel_step=jacobian_rel_step)
+    rng = np.random.default_rng(seed)
+    lower, upper = state_bounds(params)
+    directions: list[np.ndarray] = []
+    for _ in range(n_directions):
+        v = rng.normal(size=z.size)
+        norm = float(np.linalg.norm(v))
+        if norm <= 0.0:
+            continue
+        v = v / norm
+        max_step = np.inf
+        positive = v > 0.0
+        negative = v < 0.0
+        if np.any(positive):
+            max_step = min(max_step, float(np.min((upper[positive] - z[positive]) / v[positive])))
+        if np.any(negative):
+            max_step = min(max_step, float(np.min((lower[negative] - z[negative]) / v[negative])))
+        if np.isfinite(max_step) and max_step > 0.0:
+            v = v * min(1.0, 0.25 * max_step / max(steps))
+        directions.append(v)
+    if not directions:
+        raise RuntimeError("failed to generate finite-difference directions")
+
+    median_errors: list[float] = []
+    max_errors: list[float] = []
+    for step in steps:
+        errors = []
+        for v in directions:
+            jv = np.asarray(jac @ v, dtype=float)
+            plus = square_collocation_residual(z + step * v, params, pivot=resolved)
+            minus = square_collocation_residual(z - step * v, params, pivot=resolved)
+            finite = (plus - minus) / (2.0 * step)
+            denom = float(np.linalg.norm(jv) + np.linalg.norm(finite) + 1.0e-300)
+            errors.append(float(np.linalg.norm(jv - finite) / denom))
+        median_errors.append(float(np.median(errors)))
+        max_errors.append(float(np.max(errors)))
+    median_array = np.asarray(median_errors, dtype=float)
+    max_array = np.asarray(max_errors, dtype=float)
+    best_index = int(np.argmin(median_array))
+    return TransonicJacobianDirectionalAudit(
+        steps=np.asarray(steps, dtype=float),
+        median_relative_error=median_array,
+        max_relative_error=max_array,
+        best_step=float(steps[best_index]),
+        best_median_error=float(median_array[best_index]),
+        n_directions=len(directions),
+        pivot=resolved,
+    )
+
+
+def _active_mask_from_bounds(z, lower, upper, tolerance: float = 1.0e-10) -> np.ndarray:
+    mask = np.zeros(np.asarray(z).shape, dtype=int)
+    mask[np.asarray(z) <= lower + tolerance] = -1
+    mask[np.asarray(z) >= upper - tolerance] = 1
+    return mask
+
+
+def _max_alpha_inside_bounds(z, step, lower, upper, safety: float = 0.995) -> float:
+    max_alpha = np.inf
+    positive = step > 0.0
+    negative = step < 0.0
+    if np.any(positive):
+        max_alpha = min(max_alpha, float(np.min((upper[positive] - z[positive]) / step[positive])))
+    if np.any(negative):
+        max_alpha = min(max_alpha, float(np.min((lower[negative] - z[negative]) / step[negative])))
+    if not np.isfinite(max_alpha):
+        return 1.0
+    return max(0.0, min(1.0, safety * max_alpha))
+
+
+def _equilibrated_sparse_newton_step(
+    jac,
+    residual,
+    *,
+    damping: float = 0.0,
+    use_direct: bool = False,
+    solver_tolerance: float = 1.0e-10,
+) -> np.ndarray:
+    """Solve a sparse Newton correction after row/column equilibration."""
+
+    try:
+        from scipy.sparse import diags
+        from scipy.sparse.linalg import lsmr, splu
+    except Exception as exc:
+        raise RuntimeError("scipy is required for sparse Newton polish") from exc
+
+    jac_csr = jac.tocsr()
+    row_norm = np.sqrt(np.asarray(jac_csr.multiply(jac_csr).sum(axis=1)).ravel())
+    row_scale = 1.0 / np.maximum(row_norm, 1.0e-12)
+    row_scaled = diags(row_scale) @ jac_csr
+    col_norm = np.sqrt(np.asarray(row_scaled.multiply(row_scaled).sum(axis=0)).ravel())
+    col_scale = 1.0 / np.maximum(col_norm, 1.0e-12)
+    balanced = (row_scaled @ diags(col_scale)).tocsc()
+    rhs = -row_scale * np.asarray(residual, dtype=float)
+    if damping < 0.0:
+        raise ValueError("linear damping must be non-negative")
+    if use_direct and damping == 0.0:
+        try:
+            y = splu(balanced, permc_spec="COLAMD").solve(rhs)
+            return col_scale * np.asarray(y, dtype=float)
+        except Exception:
+            pass
+    y = lsmr(
+        balanced,
+        rhs,
+        damp=float(damping),
+        atol=solver_tolerance,
+        btol=solver_tolerance,
+        maxiter=max(20, 5 * balanced.shape[1]),
+    )[0]
+    return col_scale * np.asarray(y, dtype=float)
+
+
+def _regularized_damping_sequence(values: tuple[float, ...]) -> tuple[float, ...]:
+    if len(values) == 0:
+        raise ValueError("linear_dampings must contain at least one value")
+    cleaned = tuple(float(value) for value in values)
+    if any(value < 0.0 for value in cleaned):
+        raise ValueError("linear dampings must be non-negative")
+    return cleaned
+
+
+def _direct_damping_sequence() -> tuple[float, ...]:
+    return (0.0,)
+
+
+def _linear_solver_uses_direct(linear_solver: str) -> bool:
+    if linear_solver == "direct":
+        return True
+    if linear_solver == "regularized_lsmr":
+        return False
+    raise ValueError("linear_solver must be 'direct' or 'regularized_lsmr'")
+
+
+def _linear_damping_candidates(linear_solver: str, linear_dampings: tuple[float, ...]) -> tuple[float, ...]:
+    return _direct_damping_sequence() if _linear_solver_uses_direct(linear_solver) else _regularized_damping_sequence(linear_dampings)
+
+
+def _try_square_newton_step(
+    z,
+    step,
+    residual,
+    params: TransonicSlimParams,
+    *,
+    pivot: str,
+    lower,
+    upper,
+    line_search_min_alpha: float,
+    line_search_max_reductions: int,
+) -> tuple[bool, np.ndarray, np.ndarray, int, int]:
+    merit = _square_residual_merit(residual)
+    alpha = _max_alpha_inside_bounds(z, step, lower, upper)
+    if alpha <= line_search_min_alpha:
+        return False, z, residual, 0, 0
+    reductions = 0
+    evaluations = 0
+    for _ in range(line_search_max_reductions + 1):
+        trial = np.clip(z + alpha * step, lower + 1.0e-12, upper - 1.0e-12)
+        trial_residual = square_collocation_residual(trial, params, pivot=pivot)
+        evaluations += 1
+        trial_merit = _square_residual_merit(trial_residual)
+        if trial_merit < merit:
+            return True, trial, trial_residual, reductions, evaluations
+        alpha *= 0.5
+        reductions += 1
+        if alpha < line_search_min_alpha:
+            break
+    return False, z, residual, reductions, evaluations
+
+
+def _square_residual_merit(residual: np.ndarray) -> float:
+    return 0.5 * float(np.dot(residual, residual))
 
 
 def _interp_log_profile(logR_nodes: np.ndarray, R_source: np.ndarray, values: np.ndarray) -> np.ndarray:
@@ -862,6 +1347,7 @@ def residual_audit_from_state_vector(z, params: TransonicSlimParams) -> Transoni
         sonic_D=float(sonic.D),
         sonic_C1=float(sonic.C1),
         sonic_C2=float(sonic.C2),
+        sonic_K=float(sonic.compatibility),
         sonic_N=float(sonic.N),
         sonic_smin_over_smax=float(sonic.smin_over_smax),
         sonic_null_radial_fraction=float(sonic.null_radial_fraction),
@@ -891,8 +1377,7 @@ def _status_from_profile(
     one_sonic_crossing = bool(profile.sonic_crossings == 1 or boundary_sonic_point)
     sonic_regular = bool(
         abs(audit.sonic_D) <= tol
-        and abs(audit.sonic_C1) <= tol
-        and abs(audit.sonic_C2) <= tol
+        and abs(audit.sonic_K) <= tol
         and audit.sonic_smin_over_smax <= max(tol, 1.0e-8)
         and audit.sonic_null_radial_fraction > 0.3
         and one_sonic_crossing
@@ -1205,6 +1690,7 @@ def profile_from_state_vector(z, params: TransonicSlimParams) -> TransonicSlimPr
     D = np.empty_like(R)
     C1 = np.empty_like(R)
     C2 = np.empty_like(R)
+    K = np.empty_like(R)
     N = np.empty_like(R)
     smin_over_smax = np.empty_like(R)
     null_radial_fraction = np.empty_like(R)
@@ -1225,6 +1711,7 @@ def profile_from_state_vector(z, params: TransonicSlimParams) -> TransonicSlimPr
         D[idx] = sonic.D
         C1[idx] = sonic.C1
         C2[idx] = sonic.C2
+        K[idx] = sonic.compatibility
         N[idx] = sonic.N
         smin_over_smax[idx] = sonic.smin_over_smax
         null_radial_fraction[idx] = sonic.null_radial_fraction
@@ -1282,6 +1769,7 @@ def profile_from_state_vector(z, params: TransonicSlimParams) -> TransonicSlimPr
         sonic_D=D,
         sonic_C1=C1,
         sonic_C2=C2,
+        sonic_K=K,
         sonic_N=N,
         sonic_smin_over_smax=smin_over_smax,
         sonic_null_radial_fraction=null_radial_fraction,
@@ -1294,6 +1782,198 @@ def profile_from_state_vector(z, params: TransonicSlimParams) -> TransonicSlimPr
         energy_L1=energy_L1,
         max_abs_residual=float(np.max(np.abs(residual))),
         sonic_crossings=sonic_crossings,
+    )
+
+
+def solve_square_transonic_polish(
+    params: TransonicSlimParams,
+    initial_guess,
+    *,
+    pivot: str = "auto",
+    method: str = "newton",
+    max_iter: int | None = None,
+    max_nfev: int | None = None,
+    residual_tol: float | None = None,
+    jacobian_rel_step: float = 3.0e-5,
+    use_block_jacobian: bool = False,
+    line_search_min_alpha: float = 1.0e-6,
+    line_search_max_reductions: int = 12,
+    linear_solver: str = "regularized_lsmr",
+    linear_dampings: tuple[float, ...] = (0.0, 1.0e-4, 1.0e-3, 1.0e-2, 1.0e-1, 1.0),
+    max_step_norm: float = 2.0,
+    verbose: int = 0,
+) -> TransonicSquarePolishResult:
+    """Polish a fixed-Mdot branch point with the square collocation system."""
+
+    try:
+        from scipy.optimize import least_squares
+    except Exception as exc:
+        raise RuntimeError("scipy is required for solve_square_transonic_polish") from exc
+
+    if method not in {"newton", "least_squares"}:
+        raise ValueError("method must be 'newton' or 'least_squares'")
+    polish_params = replace(
+        params,
+        max_nfev=int(params.max_nfev if max_nfev is None else max_nfev),
+        residual_tol=float(params.residual_tol if residual_tol is None else residual_tol),
+    )
+    if jacobian_rel_step <= 0.0:
+        raise ValueError("jacobian_rel_step must be positive")
+    if line_search_min_alpha <= 0.0:
+        raise ValueError("line_search_min_alpha must be positive")
+    if line_search_max_reductions < 0:
+        raise ValueError("line_search_max_reductions must be non-negative")
+    if max_step_norm <= 0.0:
+        raise ValueError("max_step_norm must be positive")
+    use_direct_linear_solver = _linear_solver_uses_direct(linear_solver)
+    damping_candidates = _linear_damping_candidates(linear_solver, linear_dampings)
+    lower, upper = state_bounds(polish_params)
+    z0 = np.clip(np.asarray(initial_guess, dtype=float), lower + 1.0e-12, upper - 1.0e-12)
+    resolved = _resolve_sonic_pivot(z0, polish_params, pivot)
+    initial_square = square_collocation_residual(z0, polish_params, pivot=resolved)
+    optimizer_tol = _optimizer_tolerance(polish_params)
+    iterations = 0
+    line_search_reductions = 0
+    final_step_norm = 0.0
+    final_linear_damping = 0.0
+
+    if method == "least_squares":
+        jacobian_kwargs = (
+            {
+                "jac": lambda z: square_collocation_jacobian(
+                    z,
+                    polish_params,
+                    pivot=resolved,
+                    rel_step=jacobian_rel_step,
+                )
+            }
+            if use_block_jacobian
+            else {"jac_sparsity": square_jac_sparsity_pattern(polish_params)}
+        )
+        lsq = least_squares(
+            lambda z: square_collocation_residual(z, polish_params, pivot=resolved),
+            z0,
+            bounds=(lower, upper),
+            x_scale="jac",
+            ftol=1.0e-12,
+            xtol=1.0e-12,
+            gtol=optimizer_tol,
+            max_nfev=polish_params.max_nfev,
+            verbose=verbose,
+            **jacobian_kwargs,
+        )
+        z = np.asarray(lsq.x, dtype=float)
+        optimizer_success = bool(lsq.success)
+        optimizer_status = int(lsq.status)
+        nfev = int(lsq.nfev)
+        njev = -1 if lsq.njev is None else int(lsq.njev)
+        cost = float(lsq.cost)
+        optimality = float(lsq.optimality)
+        active_mask = np.asarray(lsq.active_mask, dtype=int)
+        message = str(lsq.message)
+    else:
+        z = np.array(z0, copy=True)
+        residual = np.array(initial_square, copy=True)
+        max_iterations = int(min(polish_params.max_nfev, 12) if max_iter is None else max_iter)
+        nfev = 1
+        njev = 0
+        optimizer_success = False
+        optimizer_status = 0
+        message = "maximum Newton iterations reached"
+        if max_iterations < 0:
+            raise ValueError("max_iter must be non-negative")
+        for iteration in range(max_iterations + 1):
+            square_max = float(np.max(np.abs(residual)))
+            if square_max <= polish_params.residual_tol:
+                optimizer_success = True
+                optimizer_status = 1
+                message = "square Newton polish converged"
+                iterations = iteration
+                break
+            if iteration == max_iterations:
+                iterations = iteration
+                break
+
+            jac = square_collocation_jacobian(z, polish_params, pivot=resolved, rel_step=jacobian_rel_step)
+            njev += 1
+            accepted = False
+            for damping in damping_candidates:
+                step = _equilibrated_sparse_newton_step(
+                    jac,
+                    residual,
+                    damping=damping,
+                    use_direct=use_direct_linear_solver,
+                    solver_tolerance=optimizer_tol,
+                )
+                final_linear_damping = damping
+                final_step_norm = float(np.linalg.norm(step, ord=np.inf))
+                if not np.isfinite(final_step_norm):
+                    continue
+                if final_step_norm > max_step_norm:
+                    step = step * (max_step_norm / final_step_norm)
+                    final_step_norm = max_step_norm
+                accepted, trial_z, trial_residual, reductions, evaluations = _try_square_newton_step(
+                    z,
+                    step,
+                    residual,
+                    polish_params,
+                    pivot=resolved,
+                    lower=lower,
+                    upper=upper,
+                    line_search_min_alpha=line_search_min_alpha,
+                    line_search_max_reductions=line_search_max_reductions,
+                )
+                line_search_reductions += reductions
+                nfev += evaluations
+                if accepted:
+                    z = trial_z
+                    residual = trial_residual
+                    break
+            iterations = iteration + 1
+            if not accepted:
+                optimizer_status = -3
+                message = "regularized Newton steps failed to reduce the square residual"
+                break
+        cost = _square_residual_merit(residual)
+        optimality = float(np.max(np.abs(residual)))
+        active_mask = _active_mask_from_bounds(z, lower, upper)
+
+    profile = profile_from_state_vector(z, polish_params)
+    audit = residual_audit_from_state_vector(z, polish_params)
+    full_residual = collocation_residual(z, polish_params)
+    full_max = float(np.max(np.abs(full_residual)))
+    square_residual = square_collocation_residual(z, polish_params, pivot=resolved)
+    square_max = float(np.max(np.abs(square_residual)))
+    final_merit = _square_residual_merit(square_residual)
+    status = _status_from_profile(profile, audit, polish_params, optimizer_success, square_max)
+    result = TransonicSolveResult(
+        profile=profile,
+        converged=status.physically_valid,
+        status=status,
+        residual_audit=audit,
+        cost=cost,
+        max_residual=full_max,
+        nfev=nfev,
+        njev=njev,
+        optimality=optimality,
+        optimizer_status=optimizer_status,
+        active_mask=active_mask,
+        message=message,
+        optimizer_success=optimizer_success,
+    )
+    return TransonicSquarePolishResult(
+        z=z,
+        pivot=resolved,
+        method=method,
+        result=result,
+        initial_square_max_residual=float(np.max(np.abs(initial_square))),
+        final_square_max_residual=square_max,
+        unused_compatibility=unused_sonic_compatibility(z, polish_params, pivot=resolved),
+        iterations=iterations,
+        line_search_reductions=line_search_reductions,
+        final_step_norm=final_step_norm,
+        final_linear_damping=final_linear_damping,
+        final_merit=final_merit,
     )
 
 

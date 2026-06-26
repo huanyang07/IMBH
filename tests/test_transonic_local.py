@@ -140,6 +140,7 @@ class TransonicLocalTests(unittest.TestCase):
         self.assertTrue(np.isfinite(diagnostics.D))
         self.assertTrue(np.isfinite(diagnostics.C1))
         self.assertTrue(np.isfinite(diagnostics.C2))
+        self.assertTrue(np.isfinite(diagnostics.compatibility))
         self.assertTrue(np.isfinite(diagnostics.N))
         self.assertTrue(np.isfinite(diagnostics.smin_over_smax))
         self.assertTrue(np.isfinite(diagnostics.null_radial_fraction))
