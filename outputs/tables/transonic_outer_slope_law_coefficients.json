@@ -1,0 +1,57 @@
+{
+  "best_rows": [
+    {
+      "R_out_rg": 5000.0,
+      "dg_T": 0.001,
+      "dg_u": 0.0,
+      "dominant": "C1",
+      "final_physical": 4.335373660433332e-06,
+      "g_T": -0.8454694048862422,
+      "g_u": -0.5544979835171373,
+      "label": "gT_+1e-03"
+    },
+    {
+      "R_out_rg": 5500.0,
+      "dg_T": 0.001,
+      "dg_u": 0.0,
+      "dominant": "interval_R",
+      "final_physical": 5.587359555124917e-06,
+      "g_T": -0.8492016110706992,
+      "g_u": -0.5388031292468493,
+      "label": "gT_+1e-03"
+    },
+    {
+      "R_out_rg": 6000.0,
+      "dg_T": -0.003,
+      "dg_u": -0.006,
+      "dominant": "interval_R",
+      "final_physical": 4.041895045163999e-06,
+      "g_T": -0.8568537900836549,
+      "g_u": -0.5328838005215984,
+      "label": "gu_-6e-03_gT_-3e-03"
+    },
+    {
+      "R_out_rg": 6500.0,
+      "dg_T": 0.0,
+      "dg_u": 0.0,
+      "dominant": "interval_R",
+      "final_physical": 1.715434994296128e-06,
+      "g_T": -0.8571969783036488,
+      "g_u": -0.5172658853157216,
+      "label": "baseline"
+    }
+  ],
+  "degree": 2,
+  "dg_T_poly_coeff_descending": [
+    0.08452421478678496,
+    -0.03032264151346927,
+    0.0014945943942013958
+  ],
+  "dg_u_poly_coeff_descending": [
+    0.17702929551539312,
+    -0.05359562349230836,
+    0.0008157031599522513
+  ],
+  "reference_R_out_rg": 5000.0,
+  "x_definition": "x = ln(R_out_rg / reference_R_out_rg)"
+}

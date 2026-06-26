@@ -84,8 +84,11 @@ class TransonicSlimParams:
             raise ValueError("R_son_bounds_rg must be outside the pseudo-horizon and increasing")
         if self.lambda0_bounds[1] <= self.lambda0_bounds[0]:
             raise ValueError("lambda0_bounds must be increasing")
-        if self.outer_closure not in {"thin_value", "pressure_supported_thin_energy", "matched_outer_state"}:
-            raise ValueError("outer_closure must be 'thin_value', 'pressure_supported_thin_energy', or 'matched_outer_state'")
+        if self.outer_closure not in {"thin_value", "pressure_supported_thin_energy", "matched_outer_state", "full_slope_match"}:
+            raise ValueError(
+                "outer_closure must be 'thin_value', 'pressure_supported_thin_energy', "
+                "'matched_outer_state', or 'full_slope_match'"
+            )
         if self.interval_residual_form not in {"differential", "integrated"}:
             raise ValueError("interval_residual_form must be 'differential' or 'integrated'")
         if self.integrated_residual_weighting not in {"none", "inverse_sqrt_dx", "inverse_dx"}:
@@ -498,6 +501,13 @@ def _outer_matched_state_boundary_residual(logR: float, y, lambda0: float, param
     return y - y_match
 
 
+def _outer_full_slope_match_boundary_residual(logR: float, y, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
+    g_match = params.outer_match_log_slopes
+    if g_match is None:
+        g_match = reduced_outer_log_slopes(params, lambda0)
+    return _scaled_local_differential_residual(logR, y, g_match, lambda0, params)
+
+
 def _outer_boundary_residual(logR: float, y, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
     if params.outer_closure == "thin_value":
         return _outer_thin_boundary_residual(logR, y, lambda0, params)
@@ -505,6 +515,8 @@ def _outer_boundary_residual(logR: float, y, lambda0: float, params: TransonicSl
         return _outer_pressure_supported_boundary_residual(logR, y, lambda0, params)
     if params.outer_closure == "matched_outer_state":
         return _outer_matched_state_boundary_residual(logR, y, lambda0, params)
+    if params.outer_closure == "full_slope_match":
+        return _outer_full_slope_match_boundary_residual(logR, y, lambda0, params)
     raise ValueError(f"unknown outer_closure {params.outer_closure!r}")
 
 

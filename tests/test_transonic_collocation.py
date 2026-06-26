@@ -2,10 +2,12 @@ from __future__ import annotations
 
 from dataclasses import replace
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 
 from imri_qpe.constants import C
+import imri_qpe.layer3_minidisk_1d.transonic_collocation as transonic_collocation
 from imri_qpe.layer3_minidisk_1d.transonic_collocation import (
     TransonicSlimParams,
     collocation_jacobian,
@@ -30,7 +32,12 @@ from imri_qpe.layer3_minidisk_1d.transonic_collocation import (
     unused_sonic_compatibility,
     unpack_state,
 )
-from imri_qpe.layer3_minidisk_1d.transonic_local import local_gradient, sonic_diagnostics
+from imri_qpe.layer3_minidisk_1d.transonic_local import (
+    differential_residual,
+    differential_residual_scales,
+    local_gradient,
+    sonic_diagnostics,
+)
 from imri_qpe.layer3_minidisk_1d.transonic_potential import PaczynskiWiitaPotential
 from imri_qpe.scales import eddington_mdot
 from imri_qpe.units import solar_masses_to_g
@@ -146,6 +153,37 @@ class TransonicCollocationTests(unittest.TestCase):
         self.assertTrue(np.all(np.isfinite(residual)))
         self.assertEqual(y_match.shape, (2,))
         self.assertTrue(np.all(np.isfinite(y_match)))
+
+    def test_full_slope_match_outer_closure_is_opt_in_and_finite(self) -> None:
+        params = replace(
+            self.params,
+            outer_closure="full_slope_match",
+            outer_match_log_slopes=(-1.5, -0.75),
+        )
+        pivot = select_sonic_compatibility_pivot(self.z, params)
+        residual = square_collocation_residual(self.z, params, pivot=pivot)
+        logu, logT, _logR_son, lambda0, logR = unpack_state(self.z, params)
+        y = np.array([logu[-1], logT[-1]], dtype=float)
+        raw = differential_residual(logR[-1], y, params.outer_match_log_slopes, lambda0, params)
+        scales = np.asarray(differential_residual_scales(logR[-1], y, lambda0, params), dtype=float)
+        outer_row = 2 * (params.n_nodes - 1)
+
+        self.assertEqual(residual.shape, self.z.shape)
+        self.assertTrue(np.all(np.isfinite(residual)))
+        np.testing.assert_allclose(residual[outer_row : outer_row + 2], raw / scales)
+
+    def test_full_slope_match_does_not_call_nested_matched_state(self) -> None:
+        params = replace(
+            self.params,
+            outer_closure="full_slope_match",
+            outer_match_log_slopes=(-1.5, -0.75),
+        )
+        pivot = select_sonic_compatibility_pivot(self.z, params)
+        with patch.object(transonic_collocation, "matched_outer_state", side_effect=AssertionError("nested solve called")) as mocked:
+            residual = square_collocation_residual(self.z, params, pivot=pivot)
+
+        mocked.assert_not_called()
+        self.assertLess(float(np.max(np.abs(residual))), 1.0e6)
 
     def test_invalid_outer_closure_is_rejected(self) -> None:
         with self.assertRaises(ValueError):
