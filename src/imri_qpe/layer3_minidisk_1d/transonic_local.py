@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
+from scipy.optimize import brentq, minimize_scalar
 
 from imri_qpe.constants import A_RAD, C
 from imri_qpe.scales import gas_constant_per_gram
@@ -76,6 +77,18 @@ class SonicNullVectors:
     smin_over_smax: float
     matrix: np.ndarray
     rhs: np.ndarray
+
+
+@dataclass(frozen=True)
+class SonicDerivativeBranch:
+    """One regular sonic derivative candidate from an L'Hopital branch scan."""
+
+    kind: str
+    form: str
+    a: float
+    gradient: np.ndarray
+    lhopital_raw: float
+    lhopital_normalized: float
 
 
 def algebraic_state(logR: float, logu: float, logT: float, lambda0: float, params) -> AlgebraicTransonicState:
@@ -432,6 +445,133 @@ def local_gradient(logR: float, y, lambda0: float, params) -> np.ndarray:
 
     A, c = differential_matrix(logR, y, lambda0, params)
     return np.linalg.solve(A, -c)
+
+
+def local_ode_rhs(logR: float, y, lambda0: float, params) -> np.ndarray:
+    """Return ``dy/dlnR`` for the nonsingular local ODE ``A g + c = 0``."""
+
+    A, c, _radial_scale, _energy_scale = scaled_differential_matrix(logR, y, lambda0, params)
+    return np.linalg.solve(A, -c)
+
+
+def _sonic_form_null_vectors(logR: float, y, lambda0: float, params, form: str) -> SonicNullVectors:
+    if form == "raw":
+        return sonic_unscaled_null_vectors(logR, y, lambda0, params)
+    if form in {"scaled", "frozen_scaled"}:
+        return sonic_null_vectors(logR, y, lambda0, params)
+    raise ValueError(f"unknown L'Hopital form {form!r}")
+
+
+def _sonic_form_directional_B(logR: float, y, g, lambda0: float, params, eps: float, form: str) -> np.ndarray:
+    if form == "scaled":
+        return sonic_directional_B(logR, y, g, lambda0, params, eps=eps)
+    if form == "frozen_scaled":
+        return sonic_frozen_scaled_directional_B(logR, y, g, lambda0, params, eps=eps)
+    if form == "raw":
+        return sonic_unscaled_directional_B(logR, y, g, lambda0, params, eps=eps)
+    raise ValueError(f"unknown L'Hopital form {form!r}")
+
+
+def sonic_derivative_branches(
+    logR: float,
+    y,
+    lambda0: float,
+    params,
+    *,
+    eps: float = 1.0e-5,
+    form: str = "scaled",
+    a_center: float | None = None,
+    half_width: float = 1000.0,
+    scan_points: int = 2001,
+) -> tuple[SonicDerivativeBranch, ...]:
+    """Return L'Hopital sonic-derivative branches ``g = g_p + a r``.
+
+    The roots are found by scanning the scalar regularity condition
+    ``l.T @ d(A g + c)/dlnR = 0`` along the right-null direction of the sonic
+    matrix.  Branches are sorted by the scalar coordinate ``a`` so callers can
+    run fixed discrete branches reproducibly.
+    """
+
+    if scan_points < 3:
+        raise ValueError("scan_points must be at least three")
+    y = np.asarray(y, dtype=float)
+    nulls = _sonic_form_null_vectors(logR, y, lambda0, params, form)
+    g_p = np.linalg.lstsq(nulls.matrix, -nulls.rhs, rcond=None)[0]
+    r = nulls.right_null / (np.linalg.norm(nulls.right_null) + 1.0e-300)
+    if a_center is None:
+        a_center = 0.0
+    a_values = np.linspace(float(a_center) - half_width, float(a_center) + half_width, int(scan_points))
+
+    def raw_from_a(a: float) -> float:
+        g = g_p + float(a) * r
+        B = _sonic_form_directional_B(logR, y, g, lambda0, params, eps=eps, form=form)
+        return float(np.dot(nulls.left_null, B))
+
+    raw_values = np.full_like(a_values, np.nan, dtype=float)
+    for idx, a in enumerate(a_values):
+        try:
+            raw_values[idx] = raw_from_a(float(a))
+        except Exception:
+            raw_values[idx] = np.nan
+
+    branches: list[SonicDerivativeBranch] = []
+
+    def append_branch(kind: str, a: float) -> None:
+        g = g_p + float(a) * r
+        branches.append(
+            SonicDerivativeBranch(
+                kind=kind,
+                form=form,
+                a=float(a),
+                gradient=np.asarray(g, dtype=float),
+                lhopital_raw=raw_from_a(float(a)),
+                lhopital_normalized=sonic_lhopital_residual_form(logR, y, g, lambda0, params, eps=eps, form=form),
+            )
+        )
+
+    for idx in range(len(a_values) - 1):
+        left_a = float(a_values[idx])
+        right_a = float(a_values[idx + 1])
+        left_f = float(raw_values[idx])
+        right_f = float(raw_values[idx + 1])
+        if not np.isfinite(left_f) or not np.isfinite(right_f):
+            continue
+        if left_f == 0.0:
+            append_branch("sign", left_a)
+        elif left_f * right_f <= 0.0:
+            try:
+                root_a = float(brentq(raw_from_a, left_a, right_a, xtol=1.0e-10, rtol=1.0e-10, maxiter=80))
+            except ValueError:
+                continue
+            append_branch("sign", root_a)
+
+    finite = np.isfinite(raw_values)
+    if np.any(finite):
+        finite_indices = np.flatnonzero(finite)
+        best_idx = int(finite_indices[int(np.nanargmin(np.abs(raw_values[finite])))])
+        left = float(a_values[max(0, best_idx - 4)])
+        right = float(a_values[min(len(a_values) - 1, best_idx + 4)])
+        if right > left:
+            try:
+                minimum = minimize_scalar(
+                    lambda a: abs(raw_from_a(float(a))),
+                    bounds=(left, right),
+                    method="bounded",
+                    options={"xatol": 1.0e-8},
+                )
+                if minimum.success and abs(raw_from_a(float(minimum.x))) < 1.0e-8:
+                    append_branch("minimum", float(minimum.x))
+            except ValueError:
+                pass
+
+    unique: list[SonicDerivativeBranch] = []
+    for branch in sorted(branches, key=lambda item: item.a):
+        if unique and abs(branch.a - unique[-1].a) < 1.0e-5:
+            if abs(branch.lhopital_raw) < abs(unique[-1].lhopital_raw):
+                unique[-1] = branch
+            continue
+        unique.append(branch)
+    return tuple(unique)
 
 
 def entropy_gradient_log(logR: float, y, g, lambda0: float, params) -> float:

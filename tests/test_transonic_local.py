@@ -15,6 +15,7 @@ from imri_qpe.layer3_minidisk_1d import (
     finite_difference_state_partials,
     integrated_stress,
     local_gradient,
+    local_ode_rhs,
     local_scaled_residual,
     local_unscaled_residual,
     radiative_cooling,
@@ -203,6 +204,12 @@ class TransonicLocalTests(unittest.TestCase):
         scale = np.maximum(np.abs(differential_residual(self.logR, self.y, np.zeros(2), self.lambda0, self.params)), 1.0)
 
         self.assertLess(float(np.max(np.abs(residual) / scale)), 1.0e-7)
+
+    def test_local_ode_rhs_solves_scaled_residual(self) -> None:
+        g = local_ode_rhs(self.logR, self.y, self.lambda0, self.params)
+        residual = local_scaled_residual(self.logR, self.y, g, self.lambda0, self.params)
+
+        self.assertLess(float(np.max(np.abs(residual))), 1.0e-7)
 
     def test_sonic_diagnostics_are_finite(self) -> None:
         diagnostics = sonic_diagnostics(self.logR, self.y, self.lambda0, self.params)
