@@ -15,9 +15,18 @@ from imri_qpe.layer3_minidisk_1d import (
     finite_difference_state_partials,
     integrated_stress,
     local_gradient,
+    local_scaled_residual,
+    local_unscaled_residual,
     radiative_cooling,
     scaled_differential_matrix,
+    sonic_directional_B,
+    sonic_frozen_scaled_directional_B,
     sonic_diagnostics,
+    sonic_lhopital_residual,
+    sonic_lhopital_residual_form,
+    sonic_null_vectors,
+    sonic_unscaled_directional_B,
+    sonic_unscaled_null_vectors,
     surface_density,
     vertical_state,
     xi_eff_from_gradient,
@@ -108,6 +117,67 @@ class TransonicLocalTests(unittest.TestCase):
         np.testing.assert_allclose(c_scaled, c / np.array([radial_scale, energy_scale]))
         self.assertAlmostEqual(radial_returned, radial_scale)
         self.assertAlmostEqual(energy_returned, energy_scale)
+
+    def test_local_scaled_residual_matches_scaled_matrix(self) -> None:
+        A_scaled, c_scaled, _radial_scale, _energy_scale = scaled_differential_matrix(self.logR, self.y, self.lambda0, self.params)
+        g = np.array([0.12, -0.31])
+
+        np.testing.assert_allclose(local_scaled_residual(self.logR, self.y, g, self.lambda0, self.params), A_scaled @ g + c_scaled)
+
+    def test_local_unscaled_residual_matches_raw_matrix(self) -> None:
+        A, c = differential_matrix(self.logR, self.y, self.lambda0, self.params)
+        g = np.array([0.12, -0.31])
+
+        np.testing.assert_allclose(local_unscaled_residual(self.logR, self.y, g, self.lambda0, self.params), A @ g + c)
+
+    def test_sonic_null_vectors_match_svd_diagnostics(self) -> None:
+        nulls = sonic_null_vectors(self.logR, self.y, self.lambda0, self.params)
+        diagnostics = sonic_diagnostics(self.logR, self.y, self.lambda0, self.params)
+
+        self.assertEqual(nulls.matrix.shape, (2, 2))
+        self.assertEqual(nulls.rhs.shape, (2,))
+        np.testing.assert_allclose(np.abs(nulls.left_null), np.abs(diagnostics.left_null))
+        np.testing.assert_allclose(np.abs(nulls.right_null), np.abs(diagnostics.right_null))
+        np.testing.assert_allclose(nulls.singular_values, diagnostics.singular_values)
+        self.assertAlmostEqual(nulls.smin_over_smax, diagnostics.smin_over_smax)
+
+    def test_sonic_unscaled_null_vectors_are_consistent(self) -> None:
+        nulls = sonic_unscaled_null_vectors(self.logR, self.y, self.lambda0, self.params)
+
+        self.assertEqual(nulls.matrix.shape, (2, 2))
+        self.assertLess(abs(float(nulls.left_null @ nulls.matrix[:, -1])), np.linalg.norm(nulls.matrix) + 1.0)
+        self.assertLess(float(np.linalg.norm(nulls.matrix @ nulls.right_null)), np.linalg.norm(nulls.matrix) + 1.0)
+
+    def test_sonic_directional_B_matches_centered_difference(self) -> None:
+        g = np.array([0.17, -0.44])
+        eps = 2.0e-5
+        plus = local_scaled_residual(self.logR + eps, self.y + eps * g, g, self.lambda0, self.params)
+        minus = local_scaled_residual(self.logR - eps, self.y - eps * g, g, self.lambda0, self.params)
+        expected = (plus - minus) / (2.0 * eps)
+
+        np.testing.assert_allclose(sonic_directional_B(self.logR, self.y, g, self.lambda0, self.params, eps=eps), expected)
+
+    def test_frozen_scaled_directional_B_matches_unscaled_over_sonic_scales(self) -> None:
+        g = np.array([0.17, -0.44])
+        eps = 2.0e-5
+        radial_scale, energy_scale = differential_residual_scales(self.logR, self.y, self.lambda0, self.params)
+        expected = sonic_unscaled_directional_B(self.logR, self.y, g, self.lambda0, self.params, eps=eps) / np.array([radial_scale, energy_scale])
+
+        np.testing.assert_allclose(sonic_frozen_scaled_directional_B(self.logR, self.y, g, self.lambda0, self.params, eps=eps), expected)
+
+    def test_sonic_lhopital_residual_is_normalized_and_finite(self) -> None:
+        g = np.array([0.17, -0.44])
+        residual = sonic_lhopital_residual(self.logR, self.y, g, self.lambda0, self.params, eps=2.0e-5)
+
+        self.assertTrue(np.isfinite(residual))
+        self.assertLessEqual(abs(residual), 1.0 + 1.0e-12)
+
+    def test_sonic_lhopital_residual_forms_are_normalized_and_finite(self) -> None:
+        g = np.array([0.17, -0.44])
+        for form in ("scaled", "frozen_scaled", "raw"):
+            residual = sonic_lhopital_residual_form(self.logR, self.y, g, self.lambda0, self.params, eps=2.0e-5, form=form)
+            self.assertTrue(np.isfinite(residual), form)
+            self.assertLessEqual(abs(residual), 1.0 + 1.0e-12, form)
 
     def test_analytic_partials_match_finite_difference_partials(self) -> None:
         analytic = analytic_state_partials(self.logR, self.y, self.lambda0, self.params)

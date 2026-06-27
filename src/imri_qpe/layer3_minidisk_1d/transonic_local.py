@@ -66,6 +66,18 @@ class SonicDiagnostics:
     energy_scale: float
 
 
+@dataclass(frozen=True)
+class SonicNullVectors:
+    """SVD null-vector data for the scaled local sonic matrix."""
+
+    left_null: np.ndarray
+    right_null: np.ndarray
+    singular_values: np.ndarray
+    smin_over_smax: float
+    matrix: np.ndarray
+    rhs: np.ndarray
+
+
 def algebraic_state(logR: float, logu: float, logT: float, lambda0: float, params) -> AlgebraicTransonicState:
     """Return local algebraic state from ``x=ln R`` and ``y=[ln u, ln T]``."""
 
@@ -294,6 +306,125 @@ def scaled_differential_matrix(logR: float, y, lambda0: float, params) -> tuple[
     radial_scale, energy_scale = differential_residual_scales(logR, y, lambda0, params)
     scales = np.array([radial_scale, energy_scale], dtype=float)
     return A / scales[:, None], c / scales, radial_scale, energy_scale
+
+
+def local_unscaled_residual(logR: float, y, g, lambda0: float, params) -> np.ndarray:
+    """Return the unscaled local residual ``A @ g + c``."""
+
+    A, c = differential_matrix(logR, y, lambda0, params)
+    return A @ np.asarray(g, dtype=float) + c
+
+
+def local_scaled_residual(logR: float, y, g, lambda0: float, params) -> np.ndarray:
+    """Return the scaled local residual ``A @ g + c``."""
+
+    A, c, _radial_scale, _energy_scale = scaled_differential_matrix(logR, y, lambda0, params)
+    return A @ np.asarray(g, dtype=float) + c
+
+
+def _null_vectors_from_matrix(A: np.ndarray, c: np.ndarray, floor: float) -> SonicNullVectors:
+    U, singular_values, Vt = np.linalg.svd(A)
+    left_null = U[:, -1].copy()
+    left_orient_idx = int(np.argmax(np.abs(left_null)))
+    if left_null[left_orient_idx] < 0.0:
+        left_null = -left_null
+    right_null = Vt[-1, :].copy()
+    right_orient_idx = int(np.argmax(np.abs(right_null)))
+    if right_null[right_orient_idx] < 0.0:
+        right_null = -right_null
+    smax = float(np.max(singular_values))
+    smin = float(np.min(singular_values))
+    return SonicNullVectors(
+        left_null=left_null,
+        right_null=right_null,
+        singular_values=singular_values,
+        smin_over_smax=smin / (smax + floor),
+        matrix=A,
+        rhs=c,
+    )
+
+
+def sonic_unscaled_null_vectors(logR: float, y, lambda0: float, params, floor: float = 1.0e-300) -> SonicNullVectors:
+    """Return consistently oriented null vectors of the unscaled sonic matrix."""
+
+    A, c = differential_matrix(logR, y, lambda0, params)
+    return _null_vectors_from_matrix(A, c, floor)
+
+
+def sonic_null_vectors(logR: float, y, lambda0: float, params, floor: float = 1.0e-300) -> SonicNullVectors:
+    """Return consistently oriented null vectors of the scaled sonic matrix."""
+
+    A, c, _radial_scale, _energy_scale = scaled_differential_matrix(logR, y, lambda0, params)
+    return _null_vectors_from_matrix(A, c, floor)
+
+
+def sonic_directional_B(logR: float, y, g, lambda0: float, params, eps: float = 1.0e-5) -> np.ndarray:
+    """Return directional derivative of ``A(x,y)g+c(x,y)`` along ``dy/dx=g``."""
+
+    y = np.asarray(y, dtype=float)
+    g = np.asarray(g, dtype=float)
+    plus = local_scaled_residual(logR + eps, y + eps * g, g, lambda0, params)
+    minus = local_scaled_residual(logR - eps, y - eps * g, g, lambda0, params)
+    return (plus - minus) / (2.0 * eps)
+
+
+def sonic_unscaled_directional_B(logR: float, y, g, lambda0: float, params, eps: float = 1.0e-5) -> np.ndarray:
+    """Return directional derivative of the unscaled local residual."""
+
+    y = np.asarray(y, dtype=float)
+    g = np.asarray(g, dtype=float)
+    plus = local_unscaled_residual(logR + eps, y + eps * g, g, lambda0, params)
+    minus = local_unscaled_residual(logR - eps, y - eps * g, g, lambda0, params)
+    return (plus - minus) / (2.0 * eps)
+
+
+def sonic_frozen_scaled_directional_B(logR: float, y, g, lambda0: float, params, eps: float = 1.0e-5) -> np.ndarray:
+    """Return unscaled directional derivative divided by sonic-point scales."""
+
+    radial_scale, energy_scale = differential_residual_scales(logR, y, lambda0, params)
+    scales = np.array([radial_scale, energy_scale], dtype=float)
+    return sonic_unscaled_directional_B(logR, y, g, lambda0, params, eps=eps) / scales
+
+
+def sonic_lhopital_residual(
+    logR: float,
+    y,
+    g,
+    lambda0: float,
+    params,
+    eps: float = 1.0e-5,
+    floor: float = 1.0e-300,
+) -> float:
+    """Return normalized L'Hopital compatibility ``l.T @ B(g)``."""
+
+    nulls = sonic_null_vectors(logR, y, lambda0, params, floor=floor)
+    B = sonic_directional_B(logR, y, g, lambda0, params, eps=eps)
+    return float(np.dot(nulls.left_null, B) / (np.linalg.norm(B) + floor))
+
+
+def sonic_lhopital_residual_form(
+    logR: float,
+    y,
+    g,
+    lambda0: float,
+    params,
+    eps: float = 1.0e-5,
+    form: str = "scaled",
+    floor: float = 1.0e-300,
+) -> float:
+    """Return normalized L'Hopital residual for a selected equation scaling."""
+
+    if form == "scaled":
+        return sonic_lhopital_residual(logR, y, g, lambda0, params, eps=eps, floor=floor)
+    if form == "frozen_scaled":
+        nulls = sonic_null_vectors(logR, y, lambda0, params, floor=floor)
+        B = sonic_frozen_scaled_directional_B(logR, y, g, lambda0, params, eps=eps)
+    elif form == "raw":
+        nulls = sonic_unscaled_null_vectors(logR, y, lambda0, params, floor=floor)
+        B = sonic_unscaled_directional_B(logR, y, g, lambda0, params, eps=eps)
+    else:
+        raise ValueError(f"unknown L'Hopital form {form!r}")
+    return float(np.dot(nulls.left_null, B) / (np.linalg.norm(B) + floor))
 
 
 def local_gradient(logR: float, y, lambda0: float, params) -> np.ndarray:
