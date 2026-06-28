@@ -13,11 +13,13 @@ from imri_qpe.layer3_minidisk_1d import (
     differential_residual_scales,
     differential_residual,
     finite_difference_state_partials,
+    extended_phase_space_matrix,
     integrated_stress,
     local_gradient,
     local_ode_rhs,
     local_scaled_residual,
     local_unscaled_residual,
+    phase_space_null_tangent,
     radiative_cooling,
     scaled_differential_matrix,
     sonic_directional_B,
@@ -210,6 +212,29 @@ class TransonicLocalTests(unittest.TestCase):
         residual = local_scaled_residual(self.logR, self.y, g, self.lambda0, self.params)
 
         self.assertLess(float(np.max(np.abs(residual))), 1.0e-7)
+
+    def test_phase_space_matrix_tangent_solves_null_equation(self) -> None:
+        diagnostics = phase_space_null_tangent(self.logR, self.y, self.lambda0, self.params)
+        B, _A, _c = extended_phase_space_matrix(self.logR, self.y, self.lambda0, self.params)
+
+        self.assertEqual(B.shape, (2, 3))
+        np.testing.assert_allclose(B @ diagnostics.tangent, diagnostics.residual)
+        self.assertLess(float(np.max(np.abs(diagnostics.residual))), 1.0e-10)
+        self.assertAlmostEqual(float(np.linalg.norm(diagnostics.tangent)), 1.0)
+        self.assertGreater(diagnostics.px, 0.0)
+
+    def test_phase_space_tangent_matches_radial_ode_away_from_criticality(self) -> None:
+        diagnostics = phase_space_null_tangent(self.logR, self.y, self.lambda0, self.params)
+        g = local_ode_rhs(self.logR, self.y, self.lambda0, self.params)
+        implied = diagnostics.tangent[1:] / diagnostics.tangent[0]
+
+        np.testing.assert_allclose(implied, g, rtol=1.0e-8, atol=1.0e-10)
+
+    def test_phase_space_tangent_orients_with_previous(self) -> None:
+        first = phase_space_null_tangent(self.logR, self.y, self.lambda0, self.params)
+        second = phase_space_null_tangent(self.logR, self.y, self.lambda0, self.params, previous=-first.tangent)
+
+        np.testing.assert_allclose(second.tangent, -first.tangent)
 
     def test_sonic_diagnostics_are_finite(self) -> None:
         diagnostics = sonic_diagnostics(self.logR, self.y, self.lambda0, self.params)

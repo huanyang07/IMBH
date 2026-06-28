@@ -91,6 +91,20 @@ class SonicDerivativeBranch:
     lhopital_normalized: float
 
 
+@dataclass(frozen=True)
+class PhaseSpaceTangentDiagnostics:
+    """Diagnostics for the desingularized phase-space tangent."""
+
+    tangent: np.ndarray
+    B: np.ndarray
+    residual: np.ndarray
+    singular_values_B: np.ndarray
+    smin_over_smax_B: float
+    singular_values_A: np.ndarray
+    smin_over_smax_A: float
+    px: float
+
+
 def algebraic_state(logR: float, logu: float, logT: float, lambda0: float, params) -> AlgebraicTransonicState:
     """Return local algebraic state from ``x=ln R`` and ``y=[ln u, ln T]``."""
 
@@ -319,6 +333,83 @@ def scaled_differential_matrix(logR: float, y, lambda0: float, params) -> tuple[
     radial_scale, energy_scale = differential_residual_scales(logR, y, lambda0, params)
     scales = np.array([radial_scale, energy_scale], dtype=float)
     return A / scales[:, None], c / scales, radial_scale, energy_scale
+
+
+def extended_phase_space_matrix(logR: float, y, lambda0: float, params) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Return ``B=[c A]`` for the phase-space curve equation ``B p = 0``.
+
+    The phase-space tangent is ``p = [dx/ds, dlogu/ds, dlogT/ds]``. Away from
+    critical points, a tangent with ``p_x != 0`` is equivalent to the usual
+    radial ODE gradient ``dy/dx = p_y / p_x``.
+    """
+
+    A, c, _radial_scale, _energy_scale = scaled_differential_matrix(logR, y, lambda0, params)
+    return np.column_stack([c, A]), A, c
+
+
+def _metric_array(metric, size: int) -> np.ndarray:
+    if metric is None:
+        return np.eye(size)
+    metric_array = np.asarray(metric, dtype=float)
+    if metric_array.shape == (size,):
+        return np.diag(metric_array)
+    if metric_array.shape == (size, size):
+        return metric_array
+    raise ValueError(f"metric must have shape ({size},) or ({size}, {size})")
+
+
+def _metric_dot(a: np.ndarray, b: np.ndarray, metric: np.ndarray) -> float:
+    return float(np.dot(a, metric @ b))
+
+
+def phase_space_null_tangent(
+    logR: float,
+    y,
+    lambda0: float,
+    params,
+    *,
+    metric=None,
+    previous=None,
+    prefer_positive_x: bool = True,
+    floor: float = 1.0e-300,
+) -> PhaseSpaceTangentDiagnostics:
+    """Return the normalized right-null tangent of ``B=[c A]``.
+
+    The tangent is oriented continuously against ``previous`` when supplied.
+    Otherwise it is oriented with positive ``p_x`` by default.
+    """
+
+    B, A, _c = extended_phase_space_matrix(logR, y, lambda0, params)
+    U_B, singular_values_B, Vt_B = np.linalg.svd(B, full_matrices=True)
+    tangent = np.asarray(Vt_B[-1, :], dtype=float)
+    metric_array = _metric_array(metric, 3)
+    norm = float(np.sqrt(max(_metric_dot(tangent, tangent, metric_array), floor)))
+    tangent = tangent / norm
+    if previous is not None:
+        previous_array = np.asarray(previous, dtype=float)
+        if previous_array.shape != (3,):
+            raise ValueError("previous tangent must have shape (3,)")
+        if _metric_dot(tangent, previous_array, metric_array) < 0.0:
+            tangent = -tangent
+    elif prefer_positive_x and tangent[0] < 0.0:
+        tangent = -tangent
+
+    singular_values_A = np.linalg.svd(A, compute_uv=False)
+    smax_B = float(np.max(singular_values_B)) if singular_values_B.size else 0.0
+    smin_B = float(np.min(singular_values_B)) if singular_values_B.size else 0.0
+    smax_A = float(np.max(singular_values_A)) if singular_values_A.size else 0.0
+    smin_A = float(np.min(singular_values_A)) if singular_values_A.size else 0.0
+    residual = B @ tangent
+    return PhaseSpaceTangentDiagnostics(
+        tangent=tangent,
+        B=B,
+        residual=np.asarray(residual, dtype=float),
+        singular_values_B=np.asarray(singular_values_B, dtype=float),
+        smin_over_smax_B=smin_B / (smax_B + floor),
+        singular_values_A=np.asarray(singular_values_A, dtype=float),
+        smin_over_smax_A=smin_A / (smax_A + floor),
+        px=float(tangent[0]),
+    )
 
 
 def local_unscaled_residual(logR: float, y, g, lambda0: float, params) -> np.ndarray:
