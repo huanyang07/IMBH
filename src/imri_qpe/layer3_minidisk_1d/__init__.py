@@ -115,6 +115,7 @@ from .transonic_continuation import (
 )
 from .transonic_local import (
     AlgebraicTransonicState,
+    B_rank_minors,
     LocalPartials,
     PhaseSpaceTangentDiagnostics,
     SonicDiagnostics,
@@ -133,6 +134,7 @@ from .transonic_local import (
     local_scaled_residual,
     local_unscaled_residual,
     phase_space_null_tangent,
+    phase_space_tangent_derivative,
     scaled_differential_matrix,
     sonic_directional_B,
     sonic_frozen_scaled_directional_B,
@@ -158,6 +160,7 @@ from .winds import energy_limited_wind, q_available, q_edd_vertical, wind_energy
 
 __all__ = [
     "AlgebraicTransonicState",
+    "B_rank_minors",
     "DiffusionStepResult",
     "EnergyResidualMetrics",
     "GlobalSlimParams",
@@ -245,6 +248,7 @@ __all__ = [
     "pointwise_energy_residual",
     "pack_state",
     "phase_space_null_tangent",
+    "phase_space_tangent_derivative",
     "pressure_supported_omega_target",
     "profile_from_state_vector",
     "prescribed_scurve_step",

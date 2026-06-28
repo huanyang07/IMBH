@@ -347,6 +347,20 @@ def extended_phase_space_matrix(logR: float, y, lambda0: float, params) -> tuple
     return np.column_stack([c, A]), A, c
 
 
+def B_rank_minors(logR: float, y, lambda0: float, params) -> np.ndarray:
+    """Return the three ``2x2`` minors of the phase-space matrix ``B=[c A]``."""
+
+    B, _A, _c = extended_phase_space_matrix(logR, y, lambda0, params)
+    return np.asarray(
+        [
+            B[0, 0] * B[1, 1] - B[0, 1] * B[1, 0],
+            B[0, 0] * B[1, 2] - B[0, 2] * B[1, 0],
+            B[0, 1] * B[1, 2] - B[0, 2] * B[1, 1],
+        ],
+        dtype=float,
+    )
+
+
 def _metric_array(metric, size: int) -> np.ndarray:
     if metric is None:
         return np.eye(size)
@@ -410,6 +424,43 @@ def phase_space_null_tangent(
         smin_over_smax_A=smin_A / (smax_A + floor),
         px=float(tangent[0]),
     )
+
+
+def phase_space_tangent_derivative(
+    logR: float,
+    y,
+    lambda0: float,
+    params,
+    p,
+    *,
+    metric=None,
+    eps: float = 1.0e-5,
+) -> np.ndarray:
+    """Return centered finite-difference derivative of the tangent field along ``p``."""
+
+    z = np.asarray([logR, *np.asarray(y, dtype=float)], dtype=float)
+    tangent = np.asarray(p, dtype=float)
+    if tangent.shape != (3,):
+        raise ValueError("p must have shape (3,)")
+    z_plus = z + eps * tangent
+    z_minus = z - eps * tangent
+    p_plus = phase_space_null_tangent(
+        float(z_plus[0]),
+        z_plus[1:],
+        lambda0,
+        params,
+        metric=metric,
+        previous=tangent,
+    ).tangent
+    p_minus = phase_space_null_tangent(
+        float(z_minus[0]),
+        z_minus[1:],
+        lambda0,
+        params,
+        metric=metric,
+        previous=tangent,
+    ).tangent
+    return (p_plus - p_minus) / (2.0 * eps)
 
 
 def local_unscaled_residual(logR: float, y, g, lambda0: float, params) -> np.ndarray:

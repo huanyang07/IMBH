@@ -6,6 +6,7 @@ import unittest
 import numpy as np
 
 from imri_qpe.layer3_minidisk_1d import (
+    B_rank_minors,
     PaczynskiWiitaPotential,
     algebraic_state,
     analytic_state_partials,
@@ -20,6 +21,7 @@ from imri_qpe.layer3_minidisk_1d import (
     local_scaled_residual,
     local_unscaled_residual,
     phase_space_null_tangent,
+    phase_space_tangent_derivative,
     radiative_cooling,
     scaled_differential_matrix,
     sonic_directional_B,
@@ -235,6 +237,37 @@ class TransonicLocalTests(unittest.TestCase):
         second = phase_space_null_tangent(self.logR, self.y, self.lambda0, self.params, previous=-first.tangent)
 
         np.testing.assert_allclose(second.tangent, -first.tangent)
+
+    def test_B_rank_minors_match_cross_product(self) -> None:
+        B, _A, _c = extended_phase_space_matrix(self.logR, self.y, self.lambda0, self.params)
+        minors = B_rank_minors(self.logR, self.y, self.lambda0, self.params)
+        expected = np.array(
+            [
+                B[0, 0] * B[1, 1] - B[0, 1] * B[1, 0],
+                B[0, 0] * B[1, 2] - B[0, 2] * B[1, 0],
+                B[0, 1] * B[1, 2] - B[0, 2] * B[1, 1],
+            ],
+            dtype=float,
+        )
+
+        np.testing.assert_allclose(minors, expected)
+        self.assertEqual(minors.shape, (3,))
+
+    def test_phase_space_tangent_derivative_matches_centered_difference(self) -> None:
+        eps = 2.0e-5
+        diagnostics = phase_space_null_tangent(self.logR, self.y, self.lambda0, self.params)
+        tangent = diagnostics.tangent
+        z = np.array([self.logR, *self.y], dtype=float)
+        plus = z + eps * tangent
+        minus = z - eps * tangent
+        p_plus = phase_space_null_tangent(plus[0], plus[1:], self.lambda0, self.params, previous=tangent).tangent
+        p_minus = phase_space_null_tangent(minus[0], minus[1:], self.lambda0, self.params, previous=tangent).tangent
+        expected = (p_plus - p_minus) / (2.0 * eps)
+
+        np.testing.assert_allclose(
+            phase_space_tangent_derivative(self.logR, self.y, self.lambda0, self.params, tangent, eps=eps),
+            expected,
+        )
 
     def test_sonic_diagnostics_are_finite(self) -> None:
         diagnostics = sonic_diagnostics(self.logR, self.y, self.lambda0, self.params)
