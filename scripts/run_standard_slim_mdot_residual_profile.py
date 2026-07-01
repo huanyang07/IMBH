@@ -57,6 +57,11 @@ TOP_N = int(os.environ.get("IMBH_STANDARD_SLIM_MDOT_RESIDUAL_PROFILE_TOP_N", "8"
 
 
 def params_for_checkpoint(fiducial: FiducialParams, mdot_edd: float, data) -> TransonicSlimParams:
+    custom_grid_xi = None
+    if "custom_grid_xi" in data:
+        candidate_grid = np.asarray(data["custom_grid_xi"], dtype=float)
+        if candidate_grid.shape == (int(data["n_nodes"]),):
+            custom_grid_xi = tuple(float(value) for value in candidate_grid)
     return TransonicSlimParams(
         M2_g=fiducial.M2_g,
         Mdot_g_s=float(data["ratio"]) * mdot_edd,
@@ -65,6 +70,17 @@ def params_for_checkpoint(fiducial: FiducialParams, mdot_edd: float, data) -> Tr
         stress_factor=STRESS_FACTOR,
         R_out_rg=float(data["R_out_rg"]),
         n_nodes=int(data["n_nodes"]),
+        grid_power=float(data["grid_power"]) if "grid_power" in data else 1.0,
+        custom_grid_xi=custom_grid_xi,
+        outer_temperature_logT=float(data["outer_temperature_logT"])
+        if "outer_temperature_logT" in data and np.isfinite(float(data["outer_temperature_logT"]))
+        else None,
+        outer_entropy_logK=float(data["outer_entropy_logK"])
+        if "outer_entropy_logK" in data and np.isfinite(float(data["outer_entropy_logK"]))
+        else None,
+        outer_omega_log_offset=float(data["outer_omega_log_offset"])
+        if "outer_omega_log_offset" in data and np.isfinite(float(data["outer_omega_log_offset"]))
+        else 0.0,
         residual_tol=1.0e-8,
         max_nfev=1,
         outer_closure="thin_value",
@@ -86,6 +102,10 @@ def load_case(label: str, path: Path, fiducial: FiducialParams, mdot_edd: float)
             candidate = np.asarray(data["outer_match_log_slopes"], dtype=float)
             if candidate.shape == (2,) and np.all(np.isfinite(candidate)):
                 slopes = (float(candidate[0]), float(candidate[1]))
+        if slopes is None and outer_closure == "pressure_supported_thin_energy":
+            logu, logT, _logR_son, _lambda0, logR = unpack_state(z, params)
+            dx = float(logR[-1] - logR[-2])
+            slopes = (float((logu[-1] - logu[-2]) / dx), float((logT[-1] - logT[-2]) / dx))
         params = replace(params, outer_closure=outer_closure, outer_match_log_slopes=slopes)
     return z, params
 
@@ -193,6 +213,7 @@ def summary_row(label: str, z: np.ndarray, params: TransonicSlimParams, interval
     residual = collocation_residual(z, params)
     intervals = np.asarray([[row["interval_R"], row["interval_E"]] for row in interval_rows], dtype=float)
     peak_idx = int(np.argmax(np.abs(intervals[:, 0])))
+    peak_E_idx = int(np.argmax(np.abs(intervals[:, 1])))
     audit = __import__("imri_qpe.layer3_minidisk_1d", fromlist=["residual_audit_from_state_vector"]).residual_audit_from_state_vector(z, params)
     return {
         "case": label,
@@ -205,8 +226,13 @@ def summary_row(label: str, z: np.ndarray, params: TransonicSlimParams, interval
         "peak_interval_R_index": int(peak_idx),
         "peak_interval_R_rg": float(interval_rows[peak_idx]["R_mid_rg"]),
         "peak_interval_R_value": float(interval_rows[peak_idx]["interval_R"]),
+        "peak_interval_E_index": int(peak_E_idx),
+        "peak_interval_E_rg": float(interval_rows[peak_E_idx]["R_mid_rg"]),
+        "peak_interval_E_value": float(interval_rows[peak_E_idx]["interval_E"]),
         "median_abs_interval_R": float(np.median(np.abs(intervals[:, 0]))),
+        "median_abs_interval_E": float(np.median(np.abs(intervals[:, 1]))),
         "p90_abs_interval_R": float(np.quantile(np.abs(intervals[:, 0]), 0.9)),
+        "p90_abs_interval_E": float(np.quantile(np.abs(intervals[:, 1]), 0.9)),
         "max_condA": float(max(row["condA"] for row in interval_rows)),
         "min_smin_over_smax_A": float(min(row["smin_over_smax_A"] for row in interval_rows)),
         "max_abs_delta_logu_anchor": float(max(abs(row["delta_logu_anchor"]) for row in interval_rows)),
@@ -223,14 +249,15 @@ def write_table(summary_rows: list[dict[str, object]], interval_rows: list[dict[
         "",
         "Rows localize differential interval residuals for accepted and failed Mdot-continuation checkpoints.",
         "",
-        "| case | accepted | Mdot/Edd | full | dominant | max abs int R | median abs int R | p90 abs int R | peak R/rg | peak int R | max condA | max abs dlogu | max abs dlogT |",
-        "|---|:---:|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "| case | accepted | Mdot/Edd | full | dominant | max abs int R | max abs int E | peak R_R/rg | peak int R | peak R_E/rg | peak int E | median abs int E | p90 abs int E | max condA | max abs dlogu | max abs dlogT |",
+        "|---|:---:|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in summary_rows:
         formatted = {key: fmt(value) if isinstance(value, (float, int, np.floating, np.integer)) else value for key, value in row.items()}
         lines.append(
-            "| {case} | {accepted} | {ratio} | {full} | {dominant} | {max_abs_interval_R} | {median_abs_interval_R} | "
-            "{p90_abs_interval_R} | {peak_interval_R_rg} | {peak_interval_R_value} | {max_condA} | "
+            "| {case} | {accepted} | {ratio} | {full} | {dominant} | {max_abs_interval_R} | {max_abs_interval_E} | "
+            "{peak_interval_R_rg} | {peak_interval_R_value} | {peak_interval_E_rg} | {peak_interval_E_value} | "
+            "{median_abs_interval_E} | {p90_abs_interval_E} | {max_condA} | "
             "{max_abs_delta_logu_anchor} | {max_abs_delta_logT_anchor} |".format(**formatted)
         )
     lines.extend(
@@ -245,6 +272,24 @@ def write_table(summary_rows: list[dict[str, object]], interval_rows: list[dict[
     for case in [row["case"] for row in summary_rows]:
         selected = [row for row in interval_rows if row["case"] == case]
         selected = sorted(selected, key=lambda row: abs(float(row["interval_R"])), reverse=True)[:TOP_N]
+        for row in selected:
+            formatted = {key: fmt(value) if isinstance(value, (float, int, np.floating, np.integer)) else value for key, value in row.items()}
+            lines.append(
+                "| {case} | {interval} | {R_mid_rg} | {interval_R} | {interval_E} | {delta_logu_anchor} | "
+                "{delta_logT_anchor} | {Omega_frac} | {pressure_frac} | {Qadv_Qvisc} | {H_R} | {condA} |".format(**formatted)
+            )
+    lines.extend(
+        [
+            "",
+            f"## Top {TOP_N} interval_E peaks per case",
+            "",
+            "| case | interval | R_mid/rg | interval_R | interval_E | dlogu anchor | dlogT anchor | Omega frac | pressure frac | Qadv/Qvisc | H/R | condA |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for case in [row["case"] for row in summary_rows]:
+        selected = [row for row in interval_rows if row["case"] == case]
+        selected = sorted(selected, key=lambda row: abs(float(row["interval_E"])), reverse=True)[:TOP_N]
         for row in selected:
             formatted = {key: fmt(value) if isinstance(value, (float, int, np.floating, np.integer)) else value for key, value in row.items()}
             lines.append(

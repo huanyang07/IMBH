@@ -39,6 +39,7 @@ class TransonicSlimParams:
     R_out_rg: float = 1000.0
     n_nodes: int = 48
     grid_power: float = 1.0
+    custom_grid_xi: tuple[float, ...] | None = None
     partial_eps: float = 1.0e-5
     logu_bounds: tuple[float, float] = (np.log(1.0e-2), np.log(1.5 * C))
     logT_bounds: tuple[float, float] = (np.log(1.0e3), np.log(1.0e10))
@@ -46,6 +47,9 @@ class TransonicSlimParams:
     lambda0_bounds: tuple[float, float] = (0.01, 12.0)
     outer_closure: str = "thin_value"
     outer_match_log_slopes: tuple[float, float] | None = None
+    outer_temperature_logT: float | None = None
+    outer_entropy_logK: float | None = None
+    outer_omega_log_offset: float = 0.0
     interval_residual_form: str = "differential"
     integrated_residual_weighting: str = "none"
     max_nfev: int = 400
@@ -74,6 +78,16 @@ class TransonicSlimParams:
             raise ValueError("n_nodes must be at least four")
         if self.grid_power <= 0.0:
             raise ValueError("grid_power must be positive")
+        if self.custom_grid_xi is not None:
+            xi = np.asarray(self.custom_grid_xi, dtype=float)
+            if xi.shape != (self.n_nodes,):
+                raise ValueError("custom_grid_xi must have one entry per node")
+            if not np.all(np.isfinite(xi)):
+                raise ValueError("custom_grid_xi entries must be finite")
+            if not np.isclose(xi[0], 0.0) or not np.isclose(xi[-1], 1.0):
+                raise ValueError("custom_grid_xi must start at 0 and end at 1")
+            if np.any(np.diff(xi) <= 0.0):
+                raise ValueError("custom_grid_xi must be strictly increasing")
         if self.partial_eps <= 0.0:
             raise ValueError("partial_eps must be positive")
         if self.logu_bounds[1] <= self.logu_bounds[0]:
@@ -84,11 +98,27 @@ class TransonicSlimParams:
             raise ValueError("R_son_bounds_rg must be outside the pseudo-horizon and increasing")
         if self.lambda0_bounds[1] <= self.lambda0_bounds[0]:
             raise ValueError("lambda0_bounds must be increasing")
-        if self.outer_closure not in {"thin_value", "pressure_supported_thin_energy", "matched_outer_state", "full_slope_match"}:
+        if self.outer_closure not in {
+            "thin_value",
+            "pressure_supported_thin_energy",
+            "pressure_supported_temperature",
+            "pressure_supported_entropy",
+            "matched_outer_state",
+            "full_slope_match",
+        }:
             raise ValueError(
                 "outer_closure must be 'thin_value', 'pressure_supported_thin_energy', "
+                "'pressure_supported_temperature', 'pressure_supported_entropy', "
                 "'matched_outer_state', or 'full_slope_match'"
             )
+        if self.outer_closure == "pressure_supported_temperature":
+            if self.outer_temperature_logT is None or not np.isfinite(float(self.outer_temperature_logT)):
+                raise ValueError("pressure_supported_temperature requires finite outer_temperature_logT")
+        if self.outer_closure == "pressure_supported_entropy":
+            if self.outer_entropy_logK is None or not np.isfinite(float(self.outer_entropy_logK)):
+                raise ValueError("pressure_supported_entropy requires finite outer_entropy_logK")
+        if not np.isfinite(float(self.outer_omega_log_offset)):
+            raise ValueError("outer_omega_log_offset must be finite")
         if self.interval_residual_form not in {"differential", "integrated"}:
             raise ValueError("interval_residual_form must be 'differential' or 'integrated'")
         if self.integrated_residual_weighting not in {"none", "inverse_sqrt_dx", "inverse_dx"}:
@@ -276,8 +306,11 @@ class TransonicSquarePolishResult:
 def computational_grid(params: TransonicSlimParams, logR_son: float) -> np.ndarray:
     """Return collocation node positions in ``ln R``."""
 
-    xi = np.linspace(0.0, 1.0, params.n_nodes)
-    mapped = xi**params.grid_power
+    if params.custom_grid_xi is None:
+        xi = np.linspace(0.0, 1.0, params.n_nodes)
+        mapped = xi**params.grid_power
+    else:
+        mapped = np.asarray(params.custom_grid_xi, dtype=float)
     return logR_son + mapped * (np.log(params.R_out) - logR_son)
 
 
@@ -434,8 +467,42 @@ def _outer_pressure_supported_boundary_residual(logR: float, y, lambda0: float, 
     g_match = params.outer_match_log_slopes
     if g_match is None:
         g_match = reduced_outer_log_slopes(params, lambda0)
-    target = pressure_supported_omega_target(logR, y, g_match, lambda0, params)
+    target = pressure_supported_omega_target(logR, y, g_match, lambda0, params) + float(params.outer_omega_log_offset)
     return np.asarray([thin[0] - target, thin[1]], dtype=float)
+
+
+def _pressure_supported_omega_residual(logR: float, y, lambda0: float, params: TransonicSlimParams) -> float:
+    thin = _outer_thin_boundary_residual(logR, y, lambda0, params)
+    g_match = params.outer_match_log_slopes
+    if g_match is None:
+        g_match = reduced_outer_log_slopes(params, lambda0)
+    target = pressure_supported_omega_target(logR, y, g_match, lambda0, params) + float(params.outer_omega_log_offset)
+    return float(thin[0] - target)
+
+
+def _outer_entropy_proxy(logR: float, y, lambda0: float, params: TransonicSlimParams) -> float:
+    state = algebraic_state(logR, float(y[0]), float(y[1]), lambda0, params)
+    return float(np.log(state.P + 1.0e-300) - params.gamma_gas * np.log(state.rho + 1.0e-300))
+
+
+def _outer_pressure_temperature_boundary_residual(logR: float, y, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
+    return np.asarray(
+        [
+            _pressure_supported_omega_residual(logR, y, lambda0, params),
+            float(y[1] - float(params.outer_temperature_logT)),
+        ],
+        dtype=float,
+    )
+
+
+def _outer_pressure_entropy_boundary_residual(logR: float, y, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
+    return np.asarray(
+        [
+            _pressure_supported_omega_residual(logR, y, lambda0, params),
+            _outer_entropy_proxy(logR, y, lambda0, params) - float(params.outer_entropy_logK),
+        ],
+        dtype=float,
+    )
 
 
 def _scaled_local_differential_residual(logR: float, y, g_match, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
@@ -513,6 +580,10 @@ def _outer_boundary_residual(logR: float, y, lambda0: float, params: TransonicSl
         return _outer_thin_boundary_residual(logR, y, lambda0, params)
     if params.outer_closure == "pressure_supported_thin_energy":
         return _outer_pressure_supported_boundary_residual(logR, y, lambda0, params)
+    if params.outer_closure == "pressure_supported_temperature":
+        return _outer_pressure_temperature_boundary_residual(logR, y, lambda0, params)
+    if params.outer_closure == "pressure_supported_entropy":
+        return _outer_pressure_entropy_boundary_residual(logR, y, lambda0, params)
     if params.outer_closure == "matched_outer_state":
         return _outer_matched_state_boundary_residual(logR, y, lambda0, params)
     if params.outer_closure == "full_slope_match":

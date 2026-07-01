@@ -82,6 +82,33 @@ class TransonicCollocationTests(unittest.TestCase):
         self.assertLess(clustered_logR[1] - clustered_logR[0], uniform_logR[1] - uniform_logR[0])
         self.assertTrue(np.all(np.diff(clustered_logR) > 0.0))
 
+    def test_custom_grid_xi_sets_node_positions(self) -> None:
+        custom_xi = tuple(np.linspace(0.0, 1.0, self.params.n_nodes) ** 0.5)
+        custom = replace(self.params, custom_grid_xi=custom_xi)
+        logR_son = np.log(self.params.potential.r_isco)
+        custom_logR = computational_grid(custom, logR_son)
+        expected = logR_son + np.asarray(custom_xi) * (np.log(custom.R_out) - logR_son)
+
+        np.testing.assert_allclose(custom_logR, expected)
+        self.assertTrue(np.all(np.diff(custom_logR) > 0.0))
+
+    def test_custom_grid_xi_must_be_valid(self) -> None:
+        with self.assertRaises(ValueError):
+            replace(self.params, custom_grid_xi=(0.0, 0.5, 1.0))
+        bad = tuple(np.linspace(0.0, 1.0, self.params.n_nodes))
+        bad = bad[:-2] + (bad[-1], bad[-2])
+        with self.assertRaises(ValueError):
+            replace(self.params, custom_grid_xi=bad)
+
+    def test_pressure_supported_thermal_closures_require_targets(self) -> None:
+        with self.assertRaises(ValueError):
+            replace(self.params, outer_closure="pressure_supported_temperature")
+        with self.assertRaises(ValueError):
+            replace(self.params, outer_closure="pressure_supported_entropy")
+
+        replace(self.params, outer_closure="pressure_supported_temperature", outer_temperature_logT=np.log(1.0e6))
+        replace(self.params, outer_closure="pressure_supported_entropy", outer_entropy_logK=1.0)
+
     def test_state_bounds_match_unknown_vector(self) -> None:
         lower, upper = state_bounds(self.params)
 
@@ -131,6 +158,21 @@ class TransonicCollocationTests(unittest.TestCase):
         self.assertTrue(np.all(np.isfinite(residual)))
         self.assertTrue(np.isfinite(target))
         self.assertLess(abs(target), 1.0)
+
+    def test_outer_omega_log_offset_shifts_pressure_supported_target(self) -> None:
+        base = replace(
+            self.params,
+            outer_closure="pressure_supported_thin_energy",
+            outer_match_log_slopes=(-1.5, -0.75),
+        )
+        shifted = replace(base, outer_omega_log_offset=0.01)
+        pivot = select_sonic_compatibility_pivot(self.z, base)
+        base_residual = square_collocation_residual(self.z, base, pivot=pivot)
+        shifted_residual = square_collocation_residual(self.z, shifted, pivot=pivot)
+        outer_row = 2 * (self.params.n_nodes - 1)
+
+        self.assertAlmostEqual(float(shifted_residual[outer_row] - base_residual[outer_row]), -0.01)
+        self.assertAlmostEqual(float(shifted_residual[outer_row + 1] - base_residual[outer_row + 1]), 0.0)
 
     def test_matched_outer_state_closure_is_opt_in_and_finite(self) -> None:
         params = replace(

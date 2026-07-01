@@ -82,6 +82,7 @@ NEWTON_LINEAR_SOLVER = os.environ.get("IMBH_STANDARD_SLIM_MESH_CLOSURE_NEWTON_LI
 LSQ_FALLBACK_NFEV = int(os.environ.get("IMBH_STANDARD_SLIM_MESH_CLOSURE_LSQ_FALLBACK_NFEV", "0"))
 ACCEPTANCE_TOL = float(os.environ.get("IMBH_STANDARD_SLIM_MESH_CLOSURE_ACCEPTANCE_TOL", "1e-5"))
 ANCHOR_TOL = float(os.environ.get("IMBH_STANDARD_SLIM_MESH_CLOSURE_ANCHOR_TOL", "3e-6"))
+GRID_POWER = float(os.environ.get("IMBH_STANDARD_SLIM_MESH_CLOSURE_GRID_POWER", "1.0"))
 
 
 def parse_case_specs() -> list[tuple[str, Path]]:
@@ -101,6 +102,8 @@ def params_for(
     R_out_rg: float,
     n_nodes: int,
     *,
+    grid_power: float | None = None,
+    custom_grid_xi: tuple[float, ...] | None = None,
     outer_closure: str = "thin_value",
     outer_match_log_slopes: tuple[float, float] | None = None,
 ) -> TransonicSlimParams:
@@ -112,6 +115,8 @@ def params_for(
         stress_factor=STRESS_FACTOR,
         R_out_rg=float(R_out_rg),
         n_nodes=int(n_nodes),
+        grid_power=GRID_POWER if grid_power is None else float(grid_power),
+        custom_grid_xi=custom_grid_xi,
         max_nfev=max(NEWTON_MAX_NFEV, LSQ_FALLBACK_NFEV, 1),
         residual_tol=1.0e-8,
         outer_closure=outer_closure,
@@ -126,7 +131,21 @@ def load_checkpoint(path: Path, fiducial: FiducialParams, mdot_edd: float) -> tu
         raise FileNotFoundError(path)
     data = np.load(path, allow_pickle=True)
     z = np.asarray(data["z"], dtype=float)
-    params = params_for(fiducial, mdot_edd, float(data["ratio"]), float(data["R_out_rg"]), int(data["n_nodes"]))
+    source_grid_power = float(data["grid_power"]) if "grid_power" in data else 1.0
+    custom_grid_xi = None
+    if "custom_grid_xi" in data:
+        candidate_grid = np.asarray(data["custom_grid_xi"], dtype=float)
+        if candidate_grid.shape == (int(data["n_nodes"]),):
+            custom_grid_xi = tuple(float(value) for value in candidate_grid)
+    params = params_for(
+        fiducial,
+        mdot_edd,
+        float(data["ratio"]),
+        float(data["R_out_rg"]),
+        int(data["n_nodes"]),
+        grid_power=source_grid_power,
+        custom_grid_xi=custom_grid_xi,
+    )
     return z, params
 
 
@@ -168,7 +187,12 @@ def closure_config(name: str, source_z: np.ndarray, source_params: TransonicSlim
 
 
 def remap_seed(source_z: np.ndarray, source_params: TransonicSlimParams, target_params: TransonicSlimParams) -> np.ndarray:
-    if source_params.n_nodes == target_params.n_nodes and np.isclose(source_params.R_out_rg, target_params.R_out_rg):
+    if (
+        source_params.n_nodes == target_params.n_nodes
+        and np.isclose(source_params.R_out_rg, target_params.R_out_rg)
+        and np.isclose(source_params.grid_power, target_params.grid_power)
+        and source_params.custom_grid_xi == target_params.custom_grid_xi
+    ):
         return np.array(source_z, copy=True)
     profile = transonic_profile_from_state_vector(source_z, source_params)
     return remap_profile_to_new_sonic_grid(profile, target_params, temperature_mdot_power=0.0)
@@ -194,7 +218,9 @@ def outer_pressure_diagnostic(z: np.ndarray, params: TransonicSlimParams) -> dic
     y = np.array([logu[-1], logT[-1]], dtype=float)
     profile = transonic_profile_from_state_vector(z, params)
     ln_omega = float(np.log(profile.Omega[-1] / profile.Omega_K[-1]))
-    target = pressure_supported_omega_target(float(logR[-1]), y, np.asarray(slopes, dtype=float), lambda0, params)
+    target = pressure_supported_omega_target(float(logR[-1]), y, np.asarray(slopes, dtype=float), lambda0, params) + float(
+        params.outer_omega_log_offset
+    )
     return {
         "outer_lnOmega_OmegaK": ln_omega,
         "outer_pressure_target": float(target),
@@ -270,6 +296,8 @@ def row_for_result(
         "R_out_rg": float(target_params.R_out_rg),
         "source_N": int(source_params.n_nodes),
         "N": int(target_params.n_nodes),
+        "grid_power": float(target_params.grid_power),
+        "custom_grid": bool(target_params.custom_grid_xi is not None),
         "closure_spec": closure_spec,
         "outer_closure": target_params.outer_closure,
         "slope_source": slope_source,
@@ -321,6 +349,10 @@ def save_checkpoint(row: dict[str, object], params: TransonicSlimParams) -> None
         ratio=np.array(row["ratio"]),
         R_out_rg=np.array(row["R_out_rg"]),
         n_nodes=np.array(row["N"]),
+        grid_power=np.array(params.grid_power),
+        custom_grid_xi=np.asarray(params.custom_grid_xi, dtype=float)
+        if params.custom_grid_xi is not None
+        else np.asarray([], dtype=float),
         outer_closure=np.array(params.outer_closure),
         row_json=np.array(json.dumps(json_safe(payload), sort_keys=True)),
     )
@@ -335,15 +367,15 @@ def write_table(rows: list[dict[str, object]]) -> None:
         "",
         f"Config: N values `{','.join(str(value) for value in N_VALUES)}`, closures `{','.join(CLOSURE_SPECS)}`, "
         f"pivots `{','.join(PIVOTS)}`, Newton solver `{NEWTON_LINEAR_SOLVER}`, Newton max iter `{NEWTON_MAX_ITER}`, "
-        f"LSQ fallback nfev `{LSQ_FALLBACK_NFEV}`.",
+        f"LSQ fallback nfev `{LSQ_FALLBACK_NFEV}`, grid power `{GRID_POWER:g}`.",
         "",
-        "| case | Mdot/Edd | N | closure | slope | initial full | final full | accepted | anchor | dominant | interval R | outer omega | legacy outer omega | peak R/rg | peak int R | pressure mismatch | max H/R | int adv | pivot | nfev | elapsed s | message |",
-        "|---|---:|---:|---|---|---:|---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---:|:---:|---:|---:|---|",
+        "| case | Mdot/Edd | N | grid power | closure | slope | initial full | final full | accepted | anchor | dominant | interval R | outer omega | legacy outer omega | peak R/rg | peak int R | pressure mismatch | max H/R | int adv | pivot | nfev | elapsed s | message |",
+        "|---|---:|---:|---:|---|---|---:|---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---:|:---:|---:|---:|---|",
     ]
     for row in rows:
         formatted = {key: fmt(value) if isinstance(value, (float, int, np.floating, np.integer)) else value for key, value in row.items()}
         lines.append(
-            "| {case} | {ratio} | {N} | {closure_spec} | {slope_source} | {initial_full} | {final_full} | "
+            "| {case} | {ratio} | {N} | {grid_power} | {closure_spec} | {slope_source} | {initial_full} | {final_full} | "
             "{accepted} | {anchor_eligible} | {dominant} | {interval_R} | {outer_omega} | {legacy_outer_omega} | "
             "{peak_interval_R_rg} | {peak_interval_R} | {outer_pressure_residual} | {max_H_R} | {integrated_adv} | "
             "{pivot} | {nfev} | {elapsed_s} | {message} |".format(**formatted).replace("\n", " ")

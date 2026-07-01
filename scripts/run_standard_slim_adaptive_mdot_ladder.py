@@ -78,6 +78,7 @@ PIVOTS = tuple(
 TANGENT_PIVOT = os.environ.get("IMBH_STANDARD_SLIM_ADAPTIVE_MDOT_TANGENT_PIVOT", "C2")
 USE_SCOUT_AS_CURRENT = os.environ.get("IMBH_STANDARD_SLIM_ADAPTIVE_MDOT_USE_SCOUT_AS_CURRENT", "0") != "0"
 STRESS_FACTOR = float(os.environ.get("IMBH_STANDARD_SLIM_ADAPTIVE_MDOT_STRESS", "1.0"))
+GRID_POWER = float(os.environ.get("IMBH_STANDARD_SLIM_ADAPTIVE_MDOT_GRID_POWER", "1.0"))
 VERBOSE_PHASES = os.environ.get("IMBH_STANDARD_SLIM_ADAPTIVE_MDOT_VERBOSE_PHASES", "0") != "0"
 NEWTON_USE_BLOCK_JACOBIAN = os.environ.get("IMBH_STANDARD_SLIM_ADAPTIVE_MDOT_NEWTON_BLOCK_JACOBIAN", "1") != "0"
 LSQ_USE_BLOCK_JACOBIAN = os.environ.get("IMBH_STANDARD_SLIM_ADAPTIVE_MDOT_LSQ_BLOCK_JACOBIAN", "0") != "0"
@@ -96,6 +97,7 @@ OUTER_SLOPE_REFRESHES = int(
         "0" if OUTER_CLOSURE_MODE == "thin_value" else "1",
     )
 )
+OUTER_SLOPE_REFRESH_REPOLISH = os.environ.get("IMBH_STANDARD_SLIM_ADAPTIVE_MDOT_OUTER_SLOPE_REFRESH_REPOLISH", "1") != "0"
 OUTER_SLOPE_FIT_N = int(os.environ.get("IMBH_STANDARD_SLIM_ADAPTIVE_MDOT_OUTER_SLOPE_FIT_N", "8"))
 ADAPTIVE_N_VALUES = tuple(
     int(piece)
@@ -190,7 +192,16 @@ def outer_closure_row_fields(z: np.ndarray, params: TransonicSlimParams) -> dict
     }
 
 
-def params_for(fiducial: FiducialParams, mdot_edd: float, ratio: float, R_out_rg: float, n_nodes: int) -> TransonicSlimParams:
+def params_for(
+    fiducial: FiducialParams,
+    mdot_edd: float,
+    ratio: float,
+    R_out_rg: float,
+    n_nodes: int,
+    *,
+    grid_power: float | None = None,
+    custom_grid_xi: tuple[float, ...] | None = None,
+) -> TransonicSlimParams:
     return TransonicSlimParams(
         M2_g=fiducial.M2_g,
         Mdot_g_s=float(ratio) * mdot_edd,
@@ -199,6 +210,8 @@ def params_for(fiducial: FiducialParams, mdot_edd: float, ratio: float, R_out_rg
         stress_factor=STRESS_FACTOR,
         R_out_rg=float(R_out_rg),
         n_nodes=int(n_nodes),
+        grid_power=GRID_POWER if grid_power is None else float(grid_power),
+        custom_grid_xi=custom_grid_xi,
         max_nfev=max(SOURCE_NFEV, POLISH_NFEV, FALLBACK_LSQ_NFEV),
         residual_tol=1.0e-8,
         outer_closure="thin_value",
@@ -210,7 +223,21 @@ def params_for(fiducial: FiducialParams, mdot_edd: float, ratio: float, R_out_rg
 def load_anchor(fiducial: FiducialParams, mdot_edd: float) -> tuple[np.ndarray, TransonicSlimParams]:
     data = np.load(ANCHOR_CHECKPOINT, allow_pickle=True)
     z = np.asarray(data["z"], dtype=float)
-    params = params_for(fiducial, mdot_edd, float(data["ratio"]), float(data["R_out_rg"]), int(data["n_nodes"]))
+    source_grid_power = float(data["grid_power"]) if "grid_power" in data else 1.0
+    custom_grid_xi = None
+    if "custom_grid_xi" in data:
+        candidate_grid = np.asarray(data["custom_grid_xi"], dtype=float)
+        if candidate_grid.shape == (int(data["n_nodes"]),):
+            custom_grid_xi = tuple(float(value) for value in candidate_grid)
+    params = params_for(
+        fiducial,
+        mdot_edd,
+        float(data["ratio"]),
+        float(data["R_out_rg"]),
+        int(data["n_nodes"]),
+        grid_power=source_grid_power,
+        custom_grid_xi=custom_grid_xi,
+    )
     return z, apply_outer_closure_from_state(z, params)
 
 
@@ -372,6 +399,9 @@ def refresh_outer_slopes(polish, params: TransonicSlimParams) -> tuple[Any, Tran
         if np.all(np.isfinite(old_slopes)) and float(np.max(np.abs(new_slopes - old_slopes))) <= 1.0e-10:
             current_params = refreshed_params
             break
+        if not OUTER_SLOPE_REFRESH_REPOLISH:
+            current_params = refreshed_params
+            break
         t0 = time.perf_counter()
         current_polish = best_square_polish(
             current_polish.z,
@@ -419,6 +449,10 @@ def save_checkpoint(label: str, z: np.ndarray, params: TransonicSlimParams, row:
         z=np.asarray(z, dtype=float),
         R_out_rg=np.array(params.R_out_rg),
         n_nodes=np.array(params.n_nodes),
+        grid_power=np.array(params.grid_power),
+        custom_grid_xi=np.asarray(params.custom_grid_xi, dtype=float)
+        if params.custom_grid_xi is not None
+        else np.asarray([], dtype=float),
         ratio=np.array(params.mdot_edd_ratio),
         outer_closure=np.array(params.outer_closure),
         outer_closure_mode=np.array(OUTER_CLOSURE_MODE),
@@ -475,6 +509,8 @@ def row_for_attempt(
         "step_mu": float(step_mu),
         "R_out_rg": float(params.R_out_rg),
         "N": int(params.n_nodes),
+        "grid_power": float(params.grid_power),
+        "custom_grid": bool(params.custom_grid_xi is not None),
         "tangent_full": float(tangent_full),
         "secant_full": float(secant_full),
         "predictor": str(predictor),
@@ -524,7 +560,15 @@ def remap_state_to_n(
     fiducial: FiducialParams,
     mdot_edd: float,
 ) -> tuple[np.ndarray, TransonicSlimParams]:
-    target_params = params_for(fiducial, mdot_edd, params.mdot_edd_ratio, params.R_out_rg, n_nodes)
+    target_params = params_for(
+        fiducial,
+        mdot_edd,
+        params.mdot_edd_ratio,
+        params.R_out_rg,
+        n_nodes,
+        grid_power=params.grid_power,
+        custom_grid_xi=params.custom_grid_xi if int(n_nodes) == int(params.n_nodes) else None,
+    )
     if int(n_nodes) == int(params.n_nodes):
         seed = np.array(z, copy=True)
     else:
@@ -640,16 +684,16 @@ def write_table(rows: list[dict[str, object]]) -> None:
         "",
         "Each attempt uses an LSMR tangent predictor, C1 source polish, local free-lambda sonic-root injection, and square polish.",
         "",
-        f"Config: start step `{START_STEP_MU:g}`, max step `{MAX_STEP_MU:g}`, min step `{MIN_STEP_MU:g}`, acceptance `{ACCEPTANCE_TOL:g}`, anchor `{ANCHOR_TOL:g}`, current `{CURRENT_TOL:g}`, source nfev `{SOURCE_NFEV}`, polish nfev `{POLISH_NFEV}`, LSQ fallback `{FALLBACK_LSQ_NFEV}`, integrated pre-polish `{USE_INTEGRATED_PREPOLISH}`, integrated weighting `{INTEGRATED_WEIGHTING}`, integrated nfev `{INTEGRATED_PRE_NFEV}`, Newton block Jacobian `{NEWTON_USE_BLOCK_JACOBIAN}`, Newton linear solver `{NEWTON_LINEAR_SOLVER}`, Newton max iter `{NEWTON_MAX_ITER}`, Newton max step `{NEWTON_MAX_STEP_NORM}`, LSQ block Jacobian `{LSQ_USE_BLOCK_JACOBIAN}`, sonic injection policy `{SONIC_INJECTION_POLICY}`, secant predictor `{USE_SECANT_PREDICTOR}`, skip final if current `{SKIP_FINAL_IF_CURRENT}`, outer closure `{OUTER_CLOSURE_MODE}`, outer slope refreshes `{OUTER_SLOPE_REFRESHES}`, adaptive N `{ADAPTIVE_N_VALUES}`, adaptive N trigger `{ADAPTIVE_N_TRIGGER_TOL:g}`, adaptive N nfev `{ADAPTIVE_N_NFEV}`.",
+        f"Config: start step `{START_STEP_MU:g}`, max step `{MAX_STEP_MU:g}`, min step `{MIN_STEP_MU:g}`, acceptance `{ACCEPTANCE_TOL:g}`, anchor `{ANCHOR_TOL:g}`, current `{CURRENT_TOL:g}`, source nfev `{SOURCE_NFEV}`, polish nfev `{POLISH_NFEV}`, LSQ fallback `{FALLBACK_LSQ_NFEV}`, integrated pre-polish `{USE_INTEGRATED_PREPOLISH}`, integrated weighting `{INTEGRATED_WEIGHTING}`, integrated nfev `{INTEGRATED_PRE_NFEV}`, Newton block Jacobian `{NEWTON_USE_BLOCK_JACOBIAN}`, Newton linear solver `{NEWTON_LINEAR_SOLVER}`, Newton max iter `{NEWTON_MAX_ITER}`, Newton max step `{NEWTON_MAX_STEP_NORM}`, LSQ block Jacobian `{LSQ_USE_BLOCK_JACOBIAN}`, sonic injection policy `{SONIC_INJECTION_POLICY}`, secant predictor `{USE_SECANT_PREDICTOR}`, skip final if current `{SKIP_FINAL_IF_CURRENT}`, outer closure `{OUTER_CLOSURE_MODE}`, outer slope refreshes `{OUTER_SLOPE_REFRESHES}`, outer refresh repolish `{OUTER_SLOPE_REFRESH_REPOLISH}`, default grid power `{GRID_POWER:g}`, adaptive N `{ADAPTIVE_N_VALUES}`, adaptive N trigger `{ADAPTIVE_N_TRIGGER_TOL:g}`, adaptive N nfev `{ADAPTIVE_N_NFEV}`.",
         "",
-        "| branch | attempt | action | accepted | anchor | current | source ratio | target ratio | step mu | closure | slope | g_u | g_T | pressure mismatch | predictor | pred full | tangent full | secant full | int-pre physical | source full | injected full | final full | dominant | int R | int E | outer omega | Rson/rg | M_eff | H/R | final seed | int pivot | final pivot | method | nfev | elapsed s | message |",
-        "|---|---:|---|:---:|:---:|:---:|---:|---:|---:|---|---|---:|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---:|---:|---:|---:|---|---|---|---|---:|---:|---|",
+        "| branch | attempt | action | accepted | anchor | current | source ratio | target ratio | step mu | N | grid power | closure | slope | g_u | g_T | pressure mismatch | predictor | pred full | tangent full | secant full | int-pre physical | source full | injected full | final full | dominant | int R | int E | outer omega | Rson/rg | M_eff | H/R | final seed | int pivot | final pivot | method | nfev | elapsed s | message |",
+        "|---|---:|---|:---:|:---:|:---:|---:|---:|---:|---:|---:|---|---|---:|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---:|---:|---:|---:|---|---|---|---|---:|---:|---|",
     ]
     for row in rows:
         formatted = {key: fmt(value) if isinstance(value, (float, int, np.floating, np.integer)) else value for key, value in row.items()}
         lines.append(
             "| {branch} | {attempt} | {action} | {accepted} | {anchor_eligible} | {current_eligible} | {source_ratio} | {target_ratio} | {step_mu} | "
-            "{outer_closure_mode} | {outer_slope_source} | {outer_g_u} | {outer_g_T} | {outer_pressure_residual} | "
+            "{N} | {grid_power} | {outer_closure_mode} | {outer_slope_source} | {outer_g_u} | {outer_g_T} | {outer_pressure_residual} | "
             "{predictor} | {predictor_full} | {tangent_full} | {secant_full} | {integrated_physical_full} | {source_full} | {injected_full} | {final_full} | {dominant} | {interval_R} | {interval_E} | {outer_omega} | "
             "{Rson_rg} | {M_eff} | {H_R} | {final_seed} | {integrated_pivot} | {pivot} | {polish_method} | {nfev} | {elapsed_s} | {message} |".format(**formatted)
         )
@@ -846,7 +890,15 @@ def run_branch(
             print(f"{branch}: stopping, step_mu={step_mu:g} below minimum", flush=True)
             break
         ratio = next_ratio(current_ratio, target_ratio, step_mu, direction)
-        target_base = params_for(fiducial, mdot_edd, ratio, current_params.R_out_rg, current_params.n_nodes)
+        target_base = params_for(
+            fiducial,
+            mdot_edd,
+            ratio,
+            current_params.R_out_rg,
+            current_params.n_nodes,
+            grid_power=current_params.grid_power,
+            custom_grid_xi=current_params.custom_grid_xi,
+        )
         target_params = apply_outer_closure_from_state(current_z, target_base)
         attempt += 1
         print(f"{branch} attempt={attempt} {current_ratio:.7g}->{ratio:.7g} step={step_mu:.4g}", flush=True)
@@ -933,6 +985,7 @@ def main() -> None:
             "step_mu": 0.0,
             "R_out_rg": float(anchor_params.R_out_rg),
             "N": int(anchor_params.n_nodes),
+            "grid_power": float(anchor_params.grid_power),
             "tangent_full": np.nan,
             "secant_full": np.nan,
             "predictor": "-",
