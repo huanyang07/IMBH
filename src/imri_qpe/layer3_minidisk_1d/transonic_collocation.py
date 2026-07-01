@@ -19,6 +19,7 @@ from .transonic_local import (
     scaled_differential_matrix,
     sonic_diagnostics,
     state_partials,
+    stream_heating_rate,
     xi_eff_from_gradient,
 )
 from .transonic_potential import PaczynskiWiitaPotential
@@ -50,6 +51,13 @@ class TransonicSlimParams:
     outer_temperature_logT: float | None = None
     outer_entropy_logK: float | None = None
     outer_omega_log_offset: float = 0.0
+    stream_torque_delta_l_fraction: float = 0.0
+    stream_torque_center_fraction: float = 0.8
+    stream_torque_log_width: float = 0.08
+    stream_mass_fraction: float = 0.0
+    stream_mass_center_fraction: float = 0.8
+    stream_mass_log_width: float = 0.08
+    stream_heating_efficiency: float = 0.0
     interval_residual_form: str = "differential"
     integrated_residual_weighting: str = "none"
     max_nfev: int = 400
@@ -119,6 +127,24 @@ class TransonicSlimParams:
                 raise ValueError("pressure_supported_entropy requires finite outer_entropy_logK")
         if not np.isfinite(float(self.outer_omega_log_offset)):
             raise ValueError("outer_omega_log_offset must be finite")
+        if not np.isfinite(float(self.stream_torque_delta_l_fraction)):
+            raise ValueError("stream_torque_delta_l_fraction must be finite")
+        if self.stream_torque_center_fraction <= 0.0:
+            raise ValueError("stream_torque_center_fraction must be positive")
+        if self.stream_torque_log_width <= 0.0:
+            raise ValueError("stream_torque_log_width must be positive")
+        if not np.isfinite(float(self.stream_mass_fraction)):
+            raise ValueError("stream_mass_fraction must be finite")
+        if self.stream_mass_fraction <= -1.0:
+            raise ValueError("stream_mass_fraction must exceed -1")
+        if self.stream_mass_center_fraction <= 0.0:
+            raise ValueError("stream_mass_center_fraction must be positive")
+        if self.stream_mass_log_width <= 0.0:
+            raise ValueError("stream_mass_log_width must be positive")
+        if not np.isfinite(float(self.stream_heating_efficiency)):
+            raise ValueError("stream_heating_efficiency must be finite")
+        if self.stream_heating_efficiency < 0.0:
+            raise ValueError("stream_heating_efficiency must be non-negative")
         if self.interval_residual_form not in {"differential", "integrated"}:
             raise ValueError("interval_residual_form must be 'differential' or 'integrated'")
         if self.integrated_residual_weighting not in {"none", "inverse_sqrt_dx", "inverse_dx"}:
@@ -600,7 +626,7 @@ def _heating_terms_from_gradient(logR: float, y, g, lambda0: float, params: Tran
     Tdsdx = entropy_gradient_log(logR, y, g, lambda0, params)
     Q_visc = -state.W * dOmega_dx
     Q_adv = -(state.Sigma * state.u / state.R) * Tdsdx
-    energy = Q_visc - state.Q_rad - Q_adv
+    energy = Q_visc + stream_heating_rate(logR, params) - state.Q_rad - Q_adv
     return Q_visc, state.Q_rad, Q_adv, energy
 
 

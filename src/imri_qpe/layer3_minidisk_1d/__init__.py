@@ -146,6 +146,10 @@ from .transonic_local import (
     sonic_unscaled_directional_B,
     sonic_unscaled_null_vectors,
     state_partials,
+    stream_annulus_shape_and_derivative,
+    stream_heating_rate,
+    stream_mass_rate_and_derivative,
+    stream_torque_specific_l_and_derivative,
     xi_eff_from_gradient,
 )
 from .transonic_potential import PaczynskiWiitaPotential
@@ -291,6 +295,10 @@ __all__ = [
     "state_partials",
     "state_bounds",
     "state_vector_from_profile",
+    "stream_annulus_shape_and_derivative",
+    "stream_heating_rate",
+    "stream_mass_rate_and_derivative",
+    "stream_torque_specific_l_and_derivative",
     "specific_internal_energy",
     "surface_density",
     "tangent_audit_from_scaled_tangent",

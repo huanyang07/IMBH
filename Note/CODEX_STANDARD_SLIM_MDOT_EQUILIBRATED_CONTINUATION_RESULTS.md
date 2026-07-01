@@ -1663,3 +1663,548 @@ Updated physical conclusion:
   equation, and prescribed stream shock heating in the energy equation.  That
   gives the disk a physical way to transition between pressure-supported
   rotation and stream-fed circularization.
+
+## Physical finite-Rout shrink and stream-torque annulus
+
+Following GPT's suggestion, I first continued the finite outer radius from
+`Rout=1000 rg` down to `700,500,400,300 rg` using the pressure-supported
+closure and the strict `Mdot/Edd=1`, `N=640` adaptive outer-grid anchor.
+
+Output:
+
+- `outputs/tables/slim_benchmark_physical_rout_homotopy_mdot1_1000_300.md`
+- `outputs/figures/slim_benchmark_physical_rout_homotopy_mdot1_1000_300.png`
+- `outputs/checkpoints/slim_benchmark_physical_rout_homotopy_mdot1_1000_300/`
+
+Result:
+
+| Rout/rg | final residual | strict anchor | dominant | max H/R | int adv | Rson/rg |
+|---:|---:|:---:|---|---:|---:|---:|
+| `1000` | `1.711e-7` | yes | `outer_omega` | `0.1571` | `0.03224` | `5.07` |
+| `700` | `4.207e-7` | yes | `interval_E` | `0.1571` | `0.03252` | `5.07` |
+| `500` | `1.157e-6` | yes | `outer_omega` | `0.1571` | `0.03288` | `5.07` |
+| `400` | `6.027e-7` | yes | `outer_omega` | `0.1571` | `0.03317` | `5.07` |
+| `300` | `5.732e-7` | yes | `outer_omega` | `0.1571` | `0.03358` | `5.07` |
+
+The finite-radius shrink is therefore not the current obstruction.  The
+standard no-wind slim disk remains a strict global transonic solution even when
+the computational outer boundary is moved to `300 rg`.
+
+I then replaced the failed hard angular boundary offset with a torque-only
+stream annulus in the angular momentum closure:
+
+```text
+l = l0 + [2 pi R^2 W + T_stream(<R)] / Mdot
+```
+
+where `T_stream/Mdot` is a smooth cumulative specific-angular-momentum
+contribution centered at `Rinj = 0.8 Rout` with log-width `0.08`.  The amplitude
+is reported as `Delta l / lK(Rinj)`.  Zero amplitude exactly recovers the old
+no-stream solver.
+
+Implementation:
+
+- `src/imri_qpe/layer3_minidisk_1d/transonic_collocation.py`
+- `src/imri_qpe/layer3_minidisk_1d/transonic_local.py`
+- `scripts/run_standard_slim_stream_torque_annulus_scan.py`
+- `tests/test_transonic_local.py`
+
+Outputs:
+
+- `outputs/tables/slim_benchmark_stream_torque_annulus_mdot1_rout300.md`
+- `outputs/figures/slim_benchmark_stream_torque_annulus_mdot1_rout300.png`
+- `outputs/tables/slim_benchmark_stream_torque_annulus_mdot1_rout300_extended.md`
+- `outputs/figures/slim_benchmark_stream_torque_annulus_mdot1_rout300_extended.png`
+- `outputs/checkpoints/slim_benchmark_stream_torque_annulus_mdot1_rout300/`
+- `outputs/checkpoints/slim_benchmark_stream_torque_annulus_mdot1_rout300_extended/`
+
+Extended torque-annulus result at `Mdot/Edd=1`, `Rout=300 rg`, `N=640`:
+
+| branch | `Delta l/lK(Rinj)` | final residual | accepted | strict anchor | dominant | outer omega | int R | int E | max H/R | int adv |
+|---|---:|---:|:---:|:---:|---|---:|---:|---:|---:|---:|
+| subK | `-0.001` | `5.811e-8` | yes | yes | `outer_omega` | `5.811e-8` | `2.002e-13` | `1.215e-10` | `0.1571` | `0.03358` |
+| subK | `-0.003` | `4.987e-7` | yes | yes | `outer_omega` | `4.987e-7` | `8.061e-13` | `5.344e-10` | `0.1571` | `0.03357` |
+| subK | `-0.010` | `1.936e-6` | yes | yes | `outer_omega` | `1.936e-6` | `9.058e-12` | `3.635e-9` | `0.1571` | `0.03356` |
+| subK | `-0.030` | `6.068e-6` | yes | no | `outer_omega` | `6.068e-6` | `8.241e-13` | `2.418e-10` | `0.1571` | `0.03353` |
+| superK | `+0.001` | `4.020e-7` | yes | yes | `outer_omega` | `-4.020e-7` | `2.226e-13` | `1.333e-10` | `0.1571` | `0.03358` |
+| superK | `+0.003` | `6.786e-7` | yes | yes | `outer_omega` | `-6.786e-7` | `7.533e-13` | `5.064e-10` | `0.1571` | `0.03358` |
+| superK | `+0.010` | `1.957e-6` | yes | yes | `outer_omega` | `-1.957e-6` | `9.465e-12` | `3.164e-9` | `0.1571` | `0.03360` |
+| superK | `+0.030` | `5.360e-6` | yes | no | `outer_omega` | `-5.360e-6` | `3.438e-13` | `9.472e-11` | `0.1571` | `0.03363` |
+
+Interpretation:
+
+- The hard angular boundary was indeed the wrong stream model.  A hard
+  `log-l` offset of `1e-3` failed with residual near `1e-3`; the distributed
+  torque annulus solves cleanly at the same fractional scale and remains strict
+  through `|Delta l|/lK(Rinj)=1e-2`.
+- At `3e-2`, both signs still meet the loose acceptance threshold but are not
+  strict anchors.  The residual is still almost entirely the outer omega block,
+  while interior radial and energy residuals remain tiny.
+- The physical profile changes very little over this torque-only range:
+  `Rson~5.07 rg`, `max H/R~0.1571`, and `int_adv~0.0336`.
+- This recovers the expected qualitative behavior: the disk can absorb a
+  stream-like angular-momentum perturbation when it is supplied as a distributed
+  annular torque instead of as a discontinuous endpoint demand.
+- The next stream-physics step should add a mass source term in the annulus,
+  then the associated stream heating.  The no-wind torque-only annulus is now
+  a working base case.
+
+## Stream mass-loading annulus
+
+I next added a smooth annular mass-loading profile to the same local transonic
+equations.  The sonic accretion rate `Mdot_g_s` remains the inner accretion
+rate, while the local steady accretion rate becomes
+
+```text
+Mdot(R) = Mdot_inner [1 + f_m S(R)]
+```
+
+where `S(R)` is the same cumulative tanh annulus profile used by the stream
+torque tests.  Thus the outer disk carries `(1+f_m) Mdot_inner` after the
+stream annulus has deposited mass.  This affects surface density, vertical
+structure, pressure gradients, and the angular closure through `W/Mdot(R)`.
+The analytic local partials were updated to include `d ln Mdot / d ln R`.
+
+Implementation:
+
+- `src/imri_qpe/layer3_minidisk_1d/transonic_collocation.py`
+- `src/imri_qpe/layer3_minidisk_1d/transonic_local.py`
+- `scripts/run_standard_slim_stream_mass_annulus_scan.py`
+- `tests/test_transonic_local.py`
+
+Validation:
+
+- `pytest`: `138 passed`
+- added finite-difference checks for the stream-mass helper and analytic
+  local partials with active mass loading.
+
+### Pure mass loading
+
+Configuration:
+
+- anchor: `outputs/checkpoints/slim_benchmark_physical_rout_homotopy_mdot1_1000_300/Rout_300_mdot_1_N640.npz`
+- `Mdot_inner/Edd = 1`
+- `Rout = 300 rg`
+- `Rinj = 0.8 Rout = 240 rg`
+- log width `0.08`
+- torque fraction `0`
+
+Output:
+
+- `outputs/tables/slim_benchmark_stream_mass_annulus_mdot1_rout300.md`
+- `outputs/figures/slim_benchmark_stream_mass_annulus_mdot1_rout300.png`
+- `outputs/checkpoints/slim_benchmark_stream_mass_annulus_mdot1_rout300/`
+
+Result:
+
+| `f_m` | `Mdot_out/Mdot_in` | final residual | strict anchor | dominant | outer omega | int R | int E | max H/R | int adv |
+|---:|---:|---:|:---:|---|---:|---:|---:|---:|---:|
+| `1e-4` | `1.0001` | `1.790e-7` | yes | `outer_omega` | `-1.790e-7` | `2.993e-12` | `9.623e-10` | `0.1571` | `0.03358` |
+| `3e-4` | `1.0003` | `1.119e-7` | yes | `outer_omega` | `-1.119e-7` | `9.979e-12` | `6.145e-9` | `0.1571` | `0.03358` |
+| `1e-3` | `1.001` | `1.094e-7` | yes | `outer_omega` | `-1.094e-7` | `2.600e-13` | `1.503e-10` | `0.1571` | `0.03358` |
+| `3e-3` | `1.003` | `1.970e-7` | yes | `outer_omega` | `-1.970e-7` | `1.968e-12` | `1.105e-9` | `0.1571` | `0.03358` |
+| `1e-2` | `1.010` | `5.912e-7` | yes | `outer_omega` | `-5.912e-7` | `1.103e-13` | `4.257e-11` | `0.1571` | `0.03357` |
+| `3e-2` | `1.030` | `1.753e-6` | yes | `outer_omega` | `-1.753e-6` | `9.393e-12` | `1.589e-9` | `0.1571` | `0.03354` |
+
+### Mass plus angular source
+
+I then repeated the scan with a fixed distributed angular-momentum source
+`Delta l/lK(Rinj)=+1e-2`, which had previously been a strict torque-only
+anchor.  This is the first combined mass+angular annulus test.
+
+Output:
+
+- `outputs/tables/slim_benchmark_stream_mass_plus_torque_annulus_mdot1_rout300.md`
+- `outputs/figures/slim_benchmark_stream_mass_plus_torque_annulus_mdot1_rout300.png`
+- `outputs/checkpoints/slim_benchmark_stream_mass_plus_torque_annulus_mdot1_rout300/`
+
+Result:
+
+| `f_m` | torque fraction | `Mdot_out/Mdot_in` | final residual | strict anchor | dominant | outer omega | int R | int E | max H/R | int adv |
+|---:|---:|---:|---:|:---:|---|---:|---:|---:|---:|---:|
+| `0` | `0.01` | `1.000` | `2.583e-6` | yes | `outer_omega` | `-2.583e-6` | `1.065e-13` | `2.000e-11` | `0.1571` | `0.03360` |
+| `1e-3` | `0.01` | `1.001` | `1.494e-6` | yes | `outer_omega` | `-1.494e-6` | `4.499e-13` | `2.502e-10` | `0.1571` | `0.03359` |
+| `3e-3` | `0.01` | `1.003` | `9.716e-7` | yes | `outer_omega` | `-9.716e-7` | `1.712e-12` | `9.196e-10` | `0.1571` | `0.03359` |
+| `1e-2` | `0.01` | `1.010` | `1.049e-6` | yes | `outer_omega` | `-1.049e-6` | `1.032e-13` | `3.091e-11` | `0.1571` | `0.03358` |
+| `3e-2` | `0.01` | `1.030` | `2.051e-6` | yes | `outer_omega` | `-2.051e-6` | `8.861e-12` | `7.919e-10` | `0.1571` | `0.03356` |
+
+Interpretation:
+
+- The no-heating mass annulus is numerically and physically benign over the
+  tested range: both pure mass loading and the combined `f_m=0.03`,
+  `Delta l/lK=0.01` case remain strict anchors.
+- The interior equations are not the bottleneck; the residual remains dominated
+  by the outer pressure-supported angular closure.
+- The global profile remains almost unchanged at these modest source strengths:
+  `Rson~5.07 rg`, `max H/R~0.1571`, and `int_adv~0.0336`.
+- Important caveat: this is a steady parametric mass-loading profile.  It does
+  not yet include explicit injected kinetic/thermal energy, radial momentum
+  loading, or shock heating.  It should be treated as a bridge between the
+  torque-only annulus and a proper stream-heating model.
+- The next step is to add `Q_stream(R)` in the energy equation, first as an
+  opt-in smooth annular heating term tied to the same `S'(R)` deposition
+  profile, then scan heating efficiency at fixed working mass+torque anchors.
+
+## Stream heating annulus
+
+I added an opt-in stream-heating source to the local energy equation:
+
+```text
+Q_visc + Q_stream - Q_rad - Q_adv = 0
+```
+
+with
+
+```text
+Q_stream = eta_heat * (dMdot/dlnR)/(2 pi R^2) * 0.5 (R Omega_K)^2
+```
+
+Only positive mass deposition contributes to `Q_stream`; zero heating or zero
+mass deposition exactly recovers the previous model.  The source is tied to the
+same annulus profile used by the mass-loading term, so its peak is near
+`Rinj = 0.8 Rout`.
+
+Implementation:
+
+- `src/imri_qpe/layer3_minidisk_1d/transonic_collocation.py`
+- `src/imri_qpe/layer3_minidisk_1d/transonic_local.py`
+- `scripts/run_standard_slim_stream_heating_annulus_scan.py`
+- `tests/test_transonic_local.py`
+
+Validation:
+
+- `pytest`: `139 passed`
+- added local tests that verify heating is zero-safe and positive only when
+  mass is deposited.
+
+Configuration:
+
+- anchor: `outputs/checkpoints/slim_benchmark_stream_mass_plus_torque_annulus_mdot1_rout300/load_mass_0p03_torque_0p01_mdot_1_N640.npz`
+- `Mdot_inner/Edd = 1`
+- `Rout = 300 rg`
+- `Rinj = 240 rg`
+- mass fraction `f_m = 0.03`
+- torque fraction `Delta l/lK(Rinj) = 0.01`
+- log width `0.08`
+
+Outputs:
+
+- `outputs/tables/slim_benchmark_stream_heating_annulus_mdot1_rout300.md`
+- `outputs/figures/slim_benchmark_stream_heating_annulus_mdot1_rout300.png`
+- `outputs/checkpoints/slim_benchmark_stream_heating_annulus_mdot1_rout300/`
+- `outputs/tables/slim_benchmark_stream_heating_annulus_mdot1_rout300_extended.md`
+- `outputs/figures/slim_benchmark_stream_heating_annulus_mdot1_rout300_extended.png`
+- `outputs/checkpoints/slim_benchmark_stream_heating_annulus_mdot1_rout300_extended/`
+- `outputs/tables/slim_benchmark_stream_heating_annulus_mdot1_rout300_high_eta.md`
+- `outputs/figures/slim_benchmark_stream_heating_annulus_mdot1_rout300_high_eta.png`
+- `outputs/checkpoints/slim_benchmark_stream_heating_annulus_mdot1_rout300_high_eta/`
+
+Result:
+
+| `eta_heat` | final residual | strict anchor | dominant | max `Q_stream/Q_visc` | max `Q_stream/Q_rad` | integrated `Q_stream/Q_visc` | peak R/rg | max H/R | int adv |
+|---:|---:|:---:|---|---:|---:|---:|---:|---:|---:|
+| `1e-4` | `6.402e-7` | yes | `outer_omega` | `8.120e-6` | `8.253e-6` | `1.113e-7` | `237.7` | `0.1571` | `0.03356` |
+| `1e-3` | `2.003e-7` | yes | `outer_omega` | `8.120e-5` | `8.253e-5` | `1.113e-6` | `237.7` | `0.1571` | `0.03356` |
+| `1e-2` | `6.340e-8` | yes | `outer_omega` | `8.120e-4` | `8.247e-4` | `1.113e-5` | `237.7` | `0.1571` | `0.03356` |
+| `3e-2` | `3.726e-8` | yes | `outer_omega` | `2.436e-3` | `2.471e-3` | `3.339e-5` | `237.7` | `0.1571` | `0.03356` |
+| `0.3` | `2.799e-8` | yes | `outer_omega` | `2.437e-2` | `2.423e-2` | `3.339e-4` | `237.7` | `0.1571` | `0.03356` |
+| `1` | `7.946e-8` | yes | `outer_omega` | `8.130e-2` | `7.702e-2` | `1.113e-3` | `237.7` | `0.1571` | `0.03355` |
+| `3` | `2.345e-7` | yes | `outer_omega` | `2.447e-1` | `2.046e-1` | `3.339e-3` | `237.7` | `0.1571` | `0.03353` |
+| `10` | `8.290e-7` | yes | `outer_omega` | `8.282e-1` | `4.990e-1` | `1.113e-2` | `237.7` | `0.1571` | `0.03343` |
+| `30` | `3.402e-6` | no | `outer_omega` | `2.643` | `0.9196` | `3.340e-2` | `237.7` | `0.1571` | `0.03301` |
+
+Interpretation:
+
+- The heating implementation is numerically stable.  The branch remains a
+  strict anchor through `eta_heat=10`, where the local stream heating peak is
+  comparable to viscous heating.
+- At `eta_heat=30`, the solve is still accepted but no longer strict:
+  residual `3.402e-6`, dominated by the outer angular closure.  The interior
+  radial and energy residuals remain tiny.
+- The global profile still changes very little.  This is not contradictory:
+  the heating annulus is narrow, so even when the local peak reaches
+  `Q_stream/Q_visc > 1`, the integrated heating is only `~3.3%` of integrated
+  viscous heating at `eta_heat=30`.
+- Therefore, this narrow-annulus heating term alone does not recover a hot or
+  strongly advective branch at the tested mass-loading strength.  It gives a
+  clean, controllable stream-heating source, but the next physical test should
+  increase the deposited mass, broaden the heating annulus, or move the stream
+  deposition inward before expecting a large thermal response.
+
+## Stream heating radial diagnostics and geometry scan
+
+I then ran the immediate diagnostic follow-up: radial profiles for the existing
+`eta_heat = 0, 10, 30` checkpoints, followed by a compact source-geometry scan.
+
+New scripts:
+
+- `scripts/run_standard_slim_stream_heating_profile_diagnostics.py`
+- `scripts/run_standard_slim_stream_heating_geometry_scan.py`
+
+### Radial diagnostics
+
+Outputs:
+
+- `outputs/tables/slim_benchmark_stream_heating_profile_diagnostics.md`
+- `outputs/figures/slim_benchmark_stream_heating_profile_diagnostics.png`
+
+Cases:
+
+- `eta0`: `outputs/checkpoints/slim_benchmark_stream_heating_annulus_mdot1_rout300/heat_0_mass_0p03_torque_0p01_mdot_1_N640.npz`
+- `eta10`: `outputs/checkpoints/slim_benchmark_stream_heating_annulus_mdot1_rout300_high_eta/heat_10_mass_0p03_torque_0p01_mdot_1_N640.npz`
+- `eta30`: `outputs/checkpoints/slim_benchmark_stream_heating_annulus_mdot1_rout300_high_eta/heat_30_mass_0p03_torque_0p01_mdot_1_N640.npz`
+
+Summary:
+
+| case | `eta_heat` | max `Q_stream/Q_visc` | integrated `Q_stream/Q_visc` | peak R/rg | max H/R | max T | int adv | max R residual | max E residual |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| eta0 | `0` | `0` | `0` | `5.07` | `0.1571` | `6.274e6` | `0.03356` | `3.218e-13` | `2.252e-10` |
+| eta10 | `10` | `0.8282` | `0.01113` | `237.7` | `0.1571` | `6.274e6` | `0.03343` | `1.457e-12` | `6.331e-10` |
+| eta30 | `30` | `2.643` | `0.03340` | `237.7` | `0.1571` | `6.274e6` | `0.03301` | `2.882e-13` | `1.505e-11` |
+
+Interpretation:
+
+- The heat is deposited where intended, near `R~238 rg`.
+- At `eta_heat=30`, the outer disk develops a visible local `H/R` bump and a
+  local temperature adjustment, but the inner disk and global advective
+  fraction barely move.
+- Residual localization remains clean.  The heating cases do not create an
+  interior energy-residual bottleneck.
+
+### Compact geometry scan
+
+I kept the source strengths fixed at the first meaningful heating level:
+
+- `Mdot_inner/Edd = 1`
+- `Rout = 300 rg`
+- `f_m = 0.03`
+- torque fraction `Delta l/lK = 0.01`
+- `eta_heat = 10`
+
+Then I scanned:
+
+```text
+Rinj/Rout = 0.8, 0.6, 0.4
+log width = 0.08, 0.30
+```
+
+Outputs:
+
+- `outputs/tables/slim_benchmark_stream_heating_geometry_scan_mdot1_rout300.md`
+- `outputs/figures/slim_benchmark_stream_heating_geometry_scan_mdot1_rout300.png`
+- `outputs/checkpoints/slim_benchmark_stream_heating_geometry_scan_mdot1_rout300/`
+
+Result:
+
+| `Rinj/Rout` | log width | final residual | accepted | strict anchor | dominant | max `Q_stream/Q_visc` | integrated `Q_stream/Q_visc` | peak R/rg | max H/R | int adv |
+|---:|---:|---:|:---:|:---:|---|---:|---:|---:|---:|---:|
+| `0.8` | `0.08` | `2.209e-6` | yes | yes | `outer_omega` | `0.8282` | `0.01113` | `237.7` | `0.1571` | `0.03343` |
+| `0.6` | `0.08` | `7.640e-7` | yes | yes | `outer_omega` | `0.8796` | `0.01496` | `178.7` | `0.1571` | `0.03325` |
+| `0.4` | `0.08` | `1.185e-6` | yes | yes | `outer_omega` | `0.9732` | `0.02269` | `118.6` | `0.1571` | `0.03252` |
+| `0.8` | `0.30` | `4.515e-5` | no | no | `outer_omega` | `0.2176` | `0.01018` | `207.4` | `0.1571` | `0.03339` |
+| `0.6` | `0.30` | `5.449e-6` | yes | no | `outer_omega` | `0.2291` | `0.01528` | `155.6` | `0.1571` | `0.03315` |
+| `0.4` | `0.30` | `7.878e-7` | yes | yes | `outer_omega` | `0.2513` | `0.02357` | `103.7` | `0.1572` | `0.03223` |
+
+Interpretation:
+
+- Moving the stream deposition inward is a cleaner lever than simply
+  broadening it at large radius.  For the narrow annulus, integrated heating
+  increases from `~1.1%` to `~2.3%` of integrated viscous heating as
+  `Rinj/Rout` moves from `0.8` to `0.4`, and all cases remain strict.
+- Broadening the outer annulus to log width `0.30` near `Rinj/Rout=0.8`
+  breaks the strict solution, but the failure is still dominated by the outer
+  angular closure, not by an interior heating/energy defect.
+- The broad, inward case at `Rinj/Rout=0.4`, width `0.30` is strict and has the
+  largest integrated heating of the scan, `~2.36%`.
+- Even with inward/broader deposition at this mass fraction, the global disk
+  remains close to the same slim solution (`max H/R~0.157`, `int_adv~0.032`).
+
+Updated next step:
+
+- Do not add wind yet.
+- The next useful physical scan is mass-loading strength at the best current
+  geometry, likely `Rinj/Rout=0.4`, width `0.30`, with `eta_heat=10`.
+- Increase `f_m` from `0.03` to `0.1` and `0.3`, with the torque and heating
+  tied to the same profile.  If the disk still barely changes, the limiting
+  issue is source strength/placement, not the numerical solver.
+
+## Stream source-strength scan at best current geometry
+
+I implemented and ran:
+
+- `scripts/run_standard_slim_stream_source_strength_scan.py`
+
+The scan used the best clean geometry from the previous compact geometry scan:
+
+- `Mdot_inner/Edd = 1`
+- `Rout = 300 rg`
+- `Rinj/Rout = 0.4`
+- log width `0.30`
+- torque fraction `Delta l/lK = 0.01`
+- `eta_heat = 10`
+
+Outputs:
+
+- `outputs/tables/slim_benchmark_stream_source_strength_scan_mdot1_rout300.md`
+- `outputs/figures/slim_benchmark_stream_source_strength_scan_mdot1_rout300.png`
+- `outputs/tables/slim_benchmark_stream_source_strength_scan_mdot1_rout300_staged.md`
+- `outputs/figures/slim_benchmark_stream_source_strength_scan_mdot1_rout300_staged.png`
+- `outputs/checkpoints/slim_benchmark_stream_source_strength_scan_mdot1_rout300_staged/`
+
+The direct scan `f_m = 0.03, 0.1, 0.3` reached `f_m=0.3` with residual
+`1.169e-5`, just above the relaxed acceptance threshold.  The residual was
+dominated by the outer angular closure; the differential residuals were tiny.
+
+I then repeated the scan with staged source increments:
+
+```text
+f_m = 0.03, 0.1, 0.15, 0.2, 0.25, 0.3
+```
+
+Result:
+
+| `f_m` | `Mdot_out/Mdot_in` | final residual | accepted | strict anchor | dominant | max `Q_stream/Q_visc` | integrated `Q_stream/Q_visc` | max H/R | int adv | Rson/rg |
+|---:|---:|---:|:---:|:---:|---|---:|---:|---:|---:|---:|
+| `0.03` | `1.02993` | `4.405e-7` | yes | yes | `outer_omega` | `0.2513` | `0.02357` | `0.1572` | `0.03223` | `5.070` |
+| `0.10` | `1.09978` | `1.566e-6` | yes | yes | `outer_omega` | `0.8266` | `0.07814` | `0.1575` | `0.02864` | `5.069` |
+| `0.15` | `1.14967` | `3.775e-6` | yes | no | `outer_omega` | `1.230` | `0.1168` | `0.1773` | `0.02599` | `5.069` |
+| `0.20` | `1.19956` | `5.931e-6` | yes | no | `outer_omega` | `1.625` | `0.1552` | `0.2043` | `0.02339` | `5.069` |
+| `0.25` | `1.24945` | `7.797e-6` | yes | no | `outer_omega` | `2.012` | `0.1935` | `0.2300` | `0.02091` | `5.068` |
+| `0.30` | `1.29933` | `9.273e-6` | yes | no | `outer_omega` | `2.388` | `0.2315` | `0.2544` | `0.01864` | `5.067` |
+
+Interpretation:
+
+- The no-wind stream-fed slim benchmark now tolerates a large supplied mass
+  fraction, `f_m=0.3`, if source strength is staged.
+- The inner transonic structure remains smooth: `Rson` moves only from
+  `5.070 rg` to `5.067 rg`, and the interval residuals remain much smaller
+  than the full residual.
+- The disk does respond thermally at high source strength.  By `f_m=0.3`,
+  local stream heating peaks at `Q_stream/Q_visc ~ 2.39`, the integrated
+  stream heating reaches `~23%` of integrated viscous heating, and `max H/R`
+  rises to `~0.254`.
+- The global advective fraction decreases over this scan rather than
+  increasing.  So this source prescription creates a puffed outer/intermediate
+  stream-heated region, but it still does not recover an advective hot branch.
+- The numerical bottleneck is now clearly the far angular closure:
+  every accepted high-source case is dominated by `outer_omega`, while
+  `interval_R` and `interval_E` are tiny.
+
+Updated next step:
+
+- Diagnose the remaining `outer_omega` floor before changing the physics.
+  The scan freezes the pressure-supported outer slope during Newton, then
+  audits with the one-sided slope implied by the polished state.  This can
+  create an artificial outer angular residual even when the frozen-slope
+  Newton system is solved accurately.
+
+## Slope-self-consistent source-strength scan
+
+I updated:
+
+- `scripts/run_standard_slim_stream_source_strength_scan.py`
+
+The script now supports an outer-slope Picard polish controlled by:
+
+- `IMBH_STANDARD_SLIM_STREAM_STRENGTH_SLOPE_PICARD_MAX_ITER`
+- `IMBH_STANDARD_SLIM_STREAM_STRENGTH_SLOPE_PICARD_TOL`
+- `IMBH_STANDARD_SLIM_STREAM_STRENGTH_SLOPE_PICARD_RELAXATION`
+
+Procedure:
+
+1. Freeze the current outer one-sided slopes.
+2. Newton-polish the square BVP.
+3. Recompute the one-sided outer slopes from the polished state.
+4. Audit the solution with the updated slopes.
+5. Repeat until the updated-slope residual is strict and the slope fixed point
+   changes by less than `1e-3`.
+
+This directly tested whether the apparent `outer_omega` bottleneck was a real
+physical boundary obstruction or bookkeeping from a stale outer slope.
+
+Outputs:
+
+- `outputs/tables/slim_benchmark_stream_source_strength_scan_mdot1_rout300_slope_picard.md`
+- `outputs/figures/slim_benchmark_stream_source_strength_scan_mdot1_rout300_slope_picard.png`
+- `outputs/checkpoints/slim_benchmark_stream_source_strength_scan_mdot1_rout300_slope_picard/`
+
+Result:
+
+| `f_m` | `Mdot_out/Mdot_in` | final residual | strict anchor | Picard iterations | slope delta | max `Q_stream/Q_visc` | integrated `Q_stream/Q_visc` | max H/R | int adv | Rson/rg |
+|---:|---:|---:|:---:|---:|---:|---:|---:|---:|---:|---:|
+| `0.03` | `1.02993` | `7.494e-9` | yes | `8` | `5.98e-4` | `0.2513` | `0.02357` | `0.1572` | `0.03223` | `5.070` |
+| `0.10` | `1.09978` | `9.691e-9` | yes | `11` | `6.12e-4` | `0.8266` | `0.07814` | `0.1575` | `0.02864` | `5.069` |
+| `0.15` | `1.14967` | `1.613e-8` | yes | `11` | `8.67e-4` | `1.230` | `0.1168` | `0.1773` | `0.02599` | `5.069` |
+| `0.20` | `1.19956` | `1.548e-8` | yes | `12` | `7.12e-4` | `1.625` | `0.1552` | `0.2043` | `0.02339` | `5.069` |
+| `0.25` | `1.24945` | `2.212e-8` | yes | `12` | `8.74e-4` | `2.012` | `0.1935` | `0.2300` | `0.02091` | `5.068` |
+| `0.30` | `1.29933` | `1.952e-8` | yes | `13` | `6.66e-4` | `2.388` | `0.2315` | `0.2544` | `0.01864` | `5.067` |
+
+Interpretation:
+
+- The earlier high-source `outer_omega` floor was not a physical obstruction.
+  It was mainly stale-slope bookkeeping in the pressure-supported outer
+  closure.
+- With slope self-consistency, the no-wind stream-fed benchmark is strict
+  through `f_m=0.3` at `Rout=300 rg`, `Rinj/Rout=0.4`, log width `0.30`,
+  `Delta l/lK=0.01`, and `eta_heat=10`.
+- The physics remains the same as the staged scan: the stream-heated region
+  becomes geometrically thicker (`max H/R~0.254` at `f_m=0.3`) and locally
+  stream-heating dominated (`max Q_stream/Q_visc~2.39`), but the global
+  advective fraction still decreases from `~0.032` to `~0.019`.
+- Therefore the no-wind stream source is now numerically robust at this level,
+  but it still does not by itself recover a hot advective branch.
+
+Updated next step:
+
+- Add profile diagnostics for the slope-self-consistent source scan, especially
+  `f_m=0.1, 0.2, 0.3`, to show where the `H/R`, temperature, and heating
+  response live.
+- Then decide between two physical extensions: push source strength/location
+  harder in no-wind mode, or add wind to the now-strict stream-fed benchmark.
+
+## Slope-self-consistent source profile diagnostics
+
+I reused:
+
+- `scripts/run_standard_slim_stream_heating_profile_diagnostics.py`
+
+on the slope-Picard checkpoints:
+
+- `f_m=0.03`
+- `f_m=0.10`
+- `f_m=0.20`
+- `f_m=0.30`
+
+Outputs:
+
+- `outputs/tables/slim_benchmark_stream_source_strength_slope_picard_profile_diagnostics.md`
+- `outputs/figures/slim_benchmark_stream_source_strength_slope_picard_profile_diagnostics.png`
+
+Result:
+
+| case | max `Q_stream/Q_visc` | max `Q_stream/Q_rad` | integrated `Q_stream/Q_visc` | peak R/rg | max H/R | int adv | max R residual | max E residual |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| `f_m=0.03` | `0.2513` | `0.2163` | `0.02357` | `103.7` | `0.1572` | `0.03223` | `2.254e-12` | `7.187e-10` |
+| `f_m=0.10` | `0.8266` | `0.5149` | `0.07814` | `103.7` | `0.1575` | `0.02864` | `2.421e-12` | `5.321e-10` |
+| `f_m=0.20` | `1.625` | `0.7611` | `0.1552` | `103.7` | `0.2043` | `0.02339` | `3.134e-12` | `2.091e-10` |
+| `f_m=0.30` | `2.388` | `0.9317` | `0.2315` | `103.7` | `0.2544` | `0.01864` | `3.303e-12` | `1.958e-10` |
+
+Interpretation:
+
+- The stream response is localized near `R~104 rg`, as intended for
+  `Rinj/Rout=0.4` and width `0.30`.
+- The disk thickens locally as the source strength increases; the clearest
+  change is the `H/R` bump, not a global inner-branch transition.
+- The normalized interval residuals remain extremely small, confirming that
+  the high-source thermal response is not a collocation artifact.
+- Even at `f_m=0.3`, the integrated advective fraction is lower than in the
+  weak-source case.  This no-wind source prescription produces a robust,
+  stream-heated, locally puffed slim disk, but not the advective/wind hot
+  branch we ultimately need for the QPE model.
+
+Updated next step:
+
+- The numerical benchmark is now strong enough to support a physical decision.
+  The best next move is to add the wind/source sink physics on top of this
+  slope-self-consistent stream-fed benchmark, while keeping the no-wind
+  Picard-polished checkpoints as regression anchors.

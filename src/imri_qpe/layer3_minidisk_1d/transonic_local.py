@@ -112,7 +112,8 @@ def algebraic_state(logR: float, logu: float, logT: float, lambda0: float, param
     R = float(np.exp(logR))
     u = float(np.exp(logu))
     T = float(np.exp(logT))
-    Sigma = float(surface_density(params.Mdot_g_s, R, u))
+    Mdot_local, _dMdot_dx = stream_mass_rate_and_derivative(logR, params)
+    Sigma = float(surface_density(Mdot_local, R, u))
     vertical = vertical_state(
         Sigma,
         T,
@@ -124,7 +125,8 @@ def algebraic_state(logR: float, logu: float, logT: float, lambda0: float, param
     )
     W = float(integrated_stress(vertical, params.alpha, mu_stress=params.mu_stress, stress_factor=params.stress_factor))
     l0 = float(lambda0 * potential.r_g * C)
-    l = float(l0 + 2.0 * np.pi * R**2 * W / params.Mdot_g_s)
+    stream_l, _stream_dl_dx = stream_torque_specific_l_and_derivative(logR, params)
+    l = float(l0 + 2.0 * np.pi * R**2 * W / Mdot_local + stream_l)
     Omega = float(l / R**2)
     Omega_K = float(potential.omega_k(R))
     Q_rad = float(radiative_cooling(vertical, kappa=params.kappa))
@@ -150,6 +152,74 @@ def algebraic_state(logR: float, logu: float, logT: float, lambda0: float, param
         Q_rad=Q_rad,
         H_over_R=float(vertical.H) / R,
     )
+
+
+def stream_annulus_shape_and_derivative(logR: float, center_fraction: float, log_width: float, R_out: float) -> tuple[float, float]:
+    """Return a smooth cumulative annulus profile and d/dlnR."""
+
+    if center_fraction <= 0.0 or log_width <= 0.0 or R_out <= 0.0:
+        raise ValueError("stream annulus center, width, and R_out must be positive")
+    logR_center = float(np.log(center_fraction * R_out))
+    arg = (float(logR) - logR_center) / float(log_width)
+    shape = 0.5 * (1.0 + np.tanh(arg))
+    if abs(arg) > 40.0:
+        dshape_dx = 0.0
+    else:
+        sech = 1.0 / np.cosh(arg)
+        dshape_dx = 0.5 * sech * sech / float(log_width)
+    return float(shape), float(dshape_dx)
+
+
+def stream_mass_rate_and_derivative(logR: float, params) -> tuple[float, float]:
+    """Return local inward accretion rate and dMdot/dlnR for a stream annulus."""
+
+    fraction = float(getattr(params, "stream_mass_fraction", 0.0))
+    if fraction == 0.0:
+        return float(params.Mdot_g_s), 0.0
+    if fraction <= -1.0:
+        raise ValueError("stream_mass_fraction must exceed -1")
+    center_fraction = float(getattr(params, "stream_mass_center_fraction", 0.8))
+    log_width = float(getattr(params, "stream_mass_log_width", 0.08))
+    shape, dshape_dx = stream_annulus_shape_and_derivative(logR, center_fraction, log_width, float(params.R_out))
+    factor = 1.0 + fraction * shape
+    if factor <= 0.0:
+        raise ValueError("stream mass profile produced non-positive Mdot")
+    return float(params.Mdot_g_s * factor), float(params.Mdot_g_s * fraction * dshape_dx)
+
+
+def stream_torque_specific_l_and_derivative(logR: float, params) -> tuple[float, float]:
+    """Return cumulative stream-torque specific angular momentum and d/dlnR."""
+
+    amplitude = float(getattr(params, "stream_torque_delta_l_fraction", 0.0))
+    if amplitude == 0.0:
+        return 0.0, 0.0
+    center_fraction = float(getattr(params, "stream_torque_center_fraction", 0.8))
+    log_width = float(getattr(params, "stream_torque_log_width", 0.08))
+    if center_fraction <= 0.0 or log_width <= 0.0:
+        raise ValueError("stream torque center and width must be positive")
+
+    potential = PaczynskiWiitaPotential(params.M2_g)
+    R_center = float(center_fraction * params.R_out)
+    shape, dshape_dx = stream_annulus_shape_and_derivative(logR, center_fraction, log_width, float(params.R_out))
+    l_ref = float(potential.l_k(R_center))
+    return float(amplitude * l_ref * shape), float(amplitude * l_ref * dshape_dx)
+
+
+def stream_heating_rate(logR: float, params) -> float:
+    """Return annular stream shock/heating source per disk face area."""
+
+    efficiency = float(getattr(params, "stream_heating_efficiency", 0.0))
+    if efficiency == 0.0:
+        return 0.0
+    if efficiency < 0.0:
+        raise ValueError("stream_heating_efficiency must be non-negative")
+    dMdot_dx = stream_mass_rate_and_derivative(logR, params)[1]
+    if dMdot_dx <= 0.0:
+        return 0.0
+    potential = PaczynskiWiitaPotential(params.M2_g)
+    R = float(np.exp(logR))
+    orbital_specific_energy = 0.5 * (R * float(potential.omega_k(R))) ** 2
+    return float(efficiency * dMdot_dx * orbital_specific_energy / (2.0 * np.pi * R**2))
 
 
 def _quantity_vector(logR: float, y, lambda0: float, params) -> dict[str, float]:
@@ -219,7 +289,12 @@ def _directional_derivatives(state: AlgebraicTransonicState, params, dln_sigma: 
     dln_P_gas = dP_gas / state.P_gas
     dln_P = dP / state.P
     dW = state.W * (dln_H + params.mu_stress * dln_P_gas + (1.0 - params.mu_stress) * dln_P)
-    dOmega = -2.0 * (state.l0 / state.R**2) * dln_R + (2.0 * np.pi / params.Mdot_g_s) * dW
+    Mdot_local, dMdot_dx = stream_mass_rate_and_derivative(np.log(state.R), params)
+    dln_mdot = (dMdot_dx / Mdot_local) * dln_R
+    stream_l, stream_dl_dx = stream_torque_specific_l_and_derivative(np.log(state.R), params)
+    dOmega_stream = (stream_dl_dx - 2.0 * stream_l) * dln_R / state.R**2
+    dOmega_visc = (2.0 * np.pi / Mdot_local) * (dW - state.W * dln_mdot)
+    dOmega = -2.0 * (state.l0 / state.R**2) * dln_R + dOmega_visc + dOmega_stream
 
     return {
         "Pi": float(dPi),
@@ -236,11 +311,13 @@ def analytic_state_partials(logR: float, y, lambda0: float, params) -> LocalPart
     state = algebraic_state(logR, float(y[0]), float(y[1]), lambda0, params)
     potential = PaczynskiWiitaPotential(params.M2_g)
     dln_omega_k_dlnR = float(potential.dln_omega_k_dlnR(state.R))
+    Mdot_local, dMdot_dx = stream_mass_rate_and_derivative(logR, params)
+    dln_mdot_dx = dMdot_dx / Mdot_local
 
     x_partials = _directional_derivatives(
         state,
         params,
-        dln_sigma=-1.0,
+        dln_sigma=dln_mdot_dx - 1.0,
         dln_T=0.0,
         dln_omega_k=dln_omega_k_dlnR,
         dln_R=1.0,
@@ -289,7 +366,8 @@ def differential_residual(logR: float, y, g, lambda0: float, params) -> np.ndarr
     Tdsdx = de_dx - state.P / state.rho**2 * drho_dx
     Q_visc = -state.W * dOmega_dx
     Q_adv = -(state.Sigma * state.u / state.R) * Tdsdx
-    energy = Q_visc - state.Q_rad - Q_adv
+    Q_stream = stream_heating_rate(logR, params)
+    energy = Q_visc + Q_stream - state.Q_rad - Q_adv
     return np.asarray([radial, energy], dtype=float)
 
 
@@ -318,6 +396,7 @@ def differential_residual_scales(logR: float, y, lambda0: float, params, floor: 
     energy_scale = float(
         np.sqrt(
             (state.W * state.Omega) ** 2
+            + stream_heating_rate(logR, params) ** 2
             + state.Q_rad**2
             + (state.Sigma * state.u * state.e / state.R) ** 2
             + floor**2

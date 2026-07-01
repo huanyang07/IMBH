@@ -32,6 +32,9 @@ from imri_qpe.layer3_minidisk_1d import (
     sonic_null_vectors,
     sonic_unscaled_directional_B,
     sonic_unscaled_null_vectors,
+    stream_heating_rate,
+    stream_mass_rate_and_derivative,
+    stream_torque_specific_l_and_derivative,
     surface_density,
     vertical_state,
     xi_eff_from_gradient,
@@ -102,6 +105,88 @@ class TransonicLocalTests(unittest.TestCase):
         ):
             self.assertTrue(np.isfinite(value))
             self.assertGreater(value, 0.0)
+
+    def test_zero_stream_torque_preserves_algebraic_state(self) -> None:
+        params_with_zero_torque = types.SimpleNamespace(
+            **{
+                **self.params.__dict__,
+                "R_out": 300.0 * self.potential.r_g,
+                "stream_torque_delta_l_fraction": 0.0,
+                "stream_torque_center_fraction": 0.8,
+                "stream_torque_log_width": 0.08,
+            }
+        )
+
+        baseline = algebraic_state(self.logR, self.y[0], self.y[1], self.lambda0, self.params)
+        with_zero_torque = algebraic_state(self.logR, self.y[0], self.y[1], self.lambda0, params_with_zero_torque)
+
+        self.assertAlmostEqual(with_zero_torque.l / baseline.l, 1.0)
+        self.assertAlmostEqual(with_zero_torque.Omega / baseline.Omega, 1.0)
+
+    def test_stream_mass_rate_derivative_matches_centered_difference(self) -> None:
+        params = types.SimpleNamespace(
+            **{
+                **self.params.__dict__,
+                "R_out": 300.0 * self.potential.r_g,
+                "stream_mass_fraction": 0.03,
+                "stream_mass_center_fraction": 0.8,
+                "stream_mass_log_width": 0.08,
+            }
+        )
+        logR_center = float(np.log(params.stream_mass_center_fraction * params.R_out))
+        eps = 2.0e-5
+
+        mdot, derivative = stream_mass_rate_and_derivative(logR_center, params)
+        mdot_plus, _ = stream_mass_rate_and_derivative(logR_center + eps, params)
+        mdot_minus, _ = stream_mass_rate_and_derivative(logR_center - eps, params)
+        finite_difference = (mdot_plus - mdot_minus) / (2.0 * eps)
+
+        self.assertAlmostEqual(mdot / self.params.Mdot_g_s, 1.015)
+        self.assertAlmostEqual(derivative / self.params.Mdot_g_s, 0.5 * 0.03 / params.stream_mass_log_width)
+        np.testing.assert_allclose(derivative, finite_difference, rtol=1.0e-7)
+
+    def test_stream_heating_rate_tracks_positive_mass_deposition(self) -> None:
+        params = types.SimpleNamespace(
+            **{
+                **self.params.__dict__,
+                "R_out": 300.0 * self.potential.r_g,
+                "stream_mass_fraction": 0.03,
+                "stream_mass_center_fraction": 0.8,
+                "stream_mass_log_width": 0.08,
+                "stream_heating_efficiency": 0.01,
+            }
+        )
+        logR_center = float(np.log(params.stream_mass_center_fraction * params.R_out))
+        cold_params = types.SimpleNamespace(**{**params.__dict__, "stream_heating_efficiency": 0.0})
+        no_mass_params = types.SimpleNamespace(**{**params.__dict__, "stream_mass_fraction": 0.0})
+
+        self.assertGreater(stream_heating_rate(logR_center, params), 0.0)
+        self.assertEqual(stream_heating_rate(logR_center, cold_params), 0.0)
+        self.assertEqual(stream_heating_rate(logR_center, no_mass_params), 0.0)
+
+    def test_stream_torque_derivative_matches_centered_difference(self) -> None:
+        params = types.SimpleNamespace(
+            **{
+                **self.params.__dict__,
+                "R_out": 300.0 * self.potential.r_g,
+                "stream_torque_delta_l_fraction": 1.0e-3,
+                "stream_torque_center_fraction": 0.8,
+                "stream_torque_log_width": 0.08,
+            }
+        )
+        R_center = params.stream_torque_center_fraction * params.R_out
+        logR_center = float(np.log(R_center))
+        eps = 2.0e-5
+
+        value, derivative = stream_torque_specific_l_and_derivative(logR_center, params)
+        value_plus, _ = stream_torque_specific_l_and_derivative(logR_center + eps, params)
+        value_minus, _ = stream_torque_specific_l_and_derivative(logR_center - eps, params)
+        finite_difference = (value_plus - value_minus) / (2.0 * eps)
+        l_ref = self.potential.l_k(R_center)
+
+        self.assertAlmostEqual(value / l_ref, 0.5e-3)
+        self.assertAlmostEqual(derivative / l_ref, 0.5e-3 / params.stream_torque_log_width)
+        np.testing.assert_allclose(derivative, finite_difference, rtol=1.0e-7)
 
     def test_differential_system_is_linear_in_gradient(self) -> None:
         A, c = differential_matrix(self.logR, self.y, self.lambda0, self.params)
@@ -193,6 +278,26 @@ class TransonicLocalTests(unittest.TestCase):
             self.assertLess(abs(analytic.x[key] - finite.x[key]) / scale_x, 3.0e-5, key)
             scale_y = np.maximum(np.maximum(np.abs(analytic.y[key]), np.abs(finite.y[key])), 1.0)
             self.assertLess(float(np.max(np.abs(analytic.y[key] - finite.y[key]) / scale_y)), 3.0e-5, key)
+
+    def test_analytic_partials_match_finite_difference_with_stream_mass(self) -> None:
+        params = types.SimpleNamespace(
+            **{
+                **self.params.__dict__,
+                "R_out": 300.0 * self.potential.r_g,
+                "stream_mass_fraction": 0.03,
+                "stream_mass_center_fraction": 0.8,
+                "stream_mass_log_width": 0.08,
+            }
+        )
+        logR = float(np.log(params.stream_mass_center_fraction * params.R_out))
+        analytic = analytic_state_partials(logR, self.y, self.lambda0, params)
+        finite = finite_difference_state_partials(logR, self.y, self.lambda0, params, eps_x=3.0e-6, eps_y=3.0e-6)
+
+        for key in ("Pi", "rho", "e", "Omega"):
+            scale_x = max(abs(analytic.x[key]), abs(finite.x[key]), 1.0)
+            self.assertLess(abs(analytic.x[key] - finite.x[key]) / scale_x, 5.0e-5, key)
+            scale_y = np.maximum(np.maximum(np.abs(analytic.y[key]), np.abs(finite.y[key])), 1.0)
+            self.assertLess(float(np.max(np.abs(analytic.y[key] - finite.y[key]) / scale_y)), 5.0e-5, key)
 
     def test_analytic_partials_support_mixed_stress_exponent(self) -> None:
         params = types.SimpleNamespace(**{**self.params.__dict__, "mu_stress": 0.4})
