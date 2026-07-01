@@ -20,6 +20,7 @@ from imri_qpe.layer3_minidisk_1d import (
     local_ode_rhs,
     local_scaled_residual,
     local_unscaled_residual,
+    mdot_profile_from_source_sink,
     phase_space_null_tangent,
     phase_space_tangent_derivative,
     radiative_cooling,
@@ -33,10 +34,13 @@ from imri_qpe.layer3_minidisk_1d import (
     sonic_unscaled_directional_B,
     sonic_unscaled_null_vectors,
     stream_heating_rate,
+    stream_annulus_shape_and_derivative,
     stream_mass_rate_and_derivative,
+    stream_source_prime,
     stream_torque_specific_l_and_derivative,
     surface_density,
     vertical_state,
+    wind_sink_prime,
     xi_eff_from_gradient,
 )
 from imri_qpe.scales import eddington_mdot
@@ -123,43 +127,80 @@ class TransonicLocalTests(unittest.TestCase):
         self.assertAlmostEqual(with_zero_torque.l / baseline.l, 1.0)
         self.assertAlmostEqual(with_zero_torque.Omega / baseline.Omega, 1.0)
 
-    def test_stream_mass_rate_derivative_matches_centered_difference(self) -> None:
+    def test_stream_source_makes_outer_mdot_smaller_than_inner(self) -> None:
         params = types.SimpleNamespace(
             **{
                 **self.params.__dict__,
                 "R_out": 300.0 * self.potential.r_g,
-                "stream_mass_fraction": 0.03,
-                "stream_mass_center_fraction": 0.8,
-                "stream_mass_log_width": 0.08,
+                "stream_source_fraction": 0.03,
+                "stream_source_center_fraction": 0.8,
+                "stream_source_log_width": 0.08,
             }
         )
-        logR_center = float(np.log(params.stream_mass_center_fraction * params.R_out))
+        logR_center = float(np.log(params.stream_source_center_fraction * params.R_out))
+        logR_outer = float(np.log(params.R_out))
         eps = 2.0e-5
 
         mdot, derivative = stream_mass_rate_and_derivative(logR_center, params)
         mdot_plus, _ = stream_mass_rate_and_derivative(logR_center + eps, params)
         mdot_minus, _ = stream_mass_rate_and_derivative(logR_center - eps, params)
         finite_difference = (mdot_plus - mdot_minus) / (2.0 * eps)
+        mdot_outer, derivative_outer = stream_mass_rate_and_derivative(logR_outer, params)
+        source_prime = stream_source_prime(logR_center, params)
+        outer_shape, _outer_dshape = stream_annulus_shape_and_derivative(
+            logR_outer,
+            params.stream_source_center_fraction,
+            params.stream_source_log_width,
+            params.R_out,
+        )
 
-        self.assertAlmostEqual(mdot / self.params.Mdot_g_s, 1.015)
-        self.assertAlmostEqual(derivative / self.params.Mdot_g_s, 0.5 * 0.03 / params.stream_mass_log_width)
+        self.assertAlmostEqual(mdot / self.params.Mdot_g_s, 0.985)
+        self.assertAlmostEqual(mdot_outer / self.params.Mdot_g_s, 1.0 - 0.03 * outer_shape)
+        self.assertAlmostEqual(derivative / self.params.Mdot_g_s, -0.5 * 0.03 / params.stream_source_log_width)
+        self.assertAlmostEqual(source_prime / self.params.Mdot_g_s, 0.5 * 0.03 / params.stream_source_log_width)
+        self.assertLess(derivative_outer, 0.0)
         np.testing.assert_allclose(derivative, finite_difference, rtol=1.0e-7)
+
+    def test_source_sink_budget_helpers_are_explicit(self) -> None:
+        params = types.SimpleNamespace(
+            **{
+                **self.params.__dict__,
+                "R_out": 300.0 * self.potential.r_g,
+                "stream_source_fraction": 0.03,
+                "stream_source_center_fraction": 0.8,
+                "stream_source_log_width": 0.08,
+                "wind_sink_fraction": 0.01,
+                "wind_sink_center_fraction": 0.9,
+                "wind_sink_log_width": 0.05,
+            }
+        )
+        logR = float(np.log(0.85 * params.R_out))
+
+        mdot, derivative = mdot_profile_from_source_sink(logR, params)
+        source = stream_source_prime(logR, params)
+        wind = wind_sink_prime(logR, params)
+
+        self.assertGreater(mdot, 0.0)
+        self.assertGreaterEqual(source, 0.0)
+        self.assertGreaterEqual(wind, 0.0)
+        self.assertAlmostEqual(derivative, wind - source)
 
     def test_stream_heating_rate_tracks_positive_mass_deposition(self) -> None:
         params = types.SimpleNamespace(
             **{
                 **self.params.__dict__,
                 "R_out": 300.0 * self.potential.r_g,
-                "stream_mass_fraction": 0.03,
-                "stream_mass_center_fraction": 0.8,
-                "stream_mass_log_width": 0.08,
+                "stream_source_fraction": 0.03,
+                "stream_source_center_fraction": 0.8,
+                "stream_source_log_width": 0.08,
                 "stream_heating_efficiency": 0.01,
             }
         )
-        logR_center = float(np.log(params.stream_mass_center_fraction * params.R_out))
+        logR_center = float(np.log(params.stream_source_center_fraction * params.R_out))
         cold_params = types.SimpleNamespace(**{**params.__dict__, "stream_heating_efficiency": 0.0})
-        no_mass_params = types.SimpleNamespace(**{**params.__dict__, "stream_mass_fraction": 0.0})
+        no_mass_params = types.SimpleNamespace(**{**params.__dict__, "stream_source_fraction": 0.0})
 
+        self.assertLess(stream_mass_rate_and_derivative(logR_center, params)[1], 0.0)
         self.assertGreater(stream_heating_rate(logR_center, params), 0.0)
         self.assertEqual(stream_heating_rate(logR_center, cold_params), 0.0)
         self.assertEqual(stream_heating_rate(logR_center, no_mass_params), 0.0)
@@ -284,12 +325,12 @@ class TransonicLocalTests(unittest.TestCase):
             **{
                 **self.params.__dict__,
                 "R_out": 300.0 * self.potential.r_g,
-                "stream_mass_fraction": 0.03,
-                "stream_mass_center_fraction": 0.8,
-                "stream_mass_log_width": 0.08,
+                "stream_source_fraction": 0.03,
+                "stream_source_center_fraction": 0.8,
+                "stream_source_log_width": 0.08,
             }
         )
-        logR = float(np.log(params.stream_mass_center_fraction * params.R_out))
+        logR = float(np.log(params.stream_source_center_fraction * params.R_out))
         analytic = analytic_state_partials(logR, self.y, self.lambda0, params)
         finite = finite_difference_state_partials(logR, self.y, self.lambda0, params, eps_x=3.0e-6, eps_y=3.0e-6)
 

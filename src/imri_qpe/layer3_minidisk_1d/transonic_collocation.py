@@ -54,6 +54,12 @@ class TransonicSlimParams:
     stream_torque_delta_l_fraction: float = 0.0
     stream_torque_center_fraction: float = 0.8
     stream_torque_log_width: float = 0.08
+    stream_source_fraction: float = 0.0
+    stream_source_center_fraction: float = 0.8
+    stream_source_log_width: float = 0.08
+    wind_sink_fraction: float = 0.0
+    wind_sink_center_fraction: float = 0.8
+    wind_sink_log_width: float = 0.08
     stream_mass_fraction: float = 0.0
     stream_mass_center_fraction: float = 0.8
     stream_mass_log_width: float = 0.08
@@ -133,14 +139,35 @@ class TransonicSlimParams:
             raise ValueError("stream_torque_center_fraction must be positive")
         if self.stream_torque_log_width <= 0.0:
             raise ValueError("stream_torque_log_width must be positive")
+        if not np.isfinite(float(self.stream_source_fraction)):
+            raise ValueError("stream_source_fraction must be finite")
+        if self.stream_source_fraction < 0.0:
+            raise ValueError("stream_source_fraction must be non-negative")
+        if self.stream_source_center_fraction <= 0.0:
+            raise ValueError("stream_source_center_fraction must be positive")
+        if self.stream_source_log_width <= 0.0:
+            raise ValueError("stream_source_log_width must be positive")
+        if not np.isfinite(float(self.wind_sink_fraction)):
+            raise ValueError("wind_sink_fraction must be finite")
+        if self.wind_sink_fraction < 0.0:
+            raise ValueError("wind_sink_fraction must be non-negative")
+        if self.wind_sink_center_fraction <= 0.0:
+            raise ValueError("wind_sink_center_fraction must be positive")
+        if self.wind_sink_log_width <= 0.0:
+            raise ValueError("wind_sink_log_width must be positive")
         if not np.isfinite(float(self.stream_mass_fraction)):
             raise ValueError("stream_mass_fraction must be finite")
-        if self.stream_mass_fraction <= -1.0:
-            raise ValueError("stream_mass_fraction must exceed -1")
+        if self.stream_source_fraction != 0.0 and self.stream_mass_fraction != 0.0:
+            raise ValueError("use only one of stream_source_fraction and deprecated stream_mass_fraction")
+        if self.stream_mass_fraction < 0.0:
+            raise ValueError("stream_mass_fraction is a deprecated source alias and must be non-negative")
         if self.stream_mass_center_fraction <= 0.0:
             raise ValueError("stream_mass_center_fraction must be positive")
         if self.stream_mass_log_width <= 0.0:
             raise ValueError("stream_mass_log_width must be positive")
+        source_fraction = self.stream_source_fraction if self.stream_source_fraction != 0.0 else self.stream_mass_fraction
+        if source_fraction >= 1.0 + self.wind_sink_fraction:
+            raise ValueError("source/sink profile would allow non-positive outer Mdot")
         if not np.isfinite(float(self.stream_heating_efficiency)):
             raise ValueError("stream_heating_efficiency must be finite")
         if self.stream_heating_efficiency < 0.0:

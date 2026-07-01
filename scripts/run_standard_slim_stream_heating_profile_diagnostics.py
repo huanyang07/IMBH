@@ -77,6 +77,20 @@ def params_from_checkpoint(path: Path, fiducial: FiducialParams, mdot_edd: float
         candidate = np.asarray(data["outer_match_log_slopes"], dtype=float)
         if candidate.shape == (2,) and np.all(np.isfinite(candidate)):
             slopes = (float(candidate[0]), float(candidate[1]))
+    explicit_source = optional_float(data, "stream_source_fraction", np.nan)
+    if np.isfinite(explicit_source) and explicit_source != 0.0:
+        stream_source_kwargs = {
+            "stream_source_fraction": explicit_source,
+            "stream_source_center_fraction": optional_float(data, "stream_source_center_fraction", 0.8),
+            "stream_source_log_width": optional_float(data, "stream_source_log_width", 0.08),
+            "stream_mass_fraction": 0.0,
+        }
+    else:
+        stream_source_kwargs = {
+            "stream_mass_fraction": optional_float(data, "stream_mass_fraction", 0.0),
+            "stream_mass_center_fraction": optional_float(data, "stream_mass_center_fraction", 0.8),
+            "stream_mass_log_width": optional_float(data, "stream_mass_log_width", 0.08),
+        }
     params = TransonicSlimParams(
         M2_g=fiducial.M2_g,
         Mdot_g_s=float(data["ratio"]) * mdot_edd,
@@ -92,12 +106,10 @@ def params_from_checkpoint(path: Path, fiducial: FiducialParams, mdot_edd: float
         stream_torque_delta_l_fraction=optional_float(data, "stream_torque_delta_l_fraction", 0.0),
         stream_torque_center_fraction=optional_float(data, "stream_torque_center_fraction", 0.8),
         stream_torque_log_width=optional_float(data, "stream_torque_log_width", 0.08),
-        stream_mass_fraction=optional_float(data, "stream_mass_fraction", 0.0),
-        stream_mass_center_fraction=optional_float(data, "stream_mass_center_fraction", 0.8),
-        stream_mass_log_width=optional_float(data, "stream_mass_log_width", 0.08),
         stream_heating_efficiency=optional_float(data, "stream_heating_efficiency", 0.0),
         interval_residual_form="differential",
         integrated_residual_weighting="none",
+        **stream_source_kwargs,
     )
     return np.asarray(data["z"], dtype=float), params
 
@@ -140,7 +152,7 @@ def case_arrays(label: str, path: Path, fiducial: FiducialParams, mdot_edd: floa
             "label": label,
             "path": str(path.relative_to(ROOT)),
             "eta_heat": float(params.stream_heating_efficiency),
-            "mass_fraction": float(params.stream_mass_fraction),
+            "mass_fraction": float(params.stream_source_fraction if params.stream_source_fraction != 0.0 else params.stream_mass_fraction),
             "torque_fraction": float(params.stream_torque_delta_l_fraction),
             "max_Qstream_Qvisc": float(np.max(q_stream / (np.abs(qv) + 1.0e-300))),
             "max_Qstream_Qrad": float(np.max(q_stream / (np.abs(qr) + 1.0e-300))),

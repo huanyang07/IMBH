@@ -18,9 +18,11 @@ from imri_qpe.layer3_minidisk_1d import (
     residual_audit_from_state_vector,
     solve_square_transonic_polish,
     stream_mass_rate_and_derivative,
+    stream_source_prime,
     stream_torque_specific_l_and_derivative,
     transonic_profile_from_state_vector,
     unpack_state,
+    wind_sink_prime,
 )
 from imri_qpe.parameters import FiducialParams
 from imri_qpe.scales import eddington_mdot
@@ -135,9 +137,9 @@ def params_for(
         stream_torque_delta_l_fraction=TORQUE_FRACTION,
         stream_torque_center_fraction=TORQUE_CENTER_FRACTION,
         stream_torque_log_width=TORQUE_LOG_WIDTH,
-        stream_mass_fraction=float(mass_fraction),
-        stream_mass_center_fraction=MASS_CENTER_FRACTION,
-        stream_mass_log_width=MASS_LOG_WIDTH,
+        stream_source_fraction=float(mass_fraction),
+        stream_source_center_fraction=MASS_CENTER_FRACTION,
+        stream_source_log_width=MASS_LOG_WIDTH,
         interval_residual_form="differential",
         integrated_residual_weighting="none",
     )
@@ -217,19 +219,30 @@ def angular_diagnostic(z: np.ndarray, params: TransonicSlimParams) -> dict[str, 
 
 def stream_diagnostic(z: np.ndarray, params: TransonicSlimParams) -> dict[str, float]:
     _logu, _logT, _logR_son, _lambda0, logR = unpack_state(z, params)
-    R_mass = float(params.stream_mass_center_fraction * params.R_out)
+    R_mass = float(params.stream_source_center_fraction * params.R_out)
     R_torque = float(params.stream_torque_center_fraction * params.R_out)
+    mdot_inner, _dmdot_inner = stream_mass_rate_and_derivative(float(logR[0]), params)
     mdot_outer, dmdot_outer = stream_mass_rate_and_derivative(float(logR[-1]), params)
     mdot_center, dmdot_center = stream_mass_rate_and_derivative(float(np.log(R_mass)), params)
+    source_prime = np.asarray([stream_source_prime(float(x), params) for x in logR], dtype=float)
+    wind_prime = np.asarray([wind_sink_prime(float(x), params) for x in logR], dtype=float)
+    budget_integral = float(np.trapezoid(wind_prime - source_prime, logR))
+    budget_error = float((mdot_outer - mdot_inner) - budget_integral)
+    budget_scale = max(abs(mdot_outer - mdot_inner), abs(budget_integral), abs(params.Mdot_g_s), 1.0)
     l_ref = float(params.potential.l_k(R_torque))
     stream_l_outer, _stream_l_outer_deriv = stream_torque_specific_l_and_derivative(float(logR[-1]), params)
     return {
         "Rinj_mass_rg": float(R_mass / params.r_g),
         "Rinj_torque_rg": float(R_torque / params.r_g),
+        "Mdot_inner_over_param": float(mdot_inner / params.Mdot_g_s),
         "Mdot_outer_over_inner": float(mdot_outer / params.Mdot_g_s),
         "Mdot_center_over_inner": float(mdot_center / params.Mdot_g_s),
         "dMdot_dlnR_outer_over_inner": float(dmdot_outer / params.Mdot_g_s),
         "dMdot_dlnR_center_over_inner": float(dmdot_center / params.Mdot_g_s),
+        "stream_source_integral_over_inner": float(np.trapezoid(source_prime, logR) / params.Mdot_g_s),
+        "wind_sink_integral_over_inner": float(np.trapezoid(wind_prime, logR) / params.Mdot_g_s),
+        "mass_budget_error_over_inner": float(budget_error / params.Mdot_g_s),
+        "relative_mass_budget_error": float(abs(budget_error) / budget_scale),
         "stream_l_outer_over_lKinj": float(stream_l_outer / l_ref) if l_ref > 0.0 else np.nan,
     }
 
@@ -255,8 +268,8 @@ def row_for_result(
         "R_out_rg": float(params.R_out_rg),
         "N": int(params.n_nodes),
         "grid_power": float(params.grid_power),
-        "mass_center_fraction": float(params.stream_mass_center_fraction),
-        "mass_log_width": float(params.stream_mass_log_width),
+        "mass_center_fraction": float(params.stream_source_center_fraction),
+        "mass_log_width": float(params.stream_source_log_width),
         "initial_full": max_residual(seed, params),
         "final_full": full,
         "accepted": bool(full <= ACCEPTANCE_TOL),
@@ -309,6 +322,9 @@ def save_checkpoint(row: dict[str, Any], params: TransonicSlimParams) -> None:
         stream_torque_delta_l_fraction=np.array(params.stream_torque_delta_l_fraction),
         stream_torque_center_fraction=np.array(params.stream_torque_center_fraction),
         stream_torque_log_width=np.array(params.stream_torque_log_width),
+        stream_source_fraction=np.array(params.stream_source_fraction),
+        stream_source_center_fraction=np.array(params.stream_source_center_fraction),
+        stream_source_log_width=np.array(params.stream_source_log_width),
         stream_mass_fraction=np.array(params.stream_mass_fraction),
         stream_mass_center_fraction=np.array(params.stream_mass_center_fraction),
         stream_mass_log_width=np.array(params.stream_mass_log_width),
@@ -330,8 +346,8 @@ def write_table(rows: list[dict[str, Any]]) -> None:
         f"Rinj/Rout `{MASS_CENTER_FRACTION:g}`, log width `{MASS_LOG_WIDTH:g}`, "
         f"torque fraction `{TORQUE_FRACTION:g}`, refresh repolish `{REFRESH_REPOLISH}`.",
         "",
-        "| branch | mass fraction | torque fraction | Mdot outer/inner | Mdot center/inner | Rout/rg | Rinj/rg | initial full | final full | accepted | anchor | dominant | outer omega | int R | int E | outer energy | max H/R | int adv | Rson/rg | pivot | nfev | elapsed s | message |",
-        "|---|---:|---:|---:|---:|---:|---:|---:|---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---|",
+        "| branch | source fraction | torque fraction | Mdot outer/inner | Mdot center/inner | source integral | rel budget err | Rout/rg | Rinj/rg | initial full | final full | accepted | anchor | dominant | outer omega | int R | int E | outer energy | max H/R | int adv | Rson/rg | pivot | nfev | elapsed s | message |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---|",
     ]
     for row in rows:
         formatted = {key: fmt(value) if isinstance(value, (float, int, np.floating, np.integer)) else value for key, value in row.items()}
@@ -339,7 +355,8 @@ def write_table(rows: list[dict[str, Any]]) -> None:
             formatted[key] = f"{float(row[key]):.6g}"
         lines.append(
             "| {branch} | {mass_fraction} | {torque_fraction} | {Mdot_outer_over_inner} | {Mdot_center_over_inner} | "
-            "{R_out_rg} | {Rinj_mass_rg} | {initial_full} | {final_full} | {accepted} | {anchor_eligible} | "
+            "{stream_source_integral_over_inner} | {relative_mass_budget_error} | {R_out_rg} | {Rinj_mass_rg} | "
+            "{initial_full} | {final_full} | {accepted} | {anchor_eligible} | "
             "{dominant} | {outer_omega} | {interval_R} | {interval_E} | {outer_energy} | {max_H_R} | "
             "{integrated_adv} | {Rson_rg} | {pivot} | {nfev} | {elapsed_s} | {message} |".format(**formatted).replace("\n", " ")
         )

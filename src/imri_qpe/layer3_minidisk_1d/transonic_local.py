@@ -170,21 +170,91 @@ def stream_annulus_shape_and_derivative(logR: float, center_fraction: float, log
     return float(shape), float(dshape_dx)
 
 
-def stream_mass_rate_and_derivative(logR: float, params) -> tuple[float, float]:
-    """Return local inward accretion rate and dMdot/dlnR for a stream annulus."""
+def _stream_source_fraction(params) -> float:
+    explicit = float(getattr(params, "stream_source_fraction", 0.0))
+    legacy = float(getattr(params, "stream_mass_fraction", 0.0))
+    if explicit != 0.0 and legacy != 0.0:
+        raise ValueError("use only one of stream_source_fraction and deprecated stream_mass_fraction")
+    fraction = explicit if explicit != 0.0 else legacy
+    if fraction < 0.0:
+        raise ValueError("stream source fraction must be non-negative; use wind_sink_fraction for mass loss")
+    return fraction
 
-    fraction = float(getattr(params, "stream_mass_fraction", 0.0))
+
+def _source_geometry(params) -> tuple[float, float]:
+    center = float(getattr(params, "stream_source_center_fraction", getattr(params, "stream_mass_center_fraction", 0.8)))
+    width = float(getattr(params, "stream_source_log_width", getattr(params, "stream_mass_log_width", 0.08)))
+    return center, width
+
+
+def _wind_sink_geometry(params) -> tuple[float, float]:
+    center = float(getattr(params, "wind_sink_center_fraction", 0.8))
+    width = float(getattr(params, "wind_sink_log_width", 0.08))
+    return center, width
+
+
+def stream_source_prime(logR: float, params) -> float:
+    """Return positive stream mass added to the disk per ``dlnR``."""
+
+    fraction = _stream_source_fraction(params)
     if fraction == 0.0:
-        return float(params.Mdot_g_s), 0.0
-    if fraction <= -1.0:
-        raise ValueError("stream_mass_fraction must exceed -1")
-    center_fraction = float(getattr(params, "stream_mass_center_fraction", 0.8))
-    log_width = float(getattr(params, "stream_mass_log_width", 0.08))
+        return 0.0
+    center_fraction, log_width = _source_geometry(params)
+    _shape, dshape_dx = stream_annulus_shape_and_derivative(logR, center_fraction, log_width, float(params.R_out))
+    return float(params.Mdot_g_s * fraction * dshape_dx)
+
+
+def wind_sink_prime(logR: float, params) -> float:
+    """Return positive mass removed from the disk per ``dlnR``."""
+
+    fraction = float(getattr(params, "wind_sink_fraction", 0.0))
+    if fraction == 0.0:
+        return 0.0
+    if fraction < 0.0:
+        raise ValueError("wind sink fraction must be non-negative")
+    center_fraction, log_width = _wind_sink_geometry(params)
     shape, dshape_dx = stream_annulus_shape_and_derivative(logR, center_fraction, log_width, float(params.R_out))
-    factor = 1.0 + fraction * shape
+    _ = shape
+    return float(params.Mdot_g_s * fraction * dshape_dx)
+
+
+def mdot_profile_from_source_sink(logR: float, params) -> tuple[float, float]:
+    """Return local inward ``Mdot`` and signed ``dMdot/dlnR``.
+
+    The sign convention is inward-positive.  A conservative stream source adds
+    mass to the disk and therefore decreases the inward accretion rate outward:
+    ``dMdot/dlnR = -Mdot_stream_prime``.  A wind sink removes mass from the disk
+    and contributes with the opposite sign.
+    """
+
+    source_fraction = _stream_source_fraction(params)
+    wind_fraction = float(getattr(params, "wind_sink_fraction", 0.0))
+    if wind_fraction < 0.0:
+        raise ValueError("wind sink fraction must be non-negative")
+    source_shape = 0.0
+    if source_fraction != 0.0:
+        center_fraction, log_width = _source_geometry(params)
+        source_shape, _source_dshape = stream_annulus_shape_and_derivative(logR, center_fraction, log_width, float(params.R_out))
+    wind_shape = 0.0
+    if wind_fraction != 0.0:
+        center_fraction, log_width = _wind_sink_geometry(params)
+        wind_shape, _wind_dshape = stream_annulus_shape_and_derivative(logR, center_fraction, log_width, float(params.R_out))
+    factor = 1.0 + wind_fraction * wind_shape - source_fraction * source_shape
     if factor <= 0.0:
-        raise ValueError("stream mass profile produced non-positive Mdot")
-    return float(params.Mdot_g_s * factor), float(params.Mdot_g_s * fraction * dshape_dx)
+        raise ValueError("source/sink profile produced non-positive inward Mdot")
+    derivative = wind_sink_prime(logR, params) - stream_source_prime(logR, params)
+    return float(params.Mdot_g_s * factor), float(derivative)
+
+
+def stream_mass_rate_and_derivative(logR: float, params) -> tuple[float, float]:
+    """Return local inward accretion rate and signed ``dMdot/dlnR``.
+
+    Kept for compatibility with older stream scripts; new code should call
+    :func:`mdot_profile_from_source_sink`, :func:`stream_source_prime`, and
+    :func:`wind_sink_prime` explicitly.
+    """
+
+    return mdot_profile_from_source_sink(logR, params)
 
 
 def stream_torque_specific_l_and_derivative(logR: float, params) -> tuple[float, float]:
@@ -213,13 +283,13 @@ def stream_heating_rate(logR: float, params) -> float:
         return 0.0
     if efficiency < 0.0:
         raise ValueError("stream_heating_efficiency must be non-negative")
-    dMdot_dx = stream_mass_rate_and_derivative(logR, params)[1]
-    if dMdot_dx <= 0.0:
+    source_prime = stream_source_prime(logR, params)
+    if source_prime <= 0.0:
         return 0.0
     potential = PaczynskiWiitaPotential(params.M2_g)
     R = float(np.exp(logR))
     orbital_specific_energy = 0.5 * (R * float(potential.omega_k(R))) ** 2
-    return float(efficiency * dMdot_dx * orbital_specific_energy / (2.0 * np.pi * R**2))
+    return float(efficiency * source_prime * orbital_specific_energy / (2.0 * np.pi * R**2))
 
 
 def _quantity_vector(logR: float, y, lambda0: float, params) -> dict[str, float]:

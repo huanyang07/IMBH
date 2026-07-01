@@ -149,7 +149,10 @@ from .transonic_local import (
     stream_annulus_shape_and_derivative,
     stream_heating_rate,
     stream_mass_rate_and_derivative,
+    stream_source_prime,
     stream_torque_specific_l_and_derivative,
+    mdot_profile_from_source_sink,
+    wind_sink_prime,
     xi_eff_from_gradient,
 )
 from .transonic_potential import PaczynskiWiitaPotential
@@ -298,7 +301,10 @@ __all__ = [
     "stream_annulus_shape_and_derivative",
     "stream_heating_rate",
     "stream_mass_rate_and_derivative",
+    "stream_source_prime",
     "stream_torque_specific_l_and_derivative",
+    "mdot_profile_from_source_sink",
+    "wind_sink_prime",
     "specific_internal_energy",
     "surface_density",
     "tangent_audit_from_scaled_tangent",
