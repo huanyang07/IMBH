@@ -1,0 +1,70 @@
+[
+  {
+    "Lrad_LEdd": 1.21306006728335,
+    "Lvisc_LEdd": 1.747095667346161,
+    "N": 640,
+    "Rson_rg": 4.502257616904894,
+    "accepted": true,
+    "anchor": false,
+    "dominant": "interval_E",
+    "elapsed_s": 109.77426870795898,
+    "f_adv_global": 0.30181547479471443,
+    "f_adv_inner": 0.25620956021850944,
+    "f_adv_pos": 0.3489230269229817,
+    "full": 7.261605539551665e-06,
+    "interval_E": 7.261605539551665e-06,
+    "interval_R": 2.7907628292722393e-07,
+    "iterations": 12,
+    "label": "m3",
+    "lambda0": 3.7945703835227196,
+    "last_solved_full": 7.261605539551665e-06,
+    "max_H_R": 0.2676681100898102,
+    "message": "maximum Newton iterations reached",
+    "min_tau": 82.07566766825244,
+    "nfev": 74,
+    "outer_energy": -3.3420644260025414e-10,
+    "outer_omega": 1.7788435507156298e-07,
+    "picard_history": [
+      {
+        "elapsed_s": 41.071028291014954,
+        "index": 0,
+        "message": "maximum Newton iterations reached",
+        "nfev": 143,
+        "pivot": "C2",
+        "refreshed_full": 7.272455609933694e-06,
+        "slope_delta": 0.00021848043481387247,
+        "solved_full": 7.272455609933694e-06
+      },
+      {
+        "elapsed_s": 35.358094291063026,
+        "index": 1,
+        "message": "maximum Newton iterations reached",
+        "nfev": 97,
+        "pivot": "C2",
+        "refreshed_full": 7.2618135127033935e-06,
+        "slope_delta": 4.318009791504096e-06,
+        "solved_full": 7.2618135127033935e-06
+      },
+      {
+        "elapsed_s": 32.27197120897472,
+        "index": 2,
+        "message": "maximum Newton iterations reached",
+        "nfev": 74,
+        "pivot": "C2",
+        "refreshed_full": 7.261605539551665e-06,
+        "slope_delta": 8.374770521513142e-08,
+        "solved_full": 7.261605539551665e-06
+      }
+    ],
+    "picard_iterations": 3,
+    "picard_slope_delta": 8.374770521513142e-08,
+    "pivot": "C2",
+    "ratio": 3.0,
+    "seed_full": 7.828532964920083e-06,
+    "smin_over_smax": 3.6974180110310616e-17,
+    "sonic_D": -3.6974180110310616e-17,
+    "sonic_K": -1.90765999373065e-15,
+    "source_N": 640,
+    "source_checkpoint": "outputs/checkpoints/slim_benchmark_high_mdot_no_wind_certification_m3_N640_quick/m3_N640.npz"
+  }
+]

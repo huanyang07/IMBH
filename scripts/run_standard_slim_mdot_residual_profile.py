@@ -23,6 +23,10 @@ from imri_qpe.layer3_minidisk_1d.transonic_local import (
     entropy_gradient_log,
     sonic_diagnostics,
     state_partials,
+    stream_heating_rate,
+    stream_mass_rate_and_derivative,
+    stream_source_prime,
+    wind_sink_prime,
 )
 from imri_qpe.parameters import FiducialParams
 from imri_qpe.scales import eddington_mdot
@@ -80,6 +84,36 @@ def params_for_checkpoint(fiducial: FiducialParams, mdot_edd: float, data) -> Tr
         else None,
         outer_omega_log_offset=float(data["outer_omega_log_offset"])
         if "outer_omega_log_offset" in data and np.isfinite(float(data["outer_omega_log_offset"]))
+        else 0.0,
+        stream_torque_delta_l_fraction=float(data["stream_torque_delta_l_fraction"])
+        if "stream_torque_delta_l_fraction" in data and np.isfinite(float(data["stream_torque_delta_l_fraction"]))
+        else 0.0,
+        stream_torque_center_fraction=float(data["stream_torque_center_fraction"])
+        if "stream_torque_center_fraction" in data and np.isfinite(float(data["stream_torque_center_fraction"]))
+        else 0.8,
+        stream_torque_log_width=float(data["stream_torque_log_width"])
+        if "stream_torque_log_width" in data and np.isfinite(float(data["stream_torque_log_width"]))
+        else 0.08,
+        stream_source_fraction=float(data["stream_source_fraction"])
+        if "stream_source_fraction" in data and np.isfinite(float(data["stream_source_fraction"]))
+        else 0.0,
+        stream_source_center_fraction=float(data["stream_source_center_fraction"])
+        if "stream_source_center_fraction" in data and np.isfinite(float(data["stream_source_center_fraction"]))
+        else 0.8,
+        stream_source_log_width=float(data["stream_source_log_width"])
+        if "stream_source_log_width" in data and np.isfinite(float(data["stream_source_log_width"]))
+        else 0.08,
+        wind_sink_fraction=float(data["wind_sink_fraction"])
+        if "wind_sink_fraction" in data and np.isfinite(float(data["wind_sink_fraction"]))
+        else 0.0,
+        wind_sink_center_fraction=float(data["wind_sink_center_fraction"])
+        if "wind_sink_center_fraction" in data and np.isfinite(float(data["wind_sink_center_fraction"]))
+        else 0.8,
+        wind_sink_log_width=float(data["wind_sink_log_width"])
+        if "wind_sink_log_width" in data and np.isfinite(float(data["wind_sink_log_width"]))
+        else 0.08,
+        stream_heating_efficiency=float(data["stream_heating_efficiency"])
+        if "stream_heating_efficiency" in data and np.isfinite(float(data["stream_heating_efficiency"]))
         else 0.0,
         residual_tol=1.0e-8,
         max_nfev=1,
@@ -145,6 +179,10 @@ def midpoint_diagnostics(logR: np.ndarray, logu: np.ndarray, logT: np.ndarray, l
     radial_scale, energy_scale = differential_residual_scales(x, y, lambda0, params)
     Q_visc = -state.W * dOmega_dx
     Q_adv = -(state.Sigma * state.u / state.R) * Tdsdx
+    Mdot_local, dMdot_dlnR = stream_mass_rate_and_derivative(x, params)
+    source_prime = stream_source_prime(x, params)
+    wind_prime = wind_sink_prime(x, params)
+    Q_stream = stream_heating_rate(x, params)
     sonic = sonic_diagnostics(x, y, lambda0, params)
     return {
         "R_mid_rg": float(np.exp(x) / params.r_g),
@@ -155,6 +193,11 @@ def midpoint_diagnostics(logR: np.ndarray, logu: np.ndarray, logT: np.ndarray, l
         "pressure_frac": float((dPi_dx / state.Sigma) / (state.R**2 * state.Omega_K**2 + 1.0e-300)),
         "inertia_frac": float((state.u**2 * g[0]) / (state.R**2 * state.Omega_K**2 + 1.0e-300)),
         "Qadv_Qvisc": float(Q_adv / (Q_visc + 1.0e-300)),
+        "Qstream_Qvisc": float(Q_stream / (Q_visc + 1.0e-300)),
+        "Mdot_over_param": float(Mdot_local / params.Mdot_g_s),
+        "dMdot_dlnR_over_param": float(dMdot_dlnR / params.Mdot_g_s),
+        "stream_source_prime_over_param": float(source_prime / params.Mdot_g_s),
+        "wind_sink_prime_over_param": float(wind_prime / params.Mdot_g_s),
         "qbalance": float((Q_visc - state.Q_rad) / (abs(Q_visc) + abs(state.Q_rad) + 1.0e-300)),
         "H_R": float(state.H_over_R),
         "smin_over_smax_A": float(sonic.smin_over_smax),
@@ -265,8 +308,8 @@ def write_table(summary_rows: list[dict[str, object]], interval_rows: list[dict[
             "",
             f"## Top {TOP_N} interval_R peaks per case",
             "",
-            "| case | interval | R_mid/rg | interval_R | interval_E | dlogu anchor | dlogT anchor | Omega frac | pressure frac | Qadv/Qvisc | H/R | condA |",
-            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+            "| case | interval | R_mid/rg | interval_R | interval_E | dlogu anchor | dlogT anchor | Omega frac | pressure frac | Qadv/Qvisc | Qstream/Qvisc | Mdot/param | src prime/param | dMdot/dlnR/param | H/R | condA |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
         ]
     )
     for case in [row["case"] for row in summary_rows]:
@@ -276,15 +319,16 @@ def write_table(summary_rows: list[dict[str, object]], interval_rows: list[dict[
             formatted = {key: fmt(value) if isinstance(value, (float, int, np.floating, np.integer)) else value for key, value in row.items()}
             lines.append(
                 "| {case} | {interval} | {R_mid_rg} | {interval_R} | {interval_E} | {delta_logu_anchor} | "
-                "{delta_logT_anchor} | {Omega_frac} | {pressure_frac} | {Qadv_Qvisc} | {H_R} | {condA} |".format(**formatted)
+                "{delta_logT_anchor} | {Omega_frac} | {pressure_frac} | {Qadv_Qvisc} | {Qstream_Qvisc} | "
+                "{Mdot_over_param} | {stream_source_prime_over_param} | {dMdot_dlnR_over_param} | {H_R} | {condA} |".format(**formatted)
             )
     lines.extend(
         [
             "",
             f"## Top {TOP_N} interval_E peaks per case",
             "",
-            "| case | interval | R_mid/rg | interval_R | interval_E | dlogu anchor | dlogT anchor | Omega frac | pressure frac | Qadv/Qvisc | H/R | condA |",
-            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+            "| case | interval | R_mid/rg | interval_R | interval_E | dlogu anchor | dlogT anchor | Omega frac | pressure frac | Qadv/Qvisc | Qstream/Qvisc | Mdot/param | src prime/param | dMdot/dlnR/param | H/R | condA |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
         ]
     )
     for case in [row["case"] for row in summary_rows]:
@@ -294,7 +338,8 @@ def write_table(summary_rows: list[dict[str, object]], interval_rows: list[dict[
             formatted = {key: fmt(value) if isinstance(value, (float, int, np.floating, np.integer)) else value for key, value in row.items()}
             lines.append(
                 "| {case} | {interval} | {R_mid_rg} | {interval_R} | {interval_E} | {delta_logu_anchor} | "
-                "{delta_logT_anchor} | {Omega_frac} | {pressure_frac} | {Qadv_Qvisc} | {H_R} | {condA} |".format(**formatted)
+                "{delta_logT_anchor} | {Omega_frac} | {pressure_frac} | {Qadv_Qvisc} | {Qstream_Qvisc} | "
+                "{Mdot_over_param} | {stream_source_prime_over_param} | {dMdot_dlnR_over_param} | {H_R} | {condA} |".format(**formatted)
             )
     TABLE_OUTPUT.write_text("\n".join(lines) + "\n")
     payload = {"summary": summary_rows, "intervals": interval_rows}

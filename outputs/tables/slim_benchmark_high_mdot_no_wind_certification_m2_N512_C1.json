@@ -1,0 +1,50 @@
+[
+  {
+    "Lrad_LEdd": 0.9660659045636062,
+    "Lvisc_LEdd": 1.1899756210777772,
+    "N": 512,
+    "Rson_rg": 4.662475056561697,
+    "accepted": false,
+    "anchor": false,
+    "dominant": "interval_E",
+    "elapsed_s": 35.08198033308145,
+    "f_adv_global": 0.18651832266867888,
+    "f_adv_inner": 0.09449782967554331,
+    "f_adv_pos": 0.25044666587600084,
+    "full": 1.0673951152625624e-05,
+    "interval_E": 1.0673951152625624e-05,
+    "interval_R": 5.680405512448138e-07,
+    "iterations": 16,
+    "label": "m2",
+    "lambda0": 3.770167097414382,
+    "last_solved_full": 1.0673951152625624e-05,
+    "max_H_R": 0.22693671722598033,
+    "message": "maximum Newton iterations reached",
+    "min_tau": 68.86757428367254,
+    "nfev": 100,
+    "outer_energy": -1.0902610375192992e-09,
+    "outer_omega": 3.2599499979240536e-07,
+    "picard_history": [
+      {
+        "elapsed_s": 34.797682250034995,
+        "index": 0,
+        "message": "maximum Newton iterations reached",
+        "nfev": 100,
+        "pivot": "C1",
+        "refreshed_full": 1.0673951152625624e-05,
+        "slope_delta": 0.008248083707752762,
+        "solved_full": 1.0673951152625624e-05
+      }
+    ],
+    "picard_iterations": 1,
+    "picard_slope_delta": 0.008248083707752762,
+    "pivot": "C1",
+    "ratio": 2.0,
+    "seed_full": 3.416164039654621e-05,
+    "smin_over_smax": 4.8994797310088006e-17,
+    "sonic_D": -4.8994797310088006e-17,
+    "sonic_K": -9.679093099952601e-15,
+    "source_N": 512,
+    "source_checkpoint": "outputs/checkpoints/slim_benchmark_high_mdot_no_wind_newton_scout_N512_1p45_to2_loose/mdot_2.npz"
+  }
+]

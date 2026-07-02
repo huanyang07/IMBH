@@ -140,6 +140,12 @@ def params_for(
     custom_grid_xi: tuple[float, ...] | None,
     omega_offset: float,
     second_target: float | None,
+    stream_source_fraction: float = 0.0,
+    stream_source_center_fraction: float = 0.8,
+    stream_source_log_width: float = 0.08,
+    stream_torque_delta_l_fraction: float = 0.0,
+    stream_torque_center_fraction: float = 0.8,
+    stream_torque_log_width: float = 0.08,
 ) -> TransonicSlimParams:
     if SECOND_CONDITION == "thin_energy":
         closure = "pressure_supported_thin_energy"
@@ -169,14 +175,32 @@ def params_for(
         outer_temperature_logT=outer_temperature_logT,
         outer_entropy_logK=outer_entropy_logK,
         outer_omega_log_offset=float(omega_offset),
+        stream_source_fraction=float(stream_source_fraction),
+        stream_source_center_fraction=float(stream_source_center_fraction),
+        stream_source_log_width=float(stream_source_log_width),
+        stream_torque_delta_l_fraction=float(stream_torque_delta_l_fraction),
+        stream_torque_center_fraction=float(stream_torque_center_fraction),
+        stream_torque_log_width=float(stream_torque_log_width),
         interval_residual_form="differential",
         integrated_residual_weighting="none",
     )
 
 
+def stream_fields_from_data(data) -> dict[str, float]:
+    return {
+        "stream_source_fraction": float(data["stream_source_fraction"]) if "stream_source_fraction" in data else 0.0,
+        "stream_source_center_fraction": float(data["stream_source_center_fraction"]) if "stream_source_center_fraction" in data else 0.8,
+        "stream_source_log_width": float(data["stream_source_log_width"]) if "stream_source_log_width" in data else 0.08,
+        "stream_torque_delta_l_fraction": float(data["stream_torque_delta_l_fraction"]) if "stream_torque_delta_l_fraction" in data else 0.0,
+        "stream_torque_center_fraction": float(data["stream_torque_center_fraction"]) if "stream_torque_center_fraction" in data else 0.8,
+        "stream_torque_log_width": float(data["stream_torque_log_width"]) if "stream_torque_log_width" in data else 0.08,
+    }
+
+
 def load_anchor(path: Path, fiducial: FiducialParams, mdot_edd: float) -> tuple[np.ndarray, TransonicSlimParams, float, float | None]:
     data = np.load(path, allow_pickle=True)
     z = np.asarray(data["z"], dtype=float)
+    stream_fields = stream_fields_from_data(data)
     base_offset = 0.0
     if "outer_omega_log_offset" in data and np.isfinite(float(data["outer_omega_log_offset"])):
         base_offset = float(data["outer_omega_log_offset"])
@@ -190,6 +214,7 @@ def load_anchor(path: Path, fiducial: FiducialParams, mdot_edd: float) -> tuple[
         custom_grid_xi=custom_grid_from_data(data),
         omega_offset=base_offset,
         second_target=0.0 if SECOND_CONDITION != "thin_energy" else None,
+        **stream_fields,
     )
     second_target = second_condition_target(z, probe_params, data)
     params = params_for(
@@ -202,6 +227,7 @@ def load_anchor(path: Path, fiducial: FiducialParams, mdot_edd: float) -> tuple[
         custom_grid_xi=custom_grid_from_data(data),
         omega_offset=base_offset,
         second_target=second_target,
+        **stream_fields,
     )
     return z, apply_outer_slopes_from_state(z, params), base_offset, second_target
 
@@ -337,6 +363,12 @@ def save_checkpoint(row: dict[str, Any], params: TransonicSlimParams) -> None:
         outer_temperature_logT=np.array(np.nan if params.outer_temperature_logT is None else params.outer_temperature_logT),
         outer_entropy_logK=np.array(np.nan if params.outer_entropy_logK is None else params.outer_entropy_logK),
         outer_omega_log_offset=np.array(params.outer_omega_log_offset),
+        stream_source_fraction=np.array(params.stream_source_fraction),
+        stream_source_center_fraction=np.array(params.stream_source_center_fraction),
+        stream_source_log_width=np.array(params.stream_source_log_width),
+        stream_torque_delta_l_fraction=np.array(params.stream_torque_delta_l_fraction),
+        stream_torque_center_fraction=np.array(params.stream_torque_center_fraction),
+        stream_torque_log_width=np.array(params.stream_torque_log_width),
         full=np.array(row["final_full"]),
         accepted=np.array(row["accepted"]),
         branch=np.array(row["branch"]),
@@ -449,6 +481,12 @@ def run_branch(
             custom_grid_xi=current_params.custom_grid_xi,
             omega_offset=total_offset,
             second_target=second_target,
+            stream_source_fraction=current_params.stream_source_fraction,
+            stream_source_center_fraction=current_params.stream_source_center_fraction,
+            stream_source_log_width=current_params.stream_source_log_width,
+            stream_torque_delta_l_fraction=current_params.stream_torque_delta_l_fraction,
+            stream_torque_center_fraction=current_params.stream_torque_center_fraction,
+            stream_torque_log_width=current_params.stream_torque_log_width,
         )
         params = apply_outer_slopes_from_state(current_z, params)
         seed = np.asarray(current_z, dtype=float)

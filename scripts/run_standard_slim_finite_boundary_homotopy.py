@@ -20,8 +20,9 @@ from imri_qpe.layer3_minidisk_1d import (
     transonic_profile_from_state_vector,
     unpack_state,
 )
+from imri_qpe.layer3_minidisk_1d.transonic_collocation import _differential_interval_residual_from_unpacked
 from imri_qpe.parameters import FiducialParams
-from imri_qpe.scales import eddington_mdot
+from imri_qpe.scales import eddington_luminosity, eddington_mdot
 from run_standard_slim_adaptive_mdot_ladder import STRESS_FACTOR
 from run_standard_slim_analytic_seed_audit import ALPHA, fmt, json_safe
 from run_standard_slim_mdot_injection_ladder import dominant
@@ -69,6 +70,7 @@ NEWTON_LINEAR_SOLVER = os.environ.get("IMBH_STANDARD_SLIM_FINITE_BOUNDARY_NEWTON
 ACCEPTANCE_TOL = float(os.environ.get("IMBH_STANDARD_SLIM_FINITE_BOUNDARY_ACCEPTANCE_TOL", "1e-5"))
 ANCHOR_TOL = float(os.environ.get("IMBH_STANDARD_SLIM_FINITE_BOUNDARY_ANCHOR_TOL", "3e-6"))
 REFRESH_REPOLISH = os.environ.get("IMBH_STANDARD_SLIM_FINITE_BOUNDARY_REFRESH_REPOLISH", "0") != "0"
+INNER_RADIUS_RG = float(os.environ.get("IMBH_STANDARD_SLIM_FINITE_BOUNDARY_INNER_RG", "20.0"))
 PIVOTS = tuple(
     piece.strip()
     for piece in os.environ.get("IMBH_STANDARD_SLIM_FINITE_BOUNDARY_PIVOTS", "C2,C1").replace(":", ",").split(",")
@@ -212,6 +214,68 @@ def pressure_diagnostic(z: np.ndarray, params: TransonicSlimParams) -> dict[str,
     return {"outer_pressure_target": float(target), "outer_pressure_residual": float(ln_omega - target)}
 
 
+def trapz_log(values: np.ndarray, R: np.ndarray) -> float:
+    logR = np.log(np.asarray(R, dtype=float))
+    weights = 2.0 * np.pi * np.asarray(R, dtype=float) ** 2
+    return float(np.trapezoid(np.asarray(values, dtype=float) * weights, logR))
+
+
+def masked_trapz_log(values: np.ndarray, R: np.ndarray, mask: np.ndarray) -> float:
+    values = np.asarray(values, dtype=float)
+    R = np.asarray(R, dtype=float)
+    mask = np.asarray(mask, dtype=bool)
+    if int(np.count_nonzero(mask)) < 2:
+        return np.nan
+    return trapz_log(values[mask], R[mask])
+
+
+def advection_diagnostic(z: np.ndarray, params: TransonicSlimParams) -> dict[str, float]:
+    profile = transonic_profile_from_state_vector(z, params)
+    R = np.asarray(profile.R, dtype=float)
+    R_rg = R / params.r_g
+    qv = np.asarray(profile.Q_visc, dtype=float)
+    qr = np.asarray(profile.Q_rad, dtype=float)
+    qa = np.asarray(profile.Q_adv, dtype=float)
+    visc = trapz_log(np.abs(qv), R) + 1.0e-300
+    rad = trapz_log(qr, R)
+    adv = trapz_log(qa, R)
+    adv_pos = trapz_log(np.maximum(qa, 0.0), R)
+    inner = R_rg <= INNER_RADIUS_RG
+    inner_visc = masked_trapz_log(np.abs(qv), R, inner)
+    inner_adv = masked_trapz_log(qa, R, inner)
+    inner_adv_pos = masked_trapz_log(np.maximum(qa, 0.0), R, inner)
+    ledd = eddington_luminosity(params.M2_g, kappa=params.kappa)
+    return {
+        "f_adv_global": float(adv / visc),
+        "f_adv_pos": float(adv_pos / visc),
+        "f_adv_inner": float(inner_adv / (inner_visc + 1.0e-300)) if np.isfinite(inner_visc) else np.nan,
+        "f_adv_inner_pos": float(inner_adv_pos / (inner_visc + 1.0e-300)) if np.isfinite(inner_visc) else np.nan,
+        "Lrad_LEdd": float(rad / ledd),
+    }
+
+
+def interval_peak_diagnostic(z: np.ndarray, params: TransonicSlimParams) -> dict[str, float]:
+    logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
+    intervals = np.asarray(
+        [
+            _differential_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+            for idx in range(len(logR) - 1)
+        ],
+        dtype=float,
+    )
+    R_mid = np.exp(0.5 * (logR[:-1] + logR[1:])) / params.r_g
+    peak_R = int(np.argmax(np.abs(intervals[:, 0])))
+    peak_E = int(np.argmax(np.abs(intervals[:, 1])))
+    return {
+        "peak_interval_R_rg": float(R_mid[peak_R]),
+        "peak_interval_R_value": float(intervals[peak_R, 0]),
+        "peak_interval_E_rg": float(R_mid[peak_E]),
+        "peak_interval_E_value": float(intervals[peak_E, 1]),
+        "median_abs_interval_E": float(np.median(np.abs(intervals[:, 1]))),
+        "p90_abs_interval_E": float(np.quantile(np.abs(intervals[:, 1]), 0.9)),
+    }
+
+
 def row_for_result(
     *,
     stage: str,
@@ -249,6 +313,8 @@ def row_for_result(
         "lambda0_over_lK_isco": float(audit.lambda0_over_lK_isco),
         "max_H_R": float(np.max(profile.H_over_R)),
         "integrated_adv": float(profile.integrated_advective_fraction),
+        **advection_diagnostic(z, params),
+        **interval_peak_diagnostic(z, params),
         "pivot": str(polish.pivot),
         "method": str(polish.method),
         "nfev": int(polish.result.nfev),
@@ -293,15 +359,17 @@ def write_table(rows: list[dict[str, object]]) -> None:
         f"N values `{','.join(str(value) for value in N_VALUES_RAW) if N_VALUES_RAW else 'anchor N'}`, "
         f"grid power `{GRID_POWER:g}`, closure `{OUTER_CLOSURE_MODE}`, refresh repolish `{REFRESH_REPOLISH}`.",
         "",
-        "| stage | Mdot/Edd | Rout/rg | N | grid power | initial full | final full | accepted | anchor | dominant | int R | int E | outer omega | pressure mismatch | max H/R | int adv | Rson/rg | lambda/lK | pivot | nfev | elapsed s | message |",
-        "|---|---:|---:|---:|---:|---:|---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---|",
+        "| stage | Mdot/Edd | Rout/rg | N | grid power | initial full | final full | accepted | anchor | dominant | int R | int E | peak E R/rg | median abs E | outer omega | pressure mismatch | f_adv global | f_adv inner | f_adv pos | Lrad/LEdd | max H/R | int adv | Rson/rg | lambda/lK | pivot | nfev | elapsed s | message |",
+        "|---|---:|---:|---:|---:|---:|---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---|",
     ]
     for row in rows:
         formatted = {key: fmt(value) if isinstance(value, (float, int, np.floating, np.integer)) else value for key, value in row.items()}
         lines.append(
             "| {stage} | {ratio} | {R_out_rg} | {N} | {grid_power} | {initial_full} | {final_full} | "
-            "{accepted} | {anchor_eligible} | {dominant} | {interval_R} | {interval_E} | {outer_omega} | "
-            "{outer_pressure_residual} | {max_H_R} | {integrated_adv} | {Rson_rg} | {lambda0_over_lK_isco} | "
+            "{accepted} | {anchor_eligible} | {dominant} | {interval_R} | {interval_E} | "
+            "{peak_interval_E_rg} | {median_abs_interval_E} | {outer_omega} | {outer_pressure_residual} | "
+            "{f_adv_global} | {f_adv_inner} | {f_adv_pos} | {Lrad_LEdd} | "
+            "{max_H_R} | {integrated_adv} | {Rson_rg} | {lambda0_over_lK_isco} | "
             "{pivot} | {nfev} | {elapsed_s} | {message} |".format(**formatted).replace("\n", " ")
         )
     TABLE_OUTPUT.write_text("\n".join(lines) + "\n")
