@@ -161,6 +161,62 @@ class TransonicLocalTests(unittest.TestCase):
         self.assertLess(derivative_outer, 0.0)
         np.testing.assert_allclose(derivative, finite_difference, rtol=1.0e-7)
 
+    def test_compact_c2_stream_source_has_no_outer_tail_and_normalized_integral(self) -> None:
+        params = types.SimpleNamespace(
+            **{
+                **self.params.__dict__,
+                "R_out": 300.0 * self.potential.r_g,
+                "stream_source_fraction": 0.03,
+                "stream_source_center_fraction": 0.8,
+                "stream_source_log_width": 0.08,
+                "stream_source_shape": "compact_c2",
+            }
+        )
+        logR_center = float(np.log(params.stream_source_center_fraction * params.R_out))
+        logR_outer = float(np.log(params.R_out))
+        logR_below = logR_center - 1.2 * params.stream_source_log_width
+        norm = 32.0 / 35.0
+
+        center_shape, center_dshape = stream_annulus_shape_and_derivative(
+            logR_center,
+            params.stream_source_center_fraction,
+            params.stream_source_log_width,
+            params.R_out,
+            "compact_c2",
+        )
+        outer_shape, outer_dshape = stream_annulus_shape_and_derivative(
+            logR_outer,
+            params.stream_source_center_fraction,
+            params.stream_source_log_width,
+            params.R_out,
+            "compact_c2",
+        )
+        below_shape, below_dshape = stream_annulus_shape_and_derivative(
+            logR_below,
+            params.stream_source_center_fraction,
+            params.stream_source_log_width,
+            params.R_out,
+            "compact_c2",
+        )
+        mdot_center, derivative_center = stream_mass_rate_and_derivative(logR_center, params)
+        mdot_outer, derivative_outer = stream_mass_rate_and_derivative(logR_outer, params)
+        source_prime = stream_source_prime(logR_center, params)
+        support = np.linspace(logR_center - params.stream_source_log_width, logR_center + params.stream_source_log_width, 4001)
+        source_integral = np.trapezoid([stream_source_prime(float(x), params) for x in support], support)
+
+        self.assertAlmostEqual(center_shape, 0.5)
+        self.assertAlmostEqual(center_dshape, 1.0 / (norm * params.stream_source_log_width))
+        self.assertAlmostEqual(below_shape, 0.0)
+        self.assertAlmostEqual(below_dshape, 0.0)
+        self.assertAlmostEqual(outer_shape, 1.0)
+        self.assertAlmostEqual(outer_dshape, 0.0)
+        self.assertAlmostEqual(mdot_center / self.params.Mdot_g_s, 0.985)
+        self.assertAlmostEqual(derivative_center / self.params.Mdot_g_s, -0.03 / (norm * params.stream_source_log_width))
+        self.assertAlmostEqual(source_prime / self.params.Mdot_g_s, 0.03 / (norm * params.stream_source_log_width))
+        self.assertAlmostEqual(mdot_outer / self.params.Mdot_g_s, 0.97)
+        self.assertAlmostEqual(derivative_outer, 0.0)
+        self.assertAlmostEqual(source_integral / self.params.Mdot_g_s, 0.03, places=8)
+
     def test_source_sink_budget_helpers_are_explicit(self) -> None:
         params = types.SimpleNamespace(
             **{

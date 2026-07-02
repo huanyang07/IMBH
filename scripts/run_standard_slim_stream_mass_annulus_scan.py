@@ -18,6 +18,9 @@ from imri_qpe.layer3_minidisk_1d import (
     remap_profile_to_new_sonic_grid,
     residual_audit_from_state_vector,
     solve_square_transonic_polish,
+    square_collocation_jacobian,
+    square_collocation_residual,
+    state_bounds,
     stream_mass_rate_and_derivative,
     stream_source_prime,
     stream_torque_specific_l_and_derivative,
@@ -62,17 +65,27 @@ BRANCH_SPECS = tuple(
 )
 MASS_CENTER_FRACTION = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_CENTER_FRACTION", "0.8"))
 MASS_LOG_WIDTH = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOG_WIDTH", "0.08"))
+MASS_SOURCE_SHAPE_OVERRIDE = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_SOURCE_SHAPE", "").strip().lower()
+MASS_SOURCE_SHAPE = MASS_SOURCE_SHAPE_OVERRIDE or "tanh"
+MASS_SOURCE_SHAPE_BLEND_OVERRIDE = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_SOURCE_SHAPE_BLEND", "").strip()
 TORQUE_FRACTION = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_TORQUE_FRACTION", "0.0"))
 TORQUE_CENTER_FRACTION = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_TORQUE_CENTER_FRACTION", str(MASS_CENTER_FRACTION)))
 TORQUE_LOG_WIDTH = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_TORQUE_LOG_WIDTH", str(MASS_LOG_WIDTH)))
+OUTER_CLOSURE_OVERRIDE = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_OUTER_CLOSURE", "").strip()
+OUTER_ROBIN_CHI_OVERRIDE = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_OUTER_ROBIN_CHI", "").strip()
+OUTER_ROBIN_SLOPE_TARGET_OVERRIDE = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_OUTER_ROBIN_SLOPE_TARGET", "").strip()
+OUTER_ROBIN_SLOPE_SCALE_OVERRIDE = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_OUTER_ROBIN_SLOPE_SCALE", "").strip()
 N_NODES_OVERRIDE = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_N_NODES", "").strip()
 GRID_POWER_OVERRIDE = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_GRID_POWER", "").strip()
+GRID_TRANSFER_MODE = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_GRID_TRANSFER", "power").strip().lower()
+REMAP_METHOD = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_REMAP_METHOD", "linear").strip().lower()
 SOURCE_GRID_MODE = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_SOURCE_GRID", "none").strip().lower()
 SOURCE_GRID_FRACTION = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_SOURCE_GRID_FRACTION", "0.35"))
 SOURCE_GRID_HALF_WIDTHS = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_SOURCE_GRID_HALF_WIDTHS", "4.0"))
 SOURCE_GRID_OUTER_FRACTION = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_SOURCE_GRID_OUTER_FRACTION", "0.0"))
 SOURCE_GRID_OUTER_WIDTH = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_SOURCE_GRID_OUTER_WIDTH", "0.04"))
 USE_SECANT_PREDICTOR = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_USE_SECANT_PREDICTOR", "0") != "0"
+USE_TANGENT_PREDICTOR = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_USE_TANGENT_PREDICTOR", "0") != "0"
 SECANT_DAMPING_VALUES = tuple(
     float(piece)
     for piece in os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_SECANT_DAMPINGS", "1,0.5,0.25,0.1")
@@ -80,6 +93,17 @@ SECANT_DAMPING_VALUES = tuple(
     .split(",")
     if piece.strip()
 )
+TANGENT_DAMPING_VALUES = tuple(
+    float(piece)
+    for piece in os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_TANGENT_DAMPINGS", "1,0.5,0.25,0.1")
+    .replace(":", ",")
+    .split(",")
+    if piece.strip()
+)
+TANGENT_FD_STEP = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_TANGENT_FD_STEP", "1e-5"))
+TANGENT_SOLVER = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_TANGENT_SOLVER", "equilibrated_lsmr")
+TANGENT_LINEAR_DAMPING = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_TANGENT_LINEAR_DAMPING", "0.0"))
+TANGENT_MAXITER = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_TANGENT_MAXITER", "3000"))
 ADAPTIVE_TARGET_RAW = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_TARGET", "").strip()
 ADAPTIVE_INITIAL_STEP = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_INITIAL_STEP", "0.001"))
 ADAPTIVE_MIN_STEP = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_MIN_STEP", "0.00025"))
@@ -87,6 +111,11 @@ ADAPTIVE_MAX_STEP = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIV
 ADAPTIVE_MAX_INITIAL_FULL = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_MAX_INITIAL_FULL", "0.08"))
 ADAPTIVE_GROWTH = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_GROWTH", "1.5"))
 ADAPTIVE_SHRINK = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_SHRINK", "0.5"))
+ADAPTIVE_COST_SHRINK_NFEV = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_COST_SHRINK_NFEV", "20"))
+ADAPTIVE_COST_HARD_SHRINK_NFEV = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_COST_HARD_SHRINK_NFEV", "60"))
+ADAPTIVE_COST_GROW_NFEV = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_COST_GROW_NFEV", "8"))
+ADAPTIVE_COST_SHRINK = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_COST_SHRINK", "0.5"))
+ADAPTIVE_COST_HARD_SHRINK = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_COST_HARD_SHRINK", "0.25"))
 NEWTON_MAX_ITER = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_MAX_ITER", "30"))
 NEWTON_MAX_NFEV = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_MAX_NFEV", "3000"))
 NEWTON_MAX_STEP_NORM = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_MAX_STEP_NORM", "0.16"))
@@ -132,6 +161,22 @@ def one_sided_outer_slopes(z: np.ndarray, params: TransonicSlimParams) -> tuple[
 
 def apply_outer_slopes_from_state(z: np.ndarray, params: TransonicSlimParams) -> TransonicSlimParams:
     return replace(params, outer_match_log_slopes=one_sided_outer_slopes(z, params))
+
+
+def resample_custom_grid_xi(custom_grid_xi: tuple[float, ...] | None, n_nodes: int) -> tuple[float, ...] | None:
+    if custom_grid_xi is None:
+        return None
+    old = np.asarray(custom_grid_xi, dtype=float)
+    if old.size < 2:
+        return None
+    source_index = np.linspace(0.0, 1.0, old.size)
+    target_index = np.linspace(0.0, 1.0, int(n_nodes))
+    new = np.interp(target_index, source_index, old)
+    new[0] = 0.0
+    new[-1] = 1.0
+    if np.any(np.diff(new) <= 0.0):
+        return None
+    return tuple(float(value) for value in new)
 
 
 def source_annulus_grid_xi(
@@ -188,9 +233,11 @@ def prepare_anchor_grid(
             R_out=float(params.R_out),
             n_nodes=n_nodes,
             grid_power=grid_power,
-            center_fraction=MASS_CENTER_FRACTION,
-            log_width=MASS_LOG_WIDTH,
+            center_fraction=params.stream_source_center_fraction,
+            log_width=params.stream_source_log_width,
         )
+    elif GRID_TRANSFER_MODE in {"resample", "resample_current", "current", "preserve"} and n_nodes != int(params.n_nodes):
+        custom_grid_xi = resample_custom_grid_xi(params.custom_grid_xi, n_nodes)
     elif n_nodes != int(params.n_nodes):
         custom_grid_xi = None
     target_params = params_for(
@@ -202,6 +249,21 @@ def prepare_anchor_grid(
         grid_power=grid_power,
         custom_grid_xi=custom_grid_xi if n_nodes == len(custom_grid_xi or ()) else custom_grid_xi,
         mass_fraction=float(params.stream_source_fraction),
+        source_center_fraction=params.stream_source_center_fraction,
+        source_log_width=params.stream_source_log_width,
+        source_shape=params.stream_source_shape,
+        source_shape_blend=params.stream_source_shape_blend,
+        torque_fraction=params.stream_torque_delta_l_fraction,
+        torque_center_fraction=params.stream_torque_center_fraction,
+        torque_log_width=params.stream_torque_log_width,
+        wind_sink_fraction=params.wind_sink_fraction,
+        wind_sink_center_fraction=params.wind_sink_center_fraction,
+        wind_sink_log_width=params.wind_sink_log_width,
+        stream_heating_efficiency=params.stream_heating_efficiency,
+        outer_closure=params.outer_closure,
+        outer_robin_chi=params.outer_robin_chi,
+        outer_robin_slope_target=params.outer_robin_slope_target,
+        outer_robin_slope_scale=params.outer_robin_slope_scale,
     )
     if (
         n_nodes == int(params.n_nodes)
@@ -217,7 +279,7 @@ def prepare_anchor_grid(
     ):
         return z, apply_outer_slopes_from_state(z, params)
     profile = transonic_profile_from_state_vector(z, params)
-    remapped_z = remap_profile_to_new_sonic_grid(profile, target_params, temperature_mdot_power=0.0)
+    remapped_z = remap_profile_to_new_sonic_grid(profile, target_params, temperature_mdot_power=0.0, method=REMAP_METHOD)
     return remapped_z, apply_outer_slopes_from_state(remapped_z, target_params)
 
 
@@ -231,7 +293,39 @@ def params_for(
     grid_power: float,
     custom_grid_xi: tuple[float, ...] | None,
     mass_fraction: float,
+    source_center_fraction: float | None = None,
+    source_log_width: float | None = None,
+    source_shape: str | None = None,
+    source_shape_blend: float | None = None,
+    torque_fraction: float | None = None,
+    torque_center_fraction: float | None = None,
+    torque_log_width: float | None = None,
+    wind_sink_fraction: float = 0.0,
+    wind_sink_center_fraction: float = 0.8,
+    wind_sink_log_width: float = 0.08,
+    stream_heating_efficiency: float = 0.0,
+    outer_closure: str | None = None,
+    outer_robin_chi: float = 0.0,
+    outer_robin_slope_target: float = 0.0,
+    outer_robin_slope_scale: float = 1.0,
 ) -> TransonicSlimParams:
+    source_center = MASS_CENTER_FRACTION if source_center_fraction is None else float(source_center_fraction)
+    source_width = MASS_LOG_WIDTH if source_log_width is None else float(source_log_width)
+    selected_source_shape = MASS_SOURCE_SHAPE if source_shape is None else str(source_shape).strip().lower()
+    selected_source_shape_blend = (
+        float(MASS_SOURCE_SHAPE_BLEND_OVERRIDE) if MASS_SOURCE_SHAPE_BLEND_OVERRIDE else (1.0 if source_shape_blend is None else float(source_shape_blend))
+    )
+    torque_delta = TORQUE_FRACTION if torque_fraction is None else float(torque_fraction)
+    torque_center = TORQUE_CENTER_FRACTION if torque_center_fraction is None else float(torque_center_fraction)
+    torque_width = TORQUE_LOG_WIDTH if torque_log_width is None else float(torque_log_width)
+    closure = OUTER_CLOSURE_OVERRIDE if OUTER_CLOSURE_OVERRIDE else (outer_closure or "pressure_supported_thin_energy")
+    robin_chi = float(OUTER_ROBIN_CHI_OVERRIDE) if OUTER_ROBIN_CHI_OVERRIDE else float(outer_robin_chi)
+    robin_slope_target = (
+        float(OUTER_ROBIN_SLOPE_TARGET_OVERRIDE) if OUTER_ROBIN_SLOPE_TARGET_OVERRIDE else float(outer_robin_slope_target)
+    )
+    robin_slope_scale = (
+        float(OUTER_ROBIN_SLOPE_SCALE_OVERRIDE) if OUTER_ROBIN_SLOPE_SCALE_OVERRIDE else float(outer_robin_slope_scale)
+    )
     return TransonicSlimParams(
         M2_g=fiducial.M2_g,
         Mdot_g_s=float(ratio) * mdot_edd,
@@ -244,38 +338,146 @@ def params_for(
         custom_grid_xi=custom_grid_xi,
         max_nfev=NEWTON_MAX_NFEV,
         residual_tol=1.0e-8,
-        outer_closure="pressure_supported_thin_energy",
+        outer_closure=closure,
         outer_omega_log_offset=0.0,
-        stream_torque_delta_l_fraction=TORQUE_FRACTION,
-        stream_torque_center_fraction=TORQUE_CENTER_FRACTION,
-        stream_torque_log_width=TORQUE_LOG_WIDTH,
+        outer_robin_chi=robin_chi,
+        outer_robin_slope_target=robin_slope_target,
+        outer_robin_slope_scale=robin_slope_scale,
+        stream_torque_delta_l_fraction=torque_delta,
+        stream_torque_center_fraction=torque_center,
+        stream_torque_log_width=torque_width,
         stream_source_fraction=float(mass_fraction),
-        stream_source_center_fraction=MASS_CENTER_FRACTION,
-        stream_source_log_width=MASS_LOG_WIDTH,
+        stream_source_center_fraction=source_center,
+        stream_source_log_width=source_width,
+        stream_source_shape=selected_source_shape,
+        stream_source_shape_blend=selected_source_shape_blend,
+        wind_sink_fraction=float(wind_sink_fraction),
+        wind_sink_center_fraction=float(wind_sink_center_fraction),
+        wind_sink_log_width=float(wind_sink_log_width),
+        stream_heating_efficiency=float(stream_heating_efficiency),
         interval_residual_form="differential",
         integrated_residual_weighting="none",
     )
 
 
+def scalar_from_data(data, key: str, default):
+    if key not in data:
+        return default
+    value = np.asarray(data[key])
+    return value.item() if value.shape == () else value
+
+
 def load_anchor(path: Path, fiducial: FiducialParams, mdot_edd: float) -> tuple[np.ndarray, TransonicSlimParams]:
     data = np.load(path, allow_pickle=True)
     z = np.asarray(data["z"], dtype=float)
-    mass_fraction = float(data["stream_source_fraction"]) if "stream_source_fraction" in data else 0.0
+    mass_fraction = float(scalar_from_data(data, "stream_source_fraction", scalar_from_data(data, "stream_mass_fraction", 0.0)))
     params = params_for(
         fiducial,
         mdot_edd,
-        ratio=float(data["ratio"]),
-        R_out_rg=float(data["R_out_rg"]),
-        n_nodes=int(data["n_nodes"]),
-        grid_power=float(data["grid_power"]) if "grid_power" in data else 1.0,
+        ratio=float(scalar_from_data(data, "ratio", 1.0)),
+        R_out_rg=float(scalar_from_data(data, "R_out_rg", 1000.0)),
+        n_nodes=int(scalar_from_data(data, "n_nodes", (len(z) - 2) // 2)),
+        grid_power=float(scalar_from_data(data, "grid_power", 1.0)),
         custom_grid_xi=custom_grid_from_data(data),
         mass_fraction=mass_fraction,
+        source_center_fraction=float(scalar_from_data(data, "stream_source_center_fraction", MASS_CENTER_FRACTION)),
+        source_log_width=float(scalar_from_data(data, "stream_source_log_width", MASS_LOG_WIDTH)),
+        source_shape=MASS_SOURCE_SHAPE_OVERRIDE or str(scalar_from_data(data, "stream_source_shape", MASS_SOURCE_SHAPE)),
+        source_shape_blend=float(
+            MASS_SOURCE_SHAPE_BLEND_OVERRIDE or scalar_from_data(data, "stream_source_shape_blend", 1.0)
+        ),
+        torque_fraction=float(scalar_from_data(data, "stream_torque_delta_l_fraction", TORQUE_FRACTION)),
+        torque_center_fraction=float(scalar_from_data(data, "stream_torque_center_fraction", TORQUE_CENTER_FRACTION)),
+        torque_log_width=float(scalar_from_data(data, "stream_torque_log_width", TORQUE_LOG_WIDTH)),
+        wind_sink_fraction=float(scalar_from_data(data, "wind_sink_fraction", 0.0)),
+        wind_sink_center_fraction=float(scalar_from_data(data, "wind_sink_center_fraction", 0.8)),
+        wind_sink_log_width=float(scalar_from_data(data, "wind_sink_log_width", 0.08)),
+        stream_heating_efficiency=float(scalar_from_data(data, "stream_heating_efficiency", 0.0)),
+        outer_closure=str(scalar_from_data(data, "outer_closure", "pressure_supported_thin_energy")),
+        outer_robin_chi=float(scalar_from_data(data, "outer_robin_chi", 0.0)),
+        outer_robin_slope_target=float(scalar_from_data(data, "outer_robin_slope_target", 0.0)),
+        outer_robin_slope_scale=float(scalar_from_data(data, "outer_robin_slope_scale", 1.0)),
     )
     return z, apply_outer_slopes_from_state(z, params)
 
 
 def max_residual(z: np.ndarray, params: TransonicSlimParams) -> float:
     return float(np.max(np.abs(collocation_residual(z, params))))
+
+
+def clip_state(z: np.ndarray, params: TransonicSlimParams) -> np.ndarray:
+    lower, upper = state_bounds(params)
+    return np.clip(np.asarray(z, dtype=float), lower + 1.0e-12, upper - 1.0e-12)
+
+
+def finite_difference_source_column(anchor_z: np.ndarray, anchor_params: TransonicSlimParams, *, pivot: str) -> tuple[np.ndarray, float]:
+    f0 = float(anchor_params.stream_source_fraction)
+    step = min(abs(float(TANGENT_FD_STEP)), 0.25 * max(f0, 1.0e-3), 0.25 * max(1.0 - f0, 1.0e-3))
+    if step <= 0.0:
+        raise ValueError("source finite-difference step collapsed")
+    if f0 - step >= 0.0 and f0 + step < 1.0 + anchor_params.wind_sink_fraction:
+        plus = replace(anchor_params, stream_source_fraction=f0 + step, stream_mass_fraction=0.0)
+        minus = replace(anchor_params, stream_source_fraction=f0 - step, stream_mass_fraction=0.0)
+        f_plus = square_collocation_residual(anchor_z, plus, pivot=pivot)
+        f_minus = square_collocation_residual(anchor_z, minus, pivot=pivot)
+        return (f_plus - f_minus) / (2.0 * step), step
+    plus = replace(anchor_params, stream_source_fraction=f0 + step, stream_mass_fraction=0.0)
+    f_base = square_collocation_residual(anchor_z, anchor_params, pivot=pivot)
+    f_plus = square_collocation_residual(anchor_z, plus, pivot=pivot)
+    return (f_plus - f_base) / step, step
+
+
+def equilibrated_tangent_solve(jac, rhs: np.ndarray) -> np.ndarray:
+    try:
+        from scipy.sparse import diags
+        from scipy.sparse.linalg import lsmr, splu
+    except Exception as exc:
+        raise RuntimeError("scipy is required for source-fraction tangent prediction") from exc
+
+    if TANGENT_SOLVER == "splu":
+        return np.asarray(splu(jac.tocsc(), permc_spec="COLAMD").solve(rhs), dtype=float)
+    if TANGENT_SOLVER == "lsmr":
+        result = lsmr(
+            jac.tocsr(),
+            rhs,
+            damp=TANGENT_LINEAR_DAMPING,
+            atol=1.0e-10,
+            btol=1.0e-10,
+            maxiter=max(TANGENT_MAXITER, 5 * jac.shape[1]),
+        )
+        return np.asarray(result[0], dtype=float)
+    if TANGENT_SOLVER not in {"equilibrated_lsmr", "equilibrated_direct"}:
+        raise ValueError("unknown tangent solver")
+
+    jac_csr = jac.tocsr()
+    row_norm = np.sqrt(np.asarray(jac_csr.multiply(jac_csr).sum(axis=1)).ravel())
+    row_scale = 1.0 / np.maximum(row_norm, 1.0e-12)
+    row_scaled = diags(row_scale) @ jac_csr
+    col_norm = np.sqrt(np.asarray(row_scaled.multiply(row_scaled).sum(axis=0)).ravel())
+    col_scale = 1.0 / np.maximum(col_norm, 1.0e-12)
+    balanced = (row_scaled @ diags(col_scale)).tocsc()
+    scaled_rhs = row_scale * np.asarray(rhs, dtype=float)
+    if TANGENT_SOLVER == "equilibrated_direct" and TANGENT_LINEAR_DAMPING == 0.0:
+        try:
+            y = splu(balanced, permc_spec="COLAMD").solve(scaled_rhs)
+            return col_scale * np.asarray(y, dtype=float)
+        except Exception:
+            pass
+    result = lsmr(
+        balanced,
+        scaled_rhs,
+        damp=TANGENT_LINEAR_DAMPING,
+        atol=1.0e-12,
+        btol=1.0e-12,
+        maxiter=max(TANGENT_MAXITER, 10 * balanced.shape[1]),
+    )
+    return col_scale * np.asarray(result[0], dtype=float)
+
+
+def source_fraction_tangent(anchor_z: np.ndarray, anchor_params: TransonicSlimParams, *, pivot: str) -> np.ndarray:
+    jac = square_collocation_jacobian(anchor_z, anchor_params, pivot=pivot)
+    f_source, _fd_step = finite_difference_source_column(anchor_z, anchor_params, pivot=pivot)
+    return equilibrated_tangent_solve(jac, -f_source)
 
 
 def source_fraction_seed(
@@ -289,24 +491,34 @@ def source_fraction_seed(
 ) -> tuple[np.ndarray, str, float]:
     current_seed = np.asarray(current_z, dtype=float)
     current_full = max_residual(current_seed, params)
-    if (
-        not USE_SECANT_PREDICTOR
-        or prev_z is None
-        or prev_fraction is None
-        or abs(current_fraction - prev_fraction) <= 1.0e-12
-    ):
-        return current_seed, "current", current_full
-    step_factor = (float(target_fraction) - current_fraction) / (current_fraction - prev_fraction)
     best_seed = current_seed
     best_label = "current"
     best_full = current_full
-    for damping in SECANT_DAMPING_VALUES:
-        trial_seed = np.asarray(current_z + float(damping) * step_factor * (current_z - prev_z), dtype=float)
-        trial_full = max_residual(trial_seed, params)
-        if trial_full < best_full:
-            best_seed = trial_seed
-            best_label = f"secant:{float(damping):g}"
-            best_full = trial_full
+    if USE_SECANT_PREDICTOR and prev_z is not None and prev_fraction is not None and abs(current_fraction - prev_fraction) > 1.0e-12:
+        step_factor = (float(target_fraction) - current_fraction) / (current_fraction - prev_fraction)
+        for damping in SECANT_DAMPING_VALUES:
+            trial_seed = clip_state(current_z + float(damping) * step_factor * (current_z - prev_z), params)
+            trial_full = max_residual(trial_seed, params)
+            if trial_full < best_full:
+                best_seed = trial_seed
+                best_label = f"secant:{float(damping):g}"
+                best_full = trial_full
+    if USE_TANGENT_PREDICTOR and abs(float(target_fraction) - current_fraction) > 1.0e-14:
+        try:
+            anchor_params = replace(params, stream_source_fraction=float(current_fraction), stream_mass_fraction=0.0)
+            anchor_params = apply_outer_slopes_from_state(current_z, anchor_params)
+            pivot = PIVOTS[0] if PIVOTS else "C2"
+            dz_df = source_fraction_tangent(current_z, anchor_params, pivot=pivot)
+            df = float(target_fraction) - current_fraction
+            for damping in TANGENT_DAMPING_VALUES:
+                trial_seed = clip_state(current_z + float(damping) * df * dz_df, params)
+                trial_full = max_residual(trial_seed, params)
+                if trial_full < best_full:
+                    best_seed = trial_seed
+                    best_label = f"tangent:{float(damping):g}"
+                    best_full = trial_full
+        except Exception as exc:
+            print(f"  tangent predictor unavailable: {exc}", flush=True)
     return best_seed, best_label, best_full
 
 
@@ -477,6 +689,8 @@ def row_for_result(
         "grid_power": float(params.grid_power),
         "mass_center_fraction": float(params.stream_source_center_fraction),
         "mass_log_width": float(params.stream_source_log_width),
+        "mass_source_shape": str(params.stream_source_shape),
+        "mass_source_shape_blend": float(params.stream_source_shape_blend),
         "initial_full": max_residual(seed, params),
         "final_full": full,
         "accepted": bool(full <= ACCEPTANCE_TOL),
@@ -528,15 +742,24 @@ def save_checkpoint(row: dict[str, Any], params: TransonicSlimParams) -> None:
         custom_grid_xi=np.asarray(row["custom_grid_xi"], dtype=float),
         outer_closure=np.array(params.outer_closure),
         outer_match_log_slopes=np.asarray([np.nan, np.nan] if slopes is None else slopes, dtype=float),
+        outer_robin_chi=np.array(params.outer_robin_chi),
+        outer_robin_slope_target=np.array(params.outer_robin_slope_target),
+        outer_robin_slope_scale=np.array(params.outer_robin_slope_scale),
         stream_torque_delta_l_fraction=np.array(params.stream_torque_delta_l_fraction),
         stream_torque_center_fraction=np.array(params.stream_torque_center_fraction),
         stream_torque_log_width=np.array(params.stream_torque_log_width),
         stream_source_fraction=np.array(params.stream_source_fraction),
         stream_source_center_fraction=np.array(params.stream_source_center_fraction),
         stream_source_log_width=np.array(params.stream_source_log_width),
+        stream_source_shape=np.array(params.stream_source_shape),
+        stream_source_shape_blend=np.array(params.stream_source_shape_blend),
         stream_mass_fraction=np.array(params.stream_mass_fraction),
         stream_mass_center_fraction=np.array(params.stream_mass_center_fraction),
         stream_mass_log_width=np.array(params.stream_mass_log_width),
+        wind_sink_fraction=np.array(params.wind_sink_fraction),
+        wind_sink_center_fraction=np.array(params.wind_sink_center_fraction),
+        wind_sink_log_width=np.array(params.wind_sink_log_width),
+        stream_heating_efficiency=np.array(params.stream_heating_efficiency),
         full=np.array(row["final_full"]),
         accepted=np.array(row["accepted"]),
         branch=np.array(row["branch"]),
@@ -552,18 +775,30 @@ def write_table(rows: list[dict[str, Any]]) -> None:
         "Generated by `scripts/run_standard_slim_stream_mass_annulus_scan.py`.",
         "",
         f"Anchor `{ANCHOR_CHECKPOINT.relative_to(ROOT)}`, branches `{';'.join(BRANCH_SPECS)}`, "
-        f"Rinj/Rout `{MASS_CENTER_FRACTION:g}`, log width `{MASS_LOG_WIDTH:g}`, "
+        f"Rinj/Rout `{MASS_CENTER_FRACTION:g}`, log width `{MASS_LOG_WIDTH:g}`, source shape `{MASS_SOURCE_SHAPE}`, "
+        f"source blend `{MASS_SOURCE_SHAPE_BLEND_OVERRIDE or 'checkpoint/default'}`, "
         f"torque fraction `{TORQUE_FRACTION:g}`, refresh repolish `{REFRESH_REPOLISH}`.",
         "",
-        "| branch | source fraction | torque fraction | Mdot outer/inner | Mdot center/inner | source integral | rel budget err | Rout/rg | Rinj/rg | initial full | final full | accepted | anchor | dominant | int R | int E | peak E R/rg | median abs E | outer omega | f_adv global | f_adv inner | f_adv pos | Lrad/LEdd | max H/R | int adv | Rson/rg | pivot | nfev | elapsed s | message |",
-        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---|",
+        "| branch | source fraction | source shape | source blend | torque fraction | predictor | step | next step | cost action | Mdot outer/inner | Mdot center/inner | source integral | rel budget err | Rout/rg | Rinj/rg | initial full | final full | accepted | anchor | dominant | int R | int E | peak E R/rg | median abs E | outer omega | f_adv global | f_adv inner | f_adv pos | Lrad/LEdd | max H/R | int adv | Rson/rg | pivot | nfev | elapsed s | message |",
+        "|---|---:|---|---:|---:|---|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---|",
     ]
     for row in rows:
-        formatted = {key: fmt(value) if isinstance(value, (float, int, np.floating, np.integer)) else value for key, value in row.items()}
+        display_row = {
+            "predictor": "-",
+            "attempt_step": np.nan,
+            "next_step": np.nan,
+            "cost_action": "-",
+            **row,
+        }
+        formatted = {
+            key: fmt(value) if isinstance(value, (float, int, np.floating, np.integer)) else value
+            for key, value in display_row.items()
+        }
         for key in ("Mdot_outer_over_inner", "Mdot_center_over_inner"):
-            formatted[key] = f"{float(row[key]):.6g}"
+            formatted[key] = f"{float(display_row[key]):.6g}"
         lines.append(
-            "| {branch} | {mass_fraction} | {torque_fraction} | {Mdot_outer_over_inner} | {Mdot_center_over_inner} | "
+            "| {branch} | {mass_fraction} | {mass_source_shape} | {mass_source_shape_blend} | {torque_fraction} | {predictor} | {attempt_step} | {next_step} | {cost_action} | "
+            "{Mdot_outer_over_inner} | {Mdot_center_over_inner} | "
             "{stream_source_integral_over_inner} | {relative_mass_budget_error} | {R_out_rg} | {Rinj_mass_rg} | "
             "{initial_full} | {final_full} | {accepted} | {anchor_eligible} | "
             "{dominant} | {interval_R} | {interval_E} | {peak_interval_E_rg} | {median_abs_interval_E} | "
@@ -651,6 +886,21 @@ def run_branch(
             grid_power=current_params.grid_power,
             custom_grid_xi=current_params.custom_grid_xi,
             mass_fraction=float(mass_fraction),
+            source_center_fraction=current_params.stream_source_center_fraction,
+            source_log_width=current_params.stream_source_log_width,
+            source_shape=current_params.stream_source_shape,
+            source_shape_blend=current_params.stream_source_shape_blend,
+            torque_fraction=current_params.stream_torque_delta_l_fraction,
+            torque_center_fraction=current_params.stream_torque_center_fraction,
+            torque_log_width=current_params.stream_torque_log_width,
+            wind_sink_fraction=current_params.wind_sink_fraction,
+            wind_sink_center_fraction=current_params.wind_sink_center_fraction,
+            wind_sink_log_width=current_params.wind_sink_log_width,
+            stream_heating_efficiency=current_params.stream_heating_efficiency,
+            outer_closure=current_params.outer_closure,
+            outer_robin_chi=current_params.outer_robin_chi,
+            outer_robin_slope_target=current_params.outer_robin_slope_target,
+            outer_robin_slope_scale=current_params.outer_robin_slope_scale,
         )
         params = apply_outer_slopes_from_state(current_z, params)
         seed, predictor, initial_full = source_fraction_seed(
@@ -737,6 +987,21 @@ def run_adaptive_branch(
             grid_power=current_params.grid_power,
             custom_grid_xi=current_params.custom_grid_xi,
             mass_fraction=float(mass_fraction),
+            source_center_fraction=current_params.stream_source_center_fraction,
+            source_log_width=current_params.stream_source_log_width,
+            source_shape=current_params.stream_source_shape,
+            source_shape_blend=current_params.stream_source_shape_blend,
+            torque_fraction=current_params.stream_torque_delta_l_fraction,
+            torque_center_fraction=current_params.stream_torque_center_fraction,
+            torque_log_width=current_params.stream_torque_log_width,
+            wind_sink_fraction=current_params.wind_sink_fraction,
+            wind_sink_center_fraction=current_params.wind_sink_center_fraction,
+            wind_sink_log_width=current_params.wind_sink_log_width,
+            stream_heating_efficiency=current_params.stream_heating_efficiency,
+            outer_closure=current_params.outer_closure,
+            outer_robin_chi=current_params.outer_robin_chi,
+            outer_robin_slope_target=current_params.outer_robin_slope_target,
+            outer_robin_slope_scale=current_params.outer_robin_slope_scale,
         )
         params = apply_outer_slopes_from_state(current_z, params)
         seed, predictor, initial_full = source_fraction_seed(
@@ -774,6 +1039,39 @@ def run_adaptive_branch(
             polish=polish,
             elapsed_s=elapsed,
         )
+        row["predictor"] = predictor
+        row["attempt_step"] = float(direction * trial_step)
+        row["cost_action"] = "pending"
+        should_break = False
+        if row["accepted"]:
+            prev_z = np.asarray(current_z, dtype=float)
+            prev_fraction = current_fraction
+            current_z = np.asarray(polish.z, dtype=float)
+            current_params = final_params
+            current_fraction = float(mass_fraction)
+            if row["nfev"] >= ADAPTIVE_COST_HARD_SHRINK_NFEV:
+                step = max(ADAPTIVE_MIN_STEP, trial_step * ADAPTIVE_COST_HARD_SHRINK)
+                row["cost_action"] = f"hard_shrink_nfev>={ADAPTIVE_COST_HARD_SHRINK_NFEV}"
+            elif row["nfev"] >= ADAPTIVE_COST_SHRINK_NFEV:
+                step = max(ADAPTIVE_MIN_STEP, trial_step * ADAPTIVE_COST_SHRINK)
+                row["cost_action"] = f"shrink_nfev>={ADAPTIVE_COST_SHRINK_NFEV}"
+            elif row["anchor_eligible"] and initial_full < 0.5 * ADAPTIVE_MAX_INITIAL_FULL and row["nfev"] <= ADAPTIVE_COST_GROW_NFEV:
+                step = min(ADAPTIVE_MAX_STEP, max(ADAPTIVE_MIN_STEP, trial_step * ADAPTIVE_GROWTH))
+                row["cost_action"] = f"grow_nfev<={ADAPTIVE_COST_GROW_NFEV}"
+            else:
+                step = max(ADAPTIVE_MIN_STEP, trial_step)
+                row["cost_action"] = "hold"
+        else:
+            if trial_step <= ADAPTIVE_MIN_STEP * (1.0 + 1.0e-12):
+                print(f"  stopping adaptive branch {label}: minimum step failed", flush=True)
+                step = max(ADAPTIVE_MIN_STEP, trial_step)
+                row["cost_action"] = "stop_min_step_failed"
+                should_break = True
+            else:
+                step = max(ADAPTIVE_MIN_STEP, trial_step * ADAPTIVE_SHRINK)
+                row["cost_action"] = "reject_shrink"
+                print(f"  rejected; reducing step to {step:.6g}", flush=True)
+        row["next_step"] = float(direction * step)
         rows.append(row)
         save_checkpoint(row, final_params)
         write_table(rows)
@@ -781,25 +1079,12 @@ def run_adaptive_branch(
         print(
             f"  final={row['final_full']:.3e} dom={row['dominant']} "
             f"Mdot_outer/inner={row['Mdot_outer_over_inner']:.5g} accepted={row['accepted']} "
-            f"anchor={row['anchor_eligible']} nfev={row['nfev']}",
+            f"anchor={row['anchor_eligible']} nfev={row['nfev']} next_step={direction * step:.6g} "
+            f"action={row['cost_action']}",
             flush=True,
         )
-        if row["accepted"]:
-            prev_z = np.asarray(current_z, dtype=float)
-            prev_fraction = current_fraction
-            current_z = np.asarray(polish.z, dtype=float)
-            current_params = final_params
-            current_fraction = float(mass_fraction)
-            if row["anchor_eligible"] and initial_full < 0.5 * ADAPTIVE_MAX_INITIAL_FULL:
-                step = min(ADAPTIVE_MAX_STEP, max(ADAPTIVE_MIN_STEP, trial_step * ADAPTIVE_GROWTH))
-            else:
-                step = max(ADAPTIVE_MIN_STEP, trial_step)
-        else:
-            if trial_step <= ADAPTIVE_MIN_STEP * (1.0 + 1.0e-12):
-                print(f"  stopping adaptive branch {label}: minimum step failed", flush=True)
-                break
-            step = max(ADAPTIVE_MIN_STEP, trial_step * ADAPTIVE_SHRINK)
-            print(f"  rejected; reducing step to {step:.6g}", flush=True)
+        if should_break:
+            break
 
 
 def main() -> None:

@@ -154,20 +154,52 @@ def algebraic_state(logR: float, logu: float, logT: float, lambda0: float, param
     )
 
 
-def stream_annulus_shape_and_derivative(logR: float, center_fraction: float, log_width: float, R_out: float) -> tuple[float, float]:
+def stream_annulus_shape_and_derivative(
+    logR: float,
+    center_fraction: float,
+    log_width: float,
+    R_out: float,
+    shape: str = "tanh",
+    shape_blend: float | None = None,
+) -> tuple[float, float]:
     """Return a smooth cumulative annulus profile and d/dlnR."""
 
     if center_fraction <= 0.0 or log_width <= 0.0 or R_out <= 0.0:
         raise ValueError("stream annulus center, width, and R_out must be positive")
     logR_center = float(np.log(center_fraction * R_out))
+    shape_kind = str(shape).strip().lower()
     arg = (float(logR) - logR_center) / float(log_width)
-    shape = 0.5 * (1.0 + np.tanh(arg))
+    tanh_shape = 0.5 * (1.0 + np.tanh(arg))
     if abs(arg) > 40.0:
-        dshape_dx = 0.0
+        tanh_dshape_dx = 0.0
     else:
         sech = 1.0 / np.cosh(arg)
-        dshape_dx = 0.5 * sech * sech / float(log_width)
-    return float(shape), float(dshape_dx)
+        tanh_dshape_dx = 0.5 * sech * sech / float(log_width)
+    if shape_kind in {"compact", "compact_c2", "c2"}:
+        half_width = float(log_width)
+        u = (float(logR) - logR_center) / half_width
+        blend = 1.0 if shape_blend is None else float(shape_blend)
+        if not 0.0 <= blend <= 1.0:
+            raise ValueError("stream annulus shape_blend must be between zero and one")
+        if u <= -1.0:
+            compact_shape = 0.0
+            compact_dshape_dx = 0.0
+        elif u >= 1.0:
+            compact_shape = 1.0
+            compact_dshape_dx = 0.0
+        else:
+            norm = 32.0 / 35.0
+            primitive = u - u**3 + 0.6 * u**5 - u**7 / 7.0 + 16.0 / 35.0
+            bump = (1.0 - u * u) ** 3
+            compact_shape = primitive / norm
+            compact_dshape_dx = bump / (norm * half_width)
+        return (
+            float((1.0 - blend) * tanh_shape + blend * compact_shape),
+            float((1.0 - blend) * tanh_dshape_dx + blend * compact_dshape_dx),
+        )
+    if shape_kind != "tanh":
+        raise ValueError("stream annulus shape must be 'tanh' or 'compact_c2'")
+    return float(tanh_shape), float(tanh_dshape_dx)
 
 
 def _stream_source_fraction(params) -> float:
@@ -187,6 +219,14 @@ def _source_geometry(params) -> tuple[float, float]:
     return center, width
 
 
+def _source_shape(params) -> str:
+    return str(getattr(params, "stream_source_shape", "tanh")).strip().lower()
+
+
+def _source_shape_blend(params) -> float:
+    return float(getattr(params, "stream_source_shape_blend", 1.0))
+
+
 def _wind_sink_geometry(params) -> tuple[float, float]:
     center = float(getattr(params, "wind_sink_center_fraction", 0.8))
     width = float(getattr(params, "wind_sink_log_width", 0.08))
@@ -200,7 +240,14 @@ def stream_source_prime(logR: float, params) -> float:
     if fraction == 0.0:
         return 0.0
     center_fraction, log_width = _source_geometry(params)
-    _shape, dshape_dx = stream_annulus_shape_and_derivative(logR, center_fraction, log_width, float(params.R_out))
+    _shape, dshape_dx = stream_annulus_shape_and_derivative(
+        logR,
+        center_fraction,
+        log_width,
+        float(params.R_out),
+        _source_shape(params),
+        _source_shape_blend(params),
+    )
     return float(params.Mdot_g_s * fraction * dshape_dx)
 
 
@@ -234,7 +281,14 @@ def mdot_profile_from_source_sink(logR: float, params) -> tuple[float, float]:
     source_shape = 0.0
     if source_fraction != 0.0:
         center_fraction, log_width = _source_geometry(params)
-        source_shape, _source_dshape = stream_annulus_shape_and_derivative(logR, center_fraction, log_width, float(params.R_out))
+        source_shape, _source_dshape = stream_annulus_shape_and_derivative(
+            logR,
+            center_fraction,
+            log_width,
+            float(params.R_out),
+            _source_shape(params),
+            _source_shape_blend(params),
+        )
     wind_shape = 0.0
     if wind_fraction != 0.0:
         center_fraction, log_width = _wind_sink_geometry(params)

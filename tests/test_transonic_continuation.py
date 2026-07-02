@@ -60,6 +60,20 @@ class TransonicContinuationTests(unittest.TestCase):
         self.assertAlmostEqual(lambda0, self.profile.lambda0)
         self.assertTrue(np.all(np.diff(logR) > 0.0))
 
+    def test_pchip_remap_profile_to_new_grid_preserves_bounds(self) -> None:
+        new_params = replace_mdot(self.params, 2.0 * self.params.Mdot_g_s)
+        new_params = TransonicSlimParams(**{**new_params.__dict__, "n_nodes": 11})
+        z = remap_profile_to_new_sonic_grid(self.profile, new_params, method="pchip")
+        logu, logT, logR_son, lambda0, logR = unpack_state(z, new_params)
+
+        self.assertEqual(logu.shape, (11,))
+        self.assertEqual(logT.shape, (11,))
+        self.assertAlmostEqual(np.exp(logR_son), self.profile.sonic_radius)
+        self.assertAlmostEqual(lambda0, self.profile.lambda0)
+        self.assertTrue(np.all(np.diff(logR) > 0.0))
+        self.assertTrue(np.all(np.isfinite(logu)))
+        self.assertTrue(np.all(np.isfinite(logT)))
+
     def test_blockwise_continuation_metric_reports_tangent_fractions(self) -> None:
         previous_params = replace_mdot(self.params, self.params.Mdot_g_s)
         current_params = replace_mdot(self.params, 1.2 * self.params.Mdot_g_s)

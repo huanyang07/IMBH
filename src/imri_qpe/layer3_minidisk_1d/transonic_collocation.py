@@ -51,12 +51,17 @@ class TransonicSlimParams:
     outer_temperature_logT: float | None = None
     outer_entropy_logK: float | None = None
     outer_omega_log_offset: float = 0.0
+    outer_robin_chi: float = 0.0
+    outer_robin_slope_target: float = 0.0
+    outer_robin_slope_scale: float = 1.0
     stream_torque_delta_l_fraction: float = 0.0
     stream_torque_center_fraction: float = 0.8
     stream_torque_log_width: float = 0.08
     stream_source_fraction: float = 0.0
     stream_source_center_fraction: float = 0.8
     stream_source_log_width: float = 0.08
+    stream_source_shape: str = "tanh"
+    stream_source_shape_blend: float = 1.0
     wind_sink_fraction: float = 0.0
     wind_sink_center_fraction: float = 0.8
     wind_sink_log_width: float = 0.08
@@ -115,6 +120,7 @@ class TransonicSlimParams:
         if self.outer_closure not in {
             "thin_value",
             "pressure_supported_thin_energy",
+            "pressure_supported_robin_energy",
             "pressure_supported_temperature",
             "pressure_supported_entropy",
             "matched_outer_state",
@@ -122,6 +128,7 @@ class TransonicSlimParams:
         }:
             raise ValueError(
                 "outer_closure must be 'thin_value', 'pressure_supported_thin_energy', "
+                "'pressure_supported_robin_energy', "
                 "'pressure_supported_temperature', 'pressure_supported_entropy', "
                 "'matched_outer_state', or 'full_slope_match'"
             )
@@ -133,6 +140,12 @@ class TransonicSlimParams:
                 raise ValueError("pressure_supported_entropy requires finite outer_entropy_logK")
         if not np.isfinite(float(self.outer_omega_log_offset)):
             raise ValueError("outer_omega_log_offset must be finite")
+        if not 0.0 <= float(self.outer_robin_chi) <= 1.0:
+            raise ValueError("outer_robin_chi must be between zero and one")
+        if not np.isfinite(float(self.outer_robin_slope_target)):
+            raise ValueError("outer_robin_slope_target must be finite")
+        if not np.isfinite(float(self.outer_robin_slope_scale)) or self.outer_robin_slope_scale <= 0.0:
+            raise ValueError("outer_robin_slope_scale must be positive and finite")
         if not np.isfinite(float(self.stream_torque_delta_l_fraction)):
             raise ValueError("stream_torque_delta_l_fraction must be finite")
         if self.stream_torque_center_fraction <= 0.0:
@@ -147,6 +160,10 @@ class TransonicSlimParams:
             raise ValueError("stream_source_center_fraction must be positive")
         if self.stream_source_log_width <= 0.0:
             raise ValueError("stream_source_log_width must be positive")
+        if str(self.stream_source_shape).strip().lower() not in {"tanh", "compact", "compact_c2", "c2"}:
+            raise ValueError("stream_source_shape must be 'tanh' or 'compact_c2'")
+        if not np.isfinite(float(self.stream_source_shape_blend)) or not 0.0 <= float(self.stream_source_shape_blend) <= 1.0:
+            raise ValueError("stream_source_shape_blend must be finite and between zero and one")
         if not np.isfinite(float(self.wind_sink_fraction)):
             raise ValueError("wind_sink_fraction must be finite")
         if self.wind_sink_fraction < 0.0:
@@ -524,6 +541,25 @@ def _outer_pressure_supported_boundary_residual(logR: float, y, lambda0: float, 
     return np.asarray([thin[0] - target, thin[1]], dtype=float)
 
 
+def _outer_pressure_robin_boundary_residual(logR: float, y, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
+    thin = _outer_thin_boundary_residual(logR, y, lambda0, params)
+    hard_omega = _pressure_supported_omega_residual(logR, y, lambda0, params)
+    g_match = params.outer_match_log_slopes
+    if g_match is None:
+        g_match = reduced_outer_log_slopes(params, lambda0)
+    g_match = np.asarray(g_match, dtype=float)
+    state = algebraic_state(logR, float(y[0]), float(y[1]), lambda0, params)
+    partials = state_partials(logR, y, lambda0, params, eps_x=params.partial_eps, eps_y=params.partial_eps)
+    dOmega_dx = partials.x["Omega"] + float(np.dot(partials.y["Omega"], g_match))
+    dlnOmega_dx = dOmega_dx / (state.Omega + 1.0e-300)
+    dlnOmegaK_dx = params.potential.dln_omega_k_dlnR(state.R)
+    slope_ratio = float(dlnOmega_dx - dlnOmegaK_dx)
+    slope_residual = (slope_ratio - float(params.outer_robin_slope_target)) / float(params.outer_robin_slope_scale)
+    chi = float(params.outer_robin_chi)
+    angular = (1.0 - chi) * hard_omega + chi * slope_residual
+    return np.asarray([angular, thin[1]], dtype=float)
+
+
 def _pressure_supported_omega_residual(logR: float, y, lambda0: float, params: TransonicSlimParams) -> float:
     thin = _outer_thin_boundary_residual(logR, y, lambda0, params)
     g_match = params.outer_match_log_slopes
@@ -633,6 +669,8 @@ def _outer_boundary_residual(logR: float, y, lambda0: float, params: TransonicSl
         return _outer_thin_boundary_residual(logR, y, lambda0, params)
     if params.outer_closure == "pressure_supported_thin_energy":
         return _outer_pressure_supported_boundary_residual(logR, y, lambda0, params)
+    if params.outer_closure == "pressure_supported_robin_energy":
+        return _outer_pressure_robin_boundary_residual(logR, y, lambda0, params)
     if params.outer_closure == "pressure_supported_temperature":
         return _outer_pressure_temperature_boundary_residual(logR, y, lambda0, params)
     if params.outer_closure == "pressure_supported_entropy":

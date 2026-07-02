@@ -211,7 +211,12 @@ def tangent_audit_from_scaled_tangent(
     )
 
 
-def remap_profile_to_new_sonic_grid(profile, new_params: TransonicSlimParams, temperature_mdot_power: float = 0.25) -> np.ndarray:
+def remap_profile_to_new_sonic_grid(
+    profile,
+    new_params: TransonicSlimParams,
+    temperature_mdot_power: float = 0.25,
+    method: str = "linear",
+) -> np.ndarray:
     """Map a converged profile onto the grid and accretion rate of ``new_params``."""
 
     old_mdot = float(np.median(2.0 * np.pi * profile.R * profile.Sigma * profile.u))
@@ -221,8 +226,21 @@ def remap_profile_to_new_sonic_grid(profile, new_params: TransonicSlimParams, te
     logR_son = float(np.log(profile.sonic_radius))
     logR_new = computational_grid(new_params, logR_son)
     logR_old = np.log(profile.R)
-    logu = np.interp(logR_new, logR_old, np.log(profile.u), left=np.log(profile.u[0]), right=np.log(profile.u[-1]))
-    logT = np.interp(logR_new, logR_old, np.log(profile.T), left=np.log(profile.T[0]), right=np.log(profile.T[-1]))
+    logu_old = np.log(profile.u)
+    logT_old = np.log(profile.T)
+    remap_method = str(method).strip().lower()
+    if remap_method in {"linear", "interp"}:
+        logu = np.interp(logR_new, logR_old, logu_old, left=logu_old[0], right=logu_old[-1])
+        logT = np.interp(logR_new, logR_old, logT_old, left=logT_old[0], right=logT_old[-1])
+    elif remap_method in {"pchip", "shape_preserving"}:
+        try:
+            from scipy.interpolate import PchipInterpolator
+        except Exception as exc:
+            raise RuntimeError("scipy is required for PCHIP transonic remapping") from exc
+        logu = PchipInterpolator(logR_old, logu_old, extrapolate=True)(logR_new)
+        logT = PchipInterpolator(logR_old, logT_old, extrapolate=True)(logR_new)
+    else:
+        raise ValueError("remap method must be 'linear' or 'pchip'")
     logT = logT + temperature_mdot_power * np.log(mdot_factor)
     logu = np.clip(logu, new_params.logu_bounds[0], new_params.logu_bounds[1])
     logT = np.clip(logT, new_params.logT_bounds[0], new_params.logT_bounds[1])
