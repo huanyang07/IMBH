@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
+import time
 
 import numpy as np
 
@@ -212,8 +213,11 @@ class TransonicSlimParams:
             raise ValueError("stream_heating_efficiency must be finite")
         if self.stream_heating_efficiency < 0.0:
             raise ValueError("stream_heating_efficiency must be non-negative")
-        if self.interval_residual_form not in {"differential", "integrated"}:
-            raise ValueError("interval_residual_form must be 'differential' or 'integrated'")
+        if self.interval_residual_form not in {"differential", "integrated", "integrated_physical_energy"}:
+            raise ValueError(
+                "interval_residual_form must be 'differential', 'integrated', "
+                "or 'integrated_physical_energy'"
+            )
         if self.integrated_residual_weighting not in {"none", "inverse_sqrt_dx", "inverse_dx"}:
             raise ValueError("integrated_residual_weighting must be 'none', 'inverse_sqrt_dx', or 'inverse_dx'")
         if self.outer_match_log_slopes is not None:
@@ -400,6 +404,34 @@ class TransonicJacobianDirectionalAudit:
 
 
 @dataclass(frozen=True)
+class TransonicNewtonIterationAudit:
+    """One damping/line-search trial in square Newton polish."""
+
+    iteration: int
+    pivot: str
+    square_max_before: float
+    merit_before: float
+    jacobian_build_s: float
+    jacobian_nnz: int
+    damping: float
+    linear_solver: str
+    linear_istop: int
+    linear_iterations: int
+    linear_normr: float
+    linear_normar: float
+    linear_conda: float
+    raw_step_norm: float
+    step_norm: float
+    step_scaled: bool
+    accepted: bool
+    line_search_alpha: float
+    line_search_reductions: int
+    residual_evaluations: int
+    square_max_after: float
+    merit_after: float
+
+
+@dataclass(frozen=True)
 class TransonicSquarePolishResult:
     """Fixed-Mdot polish result using the square sonic residual system."""
 
@@ -415,6 +447,7 @@ class TransonicSquarePolishResult:
     final_step_norm: float
     final_linear_damping: float
     final_merit: float
+    newton_audit: tuple[TransonicNewtonIterationAudit, ...] = ()
 
 
 def computational_grid(params: TransonicSlimParams, logR_son: float) -> np.ndarray:
@@ -853,6 +886,12 @@ def _interval_residual_from_unpacked(logu, logT, logR, lambda0: float, params: T
         return residual * _outer_buffer_interval_weights(xm, params)
     if params.interval_residual_form == "integrated":
         residual = _integrated_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+        _dx, _y_left, _y_right, xm = _interval_geometry(logu, logT, logR, idx)
+        return residual * _outer_buffer_interval_weights(xm, params)
+    if params.interval_residual_form == "integrated_physical_energy":
+        integrated = _integrated_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+        differential = _differential_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+        residual = np.array([integrated[0], differential[1]], dtype=float)
         _dx, _y_left, _y_right, xm = _interval_geometry(logu, logT, logR, idx)
         return residual * _outer_buffer_interval_weights(xm, params)
     raise ValueError(f"unknown interval_residual_form {params.interval_residual_form!r}")
@@ -1726,6 +1765,26 @@ def _equilibrated_sparse_newton_step(
 ) -> np.ndarray:
     """Solve a sparse Newton correction after row/column equilibration."""
 
+    step, _info = _equilibrated_sparse_newton_step_with_info(
+        jac,
+        residual,
+        damping=damping,
+        use_direct=use_direct,
+        solver_tolerance=solver_tolerance,
+    )
+    return step
+
+
+def _equilibrated_sparse_newton_step_with_info(
+    jac,
+    residual,
+    *,
+    damping: float = 0.0,
+    use_direct: bool = False,
+    solver_tolerance: float = 1.0e-10,
+) -> tuple[np.ndarray, dict[str, float | int | str]]:
+    """Solve a sparse Newton correction and report linear-solver diagnostics."""
+
     try:
         from scipy.sparse import diags
         from scipy.sparse.linalg import lsmr, splu
@@ -1742,21 +1801,50 @@ def _equilibrated_sparse_newton_step(
     rhs = -row_scale * np.asarray(residual, dtype=float)
     if damping < 0.0:
         raise ValueError("linear damping must be non-negative")
+    info: dict[str, float | int | str] = {
+        "linear_solver": "direct" if use_direct else "lsmr",
+        "linear_istop": -1,
+        "linear_iterations": 0,
+        "linear_normr": np.nan,
+        "linear_normar": np.nan,
+        "linear_conda": np.nan,
+        "linear_normx": np.nan,
+        "balanced_rows": int(balanced.shape[0]),
+        "balanced_cols": int(balanced.shape[1]),
+        "balanced_nnz": int(balanced.nnz),
+        "row_norm_min": float(np.min(row_norm)) if row_norm.size else np.nan,
+        "row_norm_max": float(np.max(row_norm)) if row_norm.size else np.nan,
+        "col_norm_min": float(np.min(col_norm)) if col_norm.size else np.nan,
+        "col_norm_max": float(np.max(col_norm)) if col_norm.size else np.nan,
+    }
     if use_direct and damping == 0.0:
         try:
             y = splu(balanced, permc_spec="COLAMD").solve(rhs)
-            return col_scale * np.asarray(y, dtype=float)
+            info.update({"linear_solver": "splu", "linear_istop": 0, "linear_iterations": 1})
+            return col_scale * np.asarray(y, dtype=float), info
         except Exception:
             pass
-    y = lsmr(
+    result = lsmr(
         balanced,
         rhs,
         damp=float(damping),
         atol=solver_tolerance,
         btol=solver_tolerance,
         maxiter=max(20, 5 * balanced.shape[1]),
-    )[0]
-    return col_scale * np.asarray(y, dtype=float)
+    )
+    y = result[0]
+    info.update(
+        {
+            "linear_solver": "lsmr",
+            "linear_istop": int(result[1]),
+            "linear_iterations": int(result[2]),
+            "linear_normr": float(result[3]),
+            "linear_normar": float(result[4]),
+            "linear_conda": float(result[6]),
+            "linear_normx": float(result[7]),
+        }
+    )
+    return col_scale * np.asarray(y, dtype=float), info
 
 
 def _regularized_damping_sequence(values: tuple[float, ...]) -> tuple[float, ...]:
@@ -1795,11 +1883,11 @@ def _try_square_newton_step(
     upper,
     line_search_min_alpha: float,
     line_search_max_reductions: int,
-) -> tuple[bool, np.ndarray, np.ndarray, int, int]:
+) -> tuple[bool, np.ndarray, np.ndarray, int, int, float]:
     merit = _square_residual_merit(residual)
     alpha = _max_alpha_inside_bounds(z, step, lower, upper)
     if alpha <= line_search_min_alpha:
-        return False, z, residual, 0, 0
+        return False, z, residual, 0, 0, float(alpha)
     reductions = 0
     evaluations = 0
     for _ in range(line_search_max_reductions + 1):
@@ -1808,12 +1896,12 @@ def _try_square_newton_step(
         evaluations += 1
         trial_merit = _square_residual_merit(trial_residual)
         if trial_merit < merit:
-            return True, trial, trial_residual, reductions, evaluations
+            return True, trial, trial_residual, reductions, evaluations, float(alpha)
         alpha *= 0.5
         reductions += 1
         if alpha < line_search_min_alpha:
             break
-    return False, z, residual, reductions, evaluations
+    return False, z, residual, reductions, evaluations, float(alpha)
 
 
 def _square_residual_merit(residual: np.ndarray) -> float:
@@ -2409,6 +2497,7 @@ def solve_square_transonic_polish(
     line_search_reductions = 0
     final_step_norm = 0.0
     final_linear_damping = 0.0
+    newton_audit: list[TransonicNewtonIterationAudit] = []
 
     if method == "least_squares":
         jacobian_kwargs = (
@@ -2467,11 +2556,14 @@ def solve_square_transonic_polish(
                 iterations = iteration
                 break
 
+            jacobian_t0 = time.perf_counter()
             jac = square_collocation_jacobian(z, polish_params, pivot=resolved, rel_step=jacobian_rel_step)
+            jacobian_build_s = time.perf_counter() - jacobian_t0
             njev += 1
             accepted = False
+            merit_before = _square_residual_merit(residual)
             for damping in damping_candidates:
-                step = _equilibrated_sparse_newton_step(
+                step, linear_info = _equilibrated_sparse_newton_step_with_info(
                     jac,
                     residual,
                     damping=damping,
@@ -2479,13 +2571,42 @@ def solve_square_transonic_polish(
                     solver_tolerance=optimizer_tol,
                 )
                 final_linear_damping = damping
-                final_step_norm = float(np.linalg.norm(step, ord=np.inf))
+                raw_step_norm = float(np.linalg.norm(step, ord=np.inf))
+                final_step_norm = raw_step_norm
+                step_scaled = False
                 if not np.isfinite(final_step_norm):
+                    newton_audit.append(
+                        TransonicNewtonIterationAudit(
+                            iteration=int(iteration),
+                            pivot=str(resolved),
+                            square_max_before=float(square_max),
+                            merit_before=float(merit_before),
+                            jacobian_build_s=float(jacobian_build_s),
+                            jacobian_nnz=int(jac.nnz),
+                            damping=float(damping),
+                            linear_solver=str(linear_info.get("linear_solver", "")),
+                            linear_istop=int(linear_info.get("linear_istop", -1)),
+                            linear_iterations=int(linear_info.get("linear_iterations", 0)),
+                            linear_normr=float(linear_info.get("linear_normr", np.nan)),
+                            linear_normar=float(linear_info.get("linear_normar", np.nan)),
+                            linear_conda=float(linear_info.get("linear_conda", np.nan)),
+                            raw_step_norm=float(raw_step_norm),
+                            step_norm=float(final_step_norm),
+                            step_scaled=False,
+                            accepted=False,
+                            line_search_alpha=np.nan,
+                            line_search_reductions=0,
+                            residual_evaluations=0,
+                            square_max_after=float(square_max),
+                            merit_after=float(merit_before),
+                        )
+                    )
                     continue
                 if final_step_norm > max_step_norm:
                     step = step * (max_step_norm / final_step_norm)
                     final_step_norm = max_step_norm
-                accepted, trial_z, trial_residual, reductions, evaluations = _try_square_newton_step(
+                    step_scaled = True
+                accepted, trial_z, trial_residual, reductions, evaluations, alpha = _try_square_newton_step(
                     z,
                     step,
                     residual,
@@ -2498,6 +2619,34 @@ def solve_square_transonic_polish(
                 )
                 line_search_reductions += reductions
                 nfev += evaluations
+                trial_square_max = float(np.max(np.abs(trial_residual)))
+                trial_merit = _square_residual_merit(trial_residual)
+                newton_audit.append(
+                    TransonicNewtonIterationAudit(
+                        iteration=int(iteration),
+                        pivot=str(resolved),
+                        square_max_before=float(square_max),
+                        merit_before=float(merit_before),
+                        jacobian_build_s=float(jacobian_build_s),
+                        jacobian_nnz=int(jac.nnz),
+                        damping=float(damping),
+                        linear_solver=str(linear_info.get("linear_solver", "")),
+                        linear_istop=int(linear_info.get("linear_istop", -1)),
+                        linear_iterations=int(linear_info.get("linear_iterations", 0)),
+                        linear_normr=float(linear_info.get("linear_normr", np.nan)),
+                        linear_normar=float(linear_info.get("linear_normar", np.nan)),
+                        linear_conda=float(linear_info.get("linear_conda", np.nan)),
+                        raw_step_norm=float(raw_step_norm),
+                        step_norm=float(final_step_norm),
+                        step_scaled=bool(step_scaled),
+                        accepted=bool(accepted),
+                        line_search_alpha=float(alpha),
+                        line_search_reductions=int(reductions),
+                        residual_evaluations=int(evaluations),
+                        square_max_after=float(trial_square_max),
+                        merit_after=float(trial_merit),
+                    )
+                )
                 if accepted:
                     z = trial_z
                     residual = trial_residual
@@ -2547,6 +2696,7 @@ def solve_square_transonic_polish(
         final_step_norm=final_step_norm,
         final_linear_damping=final_linear_damping,
         final_merit=final_merit,
+        newton_audit=tuple(newton_audit),
     )
 
 

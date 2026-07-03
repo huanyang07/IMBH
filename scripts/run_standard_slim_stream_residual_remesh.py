@@ -73,11 +73,15 @@ REFERENCE_GRID = os.environ.get("IMBH_STANDARD_SLIM_STREAM_REMESH_REFERENCE", "c
 DENSE_FACTOR = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_REMESH_DENSE_FACTOR", "32"))
 
 W_INTERVAL_E = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_REMESH_W_INTERVAL_E", "1.0"))
+W_PHYSICAL_E = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_REMESH_W_PHYSICAL_E", "0.0"))
 W_SOURCE = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_REMESH_W_SOURCE", "0.8"))
 W_MDOT = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_REMESH_W_MDOT", "0.8"))
 W_QSTREAM = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_REMESH_W_QSTREAM", "0.5"))
 W_OUTER = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_REMESH_W_OUTER", "1.0"))
 OUTER_WIDTH = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_REMESH_OUTER_WIDTH", "0.018"))
+W_TARGET = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_REMESH_W_TARGET", "0.0"))
+TARGET_R_RG_OVERRIDE = os.environ.get("IMBH_STANDARD_SLIM_STREAM_REMESH_TARGET_R_RG", "").strip()
+TARGET_LOG_WIDTH = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_REMESH_TARGET_LOG_WIDTH", "0.025"))
 
 NEWTON_MAX_ITER = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_REMESH_NEWTON_MAX_ITER", "32"))
 NEWTON_MAX_NFEV = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_REMESH_NEWTON_MAX_NFEV", "3600"))
@@ -120,6 +124,17 @@ def normalize_component(values: np.ndarray) -> np.ndarray:
     if scale <= 0.0:
         return np.zeros_like(clean)
     return clean / scale
+
+
+def normalize_component_in_mask(values: np.ndarray, mask: np.ndarray) -> np.ndarray:
+    clean = np.nan_to_num(np.abs(np.asarray(values, dtype=float)), nan=0.0, posinf=0.0, neginf=0.0)
+    selected = clean[np.asarray(mask, dtype=bool)]
+    scale = float(np.max(selected)) if selected.size else 0.0
+    if scale <= 0.0:
+        return np.zeros_like(clean)
+    output = np.zeros_like(clean)
+    output[np.asarray(mask, dtype=bool)] = selected / scale
+    return output
 
 
 def enforce_min_spacing(xi: np.ndarray, min_spacing: float = 1.0e-10) -> np.ndarray:
@@ -173,8 +188,33 @@ def residual_remesh_grid_xi(
 
     intervals = interval_residuals(source_z, source_params)
     interval_mid_xi = 0.5 * (source_xi[:-1] + source_xi[1:])
+    interval_mid_logR = 0.5 * (logR[:-1] + logR[1:])
+    interval_mid_R_rg = np.exp(interval_mid_logR) / source_params.r_g
     interval_E = normalize_component(intervals[:, 1])
     interval_dense = np.interp(dense_xi, interval_mid_xi, interval_E, left=interval_E[0], right=interval_E[-1])
+    if source_params.outer_buffer_inner_rg is None:
+        physical_mask = np.ones_like(interval_mid_R_rg, dtype=bool)
+        buffer_inner_rg = float(source_params.R_out_rg)
+    else:
+        buffer_inner_rg = float(source_params.outer_buffer_inner_rg)
+        physical_mask = interval_mid_R_rg < buffer_inner_rg
+    physical_E = normalize_component_in_mask(intervals[:, 1], physical_mask)
+    physical_dense = np.interp(
+        dense_xi,
+        interval_mid_xi,
+        physical_E,
+        left=physical_E[0] if physical_E.size else 0.0,
+        right=physical_E[-1] if physical_E.size else 0.0,
+    )
+    if np.any(physical_mask):
+        selected_E = np.abs(intervals[:, 1][physical_mask])
+        selected_R = interval_mid_R_rg[physical_mask]
+        peak_physical_index = int(np.argmax(selected_E))
+        peak_physical_E = float(selected_E[peak_physical_index])
+        peak_physical_R_rg = float(selected_R[peak_physical_index])
+    else:
+        peak_physical_E = 0.0
+        peak_physical_R_rg = float(source_params.stream_source_center_fraction * source_params.R_out_rg)
 
     source_dense = np.asarray([stream_source_prime(float(x), source_params) for x in dense_logR], dtype=float)
     wind_dense = np.asarray([wind_sink_prime(float(x), source_params) for x in dense_logR], dtype=float)
@@ -189,14 +229,23 @@ def residual_remesh_grid_xi(
         dqstream_dense = np.zeros_like(qstream_dense)
     outer_width = max(float(OUTER_WIDTH), 1.0e-5)
     outer_dense = np.exp(-0.5 * ((dense_xi - 1.0) / outer_width) ** 2)
+    if TARGET_R_RG_OVERRIDE:
+        target_R_rg = float(TARGET_R_RG_OVERRIDE)
+    else:
+        target_R_rg = peak_physical_R_rg
+    target_log_width = max(float(TARGET_LOG_WIDTH), 1.0e-5)
+    target_logR = float(np.log(max(target_R_rg, 1.0e-12) * source_params.r_g))
+    target_dense = np.exp(-0.5 * ((dense_logR - target_logR) / target_log_width) ** 2)
 
     composite = (
         W_INTERVAL_E * interval_dense
+        + W_PHYSICAL_E * physical_dense
         + W_SOURCE * normalize_component(source_dense)
         + W_SOURCE * normalize_component(wind_dense)
         + W_MDOT * normalize_component(mdot_prime_dense)
         + W_QSTREAM * normalize_component(dqstream_dense)
         + W_OUTER * normalize_component(outer_dense)
+        + W_TARGET * normalize_component(target_dense)
     )
     composite = smooth_score(composite, SMOOTH_PASSES)
     monitor = MONITOR_FLOOR + float(strength) * normalize_component(composite) ** float(POWER)
@@ -225,6 +274,18 @@ def residual_remesh_grid_xi(
         "monitor_blend": float(BLEND),
         "monitor_floor": float(MONITOR_FLOOR),
         "monitor_reference": REFERENCE_GRID,
+        "monitor_w_interval_E": float(W_INTERVAL_E),
+        "monitor_w_physical_E": float(W_PHYSICAL_E),
+        "monitor_w_source": float(W_SOURCE),
+        "monitor_w_mdot": float(W_MDOT),
+        "monitor_w_qstream": float(W_QSTREAM),
+        "monitor_w_outer": float(W_OUTER),
+        "monitor_w_target": float(W_TARGET),
+        "monitor_target_R_rg": float(target_R_rg),
+        "monitor_target_log_width": float(target_log_width),
+        "monitor_physical_buffer_inner_rg": float(buffer_inner_rg),
+        "monitor_peak_physical_E": float(peak_physical_E),
+        "monitor_peak_physical_E_R_rg": float(peak_physical_R_rg),
         "monitor_max": float(np.max(monitor)),
         "monitor_p90": float(np.percentile(monitor, 90.0)),
         "peak_monitor_xi": float(dense_xi[peak_monitor]),
@@ -248,11 +309,13 @@ def residual_remesh_grid_xi(
         "dense_R_rg": np.exp(dense_logR) / source_params.r_g,
         "monitor": monitor,
         "component_interval_E": interval_dense,
+        "component_physical_E": physical_dense,
         "component_source": normalize_component(source_dense),
         "component_wind": normalize_component(wind_dense),
         "component_mdot_prime": normalize_component(mdot_prime_dense),
         "component_qstream_prime": normalize_component(dqstream_dense),
         "component_outer": normalize_component(outer_dense),
+        "component_target": normalize_component(target_dense),
         "old_xi": source_xi,
         "new_xi": blended,
     }
@@ -386,11 +449,13 @@ def serializable_profile(label: str, profile_info: dict[str, Any]) -> dict[str, 
                 "dense_R_rg",
                 "monitor",
                 "component_interval_E",
+                "component_physical_E",
                 "component_source",
                 "component_wind",
                 "component_mdot_prime",
                 "component_qstream_prime",
                 "component_outer",
+                "component_target",
                 "old_xi",
                 "new_xi",
             }

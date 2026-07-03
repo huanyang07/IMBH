@@ -5,8 +5,9 @@ from __future__ import annotations
 import json
 import os
 import time
-from dataclasses import replace
+from dataclasses import asdict, replace
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any
 
 import numpy as np
@@ -56,6 +57,8 @@ CHECKPOINT_DIR = ROOT / os.environ.get(
     "IMBH_STANDARD_SLIM_STREAM_MASS_CHECKPOINTS",
     "outputs/checkpoints/slim_benchmark_stream_mass_annulus_mdot1_rout300",
 )
+NEWTON_AUDIT_DIR_RAW = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_AUDIT_DIR", "").strip()
+NEWTON_AUDIT_DIR = (ROOT / NEWTON_AUDIT_DIR_RAW) if NEWTON_AUDIT_DIR_RAW else None
 
 BRANCH_SPECS = tuple(
     piece.strip()
@@ -135,12 +138,42 @@ ADAPTIVE_COST_HARD_SHRINK = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS
 NEWTON_MAX_ITER = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_MAX_ITER", "30"))
 NEWTON_MAX_NFEV = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_MAX_NFEV", "3000"))
 NEWTON_MAX_STEP_NORM = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_MAX_STEP_NORM", "0.16"))
+POLISH_METHOD = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_POLISH_METHOD", "newton").strip().lower()
+NEWTON_JACOBIAN_REL_STEP = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_JACOBIAN_REL_STEP", "3e-5"))
+NEWTON_LINE_SEARCH_MIN_ALPHA = float(
+    os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_LINE_SEARCH_MIN_ALPHA", "1e-6")
+)
+NEWTON_LINE_SEARCH_MAX_REDUCTIONS = int(
+    os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_LINE_SEARCH_MAX_REDUCTIONS", "12")
+)
 NEWTON_LINEAR_SOLVER = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_LINEAR_SOLVER", "regularized_lsmr")
+NEWTON_LINEAR_DAMPINGS = tuple(
+    float(piece)
+    for piece in os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_LINEAR_DAMPINGS", "0,1e-4,1e-3,1e-2,1e-1,1")
+    .replace(":", ",")
+    .split(",")
+    if piece.strip()
+)
 NEWTON_RESIDUAL_TOL = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_RESIDUAL_TOL", "1e-8"))
 ACCEPTANCE_TOL = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ACCEPTANCE_TOL", "1e-5"))
 ANCHOR_TOL = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ANCHOR_TOL", "3e-6"))
+ACCEPT_SEED_TOL = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ACCEPT_SEED_TOL", "0"))
+PHYSICAL_E_TOL = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_PHYSICAL_E_TOL", "inf"))
+REQUIRE_PHYSICAL_E_GATE = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_REQUIRE_PHYSICAL_E_GATE", "0") != "0"
+CLEANUP_REPOLISH_PASSES = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_CLEANUP_REPOLISH_PASSES", "0"))
+CLEANUP_REPOLISH_ONLY_ACCEPTED = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_CLEANUP_ONLY_ACCEPTED", "1") != "0"
+CLEANUP_REPOLISH_MAX_BASE_NFEV = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_CLEANUP_MAX_BASE_NFEV", "1000000000"))
+CLEANUP_REPOLISH_MAX_BASE_PHYSICAL_E = float(
+    os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_CLEANUP_MAX_BASE_PHYSICAL_E", "inf")
+)
+CLEANUP_POLISH_SPECS_RAW = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_CLEANUP_POLISH_SPECS", "same").strip()
+LEAN_REJECT_DIAGNOSTICS = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LEAN_REJECT_DIAGNOSTICS", "0") != "0"
 INTERVAL_RESIDUAL_FORM = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_INTERVAL_FORM", "differential").strip().lower()
 INTEGRATED_RESIDUAL_WEIGHTING = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_INTEGRATED_WEIGHTING", "none").strip().lower()
+FORCE_INTERVAL_RESIDUAL_FORM = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_FORCE_INTERVAL_FORM", "").strip().lower()
+FORCE_INTEGRATED_RESIDUAL_WEIGHTING = (
+    os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_FORCE_INTEGRATED_WEIGHTING", "").strip().lower()
+)
 REFRESH_REPOLISH = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_REFRESH_REPOLISH", "0") != "0"
 RESIDUAL_REMESH_EVERY_STEP = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_RESIDUAL_REMESH_EVERY_STEP", "0") != "0"
 RESIDUAL_REMESH_ON_REJECT = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_RESIDUAL_REMESH_ON_REJECT", "0") != "0"
@@ -179,6 +212,17 @@ def parse_branch_specs() -> list[tuple[str, list[float]]]:
             raise ValueError(f"branch {label!r} has no mass fractions")
         branches.append((label.strip(), fractions))
     return branches
+
+
+def parse_cleanup_polish_specs() -> tuple[str, ...]:
+    if not CLEANUP_POLISH_SPECS_RAW:
+        return ("same",)
+    separator = ";" if ";" in CLEANUP_POLISH_SPECS_RAW else ","
+    specs = tuple(piece.strip().lower() for piece in CLEANUP_POLISH_SPECS_RAW.split(separator) if piece.strip())
+    return specs or ("same",)
+
+
+CLEANUP_POLISH_SPECS = parse_cleanup_polish_specs()
 
 
 def target_r_out_rg(default_r_out_rg: float) -> float:
@@ -499,6 +543,10 @@ def params_for(
         if integrated_residual_weighting is None
         else str(integrated_residual_weighting).strip().lower()
     )
+    if FORCE_INTERVAL_RESIDUAL_FORM:
+        interval_form = FORCE_INTERVAL_RESIDUAL_FORM
+    if FORCE_INTEGRATED_RESIDUAL_WEIGHTING:
+        integrated_weighting = FORCE_INTEGRATED_RESIDUAL_WEIGHTING
     return TransonicSlimParams(
         M2_g=fiducial.M2_g,
         Mdot_g_s=float(ratio) * mdot_edd,
@@ -600,9 +648,23 @@ def max_residual(z: np.ndarray, params: TransonicSlimParams) -> float:
     return float(np.max(np.abs(collocation_residual(z, params))))
 
 
+def relative_root_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
+
 def clip_state(z: np.ndarray, params: TransonicSlimParams) -> np.ndarray:
+    clipped, _count = clip_state_with_count(z, params)
+    return clipped
+
+
+def clip_state_with_count(z: np.ndarray, params: TransonicSlimParams) -> tuple[np.ndarray, int]:
     lower, upper = state_bounds(params)
-    return np.clip(np.asarray(z, dtype=float), lower + 1.0e-12, upper - 1.0e-12)
+    array = np.asarray(z, dtype=float)
+    clipped = np.clip(array, lower + 1.0e-12, upper - 1.0e-12)
+    return clipped, int(np.count_nonzero(clipped != array))
 
 
 def finite_difference_source_column(anchor_z: np.ndarray, anchor_params: TransonicSlimParams, *, pivot: str) -> tuple[np.ndarray, float]:
@@ -669,10 +731,20 @@ def equilibrated_tangent_solve(jac, rhs: np.ndarray) -> np.ndarray:
     return col_scale * np.asarray(result[0], dtype=float)
 
 
-def source_fraction_tangent(anchor_z: np.ndarray, anchor_params: TransonicSlimParams, *, pivot: str) -> np.ndarray:
+def source_fraction_tangent(anchor_z: np.ndarray, anchor_params: TransonicSlimParams, *, pivot: str) -> tuple[np.ndarray, dict[str, Any]]:
     jac = square_collocation_jacobian(anchor_z, anchor_params, pivot=pivot)
-    f_source, _fd_step = finite_difference_source_column(anchor_z, anchor_params, pivot=pivot)
-    return equilibrated_tangent_solve(jac, -f_source)
+    f_source, fd_step = finite_difference_source_column(anchor_z, anchor_params, pivot=pivot)
+    dz_df = equilibrated_tangent_solve(jac, -f_source)
+    linear_residual = np.asarray(jac @ dz_df + f_source, dtype=float)
+    return dz_df, {
+        "predictor_tangent_fd_step": float(fd_step),
+        "predictor_tangent_solver": str(TANGENT_SOLVER),
+        "predictor_tangent_linear_damping": float(TANGENT_LINEAR_DAMPING),
+        "predictor_tangent_norm_inf": float(np.linalg.norm(dz_df, ord=np.inf)),
+        "predictor_tangent_norm_l2": float(np.linalg.norm(dz_df)),
+        "predictor_tangent_linear_residual_norm": float(np.linalg.norm(linear_residual)),
+        "predictor_tangent_linear_residual_inf": float(np.linalg.norm(linear_residual, ord=np.inf)),
+    }
 
 
 def source_fraction_seed(
@@ -683,21 +755,50 @@ def source_fraction_seed(
     prev_fraction: float | None,
     prev_z: np.ndarray | None,
     params: TransonicSlimParams,
-) -> tuple[np.ndarray, str, float]:
+) -> tuple[np.ndarray, str, float, dict[str, Any]]:
     current_seed = np.asarray(current_z, dtype=float)
     current_full = max_residual(current_seed, params)
     best_seed = current_seed
     best_label = "current"
     best_full = current_full
+    diagnostics: dict[str, Any] = {
+        "predictor_initial_full_current": float(current_full),
+        "predictor_initial_full_secant_best": np.nan,
+        "predictor_initial_full_tangent_best": np.nan,
+        "predictor_chosen": "current",
+        "predictor_secant_damping_chosen": np.nan,
+        "predictor_tangent_damping_chosen": np.nan,
+        "predictor_tangent_fd_step": np.nan,
+        "predictor_tangent_solver": str(TANGENT_SOLVER),
+        "predictor_tangent_linear_damping": float(TANGENT_LINEAR_DAMPING),
+        "predictor_tangent_norm_inf": np.nan,
+        "predictor_tangent_norm_l2": np.nan,
+        "predictor_tangent_linear_residual_norm": np.nan,
+        "predictor_tangent_linear_residual_inf": np.nan,
+        "predictor_tangent_error": "",
+        "predictor_tangent_secant_cosine": np.nan,
+        "predictor_state_clip_count": 0,
+        "predictor_secant_clip_count_best": 0,
+        "predictor_tangent_clip_count_best": 0,
+    }
+    secant_direction: np.ndarray | None = None
     if USE_SECANT_PREDICTOR and prev_z is not None and prev_fraction is not None and abs(current_fraction - prev_fraction) > 1.0e-12:
         step_factor = (float(target_fraction) - current_fraction) / (current_fraction - prev_fraction)
+        secant_direction = step_factor * (current_z - prev_z)
         for damping in SECANT_DAMPING_VALUES:
-            trial_seed = clip_state(current_z + float(damping) * step_factor * (current_z - prev_z), params)
+            trial_seed, clip_count = clip_state_with_count(current_z + float(damping) * secant_direction, params)
             trial_full = max_residual(trial_seed, params)
+            if not np.isfinite(diagnostics["predictor_initial_full_secant_best"]) or trial_full < diagnostics[
+                "predictor_initial_full_secant_best"
+            ]:
+                diagnostics["predictor_initial_full_secant_best"] = float(trial_full)
+                diagnostics["predictor_secant_damping_chosen"] = float(damping)
+                diagnostics["predictor_secant_clip_count_best"] = int(clip_count)
             if trial_full < best_full:
                 best_seed = trial_seed
                 best_label = f"secant:{float(damping):g}"
                 best_full = trial_full
+                diagnostics["predictor_state_clip_count"] = int(clip_count)
     if (
         USE_TANGENT_PREDICTOR
         and best_full > TANGENT_TRIGGER_INITIAL_FULL
@@ -707,18 +808,35 @@ def source_fraction_seed(
             anchor_params = replace(params, stream_source_fraction=float(current_fraction), stream_mass_fraction=0.0)
             anchor_params = apply_outer_slopes_from_state(current_z, anchor_params)
             pivot = PIVOTS[0] if PIVOTS else "C2"
-            dz_df = source_fraction_tangent(current_z, anchor_params, pivot=pivot)
+            dz_df, tangent_info = source_fraction_tangent(current_z, anchor_params, pivot=pivot)
+            diagnostics.update(tangent_info)
+            if secant_direction is not None:
+                tangent_direction = (float(target_fraction) - current_fraction) * dz_df
+                denom = float(np.linalg.norm(secant_direction) * np.linalg.norm(tangent_direction))
+                diagnostics["predictor_tangent_secant_cosine"] = (
+                    float(np.dot(secant_direction, tangent_direction) / denom) if denom > 0.0 else np.nan
+                )
             df = float(target_fraction) - current_fraction
             for damping in TANGENT_DAMPING_VALUES:
-                trial_seed = clip_state(current_z + float(damping) * df * dz_df, params)
+                trial_seed, clip_count = clip_state_with_count(current_z + float(damping) * df * dz_df, params)
                 trial_full = max_residual(trial_seed, params)
+                if not np.isfinite(diagnostics["predictor_initial_full_tangent_best"]) or trial_full < diagnostics[
+                    "predictor_initial_full_tangent_best"
+                ]:
+                    diagnostics["predictor_initial_full_tangent_best"] = float(trial_full)
+                    diagnostics["predictor_tangent_damping_chosen"] = float(damping)
+                    diagnostics["predictor_tangent_clip_count_best"] = int(clip_count)
                 if trial_full < best_full:
                     best_seed = trial_seed
                     best_label = f"tangent:{float(damping):g}"
                     best_full = trial_full
+                    diagnostics["predictor_state_clip_count"] = int(clip_count)
         except Exception as exc:
+            diagnostics["predictor_tangent_error"] = str(exc)
             print(f"  tangent predictor unavailable: {exc}", flush=True)
-    return best_seed, best_label, best_full
+    diagnostics["predictor_chosen"] = str(best_label)
+    diagnostics["predictor_initial_full_best"] = float(best_full)
+    return best_seed, best_label, best_full, diagnostics
 
 
 def polish_best(z0: np.ndarray, params: TransonicSlimParams):
@@ -729,12 +847,16 @@ def polish_best(z0: np.ndarray, params: TransonicSlimParams):
             params,
             z0,
             pivot=pivot,
-            method="newton",
+            method=POLISH_METHOD,
             max_iter=NEWTON_MAX_ITER,
             max_nfev=NEWTON_MAX_NFEV,
             residual_tol=NEWTON_RESIDUAL_TOL,
             use_block_jacobian=True,
+            jacobian_rel_step=NEWTON_JACOBIAN_REL_STEP,
+            line_search_min_alpha=NEWTON_LINE_SEARCH_MIN_ALPHA,
+            line_search_max_reductions=NEWTON_LINE_SEARCH_MAX_REDUCTIONS,
             linear_solver=NEWTON_LINEAR_SOLVER,
+            linear_dampings=NEWTON_LINEAR_DAMPINGS,
             max_step_norm=NEWTON_MAX_STEP_NORM,
         )
         full = max_residual(result.z, params)
@@ -874,6 +996,150 @@ def polish_with_outer_slope_control(
     return best_polish, best_final_params, meta
 
 
+def physical_energy_residual(z: np.ndarray, params: TransonicSlimParams) -> float:
+    return float(residual_partition_audit_from_state_vector(z, params).physical_energy_max)
+
+
+def choose_better_physical_state(
+    best_polish,
+    best_params: TransonicSlimParams,
+    candidate_polish,
+    candidate_params: TransonicSlimParams,
+) -> bool:
+    """Return true when candidate has a better physical audit without losing acceptance."""
+
+    best_physical = physical_energy_residual(best_polish.z, best_params)
+    candidate_physical = physical_energy_residual(candidate_polish.z, candidate_params)
+    best_full = max_residual(best_polish.z, best_params)
+    candidate_full = max_residual(candidate_polish.z, candidate_params)
+    if candidate_physical < best_physical and candidate_full <= max(ACCEPTANCE_TOL, 2.0 * best_full):
+        return True
+    if candidate_physical <= 1.05 * best_physical and candidate_full < best_full:
+        return True
+    return False
+
+
+def cleanup_params_for_spec(params: TransonicSlimParams, spec: str) -> tuple[TransonicSlimParams, str]:
+    spec = str(spec).strip().lower()
+    if spec in {"", "same", "current"}:
+        return params, "same"
+    pieces = spec.split(":")
+    interval_form = pieces[0].strip()
+    if interval_form not in {"differential", "integrated", "integrated_physical_energy"}:
+        raise ValueError(f"unknown cleanup polish interval form {interval_form!r}")
+    if len(pieces) > 2:
+        raise ValueError(f"cleanup polish spec must be form[:weighting], got {spec!r}")
+    weighting = pieces[1].strip() if len(pieces) == 2 and pieces[1].strip() else params.integrated_residual_weighting
+    if interval_form in {"differential", "integrated_physical_energy"}:
+        weighting = "none"
+    if weighting not in {"none", "inverse_sqrt_dx", "inverse_dx"}:
+        raise ValueError(f"unknown cleanup polish weighting {weighting!r}")
+    return replace(params, interval_residual_form=interval_form, integrated_residual_weighting=weighting), f"{interval_form}:{weighting}"
+
+
+def maybe_cleanup_repolish(
+    polish,
+    final_params: TransonicSlimParams,
+    elapsed: float,
+    meta: dict[str, Any],
+) -> tuple[Any, TransonicSlimParams, float, dict[str, Any]]:
+    if CLEANUP_REPOLISH_PASSES <= 0:
+        return polish, final_params, elapsed, meta
+    if CLEANUP_REPOLISH_ONLY_ACCEPTED and max_residual(polish.z, final_params) > ACCEPTANCE_TOL:
+        meta.update(
+            {
+                "cleanup_repolish_enabled": True,
+                "cleanup_repolish_specs": ",".join(CLEANUP_POLISH_SPECS),
+                "cleanup_repolish_attempted": 0,
+                "cleanup_repolish_adopted": 0,
+                "cleanup_repolish_adopted_specs": "",
+                "cleanup_repolish_skipped_reason": "base_not_accepted",
+                "cleanup_repolish_best_physical_E": physical_energy_residual(polish.z, final_params),
+            }
+        )
+        return polish, final_params, elapsed, meta
+
+    base_nfev = int(meta.get("polish_nfev_total", polish.result.nfev))
+    base_physical = physical_energy_residual(polish.z, final_params)
+    if base_nfev > CLEANUP_REPOLISH_MAX_BASE_NFEV:
+        meta.update(
+            {
+                "cleanup_repolish_enabled": True,
+                "cleanup_repolish_specs": ",".join(CLEANUP_POLISH_SPECS),
+                "cleanup_repolish_attempted": 0,
+                "cleanup_repolish_adopted": 0,
+                "cleanup_repolish_adopted_specs": "",
+                "cleanup_repolish_skipped_reason": "base_nfev_too_high",
+                "cleanup_repolish_best_physical_E": float(base_physical),
+            }
+        )
+        return polish, final_params, elapsed, meta
+    if base_physical > CLEANUP_REPOLISH_MAX_BASE_PHYSICAL_E:
+        meta.update(
+            {
+                "cleanup_repolish_enabled": True,
+                "cleanup_repolish_specs": ",".join(CLEANUP_POLISH_SPECS),
+                "cleanup_repolish_attempted": 0,
+                "cleanup_repolish_adopted": 0,
+                "cleanup_repolish_adopted_specs": "",
+                "cleanup_repolish_skipped_reason": "base_physical_E_too_high",
+                "cleanup_repolish_best_physical_E": float(base_physical),
+            }
+        )
+        return polish, final_params, elapsed, meta
+
+    best_polish = polish
+    best_params = final_params
+    best_physical = base_physical
+    cleanup_nfev = 0
+    cleanup_iterations = 0
+    attempted = 0
+    adopted = 0
+    cleanup_elapsed = 0.0
+    adopted_specs: list[str] = []
+    for _pass in range(max(CLEANUP_REPOLISH_PASSES, 0)):
+        pass_adopted = False
+        for spec in CLEANUP_POLISH_SPECS:
+            candidate_input_params, normalized_spec = cleanup_params_for_spec(best_params, spec)
+            t0 = time.perf_counter()
+            candidate_polish, candidate_params, candidate_meta = polish_with_outer_slope_control(
+                best_polish.z,
+                candidate_input_params,
+            )
+            cleanup_elapsed += time.perf_counter() - t0
+            attempted += 1
+            cleanup_nfev += int(candidate_meta.get("polish_nfev_total", candidate_polish.result.nfev))
+            cleanup_iterations += int(candidate_meta.get("polish_iterations_total", candidate_polish.iterations))
+            if choose_better_physical_state(best_polish, best_params, candidate_polish, candidate_params):
+                best_polish = candidate_polish
+                best_params = candidate_params
+                best_physical = physical_energy_residual(best_polish.z, best_params)
+                adopted += 1
+                pass_adopted = True
+                adopted_specs.append(normalized_spec)
+                if best_physical <= PHYSICAL_E_TOL:
+                    break
+        if not pass_adopted:
+            break
+
+    combined = {
+        **meta,
+        "cleanup_repolish_enabled": True,
+        "cleanup_repolish_specs": ",".join(CLEANUP_POLISH_SPECS),
+        "cleanup_repolish_attempted": int(attempted),
+        "cleanup_repolish_adopted": int(adopted),
+        "cleanup_repolish_adopted_specs": ",".join(adopted_specs),
+        "cleanup_repolish_skipped_reason": "",
+        "cleanup_repolish_nfev": int(cleanup_nfev),
+        "cleanup_repolish_iterations": int(cleanup_iterations),
+        "cleanup_repolish_elapsed_s": float(cleanup_elapsed),
+        "cleanup_repolish_best_physical_E": float(best_physical),
+        "polish_nfev_total": int(meta.get("polish_nfev_total", polish.result.nfev)) + int(cleanup_nfev),
+        "polish_iterations_total": int(meta.get("polish_iterations_total", polish.iterations)) + int(cleanup_iterations),
+    }
+    return best_polish, best_params, elapsed + cleanup_elapsed, combined
+
+
 def residual_remesh_seed(
     source_z: np.ndarray,
     source_params: TransonicSlimParams,
@@ -897,6 +1163,20 @@ def residual_remesh_seed(
     return seed, apply_outer_slopes_from_state(seed, target_params), grid_info
 
 
+def seed_accept_polish(seed: np.ndarray, pivot: str) -> Any:
+    return SimpleNamespace(
+        z=np.asarray(seed, dtype=float),
+        pivot=str(pivot),
+        method="seed_accept",
+        result=SimpleNamespace(nfev=0, message="predictor seed accepted without Newton polish"),
+        iterations=0,
+        line_search_reductions=0,
+        final_step_norm=0.0,
+        final_linear_damping=0.0,
+        newton_audit=(),
+    )
+
+
 def polish_with_optional_residual_remesh(
     *,
     seed: np.ndarray,
@@ -905,6 +1185,31 @@ def polish_with_optional_residual_remesh(
     remesh_on_reject: bool,
 ) -> tuple[np.ndarray, Any, TransonicSlimParams, float, dict[str, Any]]:
     t0 = time.perf_counter()
+    if ACCEPT_SEED_TOL > 0.0:
+        final_params = apply_outer_slopes_from_state(seed, params)
+        seed_final_full = max_residual(seed, final_params)
+        if seed_final_full <= ACCEPT_SEED_TOL:
+            elapsed = time.perf_counter() - t0
+            polish = seed_accept_polish(seed, PIVOTS[0] if PIVOTS else "seed")
+            meta = {
+                "seed_accept_enabled": True,
+                "seed_accept_tol": float(ACCEPT_SEED_TOL),
+                "seed_accept_final_full": float(seed_final_full),
+                "outer_picard_enabled": bool(OUTER_SLOPE_PICARD),
+                "outer_picard_iterations": 0,
+                "outer_picard_damping": np.nan,
+                "outer_picard_slope_delta": slope_delta(params.outer_match_log_slopes, final_params.outer_match_log_slopes),
+                "outer_picard_final_full": float(seed_final_full),
+                "outer_picard_final_outer_omega": float(residual_audit_from_state_vector(seed, final_params).outer_omega),
+                "polish_nfev_total": 0,
+                "polish_iterations_total": 0,
+                "residual_remesh_action": "seed_accept",
+                "residual_remesh_adopted": False,
+                "residual_remesh_initial_full": np.nan,
+                "residual_remesh_final_full": np.nan,
+            }
+            return seed, polish, final_params, elapsed, meta
+
     polish, final_params, meta = polish_with_outer_slope_control(seed, params)
     elapsed = time.perf_counter() - t0
     final_full = max_residual(polish.z, final_params)
@@ -920,6 +1225,7 @@ def polish_with_optional_residual_remesh(
         remesh_on_reject and final_full > ACCEPTANCE_TOL
     )
     if not should_try_remesh:
+        polish, final_params, elapsed, meta = maybe_cleanup_repolish(polish, final_params, elapsed, meta)
         return seed, polish, final_params, elapsed, meta
 
     remesh_seed, remesh_params, grid_info = residual_remesh_seed(polish.z, final_params)
@@ -962,6 +1268,21 @@ def polish_with_optional_residual_remesh(
     adopt = remesh_final_full <= final_full or (
         final_full <= ACCEPTANCE_TOL and remesh_final_full <= ACCEPTANCE_TOL
     ) or (final_full > ACCEPTANCE_TOL and remesh_final_full <= ACCEPTANCE_TOL)
+    if REQUIRE_PHYSICAL_E_GATE:
+        original_physical_E = physical_energy_residual(polish.z, final_params)
+        remesh_physical_E = physical_energy_residual(remesh_polish.z, remesh_final_params)
+        original_physical_ok = bool(np.isfinite(original_physical_E) and original_physical_E <= PHYSICAL_E_TOL)
+        remesh_physical_ok = bool(np.isfinite(remesh_physical_E) and remesh_physical_E <= PHYSICAL_E_TOL)
+        if original_physical_ok and not remesh_physical_ok:
+            adopt = False
+        elif not original_physical_ok and remesh_physical_ok and remesh_final_full <= ACCEPTANCE_TOL:
+            adopt = True
+        elif not original_physical_ok and not remesh_physical_ok:
+            adopt = bool(remesh_physical_E < original_physical_E and remesh_final_full <= max(final_full, ACCEPTANCE_TOL))
+        elif original_physical_ok and remesh_physical_ok and remesh_final_full <= ACCEPTANCE_TOL:
+            adopt = True
+        combined_meta["residual_remesh_original_physical_E"] = float(original_physical_E)
+        combined_meta["residual_remesh_physical_E"] = float(remesh_physical_E)
     combined_meta["residual_remesh_adopted"] = bool(adopt)
     combined_meta["residual_remesh_final_full"] = float(remesh_final_full)
     if adopt:
@@ -974,12 +1295,19 @@ def polish_with_optional_residual_remesh(
         combined_meta["residual_remesh_adopted"] = True
         combined_meta["residual_remesh_initial_full"] = float(remesh_initial_full)
         combined_meta["residual_remesh_final_full"] = float(remesh_final_full)
+        remesh_polish, remesh_final_params, elapsed, combined_meta = maybe_cleanup_repolish(
+            remesh_polish,
+            remesh_final_params,
+            elapsed,
+            combined_meta,
+        )
         return remesh_seed, remesh_polish, remesh_final_params, elapsed, combined_meta
 
     combined_meta["polish_nfev_total"] = int(meta["polish_nfev_total"]) + int(remesh_meta["polish_nfev_total"])
     combined_meta["polish_iterations_total"] = int(meta["polish_iterations_total"]) + int(
         remesh_meta["polish_iterations_total"]
     )
+    polish, final_params, elapsed, combined_meta = maybe_cleanup_repolish(polish, final_params, elapsed, combined_meta)
     return seed, polish, final_params, elapsed, combined_meta
 
 
@@ -1121,6 +1449,84 @@ def partition_diagnostic(z: np.ndarray, params: TransonicSlimParams) -> dict[str
     }
 
 
+def newton_audit_rows(polish) -> list[dict[str, Any]]:
+    return [asdict(item) for item in getattr(polish, "newton_audit", ())]
+
+
+def newton_audit_diagnostic(polish) -> dict[str, Any]:
+    rows = newton_audit_rows(polish)
+    if not rows:
+        return {
+            "newton_audit_rows": 0,
+            "newton_audit_accepted_trials": 0,
+            "newton_audit_total_jacobian_s": np.nan,
+            "newton_audit_max_jacobian_s": np.nan,
+            "newton_audit_total_linear_iterations": 0,
+            "newton_audit_max_linear_iterations": 0,
+            "newton_audit_max_linear_conda": np.nan,
+            "newton_audit_path": "",
+        }
+    accepted = [row for row in rows if bool(row["accepted"])]
+    linear_conda = [float(row["linear_conda"]) for row in rows if np.isfinite(float(row["linear_conda"]))]
+    return {
+        "newton_audit_rows": int(len(rows)),
+        "newton_audit_accepted_trials": int(len(accepted)),
+        "newton_audit_total_jacobian_s": float(sum(float(row["jacobian_build_s"]) for row in rows)),
+        "newton_audit_max_jacobian_s": float(max(float(row["jacobian_build_s"]) for row in rows)),
+        "newton_audit_total_linear_iterations": int(sum(int(row["linear_iterations"]) for row in rows)),
+        "newton_audit_max_linear_iterations": int(max(int(row["linear_iterations"]) for row in rows)),
+        "newton_audit_max_linear_conda": float(max(linear_conda)) if linear_conda else np.nan,
+        "newton_audit_path": "",
+    }
+
+
+def write_newton_audit(row: dict[str, Any], polish) -> str:
+    rows = newton_audit_rows(polish)
+    if NEWTON_AUDIT_DIR is None or not rows:
+        return ""
+    NEWTON_AUDIT_DIR.mkdir(parents=True, exist_ok=True)
+    safe_branch = str(row["branch"]).replace(".", "p").replace("-", "m")
+    safe_mass = f"{float(row['mass_fraction']):.9g}".replace(".", "p").replace("-", "m")
+    path = NEWTON_AUDIT_DIR / f"{safe_branch}_mass_{safe_mass}_newton_audit.json"
+    payload = {
+        "branch": row["branch"],
+        "mass_fraction": float(row["mass_fraction"]),
+        "predictor": row.get("predictor", ""),
+        "predictor_initial_full": row.get("predictor_initial_full", np.nan),
+        "final_full": float(row["final_full"]),
+        "accepted": bool(row["accepted"]),
+        "anchor_eligible": bool(row["anchor_eligible"]),
+        "nfev": int(row["nfev"]),
+        "polish_nfev_total": int(row.get("polish_nfev_total", row["nfev"])),
+        "pivot": str(row["pivot"]),
+        "iterations": int(row["iterations"]),
+        "line_search_reductions": int(getattr(polish, "line_search_reductions", 0)),
+        "final_step_norm": float(getattr(polish, "final_step_norm", np.nan)),
+        "final_linear_damping": float(getattr(polish, "final_linear_damping", np.nan)),
+        "newton_audit": rows,
+    }
+    path.write_text(json.dumps(json_safe(payload), indent=2, sort_keys=True) + "\n")
+    return relative_root_path(path)
+
+
+def gate_would_reject(z: np.ndarray, params: TransonicSlimParams) -> bool:
+    full = max_residual(z, params)
+    acceptance_tol, _anchor_tol = acceptance_tolerances_for_params(params)
+    solver_accepted = bool(full <= acceptance_tol)
+    if not REQUIRE_PHYSICAL_E_GATE:
+        return not solver_accepted
+    physical_E = physical_energy_residual(z, params)
+    physical_ok = bool(np.isfinite(physical_E) and physical_E <= PHYSICAL_E_TOL)
+    return not (solver_accepted and physical_ok)
+
+
+def acceptance_tolerances_for_params(params: TransonicSlimParams) -> tuple[float, float]:
+    if REQUIRE_PHYSICAL_E_GATE and params.interval_residual_form == "integrated_physical_energy":
+        hybrid_tol = float(PHYSICAL_E_TOL)
+        return max(float(ACCEPTANCE_TOL), hybrid_tol), max(float(ANCHOR_TOL), hybrid_tol)
+    return float(ACCEPTANCE_TOL), float(ANCHOR_TOL)
+
+
 def row_for_result(
     *,
     branch: str,
@@ -1131,10 +1537,49 @@ def row_for_result(
     polish,
     elapsed_s: float,
     extra: dict[str, Any] | None = None,
+    lean_diagnostics: bool = False,
 ) -> dict[str, Any]:
     audit = residual_audit_from_state_vector(z, params)
-    profile = transonic_profile_from_state_vector(z, params)
+    stream_info = stream_diagnostic(z, params)
     full = max_residual(z, params)
+    acceptance_tol, anchor_tol = acceptance_tolerances_for_params(params)
+    if lean_diagnostics:
+        _logu, _logT, logR_son, _lambda0, _logR = unpack_state(z, params)
+        profile_info: dict[str, Any] = {
+            "Rson_rg": float(np.exp(logR_son) / params.r_g),
+            "max_H_R": np.nan,
+            "integrated_adv": np.nan,
+        }
+        advection_info: dict[str, Any] = {
+            "f_adv_global": np.nan,
+            "f_adv_pos": np.nan,
+            "f_adv_inner": np.nan,
+            "f_adv_inner_pos": np.nan,
+            "Lrad_LEdd": np.nan,
+        }
+        interval_info: dict[str, Any] = {
+            "peak_interval_R_rg": np.nan,
+            "peak_interval_R_value": np.nan,
+            "peak_interval_E_rg": np.nan,
+            "peak_interval_E_value": np.nan,
+            "median_abs_interval_E": np.nan,
+            "p90_abs_interval_E": np.nan,
+        }
+        angular_info: dict[str, Any] = {
+            "pressure_target": np.nan,
+            "achieved_omega_log_offset": np.nan,
+            "omega_target_residual": np.nan,
+        }
+    else:
+        profile = transonic_profile_from_state_vector(z, params)
+        profile_info = {
+            "Rson_rg": float(profile.sonic_radius / params.r_g),
+            "max_H_R": float(np.max(profile.H_over_R)),
+            "integrated_adv": float(profile.integrated_advective_fraction),
+        }
+        advection_info = advection_diagnostic(z, params)
+        interval_info = interval_peak_diagnostic(z, params)
+        angular_info = angular_diagnostic(z, params)
     return {
         "branch": branch,
         "mass_fraction": float(mass_fraction),
@@ -1154,23 +1599,34 @@ def row_for_result(
         "outer_buffer_energy_weight": float(params.outer_buffer_energy_weight),
         "outer_buffer_boundary_weight": float(params.outer_buffer_boundary_weight),
         "outer_buffer_taper_log_width": float(params.outer_buffer_taper_log_width),
+        "effective_source_shape": str(params.stream_source_shape),
+        "effective_source_shape_blend": float(params.stream_source_shape_blend),
+        "effective_torque_fraction": float(params.stream_torque_delta_l_fraction),
+        "effective_Rinj_rg": float(stream_info["Rinj_mass_rg"]),
+        "effective_torque_Rinj_rg": float(stream_info["Rinj_torque_rg"]),
+        "effective_outer_buffer_inner_rg": np.nan if params.outer_buffer_inner_rg is None else float(params.outer_buffer_inner_rg),
+        "effective_outer_buffer_radial_weight": float(params.outer_buffer_radial_weight),
+        "effective_outer_buffer_energy_weight": float(params.outer_buffer_energy_weight),
+        "effective_outer_buffer_boundary_weight": float(params.outer_buffer_boundary_weight),
+        "effective_outer_closure": str(params.outer_closure),
+        "anchor_checkpoint": relative_root_path(ANCHOR_CHECKPOINT),
         "initial_full": max_residual(seed, params),
         "final_full": full,
-        "accepted": bool(full <= ACCEPTANCE_TOL),
-        "anchor_eligible": bool(full <= ANCHOR_TOL),
+        "accepted": bool(full <= acceptance_tol),
+        "anchor_eligible": bool(full <= anchor_tol),
+        "effective_acceptance_tol": float(acceptance_tol),
+        "effective_anchor_tol": float(anchor_tol),
         "dominant": dominant(audit),
         "interval_R": float(audit.interval_radial_max),
         "interval_E": float(audit.interval_energy_max),
         "outer_omega": float(audit.outer_omega),
         "outer_energy": float(audit.outer_energy),
-        **angular_diagnostic(z, params),
-        **stream_diagnostic(z, params),
-        "Rson_rg": float(profile.sonic_radius / params.r_g),
+        **angular_info,
+        **stream_info,
         "lambda0_over_lK_isco": float(audit.lambda0_over_lK_isco),
-        "max_H_R": float(np.max(profile.H_over_R)),
-        "integrated_adv": float(profile.integrated_advective_fraction),
-        **advection_diagnostic(z, params),
-        **interval_peak_diagnostic(z, params),
+        **profile_info,
+        **advection_info,
+        **interval_info,
         **partition_diagnostic(z, params),
         "outer_H_R": float(audit.outer_H_over_R),
         "outer_Qadv_Qvisc": float(audit.outer_Qadv_over_Qvisc),
@@ -1178,8 +1634,10 @@ def row_for_result(
         "method": str(polish.method),
         "nfev": int(polish.result.nfev),
         "iterations": int(polish.iterations),
+        **newton_audit_diagnostic(polish),
         "elapsed_s": float(elapsed_s),
         "message": str(polish.result.message),
+        "lean_diagnostics": bool(lean_diagnostics),
         **(extra or {}),
         "z": np.asarray(z, dtype=float),
         "custom_grid_xi": np.asarray(params.custom_grid_xi, dtype=float)
@@ -1188,10 +1646,26 @@ def row_for_result(
     }
 
 
+def apply_physical_gate(row: dict[str, Any]) -> dict[str, Any]:
+    physical_E = float(row.get("partition_physical_E", np.nan))
+    physical_ok = bool(np.isfinite(physical_E) and physical_E <= PHYSICAL_E_TOL) if np.isfinite(PHYSICAL_E_TOL) else True
+    solver_accepted = bool(row["accepted"])
+    solver_anchor = bool(row["anchor_eligible"])
+    row["solver_accepted"] = solver_accepted
+    row["solver_anchor_eligible"] = solver_anchor
+    row["physical_E_gate_enabled"] = bool(REQUIRE_PHYSICAL_E_GATE)
+    row["physical_E_tol"] = float(PHYSICAL_E_TOL)
+    row["physical_E_gate_eligible"] = bool(physical_ok)
+    if REQUIRE_PHYSICAL_E_GATE:
+        row["accepted"] = bool(solver_accepted and physical_ok)
+        row["anchor_eligible"] = bool(solver_anchor and physical_ok)
+    return row
+
+
 def save_checkpoint(row: dict[str, Any], params: TransonicSlimParams) -> None:
     CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
     safe_branch = str(row["branch"]).replace(".", "p").replace("-", "m")
-    safe_mass = f"{float(row['mass_fraction']):.4g}".replace(".", "p").replace("-", "m")
+    safe_mass = f"{float(row['mass_fraction']):.9g}".replace(".", "p").replace("-", "m")
     stem = f"{safe_branch}_mass_{safe_mass}_torque_{float(row['torque_fraction']):.4g}_mdot_{float(row['ratio']):.8g}_N{int(row['N'])}".replace(
         ".", "p"
     ).replace("-", "m")
@@ -1241,30 +1715,61 @@ def save_checkpoint(row: dict[str, Any], params: TransonicSlimParams) -> None:
 
 def write_table(rows: list[dict[str, Any]]) -> None:
     TABLE_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    meta_row = rows[0] if rows else {}
     lines = [
         "# Standard Slim Stream-Mass Annulus Scan",
         "",
         "Generated by `scripts/run_standard_slim_stream_mass_annulus_scan.py`.",
         "",
-        f"Anchor `{ANCHOR_CHECKPOINT.relative_to(ROOT)}`, branches `{';'.join(BRANCH_SPECS)}`, "
+        f"Anchor `{relative_root_path(ANCHOR_CHECKPOINT)}`, branches `{';'.join(BRANCH_SPECS)}`, "
         f"Rinj/Rout `{MASS_CENTER_FRACTION:g}`, log width `{MASS_LOG_WIDTH:g}`, source shape `{MASS_SOURCE_SHAPE}`, "
         f"source blend `{MASS_SOURCE_SHAPE_BLEND_OVERRIDE or 'checkpoint/default'}`, "
-        f"torque fraction `{TORQUE_FRACTION:g}`, refresh repolish `{REFRESH_REPOLISH}`, "
+        f"torque fraction `{TORQUE_FRACTION:g}`, polish method `{POLISH_METHOD}`, "
+        f"Jacobian rel step `{NEWTON_JACOBIAN_REL_STEP:g}`, refresh repolish `{REFRESH_REPOLISH}`, "
+        f"cleanup passes `{CLEANUP_REPOLISH_PASSES}`, cleanup specs `{','.join(CLEANUP_POLISH_SPECS)}`, "
+        f"lean rejects `{LEAN_REJECT_DIAGNOSTICS}`, physical gate `{REQUIRE_PHYSICAL_E_GATE}` "
+        f"at `{PHYSICAL_E_TOL:g}`, "
         f"residual remesh every step `{RESIDUAL_REMESH_EVERY_STEP}`, remesh on reject `{RESIDUAL_REMESH_ON_REJECT}`, "
         f"outer-slope Picard `{OUTER_SLOPE_PICARD}`, interval form `{INTERVAL_RESIDUAL_FORM}`, "
         f"integrated weighting `{INTEGRATED_RESIDUAL_WEIGHTING}`, "
+        f"forced interval `{FORCE_INTERVAL_RESIDUAL_FORM or 'off'}`, "
+        f"forced weighting `{FORCE_INTEGRATED_RESIDUAL_WEIGHTING or 'off'}`, "
         f"Rout override `{R_OUT_RG_OVERRIDE or 'checkpoint'}`, fixed Rinj `{FIXED_RINJ_RG_OVERRIDE or 'fraction'}`, "
         f"fixed torque Rinj `{FIXED_TORQUE_RINJ_RG_OVERRIDE or ('source' if FIXED_RINJ_RG_OVERRIDE and not TORQUE_CENTER_FRACTION_OVERRIDE else 'fraction')}`, "
         f"outer buffer inner `{OUTER_BUFFER_INNER_RG_OVERRIDE or 'off'}`, "
         f"buffer weights `(R,E,B)=({OUTER_BUFFER_RADIAL_WEIGHT:g},{OUTER_BUFFER_ENERGY_WEIGHT:g},{OUTER_BUFFER_BOUNDARY_WEIGHT:g})`, "
         f"buffer taper `{OUTER_BUFFER_TAPER_LOG_WIDTH:g}`.",
         "",
-        "| branch | source fraction | source shape | source blend | torque fraction | predictor | step | next step | cost action | remesh | Picard iters | nfev total | Mdot outer/inner | Mdot center/inner | source integral | rel budget err | Rout/rg | Rinj/rg | initial full | final full | accepted | anchor | dominant | int R | int E | peak E R/rg | median abs E | phys E | buffer E | peak phys E R/rg | peak buffer E R/rg | outer omega | f_adv global | f_adv inner | f_adv pos | Lrad/LEdd | max H/R | int adv | Rson/rg | pivot | nfev | elapsed s | message |",
-        "|---|---:|---|---:|---:|---|---:|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---|",
+        "Effective inherited metadata:",
+        "",
+        f"- source shape `{meta_row.get('effective_source_shape', 'n/a')}`, "
+        f"source blend `{fmt(meta_row.get('effective_source_shape_blend', np.nan))}`, "
+        f"torque fraction `{fmt(meta_row.get('effective_torque_fraction', np.nan))}`",
+        f"- Rout `{fmt(meta_row.get('R_out_rg', np.nan))} rg`, "
+        f"Rinj `{fmt(meta_row.get('effective_Rinj_rg', np.nan))} rg`, "
+        f"torque Rinj `{fmt(meta_row.get('effective_torque_Rinj_rg', np.nan))} rg`",
+        f"- outer closure `{meta_row.get('effective_outer_closure', 'n/a')}`, "
+        f"R_buffer `{fmt(meta_row.get('effective_outer_buffer_inner_rg', np.nan))} rg`, "
+        f"buffer weights `(R,E,B)=({fmt(meta_row.get('effective_outer_buffer_radial_weight', np.nan))},"
+        f"{fmt(meta_row.get('effective_outer_buffer_energy_weight', np.nan))},"
+        f"{fmt(meta_row.get('effective_outer_buffer_boundary_weight', np.nan))})`",
+        f"- anchor checkpoint `{meta_row.get('anchor_checkpoint', relative_root_path(ANCHOR_CHECKPOINT))}`, "
+        f"anchor source fraction `{fmt(meta_row.get('anchor_source_fraction', np.nan))}`, "
+        f"anchor Rout `{fmt(meta_row.get('anchor_Rout_rg', np.nan))} rg`",
+        "",
+        "| branch | source fraction | source shape | source blend | torque fraction | predictor | init current | init secant | init tangent | tan damp | tan norm inf | tan linres | clip | step | next step | cost action | remesh | Picard iters | nfev total | Mdot outer/inner | Mdot center/inner | source integral | rel budget err | Rout/rg | Rinj/rg | initial full | final full | accepted | anchor | solver accepted | phys ok | dominant | int R | int E | peak E R/rg | median abs E | phys E | phys tol | buffer E | peak phys E R/rg | peak buffer E R/rg | outer omega | f_adv global | f_adv inner | f_adv pos | Lrad/LEdd | max H/R | int adv | Rson/rg | pivot | nfev | elapsed s | message |",
+        "|---|---:|---|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|:---:|:---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---|",
     ]
     for row in rows:
         display_row = {
             "predictor": "-",
+            "predictor_initial_full_current": np.nan,
+            "predictor_initial_full_secant_best": np.nan,
+            "predictor_initial_full_tangent_best": np.nan,
+            "predictor_tangent_damping_chosen": np.nan,
+            "predictor_tangent_norm_inf": np.nan,
+            "predictor_tangent_linear_residual_norm": np.nan,
+            "predictor_state_clip_count": 0,
             "attempt_step": np.nan,
             "next_step": np.nan,
             "cost_action": "-",
@@ -1272,6 +1777,9 @@ def write_table(rows: list[dict[str, Any]]) -> None:
             "residual_remesh_adopted": False,
             "outer_picard_iterations": 0,
             "polish_nfev_total": row.get("nfev", np.nan),
+            "solver_accepted": row.get("accepted", False),
+            "physical_E_gate_eligible": True,
+            "physical_E_tol": PHYSICAL_E_TOL,
             "partition_physical_E": np.nan,
             "partition_buffer_E": np.nan,
             "partition_peak_physical_E_rg": np.nan,
@@ -1285,13 +1793,17 @@ def write_table(rows: list[dict[str, Any]]) -> None:
         for key in ("Mdot_outer_over_inner", "Mdot_center_over_inner"):
             formatted[key] = f"{float(display_row[key]):.6g}"
         lines.append(
-            "| {branch} | {mass_fraction} | {mass_source_shape} | {mass_source_shape_blend} | {torque_fraction} | {predictor} | {attempt_step} | {next_step} | {cost_action} | "
+            "| {branch} | {mass_fraction} | {mass_source_shape} | {mass_source_shape_blend} | {torque_fraction} | {predictor} | "
+            "{predictor_initial_full_current} | {predictor_initial_full_secant_best} | {predictor_initial_full_tangent_best} | "
+            "{predictor_tangent_damping_chosen} | {predictor_tangent_norm_inf} | {predictor_tangent_linear_residual_norm} | "
+            "{predictor_state_clip_count} | {attempt_step} | {next_step} | {cost_action} | "
             "{residual_remesh_action}:{residual_remesh_adopted} | {outer_picard_iterations} | {polish_nfev_total} | "
             "{Mdot_outer_over_inner} | {Mdot_center_over_inner} | "
             "{stream_source_integral_over_inner} | {relative_mass_budget_error} | {R_out_rg} | {Rinj_mass_rg} | "
             "{initial_full} | {final_full} | {accepted} | {anchor_eligible} | "
+            "{solver_accepted} | {physical_E_gate_eligible} | "
             "{dominant} | {interval_R} | {interval_E} | {peak_interval_E_rg} | {median_abs_interval_E} | "
-            "{partition_physical_E} | {partition_buffer_E} | {partition_peak_physical_E_rg} | {partition_peak_buffer_E_rg} | "
+            "{partition_physical_E} | {physical_E_tol} | {partition_buffer_E} | {partition_peak_physical_E_rg} | {partition_peak_buffer_E_rg} | "
             "{outer_omega} | {f_adv_global} | {f_adv_inner} | {f_adv_pos} | {Lrad_LEdd} | {max_H_R} | "
             "{integrated_adv} | {Rson_rg} | {pivot} | {nfev} | {elapsed_s} | {message} |".format(**formatted).replace("\n", " ")
         )
@@ -1400,7 +1912,7 @@ def run_branch(
             integrated_residual_weighting=current_params.integrated_residual_weighting,
         )
         params = apply_outer_slopes_from_state(current_z, params)
-        seed, predictor, initial_full = source_fraction_seed(
+        seed, predictor, initial_full, predictor_meta = source_fraction_seed(
             target_fraction=float(mass_fraction),
             current_fraction=current_fraction,
             current_z=current_z,
@@ -1427,9 +1939,18 @@ def run_branch(
             params=final_params,
             polish=polish,
             elapsed_s=elapsed,
-            extra=polish_meta,
+            extra={
+                **predictor_meta,
+                **polish_meta,
+                "anchor_source_fraction": float(anchor_params.stream_source_fraction),
+                "anchor_Rout_rg": float(anchor_params.R_out_rg),
+            },
+            lean_diagnostics=bool(LEAN_REJECT_DIAGNOSTICS and gate_would_reject(polish.z, final_params)),
         )
+        row["predictor"] = predictor
         row["predictor_initial_full"] = float(initial_full)
+        apply_physical_gate(row)
+        row["newton_audit_path"] = "" if row.get("lean_diagnostics", False) else write_newton_audit(row, polish)
         rows.append(row)
         save_checkpoint(row, final_params)
         write_table(rows)
@@ -1437,7 +1958,8 @@ def run_branch(
         print(
             f"  final={row['final_full']:.3e} dom={row['dominant']} "
             f"Mdot_outer/inner={row['Mdot_outer_over_inner']:.5g} accepted={row['accepted']} "
-            f"anchor={row['anchor_eligible']} remesh={row.get('residual_remesh_action', 'none')}:"
+            f"anchor={row['anchor_eligible']} physE={row.get('partition_physical_E', np.nan):.3e} "
+            f"phys_ok={row.get('physical_E_gate_eligible', True)} remesh={row.get('residual_remesh_action', 'none')}:"
             f"{row.get('residual_remesh_adopted', False)} picard={row.get('outer_picard_iterations', 0)}",
             flush=True,
         )
@@ -1511,7 +2033,7 @@ def run_adaptive_branch(
             integrated_residual_weighting=current_params.integrated_residual_weighting,
         )
         params = apply_outer_slopes_from_state(current_z, params)
-        seed, predictor, initial_full = source_fraction_seed(
+        seed, predictor, initial_full, predictor_meta = source_fraction_seed(
             target_fraction=float(mass_fraction),
             current_fraction=current_fraction,
             current_z=current_z,
@@ -1544,12 +2066,20 @@ def run_adaptive_branch(
             params=final_params,
             polish=polish,
             elapsed_s=elapsed,
-            extra=polish_meta,
+            extra={
+                **predictor_meta,
+                **polish_meta,
+                "anchor_source_fraction": float(anchor_params.stream_source_fraction),
+                "anchor_Rout_rg": float(anchor_params.R_out_rg),
+            },
+            lean_diagnostics=bool(LEAN_REJECT_DIAGNOSTICS and gate_would_reject(polish.z, final_params)),
         )
         row["predictor"] = predictor
         row["predictor_initial_full"] = float(initial_full)
         row["attempt_step"] = float(direction * trial_step)
         row["cost_action"] = "pending"
+        apply_physical_gate(row)
+        row["newton_audit_path"] = "" if row.get("lean_diagnostics", False) else write_newton_audit(row, polish)
         should_break = False
         if row["accepted"]:
             prev_z = np.asarray(current_z, dtype=float)
@@ -1588,7 +2118,8 @@ def run_adaptive_branch(
         print(
             f"  final={row['final_full']:.3e} dom={row['dominant']} "
             f"Mdot_outer/inner={row['Mdot_outer_over_inner']:.5g} accepted={row['accepted']} "
-            f"anchor={row['anchor_eligible']} nfev={row['nfev']} "
+            f"anchor={row['anchor_eligible']} physE={row.get('partition_physical_E', np.nan):.3e} "
+            f"phys_ok={row.get('physical_E_gate_eligible', True)} nfev={row['nfev']} "
             f"nfev_total={int(row.get('polish_nfev_total', row['nfev']))} next_step={direction * step:.6g} "
             f"action={row['cost_action']}",
             flush=True,

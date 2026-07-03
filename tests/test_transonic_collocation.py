@@ -125,6 +125,14 @@ class TransonicCollocationTests(unittest.TestCase):
         self.assertTrue(np.all(np.isfinite(residual)))
         self.assertLess(float(np.max(np.abs(residual))), 1.0e6)
 
+    def test_integrated_physical_energy_residual_form_is_finite(self) -> None:
+        params = replace(self.params, interval_residual_form="integrated_physical_energy")
+        residual = collocation_residual(self.z, params)
+
+        self.assertEqual(residual.shape, (self.z.size + 1,))
+        self.assertTrue(np.all(np.isfinite(residual)))
+        self.assertLess(float(np.max(np.abs(residual))), 1.0e6)
+
     def test_square_collocation_residual_has_expected_shape(self) -> None:
         pivot = select_sonic_compatibility_pivot(self.z, self.params)
         residual = square_collocation_residual(self.z, self.params, pivot=pivot)
