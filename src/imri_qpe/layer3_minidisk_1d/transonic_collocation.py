@@ -54,6 +54,11 @@ class TransonicSlimParams:
     outer_robin_chi: float = 0.0
     outer_robin_slope_target: float = 0.0
     outer_robin_slope_scale: float = 1.0
+    outer_buffer_inner_rg: float | None = None
+    outer_buffer_radial_weight: float = 1.0
+    outer_buffer_energy_weight: float = 1.0
+    outer_buffer_boundary_weight: float = 1.0
+    outer_buffer_taper_log_width: float = 0.0
     stream_torque_delta_l_fraction: float = 0.0
     stream_torque_center_fraction: float = 0.8
     stream_torque_log_width: float = 0.08
@@ -123,6 +128,8 @@ class TransonicSlimParams:
             "pressure_supported_robin_energy",
             "pressure_supported_temperature",
             "pressure_supported_entropy",
+            "pressure_supported_local_energy",
+            "pressure_supported_entropy_slope",
             "matched_outer_state",
             "full_slope_match",
         }:
@@ -130,6 +137,7 @@ class TransonicSlimParams:
                 "outer_closure must be 'thin_value', 'pressure_supported_thin_energy', "
                 "'pressure_supported_robin_energy', "
                 "'pressure_supported_temperature', 'pressure_supported_entropy', "
+                "'pressure_supported_local_energy', 'pressure_supported_entropy_slope', "
                 "'matched_outer_state', or 'full_slope_match'"
             )
         if self.outer_closure == "pressure_supported_temperature":
@@ -146,6 +154,21 @@ class TransonicSlimParams:
             raise ValueError("outer_robin_slope_target must be finite")
         if not np.isfinite(float(self.outer_robin_slope_scale)) or self.outer_robin_slope_scale <= 0.0:
             raise ValueError("outer_robin_slope_scale must be positive and finite")
+        if self.outer_buffer_inner_rg is not None:
+            inner = float(self.outer_buffer_inner_rg)
+            if not np.isfinite(inner):
+                raise ValueError("outer_buffer_inner_rg must be finite when set")
+            if not self.R_son_bounds_rg[0] < inner < self.R_out_rg:
+                raise ValueError("outer_buffer_inner_rg must lie between the sonic region and R_out_rg")
+        for name, value in {
+            "outer_buffer_radial_weight": self.outer_buffer_radial_weight,
+            "outer_buffer_energy_weight": self.outer_buffer_energy_weight,
+            "outer_buffer_boundary_weight": self.outer_buffer_boundary_weight,
+        }.items():
+            if not np.isfinite(float(value)) or not 0.0 < float(value) <= 1.0:
+                raise ValueError(f"{name} must be finite and in (0, 1]")
+        if not np.isfinite(float(self.outer_buffer_taper_log_width)) or self.outer_buffer_taper_log_width < 0.0:
+            raise ValueError("outer_buffer_taper_log_width must be finite and non-negative")
         if not np.isfinite(float(self.stream_torque_delta_l_fraction)):
             raise ValueError("stream_torque_delta_l_fraction must be finite")
         if self.stream_torque_center_fraction <= 0.0:
@@ -282,6 +305,27 @@ class TransonicResidualAudit:
     outer_Qadv_over_Qvisc: float
     lambda0_over_lK_isco: float
     active_bounds: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class TransonicResidualPartitionAudit:
+    """Raw differential residuals split into physical and outer-buffer domains."""
+
+    buffer_inner_rg: float
+    physical_interval_count: int
+    buffer_interval_count: int
+    physical_radial_max: float
+    physical_radial_l2: float
+    physical_energy_max: float
+    physical_energy_l2: float
+    buffer_radial_max: float
+    buffer_radial_l2: float
+    buffer_energy_max: float
+    buffer_energy_l2: float
+    terminal_omega: float
+    terminal_energy: float
+    peak_physical_energy_rg: float
+    peak_buffer_energy_rg: float
 
 
 @dataclass(frozen=True)
@@ -594,6 +638,49 @@ def _outer_pressure_entropy_boundary_residual(logR: float, y, lambda0: float, pa
     )
 
 
+def _outer_pressure_local_energy_boundary_residual(logR: float, y, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
+    """Use the terminal buffer slope in the energy equation.
+
+    This keeps the pressure-supported angular condition, but it does not force
+    the last grid point to be a zero-advection thin disk.  The thermal boundary
+    instead asks the outer buffer to satisfy the same local energy equation as
+    the collocation interior, evaluated with the supplied outer slope.
+    """
+
+    g_match = params.outer_match_log_slopes
+    if g_match is None:
+        g_match = reduced_outer_log_slopes(params, lambda0)
+    y = np.asarray(y, dtype=float)
+    local = differential_residual(logR, y, np.asarray(g_match, dtype=float), lambda0, params)
+    _radial_scale, energy_scale = _residual_scales(logR, y, params, lambda0)
+    return np.asarray(
+        [
+            _pressure_supported_omega_residual(logR, y, lambda0, params),
+            float(local[1] / energy_scale),
+        ],
+        dtype=float,
+    )
+
+
+def _outer_pressure_entropy_slope_boundary_residual(logR: float, y, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
+    """Pressure-supported angular match plus a zero entropy-slope reservoir."""
+
+    g_match = params.outer_match_log_slopes
+    if g_match is None:
+        g_match = reduced_outer_log_slopes(params, lambda0)
+    y = np.asarray(y, dtype=float)
+    state = algebraic_state(logR, float(y[0]), float(y[1]), lambda0, params)
+    tdsdx = entropy_gradient_log(logR, y, np.asarray(g_match, dtype=float), lambda0, params)
+    entropy_scale = abs(state.e) + abs(state.P / (state.rho + 1.0e-300)) + 1.0e-300
+    return np.asarray(
+        [
+            _pressure_supported_omega_residual(logR, y, lambda0, params),
+            float(tdsdx / entropy_scale),
+        ],
+        dtype=float,
+    )
+
+
 def _scaled_local_differential_residual(logR: float, y, g_match, lambda0: float, params: TransonicSlimParams) -> np.ndarray:
     raw = differential_residual(logR, y, g_match, lambda0, params)
     radial_scale, energy_scale = _residual_scales(logR, y, params, lambda0)
@@ -675,6 +762,10 @@ def _outer_boundary_residual(logR: float, y, lambda0: float, params: TransonicSl
         return _outer_pressure_temperature_boundary_residual(logR, y, lambda0, params)
     if params.outer_closure == "pressure_supported_entropy":
         return _outer_pressure_entropy_boundary_residual(logR, y, lambda0, params)
+    if params.outer_closure == "pressure_supported_local_energy":
+        return _outer_pressure_local_energy_boundary_residual(logR, y, lambda0, params)
+    if params.outer_closure == "pressure_supported_entropy_slope":
+        return _outer_pressure_entropy_slope_boundary_residual(logR, y, lambda0, params)
     if params.outer_closure == "matched_outer_state":
         return _outer_matched_state_boundary_residual(logR, y, lambda0, params)
     if params.outer_closure == "full_slope_match":
@@ -731,13 +822,39 @@ def _integrated_interval_residual_from_unpacked(logu, logT, logR, lambda0: float
     raise ValueError(f"unknown integrated_residual_weighting {params.integrated_residual_weighting!r}")
 
 
+def _outer_buffer_interval_weights(logR_mid: float, params: TransonicSlimParams) -> np.ndarray:
+    if params.outer_buffer_inner_rg is None:
+        return np.ones(2, dtype=float)
+    inner_logR = float(np.log(float(params.outer_buffer_inner_rg) * params.r_g))
+    if logR_mid <= inner_logR:
+        blend = 0.0
+    else:
+        width = float(params.outer_buffer_taper_log_width)
+        if width <= 0.0:
+            blend = 1.0
+        else:
+            s = min(max((float(logR_mid) - inner_logR) / width, 0.0), 1.0)
+            blend = s * s * (3.0 - 2.0 * s)
+    return np.asarray(
+        [
+            1.0 + blend * (float(params.outer_buffer_radial_weight) - 1.0),
+            1.0 + blend * (float(params.outer_buffer_energy_weight) - 1.0),
+        ],
+        dtype=float,
+    )
+
+
 def _interval_residual_from_unpacked(logu, logT, logR, lambda0: float, params: TransonicSlimParams, idx: int) -> np.ndarray:
     """Return the configured residual for one midpoint collocation interval."""
 
     if params.interval_residual_form == "differential":
-        return _differential_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+        residual = _differential_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+        _dx, _y_left, _y_right, xm = _interval_geometry(logu, logT, logR, idx)
+        return residual * _outer_buffer_interval_weights(xm, params)
     if params.interval_residual_form == "integrated":
-        return _integrated_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+        residual = _integrated_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+        _dx, _y_left, _y_right, xm = _interval_geometry(logu, logT, logR, idx)
+        return residual * _outer_buffer_interval_weights(xm, params)
     raise ValueError(f"unknown interval_residual_form {params.interval_residual_form!r}")
 
 
@@ -766,12 +883,15 @@ def _interval_residual_block(z, params: TransonicSlimParams, idx: int) -> np.nda
 def _outer_residual_block(z, params: TransonicSlimParams) -> np.ndarray:
     try:
         logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
-        return _outer_boundary_residual(
+        residual = _outer_boundary_residual(
             logR[-1],
             np.array([logu[-1], logT[-1]]),
             lambda0,
             params,
         )
+        if params.outer_buffer_inner_rg is not None:
+            residual = float(params.outer_buffer_boundary_weight) * residual
+        return residual
     except Exception:
         return np.full(2, 1.0e6)
 
@@ -1757,6 +1877,58 @@ def residual_audit_from_state_vector(z, params: TransonicSlimParams) -> Transoni
         outer_Qadv_over_Qvisc=float(q_adv / (q_visc + 1.0e-300)),
         lambda0_over_lK_isco=float(lambda0 / lambda_k_isco),
         active_bounds=_active_bound_names(z, params),
+    )
+
+
+def _partition_stats(values: np.ndarray, mask: np.ndarray) -> tuple[float, float]:
+    selected = np.asarray(values, dtype=float)[np.asarray(mask, dtype=bool)]
+    if selected.size == 0:
+        return 0.0, 0.0
+    return float(np.max(np.abs(selected))), float(np.sqrt(np.mean(selected**2)))
+
+
+def _partition_peak_radius(R_mid_rg: np.ndarray, values: np.ndarray, mask: np.ndarray) -> float:
+    selected_values = np.asarray(values, dtype=float)[np.asarray(mask, dtype=bool)]
+    selected_R = np.asarray(R_mid_rg, dtype=float)[np.asarray(mask, dtype=bool)]
+    if selected_values.size == 0:
+        return np.nan
+    return float(selected_R[int(np.argmax(np.abs(selected_values)))])
+
+
+def residual_partition_audit_from_state_vector(z, params: TransonicSlimParams) -> TransonicResidualPartitionAudit:
+    """Return raw differential residuals split by the configured outer-buffer edge."""
+
+    logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
+    interval = _differential_interval_residuals_from_unpacked(logu, logT, logR, lambda0, params)
+    R_mid_rg = np.exp(0.5 * (logR[:-1] + logR[1:])) / params.r_g
+    if params.outer_buffer_inner_rg is None:
+        buffer_inner_rg = float(params.R_out_rg)
+        physical_mask = np.ones(len(R_mid_rg), dtype=bool)
+    else:
+        buffer_inner_rg = float(params.outer_buffer_inner_rg)
+        physical_mask = R_mid_rg < buffer_inner_rg
+    buffer_mask = ~physical_mask
+    outer = _outer_boundary_residual(logR[-1], np.array([logu[-1], logT[-1]]), lambda0, params)
+    physical_R_max, physical_R_l2 = _partition_stats(interval[:, 0], physical_mask)
+    physical_E_max, physical_E_l2 = _partition_stats(interval[:, 1], physical_mask)
+    buffer_R_max, buffer_R_l2 = _partition_stats(interval[:, 0], buffer_mask)
+    buffer_E_max, buffer_E_l2 = _partition_stats(interval[:, 1], buffer_mask)
+    return TransonicResidualPartitionAudit(
+        buffer_inner_rg=buffer_inner_rg,
+        physical_interval_count=int(np.count_nonzero(physical_mask)),
+        buffer_interval_count=int(np.count_nonzero(buffer_mask)),
+        physical_radial_max=physical_R_max,
+        physical_radial_l2=physical_R_l2,
+        physical_energy_max=physical_E_max,
+        physical_energy_l2=physical_E_l2,
+        buffer_radial_max=buffer_R_max,
+        buffer_radial_l2=buffer_R_l2,
+        buffer_energy_max=buffer_E_max,
+        buffer_energy_l2=buffer_E_l2,
+        terminal_omega=float(outer[0]),
+        terminal_energy=float(outer[1]),
+        peak_physical_energy_rg=_partition_peak_radius(R_mid_rg, interval[:, 1], physical_mask),
+        peak_buffer_energy_rg=_partition_peak_radius(R_mid_rg, interval[:, 1], buffer_mask),
     )
 
 

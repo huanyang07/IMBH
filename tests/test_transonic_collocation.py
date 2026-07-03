@@ -20,6 +20,7 @@ from imri_qpe.layer3_minidisk_1d.transonic_collocation import (
     pressure_supported_omega_target,
     profile_from_state_vector,
     residual_audit_from_state_vector,
+    residual_partition_audit_from_state_vector,
     select_sonic_compatibility_pivot,
     solve_low_mdot_transonic_homotopy,
     solve_square_transonic_polish,
@@ -35,6 +36,7 @@ from imri_qpe.layer3_minidisk_1d.transonic_collocation import (
 from imri_qpe.layer3_minidisk_1d.transonic_local import (
     differential_residual,
     differential_residual_scales,
+    entropy_gradient_log,
     local_gradient,
     sonic_diagnostics,
 )
@@ -227,6 +229,43 @@ class TransonicCollocationTests(unittest.TestCase):
         mocked.assert_not_called()
         self.assertLess(float(np.max(np.abs(residual))), 1.0e6)
 
+    def test_pressure_supported_local_energy_closure_is_opt_in_and_finite(self) -> None:
+        params = replace(
+            self.params,
+            outer_closure="pressure_supported_local_energy",
+            outer_match_log_slopes=(-1.5, -0.75),
+        )
+        pivot = select_sonic_compatibility_pivot(self.z, params)
+        residual = square_collocation_residual(self.z, params, pivot=pivot)
+        logu, logT, _logR_son, lambda0, logR = unpack_state(self.z, params)
+        y = np.array([logu[-1], logT[-1]], dtype=float)
+        raw = differential_residual(logR[-1], y, params.outer_match_log_slopes, lambda0, params)
+        _radial_scale, energy_scale = differential_residual_scales(logR[-1], y, lambda0, params)
+        outer_row = 2 * (params.n_nodes - 1)
+
+        self.assertEqual(residual.shape, self.z.shape)
+        self.assertTrue(np.all(np.isfinite(residual)))
+        self.assertAlmostEqual(float(residual[outer_row + 1]), float(raw[1] / energy_scale))
+
+    def test_pressure_supported_entropy_slope_closure_is_opt_in_and_finite(self) -> None:
+        params = replace(
+            self.params,
+            outer_closure="pressure_supported_entropy_slope",
+            outer_match_log_slopes=(-1.5, -0.75),
+        )
+        pivot = select_sonic_compatibility_pivot(self.z, params)
+        residual = square_collocation_residual(self.z, params, pivot=pivot)
+        logu, logT, _logR_son, lambda0, logR = unpack_state(self.z, params)
+        y = np.array([logu[-1], logT[-1]], dtype=float)
+        entropy = entropy_gradient_log(logR[-1], y, params.outer_match_log_slopes, lambda0, params)
+        state = transonic_collocation.algebraic_state(logR[-1], y[0], y[1], lambda0, params)
+        entropy_scale = abs(state.e) + abs(state.P / state.rho) + 1.0e-300
+        outer_row = 2 * (params.n_nodes - 1)
+
+        self.assertEqual(residual.shape, self.z.shape)
+        self.assertTrue(np.all(np.isfinite(residual)))
+        self.assertAlmostEqual(float(residual[outer_row + 1]), float(entropy / entropy_scale))
+
     def test_invalid_outer_closure_is_rejected(self) -> None:
         with self.assertRaises(ValueError):
             replace(self.params, outer_closure="not_a_closure")
@@ -246,6 +285,26 @@ class TransonicCollocationTests(unittest.TestCase):
                 rtol=1.0e-10,
                 atol=1.0e-12,
             )
+
+    def test_outer_buffer_weights_only_outer_interval_energy(self) -> None:
+        base = replace(self.params, interval_residual_form="integrated")
+        buffered = replace(
+            base,
+            outer_buffer_inner_rg=0.5 * base.R_out_rg,
+            outer_buffer_radial_weight=1.0,
+            outer_buffer_energy_weight=0.25,
+            outer_buffer_boundary_weight=0.5,
+            outer_buffer_taper_log_width=0.0,
+        )
+        pivot = select_sonic_compatibility_pivot(self.z, base)
+        base_residual = square_collocation_residual(self.z, base, pivot=pivot)
+        buffered_residual = square_collocation_residual(self.z, buffered, pivot=pivot)
+        last_row = 2 * (base.n_nodes - 2)
+        outer_row = 2 * (base.n_nodes - 1)
+
+        self.assertAlmostEqual(float(buffered_residual[last_row]), float(base_residual[last_row]))
+        self.assertAlmostEqual(float(buffered_residual[last_row + 1]), 0.25 * float(base_residual[last_row + 1]))
+        np.testing.assert_allclose(buffered_residual[outer_row : outer_row + 2], 0.5 * base_residual[outer_row : outer_row + 2])
 
     def test_integrated_interval_form_supports_physical_row_weighting(self) -> None:
         sqrt_weighted = replace(
@@ -427,6 +486,22 @@ class TransonicCollocationTests(unittest.TestCase):
         self.assertTrue(np.isfinite(audit.sonic_K))
         self.assertTrue(np.isfinite(audit.lambda0_over_lK_isco))
         self.assertIsInstance(audit.active_bounds, tuple)
+
+    def test_residual_partition_audit_splits_outer_buffer(self) -> None:
+        params = replace(self.params, outer_buffer_inner_rg=0.5 * self.params.R_out_rg)
+        audit = residual_partition_audit_from_state_vector(self.z, params)
+
+        self.assertEqual(
+            audit.physical_interval_count + audit.buffer_interval_count,
+            self.params.n_nodes - 1,
+        )
+        self.assertGreater(audit.physical_interval_count, 0)
+        self.assertGreater(audit.buffer_interval_count, 0)
+        self.assertTrue(np.isfinite(audit.physical_energy_max))
+        self.assertTrue(np.isfinite(audit.buffer_energy_max))
+        self.assertTrue(np.isfinite(audit.terminal_omega))
+        self.assertTrue(np.isfinite(audit.peak_physical_energy_rg))
+        self.assertTrue(np.isfinite(audit.peak_buffer_energy_rg))
 
     def test_low_mdot_homotopy_returns_stages(self) -> None:
         params = replace(self.params, n_nodes=6, max_nfev=2)

@@ -32,7 +32,7 @@ PYTHONPYCACHEPREFIX=/private/tmp/imbh_pycache PYTHONPATH=src:scripts \
 Result:
 
 ```text
-141 passed in 2.49s
+142 passed
 ```
 
 ## Key numerical findings

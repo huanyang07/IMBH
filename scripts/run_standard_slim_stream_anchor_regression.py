@@ -63,6 +63,21 @@ DEFAULT_ANCHORS: tuple[tuple[str, str], ...] = (
         "outputs/checkpoints/high_mdot_stream_source_bridge_m2_adaptive_df_strong_outer_0p808_to0p81/"
         "adaptive_mass_0p8086_torque_0p005_mdot_2_N640.npz",
     ),
+    (
+        "compact_c2_f082_N768_origgrid",
+        "outputs/checkpoints/high_mdot_stream_source_compact_full_origgrid_fs082_N768/"
+        "compact_full_origgrid_mass_0p82_torque_0p005_mdot_2_N768.npz",
+    ),
+    (
+        "compact_c2_f082_N640_remesh",
+        "outputs/checkpoints/high_mdot_stream_source_compact_full_residual_remesh_N640_s12/"
+        "N640_s12_mass_0p82_torque_0p005_mdot_2_N640.npz",
+    ),
+    (
+        "compact_c2_f082_N896_remesh",
+        "outputs/checkpoints/high_mdot_stream_source_compact_full_residual_remesh_N896_s12/"
+        "N896_s12_mass_0p82_torque_0p005_mdot_2_N896.npz",
+    ),
 )
 
 
@@ -139,6 +154,11 @@ def params_from_checkpoint(path: Path, fiducial: FiducialParams, mdot_edd: float
         outer_robin_chi=float(scalar(data, "outer_robin_chi", 0.0)),
         outer_robin_slope_target=float(scalar(data, "outer_robin_slope_target", 0.0)),
         outer_robin_slope_scale=float(scalar(data, "outer_robin_slope_scale", 1.0)),
+        outer_buffer_inner_rg=finite_optional(data, "outer_buffer_inner_rg"),
+        outer_buffer_radial_weight=float(scalar(data, "outer_buffer_radial_weight", 1.0)),
+        outer_buffer_energy_weight=float(scalar(data, "outer_buffer_energy_weight", 1.0)),
+        outer_buffer_boundary_weight=float(scalar(data, "outer_buffer_boundary_weight", 1.0)),
+        outer_buffer_taper_log_width=float(scalar(data, "outer_buffer_taper_log_width", 0.0)),
         stream_torque_delta_l_fraction=float(scalar(data, "stream_torque_delta_l_fraction", 0.0)),
         stream_torque_center_fraction=float(scalar(data, "stream_torque_center_fraction", 0.8)),
         stream_torque_log_width=float(scalar(data, "stream_torque_log_width", 0.08)),
@@ -154,8 +174,8 @@ def params_from_checkpoint(path: Path, fiducial: FiducialParams, mdot_edd: float
         wind_sink_center_fraction=float(scalar(data, "wind_sink_center_fraction", 0.8)),
         wind_sink_log_width=float(scalar(data, "wind_sink_log_width", 0.08)),
         stream_heating_efficiency=float(scalar(data, "stream_heating_efficiency", 0.0)),
-        interval_residual_form="differential",
-        integrated_residual_weighting="none",
+        interval_residual_form=str(scalar(data, "interval_residual_form", "differential")),
+        integrated_residual_weighting=str(scalar(data, "integrated_residual_weighting", "none")),
     )
     return z, refresh_outer_slopes_from_state(z, params)
 

@@ -66,6 +66,7 @@ from .limit_cycle import OneZoneCycleResult, one_zone_cycle
 from .source_profiles import gaussian_source, gaussian_source_on_grid, normalize_surface_source
 from .transonic_collocation import (
     TransonicResidualAudit,
+    TransonicResidualPartitionAudit,
     TransonicHomotopyResult,
     TransonicHomotopyStageResult,
     TransonicSlimParams,
@@ -88,6 +89,7 @@ from .transonic_collocation import (
     replace_mdot as replace_transonic_mdot,
     reduced_outer_log_slopes,
     residual_audit_from_state_vector,
+    residual_partition_audit_from_state_vector,
     select_sonic_compatibility_pivot,
     solve_low_mdot_transonic_homotopy,
     solve_square_transonic_polish,
@@ -187,6 +189,7 @@ __all__ = [
     "SonicDerivativeBranch",
     "SonicNullVectors",
     "TransonicResidualAudit",
+    "TransonicResidualPartitionAudit",
     "TransonicHomotopyResult",
     "TransonicHomotopyStageResult",
     "TransonicJacobianDirectionalAudit",
@@ -271,6 +274,7 @@ __all__ = [
     "reduced_outer_log_slopes",
     "remap_profile_to_new_sonic_grid",
     "residual_audit_from_state_vector",
+    "residual_partition_audit_from_state_vector",
     "required_keplerian_stress",
     "sigma_roots_for_temperature",
     "scaled_differential_matrix",
