@@ -19,18 +19,26 @@ from imri_qpe.layer3_minidisk_1d import (
     remap_profile_to_new_sonic_grid,
     residual_audit_from_state_vector,
     residual_partition_audit_from_state_vector,
+    select_sonic_compatibility_pivot,
     solve_square_transonic_polish,
     square_collocation_jacobian,
     square_collocation_residual,
+    pack_state,
     state_bounds,
+    stream_heating_rate,
     stream_mass_rate_and_derivative,
     stream_source_prime,
     stream_torque_specific_l_and_derivative,
     transonic_profile_from_state_vector,
+    unused_sonic_compatibility,
     unpack_state,
     wind_sink_prime,
 )
-from imri_qpe.layer3_minidisk_1d.transonic_collocation import _differential_interval_residual_from_unpacked
+from imri_qpe.layer3_minidisk_1d.transonic_collocation import (
+    _differential_interval_residual_from_unpacked,
+    _heating_terms_from_gradient,
+    _interval_residual_from_unpacked,
+)
 from imri_qpe.parameters import FiducialParams
 from imri_qpe.scales import eddington_luminosity, eddington_mdot
 from run_standard_slim_adaptive_mdot_ladder import STRESS_FACTOR
@@ -124,6 +132,8 @@ TANGENT_LINEAR_DAMPING = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_TA
 TANGENT_MAXITER = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_TANGENT_MAXITER", "3000"))
 TANGENT_TRIGGER_INITIAL_FULL = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_TANGENT_TRIGGER_INITIAL_FULL", "0"))
 ADAPTIVE_TARGET_RAW = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_TARGET", "").strip()
+HEATING_EFFICIENCIES_RAW = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_HEATING_EFFICIENCIES", "").strip()
+HEATING_LABEL = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_HEATING_LABEL", "heating").strip() or "heating"
 ADAPTIVE_INITIAL_STEP = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_INITIAL_STEP", "0.001"))
 ADAPTIVE_MIN_STEP = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_MIN_STEP", "0.00025"))
 ADAPTIVE_MAX_STEP = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_MAX_STEP", "0.005"))
@@ -140,6 +150,13 @@ NEWTON_MAX_NFEV = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_MAX_
 NEWTON_MAX_STEP_NORM = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_MAX_STEP_NORM", "0.16"))
 POLISH_METHOD = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_POLISH_METHOD", "newton").strip().lower()
 NEWTON_JACOBIAN_REL_STEP = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_JACOBIAN_REL_STEP", "3e-5"))
+NEWTON_ENERGY_JACOBIAN_REL_STEP_RAW = os.environ.get(
+    "IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_ENERGY_JACOBIAN_REL_STEP",
+    "",
+).strip()
+NEWTON_ENERGY_JACOBIAN_REL_STEP = (
+    None if not NEWTON_ENERGY_JACOBIAN_REL_STEP_RAW else float(NEWTON_ENERGY_JACOBIAN_REL_STEP_RAW)
+)
 NEWTON_LINE_SEARCH_MIN_ALPHA = float(
     os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_LINE_SEARCH_MIN_ALPHA", "1e-6")
 )
@@ -154,6 +171,28 @@ NEWTON_LINEAR_DAMPINGS = tuple(
     .split(",")
     if piece.strip()
 )
+NEWTON_ENERGY_MERIT = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_ENERGY_MERIT", "off").strip().lower()
+NEWTON_ENERGY_MERIT_TOL_RAW = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_ENERGY_MERIT_TOL", "").strip()
+NEWTON_ENERGY_MERIT_L2_TOL_RAW = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_ENERGY_MERIT_L2_TOL", "").strip()
+NEWTON_ENERGY_MERIT_GLOBAL_TOL_RAW = os.environ.get(
+    "IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_ENERGY_MERIT_GLOBAL_TOL", ""
+).strip()
+NEWTON_ENERGY_MERIT_REQUIRE_DECREASE = (
+    os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_ENERGY_MERIT_REQUIRE_DECREASE", "1") != "0"
+)
+NEWTON_ENERGY_ROW_PRIORITY = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_ENERGY_ROW_PRIORITY", "1.0"))
+LOCAL_PATCH_ON_REJECT = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOCAL_PATCH_ON_REJECT", "0") != "0"
+LOCAL_PATCH_HALF_WIDTH_RG = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOCAL_PATCH_HALF_WIDTH_RG", "3.0"))
+LOCAL_PATCH_TOP_K = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOCAL_PATCH_TOP_K", "0"))
+LOCAL_PATCH_NODE_PAD = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOCAL_PATCH_NODE_PAD", "0"))
+LOCAL_PATCH_MAX_ACTIVE_NODES = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOCAL_PATCH_MAX_ACTIVE_NODES", "80"))
+LOCAL_PATCH_MAX_NFEV = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOCAL_PATCH_MAX_NFEV", "80"))
+LOCAL_PATCH_MAX_PASSES = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOCAL_PATCH_MAX_PASSES", "1"))
+LOCAL_PATCH_GLOBAL_AFTER_PHYSICAL = (
+    os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOCAL_PATCH_GLOBAL_AFTER_PHYSICAL", "1") != "0"
+)
+LOCAL_PATCH_ENERGY_WEIGHT = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOCAL_PATCH_ENERGY_WEIGHT", "5.0"))
+LOCAL_PATCH_PRIOR_WEIGHT = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOCAL_PATCH_PRIOR_WEIGHT", "1e-4"))
 NEWTON_RESIDUAL_TOL = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_RESIDUAL_TOL", "1e-8"))
 ACCEPTANCE_TOL = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ACCEPTANCE_TOL", "1e-5"))
 ANCHOR_TOL = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ANCHOR_TOL", "3e-6"))
@@ -214,6 +253,12 @@ def parse_branch_specs() -> list[tuple[str, list[float]]]:
     return branches
 
 
+def parse_heating_efficiencies() -> list[float]:
+    if not HEATING_EFFICIENCIES_RAW:
+        return []
+    return [float(piece) for piece in HEATING_EFFICIENCIES_RAW.replace(",", ":").split(":") if piece.strip()]
+
+
 def parse_cleanup_polish_specs() -> tuple[str, ...]:
     if not CLEANUP_POLISH_SPECS_RAW:
         return ("same",)
@@ -223,6 +268,14 @@ def parse_cleanup_polish_specs() -> tuple[str, ...]:
 
 
 CLEANUP_POLISH_SPECS = parse_cleanup_polish_specs()
+
+
+def energy_merit_tol_from_env(raw: str, fallback: float) -> float:
+    if raw:
+        return float(raw)
+    if np.isfinite(PHYSICAL_E_TOL):
+        return float(PHYSICAL_E_TOL)
+    return float(fallback)
 
 
 def target_r_out_rg(default_r_out_rg: float) -> float:
@@ -532,11 +585,11 @@ def params_for(
     robin_slope_scale = (
         float(OUTER_ROBIN_SLOPE_SCALE_OVERRIDE) if OUTER_ROBIN_SLOPE_SCALE_OVERRIDE else float(outer_robin_slope_scale)
     )
-    buffer_inner = (
-        float(OUTER_BUFFER_INNER_RG_OVERRIDE)
-        if OUTER_BUFFER_INNER_RG_OVERRIDE
-        else (None if outer_buffer_inner_rg is None else float(outer_buffer_inner_rg))
-    )
+    buffer_inner = None if outer_buffer_inner_rg is None else float(outer_buffer_inner_rg)
+    if OUTER_BUFFER_INNER_RG_OVERRIDE:
+        override_buffer_inner = float(OUTER_BUFFER_INNER_RG_OVERRIDE)
+        if override_buffer_inner < R_out_value * (1.0 - 1.0e-12):
+            buffer_inner = override_buffer_inner
     interval_form = INTERVAL_RESIDUAL_FORM if interval_residual_form is None else str(interval_residual_form).strip().lower()
     integrated_weighting = (
         INTEGRATED_RESIDUAL_WEIGHTING
@@ -842,6 +895,9 @@ def source_fraction_seed(
 def polish_best(z0: np.ndarray, params: TransonicSlimParams):
     best = None
     best_full = np.inf
+    energy_tol = energy_merit_tol_from_env(NEWTON_ENERGY_MERIT_TOL_RAW, NEWTON_RESIDUAL_TOL)
+    energy_l2_tol = energy_merit_tol_from_env(NEWTON_ENERGY_MERIT_L2_TOL_RAW, energy_tol)
+    energy_global_tol = energy_merit_tol_from_env(NEWTON_ENERGY_MERIT_GLOBAL_TOL_RAW, energy_tol)
     for pivot in PIVOTS:
         result = solve_square_transonic_polish(
             params,
@@ -853,11 +909,18 @@ def polish_best(z0: np.ndarray, params: TransonicSlimParams):
             residual_tol=NEWTON_RESIDUAL_TOL,
             use_block_jacobian=True,
             jacobian_rel_step=NEWTON_JACOBIAN_REL_STEP,
+            energy_jacobian_rel_step=NEWTON_ENERGY_JACOBIAN_REL_STEP,
             line_search_min_alpha=NEWTON_LINE_SEARCH_MIN_ALPHA,
             line_search_max_reductions=NEWTON_LINE_SEARCH_MAX_REDUCTIONS,
             linear_solver=NEWTON_LINEAR_SOLVER,
             linear_dampings=NEWTON_LINEAR_DAMPINGS,
             max_step_norm=NEWTON_MAX_STEP_NORM,
+            energy_merit=NEWTON_ENERGY_MERIT,
+            energy_merit_tol=energy_tol,
+            energy_merit_l2_tol=energy_l2_tol,
+            energy_merit_global_tol=energy_global_tol,
+            energy_merit_require_decrease=NEWTON_ENERGY_MERIT_REQUIRE_DECREASE,
+            energy_row_priority=NEWTON_ENERGY_ROW_PRIORITY,
         )
         full = max_residual(result.z, params)
         if full < best_full:
@@ -1000,6 +1063,289 @@ def physical_energy_residual(z: np.ndarray, params: TransonicSlimParams) -> floa
     return float(residual_partition_audit_from_state_vector(z, params).physical_energy_max)
 
 
+def physical_interval_residuals(z: np.ndarray, params: TransonicSlimParams) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
+    residuals = np.asarray(
+        [
+            _differential_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+            for idx in range(len(logR) - 1)
+        ],
+        dtype=float,
+    )
+    R_mid_rg = np.exp(0.5 * (logR[:-1] + logR[1:])) / params.r_g
+    if params.outer_buffer_inner_rg is None:
+        physical_mask = np.ones(len(R_mid_rg), dtype=bool)
+    else:
+        physical_mask = R_mid_rg < float(params.outer_buffer_inner_rg)
+    return R_mid_rg, residuals, physical_mask
+
+
+def configured_interval_residuals(z: np.ndarray, params: TransonicSlimParams) -> tuple[np.ndarray, np.ndarray]:
+    logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
+    residuals = np.asarray(
+        [_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx) for idx in range(len(logR) - 1)],
+        dtype=float,
+    )
+    R_mid_rg = np.exp(0.5 * (logR[:-1] + logR[1:])) / params.r_g
+    return R_mid_rg, residuals
+
+
+def local_patch_interval_selection(z: np.ndarray, params: TransonicSlimParams, mode: str = "physical") -> np.ndarray:
+    mode = str(mode).strip().lower()
+    if mode not in {"physical", "global"}:
+        raise ValueError("local patch mode must be 'physical' or 'global'")
+    if mode == "global":
+        R_mid_rg, residuals = configured_interval_residuals(z, params)
+        energy = np.abs(residuals[:, 1])
+        peak_interval = int(np.argmax(energy))
+        selectable = np.ones(len(R_mid_rg), dtype=bool)
+    else:
+        R_mid_rg, residuals, physical_mask = physical_interval_residuals(z, params)
+        physical_indices = np.nonzero(physical_mask)[0]
+        if physical_indices.size == 0:
+            physical_indices = np.arange(len(R_mid_rg), dtype=int)
+        energy = np.abs(residuals[physical_indices, 1])
+        peak_interval = int(physical_indices[int(np.argmax(energy))])
+        selectable = physical_mask
+    selected: set[int] = {peak_interval}
+    if LOCAL_PATCH_HALF_WIDTH_RG > 0.0:
+        peak_R = float(R_mid_rg[peak_interval])
+        window = np.nonzero((np.abs(R_mid_rg - peak_R) <= LOCAL_PATCH_HALF_WIDTH_RG) & selectable)[0]
+        selected.update(int(idx) for idx in window)
+    if LOCAL_PATCH_TOP_K > 0:
+        if mode == "global":
+            order = np.argsort(np.abs(residuals[:, 1]))[::-1]
+        else:
+            order = physical_indices[np.argsort(energy)[::-1]]
+        selected.update(int(idx) for idx in order[:LOCAL_PATCH_TOP_K])
+    return np.asarray(sorted(selected), dtype=int)
+
+
+def active_nodes_for_patch(intervals: np.ndarray, n_nodes: int) -> np.ndarray:
+    nodes: set[int] = set()
+    for idx in intervals:
+        start = max(1, int(idx) - LOCAL_PATCH_NODE_PAD)
+        stop = min(n_nodes - 2, int(idx) + 1 + LOCAL_PATCH_NODE_PAD)
+        nodes.update(range(start, stop + 1))
+    active = np.asarray(sorted(nodes), dtype=int)
+    if LOCAL_PATCH_MAX_ACTIVE_NODES > 0 and active.size > LOCAL_PATCH_MAX_ACTIVE_NODES:
+        center = int(active[active.size // 2])
+        order = sorted(active.tolist(), key=lambda node: (abs(node - center), node))
+        active = np.asarray(sorted(order[:LOCAL_PATCH_MAX_ACTIVE_NODES]), dtype=int)
+    return active
+
+
+def touched_intervals_for_nodes(nodes: np.ndarray, n_nodes: int) -> np.ndarray:
+    intervals: set[int] = set()
+    for node in nodes:
+        if node > 0:
+            intervals.add(int(node) - 1)
+        if node < n_nodes - 1:
+            intervals.add(int(node))
+    return np.asarray(sorted(intervals), dtype=int)
+
+
+def square_residual_audit(z: np.ndarray, params: TransonicSlimParams) -> tuple[float, str, float]:
+    pivot = select_sonic_compatibility_pivot(z, params)
+    square = square_collocation_residual(z, params, pivot=pivot)
+    unused = unused_sonic_compatibility(z, params, pivot=pivot)
+    return float(np.max(np.abs(square))), str(pivot), float(unused)
+
+
+def local_physical_energy_patch(
+    z: np.ndarray,
+    params: TransonicSlimParams,
+    *,
+    mode: str = "physical",
+) -> tuple[np.ndarray, dict[str, Any]]:
+    try:
+        from scipy.optimize import least_squares
+    except Exception as exc:
+        raise RuntimeError("scipy is required for local physical-energy patch") from exc
+
+    intervals = local_patch_interval_selection(z, params, mode=mode)
+    active_nodes = active_nodes_for_patch(intervals, params.n_nodes)
+    if active_nodes.size == 0:
+        raise RuntimeError("local patch selected no active nodes")
+    solve_intervals = touched_intervals_for_nodes(active_nodes, params.n_nodes)
+    logu, logT, logR_son, lambda0, logR = unpack_state(z, params)
+    lower, upper = state_bounds(params)
+    active_columns = np.concatenate([active_nodes, params.n_nodes + active_nodes])
+    x0 = np.concatenate([logu[active_nodes], logT[active_nodes]])
+    local_lower = lower[active_columns]
+    local_upper = upper[active_columns]
+    base_x = np.array(x0, copy=True)
+
+    def unpack_trial(x: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        trial_logu = np.array(logu, copy=True)
+        trial_logT = np.array(logT, copy=True)
+        trial_logu[active_nodes] = x[: active_nodes.size]
+        trial_logT[active_nodes] = x[active_nodes.size :]
+        return trial_logu, trial_logT
+
+    def residual(x: np.ndarray) -> np.ndarray:
+        trial_logu, trial_logT = unpack_trial(x)
+        pieces: list[float] = []
+        for idx in solve_intervals:
+            row = _interval_residual_from_unpacked(trial_logu, trial_logT, logR, lambda0, params, int(idx))
+            pieces.extend([float(row[0]), LOCAL_PATCH_ENERGY_WEIGHT * float(row[1])])
+        if LOCAL_PATCH_PRIOR_WEIGHT > 0.0:
+            pieces.extend((LOCAL_PATCH_PRIOR_WEIGHT * (np.asarray(x, dtype=float) - base_x)).tolist())
+        return np.asarray(pieces, dtype=float)
+
+    before_local = residual(x0)
+    lsq = least_squares(
+        residual,
+        x0,
+        bounds=(local_lower, local_upper),
+        x_scale="jac",
+        ftol=1.0e-12,
+        xtol=1.0e-12,
+        gtol=1.0e-10,
+        max_nfev=LOCAL_PATCH_MAX_NFEV,
+    )
+    patched_logu, patched_logT = unpack_trial(np.asarray(lsq.x, dtype=float))
+    patched = np.asarray(pack_state(patched_logu, patched_logT, logR_son, lambda0), dtype=float)
+    after_local = residual(np.asarray(lsq.x, dtype=float))
+    before_square, before_pivot, before_unused = square_residual_audit(z, params)
+    after_square, after_pivot, after_unused = square_residual_audit(patched, params)
+    info = {
+        "local_patch_enabled": True,
+        "local_patch_mode": str(mode),
+        "local_patch_target_intervals": intervals.tolist(),
+        "local_patch_active_nodes": active_nodes.tolist(),
+        "local_patch_solve_intervals": solve_intervals.tolist(),
+        "local_patch_local_max_before": float(np.max(np.abs(before_local))),
+        "local_patch_local_max_after": float(np.max(np.abs(after_local))),
+        "local_patch_nfev": int(lsq.nfev),
+        "local_patch_cost": float(lsq.cost),
+        "local_patch_optimality": float(lsq.optimality),
+        "local_patch_success": bool(lsq.success),
+        "local_patch_message": str(lsq.message),
+        "local_patch_square_before": float(before_square),
+        "local_patch_square_after": float(after_square),
+        "local_patch_pivot_before": str(before_pivot),
+        "local_patch_pivot_after": str(after_pivot),
+        "local_patch_unused_before": float(before_unused),
+        "local_patch_unused_after": float(after_unused),
+    }
+    return patched, info
+
+
+def local_patch_polish(polish, patched_z: np.ndarray, info: dict[str, Any]):
+    nfev = int(getattr(polish.result, "nfev", 0)) + int(info.get("local_patch_nfev", 0))
+    message = f"{polish.result.message}; local physical-energy patch adopted"
+    return SimpleNamespace(
+        z=np.asarray(patched_z, dtype=float),
+        pivot=str(info.get("local_patch_pivot_after", polish.pivot)),
+        method=f"{polish.method}+local_patch",
+        result=SimpleNamespace(nfev=nfev, message=message),
+        iterations=int(polish.iterations),
+        line_search_reductions=int(getattr(polish, "line_search_reductions", 0)),
+        final_step_norm=float(getattr(polish, "final_step_norm", 0.0)),
+        final_linear_damping=float(getattr(polish, "final_linear_damping", 0.0)),
+        newton_audit=tuple(getattr(polish, "newton_audit", ())),
+    )
+
+
+def maybe_local_physical_energy_patch(
+    polish,
+    params: TransonicSlimParams,
+    elapsed: float,
+    meta: dict[str, Any],
+) -> tuple[Any, TransonicSlimParams, float, dict[str, Any]]:
+    meta = dict(meta)
+    meta.setdefault("local_patch_enabled", bool(LOCAL_PATCH_ON_REJECT))
+    meta.setdefault("local_patch_attempted", False)
+    meta.setdefault("local_patch_adopted", False)
+    if not LOCAL_PATCH_ON_REJECT:
+        return polish, params, elapsed, meta
+    if not gate_would_reject(polish.z, params):
+        meta["local_patch_skip_reason"] = "base_already_accepted"
+        return polish, params, elapsed, meta
+    current_z = np.asarray(polish.z, dtype=float)
+    current_params = params
+    base_full = max_residual(current_z, current_params)
+    base_physical = physical_energy_residual(current_z, current_params)
+    total_patch_nfev = 0
+    adopted_any = False
+    last_info: dict[str, Any] = {}
+    adopted_info: dict[str, Any] = {}
+    max_passes = max(1, int(LOCAL_PATCH_MAX_PASSES))
+    for patch_pass in range(max_passes):
+        before_full = max_residual(current_z, current_params)
+        before_physical = physical_energy_residual(current_z, current_params)
+        acceptance_tol, _anchor_tol = acceptance_tolerances_for_params(current_params)
+        before_physical_ok = (
+            bool(np.isfinite(before_physical) and before_physical <= PHYSICAL_E_TOL) if np.isfinite(PHYSICAL_E_TOL) else True
+        )
+        mode = "global" if LOCAL_PATCH_GLOBAL_AFTER_PHYSICAL and before_physical_ok and before_full > acceptance_tol else "physical"
+        try:
+            t0 = time.perf_counter()
+            patched_z, patch_info = local_physical_energy_patch(current_z, current_params, mode=mode)
+            elapsed += time.perf_counter() - t0
+        except Exception as exc:
+            meta["local_patch_attempted"] = True
+            meta["local_patch_error"] = str(exc)
+            print(f"  local patch failed: {exc}", flush=True)
+            break
+        patched_params = apply_outer_slopes_from_state(patched_z, current_params)
+        after_full = max_residual(patched_z, patched_params)
+        after_physical = physical_energy_residual(patched_z, patched_params)
+        acceptance_tol, _anchor_tol = acceptance_tolerances_for_params(patched_params)
+        physical_ok = bool(np.isfinite(after_physical) and after_physical <= PHYSICAL_E_TOL) if np.isfinite(PHYSICAL_E_TOL) else True
+        accepted_by_gate = bool(after_full <= acceptance_tol and (physical_ok or not REQUIRE_PHYSICAL_E_GATE))
+        improves = bool(after_full <= before_full and after_physical <= before_physical)
+        no_full_regression = bool(after_full <= before_full * (1.0 + 1.0e-8) + 1.0e-14)
+        physical_improves = bool(after_physical < before_physical)
+        adopt = bool((improves or (no_full_regression and physical_improves)) and (accepted_by_gate or after_full <= before_full * (1.0 + 1.0e-8) + 1.0e-14))
+        total_patch_nfev += int(patch_info.get("local_patch_nfev", 0))
+        patch_info.update(
+            {
+                "local_patch_attempted": True,
+                "local_patch_pass": int(patch_pass + 1),
+                "local_patch_passes": int(patch_pass + 1),
+                "local_patch_full_before": float(base_full),
+                "local_patch_full_after": float(after_full),
+                "local_patch_pass_full_before": float(before_full),
+                "local_patch_pass_full_after": float(after_full),
+                "local_patch_physical_E_before": float(base_physical),
+                "local_patch_physical_E_after": float(after_physical),
+                "local_patch_pass_physical_E_before": float(before_physical),
+                "local_patch_pass_physical_E_after": float(after_physical),
+                "local_patch_gate_accepted": bool(accepted_by_gate),
+                "local_patch_adopted": bool(adopt),
+                "local_patch_acceptance_tol": float(acceptance_tol),
+                "local_patch_total_nfev": int(total_patch_nfev),
+            }
+        )
+        last_info = patch_info
+        print(
+            f"  local patch pass {patch_pass + 1} ({mode}) full={before_full:.3e}->{after_full:.3e} "
+            f"physE={before_physical:.3e}->{after_physical:.3e} adopted={adopt}",
+            flush=True,
+        )
+        if not adopt:
+            break
+        adopted_any = True
+        adopted_info = dict(patch_info)
+        current_z = np.asarray(patched_z, dtype=float)
+        current_params = patched_params
+        if accepted_by_gate:
+            break
+    final_info = adopted_info if adopted_any else last_info
+    if final_info:
+        final_info["local_patch_passes"] = int(final_info.get("local_patch_pass", 0))
+        final_info["local_patch_total_nfev"] = int(total_patch_nfev)
+        final_info["local_patch_adopted"] = bool(adopted_any)
+        meta.update(final_info)
+    if not adopted_any:
+        return polish, params, elapsed, meta
+    patched_polish = local_patch_polish(polish, current_z, {**final_info, "local_patch_nfev": total_patch_nfev})
+    meta["polish_nfev_total"] = int(meta.get("polish_nfev_total", getattr(polish.result, "nfev", 0))) + int(total_patch_nfev)
+    return patched_polish, current_params, elapsed, meta
+
+
 def choose_better_physical_state(
     best_polish,
     best_params: TransonicSlimParams,
@@ -1025,7 +1371,7 @@ def cleanup_params_for_spec(params: TransonicSlimParams, spec: str) -> tuple[Tra
         return params, "same"
     pieces = spec.split(":")
     interval_form = pieces[0].strip()
-    if interval_form not in {"differential", "integrated", "integrated_physical_energy"}:
+    if interval_form not in {"differential", "integrated", "integrated_physical_energy", "conservative_physical_energy"}:
         raise ValueError(f"unknown cleanup polish interval form {interval_form!r}")
     if len(pieces) > 2:
         raise ValueError(f"cleanup polish spec must be form[:weighting], got {spec!r}")
@@ -1226,6 +1572,7 @@ def polish_with_optional_residual_remesh(
     )
     if not should_try_remesh:
         polish, final_params, elapsed, meta = maybe_cleanup_repolish(polish, final_params, elapsed, meta)
+        polish, final_params, elapsed, meta = maybe_local_physical_energy_patch(polish, final_params, elapsed, meta)
         return seed, polish, final_params, elapsed, meta
 
     remesh_seed, remesh_params, grid_info = residual_remesh_seed(polish.z, final_params)
@@ -1259,6 +1606,7 @@ def polish_with_optional_residual_remesh(
             f"> limit {RESIDUAL_REMESH_MAX_INITIAL_FULL:.3e}",
             flush=True,
         )
+        polish, final_params, elapsed, combined_meta = maybe_local_physical_energy_patch(polish, final_params, elapsed, combined_meta)
         return seed, polish, final_params, elapsed, combined_meta
 
     t1 = time.perf_counter()
@@ -1301,6 +1649,12 @@ def polish_with_optional_residual_remesh(
             elapsed,
             combined_meta,
         )
+        remesh_polish, remesh_final_params, elapsed, combined_meta = maybe_local_physical_energy_patch(
+            remesh_polish,
+            remesh_final_params,
+            elapsed,
+            combined_meta,
+        )
         return remesh_seed, remesh_polish, remesh_final_params, elapsed, combined_meta
 
     combined_meta["polish_nfev_total"] = int(meta["polish_nfev_total"]) + int(remesh_meta["polish_nfev_total"])
@@ -1308,6 +1662,7 @@ def polish_with_optional_residual_remesh(
         remesh_meta["polish_iterations_total"]
     )
     polish, final_params, elapsed, combined_meta = maybe_cleanup_repolish(polish, final_params, elapsed, combined_meta)
+    polish, final_params, elapsed, combined_meta = maybe_local_physical_energy_patch(polish, final_params, elapsed, combined_meta)
     return seed, polish, final_params, elapsed, combined_meta
 
 
@@ -1363,6 +1718,54 @@ def stream_diagnostic(z: np.ndarray, params: TransonicSlimParams) -> dict[str, f
         "mass_budget_error_over_inner": float(budget_error / params.Mdot_g_s),
         "relative_mass_budget_error": float(abs(budget_error) / budget_scale),
         "stream_l_outer_over_lKinj": float(stream_l_outer / l_ref) if l_ref > 0.0 else np.nan,
+    }
+
+
+def heating_diagnostic(z: np.ndarray, params: TransonicSlimParams) -> dict[str, float]:
+    logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
+    q_stream = np.asarray([stream_heating_rate(float(x), params) for x in logR], dtype=float)
+    q_visc = np.empty_like(q_stream)
+    q_rad = np.empty_like(q_stream)
+    q_adv = np.empty_like(q_stream)
+    for idx, x in enumerate(logR):
+        if idx == 0:
+            dx = float(logR[1] - logR[0])
+            g = np.array([(logu[1] - logu[0]) / dx, (logT[1] - logT[0]) / dx], dtype=float)
+        elif idx == len(logR) - 1:
+            dx = float(logR[-1] - logR[-2])
+            g = np.array([(logu[-1] - logu[-2]) / dx, (logT[-1] - logT[-2]) / dx], dtype=float)
+        else:
+            dx = float(logR[idx + 1] - logR[idx - 1])
+            g = np.array(
+                [(logu[idx + 1] - logu[idx - 1]) / dx, (logT[idx + 1] - logT[idx - 1]) / dx],
+                dtype=float,
+            )
+        qv, qr, qa, _qe = _heating_terms_from_gradient(
+            float(x),
+            np.array([logu[idx], logT[idx]], dtype=float),
+            g,
+            lambda0,
+            params,
+        )
+        q_visc[idx] = qv
+        q_rad[idx] = qr
+        q_adv[idx] = qa
+
+    peak_idx = int(np.argmax(q_stream)) if q_stream.size else 0
+    weights = 2.0 * np.pi * np.exp(logR) ** 2
+    int_stream = float(np.trapezoid(q_stream * weights, logR))
+    int_visc = float(np.trapezoid(np.abs(q_visc) * weights, logR) + 1.0e-300)
+    int_rad = float(np.trapezoid(np.abs(q_rad) * weights, logR) + 1.0e-300)
+    int_adv = float(np.trapezoid(np.abs(q_adv) * weights, logR) + 1.0e-300)
+    return {
+        "stream_heating_efficiency": float(params.stream_heating_efficiency),
+        "max_Qstream_Qvisc": float(np.max(q_stream / (np.abs(q_visc) + 1.0e-300))),
+        "max_Qstream_Qrad": float(np.max(q_stream / (np.abs(q_rad) + 1.0e-300))),
+        "max_Qstream_Qadv_abs": float(np.max(q_stream / (np.abs(q_adv) + 1.0e-300))),
+        "integrated_Qstream_Qvisc": float(int_stream / int_visc),
+        "integrated_Qstream_Qrad": float(int_stream / int_rad),
+        "integrated_Qstream_Qadv_abs": float(int_stream / int_adv),
+        "peak_Qstream_R_rg": float(np.exp(logR[peak_idx]) / params.r_g),
     }
 
 
@@ -1464,10 +1867,41 @@ def newton_audit_diagnostic(polish) -> dict[str, Any]:
             "newton_audit_total_linear_iterations": 0,
             "newton_audit_max_linear_iterations": 0,
             "newton_audit_max_linear_conda": np.nan,
+            "newton_audit_total_linear_s": np.nan,
+            "newton_audit_total_line_search_s": np.nan,
+            "newton_audit_total_line_search_residual_s": np.nan,
+            "newton_audit_total_line_search_energy_s": np.nan,
+            "newton_audit_min_physical_energy_after": np.nan,
+            "newton_audit_final_physical_energy_after": np.nan,
+            "newton_audit_min_energy_merit_after": np.nan,
             "newton_audit_path": "",
         }
     accepted = [row for row in rows if bool(row["accepted"])]
     linear_conda = [float(row["linear_conda"]) for row in rows if np.isfinite(float(row["linear_conda"]))]
+    physical_after = [
+        float(row.get("physical_energy_after", np.nan))
+        for row in rows
+        if np.isfinite(float(row.get("physical_energy_after", np.nan)))
+    ]
+    merit_after = [
+        float(row.get("energy_merit_after", np.nan))
+        for row in rows
+        if np.isfinite(float(row.get("energy_merit_after", np.nan)))
+    ]
+    linear_s = [float(row.get("linear_solve_s", np.nan)) for row in rows if np.isfinite(float(row.get("linear_solve_s", np.nan)))]
+    line_search_s = [
+        float(row.get("line_search_s", np.nan)) for row in rows if np.isfinite(float(row.get("line_search_s", np.nan)))
+    ]
+    line_search_residual_s = [
+        float(row.get("line_search_residual_s", np.nan))
+        for row in rows
+        if np.isfinite(float(row.get("line_search_residual_s", np.nan)))
+    ]
+    line_search_energy_s = [
+        float(row.get("line_search_energy_s", np.nan))
+        for row in rows
+        if np.isfinite(float(row.get("line_search_energy_s", np.nan)))
+    ]
     return {
         "newton_audit_rows": int(len(rows)),
         "newton_audit_accepted_trials": int(len(accepted)),
@@ -1476,6 +1910,13 @@ def newton_audit_diagnostic(polish) -> dict[str, Any]:
         "newton_audit_total_linear_iterations": int(sum(int(row["linear_iterations"]) for row in rows)),
         "newton_audit_max_linear_iterations": int(max(int(row["linear_iterations"]) for row in rows)),
         "newton_audit_max_linear_conda": float(max(linear_conda)) if linear_conda else np.nan,
+        "newton_audit_total_linear_s": float(sum(linear_s)) if linear_s else np.nan,
+        "newton_audit_total_line_search_s": float(sum(line_search_s)) if line_search_s else np.nan,
+        "newton_audit_total_line_search_residual_s": float(sum(line_search_residual_s)) if line_search_residual_s else np.nan,
+        "newton_audit_total_line_search_energy_s": float(sum(line_search_energy_s)) if line_search_energy_s else np.nan,
+        "newton_audit_min_physical_energy_after": float(min(physical_after)) if physical_after else np.nan,
+        "newton_audit_final_physical_energy_after": float(physical_after[-1]) if physical_after else np.nan,
+        "newton_audit_min_energy_merit_after": float(min(merit_after)) if merit_after else np.nan,
         "newton_audit_path": "",
     }
 
@@ -1570,6 +2011,16 @@ def row_for_result(
             "achieved_omega_log_offset": np.nan,
             "omega_target_residual": np.nan,
         }
+        heating_info: dict[str, Any] = {
+            "stream_heating_efficiency": float(params.stream_heating_efficiency),
+            "max_Qstream_Qvisc": np.nan,
+            "max_Qstream_Qrad": np.nan,
+            "max_Qstream_Qadv_abs": np.nan,
+            "integrated_Qstream_Qvisc": np.nan,
+            "integrated_Qstream_Qrad": np.nan,
+            "integrated_Qstream_Qadv_abs": np.nan,
+            "peak_Qstream_R_rg": np.nan,
+        }
     else:
         profile = transonic_profile_from_state_vector(z, params)
         profile_info = {
@@ -1580,6 +2031,7 @@ def row_for_result(
         advection_info = advection_diagnostic(z, params)
         interval_info = interval_peak_diagnostic(z, params)
         angular_info = angular_diagnostic(z, params)
+        heating_info = heating_diagnostic(z, params)
     return {
         "branch": branch,
         "mass_fraction": float(mass_fraction),
@@ -1594,6 +2046,21 @@ def row_for_result(
         "mass_source_shape_blend": float(params.stream_source_shape_blend),
         "interval_residual_form": str(params.interval_residual_form),
         "integrated_residual_weighting": str(params.integrated_residual_weighting),
+        "newton_energy_merit": str(NEWTON_ENERGY_MERIT),
+        "newton_energy_merit_tol": float(energy_merit_tol_from_env(NEWTON_ENERGY_MERIT_TOL_RAW, NEWTON_RESIDUAL_TOL)),
+        "newton_energy_merit_l2_tol": float(
+            energy_merit_tol_from_env(NEWTON_ENERGY_MERIT_L2_TOL_RAW, NEWTON_RESIDUAL_TOL)
+        ),
+        "newton_energy_merit_global_tol": float(
+            energy_merit_tol_from_env(NEWTON_ENERGY_MERIT_GLOBAL_TOL_RAW, NEWTON_RESIDUAL_TOL)
+        ),
+        "newton_energy_merit_require_decrease": bool(NEWTON_ENERGY_MERIT_REQUIRE_DECREASE),
+        "newton_energy_row_priority": float(NEWTON_ENERGY_ROW_PRIORITY),
+        **heating_info,
+        "newton_jacobian_rel_step": float(NEWTON_JACOBIAN_REL_STEP),
+        "newton_energy_jacobian_rel_step": np.nan
+        if NEWTON_ENERGY_JACOBIAN_REL_STEP is None
+        else float(NEWTON_ENERGY_JACOBIAN_REL_STEP),
         "outer_buffer_inner_rg": np.nan if params.outer_buffer_inner_rg is None else float(params.outer_buffer_inner_rg),
         "outer_buffer_radial_weight": float(params.outer_buffer_radial_weight),
         "outer_buffer_energy_weight": float(params.outer_buffer_energy_weight),
@@ -1666,7 +2133,8 @@ def save_checkpoint(row: dict[str, Any], params: TransonicSlimParams) -> None:
     CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
     safe_branch = str(row["branch"]).replace(".", "p").replace("-", "m")
     safe_mass = f"{float(row['mass_fraction']):.9g}".replace(".", "p").replace("-", "m")
-    stem = f"{safe_branch}_mass_{safe_mass}_torque_{float(row['torque_fraction']):.4g}_mdot_{float(row['ratio']):.8g}_N{int(row['N'])}".replace(
+    safe_heat = f"{float(row.get('stream_heating_efficiency', params.stream_heating_efficiency)):.9g}".replace(".", "p").replace("-", "m")
+    stem = f"{safe_branch}_mass_{safe_mass}_heat_{safe_heat}_torque_{float(row['torque_fraction']):.4g}_mdot_{float(row['ratio']):.8g}_N{int(row['N'])}".replace(
         ".", "p"
     ).replace("-", "m")
     slopes = params.outer_match_log_slopes
@@ -1722,10 +2190,17 @@ def write_table(rows: list[dict[str, Any]]) -> None:
         "Generated by `scripts/run_standard_slim_stream_mass_annulus_scan.py`.",
         "",
         f"Anchor `{relative_root_path(ANCHOR_CHECKPOINT)}`, branches `{';'.join(BRANCH_SPECS)}`, "
+        f"heating efficiencies `{HEATING_EFFICIENCIES_RAW or 'off'}`, "
         f"Rinj/Rout `{MASS_CENTER_FRACTION:g}`, log width `{MASS_LOG_WIDTH:g}`, source shape `{MASS_SOURCE_SHAPE}`, "
         f"source blend `{MASS_SOURCE_SHAPE_BLEND_OVERRIDE or 'checkpoint/default'}`, "
         f"torque fraction `{TORQUE_FRACTION:g}`, polish method `{POLISH_METHOD}`, "
-        f"Jacobian rel step `{NEWTON_JACOBIAN_REL_STEP:g}`, refresh repolish `{REFRESH_REPOLISH}`, "
+        f"Jacobian rel step `{NEWTON_JACOBIAN_REL_STEP:g}`, energy Jacobian rel step "
+        f"`{NEWTON_ENERGY_JACOBIAN_REL_STEP if NEWTON_ENERGY_JACOBIAN_REL_STEP is not None else 'same'}`, "
+        f"refresh repolish `{REFRESH_REPOLISH}`, "
+        f"energy merit `{NEWTON_ENERGY_MERIT}`, energy merit tol "
+        f"`{energy_merit_tol_from_env(NEWTON_ENERGY_MERIT_TOL_RAW, NEWTON_RESIDUAL_TOL):g}`, "
+        f"energy row priority `{NEWTON_ENERGY_ROW_PRIORITY:g}`, "
+        f"energy decrease guard `{NEWTON_ENERGY_MERIT_REQUIRE_DECREASE}`, "
         f"cleanup passes `{CLEANUP_REPOLISH_PASSES}`, cleanup specs `{','.join(CLEANUP_POLISH_SPECS)}`, "
         f"lean rejects `{LEAN_REJECT_DIAGNOSTICS}`, physical gate `{REQUIRE_PHYSICAL_E_GATE}` "
         f"at `{PHYSICAL_E_TOL:g}`, "
@@ -1757,8 +2232,8 @@ def write_table(rows: list[dict[str, Any]]) -> None:
         f"anchor source fraction `{fmt(meta_row.get('anchor_source_fraction', np.nan))}`, "
         f"anchor Rout `{fmt(meta_row.get('anchor_Rout_rg', np.nan))} rg`",
         "",
-        "| branch | source fraction | source shape | source blend | torque fraction | predictor | init current | init secant | init tangent | tan damp | tan norm inf | tan linres | clip | step | next step | cost action | remesh | Picard iters | nfev total | Mdot outer/inner | Mdot center/inner | source integral | rel budget err | Rout/rg | Rinj/rg | initial full | final full | accepted | anchor | solver accepted | phys ok | dominant | int R | int E | peak E R/rg | median abs E | phys E | phys tol | buffer E | peak phys E R/rg | peak buffer E R/rg | outer omega | f_adv global | f_adv inner | f_adv pos | Lrad/LEdd | max H/R | int adv | Rson/rg | pivot | nfev | elapsed s | message |",
-        "|---|---:|---|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|:---:|:---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---|",
+        "| branch | source fraction | source shape | source blend | torque fraction | heat eta | max Qs/Qv | int Qs/Qv | peak Qs R/rg | predictor | init current | init secant | init tangent | tan damp | tan norm inf | tan linres | clip | step | next step | cost action | remesh | Picard iters | nfev total | Mdot outer/inner | Mdot center/inner | source integral | rel budget err | Rout/rg | Rinj/rg | initial full | final full | accepted | anchor | solver accepted | phys ok | dominant | int R | int E | peak E R/rg | median abs E | phys E | phys tol | buffer E | peak phys E R/rg | peak buffer E R/rg | outer omega | f_adv global | f_adv inner | f_adv pos | Lrad/LEdd | max H/R | int adv | Rson/rg | pivot | nfev | elapsed s | message |",
+        "|---|---:|---|---:|---:|---:|---:|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|:---:|:---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---|",
     ]
     for row in rows:
         display_row = {
@@ -1780,6 +2255,10 @@ def write_table(rows: list[dict[str, Any]]) -> None:
             "solver_accepted": row.get("accepted", False),
             "physical_E_gate_eligible": True,
             "physical_E_tol": PHYSICAL_E_TOL,
+            "stream_heating_efficiency": 0.0,
+            "max_Qstream_Qvisc": 0.0,
+            "integrated_Qstream_Qvisc": 0.0,
+            "peak_Qstream_R_rg": np.nan,
             "partition_physical_E": np.nan,
             "partition_buffer_E": np.nan,
             "partition_peak_physical_E_rg": np.nan,
@@ -1793,7 +2272,8 @@ def write_table(rows: list[dict[str, Any]]) -> None:
         for key in ("Mdot_outer_over_inner", "Mdot_center_over_inner"):
             formatted[key] = f"{float(display_row[key]):.6g}"
         lines.append(
-            "| {branch} | {mass_fraction} | {mass_source_shape} | {mass_source_shape_blend} | {torque_fraction} | {predictor} | "
+            "| {branch} | {mass_fraction} | {mass_source_shape} | {mass_source_shape_blend} | {torque_fraction} | "
+            "{stream_heating_efficiency} | {max_Qstream_Qvisc} | {integrated_Qstream_Qvisc} | {peak_Qstream_R_rg} | {predictor} | "
             "{predictor_initial_full_current} | {predictor_initial_full_secant_best} | {predictor_initial_full_tangent_best} | "
             "{predictor_tangent_damping_chosen} | {predictor_tangent_norm_inf} | {predictor_tangent_linear_residual_norm} | "
             "{predictor_state_clip_count} | {attempt_step} | {next_step} | {cost_action} | "
@@ -1829,8 +2309,11 @@ def write_figure(rows: list[dict[str, Any]]) -> None:
     x0, y0, x1, y1 = 90, 80, 930, 540
     draw.rectangle((x0, y0, x1, y1), outline=(60, 60, 60), width=2)
     fractions = np.asarray([float(row["mass_fraction"]) for row in rows], dtype=float)
+    heating = np.asarray([float(row.get("stream_heating_efficiency", 0.0)) for row in rows], dtype=float)
+    use_heating_axis = bool(np.max(fractions) - np.min(fractions) < 1.0e-12 and np.max(heating) - np.min(heating) > 0.0)
+    x_values = heating if use_heating_axis else fractions
     residuals = np.log10(np.maximum(np.asarray([float(row["final_full"]) for row in rows], dtype=float), 1.0e-16))
-    x_min, x_max = float(np.min(fractions)), float(np.max(fractions))
+    x_min, x_max = float(np.min(x_values)), float(np.max(x_values))
     if x_max <= x_min:
         x_min -= 0.5
         x_max += 0.5
@@ -1838,10 +2321,13 @@ def write_figure(rows: list[dict[str, Any]]) -> None:
     if y_max <= y_min:
         y_max = y_min + 1.0
     for branch in sorted(set(str(row["branch"]) for row in rows)):
-        selected = sorted([row for row in rows if row["branch"] == branch], key=lambda row: float(row["mass_fraction"]))
+        selected = sorted(
+            [row for row in rows if row["branch"] == branch],
+            key=lambda row: float(row.get("stream_heating_efficiency", 0.0)) if use_heating_axis else float(row["mass_fraction"]),
+        )
         points = []
         for row in selected:
-            xx = float(row["mass_fraction"])
+            xx = float(row.get("stream_heating_efficiency", 0.0)) if use_heating_axis else float(row["mass_fraction"])
             yy = np.log10(max(float(row["final_full"]), 1.0e-16))
             px = x0 + int((xx - x_min) / (x_max - x_min) * (x1 - x0))
             py = y1 - int((yy - y_min) / (y_max - y_min) * (y1 - y0))
@@ -1856,7 +2342,8 @@ def write_figure(rows: list[dict[str, Any]]) -> None:
         py = y1 - int((yy - y_min) / (y_max - y_min) * (y1 - y0))
         draw.line((x0, py, x1, py), fill=(120, 120, 120), width=1)
         draw.text((x1 - 72, py - 14), label, fill=(80, 80, 80), font=font)
-    draw.text((90, 25), "Stream mass annulus: residual vs deposited mass fraction", fill=(20, 20, 20), font=font)
+    title = "Stream heating annulus: residual vs heating efficiency" if use_heating_axis else "Stream mass annulus: residual vs deposited mass fraction"
+    draw.text((90, 25), title, fill=(20, 20, 20), font=font)
     draw.text((x0 + 4, y0 + 4), f"1e{int(y_max)}", fill=(80, 80, 80), font=font)
     draw.text((x0 + 4, y1 - 18), f"1e{int(y_min)}", fill=(80, 80, 80), font=font)
     FIGURE_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
@@ -1960,7 +2447,8 @@ def run_branch(
             f"Mdot_outer/inner={row['Mdot_outer_over_inner']:.5g} accepted={row['accepted']} "
             f"anchor={row['anchor_eligible']} physE={row.get('partition_physical_E', np.nan):.3e} "
             f"phys_ok={row.get('physical_E_gate_eligible', True)} remesh={row.get('residual_remesh_action', 'none')}:"
-            f"{row.get('residual_remesh_adopted', False)} picard={row.get('outer_picard_iterations', 0)}",
+            f"{row.get('residual_remesh_adopted', False)} patch={row.get('local_patch_adopted', False)} "
+            f"picard={row.get('outer_picard_iterations', 0)}",
             flush=True,
         )
         if row["accepted"]:
@@ -2121,10 +2609,114 @@ def run_adaptive_branch(
             f"anchor={row['anchor_eligible']} physE={row.get('partition_physical_E', np.nan):.3e} "
             f"phys_ok={row.get('physical_E_gate_eligible', True)} nfev={row['nfev']} "
             f"nfev_total={int(row.get('polish_nfev_total', row['nfev']))} next_step={direction * step:.6g} "
-            f"action={row['cost_action']}",
+            f"action={row['cost_action']} patch={row.get('local_patch_adopted', False)}",
             flush=True,
         )
         if should_break:
+            break
+
+
+def run_heating_branch(
+    *,
+    label: str,
+    heating_efficiencies: list[float],
+    anchor_z: np.ndarray,
+    anchor_params: TransonicSlimParams,
+    fiducial: FiducialParams,
+    mdot_edd: float,
+    rows: list[dict[str, Any]],
+) -> None:
+    current_z = np.asarray(anchor_z, dtype=float)
+    current_params = anchor_params
+    current_eta = float(anchor_params.stream_heating_efficiency)
+    for eta in heating_efficiencies:
+        params = params_for(
+            fiducial,
+            mdot_edd,
+            ratio=current_params.mdot_edd_ratio,
+            R_out_rg=current_params.R_out_rg,
+            n_nodes=current_params.n_nodes,
+            grid_power=current_params.grid_power,
+            custom_grid_xi=current_params.custom_grid_xi,
+            mass_fraction=current_params.stream_source_fraction,
+            source_center_fraction=current_params.stream_source_center_fraction,
+            source_log_width=current_params.stream_source_log_width,
+            source_shape=current_params.stream_source_shape,
+            source_shape_blend=current_params.stream_source_shape_blend,
+            torque_fraction=current_params.stream_torque_delta_l_fraction,
+            torque_center_fraction=current_params.stream_torque_center_fraction,
+            torque_log_width=current_params.stream_torque_log_width,
+            wind_sink_fraction=current_params.wind_sink_fraction,
+            wind_sink_center_fraction=current_params.wind_sink_center_fraction,
+            wind_sink_log_width=current_params.wind_sink_log_width,
+            stream_heating_efficiency=float(eta),
+            outer_closure=current_params.outer_closure,
+            outer_robin_chi=current_params.outer_robin_chi,
+            outer_robin_slope_target=current_params.outer_robin_slope_target,
+            outer_robin_slope_scale=current_params.outer_robin_slope_scale,
+            outer_buffer_inner_rg=current_params.outer_buffer_inner_rg,
+            outer_buffer_radial_weight=current_params.outer_buffer_radial_weight,
+            outer_buffer_energy_weight=current_params.outer_buffer_energy_weight,
+            outer_buffer_boundary_weight=current_params.outer_buffer_boundary_weight,
+            outer_buffer_taper_log_width=current_params.outer_buffer_taper_log_width,
+            interval_residual_form=current_params.interval_residual_form,
+            integrated_residual_weighting=current_params.integrated_residual_weighting,
+        )
+        params = apply_outer_slopes_from_state(current_z, params)
+        seed = np.asarray(current_z, dtype=float)
+        initial_full = max_residual(seed, params)
+        print(
+            f"{label} heating_eta={eta:g} current_eta={current_eta:g} initial={initial_full:.3e}",
+            flush=True,
+        )
+        seed, polish, final_params, elapsed, polish_meta = polish_with_optional_residual_remesh(
+            seed=seed,
+            params=params,
+            remesh_after_accept=RESIDUAL_REMESH_EVERY_STEP,
+            remesh_on_reject=RESIDUAL_REMESH_ON_REJECT,
+        )
+        row = row_for_result(
+            branch=label,
+            mass_fraction=float(params.stream_source_fraction),
+            seed=seed,
+            z=polish.z,
+            params=final_params,
+            polish=polish,
+            elapsed_s=elapsed,
+            extra={
+                **polish_meta,
+                "predictor_initial_full_current": float(initial_full),
+                "predictor_initial_full_secant_best": np.nan,
+                "predictor_initial_full_tangent_best": np.nan,
+                "anchor_source_fraction": float(anchor_params.stream_source_fraction),
+                "anchor_heating_efficiency": float(anchor_params.stream_heating_efficiency),
+                "anchor_Rout_rg": float(anchor_params.R_out_rg),
+                "heating_step": float(eta - current_eta),
+            },
+            lean_diagnostics=bool(LEAN_REJECT_DIAGNOSTICS and gate_would_reject(polish.z, final_params)),
+        )
+        row["predictor"] = "current"
+        row["predictor_initial_full"] = float(initial_full)
+        apply_physical_gate(row)
+        row["newton_audit_path"] = "" if row.get("lean_diagnostics", False) else write_newton_audit(row, polish)
+        rows.append(row)
+        save_checkpoint(row, final_params)
+        write_table(rows)
+        write_figure(rows)
+        print(
+            f"  final={row['final_full']:.3e} dom={row['dominant']} heat={row['stream_heating_efficiency']:.5g} "
+            f"maxQsQv={row['max_Qstream_Qvisc']:.3e} intQsQv={row['integrated_Qstream_Qvisc']:.3e} "
+            f"accepted={row['accepted']} anchor={row['anchor_eligible']} physE={row.get('partition_physical_E', np.nan):.3e} "
+            f"phys_ok={row.get('physical_E_gate_eligible', True)} remesh={row.get('residual_remesh_action', 'none')}:"
+            f"{row.get('residual_remesh_adopted', False)}",
+            flush=True,
+        )
+        if row["accepted"]:
+            current_z = np.asarray(polish.z, dtype=float)
+            current_params = final_params
+            current_eta = float(eta)
+        else:
+            print(f"  stopping heating branch {label} at first non-accepted eta", flush=True)
             break
 
 
@@ -2134,7 +2726,18 @@ def main() -> None:
     anchor_z, anchor_params = load_anchor(ANCHOR_CHECKPOINT, fiducial, mdot_edd)
     anchor_z, anchor_params = prepare_anchor_grid(anchor_z, anchor_params, fiducial, mdot_edd)
     rows: list[dict[str, Any]] = []
-    if ADAPTIVE_TARGET_RAW:
+    heating_efficiencies = parse_heating_efficiencies()
+    if heating_efficiencies:
+        run_heating_branch(
+            label=HEATING_LABEL,
+            heating_efficiencies=heating_efficiencies,
+            anchor_z=anchor_z,
+            anchor_params=anchor_params,
+            fiducial=fiducial,
+            mdot_edd=mdot_edd,
+            rows=rows,
+        )
+    elif ADAPTIVE_TARGET_RAW:
         branches = parse_branch_specs()
         label = branches[0][0] if branches else "adaptive"
         run_adaptive_branch(

@@ -213,10 +213,15 @@ class TransonicSlimParams:
             raise ValueError("stream_heating_efficiency must be finite")
         if self.stream_heating_efficiency < 0.0:
             raise ValueError("stream_heating_efficiency must be non-negative")
-        if self.interval_residual_form not in {"differential", "integrated", "integrated_physical_energy"}:
+        if self.interval_residual_form not in {
+            "differential",
+            "integrated",
+            "integrated_physical_energy",
+            "conservative_physical_energy",
+        }:
             raise ValueError(
                 "interval_residual_form must be 'differential', 'integrated', "
-                "or 'integrated_physical_energy'"
+                "'integrated_physical_energy', or 'conservative_physical_energy'"
             )
         if self.integrated_residual_weighting not in {"none", "inverse_sqrt_dx", "inverse_dx"}:
             raise ValueError("integrated_residual_weighting must be 'none', 'inverse_sqrt_dx', or 'inverse_dx'")
@@ -429,6 +434,16 @@ class TransonicNewtonIterationAudit:
     residual_evaluations: int
     square_max_after: float
     merit_after: float
+    energy_merit_before: float = np.nan
+    energy_merit_after: float = np.nan
+    physical_energy_before: float = np.nan
+    physical_energy_after: float = np.nan
+    physical_energy_l2_before: float = np.nan
+    physical_energy_l2_after: float = np.nan
+    linear_solve_s: float = np.nan
+    line_search_s: float = np.nan
+    line_search_residual_s: float = np.nan
+    line_search_energy_s: float = np.nan
 
 
 @dataclass(frozen=True)
@@ -855,6 +870,41 @@ def _integrated_interval_residual_from_unpacked(logu, logT, logR, lambda0: float
     raise ValueError(f"unknown integrated_residual_weighting {params.integrated_residual_weighting!r}")
 
 
+def _conservative_physical_energy_interval_residual_from_unpacked(
+    logu,
+    logT,
+    logR,
+    lambda0: float,
+    params: TransonicSlimParams,
+    idx: int,
+) -> np.ndarray:
+    """Return integrated radial momentum and finite-volume physical energy defects."""
+
+    dx, y_left, y_right, _xm = _interval_geometry(logu, logT, logR, idx)
+    g = (y_right - y_left) / dx
+    raw_left = differential_residual(logR[idx], y_left, g, lambda0, params)
+    raw_right = differential_residual(logR[idx + 1], y_right, g, lambda0, params)
+    _radial_left, energy_left = _residual_scales(logR[idx], y_left, params, lambda0)
+    _radial_right, energy_right = _residual_scales(logR[idx + 1], y_right, params, lambda0)
+    integrated = _integrated_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+    residual = np.array(
+        [
+            integrated[0],
+            0.5 * dx * (raw_left[1] / energy_left + raw_right[1] / energy_right),
+        ],
+        dtype=float,
+    )
+    if params.integrated_residual_weighting == "none":
+        return residual
+    if params.integrated_residual_weighting == "inverse_sqrt_dx":
+        residual[1] /= np.sqrt(dx)
+        return residual
+    if params.integrated_residual_weighting == "inverse_dx":
+        residual[1] /= dx
+        return residual
+    raise ValueError(f"unknown integrated_residual_weighting {params.integrated_residual_weighting!r}")
+
+
 def _outer_buffer_interval_weights(logR_mid: float, params: TransonicSlimParams) -> np.ndarray:
     if params.outer_buffer_inner_rg is None:
         return np.ones(2, dtype=float)
@@ -892,6 +942,10 @@ def _interval_residual_from_unpacked(logu, logT, logR, lambda0: float, params: T
         integrated = _integrated_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
         differential = _differential_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
         residual = np.array([integrated[0], differential[1]], dtype=float)
+        _dx, _y_left, _y_right, xm = _interval_geometry(logu, logT, logR, idx)
+        return residual * _outer_buffer_interval_weights(xm, params)
+    if params.interval_residual_form == "conservative_physical_energy":
+        residual = _conservative_physical_energy_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
         _dx, _y_left, _y_right, xm = _interval_geometry(logu, logT, logR, idx)
         return residual * _outer_buffer_interval_weights(xm, params)
     raise ValueError(f"unknown interval_residual_form {params.interval_residual_form!r}")
@@ -1553,6 +1607,33 @@ def _finite_difference_column(block_func, z, params: TransonicSlimParams, column
     return np.zeros_like(base)
 
 
+def _finite_difference_column_component_steps(
+    block_func,
+    z,
+    params: TransonicSlimParams,
+    column: int,
+    lower,
+    upper,
+    rel_steps,
+    base=None,
+) -> np.ndarray:
+    """Return one block-Jacobian column with component-specific FD steps."""
+
+    if base is None:
+        base = block_func(z, params)
+    rel_steps = np.asarray(rel_steps, dtype=float)
+    if rel_steps.shape != np.asarray(base).shape:
+        raise ValueError("rel_steps must match the block residual shape")
+    if np.any(rel_steps <= 0.0):
+        raise ValueError("all relative finite-difference steps must be positive")
+    column_values = np.zeros_like(base, dtype=float)
+    for step in np.unique(rel_steps):
+        values = _finite_difference_column(block_func, z, params, column, lower, upper, float(step), base=base)
+        mask = rel_steps == step
+        column_values[mask] = values[mask]
+    return column_values
+
+
 def collocation_jacobian(z, params: TransonicSlimParams, rel_step: float = 1.0e-6):
     """Return a block-local sparse finite-difference Jacobian.
 
@@ -1600,7 +1681,13 @@ def collocation_jacobian(z, params: TransonicSlimParams, rel_step: float = 1.0e-
     return jac.tocsr()
 
 
-def square_collocation_jacobian(z, params: TransonicSlimParams, pivot: str = "auto", rel_step: float = 3.0e-5):
+def square_collocation_jacobian(
+    z,
+    params: TransonicSlimParams,
+    pivot: str = "auto",
+    rel_step: float = 3.0e-5,
+    energy_rel_step: float | None = None,
+):
     """Return a sparse finite-difference Jacobian for ``square_collocation_residual``."""
 
     try:
@@ -1610,11 +1697,14 @@ def square_collocation_jacobian(z, params: TransonicSlimParams, pivot: str = "au
 
     if rel_step <= 0.0:
         raise ValueError("rel_step must be positive")
+    if energy_rel_step is not None and energy_rel_step <= 0.0:
+        raise ValueError("energy_rel_step must be positive")
     z = np.asarray(z, dtype=float)
     resolved = _resolve_sonic_pivot(z, params, pivot)
     lower, upper = state_bounds(params)
     unknown_size = 2 * params.n_nodes + 2
     jac = lil_matrix((_square_residual_size(params), unknown_size), dtype=float)
+    interval_rel_steps = np.array([rel_step, rel_step if energy_rel_step is None else float(energy_rel_step)], dtype=float)
 
     row = 0
     for idx in range(params.n_nodes - 1):
@@ -1629,7 +1719,16 @@ def square_collocation_jacobian(z, params: TransonicSlimParams, pivot: str = "au
         block_func = lambda trial, p, interval_idx=idx: _interval_residual_block(trial, p, interval_idx)
         base = block_func(z, params)
         for col in columns:
-            jac[row : row + 2, col] = _finite_difference_column(block_func, z, params, col, lower, upper, rel_step, base=base)[:, None]
+            jac[row : row + 2, col] = _finite_difference_column_component_steps(
+                block_func,
+                z,
+                params,
+                col,
+                lower,
+                upper,
+                interval_rel_steps,
+                base=base,
+            )[:, None]
         row += 2
 
     outer_base = _outer_residual_block(z, params)
@@ -1782,6 +1881,7 @@ def _equilibrated_sparse_newton_step_with_info(
     damping: float = 0.0,
     use_direct: bool = False,
     solver_tolerance: float = 1.0e-10,
+    row_priority=None,
 ) -> tuple[np.ndarray, dict[str, float | int | str]]:
     """Solve a sparse Newton correction and report linear-solver diagnostics."""
 
@@ -1798,7 +1898,16 @@ def _equilibrated_sparse_newton_step_with_info(
     col_norm = np.sqrt(np.asarray(row_scaled.multiply(row_scaled).sum(axis=0)).ravel())
     col_scale = 1.0 / np.maximum(col_norm, 1.0e-12)
     balanced = (row_scaled @ diags(col_scale)).tocsc()
-    rhs = -row_scale * np.asarray(residual, dtype=float)
+    if row_priority is None:
+        priority = np.ones(jac_csr.shape[0], dtype=float)
+    else:
+        priority = np.asarray(row_priority, dtype=float)
+        if priority.shape != (jac_csr.shape[0],):
+            raise ValueError("row_priority must have one entry per residual row")
+        if np.any(~np.isfinite(priority)) or np.any(priority <= 0.0):
+            raise ValueError("row_priority entries must be positive and finite")
+    balanced = (diags(priority) @ balanced).tocsc()
+    rhs = -priority * row_scale * np.asarray(residual, dtype=float)
     if damping < 0.0:
         raise ValueError("linear damping must be non-negative")
     info: dict[str, float | int | str] = {
@@ -1816,14 +1925,26 @@ def _equilibrated_sparse_newton_step_with_info(
         "row_norm_max": float(np.max(row_norm)) if row_norm.size else np.nan,
         "col_norm_min": float(np.min(col_norm)) if col_norm.size else np.nan,
         "col_norm_max": float(np.max(col_norm)) if col_norm.size else np.nan,
+        "row_priority_min": float(np.min(priority)) if priority.size else np.nan,
+        "row_priority_max": float(np.max(priority)) if priority.size else np.nan,
+        "linear_solve_s": np.nan,
     }
     if use_direct and damping == 0.0:
         try:
+            linear_t0 = time.perf_counter()
             y = splu(balanced, permc_spec="COLAMD").solve(rhs)
-            info.update({"linear_solver": "splu", "linear_istop": 0, "linear_iterations": 1})
+            info.update(
+                {
+                    "linear_solver": "splu",
+                    "linear_istop": 0,
+                    "linear_iterations": 1,
+                    "linear_solve_s": float(time.perf_counter() - linear_t0),
+                }
+            )
             return col_scale * np.asarray(y, dtype=float), info
         except Exception:
             pass
+    linear_t0 = time.perf_counter()
     result = lsmr(
         balanced,
         rhs,
@@ -1832,6 +1953,7 @@ def _equilibrated_sparse_newton_step_with_info(
         btol=solver_tolerance,
         maxiter=max(20, 5 * balanced.shape[1]),
     )
+    linear_solve_s = time.perf_counter() - linear_t0
     y = result[0]
     info.update(
         {
@@ -1842,6 +1964,7 @@ def _equilibrated_sparse_newton_step_with_info(
             "linear_normar": float(result[4]),
             "linear_conda": float(result[6]),
             "linear_normx": float(result[7]),
+            "linear_solve_s": float(linear_solve_s),
         }
     )
     return col_scale * np.asarray(y, dtype=float), info
@@ -1906,6 +2029,240 @@ def _try_square_newton_step(
 
 def _square_residual_merit(residual: np.ndarray) -> float:
     return 0.5 * float(np.dot(residual, residual))
+
+
+def _energy_merit_mode(value: str) -> str:
+    mode = str(value).strip().lower()
+    if mode in {"", "off", "none", "false", "0"}:
+        return "off"
+    if mode in {"physical", "physical_max", "energy", "energy_max", "guarded", "max"}:
+        return "physical_max"
+    raise ValueError("energy_merit must be 'off' or 'physical_max'")
+
+
+def _physical_energy_merit_components(
+    z,
+    residual: np.ndarray,
+    params: TransonicSlimParams,
+    *,
+    physical_tol: float,
+    l2_tol: float,
+    global_tol: float,
+) -> dict[str, float]:
+    partition = residual_partition_audit_from_state_vector(z, params)
+    square_inf = float(np.max(np.abs(residual)))
+    square_l2 = float(np.linalg.norm(residual))
+    physical_inf = float(partition.physical_energy_max)
+    physical_l2 = float(partition.physical_energy_l2)
+    safe_physical_tol = max(float(physical_tol), 1.0e-300)
+    safe_l2_tol = max(float(l2_tol), 1.0e-300)
+    safe_global_tol = max(float(global_tol), 1.0e-300)
+    merit = max(square_inf / safe_global_tol, physical_inf / safe_physical_tol, physical_l2 / safe_l2_tol)
+    return {
+        "energy_merit": float(merit),
+        "square_inf": square_inf,
+        "square_l2": square_l2,
+        "physical_energy": physical_inf,
+        "physical_energy_l2": physical_l2,
+    }
+
+
+def _energy_merit_components(
+    z,
+    residual: np.ndarray,
+    params: TransonicSlimParams,
+    *,
+    mode: str,
+    physical_tol: float,
+    l2_tol: float,
+    global_tol: float,
+) -> dict[str, float]:
+    if _energy_merit_mode(mode) == "off":
+        square_inf = float(np.max(np.abs(residual)))
+        square_l2 = float(np.linalg.norm(residual))
+        merit = _square_residual_merit(residual)
+        return {
+            "energy_merit": float(merit),
+            "square_inf": square_inf,
+            "square_l2": square_l2,
+            "physical_energy": np.nan,
+            "physical_energy_l2": np.nan,
+        }
+    return _physical_energy_merit_components(
+        z,
+        residual,
+        params,
+        physical_tol=physical_tol,
+        l2_tol=l2_tol,
+        global_tol=global_tol,
+    )
+
+
+def _try_energy_focused_square_newton_step(
+    z,
+    step,
+    residual,
+    params: TransonicSlimParams,
+    *,
+    pivot: str,
+    lower,
+    upper,
+    line_search_min_alpha: float,
+    line_search_max_reductions: int,
+    energy_merit: str,
+    energy_merit_tol: float,
+    energy_merit_l2_tol: float,
+    energy_merit_global_tol: float,
+    require_energy_decrease: bool,
+) -> tuple[bool, np.ndarray, np.ndarray, int, int, float, dict[str, float], dict[str, float], dict[str, float]]:
+    residual_eval_s = 0.0
+    energy_metric_s = 0.0
+    mode = _energy_merit_mode(energy_merit)
+    if mode == "off":
+        accepted, trial_z, trial_residual, reductions, evaluations, alpha = _try_square_newton_step(
+            z,
+            step,
+            residual,
+            params,
+            pivot=pivot,
+            lower=lower,
+            upper=upper,
+            line_search_min_alpha=line_search_min_alpha,
+            line_search_max_reductions=line_search_max_reductions,
+        )
+        energy_t0 = time.perf_counter()
+        base_metrics = _energy_merit_components(
+            z,
+            residual,
+            params,
+            mode=mode,
+            physical_tol=energy_merit_tol,
+            l2_tol=energy_merit_l2_tol,
+            global_tol=energy_merit_global_tol,
+        )
+        energy_metric_s += time.perf_counter() - energy_t0
+        energy_t0 = time.perf_counter()
+        trial_metrics = _energy_merit_components(
+            trial_z,
+            trial_residual,
+            params,
+            mode=mode,
+            physical_tol=energy_merit_tol,
+            l2_tol=energy_merit_l2_tol,
+            global_tol=energy_merit_global_tol,
+        )
+        energy_metric_s += time.perf_counter() - energy_t0
+        return (
+            accepted,
+            trial_z,
+            trial_residual,
+            reductions,
+            evaluations,
+            alpha,
+            base_metrics,
+            trial_metrics,
+            {"residual_eval_s": residual_eval_s, "energy_metric_s": energy_metric_s},
+        )
+
+    energy_t0 = time.perf_counter()
+    base_metrics = _energy_merit_components(
+        z,
+        residual,
+        params,
+        mode=mode,
+        physical_tol=energy_merit_tol,
+        l2_tol=energy_merit_l2_tol,
+        global_tol=energy_merit_global_tol,
+    )
+    energy_metric_s += time.perf_counter() - energy_t0
+    alpha = _max_alpha_inside_bounds(z, step, lower, upper)
+    if alpha <= line_search_min_alpha:
+        return (
+            False,
+            z,
+            residual,
+            0,
+            0,
+            float(alpha),
+            base_metrics,
+            base_metrics,
+            {"residual_eval_s": residual_eval_s, "energy_metric_s": energy_metric_s},
+        )
+    reductions = 0
+    evaluations = 0
+    trial_metrics = base_metrics
+    energy_floor = max(float(energy_merit_tol), 1.0e-300)
+    for _ in range(line_search_max_reductions + 1):
+        trial = np.clip(z + alpha * step, lower + 1.0e-12, upper - 1.0e-12)
+        residual_t0 = time.perf_counter()
+        trial_residual = square_collocation_residual(trial, params, pivot=pivot)
+        residual_eval_s += time.perf_counter() - residual_t0
+        evaluations += 1
+        energy_t0 = time.perf_counter()
+        trial_metrics = _energy_merit_components(
+            trial,
+            trial_residual,
+            params,
+            mode=mode,
+            physical_tol=energy_merit_tol,
+            l2_tol=energy_merit_l2_tol,
+            global_tol=energy_merit_global_tol,
+        )
+        energy_metric_s += time.perf_counter() - energy_t0
+        merit_ok = bool(trial_metrics["energy_merit"] < base_metrics["energy_merit"])
+        if require_energy_decrease:
+            energy_ok = bool(
+                trial_metrics["physical_energy"] <= energy_floor
+                or trial_metrics["physical_energy"] < base_metrics["physical_energy"]
+            )
+        else:
+            energy_ok = True
+        if merit_ok and energy_ok:
+            return (
+                True,
+                trial,
+                trial_residual,
+                reductions,
+                evaluations,
+                float(alpha),
+                base_metrics,
+                trial_metrics,
+                {"residual_eval_s": residual_eval_s, "energy_metric_s": energy_metric_s},
+            )
+        alpha *= 0.5
+        reductions += 1
+        if alpha < line_search_min_alpha:
+            break
+    return (
+        False,
+        z,
+        residual,
+        reductions,
+        evaluations,
+        float(alpha),
+        base_metrics,
+        trial_metrics,
+        {"residual_eval_s": residual_eval_s, "energy_metric_s": energy_metric_s},
+    )
+
+
+def _square_energy_row_priority(z, params: TransonicSlimParams, multiplier: float) -> np.ndarray:
+    priority = np.ones(_square_residual_size(params), dtype=float)
+    multiplier = float(multiplier)
+    if multiplier == 1.0:
+        return priority
+    if not np.isfinite(multiplier) or multiplier <= 0.0:
+        raise ValueError("energy_row_priority must be positive and finite")
+    _logu, _logT, _logR_son, _lambda0, logR = unpack_state(z, params)
+    if params.outer_buffer_inner_rg is None:
+        physical_mask = np.ones(len(logR) - 1, dtype=bool)
+    else:
+        R_mid_rg = np.exp(0.5 * (logR[:-1] + logR[1:])) / params.r_g
+        physical_mask = R_mid_rg < float(params.outer_buffer_inner_rg)
+    for idx, is_physical in enumerate(physical_mask):
+        if is_physical:
+            priority[2 * idx + 1] = multiplier
+    return priority
 
 
 def _interp_log_profile(logR_nodes: np.ndarray, R_source: np.ndarray, values: np.ndarray) -> np.ndarray:
@@ -2456,12 +2813,19 @@ def solve_square_transonic_polish(
     max_nfev: int | None = None,
     residual_tol: float | None = None,
     jacobian_rel_step: float = 3.0e-5,
+    energy_jacobian_rel_step: float | None = None,
     use_block_jacobian: bool = False,
     line_search_min_alpha: float = 1.0e-6,
     line_search_max_reductions: int = 12,
     linear_solver: str = "regularized_lsmr",
     linear_dampings: tuple[float, ...] = (0.0, 1.0e-4, 1.0e-3, 1.0e-2, 1.0e-1, 1.0),
     max_step_norm: float = 2.0,
+    energy_merit: str = "off",
+    energy_merit_tol: float | None = None,
+    energy_merit_l2_tol: float | None = None,
+    energy_merit_global_tol: float | None = None,
+    energy_merit_require_decrease: bool = True,
+    energy_row_priority: float = 1.0,
     verbose: int = 0,
 ) -> TransonicSquarePolishResult:
     """Polish a fixed-Mdot branch point with the square collocation system."""
@@ -2480,12 +2844,22 @@ def solve_square_transonic_polish(
     )
     if jacobian_rel_step <= 0.0:
         raise ValueError("jacobian_rel_step must be positive")
+    if energy_jacobian_rel_step is not None and energy_jacobian_rel_step <= 0.0:
+        raise ValueError("energy_jacobian_rel_step must be positive")
     if line_search_min_alpha <= 0.0:
         raise ValueError("line_search_min_alpha must be positive")
     if line_search_max_reductions < 0:
         raise ValueError("line_search_max_reductions must be non-negative")
     if max_step_norm <= 0.0:
         raise ValueError("max_step_norm must be positive")
+    energy_merit_mode = _energy_merit_mode(energy_merit)
+    energy_tol = float(polish_params.residual_tol if energy_merit_tol is None else energy_merit_tol)
+    energy_l2_tol = float(energy_tol if energy_merit_l2_tol is None else energy_merit_l2_tol)
+    energy_global_tol = float(energy_tol if energy_merit_global_tol is None else energy_merit_global_tol)
+    if energy_tol <= 0.0 or energy_l2_tol <= 0.0 or energy_global_tol <= 0.0:
+        raise ValueError("energy merit tolerances must be positive")
+    if not np.isfinite(float(energy_row_priority)) or float(energy_row_priority) <= 0.0:
+        raise ValueError("energy_row_priority must be positive and finite")
     use_direct_linear_solver = _linear_solver_uses_direct(linear_solver)
     damping_candidates = _linear_damping_candidates(linear_solver, linear_dampings)
     lower, upper = state_bounds(polish_params)
@@ -2507,6 +2881,7 @@ def solve_square_transonic_polish(
                     polish_params,
                     pivot=resolved,
                     rel_step=jacobian_rel_step,
+                    energy_rel_step=energy_jacobian_rel_step,
                 )
             }
             if use_block_jacobian
@@ -2557,11 +2932,27 @@ def solve_square_transonic_polish(
                 break
 
             jacobian_t0 = time.perf_counter()
-            jac = square_collocation_jacobian(z, polish_params, pivot=resolved, rel_step=jacobian_rel_step)
+            jac = square_collocation_jacobian(
+                z,
+                polish_params,
+                pivot=resolved,
+                rel_step=jacobian_rel_step,
+                energy_rel_step=energy_jacobian_rel_step,
+            )
             jacobian_build_s = time.perf_counter() - jacobian_t0
             njev += 1
             accepted = False
             merit_before = _square_residual_merit(residual)
+            base_energy_metrics = _energy_merit_components(
+                z,
+                residual,
+                polish_params,
+                mode=energy_merit_mode,
+                physical_tol=energy_tol,
+                l2_tol=energy_l2_tol,
+                global_tol=energy_global_tol,
+            )
+            row_priority = _square_energy_row_priority(z, polish_params, float(energy_row_priority))
             for damping in damping_candidates:
                 step, linear_info = _equilibrated_sparse_newton_step_with_info(
                     jac,
@@ -2569,6 +2960,7 @@ def solve_square_transonic_polish(
                     damping=damping,
                     use_direct=use_direct_linear_solver,
                     solver_tolerance=optimizer_tol,
+                    row_priority=row_priority,
                 )
                 final_linear_damping = damping
                 raw_step_norm = float(np.linalg.norm(step, ord=np.inf))
@@ -2599,6 +2991,16 @@ def solve_square_transonic_polish(
                             residual_evaluations=0,
                             square_max_after=float(square_max),
                             merit_after=float(merit_before),
+                            energy_merit_before=float(base_energy_metrics["energy_merit"]),
+                            energy_merit_after=float(base_energy_metrics["energy_merit"]),
+                            physical_energy_before=float(base_energy_metrics["physical_energy"]),
+                            physical_energy_after=float(base_energy_metrics["physical_energy"]),
+                            physical_energy_l2_before=float(base_energy_metrics["physical_energy_l2"]),
+                            physical_energy_l2_after=float(base_energy_metrics["physical_energy_l2"]),
+                            linear_solve_s=float(linear_info.get("linear_solve_s", np.nan)),
+                            line_search_s=0.0,
+                            line_search_residual_s=0.0,
+                            line_search_energy_s=0.0,
                         )
                     )
                     continue
@@ -2606,7 +3008,17 @@ def solve_square_transonic_polish(
                     step = step * (max_step_norm / final_step_norm)
                     final_step_norm = max_step_norm
                     step_scaled = True
-                accepted, trial_z, trial_residual, reductions, evaluations, alpha = _try_square_newton_step(
+                (
+                    accepted,
+                    trial_z,
+                    trial_residual,
+                    reductions,
+                    evaluations,
+                    alpha,
+                    step_base_energy_metrics,
+                    step_trial_energy_metrics,
+                    line_search_timing,
+                ) = _try_energy_focused_square_newton_step(
                     z,
                     step,
                     residual,
@@ -2616,6 +3028,15 @@ def solve_square_transonic_polish(
                     upper=upper,
                     line_search_min_alpha=line_search_min_alpha,
                     line_search_max_reductions=line_search_max_reductions,
+                    energy_merit=energy_merit_mode,
+                    energy_merit_tol=energy_tol,
+                    energy_merit_l2_tol=energy_l2_tol,
+                    energy_merit_global_tol=energy_global_tol,
+                    require_energy_decrease=bool(energy_merit_require_decrease),
+                )
+                line_search_s = float(
+                    line_search_timing.get("residual_eval_s", 0.0)
+                    + line_search_timing.get("energy_metric_s", 0.0)
                 )
                 line_search_reductions += reductions
                 nfev += evaluations
@@ -2645,6 +3066,16 @@ def solve_square_transonic_polish(
                         residual_evaluations=int(evaluations),
                         square_max_after=float(trial_square_max),
                         merit_after=float(trial_merit),
+                        energy_merit_before=float(step_base_energy_metrics["energy_merit"]),
+                        energy_merit_after=float(step_trial_energy_metrics["energy_merit"]),
+                        physical_energy_before=float(step_base_energy_metrics["physical_energy"]),
+                        physical_energy_after=float(step_trial_energy_metrics["physical_energy"]),
+                        physical_energy_l2_before=float(step_base_energy_metrics["physical_energy_l2"]),
+                        physical_energy_l2_after=float(step_trial_energy_metrics["physical_energy_l2"]),
+                        linear_solve_s=float(linear_info.get("linear_solve_s", np.nan)),
+                        line_search_s=float(line_search_s),
+                        line_search_residual_s=float(line_search_timing.get("residual_eval_s", np.nan)),
+                        line_search_energy_s=float(line_search_timing.get("energy_metric_s", np.nan)),
                     )
                 )
                 if accepted:

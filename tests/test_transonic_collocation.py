@@ -133,6 +133,18 @@ class TransonicCollocationTests(unittest.TestCase):
         self.assertTrue(np.all(np.isfinite(residual)))
         self.assertLess(float(np.max(np.abs(residual))), 1.0e6)
 
+    def test_conservative_physical_energy_residual_form_is_finite(self) -> None:
+        params = replace(
+            self.params,
+            interval_residual_form="conservative_physical_energy",
+            integrated_residual_weighting="inverse_sqrt_dx",
+        )
+        residual = collocation_residual(self.z, params)
+
+        self.assertEqual(residual.shape, (self.z.size + 1,))
+        self.assertTrue(np.all(np.isfinite(residual)))
+        self.assertLess(float(np.max(np.abs(residual))), 1.0e6)
+
     def test_square_collocation_residual_has_expected_shape(self) -> None:
         pivot = select_sonic_compatibility_pivot(self.z, self.params)
         residual = square_collocation_residual(self.z, self.params, pivot=pivot)
@@ -409,6 +421,20 @@ class TransonicCollocationTests(unittest.TestCase):
             scale = np.maximum(np.maximum(np.abs(finite), np.abs(jac[:, column])), 1.0)
             self.assertLess(float(np.max(np.abs(jac[:, column] - finite) / scale)), 1.0e-4, column)
 
+    def test_square_jacobian_accepts_energy_specific_fd_step(self) -> None:
+        pivot = select_sonic_compatibility_pivot(self.z, self.params)
+        jac = square_collocation_jacobian(
+            self.z,
+            self.params,
+            pivot=pivot,
+            rel_step=3.0e-5,
+            energy_rel_step=1.0e-5,
+        )
+
+        self.assertEqual(jac.shape, (self.z.size, self.z.size))
+        self.assertGreater(jac.nnz, 0)
+        self.assertTrue(np.all(np.isfinite(jac.data)))
+
     def test_sonic_residual_jacobian_matches_local_finite_difference(self) -> None:
         components = ("D", "C1", "C2", "K")
         jac = sonic_residual_jacobian(self.z, self.params, components=components, rel_step=1.0e-6)
@@ -453,7 +479,13 @@ class TransonicCollocationTests(unittest.TestCase):
         logu, logT, logR_son, lambda0, _logR = unpack_state(self.z, self.params)
         z0 = pack_state(logu[: params.n_nodes], logT[: params.n_nodes], logR_son, lambda0)
 
-        result = solve_square_transonic_polish(params, z0, max_nfev=1, residual_tol=1.0e-5)
+        result = solve_square_transonic_polish(
+            params,
+            z0,
+            max_nfev=1,
+            residual_tol=1.0e-5,
+            energy_jacobian_rel_step=1.0e-5,
+        )
 
         self.assertEqual(result.z.shape, z0.shape)
         self.assertIn(result.pivot, {"C1", "C2", "K"})
