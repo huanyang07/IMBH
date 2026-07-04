@@ -21,9 +21,11 @@ from .transonic_local import (
     sonic_diagnostics,
     state_partials,
     stream_heating_rate,
+    wind_energy_loss_rate,
     xi_eff_from_gradient,
 )
 from .transonic_potential import PaczynskiWiitaPotential
+from .winds import energy_limited_wind_derivatives, q_edd_vertical
 
 
 @dataclass(frozen=True)
@@ -71,6 +73,9 @@ class TransonicSlimParams:
     wind_sink_fraction: float = 0.0
     wind_sink_center_fraction: float = 0.8
     wind_sink_log_width: float = 0.08
+    wind_energy_limited_epsilon: float = 0.0
+    wind_eddington_chi: float = 1.0
+    wind_activation_width_fraction: float = 0.0
     stream_mass_fraction: float = 0.0
     stream_mass_center_fraction: float = 0.8
     stream_mass_log_width: float = 0.08
@@ -196,6 +201,18 @@ class TransonicSlimParams:
             raise ValueError("wind_sink_center_fraction must be positive")
         if self.wind_sink_log_width <= 0.0:
             raise ValueError("wind_sink_log_width must be positive")
+        if not np.isfinite(float(self.wind_energy_limited_epsilon)):
+            raise ValueError("wind_energy_limited_epsilon must be finite")
+        if not 0.0 <= float(self.wind_energy_limited_epsilon) <= 1.0:
+            raise ValueError("wind_energy_limited_epsilon must be between zero and one")
+        if not np.isfinite(float(self.wind_eddington_chi)):
+            raise ValueError("wind_eddington_chi must be finite")
+        if not 0.0 < float(self.wind_eddington_chi) <= 1.0:
+            raise ValueError("wind_eddington_chi must be in (0, 1]")
+        if not np.isfinite(float(self.wind_activation_width_fraction)):
+            raise ValueError("wind_activation_width_fraction must be finite")
+        if float(self.wind_activation_width_fraction) < 0.0:
+            raise ValueError("wind_activation_width_fraction must be non-negative")
         if not np.isfinite(float(self.stream_mass_fraction)):
             raise ValueError("stream_mass_fraction must be finite")
         if self.stream_source_fraction != 0.0 and self.stream_mass_fraction != 0.0:
@@ -830,7 +847,9 @@ def _heating_terms_from_gradient(logR: float, y, g, lambda0: float, params: Tran
     Tdsdx = entropy_gradient_log(logR, y, g, lambda0, params)
     Q_visc = -state.W * dOmega_dx
     Q_adv = -(state.Sigma * state.u / state.R) * Tdsdx
-    energy = Q_visc + stream_heating_rate(logR, params) - state.Q_rad - Q_adv
+    Q_stream = stream_heating_rate(logR, params)
+    Q_wind = wind_energy_loss_rate(state, Q_visc, Q_stream, Q_adv, params)
+    energy = Q_visc + Q_stream - state.Q_rad - Q_adv - Q_wind
     return Q_visc, state.Q_rad, Q_adv, energy
 
 
@@ -1634,6 +1653,100 @@ def _finite_difference_column_component_steps(
     return column_values
 
 
+def _use_wind_aware_interval_energy_jacobian(params: TransonicSlimParams) -> bool:
+    return bool(
+        params.interval_residual_form == "differential"
+        and float(getattr(params, "wind_energy_limited_epsilon", 0.0)) != 0.0
+    )
+
+
+def _differential_interval_no_wind_energy(z, params: TransonicSlimParams, idx: int) -> float:
+    logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
+    no_wind_params = replace(params, wind_energy_limited_epsilon=0.0)
+    return float(_interval_residual_from_unpacked(logu, logT, logR, lambda0, no_wind_params, idx)[1])
+
+
+def _differential_interval_wind_quantities(z, params: TransonicSlimParams, idx: int) -> tuple[float, float, float, float]:
+    logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
+    dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
+    ym = 0.5 * (y_left + y_right)
+    gm = (y_right - y_left) / dx
+    state = algebraic_state(xm, float(ym[0]), float(ym[1]), lambda0, params)
+    partials = state_partials(xm, ym, lambda0, params, eps_x=params.partial_eps, eps_y=params.partial_eps)
+    dOmega_dx = partials.x["Omega"] + float(np.dot(partials.y["Omega"], gm))
+    Tdsdx = entropy_gradient_log(xm, ym, gm, lambda0, params)
+    Q_visc = -state.W * dOmega_dx
+    Q_adv = -(state.Sigma * state.u / state.R) * Tdsdx
+    Q_stream = stream_heating_rate(xm, params)
+    Q_wind = wind_energy_loss_rate(state, Q_visc, Q_stream, Q_adv, params)
+    _radial_scale, energy_scale = _residual_scales(xm, ym, params, lambda0)
+    energy_weight = float(_outer_buffer_interval_weights(xm, params)[1])
+    Q_avail = float(Q_visc + Q_stream - Q_adv)
+    Q_edd = float(q_edd_vertical(state.Omega_K, state.H, kappa=params.kappa))
+    return Q_avail, Q_edd, float(Q_wind), float(energy_weight / energy_scale)
+
+
+def _wind_aware_interval_energy_column(
+    z,
+    params: TransonicSlimParams,
+    idx: int,
+    column: int,
+    lower,
+    upper,
+    rel_step: float,
+) -> float:
+    value = float(z[column])
+    step = rel_step * max(1.0, abs(value))
+    step = min(step, 0.25 * max(upper[column] - lower[column], 1.0e-300))
+    if step <= 0.0:
+        return 0.0
+
+    base_no_wind = _differential_interval_no_wind_energy(z, params, idx)
+    base_Qavail, base_Qedd, base_Qwind, base_factor = _differential_interval_wind_quantities(z, params, idx)
+    width_fraction = float(getattr(params, "wind_activation_width_fraction", 0.0))
+    dQwind_dQavail, dQwind_dQedd = energy_limited_wind_derivatives(
+        base_Qavail,
+        base_Qedd,
+        float(params.wind_energy_limited_epsilon),
+        chi_edd=float(params.wind_eddington_chi),
+        activation_width=width_fraction * base_Qedd,
+        activation_width_dQedd=width_fraction,
+    )
+
+    def evaluate(delta: float) -> tuple[float, float, float, float]:
+        trial = np.array(z, copy=True)
+        trial[column] += delta
+        no_wind = _differential_interval_no_wind_energy(trial, params, idx)
+        Qavail, Qedd, _Qwind, factor = _differential_interval_wind_quantities(trial, params, idx)
+        return float(no_wind), float(Qavail), float(Qedd), float(factor)
+
+    if value - step >= lower[column] and value + step <= upper[column]:
+        plus_no, plus_Qavail, plus_Qedd, plus_factor = evaluate(step)
+        minus_no, minus_Qavail, minus_Qedd, minus_factor = evaluate(-step)
+        denom = 2.0 * step
+        no_wind_derivative = (plus_no - minus_no) / denom
+        dQavail = (plus_Qavail - minus_Qavail) / denom
+        dQedd = (plus_Qedd - minus_Qedd) / denom
+        dfactor = (plus_factor - minus_factor) / denom
+    elif value + step <= upper[column]:
+        plus_no, plus_Qavail, plus_Qedd, plus_factor = evaluate(step)
+        no_wind_derivative = (plus_no - base_no_wind) / step
+        dQavail = (plus_Qavail - base_Qavail) / step
+        dQedd = (plus_Qedd - base_Qedd) / step
+        dfactor = (plus_factor - base_factor) / step
+    elif value - step >= lower[column]:
+        minus_no, minus_Qavail, minus_Qedd, minus_factor = evaluate(-step)
+        no_wind_derivative = (base_no_wind - minus_no) / step
+        dQavail = (base_Qavail - minus_Qavail) / step
+        dQedd = (base_Qedd - minus_Qedd) / step
+        dfactor = (base_factor - minus_factor) / step
+    else:
+        return 0.0
+
+    wind_derivative = base_factor * (float(dQwind_dQavail) * dQavail + float(dQwind_dQedd) * dQedd) + base_Qwind * dfactor
+    return float(no_wind_derivative - wind_derivative)
+
+
 def collocation_jacobian(z, params: TransonicSlimParams, rel_step: float = 1.0e-6):
     """Return a block-local sparse finite-difference Jacobian.
 
@@ -1667,7 +1780,10 @@ def collocation_jacobian(z, params: TransonicSlimParams, rel_step: float = 1.0e-
         block_func = lambda trial, p, interval_idx=idx: _interval_residual_block(trial, p, interval_idx)
         base = block_func(z, params)
         for col in columns:
-            jac[row : row + 2, col] = _finite_difference_column(block_func, z, params, col, lower, upper, rel_step, base=base)[:, None]
+            values = _finite_difference_column(block_func, z, params, col, lower, upper, rel_step, base=base)
+            if _use_wind_aware_interval_energy_jacobian(params):
+                values[1] = _wind_aware_interval_energy_column(z, params, idx, col, lower, upper, rel_step)
+            jac[row : row + 2, col] = values[:, None]
         row += 2
 
     outer_base = _outer_residual_block(z, params)
@@ -1719,7 +1835,7 @@ def square_collocation_jacobian(
         block_func = lambda trial, p, interval_idx=idx: _interval_residual_block(trial, p, interval_idx)
         base = block_func(z, params)
         for col in columns:
-            jac[row : row + 2, col] = _finite_difference_column_component_steps(
+            values = _finite_difference_column_component_steps(
                 block_func,
                 z,
                 params,
@@ -1728,7 +1844,18 @@ def square_collocation_jacobian(
                 upper,
                 interval_rel_steps,
                 base=base,
-            )[:, None]
+            )
+            if _use_wind_aware_interval_energy_jacobian(params):
+                values[1] = _wind_aware_interval_energy_column(
+                    z,
+                    params,
+                    idx,
+                    col,
+                    lower,
+                    upper,
+                    float(interval_rel_steps[1]),
+                )
+            jac[row : row + 2, col] = values[:, None]
         row += 2
 
     outer_base = _outer_residual_block(z, params)

@@ -45,38 +45,39 @@ DEFAULT_ANCHORS: tuple[tuple[str, str], ...] = (
         "outputs/checkpoints/slim_benchmark_high_mdot_no_wind_m5_adaptive_outer_mesh_N768_spot/s32_mdot_5_N768.npz",
     ),
     (
-        "m2_R300_nowind",
-        "outputs/checkpoints/high_mdot_finite_Rout_nowind_bridge_m2/Rout_300_mdot_2_N640.npz",
+        "m5_R335_fs030_compact",
+        "outputs/checkpoints/high_mdot_stream_m5_compact_cert_N896_fs030_no_energy_merit/"
+        "m5n896fs030_mass_0p3_torque_0p005_mdot_5_N896.npz",
     ),
     (
-        "m2_R300_fs050_notorque",
-        "outputs/checkpoints/high_mdot_stream_source_bridge_m2_narrow_adaptive_source_grid_0p3_0p5/"
-        "load_mass_0p5_torque_0_mdot_2_N640.npz",
+        "m5_R335_fs050_compact",
+        "outputs/checkpoints/high_mdot_stream_m5_compact_N896_030_to050_no_energy_merit/"
+        "m5n896fast_mass_0p5_torque_0p005_mdot_5_N896.npz",
     ),
     (
-        "m2_R300_fs080_torquep005",
-        "outputs/checkpoints/high_mdot_stream_source_bridge_m2_residual_outer_grid_secant_0p75_0p80_fine/"
-        "load_mass_0p8_torque_0p005_mdot_2_N640.npz",
+        "m5_R335_fs080_compact",
+        "outputs/checkpoints/high_mdot_stream_m5_compact_N896_050_to080_no_energy_merit/"
+        "m5n896fast2_mass_0p8_torque_0p005_mdot_5_N896.npz",
     ),
     (
-        "m2_R300_fs0808585_torquep005",
+        "m5_R335_fs080_heat0",
+        "outputs/checkpoints/high_mdot_stream_m5_fs080_heating_scout_eta0_to1e3_N896/"
+        "m5heat_scout_mass_0p8_heat_0_torque_0p005_mdot_5_N896.npz",
+    ),
+    (
+        "m5_R335_fs080_heat0p1",
+        "outputs/checkpoints/high_mdot_stream_m5_fs080_heating_eta3e2_to1e1_N896/"
+        "m5heat_aggressive_mass_0p8_heat_0p1_torque_0p005_mdot_5_N896.npz",
+    ),
+    (
+        "m5_R335_fs080_heat1",
+        "outputs/checkpoints/high_mdot_stream_m5_fs080_heating_eta01_to1_N896/"
+        "m5heat_eta01_to1_mass_0p8_heat_1_torque_0p005_mdot_5_N896.npz",
+    ),
+    (
+        "m2_R300_fs0808585_torquep005_legacy",
         "outputs/checkpoints/high_mdot_stream_source_bridge_m2_adaptive_df_strong_outer_0p808_to0p81/"
         "adaptive_mass_0p8086_torque_0p005_mdot_2_N640.npz",
-    ),
-    (
-        "compact_c2_f082_N768_origgrid",
-        "outputs/checkpoints/high_mdot_stream_source_compact_full_origgrid_fs082_N768/"
-        "compact_full_origgrid_mass_0p82_torque_0p005_mdot_2_N768.npz",
-    ),
-    (
-        "compact_c2_f082_N640_remesh",
-        "outputs/checkpoints/high_mdot_stream_source_compact_full_residual_remesh_N640_s12/"
-        "N640_s12_mass_0p82_torque_0p005_mdot_2_N640.npz",
-    ),
-    (
-        "compact_c2_f082_N896_remesh",
-        "outputs/checkpoints/high_mdot_stream_source_compact_full_residual_remesh_N896_s12/"
-        "N896_s12_mass_0p82_torque_0p005_mdot_2_N896.npz",
     ),
 )
 
@@ -173,6 +174,9 @@ def params_from_checkpoint(path: Path, fiducial: FiducialParams, mdot_edd: float
         wind_sink_fraction=float(scalar(data, "wind_sink_fraction", 0.0)),
         wind_sink_center_fraction=float(scalar(data, "wind_sink_center_fraction", 0.8)),
         wind_sink_log_width=float(scalar(data, "wind_sink_log_width", 0.08)),
+        wind_energy_limited_epsilon=float(scalar(data, "wind_energy_limited_epsilon", 0.0)),
+        wind_eddington_chi=float(scalar(data, "wind_eddington_chi", 1.0)),
+        wind_activation_width_fraction=float(scalar(data, "wind_activation_width_fraction", 0.0)),
         stream_heating_efficiency=float(scalar(data, "stream_heating_efficiency", 0.0)),
         interval_residual_form=str(scalar(data, "interval_residual_form", "differential")),
         integrated_residual_weighting=str(scalar(data, "integrated_residual_weighting", "none")),
@@ -273,6 +277,11 @@ def stream_diagnostic(z: np.ndarray, params: TransonicSlimParams) -> dict[str, f
         "source_shape": str(params.stream_source_shape),
         "source_shape_blend": float(params.stream_source_shape_blend),
         "torque_fraction": float(params.stream_torque_delta_l_fraction),
+        "wind_sink_fraction": float(params.wind_sink_fraction),
+        "wind_energy_limited_epsilon": float(params.wind_energy_limited_epsilon),
+        "wind_eddington_chi": float(params.wind_eddington_chi),
+        "wind_activation_width_fraction": float(params.wind_activation_width_fraction),
+        "stream_heating_efficiency": float(params.stream_heating_efficiency),
         "Rinj_mass_rg": float(R_mass / params.r_g),
         "Rinj_torque_rg": float(R_torque / params.r_g),
         "Mdot_inner_over_param": float(mdot_inner / params.Mdot_g_s),
@@ -375,19 +384,21 @@ def write_table(rows: list[dict[str, Any]]) -> None:
         "",
         f"Acceptance tolerance `{ACCEPTANCE_TOL:g}`; strict anchor tolerance `{ANCHOR_TOL:g}`.",
         "",
-        "| anchor | Mdot/Edd | Rout/rg | N | source frac | source shape | source blend | torque frac | Mdot outer/inner | source integral | rel budget err | full | accepted | strict | dominant | int E | outer omega | peak E R/rg | outer dx/uniform | f_adv global | f_adv inner | Lrad/LEdd | max H/R | Rson/rg |",
-        "|---|---:|---:|---:|---:|---|---:|---:|---:|---:|---:|---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "| anchor | Mdot/Edd | Rout/rg | N | source frac | source shape | source blend | torque frac | wind frac | heat eta | ewind eps | ewind chi | ewind width | Mdot outer/inner | source integral | wind integral | rel budget err | full | accepted | strict | dominant | int E | outer omega | peak E R/rg | outer dx/uniform | f_adv global | f_adv inner | Lrad/LEdd | max H/R | Rson/rg |",
+        "|---|---:|---:|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in rows:
         formatted = {
             key: fmt(value) if isinstance(value, (float, int, np.floating, np.integer)) else value
             for key, value in row.items()
         }
-        for key in ("Mdot_outer_over_inner", "source_fraction", "torque_fraction"):
+        for key in ("Mdot_outer_over_inner", "source_fraction", "torque_fraction", "wind_sink_fraction"):
             formatted[key] = f"{float(row[key]):.6g}"
         lines.append(
             "| {label} | {ratio} | {R_out_rg} | {N} | {source_fraction} | {source_shape} | {source_shape_blend} | {torque_fraction} | "
-            "{Mdot_outer_over_inner} | {stream_source_integral_over_inner} | {relative_mass_budget_error} | "
+            "{wind_sink_fraction} | {stream_heating_efficiency} | {wind_energy_limited_epsilon} | "
+            "{wind_eddington_chi} | {wind_activation_width_fraction} | "
+            "{Mdot_outer_over_inner} | {stream_source_integral_over_inner} | {wind_sink_integral_over_inner} | {relative_mass_budget_error} | "
             "{full} | {accepted} | {anchor_eligible} | {dominant} | {interval_E} | {outer_omega} | "
             "{peak_interval_E_rg} | {outer_dx_ratio_to_uniform} | {f_adv_global} | {f_adv_inner} | "
             "{Lrad_LEdd} | {max_H_R} | {Rson_rg} |".format(**formatted)

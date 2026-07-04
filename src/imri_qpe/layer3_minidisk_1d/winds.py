@@ -52,19 +52,87 @@ def wind_energy_per_mass(M2_g: float, R_cm, v_inf=0.0, h_w=0.0, torque_work=0.0)
     )
 
 
-def energy_limited_wind(Q_avail, Q_edd, E_w, epsilon_w: float):
+def energy_limited_wind(
+    Q_avail,
+    Q_edd,
+    E_w,
+    epsilon_w: float,
+    chi_edd: float = 1.0,
+    activation_width: float = 0.0,
+):
     """Return ``(Q_wind, Q_rad, dotSigma_w)`` with no energy double counting."""
 
     if not 0.0 <= epsilon_w <= 1.0:
         raise ValueError("epsilon_w must be between 0 and 1")
+    if not 0.0 < chi_edd <= 1.0:
+        raise ValueError("chi_edd must be in (0, 1]")
+    width = float(activation_width)
+    if not np.isfinite(width) or width < 0.0:
+        raise ValueError("activation_width must be finite and non-negative")
     if np.any(np.asarray(E_w) <= 0.0):
         raise ValueError("E_w must be positive")
 
     Q_avail = np.asarray(Q_avail, dtype=float)
     Q_edd = np.asarray(Q_edd, dtype=float)
     positive_available = np.maximum(Q_avail, 0.0)
-    excess = np.maximum(positive_available - Q_edd, 0.0)
+    threshold_excess = positive_available - float(chi_edd) * Q_edd
+    if width == 0.0:
+        excess = np.maximum(threshold_excess, 0.0)
+    else:
+        excess = width * np.logaddexp(0.0, threshold_excess / width)
+        excess = np.minimum(excess, positive_available)
     Q_wind = epsilon_w * excess
     Q_rad = positive_available - Q_wind
     dotSigma_w = Q_wind / np.asarray(E_w, dtype=float)
     return _as_float_or_array(Q_wind), _as_float_or_array(Q_rad), _as_float_or_array(dotSigma_w)
+
+
+def energy_limited_wind_derivatives(
+    Q_avail,
+    Q_edd,
+    epsilon_w: float,
+    chi_edd: float = 1.0,
+    activation_width: float = 0.0,
+    activation_width_dQedd: float = 0.0,
+):
+    """Return ``(dQ_wind/dQ_avail, dQ_wind/dQ_edd)``.
+
+    ``activation_width_dQedd`` should be set when the smooth activation width
+    is tied to the local Eddington flux, e.g. ``activation_width = f Q_edd``.
+    """
+
+    if not 0.0 <= epsilon_w <= 1.0:
+        raise ValueError("epsilon_w must be between 0 and 1")
+    if not 0.0 < chi_edd <= 1.0:
+        raise ValueError("chi_edd must be in (0, 1]")
+    width = float(activation_width)
+    if not np.isfinite(width) or width < 0.0:
+        raise ValueError("activation_width must be finite and non-negative")
+    width_dQedd = float(activation_width_dQedd)
+    if not np.isfinite(width_dQedd) or width_dQedd < 0.0:
+        raise ValueError("activation_width_dQedd must be finite and non-negative")
+
+    Q_avail = np.asarray(Q_avail, dtype=float)
+    Q_edd = np.asarray(Q_edd, dtype=float)
+    positive_available = np.maximum(Q_avail, 0.0)
+    dpositive_davail = (Q_avail > 0.0).astype(float)
+    threshold_excess = positive_available - float(chi_edd) * Q_edd
+
+    if width == 0.0:
+        raw_excess = np.maximum(threshold_excess, 0.0)
+        active = threshold_excess > 0.0
+        draw_davail = active.astype(float) * dpositive_davail
+        draw_dedd = np.where(active, -float(chi_edd), 0.0)
+    else:
+        scaled = threshold_excess / width
+        sigmoid = 1.0 / (1.0 + np.exp(-np.clip(scaled, -700.0, 700.0)))
+        softplus = np.logaddexp(0.0, scaled)
+        raw_excess = width * softplus
+        draw_davail = sigmoid * dpositive_davail
+        draw_dwidth = softplus - scaled * sigmoid
+        draw_dedd = -float(chi_edd) * sigmoid + width_dQedd * draw_dwidth
+
+    capped = raw_excess >= positive_available
+    dexcess_davail = np.where(capped, dpositive_davail, draw_davail)
+    dexcess_dedd = np.where(capped, 0.0, draw_dedd)
+    return _as_float_or_array(epsilon_w * dexcess_davail), _as_float_or_array(epsilon_w * dexcess_dedd)

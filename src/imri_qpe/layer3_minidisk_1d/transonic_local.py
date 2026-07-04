@@ -12,6 +12,7 @@ from imri_qpe.scales import gas_constant_per_gram
 
 from .transonic_potential import PaczynskiWiitaPotential
 from .transonic_thermo import integrated_stress, radiative_cooling, surface_density, vertical_state
+from .winds import energy_limited_wind, energy_limited_wind_derivatives, q_edd_vertical, wind_energy_per_mass
 
 
 @dataclass(frozen=True)
@@ -346,6 +347,35 @@ def stream_heating_rate(logR: float, params) -> float:
     return float(efficiency * source_prime * orbital_specific_energy / (2.0 * np.pi * R**2))
 
 
+def wind_energy_loss_rate(state: AlgebraicTransonicState, Q_visc: float, Q_stream: float, Q_adv: float, params) -> float:
+    """Return the optional energy-limited wind loss term for the local energy equation."""
+
+    epsilon = float(getattr(params, "wind_energy_limited_epsilon", 0.0))
+    if epsilon == 0.0:
+        return 0.0
+    if not 0.0 <= epsilon <= 1.0:
+        raise ValueError("wind_energy_limited_epsilon must be between zero and one")
+    chi_edd = float(getattr(params, "wind_eddington_chi", 1.0))
+    if not 0.0 < chi_edd <= 1.0:
+        raise ValueError("wind_eddington_chi must be in (0, 1]")
+    width_fraction = float(getattr(params, "wind_activation_width_fraction", 0.0))
+    if not np.isfinite(width_fraction) or width_fraction < 0.0:
+        raise ValueError("wind_activation_width_fraction must be finite and non-negative")
+    Q_avail = float(Q_visc + Q_stream - Q_adv)
+    Q_edd = float(q_edd_vertical(state.Omega_K, state.H, kappa=params.kappa))
+    E_w = float(wind_energy_per_mass(params.M2_g, state.R))
+    activation_width = width_fraction * Q_edd
+    Q_wind, _Q_rad_limited, _dotSigma_w = energy_limited_wind(
+        Q_avail,
+        Q_edd,
+        E_w,
+        epsilon,
+        chi_edd=chi_edd,
+        activation_width=activation_width,
+    )
+    return float(Q_wind)
+
+
 def _quantity_vector(logR: float, y, lambda0: float, params) -> dict[str, float]:
     state = algebraic_state(logR, float(y[0]), float(y[1]), lambda0, params)
     return {
@@ -491,18 +521,63 @@ def differential_residual(logR: float, y, g, lambda0: float, params) -> np.ndarr
     Q_visc = -state.W * dOmega_dx
     Q_adv = -(state.Sigma * state.u / state.R) * Tdsdx
     Q_stream = stream_heating_rate(logR, params)
-    energy = Q_visc + Q_stream - state.Q_rad - Q_adv
+    Q_wind = wind_energy_loss_rate(state, Q_visc, Q_stream, Q_adv, params)
+    energy = Q_visc + Q_stream - state.Q_rad - Q_adv - Q_wind
     return np.asarray([radial, energy], dtype=float)
 
 
 def differential_matrix(logR: float, y, lambda0: float, params) -> tuple[np.ndarray, np.ndarray]:
-    """Return ``A, c`` such that ``F(g) = A @ g + c``."""
+    """Return the local slope Jacobian ``A`` and zero-slope residual ``c``.
+
+    Without an energy-limited wind the differential system is exactly linear in
+    ``g``.  With an active smooth wind the energy row is nonlinear through
+    ``Q_wind(Q_avail)``; in that case ``A`` is the analytic local derivative
+    ``dF/dg`` at ``g=0`` and ``c = F(g=0)``.
+    """
 
     y = np.asarray(y, dtype=float)
-    c = differential_residual(logR, y, np.zeros(2), lambda0, params)
-    col0 = differential_residual(logR, y, np.array([1.0, 0.0]), lambda0, params) - c
-    col1 = differential_residual(logR, y, np.array([0.0, 1.0]), lambda0, params) - c
-    return np.column_stack([col0, col1]), c
+    state = algebraic_state(logR, y[0], y[1], lambda0, params)
+    partials = state_partials(logR, y, lambda0, params, eps_x=params.partial_eps, eps_y=params.partial_eps)
+
+    radial_A = np.asarray(
+        [
+            state.u**2 + partials.y["Pi"][0] / state.Sigma,
+            partials.y["Pi"][1] / state.Sigma,
+        ],
+        dtype=float,
+    )
+    radial_c = float(-state.R**2 * (state.Omega**2 - state.Omega_K**2) + partials.x["Pi"] / state.Sigma)
+
+    tds_x = partials.x["e"] - state.P / state.rho**2 * partials.x["rho"]
+    tds_y = np.asarray(partials.y["e"], dtype=float) - state.P / state.rho**2 * np.asarray(partials.y["rho"], dtype=float)
+    q_visc_c = float(-state.W * partials.x["Omega"])
+    q_visc_A = -state.W * np.asarray(partials.y["Omega"], dtype=float)
+    advective_prefactor = -state.Sigma * state.u / state.R
+    q_adv_c = float(advective_prefactor * tds_x)
+    q_adv_A = advective_prefactor * tds_y
+    q_stream = stream_heating_rate(logR, params)
+    q_avail_c = float(q_visc_c + q_stream - q_adv_c)
+    q_avail_A = np.asarray(q_visc_A - q_adv_A, dtype=float)
+    q_wind_c = wind_energy_loss_rate(state, q_visc_c, q_stream, q_adv_c, params)
+
+    dQwind_dQavail = 0.0
+    epsilon = float(getattr(params, "wind_energy_limited_epsilon", 0.0))
+    if epsilon != 0.0:
+        chi_edd = float(getattr(params, "wind_eddington_chi", 1.0))
+        width_fraction = float(getattr(params, "wind_activation_width_fraction", 0.0))
+        q_edd = float(q_edd_vertical(state.Omega_K, state.H, kappa=params.kappa))
+        dQwind_dQavail, _dQwind_dQedd = energy_limited_wind_derivatives(
+            q_avail_c,
+            q_edd,
+            epsilon,
+            chi_edd=chi_edd,
+            activation_width=width_fraction * q_edd,
+            activation_width_dQedd=width_fraction,
+        )
+    energy_A = (1.0 - float(dQwind_dQavail)) * q_avail_A
+    energy_c = float(q_avail_c - state.Q_rad - q_wind_c)
+
+    return np.vstack([radial_A, energy_A]), np.asarray([radial_c, energy_c], dtype=float)
 
 
 def differential_residual_scales(logR: float, y, lambda0: float, params, floor: float = 1.0e-300) -> tuple[float, float]:

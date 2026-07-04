@@ -154,6 +154,7 @@ from .transonic_local import (
     stream_source_prime,
     stream_torque_specific_l_and_derivative,
     mdot_profile_from_source_sink,
+    wind_energy_loss_rate,
     wind_sink_prime,
     xi_eff_from_gradient,
 )
@@ -165,7 +166,7 @@ from .transonic_thermo import (
     surface_density,
     vertical_state,
 )
-from .winds import energy_limited_wind, q_available, q_edd_vertical, wind_energy_per_mass
+from .winds import energy_limited_wind, energy_limited_wind_derivatives, q_available, q_edd_vertical, wind_energy_per_mass
 
 __all__ = [
     "AlgebraicTransonicState",
@@ -229,6 +230,7 @@ __all__ = [
     "entropy_gradient_log_formula",
     "entropy_temperature_gradient",
     "energy_limited_wind",
+    "energy_limited_wind_derivatives",
     "evaluate_global_slim_profile",
     "evaluate_isolated_slim_profile",
     "integrated_energy_residual",
@@ -308,6 +310,7 @@ __all__ = [
     "stream_source_prime",
     "stream_torque_specific_l_and_derivative",
     "mdot_profile_from_source_sink",
+    "wind_energy_loss_rate",
     "wind_sink_prime",
     "specific_internal_energy",
     "surface_density",

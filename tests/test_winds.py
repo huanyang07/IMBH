@@ -1,8 +1,15 @@
 from __future__ import annotations
 
+import math
 import unittest
 
-from imri_qpe.layer3_minidisk_1d import energy_limited_wind, q_available, q_edd_vertical, wind_energy_per_mass
+from imri_qpe.layer3_minidisk_1d import (
+    energy_limited_wind,
+    energy_limited_wind_derivatives,
+    q_available,
+    q_edd_vertical,
+    wind_energy_per_mass,
+)
 
 
 class WindClosureTests(unittest.TestCase):
@@ -32,12 +39,108 @@ class WindClosureTests(unittest.TestCase):
         self.assertEqual(Q_rad, 5.0)
         self.assertEqual(dotSigma_w, 0.0)
 
+    def test_energy_limited_wind_soft_threshold(self) -> None:
+        Q_wind, Q_rad, dotSigma_w = energy_limited_wind(
+            Q_avail=9.95,
+            Q_edd=10.0,
+            E_w=2.0,
+            epsilon_w=0.5,
+            chi_edd=0.99,
+        )
+
+        self.assertAlmostEqual(Q_wind, 0.025)
+        self.assertAlmostEqual(Q_rad, 9.925)
+        self.assertAlmostEqual(dotSigma_w, 0.0125)
+        self.assertAlmostEqual(Q_wind + Q_rad, 9.95)
+
+    def test_energy_limited_wind_smooth_activation(self) -> None:
+        Q_wind, Q_rad, dotSigma_w = energy_limited_wind(
+            Q_avail=9.9,
+            Q_edd=10.0,
+            E_w=2.0,
+            epsilon_w=0.5,
+            chi_edd=0.99,
+            activation_width=0.1,
+        )
+
+        expected_wind = 0.5 * 0.1 * math.log(2.0)
+        self.assertAlmostEqual(Q_wind, expected_wind)
+        self.assertAlmostEqual(Q_rad, 9.9 - expected_wind)
+        self.assertAlmostEqual(dotSigma_w, expected_wind / 2.0)
+        self.assertAlmostEqual(Q_wind + Q_rad, 9.9)
+
+    def test_energy_limited_wind_smooth_activation_caps_excess(self) -> None:
+        Q_wind, Q_rad, dotSigma_w = energy_limited_wind(
+            Q_avail=0.0,
+            Q_edd=10.0,
+            E_w=2.0,
+            epsilon_w=1.0,
+            chi_edd=0.99,
+            activation_width=10.0,
+        )
+
+        self.assertEqual(Q_wind, 0.0)
+        self.assertEqual(Q_rad, 0.0)
+        self.assertEqual(dotSigma_w, 0.0)
+
     def test_energy_limited_wind_disallows_negative_radiation(self) -> None:
         Q_wind, Q_rad, dotSigma_w = energy_limited_wind(Q_avail=-3.0, Q_edd=6.0, E_w=2.0, epsilon_w=1.0)
 
         self.assertEqual(Q_wind, 0.0)
         self.assertEqual(Q_rad, 0.0)
         self.assertEqual(dotSigma_w, 0.0)
+
+    def test_energy_limited_wind_derivatives_match_centered_difference(self) -> None:
+        q_avail = 10.2
+        q_edd = 10.0
+        epsilon = 0.3
+        chi = 0.99
+        width_fraction = 0.02
+        width = width_fraction * q_edd
+        dQdQa, dQdQe = energy_limited_wind_derivatives(
+            q_avail,
+            q_edd,
+            epsilon,
+            chi_edd=chi,
+            activation_width=width,
+            activation_width_dQedd=width_fraction,
+        )
+        h = 1.0e-5
+        plus_a = energy_limited_wind(
+            q_avail + h,
+            q_edd,
+            E_w=2.0,
+            epsilon_w=epsilon,
+            chi_edd=chi,
+            activation_width=width,
+        )[0]
+        minus_a = energy_limited_wind(
+            q_avail - h,
+            q_edd,
+            E_w=2.0,
+            epsilon_w=epsilon,
+            chi_edd=chi,
+            activation_width=width,
+        )[0]
+        plus_e = energy_limited_wind(
+            q_avail,
+            q_edd + h,
+            E_w=2.0,
+            epsilon_w=epsilon,
+            chi_edd=chi,
+            activation_width=width_fraction * (q_edd + h),
+        )[0]
+        minus_e = energy_limited_wind(
+            q_avail,
+            q_edd - h,
+            E_w=2.0,
+            epsilon_w=epsilon,
+            chi_edd=chi,
+            activation_width=width_fraction * (q_edd - h),
+        )[0]
+
+        self.assertAlmostEqual(dQdQa, (plus_a - minus_a) / (2.0 * h), places=8)
+        self.assertAlmostEqual(dQdQe, (plus_e - minus_e) / (2.0 * h), places=8)
 
 
 if __name__ == "__main__":

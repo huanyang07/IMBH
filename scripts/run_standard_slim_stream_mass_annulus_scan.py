@@ -13,6 +13,7 @@ from typing import Any
 import numpy as np
 
 from imri_qpe.layer3_minidisk_1d import (
+    algebraic_state,
     TransonicSlimParams,
     collocation_residual,
     pressure_supported_omega_target,
@@ -31,6 +32,7 @@ from imri_qpe.layer3_minidisk_1d import (
     stream_torque_specific_l_and_derivative,
     transonic_profile_from_state_vector,
     unused_sonic_compatibility,
+    wind_energy_loss_rate,
     unpack_state,
     wind_sink_prime,
 )
@@ -134,6 +136,17 @@ TANGENT_TRIGGER_INITIAL_FULL = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_M
 ADAPTIVE_TARGET_RAW = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_TARGET", "").strip()
 HEATING_EFFICIENCIES_RAW = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_HEATING_EFFICIENCIES", "").strip()
 HEATING_LABEL = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_HEATING_LABEL", "heating").strip() or "heating"
+WIND_FRACTIONS_RAW = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_WIND_FRACTIONS", "").strip()
+WIND_LABEL = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_WIND_LABEL", "wind").strip() or "wind"
+WIND_CENTER_FRACTION = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_WIND_CENTER_FRACTION", "0.8"))
+WIND_LOG_WIDTH = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_WIND_LOG_WIDTH", "0.08"))
+ENERGY_WIND_EPSILONS_RAW = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ENERGY_WIND_EPSILONS", "").strip()
+ENERGY_WIND_LABEL = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ENERGY_WIND_LABEL", "energy_wind").strip() or "energy_wind"
+ENERGY_WIND_EPSILON_OVERRIDE = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ENERGY_WIND_EPSILON", "").strip()
+ENERGY_WIND_CHI_OVERRIDE = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ENERGY_WIND_CHI", "").strip()
+ENERGY_WIND_WIDTH_OVERRIDE = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ENERGY_WIND_WIDTH_FRACTION", "").strip()
+ENERGY_WIND_PREV_ANCHOR_RAW = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ENERGY_WIND_PREV_ANCHOR", "").strip()
+ENERGY_WIND_ETAS_RAW = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ENERGY_WIND_ETAS", "").strip()
 ADAPTIVE_INITIAL_STEP = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_INITIAL_STEP", "0.001"))
 ADAPTIVE_MIN_STEP = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_MIN_STEP", "0.00025"))
 ADAPTIVE_MAX_STEP = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_ADAPTIVE_MAX_STEP", "0.005"))
@@ -182,6 +195,7 @@ NEWTON_ENERGY_MERIT_REQUIRE_DECREASE = (
 )
 NEWTON_ENERGY_ROW_PRIORITY = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_NEWTON_ENERGY_ROW_PRIORITY", "1.0"))
 LOCAL_PATCH_ON_REJECT = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOCAL_PATCH_ON_REJECT", "0") != "0"
+LOCAL_PATCH_TRIGGER_TOL_RAW = os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOCAL_PATCH_TRIGGER_TOL", "").strip()
 LOCAL_PATCH_HALF_WIDTH_RG = float(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOCAL_PATCH_HALF_WIDTH_RG", "3.0"))
 LOCAL_PATCH_TOP_K = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOCAL_PATCH_TOP_K", "0"))
 LOCAL_PATCH_NODE_PAD = int(os.environ.get("IMBH_STANDARD_SLIM_STREAM_MASS_LOCAL_PATCH_NODE_PAD", "0"))
@@ -257,6 +271,46 @@ def parse_heating_efficiencies() -> list[float]:
     if not HEATING_EFFICIENCIES_RAW:
         return []
     return [float(piece) for piece in HEATING_EFFICIENCIES_RAW.replace(",", ":").split(":") if piece.strip()]
+
+
+def parse_wind_fractions() -> list[float]:
+    if not WIND_FRACTIONS_RAW:
+        return []
+    return [float(piece) for piece in WIND_FRACTIONS_RAW.replace(",", ":").split(":") if piece.strip()]
+
+
+def parse_energy_wind_epsilons() -> list[float]:
+    if not ENERGY_WIND_EPSILONS_RAW:
+        return []
+    return [float(piece) for piece in ENERGY_WIND_EPSILONS_RAW.replace(",", ":").split(":") if piece.strip()]
+
+
+def energy_wind_epsilon_to_eta(epsilon: float) -> float:
+    epsilon = float(epsilon)
+    if not 0.0 <= epsilon < 1.0:
+        raise ValueError("eta continuation requires 0 <= epsilon_w < 1")
+    return float(-np.log1p(-epsilon))
+
+
+def energy_wind_eta_to_epsilon(eta: float) -> float:
+    eta = float(eta)
+    if not np.isfinite(eta) or eta < 0.0:
+        raise ValueError("energy-wind eta targets must be finite and non-negative")
+    return float(1.0 - np.exp(-eta))
+
+
+def parse_energy_wind_eta_targets() -> list[float]:
+    if not ENERGY_WIND_ETAS_RAW:
+        return []
+    return [float(piece) for piece in ENERGY_WIND_ETAS_RAW.replace(",", ":").split(":") if piece.strip()]
+
+
+def parse_energy_wind_targets() -> tuple[list[float], list[float], str]:
+    eta_targets = parse_energy_wind_eta_targets()
+    if eta_targets:
+        return [energy_wind_eta_to_epsilon(value) for value in eta_targets], eta_targets, "eta"
+    epsilon_targets = parse_energy_wind_epsilons()
+    return epsilon_targets, [float(value) for value in epsilon_targets], "epsilon"
 
 
 def parse_cleanup_polish_specs() -> tuple[str, ...]:
@@ -494,6 +548,9 @@ def prepare_anchor_grid(
         wind_sink_fraction=params.wind_sink_fraction,
         wind_sink_center_fraction=params.wind_sink_center_fraction,
         wind_sink_log_width=params.wind_sink_log_width,
+        wind_energy_limited_epsilon=params.wind_energy_limited_epsilon,
+        wind_eddington_chi=params.wind_eddington_chi,
+        wind_activation_width_fraction=params.wind_activation_width_fraction,
         stream_heating_efficiency=params.stream_heating_efficiency,
         outer_closure=params.outer_closure,
         outer_robin_chi=params.outer_robin_chi,
@@ -548,6 +605,9 @@ def params_for(
     wind_sink_fraction: float = 0.0,
     wind_sink_center_fraction: float = 0.8,
     wind_sink_log_width: float = 0.08,
+    wind_energy_limited_epsilon: float = 0.0,
+    wind_eddington_chi: float = 1.0,
+    wind_activation_width_fraction: float = 0.0,
     stream_heating_efficiency: float = 0.0,
     outer_closure: str | None = None,
     outer_robin_chi: float = 0.0,
@@ -596,6 +656,17 @@ def params_for(
         if integrated_residual_weighting is None
         else str(integrated_residual_weighting).strip().lower()
     )
+    energy_wind_epsilon = (
+        float(ENERGY_WIND_EPSILON_OVERRIDE)
+        if ENERGY_WIND_EPSILON_OVERRIDE
+        else float(wind_energy_limited_epsilon)
+    )
+    energy_wind_chi = float(ENERGY_WIND_CHI_OVERRIDE) if ENERGY_WIND_CHI_OVERRIDE else float(wind_eddington_chi)
+    energy_wind_width = (
+        float(ENERGY_WIND_WIDTH_OVERRIDE)
+        if ENERGY_WIND_WIDTH_OVERRIDE
+        else float(wind_activation_width_fraction)
+    )
     if FORCE_INTERVAL_RESIDUAL_FORM:
         interval_form = FORCE_INTERVAL_RESIDUAL_FORM
     if FORCE_INTEGRATED_RESIDUAL_WEIGHTING:
@@ -637,6 +708,9 @@ def params_for(
         wind_sink_fraction=float(wind_sink_fraction),
         wind_sink_center_fraction=float(wind_sink_center_fraction),
         wind_sink_log_width=float(wind_sink_log_width),
+        wind_energy_limited_epsilon=float(energy_wind_epsilon),
+        wind_eddington_chi=float(energy_wind_chi),
+        wind_activation_width_fraction=float(energy_wind_width),
         stream_heating_efficiency=float(stream_heating_efficiency),
         interval_residual_form=interval_form,
         integrated_residual_weighting=integrated_weighting,
@@ -675,6 +749,9 @@ def load_anchor(path: Path, fiducial: FiducialParams, mdot_edd: float) -> tuple[
         wind_sink_fraction=float(scalar_from_data(data, "wind_sink_fraction", 0.0)),
         wind_sink_center_fraction=float(scalar_from_data(data, "wind_sink_center_fraction", 0.8)),
         wind_sink_log_width=float(scalar_from_data(data, "wind_sink_log_width", 0.08)),
+        wind_energy_limited_epsilon=float(scalar_from_data(data, "wind_energy_limited_epsilon", 0.0)),
+        wind_eddington_chi=float(scalar_from_data(data, "wind_eddington_chi", 1.0)),
+        wind_activation_width_fraction=float(scalar_from_data(data, "wind_activation_width_fraction", 0.0)),
         stream_heating_efficiency=float(scalar_from_data(data, "stream_heating_efficiency", 0.0)),
         outer_closure=str(scalar_from_data(data, "outer_closure", "pressure_supported_thin_energy")),
         outer_robin_chi=float(scalar_from_data(data, "outer_robin_chi", 0.0)),
@@ -742,7 +819,7 @@ def equilibrated_tangent_solve(jac, rhs: np.ndarray) -> np.ndarray:
         from scipy.sparse import diags
         from scipy.sparse.linalg import lsmr, splu
     except Exception as exc:
-        raise RuntimeError("scipy is required for source-fraction tangent prediction") from exc
+        raise RuntimeError("scipy is required for tangent prediction") from exc
 
     if TANGENT_SOLVER == "splu":
         return np.asarray(splu(jac.tocsc(), permc_spec="COLAMD").solve(rhs), dtype=float)
@@ -795,6 +872,54 @@ def source_fraction_tangent(anchor_z: np.ndarray, anchor_params: TransonicSlimPa
         "predictor_tangent_linear_damping": float(TANGENT_LINEAR_DAMPING),
         "predictor_tangent_norm_inf": float(np.linalg.norm(dz_df, ord=np.inf)),
         "predictor_tangent_norm_l2": float(np.linalg.norm(dz_df)),
+        "predictor_tangent_linear_residual_norm": float(np.linalg.norm(linear_residual)),
+        "predictor_tangent_linear_residual_inf": float(np.linalg.norm(linear_residual, ord=np.inf)),
+    }
+
+
+def finite_difference_energy_wind_epsilon_column(
+    anchor_z: np.ndarray,
+    anchor_params: TransonicSlimParams,
+    *,
+    pivot: str,
+) -> tuple[np.ndarray, float]:
+    epsilon0 = float(anchor_params.wind_energy_limited_epsilon)
+    step = min(abs(float(TANGENT_FD_STEP)), 0.25 * max(epsilon0, 1.0e-3), 0.25 * max(1.0 - epsilon0, 1.0e-3))
+    if step <= 0.0:
+        raise ValueError("energy-wind epsilon finite-difference step collapsed")
+    if epsilon0 - step >= 0.0 and epsilon0 + step <= 1.0:
+        plus = replace(anchor_params, wind_energy_limited_epsilon=epsilon0 + step)
+        minus = replace(anchor_params, wind_energy_limited_epsilon=epsilon0 - step)
+        f_plus = square_collocation_residual(anchor_z, plus, pivot=pivot)
+        f_minus = square_collocation_residual(anchor_z, minus, pivot=pivot)
+        return (f_plus - f_minus) / (2.0 * step), step
+    if epsilon0 + step <= 1.0:
+        shifted = replace(anchor_params, wind_energy_limited_epsilon=epsilon0 + step)
+        sign = 1.0
+    else:
+        shifted = replace(anchor_params, wind_energy_limited_epsilon=epsilon0 - step)
+        sign = -1.0
+    f_base = square_collocation_residual(anchor_z, anchor_params, pivot=pivot)
+    f_shifted = square_collocation_residual(anchor_z, shifted, pivot=pivot)
+    return sign * (f_shifted - f_base) / step, step
+
+
+def energy_wind_epsilon_tangent(
+    anchor_z: np.ndarray,
+    anchor_params: TransonicSlimParams,
+    *,
+    pivot: str,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    jac = square_collocation_jacobian(anchor_z, anchor_params, pivot=pivot)
+    f_epsilon, fd_step = finite_difference_energy_wind_epsilon_column(anchor_z, anchor_params, pivot=pivot)
+    dz_depsilon = equilibrated_tangent_solve(jac, -f_epsilon)
+    linear_residual = np.asarray(jac @ dz_depsilon + f_epsilon, dtype=float)
+    return dz_depsilon, {
+        "predictor_tangent_fd_step": float(fd_step),
+        "predictor_tangent_solver": str(TANGENT_SOLVER),
+        "predictor_tangent_linear_damping": float(TANGENT_LINEAR_DAMPING),
+        "predictor_tangent_norm_inf": float(np.linalg.norm(dz_depsilon, ord=np.inf)),
+        "predictor_tangent_norm_l2": float(np.linalg.norm(dz_depsilon)),
         "predictor_tangent_linear_residual_norm": float(np.linalg.norm(linear_residual)),
         "predictor_tangent_linear_residual_inf": float(np.linalg.norm(linear_residual, ord=np.inf)),
     }
@@ -887,6 +1012,123 @@ def source_fraction_seed(
         except Exception as exc:
             diagnostics["predictor_tangent_error"] = str(exc)
             print(f"  tangent predictor unavailable: {exc}", flush=True)
+    diagnostics["predictor_chosen"] = str(best_label)
+    diagnostics["predictor_initial_full_best"] = float(best_full)
+    return best_seed, best_label, best_full, diagnostics
+
+
+def energy_wind_epsilon_seed(
+    *,
+    target_epsilon: float,
+    current_epsilon: float,
+    target_coordinate: float | None = None,
+    current_coordinate: float | None = None,
+    current_z: np.ndarray,
+    prev_epsilon: float | None,
+    prev_coordinate: float | None = None,
+    prev_z: np.ndarray | None,
+    params: TransonicSlimParams,
+    coordinate_name: str = "epsilon",
+) -> tuple[np.ndarray, str, float, dict[str, Any]]:
+    coordinate_name = str(coordinate_name).strip().lower()
+    if coordinate_name not in {"epsilon", "eta"}:
+        raise ValueError("energy-wind coordinate must be 'epsilon' or 'eta'")
+    if target_coordinate is None:
+        target_coordinate = energy_wind_epsilon_to_eta(target_epsilon) if coordinate_name == "eta" else float(target_epsilon)
+    if current_coordinate is None:
+        current_coordinate = energy_wind_epsilon_to_eta(current_epsilon) if coordinate_name == "eta" else float(current_epsilon)
+    current_seed = np.asarray(current_z, dtype=float)
+    current_full = max_residual(current_seed, params)
+    best_seed = current_seed
+    best_label = "current"
+    best_full = current_full
+    diagnostics: dict[str, Any] = {
+        "predictor_initial_full_current": float(current_full),
+        "predictor_initial_full_secant_best": np.nan,
+        "predictor_initial_full_tangent_best": np.nan,
+        "predictor_chosen": "current",
+        "predictor_secant_damping_chosen": np.nan,
+        "predictor_tangent_damping_chosen": np.nan,
+        "predictor_tangent_fd_step": np.nan,
+        "predictor_tangent_solver": str(TANGENT_SOLVER),
+        "predictor_tangent_linear_damping": float(TANGENT_LINEAR_DAMPING),
+        "predictor_tangent_norm_inf": np.nan,
+        "predictor_tangent_norm_l2": np.nan,
+        "predictor_tangent_linear_residual_norm": np.nan,
+        "predictor_tangent_linear_residual_inf": np.nan,
+        "predictor_tangent_error": "",
+        "predictor_tangent_secant_cosine": np.nan,
+        "predictor_coordinate": coordinate_name,
+        "predictor_current_coordinate": float(current_coordinate),
+        "predictor_target_coordinate": float(target_coordinate),
+        "predictor_previous_coordinate": np.nan if prev_coordinate is None else float(prev_coordinate),
+        "predictor_tangent_coordinate_scale": np.nan,
+        "predictor_state_clip_count": 0,
+        "predictor_secant_clip_count_best": 0,
+        "predictor_tangent_clip_count_best": 0,
+    }
+    secant_direction: np.ndarray | None = None
+    if (
+        USE_SECANT_PREDICTOR
+        and prev_z is not None
+        and prev_epsilon is not None
+        and prev_coordinate is not None
+        and abs(current_coordinate - prev_coordinate) > 1.0e-12
+    ):
+        step_factor = (float(target_coordinate) - current_coordinate) / (current_coordinate - prev_coordinate)
+        secant_direction = step_factor * (current_z - prev_z)
+        for damping in SECANT_DAMPING_VALUES:
+            trial_seed, clip_count = clip_state_with_count(current_z + float(damping) * secant_direction, params)
+            trial_full = max_residual(trial_seed, params)
+            if not np.isfinite(diagnostics["predictor_initial_full_secant_best"]) or trial_full < diagnostics[
+                "predictor_initial_full_secant_best"
+            ]:
+                diagnostics["predictor_initial_full_secant_best"] = float(trial_full)
+                diagnostics["predictor_secant_damping_chosen"] = float(damping)
+                diagnostics["predictor_secant_clip_count_best"] = int(clip_count)
+            if trial_full < best_full:
+                best_seed = trial_seed
+                best_label = f"secant:{float(damping):g}"
+                best_full = trial_full
+                diagnostics["predictor_state_clip_count"] = int(clip_count)
+    if (
+        USE_TANGENT_PREDICTOR
+        and best_full > TANGENT_TRIGGER_INITIAL_FULL
+        and abs(float(target_epsilon) - current_epsilon) > 1.0e-14
+    ):
+        try:
+            anchor_params = replace(params, wind_energy_limited_epsilon=float(current_epsilon))
+            anchor_params = apply_outer_slopes_from_state(current_z, anchor_params)
+            pivot = PIVOTS[0] if PIVOTS else "C2"
+            dz_depsilon, tangent_info = energy_wind_epsilon_tangent(current_z, anchor_params, pivot=pivot)
+            coordinate_scale = max(1.0 - float(current_epsilon), 1.0e-300) if coordinate_name == "eta" else 1.0
+            dz_dcoordinate = float(coordinate_scale) * dz_depsilon
+            tangent_info["predictor_tangent_coordinate_scale"] = float(coordinate_scale)
+            diagnostics.update(tangent_info)
+            if secant_direction is not None:
+                tangent_direction = (float(target_coordinate) - current_coordinate) * dz_dcoordinate
+                denom = float(np.linalg.norm(secant_direction) * np.linalg.norm(tangent_direction))
+                diagnostics["predictor_tangent_secant_cosine"] = (
+                    float(np.dot(secant_direction, tangent_direction) / denom) if denom > 0.0 else np.nan
+                )
+            dcoordinate = float(target_coordinate) - current_coordinate
+            for damping in TANGENT_DAMPING_VALUES:
+                trial_seed, clip_count = clip_state_with_count(current_z + float(damping) * dcoordinate * dz_dcoordinate, params)
+                trial_full = max_residual(trial_seed, params)
+                if not np.isfinite(diagnostics["predictor_initial_full_tangent_best"]) or trial_full < diagnostics[
+                    "predictor_initial_full_tangent_best"
+                ]:
+                    diagnostics["predictor_initial_full_tangent_best"] = float(trial_full)
+                    diagnostics["predictor_tangent_damping_chosen"] = float(damping)
+                    diagnostics["predictor_tangent_clip_count_best"] = int(clip_count)
+                if trial_full < best_full:
+                    best_seed = trial_seed
+                    best_label = f"tangent:{float(damping):g}"
+                    best_full = trial_full
+                    diagnostics["predictor_state_clip_count"] = int(clip_count)
+        except Exception as exc:
+            diagnostics["predictor_tangent_error"] = str(exc)
+            print(f"  energy-wind tangent predictor unavailable: {exc}", flush=True)
     diagnostics["predictor_chosen"] = str(best_label)
     diagnostics["predictor_initial_full_best"] = float(best_full)
     return best_seed, best_label, best_full, diagnostics
@@ -1260,12 +1502,19 @@ def maybe_local_physical_energy_patch(
     meta.setdefault("local_patch_adopted", False)
     if not LOCAL_PATCH_ON_REJECT:
         return polish, params, elapsed, meta
-    if not gate_would_reject(polish.z, params):
+    base_full_for_trigger = max_residual(polish.z, params)
+    trigger_tol = float(LOCAL_PATCH_TRIGGER_TOL_RAW) if LOCAL_PATCH_TRIGGER_TOL_RAW else float(ACCEPTANCE_TOL)
+    if base_full_for_trigger <= trigger_tol:
+        meta["local_patch_skip_reason"] = "below_trigger_tol"
+        meta["local_patch_trigger_tol"] = float(trigger_tol)
+        return polish, params, elapsed, meta
+    if not gate_would_reject(polish.z, params) and not LOCAL_PATCH_TRIGGER_TOL_RAW:
         meta["local_patch_skip_reason"] = "base_already_accepted"
+        meta["local_patch_trigger_tol"] = float(trigger_tol)
         return polish, params, elapsed, meta
     current_z = np.asarray(polish.z, dtype=float)
     current_params = params
-    base_full = max_residual(current_z, current_params)
+    base_full = float(base_full_for_trigger)
     base_physical = physical_energy_residual(current_z, current_params)
     total_patch_nfev = 0
     adopted_any = False
@@ -1279,7 +1528,8 @@ def maybe_local_physical_energy_patch(
         before_physical_ok = (
             bool(np.isfinite(before_physical) and before_physical <= PHYSICAL_E_TOL) if np.isfinite(PHYSICAL_E_TOL) else True
         )
-        mode = "global" if LOCAL_PATCH_GLOBAL_AFTER_PHYSICAL and before_physical_ok and before_full > acceptance_tol else "physical"
+        mode_switch_tol = trigger_tol if LOCAL_PATCH_TRIGGER_TOL_RAW else acceptance_tol
+        mode = "global" if LOCAL_PATCH_GLOBAL_AFTER_PHYSICAL and before_physical_ok and before_full > mode_switch_tol else "physical"
         try:
             t0 = time.perf_counter()
             patched_z, patch_info = local_physical_energy_patch(current_z, current_params, mode=mode)
@@ -1316,6 +1566,7 @@ def maybe_local_physical_energy_patch(
                 "local_patch_gate_accepted": bool(accepted_by_gate),
                 "local_patch_adopted": bool(adopt),
                 "local_patch_acceptance_tol": float(acceptance_tol),
+                "local_patch_trigger_tol": float(trigger_tol),
                 "local_patch_total_nfev": int(total_patch_nfev),
             }
         )
@@ -1331,7 +1582,7 @@ def maybe_local_physical_energy_patch(
         adopted_info = dict(patch_info)
         current_z = np.asarray(patched_z, dtype=float)
         current_params = patched_params
-        if accepted_by_gate:
+        if accepted_by_gate and (not LOCAL_PATCH_TRIGGER_TOL_RAW or after_full <= trigger_tol):
             break
     final_info = adopted_info if adopted_any else last_info
     if final_info:
@@ -1769,6 +2020,61 @@ def heating_diagnostic(z: np.ndarray, params: TransonicSlimParams) -> dict[str, 
     }
 
 
+def wind_energy_diagnostic(z: np.ndarray, params: TransonicSlimParams) -> dict[str, float]:
+    logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
+    q_wind: list[float] = []
+    q_visc: list[float] = []
+    q_rad: list[float] = []
+    q_adv: list[float] = []
+    R_mid: list[float] = []
+    for idx in range(len(logR) - 1):
+        dx = float(logR[idx + 1] - logR[idx])
+        xm = float(0.5 * (logR[idx] + logR[idx + 1]))
+        ym = np.array([0.5 * (logu[idx] + logu[idx + 1]), 0.5 * (logT[idx] + logT[idx + 1])], dtype=float)
+        gm = np.array([(logu[idx + 1] - logu[idx]) / dx, (logT[idx + 1] - logT[idx]) / dx], dtype=float)
+        qv, qr, qa, _qe = _heating_terms_from_gradient(xm, ym, gm, lambda0, params)
+        state = algebraic_state(xm, float(ym[0]), float(ym[1]), lambda0, params)
+        qs = stream_heating_rate(xm, params)
+        qw = wind_energy_loss_rate(state, qv, qs, qa, params)
+        q_visc.append(qv)
+        q_rad.append(qr)
+        q_adv.append(qa)
+        q_wind.append(qw)
+        R_mid.append(float(np.exp(xm)))
+    R = np.asarray(R_mid, dtype=float)
+    if R.size == 0:
+        return {
+            "wind_energy_limited_epsilon": float(params.wind_energy_limited_epsilon),
+            "wind_eddington_chi": float(params.wind_eddington_chi),
+            "wind_activation_width_fraction": float(params.wind_activation_width_fraction),
+            "max_Qwind_Qvisc": 0.0,
+            "integrated_Qwind_Qvisc": 0.0,
+            "integrated_Qwind_Qrad": 0.0,
+            "integrated_Qwind_Qadv_abs": 0.0,
+            "peak_Qwind_R_rg": np.nan,
+            "wind_active_interval_fraction": 0.0,
+        }
+    weights = 2.0 * np.pi * R**2
+    logR_mid = np.log(R)
+    qwind = np.asarray(q_wind, dtype=float)
+    qv = np.asarray(q_visc, dtype=float)
+    qr = np.asarray(q_rad, dtype=float)
+    qa = np.asarray(q_adv, dtype=float)
+    peak_idx = int(np.argmax(qwind))
+    int_wind = float(np.trapezoid(weights * qwind, logR_mid))
+    return {
+        "wind_energy_limited_epsilon": float(params.wind_energy_limited_epsilon),
+        "wind_eddington_chi": float(params.wind_eddington_chi),
+        "wind_activation_width_fraction": float(params.wind_activation_width_fraction),
+        "max_Qwind_Qvisc": float(np.max(qwind / np.maximum(np.abs(qv), 1.0e-300))),
+        "integrated_Qwind_Qvisc": float(int_wind / (np.trapezoid(weights * np.abs(qv), logR_mid) + 1.0e-300)),
+        "integrated_Qwind_Qrad": float(int_wind / (np.trapezoid(weights * np.abs(qr), logR_mid) + 1.0e-300)),
+        "integrated_Qwind_Qadv_abs": float(int_wind / (np.trapezoid(weights * np.abs(qa), logR_mid) + 1.0e-300)),
+        "peak_Qwind_R_rg": float(R[peak_idx] / params.r_g) if qwind[peak_idx] > 0.0 else np.nan,
+        "wind_active_interval_fraction": float(np.count_nonzero(qwind > 0.0) / qwind.size),
+    }
+
+
 def trapz_log(values: np.ndarray, R: np.ndarray) -> float:
     logR = np.log(np.asarray(R, dtype=float))
     weights = 2.0 * np.pi * np.asarray(R, dtype=float) ** 2
@@ -2021,6 +2327,17 @@ def row_for_result(
             "integrated_Qstream_Qadv_abs": np.nan,
             "peak_Qstream_R_rg": np.nan,
         }
+        wind_energy_info: dict[str, Any] = {
+            "wind_energy_limited_epsilon": float(params.wind_energy_limited_epsilon),
+            "wind_eddington_chi": float(params.wind_eddington_chi),
+            "wind_activation_width_fraction": float(params.wind_activation_width_fraction),
+            "max_Qwind_Qvisc": np.nan,
+            "integrated_Qwind_Qvisc": np.nan,
+            "integrated_Qwind_Qrad": np.nan,
+            "integrated_Qwind_Qadv_abs": np.nan,
+            "peak_Qwind_R_rg": np.nan,
+            "wind_active_interval_fraction": np.nan,
+        }
     else:
         profile = transonic_profile_from_state_vector(z, params)
         profile_info = {
@@ -2032,6 +2349,7 @@ def row_for_result(
         interval_info = interval_peak_diagnostic(z, params)
         angular_info = angular_diagnostic(z, params)
         heating_info = heating_diagnostic(z, params)
+        wind_energy_info = wind_energy_diagnostic(z, params)
     return {
         "branch": branch,
         "mass_fraction": float(mass_fraction),
@@ -2044,6 +2362,9 @@ def row_for_result(
         "mass_log_width": float(params.stream_source_log_width),
         "mass_source_shape": str(params.stream_source_shape),
         "mass_source_shape_blend": float(params.stream_source_shape_blend),
+        "wind_sink_fraction": float(params.wind_sink_fraction),
+        "wind_sink_center_fraction": float(params.wind_sink_center_fraction),
+        "wind_sink_log_width": float(params.wind_sink_log_width),
         "interval_residual_form": str(params.interval_residual_form),
         "integrated_residual_weighting": str(params.integrated_residual_weighting),
         "newton_energy_merit": str(NEWTON_ENERGY_MERIT),
@@ -2057,6 +2378,7 @@ def row_for_result(
         "newton_energy_merit_require_decrease": bool(NEWTON_ENERGY_MERIT_REQUIRE_DECREASE),
         "newton_energy_row_priority": float(NEWTON_ENERGY_ROW_PRIORITY),
         **heating_info,
+        **wind_energy_info,
         "newton_jacobian_rel_step": float(NEWTON_JACOBIAN_REL_STEP),
         "newton_energy_jacobian_rel_step": np.nan
         if NEWTON_ENERGY_JACOBIAN_REL_STEP is None
@@ -2134,7 +2456,11 @@ def save_checkpoint(row: dict[str, Any], params: TransonicSlimParams) -> None:
     safe_branch = str(row["branch"]).replace(".", "p").replace("-", "m")
     safe_mass = f"{float(row['mass_fraction']):.9g}".replace(".", "p").replace("-", "m")
     safe_heat = f"{float(row.get('stream_heating_efficiency', params.stream_heating_efficiency)):.9g}".replace(".", "p").replace("-", "m")
-    stem = f"{safe_branch}_mass_{safe_mass}_heat_{safe_heat}_torque_{float(row['torque_fraction']):.4g}_mdot_{float(row['ratio']):.8g}_N{int(row['N'])}".replace(
+    safe_wind = f"{float(row.get('wind_sink_fraction', params.wind_sink_fraction)):.9g}".replace(".", "p").replace("-", "m")
+    safe_ewind = f"{float(row.get('wind_energy_limited_epsilon', params.wind_energy_limited_epsilon)):.9g}".replace(".", "p").replace("-", "m")
+    safe_chi = f"{float(row.get('wind_eddington_chi', params.wind_eddington_chi)):.9g}".replace(".", "p").replace("-", "m")
+    safe_width = f"{float(row.get('wind_activation_width_fraction', params.wind_activation_width_fraction)):.9g}".replace(".", "p").replace("-", "m")
+    stem = f"{safe_branch}_mass_{safe_mass}_wind_{safe_wind}_heat_{safe_heat}_ewind_{safe_ewind}_chi_{safe_chi}_wfrac_{safe_width}_torque_{float(row['torque_fraction']):.4g}_mdot_{float(row['ratio']):.8g}_N{int(row['N'])}".replace(
         ".", "p"
     ).replace("-", "m")
     slopes = params.outer_match_log_slopes
@@ -2171,6 +2497,9 @@ def save_checkpoint(row: dict[str, Any], params: TransonicSlimParams) -> None:
         wind_sink_fraction=np.array(params.wind_sink_fraction),
         wind_sink_center_fraction=np.array(params.wind_sink_center_fraction),
         wind_sink_log_width=np.array(params.wind_sink_log_width),
+        wind_energy_limited_epsilon=np.array(params.wind_energy_limited_epsilon),
+        wind_eddington_chi=np.array(params.wind_eddington_chi),
+        wind_activation_width_fraction=np.array(params.wind_activation_width_fraction),
         stream_heating_efficiency=np.array(params.stream_heating_efficiency),
         interval_residual_form=np.array(params.interval_residual_form),
         integrated_residual_weighting=np.array(params.integrated_residual_weighting),
@@ -2191,6 +2520,8 @@ def write_table(rows: list[dict[str, Any]]) -> None:
         "",
         f"Anchor `{relative_root_path(ANCHOR_CHECKPOINT)}`, branches `{';'.join(BRANCH_SPECS)}`, "
         f"heating efficiencies `{HEATING_EFFICIENCIES_RAW or 'off'}`, "
+    f"wind fractions `{WIND_FRACTIONS_RAW or 'off'}`, energy-wind epsilons `{ENERGY_WIND_EPSILONS_RAW or 'off'}`, "
+    f"energy-wind etas `{ENERGY_WIND_ETAS_RAW or 'off'}`, "
         f"Rinj/Rout `{MASS_CENTER_FRACTION:g}`, log width `{MASS_LOG_WIDTH:g}`, source shape `{MASS_SOURCE_SHAPE}`, "
         f"source blend `{MASS_SOURCE_SHAPE_BLEND_OVERRIDE or 'checkpoint/default'}`, "
         f"torque fraction `{TORQUE_FRACTION:g}`, polish method `{POLISH_METHOD}`, "
@@ -2232,8 +2563,8 @@ def write_table(rows: list[dict[str, Any]]) -> None:
         f"anchor source fraction `{fmt(meta_row.get('anchor_source_fraction', np.nan))}`, "
         f"anchor Rout `{fmt(meta_row.get('anchor_Rout_rg', np.nan))} rg`",
         "",
-        "| branch | source fraction | source shape | source blend | torque fraction | heat eta | max Qs/Qv | int Qs/Qv | peak Qs R/rg | predictor | init current | init secant | init tangent | tan damp | tan norm inf | tan linres | clip | step | next step | cost action | remesh | Picard iters | nfev total | Mdot outer/inner | Mdot center/inner | source integral | rel budget err | Rout/rg | Rinj/rg | initial full | final full | accepted | anchor | solver accepted | phys ok | dominant | int R | int E | peak E R/rg | median abs E | phys E | phys tol | buffer E | peak phys E R/rg | peak buffer E R/rg | outer omega | f_adv global | f_adv inner | f_adv pos | Lrad/LEdd | max H/R | int adv | Rson/rg | pivot | nfev | elapsed s | message |",
-        "|---|---:|---|---:|---:|---:|---:|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|:---:|:---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---|",
+        "| branch | source fraction | source shape | source blend | torque fraction | wind fraction | wind integral | heat eta | energy-wind eps | ewind chi | ewind width | max Qs/Qv | int Qs/Qv | int Qw/Qv | peak Qw R/rg | predictor | init current | init secant | init tangent | tan damp | tan norm inf | tan linres | clip | step | next step | cost action | remesh | Picard iters | nfev total | Mdot outer/inner | Mdot center/inner | source integral | rel budget err | Rout/rg | Rinj/rg | initial full | final full | accepted | anchor | solver accepted | phys ok | dominant | int R | int E | peak E R/rg | median abs E | phys E | phys tol | buffer E | peak phys E R/rg | peak buffer E R/rg | outer omega | f_adv global | f_adv inner | f_adv pos | Lrad/LEdd | max H/R | int adv | Rson/rg | pivot | nfev | elapsed s | message |",
+        "|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|:---:|:---:|:---:|:---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---|",
     ]
     for row in rows:
         display_row = {
@@ -2259,6 +2590,13 @@ def write_table(rows: list[dict[str, Any]]) -> None:
             "max_Qstream_Qvisc": 0.0,
             "integrated_Qstream_Qvisc": 0.0,
             "peak_Qstream_R_rg": np.nan,
+            "wind_sink_fraction": 0.0,
+            "wind_sink_integral_over_inner": 0.0,
+            "wind_energy_limited_epsilon": 0.0,
+            "wind_eddington_chi": 1.0,
+            "wind_activation_width_fraction": 0.0,
+            "integrated_Qwind_Qvisc": 0.0,
+            "peak_Qwind_R_rg": np.nan,
             "partition_physical_E": np.nan,
             "partition_buffer_E": np.nan,
             "partition_peak_physical_E_rg": np.nan,
@@ -2273,7 +2611,9 @@ def write_table(rows: list[dict[str, Any]]) -> None:
             formatted[key] = f"{float(display_row[key]):.6g}"
         lines.append(
             "| {branch} | {mass_fraction} | {mass_source_shape} | {mass_source_shape_blend} | {torque_fraction} | "
-            "{stream_heating_efficiency} | {max_Qstream_Qvisc} | {integrated_Qstream_Qvisc} | {peak_Qstream_R_rg} | {predictor} | "
+            "{wind_sink_fraction} | {wind_sink_integral_over_inner} | "
+            "{stream_heating_efficiency} | {wind_energy_limited_epsilon} | {wind_eddington_chi} | {wind_activation_width_fraction} | {max_Qstream_Qvisc} | {integrated_Qstream_Qvisc} | "
+            "{integrated_Qwind_Qvisc} | {peak_Qwind_R_rg} | {predictor} | "
             "{predictor_initial_full_current} | {predictor_initial_full_secant_best} | {predictor_initial_full_tangent_best} | "
             "{predictor_tangent_damping_chosen} | {predictor_tangent_norm_inf} | {predictor_tangent_linear_residual_norm} | "
             "{predictor_state_clip_count} | {attempt_step} | {next_step} | {cost_action} | "
@@ -2382,10 +2722,13 @@ def run_branch(
             torque_fraction=current_params.stream_torque_delta_l_fraction,
             torque_center_fraction=current_params.stream_torque_center_fraction,
             torque_log_width=current_params.stream_torque_log_width,
-            wind_sink_fraction=current_params.wind_sink_fraction,
-            wind_sink_center_fraction=current_params.wind_sink_center_fraction,
-            wind_sink_log_width=current_params.wind_sink_log_width,
-            stream_heating_efficiency=current_params.stream_heating_efficiency,
+        wind_sink_fraction=current_params.wind_sink_fraction,
+        wind_sink_center_fraction=current_params.wind_sink_center_fraction,
+        wind_sink_log_width=current_params.wind_sink_log_width,
+        wind_energy_limited_epsilon=current_params.wind_energy_limited_epsilon,
+        wind_eddington_chi=current_params.wind_eddington_chi,
+        wind_activation_width_fraction=current_params.wind_activation_width_fraction,
+        stream_heating_efficiency=current_params.stream_heating_efficiency,
             outer_closure=current_params.outer_closure,
             outer_robin_chi=current_params.outer_robin_chi,
             outer_robin_slope_target=current_params.outer_robin_slope_target,
@@ -2507,6 +2850,9 @@ def run_adaptive_branch(
             wind_sink_fraction=current_params.wind_sink_fraction,
             wind_sink_center_fraction=current_params.wind_sink_center_fraction,
             wind_sink_log_width=current_params.wind_sink_log_width,
+            wind_energy_limited_epsilon=current_params.wind_energy_limited_epsilon,
+            wind_eddington_chi=current_params.wind_eddington_chi,
+            wind_activation_width_fraction=current_params.wind_activation_width_fraction,
             stream_heating_efficiency=current_params.stream_heating_efficiency,
             outer_closure=current_params.outer_closure,
             outer_robin_chi=current_params.outer_robin_chi,
@@ -2649,6 +2995,9 @@ def run_heating_branch(
             wind_sink_fraction=current_params.wind_sink_fraction,
             wind_sink_center_fraction=current_params.wind_sink_center_fraction,
             wind_sink_log_width=current_params.wind_sink_log_width,
+            wind_energy_limited_epsilon=current_params.wind_energy_limited_epsilon,
+            wind_eddington_chi=current_params.wind_eddington_chi,
+            wind_activation_width_fraction=current_params.wind_activation_width_fraction,
             stream_heating_efficiency=float(eta),
             outer_closure=current_params.outer_closure,
             outer_robin_chi=current_params.outer_robin_chi,
@@ -2720,6 +3069,259 @@ def run_heating_branch(
             break
 
 
+def run_wind_branch(
+    *,
+    label: str,
+    wind_fractions: list[float],
+    anchor_z: np.ndarray,
+    anchor_params: TransonicSlimParams,
+    fiducial: FiducialParams,
+    mdot_edd: float,
+    rows: list[dict[str, Any]],
+) -> None:
+    current_z = np.asarray(anchor_z, dtype=float)
+    current_params = anchor_params
+    current_wind = float(anchor_params.wind_sink_fraction)
+    use_env_center = "IMBH_STANDARD_SLIM_STREAM_MASS_WIND_CENTER_FRACTION" in os.environ
+    use_env_width = "IMBH_STANDARD_SLIM_STREAM_MASS_WIND_LOG_WIDTH" in os.environ
+    for wind_fraction in wind_fractions:
+        params = params_for(
+            fiducial,
+            mdot_edd,
+            ratio=current_params.mdot_edd_ratio,
+            R_out_rg=current_params.R_out_rg,
+            n_nodes=current_params.n_nodes,
+            grid_power=current_params.grid_power,
+            custom_grid_xi=current_params.custom_grid_xi,
+            mass_fraction=current_params.stream_source_fraction,
+            source_center_fraction=current_params.stream_source_center_fraction,
+            source_log_width=current_params.stream_source_log_width,
+            source_shape=current_params.stream_source_shape,
+            source_shape_blend=current_params.stream_source_shape_blend,
+            torque_fraction=current_params.stream_torque_delta_l_fraction,
+            torque_center_fraction=current_params.stream_torque_center_fraction,
+            torque_log_width=current_params.stream_torque_log_width,
+            wind_sink_fraction=float(wind_fraction),
+            wind_sink_center_fraction=float(WIND_CENTER_FRACTION if use_env_center else current_params.stream_source_center_fraction),
+            wind_sink_log_width=float(WIND_LOG_WIDTH if use_env_width else current_params.stream_source_log_width),
+            wind_energy_limited_epsilon=current_params.wind_energy_limited_epsilon,
+            wind_eddington_chi=current_params.wind_eddington_chi,
+            wind_activation_width_fraction=current_params.wind_activation_width_fraction,
+            stream_heating_efficiency=current_params.stream_heating_efficiency,
+            outer_closure=current_params.outer_closure,
+            outer_robin_chi=current_params.outer_robin_chi,
+            outer_robin_slope_target=current_params.outer_robin_slope_target,
+            outer_robin_slope_scale=current_params.outer_robin_slope_scale,
+            outer_buffer_inner_rg=current_params.outer_buffer_inner_rg,
+            outer_buffer_radial_weight=current_params.outer_buffer_radial_weight,
+            outer_buffer_energy_weight=current_params.outer_buffer_energy_weight,
+            outer_buffer_boundary_weight=current_params.outer_buffer_boundary_weight,
+            outer_buffer_taper_log_width=current_params.outer_buffer_taper_log_width,
+            interval_residual_form=current_params.interval_residual_form,
+            integrated_residual_weighting=current_params.integrated_residual_weighting,
+        )
+        params = apply_outer_slopes_from_state(current_z, params)
+        seed = np.asarray(current_z, dtype=float)
+        initial_full = max_residual(seed, params)
+        print(
+            f"{label} wind_fraction={wind_fraction:g} current_wind={current_wind:g} initial={initial_full:.3e}",
+            flush=True,
+        )
+        seed, polish, final_params, elapsed, polish_meta = polish_with_optional_residual_remesh(
+            seed=seed,
+            params=params,
+            remesh_after_accept=RESIDUAL_REMESH_EVERY_STEP,
+            remesh_on_reject=RESIDUAL_REMESH_ON_REJECT,
+        )
+        row = row_for_result(
+            branch=label,
+            mass_fraction=float(params.stream_source_fraction),
+            seed=seed,
+            z=polish.z,
+            params=final_params,
+            polish=polish,
+            elapsed_s=elapsed,
+            extra={
+                **polish_meta,
+                "predictor_initial_full_current": float(initial_full),
+                "anchor_source_fraction": float(anchor_params.stream_source_fraction),
+                "anchor_wind_sink_fraction": float(anchor_params.wind_sink_fraction),
+                "anchor_heating_efficiency": float(anchor_params.stream_heating_efficiency),
+                "anchor_Rout_rg": float(anchor_params.R_out_rg),
+                "wind_step": float(wind_fraction - current_wind),
+            },
+            lean_diagnostics=bool(LEAN_REJECT_DIAGNOSTICS and gate_would_reject(polish.z, final_params)),
+        )
+        row["predictor"] = "current"
+        row["predictor_initial_full"] = float(initial_full)
+        apply_physical_gate(row)
+        row["newton_audit_path"] = "" if row.get("lean_diagnostics", False) else write_newton_audit(row, polish)
+        rows.append(row)
+        save_checkpoint(row, final_params)
+        write_table(rows)
+        write_figure(rows)
+        print(
+            f"  final={row['final_full']:.3e} dom={row['dominant']} wind={row['wind_sink_fraction']:.5g} "
+            f"Mout/Min={row['Mdot_outer_over_inner']:.5g} src={row['stream_source_integral_over_inner']:.5g} "
+            f"wind_int={row['wind_sink_integral_over_inner']:.5g} accepted={row['accepted']} "
+            f"physE={row.get('partition_physical_E', np.nan):.3e}",
+            flush=True,
+        )
+        if row["accepted"]:
+            current_z = np.asarray(polish.z, dtype=float)
+            current_params = final_params
+            current_wind = float(wind_fraction)
+        else:
+            print(f"  stopping wind branch {label} at first non-accepted wind fraction", flush=True)
+            break
+
+
+def run_energy_wind_branch(
+    *,
+    label: str,
+    epsilons: list[float],
+    coordinates: list[float],
+    coordinate_name: str,
+    anchor_z: np.ndarray,
+    anchor_params: TransonicSlimParams,
+    previous_z: np.ndarray | None = None,
+    previous_epsilon: float | None = None,
+    fiducial: FiducialParams,
+    mdot_edd: float,
+    rows: list[dict[str, Any]],
+) -> None:
+    if len(epsilons) != len(coordinates):
+        raise ValueError("energy-wind epsilon and coordinate target lists must have the same length")
+    coordinate_name = str(coordinate_name).strip().lower()
+    if coordinate_name not in {"epsilon", "eta"}:
+        raise ValueError("energy-wind coordinate must be 'epsilon' or 'eta'")
+    current_z = np.asarray(anchor_z, dtype=float)
+    current_params = anchor_params
+    current_epsilon = float(anchor_params.wind_energy_limited_epsilon)
+    current_coordinate = energy_wind_epsilon_to_eta(current_epsilon) if coordinate_name == "eta" else float(current_epsilon)
+    prev_z: np.ndarray | None = None if previous_z is None else np.asarray(previous_z, dtype=float)
+    prev_epsilon: float | None = None if previous_epsilon is None else float(previous_epsilon)
+    prev_coordinate: float | None = (
+        None
+        if prev_epsilon is None
+        else (energy_wind_epsilon_to_eta(prev_epsilon) if coordinate_name == "eta" else float(prev_epsilon))
+    )
+    for epsilon, target_coordinate in zip(epsilons, coordinates):
+        params = params_for(
+            fiducial,
+            mdot_edd,
+            ratio=current_params.mdot_edd_ratio,
+            R_out_rg=current_params.R_out_rg,
+            n_nodes=current_params.n_nodes,
+            grid_power=current_params.grid_power,
+            custom_grid_xi=current_params.custom_grid_xi,
+            mass_fraction=current_params.stream_source_fraction,
+            source_center_fraction=current_params.stream_source_center_fraction,
+            source_log_width=current_params.stream_source_log_width,
+            source_shape=current_params.stream_source_shape,
+            source_shape_blend=current_params.stream_source_shape_blend,
+            torque_fraction=current_params.stream_torque_delta_l_fraction,
+            torque_center_fraction=current_params.stream_torque_center_fraction,
+            torque_log_width=current_params.stream_torque_log_width,
+            wind_sink_fraction=current_params.wind_sink_fraction,
+            wind_sink_center_fraction=current_params.wind_sink_center_fraction,
+            wind_sink_log_width=current_params.wind_sink_log_width,
+            wind_energy_limited_epsilon=float(epsilon),
+            wind_eddington_chi=current_params.wind_eddington_chi,
+            wind_activation_width_fraction=current_params.wind_activation_width_fraction,
+            stream_heating_efficiency=current_params.stream_heating_efficiency,
+            outer_closure=current_params.outer_closure,
+            outer_robin_chi=current_params.outer_robin_chi,
+            outer_robin_slope_target=current_params.outer_robin_slope_target,
+            outer_robin_slope_scale=current_params.outer_robin_slope_scale,
+            outer_buffer_inner_rg=current_params.outer_buffer_inner_rg,
+            outer_buffer_radial_weight=current_params.outer_buffer_radial_weight,
+            outer_buffer_energy_weight=current_params.outer_buffer_energy_weight,
+            outer_buffer_boundary_weight=current_params.outer_buffer_boundary_weight,
+            outer_buffer_taper_log_width=current_params.outer_buffer_taper_log_width,
+            interval_residual_form=current_params.interval_residual_form,
+            integrated_residual_weighting=current_params.integrated_residual_weighting,
+        )
+        params = apply_outer_slopes_from_state(current_z, params)
+        seed, predictor, initial_full, predictor_meta = energy_wind_epsilon_seed(
+            target_epsilon=float(epsilon),
+            current_epsilon=current_epsilon,
+            target_coordinate=float(target_coordinate),
+            current_coordinate=current_coordinate,
+            current_z=current_z,
+            prev_epsilon=prev_epsilon,
+            prev_coordinate=prev_coordinate,
+            prev_z=prev_z,
+            params=params,
+            coordinate_name=coordinate_name,
+        )
+        print(
+            f"{label} energy_wind_epsilon={epsilon:g} chi={params.wind_eddington_chi:g} "
+            f"width={params.wind_activation_width_fraction:g} "
+            f"current_epsilon={current_epsilon:g} coordinate={coordinate_name}:{target_coordinate:g} "
+            f"predictor={predictor} initial={initial_full:.3e}",
+            flush=True,
+        )
+        seed, polish, final_params, elapsed, polish_meta = polish_with_optional_residual_remesh(
+            seed=seed,
+            params=params,
+            remesh_after_accept=RESIDUAL_REMESH_EVERY_STEP,
+            remesh_on_reject=RESIDUAL_REMESH_ON_REJECT,
+        )
+        row = row_for_result(
+            branch=label,
+            mass_fraction=float(params.stream_source_fraction),
+            seed=seed,
+            z=polish.z,
+            params=final_params,
+            polish=polish,
+            elapsed_s=elapsed,
+            extra={
+                **predictor_meta,
+                **polish_meta,
+                "anchor_source_fraction": float(anchor_params.stream_source_fraction),
+                "anchor_wind_energy_limited_epsilon": float(anchor_params.wind_energy_limited_epsilon),
+                "anchor_heating_efficiency": float(anchor_params.stream_heating_efficiency),
+                "anchor_Rout_rg": float(anchor_params.R_out_rg),
+                "energy_wind_step": float(epsilon - current_epsilon),
+                "energy_wind_coordinate": str(coordinate_name),
+                "energy_wind_coordinate_target": float(target_coordinate),
+                "energy_wind_coordinate_current": float(current_coordinate),
+                "energy_wind_coordinate_step": float(target_coordinate - current_coordinate),
+            },
+            lean_diagnostics=bool(LEAN_REJECT_DIAGNOSTICS and gate_would_reject(polish.z, final_params)),
+        )
+        row["predictor"] = str(predictor)
+        row["predictor_initial_full"] = float(initial_full)
+        apply_physical_gate(row)
+        row["newton_audit_path"] = "" if row.get("lean_diagnostics", False) else write_newton_audit(row, polish)
+        rows.append(row)
+        save_checkpoint(row, final_params)
+        write_table(rows)
+        write_figure(rows)
+        print(
+            f"  final={row['final_full']:.3e} dom={row['dominant']} ewind={row['wind_energy_limited_epsilon']:.5g} "
+            f"chi={row['wind_eddington_chi']:.5g} width={row['wind_activation_width_fraction']:.5g} "
+            f"intQwQv={row['integrated_Qwind_Qvisc']:.3e} "
+            f"active={row['wind_active_interval_fraction']:.3g} "
+            f"accepted={row['accepted']} physE={row.get('partition_physical_E', np.nan):.3e}",
+            flush=True,
+        )
+        if row["accepted"]:
+            prev_z = np.asarray(current_z, dtype=float)
+            prev_epsilon = float(current_epsilon)
+            prev_coordinate = float(current_coordinate)
+            current_z = np.asarray(polish.z, dtype=float)
+            current_params = final_params
+            current_epsilon = float(epsilon)
+            current_coordinate = (
+                energy_wind_epsilon_to_eta(current_epsilon) if coordinate_name == "eta" else float(current_epsilon)
+            )
+        else:
+            print(f"  stopping energy-wind branch {label} at first non-accepted epsilon", flush=True)
+            break
+
+
 def main() -> None:
     fiducial = FiducialParams()
     mdot_edd = eddington_mdot(fiducial.M2_g)
@@ -2727,7 +3329,58 @@ def main() -> None:
     anchor_z, anchor_params = prepare_anchor_grid(anchor_z, anchor_params, fiducial, mdot_edd)
     rows: list[dict[str, Any]] = []
     heating_efficiencies = parse_heating_efficiencies()
-    if heating_efficiencies:
+    wind_fractions = parse_wind_fractions()
+    energy_wind_epsilons, energy_wind_coordinates, energy_wind_coordinate_name = parse_energy_wind_targets()
+    if energy_wind_epsilons:
+        previous_z: np.ndarray | None = None
+        previous_epsilon: float | None = None
+        if ENERGY_WIND_PREV_ANCHOR_RAW:
+            previous_path = ROOT / ENERGY_WIND_PREV_ANCHOR_RAW
+            loaded_previous_z, loaded_previous_params = load_anchor(previous_path, fiducial, mdot_edd)
+            loaded_previous_z, loaded_previous_params = prepare_anchor_grid(
+                loaded_previous_z,
+                loaded_previous_params,
+                fiducial,
+                mdot_edd,
+            )
+            if loaded_previous_z.shape == anchor_z.shape:
+                previous_z = loaded_previous_z
+                previous_epsilon = float(loaded_previous_params.wind_energy_limited_epsilon)
+                print(
+                    f"loaded previous energy-wind anchor {relative_root_path(previous_path)} "
+                    f"epsilon={previous_epsilon:g}",
+                    flush=True,
+                )
+            else:
+                print(
+                    f"ignoring previous energy-wind anchor {relative_root_path(previous_path)}: "
+                    f"shape {loaded_previous_z.shape} != anchor shape {anchor_z.shape}",
+                    flush=True,
+                )
+        run_energy_wind_branch(
+            label=ENERGY_WIND_LABEL,
+            epsilons=energy_wind_epsilons,
+            coordinates=energy_wind_coordinates,
+            coordinate_name=energy_wind_coordinate_name,
+            anchor_z=anchor_z,
+            anchor_params=anchor_params,
+            previous_z=previous_z,
+            previous_epsilon=previous_epsilon,
+            fiducial=fiducial,
+            mdot_edd=mdot_edd,
+            rows=rows,
+        )
+    elif wind_fractions:
+        run_wind_branch(
+            label=WIND_LABEL,
+            wind_fractions=wind_fractions,
+            anchor_z=anchor_z,
+            anchor_params=anchor_params,
+            fiducial=fiducial,
+            mdot_edd=mdot_edd,
+            rows=rows,
+        )
+    elif heating_efficiencies:
         run_heating_branch(
             label=HEATING_LABEL,
             heating_efficiencies=heating_efficiencies,

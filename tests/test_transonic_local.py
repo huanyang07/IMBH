@@ -295,6 +295,26 @@ class TransonicLocalTests(unittest.TestCase):
 
         self.assertLess(float(np.max(np.abs(direct - linear) / scale)), 1.0e-12)
 
+    def test_active_wind_differential_matrix_is_local_gradient_jacobian(self) -> None:
+        params = types.SimpleNamespace(
+            **{
+                **self.params.__dict__,
+                "wind_energy_limited_epsilon": 0.3,
+                "wind_eddington_chi": 0.2,
+                "wind_activation_width_fraction": 0.01,
+            }
+        )
+        A, _c = differential_matrix(self.logR, self.y, self.lambda0, params)
+        h = 3.0e-5
+        for column in range(2):
+            direction = np.zeros(2)
+            direction[column] = 1.0
+            plus = differential_residual(self.logR, self.y, h * direction, self.lambda0, params)
+            minus = differential_residual(self.logR, self.y, -h * direction, self.lambda0, params)
+            finite_difference = (plus - minus) / (2.0 * h)
+            scale = np.maximum(np.abs(finite_difference), np.abs(A[:, column])) + 1.0
+            self.assertLess(float(np.max(np.abs(finite_difference - A[:, column]) / scale)), 3.0e-8)
+
     def test_scaled_differential_matrix_matches_smooth_scales(self) -> None:
         A, c = differential_matrix(self.logR, self.y, self.lambda0, self.params)
         radial_scale, energy_scale = differential_residual_scales(self.logR, self.y, self.lambda0, self.params)
