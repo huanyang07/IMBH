@@ -52,6 +52,53 @@ def wind_energy_per_mass(M2_g: float, R_cm, v_inf=0.0, h_w=0.0, torque_work=0.0)
     )
 
 
+def wind_mass_loss_prime_from_energy(Q_wind, R_cm, E_w):
+    """Return positive wind mass loss per ``dlnR`` from an energy sink.
+
+    ``Q_wind`` is the two-sided vertically integrated loss rate per disk area.
+    The annulus luminosity per logarithmic radius is ``2 pi R^2 Q_wind``.
+    """
+
+    if np.any(np.asarray(R_cm) <= 0.0):
+        raise ValueError("R_cm must be positive")
+    if np.any(np.asarray(E_w) <= 0.0):
+        raise ValueError("E_w must be positive")
+    Q_wind = np.asarray(Q_wind, dtype=float)
+    R_cm = np.asarray(R_cm, dtype=float)
+    E_w = np.asarray(E_w, dtype=float)
+    return _as_float_or_array(2.0 * np.pi * R_cm**2 * Q_wind / E_w)
+
+
+def effective_wind_powerlaw_slope(Q_wind, R_cm, Mdot, E_w, floor: float = 1.0e-300):
+    """Return ``s_eff = dln(Mdot)/dlnR`` implied by an energy-coupled wind."""
+
+    if np.any(np.asarray(Mdot) <= 0.0):
+        raise ValueError("Mdot must be positive")
+    if floor <= 0.0:
+        raise ValueError("floor must be positive")
+    wind_prime = wind_mass_loss_prime_from_energy(Q_wind, R_cm, E_w)
+    return _as_float_or_array(np.asarray(wind_prime, dtype=float) / np.maximum(np.asarray(Mdot, dtype=float), floor))
+
+
+def required_wind_energy_for_powerlaw_slope(Q_wind, R_cm, Mdot, s_target, floor: float = 1.0e-300):
+    """Return the launch energy that would reproduce a target ``Mdot ~ R^s``."""
+
+    if np.any(np.asarray(R_cm) <= 0.0):
+        raise ValueError("R_cm must be positive")
+    if np.any(np.asarray(Mdot) <= 0.0):
+        raise ValueError("Mdot must be positive")
+    if np.any(np.asarray(s_target) <= 0.0):
+        raise ValueError("s_target must be positive")
+    if floor <= 0.0:
+        raise ValueError("floor must be positive")
+    Q_wind = np.asarray(Q_wind, dtype=float)
+    R_cm = np.asarray(R_cm, dtype=float)
+    Mdot = np.asarray(Mdot, dtype=float)
+    s_target = np.asarray(s_target, dtype=float)
+    denominator = np.maximum(s_target * Mdot, floor)
+    return _as_float_or_array(2.0 * np.pi * R_cm**2 * Q_wind / denominator)
+
+
 def energy_limited_wind(
     Q_avail,
     Q_edd,

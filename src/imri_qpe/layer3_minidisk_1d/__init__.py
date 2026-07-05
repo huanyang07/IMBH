@@ -155,6 +155,7 @@ from .transonic_local import (
     stream_torque_specific_l_and_derivative,
     mdot_profile_from_source_sink,
     wind_energy_loss_rate,
+    wind_sink_shape_and_derivative,
     wind_sink_prime,
     xi_eff_from_gradient,
 )
@@ -166,7 +167,16 @@ from .transonic_thermo import (
     surface_density,
     vertical_state,
 )
-from .winds import energy_limited_wind, energy_limited_wind_derivatives, q_available, q_edd_vertical, wind_energy_per_mass
+from .winds import (
+    effective_wind_powerlaw_slope,
+    energy_limited_wind,
+    energy_limited_wind_derivatives,
+    q_available,
+    q_edd_vertical,
+    required_wind_energy_for_powerlaw_slope,
+    wind_energy_per_mass,
+    wind_mass_loss_prime_from_energy,
+)
 
 __all__ = [
     "AlgebraicTransonicState",
@@ -231,6 +241,7 @@ __all__ = [
     "entropy_temperature_gradient",
     "energy_limited_wind",
     "energy_limited_wind_derivatives",
+    "effective_wind_powerlaw_slope",
     "evaluate_global_slim_profile",
     "evaluate_isolated_slim_profile",
     "integrated_energy_residual",
@@ -268,6 +279,7 @@ __all__ = [
     "q_advective",
     "q_available",
     "q_edd_vertical",
+    "required_wind_energy_for_powerlaw_slope",
     "radial_gradient",
     "radial_velocity_from_angular_momentum",
     "radiative_cooling",
@@ -324,6 +336,8 @@ __all__ = [
     "viscous_diffusion_rhs",
     "vertical_structure_arrays",
     "wind_energy_per_mass",
+    "wind_sink_shape_and_derivative",
+    "wind_mass_loss_prime_from_energy",
     "xi_eff_from_gradient",
     "xi_eff",
 ]

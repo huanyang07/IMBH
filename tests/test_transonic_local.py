@@ -40,6 +40,7 @@ from imri_qpe.layer3_minidisk_1d import (
     stream_torque_specific_l_and_derivative,
     surface_density,
     vertical_state,
+    wind_sink_shape_and_derivative,
     wind_sink_prime,
     xi_eff_from_gradient,
 )
@@ -240,6 +241,57 @@ class TransonicLocalTests(unittest.TestCase):
         self.assertGreaterEqual(source, 0.0)
         self.assertGreaterEqual(wind, 0.0)
         self.assertAlmostEqual(derivative, wind - source)
+
+    def test_powerlaw_wind_sink_reproduces_target_s_when_normalized(self) -> None:
+        inner_rg = 5.0
+        target_s = 0.7
+        R_out_rg = 300.0
+        wind_fraction = (R_out_rg / inner_rg) ** target_s - 1.0
+        params = types.SimpleNamespace(
+            **{
+                **self.params.__dict__,
+                "R_out": R_out_rg * self.potential.r_g,
+                "wind_sink_fraction": wind_fraction,
+                "wind_sink_shape": "powerlaw",
+                "wind_sink_powerlaw_inner_rg": inner_rg,
+                "wind_sink_powerlaw_s": target_s,
+            }
+        )
+        logR = float(np.log(40.0 * self.potential.r_g))
+
+        shape, dshape = wind_sink_shape_and_derivative(logR, params)
+        mdot, derivative = mdot_profile_from_source_sink(logR, params)
+        expected_factor = (40.0 / inner_rg) ** target_s
+        edges = np.linspace(np.log(inner_rg * self.potential.r_g), np.log(params.R_out), 4001)
+        midpoints = 0.5 * (edges[:-1] + edges[1:])
+        dx = np.diff(edges)
+        wind_integral = np.sum([wind_sink_prime(float(x), params) * step for x, step in zip(midpoints, dx)])
+
+        self.assertGreater(shape, 0.0)
+        self.assertGreater(dshape, 0.0)
+        self.assertAlmostEqual(mdot / self.params.Mdot_g_s, expected_factor)
+        self.assertAlmostEqual(derivative / mdot, target_s)
+        self.assertAlmostEqual(wind_integral / self.params.Mdot_g_s, wind_fraction, places=6)
+
+    def test_tabulated_mdot_profile_interpolates_log_mdot(self) -> None:
+        logR0 = float(np.log(10.0 * self.potential.r_g))
+        logR1 = float(np.log(40.0 * self.potential.r_g))
+        target_s = 0.3
+        log_mdot0 = np.log(self.params.Mdot_g_s)
+        params = types.SimpleNamespace(
+            **{
+                **self.params.__dict__,
+                "mdot_profile_mode": "tabulated",
+                "mdot_profile_logR": (logR0, logR1),
+                "mdot_profile_logMdot": (log_mdot0, log_mdot0 + target_s * (logR1 - logR0)),
+            }
+        )
+        midpoint = 0.5 * (logR0 + logR1)
+
+        mdot, derivative = stream_mass_rate_and_derivative(midpoint, params)
+
+        self.assertAlmostEqual(derivative / mdot, target_s)
+        self.assertAlmostEqual(np.log(mdot), log_mdot0 + target_s * (midpoint - logR0))
 
     def test_stream_heating_rate_tracks_positive_mass_deposition(self) -> None:
         params = types.SimpleNamespace(

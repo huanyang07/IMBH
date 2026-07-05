@@ -73,6 +73,12 @@ class TransonicSlimParams:
     wind_sink_fraction: float = 0.0
     wind_sink_center_fraction: float = 0.8
     wind_sink_log_width: float = 0.08
+    wind_sink_shape: str = "tanh"
+    wind_sink_powerlaw_inner_rg: float = 5.0
+    wind_sink_powerlaw_s: float = 1.0
+    mdot_profile_mode: str = "source_sink"
+    mdot_profile_logR: tuple[float, ...] | None = None
+    mdot_profile_logMdot: tuple[float, ...] | None = None
     wind_energy_limited_epsilon: float = 0.0
     wind_eddington_chi: float = 1.0
     wind_activation_width_fraction: float = 0.0
@@ -201,6 +207,28 @@ class TransonicSlimParams:
             raise ValueError("wind_sink_center_fraction must be positive")
         if self.wind_sink_log_width <= 0.0:
             raise ValueError("wind_sink_log_width must be positive")
+        if str(self.wind_sink_shape).strip().lower() not in {"tanh", "compact", "compact_c2", "c2", "powerlaw"}:
+            raise ValueError("wind_sink_shape must be 'tanh', 'compact_c2', or 'powerlaw'")
+        if not np.isfinite(float(self.wind_sink_powerlaw_inner_rg)) or self.wind_sink_powerlaw_inner_rg <= 2.0:
+            raise ValueError("wind_sink_powerlaw_inner_rg must be finite and outside the pseudo-horizon")
+        if self.wind_sink_powerlaw_inner_rg >= self.R_out_rg:
+            raise ValueError("wind_sink_powerlaw_inner_rg must be smaller than R_out_rg")
+        if not np.isfinite(float(self.wind_sink_powerlaw_s)) or self.wind_sink_powerlaw_s < 0.0:
+            raise ValueError("wind_sink_powerlaw_s must be finite and non-negative")
+        mdot_mode = str(self.mdot_profile_mode).strip().lower()
+        if mdot_mode not in {"source_sink", "tabulated"}:
+            raise ValueError("mdot_profile_mode must be 'source_sink' or 'tabulated'")
+        if mdot_mode == "tabulated":
+            if self.mdot_profile_logR is None or self.mdot_profile_logMdot is None:
+                raise ValueError("tabulated mdot mode requires mdot_profile_logR and mdot_profile_logMdot")
+            logR = np.asarray(self.mdot_profile_logR, dtype=float)
+            logMdot = np.asarray(self.mdot_profile_logMdot, dtype=float)
+            if logR.ndim != 1 or logMdot.ndim != 1 or logR.size != logMdot.size or logR.size < 2:
+                raise ValueError("tabulated mdot arrays must be one-dimensional arrays of equal length >= 2")
+            if not np.all(np.isfinite(logR)) or not np.all(np.isfinite(logMdot)):
+                raise ValueError("tabulated mdot arrays must be finite")
+            if np.any(np.diff(logR) <= 0.0):
+                raise ValueError("mdot_profile_logR must be strictly increasing")
         if not np.isfinite(float(self.wind_energy_limited_epsilon)):
             raise ValueError("wind_energy_limited_epsilon must be finite")
         if not 0.0 <= float(self.wind_energy_limited_epsilon) <= 1.0:

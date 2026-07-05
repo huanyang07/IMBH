@@ -234,6 +234,52 @@ def _wind_sink_geometry(params) -> tuple[float, float]:
     return center, width
 
 
+def _wind_sink_shape(params) -> str:
+    return str(getattr(params, "wind_sink_shape", "tanh")).strip().lower()
+
+
+def _wind_sink_powerlaw_inner_rg(params) -> float:
+    return float(getattr(params, "wind_sink_powerlaw_inner_rg", 5.0))
+
+
+def _wind_sink_powerlaw_s(params) -> float:
+    return float(getattr(params, "wind_sink_powerlaw_s", 1.0))
+
+
+def wind_sink_shape_and_derivative(logR: float, params) -> tuple[float, float]:
+    """Return cumulative wind-sink shape and derivative per ``dlnR``."""
+
+    shape = _wind_sink_shape(params)
+    if shape == "powerlaw":
+        inner_rg = _wind_sink_powerlaw_inner_rg(params)
+        s_power = _wind_sink_powerlaw_s(params)
+        if inner_rg <= 2.0:
+            raise ValueError("wind_sink_powerlaw_inner_rg must be outside the pseudo-horizon")
+        if not np.isfinite(s_power) or s_power < 0.0:
+            raise ValueError("wind_sink_powerlaw_s must be finite and non-negative")
+        potential = PaczynskiWiitaPotential(params.M2_g)
+        x0 = float(np.log(inner_rg * potential.r_g))
+        x1 = float(np.log(params.R_out))
+        if x1 <= x0:
+            raise ValueError("wind power-law interval must end outside wind_sink_powerlaw_inner_rg")
+        x = float(logR)
+        if x <= x0:
+            return 0.0, 0.0
+        if x >= x1:
+            return 1.0, 0.0
+        span = x1 - x0
+        shifted = x - x0
+        if s_power < 1.0e-12:
+            return float(shifted / span), float(1.0 / span)
+        denominator = float(np.expm1(s_power * span))
+        shape_value = float(np.expm1(s_power * shifted) / denominator)
+        derivative = float(s_power * np.exp(s_power * shifted) / denominator)
+        return shape_value, derivative
+
+    center_fraction, log_width = _wind_sink_geometry(params)
+    return stream_annulus_shape_and_derivative(logR, center_fraction, log_width, float(params.R_out), shape)
+
+
 def stream_source_prime(logR: float, params) -> float:
     """Return positive stream mass added to the disk per ``dlnR``."""
 
@@ -260,8 +306,7 @@ def wind_sink_prime(logR: float, params) -> float:
         return 0.0
     if fraction < 0.0:
         raise ValueError("wind sink fraction must be non-negative")
-    center_fraction, log_width = _wind_sink_geometry(params)
-    shape, dshape_dx = stream_annulus_shape_and_derivative(logR, center_fraction, log_width, float(params.R_out))
+    shape, dshape_dx = wind_sink_shape_and_derivative(logR, params)
     _ = shape
     return float(params.Mdot_g_s * fraction * dshape_dx)
 
@@ -292,13 +337,36 @@ def mdot_profile_from_source_sink(logR: float, params) -> tuple[float, float]:
         )
     wind_shape = 0.0
     if wind_fraction != 0.0:
-        center_fraction, log_width = _wind_sink_geometry(params)
-        wind_shape, _wind_dshape = stream_annulus_shape_and_derivative(logR, center_fraction, log_width, float(params.R_out))
+        wind_shape, _wind_dshape = wind_sink_shape_and_derivative(logR, params)
     factor = 1.0 + wind_fraction * wind_shape - source_fraction * source_shape
     if factor <= 0.0:
         raise ValueError("source/sink profile produced non-positive inward Mdot")
     derivative = wind_sink_prime(logR, params) - stream_source_prime(logR, params)
     return float(params.Mdot_g_s * factor), float(derivative)
+
+
+def _mdot_profile_from_tabulated(logR: float, params) -> tuple[float, float]:
+    grid = np.asarray(getattr(params, "mdot_profile_logR", ()), dtype=float)
+    values = np.asarray(getattr(params, "mdot_profile_logMdot", ()), dtype=float)
+    if grid.ndim != 1 or values.ndim != 1 or grid.size != values.size or grid.size < 2:
+        raise ValueError("tabulated mdot profile requires matching one-dimensional arrays of length >= 2")
+    if np.any(np.diff(grid) <= 0.0):
+        raise ValueError("tabulated mdot profile grid must be strictly increasing")
+    x = float(logR)
+    if x <= grid[0]:
+        idx = 0
+        log_mdot = float(values[0])
+    elif x >= grid[-1]:
+        idx = grid.size - 2
+        log_mdot = float(values[-1])
+    else:
+        idx = int(np.searchsorted(grid, x, side="right") - 1)
+        dx = float(grid[idx + 1] - grid[idx])
+        weight = float((x - grid[idx]) / dx)
+        log_mdot = float((1.0 - weight) * values[idx] + weight * values[idx + 1])
+    slope = float((values[idx + 1] - values[idx]) / (grid[idx + 1] - grid[idx]))
+    mdot = float(np.exp(log_mdot))
+    return mdot, float(mdot * slope)
 
 
 def stream_mass_rate_and_derivative(logR: float, params) -> tuple[float, float]:
@@ -309,6 +377,8 @@ def stream_mass_rate_and_derivative(logR: float, params) -> tuple[float, float]:
     :func:`wind_sink_prime` explicitly.
     """
 
+    if str(getattr(params, "mdot_profile_mode", "source_sink")).strip().lower() == "tabulated":
+        return _mdot_profile_from_tabulated(logR, params)
     return mdot_profile_from_source_sink(logR, params)
 
 

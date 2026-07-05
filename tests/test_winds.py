@@ -4,11 +4,14 @@ import math
 import unittest
 
 from imri_qpe.layer3_minidisk_1d import (
+    effective_wind_powerlaw_slope,
     energy_limited_wind,
     energy_limited_wind_derivatives,
     q_available,
     q_edd_vertical,
+    required_wind_energy_for_powerlaw_slope,
     wind_energy_per_mass,
+    wind_mass_loss_prime_from_energy,
 )
 
 
@@ -23,6 +26,26 @@ class WindClosureTests(unittest.TestCase):
         E_w = wind_energy_per_mass(2.0, 4.0)
 
         self.assertGreater(E_w, 0.0)
+
+    def test_wind_mass_loss_prime_from_energy(self) -> None:
+        mdot_prime = wind_mass_loss_prime_from_energy(Q_wind=3.0, R_cm=2.0, E_w=6.0)
+
+        self.assertAlmostEqual(mdot_prime, 4.0 * math.pi)
+
+    def test_effective_wind_powerlaw_slope(self) -> None:
+        s_eff = effective_wind_powerlaw_slope(Q_wind=3.0, R_cm=2.0, Mdot=8.0 * math.pi, E_w=6.0)
+
+        self.assertAlmostEqual(s_eff, 0.5)
+
+    def test_required_wind_energy_for_powerlaw_slope(self) -> None:
+        E_required = required_wind_energy_for_powerlaw_slope(
+            Q_wind=3.0,
+            R_cm=2.0,
+            Mdot=8.0 * math.pi,
+            s_target=0.25,
+        )
+
+        self.assertAlmostEqual(E_required, 12.0)
 
     def test_energy_limited_wind_partition(self) -> None:
         Q_wind, Q_rad, dotSigma_w = energy_limited_wind(Q_avail=10.0, Q_edd=6.0, E_w=2.0, epsilon_w=0.25)
