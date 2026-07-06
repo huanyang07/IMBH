@@ -25,6 +25,7 @@ from imri_qpe.layer3_minidisk_1d import (  # noqa: E402
     entropy_gradient_log,
     scaled_differential_matrix,
     state_partials,
+    stream_annulus_shape_and_derivative,
     stream_heating_rate,
     stream_mass_rate_and_derivative,
     stream_source_prime,
@@ -82,6 +83,110 @@ SOURCE_BAND_EXTRA_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURC
 SOURCE_BAND_MIN_RG_RAW = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_MIN_RG", "").strip()
 SOURCE_BAND_MAX_RG_RAW = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_MAX_RG", "").strip()
 SOURCE_BAND_TAPER_LOG_WIDTH = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_TAPER_LOG_WIDTH", "0.0"))
+SOURCE_MICRO_DOMAIN = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_MICRO_DOMAIN", "0").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+SOURCE_MICRO_NODES = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_MICRO_NODES", "32"))
+SOURCE_MICRO_LOCAL_CORRECT = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_MICRO_LOCAL_CORRECT", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_MICRO_FREEZE_EDGES = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_MICRO_FREEZE_EDGES", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_MICRO_EDGE_ANCHOR_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_MICRO_EDGE_ANCHOR_WEIGHT", "0.1"))
+SOURCE_MICRO_ALL_ANCHOR_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_MICRO_ALL_ANCHOR_WEIGHT", "0.0"))
+SOURCE_MICRO_INCLUDE_GLOBALS = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_MICRO_INCLUDE_GLOBALS", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_MICRO_STATE_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_MICRO_STATE_WEIGHT", "1.0"))
+SOURCE_MICRO_HERMITE_OVERSHOOT_LIMIT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_MICRO_HERMITE_OVERSHOOT_LIMIT", "0.5")
+)
+SOURCE_MICRO_MAX_NFEV = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_MICRO_MAX_NFEV", "120"))
+SOURCE_DOMAIN_CORRECT = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_DOMAIN_CORRECT", "0").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+SOURCE_DOMAIN_FRACTIONS_RAW = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_DOMAIN_FRACTIONS", "0.25,0.5,0.75")
+SOURCE_DOMAIN_MAX_NFEV = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_DOMAIN_MAX_NFEV", "120"))
+SOURCE_DOMAIN_FREEZE_EDGES = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_DOMAIN_FREEZE_EDGES", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_DOMAIN_EDGE_ANCHOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_DOMAIN_EDGE_ANCHOR_WEIGHT", "0.1")
+)
+SOURCE_DOMAIN_ALL_ANCHOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_DOMAIN_ALL_ANCHOR_WEIGHT", "0.0")
+)
+SOURCE_DOMAIN_INCLUDE_GLOBALS = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_DOMAIN_INCLUDE_GLOBALS", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_DOMAIN_LINE_SEARCH_STEPS = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_DOMAIN_LINE_SEARCH_STEPS", "12"))
+SOURCE_DOMAIN_HALO_INTERVALS = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_DOMAIN_HALO_INTERVALS", "0"))
+SOURCE_BUFFER_CORRECT = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BUFFER_CORRECT", "0").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+SOURCE_BUFFER_FRACTIONS_RAW = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BUFFER_FRACTIONS", SOURCE_DOMAIN_FRACTIONS_RAW
+)
+SOURCE_BUFFER_HALO_INTERVALS = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BUFFER_HALO_INTERVALS", "4"))
+SOURCE_BUFFER_MAX_NFEV = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BUFFER_MAX_NFEV", "160"))
+SOURCE_BUFFER_FREEZE_EDGES = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BUFFER_FREEZE_EDGES", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BUFFER_EDGE_ANCHOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BUFFER_EDGE_ANCHOR_WEIGHT", "0.1")
+)
+SOURCE_BUFFER_ALL_ANCHOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BUFFER_ALL_ANCHOR_WEIGHT", "0.0")
+)
+SOURCE_BUFFER_INCLUDE_GLOBALS = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BUFFER_INCLUDE_GLOBALS", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BUFFER_LINE_SEARCH_STEPS = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BUFFER_LINE_SEARCH_STEPS", "12"))
+SOURCE_BUFFER_STATE_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BUFFER_STATE_WEIGHT", "1.0"))
+SOURCE_BUFFER_INTEGRAL_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BUFFER_INTEGRAL_WEIGHT", "1.0"))
+SOURCE_BUFFER_JUMP_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BUFFER_JUMP_WEIGHT", "1.0"))
+SOURCE_BUFFER_MASS_QUADRATURE = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BUFFER_MASS_QUADRATURE", "midpoint"
+).strip().lower()
+SOURCE_ELEMENT_REFINE = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_REFINE", "0").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+SOURCE_ELEMENT_SUBDIVISIONS = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_SUBDIVISIONS", "2"))
+SOURCE_ELEMENT_HALO_INTERVALS = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_HALO_INTERVALS", str(SOURCE_BUFFER_HALO_INTERVALS))
+)
+SOURCE_ELEMENT_REMAP_METHOD = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_REMAP_METHOD", "linear").strip().lower()
+SOURCE_ELEMENT_MASS_SEED = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_MASS_SEED", "none").strip().lower()
+SOURCE_ELEMENT_MASS_SEED_SWEEPS = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_MASS_SEED_SWEEPS", "2"))
+SOURCE_BAND_FINITE_VOLUME_MASS_RAW = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_FINITE_VOLUME_MASS", ""
+).strip().lower()
+SOURCE_BAND_FINITE_VOLUME_MASS = (
+    SOURCE_BAND_FINITE_VOLUME_MASS_RAW in {"1", "true", "yes", "on"}
+    if SOURCE_BAND_FINITE_VOLUME_MASS_RAW
+    else SOURCE_MICRO_DOMAIN
+)
+SOURCE_BAND_EXTRA_AUDIT_ONLY_RAW = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_EXTRA_AUDIT_ONLY", ""
+).strip().lower()
+SOURCE_BAND_EXTRA_AUDIT_ONLY = (
+    SOURCE_BAND_EXTRA_AUDIT_ONLY_RAW in {"1", "true", "yes", "on"}
+    if SOURCE_BAND_EXTRA_AUDIT_ONLY_RAW
+    else SOURCE_MICRO_DOMAIN
+)
 ACCEPT_TOL = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ACCEPT_TOL", "1e-5"))
 OUTER_BUFFER_WEIGHT_RAW = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_OUTER_BUFFER_WEIGHT", "").strip()
 OUTER_BUFFER_INNER_RG_RAW = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_OUTER_BUFFER_INNER_RG", "").strip()
@@ -373,10 +478,8 @@ def _inner_mdot_row_index(params) -> int:
 
 
 def _residual(x: np.ndarray, params) -> np.ndarray:
-    rows = np.asarray(pilot.residual(x, params), dtype=float).copy()
-    if INNER_MDOT_WEIGHT != 1.0:
-        rows[_inner_mdot_row_index(params)] *= float(INNER_MDOT_WEIGHT)
-    if SOURCE_BAND_EXTRA_ROWS:
+    rows = _production_residual_base(x, params)
+    if SOURCE_BAND_EXTRA_ROWS and not SOURCE_BAND_EXTRA_AUDIT_ONLY:
         rows = np.concatenate([rows, _source_band_extra_residual_rows(x, params)])
     return rows
 
@@ -433,6 +536,205 @@ def _source_band_default_bounds_rg(params) -> tuple[float, float]:
     band_min = float(SOURCE_BAND_MIN_RG_RAW) if SOURCE_BAND_MIN_RG_RAW else default_min
     band_max = float(SOURCE_BAND_MAX_RG_RAW) if SOURCE_BAND_MAX_RG_RAW else default_max
     return band_min, band_max
+
+
+def _source_band_default_bounds_logR(params) -> tuple[float, float]:
+    band_min_rg, band_max_rg = _source_band_default_bounds_rg(params)
+    if not (np.isfinite(band_min_rg) and np.isfinite(band_max_rg)) or band_max_rg <= band_min_rg:
+        return math.inf, -math.inf
+    return float(np.log(band_min_rg * params.r_g)), float(np.log(band_max_rg * params.r_g))
+
+
+def _source_center_logR(params) -> float:
+    source_fraction = float(getattr(params, "stream_source_fraction", 0.0))
+    legacy_fraction = float(getattr(params, "stream_mass_fraction", 0.0))
+    if source_fraction == 0.0 and legacy_fraction == 0.0:
+        return math.nan
+    if source_fraction != 0.0:
+        center_fraction = float(getattr(params, "stream_source_center_fraction", 0.8))
+    else:
+        center_fraction = float(getattr(params, "stream_mass_center_fraction", 0.8))
+    center_rg = center_fraction * float(params.R_out_rg)
+    return float(np.log(center_rg * params.r_g)) if center_rg > 0.0 else math.nan
+
+
+def _interval_overlaps_source_band(logR: np.ndarray, idx: int, params) -> bool:
+    band_min, band_max = _source_band_default_bounds_logR(params)
+    if not (np.isfinite(band_min) and np.isfinite(band_max)) or band_max <= band_min:
+        return False
+    left = float(logR[idx])
+    right = float(logR[idx + 1])
+    return bool(right >= band_min and left <= band_max)
+
+
+def _stream_source_integral(logR_left: float, logR_right: float, params) -> float:
+    """Analytic integral of the compact/tanh stream source over ``dlnR``."""
+
+    source_fraction = float(getattr(params, "stream_source_fraction", 0.0))
+    legacy_fraction = float(getattr(params, "stream_mass_fraction", 0.0))
+    if source_fraction == 0.0 and legacy_fraction == 0.0:
+        return 0.0
+    if source_fraction != 0.0:
+        fraction = source_fraction
+        center_fraction = float(getattr(params, "stream_source_center_fraction", 0.8))
+        log_width = float(getattr(params, "stream_source_log_width", 0.08))
+        shape = str(getattr(params, "stream_source_shape", "tanh"))
+        blend = float(getattr(params, "stream_source_shape_blend", 1.0))
+    else:
+        fraction = legacy_fraction
+        center_fraction = float(getattr(params, "stream_mass_center_fraction", 0.8))
+        log_width = float(getattr(params, "stream_mass_log_width", 0.08))
+        shape = "tanh"
+        blend = 1.0
+    shape_left, _ = stream_annulus_shape_and_derivative(
+        float(logR_left), center_fraction, log_width, float(params.R_out), shape, blend
+    )
+    shape_right, _ = stream_annulus_shape_and_derivative(
+        float(logR_right), center_fraction, log_width, float(params.R_out), shape, blend
+    )
+    return float(params.Mdot_g_s * fraction * (shape_right - shape_left))
+
+
+def _finite_volume_mass_residual_from_unpacked(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    local_params,
+    idx: int,
+) -> float:
+    """Return a dimensionless finite-volume mass residual for one interval."""
+
+    wind_integral, source_integral, mdot_scale, mdot_left, mdot_right = _finite_volume_mass_terms_from_unpacked(
+        logu, logT, logMdot, logR, lambda0, local_params, idx
+    )
+    return float(MASS_WEIGHT * (mdot_right - mdot_left - (wind_integral - source_integral)) / mdot_scale)
+
+
+def _finite_volume_mass_terms_from_unpacked(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    local_params,
+    idx: int,
+) -> tuple[float, float, float, float, float]:
+    """Return wind/source integrals, scale, and endpoint Mdot values."""
+
+    dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
+    F_left = _ode_slope(float(logR[idx]), y_left, lambda0, local_params)
+    F_right = _ode_slope(float(logR[idx + 1]), y_right, lambda0, local_params)
+    if not (np.all(np.isfinite(F_left)) and np.all(np.isfinite(F_right))):
+        F_left = F_right = (y_right - y_left) / dx
+    y_mid, _used_hermite_midpoint = _bounded_hermite_midpoint(y_left, y_right, F_left, F_right, dx, local_params)
+    F_mid = _ode_slope(xm, y_mid, lambda0, local_params)
+    if not np.all(np.isfinite(F_mid)):
+        F_mid = (y_right - y_left) / dx
+    wind_left = _safe_wind_prime(float(logR[idx]), y_left, F_left, lambda0, local_params)
+    wind_mid = _safe_wind_prime(xm, y_mid, F_mid, lambda0, local_params)
+    wind_right = _safe_wind_prime(float(logR[idx + 1]), y_right, F_right, lambda0, local_params)
+    if not (np.isfinite(wind_left) and np.isfinite(wind_mid) and np.isfinite(wind_right)):
+        gm = (y_right - y_left) / dx
+        linear_mid = 0.5 * (y_left + y_right)
+        wind_mid = _safe_wind_prime(xm, linear_mid, gm, lambda0, local_params)
+        if not np.isfinite(wind_mid):
+            wind_mid = 0.0
+        wind_left = wind_mid if not np.isfinite(wind_left) else wind_left
+        wind_right = wind_mid if not np.isfinite(wind_right) else wind_right
+    wind_integral = (dx / 6.0) * (wind_left + 4.0 * wind_mid + wind_right)
+    source_integral = _stream_source_integral(float(logR[idx]), float(logR[idx + 1]), local_params)
+    mdot_left = float(np.exp(logMdot[idx]))
+    mdot_right = float(np.exp(logMdot[idx + 1]))
+    mdot_scale = max(math.sqrt(max(mdot_left, 1.0e-300) * max(mdot_right, 1.0e-300)), 1.0e-300)
+    return float(wind_integral), float(source_integral), float(mdot_scale), mdot_left, mdot_right
+
+
+def _source_buffer_mass_terms_from_unpacked(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    local_params,
+    idx: int,
+) -> tuple[float, float, float, float, float]:
+    """Mass terms for the reduced source-buffer solve.
+
+    The production residual keeps the more expensive Simpson/end-point ODE
+    finite-volume row. The reduced corrector can use midpoint wind quadrature
+    to make local Jacobian evaluations affordable while keeping the analytic
+    stream-source integral exact.
+    """
+
+    if SOURCE_BUFFER_MASS_QUADRATURE in {"simpson", "fv", "finite_volume"}:
+        return _finite_volume_mass_terms_from_unpacked(logu, logT, logMdot, logR, lambda0, local_params, idx)
+    dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
+    ym = 0.5 * (y_left + y_right)
+    gm = (y_right - y_left) / dx
+    wind_prime = _safe_wind_prime(xm, ym, gm, lambda0, local_params)
+    if not np.isfinite(wind_prime):
+        wind_prime = 0.0
+    wind_integral = float(wind_prime * dx)
+    source_integral = _stream_source_integral(float(logR[idx]), float(logR[idx + 1]), local_params)
+    mdot_left = float(np.exp(logMdot[idx]))
+    mdot_right = float(np.exp(logMdot[idx + 1]))
+    mdot_scale = max(math.sqrt(max(mdot_left, 1.0e-300) * max(mdot_right, 1.0e-300)), 1.0e-300)
+    return wind_integral, float(source_integral), float(mdot_scale), mdot_left, mdot_right
+
+
+def _bounded_hermite_midpoint(
+    y_left: np.ndarray,
+    y_right: np.ndarray,
+    F_left: np.ndarray,
+    F_right: np.ndarray,
+    dx: float,
+    params,
+) -> tuple[np.ndarray, bool]:
+    linear = 0.5 * (y_left + y_right)
+    if not (np.all(np.isfinite(F_left)) and np.all(np.isfinite(F_right))):
+        return linear, False
+    candidate = linear + (float(dx) / 8.0) * (F_left - F_right)
+    lower = np.asarray([params.logu_bounds[0], params.logT_bounds[0]], dtype=float)
+    upper = np.asarray([params.logu_bounds[1], params.logT_bounds[1]], dtype=float)
+    lo = np.minimum(y_left, y_right) - abs(float(SOURCE_MICRO_HERMITE_OVERSHOOT_LIMIT))
+    hi = np.maximum(y_left, y_right) + abs(float(SOURCE_MICRO_HERMITE_OVERSHOOT_LIMIT))
+    lo = np.maximum(lo, lower)
+    hi = np.minimum(hi, upper)
+    if not np.all(np.isfinite(candidate)) or np.any(candidate < lo) or np.any(candidate > hi):
+        return linear, False
+    return candidate, True
+
+
+def _safe_wind_prime(logR: float, y: np.ndarray, g: np.ndarray, lambda0: float, params) -> float:
+    try:
+        value = pilot._wind_mass_prime(float(logR), np.asarray(y, dtype=float), np.asarray(g, dtype=float), lambda0, params)
+        return float(value) if np.isfinite(value) else math.nan
+    except Exception:
+        return math.nan
+
+
+def _production_residual_base(x: np.ndarray, params) -> np.ndarray:
+    """Return local-Mdot residual rows with optional finite-volume source-band mass rows."""
+
+    rows = np.asarray(pilot.residual(x, params), dtype=float).copy()
+    if INNER_MDOT_WEIGHT != 1.0:
+        rows[_inner_mdot_row_index(params)] *= float(INNER_MDOT_WEIGHT)
+    if not SOURCE_BAND_FINITE_VOLUME_MASS:
+        return rows
+    try:
+        logu, logT, logMdot, _logR_son, lambda0, logR = pilot._unpack(x, params)
+        local_params = pilot._local_params(params, logR, logMdot)
+        mass_start = _inner_mdot_row_index(params) + 1
+        for idx in range(int(params.n_nodes) - 1):
+            if _interval_overlaps_source_band(logR, idx, local_params):
+                rows[mass_start + idx] = _finite_volume_mass_residual_from_unpacked(
+                    logu, logT, logMdot, logR, lambda0, local_params, idx
+                )
+    except Exception:
+        return np.full(3 * int(params.n_nodes) + 2, 1.0e6, dtype=float)
+    return rows
 
 
 def _source_band_row_weight(R_rg: float, band_min_rg: float, band_max_rg: float) -> float:
@@ -848,6 +1150,125 @@ def _remap_local_x_to_params(x_old: np.ndarray, old_params, new_params) -> np.nd
     x_new = pilot._pack(logu_new, logT_new, logMdot_new, logR_son, lambda0)
     lower, upper = pilot._bounds(new_params)
     return np.clip(x_new, lower + 1.0e-12, upper - 1.0e-12)
+
+
+def _hermite_interpolate(logR_old: np.ndarray, values: np.ndarray, slopes: np.ndarray, logR_new: np.ndarray) -> np.ndarray:
+    old = np.asarray(logR_old, dtype=float)
+    vals = np.asarray(values, dtype=float)
+    deriv = np.asarray(slopes, dtype=float)
+    new = np.asarray(logR_new, dtype=float)
+    out = np.empty_like(new)
+    for pos, x_value in enumerate(new):
+        x = float(x_value)
+        if x <= old[0]:
+            idx = 0
+        elif x >= old[-1]:
+            idx = old.size - 2
+        else:
+            idx = int(np.searchsorted(old, x, side="right") - 1)
+        dx = float(old[idx + 1] - old[idx])
+        if dx <= 0.0:
+            out[pos] = vals[idx]
+            continue
+        t = float((x - old[idx]) / dx)
+        if (
+            np.isfinite(deriv[idx])
+            and np.isfinite(deriv[idx + 1])
+            and np.isfinite(vals[idx])
+            and np.isfinite(vals[idx + 1])
+        ):
+            h00 = 2.0 * t**3 - 3.0 * t**2 + 1.0
+            h10 = t**3 - 2.0 * t**2 + t
+            h01 = -2.0 * t**3 + 3.0 * t**2
+            h11 = t**3 - t**2
+            candidate = h00 * vals[idx] + h10 * dx * deriv[idx] + h01 * vals[idx + 1] + h11 * dx * deriv[idx + 1]
+            limit = abs(float(SOURCE_MICRO_HERMITE_OVERSHOOT_LIMIT))
+            lo = min(float(vals[idx]), float(vals[idx + 1])) - limit
+            hi = max(float(vals[idx]), float(vals[idx + 1])) + limit
+            if np.isfinite(candidate) and lo <= candidate <= hi:
+                out[pos] = candidate
+            else:
+                out[pos] = (1.0 - t) * vals[idx] + t * vals[idx + 1]
+        else:
+            out[pos] = (1.0 - t) * vals[idx] + t * vals[idx + 1]
+    return out
+
+
+def _state_and_mdot_hermite_slopes(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    params,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    local_params = pilot._local_params(params, logR, logMdot)
+    y_slopes = np.empty((len(logR), 2), dtype=float)
+    mdot_slopes = np.empty(len(logR), dtype=float)
+    fallback_state = np.gradient(np.vstack([logu, logT]), logR, axis=1, edge_order=1)
+    fallback_mdot = np.gradient(logMdot, logR, edge_order=1)
+    for idx, x_value in enumerate(logR):
+        y = np.asarray([logu[idx], logT[idx]], dtype=float)
+        slope = _ode_slope(float(x_value), y, lambda0, local_params)
+        if not np.all(np.isfinite(slope)):
+            slope = np.asarray([fallback_state[0, idx], fallback_state[1, idx]], dtype=float)
+        y_slopes[idx] = slope
+        try:
+            mdot = max(float(np.exp(logMdot[idx])), 1.0e-300)
+            source_prime = stream_source_prime(float(x_value), local_params)
+            wind_prime = pilot._wind_mass_prime(float(x_value), y, slope, lambda0, local_params)
+            mdot_slopes[idx] = float((wind_prime - source_prime) / mdot)
+        except Exception:
+            mdot_slopes[idx] = float(fallback_mdot[idx])
+    return y_slopes[:, 0], y_slopes[:, 1], mdot_slopes
+
+
+def _hermite_remap_local_x_to_params(x_old: np.ndarray, old_params, new_params) -> np.ndarray:
+    logu_old, logT_old, logMdot_old, logR_son, lambda0, logR_old = pilot._unpack(x_old, old_params)
+    logR_new = pilot.computational_grid(new_params, logR_son)
+    slope_u, slope_T, slope_mdot = _state_and_mdot_hermite_slopes(
+        logu_old, logT_old, logMdot_old, logR_old, lambda0, old_params
+    )
+    logu_new = _hermite_interpolate(logR_old, logu_old, slope_u, logR_new)
+    logT_new = _hermite_interpolate(logR_old, logT_old, slope_T, logR_new)
+    logMdot_new = _hermite_interpolate(logR_old, logMdot_old, slope_mdot, logR_new)
+    x_new = pilot._pack(logu_new, logT_new, logMdot_new, logR_son, lambda0)
+    lower, upper = pilot._bounds(new_params)
+    return np.clip(x_new, lower + 1.0e-12, upper - 1.0e-12)
+
+
+def _source_microdomain_params_from_x(x_old: np.ndarray, old_params):
+    logu, _logT, _logMdot, logR_son, _lambda0, logR_old = pilot._unpack(x_old, old_params)
+    _ = logu
+    band_min, band_max = _source_band_default_bounds_logR(old_params)
+    center = _source_center_logR(old_params)
+    if not (np.isfinite(band_min) and np.isfinite(band_max) and band_max > band_min and np.isfinite(center)):
+        return old_params, {
+            "source_microdomain_enabled": True,
+            "source_microdomain_applied": False,
+            "source_microdomain_reason": "invalid source support",
+        }
+    n_band = max(3, int(SOURCE_MICRO_NODES))
+    band_nodes = np.linspace(band_min, band_max, n_band)
+    absolute_nodes = np.concatenate([logR_old, band_nodes, np.asarray([band_min, center, band_max], dtype=float)])
+    absolute_nodes = absolute_nodes[(absolute_nodes >= logR_old[0] - 1.0e-12) & (absolute_nodes <= logR_old[-1] + 1.0e-12)]
+    absolute_nodes = np.asarray(sorted({round(float(value), 14) for value in absolute_nodes}), dtype=float)
+    absolute_nodes[0] = float(logR_old[0])
+    absolute_nodes[-1] = float(logR_old[-1])
+    span = max(float(logR_old[-1] - logR_son), 1.0e-300)
+    xi = _enforce_min_spacing((absolute_nodes - float(logR_son)) / span)
+    new_params = replace(old_params, n_nodes=int(xi.size), custom_grid_xi=tuple(float(value) for value in xi))
+    return new_params, {
+        "source_microdomain_enabled": True,
+        "source_microdomain_applied": True,
+        "source_microdomain_old_N": int(old_params.n_nodes),
+        "source_microdomain_new_N": int(new_params.n_nodes),
+        "source_microdomain_requested_band_nodes": int(SOURCE_MICRO_NODES),
+        "source_microdomain_actual_band_nodes": int(np.count_nonzero((absolute_nodes >= band_min) & (absolute_nodes <= band_max))),
+        "source_microdomain_min_rg": float(np.exp(band_min) / old_params.r_g),
+        "source_microdomain_center_rg": float(np.exp(center) / old_params.r_g),
+        "source_microdomain_max_rg": float(np.exp(band_max) / old_params.r_g),
+    }
 
 
 def _node_preserving_refined_params(x_old: np.ndarray, old_params, target_params):
@@ -1364,7 +1785,7 @@ def _profile(label: str, x: np.ndarray, params, eta_E: float, jac_norms: dict[st
     _set_eta(eta_E)
     logu, logT, logMdot, logR_son, lambda0, logR = pilot._unpack(x, params)
     local_params = pilot._local_params(params, logR, logMdot)
-    residual = pilot.residual(x, params)
+    residual = _production_residual_base(x, params)
     n = int(params.n_nodes)
     mass_start = 2 * (n - 1) + 2 + 2 + 1
     inner_mdot_residual = float(residual[_inner_mdot_row_index(params)])
@@ -1472,6 +1893,8 @@ def _profile(label: str, x: np.ndarray, params, eta_E: float, jac_norms: dict[st
         row["local_block_jacobian_audit"] = _local_block_jacobian_audit(x, params, eta_E, peak_idx)
     if SOURCE_BAND_EXTRA_ROWS:
         row.update(_source_band_extra_profile(x, local_params))
+    row["source_band_finite_volume_mass"] = bool(SOURCE_BAND_FINITE_VOLUME_MASS)
+    row["source_band_extra_audit_only"] = bool(SOURCE_BAND_EXTRA_AUDIT_ONLY)
     return row
 
 
@@ -1493,7 +1916,7 @@ def _solve_stage(x0: np.ndarray, params, eta_E: float):
     }
     if USE_LOCAL_JACOBIAN:
         kwargs["jac"] = lambda trial: _local_finite_difference_jacobian(trial, params)
-    elif not SOURCE_BAND_EXTRA_ROWS:
+    elif not (SOURCE_BAND_EXTRA_ROWS and not SOURCE_BAND_EXTRA_AUDIT_ONLY):
         kwargs["jac_sparsity"] = pilot._sparsity(params)
     return least_squares(
         lambda trial: _residual(trial, params),
@@ -1688,7 +2111,7 @@ def _outer_band_relax(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray,
 
 
 def _residual_metrics_for_x(x: np.ndarray, params) -> dict[str, float]:
-    residual = np.asarray(pilot.residual(x, params), dtype=float)
+    residual = np.asarray(_production_residual_base(x, params), dtype=float)
     n = int(params.n_nodes)
     _logu, _logT, _logMdot, _logR_son, _lambda0, logR = pilot._unpack(x, params)
     interval_R = residual[0 : 2 * (n - 1) : 2]
@@ -1733,15 +2156,20 @@ def _fast_block_rows(
             idx = int(idx_value)
             rows.extend(pilot._interval_residual_from_unpacked(logu, logT, logR, lambda0, local_params, idx))
             dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
-            ym = 0.5 * (y_left + y_right)
-            gm = (y_right - y_left) / dx
-            logMdot_mid = 0.5 * (logMdot[idx] + logMdot[idx + 1])
-            mdot_mid = float(np.exp(logMdot_mid))
-            dlogMdot_dx = float((logMdot[idx + 1] - logMdot[idx]) / dx)
-            source_prime = stream_source_prime(xm, local_params)
-            wind_prime = pilot._wind_mass_prime(xm, ym, gm, lambda0, local_params)
-            target = float((wind_prime - source_prime) / mdot_mid)
-            rows.append(float(MASS_WEIGHT * (dlogMdot_dx - target)))
+            if SOURCE_BAND_FINITE_VOLUME_MASS and _interval_overlaps_source_band(logR, idx, local_params):
+                rows.append(
+                    _finite_volume_mass_residual_from_unpacked(logu, logT, logMdot, logR, lambda0, local_params, idx)
+                )
+            else:
+                ym = 0.5 * (y_left + y_right)
+                gm = (y_right - y_left) / dx
+                logMdot_mid = 0.5 * (logMdot[idx] + logMdot[idx + 1])
+                mdot_mid = float(np.exp(logMdot_mid))
+                dlogMdot_dx = float((logMdot[idx + 1] - logMdot[idx]) / dx)
+                source_prime = stream_source_prime(xm, local_params)
+                wind_prime = pilot._wind_mass_prime(xm, ym, gm, lambda0, local_params)
+                target = float((wind_prime - source_prime) / mdot_mid)
+                rows.append(float(MASS_WEIGHT * (dlogMdot_dx - target)))
         if include_outer:
             z = pilot._state_vector(logu, logT, logR_son, lambda0)
             rows.extend(pilot._outer_residual_block(z, local_params))
@@ -1796,17 +2224,24 @@ def _fast_eval_rows(x: np.ndarray, params, row_indices: np.ndarray) -> np.ndarra
                 values.append(float(INNER_MDOT_WEIGHT * (logMdot[0] - np.log(params.Mdot_g_s))))
             elif mass_start <= row < mass_start + n - 1:
                 interval_idx = row - mass_start
-                dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, interval_idx)
-                ym = 0.5 * (y_left + y_right)
-                gm = (y_right - y_left) / dx
-                logMdot_mid = 0.5 * (logMdot[interval_idx] + logMdot[interval_idx + 1])
-                mdot_mid = float(np.exp(logMdot_mid))
-                dlogMdot_dx = float((logMdot[interval_idx + 1] - logMdot[interval_idx]) / dx)
-                source_prime = stream_source_prime(xm, local_params)
-                wind_prime = pilot._wind_mass_prime(xm, ym, gm, lambda0, local_params)
-                target = float((wind_prime - source_prime) / mdot_mid)
-                values.append(float(MASS_WEIGHT * (dlogMdot_dx - target)))
-            elif SOURCE_BAND_EXTRA_ROWS and extra_start <= row < extra_stop:
+                if SOURCE_BAND_FINITE_VOLUME_MASS and _interval_overlaps_source_band(logR, interval_idx, local_params):
+                    values.append(
+                        _finite_volume_mass_residual_from_unpacked(
+                            logu, logT, logMdot, logR, lambda0, local_params, interval_idx
+                        )
+                    )
+                else:
+                    dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, interval_idx)
+                    ym = 0.5 * (y_left + y_right)
+                    gm = (y_right - y_left) / dx
+                    logMdot_mid = 0.5 * (logMdot[interval_idx] + logMdot[interval_idx + 1])
+                    mdot_mid = float(np.exp(logMdot_mid))
+                    dlogMdot_dx = float((logMdot[interval_idx + 1] - logMdot[interval_idx]) / dx)
+                    source_prime = stream_source_prime(xm, local_params)
+                    wind_prime = pilot._wind_mass_prime(xm, ym, gm, lambda0, local_params)
+                    target = float((wind_prime - source_prime) / mdot_mid)
+                    values.append(float(MASS_WEIGHT * (dlogMdot_dx - target)))
+            elif SOURCE_BAND_EXTRA_ROWS and not SOURCE_BAND_EXTRA_AUDIT_ONLY and extra_start <= row < extra_stop:
                 extra_row = row - extra_start
                 cached_value = extra_cache.get(extra_row)
                 if cached_value is None:
@@ -1843,7 +2278,7 @@ def _jacobian_rows_for_column(col: int, n: int) -> np.ndarray | None:
     for interval_idx in (node - 1, node):
         if 0 <= interval_idx < n - 1:
             rows.update({2 * interval_idx, 2 * interval_idx + 1, mass_start + interval_idx})
-            if SOURCE_BAND_EXTRA_ROWS:
+            if SOURCE_BAND_EXTRA_ROWS and not SOURCE_BAND_EXTRA_AUDIT_ONLY:
                 rows.update(range(extra_start + 4 * interval_idx, extra_start + 4 * interval_idx + 4))
     if node == 0:
         rows.update({sonic_start, sonic_start + 1})
@@ -2341,6 +2776,1193 @@ def _reduced_band_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndar
     }
 
 
+def _source_band_interval_indices(x: np.ndarray, params) -> tuple[np.ndarray, np.ndarray]:
+    _logu, _logT, _logMdot, _logR_son, _lambda0, logR = pilot._unpack(x, params)
+    local_params = params
+    mask = np.asarray([_interval_overlaps_source_band(logR, idx, local_params) for idx in range(int(params.n_nodes) - 1)])
+    if not np.any(mask):
+        return np.asarray([], dtype=int), np.asarray([], dtype=int)
+    intervals = np.nonzero(mask)[0].astype(int)
+    nodes = np.arange(int(intervals[0]), int(intervals[-1]) + 2, dtype=int)
+    return intervals, nodes
+
+
+def _hermite_simpson_source_interval_rows(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    local_params,
+    idx: int,
+) -> np.ndarray:
+    dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
+    F_left = _ode_slope(float(logR[idx]), y_left, lambda0, local_params)
+    F_right = _ode_slope(float(logR[idx + 1]), y_right, lambda0, local_params)
+    if not (np.all(np.isfinite(F_left)) and np.all(np.isfinite(F_right))):
+        F_left = F_right = (y_right - y_left) / dx
+    y_mid, _used_hermite_midpoint = _bounded_hermite_midpoint(y_left, y_right, F_left, F_right, dx, local_params)
+    F_mid = _ode_slope(xm, y_mid, lambda0, local_params)
+    if not np.all(np.isfinite(F_mid)):
+        F_mid = (y_right - y_left) / dx
+    state_rows = SOURCE_MICRO_STATE_WEIGHT * (y_right - y_left - (dx / 6.0) * (F_left + 4.0 * F_mid + F_right)) / max(dx, 1.0e-12)
+    mass_row = _finite_volume_mass_residual_from_unpacked(logu, logT, logMdot, logR, lambda0, local_params, idx)
+    return np.asarray([state_rows[0], state_rows[1], mass_row], dtype=float)
+
+
+def _source_micro_residual_rows(x: np.ndarray, params, interval_indices: np.ndarray) -> np.ndarray:
+    try:
+        logu, logT, logMdot, _logR_son, lambda0, logR = pilot._unpack(x, params)
+        local_params = pilot._local_params(params, logR, logMdot)
+        rows: list[float] = []
+        for idx_value in interval_indices:
+            rows.extend(
+                _hermite_simpson_source_interval_rows(
+                    logu, logT, logMdot, logR, lambda0, local_params, int(idx_value)
+                )
+            )
+        return np.asarray(rows, dtype=float)
+    except Exception:
+        return np.full(3 * int(interval_indices.size), 1.0e6, dtype=float)
+
+
+def _source_micro_sparsity(
+    variable_cols: np.ndarray,
+    interval_indices: np.ndarray,
+    n_nodes: int,
+    include_globals: bool,
+    anchor_positions: np.ndarray,
+    all_anchor_weight: float,
+):
+    try:
+        from scipy.sparse import lil_matrix
+    except Exception:
+        return None
+    n_interval_rows = 3 * int(interval_indices.size)
+    n_anchor_rows = int(anchor_positions.size) + (int(variable_cols.size) if all_anchor_weight > 0.0 else 0)
+    pattern = lil_matrix((n_interval_rows + n_anchor_rows, int(variable_cols.size)), dtype=int)
+    col_to_local = {int(col): int(pos) for pos, col in enumerate(variable_cols)}
+    global_cols = [3 * int(n_nodes), 3 * int(n_nodes) + 1] if include_globals else []
+    for local_interval_idx, interval_idx_value in enumerate(interval_indices):
+        interval_idx = int(interval_idx_value)
+        neighbor_nodes = range(max(0, interval_idx - 1), min(n_nodes - 1, interval_idx + 2) + 1)
+        full_cols: list[int] = []
+        for node in neighbor_nodes:
+            full_cols.extend([node, n_nodes + node, 2 * n_nodes + node])
+        full_cols.extend(global_cols)
+        for row in range(3 * local_interval_idx, 3 * local_interval_idx + 3):
+            for full_col in full_cols:
+                local_col = col_to_local.get(int(full_col))
+                if local_col is not None:
+                    pattern[row, local_col] = 1
+    row = n_interval_rows
+    for pos in anchor_positions:
+        pattern[row, int(pos)] = 1
+        row += 1
+    if all_anchor_weight > 0.0:
+        for pos in range(int(variable_cols.size)):
+            pattern[row, pos] = 1
+            row += 1
+    return pattern.tocsr()
+
+
+def _source_extra_max_for_x(x: np.ndarray, params) -> float:
+    try:
+        logu, logT, logMdot, _logR_son, _lambda0, logR = pilot._unpack(x, params)
+        local_params = pilot._local_params(params, logR, logMdot)
+        return float(_source_band_extra_profile(x, local_params).get("source_band_extra_max", math.nan))
+    except Exception:
+        return math.inf
+
+
+def _source_microdomain_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
+    if not SOURCE_MICRO_LOCAL_CORRECT:
+        return x0, {"source_micro_correct_enabled": False}
+    _set_eta(eta_E)
+    n = int(params.n_nodes)
+    x_ref = np.asarray(x0, dtype=float)
+    interval_indices, node_indices = _source_band_interval_indices(x_ref, params)
+    if interval_indices.size == 0 or node_indices.size < 3:
+        return x0, {
+            "source_micro_correct_enabled": True,
+            "source_micro_correct_applied": False,
+            "source_micro_correct_reason": "no source-band intervals",
+        }
+    active_nodes = node_indices[1:-1] if SOURCE_MICRO_FREEZE_EDGES else node_indices
+    variable_cols: list[int] = []
+    for idx in active_nodes:
+        variable_cols.append(int(idx))
+    for idx in active_nodes:
+        variable_cols.append(int(n + idx))
+    for idx in active_nodes:
+        variable_cols.append(int(2 * n + idx))
+    if SOURCE_MICRO_INCLUDE_GLOBALS:
+        variable_cols.extend([3 * n, 3 * n + 1])
+    variable_cols_array = np.asarray(variable_cols, dtype=int)
+    if variable_cols_array.size == 0:
+        return x0, {
+            "source_micro_correct_enabled": True,
+            "source_micro_correct_applied": False,
+            "source_micro_correct_reason": "no variable columns",
+        }
+    lower, upper = pilot._bounds(params)
+    start = x_ref[variable_cols_array].copy()
+    lb = lower[variable_cols_array]
+    ub = upper[variable_cols_array]
+    edge_nodes = {int(node_indices[0]), int(node_indices[-1])}
+    edge_cols: set[int] = set()
+    if not SOURCE_MICRO_FREEZE_EDGES:
+        for idx in edge_nodes:
+            edge_cols.update({idx, n + idx, 2 * n + idx})
+    edge_anchor_positions = np.asarray(
+        [pos for pos, col in enumerate(variable_cols_array) if int(col) in edge_cols],
+        dtype=int,
+    )
+
+    initial_rows = _source_micro_residual_rows(x_ref, params, interval_indices)
+    initial_metrics = _residual_metrics_for_x(x_ref, params)
+    initial_extra = _source_extra_max_for_x(x_ref, params)
+    initial_score = float(max(initial_metrics["full"], initial_extra if np.isfinite(initial_extra) else 0.0))
+
+    def local_residual(trial: np.ndarray) -> np.ndarray:
+        full = x_ref.copy()
+        full[variable_cols_array] = trial
+        rows = _source_micro_residual_rows(full, params, interval_indices)
+        anchors: list[np.ndarray] = []
+        if SOURCE_MICRO_EDGE_ANCHOR_WEIGHT > 0.0 and edge_anchor_positions.size:
+            anchors.append(float(SOURCE_MICRO_EDGE_ANCHOR_WEIGHT) * (trial[edge_anchor_positions] - start[edge_anchor_positions]))
+        if SOURCE_MICRO_ALL_ANCHOR_WEIGHT > 0.0:
+            anchors.append(float(SOURCE_MICRO_ALL_ANCHOR_WEIGHT) * (trial - start))
+        if anchors:
+            rows = np.concatenate([rows, *anchors])
+        return rows
+
+    sparsity = _source_micro_sparsity(
+        variable_cols_array,
+        interval_indices,
+        n,
+        SOURCE_MICRO_INCLUDE_GLOBALS,
+        edge_anchor_positions if SOURCE_MICRO_EDGE_ANCHOR_WEIGHT > 0.0 else np.asarray([], dtype=int),
+        SOURCE_MICRO_ALL_ANCHOR_WEIGHT,
+    )
+
+    from scipy.optimize import least_squares
+
+    result = least_squares(
+        local_residual,
+        np.clip(start, lb + 1.0e-12, ub - 1.0e-12),
+        bounds=(lb, ub),
+        jac_sparsity=sparsity,
+        x_scale="jac",
+        loss="linear",
+        ftol=RESIDUAL_TOL,
+        xtol=RESIDUAL_TOL,
+        gtol=RESIDUAL_TOL,
+        max_nfev=SOURCE_MICRO_MAX_NFEV,
+        verbose=0,
+    )
+
+    candidate = x_ref.copy()
+    candidate[variable_cols_array] = result.x
+    lower_full, upper_full = pilot._bounds(params)
+    step_delta = candidate - x_ref
+    best_x = x_ref
+    best_metrics = initial_metrics
+    best_extra = initial_extra
+    best_score = initial_score
+    best_alpha = 0.0
+    trials: list[dict[str, Any]] = []
+    for exponent in range(12):
+        alpha = 0.5**exponent
+        trial_x = np.clip(x_ref + alpha * step_delta, lower_full + 1.0e-12, upper_full - 1.0e-12)
+        metrics = _residual_metrics_for_x(trial_x, params)
+        extra = _source_extra_max_for_x(trial_x, params)
+        score = float(max(metrics["full"], extra if np.isfinite(extra) else 0.0))
+        guard = bool(np.isfinite(score) and metrics["mass"] <= max(3.0e-6, 3.0 * initial_metrics["mass"], 1.0e-12))
+        trials.append(
+            {
+                "alpha": float(alpha),
+                "score": score,
+                "full": metrics["full"],
+                "mass": metrics["mass"],
+                "source_band_extra": extra,
+                "guard_pass": guard,
+            }
+        )
+        if guard and score < best_score:
+            best_x = trial_x
+            best_metrics = metrics
+            best_extra = extra
+            best_score = score
+            best_alpha = float(alpha)
+
+    final_rows = _source_micro_residual_rows(best_x, params, interval_indices)
+    return best_x, {
+        "source_micro_correct_enabled": True,
+        "source_micro_correct_applied": bool(best_alpha > 0.0),
+        "source_micro_correct_freeze_edges": bool(SOURCE_MICRO_FREEZE_EDGES),
+        "source_micro_correct_include_globals": bool(SOURCE_MICRO_INCLUDE_GLOBALS),
+        "source_micro_correct_n_intervals": int(interval_indices.size),
+        "source_micro_correct_n_nodes": int(node_indices.size),
+        "source_micro_correct_n_variables": int(variable_cols_array.size),
+        "source_micro_correct_initial_selected": float(np.linalg.norm(initial_rows, ord=np.inf)) if initial_rows.size else math.nan,
+        "source_micro_correct_final_selected": float(np.linalg.norm(final_rows, ord=np.inf)) if final_rows.size else math.nan,
+        "source_micro_correct_initial_score": initial_score,
+        "source_micro_correct_final_score": best_score,
+        "source_micro_correct_initial_full": initial_metrics["full"],
+        "source_micro_correct_final_full": best_metrics["full"],
+        "source_micro_correct_initial_mass": initial_metrics["mass"],
+        "source_micro_correct_final_mass": best_metrics["mass"],
+        "source_micro_correct_initial_extra": initial_extra,
+        "source_micro_correct_final_extra": best_extra,
+        "source_micro_correct_alpha": best_alpha,
+        "source_micro_correct_nfev": int(result.nfev),
+        "source_micro_correct_success": bool(result.success),
+        "source_micro_correct_message": str(result.message),
+        "source_micro_correct_trials": trials,
+    }
+
+
+def _source_domain_sample_fractions() -> np.ndarray:
+    values: list[float] = []
+    for piece in SOURCE_DOMAIN_FRACTIONS_RAW.split(","):
+        text = piece.strip()
+        if not text:
+            continue
+        value = float(text)
+        if not 0.0 < value < 1.0:
+            raise ValueError("source-domain sample fractions must lie strictly between 0 and 1")
+        values.append(value)
+    if not values:
+        values = [0.5]
+    return np.asarray(sorted(set(float(value) for value in values)), dtype=float)
+
+
+def _source_domain_interval_rows(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    local_params,
+    idx: int,
+    fractions: np.ndarray,
+) -> np.ndarray:
+    dx, y_left, y_right, _xm = _interval_geometry(logu, logT, logR, idx)
+    if dx <= 0.0:
+        return np.full(2 * int(fractions.size) + 1, 1.0e6, dtype=float)
+    g = (y_right - y_left) / dx
+    rows: list[float] = []
+    for frac in fractions:
+        t = float(frac)
+        xq = float(logR[idx] + t * dx)
+        yq = (1.0 - t) * y_left + t * y_right
+        rows.extend(_scaled_residual_at(xq, yq, g, lambda0, local_params))
+    rows.append(_finite_volume_mass_residual_from_unpacked(logu, logT, logMdot, logR, lambda0, local_params, idx))
+    return np.asarray(rows, dtype=float)
+
+
+def _source_domain_residual_rows(x: np.ndarray, params, interval_indices: np.ndarray, fractions: np.ndarray) -> np.ndarray:
+    expected = (2 * int(fractions.size) + 1) * int(interval_indices.size)
+    try:
+        logu, logT, logMdot, _logR_son, lambda0, logR = pilot._unpack(x, params)
+        local_params = pilot._local_params(params, logR, logMdot)
+        rows: list[float] = []
+        for idx_value in interval_indices:
+            rows.extend(
+                _source_domain_interval_rows(
+                    logu, logT, logMdot, logR, lambda0, local_params, int(idx_value), fractions
+                )
+            )
+        return np.asarray(rows, dtype=float)
+    except Exception:
+        return np.full(expected, 1.0e6, dtype=float)
+
+
+def _source_domain_sparsity(
+    variable_cols: np.ndarray,
+    interval_indices: np.ndarray,
+    n_nodes: int,
+    fractions: np.ndarray,
+    include_globals: bool,
+    anchor_positions: np.ndarray,
+    all_anchor_weight: float,
+):
+    try:
+        from scipy.sparse import lil_matrix
+    except Exception:
+        return None
+    rows_per_interval = 2 * int(fractions.size) + 1
+    n_interval_rows = rows_per_interval * int(interval_indices.size)
+    n_anchor_rows = int(anchor_positions.size) + (int(variable_cols.size) if all_anchor_weight > 0.0 else 0)
+    pattern = lil_matrix((n_interval_rows + n_anchor_rows, int(variable_cols.size)), dtype=int)
+    col_to_local = {int(col): int(pos) for pos, col in enumerate(variable_cols)}
+    global_cols = [3 * int(n_nodes), 3 * int(n_nodes) + 1] if include_globals else []
+    for local_interval_idx, interval_idx_value in enumerate(interval_indices):
+        interval_idx = int(interval_idx_value)
+        full_cols = [
+            interval_idx,
+            interval_idx + 1,
+            n_nodes + interval_idx,
+            n_nodes + interval_idx + 1,
+            2 * n_nodes + interval_idx,
+            2 * n_nodes + interval_idx + 1,
+            *global_cols,
+        ]
+        row_start = rows_per_interval * local_interval_idx
+        for row in range(row_start, row_start + rows_per_interval):
+            for full_col in full_cols:
+                local_col = col_to_local.get(int(full_col))
+                if local_col is not None:
+                    pattern[row, local_col] = 1
+    row = n_interval_rows
+    for pos in anchor_positions:
+        pattern[row, int(pos)] = 1
+        row += 1
+    if all_anchor_weight > 0.0:
+        for pos in range(int(variable_cols.size)):
+            pattern[row, pos] = 1
+            row += 1
+    return pattern.tocsr()
+
+
+def _source_domain_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
+    if not SOURCE_DOMAIN_CORRECT:
+        return x0, {}
+    _set_eta(eta_E)
+    n = int(params.n_nodes)
+    x_ref = np.asarray(x0, dtype=float)
+    fractions = _source_domain_sample_fractions()
+    interval_indices, node_indices = _source_band_interval_indices(x_ref, params)
+    if interval_indices.size == 0 or node_indices.size < 2:
+        return x0, {
+            "source_domain_correct_enabled": True,
+            "source_domain_correct_applied": False,
+            "source_domain_correct_reason": "no source-domain intervals",
+        }
+    halo = max(0, int(SOURCE_DOMAIN_HALO_INTERVALS))
+    if halo > 0:
+        first = max(0, int(interval_indices[0]) - halo)
+        last = min(n - 2, int(interval_indices[-1]) + halo)
+        interval_indices = np.arange(first, last + 1, dtype=int)
+        node_indices = np.arange(first, last + 2, dtype=int)
+    active_nodes = node_indices[1:-1] if SOURCE_DOMAIN_FREEZE_EDGES and node_indices.size > 2 else node_indices
+    variable_cols: list[int] = []
+    variable_kinds: list[str] = []
+    for idx in active_nodes:
+        variable_cols.append(int(idx))
+        variable_kinds.append("logu")
+    for idx in active_nodes:
+        variable_cols.append(int(n + idx))
+        variable_kinds.append("logT")
+    for idx in active_nodes:
+        variable_cols.append(int(2 * n + idx))
+        variable_kinds.append("logMdot")
+    if SOURCE_DOMAIN_INCLUDE_GLOBALS:
+        variable_cols.extend([3 * n, 3 * n + 1])
+        variable_kinds.extend(["logR_son", "lambda0"])
+    variable_cols_array = np.asarray(variable_cols, dtype=int)
+    if variable_cols_array.size == 0:
+        return x0, {
+            "source_domain_correct_enabled": True,
+            "source_domain_correct_applied": False,
+            "source_domain_correct_reason": "no variable columns",
+        }
+
+    lower, upper = pilot._bounds(params)
+    start = x_ref[variable_cols_array].copy()
+    lb = lower[variable_cols_array]
+    ub = upper[variable_cols_array]
+    edge_nodes = {int(node_indices[0]), int(node_indices[-1])}
+    edge_cols: set[int] = set()
+    if not SOURCE_DOMAIN_FREEZE_EDGES:
+        for idx in edge_nodes:
+            edge_cols.update({idx, n + idx, 2 * n + idx})
+    edge_anchor_positions = np.asarray(
+        [pos for pos, col in enumerate(variable_cols_array) if int(col) in edge_cols],
+        dtype=int,
+    )
+
+    initial_rows = _source_domain_residual_rows(x_ref, params, interval_indices, fractions)
+    initial_metrics = _residual_metrics_for_x(x_ref, params)
+    initial_extra = _source_extra_max_for_x(x_ref, params)
+    initial_score = float(
+        max(
+            float(np.linalg.norm(initial_rows, ord=np.inf)) if initial_rows.size else 0.0,
+            initial_metrics["full"],
+            initial_extra if np.isfinite(initial_extra) else 0.0,
+        )
+    )
+
+    def local_residual(trial: np.ndarray) -> np.ndarray:
+        full = x_ref.copy()
+        full[variable_cols_array] = trial
+        rows = _source_domain_residual_rows(full, params, interval_indices, fractions)
+        anchors: list[np.ndarray] = []
+        if SOURCE_DOMAIN_EDGE_ANCHOR_WEIGHT > 0.0 and edge_anchor_positions.size:
+            anchors.append(float(SOURCE_DOMAIN_EDGE_ANCHOR_WEIGHT) * (trial[edge_anchor_positions] - start[edge_anchor_positions]))
+        if SOURCE_DOMAIN_ALL_ANCHOR_WEIGHT > 0.0:
+            anchors.append(float(SOURCE_DOMAIN_ALL_ANCHOR_WEIGHT) * (trial - start))
+        if anchors:
+            rows = np.concatenate([rows, *anchors])
+        return rows
+
+    sparsity = _source_domain_sparsity(
+        variable_cols_array,
+        interval_indices,
+        n,
+        fractions,
+        SOURCE_DOMAIN_INCLUDE_GLOBALS,
+        edge_anchor_positions if SOURCE_DOMAIN_EDGE_ANCHOR_WEIGHT > 0.0 else np.asarray([], dtype=int),
+        SOURCE_DOMAIN_ALL_ANCHOR_WEIGHT,
+    )
+
+    from scipy.optimize import least_squares
+
+    result = least_squares(
+        local_residual,
+        np.clip(start, lb + 1.0e-12, ub - 1.0e-12),
+        bounds=(lb, ub),
+        jac_sparsity=sparsity,
+        x_scale="jac",
+        loss="linear",
+        ftol=RESIDUAL_TOL,
+        xtol=RESIDUAL_TOL,
+        gtol=RESIDUAL_TOL,
+        max_nfev=SOURCE_DOMAIN_MAX_NFEV,
+        verbose=0,
+    )
+
+    candidate = x_ref.copy()
+    candidate[variable_cols_array] = result.x
+    candidate_rows = _source_domain_residual_rows(candidate, params, interval_indices, fractions)
+    candidate_metrics = _residual_metrics_for_x(candidate, params)
+    candidate_extra = _source_extra_max_for_x(candidate, params)
+    candidate_score = float(
+        max(
+            float(np.linalg.norm(candidate_rows, ord=np.inf)) if candidate_rows.size else 0.0,
+            candidate_metrics["full"],
+            candidate_extra if np.isfinite(candidate_extra) else 0.0,
+        )
+    )
+
+    best_x = x_ref
+    best_metrics = initial_metrics
+    best_rows = initial_rows
+    best_extra = initial_extra
+    best_score = initial_score
+    best_alpha = 0.0
+    lower_full, upper_full = pilot._bounds(params)
+    step_delta = candidate - x_ref
+    trials: list[dict[str, Any]] = []
+    for exponent in range(max(1, int(SOURCE_DOMAIN_LINE_SEARCH_STEPS))):
+        alpha = 0.5**exponent
+        trial_x = np.clip(x_ref + alpha * step_delta, lower_full + 1.0e-12, upper_full - 1.0e-12)
+        trial_rows = _source_domain_residual_rows(trial_x, params, interval_indices, fractions)
+        metrics = _residual_metrics_for_x(trial_x, params)
+        extra = _source_extra_max_for_x(trial_x, params)
+        selected = float(np.linalg.norm(trial_rows, ord=np.inf)) if trial_rows.size else math.nan
+        score = float(max(selected, metrics["full"], extra if np.isfinite(extra) else 0.0))
+        guard = bool(np.isfinite(score) and metrics["full"] <= max(initial_metrics["full"], initial_score))
+        trials.append(
+            {
+                "alpha": float(alpha),
+                "score": score,
+                "selected": selected,
+                "full": metrics["full"],
+                "mass": metrics["mass"],
+                "source_band_extra": extra,
+                "guard_pass": guard,
+            }
+        )
+        if guard and score < best_score:
+            best_x = trial_x
+            best_metrics = metrics
+            best_rows = trial_rows
+            best_extra = extra
+            best_score = score
+            best_alpha = float(alpha)
+
+    _logu, _logT, _logMdot, _logR_son, _lambda0, logR = pilot._unpack(x_ref, params)
+    interval_mid_R_rg = np.exp(0.5 * (logR[:-1] + logR[1:])) / params.r_g
+    return best_x, {
+        "source_domain_correct_enabled": True,
+        "source_domain_correct_applied": bool(best_alpha > 0.0),
+        "source_domain_correct_fractions": fractions.tolist(),
+        "source_domain_correct_halo_intervals": int(halo),
+        "source_domain_correct_freeze_edges": bool(SOURCE_DOMAIN_FREEZE_EDGES),
+        "source_domain_correct_include_globals": bool(SOURCE_DOMAIN_INCLUDE_GLOBALS),
+        "source_domain_correct_first_interval": int(interval_indices[0]),
+        "source_domain_correct_last_interval": int(interval_indices[-1]),
+        "source_domain_correct_first_interval_R_rg": float(interval_mid_R_rg[int(interval_indices[0])]),
+        "source_domain_correct_last_interval_R_rg": float(interval_mid_R_rg[int(interval_indices[-1])]),
+        "source_domain_correct_n_intervals": int(interval_indices.size),
+        "source_domain_correct_n_nodes": int(node_indices.size),
+        "source_domain_correct_n_variables": int(variable_cols_array.size),
+        "source_domain_correct_n_rows": int((2 * fractions.size + 1) * interval_indices.size),
+        "source_domain_correct_initial_selected": float(np.linalg.norm(initial_rows, ord=np.inf)) if initial_rows.size else math.nan,
+        "source_domain_correct_candidate_selected": float(np.linalg.norm(candidate_rows, ord=np.inf)) if candidate_rows.size else math.nan,
+        "source_domain_correct_final_selected": float(np.linalg.norm(best_rows, ord=np.inf)) if best_rows.size else math.nan,
+        "source_domain_correct_initial_score": initial_score,
+        "source_domain_correct_candidate_score": candidate_score,
+        "source_domain_correct_final_score": best_score,
+        "source_domain_correct_initial_full": initial_metrics["full"],
+        "source_domain_correct_candidate_full": candidate_metrics["full"],
+        "source_domain_correct_final_full": best_metrics["full"],
+        "source_domain_correct_initial_mass": initial_metrics["mass"],
+        "source_domain_correct_final_mass": best_metrics["mass"],
+        "source_domain_correct_initial_extra": initial_extra,
+        "source_domain_correct_candidate_extra": candidate_extra,
+        "source_domain_correct_final_extra": best_extra,
+        "source_domain_correct_alpha": best_alpha,
+        "source_domain_correct_nfev": int(result.nfev),
+        "source_domain_correct_success": bool(result.success),
+        "source_domain_correct_message": str(result.message),
+        "source_domain_correct_variable_kinds": variable_kinds,
+        "source_domain_correct_trials": trials,
+    }
+
+
+def _source_buffer_sample_fractions() -> np.ndarray:
+    values: list[float] = []
+    for piece in SOURCE_BUFFER_FRACTIONS_RAW.split(","):
+        text = piece.strip()
+        if not text:
+            continue
+        value = float(text)
+        if not 0.0 < value < 1.0:
+            raise ValueError("source-buffer sample fractions must lie strictly between 0 and 1")
+        values.append(value)
+    if not values:
+        values = [0.5]
+    return np.asarray(sorted(set(float(value) for value in values)), dtype=float)
+
+
+def _source_buffer_interval_indices(x: np.ndarray, params) -> tuple[np.ndarray, np.ndarray]:
+    interval_indices, _node_indices = _source_band_interval_indices(x, params)
+    if interval_indices.size == 0:
+        return np.asarray([], dtype=int), np.asarray([], dtype=int)
+    n = int(params.n_nodes)
+    halo = max(0, int(SOURCE_BUFFER_HALO_INTERVALS))
+    first = max(0, int(interval_indices[0]) - halo)
+    last = min(n - 2, int(interval_indices[-1]) + halo)
+    intervals = np.arange(first, last + 1, dtype=int)
+    nodes = np.arange(first, last + 2, dtype=int)
+    return intervals, nodes
+
+
+def _source_buffer_initial_delta(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    local_params,
+    interval_indices: np.ndarray,
+) -> np.ndarray:
+    deltas = np.empty(int(interval_indices.size), dtype=float)
+    for pos, idx_value in enumerate(interval_indices):
+        idx = int(idx_value)
+        try:
+            wind_integral, source_integral, _scale, _left, _right = _source_buffer_mass_terms_from_unpacked(
+                logu, logT, logMdot, logR, lambda0, local_params, idx
+            )
+            deltas[pos] = float(wind_integral - source_integral)
+        except Exception:
+            deltas[pos] = 0.0
+    return deltas
+
+
+def _source_buffer_interval_rows(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    local_params,
+    idx: int,
+    delta_m: float,
+    fractions: np.ndarray,
+) -> np.ndarray:
+    rows: list[float] = []
+    dx, y_left, y_right, _xm = _interval_geometry(logu, logT, logR, idx)
+    if dx <= 0.0:
+        return np.full(2 * int(fractions.size) + 2, 1.0e6, dtype=float)
+    g = (y_right - y_left) / dx
+    for frac in fractions:
+        t = float(frac)
+        xq = float(logR[idx] + t * dx)
+        yq = (1.0 - t) * y_left + t * y_right
+        rows.extend(float(SOURCE_BUFFER_STATE_WEIGHT) * _scaled_residual_at(xq, yq, g, lambda0, local_params))
+    wind_integral, source_integral, mdot_scale, mdot_left, mdot_right = _source_buffer_mass_terms_from_unpacked(
+        logu, logT, logMdot, logR, lambda0, local_params, idx
+    )
+    net_integral = float(wind_integral - source_integral)
+    rows.append(float(SOURCE_BUFFER_INTEGRAL_WEIGHT) * (float(delta_m) - net_integral) / mdot_scale)
+    rows.append(float(SOURCE_BUFFER_JUMP_WEIGHT) * (mdot_right - mdot_left - float(delta_m)) / mdot_scale)
+    return np.asarray(rows, dtype=float)
+
+
+def _source_buffer_residual_rows(
+    x: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    fractions: np.ndarray,
+    delta_m: np.ndarray,
+) -> np.ndarray:
+    rows_per_interval = 2 * int(fractions.size) + 2
+    expected = rows_per_interval * int(interval_indices.size)
+    try:
+        logu, logT, logMdot, _logR_son, lambda0, logR = pilot._unpack(x, params)
+        local_params = pilot._local_params(params, logR, logMdot)
+        rows: list[float] = []
+        for pos, idx_value in enumerate(interval_indices):
+            rows.extend(
+                _source_buffer_interval_rows(
+                    logu,
+                    logT,
+                    logMdot,
+                    logR,
+                    lambda0,
+                    local_params,
+                    int(idx_value),
+                    float(delta_m[pos]),
+                    fractions,
+                )
+            )
+        return np.asarray(rows, dtype=float)
+    except Exception:
+        return np.full(expected, 1.0e6, dtype=float)
+
+
+def _source_buffer_row_summary(
+    rows: np.ndarray,
+    interval_indices: np.ndarray,
+    fractions: np.ndarray,
+    logR: np.ndarray,
+    params,
+) -> dict[str, Any]:
+    rows_per_interval = 2 * int(fractions.size) + 2
+    if rows.size != rows_per_interval * int(interval_indices.size) or rows.size == 0:
+        return {
+            "selected": math.nan,
+            "state": math.nan,
+            "integral": math.nan,
+            "jump": math.nan,
+            "peak_jump_R_rg": math.nan,
+            "peak_integral_R_rg": math.nan,
+        }
+    matrix = np.asarray(rows, dtype=float).reshape(int(interval_indices.size), rows_per_interval)
+    state_cols = 2 * int(fractions.size)
+    integral = matrix[:, state_cols]
+    jump = matrix[:, state_cols + 1]
+    mids = np.exp(0.5 * (logR[interval_indices] + logR[interval_indices + 1])) / params.r_g
+    peak_jump = int(np.argmax(np.abs(jump))) if jump.size else 0
+    peak_integral = int(np.argmax(np.abs(integral))) if integral.size else 0
+    return {
+        "selected": float(np.linalg.norm(rows, ord=np.inf)),
+        "state": float(np.linalg.norm(matrix[:, :state_cols], ord=np.inf)) if state_cols > 0 else math.nan,
+        "integral": float(np.linalg.norm(integral, ord=np.inf)) if integral.size else math.nan,
+        "jump": float(np.linalg.norm(jump, ord=np.inf)) if jump.size else math.nan,
+        "peak_jump_R_rg": float(mids[peak_jump]) if mids.size else math.nan,
+        "peak_integral_R_rg": float(mids[peak_integral]) if mids.size else math.nan,
+    }
+
+
+def _source_buffer_sparsity(
+    variable_cols: np.ndarray,
+    n_state_vars: int,
+    interval_indices: np.ndarray,
+    n_nodes: int,
+    fractions: np.ndarray,
+    include_globals: bool,
+    anchor_positions: np.ndarray,
+    all_anchor_weight: float,
+):
+    try:
+        from scipy.sparse import lil_matrix
+    except Exception:
+        return None
+    rows_per_interval = 2 * int(fractions.size) + 2
+    n_interval_rows = rows_per_interval * int(interval_indices.size)
+    n_anchor_rows = int(anchor_positions.size) + (int(n_state_vars) if all_anchor_weight > 0.0 else 0)
+    pattern = lil_matrix((n_interval_rows + n_anchor_rows, int(variable_cols.size)), dtype=int)
+    col_to_local = {int(col): int(pos) for pos, col in enumerate(variable_cols[:n_state_vars])}
+    global_cols = [3 * int(n_nodes), 3 * int(n_nodes) + 1] if include_globals else []
+    delta_start = int(n_state_vars)
+    for local_interval_idx, interval_idx_value in enumerate(interval_indices):
+        interval_idx = int(interval_idx_value)
+        state_cols = [
+            interval_idx,
+            interval_idx + 1,
+            n_nodes + interval_idx,
+            n_nodes + interval_idx + 1,
+            2 * n_nodes + interval_idx,
+            2 * n_nodes + interval_idx + 1,
+            *global_cols,
+        ]
+        row_start = rows_per_interval * local_interval_idx
+        for row in range(row_start, row_start + rows_per_interval):
+            for full_col in state_cols:
+                local_col = col_to_local.get(int(full_col))
+                if local_col is not None:
+                    pattern[row, local_col] = 1
+            pattern[row, delta_start + local_interval_idx] = 1
+    row = n_interval_rows
+    for pos in anchor_positions:
+        pattern[row, int(pos)] = 1
+        row += 1
+    if all_anchor_weight > 0.0:
+        for pos in range(int(n_state_vars)):
+            pattern[row, pos] = 1
+            row += 1
+    return pattern.tocsr()
+
+
+def _source_buffer_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
+    if not SOURCE_BUFFER_CORRECT:
+        return x0, {}
+    _set_eta(eta_E)
+    n = int(params.n_nodes)
+    x_ref = np.asarray(x0, dtype=float)
+    fractions = _source_buffer_sample_fractions()
+    interval_indices, node_indices = _source_buffer_interval_indices(x_ref, params)
+    if interval_indices.size == 0 or node_indices.size < 2:
+        return x0, {
+            "source_buffer_correct_enabled": True,
+            "source_buffer_correct_applied": False,
+            "source_buffer_correct_reason": "no source-buffer intervals",
+        }
+    active_nodes = node_indices[1:-1] if SOURCE_BUFFER_FREEZE_EDGES and node_indices.size > 2 else node_indices
+    state_cols: list[int] = []
+    variable_kinds: list[str] = []
+    for idx in active_nodes:
+        state_cols.append(int(idx))
+        variable_kinds.append("logu")
+    for idx in active_nodes:
+        state_cols.append(int(n + idx))
+        variable_kinds.append("logT")
+    for idx in active_nodes:
+        state_cols.append(int(2 * n + idx))
+        variable_kinds.append("logMdot")
+    if SOURCE_BUFFER_INCLUDE_GLOBALS:
+        state_cols.extend([3 * n, 3 * n + 1])
+        variable_kinds.extend(["logR_son", "lambda0"])
+    state_cols_array = np.asarray(state_cols, dtype=int)
+    if state_cols_array.size == 0:
+        return x0, {
+            "source_buffer_correct_enabled": True,
+            "source_buffer_correct_applied": False,
+            "source_buffer_correct_reason": "no state variable columns",
+        }
+
+    logu, logT, logMdot, _logR_son, lambda0, logR = pilot._unpack(x_ref, params)
+    local_params = pilot._local_params(params, logR, logMdot)
+    delta0 = _source_buffer_initial_delta(logu, logT, logMdot, logR, lambda0, local_params, interval_indices)
+    start_state = x_ref[state_cols_array].copy()
+    start = np.concatenate([start_state, delta0])
+    lower, upper = pilot._bounds(params)
+    state_lb = lower[state_cols_array]
+    state_ub = upper[state_cols_array]
+    mdot_scale = max(float(params.Mdot_g_s), 1.0e-300)
+    delta_limit = 5.0 * mdot_scale
+    lb = np.concatenate([state_lb, np.full(delta0.size, -delta_limit, dtype=float)])
+    ub = np.concatenate([state_ub, np.full(delta0.size, delta_limit, dtype=float)])
+
+    edge_nodes = {int(node_indices[0]), int(node_indices[-1])}
+    edge_cols: set[int] = set()
+    if not SOURCE_BUFFER_FREEZE_EDGES:
+        for idx in edge_nodes:
+            edge_cols.update({idx, n + idx, 2 * n + idx})
+    edge_anchor_positions = np.asarray(
+        [pos for pos, col in enumerate(state_cols_array) if int(col) in edge_cols],
+        dtype=int,
+    )
+
+    initial_rows = _source_buffer_residual_rows(x_ref, params, interval_indices, fractions, delta0)
+    initial_metrics = _residual_metrics_for_x(x_ref, params)
+    initial_extra = _source_extra_max_for_x(x_ref, params)
+    initial_summary = _source_buffer_row_summary(initial_rows, interval_indices, fractions, logR, params)
+    initial_score = float(
+        max(
+            initial_summary["selected"] if np.isfinite(initial_summary["selected"]) else 0.0,
+            initial_metrics["full"],
+            initial_extra if np.isfinite(initial_extra) else 0.0,
+        )
+    )
+
+    def unpack_trial(trial: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        full = x_ref.copy()
+        full[state_cols_array] = trial[: state_cols_array.size]
+        delta = np.asarray(trial[state_cols_array.size :], dtype=float)
+        return full, delta
+
+    def local_residual(trial: np.ndarray) -> np.ndarray:
+        full, delta = unpack_trial(trial)
+        rows = _source_buffer_residual_rows(full, params, interval_indices, fractions, delta)
+        anchors: list[np.ndarray] = []
+        if SOURCE_BUFFER_EDGE_ANCHOR_WEIGHT > 0.0 and edge_anchor_positions.size:
+            anchors.append(float(SOURCE_BUFFER_EDGE_ANCHOR_WEIGHT) * (trial[edge_anchor_positions] - start[edge_anchor_positions]))
+        if SOURCE_BUFFER_ALL_ANCHOR_WEIGHT > 0.0:
+            anchors.append(float(SOURCE_BUFFER_ALL_ANCHOR_WEIGHT) * (trial[: state_cols_array.size] - start[: state_cols_array.size]))
+        if anchors:
+            rows = np.concatenate([rows, *anchors])
+        return rows
+
+    variable_cols = np.concatenate([state_cols_array, -1 - np.arange(delta0.size, dtype=int)])
+    sparsity = _source_buffer_sparsity(
+        variable_cols,
+        state_cols_array.size,
+        interval_indices,
+        n,
+        fractions,
+        SOURCE_BUFFER_INCLUDE_GLOBALS,
+        edge_anchor_positions if SOURCE_BUFFER_EDGE_ANCHOR_WEIGHT > 0.0 else np.asarray([], dtype=int),
+        SOURCE_BUFFER_ALL_ANCHOR_WEIGHT,
+    )
+
+    from scipy.optimize import least_squares
+
+    result = least_squares(
+        local_residual,
+        np.clip(start, lb + 1.0e-12, ub - 1.0e-12),
+        bounds=(lb, ub),
+        jac_sparsity=sparsity,
+        x_scale="jac",
+        loss="linear",
+        ftol=RESIDUAL_TOL,
+        xtol=RESIDUAL_TOL,
+        gtol=RESIDUAL_TOL,
+        max_nfev=SOURCE_BUFFER_MAX_NFEV,
+        verbose=0,
+    )
+
+    candidate, candidate_delta = unpack_trial(result.x)
+    candidate_rows = _source_buffer_residual_rows(candidate, params, interval_indices, fractions, candidate_delta)
+    candidate_metrics = _residual_metrics_for_x(candidate, params)
+    candidate_extra = _source_extra_max_for_x(candidate, params)
+    _cu, _cT, _cM, _cson, _clambda, candidate_logR = pilot._unpack(candidate, params)
+    _ = _cu, _cT, _cM, _cson, _clambda
+    candidate_summary = _source_buffer_row_summary(candidate_rows, interval_indices, fractions, candidate_logR, params)
+    candidate_score = float(
+        max(
+            candidate_summary["selected"] if np.isfinite(candidate_summary["selected"]) else 0.0,
+            candidate_metrics["full"],
+            candidate_extra if np.isfinite(candidate_extra) else 0.0,
+        )
+    )
+
+    best_x = x_ref
+    best_delta = delta0
+    best_rows = initial_rows
+    best_metrics = initial_metrics
+    best_extra = initial_extra
+    best_summary = initial_summary
+    best_score = initial_score
+    best_alpha = 0.0
+    lower_full, upper_full = pilot._bounds(params)
+    step_delta_x = candidate - x_ref
+    step_delta_aux = candidate_delta - delta0
+    trials: list[dict[str, Any]] = []
+    for exponent in range(max(1, int(SOURCE_BUFFER_LINE_SEARCH_STEPS))):
+        alpha = 0.5**exponent
+        trial_x = np.clip(x_ref + alpha * step_delta_x, lower_full + 1.0e-12, upper_full - 1.0e-12)
+        trial_delta = delta0 + alpha * step_delta_aux
+        trial_rows = _source_buffer_residual_rows(trial_x, params, interval_indices, fractions, trial_delta)
+        trial_logu, trial_logT, trial_logMdot, _trial_logR_son, _trial_lambda0, trial_logR = pilot._unpack(trial_x, params)
+        _ = trial_logu, trial_logT, trial_logMdot, _trial_logR_son, _trial_lambda0
+        summary = _source_buffer_row_summary(trial_rows, interval_indices, fractions, trial_logR, params)
+        metrics = _residual_metrics_for_x(trial_x, params)
+        extra = _source_extra_max_for_x(trial_x, params)
+        selected = summary["selected"]
+        score = float(max(selected, metrics["full"], extra if np.isfinite(extra) else 0.0))
+        guard = bool(np.isfinite(score) and metrics["full"] <= max(initial_metrics["full"], initial_score))
+        trials.append(
+            {
+                "alpha": float(alpha),
+                "score": score,
+                "selected": selected,
+                "state": summary["state"],
+                "integral": summary["integral"],
+                "jump": summary["jump"],
+                "full": metrics["full"],
+                "mass": metrics["mass"],
+                "source_band_extra": extra,
+                "guard_pass": guard,
+            }
+        )
+        secondary_improved = (
+            np.isfinite(extra)
+            and np.isfinite(best_extra)
+            and extra < best_extra
+            and metrics["full"] <= best_metrics["full"] + 1.0e-14
+        )
+        if guard and (score < best_score or (score <= best_score * (1.0 + 1.0e-12) and secondary_improved)):
+            best_x = trial_x
+            best_delta = trial_delta
+            best_rows = trial_rows
+            best_metrics = metrics
+            best_extra = extra
+            best_summary = summary
+            best_score = score
+            best_alpha = float(alpha)
+
+    _logu, _logT, _logMdot, _logR_son, _lambda0, final_logR = pilot._unpack(best_x, params)
+    final_summary = _source_buffer_row_summary(best_rows, interval_indices, fractions, final_logR, params)
+    delta_scale = max(float(params.Mdot_g_s), 1.0e-300)
+    return best_x, {
+        "source_buffer_correct_enabled": True,
+        "source_buffer_correct_applied": bool(best_alpha > 0.0),
+        "source_buffer_correct_fractions": fractions.tolist(),
+        "source_buffer_correct_halo_intervals": int(SOURCE_BUFFER_HALO_INTERVALS),
+        "source_buffer_correct_freeze_edges": bool(SOURCE_BUFFER_FREEZE_EDGES),
+        "source_buffer_correct_include_globals": bool(SOURCE_BUFFER_INCLUDE_GLOBALS),
+        "source_buffer_correct_local_jacobian": "sparse_fd",
+        "source_buffer_correct_mass_quadrature": str(SOURCE_BUFFER_MASS_QUADRATURE),
+        "source_buffer_correct_first_interval": int(interval_indices[0]),
+        "source_buffer_correct_last_interval": int(interval_indices[-1]),
+        "source_buffer_correct_n_intervals": int(interval_indices.size),
+        "source_buffer_correct_n_nodes": int(node_indices.size),
+        "source_buffer_correct_n_state_variables": int(state_cols_array.size),
+        "source_buffer_correct_n_delta_variables": int(delta0.size),
+        "source_buffer_correct_n_rows": int((2 * fractions.size + 2) * interval_indices.size),
+        "source_buffer_correct_initial_selected": initial_summary["selected"],
+        "source_buffer_correct_candidate_selected": candidate_summary["selected"],
+        "source_buffer_correct_final_selected": final_summary["selected"],
+        "source_buffer_correct_initial_state": initial_summary["state"],
+        "source_buffer_correct_final_state": final_summary["state"],
+        "source_buffer_correct_initial_integral": initial_summary["integral"],
+        "source_buffer_correct_final_integral": final_summary["integral"],
+        "source_buffer_correct_initial_jump": initial_summary["jump"],
+        "source_buffer_correct_final_jump": final_summary["jump"],
+        "source_buffer_correct_final_peak_jump_R_rg": final_summary["peak_jump_R_rg"],
+        "source_buffer_correct_final_peak_integral_R_rg": final_summary["peak_integral_R_rg"],
+        "source_buffer_correct_initial_score": initial_score,
+        "source_buffer_correct_candidate_score": candidate_score,
+        "source_buffer_correct_final_score": best_score,
+        "source_buffer_correct_initial_full": initial_metrics["full"],
+        "source_buffer_correct_candidate_full": candidate_metrics["full"],
+        "source_buffer_correct_final_full": best_metrics["full"],
+        "source_buffer_correct_initial_mass": initial_metrics["mass"],
+        "source_buffer_correct_final_mass": best_metrics["mass"],
+        "source_buffer_correct_initial_extra": initial_extra,
+        "source_buffer_correct_candidate_extra": candidate_extra,
+        "source_buffer_correct_final_extra": best_extra,
+        "source_buffer_correct_delta_min_over_inner": float(np.min(best_delta) / delta_scale) if best_delta.size else math.nan,
+        "source_buffer_correct_delta_max_over_inner": float(np.max(best_delta) / delta_scale) if best_delta.size else math.nan,
+        "source_buffer_correct_delta_sum_over_inner": float(np.sum(best_delta) / delta_scale) if best_delta.size else math.nan,
+        "source_buffer_correct_alpha": best_alpha,
+        "source_buffer_correct_nfev": int(result.nfev),
+        "source_buffer_correct_success": bool(result.success),
+        "source_buffer_correct_message": str(result.message),
+        "source_buffer_correct_variable_kinds": variable_kinds,
+        "source_buffer_correct_trials": trials,
+    }
+
+
+def _source_element_interval_indices(x: np.ndarray, params) -> tuple[np.ndarray, np.ndarray]:
+    interval_indices, _node_indices = _source_band_interval_indices(x, params)
+    if interval_indices.size == 0:
+        return np.asarray([], dtype=int), np.asarray([], dtype=int)
+    n = int(params.n_nodes)
+    halo = max(0, int(SOURCE_ELEMENT_HALO_INTERVALS))
+    first = max(0, int(interval_indices[0]) - halo)
+    last = min(n - 2, int(interval_indices[-1]) + halo)
+    intervals = np.arange(first, last + 1, dtype=int)
+    nodes = np.arange(first, last + 2, dtype=int)
+    return intervals, nodes
+
+
+def _source_element_refined_params_from_x(x_old: np.ndarray, old_params):
+    _logu, _logT, _logMdot, logR_son, _lambda0, logR_old = pilot._unpack(x_old, old_params)
+    interval_indices, node_indices = _source_element_interval_indices(x_old, old_params)
+    subdivisions = max(2, int(SOURCE_ELEMENT_SUBDIVISIONS))
+    if interval_indices.size == 0 or node_indices.size < 2:
+        return old_params, {
+            "source_element_refine_enabled": True,
+            "source_element_refine_applied": False,
+            "source_element_refine_reason": "no source-element intervals",
+        }
+    inserted: list[float] = []
+    for idx_value in interval_indices:
+        idx = int(idx_value)
+        left = float(logR_old[idx])
+        right = float(logR_old[idx + 1])
+        if right <= left:
+            continue
+        for sub_idx in range(1, subdivisions):
+            inserted.append(left + (right - left) * float(sub_idx) / float(subdivisions))
+    if not inserted:
+        return old_params, {
+            "source_element_refine_enabled": True,
+            "source_element_refine_applied": False,
+            "source_element_refine_reason": "no new internal nodes",
+        }
+    absolute_nodes = np.concatenate([logR_old, np.asarray(inserted, dtype=float)])
+    absolute_nodes = absolute_nodes[(absolute_nodes >= logR_old[0] - 1.0e-12) & (absolute_nodes <= logR_old[-1] + 1.0e-12)]
+    absolute_nodes = np.asarray(sorted({round(float(value), 14) for value in absolute_nodes}), dtype=float)
+    absolute_nodes[0] = float(logR_old[0])
+    absolute_nodes[-1] = float(logR_old[-1])
+    if absolute_nodes.size <= logR_old.size:
+        return old_params, {
+            "source_element_refine_enabled": True,
+            "source_element_refine_applied": False,
+            "source_element_refine_reason": "refined grid did not add nodes",
+        }
+    span = max(float(logR_old[-1] - logR_son), 1.0e-300)
+    xi = _enforce_min_spacing((absolute_nodes - float(logR_son)) / span)
+    new_params = replace(old_params, n_nodes=int(xi.size), custom_grid_xi=tuple(float(value) for value in xi))
+    interval_mid_rg = np.exp(0.5 * (logR_old[interval_indices] + logR_old[interval_indices + 1])) / old_params.r_g
+    return new_params, {
+        "source_element_refine_enabled": True,
+        "source_element_refine_applied": True,
+        "source_element_refine_old_N": int(old_params.n_nodes),
+        "source_element_refine_new_N": int(new_params.n_nodes),
+        "source_element_refine_subdivisions": int(subdivisions),
+        "source_element_refine_halo_intervals": int(SOURCE_ELEMENT_HALO_INTERVALS),
+        "source_element_refine_split_intervals": int(interval_indices.size),
+        "source_element_refine_inserted_nodes": int(new_params.n_nodes - old_params.n_nodes),
+        "source_element_refine_first_R_rg": float(interval_mid_rg[0]) if interval_mid_rg.size else math.nan,
+        "source_element_refine_last_R_rg": float(interval_mid_rg[-1]) if interval_mid_rg.size else math.nan,
+    }
+
+
+def _source_element_remap_x_to_params(x_old: np.ndarray, old_params, new_params) -> np.ndarray:
+    method = SOURCE_ELEMENT_REMAP_METHOD
+    if method in {"hermite", "ode_hermite", "ode-slope-hermite"}:
+        x_new = _hermite_remap_local_x_to_params(x_old, old_params, new_params)
+        return _source_element_apply_mass_seed(x_old, old_params, x_new, new_params)
+    logu_old, logT_old, logMdot_old, logR_son, lambda0, logR_old = pilot._unpack(x_old, old_params)
+    logR_new = pilot.computational_grid(new_params, logR_son)
+
+    def interp(values: np.ndarray) -> np.ndarray:
+        if method in {"pchip", "monotone", "shape_preserving"}:
+            try:
+                from scipy.interpolate import PchipInterpolator
+
+                return np.asarray(PchipInterpolator(logR_old, values, extrapolate=True)(logR_new), dtype=float)
+            except Exception:
+                return np.interp(logR_new, logR_old, values)
+        return np.interp(logR_new, logR_old, values)
+
+    logu_new = interp(logu_old)
+    logT_new = interp(logT_old)
+    logMdot_new = interp(logMdot_old)
+    x_new = pilot._pack(logu_new, logT_new, logMdot_new, logR_son, lambda0)
+    lower, upper = pilot._bounds(new_params)
+    x_new = np.clip(x_new, lower + 1.0e-12, upper - 1.0e-12)
+    return _source_element_apply_mass_seed(x_old, old_params, x_new, new_params)
+
+
+def _source_element_apply_mass_seed(x_old: np.ndarray, old_params, x_new: np.ndarray, new_params) -> np.ndarray:
+    if SOURCE_ELEMENT_MASS_SEED not in {"fv", "fv_budget", "mass_budget", "conservative"}:
+        return x_new
+    logu_new, logT_new, logMdot_new, logR_son, lambda0, logR_new = pilot._unpack(x_new, new_params)
+    _logu_old, _logT_old, logMdot_old, _logR_son_old, _lambda0_old, logR_old = pilot._unpack(x_old, old_params)
+    interval_indices, _node_indices = _source_element_interval_indices(x_old, old_params)
+    if interval_indices.size == 0:
+        return x_new
+    old_to_new: list[int] = []
+    for value in logR_old:
+        old_to_new.append(int(np.argmin(np.abs(logR_new - float(value)))))
+    logMdot = np.asarray(logMdot_new, dtype=float).copy()
+    lower, upper = pilot._bounds(new_params)
+    logMdot_lower = lower[2 * int(new_params.n_nodes) : 3 * int(new_params.n_nodes)] + 1.0e-12
+    logMdot_upper = upper[2 * int(new_params.n_nodes) : 3 * int(new_params.n_nodes)] - 1.0e-12
+    for _sweep in range(max(1, int(SOURCE_ELEMENT_MASS_SEED_SWEEPS))):
+        local_params = pilot._local_params(new_params, logR_new, logMdot)
+        for old_idx_value in interval_indices:
+            old_idx = int(old_idx_value)
+            left_pos = int(old_to_new[old_idx])
+            right_pos = int(old_to_new[old_idx + 1])
+            if right_pos <= left_pos + 1:
+                continue
+            sub_indices = np.arange(left_pos, right_pos, dtype=int)
+            net = np.empty(sub_indices.size, dtype=float)
+            for pos, sub_idx in enumerate(sub_indices):
+                try:
+                    wind_integral, source_integral, _scale, _left, _right = _source_buffer_mass_terms_from_unpacked(
+                        logu_new, logT_new, logMdot, logR_new, lambda0, local_params, int(sub_idx)
+                    )
+                    net[pos] = float(wind_integral - source_integral)
+                except Exception:
+                    net[pos] = 0.0
+            M_left = float(np.exp(logMdot_old[old_idx]))
+            M_right = float(np.exp(logMdot_old[old_idx + 1]))
+            correction = (M_right - M_left - float(np.sum(net))) / float(max(net.size, 1))
+            current = M_left
+            for pos, sub_idx in enumerate(sub_indices):
+                current += float(net[pos]) + correction
+                node = int(sub_idx + 1)
+                if node < right_pos:
+                    logMdot[node] = float(np.log(max(current, 1.0e-8 * float(new_params.Mdot_g_s))))
+            logMdot[left_pos] = float(logMdot_old[old_idx])
+            logMdot[right_pos] = float(logMdot_old[old_idx + 1])
+        logMdot = np.clip(logMdot, logMdot_lower, logMdot_upper)
+    x_seeded = pilot._pack(logu_new, logT_new, logMdot, logR_son, lambda0)
+    lower_full, upper_full = pilot._bounds(new_params)
+    return np.clip(x_seeded, lower_full + 1.0e-12, upper_full - 1.0e-12)
+
+
+def _source_element_refine_seed(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, Any, dict[str, Any]]:
+    if not SOURCE_ELEMENT_REFINE:
+        return x0, params, {}
+    _set_eta(eta_E)
+    new_params, info = _source_element_refined_params_from_x(x0, params)
+    if not info.get("source_element_refine_applied", False):
+        return x0, params, info
+    before = _residual_metrics_for_x(x0, params)
+    before_extra = _source_extra_max_for_x(x0, params)
+    x_refined = _source_element_remap_x_to_params(x0, params, new_params)
+    after = _residual_metrics_for_x(x_refined, new_params)
+    after_extra = _source_extra_max_for_x(x_refined, new_params)
+    info.update(
+        {
+            "source_element_refine_remap_method": str(SOURCE_ELEMENT_REMAP_METHOD),
+            "source_element_refine_mass_seed": str(SOURCE_ELEMENT_MASS_SEED),
+            "source_element_refine_mass_seed_sweeps": int(SOURCE_ELEMENT_MASS_SEED_SWEEPS),
+            "source_element_refine_before_full": before["full"],
+            "source_element_refine_before_mass": before["mass"],
+            "source_element_refine_before_extra": before_extra,
+            "source_element_refine_seed_full": after["full"],
+            "source_element_refine_seed_mass": after["mass"],
+            "source_element_refine_seed_extra": after_extra,
+        }
+    )
+    return x_refined, new_params, info
+
+
+def _source_microdomain_seed(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, Any, dict[str, Any]]:
+    if not SOURCE_MICRO_DOMAIN:
+        return x0, params, {}
+    new_params, info = _source_microdomain_params_from_x(x0, params)
+    if not info.get("source_microdomain_applied", False):
+        return x0, params, info
+    x_micro = _hermite_remap_local_x_to_params(x0, params, new_params)
+    before = _residual_metrics_for_x(x0, params)
+    after_seed = _residual_metrics_for_x(x_micro, new_params)
+    info.update(
+        {
+            "source_microdomain_remap_method": "ode_slope_hermite",
+            "source_microdomain_before_full": before["full"],
+            "source_microdomain_seed_full": after_seed["full"],
+            "source_microdomain_seed_mass": after_seed["mass"],
+            "source_microdomain_seed_extra": _source_extra_max_for_x(x_micro, new_params),
+        }
+    )
+    x_corrected, correct_info = _source_microdomain_correct(x_micro, new_params, eta_E)
+    info.update(correct_info)
+    final = _residual_metrics_for_x(x_corrected, new_params)
+    info.update(
+        {
+            "source_microdomain_final_full": final["full"],
+            "source_microdomain_final_mass": final["mass"],
+            "source_microdomain_final_extra": _source_extra_max_for_x(x_corrected, new_params),
+        }
+    )
+    return x_corrected, new_params, info
+
+
 def _xi_from_x(x: np.ndarray, params) -> np.ndarray:
     _logu, _logT, _logMdot, _logR_son, _lambda0, logR = pilot._unpack(x, params)
     span = max(float(logR[-1] - logR[0]), 1.0e-300)
@@ -2493,8 +4115,8 @@ def _solve_with_picard(x0: np.ndarray, params, eta_E: float):
         trial = _solve_stage(result.x, refreshed, eta_E)
         total_nfev += int(trial.nfev)
         picard_used += 1
-        if float(np.linalg.norm(pilot.residual(trial.x, refreshed), ord=np.inf)) <= float(
-            np.linalg.norm(pilot.residual(result.x, current_params), ord=np.inf)
+        if float(np.linalg.norm(_residual(trial.x, refreshed), ord=np.inf)) <= float(
+            np.linalg.norm(_residual(result.x, current_params), ord=np.inf)
         ):
             result = trial
             current_params = refreshed
@@ -2506,10 +4128,10 @@ def _solve_with_picard(x0: np.ndarray, params, eta_E: float):
 def _stage_row(label: str, x0: np.ndarray, result, params, eta_E: float, initial_full: float, profile: dict[str, Any]) -> dict[str, Any]:
     _set_eta(eta_E)
     row = pilot._row(label, result.x, params, initial_full, result)
-    unweighted = np.asarray(pilot.residual(result.x, params), dtype=float)
+    unweighted = np.asarray(_production_residual_base(result.x, params), dtype=float)
     base_final_full = float(row["final_full"])
     augmented_final_full = float(np.linalg.norm(_residual(result.x, params), ord=np.inf))
-    reported_final_full = augmented_final_full if SOURCE_BAND_EXTRA_ROWS else base_final_full
+    reported_final_full = augmented_final_full
     inner_idx = _inner_mdot_row_index(params)
     n = int(params.n_nodes)
     mass_start = inner_idx + 1
@@ -2527,6 +4149,8 @@ def _stage_row(label: str, x0: np.ndarray, result, params, eta_E: float, initial
             "peak_mass_residual": profile["peak_mass_residual"],
             "mass_residual_p90_abs": profile["mass_residual_p90_abs"],
             "source_band_extra_rows_enabled": bool(SOURCE_BAND_EXTRA_ROWS),
+            "source_band_extra_audit_only": bool(SOURCE_BAND_EXTRA_AUDIT_ONLY),
+            "source_band_finite_volume_mass": bool(SOURCE_BAND_FINITE_VOLUME_MASS),
             "source_band_extra_max": profile.get("source_band_extra_max", math.nan),
             "source_band_extra_radial_max": profile.get("source_band_extra_radial_max", math.nan),
             "source_band_extra_energy_max": profile.get("source_band_extra_energy_max", math.nan),
@@ -2564,10 +4188,10 @@ def _stage_row(label: str, x0: np.ndarray, result, params, eta_E: float, initial
 def _seed_stage_row(label: str, x0: np.ndarray, params, eta_E: float, initial_full: float, profile: dict[str, Any]) -> dict[str, Any]:
     _set_eta(eta_E)
     row = pilot._row(label, x0, params, initial_full, None)
-    unweighted = np.asarray(pilot.residual(x0, params), dtype=float)
+    unweighted = np.asarray(_production_residual_base(x0, params), dtype=float)
     base_final_full = float(row["final_full"])
     augmented_final_full = float(np.linalg.norm(_residual(x0, params), ord=np.inf))
-    reported_final_full = augmented_final_full if SOURCE_BAND_EXTRA_ROWS else base_final_full
+    reported_final_full = augmented_final_full
     inner_idx = _inner_mdot_row_index(params)
     n = int(params.n_nodes)
     mass_start = inner_idx + 1
@@ -2585,6 +4209,8 @@ def _seed_stage_row(label: str, x0: np.ndarray, params, eta_E: float, initial_fu
             "peak_mass_residual": profile["peak_mass_residual"],
             "mass_residual_p90_abs": profile["mass_residual_p90_abs"],
             "source_band_extra_rows_enabled": bool(SOURCE_BAND_EXTRA_ROWS),
+            "source_band_extra_audit_only": bool(SOURCE_BAND_EXTRA_AUDIT_ONLY),
+            "source_band_finite_volume_mass": bool(SOURCE_BAND_FINITE_VOLUME_MASS),
             "source_band_extra_max": profile.get("source_band_extra_max", math.nan),
             "source_band_extra_radial_max": profile.get("source_band_extra_radial_max", math.nan),
             "source_band_extra_energy_max": profile.get("source_band_extra_energy_max", math.nan),
@@ -2666,6 +4292,8 @@ def _write_outputs(rows: list[dict[str, Any]], profiles: list[dict[str, Any]]) -
         "mass_residual_p90_abs",
         "peak_mass_residual_rg",
         "source_band_extra_rows_enabled",
+        "source_band_extra_audit_only",
+        "source_band_finite_volume_mass",
         "source_band_extra_max",
         "source_band_extra_radial_max",
         "source_band_extra_energy_max",
@@ -2714,6 +4342,81 @@ def _write_outputs(rows: list[dict[str, Any]], profiles: list[dict[str, Any]]) -
         "grid_homotopy_final_interval_R",
         "grid_homotopy_final_interval_E",
         "grid_homotopy_final_mass",
+        "source_microdomain_applied",
+        "source_microdomain_old_N",
+        "source_microdomain_new_N",
+        "source_microdomain_actual_band_nodes",
+        "source_microdomain_seed_full",
+        "source_microdomain_seed_extra",
+        "source_microdomain_final_full",
+        "source_microdomain_final_mass",
+        "source_microdomain_final_extra",
+        "source_micro_correct_applied",
+        "source_micro_correct_freeze_edges",
+        "source_micro_correct_n_intervals",
+        "source_micro_correct_initial_selected",
+        "source_micro_correct_final_selected",
+        "source_micro_correct_initial_extra",
+        "source_micro_correct_final_extra",
+        "source_micro_correct_alpha",
+        "source_micro_correct_nfev",
+        "source_element_refine_applied",
+        "source_element_refine_old_N",
+        "source_element_refine_new_N",
+        "source_element_refine_subdivisions",
+        "source_element_refine_halo_intervals",
+        "source_element_refine_split_intervals",
+        "source_element_refine_inserted_nodes",
+        "source_element_refine_remap_method",
+        "source_element_refine_mass_seed",
+        "source_element_refine_mass_seed_sweeps",
+        "source_element_refine_before_full",
+        "source_element_refine_before_mass",
+        "source_element_refine_before_extra",
+        "source_element_refine_seed_full",
+        "source_element_refine_seed_mass",
+        "source_element_refine_seed_extra",
+        "source_domain_correct_applied",
+        "source_domain_correct_n_intervals",
+        "source_domain_correct_n_variables",
+        "source_domain_correct_n_rows",
+        "source_domain_correct_initial_selected",
+        "source_domain_correct_final_selected",
+        "source_domain_correct_initial_full",
+        "source_domain_correct_final_full",
+        "source_domain_correct_initial_mass",
+        "source_domain_correct_final_mass",
+        "source_domain_correct_initial_extra",
+        "source_domain_correct_final_extra",
+        "source_domain_correct_alpha",
+        "source_domain_correct_nfev",
+        "source_buffer_correct_applied",
+        "source_buffer_correct_halo_intervals",
+        "source_buffer_correct_n_intervals",
+        "source_buffer_correct_n_state_variables",
+        "source_buffer_correct_n_delta_variables",
+        "source_buffer_correct_n_rows",
+        "source_buffer_correct_mass_quadrature",
+        "source_buffer_correct_initial_selected",
+        "source_buffer_correct_final_selected",
+        "source_buffer_correct_initial_state",
+        "source_buffer_correct_final_state",
+        "source_buffer_correct_initial_integral",
+        "source_buffer_correct_final_integral",
+        "source_buffer_correct_initial_jump",
+        "source_buffer_correct_final_jump",
+        "source_buffer_correct_final_peak_jump_R_rg",
+        "source_buffer_correct_initial_full",
+        "source_buffer_correct_final_full",
+        "source_buffer_correct_initial_mass",
+        "source_buffer_correct_final_mass",
+        "source_buffer_correct_initial_extra",
+        "source_buffer_correct_final_extra",
+        "source_buffer_correct_delta_min_over_inner",
+        "source_buffer_correct_delta_max_over_inner",
+        "source_buffer_correct_delta_sum_over_inner",
+        "source_buffer_correct_alpha",
+        "source_buffer_correct_nfev",
         "band_correct_applied",
         "band_correct_min_rg",
         "band_correct_max_rg",
@@ -2805,6 +4508,12 @@ def main() -> None:
                 x = _remap_local_x_to_params(x, old_params, params)
         else:
             params = _restore_checkpoint_params(params, data)
+    if SOURCE_MICRO_DOMAIN:
+        x, params, micro_info = _source_microdomain_seed(x, params, ETA_VALUES[0])
+        startup_info.update(micro_info)
+    if SOURCE_ELEMENT_REFINE:
+        x, params, element_info = _source_element_refine_seed(x, params, ETA_VALUES[0])
+        startup_info.update(element_info)
     rows: list[dict[str, Any]] = []
     profiles: list[dict[str, Any]] = []
 
@@ -2823,6 +4532,12 @@ def main() -> None:
         band_correct_info: dict[str, Any] = {}
         if BAND_CORRECT:
             x, band_correct_info = _reduced_band_correct(x, params, eta_E)
+        source_domain_info: dict[str, Any] = {}
+        if SOURCE_DOMAIN_CORRECT:
+            x, source_domain_info = _source_domain_correct(x, params, eta_E)
+        source_buffer_info: dict[str, Any] = {}
+        if SOURCE_BUFFER_CORRECT:
+            x, source_buffer_info = _source_buffer_correct(x, params, eta_E)
         block_correct_info: dict[str, Any] = {}
         if BLOCK_CORRECT:
             x, block_correct_info = _coupled_block_correct(x, params, eta_E)
@@ -2836,6 +4551,8 @@ def main() -> None:
             row.update(inner_relax_info)
             row.update(outer_relax_info)
             row.update(band_correct_info)
+            row.update(source_domain_info)
+            row.update(source_buffer_info)
             row.update(block_correct_info)
             row.update(startup_info)
             row["checkpoint"] = _write_checkpoint(label, x, params, row)
@@ -2856,6 +4573,8 @@ def main() -> None:
         row.update(inner_relax_info)
         row.update(outer_relax_info)
         row.update(band_correct_info)
+        row.update(source_domain_info)
+        row.update(source_buffer_info)
         row.update(block_correct_info)
         row.update(startup_info)
         row["picard_iters"] = int(picard_used)
