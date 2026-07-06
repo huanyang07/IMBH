@@ -158,6 +158,164 @@ SOURCE_BUFFER_JUMP_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOUR
 SOURCE_BUFFER_MASS_QUADRATURE = os.environ.get(
     "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BUFFER_MASS_QUADRATURE", "midpoint"
 ).strip().lower()
+SOURCE_INTERFACE_CORRECT = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_CORRECT", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_INTERFACE_FRACTIONS_RAW = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_FRACTIONS", SOURCE_BUFFER_FRACTIONS_RAW
+)
+SOURCE_INTERFACE_HALO_INTERVALS = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_HALO_INTERVALS", str(SOURCE_BUFFER_HALO_INTERVALS))
+)
+SOURCE_INTERFACE_MAX_NFEV = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_MAX_NFEV", "180"))
+SOURCE_INTERFACE_LINE_SEARCH_STEPS = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_LINE_SEARCH_STEPS", "12")
+)
+SOURCE_INTERFACE_STATE_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_STATE_WEIGHT", "1.0"))
+SOURCE_INTERFACE_HS_STATE_ROWS = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_HS_STATE_ROWS", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_INTERFACE_POLY_STATE_ROWS = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_POLY_STATE_ROWS", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_INTERFACE_INTEGRAL_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_INTEGRAL_WEIGHT", "1.0")
+)
+SOURCE_INTERFACE_JUMP_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_JUMP_WEIGHT", "1.0"))
+SOURCE_INTERFACE_ENERGY_AUDIT = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_ENERGY_AUDIT", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_INTERFACE_RECONCILE_AUDIT = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_RECONCILE_AUDIT", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_INTERFACE_RECONCILE_SOURCE_BAND_ONLY = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_RECONCILE_SOURCE_BAND_ONLY", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_INTERFACE_FV_ENERGY_ROWS = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_FV_ENERGY_ROWS", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_INTERFACE_ENERGY_INTEGRAL_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_ENERGY_INTEGRAL_WEIGHT", "1.0")
+)
+SOURCE_INTERFACE_ENERGY_BALANCE_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_ENERGY_BALANCE_WEIGHT", "1.0")
+)
+SOURCE_INTERFACE_ENERGY_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_ENERGY_WEIGHT", "1.0"))
+SOURCE_INTERFACE_EDGE_STATE_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_EDGE_STATE_WEIGHT", "10.0")
+)
+SOURCE_INTERFACE_EDGE_MDOT_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_EDGE_MDOT_WEIGHT", "10.0")
+)
+SOURCE_INTERFACE_ALL_ANCHOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_ALL_ANCHOR_WEIGHT", "0.0")
+)
+SOURCE_INTERFACE_WRITE_EDGES = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_WRITE_EDGES", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_INTERFACE_MASS_QUADRATURE = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_INTERFACE_MASS_QUADRATURE", "simpson"
+).strip().lower()
+SOURCE_PLUS_BUFFER_CORRECT = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_CORRECT", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_PLUS_BUFFER_FRACTIONS_RAW = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_FRACTIONS", SOURCE_BUFFER_FRACTIONS_RAW
+)
+SOURCE_PLUS_BUFFER_HALO_INTERVALS = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_HALO_INTERVALS", str(SOURCE_BUFFER_HALO_INTERVALS))
+)
+SOURCE_PLUS_BUFFER_MAX_NFEV = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_MAX_NFEV", "220"))
+SOURCE_PLUS_BUFFER_LINE_SEARCH_STEPS = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_LINE_SEARCH_STEPS", "14")
+)
+SOURCE_PLUS_BUFFER_WRITE_EDGES = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_WRITE_EDGES", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_PLUS_BUFFER_EDGE_STATE_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_EDGE_STATE_WEIGHT", "10.0")
+)
+SOURCE_PLUS_BUFFER_EDGE_MDOT_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_EDGE_MDOT_WEIGHT", "10.0")
+)
+SOURCE_PLUS_BUFFER_ALL_ANCHOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_ALL_ANCHOR_WEIGHT", "0.0")
+)
+SOURCE_PLUS_BUFFER_STATE_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_STATE_WEIGHT", "1.0"))
+SOURCE_PLUS_BUFFER_POLY_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_POLY_WEIGHT", "1.0"))
+SOURCE_PLUS_BUFFER_POLY_ROWS = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_POLY_ROWS", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_PLUS_BUFFER_MASS_INTERFACE_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_MASS_INTERFACE_WEIGHT", "1.0")
+)
+SOURCE_PLUS_BUFFER_MASS_ENDPOINT_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_MASS_ENDPOINT_WEIGHT", "1.0")
+)
+SOURCE_PLUS_BUFFER_MASS_ELEMENT_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_MASS_ELEMENT_WEIGHT", "1.0")
+)
+SOURCE_PLUS_BUFFER_PRODUCTION_MASS_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_PRODUCTION_MASS_WEIGHT", "1.0")
+)
+SOURCE_PLUS_BUFFER_PRODUCTION_ENERGY_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_PRODUCTION_ENERGY_WEIGHT", "0.0")
+)
+SOURCE_PLUS_BUFFER_ENERGY_INTERFACE_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_ENERGY_INTERFACE_WEIGHT", "1.0")
+)
+SOURCE_PLUS_BUFFER_ENERGY_ELEMENT_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_ENERGY_ELEMENT_WEIGHT", "1.0")
+)
+SOURCE_PLUS_BUFFER_ENERGY_BALANCE_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_ENERGY_BALANCE_WEIGHT", "1.0")
+)
+SOURCE_PLUS_BUFFER_ENERGY_COMPAT_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_ENERGY_COMPAT_WEIGHT", "1.0")
+)
+SOURCE_PLUS_BUFFER_INCREMENT_ANCHOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_INCREMENT_ANCHOR_WEIGHT", "1.0")
+)
+SOURCE_PLUS_BUFFER_USE_HYBRID_JAC = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_USE_HYBRID_JAC", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_PLUS_BUFFER_JAC_STEP = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_JAC_STEP", "1e-6"))
+SOURCE_PLUS_BUFFER_FULL_GUARD_REL = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_FULL_GUARD_REL", "1.10")
+)
+SOURCE_PLUS_BUFFER_FULL_GUARD_ABS = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_FULL_GUARD_ABS", "5e-6")
+)
+SOURCE_PLUS_BUFFER_EXTRA_GUARD_REL = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_EXTRA_GUARD_REL", "1.20")
+)
+SOURCE_PLUS_BUFFER_EXTRA_GUARD_ABS = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_EXTRA_GUARD_ABS", "5e-3")
+)
+SOURCE_PLUS_BUFFER_PRESERVE_ACCEPTED = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_PRESERVE_ACCEPTED", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_PLUS_BUFFER_PRODUCTION_POLISH = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_PRODUCTION_POLISH", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_PLUS_BUFFER_PRODUCTION_MAX_NFEV = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_PRODUCTION_MAX_NFEV", "160")
+)
+SOURCE_PLUS_BUFFER_PRODUCTION_LINE_SEARCH_STEPS = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_PRODUCTION_LINE_SEARCH_STEPS", "14")
+)
+SOURCE_PLUS_BUFFER_PRODUCTION_BASE_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_PRODUCTION_BASE_WEIGHT", "1.0")
+)
+SOURCE_PLUS_BUFFER_PRODUCTION_SOURCE_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_PRODUCTION_SOURCE_WEIGHT", "1.0")
+)
+SOURCE_PLUS_BUFFER_PRODUCTION_VARIABLE_MODE = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_PRODUCTION_VARIABLE_MODE", "band"
+).strip().lower()
+SOURCE_PLUS_BUFFER_PRODUCTION_INCLUDE_GLOBALS = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_PLUS_BUFFER_PRODUCTION_INCLUDE_GLOBALS", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
 SOURCE_ELEMENT_REFINE = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_REFINE", "0").strip().lower() in {
     "1",
     "true",
@@ -171,6 +329,61 @@ SOURCE_ELEMENT_HALO_INTERVALS = int(
 SOURCE_ELEMENT_REMAP_METHOD = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_REMAP_METHOD", "linear").strip().lower()
 SOURCE_ELEMENT_MASS_SEED = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_MASS_SEED", "none").strip().lower()
 SOURCE_ELEMENT_MASS_SEED_SWEEPS = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_MASS_SEED_SWEEPS", "2"))
+SOURCE_ELEMENT_LS = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS", "0").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+SOURCE_ELEMENT_LS_FRACTIONS_RAW = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_FRACTIONS", "0.25,0.5,0.75"
+)
+SOURCE_ELEMENT_LS_GAMMAS_RAW = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_GAMMAS", "0.03,0.10,0.30,1.0"
+)
+SOURCE_ELEMENT_LS_HALO_INTERVALS = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_HALO_INTERVALS", str(SOURCE_ELEMENT_HALO_INTERVALS))
+)
+SOURCE_ELEMENT_LS_MAX_NFEV = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_MAX_NFEV", "120"))
+SOURCE_ELEMENT_LS_LINE_SEARCH_STEPS = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_LINE_SEARCH_STEPS", "12")
+)
+SOURCE_ELEMENT_LS_FREEZE_EDGES = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_FREEZE_EDGES", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_ELEMENT_LS_INCLUDE_GLOBALS = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_INCLUDE_GLOBALS", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_ELEMENT_LS_EDGE_ANCHOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_EDGE_ANCHOR_WEIGHT", "0.1")
+)
+SOURCE_ELEMENT_LS_ALL_ANCHOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_ALL_ANCHOR_WEIGHT", "0.0")
+)
+SOURCE_ELEMENT_LS_RADIAL_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_RADIAL_WEIGHT", "1.0")
+)
+SOURCE_ELEMENT_LS_ENERGY_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_ENERGY_WEIGHT", "1.0")
+)
+SOURCE_ELEMENT_LS_FV_MASS = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_FV_MASS", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_ELEMENT_LS_FV_MASS_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_FV_MASS_WEIGHT", "1.0")
+)
+SOURCE_ELEMENT_LS_FV_ENERGY = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_FV_ENERGY", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_ELEMENT_LS_FV_ENERGY_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_FV_ENERGY_WEIGHT", "1.0")
+)
+SOURCE_ELEMENT_LS_FILTER_TOL = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_LS_FILTER_TOL", "0.0")
+)
+SOURCE_ELEMENT_CONSISTENCY_AUDIT = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_CONSISTENCY_AUDIT", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
 SOURCE_BAND_FINITE_VOLUME_MASS_RAW = os.environ.get(
     "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_FINITE_VOLUME_MASS", ""
 ).strip().lower()
@@ -197,6 +410,27 @@ OUTER_ROBIN_SLOPE_SCALE_RAW = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_OUTER_RO
 OUTER_OMEGA_LOG_OFFSET_RAW = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_OUTER_OMEGA_LOG_OFFSET", "").strip()
 INTERVAL_RESIDUAL_FORM_RAW = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_INTERVAL_FORM", "").strip()
 INTEGRATED_WEIGHTING_RAW = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_INTEGRATED_WEIGHTING", "").strip()
+STREAM_SOURCE_FRACTION_RAW = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_STREAM_SOURCE_FRACTION", "").strip()
+STREAM_MASS_FRACTION_RAW = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_STREAM_MASS_FRACTION", "").strip()
+STREAM_SOURCE_CENTER_FRACTION_RAW = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_STREAM_SOURCE_CENTER_FRACTION", ""
+).strip()
+STREAM_SOURCE_LOG_WIDTH_RAW = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_STREAM_SOURCE_LOG_WIDTH", "").strip()
+STREAM_SOURCE_SHAPE_RAW = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_STREAM_SOURCE_SHAPE", "").strip()
+STREAM_SOURCE_SHAPE_BLEND_RAW = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_STREAM_SOURCE_SHAPE_BLEND", ""
+).strip()
+STREAM_TORQUE_CENTER_FRACTION_RAW = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_STREAM_TORQUE_CENTER_FRACTION", ""
+).strip()
+STREAM_TORQUE_LOG_WIDTH_RAW = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_STREAM_TORQUE_LOG_WIDTH", "").strip()
+STREAM_HEATING_EFFICIENCY_RAW = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_STREAM_HEATING_EFFICIENCY", "").strip()
+STREAM_TORQUE_DELTA_L_FRACTION_RAW = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_STREAM_TORQUE_DELTA_L_FRACTION", ""
+).strip()
+WIND_ENERGY_LIMITED_EPSILON_RAW = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_WIND_ENERGY_LIMITED_EPSILON", ""
+).strip()
 OUTER_SLOPE_PICARD_ITERS = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_OUTER_SLOPE_PICARD_ITERS", "0"))
 SEED_ONLY = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SEED_ONLY", "0").strip().lower() in {"1", "true", "yes", "on"}
 DEFECT_REMAP_SWEEPS = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_DEFECT_REMAP_SWEEPS", "4"))
@@ -517,6 +751,125 @@ def _scaled_residual_at(logR: float, y: np.ndarray, g: np.ndarray, lambda0: floa
     return np.asarray(raw, dtype=float) / np.asarray([radial_scale, energy_scale], dtype=float)
 
 
+def _local_params_with_point_mdot(params, logR: float, logMdot: float, dlogMdot_dx: float):
+    """Return a tiny local tabulated-Mdot profile with prescribed value and slope."""
+
+    x0 = float(logR)
+    slope = float(dlogMdot_dx)
+    eps = 1.0e-6
+    return replace(
+        params,
+        wind_sink_fraction=0.0,
+        mdot_profile_mode="tabulated",
+        mdot_profile_logR=(x0 - eps, x0, x0 + eps),
+        mdot_profile_logMdot=(float(logMdot) - eps * slope, float(logMdot), float(logMdot) + eps * slope),
+    )
+
+
+def _lagrange_value_and_derivative(nodes: np.ndarray, values: np.ndarray, xq: float) -> tuple[float, float]:
+    """Evaluate an interpolating polynomial and its d/dx derivative."""
+
+    xs = np.asarray(nodes, dtype=float)
+    ys = np.asarray(values, dtype=float)
+    if xs.ndim != 1 or ys.ndim != 1 or xs.size != ys.size or xs.size < 2:
+        raise ValueError("Lagrange interpolation requires matching one-dimensional arrays")
+    if np.any(np.diff(xs) <= 0.0):
+        raise ValueError("Lagrange nodes must be strictly increasing")
+    x = float(xq)
+    value = 0.0
+    derivative = 0.0
+    for j in range(xs.size):
+        basis = 1.0
+        for k in range(xs.size):
+            if k == j:
+                continue
+            basis *= (x - xs[k]) / (xs[j] - xs[k])
+        dbasis = 0.0
+        for m in range(xs.size):
+            if m == j:
+                continue
+            term = 1.0 / (xs[j] - xs[m])
+            for k in range(xs.size):
+                if k == j or k == m:
+                    continue
+                term *= (x - xs[k]) / (xs[j] - xs[k])
+            dbasis += term
+        value += float(ys[j]) * basis
+        derivative += float(ys[j]) * dbasis
+    return float(value), float(derivative)
+
+
+def _source_element_stencil(logR: np.ndarray, interval_idx: int, width: int = 5) -> np.ndarray:
+    n = int(logR.size)
+    stencil_width = min(max(int(width), 2), n)
+    start = int(interval_idx) - stencil_width // 2
+    start = max(0, min(start, n - stencil_width))
+    return np.arange(start, start + stencil_width, dtype=int)
+
+
+def _source_element_poly_state(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    interval_idx: int,
+    fraction: float,
+) -> tuple[float, np.ndarray, np.ndarray, float, float, np.ndarray]:
+    """Return ``x, y, yprime, logMdot, logMdotprime, stencil`` for a source interval."""
+
+    idx = int(interval_idx)
+    dx = float(logR[idx + 1] - logR[idx])
+    if dx <= 0.0:
+        raise ValueError("source-element interval has non-positive width")
+    xq = float(logR[idx] + float(fraction) * dx)
+    stencil = _source_element_stencil(logR, idx)
+    xs = np.asarray(logR[stencil], dtype=float)
+    uq, dup = _lagrange_value_and_derivative(xs, np.asarray(logu[stencil], dtype=float), xq)
+    tq, dtp = _lagrange_value_and_derivative(xs, np.asarray(logT[stencil], dtype=float), xq)
+    mq, dmp = _lagrange_value_and_derivative(xs, np.asarray(logMdot[stencil], dtype=float), xq)
+    return xq, np.asarray([uq, tq], dtype=float), np.asarray([dup, dtp], dtype=float), float(mq), float(dmp), stencil
+
+
+def _source_element_point_params(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    interval_idx: int,
+    fraction: float,
+    base_params,
+) -> tuple[float, np.ndarray, np.ndarray, float, Any, np.ndarray]:
+    xq, yq, gq, mq, mp, stencil = _source_element_poly_state(logu, logT, logMdot, logR, interval_idx, fraction)
+    local_params = _local_params_with_point_mdot(base_params, xq, mq, mp)
+    return xq, yq, gq, mq, local_params, stencil
+
+
+def _energy_terms_at(logR: float, y: np.ndarray, g: np.ndarray, lambda0: float, params) -> dict[str, float]:
+    state = algebraic_state(logR, float(y[0]), float(y[1]), lambda0, params)
+    partials = state_partials(logR, y, lambda0, params, eps_x=params.partial_eps, eps_y=params.partial_eps)
+    drho_dx = partials.x["rho"] + float(np.dot(partials.y["rho"], g))
+    de_dx = partials.x["e"] + float(np.dot(partials.y["e"], g))
+    dOmega_dx = partials.x["Omega"] + float(np.dot(partials.y["Omega"], g))
+    Tdsdx = de_dx - state.P / state.rho**2 * drho_dx
+    Q_visc = -state.W * dOmega_dx
+    Q_adv = -(state.Sigma * state.u / state.R) * Tdsdx
+    Q_stream = stream_heating_rate(logR, params)
+    Q_wind = wind_energy_loss_rate(state, Q_visc, Q_stream, Q_adv, params)
+    raw = float(Q_visc + Q_stream - state.Q_rad - Q_adv - Q_wind)
+    denom = float(abs(Q_visc) + abs(Q_stream) + abs(state.Q_rad) + abs(Q_adv) + abs(Q_wind) + 1.0e-300)
+    area = float(2.0 * np.pi * state.R**2)
+    return {
+        "raw": raw,
+        "denom": denom,
+        "area": area,
+        "Q_visc": float(Q_visc),
+        "Q_stream": float(Q_stream),
+        "Q_rad": float(state.Q_rad),
+        "Q_adv": float(Q_adv),
+        "Q_wind": float(Q_wind),
+    }
+
+
 def _source_band_default_bounds_rg(params) -> tuple[float, float]:
     if SOURCE_BAND_MIN_RG_RAW and SOURCE_BAND_MAX_RG_RAW:
         return float(SOURCE_BAND_MIN_RG_RAW), float(SOURCE_BAND_MAX_RG_RAW)
@@ -603,7 +956,7 @@ def _finite_volume_mass_residual_from_unpacked(
     lambda0: float,
     local_params,
     idx: int,
-) -> float:
+) -> dict[str, float]:
     """Return a dimensionless finite-volume mass residual for one interval."""
 
     wind_integral, source_integral, mdot_scale, mdot_left, mdot_right = _finite_volume_mass_terms_from_unpacked(
@@ -1052,6 +1405,30 @@ def _apply_local_overrides(params):
         kwargs["interval_residual_form"] = INTERVAL_RESIDUAL_FORM_RAW
     if INTEGRATED_WEIGHTING_RAW:
         kwargs["integrated_residual_weighting"] = INTEGRATED_WEIGHTING_RAW
+    if STREAM_SOURCE_FRACTION_RAW:
+        kwargs["stream_source_fraction"] = float(STREAM_SOURCE_FRACTION_RAW)
+        kwargs["stream_mass_fraction"] = 0.0
+    if STREAM_MASS_FRACTION_RAW:
+        kwargs["stream_mass_fraction"] = float(STREAM_MASS_FRACTION_RAW)
+        kwargs["stream_source_fraction"] = 0.0
+    if STREAM_SOURCE_CENTER_FRACTION_RAW:
+        kwargs["stream_source_center_fraction"] = float(STREAM_SOURCE_CENTER_FRACTION_RAW)
+    if STREAM_SOURCE_LOG_WIDTH_RAW:
+        kwargs["stream_source_log_width"] = float(STREAM_SOURCE_LOG_WIDTH_RAW)
+    if STREAM_SOURCE_SHAPE_RAW:
+        kwargs["stream_source_shape"] = STREAM_SOURCE_SHAPE_RAW
+    if STREAM_SOURCE_SHAPE_BLEND_RAW:
+        kwargs["stream_source_shape_blend"] = float(STREAM_SOURCE_SHAPE_BLEND_RAW)
+    if STREAM_TORQUE_CENTER_FRACTION_RAW:
+        kwargs["stream_torque_center_fraction"] = float(STREAM_TORQUE_CENTER_FRACTION_RAW)
+    if STREAM_TORQUE_LOG_WIDTH_RAW:
+        kwargs["stream_torque_log_width"] = float(STREAM_TORQUE_LOG_WIDTH_RAW)
+    if STREAM_HEATING_EFFICIENCY_RAW:
+        kwargs["stream_heating_efficiency"] = float(STREAM_HEATING_EFFICIENCY_RAW)
+    if STREAM_TORQUE_DELTA_L_FRACTION_RAW:
+        kwargs["stream_torque_delta_l_fraction"] = float(STREAM_TORQUE_DELTA_L_FRACTION_RAW)
+    if WIND_ENERGY_LIMITED_EPSILON_RAW:
+        kwargs["wind_energy_limited_epsilon"] = float(WIND_ENERGY_LIMITED_EPSILON_RAW)
     return replace(params, **kwargs) if kwargs else params
 
 
@@ -1781,6 +2158,140 @@ def _local_block_jacobian_audit(x: np.ndarray, params, eta_E: float, peak_interv
     }
 
 
+def _source_element_consistency_audit(x: np.ndarray, params, eta_E: float) -> dict[str, Any]:
+    if not SOURCE_ELEMENT_CONSISTENCY_AUDIT:
+        return {}
+    _set_eta(eta_E)
+    try:
+        logu, logT, logMdot, _logR_son, lambda0, logR = pilot._unpack(x, params)
+        interval_indices, _node_indices = _source_band_interval_indices(x, params)
+        if interval_indices.size == 0:
+            return {
+                "enabled": True,
+                "applied": False,
+                "reason": "no source-band intervals",
+                "n_intervals": 0,
+            }
+        fractions = _source_element_ls_sample_fractions()
+        rows: list[dict[str, Any]] = []
+        poly_R_max_values: list[float] = []
+        poly_E_max_values: list[float] = []
+        fv_M_values: list[float] = []
+        fv_E_values: list[float] = []
+        fv_E_over_poly_values: list[float] = []
+        for idx_value in interval_indices:
+            idx = int(idx_value)
+            dx = float(logR[idx + 1] - logR[idx])
+            if dx <= 0.0:
+                continue
+            collocation_rows: list[dict[str, Any]] = []
+            radial_values: list[float] = []
+            energy_values: list[float] = []
+            raw_energy_values: list[float] = []
+            energy_scale_values: list[float] = []
+            for fraction in fractions:
+                xq, yq, gq, _mq, point_params, _stencil = _source_element_point_params(
+                    logu, logT, logMdot, logR, idx, float(fraction), params
+                )
+                raw = differential_residual(xq, yq, gq, lambda0, point_params)
+                radial_scale, energy_scale = differential_residual_scales(xq, yq, lambda0, point_params)
+                scaled = np.asarray(raw, dtype=float) / np.asarray([radial_scale, energy_scale], dtype=float)
+                terms = _energy_terms_at(xq, yq, gq, lambda0, point_params)
+                mdot_q, dmdot_q = stream_mass_rate_and_derivative(xq, point_params)
+                stream_prime = stream_source_prime(xq, point_params)
+                wind_prime = _safe_wind_prime(xq, yq, gq, lambda0, point_params)
+                radial_values.append(float(scaled[0]))
+                energy_values.append(float(scaled[1]))
+                raw_energy_values.append(float(raw[1]))
+                energy_scale_values.append(float(energy_scale))
+                collocation_rows.append(
+                    {
+                        "fraction": float(fraction),
+                        "R_rg": float(np.exp(xq) / params.r_g),
+                        "poly_R_scaled": float(scaled[0]),
+                        "poly_E_scaled": float(scaled[1]),
+                        "poly_E_raw": float(raw[1]),
+                        "energy_scale": float(energy_scale),
+                        "energy_terms": terms,
+                        "Mdot": float(mdot_q),
+                        "dMdot_dlnR": float(dmdot_q),
+                        "stream_source_prime": float(stream_prime),
+                        "wind_prime": float(wind_prime) if np.isfinite(wind_prime) else math.nan,
+                    }
+                )
+            fv_mass = _source_element_poly_fv_mass_residual(logu, logT, logMdot, logR, lambda0, params, idx)
+            fv_energy_terms = _source_element_poly_fv_energy_terms(logu, logT, logMdot, logR, lambda0, params, idx)
+            poly_R_max = float(np.max(np.abs(radial_values))) if radial_values else math.nan
+            poly_E_max = float(np.max(np.abs(energy_values))) if energy_values else math.nan
+            fv_E = float(fv_energy_terms["residual"])
+            ratio = float(abs(fv_E) / max(abs(poly_E_max), 1.0e-300)) if np.isfinite(poly_E_max) else math.nan
+            poly_R_max_values.append(poly_R_max)
+            poly_E_max_values.append(poly_E_max)
+            fv_M_values.append(float(fv_mass))
+            fv_E_values.append(fv_E)
+            fv_E_over_poly_values.append(ratio)
+            rows.append(
+                {
+                    "interval_index": idx,
+                    "R_left_rg": float(np.exp(logR[idx]) / params.r_g),
+                    "R_right_rg": float(np.exp(logR[idx + 1]) / params.r_g),
+                    "R_mid_rg": float(np.exp(0.5 * (logR[idx] + logR[idx + 1])) / params.r_g),
+                    "h_dlnR": dx,
+                    "poly_R_max_abs": poly_R_max,
+                    "poly_E_max_abs": poly_E_max,
+                    "poly_E_signed_mean": float(np.mean(energy_values)) if energy_values else math.nan,
+                    "poly_E_raw_signed_mean": float(np.mean(raw_energy_values)) if raw_energy_values else math.nan,
+                    "poly_E_scale_median": float(np.median(np.abs(energy_scale_values))) if energy_scale_values else math.nan,
+                    "FV_M": float(fv_mass),
+                    "FV_E": fv_E,
+                    "FV_E_over_poly_E_max": ratio,
+                    "FV_E_numerator": float(fv_energy_terms["numerator"]),
+                    "FV_E_denominator": float(fv_energy_terms["denominator"]),
+                    "FV_E_Qvisc_integral": float(fv_energy_terms["Q_visc_integral"]),
+                    "FV_E_Qstream_integral": float(fv_energy_terms["Q_stream_integral"]),
+                    "FV_E_Qrad_integral": float(fv_energy_terms["Q_rad_integral"]),
+                    "FV_E_Qadv_integral": float(fv_energy_terms["Q_adv_integral"]),
+                    "FV_E_Qwind_integral": float(fv_energy_terms["Q_wind_integral"]),
+                    "collocation": collocation_rows,
+                }
+            )
+        if not rows:
+            return {
+                "enabled": True,
+                "applied": False,
+                "reason": "no active source-element audit rows",
+                "n_intervals": 0,
+            }
+        abs_poly_R = np.abs(np.asarray(poly_R_max_values, dtype=float))
+        abs_poly_E = np.abs(np.asarray(poly_E_max_values, dtype=float))
+        abs_fv_M = np.abs(np.asarray(fv_M_values, dtype=float))
+        abs_fv_E = np.abs(np.asarray(fv_E_values, dtype=float))
+        abs_ratio = np.abs(np.asarray(fv_E_over_poly_values, dtype=float))
+        peak_E_idx = int(np.nanargmax(abs_poly_E)) if abs_poly_E.size else 0
+        peak_FV_idx = int(np.nanargmax(abs_fv_E)) if abs_fv_E.size else 0
+        return {
+            "enabled": True,
+            "applied": True,
+            "n_intervals": int(len(rows)),
+            "fractions": fractions.tolist(),
+            "poly_R_max": float(np.nanmax(abs_poly_R)) if abs_poly_R.size else math.nan,
+            "poly_E_max": float(np.nanmax(abs_poly_E)) if abs_poly_E.size else math.nan,
+            "FV_M_max": float(np.nanmax(abs_fv_M)) if abs_fv_M.size else math.nan,
+            "FV_E_max": float(np.nanmax(abs_fv_E)) if abs_fv_E.size else math.nan,
+            "FV_E_over_poly_E_max": float(np.nanmax(abs_ratio)) if abs_ratio.size else math.nan,
+            "peak_poly_E_R_rg": float(rows[peak_E_idx]["R_mid_rg"]),
+            "peak_FV_E_R_rg": float(rows[peak_FV_idx]["R_mid_rg"]),
+            "rows": rows,
+        }
+    except Exception as exc:
+        return {
+            "enabled": True,
+            "applied": False,
+            "reason": f"exception: {exc}",
+            "n_intervals": 0,
+        }
+
+
 def _profile(label: str, x: np.ndarray, params, eta_E: float, jac_norms: dict[str, Any] | None = None) -> dict[str, Any]:
     _set_eta(eta_E)
     logu, logT, logMdot, logR_son, lambda0, logR = pilot._unpack(x, params)
@@ -1891,6 +2402,19 @@ def _profile(label: str, x: np.ndarray, params, eta_E: float, jac_norms: dict[st
     if JACOBIAN_AUDIT:
         peak_idx = int(np.argmax(np.abs(interval_R))) if interval_R.size else 0
         row["local_block_jacobian_audit"] = _local_block_jacobian_audit(x, params, eta_E, peak_idx)
+    if SOURCE_ELEMENT_CONSISTENCY_AUDIT:
+        consistency = _source_element_consistency_audit(x, params, eta_E)
+        row["source_element_consistency_audit"] = consistency
+        row["source_element_consistency_enabled"] = bool(consistency.get("enabled", False))
+        row["source_element_consistency_applied"] = bool(consistency.get("applied", False))
+        row["source_element_consistency_n_intervals"] = int(consistency.get("n_intervals", 0))
+        row["source_element_consistency_poly_R_max"] = consistency.get("poly_R_max", math.nan)
+        row["source_element_consistency_poly_E_max"] = consistency.get("poly_E_max", math.nan)
+        row["source_element_consistency_FV_M_max"] = consistency.get("FV_M_max", math.nan)
+        row["source_element_consistency_FV_E_max"] = consistency.get("FV_E_max", math.nan)
+        row["source_element_consistency_FV_E_over_poly_E_max"] = consistency.get("FV_E_over_poly_E_max", math.nan)
+        row["source_element_consistency_peak_poly_E_R_rg"] = consistency.get("peak_poly_E_R_rg", math.nan)
+        row["source_element_consistency_peak_FV_E_R_rg"] = consistency.get("peak_FV_E_R_rg", math.nan)
     if SOURCE_BAND_EXTRA_ROWS:
         row.update(_source_band_extra_profile(x, local_params))
     row["source_band_finite_volume_mass"] = bool(SOURCE_BAND_FINITE_VOLUME_MASS)
@@ -3760,6 +4284,2995 @@ def _source_buffer_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.nda
     }
 
 
+def _source_interface_sample_fractions() -> np.ndarray:
+    values: list[float] = []
+    for piece in SOURCE_INTERFACE_FRACTIONS_RAW.split(","):
+        text = piece.strip()
+        if not text:
+            continue
+        value = float(text)
+        if not 0.0 < value < 1.0:
+            raise ValueError("source-interface fractions must lie strictly between 0 and 1")
+        values.append(value)
+    if not values:
+        values = [0.5]
+    return np.asarray(sorted(set(float(value) for value in values)), dtype=float)
+
+
+def _source_interface_interval_indices(x: np.ndarray, params) -> tuple[np.ndarray, np.ndarray]:
+    interval_indices, _node_indices = _source_band_interval_indices(x, params)
+    if interval_indices.size == 0:
+        return np.asarray([], dtype=int), np.asarray([], dtype=int)
+    n = int(params.n_nodes)
+    halo = max(0, int(SOURCE_INTERFACE_HALO_INTERVALS))
+    first = max(0, int(interval_indices[0]) - halo)
+    last = min(n - 2, int(interval_indices[-1]) + halo)
+    intervals = np.arange(first, last + 1, dtype=int)
+    nodes = np.arange(first, last + 2, dtype=int)
+    return intervals, nodes
+
+
+def _source_interface_local_params(params, logR_block: np.ndarray, logMdot_block: np.ndarray):
+    return replace(
+        params,
+        wind_sink_fraction=0.0,
+        mdot_profile_mode="tabulated",
+        mdot_profile_logR=tuple(float(value) for value in logR_block),
+        mdot_profile_logMdot=tuple(float(value) for value in logMdot_block),
+    )
+
+
+def _source_interface_mass_terms_from_unpacked(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    local_params,
+    idx: int,
+) -> tuple[float, float, float, float, float]:
+    if SOURCE_INTERFACE_MASS_QUADRATURE in {"simpson", "fv", "finite_volume"}:
+        return _finite_volume_mass_terms_from_unpacked(logu, logT, logMdot, logR, lambda0, local_params, idx)
+    dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
+    ym = 0.5 * (y_left + y_right)
+    gm = (y_right - y_left) / dx
+    wind_prime = _safe_wind_prime(xm, ym, gm, lambda0, local_params)
+    if not np.isfinite(wind_prime):
+        wind_prime = 0.0
+    wind_integral = float(wind_prime * dx)
+    source_integral = _stream_source_integral(float(logR[idx]), float(logR[idx + 1]), local_params)
+    mdot_left = float(np.exp(logMdot[idx]))
+    mdot_right = float(np.exp(logMdot[idx + 1]))
+    mdot_scale = max(math.sqrt(max(mdot_left, 1.0e-300) * max(mdot_right, 1.0e-300)), 1.0e-300)
+    return wind_integral, float(source_integral), float(mdot_scale), mdot_left, mdot_right
+
+
+def _source_interface_energy_terms_from_unpacked(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    local_params,
+    idx: int,
+) -> dict[str, float]:
+    dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
+    if dx <= 0.0:
+        return {
+            "residual": 1.0e6,
+            "numerator": math.nan,
+            "denominator": math.nan,
+            "scaled_integral": math.nan,
+            "scaled_abs_integral": math.nan,
+            "Q_visc_integral": math.nan,
+            "Q_stream_integral": math.nan,
+            "Q_rad_integral": math.nan,
+            "Q_adv_integral": math.nan,
+            "Q_wind_integral": math.nan,
+        }
+    F_left = _ode_slope(float(logR[idx]), y_left, lambda0, local_params)
+    F_right = _ode_slope(float(logR[idx + 1]), y_right, lambda0, local_params)
+    if not (np.all(np.isfinite(F_left)) and np.all(np.isfinite(F_right))):
+        F_left = F_right = (y_right - y_left) / dx
+    y_mid, _used_hermite_midpoint = _bounded_hermite_midpoint(y_left, y_right, F_left, F_right, dx, local_params)
+    F_mid = _ode_slope(xm, y_mid, lambda0, local_params)
+    if not np.all(np.isfinite(F_mid)):
+        F_mid = (y_right - y_left) / dx
+    numerator = 0.0
+    denominator = 0.0
+    scaled_integral = 0.0
+    scaled_abs_integral = 0.0
+    q_visc_integral = 0.0
+    q_stream_integral = 0.0
+    q_rad_integral = 0.0
+    q_adv_integral = 0.0
+    q_wind_integral = 0.0
+    for xq, yq, gq, coefficient in (
+        (float(logR[idx]), y_left, F_left, 1.0),
+        (xm, y_mid, F_mid, 4.0),
+        (float(logR[idx + 1]), y_right, F_right, 1.0),
+    ):
+        terms = _energy_terms_at(xq, yq, gq, lambda0, local_params)
+        _radial_scale, energy_scale = differential_residual_scales(xq, yq, lambda0, local_params)
+        weight = float(coefficient) * dx / 6.0
+        numerator += weight * terms["area"] * terms["raw"]
+        denominator += weight * terms["area"] * terms["denom"]
+        scaled = float(terms["raw"] / max(abs(float(energy_scale)), 1.0e-300))
+        scaled_integral += weight * scaled
+        scaled_abs_integral += weight * abs(scaled)
+        q_visc_integral += weight * terms["area"] * terms["Q_visc"]
+        q_stream_integral += weight * terms["area"] * terms["Q_stream"]
+        q_rad_integral += weight * terms["area"] * terms["Q_rad"]
+        q_adv_integral += weight * terms["area"] * terms["Q_adv"]
+        q_wind_integral += weight * terms["area"] * terms["Q_wind"]
+    return {
+        "residual": float(numerator / max(abs(denominator), 1.0e-300)),
+        "numerator": float(numerator),
+        "denominator": float(denominator),
+        "scaled_integral": float(scaled_integral),
+        "scaled_abs_integral": float(scaled_abs_integral),
+        "Q_visc_integral": float(q_visc_integral),
+        "Q_stream_integral": float(q_stream_integral),
+        "Q_rad_integral": float(q_rad_integral),
+        "Q_adv_integral": float(q_adv_integral),
+        "Q_wind_integral": float(q_wind_integral),
+    }
+
+
+def _source_interface_rows_per_interval(fractions: np.ndarray) -> int:
+    count = 2
+    if SOURCE_INTERFACE_HS_STATE_ROWS:
+        count += 2
+    if SOURCE_INTERFACE_POLY_STATE_ROWS:
+        count += 2 * int(fractions.size)
+    if SOURCE_INTERFACE_FV_ENERGY_ROWS:
+        count += 2
+    return count
+
+
+def _source_interface_interval_rows(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    local_params,
+    idx: int,
+    delta_m: float,
+    delta_e: float,
+    fractions: np.ndarray,
+) -> tuple[list[float], list[str], list[float]]:
+    rows: list[float] = []
+    groups: list[str] = []
+    row_R_rg: list[float] = []
+    dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
+    if dx <= 0.0:
+        count = _source_interface_rows_per_interval(fractions)
+        return [1.0e6] * count, ["error"] * count, [math.nan] * count
+    R_mid_rg = float(np.exp(xm) / local_params.r_g)
+    if SOURCE_INTERFACE_HS_STATE_ROWS:
+        F_left = _ode_slope(float(logR[idx]), y_left, lambda0, local_params)
+        F_right = _ode_slope(float(logR[idx + 1]), y_right, lambda0, local_params)
+        if not (np.all(np.isfinite(F_left)) and np.all(np.isfinite(F_right))):
+            F_left = F_right = (y_right - y_left) / dx
+        y_mid, _used_hermite_midpoint = _bounded_hermite_midpoint(y_left, y_right, F_left, F_right, dx, local_params)
+        F_mid = _ode_slope(xm, y_mid, lambda0, local_params)
+        if not np.all(np.isfinite(F_mid)):
+            F_mid = (y_right - y_left) / dx
+        hs_state = (y_right - y_left - (dx / 6.0) * (F_left + 4.0 * F_mid + F_right)) / max(dx, 1.0e-12)
+        for value, group in zip(hs_state, ("hs_radial", "hs_energy")):
+            rows.append(float(SOURCE_INTERFACE_STATE_WEIGHT) * float(value))
+            groups.append(group)
+            row_R_rg.append(R_mid_rg)
+    if SOURCE_INTERFACE_POLY_STATE_ROWS:
+        linear_g = (y_right - y_left) / dx
+        for fraction in fractions:
+            t = float(fraction)
+            xq = float(logR[idx] + t * dx)
+            yq = (1.0 - t) * y_left + t * y_right
+            scaled = _scaled_residual_at(xq, yq, linear_g, lambda0, local_params)
+            R_rg = float(np.exp(xq) / local_params.r_g)
+            rows.append(float(SOURCE_INTERFACE_STATE_WEIGHT) * float(scaled[0]))
+            groups.append("poly_radial")
+            row_R_rg.append(R_rg)
+            rows.append(float(SOURCE_INTERFACE_STATE_WEIGHT) * float(scaled[1]))
+            groups.append("poly_energy")
+            row_R_rg.append(R_rg)
+    wind_integral, source_integral, mdot_scale, mdot_left, mdot_right = _source_interface_mass_terms_from_unpacked(
+        logu, logT, logMdot, logR, lambda0, local_params, idx
+    )
+    net_integral = float(wind_integral - source_integral)
+    rows.append(float(SOURCE_INTERFACE_INTEGRAL_WEIGHT) * (float(delta_m) - net_integral) / mdot_scale)
+    groups.append("fv_mass_integral")
+    row_R_rg.append(R_mid_rg)
+    rows.append(float(SOURCE_INTERFACE_JUMP_WEIGHT) * (mdot_right - mdot_left - float(delta_m)) / mdot_scale)
+    groups.append("fv_mass_jump")
+    row_R_rg.append(R_mid_rg)
+    if SOURCE_INTERFACE_FV_ENERGY_ROWS:
+        energy_terms = _source_interface_energy_terms_from_unpacked(logu, logT, logMdot, logR, lambda0, local_params, idx)
+        denom = max(abs(float(energy_terms["denominator"])), 1.0e-300)
+        rows.append(
+            float(SOURCE_INTERFACE_ENERGY_WEIGHT)
+            * float(SOURCE_INTERFACE_ENERGY_INTEGRAL_WEIGHT)
+            * (float(delta_e) - float(energy_terms["numerator"]))
+            / denom
+        )
+        groups.append("fv_energy_integral")
+        row_R_rg.append(R_mid_rg)
+        rows.append(
+            float(SOURCE_INTERFACE_ENERGY_WEIGHT)
+            * float(SOURCE_INTERFACE_ENERGY_BALANCE_WEIGHT)
+            * float(delta_e)
+            / denom
+        )
+        groups.append("fv_energy_balance")
+        row_R_rg.append(R_mid_rg)
+    return rows, groups, row_R_rg
+
+
+def _source_interface_unpack_trial(
+    trial: np.ndarray,
+    node_count: int,
+    interval_count: int,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    n_node = int(node_count)
+    n_interval = int(interval_count)
+    logu = np.asarray(trial[:n_node], dtype=float)
+    logT = np.asarray(trial[n_node : 2 * n_node], dtype=float)
+    logMdot = np.asarray(trial[2 * n_node : 3 * n_node], dtype=float)
+    mass_start = 3 * n_node
+    mass_end = mass_start + n_interval
+    delta_m = np.asarray(trial[mass_start:mass_end], dtype=float)
+    if SOURCE_INTERFACE_FV_ENERGY_ROWS and len(trial) >= mass_end + n_interval:
+        delta_e = np.asarray(trial[mass_end : mass_end + n_interval], dtype=float)
+    else:
+        delta_e = np.zeros(n_interval, dtype=float)
+    return logu, logT, logMdot, delta_m, delta_e
+
+
+def _source_interface_residual_data(
+    trial: np.ndarray,
+    reference_x: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    fractions: np.ndarray,
+    reference_block: tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, float, np.ndarray],
+) -> dict[str, Any]:
+    rows: list[float] = []
+    groups: list[str] = []
+    row_R_rg: list[float] = []
+    try:
+        ref_logu, ref_logT, ref_logMdot, logR_son, lambda0, ref_logR = reference_block
+        _ = reference_x, logR_son
+        node_count = int(node_indices.size)
+        interval_count = int(interval_indices.size)
+        block_logu, block_logT, block_logMdot, delta_m, delta_e = _source_interface_unpack_trial(
+            trial, node_count, interval_count
+        )
+        block_logR = np.asarray(ref_logR[node_indices], dtype=float)
+        local_params = _source_interface_local_params(params, block_logR, block_logMdot)
+        first_node = int(node_indices[0])
+        for pos, global_idx_value in enumerate(interval_indices):
+            local_idx = int(global_idx_value) - first_node
+            interval_rows, interval_groups, interval_R = _source_interface_interval_rows(
+                block_logu,
+                block_logT,
+                block_logMdot,
+                block_logR,
+                lambda0,
+                local_params,
+                local_idx,
+                float(delta_m[pos]),
+                float(delta_e[pos]) if SOURCE_INTERFACE_FV_ENERGY_ROWS else 0.0,
+                fractions,
+            )
+            rows.extend(interval_rows)
+            groups.extend(interval_groups)
+            row_R_rg.extend(interval_R)
+        edge_positions = (0, node_count - 1)
+        for pos in edge_positions:
+            global_node = int(node_indices[pos])
+            R_rg = float(np.exp(ref_logR[global_node]) / params.r_g)
+            for value, group in (
+                (block_logu[pos] - ref_logu[global_node], "interface_logu"),
+                (block_logT[pos] - ref_logT[global_node], "interface_logT"),
+            ):
+                rows.append(float(SOURCE_INTERFACE_EDGE_STATE_WEIGHT) * float(value))
+                groups.append(group)
+                row_R_rg.append(R_rg)
+            rows.append(float(SOURCE_INTERFACE_EDGE_MDOT_WEIGHT) * float(block_logMdot[pos] - ref_logMdot[global_node]))
+            groups.append("interface_logMdot")
+            row_R_rg.append(R_rg)
+        if SOURCE_INTERFACE_ALL_ANCHOR_WEIGHT > 0.0:
+            reference_state = np.concatenate(
+                [
+                    ref_logu[node_indices],
+                    ref_logT[node_indices],
+                    ref_logMdot[node_indices],
+                ]
+            )
+            state = np.concatenate([block_logu, block_logT, block_logMdot])
+            for value in float(SOURCE_INTERFACE_ALL_ANCHOR_WEIGHT) * (state - reference_state):
+                rows.append(float(value))
+                groups.append("anchor")
+                row_R_rg.append(math.nan)
+        return {
+            "rows": np.asarray(rows, dtype=float),
+            "groups": groups,
+            "R_rg": np.asarray(row_R_rg, dtype=float),
+        }
+    except Exception:
+        expected = max(1, int(interval_indices.size)) * _source_interface_rows_per_interval(fractions) + 6
+        return {
+            "rows": np.full(expected, 1.0e6, dtype=float),
+            "groups": ["error"] * expected,
+            "R_rg": np.full(expected, math.nan, dtype=float),
+        }
+
+
+def _source_interface_group_summary(data: dict[str, Any]) -> dict[str, float]:
+    rows = np.asarray(data.get("rows", []), dtype=float)
+    R_rg = np.asarray(data.get("R_rg", []), dtype=float)
+    groups = list(data.get("groups", []))
+    out: dict[str, float] = {"selected": float(np.linalg.norm(rows, ord=np.inf)) if rows.size else math.nan}
+    for group in (
+        "hs_radial",
+        "hs_energy",
+        "poly_radial",
+        "poly_energy",
+        "fv_mass_integral",
+        "fv_mass_jump",
+        "fv_energy_integral",
+        "fv_energy_balance",
+        "interface_logu",
+        "interface_logT",
+        "interface_logMdot",
+        "anchor",
+        "error",
+    ):
+        indices = np.asarray([idx for idx, value in enumerate(groups) if value == group], dtype=int)
+        if indices.size:
+            values = np.abs(rows[indices])
+            peak = int(indices[int(np.argmax(values))])
+            out[group] = float(np.max(values))
+            out[f"{group}_peak_R_rg"] = float(R_rg[peak]) if R_rg.size > peak else math.nan
+        else:
+            out[group] = math.nan
+            out[f"{group}_peak_R_rg"] = math.nan
+    out["fv_mass"] = float(
+        max(
+            value
+            for value in (
+                out.get("fv_mass_integral", math.nan),
+                out.get("fv_mass_jump", math.nan),
+            )
+            if np.isfinite(value)
+        )
+    ) if any(np.isfinite(out.get(key, math.nan)) for key in ("fv_mass_integral", "fv_mass_jump")) else math.nan
+    out["fv_energy"] = float(
+        max(
+            value
+            for value in (
+                out.get("fv_energy_integral", math.nan),
+                out.get("fv_energy_balance", math.nan),
+            )
+            if np.isfinite(value)
+        )
+    ) if any(np.isfinite(out.get(key, math.nan)) for key in ("fv_energy_integral", "fv_energy_balance")) else math.nan
+    out["state"] = float(
+        max(
+            value
+            for value in (
+                out.get("hs_radial", math.nan),
+                out.get("hs_energy", math.nan),
+                out.get("poly_radial", math.nan),
+                out.get("poly_energy", math.nan),
+            )
+            if np.isfinite(value)
+        )
+    ) if any(
+        np.isfinite(out.get(key, math.nan))
+        for key in ("hs_radial", "hs_energy", "poly_radial", "poly_energy")
+    ) else math.nan
+    out["interface"] = float(
+        max(
+            value
+            for value in (
+                out.get("interface_logu", math.nan),
+                out.get("interface_logT", math.nan),
+                out.get("interface_logMdot", math.nan),
+            )
+            if np.isfinite(value)
+        )
+    ) if any(
+        np.isfinite(out.get(key, math.nan))
+        for key in ("interface_logu", "interface_logT", "interface_logMdot")
+    ) else math.nan
+    return out
+
+
+def _source_interface_energy_audit_from_trial(
+    trial: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    reference_block: tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, float, np.ndarray],
+) -> dict[str, Any]:
+    try:
+        _ref_logu, _ref_logT, _ref_logMdot, _logR_son, lambda0, ref_logR = reference_block
+        node_count = int(node_indices.size)
+        interval_count = int(interval_indices.size)
+        block_logu, block_logT, block_logMdot, _delta_m, delta_e = _source_interface_unpack_trial(
+            trial, node_count, interval_count
+        )
+        block_logR = np.asarray(ref_logR[node_indices], dtype=float)
+        local_params = _source_interface_local_params(params, block_logR, block_logMdot)
+        first_node = int(node_indices[0])
+        rows: list[dict[str, Any]] = []
+        fv_residuals: list[float] = []
+        scaled_integrals: list[float] = []
+        scaled_abs_integrals: list[float] = []
+        balance_rows: list[float] = []
+        integral_rows: list[float] = []
+        for pos, global_idx_value in enumerate(interval_indices):
+            local_idx = int(global_idx_value) - first_node
+            terms = _source_interface_energy_terms_from_unpacked(
+                block_logu, block_logT, block_logMdot, block_logR, lambda0, local_params, local_idx
+            )
+            denom = max(abs(float(terms["denominator"])), 1.0e-300)
+            delta_value = float(delta_e[pos]) if delta_e.size > pos else 0.0
+            fv_residual = float(terms["residual"])
+            scaled_integral = float(terms["scaled_integral"])
+            scaled_abs = float(terms["scaled_abs_integral"])
+            integral_row = float((delta_value - float(terms["numerator"])) / denom)
+            balance_row = float(delta_value / denom)
+            fv_residuals.append(fv_residual)
+            scaled_integrals.append(scaled_integral)
+            scaled_abs_integrals.append(scaled_abs)
+            integral_rows.append(integral_row)
+            balance_rows.append(balance_row)
+            rows.append(
+                {
+                    "global_interval": int(global_idx_value),
+                    "R_mid_rg": float(np.exp(0.5 * (block_logR[local_idx] + block_logR[local_idx + 1])) / params.r_g),
+                    "FV_E": fv_residual,
+                    "scaled_diff_integral": scaled_integral,
+                    "scaled_diff_abs_integral": scaled_abs,
+                    "DeltaE_over_denominator": balance_row,
+                    "DeltaE_minus_FV_over_denominator": integral_row,
+                    "FV_E_numerator": float(terms["numerator"]),
+                    "FV_E_denominator": float(terms["denominator"]),
+                    "Q_visc_integral": float(terms["Q_visc_integral"]),
+                    "Q_stream_integral": float(terms["Q_stream_integral"]),
+                    "Q_rad_integral": float(terms["Q_rad_integral"]),
+                    "Q_adv_integral": float(terms["Q_adv_integral"]),
+                    "Q_wind_integral": float(terms["Q_wind_integral"]),
+                }
+            )
+        if not rows:
+            return {"enabled": True, "applied": False, "reason": "no source-interface energy intervals", "rows": []}
+        abs_fv = np.abs(np.asarray(fv_residuals, dtype=float))
+        abs_scaled = np.abs(np.asarray(scaled_integrals, dtype=float))
+        abs_scaled_abs = np.abs(np.asarray(scaled_abs_integrals, dtype=float))
+        abs_integral = np.abs(np.asarray(integral_rows, dtype=float))
+        abs_balance = np.abs(np.asarray(balance_rows, dtype=float))
+        peak_fv = int(np.nanargmax(abs_fv)) if abs_fv.size else 0
+        peak_scaled = int(np.nanargmax(abs_scaled)) if abs_scaled.size else 0
+        return {
+            "enabled": True,
+            "applied": True,
+            "n_intervals": int(len(rows)),
+            "FV_E_max": float(np.nanmax(abs_fv)),
+            "scaled_diff_integral_max": float(np.nanmax(abs_scaled)),
+            "scaled_diff_abs_integral_max": float(np.nanmax(abs_scaled_abs)),
+            "DeltaE_minus_FV_max": float(np.nanmax(abs_integral)),
+            "DeltaE_balance_max": float(np.nanmax(abs_balance)),
+            "peak_FV_E_R_rg": float(rows[peak_fv]["R_mid_rg"]),
+            "peak_scaled_diff_R_rg": float(rows[peak_scaled]["R_mid_rg"]),
+            "rows": rows,
+        }
+    except Exception as exc:
+        return {
+            "enabled": True,
+            "applied": False,
+            "reason": f"exception: {exc}",
+            "rows": [],
+        }
+
+
+def _source_interface_reconciliation_audit_from_trial(
+    trial: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    reference_block: tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, float, np.ndarray],
+) -> dict[str, Any]:
+    if not SOURCE_INTERFACE_RECONCILE_AUDIT:
+        return {}
+    try:
+        ref_logu, ref_logT, ref_logMdot, logR_son, lambda0, ref_logR = reference_block
+        node_count = int(node_indices.size)
+        interval_count = int(interval_indices.size)
+        block_logu, block_logT, block_logMdot, _delta_m, _delta_e = _source_interface_unpack_trial(
+            trial, node_count, interval_count
+        )
+        block_logR = np.asarray(ref_logR[node_indices], dtype=float)
+        local_params = _source_interface_local_params(params, block_logR, block_logMdot)
+        first_node = int(node_indices[0])
+
+        full_logu = np.asarray(ref_logu, dtype=float).copy()
+        full_logT = np.asarray(ref_logT, dtype=float).copy()
+        full_logMdot = np.asarray(ref_logMdot, dtype=float).copy()
+        for local_pos, global_node in enumerate(np.asarray(node_indices, dtype=int)):
+            full_logu[int(global_node)] = float(block_logu[local_pos])
+            full_logT[int(global_node)] = float(block_logT[local_pos])
+            full_logMdot[int(global_node)] = float(block_logMdot[local_pos])
+
+        fractions = _source_element_ls_sample_fractions()
+        rows: list[dict[str, Any]] = []
+        interface_fv_values: list[float] = []
+        poly_fv_values: list[float] = []
+        poly_point_values: list[float] = []
+        fv_ratio_values: list[float] = []
+        numerator_ratio_values: list[float] = []
+        denominator_ratio_values: list[float] = []
+
+        for pos, global_idx_value in enumerate(interval_indices):
+            idx = int(global_idx_value)
+            local_idx = idx - first_node
+            if local_idx < 0 or local_idx >= block_logR.size - 1:
+                continue
+            if SOURCE_INTERFACE_RECONCILE_SOURCE_BAND_ONLY and not _interval_overlaps_source_band(ref_logR, idx, params):
+                continue
+            interface_terms = _source_interface_energy_terms_from_unpacked(
+                block_logu, block_logT, block_logMdot, block_logR, lambda0, local_params, local_idx
+            )
+            poly_terms = _source_element_poly_fv_energy_terms(
+                full_logu, full_logT, full_logMdot, ref_logR, lambda0, params, idx
+            )
+            point_energy_values: list[float] = []
+            point_radial_values: list[float] = []
+            point_rows: list[dict[str, float]] = []
+            for fraction in fractions:
+                xq, yq, gq, _mq, point_params, _stencil = _source_element_point_params(
+                    full_logu, full_logT, full_logMdot, ref_logR, idx, float(fraction), params
+                )
+                scaled = _scaled_residual_at(xq, yq, gq, lambda0, point_params)
+                point_radial_values.append(float(scaled[0]))
+                point_energy_values.append(float(scaled[1]))
+                point_rows.append(
+                    {
+                        "fraction": float(fraction),
+                        "R_rg": float(np.exp(xq) / params.r_g),
+                        "poly_R_scaled": float(scaled[0]),
+                        "poly_E_scaled": float(scaled[1]),
+                    }
+                )
+
+            interface_fv = float(interface_terms["residual"])
+            poly_fv = float(poly_terms["residual"])
+            poly_point = float(np.max(np.abs(point_energy_values))) if point_energy_values else math.nan
+            fv_ratio = float(abs(poly_fv) / max(abs(interface_fv), 1.0e-300))
+            numerator_ratio = float(
+                abs(float(poly_terms["numerator"])) / max(abs(float(interface_terms["numerator"])), 1.0e-300)
+            )
+            denominator_ratio = float(
+                abs(float(poly_terms["denominator"])) / max(abs(float(interface_terms["denominator"])), 1.0e-300)
+            )
+            interface_fv_values.append(interface_fv)
+            poly_fv_values.append(poly_fv)
+            poly_point_values.append(poly_point)
+            fv_ratio_values.append(fv_ratio)
+            numerator_ratio_values.append(numerator_ratio)
+            denominator_ratio_values.append(denominator_ratio)
+            rows.append(
+                {
+                    "global_interval": idx,
+                    "local_interval": int(local_idx),
+                    "R_left_rg": float(np.exp(ref_logR[idx]) / params.r_g),
+                    "R_right_rg": float(np.exp(ref_logR[idx + 1]) / params.r_g),
+                    "R_mid_rg": float(np.exp(0.5 * (ref_logR[idx] + ref_logR[idx + 1])) / params.r_g),
+                    "interface_FV_E": interface_fv,
+                    "interface_FV_E_numerator": float(interface_terms["numerator"]),
+                    "interface_FV_E_denominator": float(interface_terms["denominator"]),
+                    "source_element_FV_E": poly_fv,
+                    "source_element_FV_E_numerator": float(poly_terms["numerator"]),
+                    "source_element_FV_E_denominator": float(poly_terms["denominator"]),
+                    "source_element_poly_E_max_abs": poly_point,
+                    "source_element_poly_R_max_abs": float(np.max(np.abs(point_radial_values)))
+                    if point_radial_values
+                    else math.nan,
+                    "source_element_over_interface_FV_E": fv_ratio,
+                    "source_element_over_interface_numerator": numerator_ratio,
+                    "source_element_over_interface_denominator": denominator_ratio,
+                    "point_rows": point_rows,
+                }
+            )
+
+        if not rows:
+            return {
+                "enabled": True,
+                "applied": False,
+                "reason": "no comparable source-interface/source-element intervals",
+                "n_intervals": 0,
+                "rows": [],
+            }
+
+        abs_interface = np.abs(np.asarray(interface_fv_values, dtype=float))
+        abs_poly_fv = np.abs(np.asarray(poly_fv_values, dtype=float))
+        abs_poly_point = np.abs(np.asarray(poly_point_values, dtype=float))
+        abs_ratio = np.abs(np.asarray(fv_ratio_values, dtype=float))
+        abs_numerator_ratio = np.abs(np.asarray(numerator_ratio_values, dtype=float))
+        abs_denominator_ratio = np.abs(np.asarray(denominator_ratio_values, dtype=float))
+        peak_interface = int(np.nanargmax(abs_interface))
+        peak_poly_fv = int(np.nanargmax(abs_poly_fv))
+        peak_poly_point = int(np.nanargmax(abs_poly_point))
+        peak_ratio = int(np.nanargmax(abs_ratio))
+        return {
+            "enabled": True,
+            "applied": True,
+            "source_band_only": bool(SOURCE_INTERFACE_RECONCILE_SOURCE_BAND_ONLY),
+            "n_intervals": int(len(rows)),
+            "interface_FV_E_max": float(np.nanmax(abs_interface)),
+            "source_element_FV_E_max": float(np.nanmax(abs_poly_fv)),
+            "source_element_poly_E_max": float(np.nanmax(abs_poly_point)),
+            "source_element_over_interface_FV_E_max": float(np.nanmax(abs_ratio)),
+            "source_element_over_interface_FV_E_median": float(np.nanmedian(abs_ratio)),
+            "source_element_over_interface_numerator_max": float(np.nanmax(abs_numerator_ratio)),
+            "source_element_over_interface_denominator_max": float(np.nanmax(abs_denominator_ratio)),
+            "peak_interface_FV_E_R_rg": float(rows[peak_interface]["R_mid_rg"]),
+            "peak_source_element_FV_E_R_rg": float(rows[peak_poly_fv]["R_mid_rg"]),
+            "peak_source_element_poly_E_R_rg": float(rows[peak_poly_point]["R_mid_rg"]),
+            "peak_ratio_R_rg": float(rows[peak_ratio]["R_mid_rg"]),
+            "rows": rows,
+        }
+    except Exception as exc:
+        return {
+            "enabled": True,
+            "applied": False,
+            "reason": f"exception: {exc}",
+            "rows": [],
+        }
+
+
+def _source_interface_sparsity(node_count: int, interval_count: int, fractions: np.ndarray):
+    try:
+        from scipy.sparse import lil_matrix
+    except Exception:
+        return None
+    rows_per_interval = _source_interface_rows_per_interval(fractions)
+    n_state = 3 * int(node_count)
+    n_mass = int(interval_count)
+    n_energy = int(interval_count) if SOURCE_INTERFACE_FV_ENERGY_ROWS else 0
+    n_vars = n_state + n_mass + n_energy
+    n_interface_rows = 6
+    n_anchor_rows = n_state if SOURCE_INTERFACE_ALL_ANCHOR_WEIGHT > 0.0 else 0
+    pattern = lil_matrix((rows_per_interval * int(interval_count) + n_interface_rows + n_anchor_rows, n_vars), dtype=int)
+    for interval_pos in range(int(interval_count)):
+        local_left = interval_pos
+        local_right = interval_pos + 1
+        state_cols = [
+            local_left,
+            local_right,
+            int(node_count) + local_left,
+            int(node_count) + local_right,
+            2 * int(node_count) + local_left,
+            2 * int(node_count) + local_right,
+        ]
+        delta_col = n_state + interval_pos
+        energy_col = n_state + n_mass + interval_pos if SOURCE_INTERFACE_FV_ENERGY_ROWS else None
+        row_start = rows_per_interval * interval_pos
+        for row in range(row_start, row_start + rows_per_interval):
+            for col in state_cols:
+                pattern[row, col] = 1
+            pattern[row, delta_col] = 1
+            if energy_col is not None:
+                pattern[row, energy_col] = 1
+    row = rows_per_interval * int(interval_count)
+    for node in (0, int(node_count) - 1):
+        for col in (node, int(node_count) + node, 2 * int(node_count) + node):
+            pattern[row, col] = 1
+            row += 1
+    if SOURCE_INTERFACE_ALL_ANCHOR_WEIGHT > 0.0:
+        for col in range(n_state):
+            pattern[row, col] = 1
+            row += 1
+    return pattern.tocsr()
+
+
+def _source_interface_initial_delta(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+) -> np.ndarray:
+    block_logu = np.asarray(logu[node_indices], dtype=float)
+    block_logT = np.asarray(logT[node_indices], dtype=float)
+    block_logMdot = np.asarray(logMdot[node_indices], dtype=float)
+    block_logR = np.asarray(logR[node_indices], dtype=float)
+    local_params = _source_interface_local_params(params, block_logR, block_logMdot)
+    first_node = int(node_indices[0])
+    delta = np.empty(int(interval_indices.size), dtype=float)
+    for pos, global_idx_value in enumerate(interval_indices):
+        local_idx = int(global_idx_value) - first_node
+        try:
+            wind_integral, source_integral, _scale, _left, _right = _source_interface_mass_terms_from_unpacked(
+                block_logu, block_logT, block_logMdot, block_logR, lambda0, local_params, local_idx
+            )
+            delta[pos] = float(wind_integral - source_integral)
+        except Exception:
+            delta[pos] = 0.0
+    return delta
+
+
+def _source_interface_initial_energy_delta_and_limit(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray]:
+    block_logu = np.asarray(logu[node_indices], dtype=float)
+    block_logT = np.asarray(logT[node_indices], dtype=float)
+    block_logMdot = np.asarray(logMdot[node_indices], dtype=float)
+    block_logR = np.asarray(logR[node_indices], dtype=float)
+    local_params = _source_interface_local_params(params, block_logR, block_logMdot)
+    first_node = int(node_indices[0])
+    delta = np.zeros(int(interval_indices.size), dtype=float)
+    limit = np.ones(int(interval_indices.size), dtype=float)
+    for pos, global_idx_value in enumerate(interval_indices):
+        local_idx = int(global_idx_value) - first_node
+        try:
+            terms = _source_interface_energy_terms_from_unpacked(
+                block_logu, block_logT, block_logMdot, block_logR, lambda0, local_params, local_idx
+            )
+            numerator = float(terms["numerator"])
+            denominator = abs(float(terms["denominator"]))
+            delta[pos] = numerator if np.isfinite(numerator) else 0.0
+            limit[pos] = 10.0 * max(abs(delta[pos]), denominator, 1.0e-300)
+        except Exception:
+            delta[pos] = 0.0
+            limit[pos] = 1.0
+    return delta, limit
+
+
+def _source_interface_full_from_trial(
+    x_ref: np.ndarray,
+    trial: np.ndarray,
+    node_indices: np.ndarray,
+    interval_count: int,
+    params,
+    write_edges: bool,
+) -> np.ndarray:
+    n = int(params.n_nodes)
+    node_count = int(node_indices.size)
+    logu_block, logT_block, logMdot_block, _delta_m, _delta_e = _source_interface_unpack_trial(
+        trial, node_count, interval_count
+    )
+    full = np.asarray(x_ref, dtype=float).copy()
+    write_nodes = np.asarray(node_indices, dtype=int)
+    if not write_edges and write_nodes.size > 2:
+        write_nodes = write_nodes[1:-1]
+    for local_pos, node in enumerate(node_indices):
+        if int(node) not in set(int(value) for value in write_nodes):
+            continue
+        full[int(node)] = float(logu_block[local_pos])
+        full[n + int(node)] = float(logT_block[local_pos])
+        full[2 * n + int(node)] = float(logMdot_block[local_pos])
+    lower, upper = pilot._bounds(params)
+    return np.clip(full, lower + 1.0e-12, upper - 1.0e-12)
+
+
+def _source_interface_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
+    if not SOURCE_INTERFACE_CORRECT:
+        return x0, {}
+    _set_eta(eta_E)
+    x_ref = np.asarray(x0, dtype=float)
+    fractions = _source_interface_sample_fractions()
+    interval_indices, node_indices = _source_interface_interval_indices(x_ref, params)
+    if interval_indices.size == 0 or node_indices.size < 2:
+        return x0, {
+            "source_interface_correct_enabled": True,
+            "source_interface_correct_applied": False,
+            "source_interface_correct_reason": "no source-interface intervals",
+        }
+    n = int(params.n_nodes)
+    logu, logT, logMdot, logR_son, lambda0, logR = pilot._unpack(x_ref, params)
+    reference_block = (logu, logT, logMdot, logR_son, lambda0, logR)
+    delta0 = _source_interface_initial_delta(logu, logT, logMdot, logR, lambda0, params, interval_indices, node_indices)
+    delta_e0, delta_e_limit = _source_interface_initial_energy_delta_and_limit(
+        logu, logT, logMdot, logR, lambda0, params, interval_indices, node_indices
+    )
+    start_parts = [logu[node_indices], logT[node_indices], logMdot[node_indices], delta0]
+    if SOURCE_INTERFACE_FV_ENERGY_ROWS:
+        start_parts.append(delta_e0)
+    start = np.concatenate(start_parts)
+    lower, upper = pilot._bounds(params)
+    state_cols = np.concatenate([node_indices, n + node_indices, 2 * n + node_indices]).astype(int)
+    delta_limit = 5.0 * max(float(params.Mdot_g_s), 1.0e-300)
+    lb_parts = [lower[state_cols], np.full(delta0.size, -delta_limit, dtype=float)]
+    ub_parts = [upper[state_cols], np.full(delta0.size, delta_limit, dtype=float)]
+    if SOURCE_INTERFACE_FV_ENERGY_ROWS:
+        lb_parts.append(-np.asarray(delta_e_limit, dtype=float))
+        ub_parts.append(np.asarray(delta_e_limit, dtype=float))
+    lb = np.concatenate(lb_parts)
+    ub = np.concatenate(ub_parts)
+
+    initial_data = _source_interface_residual_data(start, x_ref, params, interval_indices, node_indices, fractions, reference_block)
+    initial_summary = _source_interface_group_summary(initial_data)
+    initial_energy_audit = _source_interface_energy_audit_from_trial(
+        start, params, interval_indices, node_indices, reference_block
+    )
+    initial_reconcile_audit = _source_interface_reconciliation_audit_from_trial(
+        start, params, interval_indices, node_indices, reference_block
+    )
+    initial_metrics = _residual_metrics_for_x(x_ref, params)
+    initial_extra = _source_extra_max_for_x(x_ref, params)
+    initial_score = float(
+        max(
+            initial_summary["selected"] if np.isfinite(initial_summary["selected"]) else 0.0,
+            initial_metrics["full"],
+            initial_extra if np.isfinite(initial_extra) else 0.0,
+        )
+    )
+
+    def local_residual(trial: np.ndarray) -> np.ndarray:
+        return np.asarray(
+            _source_interface_residual_data(trial, x_ref, params, interval_indices, node_indices, fractions, reference_block)[
+                "rows"
+            ],
+            dtype=float,
+        )
+
+    from scipy.optimize import least_squares
+
+    result = least_squares(
+        local_residual,
+        np.clip(start, lb + 1.0e-12, ub - 1.0e-12),
+        bounds=(lb, ub),
+        jac_sparsity=_source_interface_sparsity(int(node_indices.size), int(interval_indices.size), fractions),
+        x_scale="jac",
+        loss="linear",
+        ftol=RESIDUAL_TOL,
+        xtol=RESIDUAL_TOL,
+        gtol=RESIDUAL_TOL,
+        max_nfev=SOURCE_INTERFACE_MAX_NFEV,
+        verbose=0,
+    )
+
+    candidate_data = _source_interface_residual_data(
+        result.x, x_ref, params, interval_indices, node_indices, fractions, reference_block
+    )
+    candidate_summary = _source_interface_group_summary(candidate_data)
+    candidate_energy_audit = _source_interface_energy_audit_from_trial(
+        result.x, params, interval_indices, node_indices, reference_block
+    )
+    candidate_reconcile_audit = _source_interface_reconciliation_audit_from_trial(
+        result.x, params, interval_indices, node_indices, reference_block
+    )
+    candidate_full = _source_interface_full_from_trial(
+        x_ref,
+        result.x,
+        node_indices,
+        int(interval_indices.size),
+        params,
+        bool(SOURCE_INTERFACE_WRITE_EDGES),
+    )
+    candidate_metrics = _residual_metrics_for_x(candidate_full, params)
+    candidate_extra = _source_extra_max_for_x(candidate_full, params)
+    candidate_score = float(
+        max(
+            candidate_summary["selected"] if np.isfinite(candidate_summary["selected"]) else 0.0,
+            candidate_metrics["full"],
+            candidate_extra if np.isfinite(candidate_extra) else 0.0,
+        )
+    )
+
+    best_x = x_ref
+    best_trial = start
+    best_data = initial_data
+    best_summary = initial_summary
+    best_metrics = initial_metrics
+    best_extra = initial_extra
+    best_score = initial_score
+    best_alpha = 0.0
+    trials: list[dict[str, Any]] = []
+    step = np.asarray(result.x, dtype=float) - start
+    for exponent in range(max(1, int(SOURCE_INTERFACE_LINE_SEARCH_STEPS))):
+        alpha = 0.5**exponent
+        trial = np.clip(start + alpha * step, lb + 1.0e-12, ub - 1.0e-12)
+        full = _source_interface_full_from_trial(
+            x_ref,
+            trial,
+            node_indices,
+            int(interval_indices.size),
+            params,
+            bool(SOURCE_INTERFACE_WRITE_EDGES),
+        )
+        data = _source_interface_residual_data(trial, x_ref, params, interval_indices, node_indices, fractions, reference_block)
+        summary = _source_interface_group_summary(data)
+        energy_audit = _source_interface_energy_audit_from_trial(trial, params, interval_indices, node_indices, reference_block)
+        reconcile_audit = _source_interface_reconciliation_audit_from_trial(
+            trial, params, interval_indices, node_indices, reference_block
+        )
+        metrics = _residual_metrics_for_x(full, params)
+        extra = _source_extra_max_for_x(full, params)
+        selected = summary["selected"]
+        score = float(max(selected, metrics["full"], extra if np.isfinite(extra) else 0.0))
+        guard = bool(
+            np.isfinite(score)
+            and metrics["full"] <= max(1.10 * initial_metrics["full"], initial_metrics["full"] + 5.0e-5)
+            and (not np.isfinite(initial_extra) or extra <= max(1.20 * initial_extra, initial_extra + 5.0e-3))
+        )
+        trials.append(
+            {
+                "alpha": float(alpha),
+                "score": score,
+                "selected": selected,
+                "state": summary.get("state", math.nan),
+                "fv_mass": summary.get("fv_mass", math.nan),
+                "fv_energy": summary.get("fv_energy", math.nan),
+                "energy_audit_FV_E": energy_audit.get("FV_E_max", math.nan),
+                "energy_audit_scaled_diff": energy_audit.get("scaled_diff_integral_max", math.nan),
+                "reconcile_interface_FV_E": reconcile_audit.get("interface_FV_E_max", math.nan),
+                "reconcile_source_element_FV_E": reconcile_audit.get("source_element_FV_E_max", math.nan),
+                "reconcile_source_element_over_interface_FV_E": reconcile_audit.get(
+                    "source_element_over_interface_FV_E_max", math.nan
+                ),
+                "interface": summary.get("interface", math.nan),
+                "full": metrics["full"],
+                "mass": metrics["mass"],
+                "source_band_extra": extra,
+                "guard_pass": guard,
+            }
+        )
+        if guard and score < best_score:
+            best_x = full
+            best_trial = trial
+            best_data = data
+            best_summary = summary
+            best_energy_audit = energy_audit
+            best_reconcile_audit = reconcile_audit
+            best_metrics = metrics
+            best_extra = extra
+            best_score = score
+            best_alpha = float(alpha)
+
+    if "best_energy_audit" not in locals():
+        best_energy_audit = initial_energy_audit
+    if "best_reconcile_audit" not in locals():
+        best_reconcile_audit = initial_reconcile_audit
+    _bu, _bT, _bM, best_delta, best_delta_e = _source_interface_unpack_trial(
+        best_trial, int(node_indices.size), int(interval_indices.size)
+    )
+    delta_scale = max(float(params.Mdot_g_s), 1.0e-300)
+    interval_mid_R_rg = np.exp(0.5 * (logR[:-1] + logR[1:])) / params.r_g
+    return best_x, {
+        "source_interface_correct_enabled": True,
+        "source_interface_correct_applied": bool(best_alpha > 0.0),
+        "source_interface_correct_fractions": fractions.tolist(),
+        "source_interface_correct_halo_intervals": int(SOURCE_INTERFACE_HALO_INTERVALS),
+        "source_interface_correct_write_edges": bool(SOURCE_INTERFACE_WRITE_EDGES),
+        "source_interface_correct_mass_quadrature": str(SOURCE_INTERFACE_MASS_QUADRATURE),
+        "source_interface_correct_hs_state_rows": bool(SOURCE_INTERFACE_HS_STATE_ROWS),
+        "source_interface_correct_poly_state_rows": bool(SOURCE_INTERFACE_POLY_STATE_ROWS),
+        "source_interface_correct_fv_energy_rows": bool(SOURCE_INTERFACE_FV_ENERGY_ROWS),
+        "source_interface_correct_energy_weight": float(SOURCE_INTERFACE_ENERGY_WEIGHT),
+        "source_interface_correct_energy_audit_enabled": bool(SOURCE_INTERFACE_ENERGY_AUDIT or SOURCE_INTERFACE_FV_ENERGY_ROWS),
+        "source_interface_correct_reconcile_audit_enabled": bool(SOURCE_INTERFACE_RECONCILE_AUDIT),
+        "source_interface_correct_first_interval": int(interval_indices[0]),
+        "source_interface_correct_last_interval": int(interval_indices[-1]),
+        "source_interface_correct_first_interval_R_rg": float(interval_mid_R_rg[int(interval_indices[0])]),
+        "source_interface_correct_last_interval_R_rg": float(interval_mid_R_rg[int(interval_indices[-1])]),
+        "source_interface_correct_n_intervals": int(interval_indices.size),
+        "source_interface_correct_n_nodes": int(node_indices.size),
+        "source_interface_correct_n_variables": int(start.size),
+        "source_interface_correct_n_rows": int(np.asarray(best_data.get("rows", []), dtype=float).size),
+        "source_interface_correct_initial_score": initial_score,
+        "source_interface_correct_candidate_score": candidate_score,
+        "source_interface_correct_final_score": best_score,
+        "source_interface_correct_initial_selected": initial_summary.get("selected", math.nan),
+        "source_interface_correct_candidate_selected": candidate_summary.get("selected", math.nan),
+        "source_interface_correct_final_selected": best_summary.get("selected", math.nan),
+        "source_interface_correct_initial_state": initial_summary.get("state", math.nan),
+        "source_interface_correct_final_state": best_summary.get("state", math.nan),
+        "source_interface_correct_initial_fv_mass": initial_summary.get("fv_mass", math.nan),
+        "source_interface_correct_final_fv_mass": best_summary.get("fv_mass", math.nan),
+        "source_interface_correct_initial_fv_energy": initial_summary.get("fv_energy", math.nan),
+        "source_interface_correct_candidate_fv_energy": candidate_summary.get("fv_energy", math.nan),
+        "source_interface_correct_final_fv_energy": best_summary.get("fv_energy", math.nan),
+        "source_interface_correct_initial_interface": initial_summary.get("interface", math.nan),
+        "source_interface_correct_final_interface": best_summary.get("interface", math.nan),
+        "source_interface_correct_initial_full": initial_metrics["full"],
+        "source_interface_correct_candidate_full": candidate_metrics["full"],
+        "source_interface_correct_final_full": best_metrics["full"],
+        "source_interface_correct_initial_mass": initial_metrics["mass"],
+        "source_interface_correct_final_mass": best_metrics["mass"],
+        "source_interface_correct_initial_extra": initial_extra,
+        "source_interface_correct_candidate_extra": candidate_extra,
+        "source_interface_correct_final_extra": best_extra,
+        "source_interface_correct_delta_min_over_inner": float(np.min(best_delta) / delta_scale) if best_delta.size else math.nan,
+        "source_interface_correct_delta_max_over_inner": float(np.max(best_delta) / delta_scale) if best_delta.size else math.nan,
+        "source_interface_correct_delta_sum_over_inner": float(np.sum(best_delta) / delta_scale) if best_delta.size else math.nan,
+        "source_interface_correct_deltaE_balance_max": best_energy_audit.get("DeltaE_balance_max", math.nan),
+        "source_interface_correct_energy_audit_initial_FV_E": initial_energy_audit.get("FV_E_max", math.nan),
+        "source_interface_correct_energy_audit_final_FV_E": best_energy_audit.get("FV_E_max", math.nan),
+        "source_interface_correct_energy_audit_initial_scaled_diff": initial_energy_audit.get(
+            "scaled_diff_integral_max", math.nan
+        ),
+        "source_interface_correct_energy_audit_final_scaled_diff": best_energy_audit.get(
+            "scaled_diff_integral_max", math.nan
+        ),
+        "source_interface_correct_energy_audit_initial_balance": initial_energy_audit.get("DeltaE_balance_max", math.nan),
+        "source_interface_correct_energy_audit_final_balance": best_energy_audit.get("DeltaE_balance_max", math.nan),
+        "source_interface_correct_energy_audit_initial_integral": initial_energy_audit.get("DeltaE_minus_FV_max", math.nan),
+        "source_interface_correct_energy_audit_final_integral": best_energy_audit.get("DeltaE_minus_FV_max", math.nan),
+        "source_interface_correct_energy_audit": best_energy_audit
+        if (SOURCE_INTERFACE_ENERGY_AUDIT or SOURCE_INTERFACE_FV_ENERGY_ROWS)
+        else {},
+        "source_interface_correct_reconcile_initial_interface_FV_E": initial_reconcile_audit.get(
+            "interface_FV_E_max", math.nan
+        ),
+        "source_interface_correct_reconcile_final_interface_FV_E": best_reconcile_audit.get(
+            "interface_FV_E_max", math.nan
+        ),
+        "source_interface_correct_reconcile_candidate_source_element_FV_E": candidate_reconcile_audit.get(
+            "source_element_FV_E_max", math.nan
+        ),
+        "source_interface_correct_reconcile_initial_source_element_FV_E": initial_reconcile_audit.get(
+            "source_element_FV_E_max", math.nan
+        ),
+        "source_interface_correct_reconcile_final_source_element_FV_E": best_reconcile_audit.get(
+            "source_element_FV_E_max", math.nan
+        ),
+        "source_interface_correct_reconcile_initial_poly_E": initial_reconcile_audit.get(
+            "source_element_poly_E_max", math.nan
+        ),
+        "source_interface_correct_reconcile_final_poly_E": best_reconcile_audit.get(
+            "source_element_poly_E_max", math.nan
+        ),
+        "source_interface_correct_reconcile_initial_ratio": initial_reconcile_audit.get(
+            "source_element_over_interface_FV_E_max", math.nan
+        ),
+        "source_interface_correct_reconcile_final_ratio": best_reconcile_audit.get(
+            "source_element_over_interface_FV_E_max", math.nan
+        ),
+        "source_interface_correct_reconcile_peak_interface_R_rg": best_reconcile_audit.get(
+            "peak_interface_FV_E_R_rg", math.nan
+        ),
+        "source_interface_correct_reconcile_peak_source_element_FV_E_R_rg": best_reconcile_audit.get(
+            "peak_source_element_FV_E_R_rg", math.nan
+        ),
+        "source_interface_correct_reconcile_peak_poly_E_R_rg": best_reconcile_audit.get(
+            "peak_source_element_poly_E_R_rg", math.nan
+        ),
+        "source_interface_correct_reconcile_audit": best_reconcile_audit
+        if SOURCE_INTERFACE_RECONCILE_AUDIT
+        else {},
+        "source_interface_correct_alpha": best_alpha,
+        "source_interface_correct_nfev": int(result.nfev),
+        "source_interface_correct_success": bool(result.success),
+        "source_interface_correct_message": str(result.message),
+        "source_interface_correct_trials": trials,
+    }
+
+
+def _source_element_ls_sample_fractions() -> np.ndarray:
+    values: list[float] = []
+    for piece in SOURCE_ELEMENT_LS_FRACTIONS_RAW.split(","):
+        text = piece.strip()
+        if not text:
+            continue
+        value = float(text)
+        if not 0.0 <= value <= 1.0:
+            raise ValueError("source-element LS fractions must lie in [0, 1]")
+        values.append(value)
+    if not values:
+        values = [0.25, 0.5, 0.75]
+    return np.asarray(sorted(set(float(value) for value in values)), dtype=float)
+
+
+def _source_element_ls_gammas() -> np.ndarray:
+    values: list[float] = []
+    for piece in SOURCE_ELEMENT_LS_GAMMAS_RAW.split(","):
+        text = piece.strip()
+        if not text:
+            continue
+        value = float(text)
+        if value <= 0.0:
+            raise ValueError("source-element LS gammas must be positive")
+        values.append(value)
+    if not values:
+        values = [1.0]
+    return np.asarray(values, dtype=float)
+
+
+def _source_element_ls_interval_indices(x: np.ndarray, params) -> tuple[np.ndarray, np.ndarray]:
+    interval_indices, _node_indices = _source_band_interval_indices(x, params)
+    if interval_indices.size == 0:
+        return np.asarray([], dtype=int), np.asarray([], dtype=int)
+    n = int(params.n_nodes)
+    halo = max(0, int(SOURCE_ELEMENT_LS_HALO_INTERVALS))
+    first = max(0, int(interval_indices[0]) - halo)
+    last = min(n - 2, int(interval_indices[-1]) + halo)
+    intervals = np.arange(first, last + 1, dtype=int)
+    nodes = np.arange(first, last + 2, dtype=int)
+    return intervals, nodes
+
+
+def _source_element_poly_fv_mass_residual(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    base_params,
+    idx: int,
+) -> float:
+    wind_integral, source_integral, mdot_scale, mdot_left, mdot_right = _source_element_poly_fv_mass_terms(
+        logu, logT, logMdot, logR, lambda0, base_params, idx
+    )
+    return float((mdot_right - mdot_left - (wind_integral - source_integral)) / mdot_scale)
+
+
+def _source_element_poly_fv_mass_terms(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    base_params,
+    idx: int,
+) -> tuple[float, float, float, float, float]:
+    dx = float(logR[idx + 1] - logR[idx])
+    if dx <= 0.0:
+        return 0.0, 0.0, 1.0, math.nan, math.nan
+    wind_sum = 0.0
+    for fraction, coefficient in ((0.0, 1.0), (0.5, 4.0), (1.0, 1.0)):
+        xq, yq, gq, _mq, point_params, _stencil = _source_element_point_params(
+            logu, logT, logMdot, logR, idx, fraction, base_params
+        )
+        wind_prime = _safe_wind_prime(xq, yq, gq, lambda0, point_params)
+        if not np.isfinite(wind_prime):
+            wind_prime = 0.0
+        wind_sum += float(coefficient) * float(wind_prime)
+    wind_integral = (dx / 6.0) * wind_sum
+    source_integral = _stream_source_integral(float(logR[idx]), float(logR[idx + 1]), base_params)
+    mdot_left = float(np.exp(logMdot[idx]))
+    mdot_right = float(np.exp(logMdot[idx + 1]))
+    mdot_scale = max(math.sqrt(max(mdot_left, 1.0e-300) * max(mdot_right, 1.0e-300)), 1.0e-300)
+    return float(wind_integral), float(source_integral), float(mdot_scale), mdot_left, mdot_right
+
+
+def _source_element_poly_fv_energy_terms(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    base_params,
+    idx: int,
+) -> float:
+    dx = float(logR[idx + 1] - logR[idx])
+    if dx <= 0.0:
+        return {
+            "residual": 1.0e6,
+            "numerator": math.nan,
+            "denominator": math.nan,
+            "Q_visc_integral": math.nan,
+            "Q_stream_integral": math.nan,
+            "Q_rad_integral": math.nan,
+            "Q_adv_integral": math.nan,
+            "Q_wind_integral": math.nan,
+        }
+    numerator = 0.0
+    denominator = 0.0
+    q_visc_integral = 0.0
+    q_stream_integral = 0.0
+    q_rad_integral = 0.0
+    q_adv_integral = 0.0
+    q_wind_integral = 0.0
+    for fraction, coefficient in ((0.0, 1.0), (0.5, 4.0), (1.0, 1.0)):
+        xq, yq, gq, _mq, point_params, _stencil = _source_element_point_params(
+            logu, logT, logMdot, logR, idx, fraction, base_params
+        )
+        terms = _energy_terms_at(xq, yq, gq, lambda0, point_params)
+        weight = float(coefficient) * dx / 6.0
+        numerator += weight * terms["area"] * terms["raw"]
+        denominator += weight * terms["area"] * terms["denom"]
+        q_visc_integral += weight * terms["area"] * terms["Q_visc"]
+        q_stream_integral += weight * terms["area"] * terms["Q_stream"]
+        q_rad_integral += weight * terms["area"] * terms["Q_rad"]
+        q_adv_integral += weight * terms["area"] * terms["Q_adv"]
+        q_wind_integral += weight * terms["area"] * terms["Q_wind"]
+    return {
+        "residual": float(numerator / max(abs(denominator), 1.0e-300)),
+        "numerator": float(numerator),
+        "denominator": float(denominator),
+        "Q_visc_integral": float(q_visc_integral),
+        "Q_stream_integral": float(q_stream_integral),
+        "Q_rad_integral": float(q_rad_integral),
+        "Q_adv_integral": float(q_adv_integral),
+        "Q_wind_integral": float(q_wind_integral),
+    }
+
+
+def _source_element_poly_fv_energy_residual(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    base_params,
+    idx: int,
+) -> float:
+    return float(_source_element_poly_fv_energy_terms(logu, logT, logMdot, logR, lambda0, base_params, idx)["residual"])
+
+
+def _source_element_ls_residual_data(
+    x: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    fractions: np.ndarray,
+    gamma: float,
+) -> dict[str, Any]:
+    rows: list[float] = []
+    raw_rows: list[float] = []
+    groups: list[str] = []
+    row_R_rg: list[float] = []
+    row_interval: list[int] = []
+    try:
+        logu, logT, logMdot, _logR_son, lambda0, logR = pilot._unpack(x, params)
+        band_min_rg, band_max_rg = _source_band_default_bounds_rg(params)
+        for idx_value in interval_indices:
+            idx = int(idx_value)
+            dx = float(logR[idx + 1] - logR[idx])
+            if dx <= 0.0:
+                continue
+            active_weight = _source_band_row_weight(
+                float(np.exp(0.5 * (logR[idx] + logR[idx + 1])) / params.r_g),
+                band_min_rg,
+                band_max_rg,
+            )
+            if active_weight <= 0.0:
+                continue
+            for fraction in fractions:
+                xq, yq, gq, _mq, point_params, _stencil = _source_element_point_params(
+                    logu, logT, logMdot, logR, idx, float(fraction), params
+                )
+                scaled = _scaled_residual_at(xq, yq, gq, lambda0, point_params)
+                R_rg = float(np.exp(xq) / params.r_g)
+                radial = float(scaled[0])
+                energy = float(scaled[1])
+                raw_rows.append(radial)
+                rows.append(float(gamma) * SOURCE_ELEMENT_LS_RADIAL_WEIGHT * active_weight * radial)
+                groups.append("radial")
+                row_R_rg.append(R_rg)
+                row_interval.append(idx)
+                raw_rows.append(energy)
+                rows.append(float(gamma) * SOURCE_ELEMENT_LS_ENERGY_WEIGHT * active_weight * energy)
+                groups.append("energy")
+                row_R_rg.append(R_rg)
+                row_interval.append(idx)
+            if SOURCE_ELEMENT_LS_FV_MASS:
+                mass = _source_element_poly_fv_mass_residual(logu, logT, logMdot, logR, lambda0, params, idx)
+                raw_rows.append(float(mass))
+                rows.append(SOURCE_ELEMENT_LS_FV_MASS_WEIGHT * active_weight * float(mass))
+                groups.append("fv_mass")
+                row_R_rg.append(float(np.exp(0.5 * (logR[idx] + logR[idx + 1])) / params.r_g))
+                row_interval.append(idx)
+            if SOURCE_ELEMENT_LS_FV_ENERGY:
+                fv_energy = _source_element_poly_fv_energy_residual(logu, logT, logMdot, logR, lambda0, params, idx)
+                raw_rows.append(float(fv_energy))
+                rows.append(float(gamma) * SOURCE_ELEMENT_LS_FV_ENERGY_WEIGHT * active_weight * float(fv_energy))
+                groups.append("fv_energy")
+                row_R_rg.append(float(np.exp(0.5 * (logR[idx] + logR[idx + 1])) / params.r_g))
+                row_interval.append(idx)
+    except Exception:
+        expected = max(1, int(interval_indices.size)) * max(1, 2 * int(fractions.size) + 2)
+        rows = [1.0e6] * expected
+        raw_rows = [1.0e6] * expected
+        groups = ["error"] * expected
+        row_R_rg = [math.nan] * expected
+        row_interval = [-1] * expected
+    return {
+        "rows": np.asarray(rows, dtype=float),
+        "raw_rows": np.asarray(raw_rows, dtype=float),
+        "groups": groups,
+        "R_rg": np.asarray(row_R_rg, dtype=float),
+        "interval": np.asarray(row_interval, dtype=int),
+    }
+
+
+def _source_element_ls_group_summary(data: dict[str, Any]) -> dict[str, float]:
+    raw_rows = np.asarray(data.get("raw_rows", []), dtype=float)
+    R_rg = np.asarray(data.get("R_rg", []), dtype=float)
+    groups = list(data.get("groups", []))
+    out: dict[str, float] = {"selected": float(np.linalg.norm(np.asarray(data.get("rows", []), dtype=float), ord=np.inf))}
+    for group in ("radial", "energy", "fv_mass", "fv_energy", "error"):
+        indices = np.asarray([idx for idx, value in enumerate(groups) if value == group], dtype=int)
+        if indices.size:
+            values = np.abs(raw_rows[indices])
+            peak = int(indices[int(np.argmax(values))])
+            out[group] = float(np.max(values))
+            out[f"{group}_peak_R_rg"] = float(R_rg[peak]) if R_rg.size > peak else math.nan
+        else:
+            out[group] = math.nan
+            out[f"{group}_peak_R_rg"] = math.nan
+    finite_values = [float(value) for key, value in out.items() if not key.endswith("_R_rg") and np.isfinite(value)]
+    out["max_group"] = max(finite_values) if finite_values else math.nan
+    return out
+
+
+def _source_element_ls_score(summary: dict[str, float], metrics: dict[str, float], extra: float) -> float:
+    values = [
+        summary.get("selected", math.nan),
+        summary.get("radial", math.nan),
+        summary.get("energy", math.nan),
+        summary.get("fv_mass", math.nan),
+        summary.get("fv_energy", math.nan),
+        metrics.get("full", math.nan),
+        metrics.get("mass", math.nan),
+        extra,
+    ]
+    finite = [abs(float(value)) for value in values if np.isfinite(value)]
+    return max(finite) if finite else math.inf
+
+
+def _source_element_ls_filter_ok(
+    summary: dict[str, float],
+    metrics: dict[str, float],
+    extra: float,
+    reference_summary: dict[str, float],
+    reference_metrics: dict[str, float],
+    reference_extra: float,
+) -> bool:
+    tol = max(float(SOURCE_ELEMENT_LS_FILTER_TOL), 0.0)
+    checks = [
+        (summary.get("radial", math.inf), reference_summary.get("radial", math.inf)),
+        (summary.get("energy", math.inf), reference_summary.get("energy", math.inf)),
+        (summary.get("fv_mass", math.inf), reference_summary.get("fv_mass", math.inf)),
+        (summary.get("fv_energy", math.inf), reference_summary.get("fv_energy", math.inf)),
+        (metrics.get("full", math.inf), reference_metrics.get("full", math.inf)),
+        (metrics.get("mass", math.inf), reference_metrics.get("mass", math.inf)),
+        (extra, reference_extra),
+    ]
+    for value, reference in checks:
+        if not np.isfinite(value) or not np.isfinite(reference):
+            continue
+        if float(value) > max(float(reference) * (1.0 + tol), float(reference) + 1.0e-12):
+            return False
+    return True
+
+
+def _source_element_ls_sparsity(
+    variable_cols: np.ndarray,
+    interval_indices: np.ndarray,
+    fractions: np.ndarray,
+    logR: np.ndarray,
+    params,
+    edge_anchor_positions: np.ndarray,
+    all_anchor_weight: float,
+):
+    try:
+        from scipy.sparse import lil_matrix
+    except Exception:
+        return None
+    col_to_local = {int(col): int(pos) for pos, col in enumerate(variable_cols)}
+    n = int(params.n_nodes)
+    global_cols = [3 * n, 3 * n + 1]
+    row_dependencies: list[list[int]] = []
+    band_min_rg, band_max_rg = _source_band_default_bounds_rg(params)
+    for idx_value in interval_indices:
+        idx = int(idx_value)
+        active_weight = _source_band_row_weight(
+            float(np.exp(0.5 * (logR[idx] + logR[idx + 1])) / params.r_g),
+            band_min_rg,
+            band_max_rg,
+        )
+        if active_weight <= 0.0:
+            continue
+        stencil = _source_element_stencil(logR, idx)
+        full_cols: list[int] = []
+        for node in stencil:
+            full_cols.extend([int(node), int(n + node), int(2 * n + node)])
+        full_cols.extend(global_cols)
+        local_cols = sorted({col_to_local[col] for col in full_cols if col in col_to_local})
+        for _fraction in fractions:
+            row_dependencies.append(local_cols)
+            row_dependencies.append(local_cols)
+        if SOURCE_ELEMENT_LS_FV_MASS:
+            row_dependencies.append(local_cols)
+        if SOURCE_ELEMENT_LS_FV_ENERGY:
+            row_dependencies.append(local_cols)
+    n_anchor_rows = int(edge_anchor_positions.size) + (int(variable_cols.size) if all_anchor_weight > 0.0 else 0)
+    pattern = lil_matrix((len(row_dependencies) + n_anchor_rows, int(variable_cols.size)), dtype=int)
+    for row, deps in enumerate(row_dependencies):
+        for col in deps:
+            pattern[row, col] = 1
+    row = len(row_dependencies)
+    for pos in edge_anchor_positions:
+        pattern[row, int(pos)] = 1
+        row += 1
+    if all_anchor_weight > 0.0:
+        for pos in range(int(variable_cols.size)):
+            pattern[row, pos] = 1
+            row += 1
+    return pattern.tocsr()
+
+
+def _source_element_ls_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
+    if not SOURCE_ELEMENT_LS:
+        return x0, {}
+    _set_eta(eta_E)
+    n = int(params.n_nodes)
+    x_ref = np.asarray(x0, dtype=float)
+    fractions = _source_element_ls_sample_fractions()
+    gammas = _source_element_ls_gammas()
+    interval_indices, node_indices = _source_element_ls_interval_indices(x_ref, params)
+    if interval_indices.size == 0 or node_indices.size < 2:
+        return x0, {
+            "source_element_ls_enabled": True,
+            "source_element_ls_applied": False,
+            "source_element_ls_reason": "no source-element LS intervals",
+        }
+    active_nodes = node_indices[1:-1] if SOURCE_ELEMENT_LS_FREEZE_EDGES and node_indices.size > 2 else node_indices
+    state_cols: list[int] = []
+    variable_kinds: list[str] = []
+    for idx in active_nodes:
+        state_cols.append(int(idx))
+        variable_kinds.append("logu")
+    for idx in active_nodes:
+        state_cols.append(int(n + idx))
+        variable_kinds.append("logT")
+    for idx in active_nodes:
+        state_cols.append(int(2 * n + idx))
+        variable_kinds.append("logMdot")
+    if SOURCE_ELEMENT_LS_INCLUDE_GLOBALS:
+        state_cols.extend([3 * n, 3 * n + 1])
+        variable_kinds.extend(["logR_son", "lambda0"])
+    state_cols_array = np.asarray(state_cols, dtype=int)
+    if state_cols_array.size == 0:
+        return x0, {
+            "source_element_ls_enabled": True,
+            "source_element_ls_applied": False,
+            "source_element_ls_reason": "no source-element LS variable columns",
+        }
+
+    lower, upper = pilot._bounds(params)
+    lb = lower[state_cols_array]
+    ub = upper[state_cols_array]
+    start = x_ref[state_cols_array].copy()
+
+    edge_nodes = {int(node_indices[0]), int(node_indices[-1])}
+    edge_cols: set[int] = set()
+    if not SOURCE_ELEMENT_LS_FREEZE_EDGES:
+        for idx in edge_nodes:
+            edge_cols.update({idx, n + idx, 2 * n + idx})
+    edge_anchor_positions = np.asarray(
+        [pos for pos, col in enumerate(state_cols_array) if int(col) in edge_cols],
+        dtype=int,
+    )
+
+    current_x = x_ref.copy()
+    initial_data = _source_element_ls_residual_data(current_x, params, interval_indices, fractions, float(gammas[0]))
+    initial_summary = _source_element_ls_group_summary(initial_data)
+    initial_metrics = _residual_metrics_for_x(current_x, params)
+    initial_extra = _source_extra_max_for_x(current_x, params)
+    best_summary = initial_summary
+    best_metrics = initial_metrics
+    best_extra = initial_extra
+    best_score = _source_element_ls_score(best_summary, best_metrics, best_extra)
+    total_nfev = 0
+    accepted_stages: list[dict[str, Any]] = []
+
+    def make_full(trial: np.ndarray, reference: np.ndarray) -> np.ndarray:
+        full = reference.copy()
+        full[state_cols_array] = trial
+        return full
+
+    from scipy.optimize import least_squares
+
+    for gamma in gammas:
+        reference_x = current_x.copy()
+        reference_start = reference_x[state_cols_array].copy()
+        reference_data = _source_element_ls_residual_data(reference_x, params, interval_indices, fractions, float(gamma))
+        reference_summary = _source_element_ls_group_summary(reference_data)
+        reference_metrics = _residual_metrics_for_x(reference_x, params)
+        reference_extra = _source_extra_max_for_x(reference_x, params)
+        reference_score = _source_element_ls_score(reference_summary, reference_metrics, reference_extra)
+
+        def local_residual(trial: np.ndarray) -> np.ndarray:
+            full = make_full(trial, reference_x)
+            data = _source_element_ls_residual_data(full, params, interval_indices, fractions, float(gamma))
+            rows = np.asarray(data["rows"], dtype=float)
+            anchors: list[np.ndarray] = []
+            if SOURCE_ELEMENT_LS_EDGE_ANCHOR_WEIGHT > 0.0 and edge_anchor_positions.size:
+                anchors.append(
+                    float(SOURCE_ELEMENT_LS_EDGE_ANCHOR_WEIGHT)
+                    * (trial[edge_anchor_positions] - reference_start[edge_anchor_positions])
+                )
+            if SOURCE_ELEMENT_LS_ALL_ANCHOR_WEIGHT > 0.0:
+                anchors.append(float(SOURCE_ELEMENT_LS_ALL_ANCHOR_WEIGHT) * (trial - reference_start))
+            if anchors:
+                rows = np.concatenate([rows, *anchors])
+            return rows
+
+        _ru, _rT, _rM, _rson, _rlambda, reference_logR = pilot._unpack(reference_x, params)
+        _ = _ru, _rT, _rM, _rson, _rlambda
+        sparsity = _source_element_ls_sparsity(
+            state_cols_array,
+            interval_indices,
+            fractions,
+            reference_logR,
+            params,
+            edge_anchor_positions if SOURCE_ELEMENT_LS_EDGE_ANCHOR_WEIGHT > 0.0 else np.asarray([], dtype=int),
+            SOURCE_ELEMENT_LS_ALL_ANCHOR_WEIGHT,
+        )
+        result = least_squares(
+            local_residual,
+            np.clip(reference_start, lb + 1.0e-12, ub - 1.0e-12),
+            bounds=(lb, ub),
+            jac_sparsity=sparsity,
+            x_scale="jac",
+            loss="linear",
+            ftol=RESIDUAL_TOL,
+            xtol=RESIDUAL_TOL,
+            gtol=RESIDUAL_TOL,
+            max_nfev=SOURCE_ELEMENT_LS_MAX_NFEV,
+            verbose=0,
+        )
+        total_nfev += int(result.nfev)
+
+        candidate = make_full(result.x, reference_x)
+        lower_full, upper_full = pilot._bounds(params)
+        step = candidate - reference_x
+        stage_best_x = reference_x
+        stage_best_summary = reference_summary
+        stage_best_metrics = reference_metrics
+        stage_best_extra = reference_extra
+        stage_best_score = reference_score
+        stage_best_alpha = 0.0
+        stage_trials: list[dict[str, Any]] = []
+        for exponent in range(max(1, int(SOURCE_ELEMENT_LS_LINE_SEARCH_STEPS))):
+            alpha = 0.5**exponent
+            trial_x = np.clip(reference_x + alpha * step, lower_full + 1.0e-12, upper_full - 1.0e-12)
+            data = _source_element_ls_residual_data(trial_x, params, interval_indices, fractions, float(gamma))
+            summary = _source_element_ls_group_summary(data)
+            metrics = _residual_metrics_for_x(trial_x, params)
+            extra = _source_extra_max_for_x(trial_x, params)
+            score = _source_element_ls_score(summary, metrics, extra)
+            filter_ok = _source_element_ls_filter_ok(summary, metrics, extra, reference_summary, reference_metrics, reference_extra)
+            stage_trials.append(
+                {
+                    "alpha": float(alpha),
+                    "score": score,
+                    "selected": summary.get("selected", math.nan),
+                    "radial": summary.get("radial", math.nan),
+                    "energy": summary.get("energy", math.nan),
+                    "fv_mass": summary.get("fv_mass", math.nan),
+                    "fv_energy": summary.get("fv_energy", math.nan),
+                    "full": metrics.get("full", math.nan),
+                    "mass": metrics.get("mass", math.nan),
+                    "source_band_extra": extra,
+                    "filter_ok": bool(filter_ok),
+                }
+            )
+            if filter_ok and score < stage_best_score:
+                stage_best_x = trial_x
+                stage_best_summary = summary
+                stage_best_metrics = metrics
+                stage_best_extra = extra
+                stage_best_score = score
+                stage_best_alpha = float(alpha)
+        accepted = bool(stage_best_alpha > 0.0)
+        if accepted:
+            current_x = stage_best_x
+            if stage_best_score < best_score:
+                best_summary = stage_best_summary
+                best_metrics = stage_best_metrics
+                best_extra = stage_best_extra
+                best_score = stage_best_score
+        accepted_stages.append(
+            {
+                "gamma": float(gamma),
+                "accepted": accepted,
+                "alpha": stage_best_alpha,
+                "initial_score": reference_score,
+                "final_score": stage_best_score,
+                "initial_selected": reference_summary.get("selected", math.nan),
+                "final_selected": stage_best_summary.get("selected", math.nan),
+                "initial_radial": reference_summary.get("radial", math.nan),
+                "final_radial": stage_best_summary.get("radial", math.nan),
+                "initial_energy": reference_summary.get("energy", math.nan),
+                "final_energy": stage_best_summary.get("energy", math.nan),
+                "initial_fv_mass": reference_summary.get("fv_mass", math.nan),
+                "final_fv_mass": stage_best_summary.get("fv_mass", math.nan),
+                "initial_fv_energy": reference_summary.get("fv_energy", math.nan),
+                "final_fv_energy": stage_best_summary.get("fv_energy", math.nan),
+                "initial_full": reference_metrics.get("full", math.nan),
+                "final_full": stage_best_metrics.get("full", math.nan),
+                "initial_mass": reference_metrics.get("mass", math.nan),
+                "final_mass": stage_best_metrics.get("mass", math.nan),
+                "initial_extra": reference_extra,
+                "final_extra": stage_best_extra,
+                "nfev": int(result.nfev),
+                "success": bool(result.success),
+                "message": str(result.message),
+                "trials": stage_trials,
+            }
+        )
+
+    _logu, _logT, _logMdot, _logR_son, _lambda0, logR = pilot._unpack(current_x, params)
+    interval_mid_R_rg = np.exp(0.5 * (logR[:-1] + logR[1:])) / params.r_g
+    final_data = _source_element_ls_residual_data(current_x, params, interval_indices, fractions, float(gammas[-1]))
+    final_summary = _source_element_ls_group_summary(final_data)
+    final_metrics = _residual_metrics_for_x(current_x, params)
+    final_extra = _source_extra_max_for_x(current_x, params)
+    final_score = _source_element_ls_score(final_summary, final_metrics, final_extra)
+    return current_x, {
+        "source_element_ls_enabled": True,
+        "source_element_ls_applied": bool(any(stage["accepted"] for stage in accepted_stages)),
+        "source_element_ls_fractions": fractions.tolist(),
+        "source_element_ls_gammas": gammas.tolist(),
+        "source_element_ls_halo_intervals": int(SOURCE_ELEMENT_LS_HALO_INTERVALS),
+        "source_element_ls_freeze_edges": bool(SOURCE_ELEMENT_LS_FREEZE_EDGES),
+        "source_element_ls_include_globals": bool(SOURCE_ELEMENT_LS_INCLUDE_GLOBALS),
+        "source_element_ls_fv_mass": bool(SOURCE_ELEMENT_LS_FV_MASS),
+        "source_element_ls_fv_energy": bool(SOURCE_ELEMENT_LS_FV_ENERGY),
+        "source_element_ls_first_interval": int(interval_indices[0]),
+        "source_element_ls_last_interval": int(interval_indices[-1]),
+        "source_element_ls_first_interval_R_rg": float(interval_mid_R_rg[int(interval_indices[0])]),
+        "source_element_ls_last_interval_R_rg": float(interval_mid_R_rg[int(interval_indices[-1])]),
+        "source_element_ls_n_intervals": int(interval_indices.size),
+        "source_element_ls_n_nodes": int(node_indices.size),
+        "source_element_ls_n_variables": int(state_cols_array.size),
+        "source_element_ls_initial_score": best_score if not accepted_stages else accepted_stages[0]["initial_score"],
+        "source_element_ls_final_score": final_score,
+        "source_element_ls_initial_selected": initial_summary.get("selected", math.nan),
+        "source_element_ls_final_selected": final_summary.get("selected", math.nan),
+        "source_element_ls_initial_radial": initial_summary.get("radial", math.nan),
+        "source_element_ls_final_radial": final_summary.get("radial", math.nan),
+        "source_element_ls_final_radial_peak_R_rg": final_summary.get("radial_peak_R_rg", math.nan),
+        "source_element_ls_initial_energy": initial_summary.get("energy", math.nan),
+        "source_element_ls_final_energy": final_summary.get("energy", math.nan),
+        "source_element_ls_final_energy_peak_R_rg": final_summary.get("energy_peak_R_rg", math.nan),
+        "source_element_ls_initial_fv_mass": initial_summary.get("fv_mass", math.nan),
+        "source_element_ls_final_fv_mass": final_summary.get("fv_mass", math.nan),
+        "source_element_ls_final_fv_mass_peak_R_rg": final_summary.get("fv_mass_peak_R_rg", math.nan),
+        "source_element_ls_initial_fv_energy": initial_summary.get("fv_energy", math.nan),
+        "source_element_ls_final_fv_energy": final_summary.get("fv_energy", math.nan),
+        "source_element_ls_final_fv_energy_peak_R_rg": final_summary.get("fv_energy_peak_R_rg", math.nan),
+        "source_element_ls_initial_full": initial_metrics.get("full", math.nan),
+        "source_element_ls_final_full": final_metrics.get("full", math.nan),
+        "source_element_ls_initial_mass": initial_metrics.get("mass", math.nan),
+        "source_element_ls_final_mass": final_metrics.get("mass", math.nan),
+        "source_element_ls_initial_extra": initial_extra,
+        "source_element_ls_final_extra": final_extra,
+        "source_element_ls_total_nfev": int(total_nfev),
+        "source_element_ls_variable_kinds": variable_kinds,
+        "source_element_ls_stages": accepted_stages,
+    }
+
+
+def _source_plus_buffer_sample_fractions() -> np.ndarray:
+    values: list[float] = []
+    for piece in SOURCE_PLUS_BUFFER_FRACTIONS_RAW.split(","):
+        text = piece.strip()
+        if not text:
+            continue
+        value = float(text)
+        if not 0.0 < value < 1.0:
+            raise ValueError("source-plus-buffer fractions must lie strictly between 0 and 1")
+        values.append(value)
+    if not values:
+        values = [0.5]
+    return np.asarray(sorted(set(float(value) for value in values)), dtype=float)
+
+
+def _source_plus_buffer_interval_indices(x: np.ndarray, params) -> tuple[np.ndarray, np.ndarray]:
+    interval_indices, _node_indices = _source_band_interval_indices(x, params)
+    if interval_indices.size == 0:
+        return np.asarray([], dtype=int), np.asarray([], dtype=int)
+    n = int(params.n_nodes)
+    halo = max(0, int(SOURCE_PLUS_BUFFER_HALO_INTERVALS))
+    first = max(0, int(interval_indices[0]) - halo)
+    last = min(n - 2, int(interval_indices[-1]) + halo)
+    intervals = np.arange(first, last + 1, dtype=int)
+    nodes = np.arange(first, last + 2, dtype=int)
+    return intervals, nodes
+
+
+def _source_plus_buffer_unpack_trial(
+    trial: np.ndarray,
+    node_count: int,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    n_node = int(node_count)
+    logu = np.asarray(trial[:n_node], dtype=float)
+    logT = np.asarray(trial[n_node : 2 * n_node], dtype=float)
+    logMdot = np.asarray(trial[2 * n_node : 3 * n_node], dtype=float)
+    mass_cum = np.asarray(trial[3 * n_node : 4 * n_node], dtype=float)
+    energy_cum = np.asarray(trial[4 * n_node : 5 * n_node], dtype=float)
+    return logu, logT, logMdot, mass_cum, energy_cum
+
+
+def _source_plus_buffer_initial_cumulative(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    block_logu = np.asarray(logu[node_indices], dtype=float)
+    block_logT = np.asarray(logT[node_indices], dtype=float)
+    block_logMdot = np.asarray(logMdot[node_indices], dtype=float)
+    block_logR = np.asarray(logR[node_indices], dtype=float)
+    local_params = _source_interface_local_params(params, block_logR, block_logMdot)
+    first_node = int(node_indices[0])
+    mass_cum = np.zeros(int(node_indices.size), dtype=float)
+    energy_cum = np.zeros(int(node_indices.size), dtype=float)
+    energy_scale = np.ones(max(int(interval_indices.size), 1), dtype=float)
+    for pos, global_idx_value in enumerate(interval_indices):
+        local_idx = int(global_idx_value) - first_node
+        if local_idx < 0 or local_idx >= block_logR.size - 1:
+            continue
+        try:
+            wind_integral, source_integral, _scale, _left, _right = _source_interface_mass_terms_from_unpacked(
+                block_logu, block_logT, block_logMdot, block_logR, lambda0, local_params, local_idx
+            )
+            mass_cum[local_idx + 1] = mass_cum[local_idx] + float(wind_integral - source_integral)
+        except Exception:
+            mass_cum[local_idx + 1] = mass_cum[local_idx]
+        try:
+            terms = _source_interface_energy_terms_from_unpacked(
+                block_logu, block_logT, block_logMdot, block_logR, lambda0, local_params, local_idx
+            )
+            energy_cum[local_idx + 1] = energy_cum[local_idx] + float(terms["numerator"])
+            energy_scale[pos] = max(abs(float(terms["denominator"])), 1.0e-300)
+        except Exception:
+            energy_cum[local_idx + 1] = energy_cum[local_idx]
+            energy_scale[pos] = 1.0
+    # Fill halo slots that were not part of interval_indices by continuity.
+    for pos in range(1, int(node_indices.size)):
+        if mass_cum[pos] == 0.0 and energy_cum[pos] == 0.0 and pos > 1:
+            mass_cum[pos] = mass_cum[pos - 1]
+            energy_cum[pos] = energy_cum[pos - 1]
+    return mass_cum, energy_cum, energy_scale
+
+
+def _source_plus_buffer_full_from_trial(
+    x_ref: np.ndarray,
+    trial: np.ndarray,
+    node_indices: np.ndarray,
+    params,
+    write_edges: bool,
+) -> np.ndarray:
+    n = int(params.n_nodes)
+    node_count = int(node_indices.size)
+    block_logu, block_logT, block_logMdot, _mass_cum, _energy_cum = _source_plus_buffer_unpack_trial(trial, node_count)
+    full = np.asarray(x_ref, dtype=float).copy()
+    write_nodes = np.asarray(node_indices, dtype=int)
+    if not write_edges and write_nodes.size > 2:
+        write_nodes = write_nodes[1:-1]
+    write_set = {int(value) for value in write_nodes}
+    for local_pos, node in enumerate(node_indices):
+        if int(node) not in write_set:
+            continue
+        full[int(node)] = float(block_logu[local_pos])
+        full[n + int(node)] = float(block_logT[local_pos])
+        full[2 * n + int(node)] = float(block_logMdot[local_pos])
+    lower, upper = pilot._bounds(params)
+    return np.clip(full, lower + 1.0e-12, upper - 1.0e-12)
+
+
+def _source_plus_buffer_trial_arrays(
+    trial: np.ndarray,
+    params,
+    node_indices: np.ndarray,
+    reference_block: tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, float, np.ndarray],
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, float, np.ndarray, np.ndarray, np.ndarray]:
+    ref_logu, ref_logT, ref_logMdot, _logR_son, lambda0, ref_logR = reference_block
+    node_count = int(node_indices.size)
+    block_logu, block_logT, block_logMdot, mass_cum, energy_cum = _source_plus_buffer_unpack_trial(trial, node_count)
+    block_logR = np.asarray(ref_logR[node_indices], dtype=float)
+    full_logu = np.asarray(ref_logu, dtype=float).copy()
+    full_logT = np.asarray(ref_logT, dtype=float).copy()
+    full_logMdot = np.asarray(ref_logMdot, dtype=float).copy()
+    for local_pos, global_node in enumerate(np.asarray(node_indices, dtype=int)):
+        full_logu[int(global_node)] = float(block_logu[local_pos])
+        full_logT[int(global_node)] = float(block_logT[local_pos])
+        full_logMdot[int(global_node)] = float(block_logMdot[local_pos])
+    return (
+        block_logu,
+        block_logT,
+        block_logMdot,
+        mass_cum,
+        energy_cum,
+        block_logR,
+        float(lambda0),
+        full_logu,
+        full_logT,
+        full_logMdot,
+    )
+
+
+def _source_plus_buffer_energy_denominator(interface_terms: dict[str, float], element_terms: dict[str, float]) -> float:
+    values = [
+        abs(float(interface_terms.get("denominator", math.nan))),
+        abs(float(element_terms.get("denominator", math.nan))),
+    ]
+    finite = [value for value in values if np.isfinite(value) and value > 0.0]
+    return max(finite) if finite else 1.0
+
+
+def _source_plus_buffer_residual_data(
+    trial: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    fractions: np.ndarray,
+    reference_block: tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, float, np.ndarray],
+) -> dict[str, Any]:
+    rows: list[float] = []
+    groups: list[str] = []
+    row_R_rg: list[float] = []
+    aux_jac_entries: list[tuple[int, int, float]] = []
+
+    def append_row(value: float, group: str, R_rg: float, aux_entries: tuple[tuple[int, float], ...] = ()) -> None:
+        row = len(rows)
+        rows.append(float(value))
+        groups.append(group)
+        row_R_rg.append(float(R_rg) if np.isfinite(R_rg) else math.nan)
+        for col, derivative in aux_entries:
+            aux_jac_entries.append((row, int(col), float(derivative)))
+
+    try:
+        ref_logu, ref_logT, ref_logMdot, logR_son, lambda0, ref_logR = reference_block
+        (
+            block_logu,
+            block_logT,
+            block_logMdot,
+            mass_cum,
+            energy_cum,
+            block_logR,
+            lambda0,
+            full_logu,
+            full_logT,
+            full_logMdot,
+        ) = _source_plus_buffer_trial_arrays(trial, params, node_indices, reference_block)
+        _ = ref_logu, ref_logT, ref_logMdot
+        node_count = int(node_indices.size)
+        mass_col0 = 3 * node_count
+        energy_col0 = 4 * node_count
+        first_node = int(node_indices[0])
+        local_params = _source_interface_local_params(params, block_logR, block_logMdot)
+        band_min_rg, band_max_rg = _source_band_default_bounds_rg(params)
+        energy_anchor_scale = 1.0
+        production_rows: np.ndarray | None = None
+
+        def production_residual_rows() -> np.ndarray:
+            nonlocal production_rows
+            if production_rows is None:
+                full_x = pilot._pack(full_logu, full_logT, full_logMdot, logR_son, lambda0)
+                production_rows = _production_residual_base(full_x, params)
+            return production_rows
+
+        for pos, global_idx_value in enumerate(interval_indices):
+            idx = int(global_idx_value)
+            local_idx = idx - first_node
+            if local_idx < 0 or local_idx >= block_logR.size - 1:
+                continue
+            dx, y_left, y_right, _xm = _interval_geometry(block_logu, block_logT, block_logR, local_idx)
+            if dx <= 0.0:
+                append_row(1.0e6, "error", math.nan)
+                continue
+            R_mid_rg = float(np.exp(0.5 * (block_logR[local_idx] + block_logR[local_idx + 1])) / params.r_g)
+            active_weight = _source_band_row_weight(R_mid_rg, band_min_rg, band_max_rg)
+            linear_g = (y_right - y_left) / dx
+            for fraction in fractions:
+                t = float(fraction)
+                xq = float(block_logR[local_idx] + t * dx)
+                yq = (1.0 - t) * y_left + t * y_right
+                scaled = _scaled_residual_at(xq, yq, linear_g, lambda0, local_params)
+                R_rg = float(np.exp(xq) / params.r_g)
+                append_row(float(SOURCE_PLUS_BUFFER_STATE_WEIGHT) * float(scaled[0]), "state_radial", R_rg)
+                append_row(float(SOURCE_PLUS_BUFFER_STATE_WEIGHT) * float(scaled[1]), "state_energy", R_rg)
+            if SOURCE_PLUS_BUFFER_POLY_ROWS and active_weight > 0.0:
+                for fraction in fractions:
+                    xq, yq, gq, _mq, point_params, _stencil = _source_element_point_params(
+                        full_logu, full_logT, full_logMdot, ref_logR, idx, float(fraction), params
+                    )
+                    scaled = _scaled_residual_at(xq, yq, gq, lambda0, point_params)
+                    R_rg = float(np.exp(xq) / params.r_g)
+                    weight = float(SOURCE_PLUS_BUFFER_POLY_WEIGHT) * float(active_weight)
+                    append_row(weight * float(scaled[0]), "poly_radial", R_rg)
+                    append_row(weight * float(scaled[1]), "poly_energy", R_rg)
+
+            delta_m = float(mass_cum[local_idx + 1] - mass_cum[local_idx])
+            wind_i, source_i, mdot_scale_i, mdot_left_i, mdot_right_i = _source_interface_mass_terms_from_unpacked(
+                block_logu, block_logT, block_logMdot, block_logR, lambda0, local_params, local_idx
+            )
+            net_i = float(wind_i - source_i)
+            mscale_i = max(float(mdot_scale_i), 1.0e-300)
+            append_row(
+                float(SOURCE_PLUS_BUFFER_MASS_INTERFACE_WEIGHT) * (delta_m - net_i) / mscale_i,
+                "mass_interface",
+                R_mid_rg,
+                (
+                    (mass_col0 + local_idx, -float(SOURCE_PLUS_BUFFER_MASS_INTERFACE_WEIGHT) / mscale_i),
+                    (mass_col0 + local_idx + 1, float(SOURCE_PLUS_BUFFER_MASS_INTERFACE_WEIGHT) / mscale_i),
+                ),
+            )
+            append_row(
+                float(SOURCE_PLUS_BUFFER_MASS_ENDPOINT_WEIGHT) * (mdot_right_i - mdot_left_i - delta_m) / mscale_i,
+                "mass_endpoint",
+                R_mid_rg,
+                (
+                    (mass_col0 + local_idx, float(SOURCE_PLUS_BUFFER_MASS_ENDPOINT_WEIGHT) / mscale_i),
+                    (mass_col0 + local_idx + 1, -float(SOURCE_PLUS_BUFFER_MASS_ENDPOINT_WEIGHT) / mscale_i),
+                ),
+            )
+            if active_weight > 0.0:
+                wind_e, source_e, mdot_scale_e, _mdot_left_e, _mdot_right_e = _source_element_poly_fv_mass_terms(
+                    full_logu, full_logT, full_logMdot, ref_logR, lambda0, params, idx
+                )
+                net_e = float(wind_e - source_e)
+                mscale_e = max(float(mdot_scale_e), 1.0e-300)
+                mass_weight = float(SOURCE_PLUS_BUFFER_MASS_ELEMENT_WEIGHT) * float(active_weight)
+                append_row(
+                    mass_weight * (delta_m - net_e) / mscale_e,
+                    "mass_element",
+                    R_mid_rg,
+                    (
+                        (mass_col0 + local_idx, -mass_weight / mscale_e),
+                        (mass_col0 + local_idx + 1, mass_weight / mscale_e),
+                    ),
+                )
+            if SOURCE_PLUS_BUFFER_PRODUCTION_MASS_WEIGHT > 0.0:
+                prod = production_residual_rows()
+                mass_row = _inner_mdot_row_index(params) + 1 + idx
+                if 0 <= mass_row < prod.size:
+                    append_row(
+                        float(SOURCE_PLUS_BUFFER_PRODUCTION_MASS_WEIGHT) * float(prod[mass_row]),
+                        "production_mass",
+                        R_mid_rg,
+                    )
+
+            delta_e = float(energy_cum[local_idx + 1] - energy_cum[local_idx])
+            interface_terms = _source_interface_energy_terms_from_unpacked(
+                block_logu, block_logT, block_logMdot, block_logR, lambda0, local_params, local_idx
+            )
+            element_terms = _source_element_poly_fv_energy_terms(
+                full_logu, full_logT, full_logMdot, ref_logR, lambda0, params, idx
+            )
+            edenom = max(_source_plus_buffer_energy_denominator(interface_terms, element_terms), 1.0e-300)
+            energy_anchor_scale += edenom
+            append_row(
+                float(SOURCE_PLUS_BUFFER_ENERGY_INTERFACE_WEIGHT)
+                * (delta_e - float(interface_terms["numerator"]))
+                / edenom,
+                "energy_interface",
+                R_mid_rg,
+                (
+                    (energy_col0 + local_idx, -float(SOURCE_PLUS_BUFFER_ENERGY_INTERFACE_WEIGHT) / edenom),
+                    (energy_col0 + local_idx + 1, float(SOURCE_PLUS_BUFFER_ENERGY_INTERFACE_WEIGHT) / edenom),
+                ),
+            )
+            append_row(
+                float(SOURCE_PLUS_BUFFER_ENERGY_BALANCE_WEIGHT) * delta_e / edenom,
+                "energy_balance",
+                R_mid_rg,
+                (
+                    (energy_col0 + local_idx, -float(SOURCE_PLUS_BUFFER_ENERGY_BALANCE_WEIGHT) / edenom),
+                    (energy_col0 + local_idx + 1, float(SOURCE_PLUS_BUFFER_ENERGY_BALANCE_WEIGHT) / edenom),
+                ),
+            )
+            if active_weight > 0.0:
+                energy_weight = float(SOURCE_PLUS_BUFFER_ENERGY_ELEMENT_WEIGHT) * float(active_weight)
+                compat_weight = float(SOURCE_PLUS_BUFFER_ENERGY_COMPAT_WEIGHT) * float(active_weight)
+                append_row(
+                    energy_weight * (delta_e - float(element_terms["numerator"])) / edenom,
+                    "energy_element",
+                    R_mid_rg,
+                    (
+                        (energy_col0 + local_idx, -energy_weight / edenom),
+                        (energy_col0 + local_idx + 1, energy_weight / edenom),
+                    ),
+                )
+                append_row(
+                    compat_weight * (float(interface_terms["numerator"]) - float(element_terms["numerator"])) / edenom,
+                    "energy_compat",
+                    R_mid_rg,
+                )
+            if SOURCE_PLUS_BUFFER_PRODUCTION_ENERGY_WEIGHT > 0.0:
+                prod = production_residual_rows()
+                energy_row = 2 * idx + 1
+                if 0 <= energy_row < prod.size:
+                    append_row(
+                        float(SOURCE_PLUS_BUFFER_PRODUCTION_ENERGY_WEIGHT) * float(prod[energy_row]),
+                        "production_energy",
+                        R_mid_rg,
+                    )
+
+        for pos in (0, int(node_count) - 1):
+            global_node = int(node_indices[pos])
+            R_rg = float(np.exp(ref_logR[global_node]) / params.r_g)
+            append_row(
+                float(SOURCE_PLUS_BUFFER_EDGE_STATE_WEIGHT) * (float(block_logu[pos]) - float(ref_logu[global_node])),
+                "edge_logu",
+                R_rg,
+            )
+            append_row(
+                float(SOURCE_PLUS_BUFFER_EDGE_STATE_WEIGHT) * (float(block_logT[pos]) - float(ref_logT[global_node])),
+                "edge_logT",
+                R_rg,
+            )
+            append_row(
+                float(SOURCE_PLUS_BUFFER_EDGE_MDOT_WEIGHT) * (float(block_logMdot[pos]) - float(ref_logMdot[global_node])),
+                "edge_logMdot",
+                R_rg,
+            )
+        mdot_scale = max(float(np.exp(block_logMdot[0])), float(params.Mdot_g_s), 1.0e-300)
+        energy_scale = max(float(energy_anchor_scale), 1.0)
+        inc_weight = float(SOURCE_PLUS_BUFFER_INCREMENT_ANCHOR_WEIGHT)
+        append_row(
+            inc_weight * float(mass_cum[0]) / mdot_scale,
+            "increment_anchor",
+            float(np.exp(block_logR[0]) / params.r_g),
+            ((mass_col0, inc_weight / mdot_scale),),
+        )
+        append_row(
+            inc_weight * float(energy_cum[0]) / energy_scale,
+            "increment_anchor",
+            float(np.exp(block_logR[0]) / params.r_g),
+            ((energy_col0, inc_weight / energy_scale),),
+        )
+        append_row(
+            inc_weight * float(energy_cum[-1]) / energy_scale,
+            "increment_anchor",
+            float(np.exp(block_logR[-1]) / params.r_g),
+            ((energy_col0 + node_count - 1, inc_weight / energy_scale),),
+        )
+        if SOURCE_PLUS_BUFFER_ALL_ANCHOR_WEIGHT > 0.0:
+            reference_state = np.concatenate(
+                [ref_logu[node_indices], ref_logT[node_indices], ref_logMdot[node_indices]]
+            )
+            state = np.concatenate([block_logu, block_logT, block_logMdot])
+            for value in float(SOURCE_PLUS_BUFFER_ALL_ANCHOR_WEIGHT) * (state - reference_state):
+                append_row(float(value), "anchor", math.nan)
+        return {
+            "rows": np.asarray(rows, dtype=float),
+            "groups": groups,
+            "R_rg": np.asarray(row_R_rg, dtype=float),
+            "aux_jac_entries": aux_jac_entries,
+        }
+    except Exception as exc:
+        expected = max(1, int(interval_indices.size)) * (2 * int(fractions.size) + 8) + 9
+        return {
+            "rows": np.full(expected, 1.0e6, dtype=float),
+            "groups": ["error"] * expected,
+            "R_rg": np.full(expected, math.nan, dtype=float),
+            "aux_jac_entries": [],
+            "reason": f"exception: {exc}",
+        }
+
+
+def _source_plus_buffer_group_summary(data: dict[str, Any]) -> dict[str, float]:
+    rows = np.asarray(data.get("rows", []), dtype=float)
+    groups = list(data.get("groups", []))
+    R_rg = np.asarray(data.get("R_rg", []), dtype=float)
+    out: dict[str, float] = {"selected": float(np.linalg.norm(rows, ord=np.inf)) if rows.size else math.nan}
+    for group in (
+        "state_radial",
+        "state_energy",
+        "poly_radial",
+        "poly_energy",
+        "mass_interface",
+        "mass_endpoint",
+        "mass_element",
+        "production_mass",
+        "energy_interface",
+        "energy_element",
+        "energy_balance",
+        "energy_compat",
+        "production_energy",
+        "edge_logu",
+        "edge_logT",
+        "edge_logMdot",
+        "increment_anchor",
+        "anchor",
+        "error",
+    ):
+        indices = np.asarray([idx for idx, value in enumerate(groups) if value == group], dtype=int)
+        if indices.size:
+            values = np.abs(rows[indices])
+            peak = int(indices[int(np.argmax(values))])
+            out[group] = float(np.max(values))
+            out[f"{group}_peak_R_rg"] = float(R_rg[peak]) if R_rg.size > peak else math.nan
+        else:
+            out[group] = math.nan
+            out[f"{group}_peak_R_rg"] = math.nan
+    out["state"] = float(
+        max(
+            value
+            for value in (out.get("state_radial", math.nan), out.get("state_energy", math.nan))
+            if np.isfinite(value)
+        )
+    ) if any(np.isfinite(out.get(key, math.nan)) for key in ("state_radial", "state_energy")) else math.nan
+    out["poly"] = float(
+        max(
+            value
+            for value in (out.get("poly_radial", math.nan), out.get("poly_energy", math.nan))
+            if np.isfinite(value)
+        )
+    ) if any(np.isfinite(out.get(key, math.nan)) for key in ("poly_radial", "poly_energy")) else math.nan
+    out["mass"] = float(
+        max(
+            value
+            for value in (
+                out.get("mass_interface", math.nan),
+                out.get("mass_endpoint", math.nan),
+                out.get("mass_element", math.nan),
+                out.get("production_mass", math.nan),
+            )
+            if np.isfinite(value)
+        )
+    ) if any(
+        np.isfinite(out.get(key, math.nan))
+        for key in ("mass_interface", "mass_endpoint", "mass_element", "production_mass")
+    ) else math.nan
+    out["energy"] = float(
+        max(
+            value
+            for value in (
+                out.get("energy_interface", math.nan),
+                out.get("energy_element", math.nan),
+                out.get("energy_balance", math.nan),
+                out.get("energy_compat", math.nan),
+                out.get("production_energy", math.nan),
+            )
+            if np.isfinite(value)
+        )
+    ) if any(
+        np.isfinite(out.get(key, math.nan))
+        for key in ("energy_interface", "energy_element", "energy_balance", "energy_compat", "production_energy")
+    ) else math.nan
+    return out
+
+
+def _source_plus_buffer_sparsity(
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    fractions: np.ndarray,
+    ref_logR: np.ndarray,
+    params,
+):
+    try:
+        from scipy.sparse import lil_matrix
+    except Exception:
+        return None
+    # Build the exact row count and local dependencies with a lightweight pass.
+    node_count = int(node_indices.size)
+    col_count = 5 * node_count
+    band_min_rg, band_max_rg = _source_band_default_bounds_rg(params)
+    node_to_local = {int(node): int(pos) for pos, node in enumerate(np.asarray(node_indices, dtype=int))}
+    rows_deps: list[set[int]] = []
+
+    def endpoint_deps(local_idx: int) -> set[int]:
+        deps = {
+            local_idx,
+            local_idx + 1,
+            node_count + local_idx,
+            node_count + local_idx + 1,
+            2 * node_count + local_idx,
+            2 * node_count + local_idx + 1,
+        }
+        # The tabulated local-Mdot profile can enter interpolated source/wind terms.
+        deps.update(range(2 * node_count, 3 * node_count))
+        return deps
+
+    def stencil_deps(global_idx: int) -> set[int]:
+        deps: set[int] = set()
+        for node in _source_element_stencil(ref_logR, global_idx):
+            local = node_to_local.get(int(node))
+            if local is None:
+                continue
+            deps.update({local, node_count + local, 2 * node_count + local})
+        return deps
+
+    first_node = int(node_indices[0])
+    for global_idx_value in interval_indices:
+        idx = int(global_idx_value)
+        local_idx = idx - first_node
+        if local_idx < 0 or local_idx >= node_count - 1:
+            continue
+        R_mid_rg = float(np.exp(0.5 * (ref_logR[idx] + ref_logR[idx + 1])) / params.r_g)
+        active_weight = _source_band_row_weight(R_mid_rg, band_min_rg, band_max_rg)
+        edeps = endpoint_deps(local_idx)
+        sdeps = stencil_deps(idx)
+        for _fraction in fractions:
+            rows_deps.append(set(edeps))
+            rows_deps.append(set(edeps))
+        if SOURCE_PLUS_BUFFER_POLY_ROWS and active_weight > 0.0:
+            for _fraction in fractions:
+                rows_deps.append(set(sdeps))
+                rows_deps.append(set(sdeps))
+        mcols = {3 * node_count + local_idx, 3 * node_count + local_idx + 1}
+        ecols = {4 * node_count + local_idx, 4 * node_count + local_idx + 1}
+        rows_deps.append(set(edeps) | mcols)
+        rows_deps.append(set(edeps) | mcols)
+        if active_weight > 0.0:
+            rows_deps.append(set(sdeps) | mcols)
+        if SOURCE_PLUS_BUFFER_PRODUCTION_MASS_WEIGHT > 0.0:
+            rows_deps.append(set(edeps))
+        rows_deps.append(set(edeps) | ecols)
+        rows_deps.append(set(ecols))
+        if active_weight > 0.0:
+            rows_deps.append(set(sdeps) | ecols)
+            rows_deps.append(set(edeps) | set(sdeps))
+        if SOURCE_PLUS_BUFFER_PRODUCTION_ENERGY_WEIGHT > 0.0:
+            rows_deps.append(set(edeps))
+    for pos in (0, node_count - 1):
+        rows_deps.append({pos})
+        rows_deps.append({node_count + pos})
+        rows_deps.append({2 * node_count + pos})
+    rows_deps.append({3 * node_count})
+    rows_deps.append({4 * node_count})
+    rows_deps.append({4 * node_count + node_count - 1})
+    if SOURCE_PLUS_BUFFER_ALL_ANCHOR_WEIGHT > 0.0:
+        for pos in range(3 * node_count):
+            rows_deps.append({pos})
+    pattern = lil_matrix((len(rows_deps), col_count), dtype=int)
+    for row, deps in enumerate(rows_deps):
+        for col in deps:
+            if 0 <= int(col) < col_count:
+                pattern[row, int(col)] = 1
+    return pattern.tocsr()
+
+
+def _source_plus_buffer_hybrid_jacobian(
+    trial: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    fractions: np.ndarray,
+    reference_block: tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, float, np.ndarray],
+    sparsity,
+    lb: np.ndarray,
+    ub: np.ndarray,
+):
+    from scipy.sparse import lil_matrix
+
+    base_data = _source_plus_buffer_residual_data(trial, params, interval_indices, node_indices, fractions, reference_block)
+    base_rows = np.asarray(base_data["rows"], dtype=float)
+    n_rows = int(base_rows.size)
+    n_cols = int(np.asarray(trial, dtype=float).size)
+    matrix = lil_matrix((n_rows, n_cols), dtype=float)
+    if sparsity is None:
+        row_sets = [np.arange(n_rows, dtype=int) for _ in range(n_cols)]
+    else:
+        csr = sparsity.tocsr()
+        row_sets = [csr[:, col].nonzero()[0] for col in range(n_cols)]
+    node_count = int(node_indices.size)
+    n_state_cols = 3 * node_count
+    base_step = max(abs(float(SOURCE_PLUS_BUFFER_JAC_STEP)), 1.0e-12)
+
+    def eval_rows(candidate: np.ndarray, rows: np.ndarray) -> np.ndarray:
+        return np.asarray(
+            _source_plus_buffer_residual_data(candidate, params, interval_indices, node_indices, fractions, reference_block)[
+                "rows"
+            ],
+            dtype=float,
+        )[rows]
+
+    for col in range(n_state_cols):
+        rows = np.asarray(row_sets[col], dtype=int)
+        if rows.size == 0:
+            continue
+        scale = max(abs(float(trial[col])), 1.0)
+        step = base_step * scale
+        can_plus = float(trial[col]) + step < float(ub[col])
+        can_minus = float(trial[col]) - step > float(lb[col])
+        if not can_plus and not can_minus:
+            continue
+        if can_plus and can_minus:
+            plus = np.asarray(trial, dtype=float).copy()
+            minus = np.asarray(trial, dtype=float).copy()
+            plus[col] += step
+            minus[col] -= step
+            deriv = (eval_rows(plus, rows) - eval_rows(minus, rows)) / (2.0 * step)
+        else:
+            candidate = np.asarray(trial, dtype=float).copy()
+            if can_plus:
+                candidate[col] += step
+                deriv = (eval_rows(candidate, rows) - base_rows[rows]) / step
+            else:
+                candidate[col] -= step
+                deriv = (base_rows[rows] - eval_rows(candidate, rows)) / step
+        for local_row, value in zip(rows, deriv):
+            if np.isfinite(value) and value != 0.0:
+                matrix[int(local_row), int(col)] = float(value)
+    for row, col, value in base_data.get("aux_jac_entries", []):
+        if 0 <= int(row) < n_rows and 0 <= int(col) < n_cols and np.isfinite(float(value)):
+            matrix[int(row), int(col)] = float(value)
+    return matrix.tocsr()
+
+
+def _source_plus_buffer_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
+    if not SOURCE_PLUS_BUFFER_CORRECT:
+        return x0, {}
+    _set_eta(eta_E)
+    x_ref = np.asarray(x0, dtype=float)
+    fractions = _source_plus_buffer_sample_fractions()
+    interval_indices, node_indices = _source_plus_buffer_interval_indices(x_ref, params)
+    if interval_indices.size == 0 or node_indices.size < 2:
+        return x0, {
+            "source_plus_buffer_correct_enabled": True,
+            "source_plus_buffer_correct_applied": False,
+            "source_plus_buffer_correct_reason": "no source-plus-buffer intervals",
+        }
+    n = int(params.n_nodes)
+    logu, logT, logMdot, logR_son, lambda0, logR = pilot._unpack(x_ref, params)
+    reference_block = (logu, logT, logMdot, logR_son, lambda0, logR)
+    mass_cum0, energy_cum0, energy_scale0 = _source_plus_buffer_initial_cumulative(
+        logu, logT, logMdot, logR, lambda0, params, interval_indices, node_indices
+    )
+    start = np.concatenate([logu[node_indices], logT[node_indices], logMdot[node_indices], mass_cum0, energy_cum0])
+    lower, upper = pilot._bounds(params)
+    state_cols = np.concatenate([node_indices, n + node_indices, 2 * n + node_indices]).astype(int)
+    state_lb = lower[state_cols]
+    state_ub = upper[state_cols]
+    mdot_limit = 5.0 * max(float(params.Mdot_g_s), 1.0e-300)
+    energy_limit = 10.0 * max(float(np.sum(np.abs(energy_scale0))), 1.0)
+    lb = np.concatenate(
+        [
+            state_lb,
+            np.full(node_indices.size, -mdot_limit, dtype=float),
+            np.full(node_indices.size, -energy_limit, dtype=float),
+        ]
+    )
+    ub = np.concatenate(
+        [
+            state_ub,
+            np.full(node_indices.size, mdot_limit, dtype=float),
+            np.full(node_indices.size, energy_limit, dtype=float),
+        ]
+    )
+
+    initial_data = _source_plus_buffer_residual_data(start, params, interval_indices, node_indices, fractions, reference_block)
+    initial_summary = _source_plus_buffer_group_summary(initial_data)
+    initial_metrics = _residual_metrics_for_x(x_ref, params)
+    initial_extra = _source_extra_max_for_x(x_ref, params)
+    initial_score = float(
+        max(
+            initial_summary.get("selected", math.nan) if np.isfinite(initial_summary.get("selected", math.nan)) else 0.0,
+            initial_metrics["full"],
+            initial_extra if np.isfinite(initial_extra) else 0.0,
+        )
+    )
+
+    def local_residual(trial: np.ndarray) -> np.ndarray:
+        return np.asarray(
+            _source_plus_buffer_residual_data(trial, params, interval_indices, node_indices, fractions, reference_block)[
+                "rows"
+            ],
+            dtype=float,
+        )
+
+    sparsity = _source_plus_buffer_sparsity(interval_indices, node_indices, fractions, logR, params)
+    if sparsity is not None and sparsity.shape[0] != np.asarray(initial_data.get("rows", []), dtype=float).size:
+        sparsity = None
+    jacobian_mode = "hybrid_local_fd_exact_increment" if SOURCE_PLUS_BUFFER_USE_HYBRID_JAC else "sparse_fd"
+    kwargs: dict[str, Any] = {}
+    if SOURCE_PLUS_BUFFER_USE_HYBRID_JAC:
+        kwargs["jac"] = lambda trial: _source_plus_buffer_hybrid_jacobian(
+            np.asarray(trial, dtype=float),
+            params,
+            interval_indices,
+            node_indices,
+            fractions,
+            reference_block,
+            sparsity,
+            lb,
+            ub,
+        )
+    else:
+        kwargs["jac_sparsity"] = sparsity
+
+    from scipy.optimize import least_squares
+
+    result = least_squares(
+        local_residual,
+        np.clip(start, lb + 1.0e-12, ub - 1.0e-12),
+        bounds=(lb, ub),
+        x_scale="jac",
+        loss="linear",
+        ftol=RESIDUAL_TOL,
+        xtol=RESIDUAL_TOL,
+        gtol=RESIDUAL_TOL,
+        max_nfev=SOURCE_PLUS_BUFFER_MAX_NFEV,
+        verbose=0,
+        **kwargs,
+    )
+
+    candidate_data = _source_plus_buffer_residual_data(
+        result.x, params, interval_indices, node_indices, fractions, reference_block
+    )
+    candidate_summary = _source_plus_buffer_group_summary(candidate_data)
+    candidate_full = _source_plus_buffer_full_from_trial(
+        x_ref, result.x, node_indices, params, bool(SOURCE_PLUS_BUFFER_WRITE_EDGES)
+    )
+    candidate_metrics = _residual_metrics_for_x(candidate_full, params)
+    candidate_extra = _source_extra_max_for_x(candidate_full, params)
+    candidate_score = float(
+        max(
+            candidate_summary.get("selected", math.nan)
+            if np.isfinite(candidate_summary.get("selected", math.nan))
+            else 0.0,
+            candidate_metrics["full"],
+            candidate_extra if np.isfinite(candidate_extra) else 0.0,
+        )
+    )
+
+    best_x = x_ref
+    best_trial = start
+    best_data = initial_data
+    best_summary = initial_summary
+    best_metrics = initial_metrics
+    best_extra = initial_extra
+    best_score = initial_score
+    best_alpha = 0.0
+    lower_full, upper_full = pilot._bounds(params)
+    step = np.asarray(result.x, dtype=float) - start
+    trials: list[dict[str, Any]] = []
+    for exponent in range(max(1, int(SOURCE_PLUS_BUFFER_LINE_SEARCH_STEPS))):
+        alpha = 0.5**exponent
+        trial = np.clip(start + alpha * step, lb + 1.0e-12, ub - 1.0e-12)
+        full = _source_plus_buffer_full_from_trial(
+            x_ref, trial, node_indices, params, bool(SOURCE_PLUS_BUFFER_WRITE_EDGES)
+        )
+        full = np.clip(full, lower_full + 1.0e-12, upper_full - 1.0e-12)
+        data = _source_plus_buffer_residual_data(trial, params, interval_indices, node_indices, fractions, reference_block)
+        summary = _source_plus_buffer_group_summary(data)
+        metrics = _residual_metrics_for_x(full, params)
+        extra = _source_extra_max_for_x(full, params)
+        selected = summary.get("selected", math.nan)
+        score = float(max(selected if np.isfinite(selected) else 0.0, metrics["full"], extra if np.isfinite(extra) else 0.0))
+        full_guard_limit = max(
+            float(SOURCE_PLUS_BUFFER_FULL_GUARD_REL) * initial_metrics["full"],
+            initial_metrics["full"] + float(SOURCE_PLUS_BUFFER_FULL_GUARD_ABS),
+        )
+        if SOURCE_PLUS_BUFFER_PRESERVE_ACCEPTED and initial_metrics["full"] <= ACCEPT_TOL:
+            full_guard_limit = min(full_guard_limit, ACCEPT_TOL)
+        extra_guard_limit = max(
+            float(SOURCE_PLUS_BUFFER_EXTRA_GUARD_REL) * initial_extra,
+            initial_extra + float(SOURCE_PLUS_BUFFER_EXTRA_GUARD_ABS),
+        )
+        guard = bool(
+            np.isfinite(score)
+            and metrics["full"] <= full_guard_limit
+            and (not np.isfinite(initial_extra) or extra <= extra_guard_limit)
+        )
+        trials.append(
+            {
+                "alpha": float(alpha),
+                "score": score,
+                "selected": selected,
+                "state": summary.get("state", math.nan),
+                "poly": summary.get("poly", math.nan),
+                "mass": summary.get("mass", math.nan),
+                "energy": summary.get("energy", math.nan),
+                "energy_compat": summary.get("energy_compat", math.nan),
+                "full": metrics["full"],
+                "full_guard_limit": full_guard_limit,
+                "global_mass": metrics["mass"],
+                "source_band_extra": extra,
+                "source_band_extra_guard_limit": extra_guard_limit,
+                "guard_pass": guard,
+            }
+        )
+        if guard and score < best_score:
+            best_x = full
+            best_trial = trial
+            best_data = data
+            best_summary = summary
+            best_metrics = metrics
+            best_extra = extra
+            best_score = score
+            best_alpha = float(alpha)
+
+    _blogu, _blogT, _blogM, best_mass_cum, best_energy_cum = _source_plus_buffer_unpack_trial(
+        best_trial, int(node_indices.size)
+    )
+    _ = _blogu, _blogT, _blogM
+    delta_scale = max(float(params.Mdot_g_s), 1.0e-300)
+    energy_scale = max(float(np.sum(np.abs(energy_scale0))), 1.0)
+    interval_mid_R_rg = np.exp(0.5 * (logR[:-1] + logR[1:])) / params.r_g
+    return best_x, {
+        "source_plus_buffer_correct_enabled": True,
+        "source_plus_buffer_correct_applied": bool(best_alpha > 0.0),
+        "source_plus_buffer_correct_fractions": fractions.tolist(),
+        "source_plus_buffer_correct_halo_intervals": int(SOURCE_PLUS_BUFFER_HALO_INTERVALS),
+        "source_plus_buffer_correct_write_edges": bool(SOURCE_PLUS_BUFFER_WRITE_EDGES),
+        "source_plus_buffer_correct_poly_rows": bool(SOURCE_PLUS_BUFFER_POLY_ROWS),
+        "source_plus_buffer_correct_jacobian": jacobian_mode,
+        "source_plus_buffer_correct_full_guard_rel": float(SOURCE_PLUS_BUFFER_FULL_GUARD_REL),
+        "source_plus_buffer_correct_full_guard_abs": float(SOURCE_PLUS_BUFFER_FULL_GUARD_ABS),
+        "source_plus_buffer_correct_extra_guard_rel": float(SOURCE_PLUS_BUFFER_EXTRA_GUARD_REL),
+        "source_plus_buffer_correct_extra_guard_abs": float(SOURCE_PLUS_BUFFER_EXTRA_GUARD_ABS),
+        "source_plus_buffer_correct_preserve_accepted": bool(SOURCE_PLUS_BUFFER_PRESERVE_ACCEPTED),
+        "source_plus_buffer_correct_reason": best_data.get("reason", initial_data.get("reason", "")),
+        "source_plus_buffer_correct_first_interval": int(interval_indices[0]),
+        "source_plus_buffer_correct_last_interval": int(interval_indices[-1]),
+        "source_plus_buffer_correct_first_interval_R_rg": float(interval_mid_R_rg[int(interval_indices[0])]),
+        "source_plus_buffer_correct_last_interval_R_rg": float(interval_mid_R_rg[int(interval_indices[-1])]),
+        "source_plus_buffer_correct_n_intervals": int(interval_indices.size),
+        "source_plus_buffer_correct_n_nodes": int(node_indices.size),
+        "source_plus_buffer_correct_n_variables": int(start.size),
+        "source_plus_buffer_correct_n_rows": int(np.asarray(best_data.get("rows", []), dtype=float).size),
+        "source_plus_buffer_correct_initial_score": initial_score,
+        "source_plus_buffer_correct_candidate_score": candidate_score,
+        "source_plus_buffer_correct_final_score": best_score,
+        "source_plus_buffer_correct_initial_selected": initial_summary.get("selected", math.nan),
+        "source_plus_buffer_correct_candidate_selected": candidate_summary.get("selected", math.nan),
+        "source_plus_buffer_correct_final_selected": best_summary.get("selected", math.nan),
+        "source_plus_buffer_correct_initial_state": initial_summary.get("state", math.nan),
+        "source_plus_buffer_correct_final_state": best_summary.get("state", math.nan),
+        "source_plus_buffer_correct_initial_poly": initial_summary.get("poly", math.nan),
+        "source_plus_buffer_correct_final_poly": best_summary.get("poly", math.nan),
+        "source_plus_buffer_correct_initial_mass": initial_summary.get("mass", math.nan),
+        "source_plus_buffer_correct_final_mass": best_summary.get("mass", math.nan),
+        "source_plus_buffer_correct_initial_mass_interface": initial_summary.get("mass_interface", math.nan),
+        "source_plus_buffer_correct_final_mass_interface": best_summary.get("mass_interface", math.nan),
+        "source_plus_buffer_correct_initial_mass_endpoint": initial_summary.get("mass_endpoint", math.nan),
+        "source_plus_buffer_correct_final_mass_endpoint": best_summary.get("mass_endpoint", math.nan),
+        "source_plus_buffer_correct_initial_mass_element": initial_summary.get("mass_element", math.nan),
+        "source_plus_buffer_correct_final_mass_element": best_summary.get("mass_element", math.nan),
+        "source_plus_buffer_correct_initial_production_mass": initial_summary.get("production_mass", math.nan),
+        "source_plus_buffer_correct_final_production_mass": best_summary.get("production_mass", math.nan),
+        "source_plus_buffer_correct_initial_energy": initial_summary.get("energy", math.nan),
+        "source_plus_buffer_correct_final_energy": best_summary.get("energy", math.nan),
+        "source_plus_buffer_correct_initial_energy_interface": initial_summary.get("energy_interface", math.nan),
+        "source_plus_buffer_correct_final_energy_interface": best_summary.get("energy_interface", math.nan),
+        "source_plus_buffer_correct_initial_energy_element": initial_summary.get("energy_element", math.nan),
+        "source_plus_buffer_correct_final_energy_element": best_summary.get("energy_element", math.nan),
+        "source_plus_buffer_correct_initial_energy_balance": initial_summary.get("energy_balance", math.nan),
+        "source_plus_buffer_correct_final_energy_balance": best_summary.get("energy_balance", math.nan),
+        "source_plus_buffer_correct_initial_energy_compat": initial_summary.get("energy_compat", math.nan),
+        "source_plus_buffer_correct_final_energy_compat": best_summary.get("energy_compat", math.nan),
+        "source_plus_buffer_correct_initial_production_energy": initial_summary.get("production_energy", math.nan),
+        "source_plus_buffer_correct_final_production_energy": best_summary.get("production_energy", math.nan),
+        "source_plus_buffer_correct_initial_full": initial_metrics["full"],
+        "source_plus_buffer_correct_candidate_full": candidate_metrics["full"],
+        "source_plus_buffer_correct_final_full": best_metrics["full"],
+        "source_plus_buffer_correct_initial_global_mass": initial_metrics["mass"],
+        "source_plus_buffer_correct_final_global_mass": best_metrics["mass"],
+        "source_plus_buffer_correct_initial_extra": initial_extra,
+        "source_plus_buffer_correct_candidate_extra": candidate_extra,
+        "source_plus_buffer_correct_final_extra": best_extra,
+        "source_plus_buffer_correct_mass_cum_min_over_inner": float(np.min(best_mass_cum) / delta_scale)
+        if best_mass_cum.size
+        else math.nan,
+        "source_plus_buffer_correct_mass_cum_max_over_inner": float(np.max(best_mass_cum) / delta_scale)
+        if best_mass_cum.size
+        else math.nan,
+        "source_plus_buffer_correct_energy_cum_min_over_scale": float(np.min(best_energy_cum) / energy_scale)
+        if best_energy_cum.size
+        else math.nan,
+        "source_plus_buffer_correct_energy_cum_max_over_scale": float(np.max(best_energy_cum) / energy_scale)
+        if best_energy_cum.size
+        else math.nan,
+        "source_plus_buffer_correct_alpha": best_alpha,
+        "source_plus_buffer_correct_nfev": int(result.nfev),
+        "source_plus_buffer_correct_success": bool(result.success),
+        "source_plus_buffer_correct_message": str(result.message),
+        "source_plus_buffer_correct_trials": trials,
+    }
+
+
+def _source_plus_buffer_production_source_data(
+    augmented: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    fractions: np.ndarray,
+    reference_x: np.ndarray | None = None,
+    variable_cols: np.ndarray | None = None,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    n = int(params.n_nodes)
+    x_size = 3 * n + 2
+    node_count = int(node_indices.size)
+    if variable_cols is None:
+        full_x = np.asarray(augmented[:x_size], dtype=float)
+        offset = x_size
+    else:
+        if reference_x is None:
+            raise ValueError("reference_x is required when source-plus-buffer production uses selected variables")
+        full_x = np.asarray(reference_x, dtype=float).copy()
+        cols = np.asarray(variable_cols, dtype=int)
+        full_x[cols] = np.asarray(augmented[: cols.size], dtype=float)
+        offset = int(cols.size)
+    mass_cum = np.asarray(augmented[offset : offset + node_count], dtype=float)
+    energy_cum = np.asarray(augmented[offset + node_count : offset + 2 * node_count], dtype=float)
+    logu, logT, logMdot, logR_son, lambda0, logR = pilot._unpack(full_x, params)
+    trial = np.concatenate([logu[node_indices], logT[node_indices], logMdot[node_indices], mass_cum, energy_cum])
+    data = _source_plus_buffer_residual_data(
+        trial,
+        params,
+        interval_indices,
+        node_indices,
+        fractions,
+        (logu, logT, logMdot, logR_son, lambda0, logR),
+    )
+    return full_x, data
+
+
+def _source_plus_buffer_production_residual_rows(
+    augmented: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    fractions: np.ndarray,
+    reference_x: np.ndarray | None = None,
+    variable_cols: np.ndarray | None = None,
+) -> np.ndarray:
+    try:
+        full_x, data = _source_plus_buffer_production_source_data(
+            augmented, params, interval_indices, node_indices, fractions, reference_x, variable_cols
+        )
+        base_rows = float(SOURCE_PLUS_BUFFER_PRODUCTION_BASE_WEIGHT) * np.asarray(_residual(full_x, params), dtype=float)
+        source_rows = float(SOURCE_PLUS_BUFFER_PRODUCTION_SOURCE_WEIGHT) * np.asarray(data.get("rows", []), dtype=float)
+        return np.concatenate([base_rows, source_rows])
+    except Exception:
+        n = int(params.n_nodes)
+        expected = 3 * n + 2 + max(1, int(interval_indices.size)) * (2 * int(fractions.size) + 8) + 9
+        return np.full(expected, 1.0e6, dtype=float)
+
+
+def _source_plus_buffer_production_sparsity(
+    x_ref: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    fractions: np.ndarray,
+    variable_cols: np.ndarray,
+):
+    try:
+        from scipy.sparse import lil_matrix
+    except Exception:
+        return None
+    n = int(params.n_nodes)
+    x_size = 3 * n + 2
+    node_count = int(node_indices.size)
+    active_cols = np.asarray(variable_cols, dtype=int)
+    col_to_active = {int(col): int(pos) for pos, col in enumerate(active_cols)}
+    try:
+        base_rows = np.asarray(_residual(x_ref, params), dtype=float)
+        _logu, _logT, _logMdot, _logR_son, _lambda0, logR = pilot._unpack(x_ref, params)
+        mass_cum0, energy_cum0, _energy_scale0 = _source_plus_buffer_initial_cumulative(
+            _logu, _logT, _logMdot, logR, _lambda0, params, interval_indices, node_indices
+        )
+        start = np.concatenate([x_ref[active_cols], mass_cum0, energy_cum0])
+        _full_x, source_data = _source_plus_buffer_production_source_data(
+            start, params, interval_indices, node_indices, fractions, x_ref, active_cols
+        )
+        source_row_count = int(np.asarray(source_data.get("rows", []), dtype=float).size)
+    except Exception:
+        return None
+    total_rows = int(base_rows.size) + source_row_count
+    total_cols = int(active_cols.size) + 2 * node_count
+    pattern = lil_matrix((total_rows, total_cols), dtype=int)
+    try:
+        base_pattern = pilot._sparsity(params).tocoo()
+        if base_pattern.shape != (base_rows.size, x_size):
+            return None
+        for row, col in zip(base_pattern.row, base_pattern.col):
+            active_col = col_to_active.get(int(col))
+            if active_col is not None:
+                pattern[int(row), active_col] = 1
+    except Exception:
+        return None
+
+    try:
+        local_source_pattern = _source_plus_buffer_sparsity(interval_indices, node_indices, fractions, logR, params).tocoo()
+    except Exception:
+        return None
+    if local_source_pattern.shape[0] != source_row_count:
+        return None
+
+    def local_to_augmented_col(local_col: int) -> int | None:
+        col = int(local_col)
+        if 0 <= col < node_count:
+            return col_to_active.get(int(node_indices[col]))
+        if node_count <= col < 2 * node_count:
+            return col_to_active.get(n + int(node_indices[col - node_count]))
+        if 2 * node_count <= col < 3 * node_count:
+            return col_to_active.get(2 * n + int(node_indices[col - 2 * node_count]))
+        if 3 * node_count <= col < 4 * node_count:
+            return int(active_cols.size) + col - 3 * node_count
+        if 4 * node_count <= col < 5 * node_count:
+            return int(active_cols.size) + node_count + col - 4 * node_count
+        return None
+
+    source_offset = int(base_rows.size)
+    for row, col in zip(local_source_pattern.row, local_source_pattern.col):
+        active_col = local_to_augmented_col(int(col))
+        if active_col is not None and 0 <= int(active_col) < total_cols:
+            pattern[source_offset + int(row), int(active_col)] = 1
+    global_active_cols = [col_to_active[col] for col in (3 * n, 3 * n + 1) if col in col_to_active]
+    if global_active_cols:
+        for row in range(source_offset, total_rows):
+            for col in global_active_cols:
+                pattern[row, int(col)] = 1
+    return pattern.tocsr()
+
+
+def _source_plus_buffer_production_score(
+    summary: dict[str, float],
+    metrics: dict[str, float],
+    extra: float,
+) -> float:
+    values = [
+        summary.get("selected", math.nan),
+        summary.get("poly", math.nan),
+        summary.get("mass", math.nan),
+        summary.get("energy", math.nan),
+        metrics.get("full", math.nan),
+        metrics.get("mass", math.nan),
+        extra,
+    ]
+    finite = [abs(float(value)) for value in values if np.isfinite(value)]
+    return max(finite) if finite else math.inf
+
+
+def _source_plus_buffer_production_polish(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
+    if not SOURCE_PLUS_BUFFER_PRODUCTION_POLISH:
+        return x0, {}
+    _set_eta(eta_E)
+    n = int(params.n_nodes)
+    x_size = 3 * n + 2
+    x_ref = np.asarray(x0, dtype=float)
+    fractions = _source_plus_buffer_sample_fractions()
+    interval_indices, node_indices = _source_plus_buffer_interval_indices(x_ref, params)
+    if interval_indices.size == 0 or node_indices.size < 2:
+        return x0, {
+            "source_plus_buffer_production_enabled": True,
+            "source_plus_buffer_production_applied": False,
+            "source_plus_buffer_production_reason": "no source-plus-buffer intervals",
+        }
+    logu, logT, logMdot, _logR_son, lambda0, logR = pilot._unpack(x_ref, params)
+    source_nodes: set[int] = {int(value) for value in np.asarray(node_indices, dtype=int)}
+    for idx_value in np.asarray(interval_indices, dtype=int):
+        idx = int(idx_value)
+        source_nodes.update(int(value) for value in _source_element_stencil(logR, idx))
+        source_nodes.update({idx, idx + 1})
+    source_nodes = {idx for idx in source_nodes if 0 <= idx < n}
+    if SOURCE_PLUS_BUFFER_PRODUCTION_VARIABLE_MODE in {"global", "full", "all"}:
+        active_cols = np.arange(x_size, dtype=int)
+        variable_mode = "global"
+    else:
+        cols: list[int] = []
+        for idx in sorted(source_nodes):
+            cols.extend([idx, n + idx, 2 * n + idx])
+        if SOURCE_PLUS_BUFFER_PRODUCTION_INCLUDE_GLOBALS:
+            cols.extend([3 * n, 3 * n + 1])
+        active_cols = np.asarray(sorted(set(int(col) for col in cols)), dtype=int)
+        variable_mode = "band"
+    if active_cols.size == 0:
+        return x0, {
+            "source_plus_buffer_production_enabled": True,
+            "source_plus_buffer_production_applied": False,
+            "source_plus_buffer_production_reason": "no active production variables",
+        }
+    mass_cum0, energy_cum0, energy_scale0 = _source_plus_buffer_initial_cumulative(
+        logu, logT, logMdot, logR, lambda0, params, interval_indices, node_indices
+    )
+    node_count = int(node_indices.size)
+    start = np.concatenate([x_ref[active_cols], mass_cum0, energy_cum0])
+    lower_x, upper_x = pilot._bounds(params)
+    mdot_limit = 5.0 * max(float(params.Mdot_g_s), 1.0e-300)
+    energy_limit = 10.0 * max(float(np.sum(np.abs(energy_scale0))), 1.0)
+    lb = np.concatenate(
+        [
+            lower_x[active_cols],
+            np.full(node_count, -mdot_limit, dtype=float),
+            np.full(node_count, -energy_limit, dtype=float),
+        ]
+    )
+    ub = np.concatenate(
+        [
+            upper_x[active_cols],
+            np.full(node_count, mdot_limit, dtype=float),
+            np.full(node_count, energy_limit, dtype=float),
+        ]
+    )
+    start = np.clip(start, lb + 1.0e-12, ub - 1.0e-12)
+
+    initial_full_x, initial_data = _source_plus_buffer_production_source_data(
+        start, params, interval_indices, node_indices, fractions, x_ref, active_cols
+    )
+    initial_summary = _source_plus_buffer_group_summary(initial_data)
+    initial_metrics = _residual_metrics_for_x(initial_full_x, params)
+    initial_extra = _source_extra_max_for_x(initial_full_x, params)
+    initial_score = _source_plus_buffer_production_score(initial_summary, initial_metrics, initial_extra)
+    sparsity = _source_plus_buffer_production_sparsity(
+        initial_full_x, params, interval_indices, node_indices, fractions, active_cols
+    )
+    if sparsity is not None:
+        rows0 = _source_plus_buffer_production_residual_rows(
+            start, params, interval_indices, node_indices, fractions, x_ref, active_cols
+        )
+        if sparsity.shape != (rows0.size, start.size):
+            sparsity = None
+
+    from scipy.optimize import least_squares
+
+    result = least_squares(
+        lambda trial: _source_plus_buffer_production_residual_rows(
+            trial, params, interval_indices, node_indices, fractions, x_ref, active_cols
+        ),
+        start,
+        bounds=(lb, ub),
+        jac_sparsity=sparsity,
+        x_scale="jac",
+        loss="linear",
+        ftol=RESIDUAL_TOL,
+        xtol=RESIDUAL_TOL,
+        gtol=RESIDUAL_TOL,
+        max_nfev=SOURCE_PLUS_BUFFER_PRODUCTION_MAX_NFEV,
+        verbose=0,
+    )
+
+    candidate_full_x, candidate_data = _source_plus_buffer_production_source_data(
+        result.x, params, interval_indices, node_indices, fractions, x_ref, active_cols
+    )
+    candidate_summary = _source_plus_buffer_group_summary(candidate_data)
+    candidate_metrics = _residual_metrics_for_x(candidate_full_x, params)
+    candidate_extra = _source_extra_max_for_x(candidate_full_x, params)
+    candidate_score = _source_plus_buffer_production_score(candidate_summary, candidate_metrics, candidate_extra)
+
+    best_x = initial_full_x
+    best_augmented = start
+    best_data = initial_data
+    best_summary = initial_summary
+    best_metrics = initial_metrics
+    best_extra = initial_extra
+    best_score = initial_score
+    best_alpha = 0.0
+    step = np.asarray(result.x, dtype=float) - start
+    trials: list[dict[str, Any]] = []
+    for exponent in range(max(1, int(SOURCE_PLUS_BUFFER_PRODUCTION_LINE_SEARCH_STEPS))):
+        alpha = 0.5**exponent
+        trial_aug = np.clip(start + alpha * step, lb + 1.0e-12, ub - 1.0e-12)
+        full_x, data = _source_plus_buffer_production_source_data(
+            trial_aug, params, interval_indices, node_indices, fractions, x_ref, active_cols
+        )
+        summary = _source_plus_buffer_group_summary(data)
+        metrics = _residual_metrics_for_x(full_x, params)
+        extra = _source_extra_max_for_x(full_x, params)
+        score = _source_plus_buffer_production_score(summary, metrics, extra)
+        full_guard_limit = max(
+            float(SOURCE_PLUS_BUFFER_FULL_GUARD_REL) * initial_metrics["full"],
+            initial_metrics["full"] + float(SOURCE_PLUS_BUFFER_FULL_GUARD_ABS),
+        )
+        if SOURCE_PLUS_BUFFER_PRESERVE_ACCEPTED and initial_metrics["full"] <= ACCEPT_TOL:
+            full_guard_limit = min(full_guard_limit, ACCEPT_TOL)
+        extra_guard_limit = max(
+            float(SOURCE_PLUS_BUFFER_EXTRA_GUARD_REL) * initial_extra,
+            initial_extra + float(SOURCE_PLUS_BUFFER_EXTRA_GUARD_ABS),
+        )
+        guard = bool(
+            np.isfinite(score)
+            and metrics["full"] <= full_guard_limit
+            and (not np.isfinite(initial_extra) or extra <= extra_guard_limit)
+        )
+        trials.append(
+            {
+                "alpha": float(alpha),
+                "score": score,
+                "selected": summary.get("selected", math.nan),
+                "poly": summary.get("poly", math.nan),
+                "mass": summary.get("mass", math.nan),
+                "energy": summary.get("energy", math.nan),
+                "energy_compat": summary.get("energy_compat", math.nan),
+                "full": metrics.get("full", math.nan),
+                "full_guard_limit": full_guard_limit,
+                "global_mass": metrics.get("mass", math.nan),
+                "source_band_extra": extra,
+                "source_band_extra_guard_limit": extra_guard_limit,
+                "guard_pass": guard,
+            }
+        )
+        if guard and score < best_score:
+            best_x = full_x
+            best_augmented = trial_aug
+            best_data = data
+            best_summary = summary
+            best_metrics = metrics
+            best_extra = extra
+            best_score = score
+            best_alpha = float(alpha)
+
+    _best_full_x, _best_data_check = _source_plus_buffer_production_source_data(
+        best_augmented, params, interval_indices, node_indices, fractions, x_ref, active_cols
+    )
+    offset = int(active_cols.size)
+    best_mass_cum = np.asarray(best_augmented[offset : offset + node_count], dtype=float)
+    best_energy_cum = np.asarray(best_augmented[offset + node_count : offset + 2 * node_count], dtype=float)
+    delta_scale = max(float(params.Mdot_g_s), 1.0e-300)
+    energy_scale = max(float(np.sum(np.abs(energy_scale0))), 1.0)
+    interval_mid_R_rg = np.exp(0.5 * (logR[:-1] + logR[1:])) / params.r_g
+    return best_x, {
+        "source_plus_buffer_production_enabled": True,
+        "source_plus_buffer_production_applied": bool(best_alpha > 0.0),
+        "source_plus_buffer_production_fractions": fractions.tolist(),
+        "source_plus_buffer_production_halo_intervals": int(SOURCE_PLUS_BUFFER_HALO_INTERVALS),
+        "source_plus_buffer_production_n_intervals": int(interval_indices.size),
+        "source_plus_buffer_production_n_nodes": int(node_indices.size),
+        "source_plus_buffer_production_n_variables": int(start.size),
+        "source_plus_buffer_production_n_state_variables": int(active_cols.size),
+        "source_plus_buffer_production_n_source_rows": int(np.asarray(best_data.get("rows", []), dtype=float).size),
+        "source_plus_buffer_production_variable_mode": variable_mode,
+        "source_plus_buffer_production_include_globals": bool(SOURCE_PLUS_BUFFER_PRODUCTION_INCLUDE_GLOBALS),
+        "source_plus_buffer_production_base_weight": float(SOURCE_PLUS_BUFFER_PRODUCTION_BASE_WEIGHT),
+        "source_plus_buffer_production_source_weight": float(SOURCE_PLUS_BUFFER_PRODUCTION_SOURCE_WEIGHT),
+        "source_plus_buffer_production_first_interval": int(interval_indices[0]),
+        "source_plus_buffer_production_last_interval": int(interval_indices[-1]),
+        "source_plus_buffer_production_first_interval_R_rg": float(interval_mid_R_rg[int(interval_indices[0])]),
+        "source_plus_buffer_production_last_interval_R_rg": float(interval_mid_R_rg[int(interval_indices[-1])]),
+        "source_plus_buffer_production_initial_score": initial_score,
+        "source_plus_buffer_production_candidate_score": candidate_score,
+        "source_plus_buffer_production_final_score": best_score,
+        "source_plus_buffer_production_initial_selected": initial_summary.get("selected", math.nan),
+        "source_plus_buffer_production_candidate_selected": candidate_summary.get("selected", math.nan),
+        "source_plus_buffer_production_final_selected": best_summary.get("selected", math.nan),
+        "source_plus_buffer_production_initial_poly": initial_summary.get("poly", math.nan),
+        "source_plus_buffer_production_final_poly": best_summary.get("poly", math.nan),
+        "source_plus_buffer_production_initial_mass": initial_summary.get("mass", math.nan),
+        "source_plus_buffer_production_final_mass": best_summary.get("mass", math.nan),
+        "source_plus_buffer_production_initial_energy": initial_summary.get("energy", math.nan),
+        "source_plus_buffer_production_final_energy": best_summary.get("energy", math.nan),
+        "source_plus_buffer_production_initial_energy_compat": initial_summary.get("energy_compat", math.nan),
+        "source_plus_buffer_production_final_energy_compat": best_summary.get("energy_compat", math.nan),
+        "source_plus_buffer_production_initial_full": initial_metrics.get("full", math.nan),
+        "source_plus_buffer_production_candidate_full": candidate_metrics.get("full", math.nan),
+        "source_plus_buffer_production_final_full": best_metrics.get("full", math.nan),
+        "source_plus_buffer_production_initial_global_mass": initial_metrics.get("mass", math.nan),
+        "source_plus_buffer_production_final_global_mass": best_metrics.get("mass", math.nan),
+        "source_plus_buffer_production_initial_extra": initial_extra,
+        "source_plus_buffer_production_candidate_extra": candidate_extra,
+        "source_plus_buffer_production_final_extra": best_extra,
+        "source_plus_buffer_production_mass_cum_min_over_inner": float(np.min(best_mass_cum) / delta_scale)
+        if best_mass_cum.size
+        else math.nan,
+        "source_plus_buffer_production_mass_cum_max_over_inner": float(np.max(best_mass_cum) / delta_scale)
+        if best_mass_cum.size
+        else math.nan,
+        "source_plus_buffer_production_energy_cum_min_over_scale": float(np.min(best_energy_cum) / energy_scale)
+        if best_energy_cum.size
+        else math.nan,
+        "source_plus_buffer_production_energy_cum_max_over_scale": float(np.max(best_energy_cum) / energy_scale)
+        if best_energy_cum.size
+        else math.nan,
+        "source_plus_buffer_production_alpha": best_alpha,
+        "source_plus_buffer_production_nfev": int(result.nfev),
+        "source_plus_buffer_production_success": bool(result.success),
+        "source_plus_buffer_production_message": str(result.message),
+        "source_plus_buffer_production_trials": trials,
+    }
+
+
 def _source_element_interval_indices(x: np.ndarray, params) -> tuple[np.ndarray, np.ndarray]:
     interval_indices, _node_indices = _source_band_interval_indices(x, params)
     if interval_indices.size == 0:
@@ -4156,6 +7669,22 @@ def _stage_row(label: str, x0: np.ndarray, result, params, eta_E: float, initial
             "source_band_extra_energy_max": profile.get("source_band_extra_energy_max", math.nan),
             "source_band_extra_peak_R_rg": profile.get("source_band_extra_peak_R_rg", math.nan),
             "source_band_extra_active_row_count": profile.get("source_band_extra_active_row_count", 0),
+            "source_element_consistency_enabled": bool(profile.get("source_element_consistency_enabled", False)),
+            "source_element_consistency_applied": bool(profile.get("source_element_consistency_applied", False)),
+            "source_element_consistency_n_intervals": profile.get("source_element_consistency_n_intervals", 0),
+            "source_element_consistency_poly_R_max": profile.get("source_element_consistency_poly_R_max", math.nan),
+            "source_element_consistency_poly_E_max": profile.get("source_element_consistency_poly_E_max", math.nan),
+            "source_element_consistency_FV_M_max": profile.get("source_element_consistency_FV_M_max", math.nan),
+            "source_element_consistency_FV_E_max": profile.get("source_element_consistency_FV_E_max", math.nan),
+            "source_element_consistency_FV_E_over_poly_E_max": profile.get(
+                "source_element_consistency_FV_E_over_poly_E_max", math.nan
+            ),
+            "source_element_consistency_peak_poly_E_R_rg": profile.get(
+                "source_element_consistency_peak_poly_E_R_rg", math.nan
+            ),
+            "source_element_consistency_peak_FV_E_R_rg": profile.get(
+                "source_element_consistency_peak_FV_E_R_rg", math.nan
+            ),
             "local_interval_R": profile["local_interval_R_max"],
             "local_interval_E": profile["local_interval_E_max"],
             "peak_interval_R_rg": profile["peak_interval_R_rg"],
@@ -4216,6 +7745,22 @@ def _seed_stage_row(label: str, x0: np.ndarray, params, eta_E: float, initial_fu
             "source_band_extra_energy_max": profile.get("source_band_extra_energy_max", math.nan),
             "source_band_extra_peak_R_rg": profile.get("source_band_extra_peak_R_rg", math.nan),
             "source_band_extra_active_row_count": profile.get("source_band_extra_active_row_count", 0),
+            "source_element_consistency_enabled": bool(profile.get("source_element_consistency_enabled", False)),
+            "source_element_consistency_applied": bool(profile.get("source_element_consistency_applied", False)),
+            "source_element_consistency_n_intervals": profile.get("source_element_consistency_n_intervals", 0),
+            "source_element_consistency_poly_R_max": profile.get("source_element_consistency_poly_R_max", math.nan),
+            "source_element_consistency_poly_E_max": profile.get("source_element_consistency_poly_E_max", math.nan),
+            "source_element_consistency_FV_M_max": profile.get("source_element_consistency_FV_M_max", math.nan),
+            "source_element_consistency_FV_E_max": profile.get("source_element_consistency_FV_E_max", math.nan),
+            "source_element_consistency_FV_E_over_poly_E_max": profile.get(
+                "source_element_consistency_FV_E_over_poly_E_max", math.nan
+            ),
+            "source_element_consistency_peak_poly_E_R_rg": profile.get(
+                "source_element_consistency_peak_poly_E_R_rg", math.nan
+            ),
+            "source_element_consistency_peak_FV_E_R_rg": profile.get(
+                "source_element_consistency_peak_FV_E_R_rg", math.nan
+            ),
             "local_interval_R": profile["local_interval_R_max"],
             "local_interval_E": profile["local_interval_E_max"],
             "peak_interval_R_rg": profile["peak_interval_R_rg"],
@@ -4299,6 +7844,16 @@ def _write_outputs(rows: list[dict[str, Any]], profiles: list[dict[str, Any]]) -
         "source_band_extra_energy_max",
         "source_band_extra_peak_R_rg",
         "source_band_extra_active_row_count",
+        "source_element_consistency_enabled",
+        "source_element_consistency_applied",
+        "source_element_consistency_n_intervals",
+        "source_element_consistency_poly_R_max",
+        "source_element_consistency_poly_E_max",
+        "source_element_consistency_FV_M_max",
+        "source_element_consistency_FV_E_max",
+        "source_element_consistency_FV_E_over_poly_E_max",
+        "source_element_consistency_peak_poly_E_R_rg",
+        "source_element_consistency_peak_FV_E_R_rg",
         "local_interval_R",
         "local_interval_E",
         "peak_interval_R_rg",
@@ -4417,6 +7972,178 @@ def _write_outputs(rows: list[dict[str, Any]], profiles: list[dict[str, Any]]) -
         "source_buffer_correct_delta_sum_over_inner",
         "source_buffer_correct_alpha",
         "source_buffer_correct_nfev",
+        "source_plus_buffer_correct_applied",
+        "source_plus_buffer_correct_halo_intervals",
+        "source_plus_buffer_correct_write_edges",
+        "source_plus_buffer_correct_poly_rows",
+        "source_plus_buffer_correct_jacobian",
+        "source_plus_buffer_correct_full_guard_rel",
+        "source_plus_buffer_correct_full_guard_abs",
+        "source_plus_buffer_correct_extra_guard_rel",
+        "source_plus_buffer_correct_extra_guard_abs",
+        "source_plus_buffer_correct_preserve_accepted",
+        "source_plus_buffer_correct_n_intervals",
+        "source_plus_buffer_correct_n_nodes",
+        "source_plus_buffer_correct_n_variables",
+        "source_plus_buffer_correct_n_rows",
+        "source_plus_buffer_correct_initial_score",
+        "source_plus_buffer_correct_final_score",
+        "source_plus_buffer_correct_initial_selected",
+        "source_plus_buffer_correct_final_selected",
+        "source_plus_buffer_correct_initial_state",
+        "source_plus_buffer_correct_final_state",
+        "source_plus_buffer_correct_initial_poly",
+        "source_plus_buffer_correct_final_poly",
+        "source_plus_buffer_correct_initial_mass",
+        "source_plus_buffer_correct_final_mass",
+        "source_plus_buffer_correct_initial_mass_interface",
+        "source_plus_buffer_correct_final_mass_interface",
+        "source_plus_buffer_correct_initial_mass_endpoint",
+        "source_plus_buffer_correct_final_mass_endpoint",
+        "source_plus_buffer_correct_initial_mass_element",
+        "source_plus_buffer_correct_final_mass_element",
+        "source_plus_buffer_correct_initial_production_mass",
+        "source_plus_buffer_correct_final_production_mass",
+        "source_plus_buffer_correct_initial_energy",
+        "source_plus_buffer_correct_final_energy",
+        "source_plus_buffer_correct_initial_energy_interface",
+        "source_plus_buffer_correct_final_energy_interface",
+        "source_plus_buffer_correct_initial_energy_element",
+        "source_plus_buffer_correct_final_energy_element",
+        "source_plus_buffer_correct_initial_energy_balance",
+        "source_plus_buffer_correct_final_energy_balance",
+        "source_plus_buffer_correct_initial_energy_compat",
+        "source_plus_buffer_correct_final_energy_compat",
+        "source_plus_buffer_correct_initial_production_energy",
+        "source_plus_buffer_correct_final_production_energy",
+        "source_plus_buffer_correct_initial_full",
+        "source_plus_buffer_correct_final_full",
+        "source_plus_buffer_correct_initial_global_mass",
+        "source_plus_buffer_correct_final_global_mass",
+        "source_plus_buffer_correct_initial_extra",
+        "source_plus_buffer_correct_final_extra",
+        "source_plus_buffer_correct_mass_cum_min_over_inner",
+        "source_plus_buffer_correct_mass_cum_max_over_inner",
+        "source_plus_buffer_correct_energy_cum_min_over_scale",
+        "source_plus_buffer_correct_energy_cum_max_over_scale",
+        "source_plus_buffer_correct_alpha",
+        "source_plus_buffer_correct_nfev",
+        "source_plus_buffer_production_applied",
+        "source_plus_buffer_production_halo_intervals",
+        "source_plus_buffer_production_n_intervals",
+        "source_plus_buffer_production_n_nodes",
+        "source_plus_buffer_production_n_variables",
+        "source_plus_buffer_production_n_state_variables",
+        "source_plus_buffer_production_n_source_rows",
+        "source_plus_buffer_production_variable_mode",
+        "source_plus_buffer_production_include_globals",
+        "source_plus_buffer_production_base_weight",
+        "source_plus_buffer_production_source_weight",
+        "source_plus_buffer_production_initial_score",
+        "source_plus_buffer_production_final_score",
+        "source_plus_buffer_production_initial_selected",
+        "source_plus_buffer_production_final_selected",
+        "source_plus_buffer_production_initial_poly",
+        "source_plus_buffer_production_final_poly",
+        "source_plus_buffer_production_initial_mass",
+        "source_plus_buffer_production_final_mass",
+        "source_plus_buffer_production_initial_energy",
+        "source_plus_buffer_production_final_energy",
+        "source_plus_buffer_production_initial_energy_compat",
+        "source_plus_buffer_production_final_energy_compat",
+        "source_plus_buffer_production_initial_full",
+        "source_plus_buffer_production_final_full",
+        "source_plus_buffer_production_initial_global_mass",
+        "source_plus_buffer_production_final_global_mass",
+        "source_plus_buffer_production_initial_extra",
+        "source_plus_buffer_production_final_extra",
+        "source_plus_buffer_production_mass_cum_min_over_inner",
+        "source_plus_buffer_production_mass_cum_max_over_inner",
+        "source_plus_buffer_production_energy_cum_min_over_scale",
+        "source_plus_buffer_production_energy_cum_max_over_scale",
+        "source_plus_buffer_production_alpha",
+        "source_plus_buffer_production_nfev",
+        "source_interface_correct_applied",
+        "source_interface_correct_halo_intervals",
+        "source_interface_correct_write_edges",
+        "source_interface_correct_mass_quadrature",
+        "source_interface_correct_fv_energy_rows",
+        "source_interface_correct_energy_weight",
+        "source_interface_correct_reconcile_audit_enabled",
+        "source_interface_correct_n_intervals",
+        "source_interface_correct_n_nodes",
+        "source_interface_correct_n_variables",
+        "source_interface_correct_n_rows",
+        "source_interface_correct_initial_score",
+        "source_interface_correct_final_score",
+        "source_interface_correct_initial_selected",
+        "source_interface_correct_final_selected",
+        "source_interface_correct_initial_state",
+        "source_interface_correct_final_state",
+        "source_interface_correct_initial_fv_mass",
+        "source_interface_correct_final_fv_mass",
+        "source_interface_correct_initial_fv_energy",
+        "source_interface_correct_final_fv_energy",
+        "source_interface_correct_deltaE_balance_max",
+        "source_interface_correct_energy_audit_initial_FV_E",
+        "source_interface_correct_energy_audit_final_FV_E",
+        "source_interface_correct_energy_audit_initial_scaled_diff",
+        "source_interface_correct_energy_audit_final_scaled_diff",
+        "source_interface_correct_energy_audit_initial_balance",
+        "source_interface_correct_energy_audit_final_balance",
+        "source_interface_correct_reconcile_initial_interface_FV_E",
+        "source_interface_correct_reconcile_final_interface_FV_E",
+        "source_interface_correct_reconcile_initial_source_element_FV_E",
+        "source_interface_correct_reconcile_final_source_element_FV_E",
+        "source_interface_correct_reconcile_initial_poly_E",
+        "source_interface_correct_reconcile_final_poly_E",
+        "source_interface_correct_reconcile_initial_ratio",
+        "source_interface_correct_reconcile_final_ratio",
+        "source_interface_correct_reconcile_peak_interface_R_rg",
+        "source_interface_correct_reconcile_peak_source_element_FV_E_R_rg",
+        "source_interface_correct_reconcile_peak_poly_E_R_rg",
+        "source_interface_correct_initial_interface",
+        "source_interface_correct_final_interface",
+        "source_interface_correct_initial_full",
+        "source_interface_correct_final_full",
+        "source_interface_correct_initial_mass",
+        "source_interface_correct_final_mass",
+        "source_interface_correct_initial_extra",
+        "source_interface_correct_final_extra",
+        "source_interface_correct_delta_min_over_inner",
+        "source_interface_correct_delta_max_over_inner",
+        "source_interface_correct_delta_sum_over_inner",
+        "source_interface_correct_alpha",
+        "source_interface_correct_nfev",
+        "source_element_ls_applied",
+        "source_element_ls_halo_intervals",
+        "source_element_ls_n_intervals",
+        "source_element_ls_n_variables",
+        "source_element_ls_fv_mass",
+        "source_element_ls_fv_energy",
+        "source_element_ls_initial_score",
+        "source_element_ls_final_score",
+        "source_element_ls_initial_selected",
+        "source_element_ls_final_selected",
+        "source_element_ls_initial_radial",
+        "source_element_ls_final_radial",
+        "source_element_ls_final_radial_peak_R_rg",
+        "source_element_ls_initial_energy",
+        "source_element_ls_final_energy",
+        "source_element_ls_final_energy_peak_R_rg",
+        "source_element_ls_initial_fv_mass",
+        "source_element_ls_final_fv_mass",
+        "source_element_ls_final_fv_mass_peak_R_rg",
+        "source_element_ls_initial_fv_energy",
+        "source_element_ls_final_fv_energy",
+        "source_element_ls_final_fv_energy_peak_R_rg",
+        "source_element_ls_initial_full",
+        "source_element_ls_final_full",
+        "source_element_ls_initial_mass",
+        "source_element_ls_final_mass",
+        "source_element_ls_initial_extra",
+        "source_element_ls_final_extra",
+        "source_element_ls_total_nfev",
         "band_correct_applied",
         "band_correct_min_rg",
         "band_correct_max_rg",
@@ -4538,6 +8265,18 @@ def main() -> None:
         source_buffer_info: dict[str, Any] = {}
         if SOURCE_BUFFER_CORRECT:
             x, source_buffer_info = _source_buffer_correct(x, params, eta_E)
+        source_plus_buffer_info: dict[str, Any] = {}
+        if SOURCE_PLUS_BUFFER_CORRECT:
+            x, source_plus_buffer_info = _source_plus_buffer_correct(x, params, eta_E)
+        source_interface_info: dict[str, Any] = {}
+        if SOURCE_INTERFACE_CORRECT:
+            x, source_interface_info = _source_interface_correct(x, params, eta_E)
+        source_element_ls_info: dict[str, Any] = {}
+        if SOURCE_ELEMENT_LS:
+            x, source_element_ls_info = _source_element_ls_correct(x, params, eta_E)
+        source_plus_buffer_production_info: dict[str, Any] = {}
+        if SOURCE_PLUS_BUFFER_PRODUCTION_POLISH:
+            x, source_plus_buffer_production_info = _source_plus_buffer_production_polish(x, params, eta_E)
         block_correct_info: dict[str, Any] = {}
         if BLOCK_CORRECT:
             x, block_correct_info = _coupled_block_correct(x, params, eta_E)
@@ -4553,6 +8292,10 @@ def main() -> None:
             row.update(band_correct_info)
             row.update(source_domain_info)
             row.update(source_buffer_info)
+            row.update(source_plus_buffer_info)
+            row.update(source_interface_info)
+            row.update(source_element_ls_info)
+            row.update(source_plus_buffer_production_info)
             row.update(block_correct_info)
             row.update(startup_info)
             row["checkpoint"] = _write_checkpoint(label, x, params, row)
@@ -4575,6 +8318,10 @@ def main() -> None:
         row.update(band_correct_info)
         row.update(source_domain_info)
         row.update(source_buffer_info)
+        row.update(source_plus_buffer_info)
+        row.update(source_interface_info)
+        row.update(source_element_ls_info)
+        row.update(source_plus_buffer_production_info)
         row.update(block_correct_info)
         row.update(startup_info)
         row["picard_iters"] = int(picard_used)
