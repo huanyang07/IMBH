@@ -260,13 +260,16 @@ class TransonicSlimParams:
             raise ValueError("stream_heating_efficiency must be non-negative")
         if self.interval_residual_form not in {
             "differential",
+            "split_differential",
+            "split_rms_differential",
             "integrated",
             "integrated_physical_energy",
             "conservative_physical_energy",
         }:
             raise ValueError(
-                "interval_residual_form must be 'differential', 'integrated', "
-                "'integrated_physical_energy', or 'conservative_physical_energy'"
+                "interval_residual_form must be 'differential', 'split_differential', "
+                "'split_rms_differential', 'integrated', 'integrated_physical_energy', "
+                "or 'conservative_physical_energy'"
             )
         if self.integrated_residual_weighting not in {"none", "inverse_sqrt_dx", "inverse_dx"}:
             raise ValueError("integrated_residual_weighting must be 'none', 'inverse_sqrt_dx', or 'inverse_dx'")
@@ -901,6 +904,112 @@ def _differential_interval_residual_from_unpacked(logu, logT, logR, lambda0: flo
     return raw / np.array([radial_scale, energy_scale])
 
 
+def _interval_internal_split_points(logR_left: float, logR_right: float, params: TransonicSlimParams) -> np.ndarray:
+    """Return internal radii where a midpoint interval should be sub-sampled."""
+
+    left = float(logR_left)
+    right = float(logR_right)
+    if right <= left:
+        return np.asarray([], dtype=float)
+    span = right - left
+    points = [0.5 * (left + right)]
+
+    def add_logR(value: float) -> None:
+        value = float(value)
+        if np.isfinite(value) and left + 1.0e-10 * span < value < right - 1.0e-10 * span:
+            points.append(value)
+
+    def add_annulus(center_fraction: float, log_width: float) -> None:
+        center_rg = float(center_fraction) * float(params.R_out_rg)
+        if center_rg <= 0.0 or not np.isfinite(center_rg):
+            return
+        width = float(log_width)
+        add_logR(np.log(center_rg * np.exp(-width) * params.r_g))
+        add_logR(np.log(center_rg * params.r_g))
+        add_logR(np.log(center_rg * np.exp(width) * params.r_g))
+
+    source_fraction = float(params.stream_source_fraction if params.stream_source_fraction != 0.0 else params.stream_mass_fraction)
+    if source_fraction > 0.0:
+        center_fraction = (
+            float(params.stream_source_center_fraction)
+            if params.stream_source_fraction != 0.0
+            else float(params.stream_mass_center_fraction)
+        )
+        log_width = (
+            float(params.stream_source_log_width)
+            if params.stream_source_fraction != 0.0
+            else float(params.stream_mass_log_width)
+        )
+        add_annulus(center_fraction, log_width)
+
+    if float(params.wind_sink_fraction) > 0.0:
+        if str(params.wind_sink_shape).strip().lower() == "powerlaw":
+            add_logR(np.log(float(params.wind_sink_powerlaw_inner_rg) * params.r_g))
+        else:
+            add_annulus(float(params.wind_sink_center_fraction), float(params.wind_sink_log_width))
+
+    if params.outer_buffer_inner_rg is not None:
+        add_logR(np.log(float(params.outer_buffer_inner_rg) * params.r_g))
+
+    if not points:
+        return np.asarray([], dtype=float)
+    unique = sorted({round(float(value), 14) for value in points})
+    return np.asarray(unique, dtype=float)
+
+
+def _split_differential_interval_residual_from_unpacked(
+    logu,
+    logT,
+    logR,
+    lambda0: float,
+    params: TransonicSlimParams,
+    idx: int,
+) -> np.ndarray:
+    """Return signed worst sub-interval differential residual components."""
+
+    dx, y_left, y_right, _xm = _interval_geometry(logu, logT, logR, idx)
+    g = (y_right - y_left) / dx
+    split_points = _interval_internal_split_points(logR[idx], logR[idx + 1], params)
+    edges = np.concatenate(([float(logR[idx])], split_points, [float(logR[idx + 1])]))
+    residuals: list[np.ndarray] = []
+    for left, right in zip(edges[:-1], edges[1:]):
+        xm = 0.5 * (float(left) + float(right))
+        t = (xm - float(logR[idx])) / dx
+        ym = (1.0 - t) * y_left + t * y_right
+        raw = differential_residual(xm, ym, g, lambda0, params)
+        radial_scale, energy_scale = _residual_scales(xm, ym, params, lambda0)
+        residuals.append(raw / np.array([radial_scale, energy_scale]))
+    residual_array = np.asarray(residuals, dtype=float)
+    worst = np.argmax(np.abs(residual_array), axis=0)
+    return np.asarray([residual_array[int(worst[0]), 0], residual_array[int(worst[1]), 1]], dtype=float)
+
+
+def _split_rms_differential_interval_residual_from_unpacked(
+    logu,
+    logT,
+    logR,
+    lambda0: float,
+    params: TransonicSlimParams,
+    idx: int,
+) -> np.ndarray:
+    """Return an RMS sub-interval differential residual for smooth polishing."""
+
+    dx, y_left, y_right, _xm = _interval_geometry(logu, logT, logR, idx)
+    g = (y_right - y_left) / dx
+    split_points = _interval_internal_split_points(logR[idx], logR[idx + 1], params)
+    edges = np.concatenate(([float(logR[idx])], split_points, [float(logR[idx + 1])]))
+    residuals: list[np.ndarray] = []
+    for left, right in zip(edges[:-1], edges[1:]):
+        xm = 0.5 * (float(left) + float(right))
+        t = (xm - float(logR[idx])) / dx
+        ym = (1.0 - t) * y_left + t * y_right
+        raw = differential_residual(xm, ym, g, lambda0, params)
+        radial_scale, energy_scale = _residual_scales(xm, ym, params, lambda0)
+        residuals.append(raw / np.array([radial_scale, energy_scale]))
+    residual_array = np.asarray(residuals, dtype=float)
+    return np.sqrt(np.mean(residual_array * residual_array, axis=0))
+
+
 def _integrated_interval_residual_from_unpacked(logu, logT, logR, lambda0: float, params: TransonicSlimParams, idx: int) -> np.ndarray:
     """Return the integrated collocation defect for one midpoint interval."""
 
@@ -979,6 +1088,14 @@ def _interval_residual_from_unpacked(logu, logT, logR, lambda0: float, params: T
 
     if params.interval_residual_form == "differential":
         residual = _differential_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+        _dx, _y_left, _y_right, xm = _interval_geometry(logu, logT, logR, idx)
+        return residual * _outer_buffer_interval_weights(xm, params)
+    if params.interval_residual_form == "split_differential":
+        residual = _split_differential_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
+        _dx, _y_left, _y_right, xm = _interval_geometry(logu, logT, logR, idx)
+        return residual * _outer_buffer_interval_weights(xm, params)
+    if params.interval_residual_form == "split_rms_differential":
+        residual = _split_rms_differential_interval_residual_from_unpacked(logu, logT, logR, lambda0, params, idx)
         _dx, _y_left, _y_right, xm = _interval_geometry(logu, logT, logR, idx)
         return residual * _outer_buffer_interval_weights(xm, params)
     if params.interval_residual_form == "integrated":

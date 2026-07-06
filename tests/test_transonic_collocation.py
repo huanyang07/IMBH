@@ -133,6 +133,23 @@ class TransonicCollocationTests(unittest.TestCase):
         self.assertTrue(np.all(np.isfinite(residual)))
         self.assertLess(float(np.max(np.abs(residual))), 1.0e6)
 
+    def test_split_differential_residual_forms_are_finite_with_compact_source(self) -> None:
+        for form in ("split_differential", "split_rms_differential"):
+            with self.subTest(form=form):
+                params = replace(
+                    self.params,
+                    interval_residual_form=form,
+                    stream_source_fraction=0.2,
+                    stream_source_shape="compact_c2",
+                    stream_source_center_fraction=0.8,
+                    stream_source_log_width=0.08,
+                )
+                residual = collocation_residual(self.z, params)
+
+                self.assertEqual(residual.shape, (self.z.size + 1,))
+                self.assertTrue(np.all(np.isfinite(residual)))
+                self.assertLess(float(np.max(np.abs(residual))), 1.0e6)
+
     def test_conservative_physical_energy_residual_form_is_finite(self) -> None:
         params = replace(
             self.params,
