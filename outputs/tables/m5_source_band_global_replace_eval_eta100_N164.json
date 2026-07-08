@@ -1,0 +1,936 @@
+[
+  {
+    "Lrad_LEdd": 0.5274247184704149,
+    "Mdot_outer_over_inner": 0.23039747912213857,
+    "Mdot_tabulated_outer_over_inner": 0.23039747912213857,
+    "N": 164,
+    "Rson_rg": 5.2975430137402055,
+    "accepted_exploratory": false,
+    "augmented_final_full": 1.1256271386411902,
+    "base_final_full": 1.1256271386411902,
+    "checkpoint": "outputs/checkpoints/m5_source_band_global_replace_eval_eta100_N164/stage_00_etaE_100_N164.npz",
+    "eta_E": 100.0,
+    "f_adv_global": -0.0036599020639537733,
+    "final_full": 1.1256271386411902,
+    "initial_full": 1.1256271386411902,
+    "inner_logMdot_residual": 4.263753794475633e-09,
+    "inner_mdot_weight": 1.0,
+    "integrated_residual_weighting": "none",
+    "interval_E": 1.1256271386411902,
+    "interval_R": 0.05664210738211151,
+    "interval_mass_residual_max": 0.6050522230102997,
+    "interval_residual_form": "differential",
+    "jac_col_norm_max": "nan",
+    "jac_col_norm_median": "nan",
+    "jac_row_norm_max": "nan",
+    "jac_row_norm_median": "nan",
+    "label": "stage_00",
+    "local_interval_E": 1.1256271386411902,
+    "local_interval_R": 0.05664210738211151,
+    "local_jacobian_step": 1e-06,
+    "mass_residual_max": 0.6050522230102997,
+    "mass_residual_p90_abs": 0.015627028714032695,
+    "message": "",
+    "nfev": "nan",
+    "nfev_total_with_picard": 0,
+    "outer_buffer_boundary_weight": 0.0001,
+    "outer_buffer_energy_weight": 0.001,
+    "outer_buffer_inner_rg": 300.0,
+    "outer_buffer_radial_weight": 0.001,
+    "outer_closure": "pressure_supported_thin_energy",
+    "outer_energy": -0.004376914311143294,
+    "outer_omega": -0.0013138620988350602,
+    "outer_robin_chi": 0.0,
+    "peak_interval_E": -1.1256271386411902,
+    "peak_interval_E_rg": 245.324849348182,
+    "peak_interval_R": -0.05664210738211151,
+    "peak_interval_R_rg": 250.4314294726763,
+    "peak_mass_residual": -0.6050522230102997,
+    "peak_mass_residual_rg": 255.62561291874664,
+    "picard_iters": 0,
+    "seed_initial_full": 1.1256271386411902,
+    "seed_initial_weighted_full": 1.1256271386411902,
+    "seed_only": true,
+    "seed_previous_final_full": 1.1256271386411902,
+    "source_band_extra_active_row_count": 0,
+    "source_band_extra_audit_only": false,
+    "source_band_extra_energy_max": "nan",
+    "source_band_extra_max": "nan",
+    "source_band_extra_peak_R_rg": "nan",
+    "source_band_extra_radial_max": "nan",
+    "source_band_extra_rows_enabled": false,
+    "source_band_finite_volume_mass": false,
+    "source_band_global_replacement_alpha": 0.0,
+    "source_band_global_replacement_applied": false,
+    "source_band_global_replacement_candidate_active": "nan",
+    "source_band_global_replacement_candidate_score": "nan",
+    "source_band_global_replacement_checkpoint_aux_source": "source_band_replacement",
+    "source_band_global_replacement_diff_step": "nan",
+    "source_band_global_replacement_enabled": true,
+    "source_band_global_replacement_evaluate_only": true,
+    "source_band_global_replacement_final_active": 7.678042954905237e-06,
+    "source_band_global_replacement_final_condition": 181934.13286110686,
+    "source_band_global_replacement_final_fv_mass": 7.678042954905237e-06,
+    "source_band_global_replacement_final_implicit_ode": 1.0486386231578493e-08,
+    "source_band_global_replacement_final_interface": 0.0,
+    "source_band_global_replacement_final_midpoint": 6.978203437313368e-08,
+    "source_band_global_replacement_final_old_full": 1.1256271386411902,
+    "source_band_global_replacement_final_old_source": 1.1256271386411902,
+    "source_band_global_replacement_final_outside_old": 5.77981448253281e-06,
+    "source_band_global_replacement_final_score": 7.678042954905237e-06,
+    "source_band_global_replacement_final_simpson": 3.515900885708856e-08,
+    "source_band_global_replacement_final_singular_min": 2.4283339066283105e-05,
+    "source_band_global_replacement_g_mid_final_max": 38.74660898320965,
+    "source_band_global_replacement_g_mid_initial_max": 38.74660898320965,
+    "source_band_global_replacement_g_node_final_max": 24.02718231861469,
+    "source_band_global_replacement_g_node_initial_max": 24.02718231861469,
+    "source_band_global_replacement_halo_intervals": 32,
+    "source_band_global_replacement_initial_active": 7.678042954905237e-06,
+    "source_band_global_replacement_initial_condition": 181934.13286110686,
+    "source_band_global_replacement_initial_fv_mass": 7.678042954905237e-06,
+    "source_band_global_replacement_initial_implicit_ode": 1.0486386231578493e-08,
+    "source_band_global_replacement_initial_interface": 0.0,
+    "source_band_global_replacement_initial_midpoint": 6.978203437313368e-08,
+    "source_band_global_replacement_initial_old_full": 1.1256271386411902,
+    "source_band_global_replacement_initial_old_source": 1.1256271386411902,
+    "source_band_global_replacement_initial_outside_old": 5.77981448253281e-06,
+    "source_band_global_replacement_initial_score": 7.678042954905237e-06,
+    "source_band_global_replacement_initial_simpson": 3.515900885708856e-08,
+    "source_band_global_replacement_initial_singular_min": 2.4283339066283105e-05,
+    "source_band_global_replacement_max_nfev": 40,
+    "source_band_global_replacement_message": "evaluate_only",
+    "source_band_global_replacement_n_intervals": 54,
+    "source_band_global_replacement_n_nodes": 55,
+    "source_band_global_replacement_n_rows": 826,
+    "source_band_global_replacement_n_variables": 820,
+    "source_band_global_replacement_nfev": 0,
+    "source_band_global_replacement_reason": "",
+    "source_band_global_replacement_state_trust": 0.0,
+    "source_band_global_replacement_success": true,
+    "source_band_global_replacement_trials": [],
+    "source_band_global_replacement_x_scale": "jac",
+    "source_band_replacement_aux_g_mid": [
+      [
+        -0.8135538446048953,
+        -0.36721688095351207
+      ],
+      [
+        -0.8073949740760845,
+        -0.3692840693109476
+      ],
+      [
+        -0.8029288346420951,
+        -0.3711600892350924
+      ],
+      [
+        -0.7979753892185212,
+        -0.37308654280812525
+      ],
+      [
+        -0.7926105561906452,
+        -0.3750542083218416
+      ],
+      [
+        -0.7871256538845006,
+        -0.3770322085095938
+      ],
+      [
+        -0.7816749372678898,
+        -0.3790029354041776
+      ],
+      [
+        -0.7762571481807027,
+        -0.3809683512481357
+      ],
+      [
+        -0.7708617885769677,
+        -0.3829282495006638
+      ],
+      [
+        -0.7654988174953682,
+        -0.3848832048128861
+      ],
+      [
+        -0.7601472321102648,
+        -0.38683447535952975
+      ],
+      [
+        -0.7548201660089375,
+        -0.38878244261760275
+      ],
+      [
+        -0.7494759075910461,
+        -0.39073073146983817
+      ],
+      [
+        -0.7441052882331693,
+        -0.3926822723170968
+      ],
+      [
+        -0.7386663143292913,
+        -0.3946409231924398
+      ],
+      [
+        -0.7330934852450881,
+        -0.3966160961912367
+      ],
+      [
+        -0.727291034777384,
+        -0.398617906108186
+      ],
+      [
+        -0.721059935172362,
+        -0.40067097897705906
+      ],
+      [
+        -0.714134163091755,
+        -0.4028049504985077
+      ],
+      [
+        -0.7060033511106875,
+        -0.40507984811823955
+      ],
+      [
+        -0.6958896111092432,
+        -0.40758335431490694
+      ],
+      [
+        -0.6823815811387635,
+        -0.4104773188321955
+      ],
+      [
+        -0.6631441007746901,
+        -0.4140250854588084
+      ],
+      [
+        -0.6340883304864866,
+        -0.41869005754287714
+      ],
+      [
+        -0.5882244087982265,
+        -0.4252590506334878
+      ],
+      [
+        -0.5132996083463037,
+        -0.4351122460763834
+      ],
+      [
+        -0.3879472635035466,
+        -0.45064886673070886
+      ],
+      [
+        -0.17416345356319765,
+        -0.4761313076620755
+      ],
+      [
+        0.16205003010773003,
+        -0.5153753047447874
+      ],
+      [
+        0.8056281943728857,
+        -0.5889691435380454
+      ],
+      [
+        1.768228128416069,
+        -0.6981135691859409
+      ],
+      [
+        2.9457610169139916,
+        -0.8309075928779682
+      ],
+      [
+        2.2038057259690165,
+        -0.7554885123044383
+      ],
+      [
+        -1.5117849594148438,
+        -0.43172675980812913
+      ],
+      [
+        -9.510847974283958,
+        0.17704265363815544
+      ],
+      [
+        -8.636951850657578,
+        -0.7304009991454751
+      ],
+      [
+        -38.74660898320965,
+        1.1921869328617334
+      ],
+      [
+        -9.482419521008199,
+        -3.798350594156216
+      ],
+      [
+        -38.337027634551724,
+        -1.3636388608892922
+      ],
+      [
+        17.442555376166105,
+        -6.059493349624584
+      ],
+      [
+        7.465164644393399,
+        -2.2665312678884284
+      ],
+      [
+        -3.814219829770405,
+        -0.2328599544397496
+      ],
+      [
+        -1.1156106889411237,
+        -0.5374305037739111
+      ],
+      [
+        -3.477878179103196,
+        -0.2674026024363777
+      ],
+      [
+        -0.6464542142456463,
+        -0.591289042197642
+      ],
+      [
+        -3.810317414175514,
+        -0.2318261508971015
+      ],
+      [
+        0.07368606678834201,
+        -0.6741570096808954
+      ],
+      [
+        -3.2553148563270744,
+        -0.2994123741059963
+      ],
+      [
+        -1.827920049553384,
+        -0.46070958561161934
+      ],
+      [
+        -2.931081006323809,
+        -0.3371838439847006
+      ],
+      [
+        -1.3583568365327323,
+        -0.5145327368731013
+      ],
+      [
+        -2.39392614553137,
+        -0.4005258683951588
+      ],
+      [
+        -1.544816248943487,
+        -0.49646818229051753
+      ],
+      [
+        -1.0395652599298983,
+        -0.5555196394576039
+      ]
+    ],
+    "source_band_replacement_aux_g_node": [
+      [
+        -0.7995342232222864,
+        -0.3082686553472793
+      ],
+      [
+        -0.8658377874963905,
+        -0.8937969710007102
+      ],
+      [
+        -0.8683135587885055,
+        -0.9516218849707963
+      ],
+      [
+        -0.8638338598747062,
+        -0.956006975651048
+      ],
+      [
+        -0.858304503527966,
+        -0.9550492396857584
+      ],
+      [
+        -0.8525569641487308,
+        -0.9535866040668479
+      ],
+      [
+        -0.8467891216457788,
+        -0.9520738105361374
+      ],
+      [
+        -0.8410533354042755,
+        -0.9505614332222011
+      ],
+      [
+        -0.8353434146816934,
+        -0.9490397536752536
+      ],
+      [
+        -0.8296630010632344,
+        -0.9475230775284564
+      ],
+      [
+        -0.82400034901039,
+        -0.9460002188143124
+      ],
+      [
+        -0.8183559866317492,
+        -0.9444824919024591
+      ],
+      [
+        -0.8127117657612732,
+        -0.9429621619807385
+      ],
+      [
+        -0.8070422780002205,
+        -0.9414495185182475
+      ],
+      [
+        -0.8013198229744094,
+        -0.9399431625018219
+      ],
+      [
+        -0.7954954846588393,
+        -0.9384570561787724
+      ],
+      [
+        -0.7894827064073269,
+        -0.9369936135894579
+      ],
+      [
+        -0.7831360308760217,
+        -0.9355821632770073
+      ],
+      [
+        -0.7762187472203784,
+        -0.9342475454759656
+      ],
+      [
+        -0.7683390840484781,
+        -0.9330528407514832
+      ],
+      [
+        -0.7588387372767795,
+        -0.9320757427783029
+      ],
+      [
+        -0.7466096673693378,
+        -0.9314781410817747
+      ],
+      [
+        -0.7297483490431739,
+        -0.9315075800852622
+      ],
+      [
+        -0.7050019901342791,
+        -0.9326083970211828
+      ],
+      [
+        -0.6667632313558567,
+        -0.9355245059812056
+      ],
+      [
+        -0.6053578618181676,
+        -0.9415532591523786
+      ],
+      [
+        -0.5040549292647712,
+        -0.9529161799049318
+      ],
+      [
+        -0.33424201109626545,
+        -0.9734326656885005
+      ],
+      [
+        -0.05738622818801001,
+        -1.0085125541836895
+      ],
+      [
+        0.4314441757943373,
+        -1.0706177950428524
+      ],
+      [
+        1.2192302087034597,
+        -1.1757045539508901
+      ],
+      [
+        2.252428131746744,
+        -1.3223886856408897
+      ],
+      [
+        2.427628431980094,
+        -1.4122068376074972
+      ],
+      [
+        0.17706622055064136,
+        -1.3090143632293398
+      ],
+      [
+        -5.677178327356985,
+        -0.9296371211729606
+      ],
+      [
+        -9.66479052439543,
+        -1.0427218213597467
+      ],
+      [
+        -23.201098168244616,
+        -0.11918954198156403
+      ],
+      [
+        -24.02718231861469,
+        -1.2494990725379873
+      ],
+      [
+        -23.24433626389838,
+        -2.4348773138317537
+      ],
+      [
+        -10.0395039630124,
+        -3.6085081436613513
+      ],
+      [
+        11.150165329428333,
+        -4.132312688520479
+      ],
+      [
+        1.8850235997278963,
+        -1.387169204313879
+      ],
+      [
+        -2.29298215014238,
+        -0.44908247016243
+      ],
+      [
+        -2.265691157212766,
+        -0.41045170614452336
+      ],
+      [
+        -2.0668541629017874,
+        -0.42933478912850326
+      ],
+      [
+        -2.2131435092442837,
+        -0.4133675928698908
+      ],
+      [
+        -1.873264005181942,
+        -0.45269092824060175
+      ],
+      [
+        -1.6241237888769569,
+        -0.4828046577542578
+      ],
+      [
+        -2.5109593168419915,
+        -0.3754400942362504
+      ],
+      [
+        -2.3697522343493924,
+        -0.39511429684567756
+      ],
+      [
+        -2.143526723618679,
+        -0.4234751764421752
+      ],
+      [
+        -1.8819981312091945,
+        -0.4550728325822167
+      ],
+      [
+        -1.950647850950681,
+        -0.44699548740252115
+      ],
+      [
+        -1.3050585350070767,
+        -0.5256538096156238
+      ],
+      [
+        -1.0773619331831397,
+        -0.5997909802672817
+      ]
+    ],
+    "source_band_replacement_aux_interval_indices": [
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140,
+      141,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      148,
+      149,
+      150,
+      151,
+      152,
+      153,
+      154,
+      155,
+      156,
+      157,
+      158,
+      159,
+      160,
+      161,
+      162
+    ],
+    "source_band_replacement_aux_midpoint_y": [
+      [
+        12.8239050565778,
+        14.914289449186175
+      ],
+      [
+        12.814596900356433,
+        14.907960017170733
+      ],
+      [
+        12.805366127007783,
+        14.901635882228693
+      ],
+      [
+        12.79620972225954,
+        14.895317396404788
+      ],
+      [
+        12.787132380270828,
+        14.88900399172959
+      ],
+      [
+        12.778135966120802,
+        14.88269517964665
+      ],
+      [
+        12.769220604237855,
+        14.876390949651096
+      ],
+      [
+        12.76038528964969,
+        14.870091195042015
+      ],
+      [
+        12.751629530936897,
+        14.863795995292254
+      ],
+      [
+        12.742952418279598,
+        14.857505237422512
+      ],
+      [
+        12.734353538378798,
+        14.851218990126888
+      ],
+      [
+        12.725832110815038,
+        14.84493712578791
+      ],
+      [
+        12.717387914920124,
+        14.838659686242874
+      ],
+      [
+        12.709020642144395,
+        14.8323864874868
+      ],
+      [
+        12.70073063032475,
+        14.826117494887352
+      ],
+      [
+        12.692518415074806,
+        14.819852421116002
+      ],
+      [
+        12.684385775420669,
+        14.813591046467579
+      ],
+      [
+        12.676335696964674,
+        14.807332783262053
+      ],
+      [
+        12.668374007229712,
+        14.8010769078694
+      ],
+      [
+        12.660510278134893,
+        14.79482202749491
+      ],
+      [
+        12.652761308281155,
+        14.788566078079052
+      ],
+      [
+        12.645155027411494,
+        14.782305445014424
+      ],
+      [
+        12.637739598905933,
+        14.7760342786654
+      ],
+      [
+        12.630596388909382,
+        14.769742543326084
+      ],
+      [
+        12.623865598551568,
+        14.763413356461427
+      ],
+      [
+        12.617786958819506,
+        14.757017759724294
+      ],
+      [
+        12.612776552641371,
+        14.750505977717452
+      ],
+      [
+        12.609557786774051,
+        14.743791558734419
+      ],
+      [
+        12.609218903756215,
+        14.736743096979682
+      ],
+      [
+        12.61401372206985,
+        14.729099015585863
+      ],
+      [
+        12.62724513062916,
+        14.720456322914872
+      ],
+      [
+        12.652067712539834,
+        14.710423282030659
+      ],
+      [
+        12.679676680675394,
+        14.699833176152906
+      ],
+      [
+        12.684308743022642,
+        14.690981524795847
+      ],
+      [
+        12.625204997169394,
+        14.687062619037146
+      ],
+      [
+        12.491489742934975,
+        14.676302528450414
+      ],
+      [
+        11.990801413748779,
+        14.680438434410739
+      ],
+      [
+        11.489247697472274,
+        14.65387565761366
+      ],
+      [
+        10.98915593267088,
+        14.601474127558077
+      ],
+      [
+        10.769237432789112,
+        14.525213674080794
+      ],
+      [
+        11.042167749231757,
+        14.43712349351907
+      ],
+      [
+        11.075695473801863,
+        14.412143077341852
+      ],
+      [
+        11.02300602257515,
+        14.404626378988565
+      ],
+      [
+        10.976441260398646,
+        14.39644254254788
+      ],
+      [
+        10.934919412277798,
+        14.387724802046696
+      ],
+      [
+        10.889688989354056,
+        14.379451272706032
+      ],
+      [
+        10.852120270566907,
+        14.370341567088644
+      ],
+      [
+        10.821000849939269,
+        14.360493590288177
+      ],
+      [
+        10.769564626138775,
+        14.353040386194392
+      ],
+      [
+        10.72219775051932,
+        14.34512897406447
+      ],
+      [
+        10.679600121206136,
+        14.336698455697281
+      ],
+      [
+        10.642734909795069,
+        14.32763080156988
+      ],
+      [
+        10.603433920911502,
+        14.318870049199525
+      ],
+      [
+        10.578291311251654,
+        14.308531233963121
+      ]
+    ],
+    "source_band_replacement_aux_node_indices": [
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140,
+      141,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      148,
+      149,
+      150,
+      151,
+      152,
+      153,
+      154,
+      155,
+      156,
+      157,
+      158,
+      159,
+      160,
+      161,
+      162,
+      163
+    ],
+    "source_element_consistency_FV_E_max": "nan",
+    "source_element_consistency_FV_E_over_poly_E_max": "nan",
+    "source_element_consistency_FV_M_max": "nan",
+    "source_element_consistency_applied": false,
+    "source_element_consistency_enabled": false,
+    "source_element_consistency_n_intervals": 0,
+    "source_element_consistency_peak_FV_E_R_rg": "nan",
+    "source_element_consistency_peak_poly_E_R_rg": "nan",
+    "source_element_consistency_poly_E_max": "nan",
+    "source_element_consistency_poly_R_max": "nan",
+    "source_plus_buffer_identity_applied": false,
+    "source_plus_buffer_identity_element_E_max": "nan",
+    "source_plus_buffer_identity_element_M_max": "nan",
+    "source_plus_buffer_identity_enabled": false,
+    "source_plus_buffer_identity_energy_cum_compat_max": "nan",
+    "source_plus_buffer_identity_energy_num_compat_max": "nan",
+    "source_plus_buffer_identity_energy_num_compat_peak_R_rg": "nan",
+    "source_plus_buffer_identity_interface_E_max": "nan",
+    "source_plus_buffer_identity_interface_M_max": "nan",
+    "source_plus_buffer_identity_mass_cum_compat_max": "nan",
+    "source_plus_buffer_identity_max_fv_element": "nan",
+    "source_plus_buffer_identity_max_fv_interface": "nan",
+    "source_plus_buffer_identity_max_ode_integral": "nan",
+    "source_plus_buffer_identity_max_old": "nan",
+    "source_plus_buffer_identity_n_intervals": 0,
+    "source_plus_buffer_identity_ode_E_max": "nan",
+    "source_plus_buffer_identity_ode_M_max": "nan",
+    "source_plus_buffer_identity_ode_R_max": "nan",
+    "source_plus_buffer_identity_ode_condition_max": "nan",
+    "source_plus_buffer_identity_ode_condition_peak_R_rg": "nan",
+    "source_plus_buffer_identity_ode_direct_equation_residual_max": "nan",
+    "source_plus_buffer_identity_ode_g_direct_minus_old_max": "nan",
+    "source_plus_buffer_identity_ode_g_svd_minus_old_max": "nan",
+    "source_plus_buffer_identity_ode_old_equation_residual_max": "nan",
+    "source_plus_buffer_identity_ode_row_col_scaled_condition_max": "nan",
+    "source_plus_buffer_identity_ode_row_scaled_condition_max": "nan",
+    "source_plus_buffer_identity_ode_singular_min_min": "nan",
+    "source_plus_buffer_identity_ode_singular_min_peak_R_rg": "nan",
+    "source_plus_buffer_identity_ode_svd_equation_residual_max": "nan",
+    "source_plus_buffer_identity_old_E_max": "nan",
+    "source_plus_buffer_identity_old_M_max": "nan",
+    "source_plus_buffer_identity_old_R_max": "nan",
+    "source_plus_buffer_replace_chi": 1.0,
+    "source_plus_buffer_replace_energy": false,
+    "source_plus_buffer_replace_mass": false,
+    "source_plus_buffer_replace_mass_delta_max": "nan",
+    "source_plus_buffer_replace_mass_delta_peak_R_rg": "nan",
+    "source_plus_buffer_replace_n_intervals": 0,
+    "source_plus_buffer_replace_radial": false,
+    "success": false,
+    "use_local_jacobian": false,
+    "wind_energy_multiplier": 100.0
+  }
+]

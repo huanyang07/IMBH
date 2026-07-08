@@ -388,8 +388,26 @@ SOURCE_BAND_REPLACEMENT_CHI_IMPL = float(
 SOURCE_BAND_REPLACEMENT_MAX_NFEV = int(
     os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_MAX_NFEV", "80")
 )
+SOURCE_BAND_REPLACEMENT_EVALUATE_ONLY = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_EVALUATE_ONLY", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_REPLACEMENT_IMPLICIT_SEED = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_IMPLICIT_SEED", "profile"
+).strip().lower()
+SOURCE_BAND_REPLACEMENT_IMPLICIT_SEED_BLEND = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_IMPLICIT_SEED_BLEND", "1.0")
+)
 SOURCE_BAND_REPLACEMENT_LINE_SEARCH_STEPS = int(
     os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_LINE_SEARCH_STEPS", "14")
+)
+SOURCE_BAND_REPLACEMENT_HYBRID_JAC = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_HYBRID_JAC", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_REPLACEMENT_X_SCALE = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_X_SCALE", "1.0"
+).strip().lower()
+SOURCE_BAND_REPLACEMENT_DIFF_STEP = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_DIFF_STEP", "0.0")
 )
 SOURCE_BAND_REPLACEMENT_WRITE_EDGES = os.environ.get(
     "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_WRITE_EDGES", "1"
@@ -409,9 +427,21 @@ SOURCE_BAND_REPLACEMENT_INTERFACE_WEIGHT = float(
         str(SOURCE_PLUS_BUFFER_IMPLICIT_EDGE_STATE_WEIGHT),
     )
 )
+SOURCE_BAND_REPLACEMENT_MIDPOINT_STATES = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_MIDPOINT_STATES", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_REPLACEMENT_MIDPOINT_TRUST = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_MIDPOINT_TRUST", "0.5")
+)
+SOURCE_BAND_REPLACEMENT_MIDPOINT_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_MIDPOINT_WEIGHT", "1.0")
+)
 SOURCE_BAND_REPLACEMENT_FV_ENERGY_WEIGHT = float(
     os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_FV_ENERGY_WEIGHT", "0.0")
 )
+SOURCE_BAND_REPLACEMENT_ENERGY_AUDIT = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_ENERGY_AUDIT", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
 SOURCE_BAND_REPLACEMENT_FV_AM_WEIGHT = float(
     os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_FV_AM_WEIGHT", "0.0")
 )
@@ -430,6 +460,9 @@ SOURCE_BAND_REPLACEMENT_ACTIVE_GUARD_REL = float(
 SOURCE_BAND_REPLACEMENT_ACTIVE_GUARD_ABS = float(
     os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_ACTIVE_GUARD_ABS", "0.0")
 )
+SOURCE_BAND_REPLACEMENT_ROW_MODE = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_ROW_MODE", "append"
+).strip().lower()
 SOURCE_BAND_REPLACEMENT_TWO_LAYER = os.environ.get(
     "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_TWO_LAYER", "0"
 ).strip().lower() in {"1", "true", "yes", "on"}
@@ -441,6 +474,185 @@ SOURCE_BAND_REPLACEMENT_BUFFER_OLD_WEIGHT = float(
 )
 SOURCE_BAND_REPLACEMENT_SLOPE_INTERFACE_WEIGHT = float(
     os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_SLOPE_INTERFACE_WEIGHT", "0.0")
+)
+SOURCE_BAND_REPLACEMENT_SLOPE_INTERFACE_ACTIVE = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_REPLACEMENT_SLOPE_INTERFACE_ACTIVE", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_GLOBAL_REPLACEMENT = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_GLOBAL_REPLACEMENT", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_GLOBAL_REPLACEMENT_EVALUATE_ONLY = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_GLOBAL_REPLACEMENT_EVALUATE_ONLY", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_GLOBAL_REPLACEMENT_MAX_NFEV = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_GLOBAL_REPLACEMENT_MAX_NFEV", "40")
+)
+SOURCE_BAND_GLOBAL_REPLACEMENT_X_SCALE = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_GLOBAL_REPLACEMENT_X_SCALE", "jac"
+).strip().lower()
+SOURCE_BAND_GLOBAL_REPLACEMENT_DIFF_STEP = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_GLOBAL_REPLACEMENT_DIFF_STEP", "0.0")
+)
+SOURCE_BAND_GLOBAL_REPLACEMENT_STATE_TRUST = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_GLOBAL_REPLACEMENT_STATE_TRUST", "0.0")
+)
+SOURCE_BAND_GLOBAL_REPLACEMENT_LINE_SEARCH_STEPS = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_GLOBAL_REPLACEMENT_LINE_SEARCH_STEPS", "12")
+)
+SOURCE_BAND_GLOBAL_REPLACEMENT_SKIP_ACCEPTED = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_GLOBAL_REPLACEMENT_SKIP_ACCEPTED", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_GLOBAL_REPLACEMENT_FREEZE_AUX = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_GLOBAL_REPLACEMENT_FREEZE_AUX", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+ETA_MASS_PROFILE_PREDICTOR = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_MASS_PROFILE_PREDICTOR", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+ETA_MASS_PROFILE_PREDICTOR_DAMPING = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_MASS_PROFILE_PREDICTOR_DAMPING", "1.0")
+)
+ETA_MASS_PROFILE_PREDICTOR_SWEEPS = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_MASS_PROFILE_PREDICTOR_SWEEPS", "1")
+)
+ETA_CONTINUATION_PARAM = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_CONTINUATION_PARAM", "eta"
+).strip().lower()
+ETA_TANGENT_PREDICTOR = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_TANGENT_PREDICTOR", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+ETA_TANGENT_FD_DMU = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_TANGENT_FD_DMU", "0.0"))
+ETA_TANGENT_REG = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_TANGENT_REG", "1e-4"))
+ETA_TANGENT_MAX_STEP = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_TANGENT_MAX_STEP", "0.05"))
+ETA_TANGENT_DIFF_STEP = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_TANGENT_DIFF_STEP", "0.0"))
+ETA_TANGENT_LSMR_MAXITER = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_TANGENT_LSMR_MAXITER", "2000"))
+ETA_TANGENT_INCLUDE_AUX = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_TANGENT_INCLUDE_AUX", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+ETA_TANGENT_LOCALIZATION_TOP_N = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_TANGENT_LOCALIZATION_TOP_N", "12")
+)
+SOURCE_BAND_FV_MASS_CORRECT = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_FV_MASS_CORRECT", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_FV_MASS_MAX_NFEV = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_FV_MASS_MAX_NFEV", "20")
+)
+SOURCE_BAND_FV_MASS_EDGE_ANCHOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_FV_MASS_EDGE_ANCHOR_WEIGHT", "1e-2")
+)
+SOURCE_BAND_FV_MASS_ALL_ANCHOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_FV_MASS_ALL_ANCHOR_WEIGHT", "0.0")
+)
+SOURCE_BAND_FV_MASS_LINE_SEARCH_STEPS = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_FV_MASS_LINE_SEARCH_STEPS", "12")
+)
+SOURCE_BAND_MASS_INCREMENT = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_MASS_INCREMENT", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_MASS_INCREMENT_MODE = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_MASS_INCREMENT_MODE", "interval"
+).strip().lower()
+SOURCE_BAND_MASS_INCREMENT_INIT = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_MASS_INCREMENT_INIT", "endpoint"
+).strip().lower()
+SOURCE_BAND_MASS_INCREMENT_SCALE = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_MASS_INCREMENT_SCALE", "mdot_inner"
+).strip().lower()
+SOURCE_BAND_MASS_INCREMENT_INT_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_MASS_INCREMENT_INT_WEIGHT", "1.0")
+)
+SOURCE_BAND_MASS_INCREMENT_LINK_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_MASS_INCREMENT_LINK_WEIGHT", "1.0")
+)
+SOURCE_BAND_MASS_INCREMENT_ANCHOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_MASS_INCREMENT_ANCHOR_WEIGHT", "0.0")
+)
+SOURCE_BAND_MASS_INCREMENT_BOUND = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_MASS_INCREMENT_BOUND", "10.0")
+)
+SOURCE_BAND_MASS_INCREMENT_REFRESH = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_MASS_INCREMENT_REFRESH", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_HS_IMPLICIT = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_IMPLICIT", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_HS_EVALUATE_ONLY = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_EVALUATE_ONLY", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_HS_CORE_ONLY = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_CORE_ONLY", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_HS_RELEASE_HALO = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_RELEASE_HALO", "0"))
+SOURCE_BAND_HS_SEED = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_SEED", "profile").strip().lower()
+SOURCE_BAND_HS_MIDPOINT_STATES = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_MIDPOINT_STATES", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_HS_ODE_POINTS = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_ODE_POINTS", "mid").strip().lower()
+SOURCE_BAND_HS_SLOPE_ONLY = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_SLOPE_ONLY", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_HS_MIDPOINT_SOLVE = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_MIDPOINT_SOLVE", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_HS_MAX_NFEV = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_MAX_NFEV", "80"))
+SOURCE_BAND_HS_MIDPOINT_TRUST = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_MIDPOINT_TRUST", "0.25")
+)
+SOURCE_BAND_HS_LOCAL_DIFF_STEP = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_LOCAL_DIFF_STEP", "1e-6")
+)
+SOURCE_BAND_HS_ANALYTIC_JAC = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_ANALYTIC_JAC", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_HS_ROW_SCALE = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_ROW_SCALE", "equilibrated"
+).strip().lower()
+SOURCE_BAND_HS_COL_SCALE = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_COL_SCALE", "1").strip().lower()
+SOURCE_BAND_HS_GAMMA = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_GAMMA", "1.0"))
+SOURCE_BAND_HS_ODE_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_ODE_WEIGHT", "1.0"))
+SOURCE_BAND_HS_COMPAT_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_COMPAT_WEIGHT", "1.0"))
+SOURCE_BAND_HS_SLOPE_PRIOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_SLOPE_PRIOR_WEIGHT", "1e-3")
+)
+SOURCE_BAND_HS_SLOPE_BOUND = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_SLOPE_BOUND", str(SOURCE_PLUS_BUFFER_IMPLICIT_SLOPE_BOUND))
+)
+SOURCE_BAND_HS_RELEASE_ENDPOINTS = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_RELEASE_ENDPOINTS", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_HS_RELEASE_ENDPOINT_MODE = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_RELEASE_ENDPOINT_MODE", "internal"
+).strip().lower()
+SOURCE_BAND_HS_ENDPOINT_TRUST = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_ENDPOINT_TRUST", "1e-3")
+)
+SOURCE_BAND_HS_ENDPOINT_PRIOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_ENDPOINT_PRIOR_WEIGHT", "1e-2")
+)
+SOURCE_BAND_HS_RELEASE_LOGMDOT = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_RELEASE_LOGMDOT", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_HS_MASS_WEIGHT = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_MASS_WEIGHT", "1.0"))
+SOURCE_BAND_HS_ENDPOINT_LINE_SEARCH_STEPS = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_ENDPOINT_LINE_SEARCH_STEPS", "8")
+)
+SOURCE_BAND_HS_ENDPOINT_FV_MASS_GUARD_ABS = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_ENDPOINT_FV_MASS_GUARD_ABS", "1e-5")
+)
+SOURCE_BAND_HS_ENDPOINT_OUTSIDE_GUARD_ABS = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_ENDPOINT_OUTSIDE_GUARD_ABS", "1e-5")
+)
+SOURCE_BAND_HS_SAVE_AUX = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_SAVE_AUX", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+SOURCE_BAND_HS_OLD_SOURCE_PENALTY_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_OLD_SOURCE_PENALTY_WEIGHT", "0.0")
+)
+SOURCE_BAND_HS_OLD_SOURCE_PENALTY_MODE = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_OLD_SOURCE_PENALTY_MODE", "drift"
+).strip().lower()
+SOURCE_BAND_HS_OLD_SOURCE_GUARD_ABS = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_BAND_HS_OLD_SOURCE_GUARD_ABS", "inf")
 )
 SOURCE_ELEMENT_REFINE = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_SOURCE_ELEMENT_REFINE", "0").strip().lower() in {
     "1",
@@ -630,9 +842,83 @@ BLOCK_LINE_SEARCH_STEPS = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_BLOCK_LI
 BLOCK_ACCEPT_STRICT_GUARDS = os.environ.get(
     "IMBH_MDOT5_LOCAL_MDOT_ETA_BLOCK_ACCEPT_STRICT_GUARDS", "1"
 ).strip().lower() in {"1", "true", "yes", "on"}
+BLOCK_SELECTION_METRIC = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_BLOCK_SELECTION_METRIC", "full"
+).strip().lower()
 BLOCK_FAST_LOCAL_RESIDUAL = os.environ.get(
     "IMBH_MDOT5_LOCAL_MDOT_ETA_BLOCK_FAST_LOCAL_RESIDUAL", "1"
 ).strip().lower() in {"1", "true", "yes", "on"}
+ACTIVE_MASS_PROFILE_CORRECT = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_CORRECT", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+ACTIVE_MASS_PROFILE_MIN_RG = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_MIN_RG", "6.0"))
+ACTIVE_MASS_PROFILE_MAX_RG = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_MAX_RG", "180.0"))
+ACTIVE_MASS_PROFILE_MAX_INTERVALS = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_MAX_INTERVALS", "0")
+)
+ACTIVE_MASS_PROFILE_ADAPTIVE_WINDOW = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_ADAPTIVE_WINDOW", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+ACTIVE_MASS_PROFILE_ADAPTIVE_NEIGHBORS = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_ADAPTIVE_NEIGHBORS", "3")
+)
+ACTIVE_MASS_PROFILE_ADAPTIVE_SONIC_MAX_RG = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_ADAPTIVE_SONIC_MAX_RG", "8.0")
+)
+ACTIVE_MASS_PROFILE_ADAPTIVE_INNER_MAX_RG = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_ADAPTIVE_INNER_MAX_RG", "10.0")
+)
+ACTIVE_MASS_PROFILE_ADAPTIVE_MID_FACTOR = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_ADAPTIVE_MID_FACTOR", "1.25")
+)
+ACTIVE_MASS_PROFILE_TWO_PASS_SONIC = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_TWO_PASS_SONIC", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+ACTIVE_MASS_PROFILE_TWO_PASS_SONIC_MAX_RG = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_TWO_PASS_SONIC_MAX_RG", "8.0")
+)
+ACTIVE_MASS_PROFILE_TWO_PASS_SONIC_MAX_NFEV = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_TWO_PASS_SONIC_MAX_NFEV", "80")
+)
+ACTIVE_MASS_PROFILE_TWO_PASS_SONIC_ANCHOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_TWO_PASS_SONIC_ANCHOR_WEIGHT", "1e-2")
+)
+ACTIVE_MASS_PROFILE_TWO_PASS_SONIC_INCLUDE_INNER_MASS = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_TWO_PASS_SONIC_INCLUDE_INNER_MASS", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+ACTIVE_MASS_PROFILE_MAX_NFEV = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_MAX_NFEV", "80"))
+ACTIVE_MASS_PROFILE_LINE_SEARCH_STEPS = int(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_LINE_SEARCH_STEPS", "12")
+)
+ACTIVE_MASS_PROFILE_EDGE_ANCHOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_EDGE_ANCHOR_WEIGHT", "1e-2")
+)
+ACTIVE_MASS_PROFILE_ALL_ANCHOR_WEIGHT = float(
+    os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_ALL_ANCHOR_WEIGHT", "0.0")
+)
+ACTIVE_MASS_PROFILE_INCLUDE_GLOBALS = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_INCLUDE_GLOBALS", "0"
+).strip().lower() in {"1", "true", "yes", "on"}
+ACTIVE_MASS_PROFILE_INCLUDE_SONIC = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_INCLUDE_SONIC", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+ACTIVE_MASS_PROFILE_INCLUDE_INNER_MDOT = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_INCLUDE_INNER_MDOT", "1"
+).strip().lower() in {"1", "true", "yes", "on"}
+ACTIVE_MASS_PROFILE_VARIABLE_MODE = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_VARIABLE_MODE", "all"
+).strip().lower()
+ACTIVE_MASS_PROFILE_ROW_MODE = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_ROW_MODE", "source_band"
+).strip().lower()
+ACTIVE_MASS_PROFILE_GROUPS = tuple(
+    piece.strip()
+    for piece in os.environ.get(
+        "IMBH_MDOT5_LOCAL_MDOT_ETA_ACTIVE_MASS_PROFILE_GROUPS",
+        "active_outside_old,active_mass_increment_link",
+    ).split(",")
+    if piece.strip()
+)
 BAND_CORRECT = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_BAND_CORRECT", "0").strip().lower() in {
     "1",
     "true",
@@ -654,6 +940,11 @@ BAND_LINE_SEARCH_STEPS = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_BAND_LINE
 BAND_ACCEPT_STRICT_GUARDS = os.environ.get(
     "IMBH_MDOT5_LOCAL_MDOT_ETA_BAND_ACCEPT_STRICT_GUARDS", "0"
 ).strip().lower() in {"1", "true", "yes", "on"}
+BAND_SELECTION_METRIC = os.environ.get(
+    "IMBH_MDOT5_LOCAL_MDOT_ETA_BAND_SELECTION_METRIC", "full"
+).strip().lower()
+BAND_ROW_MODE = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_BAND_ROW_MODE", "all").strip().lower()
+BAND_VARIABLE_MODE = os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_BAND_VARIABLE_MODE", "all").strip().lower()
 NESTED_REFINE_MIN_RG = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_NESTED_REFINE_MIN_RG", "0.0"))
 NESTED_REFINE_MAX_RG = float(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_NESTED_REFINE_MAX_RG", "inf"))
 GRID_HOMOTOPY_STEPS = int(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_GRID_HOMOTOPY_STEPS", "0"))
@@ -720,6 +1011,7 @@ JSON_OUTPUT = ROOT / f"outputs/tables/{OUTPUT_STEM}.json"
 MD_OUTPUT = ROOT / f"outputs/tables/{OUTPUT_STEM}.md"
 PROFILE_OUTPUT = ROOT / f"outputs/tables/{OUTPUT_STEM}_profiles.json"
 CHECKPOINT_DIR = ROOT / f"outputs/checkpoints/{OUTPUT_STEM}"
+_SOURCE_BAND_AUX_MEMORY: dict[str, np.ndarray] = {}
 
 PCHIP_REMAP_METHODS = {
     "pchip",
@@ -3282,14 +3574,257 @@ def _block_guard_pass(initial: dict[str, float], trial: dict[str, float]) -> boo
     return True
 
 
+def _source_band_global_replacement_score_for_x(x: np.ndarray, params) -> float:
+    if not SOURCE_BAND_GLOBAL_REPLACEMENT:
+        return math.nan
+    try:
+        context = _source_band_global_replacement_context(np.asarray(x, dtype=float), params)
+        if not context.get("ok", False):
+            return math.nan
+        return float(_source_band_replacement_score(context["summary"]))
+    except Exception:
+        return math.nan
+
+
+def _source_band_outside_old_mass_peak_interval(x: np.ndarray, params) -> int | None:
+    if not SOURCE_BAND_GLOBAL_REPLACEMENT:
+        return None
+    try:
+        context = _source_band_global_replacement_context(np.asarray(x, dtype=float), params)
+        if not context.get("ok", False):
+            return None
+        data = context["data"]
+        n = int(params.n_nodes)
+        mass_start = _inner_mdot_row_index(params) + 1
+        for row in _source_band_top_residual_rows(data, max(ETA_TANGENT_LOCALIZATION_TOP_N, 24)):
+            old_row = int(row.get("old_row", -1))
+            if mass_start <= old_row < mass_start + n - 1:
+                return int(old_row - mass_start)
+    except Exception:
+        return None
+    return None
+
+
+def _source_band_has_old_sonic_peak(x: np.ndarray, params) -> bool:
+    if not SOURCE_BAND_GLOBAL_REPLACEMENT:
+        return False
+    try:
+        context = _source_band_global_replacement_context(np.asarray(x, dtype=float), params)
+        if not context.get("ok", False):
+            return False
+        rows = _source_band_top_residual_rows(
+            context["data"],
+            max(ETA_TANGENT_LOCALIZATION_TOP_N, 12),
+            preferred_groups=(),
+        )
+        if not rows:
+            return False
+        peak = max(abs(float(row.get("abs", 0.0))) for row in rows)
+        if peak <= 0.0 or not np.isfinite(peak):
+            return False
+        for row in rows:
+            if str(row.get("old_kind", "")) == "sonic" and abs(float(row.get("abs", 0.0))) >= 0.8 * peak:
+                return True
+    except Exception:
+        return False
+    return False
+
+
+def _old_row_interval_index(old_row: int, params) -> int | None:
+    n = int(params.n_nodes)
+    interval_count = max(0, n - 1)
+    mass_start = _inner_mdot_row_index(params) + 1
+    old_idx = int(old_row)
+    if 0 <= old_idx < 2 * interval_count:
+        return int(old_idx // 2)
+    if mass_start <= old_idx < mass_start + interval_count:
+        return int(old_idx - mass_start)
+    return None
+
+
+def _source_band_row_zone(row: dict[str, Any], data: dict[str, Any]) -> str:
+    group = str(row.get("group", ""))
+    old_kind = str(row.get("old_kind", ""))
+    if old_kind == "sonic" or old_kind == "inner_mdot":
+        return "sonic_window"
+    if group.startswith("active_mass_increment") or group.startswith("active_interface"):
+        return "source_band"
+    if group.startswith("active_buffer_old"):
+        return "buffer"
+    if group.startswith("active_old_source"):
+        return "source_band_audit"
+    if group.startswith("active_outside_old"):
+        return "outside_old"
+    return "active_other"
+
+
+def _source_band_neighbor_old_groups(
+    data: dict[str, Any],
+    params,
+    old_row: int,
+    radius: int = 1,
+) -> list[str]:
+    interval_idx = _old_row_interval_index(int(old_row), params)
+    if interval_idx is None:
+        return []
+    old_rows = np.asarray(data.get("old_row_indices", []), dtype=int)
+    groups = list(data.get("groups", []))
+    out: list[str] = []
+    for pos, old_value in enumerate(old_rows):
+        neigh_idx = _old_row_interval_index(int(old_value), params)
+        if neigh_idx is None or abs(int(neigh_idx) - int(interval_idx)) > max(0, int(radius)):
+            continue
+        kind_row = _source_band_top_residual_rows(
+            {
+                "rows": np.asarray([1.0], dtype=float),
+                "groups": [groups[pos] if pos < len(groups) else ""],
+                "R_rg": np.asarray([math.nan], dtype=float),
+                "old_row_indices": np.asarray([int(old_value)], dtype=int),
+                "mass_start": data.get("mass_start", -1),
+                "n_nodes": data.get("n_nodes", 0),
+            },
+            1,
+            preferred_groups=(),
+        )
+        label = str(kind_row[0].get("old_group", "old_other")) if kind_row else "old_other"
+        if label not in out:
+            out.append(label)
+    return out
+
+
+def _source_band_top_active_rows(x: np.ndarray, params, top_n: int | None = None) -> list[dict[str, Any]]:
+    try:
+        context = _source_band_global_replacement_context(np.asarray(x, dtype=float), params)
+        if not context.get("ok", False):
+            return []
+        data = context["data"]
+        rows = _source_band_top_residual_rows(
+            data,
+            max(1, int(top_n if top_n is not None else ETA_TANGENT_LOCALIZATION_TOP_N)),
+            preferred_groups=(),
+        )
+        for row in rows:
+            row["zone"] = _source_band_row_zone(row, data)
+            row["normalization"] = 1.0
+            row["neighbor_old_groups"] = ",".join(
+                _source_band_neighbor_old_groups(data, params, int(row.get("old_row", -1)), radius=1)
+            )
+        return rows
+    except Exception:
+        return []
+
+
+def _interval_index_nearest_R(interval_mid_R_rg: np.ndarray, R_rg: float) -> int:
+    values = np.asarray(interval_mid_R_rg, dtype=float)
+    if values.size == 0 or not np.isfinite(float(R_rg)):
+        return 0
+    return int(np.nanargmin(np.abs(values - float(R_rg))))
+
+
+def _active_adaptive_window_from_peak(
+    peak_row: dict[str, Any] | None,
+    interval_mid_R_rg: np.ndarray,
+    params,
+) -> dict[str, Any]:
+    n = int(params.n_nodes)
+    if peak_row is None:
+        return {
+            "strategy": "manual",
+            "first_interval": -1,
+            "last_interval": -1,
+            "peak_interval": -1,
+            "include_sonic": False,
+            "reason": "no_active_peak",
+        }
+    old_kind = str(peak_row.get("old_kind", ""))
+    old_group = str(peak_row.get("old_group", ""))
+    group = str(peak_row.get("group", ""))
+    R_peak = float(peak_row.get("R_rg", math.nan))
+    interval_idx = _old_row_interval_index(int(peak_row.get("old_row", -1)), params)
+    if interval_idx is None:
+        interval_idx = _interval_index_nearest_R(interval_mid_R_rg, R_peak)
+    peak_idx = max(0, min(int(interval_idx), n - 2))
+    neighbors = max(1, int(ACTIVE_MASS_PROFILE_ADAPTIVE_NEIGHBORS))
+    include_sonic = False
+    strategy = "manual"
+    reason = "fallback_manual"
+    if old_kind == "sonic":
+        mask = (interval_mid_R_rg >= max(0.0, float(ACTIVE_MASS_PROFILE_MIN_RG))) & (
+            interval_mid_R_rg <= float(ACTIVE_MASS_PROFILE_ADAPTIVE_SONIC_MAX_RG)
+        )
+        selected = np.nonzero(mask)[0].astype(int)
+        first = int(selected[0]) if selected.size else 0
+        last = int(selected[-1]) if selected.size else min(n - 2, max(first, neighbors))
+        first = 0
+        include_sonic = True
+        strategy = "sonic_local"
+        reason = old_group
+    elif old_kind == "mass" and np.isfinite(R_peak) and R_peak < 15.0:
+        first = max(0, peak_idx - neighbors)
+        last = min(n - 2, peak_idx + neighbors)
+        max_rg = max(float(ACTIVE_MASS_PROFILE_ADAPTIVE_INNER_MAX_RG), float(R_peak) * 1.05)
+        while last < n - 2 and float(interval_mid_R_rg[last]) < max_rg:
+            last += 1
+        if float(interval_mid_R_rg[first]) <= 6.2:
+            first = 0
+            include_sonic = True
+        strategy = "inner_mass_block"
+        reason = old_group
+    elif old_kind == "mass" and np.isfinite(R_peak):
+        factor = max(1.01, float(ACTIVE_MASS_PROFILE_ADAPTIVE_MID_FACTOR))
+        lower_R = float(R_peak) / factor
+        upper_R = float(R_peak) * factor
+        mask = (interval_mid_R_rg >= lower_R) & (interval_mid_R_rg <= upper_R)
+        selected = np.nonzero(mask)[0].astype(int)
+        if selected.size:
+            first = int(selected[0])
+            last = int(selected[-1])
+        else:
+            first = max(0, peak_idx - neighbors)
+            last = min(n - 2, peak_idx + neighbors)
+        strategy = "mid_mass_block"
+        reason = old_group
+    elif group.startswith("active_mass_increment"):
+        first = max(0, peak_idx - neighbors)
+        last = min(n - 2, peak_idx + neighbors)
+        strategy = "mass_increment_local"
+        reason = group
+    else:
+        first = max(0, peak_idx - neighbors)
+        last = min(n - 2, peak_idx + neighbors)
+        strategy = "generic_active_block"
+        reason = old_group or group
+    first = max(0, min(int(first), n - 2))
+    last = max(first, min(int(last), n - 2))
+    return {
+        "strategy": strategy,
+        "first_interval": int(first),
+        "last_interval": int(last),
+        "peak_interval": int(peak_idx),
+        "include_sonic": bool(include_sonic),
+        "reason": str(reason),
+    }
+
+
 def _coupled_block_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
     if not (BLOCK_CORRECT or GRID_HOMOTOPY_BLOCK_CORRECT):
         return x0, {}
     _set_eta(eta_E)
     n = int(params.n_nodes)
     initial_metrics = _residual_metrics_for_x(x0, params)
+    selection_metric = BLOCK_SELECTION_METRIC if BLOCK_SELECTION_METRIC in {"full", "source_band"} else "full"
+    initial_source_band_score = (
+        _source_band_global_replacement_score_for_x(x0, params) if selection_metric == "source_band" else math.nan
+    )
+    if selection_metric == "source_band" and not np.isfinite(initial_source_band_score):
+        selection_metric = "full"
     selector = BLOCK_PEAK_KIND
-    if selector not in {"radial", "energy", "mass", "auto"}:
+    source_band_peak_idx: int | None = None
+    if selector in {"source_band_mass", "active_mass", "outside_old_mass"}:
+        source_band_peak_idx = _source_band_outside_old_mass_peak_interval(x0, params)
+        if source_band_peak_idx is None:
+            selector = "mass"
+    if selector not in {"radial", "energy", "mass", "auto", "source_band_mass", "active_mass", "outside_old_mass"}:
         selector = "radial"
     if selector == "auto":
         candidates = {
@@ -3298,7 +3833,9 @@ def _coupled_block_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.nda
             "mass": float(initial_metrics["mass"]),
         }
         selector = max(candidates, key=lambda key: abs(candidates[key]))
-    if selector == "mass":
+    if selector in {"source_band_mass", "active_mass", "outside_old_mass"} and source_band_peak_idx is not None:
+        peak_idx = int(source_band_peak_idx)
+    elif selector == "mass":
         peak_idx = int(initial_metrics["peak_mass_index"])
     elif selector == "energy":
         peak_idx = int(initial_metrics["peak_interval_E_index"])
@@ -3400,6 +3937,10 @@ def _coupled_block_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.nda
 
     best_x = x_ref
     best_metrics = initial_metrics
+    best_selection_score = (
+        float(initial_source_band_score) if selection_metric == "source_band" else float(initial_metrics["full"])
+    )
+    best_source_band_score = float(initial_source_band_score)
     best_alpha = 0.0
     trials: list[dict[str, Any]] = []
     step_delta = candidate - x_ref
@@ -3407,11 +3948,23 @@ def _coupled_block_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.nda
         alpha = 0.5**exponent
         trial_x = np.clip(x_ref + alpha * step_delta, lower + 1.0e-12, upper - 1.0e-12)
         metrics = _residual_metrics_for_x(trial_x, params)
+        source_band_score = (
+            _source_band_global_replacement_score_for_x(trial_x, params)
+            if selection_metric == "source_band"
+            else math.nan
+        )
+        selection_score = (
+            float(source_band_score) if selection_metric == "source_band" else float(metrics["full"])
+        )
         guard = _block_guard_pass(initial_metrics, metrics)
+        if selection_metric == "source_band":
+            guard = bool(guard and np.isfinite(selection_score) and selection_score < best_selection_score)
         trials.append(
             {
                 "alpha": float(alpha),
                 "full": metrics["full"],
+                "source_band_score": float(source_band_score) if np.isfinite(source_band_score) else math.nan,
+                "selection_score": float(selection_score) if np.isfinite(selection_score) else math.nan,
                 "interval_R": metrics["interval_R"],
                 "interval_E": metrics["interval_E"],
                 "mass": metrics["mass"],
@@ -3419,9 +3972,11 @@ def _coupled_block_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.nda
                 "guard_pass": bool(guard),
             }
         )
-        if guard and metrics["full"] < best_metrics["full"]:
+        if guard and selection_score < best_selection_score:
             best_x = trial_x
             best_metrics = metrics
+            best_selection_score = float(selection_score)
+            best_source_band_score = float(source_band_score) if np.isfinite(source_band_score) else math.nan
             best_alpha = float(alpha)
 
     applied = bool(best_alpha > 0.0)
@@ -3431,6 +3986,9 @@ def _coupled_block_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.nda
         "block_correct_enabled": True,
         "block_correct_applied": applied,
         "block_correct_peak_kind": str(selector),
+        "block_correct_source_band_peak_interval": int(source_band_peak_idx)
+        if source_band_peak_idx is not None
+        else -1,
         "block_correct_half_width": int(half_width),
         "block_correct_first_interval": int(first_interval),
         "block_correct_last_interval": int(last_interval),
@@ -3444,6 +4002,14 @@ def _coupled_block_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.nda
         "block_correct_include_outer": bool(BLOCK_INCLUDE_OUTER),
         "block_correct_include_globals": bool(BLOCK_INCLUDE_GLOBALS),
         "block_correct_fast_local_residual": bool(BLOCK_FAST_LOCAL_RESIDUAL),
+        "block_correct_selection_metric": str(selection_metric),
+        "block_correct_initial_source_band_score": float(initial_source_band_score)
+        if np.isfinite(initial_source_band_score)
+        else math.nan,
+        "block_correct_final_source_band_score": float(best_source_band_score)
+        if np.isfinite(best_source_band_score)
+        else math.nan,
+        "block_correct_final_selection_score": float(best_selection_score),
         "block_correct_initial_selected": initial_selected,
         "block_correct_candidate_selected": candidate_selected,
         "block_correct_initial_full": initial_metrics["full"],
@@ -3530,6 +4096,626 @@ def _reduced_band_sparsity(
     return pattern.tocsr()
 
 
+def _row_subset_sparsity(
+    row_indices: np.ndarray,
+    variable_cols: np.ndarray,
+    params,
+    edge_anchor_positions: np.ndarray,
+    all_anchor_weight: float,
+):
+    try:
+        from scipy.sparse import lil_matrix
+    except Exception:
+        return None
+    rows = np.asarray(row_indices, dtype=int)
+    cols = np.asarray(variable_cols, dtype=int)
+    n_anchor_rows = int(edge_anchor_positions.size) + (int(cols.size) if all_anchor_weight > 0.0 else 0)
+    pattern = lil_matrix((int(rows.size) + n_anchor_rows, int(cols.size)), dtype=int)
+    col_to_local = {int(col): int(pos) for pos, col in enumerate(cols)}
+    try:
+        old_sparsity = pilot._sparsity(params).tocsr()
+    except Exception:
+        old_sparsity = None
+    if old_sparsity is None:
+        return None
+    for local_row, row_value in enumerate(rows):
+        row = int(row_value)
+        if row < 0 or row >= old_sparsity.shape[0]:
+            continue
+        start, end = old_sparsity.indptr[row], old_sparsity.indptr[row + 1]
+        for full_col in old_sparsity.indices[start:end]:
+            local_col = col_to_local.get(int(full_col))
+            if local_col is not None:
+                pattern[local_row, local_col] = 1
+    row = int(rows.size)
+    for pos in edge_anchor_positions:
+        pattern[row, int(pos)] = 1
+        row += 1
+    if all_anchor_weight > 0.0:
+        for pos in range(int(cols.size)):
+            pattern[row, pos] = 1
+            row += 1
+    return pattern.tocsr()
+
+
+def _active_sonic_prepass_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
+    if not ACTIVE_MASS_PROFILE_TWO_PASS_SONIC:
+        return x0, {}
+    if not SOURCE_BAND_GLOBAL_REPLACEMENT:
+        return x0, {
+            "active_sonic_prepass_enabled": True,
+            "active_sonic_prepass_applied": False,
+            "active_sonic_prepass_reason": "requires source-band global replacement",
+        }
+    _set_eta(eta_E)
+    n = int(params.n_nodes)
+    x_ref = np.asarray(x0, dtype=float)
+    logu, logT, _logMdot, _logR_son, _lambda0, logR = pilot._unpack(x_ref, params)
+    interval_mid_R_rg = np.exp(0.5 * (logR[:-1] + logR[1:])) / params.r_g
+    mask = interval_mid_R_rg <= float(ACTIVE_MASS_PROFILE_TWO_PASS_SONIC_MAX_RG)
+    if not np.any(mask):
+        return x0, {
+            "active_sonic_prepass_enabled": True,
+            "active_sonic_prepass_applied": False,
+            "active_sonic_prepass_reason": "no inner intervals",
+        }
+    last_interval = int(np.max(np.nonzero(mask)[0]))
+    last_node = min(n - 1, last_interval + 1)
+    node_indices = np.arange(last_node + 1, dtype=int)
+
+    variable_cols: list[int] = []
+    variable_cols.extend(int(idx) for idx in node_indices)
+    variable_cols.extend(int(n + idx) for idx in node_indices)
+    variable_cols.extend(int(2 * n + idx) for idx in node_indices)
+    variable_cols.extend([3 * n, 3 * n + 1])
+    variable_cols_array = np.asarray(sorted(set(variable_cols)), dtype=int)
+
+    sonic_start = 2 * (n - 1) + 2
+    row_indices = [sonic_start, sonic_start + 1, _inner_mdot_row_index(params)]
+    if ACTIVE_MASS_PROFILE_TWO_PASS_SONIC_INCLUDE_INNER_MASS:
+        mass_start = _inner_mdot_row_index(params) + 1
+        row_indices.extend(int(mass_start + idx) for idx in np.nonzero(mask)[0])
+    row_indices_array = np.asarray(sorted(set(row_indices)), dtype=int)
+
+    lower, upper = pilot._bounds(params)
+    start = x_ref[variable_cols_array].copy()
+    lb = lower[variable_cols_array]
+    ub = upper[variable_cols_array]
+    initial_residual = _residual(x_ref, params)
+    initial_selected = float(np.linalg.norm(initial_residual[row_indices_array], ord=np.inf))
+    initial_source_score = _source_band_global_replacement_score_for_x(x_ref, params)
+    initial_top_rows = _source_band_top_active_rows(x_ref, params, ETA_TANGENT_LOCALIZATION_TOP_N)
+
+    def local_residual(trial: np.ndarray) -> np.ndarray:
+        full = x_ref.copy()
+        full[variable_cols_array] = trial
+        rows = np.asarray(_residual(full, params), dtype=float)[row_indices_array]
+        anchor_weight = max(0.0, float(ACTIVE_MASS_PROFILE_TWO_PASS_SONIC_ANCHOR_WEIGHT))
+        if anchor_weight > 0.0:
+            rows = np.concatenate([rows, anchor_weight * (trial - start)])
+        return rows
+
+    from scipy.optimize import least_squares
+
+    result = least_squares(
+        local_residual,
+        np.clip(start, lb + 1.0e-12, ub - 1.0e-12),
+        bounds=(lb, ub),
+        x_scale="jac",
+        loss="linear",
+        ftol=RESIDUAL_TOL,
+        xtol=RESIDUAL_TOL,
+        gtol=RESIDUAL_TOL,
+        max_nfev=max(1, int(ACTIVE_MASS_PROFILE_TWO_PASS_SONIC_MAX_NFEV)),
+        verbose=0,
+    )
+
+    candidate = x_ref.copy()
+    candidate[variable_cols_array] = result.x
+    candidate_residual = _residual(candidate, params)
+    candidate_selected = float(np.linalg.norm(candidate_residual[row_indices_array], ord=np.inf))
+    candidate_source_score = _source_band_global_replacement_score_for_x(candidate, params)
+
+    best_x = x_ref
+    best_source_score = float(initial_source_score)
+    best_selected = initial_selected
+    best_alpha = 0.0
+    trials: list[dict[str, Any]] = []
+    step_delta = candidate - x_ref
+    alpha_candidates: list[float] = []
+    for exponent in range(max(1, int(ACTIVE_MASS_PROFILE_LINE_SEARCH_STEPS))):
+        base_alpha = 0.5**exponent
+        alpha_candidates.append(base_alpha)
+        alpha_candidates.append(0.75 * base_alpha)
+    seen_alpha: set[float] = set()
+    for alpha in alpha_candidates:
+        alpha_key = round(float(alpha), 18)
+        if alpha_key in seen_alpha or alpha <= 0.0:
+            continue
+        seen_alpha.add(alpha_key)
+        trial_x = np.clip(x_ref + alpha * step_delta, lower + 1.0e-12, upper - 1.0e-12)
+        trial_residual = _residual(trial_x, params)
+        selected = float(np.linalg.norm(trial_residual[row_indices_array], ord=np.inf))
+        source_score = _source_band_global_replacement_score_for_x(trial_x, params)
+        guard = bool(np.isfinite(source_score) and source_score < best_source_score)
+        trials.append(
+            {
+                "alpha": float(alpha),
+                "source_band_score": float(source_score) if np.isfinite(source_score) else math.nan,
+                "selected": selected,
+                "guard_pass": bool(guard),
+            }
+        )
+        if guard:
+            best_x = trial_x
+            best_source_score = float(source_score)
+            best_selected = selected
+            best_alpha = float(alpha)
+
+    applied = bool(best_alpha > 0.0)
+    return best_x, {
+        "active_sonic_prepass_enabled": True,
+        "active_sonic_prepass_applied": applied,
+        "active_sonic_prepass_reason": "accepted_source_band_improvement" if applied else "no_source_band_improvement",
+        "active_sonic_prepass_outer_rg": float(ACTIVE_MASS_PROFILE_TWO_PASS_SONIC_MAX_RG),
+        "active_sonic_prepass_include_inner_mass": bool(ACTIVE_MASS_PROFILE_TWO_PASS_SONIC_INCLUDE_INNER_MASS),
+        "active_sonic_prepass_last_interval": int(last_interval),
+        "active_sonic_prepass_last_interval_R_rg": float(interval_mid_R_rg[last_interval]),
+        "active_sonic_prepass_n_variables": int(variable_cols_array.size),
+        "active_sonic_prepass_n_rows": int(row_indices_array.size),
+        "active_sonic_prepass_initial_source_score": float(initial_source_score)
+        if np.isfinite(initial_source_score)
+        else math.nan,
+        "active_sonic_prepass_candidate_source_score": float(candidate_source_score)
+        if np.isfinite(candidate_source_score)
+        else math.nan,
+        "active_sonic_prepass_final_source_score": float(best_source_score)
+        if np.isfinite(best_source_score)
+        else math.nan,
+        "active_sonic_prepass_initial_selected": initial_selected,
+        "active_sonic_prepass_candidate_selected": candidate_selected,
+        "active_sonic_prepass_final_selected": best_selected,
+        "active_sonic_prepass_alpha": float(best_alpha),
+        "active_sonic_prepass_nfev": int(result.nfev),
+        "active_sonic_prepass_success": bool(result.success),
+        "active_sonic_prepass_message": str(result.message),
+        "active_sonic_prepass_initial_top_rows": initial_top_rows,
+        "active_sonic_prepass_trials": trials,
+    }
+
+
+def _active_mass_profile_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
+    if not ACTIVE_MASS_PROFILE_CORRECT:
+        return x0, {}
+    if not SOURCE_BAND_GLOBAL_REPLACEMENT:
+        return x0, {
+            "active_mass_profile_correct_enabled": True,
+            "active_mass_profile_correct_applied": False,
+            "active_mass_profile_correct_reason": "requires source-band global replacement",
+        }
+    _set_eta(eta_E)
+    n = int(params.n_nodes)
+    x_ref = np.asarray(x0, dtype=float)
+    prepass_info: dict[str, Any] = {}
+    active_peak_rows = _source_band_top_active_rows(x_ref, params, max(ETA_TANGENT_LOCALIZATION_TOP_N, 24))
+    if (
+        ACTIVE_MASS_PROFILE_TWO_PASS_SONIC
+        and active_peak_rows
+        and str(active_peak_rows[0].get("old_kind", "")) == "sonic"
+    ):
+        x_ref, prepass_info = _active_sonic_prepass_correct(x_ref, params, eta_E)
+        active_peak_rows = _source_band_top_active_rows(x_ref, params, max(ETA_TANGENT_LOCALIZATION_TOP_N, 24))
+    active_peak_row = active_peak_rows[0] if active_peak_rows else None
+    source_peak_idx = _source_band_outside_old_mass_peak_interval(x_ref, params)
+    sonic_peak = _source_band_has_old_sonic_peak(x_ref, params)
+    initial_source_score = _source_band_global_replacement_score_for_x(x_ref, params)
+    if sonic_peak and not ACTIVE_MASS_PROFILE_ADAPTIVE_WINDOW:
+        source_peak_idx = 0
+    if not np.isfinite(initial_source_score):
+        return x0, {
+            "active_mass_profile_correct_enabled": True,
+            "active_mass_profile_correct_applied": False,
+            "active_mass_profile_correct_reason": "bad active source score",
+            **prepass_info,
+            "active_mass_profile_correct_initial_source_score": float(initial_source_score)
+            if np.isfinite(initial_source_score)
+            else math.nan,
+        }
+
+    _logu, _logT, _logMdot, _logR_son, _lambda0, logR = pilot._unpack(x_ref, params)
+    interval_mid_R_rg = np.exp(0.5 * (logR[:-1] + logR[1:])) / params.r_g
+    adaptive_window = _active_adaptive_window_from_peak(active_peak_row, interval_mid_R_rg, params)
+    adaptive_expanded_for_inner_mass = False
+    if (
+        ACTIVE_MASS_PROFILE_ADAPTIVE_WINDOW
+        and str(adaptive_window.get("strategy", "")) == "sonic_local"
+        and active_peak_rows
+    ):
+        peak_abs = abs(float(active_peak_rows[0].get("abs", 0.0)))
+        inner_mass_expand_rg = float(ACTIVE_MASS_PROFILE_ADAPTIVE_INNER_MAX_RG)
+        has_inner_mass_peer = False
+        for row in active_peak_rows[1: max(2, min(len(active_peak_rows), 8))]:
+            row_R = float(row.get("R_rg", math.nan))
+            if (
+                str(row.get("old_kind", "")) == "mass"
+                and np.isfinite(row_R)
+                and row_R < 15.0
+                and abs(float(row.get("abs", 0.0))) >= 0.7 * peak_abs
+            ):
+                has_inner_mass_peer = True
+                inner_mass_expand_rg = max(inner_mass_expand_rg, 1.05 * float(row_R))
+        if has_inner_mass_peer:
+            mask_expand = (interval_mid_R_rg >= max(0.0, float(ACTIVE_MASS_PROFILE_MIN_RG))) & (
+                interval_mid_R_rg <= inner_mass_expand_rg
+            )
+            selected_expand = np.nonzero(mask_expand)[0].astype(int)
+            if selected_expand.size:
+                adaptive_window["first_interval"] = 0
+                adaptive_window["last_interval"] = int(selected_expand[-1])
+                adaptive_window["include_sonic"] = True
+                adaptive_window["strategy"] = "sonic_inner_mass_block"
+                adaptive_window["reason"] = f"{adaptive_window.get('reason', 'sonic')}_plus_inner_mass"
+                adaptive_expanded_for_inner_mass = True
+    if ACTIVE_MASS_PROFILE_ADAPTIVE_WINDOW and int(adaptive_window.get("peak_interval", -1)) >= 0:
+        source_peak_idx = int(adaptive_window["peak_interval"])
+        first_interval = int(adaptive_window["first_interval"])
+        last_interval = int(adaptive_window["last_interval"])
+        include_sonic = bool(ACTIVE_MASS_PROFILE_INCLUDE_SONIC and adaptive_window.get("include_sonic", False))
+    else:
+        if source_peak_idx is None:
+            if sonic_peak:
+                source_peak_idx = 0
+            elif active_peak_row is not None:
+                source_peak_idx = int(adaptive_window.get("peak_interval", 0))
+        if source_peak_idx is None:
+            return x0, {
+                "active_mass_profile_correct_enabled": True,
+                "active_mass_profile_correct_applied": False,
+                "active_mass_profile_correct_reason": "no active outside-old mass peak",
+                **prepass_info,
+                "active_mass_profile_correct_initial_source_score": float(initial_source_score),
+                "active_mass_profile_correct_top_active_rows": active_peak_rows,
+            }
+        mask = (interval_mid_R_rg >= float(ACTIVE_MASS_PROFILE_MIN_RG)) & (
+            interval_mid_R_rg <= float(ACTIVE_MASS_PROFILE_MAX_RG)
+        )
+        selected = np.nonzero(mask)[0].astype(int)
+        if selected.size == 0:
+            selected = np.asarray([int(source_peak_idx)], dtype=int)
+        first_interval = min(int(selected[0]), int(source_peak_idx))
+        last_interval = max(int(selected[-1]), int(source_peak_idx))
+        max_intervals = max(0, int(ACTIVE_MASS_PROFILE_MAX_INTERVALS))
+        if max_intervals > 0 and last_interval - first_interval + 1 > max_intervals:
+            half = max(1, max_intervals // 2)
+            first_interval = max(0, int(source_peak_idx) - half)
+            last_interval = min(n - 2, first_interval + max_intervals - 1)
+            first_interval = max(0, last_interval - max_intervals + 1)
+        include_sonic = bool(ACTIVE_MASS_PROFILE_INCLUDE_SONIC and (sonic_peak or int(source_peak_idx) <= 3))
+    if include_sonic:
+        first_interval = 0
+    first_interval = max(0, min(first_interval, n - 2))
+    last_interval = max(first_interval, min(last_interval, n - 2))
+    interval_indices = np.arange(first_interval, last_interval + 1, dtype=int)
+    node_indices = np.arange(first_interval, last_interval + 2, dtype=int)
+    include_globals = bool(ACTIVE_MASS_PROFILE_INCLUDE_GLOBALS or include_sonic)
+
+    variable_cols: list[int] = []
+    variable_kinds: list[str] = []
+    variable_mode = (
+        ACTIVE_MASS_PROFILE_VARIABLE_MODE
+        if ACTIVE_MASS_PROFILE_VARIABLE_MODE in {"all", "mdot", "mdot_only"}
+        else "all"
+    )
+    if variable_mode == "all":
+        for idx in node_indices:
+            variable_cols.append(int(idx))
+            variable_kinds.append("logu")
+        for idx in node_indices:
+            variable_cols.append(int(n + idx))
+            variable_kinds.append("logT")
+    for idx in node_indices:
+        variable_cols.append(int(2 * n + idx))
+        variable_kinds.append("logMdot")
+    if include_globals and variable_mode == "all":
+        variable_cols.extend([3 * n, 3 * n + 1])
+        variable_kinds.extend(["logR_son", "lambda0"])
+    variable_cols_array = np.asarray(variable_cols, dtype=int)
+
+    lower, upper = pilot._bounds(params)
+    start = x_ref[variable_cols_array].copy()
+    lb = lower[variable_cols_array]
+    ub = upper[variable_cols_array]
+    edge_nodes = {int(node_indices[0]), int(node_indices[-1])}
+    edge_cols: set[int] = set()
+    for idx in edge_nodes:
+        edge_cols.update({idx, n + idx, 2 * n + idx})
+    edge_anchor_positions = np.asarray(
+        [pos for pos, col in enumerate(variable_cols_array) if int(col) in edge_cols],
+        dtype=int,
+    )
+
+    mass_start = _inner_mdot_row_index(params) + 1
+    row_indices: list[int] = []
+    row_kinds: list[str] = []
+    for idx in interval_indices:
+        row_indices.extend([2 * int(idx), 2 * int(idx) + 1, mass_start + int(idx)])
+        row_kinds.extend(["radial", "energy", "mass"])
+    if include_sonic:
+        sonic_start = 2 * (n - 1) + 2
+        row_indices.extend([sonic_start, sonic_start + 1])
+        row_kinds.extend(["sonic_D", "sonic_pivot"])
+        if ACTIVE_MASS_PROFILE_INCLUDE_INNER_MDOT:
+            row_indices.append(_inner_mdot_row_index(params))
+            row_kinds.append("inner_mdot")
+    row_indices_array = np.asarray(sorted(set(row_indices)), dtype=int)
+    row_mode = ACTIVE_MASS_PROFILE_ROW_MODE if ACTIVE_MASS_PROFILE_ROW_MODE in {"source_band", "production"} else "source_band"
+    active_source_positions = np.asarray([], dtype=int)
+    active_source_old_rows = np.asarray([], dtype=int)
+    active_source_has_aux_rows = False
+    active_source_sparsity = None
+    if row_mode == "source_band":
+        try:
+            context0 = _source_band_global_replacement_context(x_ref, params)
+            data0 = context0["data"] if context0.get("ok", False) else {}
+            groups0 = list(data0.get("groups", []))
+            old_rows0 = np.asarray(data0.get("old_row_indices", []), dtype=int)
+            radii0 = np.asarray(data0.get("R_rg", []), dtype=float)
+            row_set = {int(value) for value in row_indices_array}
+            active_group_set = set(ACTIVE_MASS_PROFILE_GROUPS)
+            positions: list[int] = []
+            old_rows_selected: list[int] = []
+            for pos, old_row in enumerate(old_rows0):
+                group = str(groups0[pos]) if pos < len(groups0) else ""
+                if group not in active_group_set:
+                    continue
+                R_value = float(radii0[pos]) if radii0.size > pos else math.nan
+                in_window = bool(
+                    np.isfinite(R_value)
+                    and R_value >= float(interval_mid_R_rg[first_interval]) * (1.0 - 1.0e-10)
+                    and R_value <= float(interval_mid_R_rg[last_interval]) * (1.0 + 1.0e-10)
+                )
+                is_old_window_row = int(old_row) in row_set
+                if group == "active_outside_old" and not is_old_window_row:
+                    continue
+                if group != "active_outside_old" and not in_window:
+                    continue
+                if group != "active_outside_old":
+                    active_source_has_aux_rows = True
+                if group == "active_outside_old" or in_window:
+                    positions.append(int(pos))
+                    old_rows_selected.append(int(old_row))
+            active_source_positions = np.asarray(positions, dtype=int)
+            active_source_old_rows = np.asarray(old_rows_selected, dtype=int)
+            source_sparsity0 = context0.get("sparsity") if context0.get("ok", False) else None
+            if source_sparsity0 is not None and active_source_positions.size:
+                active_source_sparsity = source_sparsity0[active_source_positions, :][:, variable_cols_array]
+        except Exception:
+            active_source_positions = np.asarray([], dtype=int)
+            active_source_old_rows = np.asarray([], dtype=int)
+            active_source_sparsity = None
+        if active_source_positions.size == 0:
+            row_mode = "production"
+
+    initial_metrics = _residual_metrics_for_x(x_ref, params)
+
+    def active_rows(full: np.ndarray) -> np.ndarray:
+        if row_mode == "source_band":
+            try:
+                context = _source_band_global_replacement_context(np.asarray(full, dtype=float), params)
+                if not context.get("ok", False):
+                    raise ValueError("bad source-band context")
+                rows = np.asarray(context["data"].get("rows", []), dtype=float)
+                if rows.size <= int(np.max(active_source_positions)):
+                    raise ValueError("source-band row shape changed")
+                return rows[active_source_positions]
+            except Exception:
+                return np.full(int(active_source_positions.size), 1.0e6, dtype=float)
+        return _fast_eval_rows(full, params, row_indices_array)
+
+    initial_rows = active_rows(x_ref)
+    initial_selected = float(np.linalg.norm(initial_rows, ord=np.inf))
+
+    def local_residual(trial: np.ndarray) -> np.ndarray:
+        full = x_ref.copy()
+        full[variable_cols_array] = trial
+        rows = active_rows(full)
+        anchors: list[np.ndarray] = []
+        if ACTIVE_MASS_PROFILE_EDGE_ANCHOR_WEIGHT > 0.0 and edge_anchor_positions.size:
+            anchors.append(
+                float(ACTIVE_MASS_PROFILE_EDGE_ANCHOR_WEIGHT)
+                * (trial[edge_anchor_positions] - start[edge_anchor_positions])
+            )
+        if ACTIVE_MASS_PROFILE_ALL_ANCHOR_WEIGHT > 0.0:
+            anchors.append(float(ACTIVE_MASS_PROFILE_ALL_ANCHOR_WEIGHT) * (trial - start))
+        if anchors:
+            rows = np.concatenate([rows, *anchors])
+        return rows
+
+    sparsity = None
+    if row_mode == "source_band" and active_source_sparsity is not None:
+        try:
+            from scipy.sparse import lil_matrix, vstack
+
+            sparse_parts = [active_source_sparsity]
+            n_cols = int(variable_cols_array.size)
+            if ACTIVE_MASS_PROFILE_EDGE_ANCHOR_WEIGHT > 0.0 and edge_anchor_positions.size:
+                anchors = lil_matrix((int(edge_anchor_positions.size), n_cols), dtype=int)
+                for row_pos, col_pos in enumerate(edge_anchor_positions):
+                    anchors[int(row_pos), int(col_pos)] = 1
+                sparse_parts.append(anchors.tocsr())
+            if ACTIVE_MASS_PROFILE_ALL_ANCHOR_WEIGHT > 0.0:
+                anchors = lil_matrix((n_cols, n_cols), dtype=int)
+                for pos in range(n_cols):
+                    anchors[pos, pos] = 1
+                sparse_parts.append(anchors.tocsr())
+            sparsity = vstack(sparse_parts, format="csr")
+        except Exception:
+            sparsity = None
+    if sparsity is None and not (row_mode == "source_band" and active_source_has_aux_rows):
+        sparsity_rows = active_source_old_rows if row_mode == "source_band" else row_indices_array
+        sparsity = _row_subset_sparsity(
+            sparsity_rows,
+            variable_cols_array,
+            params,
+            edge_anchor_positions if ACTIVE_MASS_PROFILE_EDGE_ANCHOR_WEIGHT > 0.0 else np.asarray([], dtype=int),
+            ACTIVE_MASS_PROFILE_ALL_ANCHOR_WEIGHT,
+        )
+    if include_sonic and ACTIVE_MASS_PROFILE_ADAPTIVE_WINDOW:
+        # The old sonic rows depend on the global eigenvalue/sonic location in
+        # ways that the source-band row-subset sparsity can under-report. These
+        # windows are small, so dense finite differences are the safer local
+        # Jacobian.
+        sparsity = None
+
+    from scipy.optimize import least_squares
+
+    result = least_squares(
+        local_residual,
+        np.clip(start, lb + 1.0e-12, ub - 1.0e-12),
+        bounds=(lb, ub),
+        jac_sparsity=sparsity,
+        x_scale="jac",
+        loss="linear",
+        ftol=RESIDUAL_TOL,
+        xtol=RESIDUAL_TOL,
+        gtol=RESIDUAL_TOL,
+        max_nfev=max(1, int(ACTIVE_MASS_PROFILE_MAX_NFEV)),
+        verbose=0,
+    )
+
+    candidate = x_ref.copy()
+    candidate[variable_cols_array] = result.x
+    candidate_rows = active_rows(candidate)
+    candidate_selected = float(np.linalg.norm(candidate_rows, ord=np.inf))
+    candidate_metrics = _residual_metrics_for_x(candidate, params)
+    candidate_source_score = _source_band_global_replacement_score_for_x(candidate, params)
+
+    best_x = x_ref
+    best_metrics = initial_metrics
+    best_source_score = float(initial_source_score)
+    best_alpha = 0.0
+    trials: list[dict[str, Any]] = []
+    step_delta = candidate - x_ref
+    alpha_candidates: list[float] = []
+    for exponent in range(max(1, int(ACTIVE_MASS_PROFILE_LINE_SEARCH_STEPS))):
+        base_alpha = 0.5**exponent
+        alpha_candidates.append(base_alpha)
+        alpha_candidates.append(0.75 * base_alpha)
+    seen_alpha: set[float] = set()
+    for alpha in alpha_candidates:
+        alpha_key = round(float(alpha), 18)
+        if alpha_key in seen_alpha or alpha <= 0.0:
+            continue
+        seen_alpha.add(alpha_key)
+        trial_x = np.clip(x_ref + alpha * step_delta, lower + 1.0e-12, upper - 1.0e-12)
+        metrics = _residual_metrics_for_x(trial_x, params)
+        source_score = _source_band_global_replacement_score_for_x(trial_x, params)
+        guard = bool(np.isfinite(source_score) and source_score < best_source_score)
+        trials.append(
+            {
+                "alpha": float(alpha),
+                "source_band_score": float(source_score) if np.isfinite(source_score) else math.nan,
+                "full": metrics["full"],
+                "interval_R": metrics["interval_R"],
+                "interval_E": metrics["interval_E"],
+                "mass": metrics["mass"],
+                "outer_omega": metrics["outer_omega"],
+                "guard_pass": bool(guard),
+            }
+        )
+        if guard:
+            best_x = trial_x
+            best_metrics = metrics
+            best_source_score = float(source_score)
+            best_alpha = float(alpha)
+
+    applied = bool(best_alpha > 0.0)
+    info = {
+        "active_mass_profile_correct_enabled": True,
+        "active_mass_profile_correct_applied": applied,
+        "active_mass_profile_correct_reason": "accepted_source_band_improvement" if applied else "no_source_band_improvement",
+        **prepass_info,
+        "active_mass_profile_correct_peak_interval": int(source_peak_idx),
+        "active_mass_profile_correct_peak_R_rg": float(interval_mid_R_rg[int(source_peak_idx)]),
+        "active_mass_profile_correct_sonic_peak": bool(sonic_peak),
+        "active_mass_profile_correct_adaptive_window": bool(ACTIVE_MASS_PROFILE_ADAPTIVE_WINDOW),
+        "active_mass_profile_correct_adaptive_strategy": str(adaptive_window.get("strategy", "manual")),
+        "active_mass_profile_correct_adaptive_reason": str(adaptive_window.get("reason", "")),
+        "active_mass_profile_correct_adaptive_expanded_inner_mass": bool(adaptive_expanded_for_inner_mass),
+        "active_mass_profile_correct_peak_active_group": str(
+            active_peak_row.get("group", "") if active_peak_row is not None else ""
+        ),
+        "active_mass_profile_correct_peak_old_group": str(
+            active_peak_row.get("old_group", "") if active_peak_row is not None else ""
+        ),
+        "active_mass_profile_correct_peak_old_kind": str(
+            active_peak_row.get("old_kind", "") if active_peak_row is not None else ""
+        ),
+        "active_mass_profile_correct_peak_zone": str(
+            active_peak_row.get("zone", "") if active_peak_row is not None else ""
+        ),
+        "active_mass_profile_correct_peak_row": int(active_peak_row.get("row", -1))
+        if active_peak_row is not None
+        else -1,
+        "active_mass_profile_correct_peak_old_row": int(active_peak_row.get("old_row", -1))
+        if active_peak_row is not None
+        else -1,
+        "active_mass_profile_correct_peak_value": float(active_peak_row.get("value", math.nan))
+        if active_peak_row is not None
+        else math.nan,
+        "active_mass_profile_correct_peak_abs": float(active_peak_row.get("abs", math.nan))
+        if active_peak_row is not None
+        else math.nan,
+        "active_mass_profile_correct_peak_neighbor_old_groups": str(
+            active_peak_row.get("neighbor_old_groups", "") if active_peak_row is not None else ""
+        ),
+        "active_mass_profile_correct_top_active_rows": active_peak_rows,
+        "active_mass_profile_correct_min_rg": float(ACTIVE_MASS_PROFILE_MIN_RG),
+        "active_mass_profile_correct_max_rg": float(ACTIVE_MASS_PROFILE_MAX_RG),
+        "active_mass_profile_correct_first_interval": int(first_interval),
+        "active_mass_profile_correct_last_interval": int(last_interval),
+        "active_mass_profile_correct_first_R_rg": float(interval_mid_R_rg[first_interval]),
+        "active_mass_profile_correct_last_R_rg": float(interval_mid_R_rg[last_interval]),
+        "active_mass_profile_correct_n_intervals": int(interval_indices.size),
+        "active_mass_profile_correct_n_variables": int(variable_cols_array.size),
+        "active_mass_profile_correct_n_rows": int(initial_rows.size),
+        "active_mass_profile_correct_variable_mode": str(variable_mode),
+        "active_mass_profile_correct_row_mode": str(row_mode),
+        "active_mass_profile_correct_groups": ",".join(ACTIVE_MASS_PROFILE_GROUPS),
+        "active_mass_profile_correct_active_source_rows": int(active_source_positions.size),
+        "active_mass_profile_correct_active_aux_rows": bool(active_source_has_aux_rows),
+        "active_mass_profile_correct_include_sonic": bool(include_sonic),
+        "active_mass_profile_correct_include_globals": bool(include_globals),
+        "active_mass_profile_correct_include_inner_mdot": bool(
+            include_sonic and ACTIVE_MASS_PROFILE_INCLUDE_INNER_MDOT
+        ),
+        "active_mass_profile_correct_edge_anchor_weight": float(ACTIVE_MASS_PROFILE_EDGE_ANCHOR_WEIGHT),
+        "active_mass_profile_correct_all_anchor_weight": float(ACTIVE_MASS_PROFILE_ALL_ANCHOR_WEIGHT),
+        "active_mass_profile_correct_initial_source_score": float(initial_source_score),
+        "active_mass_profile_correct_candidate_source_score": float(candidate_source_score)
+        if np.isfinite(candidate_source_score)
+        else math.nan,
+        "active_mass_profile_correct_final_source_score": float(best_source_score),
+        "active_mass_profile_correct_initial_selected": initial_selected,
+        "active_mass_profile_correct_candidate_selected": candidate_selected,
+        "active_mass_profile_correct_initial_full": initial_metrics["full"],
+        "active_mass_profile_correct_candidate_full": candidate_metrics["full"],
+        "active_mass_profile_correct_final_full": best_metrics["full"],
+        "active_mass_profile_correct_initial_interval_R": initial_metrics["interval_R"],
+        "active_mass_profile_correct_final_interval_R": best_metrics["interval_R"],
+        "active_mass_profile_correct_initial_interval_E": initial_metrics["interval_E"],
+        "active_mass_profile_correct_final_interval_E": best_metrics["interval_E"],
+        "active_mass_profile_correct_initial_mass": initial_metrics["mass"],
+        "active_mass_profile_correct_final_mass": best_metrics["mass"],
+        "active_mass_profile_correct_alpha": float(best_alpha),
+        "active_mass_profile_correct_nfev": int(result.nfev),
+        "active_mass_profile_correct_success": bool(result.success),
+        "active_mass_profile_correct_message": str(result.message),
+        "active_mass_profile_correct_trials": trials,
+    }
+    return best_x, info
+
+
 def _reduced_band_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
     if not BAND_CORRECT:
         return x0, {}
@@ -3554,16 +4740,19 @@ def _reduced_band_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndar
 
     variable_cols: list[int] = []
     variable_kinds: list[str] = []
-    for idx in node_indices:
-        variable_cols.append(int(idx))
-        variable_kinds.append("logu")
-    for idx in node_indices:
-        variable_cols.append(int(n + idx))
-        variable_kinds.append("logT")
+    variable_mode = BAND_VARIABLE_MODE if BAND_VARIABLE_MODE in {"all", "mdot", "mdot_only"} else "all"
+    row_mode = BAND_ROW_MODE if BAND_ROW_MODE in {"all", "mass", "mass_only"} else "all"
+    if variable_mode == "all":
+        for idx in node_indices:
+            variable_cols.append(int(idx))
+            variable_kinds.append("logu")
+        for idx in node_indices:
+            variable_cols.append(int(n + idx))
+            variable_kinds.append("logT")
     for idx in node_indices:
         variable_cols.append(int(2 * n + idx))
         variable_kinds.append("logMdot")
-    if BAND_INCLUDE_GLOBALS:
+    if BAND_INCLUDE_GLOBALS and variable_mode == "all":
         variable_cols.extend([3 * n, 3 * n + 1])
         variable_kinds.extend(["logR_son", "lambda0"])
     variable_cols_array = np.asarray(variable_cols, dtype=int)
@@ -3582,13 +4771,20 @@ def _reduced_band_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndar
     )
 
     initial_metrics = _residual_metrics_for_x(x_ref, params)
-    initial_rows = _fast_block_rows(x_ref, params, interval_indices, False)
+    mass_row_indices = _inner_mdot_row_index(params) + 1 + interval_indices
+
+    def band_rows(full: np.ndarray) -> np.ndarray:
+        if row_mode in {"mass", "mass_only"}:
+            return _fast_eval_rows(full, params, mass_row_indices)
+        return _fast_block_rows(full, params, interval_indices, False)
+
+    initial_rows = band_rows(x_ref)
     initial_selected = float(np.linalg.norm(initial_rows, ord=np.inf))
 
     def local_residual(trial: np.ndarray) -> np.ndarray:
         full = x_ref.copy()
         full[variable_cols_array] = trial
-        rows = _fast_block_rows(full, params, interval_indices, False)
+        rows = band_rows(full)
         anchors: list[np.ndarray] = []
         if BAND_EDGE_ANCHOR_WEIGHT > 0.0 and edge_anchor_positions.size:
             anchors.append(float(BAND_EDGE_ANCHOR_WEIGHT) * (trial[edge_anchor_positions] - start[edge_anchor_positions]))
@@ -3598,14 +4794,16 @@ def _reduced_band_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndar
             rows = np.concatenate([rows, *anchors])
         return rows
 
-    sparsity = _reduced_band_sparsity(
-        variable_cols_array,
-        interval_indices,
-        n,
-        BAND_INCLUDE_GLOBALS,
-        edge_anchor_positions if BAND_EDGE_ANCHOR_WEIGHT > 0.0 else np.asarray([], dtype=int),
-        BAND_ALL_ANCHOR_WEIGHT,
-    )
+    sparsity = None
+    if row_mode == "all" and variable_mode == "all":
+        sparsity = _reduced_band_sparsity(
+            variable_cols_array,
+            interval_indices,
+            n,
+            BAND_INCLUDE_GLOBALS,
+            edge_anchor_positions if BAND_EDGE_ANCHOR_WEIGHT > 0.0 else np.asarray([], dtype=int),
+            BAND_ALL_ANCHOR_WEIGHT,
+        )
 
     from scipy.optimize import least_squares
 
@@ -3625,24 +4823,29 @@ def _reduced_band_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndar
 
     candidate = x_ref.copy()
     candidate[variable_cols_array] = result.x
-    candidate_rows = _fast_block_rows(candidate, params, interval_indices, False)
+    candidate_rows = band_rows(candidate)
     candidate_metrics = _residual_metrics_for_x(candidate, params)
     candidate_selected = float(np.linalg.norm(candidate_rows, ord=np.inf))
 
     best_x = x_ref
     best_metrics = initial_metrics
+    best_selected = initial_selected
     best_alpha = 0.0
     trials: list[dict[str, Any]] = []
     step_delta = candidate - x_ref
+    selection_metric = BAND_SELECTION_METRIC if BAND_SELECTION_METRIC in {"full", "selected"} else "full"
     for exponent in range(max(1, int(BAND_LINE_SEARCH_STEPS))):
         alpha = 0.5**exponent
         trial_x = np.clip(x_ref + alpha * step_delta, lower + 1.0e-12, upper - 1.0e-12)
         metrics = _residual_metrics_for_x(trial_x, params)
+        trial_rows = band_rows(trial_x)
+        trial_selected = float(np.linalg.norm(trial_rows, ord=np.inf))
         guard = _band_guard_pass(initial_metrics, metrics)
         trials.append(
             {
                 "alpha": float(alpha),
                 "full": metrics["full"],
+                "selected": trial_selected,
                 "interval_R": metrics["interval_R"],
                 "interval_E": metrics["interval_E"],
                 "mass": metrics["mass"],
@@ -3650,9 +4853,14 @@ def _reduced_band_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndar
                 "guard_pass": bool(guard),
             }
         )
-        if guard and metrics["full"] < best_metrics["full"]:
+        if selection_metric == "selected":
+            improved = trial_selected < best_selected
+        else:
+            improved = metrics["full"] < best_metrics["full"]
+        if guard and improved:
             best_x = trial_x
             best_metrics = metrics
+            best_selected = trial_selected
             best_alpha = float(alpha)
 
     return best_x, {
@@ -3666,12 +4874,16 @@ def _reduced_band_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndar
         "band_correct_last_interval_R_rg": float(interval_mid_R_rg[last_interval]),
         "band_correct_n_intervals": int(interval_indices.size),
         "band_correct_n_variables": int(variable_cols_array.size),
-        "band_correct_n_rows": int(3 * interval_indices.size),
+        "band_correct_n_rows": int(initial_rows.size),
+        "band_correct_row_mode": row_mode,
+        "band_correct_variable_mode": variable_mode,
         "band_correct_edge_anchor_weight": float(BAND_EDGE_ANCHOR_WEIGHT),
         "band_correct_all_anchor_weight": float(BAND_ALL_ANCHOR_WEIGHT),
         "band_correct_include_globals": bool(BAND_INCLUDE_GLOBALS),
         "band_correct_initial_selected": initial_selected,
         "band_correct_candidate_selected": candidate_selected,
+        "band_correct_final_selected": best_selected,
+        "band_correct_selection_metric": selection_metric,
         "band_correct_initial_full": initial_metrics["full"],
         "band_correct_candidate_full": candidate_metrics["full"],
         "band_correct_final_full": best_metrics["full"],
@@ -7020,12 +8232,125 @@ def _source_plus_buffer_implicit_unpack_trial(
     return block_logu, block_logT, block_logMdot, g_node, g_mid
 
 
+def _source_plus_buffer_implicit_linear_lstsq_slopes(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logR: np.ndarray,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    lambda0: float,
+    local_params,
+    profile_g_node: np.ndarray,
+    profile_g_mid: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray]:
+    node_count = int(node_indices.size)
+    interval_count = int(interval_indices.size)
+    if node_count < 2 or interval_count < 1:
+        return profile_g_node, profile_g_mid
+    first_node = int(node_indices[0])
+    node_offset = 0
+    mid_offset = 2 * node_count
+    var_count = 2 * node_count + 2 * interval_count
+    rows: list[np.ndarray] = []
+    rhs: list[float] = []
+
+    def add_ode_rows(logR_value: float, y: np.ndarray, g_col_offset: int, weight: float) -> None:
+        if weight <= 0.0:
+            return
+        try:
+            A, c, _radial_scale, _energy_scale = scaled_differential_matrix(
+                float(logR_value), np.asarray(y, dtype=float), float(lambda0), local_params
+            )
+            A = np.asarray(A, dtype=float)
+            c = np.asarray(c, dtype=float).reshape(2)
+            if A.shape != (2, 2) or c.shape != (2,) or not (np.all(np.isfinite(A)) and np.all(np.isfinite(c))):
+                return
+            for comp in range(2):
+                row = np.zeros(var_count, dtype=float)
+                row[int(g_col_offset)] = float(weight) * float(A[comp, 0])
+                row[int(g_col_offset) + 1] = float(weight) * float(A[comp, 1])
+                rows.append(row)
+                rhs.append(-float(weight) * float(c[comp]))
+        except Exception:
+            return
+
+    for local_pos, global_node in enumerate(np.asarray(node_indices, dtype=int)):
+        y_node = np.asarray([logu[int(global_node)], logT[int(global_node)]], dtype=float)
+        add_ode_rows(
+            float(logR[int(global_node)]),
+            y_node,
+            node_offset + 2 * local_pos,
+            float(SOURCE_PLUS_BUFFER_IMPLICIT_NODE_WEIGHT),
+        )
+
+    for interval_pos, idx_value in enumerate(np.asarray(interval_indices, dtype=int)):
+        idx = int(idx_value)
+        local_idx = idx - first_node
+        if local_idx < 0 or local_idx >= node_count - 1:
+            continue
+        dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
+        if dx <= 0.0:
+            continue
+        y_mid = 0.5 * (y_left + y_right) + (float(dx) / 8.0) * (
+            profile_g_node[local_idx] - profile_g_node[local_idx + 1]
+        )
+        add_ode_rows(
+            float(xm),
+            y_mid,
+            mid_offset + 2 * interval_pos,
+            float(SOURCE_PLUS_BUFFER_IMPLICIT_MID_WEIGHT),
+        )
+        for comp in range(2):
+            row = np.zeros(var_count, dtype=float)
+            factor = float(SOURCE_PLUS_BUFFER_IMPLICIT_INTEGRAL_WEIGHT) * float(dx) / 6.0
+            row[node_offset + 2 * local_idx + comp] = factor
+            row[mid_offset + 2 * interval_pos + comp] = 4.0 * factor
+            row[node_offset + 2 * (local_idx + 1) + comp] = factor
+            rows.append(row)
+            rhs.append(float(SOURCE_PLUS_BUFFER_IMPLICIT_INTEGRAL_WEIGHT) * float(y_right[comp] - y_left[comp]))
+
+    if not rows:
+        return profile_g_node, profile_g_mid
+    matrix = np.vstack(rows)
+    target = np.asarray(rhs, dtype=float)
+    finite_cols = np.all(np.isfinite(matrix), axis=0)
+    finite_rows = np.all(np.isfinite(matrix), axis=1) & np.isfinite(target)
+    if not np.any(finite_rows) or not np.any(finite_cols):
+        return profile_g_node, profile_g_mid
+    matrix = matrix[finite_rows]
+    target = target[finite_rows]
+    col_scale = np.linalg.norm(matrix, axis=0)
+    col_scale = np.where(np.isfinite(col_scale) & (col_scale > 0.0), col_scale, 1.0)
+    try:
+        solution_scaled, *_ = np.linalg.lstsq(matrix / col_scale, target, rcond=1.0e-10)
+        solution = solution_scaled / col_scale
+    except Exception:
+        return profile_g_node, profile_g_mid
+    if solution.size != var_count or not np.all(np.isfinite(solution)):
+        return profile_g_node, profile_g_mid
+    bound = max(abs(float(SOURCE_PLUS_BUFFER_IMPLICIT_SLOPE_BOUND)), 1.0)
+    solution = np.clip(solution, -bound, bound)
+    g_node = np.asarray(solution[: 2 * node_count], dtype=float).reshape(node_count, 2)
+    g_mid = np.asarray(solution[2 * node_count :], dtype=float).reshape(interval_count, 2)
+    finite_node = np.all(np.isfinite(g_node), axis=1)
+    finite_mid = np.all(np.isfinite(g_mid), axis=1)
+    out_node = np.asarray(profile_g_node, dtype=float).copy()
+    out_mid = np.asarray(profile_g_mid, dtype=float).copy()
+    out_node[finite_node] = g_node[finite_node]
+    out_mid[finite_mid] = g_mid[finite_mid]
+    return out_node, out_mid
+
+
 def _source_plus_buffer_implicit_initial_slopes(
     logu: np.ndarray,
     logT: np.ndarray,
     logR: np.ndarray,
     interval_indices: np.ndarray,
     node_indices: np.ndarray,
+    lambda0: float | None = None,
+    local_params=None,
+    seed_mode: str = "profile",
+    seed_blend: float = 1.0,
 ) -> tuple[np.ndarray, np.ndarray]:
     node_count = int(node_indices.size)
     interval_count = int(interval_indices.size)
@@ -7048,7 +8373,1447 @@ def _source_plus_buffer_implicit_initial_slopes(
     for pos in range(node_count):
         if counts[pos] > 0.0:
             g_node[pos] /= counts[pos]
-    return g_node, g_mid
+    mode = str(seed_mode or "profile").strip().lower()
+    if mode in {"linear", "linear_lstsq", "lstsq", "implicit_lstsq"} and lambda0 is not None and local_params is not None:
+        return _source_plus_buffer_implicit_linear_lstsq_slopes(
+            logu,
+            logT,
+            logR,
+            interval_indices,
+            node_indices,
+            float(lambda0),
+            local_params,
+            g_node,
+            g_mid,
+        )
+    if mode not in {"ode", "ode_blend", "blend"} or lambda0 is None or local_params is None:
+        return g_node, g_mid
+
+    ode_g_node = np.asarray(g_node, dtype=float).copy()
+    for local_pos, global_node in enumerate(np.asarray(node_indices, dtype=int)):
+        slope = _ode_slope(
+            float(logR[int(global_node)]),
+            np.asarray([logu[int(global_node)], logT[int(global_node)]], dtype=float),
+            float(lambda0),
+            local_params,
+        )
+        if slope.shape == (2,) and np.all(np.isfinite(slope)):
+            ode_g_node[local_pos] = slope
+
+    ode_g_mid = np.asarray(g_mid, dtype=float).copy()
+    for pos, idx_value in enumerate(np.asarray(interval_indices, dtype=int)):
+        idx = int(idx_value)
+        local_idx = idx - first_node
+        if local_idx < 0 or local_idx >= node_count - 1:
+            continue
+        dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
+        y_mid = 0.5 * (y_left + y_right) + (float(dx) / 8.0) * (ode_g_node[local_idx] - ode_g_node[local_idx + 1])
+        slope = _ode_slope(float(xm), np.asarray(y_mid, dtype=float), float(lambda0), local_params)
+        if slope.shape == (2,) and np.all(np.isfinite(slope)):
+            ode_g_mid[pos] = slope
+
+    alpha = 1.0 if mode == "ode" else min(max(float(seed_blend), 0.0), 1.0)
+    if alpha <= 0.0:
+        return g_node, g_mid
+    return (1.0 - alpha) * g_node + alpha * ode_g_node, (1.0 - alpha) * g_mid + alpha * ode_g_mid
+
+
+def _source_band_hs_interval_indices(x: np.ndarray, params) -> tuple[np.ndarray, np.ndarray]:
+    if not SOURCE_BAND_HS_CORE_ONLY:
+        return _source_plus_buffer_interval_indices(x, params)
+    interval_indices, _node_indices = _source_band_interval_indices(x, params)
+    if interval_indices.size == 0:
+        return np.asarray([], dtype=int), np.asarray([], dtype=int)
+    n = int(params.n_nodes)
+    halo = max(0, int(SOURCE_BAND_HS_RELEASE_HALO))
+    first = max(0, int(interval_indices[0]) - halo)
+    last = min(n - 2, int(interval_indices[-1]) + halo)
+    intervals = np.arange(first, last + 1, dtype=int)
+    nodes = np.arange(first, last + 2, dtype=int)
+    return intervals, nodes
+
+
+def _source_band_hs_ode_points() -> set[str]:
+    text = str(SOURCE_BAND_HS_ODE_POINTS or "mid").strip().lower()
+    if text in {"all", "lcr", "left,mid,right", "left,center,right"}:
+        return {"left", "mid", "right"}
+    values = {piece.strip().lower() for piece in text.split(",") if piece.strip()}
+    mapped: set[str] = set()
+    for value in values:
+        if value in {"c", "center", "centre", "mid", "midpoint"}:
+            mapped.add("mid")
+        elif value in {"l", "left", "node", "nodes", "endpoint", "endpoints"}:
+            mapped.add("left")
+            if value in {"nodes", "endpoint", "endpoints"}:
+                mapped.add("right")
+        elif value in {"r", "right"}:
+            mapped.add("right")
+    return mapped or {"mid"}
+
+
+def _source_band_hs_initial_midpoints(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logR: np.ndarray,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    g_node: np.ndarray,
+) -> np.ndarray:
+    first_node = int(node_indices[0])
+    mids = np.zeros((int(interval_indices.size), 2), dtype=float)
+    for pos, idx_value in enumerate(np.asarray(interval_indices, dtype=int)):
+        idx = int(idx_value)
+        local_idx = idx - first_node
+        dx, y_left, y_right, _xm = _interval_geometry(logu, logT, logR, idx)
+        if SOURCE_BAND_HS_MIDPOINT_STATES and 0 <= local_idx < int(node_indices.size) - 1:
+            mids[pos] = 0.5 * (y_left + y_right) + (float(dx) / 8.0) * (
+                g_node[local_idx] - g_node[local_idx + 1]
+            )
+        else:
+            mids[pos] = 0.5 * (y_left + y_right)
+    return mids
+
+
+def _source_band_hs_regularized_slopes(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    lambda0: float,
+    local_params,
+    midpoint_y: np.ndarray,
+    profile_g_node: np.ndarray,
+    profile_g_mid: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray]:
+    node_count = int(node_indices.size)
+    interval_count = int(interval_indices.size)
+    if node_count < 2 or interval_count < 1:
+        return profile_g_node, profile_g_mid
+    first_node = int(node_indices[0])
+    var_count = 2 * node_count + 2 * interval_count
+    mid_offset = 2 * node_count
+    rows: list[np.ndarray] = []
+    rhs: list[float] = []
+    ode_points = _source_band_hs_ode_points()
+    ode_weight = max(float(SOURCE_BAND_HS_ODE_WEIGHT), 0.0)
+    compat_weight = max(float(SOURCE_BAND_HS_COMPAT_WEIGHT), 0.0)
+    prior_weight = max(float(SOURCE_BAND_HS_SLOPE_PRIOR_WEIGHT), 0.0)
+
+    def maybe_scale_and_append(row: np.ndarray, value: float) -> None:
+        row = np.asarray(row, dtype=float)
+        value = float(value)
+        if not (np.all(np.isfinite(row)) and np.isfinite(value)):
+            return
+        if SOURCE_BAND_HS_ROW_SCALE in {"equilibrated", "equil", "row_norm", "auto"}:
+            scale = max(float(np.linalg.norm(row)), abs(value), 1.0)
+            row = row / scale
+            value = value / scale
+        rows.append(row)
+        rhs.append(value)
+
+    def add_ode_rows(logR_value: float, y: np.ndarray, col_offset: int, weight: float) -> None:
+        if weight <= 0.0:
+            return
+        try:
+            A, c, _radial_scale, _energy_scale = scaled_differential_matrix(
+                float(logR_value), np.asarray(y, dtype=float), float(lambda0), local_params
+            )
+            A = np.asarray(A, dtype=float)
+            c = np.asarray(c, dtype=float).reshape(2)
+            if A.shape != (2, 2) or c.shape != (2,) or not (np.all(np.isfinite(A)) and np.all(np.isfinite(c))):
+                return
+            for comp in range(2):
+                row = np.zeros(var_count, dtype=float)
+                row[int(col_offset)] = float(weight) * float(A[comp, 0])
+                row[int(col_offset) + 1] = float(weight) * float(A[comp, 1])
+                maybe_scale_and_append(row, -float(weight) * float(c[comp]))
+        except Exception:
+            return
+
+    for local_pos, global_node in enumerate(np.asarray(node_indices, dtype=int)):
+        point_name = "left" if local_pos == 0 else "right" if local_pos == node_count - 1 else "node"
+        if point_name == "node" and not {"left", "right"}.issubset(ode_points):
+            continue
+        if local_pos == 0 and "left" not in ode_points:
+            continue
+        if local_pos == node_count - 1 and "right" not in ode_points:
+            continue
+        y_node = np.asarray([logu[int(global_node)], logT[int(global_node)]], dtype=float)
+        add_ode_rows(float(logR[int(global_node)]), y_node, 2 * local_pos, ode_weight)
+
+    for interval_pos, idx_value in enumerate(np.asarray(interval_indices, dtype=int)):
+        idx = int(idx_value)
+        local_idx = idx - first_node
+        if local_idx < 0 or local_idx >= node_count - 1:
+            continue
+        dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
+        if dx <= 0.0:
+            continue
+        mid_col = mid_offset + 2 * interval_pos
+        if "mid" in ode_points:
+            add_ode_rows(float(xm), np.asarray(midpoint_y[interval_pos], dtype=float), mid_col, ode_weight)
+
+        for comp in range(2):
+            midpoint_target = float(midpoint_y[interval_pos, comp] - 0.5 * (y_left[comp] + y_right[comp]))
+            row = np.zeros(var_count, dtype=float)
+            row[2 * local_idx + comp] = float(compat_weight) * float(dx) / 8.0
+            row[2 * (local_idx + 1) + comp] = -float(compat_weight) * float(dx) / 8.0
+            maybe_scale_and_append(row, float(compat_weight) * midpoint_target)
+
+            row = np.zeros(var_count, dtype=float)
+            factor = float(compat_weight) * float(dx) / 6.0
+            row[2 * local_idx + comp] = factor
+            row[mid_col + comp] = 4.0 * factor
+            row[2 * (local_idx + 1) + comp] = factor
+            maybe_scale_and_append(row, float(compat_weight) * float(y_right[comp] - y_left[comp]))
+
+    if prior_weight > 0.0:
+        prior_scale = math.sqrt(prior_weight)
+        prior = np.concatenate([np.asarray(profile_g_node, dtype=float).ravel(), np.asarray(profile_g_mid, dtype=float).ravel()])
+        for col, value in enumerate(prior):
+            row = np.zeros(var_count, dtype=float)
+            row[col] = prior_scale
+            maybe_scale_and_append(row, prior_scale * float(value))
+
+    if not rows:
+        return profile_g_node, profile_g_mid
+    matrix = np.vstack(rows)
+    target = np.asarray(rhs, dtype=float)
+    if not (np.all(np.isfinite(matrix)) and np.all(np.isfinite(target))):
+        return profile_g_node, profile_g_mid
+    col_scale = np.ones(var_count, dtype=float)
+    if SOURCE_BAND_HS_COL_SCALE in {"1", "true", "yes", "auto", "equilibrated", "equil"}:
+        col_scale = np.linalg.norm(matrix, axis=0)
+        col_scale = np.where(np.isfinite(col_scale) & (col_scale > 0.0), col_scale, 1.0)
+    try:
+        solution_scaled, *_ = np.linalg.lstsq(matrix / col_scale, target, rcond=1.0e-10)
+        solution = solution_scaled / col_scale
+    except Exception:
+        return profile_g_node, profile_g_mid
+    if solution.size != var_count or not np.all(np.isfinite(solution)):
+        return profile_g_node, profile_g_mid
+    bound = max(abs(float(SOURCE_BAND_HS_SLOPE_BOUND)), 1.0)
+    solution = np.clip(solution, -bound, bound)
+    return solution[: 2 * node_count].reshape(node_count, 2), solution[2 * node_count :].reshape(interval_count, 2)
+
+
+def _source_band_hs_midpoint_trial_parts(
+    trial: np.ndarray,
+    node_count: int,
+    interval_count: int,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    n_mid = 2 * int(interval_count)
+    n_node_slope = 2 * int(node_count)
+    midpoint_y = np.asarray(trial[:n_mid], dtype=float).reshape(int(interval_count), 2)
+    g_node = np.asarray(trial[n_mid : n_mid + n_node_slope], dtype=float).reshape(int(node_count), 2)
+    g_mid = np.asarray(trial[n_mid + n_node_slope :], dtype=float).reshape(int(interval_count), 2)
+    return midpoint_y, g_node, g_mid
+
+
+def _source_band_hs_midpoint_rows_and_jac(
+    trial: np.ndarray,
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logR: np.ndarray,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    lambda0: float,
+    local_params,
+    profile_g_node: np.ndarray,
+    profile_g_mid: np.ndarray,
+    want_jac: bool,
+):
+    midpoint_y, g_node, g_mid = _source_band_hs_midpoint_trial_parts(
+        np.asarray(trial, dtype=float), int(node_indices.size), int(interval_indices.size)
+    )
+    node_count = int(node_indices.size)
+    interval_count = int(interval_indices.size)
+    mid_offset = 0
+    g_node_offset = 2 * interval_count
+    g_mid_offset = g_node_offset + 2 * node_count
+    var_count = 2 * interval_count + 2 * node_count + 2 * interval_count
+    rows: list[float] = []
+    jac_entries: list[tuple[int, int, float]] = []
+    first_node = int(node_indices[0])
+    ode_weight = float(SOURCE_BAND_HS_ODE_WEIGHT)
+    compat_weight = float(SOURCE_BAND_HS_COMPAT_WEIGHT)
+    prior_weight = max(float(SOURCE_BAND_HS_SLOPE_PRIOR_WEIGHT), 0.0)
+    ode_points = _source_band_hs_ode_points()
+
+    def add_entry(row: int, col: int, value: float) -> None:
+        if want_jac and np.isfinite(value) and value != 0.0:
+            jac_entries.append((int(row), int(col), float(value)))
+
+    def ode_residual(logR_value: float, y: np.ndarray, slope: np.ndarray) -> tuple[np.ndarray, np.ndarray] | None:
+        try:
+            A, c, _radial_scale, _energy_scale = scaled_differential_matrix(
+                float(logR_value), np.asarray(y, dtype=float), float(lambda0), local_params
+            )
+            A = np.asarray(A, dtype=float)
+            c = np.asarray(c, dtype=float).reshape(2)
+            if A.shape != (2, 2) or c.shape != (2,) or not (np.all(np.isfinite(A)) and np.all(np.isfinite(c))):
+                return None
+            residual = A @ np.asarray(slope, dtype=float).reshape(2) + c
+            if not np.all(np.isfinite(residual)):
+                return None
+            return residual, A
+        except Exception:
+            return None
+
+    for interval_pos, idx_value in enumerate(np.asarray(interval_indices, dtype=int)):
+        idx = int(idx_value)
+        local_idx = idx - first_node
+        if local_idx < 0 or local_idx >= node_count - 1:
+            continue
+        dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
+        if dx <= 0.0:
+            continue
+        y_mid = np.asarray(midpoint_y[interval_pos], dtype=float)
+        p_mid = np.asarray(g_mid[interval_pos], dtype=float)
+        if "mid" in ode_points:
+            ode = ode_residual(float(xm), y_mid, p_mid)
+            base_ode = np.full(2, 1.0e6, dtype=float) if ode is None else np.asarray(ode[0], dtype=float)
+            A = np.zeros((2, 2), dtype=float) if ode is None else np.asarray(ode[1], dtype=float)
+            row_start = len(rows)
+            rows.extend((ode_weight * base_ode).tolist())
+            if want_jac and ode is not None:
+                for comp in range(2):
+                    for slope_comp in range(2):
+                        add_entry(row_start + comp, g_mid_offset + 2 * interval_pos + slope_comp, ode_weight * A[comp, slope_comp])
+                step_base = max(float(SOURCE_BAND_HS_LOCAL_DIFF_STEP), 1.0e-10)
+                for y_comp in range(2):
+                    step = step_base * max(abs(float(y_mid[y_comp])), 1.0)
+                    y_plus = np.asarray(y_mid, dtype=float).copy()
+                    y_minus = np.asarray(y_mid, dtype=float).copy()
+                    y_plus[y_comp] += step
+                    y_minus[y_comp] -= step
+                    plus = ode_residual(float(xm), y_plus, p_mid)
+                    minus = ode_residual(float(xm), y_minus, p_mid)
+                    if plus is None or minus is None:
+                        continue
+                    deriv = (np.asarray(plus[0], dtype=float) - np.asarray(minus[0], dtype=float)) / (2.0 * step)
+                    for comp in range(2):
+                        add_entry(row_start + comp, mid_offset + 2 * interval_pos + y_comp, ode_weight * float(deriv[comp]))
+
+        midpoint_defect = y_mid - 0.5 * (y_left + y_right) - (float(dx) / 8.0) * (
+            g_node[local_idx] - g_node[local_idx + 1]
+        )
+        row_start = len(rows)
+        rows.extend((compat_weight * midpoint_defect).tolist())
+        for comp in range(2):
+            add_entry(row_start + comp, mid_offset + 2 * interval_pos + comp, compat_weight)
+            add_entry(row_start + comp, g_node_offset + 2 * local_idx + comp, -compat_weight * float(dx) / 8.0)
+            add_entry(row_start + comp, g_node_offset + 2 * (local_idx + 1) + comp, compat_weight * float(dx) / 8.0)
+
+        integral_defect = (y_right - y_left) - (float(dx) / 6.0) * (
+            g_node[local_idx] + 4.0 * g_mid[interval_pos] + g_node[local_idx + 1]
+        )
+        row_start = len(rows)
+        rows.extend((compat_weight * integral_defect).tolist())
+        for comp in range(2):
+            add_entry(row_start + comp, g_node_offset + 2 * local_idx + comp, -compat_weight * float(dx) / 6.0)
+            add_entry(row_start + comp, g_mid_offset + 2 * interval_pos + comp, -compat_weight * 4.0 * float(dx) / 6.0)
+            add_entry(row_start + comp, g_node_offset + 2 * (local_idx + 1) + comp, -compat_weight * float(dx) / 6.0)
+
+    if prior_weight > 0.0:
+        prior_scale = math.sqrt(prior_weight)
+        prior = np.concatenate([np.asarray(profile_g_node, dtype=float).ravel(), np.asarray(profile_g_mid, dtype=float).ravel()])
+        current = np.concatenate([np.asarray(g_node, dtype=float).ravel(), np.asarray(g_mid, dtype=float).ravel()])
+        slope_offset = g_node_offset
+        row_start = len(rows)
+        rows.extend((prior_scale * (current - prior)).tolist())
+        for pos in range(current.size):
+            add_entry(row_start + pos, slope_offset + pos, prior_scale)
+
+    row_array = np.asarray(rows, dtype=float)
+    row_array = np.where(np.isfinite(row_array), row_array, 1.0e6)
+    if not want_jac:
+        return row_array
+    try:
+        from scipy.sparse import lil_matrix
+    except Exception:
+        return row_array, None
+    jac = lil_matrix((row_array.size, var_count), dtype=float)
+    for row, col, value in jac_entries:
+        if 0 <= row < row_array.size and 0 <= col < var_count:
+            jac[row, col] = value
+    return row_array, jac.tocsr()
+
+
+def _source_band_hs_midpoint_solve(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logR: np.ndarray,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    lambda0: float,
+    local_params,
+    midpoint_y0: np.ndarray,
+    g_node0: np.ndarray,
+    g_mid0: np.ndarray,
+    profile_g_node: np.ndarray,
+    profile_g_mid: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, dict[str, Any]]:
+    node_count = int(node_indices.size)
+    interval_count = int(interval_indices.size)
+    start = np.concatenate([
+        np.asarray(midpoint_y0, dtype=float).ravel(),
+        np.asarray(g_node0, dtype=float).ravel(),
+        np.asarray(g_mid0, dtype=float).ravel(),
+    ])
+    trust = max(float(SOURCE_BAND_HS_MIDPOINT_TRUST), 0.0)
+    slope_bound = max(abs(float(SOURCE_BAND_HS_SLOPE_BOUND)), 1.0)
+    lower_mid = np.asarray(midpoint_y0, dtype=float).ravel() - trust
+    upper_mid = np.asarray(midpoint_y0, dtype=float).ravel() + trust
+    lb = np.concatenate([lower_mid, np.full(2 * node_count + 2 * interval_count, -slope_bound, dtype=float)])
+    ub = np.concatenate([upper_mid, np.full(2 * node_count + 2 * interval_count, slope_bound, dtype=float)])
+    start = np.clip(start, lb + 1.0e-12, ub - 1.0e-12)
+
+    def residual(trial: np.ndarray) -> np.ndarray:
+        return np.asarray(
+            _source_band_hs_midpoint_rows_and_jac(
+                np.asarray(trial, dtype=float),
+                logu,
+                logT,
+                logR,
+                interval_indices,
+                node_indices,
+                float(lambda0),
+                local_params,
+                profile_g_node,
+                profile_g_mid,
+                False,
+            ),
+            dtype=float,
+        )
+
+    def jacobian(trial: np.ndarray):
+        _rows, jac = _source_band_hs_midpoint_rows_and_jac(
+            np.asarray(trial, dtype=float),
+            logu,
+            logT,
+            logR,
+            interval_indices,
+            node_indices,
+            float(lambda0),
+            local_params,
+            profile_g_node,
+            profile_g_mid,
+            True,
+        )
+        return jac
+
+    from scipy.optimize import least_squares
+
+    initial_rows = residual(start)
+    result = least_squares(
+        residual,
+        start,
+        jac=jacobian if SOURCE_BAND_HS_ANALYTIC_JAC else "2-point",
+        bounds=(lb, ub),
+        x_scale="jac" if SOURCE_BAND_HS_COL_SCALE in {"1", "true", "yes", "auto", "jac", "equilibrated"} else 1.0,
+        loss="linear",
+        ftol=RESIDUAL_TOL,
+        xtol=RESIDUAL_TOL,
+        gtol=RESIDUAL_TOL,
+        max_nfev=SOURCE_BAND_HS_MAX_NFEV,
+        verbose=0,
+    )
+    midpoint_y, g_node, g_mid = _source_band_hs_midpoint_trial_parts(result.x, node_count, interval_count)
+    return midpoint_y, g_node, g_mid, {
+        "initial_local_residual": float(np.linalg.norm(initial_rows, ord=np.inf)) if initial_rows.size else math.nan,
+        "final_local_residual": float(np.linalg.norm(result.fun, ord=np.inf)) if np.asarray(result.fun).size else math.nan,
+        "nfev": int(result.nfev),
+        "njev": int(result.njev) if result.njev is not None else 0,
+        "success": bool(result.success),
+        "message": str(result.message),
+    }
+
+
+def _source_band_hs_endpoint_release_mask(
+    x_ref: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+) -> np.ndarray:
+    node_count = int(node_indices.size)
+    mask = np.zeros(node_count, dtype=bool)
+    if node_count <= 2:
+        return mask
+    mode = str(SOURCE_BAND_HS_RELEASE_ENDPOINT_MODE or "internal").strip().lower()
+    if mode in {"internal", "interior", "buffer", "plus_buffer", "all_internal"}:
+        mask[1:-1] = True
+        return mask
+    if mode in {"core", "source", "source_core"}:
+        core_intervals, _core_nodes = _source_band_interval_indices(np.asarray(x_ref, dtype=float), params)
+        if core_intervals.size == 0:
+            mask[1:-1] = True
+            return mask
+        first_core_node = int(core_intervals[0])
+        last_core_node = int(core_intervals[-1]) + 1
+        for local_pos, global_node in enumerate(np.asarray(node_indices, dtype=int)):
+            if local_pos == 0 or local_pos == node_count - 1:
+                continue
+            if first_core_node <= int(global_node) <= last_core_node:
+                mask[local_pos] = True
+        return mask
+    mask[1:-1] = True
+    return mask
+
+
+def _source_band_hs_endpoint_trial_parts(
+    trial: np.ndarray,
+    endpoint_y0: np.ndarray,
+    release_mask: np.ndarray,
+    node_count: int,
+    interval_count: int,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    trial_array = np.asarray(trial, dtype=float)
+    release_mask = np.asarray(release_mask, dtype=bool)
+    endpoint_y = np.asarray(endpoint_y0, dtype=float).copy()
+    n_release = int(np.count_nonzero(release_mask))
+    offset = 0
+    if n_release:
+        endpoint_y[release_mask] = trial_array[offset : offset + 2 * n_release].reshape(n_release, 2)
+        offset += 2 * n_release
+    midpoint_y = trial_array[offset : offset + 2 * int(interval_count)].reshape(int(interval_count), 2)
+    offset += 2 * int(interval_count)
+    g_node = trial_array[offset : offset + 2 * int(node_count)].reshape(int(node_count), 2)
+    offset += 2 * int(node_count)
+    g_mid = trial_array[offset : offset + 2 * int(interval_count)].reshape(int(interval_count), 2)
+    return endpoint_y, midpoint_y, g_node, g_mid
+
+
+def _source_band_hs_full_with_endpoint_y(
+    x_ref: np.ndarray,
+    params,
+    node_indices: np.ndarray,
+    endpoint_y: np.ndarray,
+) -> np.ndarray:
+    logu, logT, logMdot, logR_son, lambda0, _logR = pilot._unpack(np.asarray(x_ref, dtype=float), params)
+    logu_new = np.asarray(logu, dtype=float).copy()
+    logT_new = np.asarray(logT, dtype=float).copy()
+    for local_pos, global_node in enumerate(np.asarray(node_indices, dtype=int)):
+        logu_new[int(global_node)] = float(endpoint_y[int(local_pos), 0])
+        logT_new[int(global_node)] = float(endpoint_y[int(local_pos), 1])
+    return pilot._pack(logu_new, logT_new, logMdot, float(logR_son), float(lambda0))
+
+
+def _source_band_hs_old_source_rows(
+    x_ref: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray]:
+    logu, logT, logMdot, _logR_son, lambda0, logR = pilot._unpack(np.asarray(x_ref, dtype=float), params)
+    local_params = pilot._local_params(params, logR, logMdot)
+    n = int(params.n_nodes)
+    values: list[float] = []
+    radii: list[float] = []
+    for idx_value in np.asarray(interval_indices, dtype=int):
+        idx = int(idx_value)
+        if idx < 0 or idx >= n - 1:
+            continue
+        interval_rows = pilot._interval_residual_from_unpacked(logu, logT, logR, float(lambda0), local_params, idx)
+        dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
+        ym = 0.5 * (y_left + y_right)
+        gm = (y_right - y_left) / dx
+        logMdot_mid = 0.5 * (logMdot[idx] + logMdot[idx + 1])
+        mdot_mid = float(np.exp(logMdot_mid))
+        dlogMdot_dx = float((logMdot[idx + 1] - logMdot[idx]) / dx)
+        source_prime = stream_source_prime(xm, local_params)
+        wind_prime = pilot._wind_mass_prime(xm, ym, gm, float(lambda0), local_params)
+        target = float((wind_prime - source_prime) / mdot_mid)
+        mass_row = float(MASS_WEIGHT * (dlogMdot_dx - target))
+        R_mid_rg = float(np.exp(xm) / params.r_g)
+        values.extend([float(interval_rows[0]), float(interval_rows[1]), mass_row])
+        radii.extend([R_mid_rg, R_mid_rg, R_mid_rg])
+    if not values:
+        return np.asarray([], dtype=float), np.asarray([], dtype=float)
+    values_array = np.asarray(values, dtype=float)
+    return np.where(np.isfinite(values_array), values_array, 1.0e6), np.asarray(radii, dtype=float)
+
+
+def _source_band_hs_endpoint_local_rows(
+    trial: np.ndarray,
+    endpoint_y0: np.ndarray,
+    release_mask: np.ndarray,
+    x_ref: np.ndarray,
+    params,
+    logu0: np.ndarray,
+    logT0: np.ndarray,
+    logMdot: np.ndarray,
+    logR_son: float,
+    logR: np.ndarray,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    lambda0: float,
+    local_params,
+    full_params,
+    profile_g_node: np.ndarray,
+    profile_g_mid: np.ndarray,
+    old_source_reference: np.ndarray,
+) -> np.ndarray:
+    node_count = int(node_indices.size)
+    interval_count = int(interval_indices.size)
+    endpoint_y, midpoint_y, g_node, g_mid = _source_band_hs_endpoint_trial_parts(
+        np.asarray(trial, dtype=float),
+        endpoint_y0,
+        release_mask,
+        node_count,
+        interval_count,
+    )
+    trial_logu = np.asarray(logu0, dtype=float).copy()
+    trial_logT = np.asarray(logT0, dtype=float).copy()
+    for local_pos, global_node in enumerate(np.asarray(node_indices, dtype=int)):
+        trial_logu[int(global_node)] = float(endpoint_y[int(local_pos), 0])
+        trial_logT[int(global_node)] = float(endpoint_y[int(local_pos), 1])
+
+    first_node = int(node_indices[0])
+    rows: list[float] = []
+    ode_weight = float(SOURCE_BAND_HS_ODE_WEIGHT)
+    compat_weight = float(SOURCE_BAND_HS_COMPAT_WEIGHT)
+    mass_weight = float(SOURCE_BAND_HS_MASS_WEIGHT)
+    endpoint_prior_weight = max(float(SOURCE_BAND_HS_ENDPOINT_PRIOR_WEIGHT), 0.0)
+    slope_prior_weight = max(float(SOURCE_BAND_HS_SLOPE_PRIOR_WEIGHT), 0.0)
+    old_source_weight = max(float(SOURCE_BAND_HS_OLD_SOURCE_PENALTY_WEIGHT), 0.0)
+
+    def append_ode(logR_value: float, y: np.ndarray, slope: np.ndarray) -> None:
+        if ode_weight <= 0.0:
+            return
+        try:
+            A, c, _radial_scale, _energy_scale = scaled_differential_matrix(
+                float(logR_value), np.asarray(y, dtype=float), float(lambda0), local_params
+            )
+            residual = np.asarray(A, dtype=float) @ np.asarray(slope, dtype=float).reshape(2) + np.asarray(c, dtype=float).reshape(2)
+            if residual.shape == (2,) and np.all(np.isfinite(residual)):
+                rows.extend((ode_weight * residual).tolist())
+            else:
+                rows.extend([1.0e6, 1.0e6])
+        except Exception:
+            rows.extend([1.0e6, 1.0e6])
+
+    for interval_pos, idx_value in enumerate(np.asarray(interval_indices, dtype=int)):
+        idx = int(idx_value)
+        local_idx = idx - first_node
+        if local_idx < 0 or local_idx >= node_count - 1:
+            continue
+        dx, y_left, y_right, xm = _interval_geometry(trial_logu, trial_logT, logR, idx)
+        if dx <= 0.0:
+            continue
+        y_mid = np.asarray(midpoint_y[int(interval_pos)], dtype=float)
+        append_ode(float(xm), y_mid, np.asarray(g_mid[int(interval_pos)], dtype=float))
+
+        midpoint_defect = y_mid - 0.5 * (y_left + y_right) - (float(dx) / 8.0) * (
+            g_node[local_idx] - g_node[local_idx + 1]
+        )
+        integral_defect = (y_right - y_left) - (float(dx) / 6.0) * (
+            g_node[local_idx] + 4.0 * g_mid[int(interval_pos)] + g_node[local_idx + 1]
+        )
+        rows.extend((compat_weight * midpoint_defect).tolist())
+        rows.extend((compat_weight * integral_defect).tolist())
+        if mass_weight > 0.0:
+            mass_row = _finite_volume_mass_residual_from_unpacked(
+                trial_logu,
+                trial_logT,
+                logMdot,
+                logR,
+                float(lambda0),
+                full_params,
+                idx,
+            )
+            rows.append(mass_weight * float(mass_row))
+
+    if endpoint_prior_weight > 0.0 and np.any(release_mask):
+        prior_scale = math.sqrt(endpoint_prior_weight)
+        rows.extend((prior_scale * (endpoint_y[np.asarray(release_mask, dtype=bool)] - endpoint_y0[np.asarray(release_mask, dtype=bool)])).ravel().tolist())
+    if slope_prior_weight > 0.0:
+        prior_scale = math.sqrt(slope_prior_weight)
+        current = np.concatenate([np.asarray(g_node, dtype=float).ravel(), np.asarray(g_mid, dtype=float).ravel()])
+        reference = np.concatenate([np.asarray(profile_g_node, dtype=float).ravel(), np.asarray(profile_g_mid, dtype=float).ravel()])
+        rows.extend((prior_scale * (current - reference)).tolist())
+    if old_source_weight > 0.0:
+        candidate_x = pilot._pack(trial_logu, trial_logT, logMdot, float(logR_son), float(lambda0))
+        old_source_rows, _old_source_R = _source_band_hs_old_source_rows(candidate_x, params, interval_indices)
+        if old_source_rows.size:
+            mode = str(SOURCE_BAND_HS_OLD_SOURCE_PENALTY_MODE or "drift").strip().lower()
+            if mode in {"absolute", "abs", "zero"}:
+                old_source_residual = old_source_rows
+            else:
+                reference = np.asarray(old_source_reference, dtype=float)
+                if reference.size != old_source_rows.size:
+                    reference = np.zeros_like(old_source_rows)
+                old_source_residual = old_source_rows - reference
+            rows.extend((math.sqrt(old_source_weight) * old_source_residual).tolist())
+
+    row_array = np.asarray(rows, dtype=float)
+    return np.where(np.isfinite(row_array), row_array, 1.0e6)
+
+
+def _source_band_hs_endpoint_sparsity(
+    release_mask: np.ndarray,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+) -> Any:
+    try:
+        from scipy.sparse import lil_matrix
+    except Exception:
+        return None
+    release_mask = np.asarray(release_mask, dtype=bool)
+    node_count = int(node_indices.size)
+    interval_count = int(interval_indices.size)
+    n_release = int(np.count_nonzero(release_mask))
+    release_rank = {int(local): int(rank) for rank, local in enumerate(np.nonzero(release_mask)[0])}
+    mid_offset = 2 * n_release
+    g_node_offset = mid_offset + 2 * interval_count
+    g_mid_offset = g_node_offset + 2 * node_count
+    var_count = g_mid_offset + 2 * interval_count
+    row_deps: list[set[int]] = []
+    first_node = int(node_indices[0])
+
+    def endpoint_cols(local_idx: int) -> set[int]:
+        rank = release_rank.get(int(local_idx))
+        if rank is None:
+            return set()
+        return {2 * rank, 2 * rank + 1}
+
+    for interval_pos, idx_value in enumerate(np.asarray(interval_indices, dtype=int)):
+        idx = int(idx_value)
+        local_idx = idx - first_node
+        if local_idx < 0 or local_idx >= node_count - 1:
+            continue
+        mid_cols = {mid_offset + 2 * interval_pos, mid_offset + 2 * interval_pos + 1}
+        left_endpoint_cols = endpoint_cols(local_idx)
+        right_endpoint_cols = endpoint_cols(local_idx + 1)
+        left_slope_cols = {g_node_offset + 2 * local_idx, g_node_offset + 2 * local_idx + 1}
+        right_slope_cols = {g_node_offset + 2 * (local_idx + 1), g_node_offset + 2 * (local_idx + 1) + 1}
+        mid_slope_cols = {g_mid_offset + 2 * interval_pos, g_mid_offset + 2 * interval_pos + 1}
+
+        if float(SOURCE_BAND_HS_ODE_WEIGHT) > 0.0:
+            ode_cols = mid_cols | mid_slope_cols
+            row_deps.append(set(ode_cols))
+            row_deps.append(set(ode_cols))
+
+        compat_cols = mid_cols | left_endpoint_cols | right_endpoint_cols | left_slope_cols | right_slope_cols
+        row_deps.append(set(compat_cols))
+        row_deps.append(set(compat_cols))
+
+        integral_cols = left_endpoint_cols | right_endpoint_cols | left_slope_cols | mid_slope_cols | right_slope_cols
+        row_deps.append(set(integral_cols))
+        row_deps.append(set(integral_cols))
+
+        if float(SOURCE_BAND_HS_MASS_WEIGHT) > 0.0:
+            row_deps.append(left_endpoint_cols | right_endpoint_cols)
+
+    if max(float(SOURCE_BAND_HS_ENDPOINT_PRIOR_WEIGHT), 0.0) > 0.0:
+        for rank in range(n_release):
+            row_deps.append({2 * rank})
+            row_deps.append({2 * rank + 1})
+
+    if max(float(SOURCE_BAND_HS_SLOPE_PRIOR_WEIGHT), 0.0) > 0.0:
+        for col in range(g_node_offset, var_count):
+            row_deps.append({col})
+
+    if max(float(SOURCE_BAND_HS_OLD_SOURCE_PENALTY_WEIGHT), 0.0) > 0.0:
+        for idx_value in np.asarray(interval_indices, dtype=int):
+            idx = int(idx_value)
+            local_idx = idx - first_node
+            if local_idx < 0 or local_idx >= node_count - 1:
+                continue
+            deps = endpoint_cols(local_idx) | endpoint_cols(local_idx + 1)
+            row_deps.append(set(deps))
+            row_deps.append(set(deps))
+            row_deps.append(set(deps))
+
+    pattern = lil_matrix((len(row_deps), var_count), dtype=int)
+    for row, deps in enumerate(row_deps):
+        for col in deps:
+            if 0 <= col < var_count:
+                pattern[row, col] = 1
+    return pattern.tocsr()
+
+
+def _source_band_hs_endpoint_release_solve(
+    x_ref: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    midpoint_y0: np.ndarray,
+    g_node0: np.ndarray,
+    g_mid0: np.ndarray,
+    profile_g_node: np.ndarray,
+    profile_g_mid: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, dict[str, Any]]:
+    if not SOURCE_BAND_HS_RELEASE_ENDPOINTS or SOURCE_BAND_HS_EVALUATE_ONLY:
+        return x_ref, midpoint_y0, g_node0, g_mid0, {
+            "enabled": bool(SOURCE_BAND_HS_RELEASE_ENDPOINTS),
+            "accepted": False,
+            "reason": "disabled or evaluate-only",
+        }
+    if SOURCE_BAND_HS_RELEASE_LOGMDOT:
+        return x_ref, midpoint_y0, g_node0, g_mid0, {
+            "enabled": True,
+            "accepted": False,
+            "reason": "endpoint logMdot release is not enabled in this guarded trial",
+        }
+
+    logu, logT, logMdot, logR_son, lambda0, logR = pilot._unpack(np.asarray(x_ref, dtype=float), params)
+    node_count = int(node_indices.size)
+    interval_count = int(interval_indices.size)
+    if node_count < 3 or interval_count < 1:
+        return x_ref, midpoint_y0, g_node0, g_mid0, {
+            "enabled": True,
+            "accepted": False,
+            "reason": "not enough source-band nodes",
+        }
+    release_mask = _source_band_hs_endpoint_release_mask(x_ref, params, interval_indices, node_indices)
+    n_release = int(np.count_nonzero(release_mask))
+    if n_release == 0:
+        return x_ref, midpoint_y0, g_node0, g_mid0, {
+            "enabled": True,
+            "accepted": False,
+            "reason": "no endpoint nodes selected",
+        }
+
+    endpoint_y0 = np.column_stack([
+        np.asarray(logu, dtype=float)[np.asarray(node_indices, dtype=int)],
+        np.asarray(logT, dtype=float)[np.asarray(node_indices, dtype=int)],
+    ])
+    local_params = _source_interface_local_params(params, logR[node_indices], logMdot[node_indices])
+    full_params = pilot._local_params(params, logR, logMdot)
+    old_source_reference, _old_source_reference_R = _source_band_hs_old_source_rows(x_ref, params, interval_indices)
+    start = np.concatenate([
+        endpoint_y0[release_mask].ravel(),
+        np.asarray(midpoint_y0, dtype=float).ravel(),
+        np.asarray(g_node0, dtype=float).ravel(),
+        np.asarray(g_mid0, dtype=float).ravel(),
+    ])
+    trust = max(float(SOURCE_BAND_HS_ENDPOINT_TRUST), 0.0)
+    midpoint_trust = max(float(SOURCE_BAND_HS_MIDPOINT_TRUST), 0.0)
+    slope_bound = max(abs(float(SOURCE_BAND_HS_SLOPE_BOUND)), 1.0)
+    lower_full, upper_full = pilot._bounds(params)
+    n_total = int(params.n_nodes)
+    release_nodes = np.asarray(node_indices, dtype=int)[release_mask]
+    endpoint_lower: list[float] = []
+    endpoint_upper: list[float] = []
+    node_to_local = {int(global_node): int(local_pos) for local_pos, global_node in enumerate(np.asarray(node_indices, dtype=int))}
+    for global_node in release_nodes:
+        local_pos = node_to_local[int(global_node)]
+        endpoint_lower.extend([
+            max(float(endpoint_y0[local_pos, 0]) - trust, float(lower_full[int(global_node)])),
+            max(float(endpoint_y0[local_pos, 1]) - trust, float(lower_full[n_total + int(global_node)])),
+        ])
+        endpoint_upper.extend([
+            min(float(endpoint_y0[local_pos, 0]) + trust, float(upper_full[int(global_node)])),
+            min(float(endpoint_y0[local_pos, 1]) + trust, float(upper_full[n_total + int(global_node)])),
+        ])
+    lb = np.concatenate([
+        np.asarray(endpoint_lower, dtype=float),
+        np.asarray(midpoint_y0, dtype=float).ravel() - midpoint_trust,
+        np.full(2 * node_count + 2 * interval_count, -slope_bound, dtype=float),
+    ])
+    ub = np.concatenate([
+        np.asarray(endpoint_upper, dtype=float),
+        np.asarray(midpoint_y0, dtype=float).ravel() + midpoint_trust,
+        np.full(2 * node_count + 2 * interval_count, slope_bound, dtype=float),
+    ])
+    start = np.clip(start, lb + 1.0e-12, ub - 1.0e-12)
+
+    def residual(trial: np.ndarray) -> np.ndarray:
+        return _source_band_hs_endpoint_local_rows(
+            np.asarray(trial, dtype=float),
+            endpoint_y0,
+            release_mask,
+            x_ref,
+            params,
+            logu,
+            logT,
+            logMdot,
+            float(logR_son),
+            logR,
+            interval_indices,
+            node_indices,
+            float(lambda0),
+            local_params,
+            full_params,
+            profile_g_node,
+            profile_g_mid,
+            old_source_reference,
+        )
+
+    from scipy.optimize import least_squares
+
+    initial_rows = residual(start)
+    sparsity = _source_band_hs_endpoint_sparsity(release_mask, interval_indices, node_indices)
+    result = least_squares(
+        residual,
+        start,
+        jac="2-point",
+        jac_sparsity=sparsity,
+        bounds=(lb, ub),
+        x_scale="jac" if SOURCE_BAND_HS_COL_SCALE in {"1", "true", "yes", "auto", "jac", "equilibrated"} else 1.0,
+        loss="linear",
+        ftol=RESIDUAL_TOL,
+        xtol=RESIDUAL_TOL,
+        gtol=RESIDUAL_TOL,
+        max_nfev=SOURCE_BAND_HS_MAX_NFEV,
+        verbose=0,
+    )
+    endpoint_y_result, midpoint_y_result, g_node_result, g_mid_result = _source_band_hs_endpoint_trial_parts(
+        np.asarray(result.x, dtype=float),
+        endpoint_y0,
+        release_mask,
+        node_count,
+        interval_count,
+    )
+
+    initial_data = _source_band_hs_residual_data(x_ref, params, interval_indices, node_indices, midpoint_y0, g_node0, g_mid0)
+    initial_summary = _source_band_hs_summary(initial_data)
+    initial_score = _source_band_hs_score(initial_summary)
+    initial_fv = float(initial_summary.get("fv_mass", math.nan))
+    initial_outside = float(initial_summary.get("outside_old", math.nan))
+    fv_limit = max(float(SOURCE_BAND_HS_ENDPOINT_FV_MASS_GUARD_ABS), 1.05 * initial_fv if np.isfinite(initial_fv) else 0.0)
+    outside_limit = max(
+        float(SOURCE_BAND_HS_ENDPOINT_OUTSIDE_GUARD_ABS),
+        1.05 * initial_outside if np.isfinite(initial_outside) else 0.0,
+    )
+    old_source_limit = float(SOURCE_BAND_HS_OLD_SOURCE_GUARD_ABS)
+
+    best_x = np.asarray(x_ref, dtype=float)
+    best_midpoint_y = np.asarray(midpoint_y0, dtype=float)
+    best_g_node = np.asarray(g_node0, dtype=float)
+    best_g_mid = np.asarray(g_mid0, dtype=float)
+    best_summary = dict(initial_summary)
+    best_score = float(initial_score)
+    best_alpha = 0.0
+    trials: list[dict[str, Any]] = []
+    line_steps = max(1, int(SOURCE_BAND_HS_ENDPOINT_LINE_SEARCH_STEPS))
+    for exponent in range(line_steps):
+        alpha = 0.5**exponent
+        endpoint_y = endpoint_y0 + alpha * (endpoint_y_result - endpoint_y0)
+        midpoint_y = np.asarray(midpoint_y0, dtype=float) + alpha * (midpoint_y_result - np.asarray(midpoint_y0, dtype=float))
+        g_node = np.asarray(g_node0, dtype=float) + alpha * (g_node_result - np.asarray(g_node0, dtype=float))
+        g_mid = np.asarray(g_mid0, dtype=float) + alpha * (g_mid_result - np.asarray(g_mid0, dtype=float))
+        candidate_x = _source_band_hs_full_with_endpoint_y(x_ref, params, node_indices, endpoint_y)
+        data = _source_band_hs_residual_data(candidate_x, params, interval_indices, node_indices, midpoint_y, g_node, g_mid)
+        summary = _source_band_hs_summary(data)
+        score = _source_band_hs_score(summary)
+        fv_mass = float(summary.get("fv_mass", math.nan))
+        outside_old = float(summary.get("outside_old", math.nan))
+        old_source = float(summary.get("old_source", math.nan))
+        guard_ok = (
+            np.isfinite(fv_mass)
+            and np.isfinite(outside_old)
+            and fv_mass <= fv_limit
+            and outside_old <= outside_limit
+            and (not np.isfinite(old_source_limit) or (np.isfinite(old_source) and old_source <= old_source_limit))
+        )
+        trials.append(
+            {
+                "alpha": float(alpha),
+                "score": float(score),
+                "ode": float(summary.get("ode", math.nan)),
+                "ode_mid": float(summary.get("ode_mid", math.nan)),
+                "midpoint": float(summary.get("midpoint", math.nan)),
+                "integral": float(summary.get("integral", math.nan)),
+                "fv_mass": fv_mass,
+                "outside_old": outside_old,
+                "old_source": old_source,
+                "guard_ok": bool(guard_ok),
+            }
+        )
+        if guard_ok and score < best_score:
+            best_x = candidate_x
+            best_midpoint_y = midpoint_y
+            best_g_node = g_node
+            best_g_mid = g_mid
+            best_summary = summary
+            best_score = float(score)
+            best_alpha = float(alpha)
+
+    endpoint_delta = np.zeros_like(endpoint_y0, dtype=float)
+    if best_alpha > 0.0:
+        best_endpoint_y = endpoint_y0 + best_alpha * (endpoint_y_result - endpoint_y0)
+        endpoint_delta = best_endpoint_y - endpoint_y0
+    release_delta = np.asarray(endpoint_delta, dtype=float)[release_mask] if np.any(release_mask) else np.asarray([], dtype=float)
+    release_R_rg = np.exp(np.asarray(logR, dtype=float)[release_nodes]) / params.r_g if release_nodes.size else np.asarray([], dtype=float)
+    if release_delta.size:
+        flat_abs = np.abs(release_delta).reshape(n_release, 2)
+        peak_node = int(np.nanargmax(np.max(flat_abs, axis=1)))
+        delta_logu_max = float(np.nanmax(np.abs(release_delta[:, 0])))
+        delta_logT_max = float(np.nanmax(np.abs(release_delta[:, 1])))
+        delta_peak_R_rg = float(release_R_rg[peak_node]) if release_R_rg.size > peak_node else math.nan
+    else:
+        delta_logu_max = 0.0
+        delta_logT_max = 0.0
+        delta_peak_R_rg = math.nan
+
+    return best_x, best_midpoint_y, best_g_node, best_g_mid, {
+        "enabled": True,
+        "accepted": bool(best_alpha > 0.0),
+        "reason": "accepted" if best_alpha > 0.0 else "no guarded score improvement",
+        "mode": str(SOURCE_BAND_HS_RELEASE_ENDPOINT_MODE),
+        "trust": float(SOURCE_BAND_HS_ENDPOINT_TRUST),
+        "prior_weight": float(SOURCE_BAND_HS_ENDPOINT_PRIOR_WEIGHT),
+        "mass_weight": float(SOURCE_BAND_HS_MASS_WEIGHT),
+        "old_source_penalty_weight": float(SOURCE_BAND_HS_OLD_SOURCE_PENALTY_WEIGHT),
+        "old_source_penalty_mode": str(SOURCE_BAND_HS_OLD_SOURCE_PENALTY_MODE),
+        "release_logmdot": bool(SOURCE_BAND_HS_RELEASE_LOGMDOT),
+        "n_release_nodes": int(n_release),
+        "n_variables": int(start.size),
+        "n_rows": int(initial_rows.size),
+        "initial_local_residual": float(np.linalg.norm(initial_rows, ord=np.inf)) if initial_rows.size else math.nan,
+        "final_local_residual": float(np.linalg.norm(result.fun, ord=np.inf)) if np.asarray(result.fun).size else math.nan,
+        "nfev": int(result.nfev),
+        "njev": int(result.njev) if result.njev is not None else 0,
+        "success": bool(result.success),
+        "message": str(result.message),
+        "alpha": float(best_alpha),
+        "fv_mass_limit": float(fv_limit),
+        "outside_old_limit": float(outside_limit),
+        "old_source_limit": float(old_source_limit),
+        "initial_score": float(initial_score),
+        "final_score": float(best_score),
+        "initial_ode": float(initial_summary.get("ode", math.nan)),
+        "final_ode": float(best_summary.get("ode", math.nan)),
+        "initial_ode_mid": float(initial_summary.get("ode_mid", math.nan)),
+        "final_ode_mid": float(best_summary.get("ode_mid", math.nan)),
+        "initial_midpoint": float(initial_summary.get("midpoint", math.nan)),
+        "final_midpoint": float(best_summary.get("midpoint", math.nan)),
+        "initial_integral": float(initial_summary.get("integral", math.nan)),
+        "final_integral": float(best_summary.get("integral", math.nan)),
+        "initial_fv_mass": float(initial_summary.get("fv_mass", math.nan)),
+        "final_fv_mass": float(best_summary.get("fv_mass", math.nan)),
+        "initial_outside_old": float(initial_summary.get("outside_old", math.nan)),
+        "final_outside_old": float(best_summary.get("outside_old", math.nan)),
+        "initial_old_source": float(initial_summary.get("old_source", math.nan)),
+        "final_old_source": float(best_summary.get("old_source", math.nan)),
+        "initial_old_source_peak_R_rg": float(initial_summary.get("old_source_peak_R_rg", math.nan)),
+        "final_old_source_peak_R_rg": float(best_summary.get("old_source_peak_R_rg", math.nan)),
+        "initial_old_source_reference_max": float(np.max(np.abs(old_source_reference))) if old_source_reference.size else math.nan,
+        "delta_logu_max": delta_logu_max,
+        "delta_logT_max": delta_logT_max,
+        "delta_peak_R_rg": delta_peak_R_rg,
+        "trials": trials,
+    }
+
+
+def _source_band_hs_residual_data(
+    x_ref: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    midpoint_y: np.ndarray,
+    g_node: np.ndarray,
+    g_mid: np.ndarray,
+) -> dict[str, Any]:
+    rows: list[float] = []
+    raw_values: dict[str, list[float]] = {
+        "ode": [],
+        "midpoint": [],
+        "integral": [],
+        "fv_mass": [],
+        "outside_old": [],
+        "old_source": [],
+    }
+    raw_R: dict[str, list[float]] = {key: [] for key in raw_values}
+    condition_values: list[float] = []
+    singular_min_values: list[float] = []
+    logu, logT, logMdot, _logR_son, lambda0, logR = pilot._unpack(np.asarray(x_ref, dtype=float), params)
+    node_count = int(node_indices.size)
+    interval_count = int(interval_indices.size)
+    first_node = int(node_indices[0])
+    block_logR = np.asarray(logR[node_indices], dtype=float)
+    block_logMdot = np.asarray(logMdot[node_indices], dtype=float)
+    local_params = _source_interface_local_params(params, block_logR, block_logMdot)
+    full_params = pilot._local_params(params, logR, logMdot)
+    ode_points = _source_band_hs_ode_points()
+    gamma = max(float(SOURCE_BAND_HS_GAMMA), 0.0)
+
+    def remember(group: str, value: float, R_rg: float, weight: float = 1.0) -> None:
+        raw_values.setdefault(group, []).append(float(value) if np.isfinite(value) else 1.0e6)
+        raw_R.setdefault(group, []).append(float(R_rg) if np.isfinite(R_rg) else math.nan)
+        rows.append(gamma * float(weight) * (float(value) if np.isfinite(value) else 1.0e6))
+
+    def append_ode(logR_value: float, y: np.ndarray, slope: np.ndarray, label: str) -> None:
+        R_rg = float(np.exp(float(logR_value)) / params.r_g)
+        try:
+            A, c, _radial_scale, _energy_scale = scaled_differential_matrix(
+                float(logR_value), np.asarray(y, dtype=float), float(lambda0), local_params
+            )
+            A = np.asarray(A, dtype=float)
+            residual = A @ np.asarray(slope, dtype=float).reshape(2) + np.asarray(c, dtype=float).reshape(2)
+            svals = np.linalg.svd(A, compute_uv=False)
+            if svals.size:
+                smallest = float(np.min(svals))
+                largest = float(np.max(svals))
+                singular_min_values.append(smallest)
+                condition_values.append(largest / smallest if smallest > 0.0 else math.inf)
+            remember("ode", float(residual[0]), R_rg, SOURCE_BAND_HS_ODE_WEIGHT)
+            remember("ode", float(residual[1]), R_rg, SOURCE_BAND_HS_ODE_WEIGHT)
+            raw_values.setdefault(f"ode_{label}", []).extend([float(residual[0]), float(residual[1])])
+            raw_R.setdefault(f"ode_{label}", []).extend([R_rg, R_rg])
+        except Exception:
+            remember("ode", 1.0e6, R_rg, SOURCE_BAND_HS_ODE_WEIGHT)
+            remember("ode", 1.0e6, R_rg, SOURCE_BAND_HS_ODE_WEIGHT)
+
+    if "left" in ode_points and node_count:
+        global_node = int(node_indices[0])
+        append_ode(float(logR[global_node]), np.asarray([logu[global_node], logT[global_node]], dtype=float), g_node[0], "left")
+    if "right" in ode_points and node_count:
+        global_node = int(node_indices[-1])
+        append_ode(
+            float(logR[global_node]),
+            np.asarray([logu[global_node], logT[global_node]], dtype=float),
+            g_node[-1],
+            "right",
+        )
+
+    for interval_pos, idx_value in enumerate(np.asarray(interval_indices, dtype=int)):
+        idx = int(idx_value)
+        local_idx = idx - first_node
+        if local_idx < 0 or local_idx >= node_count - 1:
+            continue
+        dx, y_left, y_right, xm = _interval_geometry(logu, logT, logR, idx)
+        if dx <= 0.0:
+            continue
+        R_mid_rg = float(np.exp(xm) / params.r_g)
+        y_mid = np.asarray(midpoint_y[interval_pos], dtype=float)
+        if "mid" in ode_points:
+            append_ode(float(xm), y_mid, g_mid[interval_pos], "mid")
+
+        midpoint_defect = y_mid - 0.5 * (y_left + y_right) - (float(dx) / 8.0) * (
+            g_node[local_idx] - g_node[local_idx + 1]
+        )
+        integral_defect = (y_right - y_left) - (float(dx) / 6.0) * (
+            g_node[local_idx] + 4.0 * g_mid[interval_pos] + g_node[local_idx + 1]
+        )
+        for value in midpoint_defect:
+            remember("midpoint", float(value), R_mid_rg, SOURCE_BAND_HS_COMPAT_WEIGHT)
+        for value in integral_defect:
+            remember("integral", float(value), R_mid_rg, SOURCE_BAND_HS_COMPAT_WEIGHT)
+        fv_mass = _finite_volume_mass_residual_from_unpacked(logu, logT, logMdot, logR, float(lambda0), full_params, idx)
+        remember("fv_mass", float(fv_mass), R_mid_rg, 1.0)
+
+    old_rows = _legacy_production_residual_base(np.asarray(x_ref, dtype=float), params)
+    n = int(params.n_nodes)
+    mass_start = _inner_mdot_row_index(params) + 1
+    excluded_rows: set[int] = set()
+    for idx_value in np.asarray(interval_indices, dtype=int):
+        idx = int(idx_value)
+        if 0 <= idx < n - 1:
+            excluded_rows.update({2 * idx, 2 * idx + 1, mass_start + idx})
+    for row_idx, value in enumerate(np.asarray(old_rows, dtype=float)):
+        group, R_rg = _source_band_replacement_old_row_info(row_idx, params, logR)
+        if row_idx in excluded_rows:
+            remember("old_source", float(value), R_rg, 0.0)
+        else:
+            remember("outside_old", float(value), R_rg, 0.0)
+
+    return {
+        "rows": np.asarray(rows, dtype=float),
+        "raw_values": raw_values,
+        "raw_R": raw_R,
+        "condition_values": np.asarray(condition_values, dtype=float),
+        "singular_min_values": np.asarray(singular_min_values, dtype=float),
+        "g_node": np.asarray(g_node, dtype=float),
+        "g_mid": np.asarray(g_mid, dtype=float),
+        "midpoint_y": np.asarray(midpoint_y, dtype=float),
+    }
+
+
+def _source_band_hs_summary(data: dict[str, Any]) -> dict[str, float]:
+    rows = np.asarray(data.get("rows", []), dtype=float)
+    raw_values = data.get("raw_values", {})
+    raw_R = data.get("raw_R", {})
+    out: dict[str, float] = {"active": float(np.linalg.norm(rows, ord=np.inf)) if rows.size else math.nan}
+
+    def raw_group(name: str) -> None:
+        values = np.asarray(raw_values.get(name, []), dtype=float)
+        radii = np.asarray(raw_R.get(name, []), dtype=float)
+        finite = values[np.isfinite(values)]
+        if finite.size:
+            abs_values = np.abs(values)
+            peak = int(np.nanargmax(abs_values))
+            out[name] = float(abs_values[peak])
+            out[f"{name}_peak_R_rg"] = float(radii[peak]) if radii.size > peak else math.nan
+        else:
+            out[name] = math.nan
+            out[f"{name}_peak_R_rg"] = math.nan
+
+    for group in ("ode", "ode_left", "ode_mid", "ode_right", "midpoint", "integral", "fv_mass", "outside_old", "old_source"):
+        raw_group(group)
+    cond = np.asarray(data.get("condition_values", []), dtype=float)
+    smin = np.asarray(data.get("singular_min_values", []), dtype=float)
+    finite_cond = cond[np.isfinite(cond)]
+    finite_smin = smin[np.isfinite(smin)]
+    out["condition_max"] = float(np.max(finite_cond)) if finite_cond.size else math.nan
+    out["singular_min"] = float(np.min(finite_smin)) if finite_smin.size else math.nan
+    g_node = np.asarray(data.get("g_node", []), dtype=float)
+    g_mid = np.asarray(data.get("g_mid", []), dtype=float)
+    midpoint_y = np.asarray(data.get("midpoint_y", []), dtype=float)
+    out["g_node_max"] = float(np.max(np.abs(g_node))) if g_node.size else math.nan
+    out["g_mid_max"] = float(np.max(np.abs(g_mid))) if g_mid.size else math.nan
+    out["midpoint_state_max"] = float(np.max(np.abs(midpoint_y))) if midpoint_y.size else math.nan
+    return out
+
+
+def _source_band_hs_score(summary: dict[str, float]) -> float:
+    values = [
+        summary.get("ode", math.nan),
+        summary.get("midpoint", math.nan),
+        summary.get("integral", math.nan),
+        summary.get("fv_mass", math.nan),
+        summary.get("outside_old", math.nan),
+    ]
+    finite = [abs(float(value)) for value in values if np.isfinite(value)]
+    return max(finite) if finite else math.inf
+
+
+def _source_band_hs_implicit_polish(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
+    if not SOURCE_BAND_HS_IMPLICIT:
+        return x0, {}
+    _set_eta(eta_E)
+    x_ref = np.asarray(x0, dtype=float)
+    interval_indices, node_indices = _source_band_hs_interval_indices(x_ref, params)
+    if interval_indices.size == 0 or node_indices.size < 2:
+        return x0, {
+            "source_band_hs_enabled": True,
+            "source_band_hs_applied": False,
+            "source_band_hs_reason": "no source-band HS intervals",
+        }
+    logu, logT, logMdot, _logR_son, lambda0, logR = pilot._unpack(x_ref, params)
+    local_params = _source_interface_local_params(params, logR[node_indices], logMdot[node_indices])
+    profile_g_node, profile_g_mid = _source_plus_buffer_implicit_initial_slopes(
+        logu,
+        logT,
+        logR,
+        interval_indices,
+        node_indices,
+        seed_mode="profile",
+    )
+    profile_midpoint_y = _source_band_hs_initial_midpoints(logu, logT, logR, interval_indices, node_indices, profile_g_node)
+    initial_data = _source_band_hs_residual_data(
+        x_ref,
+        params,
+        interval_indices,
+        node_indices,
+        profile_midpoint_y,
+        profile_g_node,
+        profile_g_mid,
+    )
+    initial_summary = _source_band_hs_summary(initial_data)
+
+    seed = str(SOURCE_BAND_HS_SEED or "profile").strip().lower()
+    final_g_node = np.asarray(profile_g_node, dtype=float)
+    final_g_mid = np.asarray(profile_g_mid, dtype=float)
+    final_midpoint_y = np.asarray(profile_midpoint_y, dtype=float)
+    slope_only_applied = False
+    midpoint_solve_info: dict[str, Any] = {}
+    endpoint_release_info: dict[str, Any] = {}
+    if seed in {"implicit_lstsq", "lstsq", "linear", "linear_lstsq", "regularized", "regularized_lstsq"} or SOURCE_BAND_HS_SLOPE_ONLY:
+        final_g_node, final_g_mid = _source_band_hs_regularized_slopes(
+            logu,
+            logT,
+            logMdot,
+            logR,
+            interval_indices,
+            node_indices,
+            float(lambda0),
+            local_params,
+            final_midpoint_y,
+            profile_g_node,
+            profile_g_mid,
+        )
+        slope_only_applied = True
+    elif seed in {"ode", "ode_blend", "blend"}:
+        final_g_node, final_g_mid = _source_plus_buffer_implicit_initial_slopes(
+            logu,
+            logT,
+            logR,
+            interval_indices,
+            node_indices,
+            lambda0=float(lambda0),
+            local_params=local_params,
+            seed_mode=seed,
+            seed_blend=SOURCE_BAND_REPLACEMENT_IMPLICIT_SEED_BLEND,
+        )
+        final_midpoint_y = _source_band_hs_initial_midpoints(logu, logT, logR, interval_indices, node_indices, final_g_node)
+
+    if SOURCE_BAND_HS_MIDPOINT_SOLVE and not SOURCE_BAND_HS_EVALUATE_ONLY:
+        final_midpoint_y, final_g_node, final_g_mid, midpoint_solve_info = _source_band_hs_midpoint_solve(
+            logu,
+            logT,
+            logR,
+            interval_indices,
+            node_indices,
+            float(lambda0),
+            local_params,
+            final_midpoint_y,
+            final_g_node,
+            final_g_mid,
+            profile_g_node,
+            profile_g_mid,
+        )
+
+    if SOURCE_BAND_HS_RELEASE_ENDPOINTS and not SOURCE_BAND_HS_EVALUATE_ONLY:
+        x_ref, final_midpoint_y, final_g_node, final_g_mid, endpoint_release_info = _source_band_hs_endpoint_release_solve(
+            x_ref,
+            params,
+            interval_indices,
+            node_indices,
+            final_midpoint_y,
+            final_g_node,
+            final_g_mid,
+            profile_g_node,
+            profile_g_mid,
+        )
+
+    final_data = _source_band_hs_residual_data(
+        x_ref,
+        params,
+        interval_indices,
+        node_indices,
+        final_midpoint_y,
+        final_g_node,
+        final_g_mid,
+    )
+    final_summary = _source_band_hs_summary(final_data)
+    interval_mid_R_rg = np.exp(0.5 * (logR[:-1] + logR[1:])) / params.r_g
+    info = {
+        "source_band_hs_enabled": True,
+        "source_band_hs_applied": bool(endpoint_release_info.get("accepted", False)),
+        "source_band_hs_evaluate_only": bool(SOURCE_BAND_HS_EVALUATE_ONLY),
+        "source_band_hs_slope_only_applied": bool(slope_only_applied),
+        "source_band_hs_midpoint_solve": bool(SOURCE_BAND_HS_MIDPOINT_SOLVE),
+        "source_band_hs_midpoint_solve_local_initial": midpoint_solve_info.get("initial_local_residual", math.nan),
+        "source_band_hs_midpoint_solve_local_final": midpoint_solve_info.get("final_local_residual", math.nan),
+        "source_band_hs_midpoint_solve_nfev": int(midpoint_solve_info.get("nfev", 0)),
+        "source_band_hs_midpoint_solve_njev": int(midpoint_solve_info.get("njev", 0)),
+        "source_band_hs_midpoint_solve_success": bool(midpoint_solve_info.get("success", False)),
+        "source_band_hs_midpoint_solve_message": str(midpoint_solve_info.get("message", "")),
+        "source_band_hs_release_endpoints": bool(SOURCE_BAND_HS_RELEASE_ENDPOINTS),
+        "source_band_hs_endpoint_release_accepted": bool(endpoint_release_info.get("accepted", False)),
+        "source_band_hs_endpoint_release_reason": str(endpoint_release_info.get("reason", "")),
+        "source_band_hs_endpoint_release_mode": str(endpoint_release_info.get("mode", SOURCE_BAND_HS_RELEASE_ENDPOINT_MODE)),
+        "source_band_hs_endpoint_release_trust": float(endpoint_release_info.get("trust", SOURCE_BAND_HS_ENDPOINT_TRUST)),
+        "source_band_hs_endpoint_release_prior_weight": float(
+            endpoint_release_info.get("prior_weight", SOURCE_BAND_HS_ENDPOINT_PRIOR_WEIGHT)
+        ),
+        "source_band_hs_endpoint_release_mass_weight": float(endpoint_release_info.get("mass_weight", SOURCE_BAND_HS_MASS_WEIGHT)),
+        "source_band_hs_endpoint_release_old_source_penalty_weight": float(
+            endpoint_release_info.get("old_source_penalty_weight", SOURCE_BAND_HS_OLD_SOURCE_PENALTY_WEIGHT)
+        ),
+        "source_band_hs_endpoint_release_old_source_penalty_mode": str(
+            endpoint_release_info.get("old_source_penalty_mode", SOURCE_BAND_HS_OLD_SOURCE_PENALTY_MODE)
+        ),
+        "source_band_hs_endpoint_release_logmdot": bool(endpoint_release_info.get("release_logmdot", SOURCE_BAND_HS_RELEASE_LOGMDOT)),
+        "source_band_hs_endpoint_release_n_nodes": int(endpoint_release_info.get("n_release_nodes", 0)),
+        "source_band_hs_endpoint_release_n_variables": int(endpoint_release_info.get("n_variables", 0)),
+        "source_band_hs_endpoint_release_n_rows": int(endpoint_release_info.get("n_rows", 0)),
+        "source_band_hs_endpoint_release_local_initial": float(endpoint_release_info.get("initial_local_residual", math.nan)),
+        "source_band_hs_endpoint_release_local_final": float(endpoint_release_info.get("final_local_residual", math.nan)),
+        "source_band_hs_endpoint_release_nfev": int(endpoint_release_info.get("nfev", 0)),
+        "source_band_hs_endpoint_release_njev": int(endpoint_release_info.get("njev", 0)),
+        "source_band_hs_endpoint_release_success": bool(endpoint_release_info.get("success", False)),
+        "source_band_hs_endpoint_release_alpha": float(endpoint_release_info.get("alpha", 0.0)),
+        "source_band_hs_endpoint_release_initial_score": float(endpoint_release_info.get("initial_score", math.nan)),
+        "source_band_hs_endpoint_release_final_score": float(endpoint_release_info.get("final_score", math.nan)),
+        "source_band_hs_endpoint_release_initial_ode": float(endpoint_release_info.get("initial_ode", math.nan)),
+        "source_band_hs_endpoint_release_final_ode": float(endpoint_release_info.get("final_ode", math.nan)),
+        "source_band_hs_endpoint_release_initial_midpoint": float(endpoint_release_info.get("initial_midpoint", math.nan)),
+        "source_band_hs_endpoint_release_final_midpoint": float(endpoint_release_info.get("final_midpoint", math.nan)),
+        "source_band_hs_endpoint_release_initial_integral": float(endpoint_release_info.get("initial_integral", math.nan)),
+        "source_band_hs_endpoint_release_final_integral": float(endpoint_release_info.get("final_integral", math.nan)),
+        "source_band_hs_endpoint_release_initial_fv_mass": float(endpoint_release_info.get("initial_fv_mass", math.nan)),
+        "source_band_hs_endpoint_release_final_fv_mass": float(endpoint_release_info.get("final_fv_mass", math.nan)),
+        "source_band_hs_endpoint_release_initial_outside_old": float(endpoint_release_info.get("initial_outside_old", math.nan)),
+        "source_band_hs_endpoint_release_final_outside_old": float(endpoint_release_info.get("final_outside_old", math.nan)),
+        "source_band_hs_endpoint_release_initial_old_source": float(endpoint_release_info.get("initial_old_source", math.nan)),
+        "source_band_hs_endpoint_release_final_old_source": float(endpoint_release_info.get("final_old_source", math.nan)),
+        "source_band_hs_endpoint_release_initial_old_source_peak_R_rg": float(
+            endpoint_release_info.get("initial_old_source_peak_R_rg", math.nan)
+        ),
+        "source_band_hs_endpoint_release_final_old_source_peak_R_rg": float(
+            endpoint_release_info.get("final_old_source_peak_R_rg", math.nan)
+        ),
+        "source_band_hs_endpoint_release_initial_old_source_reference_max": float(
+            endpoint_release_info.get("initial_old_source_reference_max", math.nan)
+        ),
+        "source_band_hs_endpoint_release_delta_logu_max": float(endpoint_release_info.get("delta_logu_max", math.nan)),
+        "source_band_hs_endpoint_release_delta_logT_max": float(endpoint_release_info.get("delta_logT_max", math.nan)),
+        "source_band_hs_endpoint_release_delta_peak_R_rg": float(endpoint_release_info.get("delta_peak_R_rg", math.nan)),
+        "source_band_hs_endpoint_release_fv_mass_limit": float(endpoint_release_info.get("fv_mass_limit", math.nan)),
+        "source_band_hs_endpoint_release_outside_old_limit": float(endpoint_release_info.get("outside_old_limit", math.nan)),
+        "source_band_hs_endpoint_release_old_source_limit": float(endpoint_release_info.get("old_source_limit", math.nan)),
+        "source_band_hs_endpoint_release_trials": endpoint_release_info.get("trials", []),
+        "source_band_hs_core_only": bool(SOURCE_BAND_HS_CORE_ONLY),
+        "source_band_hs_release_halo": int(SOURCE_BAND_HS_RELEASE_HALO),
+        "source_band_hs_midpoint_states": bool(SOURCE_BAND_HS_MIDPOINT_STATES),
+        "source_band_hs_analytic_jac": bool(SOURCE_BAND_HS_ANALYTIC_JAC),
+        "source_band_hs_row_scale": str(SOURCE_BAND_HS_ROW_SCALE),
+        "source_band_hs_col_scale": str(SOURCE_BAND_HS_COL_SCALE),
+        "source_band_hs_seed": seed,
+        "source_band_hs_ode_points": str(SOURCE_BAND_HS_ODE_POINTS),
+        "source_band_hs_gamma": float(SOURCE_BAND_HS_GAMMA),
+        "source_band_hs_ode_weight": float(SOURCE_BAND_HS_ODE_WEIGHT),
+        "source_band_hs_compat_weight": float(SOURCE_BAND_HS_COMPAT_WEIGHT),
+        "source_band_hs_slope_prior_weight": float(SOURCE_BAND_HS_SLOPE_PRIOR_WEIGHT),
+        "source_band_hs_slope_bound": float(SOURCE_BAND_HS_SLOPE_BOUND),
+        "source_band_hs_n_intervals": int(interval_indices.size),
+        "source_band_hs_n_nodes": int(node_indices.size),
+        "source_band_hs_n_slope_variables": int(2 * node_indices.size + 2 * interval_indices.size),
+        "source_band_hs_n_midpoint_state_variables": int(2 * interval_indices.size),
+        "source_band_hs_n_rows": int(np.asarray(final_data.get("rows", []), dtype=float).size),
+        "source_band_hs_first_interval_R_rg": float(interval_mid_R_rg[int(interval_indices[0])]),
+        "source_band_hs_last_interval_R_rg": float(interval_mid_R_rg[int(interval_indices[-1])]),
+        "source_band_hs_initial_score": _source_band_hs_score(initial_summary),
+        "source_band_hs_final_score": _source_band_hs_score(final_summary),
+        "source_band_hs_initial_active": initial_summary.get("active", math.nan),
+        "source_band_hs_final_active": final_summary.get("active", math.nan),
+        "source_band_hs_initial_ode": initial_summary.get("ode", math.nan),
+        "source_band_hs_final_ode": final_summary.get("ode", math.nan),
+        "source_band_hs_initial_ode_mid": initial_summary.get("ode_mid", math.nan),
+        "source_band_hs_final_ode_mid": final_summary.get("ode_mid", math.nan),
+        "source_band_hs_initial_ode_left": initial_summary.get("ode_left", math.nan),
+        "source_band_hs_final_ode_left": final_summary.get("ode_left", math.nan),
+        "source_band_hs_initial_ode_right": initial_summary.get("ode_right", math.nan),
+        "source_band_hs_final_ode_right": final_summary.get("ode_right", math.nan),
+        "source_band_hs_initial_midpoint": initial_summary.get("midpoint", math.nan),
+        "source_band_hs_final_midpoint": final_summary.get("midpoint", math.nan),
+        "source_band_hs_initial_integral": initial_summary.get("integral", math.nan),
+        "source_band_hs_final_integral": final_summary.get("integral", math.nan),
+        "source_band_hs_initial_fv_mass": initial_summary.get("fv_mass", math.nan),
+        "source_band_hs_final_fv_mass": final_summary.get("fv_mass", math.nan),
+        "source_band_hs_initial_outside_old": initial_summary.get("outside_old", math.nan),
+        "source_band_hs_final_outside_old": final_summary.get("outside_old", math.nan),
+        "source_band_hs_initial_old_source": initial_summary.get("old_source", math.nan),
+        "source_band_hs_final_old_source": final_summary.get("old_source", math.nan),
+        "source_band_hs_initial_old_source_peak_R_rg": initial_summary.get("old_source_peak_R_rg", math.nan),
+        "source_band_hs_final_old_source_peak_R_rg": final_summary.get("old_source_peak_R_rg", math.nan),
+        "source_band_hs_initial_condition": initial_summary.get("condition_max", math.nan),
+        "source_band_hs_final_condition": final_summary.get("condition_max", math.nan),
+        "source_band_hs_initial_singular_min": initial_summary.get("singular_min", math.nan),
+        "source_band_hs_final_singular_min": final_summary.get("singular_min", math.nan),
+        "source_band_hs_initial_g_node_max": initial_summary.get("g_node_max", math.nan),
+        "source_band_hs_final_g_node_max": final_summary.get("g_node_max", math.nan),
+        "source_band_hs_initial_g_mid_max": initial_summary.get("g_mid_max", math.nan),
+        "source_band_hs_final_g_mid_max": final_summary.get("g_mid_max", math.nan),
+        "source_band_hs_initial_midpoint_state_max": initial_summary.get("midpoint_state_max", math.nan),
+        "source_band_hs_final_midpoint_state_max": final_summary.get("midpoint_state_max", math.nan),
+    }
+    if SOURCE_BAND_HS_SAVE_AUX:
+        info.update(
+            {
+                "source_band_hs_aux_interval_indices": np.asarray(interval_indices, dtype=int),
+                "source_band_hs_aux_node_indices": np.asarray(node_indices, dtype=int),
+                "source_band_hs_aux_midpoint_y": np.asarray(final_midpoint_y, dtype=float),
+                "source_band_hs_aux_g_node": np.asarray(final_g_node, dtype=float),
+                "source_band_hs_aux_g_mid": np.asarray(final_g_mid, dtype=float),
+            }
+        )
+    return x_ref, info
 
 
 def _source_plus_buffer_implicit_full_from_trial(
@@ -7420,6 +10185,13 @@ def _source_band_replacement_chi_impl() -> float:
     return min(max(float(SOURCE_BAND_REPLACEMENT_CHI_IMPL), 0.0), 1.0)
 
 
+def _source_band_replacement_row_mode() -> str:
+    mode = str(SOURCE_BAND_REPLACEMENT_ROW_MODE).strip().lower()
+    if mode not in {"append", "replace", "blend", "audit"}:
+        return "append"
+    return mode
+
+
 def _smoothstep_unit(value: float) -> float:
     s = min(max(float(value), 0.0), 1.0)
     return float(s * s * (3.0 - 2.0 * s))
@@ -7520,21 +10292,99 @@ def _source_band_replacement_old_row_info(
     return "old_other", math.nan
 
 
+def _source_band_replacement_offsets(node_count: int, interval_count: int) -> dict[str, int | None]:
+    state_size = 3 * int(node_count)
+    midpoint_offset: int | None = state_size if SOURCE_BAND_REPLACEMENT_MIDPOINT_STATES else None
+    g_node_offset = state_size + (2 * int(interval_count) if SOURCE_BAND_REPLACEMENT_MIDPOINT_STATES else 0)
+    g_mid_offset = g_node_offset + 2 * int(node_count)
+    mass_increment_offset: int | None = (
+        g_mid_offset + 2 * int(interval_count) if SOURCE_BAND_MASS_INCREMENT else None
+    )
+    col_count = g_mid_offset + 2 * int(interval_count)
+    if mass_increment_offset is not None:
+        col_count += int(interval_count)
+    return {
+        "state_size": state_size,
+        "midpoint_offset": midpoint_offset,
+        "g_node_offset": g_node_offset,
+        "g_mid_offset": g_mid_offset,
+        "mass_increment_offset": mass_increment_offset,
+        "col_count": col_count,
+    }
+
+
+def _source_band_replacement_unpack_trial(
+    trial: np.ndarray,
+    node_count: int,
+    interval_count: int,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray | None, np.ndarray, np.ndarray]:
+    trial_array = np.asarray(trial, dtype=float)
+    n_node = int(node_count)
+    n_interval = int(interval_count)
+    block_logu = trial_array[:n_node]
+    block_logT = trial_array[n_node : 2 * n_node]
+    block_logMdot = trial_array[2 * n_node : 3 * n_node]
+    offsets = _source_band_replacement_offsets(n_node, n_interval)
+    midpoint_y: np.ndarray | None = None
+    midpoint_offset = offsets["midpoint_offset"]
+    if midpoint_offset is not None:
+        midpoint_y = trial_array[int(midpoint_offset) : int(midpoint_offset) + 2 * n_interval].reshape(n_interval, 2)
+    g_node_offset = int(offsets["g_node_offset"])
+    g_mid_offset = int(offsets["g_mid_offset"])
+    g_node = trial_array[g_node_offset : g_node_offset + 2 * n_node].reshape(n_node, 2)
+    g_mid = trial_array[g_mid_offset : g_mid_offset + 2 * n_interval].reshape(n_interval, 2)
+    return block_logu, block_logT, block_logMdot, midpoint_y, g_node, g_mid
+
+
+def _source_band_replacement_full_from_trial(
+    reference_x: np.ndarray,
+    trial: np.ndarray,
+    node_indices: np.ndarray,
+    params,
+    write_edges: bool,
+) -> np.ndarray:
+    logu, logT, logMdot, logR_son, lambda0, _logR = pilot._unpack(np.asarray(reference_x, dtype=float), params)
+    node_count = int(node_indices.size)
+    interval_count = max(0, node_count - 1)
+    block_logu, block_logT, block_logMdot, _midpoint_y, _g_node, _g_mid = _source_band_replacement_unpack_trial(
+        np.asarray(trial, dtype=float), node_count, interval_count
+    )
+    full_logu = np.asarray(logu, dtype=float).copy()
+    full_logT = np.asarray(logT, dtype=float).copy()
+    full_logMdot = np.asarray(logMdot, dtype=float).copy()
+    for local_pos, global_node in enumerate(np.asarray(node_indices, dtype=int)):
+        if not write_edges and (local_pos == 0 or local_pos == node_count - 1):
+            continue
+        full_logu[int(global_node)] = float(block_logu[int(local_pos)])
+        full_logT[int(global_node)] = float(block_logT[int(local_pos)])
+        full_logMdot[int(global_node)] = float(block_logMdot[int(local_pos)])
+    return pilot._pack(full_logu, full_logT, full_logMdot, float(logR_son), float(lambda0))
+
+
 def _source_band_replacement_base_deps(
     params,
     node_indices: np.ndarray,
 ) -> tuple[list[set[int]], int]:
     n = int(params.n_nodes)
+    cache_key = (n, tuple(int(node) for node in np.asarray(node_indices, dtype=int)), bool(SOURCE_BAND_REPLACEMENT_MIDPOINT_STATES))
+    cache = getattr(_source_band_replacement_base_deps, "_cache", None)
+    if cache is None:
+        cache = {}
+        setattr(_source_band_replacement_base_deps, "_cache", cache)
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
     node_to_local = {int(node): int(pos) for pos, node in enumerate(np.asarray(node_indices, dtype=int))}
     node_count = int(node_indices.size)
-    state_size = 3 * node_count
-    col_count = state_size + 2 * node_count + 2 * max(node_count - 1, 0)
+    col_count = int(_source_band_replacement_offsets(node_count, max(node_count - 1, 0))["col_count"])
     try:
         base = pilot._sparsity(params).tocoo()
         rows = int(base.shape[0])
     except Exception:
         rows = 3 * n + 2
-        return [set() for _ in range(rows)], col_count
+        result = ([set() for _ in range(rows)], col_count)
+        cache[cache_key] = result
+        return result
 
     def map_col(col: int) -> int | None:
         col = int(col)
@@ -7554,7 +10404,9 @@ def _source_band_replacement_base_deps(
         mapped = map_col(int(col))
         if mapped is not None:
             deps[int(row)].add(int(mapped))
-    return deps, col_count
+    result = (deps, col_count)
+    cache[cache_key] = result
+    return result
 
 
 def _source_band_replacement_sparsity(data: dict[str, Any], col_count: int):
@@ -7574,6 +10426,706 @@ def _source_band_replacement_sparsity(data: dict[str, Any], col_count: int):
     return pattern.tocsr()
 
 
+def _source_band_replacement_hybrid_jacobian(
+    trial: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+    reference_block: tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, float, np.ndarray],
+    reference_x: np.ndarray,
+    write_edges: bool,
+    sparsity,
+    lb: np.ndarray,
+    ub: np.ndarray,
+):
+    from scipy.sparse import lil_matrix
+
+    trial_array = np.asarray(trial, dtype=float)
+    base_data = _source_band_replacement_residual_data(
+        trial_array,
+        params,
+        interval_indices,
+        node_indices,
+        reference_block,
+        reference_x,
+        bool(write_edges),
+    )
+    base_rows = np.asarray(base_data.get("rows", []), dtype=float)
+    n_rows = int(base_rows.size)
+    n_cols = int(trial_array.size)
+    matrix = lil_matrix((n_rows, n_cols), dtype=float)
+    if n_rows == 0 or n_cols == 0:
+        return matrix.tocsr()
+
+    if sparsity is None:
+        row_sets = [np.arange(n_rows, dtype=int) for _ in range(n_cols)]
+    else:
+        csr = sparsity.tocsr()
+        row_sets = [csr[:, col].nonzero()[0] for col in range(n_cols)]
+
+    node_count = int(node_indices.size)
+    state_size = min(3 * node_count, n_cols)
+    configured_step = float(SOURCE_BAND_REPLACEMENT_DIFF_STEP)
+    base_step = max(abs(configured_step) if configured_step > 0.0 else abs(float(LOCAL_JACOBIAN_STEP)), 1.0e-12)
+
+    def eval_rows(candidate: np.ndarray, rows: np.ndarray) -> np.ndarray:
+        return np.asarray(
+            _source_band_replacement_residual_data(
+                np.asarray(candidate, dtype=float),
+                params,
+                interval_indices,
+                node_indices,
+                reference_block,
+                reference_x,
+                bool(write_edges),
+            ).get("rows", []),
+            dtype=float,
+        )[rows]
+
+    for col in range(state_size):
+        rows = np.asarray(row_sets[col], dtype=int)
+        if rows.size == 0:
+            continue
+        scale = max(abs(float(trial_array[col])), 1.0)
+        step = base_step * scale
+        can_plus = float(trial_array[col]) + step < float(ub[col])
+        can_minus = float(trial_array[col]) - step > float(lb[col])
+        if not can_plus and not can_minus:
+            continue
+        if can_plus and can_minus:
+            plus = trial_array.copy()
+            minus = trial_array.copy()
+            plus[col] += step
+            minus[col] -= step
+            deriv = (eval_rows(plus, rows) - eval_rows(minus, rows)) / (2.0 * step)
+        else:
+            candidate = trial_array.copy()
+            if can_plus:
+                candidate[col] += step
+                deriv = (eval_rows(candidate, rows) - base_rows[rows]) / step
+            else:
+                candidate[col] -= step
+                deriv = (base_rows[rows] - eval_rows(candidate, rows)) / step
+        for row, value in zip(rows, deriv):
+            if np.isfinite(value) and float(value) != 0.0:
+                matrix[int(row), int(col)] = float(value)
+
+    for row, col, value in base_data.get("aux_jac_entries", []):
+        if 0 <= int(row) < n_rows and 0 <= int(col) < n_cols and np.isfinite(float(value)):
+            matrix[int(row), int(col)] = float(value)
+    return matrix.tocsr()
+
+
+def _source_band_replacement_seed_components(
+    x_ref: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+) -> tuple[
+    tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, float, np.ndarray],
+    np.ndarray,
+    np.ndarray,
+    np.ndarray,
+    str,
+]:
+    logu, logT, logMdot, logR_son, lambda0, logR = pilot._unpack(np.asarray(x_ref, dtype=float), params)
+    reference_block = (logu, logT, logMdot, logR_son, float(lambda0), logR)
+    seed_local_params = _source_interface_local_params(params, logR[node_indices], logMdot[node_indices])
+    g_node0, g_mid0 = _source_plus_buffer_implicit_initial_slopes(
+        logu,
+        logT,
+        logR,
+        interval_indices,
+        node_indices,
+        lambda0=float(lambda0),
+        local_params=seed_local_params,
+        seed_mode=SOURCE_BAND_REPLACEMENT_IMPLICIT_SEED,
+        seed_blend=SOURCE_BAND_REPLACEMENT_IMPLICIT_SEED_BLEND,
+    )
+    midpoint_y0 = _source_band_hs_initial_midpoints(logu, logT, logR, interval_indices, node_indices, g_node0)
+    checkpoint_aux_source = "none"
+    if str(SOURCE_BAND_REPLACEMENT_IMPLICIT_SEED).strip().lower() in {
+        "checkpoint_hs",
+        "hs_checkpoint",
+        "source_band_hs",
+        "checkpoint_replacement",
+        "replacement_checkpoint",
+        "source_band_replacement",
+    }:
+        checkpoint_g_node, checkpoint_g_mid, checkpoint_midpoint_y, checkpoint_aux_source = (
+            _source_band_replacement_checkpoint_hs_slopes(interval_indices, node_indices)
+        )
+        if checkpoint_g_node is not None and checkpoint_g_mid is not None:
+            g_node0, g_mid0 = checkpoint_g_node, checkpoint_g_mid
+            midpoint_y0 = (
+                checkpoint_midpoint_y
+                if checkpoint_midpoint_y is not None
+                else _source_band_hs_initial_midpoints(logu, logT, logR, interval_indices, node_indices, g_node0)
+            )
+        else:
+            checkpoint_aux_source = "fallback"
+    return reference_block, np.asarray(midpoint_y0, dtype=float), np.asarray(g_node0, dtype=float), np.asarray(g_mid0, dtype=float), checkpoint_aux_source
+
+
+def _source_band_replacement_aux_from_trial(
+    trial: np.ndarray,
+    node_count: int,
+    interval_count: int,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    _block_logu, _block_logT, _block_logMdot, midpoint_y, g_node, g_mid = _source_band_replacement_unpack_trial(
+        np.asarray(trial, dtype=float), int(node_count), int(interval_count)
+    )
+    if midpoint_y is None:
+        midpoint_y = np.empty((0, 2), dtype=float)
+    return np.asarray(midpoint_y, dtype=float), np.asarray(g_node, dtype=float), np.asarray(g_mid, dtype=float)
+
+
+def _source_band_mass_increment_scale(params) -> float:
+    if SOURCE_BAND_MASS_INCREMENT_SCALE not in {"mdot_inner", "inner", "mdot"}:
+        return max(abs(float(params.Mdot_g_s)), 1.0e-300)
+    return max(abs(float(params.Mdot_g_s)), 1.0e-300)
+
+
+def _source_band_mass_increment_initial(
+    logu: np.ndarray,
+    logT: np.ndarray,
+    logMdot: np.ndarray,
+    logR: np.ndarray,
+    lambda0: float,
+    params,
+    interval_indices: np.ndarray,
+) -> np.ndarray:
+    scale = _source_band_mass_increment_scale(params)
+    values: list[float] = []
+    for idx_value in np.asarray(interval_indices, dtype=int):
+        idx = int(idx_value)
+        if idx < 0 or idx >= np.asarray(logMdot).size - 1:
+            values.append(0.0)
+            continue
+        try:
+            wind_integral, source_integral, _mdot_scale, mdot_left, mdot_right = _finite_volume_mass_terms_from_unpacked(
+                logu, logT, logMdot, logR, float(lambda0), params, idx
+            )
+            endpoint_delta = (float(mdot_right) - float(mdot_left)) / scale
+            integral_delta = (float(wind_integral) - float(source_integral)) / scale
+            if SOURCE_BAND_MASS_INCREMENT_INIT in {"integral", "budget", "source_wind"}:
+                values.append(integral_delta)
+            elif SOURCE_BAND_MASS_INCREMENT_INIT in {"balanced", "least_squares", "lsq", "compromise"}:
+                w_int = abs(float(SOURCE_BAND_MASS_INCREMENT_INT_WEIGHT))
+                w_link = abs(float(SOURCE_BAND_MASS_INCREMENT_LINK_WEIGHT))
+                denom = w_int * w_int + w_link * w_link
+                if denom <= 0.0:
+                    values.append(0.5 * (integral_delta + endpoint_delta))
+                else:
+                    values.append((w_int * w_int * integral_delta + w_link * w_link * endpoint_delta) / denom)
+            elif SOURCE_BAND_MASS_INCREMENT_INIT in {"zero", "zeros"}:
+                values.append(0.0)
+            else:
+                values.append(endpoint_delta)
+        except Exception:
+            values.append(0.0)
+    return np.asarray(values, dtype=float)
+
+
+def _source_band_mass_increment_from_trial(
+    trial: np.ndarray,
+    node_count: int,
+    interval_count: int,
+) -> np.ndarray | None:
+    if not SOURCE_BAND_MASS_INCREMENT:
+        return None
+    offsets = _source_band_replacement_offsets(int(node_count), int(interval_count))
+    mass_offset = offsets.get("mass_increment_offset")
+    if mass_offset is None:
+        return None
+    trial_array = np.asarray(trial, dtype=float)
+    start = int(mass_offset)
+    end = start + int(interval_count)
+    if trial_array.size < end:
+        return np.zeros(int(interval_count), dtype=float)
+    return np.asarray(trial_array[start:end], dtype=float)
+
+
+def _source_band_aux_memory_matches(interval_indices: np.ndarray, node_indices: np.ndarray) -> bool:
+    if not _SOURCE_BAND_AUX_MEMORY:
+        return False
+    saved_intervals = _SOURCE_BAND_AUX_MEMORY.get("source_band_replacement_aux_interval_indices")
+    saved_nodes = _SOURCE_BAND_AUX_MEMORY.get("source_band_replacement_aux_node_indices")
+    if saved_intervals is None or saved_nodes is None:
+        return False
+    return bool(
+        np.array_equal(np.asarray(saved_intervals, dtype=int), np.asarray(interval_indices, dtype=int))
+        and np.array_equal(np.asarray(saved_nodes, dtype=int), np.asarray(node_indices, dtype=int))
+    )
+
+
+def _remember_source_band_aux(info: dict[str, Any]) -> None:
+    keys = (
+        "source_band_replacement_aux_interval_indices",
+        "source_band_replacement_aux_node_indices",
+        "source_band_replacement_aux_midpoint_y",
+        "source_band_replacement_aux_g_node",
+        "source_band_replacement_aux_g_mid",
+        "source_band_mass_increment_aux_delta",
+    )
+    if not {"source_band_replacement_aux_interval_indices", "source_band_replacement_aux_node_indices"}.issubset(info):
+        return
+    for key in keys:
+        if key in info:
+            _SOURCE_BAND_AUX_MEMORY[key] = np.asarray(info[key])
+
+
+def _source_band_checkpoint_mass_increment(
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+) -> np.ndarray | None:
+    if SOURCE_BAND_MASS_INCREMENT_REFRESH:
+        return None
+    if _source_band_aux_memory_matches(interval_indices, node_indices):
+        delta = _SOURCE_BAND_AUX_MEMORY.get("source_band_mass_increment_aux_delta")
+        if delta is not None:
+            delta_array = np.asarray(delta, dtype=float)
+            if delta_array.shape == (int(interval_indices.size),) and np.all(np.isfinite(delta_array)):
+                return delta_array
+    if START_X_CHECKPOINT is None:
+        return None
+    try:
+        with np.load(START_X_CHECKPOINT) as data:
+            if "source_band_mass_increment_aux_delta" not in data.files:
+                return None
+            if {
+                "source_band_replacement_aux_interval_indices",
+                "source_band_replacement_aux_node_indices",
+            }.issubset(set(data.files)):
+                saved_intervals = np.asarray(data["source_band_replacement_aux_interval_indices"], dtype=int)
+                saved_nodes = np.asarray(data["source_band_replacement_aux_node_indices"], dtype=int)
+                if not (
+                    np.array_equal(saved_intervals, np.asarray(interval_indices, dtype=int))
+                    and np.array_equal(saved_nodes, np.asarray(node_indices, dtype=int))
+                ):
+                    return None
+            delta = np.asarray(data["source_band_mass_increment_aux_delta"], dtype=float)
+            if delta.shape == (int(interval_indices.size),) and np.all(np.isfinite(delta)):
+                return delta
+    except Exception:
+        return None
+    return None
+
+
+def _source_band_global_replacement_aux_size(node_count: int, interval_count: int) -> int:
+    offsets = _source_band_replacement_offsets(int(node_count), int(interval_count))
+    return int(offsets["col_count"]) - int(offsets["state_size"])
+
+
+def _source_band_global_replacement_make_aux(
+    midpoint_y: np.ndarray,
+    g_node: np.ndarray,
+    g_mid: np.ndarray,
+    mass_increment: np.ndarray | None = None,
+) -> np.ndarray:
+    parts: list[np.ndarray] = []
+    if SOURCE_BAND_REPLACEMENT_MIDPOINT_STATES:
+        parts.append(np.asarray(midpoint_y, dtype=float).ravel())
+    parts.extend([np.asarray(g_node, dtype=float).ravel(), np.asarray(g_mid, dtype=float).ravel()])
+    if SOURCE_BAND_MASS_INCREMENT:
+        if mass_increment is None:
+            mass_increment = np.zeros(np.asarray(g_mid, dtype=float).shape[0], dtype=float)
+        parts.append(np.asarray(mass_increment, dtype=float).ravel())
+    return np.concatenate(parts) if parts else np.asarray([], dtype=float)
+
+
+def _source_band_global_replacement_local_trial(
+    augmented_trial: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray, tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, float, np.ndarray]]:
+    n = int(params.n_nodes)
+    base_size = 3 * n + 2
+    augmented = np.asarray(augmented_trial, dtype=float)
+    full_x = np.asarray(augmented[:base_size], dtype=float)
+    aux = np.asarray(augmented[base_size:], dtype=float)
+    logu, logT, logMdot, logR_son, lambda0, logR = pilot._unpack(full_x, params)
+    local_state = np.concatenate([logu[node_indices], logT[node_indices], logMdot[node_indices]])
+    local_trial = np.concatenate([local_state, aux])
+    reference_block = (logu, logT, logMdot, logR_son, float(lambda0), logR)
+    return full_x, local_trial, reference_block
+
+
+def _source_band_global_replacement_residual_data(
+    augmented_trial: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+) -> dict[str, Any]:
+    full_x, local_trial, reference_block = _source_band_global_replacement_local_trial(
+        augmented_trial, params, interval_indices, node_indices
+    )
+    return _source_band_replacement_residual_data(
+        local_trial,
+        params,
+        interval_indices,
+        node_indices,
+        reference_block,
+        full_x,
+        True,
+    )
+
+
+def _source_band_global_replacement_sparsity(
+    data: dict[str, Any],
+    params,
+    node_indices: np.ndarray,
+):
+    try:
+        from scipy.sparse import lil_matrix
+    except Exception:
+        return None
+    rows = np.asarray(data.get("rows", []), dtype=float)
+    if rows.size == 0:
+        return None
+    n = int(params.n_nodes)
+    base_size = 3 * n + 2
+    node_count = int(node_indices.size)
+    col_count_local = int(data.get("col_count", 0))
+    state_size = 3 * node_count
+    if col_count_local < state_size:
+        return None
+    total_cols = base_size + (col_count_local - state_size)
+    pattern = lil_matrix((rows.size, total_cols), dtype=int)
+    old_row_indices = np.asarray(data.get("old_row_indices", np.full(rows.size, -1)), dtype=int)
+    try:
+        old_sparsity = pilot._sparsity(params).tocsr()
+    except Exception:
+        old_sparsity = None
+
+    def map_local_col(col: int) -> int | None:
+        local_col = int(col)
+        if 0 <= local_col < node_count:
+            return int(node_indices[local_col])
+        if node_count <= local_col < 2 * node_count:
+            return n + int(node_indices[local_col - node_count])
+        if 2 * node_count <= local_col < 3 * node_count:
+            return 2 * n + int(node_indices[local_col - 2 * node_count])
+        if state_size <= local_col < col_count_local:
+            return base_size + local_col - state_size
+        return None
+
+    deps = list(data.get("deps", []))
+    for row_idx in range(rows.size):
+        old_row_idx = int(old_row_indices[row_idx]) if row_idx < old_row_indices.size else -1
+        if old_row_idx >= 0 and old_sparsity is not None and old_row_idx < old_sparsity.shape[0]:
+            start, end = old_sparsity.indptr[old_row_idx], old_sparsity.indptr[old_row_idx + 1]
+            for col in old_sparsity.indices[start:end]:
+                if 0 <= int(col) < base_size:
+                    pattern[row_idx, int(col)] = 1
+            continue
+        for local_col in deps[row_idx] if row_idx < len(deps) else ():
+            mapped = map_local_col(int(local_col))
+            if mapped is not None:
+                pattern[row_idx, mapped] = 1
+        # New HS/FV rows depend on the sonic radius through the grid and on lambda0.
+        pattern[row_idx, 3 * n] = 1
+        pattern[row_idx, 3 * n + 1] = 1
+    return pattern.tocsr()
+
+
+def _source_band_global_replacement_unpack_aux(
+    augmented_trial: np.ndarray,
+    params,
+    node_count: int,
+    interval_count: int,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray | None]:
+    n = int(params.n_nodes)
+    base_size = 3 * n + 2
+    aux = np.asarray(augmented_trial, dtype=float)[base_size:]
+    dummy_state = np.zeros(3 * int(node_count), dtype=float)
+    local_trial = np.concatenate([dummy_state, aux])
+    midpoint_y, g_node, g_mid = _source_band_replacement_aux_from_trial(local_trial, node_count, interval_count)
+    mass_increment = _source_band_mass_increment_from_trial(local_trial, node_count, interval_count)
+    return midpoint_y, g_node, g_mid, mass_increment
+
+
+def _source_band_augmented_metrics_for_x(
+    x: np.ndarray,
+    params,
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+) -> dict[str, float]:
+    _reference_block, midpoint_y, g_node, g_mid, _source = _source_band_replacement_seed_components(
+        np.asarray(x, dtype=float), params, interval_indices, node_indices
+    )
+    logu, logT, logMdot, _logR_son, lambda0, logR = pilot._unpack(np.asarray(x, dtype=float), params)
+    local_params = pilot._local_params(params, logR, logMdot)
+    mass_increment = _source_band_mass_increment_initial(
+        logu, logT, logMdot, logR, float(lambda0), local_params, interval_indices
+    )
+    augmented = np.concatenate(
+        [
+            np.asarray(x, dtype=float),
+            _source_band_global_replacement_make_aux(midpoint_y, g_node, g_mid, mass_increment),
+        ]
+    )
+    data = _source_band_global_replacement_residual_data(augmented, params, interval_indices, node_indices)
+    summary = _source_band_replacement_summary(data)
+    return {
+        "score": _source_band_replacement_score(summary),
+        "fv_mass": summary.get("active_fv_mass", math.nan),
+        "outside_old": summary.get("active_outside_old", math.nan),
+        "implicit_ode": summary.get("active_implicit_ode", math.nan),
+        "midpoint": summary.get("active_midpoint", math.nan),
+        "simpson": summary.get("active_simpson", math.nan),
+        "old_source": summary.get("audit_old_source", math.nan),
+        "old_full": summary.get("audit_old_full", math.nan),
+    }
+
+
+def _source_band_fv_mass_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
+    if not SOURCE_BAND_FV_MASS_CORRECT:
+        return x0, {}
+    _set_eta(eta_E)
+    x_ref = np.asarray(x0, dtype=float)
+    interval_indices, node_indices = _source_plus_buffer_interval_indices(x_ref, params)
+    if interval_indices.size == 0 or node_indices.size < 2:
+        return x0, {
+            "source_band_fv_mass_correct_enabled": True,
+            "source_band_fv_mass_correct_applied": False,
+            "source_band_fv_mass_correct_reason": "no source-plus-buffer intervals",
+        }
+    n = int(params.n_nodes)
+    logu_ref, logT_ref, logMdot_ref, logR_son, lambda0, logR = pilot._unpack(x_ref, params)
+    node_indices = np.asarray(node_indices, dtype=int)
+    interval_indices = np.asarray(interval_indices, dtype=int)
+    first_node = int(node_indices[0])
+    start = np.asarray(logMdot_ref[node_indices], dtype=float)
+    lower, upper = pilot._bounds(params)
+    lb = np.asarray(lower[2 * n + node_indices], dtype=float)
+    ub = np.asarray(upper[2 * n + node_indices], dtype=float)
+    initial_metrics = _source_band_augmented_metrics_for_x(x_ref, params, interval_indices, node_indices)
+
+    def full_from_trial(trial: np.ndarray) -> tuple[np.ndarray, np.ndarray, Any]:
+        full_logMdot = np.asarray(logMdot_ref, dtype=float).copy()
+        full_logMdot[node_indices] = np.asarray(trial, dtype=float)
+        full_x = pilot._pack(logu_ref, logT_ref, full_logMdot, float(logR_son), float(lambda0))
+        full_params = pilot._local_params(params, logR, full_logMdot)
+        return full_x, full_logMdot, full_params
+
+    def mass_rows(trial: np.ndarray) -> np.ndarray:
+        _full_x, full_logMdot, full_params = full_from_trial(trial)
+        rows: list[float] = []
+        for idx_value in interval_indices:
+            idx = int(idx_value)
+            if idx < 0 or idx >= n - 1:
+                continue
+            rows.append(
+                _finite_volume_mass_residual_from_unpacked(
+                    logu_ref, logT_ref, full_logMdot, logR, float(lambda0), full_params, idx
+                )
+            )
+        if SOURCE_BAND_FV_MASS_EDGE_ANCHOR_WEIGHT > 0.0 and start.size >= 2:
+            weight = float(SOURCE_BAND_FV_MASS_EDGE_ANCHOR_WEIGHT)
+            rows.append(weight * (float(trial[0]) - float(start[0])))
+            rows.append(weight * (float(trial[-1]) - float(start[-1])))
+        if SOURCE_BAND_FV_MASS_ALL_ANCHOR_WEIGHT > 0.0:
+            rows.extend((float(SOURCE_BAND_FV_MASS_ALL_ANCHOR_WEIGHT) * (np.asarray(trial) - start)).tolist())
+        return np.asarray(rows, dtype=float)
+
+    def mass_jacobian(trial: np.ndarray):
+        from scipy.sparse import lil_matrix
+
+        trial = np.asarray(trial, dtype=float)
+        rows0 = mass_rows(trial)
+        matrix = lil_matrix((rows0.size, trial.size), dtype=float)
+        _full_x, full_logMdot, full_params = full_from_trial(trial)
+        for row_pos, idx_value in enumerate(interval_indices):
+            idx = int(idx_value)
+            local_idx = idx - first_node
+            if local_idx < 0 or local_idx >= trial.size - 1:
+                continue
+            try:
+                wind_integral, source_integral, mdot_scale, mdot_left, mdot_right = _finite_volume_mass_terms_from_unpacked(
+                    logu_ref, logT_ref, full_logMdot, logR, float(lambda0), full_params, idx
+                )
+                numerator = mdot_right - mdot_left - (wind_integral - source_integral)
+                scale = max(float(mdot_scale), 1.0e-300)
+                weight = float(MASS_WEIGHT)
+                # Endpoint-exact part of d[(M_R-M_L-S)/sqrt(M_L M_R)]/dlogM.
+                # Wind/source derivatives are intentionally left to the line search.
+                d_left = weight * (-mdot_left - 0.5 * numerator) / scale
+                d_right = weight * (mdot_right - 0.5 * numerator) / scale
+                if np.isfinite(d_left):
+                    matrix[row_pos, local_idx] = float(d_left)
+                if np.isfinite(d_right):
+                    matrix[row_pos, local_idx + 1] = float(d_right)
+            except Exception:
+                continue
+        anchor_row = int(interval_indices.size)
+        if SOURCE_BAND_FV_MASS_EDGE_ANCHOR_WEIGHT > 0.0 and start.size >= 2:
+            weight = float(SOURCE_BAND_FV_MASS_EDGE_ANCHOR_WEIGHT)
+            matrix[anchor_row, 0] = weight
+            matrix[anchor_row + 1, trial.size - 1] = weight
+            anchor_row += 2
+        if SOURCE_BAND_FV_MASS_ALL_ANCHOR_WEIGHT > 0.0:
+            weight = float(SOURCE_BAND_FV_MASS_ALL_ANCHOR_WEIGHT)
+            for pos in range(trial.size):
+                matrix[anchor_row + pos, pos] = weight
+        return matrix.tocsr()
+
+    from scipy.optimize import least_squares
+
+    result = least_squares(
+        mass_rows,
+        np.clip(start, lb + 1.0e-12, ub - 1.0e-12),
+        bounds=(lb, ub),
+        jac=mass_jacobian,
+        x_scale="jac",
+        loss="linear",
+        ftol=RESIDUAL_TOL,
+        xtol=RESIDUAL_TOL,
+        gtol=RESIDUAL_TOL,
+        max_nfev=SOURCE_BAND_FV_MASS_MAX_NFEV,
+        verbose=0,
+    )
+    candidate_x, _candidate_logMdot, _candidate_params = full_from_trial(result.x)
+    candidate_metrics = _source_band_augmented_metrics_for_x(candidate_x, params, interval_indices, node_indices)
+    best_x = x_ref
+    best_metrics = initial_metrics
+    best_alpha = 0.0
+    step = np.asarray(result.x, dtype=float) - start
+    trials: list[dict[str, Any]] = []
+    for exponent in range(max(1, int(SOURCE_BAND_FV_MASS_LINE_SEARCH_STEPS))):
+        alpha = 0.5**exponent
+        trial = np.clip(start + alpha * step, lb + 1.0e-12, ub - 1.0e-12)
+        trial_x, _trial_logMdot, _trial_params = full_from_trial(trial)
+        metrics = _source_band_augmented_metrics_for_x(trial_x, params, interval_indices, node_indices)
+        guard = bool(
+            np.isfinite(metrics["score"])
+            and metrics["score"] <= max(float(initial_metrics["score"]), ACCEPT_TOL)
+            and (
+                not np.isfinite(metrics["outside_old"])
+                or metrics["outside_old"] <= max(float(initial_metrics["outside_old"]), ACCEPT_TOL)
+            )
+        )
+        trials.append(
+            {
+                "alpha": float(alpha),
+                "score": metrics["score"],
+                "fv_mass": metrics["fv_mass"],
+                "outside_old": metrics["outside_old"],
+                "implicit_ode": metrics["implicit_ode"],
+                "midpoint": metrics["midpoint"],
+                "simpson": metrics["simpson"],
+                "old_source": metrics["old_source"],
+                "guard_pass": guard,
+            }
+        )
+        if guard and metrics["score"] < best_metrics["score"]:
+            best_x = trial_x
+            best_metrics = metrics
+            best_alpha = float(alpha)
+
+    return best_x, {
+        "source_band_fv_mass_correct_enabled": True,
+        "source_band_fv_mass_correct_applied": bool(best_alpha > 0.0),
+        "source_band_fv_mass_correct_halo_intervals": int(SOURCE_PLUS_BUFFER_HALO_INTERVALS),
+        "source_band_fv_mass_correct_n_intervals": int(interval_indices.size),
+        "source_band_fv_mass_correct_n_nodes": int(node_indices.size),
+        "source_band_fv_mass_correct_n_variables": int(start.size),
+        "source_band_fv_mass_correct_initial_score": initial_metrics["score"],
+        "source_band_fv_mass_correct_candidate_score": candidate_metrics["score"],
+        "source_band_fv_mass_correct_final_score": best_metrics["score"],
+        "source_band_fv_mass_correct_initial_fv_mass": initial_metrics["fv_mass"],
+        "source_band_fv_mass_correct_candidate_fv_mass": candidate_metrics["fv_mass"],
+        "source_band_fv_mass_correct_final_fv_mass": best_metrics["fv_mass"],
+        "source_band_fv_mass_correct_initial_outside_old": initial_metrics["outside_old"],
+        "source_band_fv_mass_correct_final_outside_old": best_metrics["outside_old"],
+        "source_band_fv_mass_correct_initial_implicit_ode": initial_metrics["implicit_ode"],
+        "source_band_fv_mass_correct_final_implicit_ode": best_metrics["implicit_ode"],
+        "source_band_fv_mass_correct_initial_midpoint": initial_metrics["midpoint"],
+        "source_band_fv_mass_correct_final_midpoint": best_metrics["midpoint"],
+        "source_band_fv_mass_correct_initial_simpson": initial_metrics["simpson"],
+        "source_band_fv_mass_correct_final_simpson": best_metrics["simpson"],
+        "source_band_fv_mass_correct_edge_anchor_weight": float(SOURCE_BAND_FV_MASS_EDGE_ANCHOR_WEIGHT),
+        "source_band_fv_mass_correct_all_anchor_weight": float(SOURCE_BAND_FV_MASS_ALL_ANCHOR_WEIGHT),
+        "source_band_fv_mass_correct_delta_logMdot_max": float(np.max(np.abs(np.asarray(result.x) - start)))
+        if result.x.size
+        else math.nan,
+        "source_band_fv_mass_correct_alpha": best_alpha,
+        "source_band_fv_mass_correct_nfev": int(result.nfev),
+        "source_band_fv_mass_correct_success": bool(result.success),
+        "source_band_fv_mass_correct_message": str(result.message),
+        "source_band_fv_mass_correct_trials": trials,
+    }
+
+
+def _source_band_replacement_checkpoint_hs_slopes(
+    interval_indices: np.ndarray,
+    node_indices: np.ndarray,
+) -> tuple[np.ndarray | None, np.ndarray | None, np.ndarray | None, str]:
+    if _source_band_aux_memory_matches(interval_indices, node_indices):
+        g_node = _SOURCE_BAND_AUX_MEMORY.get("source_band_replacement_aux_g_node")
+        g_mid = _SOURCE_BAND_AUX_MEMORY.get("source_band_replacement_aux_g_mid")
+        midpoint_y = _SOURCE_BAND_AUX_MEMORY.get("source_band_replacement_aux_midpoint_y")
+        if g_node is not None and g_mid is not None:
+            g_node_array = np.asarray(g_node, dtype=float)
+            g_mid_array = np.asarray(g_mid, dtype=float)
+            midpoint_array = None if midpoint_y is None else np.asarray(midpoint_y, dtype=float)
+            if (
+                g_node_array.shape == (int(node_indices.size), 2)
+                and g_mid_array.shape == (int(interval_indices.size), 2)
+                and np.all(np.isfinite(g_node_array))
+                and np.all(np.isfinite(g_mid_array))
+            ):
+                if midpoint_array is not None and (
+                    midpoint_array.shape != (int(interval_indices.size), 2)
+                    or not np.all(np.isfinite(midpoint_array))
+                ):
+                    midpoint_array = None
+                return g_node_array, g_mid_array, midpoint_array, "memory"
+    if START_X_CHECKPOINT is None:
+        return None, None, None, "none"
+    try:
+        with np.load(START_X_CHECKPOINT) as data:
+            data_files = set(data.files)
+            for prefix, source in (
+                ("source_band_replacement_aux", "source_band_replacement"),
+                ("source_band_hs_aux", "source_band_hs"),
+            ):
+                required = {
+                    f"{prefix}_interval_indices",
+                    f"{prefix}_node_indices",
+                    f"{prefix}_g_node",
+                    f"{prefix}_g_mid",
+                }
+                if not required.issubset(data_files):
+                    continue
+                saved_intervals = np.asarray(data[f"{prefix}_interval_indices"], dtype=int)
+                saved_nodes = np.asarray(data[f"{prefix}_node_indices"], dtype=int)
+                if not (
+                    np.array_equal(saved_intervals, np.asarray(interval_indices, dtype=int))
+                    and np.array_equal(saved_nodes, np.asarray(node_indices, dtype=int))
+                ):
+                    continue
+                g_node = np.asarray(data[f"{prefix}_g_node"], dtype=float)
+                g_mid = np.asarray(data[f"{prefix}_g_mid"], dtype=float)
+                if g_node.shape != (int(node_indices.size), 2) or g_mid.shape != (int(interval_indices.size), 2):
+                    continue
+                if not (np.all(np.isfinite(g_node)) and np.all(np.isfinite(g_mid))):
+                    continue
+                midpoint_y = None
+                midpoint_key = f"{prefix}_midpoint_y"
+                if midpoint_key in data_files:
+                    candidate_midpoint_y = np.asarray(data[midpoint_key], dtype=float)
+                    if candidate_midpoint_y.shape == (int(interval_indices.size), 2) and np.all(
+                        np.isfinite(candidate_midpoint_y)
+                    ):
+                        midpoint_y = candidate_midpoint_y
+                return g_node, g_mid, midpoint_y, source
+    except Exception:
+        return None, None, None, "error"
+    return None, None, None, "none"
+
+
 def _source_band_replacement_residual_data(
     trial: np.ndarray,
     params,
@@ -7589,18 +11141,28 @@ def _source_band_replacement_residual_data(
     deps: list[set[int]] = []
     old_source_values: dict[str, list[float]] = {"radial": [], "energy": [], "mass": []}
     old_source_R: dict[str, list[float]] = {"radial": [], "energy": [], "mass": []}
+    fv_mass_values: list[float] = []
+    fv_mass_R: list[float] = []
     fv_energy_interface_values: list[float] = []
     fv_energy_element_values: list[float] = []
     fv_energy_R: list[float] = []
+    slope_interface_values: list[float] = []
+    slope_interface_R: list[float] = []
     condition_values: list[float] = []
     singular_min_values: list[float] = []
+    old_row_indices: list[int] = []
+    aux_jac_entries: list[tuple[int, int, float]] = []
 
     ref_logu, ref_logT, ref_logMdot, logR_son, lambda0, ref_logR = reference_block
+    row_mode = _source_band_replacement_row_mode()
     node_count = int(node_indices.size)
     interval_count = int(interval_indices.size)
-    state_size = 3 * node_count
-    g_node_offset = state_size
-    g_mid_offset = state_size + 2 * node_count
+    offsets = _source_band_replacement_offsets(node_count, interval_count)
+    state_size = int(offsets["state_size"])
+    midpoint_offset = offsets["midpoint_offset"]
+    g_node_offset = int(offsets["g_node_offset"])
+    g_mid_offset = int(offsets["g_mid_offset"])
+    mass_increment_offset = offsets.get("mass_increment_offset")
     all_mdot_cols = set(range(2 * node_count, 3 * node_count))
     first_node = int(node_indices[0]) if node_indices.size else 0
     base_deps, col_count = _source_band_replacement_base_deps(params, node_indices)
@@ -7615,11 +11177,35 @@ def _source_band_replacement_residual_data(
     def g_mid_cols(interval_pos: int) -> set[int]:
         return {g_mid_offset + 2 * int(interval_pos), g_mid_offset + 2 * int(interval_pos) + 1}
 
-    def append_row(value: float, group: str, R_rg: float, row_deps: set[int] | None = None) -> None:
+    def midpoint_cols(interval_pos: int) -> set[int]:
+        if midpoint_offset is None:
+            return set()
+        return {int(midpoint_offset) + 2 * int(interval_pos), int(midpoint_offset) + 2 * int(interval_pos) + 1}
+
+    def mass_increment_cols(interval_pos: int) -> set[int]:
+        if mass_increment_offset is None:
+            return set()
+        return {int(mass_increment_offset) + int(interval_pos)}
+
+    def append_row(
+        value: float,
+        group: str,
+        R_rg: float,
+        row_deps: set[int] | None = None,
+        old_row_idx: int | None = None,
+    ) -> int:
+        row_index = len(rows)
         rows.append(float(value) if np.isfinite(value) else 1.0e6)
         groups.append(group)
         row_R_rg.append(float(R_rg) if np.isfinite(R_rg) else math.nan)
         deps.append(set() if row_deps is None else {int(col) for col in row_deps if 0 <= int(col) < col_count})
+        old_row_indices.append(-1 if old_row_idx is None else int(old_row_idx))
+        return row_index
+
+    def add_aux_entry(row_idx: int, col_idx: int, value: float) -> None:
+        if int(col_idx) >= state_size and 0 <= int(row_idx) < len(rows) and 0 <= int(col_idx) < col_count:
+            if np.isfinite(value) and float(value) != 0.0:
+                aux_jac_entries.append((int(row_idx), int(col_idx), float(value)))
 
     def append_ode_rows(
         logR_value: float,
@@ -7629,6 +11215,7 @@ def _source_band_replacement_residual_data(
         prefix: str,
         weight: float,
         row_deps: set[int],
+        g_col_base: int | None = None,
     ) -> None:
         R_rg = float(np.exp(float(logR_value)) / params.r_g)
         try:
@@ -7643,18 +11230,24 @@ def _source_band_replacement_residual_data(
                 largest = float(np.max(svals))
                 singular_min_values.append(smallest)
                 condition_values.append(largest / smallest if smallest > 0.0 else math.inf)
-            append_row(float(weight) * float(residual[0]), f"{prefix}_radial", R_rg, row_deps)
-            append_row(float(weight) * float(residual[1]), f"{prefix}_energy", R_rg, row_deps)
+            row0 = append_row(float(weight) * float(residual[0]), f"{prefix}_radial", R_rg, row_deps)
+            row1 = append_row(float(weight) * float(residual[1]), f"{prefix}_energy", R_rg, row_deps)
+            if g_col_base is not None:
+                add_aux_entry(row0, int(g_col_base), float(weight) * float(A[0, 0]))
+                add_aux_entry(row0, int(g_col_base) + 1, float(weight) * float(A[0, 1]))
+                add_aux_entry(row1, int(g_col_base), float(weight) * float(A[1, 0]))
+                add_aux_entry(row1, int(g_col_base) + 1, float(weight) * float(A[1, 1]))
         except Exception:
             append_row(1.0e6, f"{prefix}_radial", R_rg, row_deps)
             append_row(1.0e6, f"{prefix}_energy", R_rg, row_deps)
 
     try:
-        block_logu, block_logT, block_logMdot, g_node, g_mid = _source_plus_buffer_implicit_unpack_trial(
+        block_logu, block_logT, block_logMdot, midpoint_y_array, g_node, g_mid = _source_band_replacement_unpack_trial(
             np.asarray(trial, dtype=float), node_count, interval_count
         )
+        mass_increment = _source_band_mass_increment_from_trial(np.asarray(trial, dtype=float), node_count, interval_count)
         block_logR = np.asarray(ref_logR[node_indices], dtype=float)
-        full_x = _source_plus_buffer_implicit_full_from_trial(
+        full_x = _source_band_replacement_full_from_trial(
             np.asarray(reference_x, dtype=float),
             np.asarray(trial, dtype=float),
             node_indices,
@@ -7689,19 +11282,23 @@ def _source_band_replacement_residual_data(
                 old_source_R.setdefault(key, []).append(float(R_rg))
                 layer = layer_weights.get(int(interval_idx), {"layer": "core", "old": 0.0, "new": 1.0})
                 old_weight = float(layer.get("old", 0.0))
-                if str(layer.get("layer", "core")) == "buffer" and old_weight > 0.0:
+                if row_mode == "append" and str(layer.get("layer", "core")) == "buffer" and old_weight > 0.0:
                     append_row(
                         old_weight * float(value),
                         f"active_buffer_old_{key}",
                         R_rg,
                         base_deps[row_idx] if row_idx < len(base_deps) else set(),
+                        old_row_idx=row_idx,
                     )
-                elif not SOURCE_BAND_REPLACEMENT_OLD_ROWS_AUDIT_ONLY:
+                elif row_mode == "audit" or (
+                    row_mode == "append" and not SOURCE_BAND_REPLACEMENT_OLD_ROWS_AUDIT_ONLY
+                ):
                     append_row(
                         float(SOURCE_BAND_REPLACEMENT_OUTSIDE_WEIGHT) * float(value),
                         f"active_old_source_{key}",
                         R_rg,
                         base_deps[row_idx] if row_idx < len(base_deps) else set(),
+                        old_row_idx=row_idx,
                     )
                 continue
             append_row(
@@ -7709,12 +11306,16 @@ def _source_band_replacement_residual_data(
                 "active_outside_old",
                 R_rg,
                 base_deps[row_idx] if row_idx < len(base_deps) else set(),
+                old_row_idx=row_idx,
             )
 
         local_params = _source_interface_local_params(params, block_logR, block_logMdot)
         full_params = pilot._local_params(params, full_logR, full_logMdot)
         chi_mass = _source_band_replacement_chi_mass() if SOURCE_BAND_REPLACE_MASS else 0.0
         chi_impl = _source_band_replacement_chi_impl() if SOURCE_BAND_REPLACE_IMPLICIT_RE else 0.0
+        if row_mode == "audit":
+            chi_mass = 0.0
+            chi_impl = 0.0
         mass_weight = float(SOURCE_BAND_REPLACEMENT_MASS_WEIGHT)
         impl_weight_base = float(SOURCE_BAND_REPLACEMENT_IMPL_WEIGHT) * chi_impl
         node_new_weights = np.zeros(node_count, dtype=float)
@@ -7741,6 +11342,7 @@ def _source_band_replacement_residual_data(
                     "active_implicit_node",
                     node_impl_weight * float(SOURCE_PLUS_BUFFER_IMPLICIT_NODE_WEIGHT),
                     ode_deps,
+                    g_node_offset + 2 * local_pos,
                 )
 
         for interval_pos, idx_value in enumerate(np.asarray(interval_indices, dtype=int)):
@@ -7756,12 +11358,14 @@ def _source_band_replacement_residual_data(
             R_mid_rg = float(np.exp(xm) / params.r_g)
             endpoint_deps = state_cols(local_idx) | state_cols(local_idx + 1) | all_mdot_cols
             slope_deps = g_node_cols(local_idx) | g_node_cols(local_idx + 1) | g_mid_cols(interval_pos)
-            mid_deps = endpoint_deps | slope_deps
+            mid_state_deps = midpoint_cols(interval_pos)
+            mid_deps = endpoint_deps | slope_deps | mid_state_deps
             layer = layer_weights.get(idx, {"layer": "core", "new": 1.0, "old": 0.0})
             interval_new_weight = float(layer.get("new", 1.0))
             impl_weight = impl_weight_base * interval_new_weight
             if impl_weight > 0.0:
-                y_mid = 0.5 * (y_left + y_right) + (float(dx) / 8.0) * (g_node[local_idx] - g_node[local_idx + 1])
+                hermite_mid = 0.5 * (y_left + y_right) + (float(dx) / 8.0) * (g_node[local_idx] - g_node[local_idx + 1])
+                y_mid = np.asarray(midpoint_y_array[interval_pos], dtype=float) if midpoint_y_array is not None else hermite_mid
                 append_ode_rows(
                     xm,
                     y_mid,
@@ -7770,51 +11374,154 @@ def _source_band_replacement_residual_data(
                     "active_implicit_mid",
                     impl_weight * float(SOURCE_PLUS_BUFFER_IMPLICIT_MID_WEIGHT),
                     mid_deps,
+                    g_mid_offset + 2 * interval_pos,
                 )
+                if midpoint_y_array is not None:
+                    midpoint_defect = y_mid - hermite_mid
+                    midpoint_weight = impl_weight * float(SOURCE_BAND_REPLACEMENT_MIDPOINT_WEIGHT)
+                    row0 = append_row(
+                        midpoint_weight * float(midpoint_defect[0]),
+                        "active_midpoint_radial",
+                        R_mid_rg,
+                        endpoint_deps | g_node_cols(local_idx) | g_node_cols(local_idx + 1) | mid_state_deps,
+                    )
+                    row1 = append_row(
+                        midpoint_weight * float(midpoint_defect[1]),
+                        "active_midpoint_energy",
+                        R_mid_rg,
+                        endpoint_deps | g_node_cols(local_idx) | g_node_cols(local_idx + 1) | mid_state_deps,
+                    )
+                    if midpoint_offset is not None:
+                        add_aux_entry(row0, int(midpoint_offset) + 2 * interval_pos, midpoint_weight)
+                        add_aux_entry(row1, int(midpoint_offset) + 2 * interval_pos + 1, midpoint_weight)
+                    add_aux_entry(row0, g_node_offset + 2 * local_idx, -midpoint_weight * float(dx) / 8.0)
+                    add_aux_entry(row0, g_node_offset + 2 * (local_idx + 1), midpoint_weight * float(dx) / 8.0)
+                    add_aux_entry(row1, g_node_offset + 2 * local_idx + 1, -midpoint_weight * float(dx) / 8.0)
+                    add_aux_entry(row1, g_node_offset + 2 * (local_idx + 1) + 1, midpoint_weight * float(dx) / 8.0)
                 integral = (float(dx) / 6.0) * (g_node[local_idx] + 4.0 * g_mid[interval_pos] + g_node[local_idx + 1])
                 state_defect = (y_right - y_left) - integral
-                append_row(
-                    impl_weight * float(SOURCE_PLUS_BUFFER_IMPLICIT_INTEGRAL_WEIGHT) * float(state_defect[0]),
+                integral_weight = impl_weight * float(SOURCE_PLUS_BUFFER_IMPLICIT_INTEGRAL_WEIGHT)
+                row0 = append_row(
+                    integral_weight * float(state_defect[0]),
                     "active_simpson_radial",
                     R_mid_rg,
                     mid_deps,
                 )
-                append_row(
-                    impl_weight * float(SOURCE_PLUS_BUFFER_IMPLICIT_INTEGRAL_WEIGHT) * float(state_defect[1]),
+                row1 = append_row(
+                    integral_weight * float(state_defect[1]),
                     "active_simpson_energy",
                     R_mid_rg,
                     mid_deps,
                 )
+                add_aux_entry(row0, g_node_offset + 2 * local_idx, -integral_weight * float(dx) / 6.0)
+                add_aux_entry(row0, g_mid_offset + 2 * interval_pos, -integral_weight * 4.0 * float(dx) / 6.0)
+                add_aux_entry(row0, g_node_offset + 2 * (local_idx + 1), -integral_weight * float(dx) / 6.0)
+                add_aux_entry(row1, g_node_offset + 2 * local_idx + 1, -integral_weight * float(dx) / 6.0)
+                add_aux_entry(row1, g_mid_offset + 2 * interval_pos + 1, -integral_weight * 4.0 * float(dx) / 6.0)
+                add_aux_entry(row1, g_node_offset + 2 * (local_idx + 1) + 1, -integral_weight * float(dx) / 6.0)
 
             old_mass = float(old_rows[mass_start + idx]) if 0 <= mass_start + idx < old_rows.size else 1.0e6
+            wind_integral, source_integral, increment_scale, mdot_left, mdot_right = (math.nan, math.nan, math.nan, math.nan, math.nan)
+            try:
+                wind_integral, source_integral, _mdot_scale, mdot_left, mdot_right = _finite_volume_mass_terms_from_unpacked(
+                    full_logu, full_logT, full_logMdot, full_logR, float(lambda0), full_params, idx
+                )
+                increment_scale = _source_band_mass_increment_scale(full_params)
+            except Exception:
+                pass
             fv_mass = _finite_volume_mass_residual_from_unpacked(
                 full_logu, full_logT, full_logMdot, full_logR, float(lambda0), full_params, idx
             )
-            effective_chi_mass = min(max(chi_mass * interval_new_weight, 0.0), 1.0)
+            fv_mass_values.append(float(fv_mass))
+            fv_mass_R.append(R_mid_rg)
+            if row_mode == "replace":
+                effective_chi_mass = 1.0
+            elif row_mode == "audit":
+                effective_chi_mass = 0.0
+            else:
+                effective_chi_mass = min(max(chi_mass * interval_new_weight, 0.0), 1.0)
             mass_row = (1.0 - effective_chi_mass) * old_mass + effective_chi_mass * float(fv_mass)
             mass_deps = endpoint_deps | (base_deps[mass_start + idx] if 0 <= mass_start + idx < len(base_deps) else set())
-            append_row(mass_weight * mass_row, "active_fv_mass", R_mid_rg, mass_deps)
+            if row_mode != "audit" and SOURCE_BAND_REPLACE_MASS:
+                if SOURCE_BAND_MASS_INCREMENT and mass_increment is not None:
+                    delta_m = float(mass_increment[interval_pos])
+                    if not (
+                        np.isfinite(delta_m)
+                        and np.isfinite(wind_integral)
+                        and np.isfinite(source_integral)
+                        and np.isfinite(mdot_left)
+                        and np.isfinite(mdot_right)
+                        and np.isfinite(increment_scale)
+                        and increment_scale > 0.0
+                    ):
+                        append_row(1.0e6, "active_mass_increment_int", R_mid_rg, mass_deps | mass_increment_cols(interval_pos))
+                        append_row(1.0e6, "active_mass_increment_link", R_mid_rg, mass_deps | mass_increment_cols(interval_pos))
+                    else:
+                        budget_delta = (float(wind_integral) - float(source_integral)) / float(increment_scale)
+                        endpoint_delta = (float(mdot_right) - float(mdot_left)) / float(increment_scale)
+                        increment_deps = mass_deps | mass_increment_cols(interval_pos)
+                        row_int = append_row(
+                            mass_weight
+                            * float(SOURCE_BAND_MASS_INCREMENT_INT_WEIGHT)
+                            * (delta_m - budget_delta),
+                            "active_mass_increment_int",
+                            R_mid_rg,
+                            increment_deps,
+                        )
+                        row_link = append_row(
+                            mass_weight
+                            * float(SOURCE_BAND_MASS_INCREMENT_LINK_WEIGHT)
+                            * (endpoint_delta - delta_m),
+                            "active_mass_increment_link",
+                            R_mid_rg,
+                            increment_deps,
+                        )
+                        delta_col = next(iter(mass_increment_cols(interval_pos)), None)
+                        if delta_col is not None:
+                            add_aux_entry(
+                                row_int,
+                                int(delta_col),
+                                mass_weight * float(SOURCE_BAND_MASS_INCREMENT_INT_WEIGHT),
+                            )
+                            add_aux_entry(
+                                row_link,
+                                int(delta_col),
+                                -mass_weight * float(SOURCE_BAND_MASS_INCREMENT_LINK_WEIGHT),
+                            )
+                        if SOURCE_BAND_MASS_INCREMENT_ANCHOR_WEIGHT > 0.0:
+                            row_anchor = append_row(
+                                float(SOURCE_BAND_MASS_INCREMENT_ANCHOR_WEIGHT) * delta_m,
+                                "active_mass_increment_anchor",
+                                R_mid_rg,
+                                mass_increment_cols(interval_pos),
+                            )
+                            if delta_col is not None:
+                                add_aux_entry(row_anchor, int(delta_col), float(SOURCE_BAND_MASS_INCREMENT_ANCHOR_WEIGHT))
+                else:
+                    group = "active_fv_mass" if row_mode == "replace" else "active_mass_blend"
+                    append_row(mass_weight * mass_row, group, R_mid_rg, mass_deps)
 
-            try:
-                interface_energy = _source_interface_energy_terms_from_unpacked(
-                    full_logu, full_logT, full_logMdot, full_logR, float(lambda0), full_params, idx
-                )
-                element_energy = _source_element_poly_fv_energy_terms(
-                    full_logu, full_logT, full_logMdot, full_logR, float(lambda0), full_params, idx
-                )
-                interface_res = float(interface_energy.get("residual", math.nan))
-                element_res = float(element_energy.get("residual", math.nan))
-                fv_energy_interface_values.append(interface_res)
-                fv_energy_element_values.append(element_res)
-                fv_energy_R.append(R_mid_rg)
-                energy_weight = float(SOURCE_BAND_REPLACEMENT_FV_ENERGY_WEIGHT)
-                if energy_weight > 0.0:
-                    append_row(energy_weight * interface_res, "active_fv_energy_interface", R_mid_rg, endpoint_deps)
-                    append_row(energy_weight * element_res, "active_fv_energy_element", R_mid_rg, endpoint_deps)
-            except Exception:
-                if SOURCE_BAND_REPLACEMENT_FV_ENERGY_WEIGHT > 0.0:
-                    append_row(1.0e6, "active_fv_energy_interface", R_mid_rg, endpoint_deps)
-                    append_row(1.0e6, "active_fv_energy_element", R_mid_rg, endpoint_deps)
+            energy_weight = float(SOURCE_BAND_REPLACEMENT_FV_ENERGY_WEIGHT)
+            if SOURCE_BAND_REPLACEMENT_ENERGY_AUDIT or energy_weight > 0.0:
+                try:
+                    interface_energy = _source_interface_energy_terms_from_unpacked(
+                        full_logu, full_logT, full_logMdot, full_logR, float(lambda0), full_params, idx
+                    )
+                    element_energy = _source_element_poly_fv_energy_terms(
+                        full_logu, full_logT, full_logMdot, full_logR, float(lambda0), full_params, idx
+                    )
+                    interface_res = float(interface_energy.get("residual", math.nan))
+                    element_res = float(element_energy.get("residual", math.nan))
+                    fv_energy_interface_values.append(interface_res)
+                    fv_energy_element_values.append(element_res)
+                    fv_energy_R.append(R_mid_rg)
+                    if energy_weight > 0.0:
+                        append_row(energy_weight * interface_res, "active_fv_energy_interface", R_mid_rg, endpoint_deps)
+                        append_row(energy_weight * element_res, "active_fv_energy_element", R_mid_rg, endpoint_deps)
+                except Exception:
+                    if energy_weight > 0.0:
+                        append_row(1.0e6, "active_fv_energy_interface", R_mid_rg, endpoint_deps)
+                        append_row(1.0e6, "active_fv_energy_element", R_mid_rg, endpoint_deps)
 
         edge_weight = float(SOURCE_BAND_REPLACEMENT_INTERFACE_WEIGHT)
         for pos in (0, node_count - 1):
@@ -7837,35 +11544,51 @@ def _source_band_replacement_residual_data(
             if slope_weight > 0.0:
                 side = "left" if pos == 0 else "right"
                 ref_slope = _source_band_replacement_reference_slope(ref_logu, ref_logT, ref_logR, global_node, side)
-                append_row(
-                    slope_weight * (float(g_node[pos, 0]) - float(ref_slope[0])),
-                    "active_interface_slope_logu",
-                    R_rg,
-                    g_node_cols(pos),
-                )
-                append_row(
-                    slope_weight * (float(g_node[pos, 1]) - float(ref_slope[1])),
-                    "active_interface_slope_logT",
-                    R_rg,
-                    g_node_cols(pos),
-                )
+                slope_u = float(g_node[pos, 0]) - float(ref_slope[0])
+                slope_T = float(g_node[pos, 1]) - float(ref_slope[1])
+                slope_interface_values.extend([slope_u, slope_T])
+                slope_interface_R.extend([R_rg, R_rg])
+                if SOURCE_BAND_REPLACEMENT_SLOPE_INTERFACE_ACTIVE:
+                    row_u = append_row(
+                        slope_weight * slope_u,
+                        "active_interface_slope_logu",
+                        R_rg,
+                        g_node_cols(pos),
+                    )
+                    row_T = append_row(
+                        slope_weight * slope_T,
+                        "active_interface_slope_logT",
+                        R_rg,
+                        g_node_cols(pos),
+                    )
+                    add_aux_entry(row_u, g_node_offset + 2 * pos, slope_weight)
+                    add_aux_entry(row_T, g_node_offset + 2 * pos + 1, slope_weight)
 
         return {
             "rows": np.asarray(rows, dtype=float),
             "groups": groups,
             "R_rg": np.asarray(row_R_rg, dtype=float),
             "deps": deps,
+            "aux_jac_entries": aux_jac_entries,
+            "old_row_indices": np.asarray(old_row_indices, dtype=int),
+            "n_nodes": int(params.n_nodes),
+            "mass_start": int(mass_start),
             "col_count": int(col_count),
             "full_x": full_x,
             "old_rows": old_rows,
             "old_source_values": old_source_values,
             "old_source_R": old_source_R,
+            "fv_mass_values": np.asarray(fv_mass_values, dtype=float),
+            "fv_mass_R": np.asarray(fv_mass_R, dtype=float),
             "fv_energy_interface_values": np.asarray(fv_energy_interface_values, dtype=float),
             "fv_energy_element_values": np.asarray(fv_energy_element_values, dtype=float),
             "fv_energy_R": np.asarray(fv_energy_R, dtype=float),
+            "slope_interface_values": np.asarray(slope_interface_values, dtype=float),
+            "slope_interface_R": np.asarray(slope_interface_R, dtype=float),
             "condition_values": np.asarray(condition_values, dtype=float),
             "singular_min_values": np.asarray(singular_min_values, dtype=float),
             "layer_weights": layer_weights,
+            "row_mode": row_mode,
             "fv_angular_momentum_audit": "not_implemented",
         }
     except Exception as exc:
@@ -7875,17 +11598,26 @@ def _source_band_replacement_residual_data(
             "groups": ["active_error"] * expected,
             "R_rg": np.full(expected, math.nan, dtype=float),
             "deps": [set() for _ in range(expected)],
+            "aux_jac_entries": [],
+            "old_row_indices": np.full(expected, -1, dtype=int),
+            "n_nodes": int(params.n_nodes),
+            "mass_start": int(_inner_mdot_row_index(params) + 1),
             "col_count": int(col_count),
             "full_x": np.asarray(reference_x, dtype=float),
             "old_rows": np.asarray([], dtype=float),
             "old_source_values": old_source_values,
             "old_source_R": old_source_R,
+            "fv_mass_values": np.asarray([], dtype=float),
+            "fv_mass_R": np.asarray([], dtype=float),
             "fv_energy_interface_values": np.asarray([], dtype=float),
             "fv_energy_element_values": np.asarray([], dtype=float),
             "fv_energy_R": np.asarray([], dtype=float),
+            "slope_interface_values": np.asarray([], dtype=float),
+            "slope_interface_R": np.asarray([], dtype=float),
             "condition_values": np.asarray([], dtype=float),
             "singular_min_values": np.asarray([], dtype=float),
             "layer_weights": layer_weights,
+            "row_mode": row_mode,
             "reason": f"exception: {exc}",
             "fv_angular_momentum_audit": "not_implemented",
         }
@@ -7897,12 +11629,7 @@ def _source_band_replacement_summary(data: dict[str, Any]) -> dict[str, float]:
     R_rg = np.asarray(data.get("R_rg", []), dtype=float)
     out: dict[str, float] = {"active": float(np.linalg.norm(rows, ord=np.inf)) if rows.size else math.nan}
 
-    def group_max(name: str, prefixes: tuple[str, ...] = ()) -> None:
-        indices = [
-            idx
-            for idx, group in enumerate(groups)
-            if group == name or (prefixes and any(str(group).startswith(prefix) for prefix in prefixes))
-        ]
+    def indices_max(name: str, indices: list[int]) -> None:
         if not indices:
             out[name] = math.nan
             out[f"{name}_peak_R_rg"] = math.nan
@@ -7913,11 +11640,43 @@ def _source_band_replacement_summary(data: dict[str, Any]) -> dict[str, float]:
         out[name] = float(values[local_peak])
         out[f"{name}_peak_R_rg"] = float(R_rg[row_idx]) if R_rg.size > row_idx else math.nan
 
+    def group_max(name: str, prefixes: tuple[str, ...] = ()) -> None:
+        indices = [
+            idx
+            for idx, group in enumerate(groups)
+            if group == name or (prefixes and any(str(group).startswith(prefix) for prefix in prefixes))
+        ]
+        indices_max(name, indices)
+
+    old_row_indices = np.asarray(data.get("old_row_indices", []), dtype=int)
+    n_nodes = int(data.get("n_nodes", 0))
+    mass_start = int(data.get("mass_start", -1))
+
+    def old_row_kind(row_position: int) -> str:
+        old_idx = int(old_row_indices[row_position]) if old_row_indices.size > row_position else -1
+        interval_count = max(0, n_nodes - 1)
+        if 0 <= old_idx < 2 * interval_count:
+            return "radial" if old_idx % 2 == 0 else "energy"
+        if mass_start <= old_idx < mass_start + interval_count:
+            return "mass"
+        return "other"
+
     group_max("active_outside_old")
+    outside_indices = [idx for idx, group in enumerate(groups) if group == "active_outside_old"]
+    for kind in ("radial", "energy", "mass", "other"):
+        indices_max(
+            f"active_outside_old_{kind}",
+            [idx for idx in outside_indices if old_row_kind(idx) == kind],
+        )
     group_max("active_old_source", ("active_old_source_",))
     group_max("active_buffer_old", ("active_buffer_old_",))
-    group_max("active_fv_mass")
+    group_max("active_fv_mass", ("active_mass_blend",))
+    group_max("active_mass_blend")
+    group_max("active_mass_increment_int")
+    group_max("active_mass_increment_link")
+    group_max("active_mass_increment_anchor")
     group_max("active_implicit_ode", ("active_implicit_node_", "active_implicit_mid_"))
+    group_max("active_midpoint", ("active_midpoint_",))
     group_max("active_simpson", ("active_simpson_",))
     group_max("active_interface", ("active_interface_",))
     group_max("active_fv_energy_interface")
@@ -7942,6 +11701,17 @@ def _source_band_replacement_summary(data: dict[str, Any]) -> dict[str, float]:
             out[f"audit_old_source_{key}"] = math.nan
             out[f"audit_old_source_{key}_peak_R_rg"] = math.nan
     out["audit_old_source"] = max(old_source_max_values) if old_source_max_values else math.nan
+    fv_mass = np.asarray(data.get("fv_mass_values", []), dtype=float)
+    fv_mass_R = np.asarray(data.get("fv_mass_R", []), dtype=float)
+    finite_fv_mass = np.asarray(fv_mass[np.isfinite(fv_mass)], dtype=float)
+    if finite_fv_mass.size:
+        abs_values = np.abs(fv_mass)
+        peak = int(np.nanargmax(abs_values))
+        out["audit_fv_mass"] = float(abs_values[peak])
+        out["audit_fv_mass_peak_R_rg"] = float(fv_mass_R[peak]) if fv_mass_R.size > peak else math.nan
+    else:
+        out["audit_fv_mass"] = math.nan
+        out["audit_fv_mass_peak_R_rg"] = math.nan
     interface_energy = np.asarray(data.get("fv_energy_interface_values", []), dtype=float)
     element_energy = np.asarray(data.get("fv_energy_element_values", []), dtype=float)
     fv_energy_R = np.asarray(data.get("fv_energy_R", []), dtype=float)
@@ -7961,6 +11731,17 @@ def _source_band_replacement_summary(data: dict[str, Any]) -> dict[str, float]:
     finite_smin = smin[np.isfinite(smin)]
     out["audit_condition_max"] = float(np.max(finite_cond)) if finite_cond.size else math.nan
     out["audit_singular_min"] = float(np.min(finite_smin)) if finite_smin.size else math.nan
+    slope_values = np.asarray(data.get("slope_interface_values", []), dtype=float)
+    slope_R = np.asarray(data.get("slope_interface_R", []), dtype=float)
+    finite_slope = slope_values[np.isfinite(slope_values)]
+    if finite_slope.size:
+        abs_values = np.abs(slope_values)
+        peak = int(np.nanargmax(abs_values))
+        out["audit_slope_interface"] = float(abs_values[peak])
+        out["audit_slope_interface_peak_R_rg"] = float(slope_R[peak]) if slope_R.size > peak else math.nan
+    else:
+        out["audit_slope_interface"] = math.nan
+        out["audit_slope_interface_peak_R_rg"] = math.nan
     layer_weights = data.get("layer_weights", {})
     if isinstance(layer_weights, dict) and layer_weights:
         layers = [str(value.get("layer", "")) for value in layer_weights.values() if isinstance(value, dict)]
@@ -7988,7 +11769,11 @@ def _source_band_replacement_score(summary: dict[str, float]) -> float:
         summary.get("active_outside_old", math.nan),
         summary.get("active_buffer_old", math.nan),
         summary.get("active_fv_mass", math.nan),
+        summary.get("active_mass_increment_int", math.nan),
+        summary.get("active_mass_increment_link", math.nan),
+        summary.get("active_mass_increment_anchor", math.nan),
         summary.get("active_implicit_ode", math.nan),
+        summary.get("active_midpoint", math.nan),
         summary.get("active_simpson", math.nan),
         summary.get("active_interface", math.nan),
         summary.get("active_fv_energy_interface", math.nan),
@@ -8015,17 +11800,71 @@ def _source_band_replacement_polish(x0: np.ndarray, params, eta_E: float) -> tup
     interval_count = int(interval_indices.size)
     logu, logT, logMdot, logR_son, lambda0, logR = pilot._unpack(x_ref, params)
     reference_block = (logu, logT, logMdot, logR_son, lambda0, logR)
-    g_node0, g_mid0 = _source_plus_buffer_implicit_initial_slopes(logu, logT, logR, interval_indices, node_indices)
-    start = np.concatenate([logu[node_indices], logT[node_indices], logMdot[node_indices], g_node0.ravel(), g_mid0.ravel()])
+    seed_local_params = _source_interface_local_params(params, logR[node_indices], logMdot[node_indices])
+    g_node0, g_mid0 = _source_plus_buffer_implicit_initial_slopes(
+        logu,
+        logT,
+        logR,
+        interval_indices,
+        node_indices,
+        lambda0=float(lambda0),
+        local_params=seed_local_params,
+        seed_mode=SOURCE_BAND_REPLACEMENT_IMPLICIT_SEED,
+        seed_blend=SOURCE_BAND_REPLACEMENT_IMPLICIT_SEED_BLEND,
+    )
+    midpoint_y0 = _source_band_hs_initial_midpoints(logu, logT, logR, interval_indices, node_indices, g_node0)
+    checkpoint_aux_source = "none"
+    if str(SOURCE_BAND_REPLACEMENT_IMPLICIT_SEED).strip().lower() in {
+        "checkpoint_hs",
+        "hs_checkpoint",
+        "source_band_hs",
+        "checkpoint_replacement",
+        "replacement_checkpoint",
+        "source_band_replacement",
+    }:
+        checkpoint_g_node, checkpoint_g_mid, checkpoint_midpoint_y, checkpoint_aux_source = (
+            _source_band_replacement_checkpoint_hs_slopes(interval_indices, node_indices)
+        )
+        if checkpoint_g_node is not None and checkpoint_g_mid is not None:
+            g_node0, g_mid0 = checkpoint_g_node, checkpoint_g_mid
+            midpoint_y0 = checkpoint_midpoint_y if checkpoint_midpoint_y is not None else _source_band_hs_initial_midpoints(
+                logu, logT, logR, interval_indices, node_indices, g_node0
+            )
+        else:
+            checkpoint_aux_source = "fallback"
+    start_parts = [logu[node_indices], logT[node_indices], logMdot[node_indices]]
+    if SOURCE_BAND_REPLACEMENT_MIDPOINT_STATES:
+        start_parts.append(np.asarray(midpoint_y0, dtype=float).ravel())
+    start_parts.extend([g_node0.ravel(), g_mid0.ravel()])
+    if SOURCE_BAND_MASS_INCREMENT:
+        local_params_for_increment = pilot._local_params(params, logR, logMdot)
+        saved_increment = _source_band_checkpoint_mass_increment(interval_indices, node_indices)
+        start_parts.append(
+            saved_increment
+            if saved_increment is not None
+            else _source_band_mass_increment_initial(
+                logu, logT, logMdot, logR, float(lambda0), local_params_for_increment, interval_indices
+            )
+        )
+    start = np.concatenate(start_parts)
     lower, upper = pilot._bounds(params)
     state_cols = np.concatenate([node_indices, n + node_indices, 2 * n + node_indices]).astype(int)
     slope_bound = max(abs(float(SOURCE_PLUS_BUFFER_IMPLICIT_SLOPE_BOUND)), 1.0)
-    lb = np.concatenate(
-        [lower[state_cols], np.full(2 * node_count + 2 * interval_count, -slope_bound, dtype=float)]
-    )
-    ub = np.concatenate(
-        [upper[state_cols], np.full(2 * node_count + 2 * interval_count, slope_bound, dtype=float)]
-    )
+    lb_parts = [lower[state_cols]]
+    ub_parts = [upper[state_cols]]
+    if SOURCE_BAND_REPLACEMENT_MIDPOINT_STATES:
+        midpoint_trust = max(float(SOURCE_BAND_REPLACEMENT_MIDPOINT_TRUST), 0.0)
+        midpoint_flat = np.asarray(midpoint_y0, dtype=float).ravel()
+        lb_parts.append(midpoint_flat - midpoint_trust)
+        ub_parts.append(midpoint_flat + midpoint_trust)
+    lb_parts.append(np.full(2 * node_count + 2 * interval_count, -slope_bound, dtype=float))
+    ub_parts.append(np.full(2 * node_count + 2 * interval_count, slope_bound, dtype=float))
+    if SOURCE_BAND_MASS_INCREMENT:
+        increment_bound = max(abs(float(SOURCE_BAND_MASS_INCREMENT_BOUND)), 1.0e-12)
+        lb_parts.append(np.full(interval_count, -increment_bound, dtype=float))
+        ub_parts.append(np.full(interval_count, increment_bound, dtype=float))
+    lb = np.concatenate(lb_parts)
+    ub = np.concatenate(ub_parts)
     start = np.clip(start, lb + 1.0e-12, ub - 1.0e-12)
 
     initial_data = _source_band_replacement_residual_data(
@@ -8039,6 +11878,7 @@ def _source_band_replacement_polish(x0: np.ndarray, params, eta_E: float) -> tup
     )
     initial_summary = _source_band_replacement_summary(initial_data)
     initial_score = _source_band_replacement_score(initial_summary)
+    row_mode = _source_band_replacement_row_mode()
     initial_old_source = initial_summary.get("audit_old_source", math.nan)
     initial_outside = initial_summary.get("active_outside_old", math.nan)
     active_limit = max(
@@ -8054,6 +11894,146 @@ def _source_band_replacement_polish(x0: np.ndarray, params, eta_E: float) -> tup
         float(SOURCE_BAND_REPLACEMENT_OLD_SOURCE_GUARD_ABS),
         float(SOURCE_BAND_REPLACEMENT_OLD_SOURCE_GUARD_REL) * (initial_old_source if np.isfinite(initial_old_source) else 0.0),
     )
+    use_old_source_guard = row_mode in {"append", "audit"}
+
+    if SOURCE_BAND_REPLACEMENT_EVALUATE_ONLY:
+        _blogu, _blogT, _blogM, _initial_midpoint_y, initial_g_node, initial_g_mid = _source_band_replacement_unpack_trial(
+            start, node_count, interval_count
+        )
+        _ = _blogu, _blogT, _blogM
+        interval_mid_R_rg = np.exp(0.5 * (logR[:-1] + logR[1:])) / params.r_g
+        initial_x = np.asarray(initial_data.get("full_x", x_ref), dtype=float)
+        return initial_x, {
+            "source_band_replacement_enabled": True,
+            "source_band_replacement_applied": False,
+            "source_band_replacement_evaluate_only": True,
+            "source_band_replacement_replace_mass": bool(SOURCE_BAND_REPLACE_MASS),
+            "source_band_replacement_replace_implicit_re": bool(SOURCE_BAND_REPLACE_IMPLICIT_RE),
+            "source_band_replacement_old_rows_audit_only": bool(SOURCE_BAND_REPLACEMENT_OLD_ROWS_AUDIT_ONLY),
+            "source_band_replacement_row_mode": row_mode,
+            "source_band_replacement_chi_mass": _source_band_replacement_chi_mass(),
+            "source_band_replacement_chi_impl": _source_band_replacement_chi_impl(),
+            "source_band_replacement_write_edges": bool(SOURCE_BAND_REPLACEMENT_WRITE_EDGES),
+            "source_band_replacement_two_layer": bool(SOURCE_BAND_REPLACEMENT_TWO_LAYER),
+            "source_band_replacement_buffer_new_weight": float(SOURCE_BAND_REPLACEMENT_BUFFER_NEW_WEIGHT),
+            "source_band_replacement_buffer_old_weight": float(SOURCE_BAND_REPLACEMENT_BUFFER_OLD_WEIGHT),
+            "source_band_replacement_slope_interface_weight": float(SOURCE_BAND_REPLACEMENT_SLOPE_INTERFACE_WEIGHT),
+            "source_band_replacement_slope_interface_active": bool(SOURCE_BAND_REPLACEMENT_SLOPE_INTERFACE_ACTIVE),
+            "source_band_replacement_midpoint_states": bool(SOURCE_BAND_REPLACEMENT_MIDPOINT_STATES),
+            "source_band_replacement_midpoint_trust": float(SOURCE_BAND_REPLACEMENT_MIDPOINT_TRUST),
+            "source_band_replacement_midpoint_weight": float(SOURCE_BAND_REPLACEMENT_MIDPOINT_WEIGHT),
+            "source_band_replacement_fv_energy_weight": float(SOURCE_BAND_REPLACEMENT_FV_ENERGY_WEIGHT),
+            "source_band_replacement_fv_am_weight": float(SOURCE_BAND_REPLACEMENT_FV_AM_WEIGHT),
+            "source_band_replacement_fv_am_audit": str(initial_data.get("fv_angular_momentum_audit", "not_implemented")),
+            "source_band_replacement_halo_intervals": int(SOURCE_PLUS_BUFFER_HALO_INTERVALS),
+            "source_band_replacement_n_intervals": int(interval_indices.size),
+            "source_band_replacement_n_nodes": int(node_indices.size),
+            "source_band_replacement_n_variables": int(start.size),
+            "source_band_replacement_n_rows": int(np.asarray(initial_data.get("rows", []), dtype=float).size),
+            "source_band_replacement_x_scale": str(SOURCE_BAND_REPLACEMENT_X_SCALE),
+            "source_band_replacement_diff_step": (
+                float(SOURCE_BAND_REPLACEMENT_DIFF_STEP)
+                if float(SOURCE_BAND_REPLACEMENT_DIFF_STEP) > 0.0
+                else math.nan
+            ),
+            "source_band_replacement_hybrid_jac": bool(SOURCE_BAND_REPLACEMENT_HYBRID_JAC),
+            "source_band_replacement_implicit_seed": str(SOURCE_BAND_REPLACEMENT_IMPLICIT_SEED),
+            "source_band_replacement_implicit_seed_blend": float(SOURCE_BAND_REPLACEMENT_IMPLICIT_SEED_BLEND),
+            "source_band_replacement_checkpoint_aux_source": checkpoint_aux_source,
+            "source_band_replacement_n_core_intervals": int(initial_summary.get("layer_core_count", 0.0))
+            if np.isfinite(initial_summary.get("layer_core_count", math.nan))
+            else 0,
+            "source_band_replacement_n_buffer_intervals": int(initial_summary.get("layer_buffer_count", 0.0))
+            if np.isfinite(initial_summary.get("layer_buffer_count", math.nan))
+            else 0,
+            "source_band_replacement_new_weight_min": initial_summary.get("layer_new_weight_min", math.nan),
+            "source_band_replacement_new_weight_max": initial_summary.get("layer_new_weight_max", math.nan),
+            "source_band_replacement_first_interval_R_rg": float(interval_mid_R_rg[int(interval_indices[0])]),
+            "source_band_replacement_last_interval_R_rg": float(interval_mid_R_rg[int(interval_indices[-1])]),
+            "source_band_replacement_initial_score": initial_score,
+            "source_band_replacement_candidate_score": initial_score,
+            "source_band_replacement_final_score": initial_score,
+            "source_band_replacement_initial_active": initial_summary.get("active", math.nan),
+            "source_band_replacement_candidate_active": initial_summary.get("active", math.nan),
+            "source_band_replacement_final_active": initial_summary.get("active", math.nan),
+            "source_band_replacement_initial_outside_old": initial_summary.get("active_outside_old", math.nan),
+            "source_band_replacement_final_outside_old": initial_summary.get("active_outside_old", math.nan),
+            "source_band_replacement_initial_outside_old_peak_R_rg": initial_summary.get(
+                "active_outside_old_peak_R_rg", math.nan
+            ),
+            "source_band_replacement_final_outside_old_peak_R_rg": initial_summary.get(
+                "active_outside_old_peak_R_rg", math.nan
+            ),
+            "source_band_replacement_initial_outside_old_radial": initial_summary.get(
+                "active_outside_old_radial", math.nan
+            ),
+            "source_band_replacement_final_outside_old_radial": initial_summary.get(
+                "active_outside_old_radial", math.nan
+            ),
+            "source_band_replacement_initial_outside_old_energy": initial_summary.get(
+                "active_outside_old_energy", math.nan
+            ),
+            "source_band_replacement_final_outside_old_energy": initial_summary.get(
+                "active_outside_old_energy", math.nan
+            ),
+            "source_band_replacement_initial_outside_old_mass": initial_summary.get(
+                "active_outside_old_mass", math.nan
+            ),
+            "source_band_replacement_final_outside_old_mass": initial_summary.get(
+                "active_outside_old_mass", math.nan
+            ),
+            "source_band_replacement_initial_buffer_old": initial_summary.get("active_buffer_old", math.nan),
+            "source_band_replacement_final_buffer_old": initial_summary.get("active_buffer_old", math.nan),
+            "source_band_replacement_initial_fv_mass": initial_summary.get("active_fv_mass", math.nan),
+            "source_band_replacement_final_fv_mass": initial_summary.get("active_fv_mass", math.nan),
+            "source_band_replacement_initial_fv_mass_raw": initial_summary.get("audit_fv_mass", math.nan),
+            "source_band_replacement_final_fv_mass_raw": initial_summary.get("audit_fv_mass", math.nan),
+            "source_band_replacement_initial_implicit_ode": initial_summary.get("active_implicit_ode", math.nan),
+            "source_band_replacement_final_implicit_ode": initial_summary.get("active_implicit_ode", math.nan),
+            "source_band_replacement_initial_midpoint": initial_summary.get("active_midpoint", math.nan),
+            "source_band_replacement_final_midpoint": initial_summary.get("active_midpoint", math.nan),
+            "source_band_replacement_initial_simpson": initial_summary.get("active_simpson", math.nan),
+            "source_band_replacement_final_simpson": initial_summary.get("active_simpson", math.nan),
+            "source_band_replacement_initial_interface": initial_summary.get("active_interface", math.nan),
+            "source_band_replacement_final_interface": initial_summary.get("active_interface", math.nan),
+            "source_band_replacement_initial_old_source": initial_summary.get("audit_old_source", math.nan),
+            "source_band_replacement_final_old_source": initial_summary.get("audit_old_source", math.nan),
+            "source_band_replacement_initial_old_full": initial_summary.get("audit_old_full", math.nan),
+            "source_band_replacement_final_old_full": initial_summary.get("audit_old_full", math.nan),
+            "source_band_replacement_initial_fv_energy_interface": initial_summary.get(
+                "audit_fv_energy_interface", math.nan
+            ),
+            "source_band_replacement_final_fv_energy_interface": initial_summary.get(
+                "audit_fv_energy_interface", math.nan
+            ),
+            "source_band_replacement_initial_fv_energy_element": initial_summary.get(
+                "audit_fv_energy_element", math.nan
+            ),
+            "source_band_replacement_final_fv_energy_element": initial_summary.get(
+                "audit_fv_energy_element", math.nan
+            ),
+            "source_band_replacement_initial_condition": initial_summary.get("audit_condition_max", math.nan),
+            "source_band_replacement_final_condition": initial_summary.get("audit_condition_max", math.nan),
+            "source_band_replacement_initial_singular_min": initial_summary.get("audit_singular_min", math.nan),
+            "source_band_replacement_final_singular_min": initial_summary.get("audit_singular_min", math.nan),
+            "source_band_replacement_initial_slope_interface_audit": initial_summary.get(
+                "audit_slope_interface", math.nan
+            ),
+            "source_band_replacement_final_slope_interface_audit": initial_summary.get(
+                "audit_slope_interface", math.nan
+            ),
+            "source_band_replacement_g_node_max": float(np.max(np.abs(initial_g_node))) if initial_g_node.size else math.nan,
+            "source_band_replacement_g_mid_max": float(np.max(np.abs(initial_g_mid))) if initial_g_mid.size else math.nan,
+            "source_band_replacement_active_limit": active_limit,
+            "source_band_replacement_outside_limit": outside_limit,
+            "source_band_replacement_old_source_limit": old_source_limit,
+            "source_band_replacement_alpha": 0.0,
+            "source_band_replacement_nfev": 0,
+            "source_band_replacement_success": True,
+            "source_band_replacement_message": "evaluate_only",
+            "source_band_replacement_reason": initial_data.get("reason", ""),
+            "source_band_replacement_trials": [],
+        }
 
     def local_residual(trial: np.ndarray) -> np.ndarray:
         data = _source_band_replacement_residual_data(
@@ -8072,12 +12052,34 @@ def _source_band_replacement_polish(x0: np.ndarray, params, eta_E: float) -> tup
     sparsity = _source_band_replacement_sparsity(initial_data, int(initial_data.get("col_count", start.size)))
     if sparsity is not None and sparsity.shape != (np.asarray(initial_data.get("rows", []), dtype=float).size, start.size):
         sparsity = None
+    x_scale: Any = "jac" if SOURCE_BAND_REPLACEMENT_X_SCALE in {"jac", "auto"} else 1.0
+    diff_step = (
+        float(SOURCE_BAND_REPLACEMENT_DIFF_STEP)
+        if float(SOURCE_BAND_REPLACEMENT_DIFF_STEP) > 0.0
+        else None
+    )
+    def local_jacobian(trial: np.ndarray):
+        return _source_band_replacement_hybrid_jacobian(
+            np.asarray(trial, dtype=float),
+            params,
+            interval_indices,
+            node_indices,
+            reference_block,
+            x_ref,
+            bool(SOURCE_BAND_REPLACEMENT_WRITE_EDGES),
+            sparsity,
+            lb,
+            ub,
+        )
+
     result = least_squares(
         local_residual,
         start,
         bounds=(lb, ub),
-        jac_sparsity=sparsity,
-        x_scale=1.0,
+        jac=local_jacobian if SOURCE_BAND_REPLACEMENT_HYBRID_JAC else "2-point",
+        jac_sparsity=None if SOURCE_BAND_REPLACEMENT_HYBRID_JAC else sparsity,
+        x_scale=x_scale,
+        diff_step=diff_step,
         loss="linear",
         ftol=RESIDUAL_TOL,
         xtol=RESIDUAL_TOL,
@@ -8125,7 +12127,11 @@ def _source_band_replacement_polish(x0: np.ndarray, params, eta_E: float) -> tup
             np.isfinite(score)
             and score <= active_limit
             and (not np.isfinite(outside) or outside <= outside_limit)
-            and (not np.isfinite(old_source) or old_source <= old_source_limit)
+            and (
+                not use_old_source_guard
+                or not np.isfinite(old_source)
+                or old_source <= old_source_limit
+            )
         )
         trials.append(
             {
@@ -8142,6 +12148,7 @@ def _source_band_replacement_polish(x0: np.ndarray, params, eta_E: float) -> tup
                 "active_limit": active_limit,
                 "outside_limit": outside_limit,
                 "old_source_limit": old_source_limit,
+                "old_source_guard_enabled": use_old_source_guard,
                 "guard_pass": guard,
             }
         )
@@ -8153,17 +12160,20 @@ def _source_band_replacement_polish(x0: np.ndarray, params, eta_E: float) -> tup
             best_score = score
             best_alpha = float(alpha)
 
-    _blogu, _blogT, _blogM, best_g_node, best_g_mid = _source_plus_buffer_implicit_unpack_trial(
+    _blogu, _blogT, _blogM, _best_midpoint_y, best_g_node, best_g_mid = _source_band_replacement_unpack_trial(
         best_trial, node_count, interval_count
     )
     _ = _blogu, _blogT, _blogM
+    best_mass_increment = _source_band_mass_increment_from_trial(best_trial, node_count, interval_count)
     interval_mid_R_rg = np.exp(0.5 * (logR[:-1] + logR[1:])) / params.r_g
     return best_x, {
         "source_band_replacement_enabled": True,
         "source_band_replacement_applied": bool(best_alpha > 0.0),
+        "source_band_replacement_evaluate_only": False,
         "source_band_replacement_replace_mass": bool(SOURCE_BAND_REPLACE_MASS),
         "source_band_replacement_replace_implicit_re": bool(SOURCE_BAND_REPLACE_IMPLICIT_RE),
         "source_band_replacement_old_rows_audit_only": bool(SOURCE_BAND_REPLACEMENT_OLD_ROWS_AUDIT_ONLY),
+        "source_band_replacement_row_mode": row_mode,
         "source_band_replacement_chi_mass": _source_band_replacement_chi_mass(),
         "source_band_replacement_chi_impl": _source_band_replacement_chi_impl(),
         "source_band_replacement_write_edges": bool(SOURCE_BAND_REPLACEMENT_WRITE_EDGES),
@@ -8171,6 +12181,10 @@ def _source_band_replacement_polish(x0: np.ndarray, params, eta_E: float) -> tup
         "source_band_replacement_buffer_new_weight": float(SOURCE_BAND_REPLACEMENT_BUFFER_NEW_WEIGHT),
         "source_band_replacement_buffer_old_weight": float(SOURCE_BAND_REPLACEMENT_BUFFER_OLD_WEIGHT),
         "source_band_replacement_slope_interface_weight": float(SOURCE_BAND_REPLACEMENT_SLOPE_INTERFACE_WEIGHT),
+        "source_band_replacement_slope_interface_active": bool(SOURCE_BAND_REPLACEMENT_SLOPE_INTERFACE_ACTIVE),
+        "source_band_replacement_midpoint_states": bool(SOURCE_BAND_REPLACEMENT_MIDPOINT_STATES),
+        "source_band_replacement_midpoint_trust": float(SOURCE_BAND_REPLACEMENT_MIDPOINT_TRUST),
+        "source_band_replacement_midpoint_weight": float(SOURCE_BAND_REPLACEMENT_MIDPOINT_WEIGHT),
         "source_band_replacement_fv_energy_weight": float(SOURCE_BAND_REPLACEMENT_FV_ENERGY_WEIGHT),
         "source_band_replacement_fv_am_weight": float(SOURCE_BAND_REPLACEMENT_FV_AM_WEIGHT),
         "source_band_replacement_fv_am_audit": str(best_data.get("fv_angular_momentum_audit", "not_implemented")),
@@ -8179,6 +12193,14 @@ def _source_band_replacement_polish(x0: np.ndarray, params, eta_E: float) -> tup
         "source_band_replacement_n_nodes": int(node_indices.size),
         "source_band_replacement_n_variables": int(start.size),
         "source_band_replacement_n_rows": int(np.asarray(best_data.get("rows", []), dtype=float).size),
+        "source_band_replacement_x_scale": str(SOURCE_BAND_REPLACEMENT_X_SCALE),
+        "source_band_replacement_diff_step": (
+            float(SOURCE_BAND_REPLACEMENT_DIFF_STEP) if float(SOURCE_BAND_REPLACEMENT_DIFF_STEP) > 0.0 else math.nan
+        ),
+        "source_band_replacement_hybrid_jac": bool(SOURCE_BAND_REPLACEMENT_HYBRID_JAC),
+        "source_band_replacement_implicit_seed": str(SOURCE_BAND_REPLACEMENT_IMPLICIT_SEED),
+        "source_band_replacement_implicit_seed_blend": float(SOURCE_BAND_REPLACEMENT_IMPLICIT_SEED_BLEND),
+        "source_band_replacement_checkpoint_aux_source": checkpoint_aux_source,
         "source_band_replacement_n_core_intervals": int(best_summary.get("layer_core_count", 0.0))
         if np.isfinite(best_summary.get("layer_core_count", math.nan))
         else 0,
@@ -8197,12 +12219,52 @@ def _source_band_replacement_polish(x0: np.ndarray, params, eta_E: float) -> tup
         "source_band_replacement_final_active": best_summary.get("active", math.nan),
         "source_band_replacement_initial_outside_old": initial_summary.get("active_outside_old", math.nan),
         "source_band_replacement_final_outside_old": best_summary.get("active_outside_old", math.nan),
+        "source_band_replacement_initial_outside_old_peak_R_rg": initial_summary.get(
+            "active_outside_old_peak_R_rg", math.nan
+        ),
+        "source_band_replacement_final_outside_old_peak_R_rg": best_summary.get(
+            "active_outside_old_peak_R_rg", math.nan
+        ),
+        "source_band_replacement_initial_outside_old_radial": initial_summary.get(
+            "active_outside_old_radial", math.nan
+        ),
+        "source_band_replacement_final_outside_old_radial": best_summary.get(
+            "active_outside_old_radial", math.nan
+        ),
+        "source_band_replacement_initial_outside_old_energy": initial_summary.get(
+            "active_outside_old_energy", math.nan
+        ),
+        "source_band_replacement_final_outside_old_energy": best_summary.get(
+            "active_outside_old_energy", math.nan
+        ),
+        "source_band_replacement_initial_outside_old_mass": initial_summary.get(
+            "active_outside_old_mass", math.nan
+        ),
+        "source_band_replacement_final_outside_old_mass": best_summary.get("active_outside_old_mass", math.nan),
         "source_band_replacement_initial_buffer_old": initial_summary.get("active_buffer_old", math.nan),
         "source_band_replacement_final_buffer_old": best_summary.get("active_buffer_old", math.nan),
         "source_band_replacement_initial_fv_mass": initial_summary.get("active_fv_mass", math.nan),
         "source_band_replacement_final_fv_mass": best_summary.get("active_fv_mass", math.nan),
+        "source_band_replacement_initial_mass_increment_int": initial_summary.get(
+            "active_mass_increment_int", math.nan
+        ),
+        "source_band_replacement_final_mass_increment_int": best_summary.get("active_mass_increment_int", math.nan),
+        "source_band_replacement_initial_mass_increment_link": initial_summary.get(
+            "active_mass_increment_link", math.nan
+        ),
+        "source_band_replacement_final_mass_increment_link": best_summary.get("active_mass_increment_link", math.nan),
+        "source_band_replacement_initial_mass_increment_anchor": initial_summary.get(
+            "active_mass_increment_anchor", math.nan
+        ),
+        "source_band_replacement_final_mass_increment_anchor": best_summary.get(
+            "active_mass_increment_anchor", math.nan
+        ),
+        "source_band_replacement_initial_fv_mass_raw": initial_summary.get("audit_fv_mass", math.nan),
+        "source_band_replacement_final_fv_mass_raw": best_summary.get("audit_fv_mass", math.nan),
         "source_band_replacement_initial_implicit_ode": initial_summary.get("active_implicit_ode", math.nan),
         "source_band_replacement_final_implicit_ode": best_summary.get("active_implicit_ode", math.nan),
+        "source_band_replacement_initial_midpoint": initial_summary.get("active_midpoint", math.nan),
+        "source_band_replacement_final_midpoint": best_summary.get("active_midpoint", math.nan),
         "source_band_replacement_initial_simpson": initial_summary.get("active_simpson", math.nan),
         "source_band_replacement_final_simpson": best_summary.get("active_simpson", math.nan),
         "source_band_replacement_initial_interface": initial_summary.get("active_interface", math.nan),
@@ -8227,8 +12289,22 @@ def _source_band_replacement_polish(x0: np.ndarray, params, eta_E: float) -> tup
         "source_band_replacement_final_condition": best_summary.get("audit_condition_max", math.nan),
         "source_band_replacement_initial_singular_min": initial_summary.get("audit_singular_min", math.nan),
         "source_band_replacement_final_singular_min": best_summary.get("audit_singular_min", math.nan),
+        "source_band_replacement_initial_slope_interface_audit": initial_summary.get(
+            "audit_slope_interface", math.nan
+        ),
+        "source_band_replacement_final_slope_interface_audit": best_summary.get("audit_slope_interface", math.nan),
         "source_band_replacement_g_node_max": float(np.max(np.abs(best_g_node))) if best_g_node.size else math.nan,
         "source_band_replacement_g_mid_max": float(np.max(np.abs(best_g_mid))) if best_g_mid.size else math.nan,
+        "source_band_replacement_aux_interval_indices": np.asarray(interval_indices, dtype=int),
+        "source_band_replacement_aux_node_indices": np.asarray(node_indices, dtype=int),
+        "source_band_replacement_aux_midpoint_y": np.asarray(_best_midpoint_y, dtype=float)
+        if _best_midpoint_y is not None
+        else np.empty((0, 2), dtype=float),
+        "source_band_replacement_aux_g_node": np.asarray(best_g_node, dtype=float),
+        "source_band_replacement_aux_g_mid": np.asarray(best_g_mid, dtype=float),
+        "source_band_mass_increment_aux_delta": np.asarray(
+            [] if best_mass_increment is None else best_mass_increment, dtype=float
+        ),
         "source_band_replacement_active_limit": active_limit,
         "source_band_replacement_outside_limit": outside_limit,
         "source_band_replacement_old_source_limit": old_source_limit,
@@ -8239,6 +12315,384 @@ def _source_band_replacement_polish(x0: np.ndarray, params, eta_E: float) -> tup
         "source_band_replacement_reason": best_data.get("reason", initial_data.get("reason", "")),
         "source_band_replacement_trials": trials,
     }
+
+
+def _source_band_global_replacement_polish(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
+    if not SOURCE_BAND_GLOBAL_REPLACEMENT:
+        return x0, {}
+    _set_eta(eta_E)
+    x_ref = np.asarray(x0, dtype=float)
+    interval_indices, node_indices = _source_plus_buffer_interval_indices(x_ref, params)
+    if interval_indices.size == 0 or node_indices.size < 2:
+        return x0, {
+            "source_band_global_replacement_enabled": True,
+            "source_band_global_replacement_applied": False,
+            "source_band_global_replacement_reason": "no source-plus-buffer intervals",
+        }
+    n = int(params.n_nodes)
+    base_size = 3 * n + 2
+    node_count = int(node_indices.size)
+    interval_count = int(interval_indices.size)
+    _reference_block, midpoint_y0, g_node0, g_mid0, checkpoint_aux_source = _source_band_replacement_seed_components(
+        x_ref, params, interval_indices, node_indices
+    )
+    logu0, logT0, logMdot0, _logR_son0, lambda00, logR0 = pilot._unpack(x_ref, params)
+    local_params0 = pilot._local_params(params, logR0, logMdot0)
+    mass_increment0 = _source_band_mass_increment_initial(
+        logu0, logT0, logMdot0, logR0, float(lambda00), local_params0, interval_indices
+    )
+    saved_mass_increment0 = _source_band_checkpoint_mass_increment(interval_indices, node_indices)
+    if saved_mass_increment0 is not None:
+        mass_increment0 = saved_mass_increment0
+    aux0 = _source_band_global_replacement_make_aux(midpoint_y0, g_node0, g_mid0, mass_increment0)
+    augmented_start = np.concatenate([x_ref, aux0])
+    freeze_aux = bool(SOURCE_BAND_GLOBAL_REPLACEMENT_FREEZE_AUX)
+
+    def make_augmented(opt_trial: np.ndarray) -> np.ndarray:
+        trial_array = np.asarray(opt_trial, dtype=float)
+        if freeze_aux:
+            return np.concatenate([trial_array[:base_size], aux0])
+        return trial_array
+
+    lower, upper = pilot._bounds(params)
+    state_trust = max(float(SOURCE_BAND_GLOBAL_REPLACEMENT_STATE_TRUST), 0.0)
+    if state_trust > 0.0:
+        lower = np.maximum(lower, x_ref - state_trust)
+        upper = np.minimum(upper, x_ref + state_trust)
+    slope_bound = max(abs(float(SOURCE_PLUS_BUFFER_IMPLICIT_SLOPE_BOUND)), 1.0)
+    aux_lb_parts: list[np.ndarray] = []
+    aux_ub_parts: list[np.ndarray] = []
+    if SOURCE_BAND_REPLACEMENT_MIDPOINT_STATES:
+        midpoint_trust = max(float(SOURCE_BAND_REPLACEMENT_MIDPOINT_TRUST), 0.0)
+        midpoint_flat = np.asarray(midpoint_y0, dtype=float).ravel()
+        aux_lb_parts.append(midpoint_flat - midpoint_trust)
+        aux_ub_parts.append(midpoint_flat + midpoint_trust)
+    aux_lb_parts.append(np.full(2 * node_count + 2 * interval_count, -slope_bound, dtype=float))
+    aux_ub_parts.append(np.full(2 * node_count + 2 * interval_count, slope_bound, dtype=float))
+    if SOURCE_BAND_MASS_INCREMENT:
+        increment_bound = max(abs(float(SOURCE_BAND_MASS_INCREMENT_BOUND)), 1.0e-12)
+        aux_lb_parts.append(np.full(interval_count, -increment_bound, dtype=float))
+        aux_ub_parts.append(np.full(interval_count, increment_bound, dtype=float))
+    augmented_lb = np.concatenate([lower, *aux_lb_parts])
+    augmented_ub = np.concatenate([upper, *aux_ub_parts])
+    if freeze_aux:
+        lb = np.asarray(lower, dtype=float)
+        ub = np.asarray(upper, dtype=float)
+        start = np.clip(x_ref, lb + 1.0e-12, ub - 1.0e-12)
+        augmented_start = make_augmented(start)
+    else:
+        lb = augmented_lb
+        ub = augmented_ub
+        start = np.clip(augmented_start, lb + 1.0e-12, ub - 1.0e-12)
+        augmented_start = start
+
+    initial_data = _source_band_global_replacement_residual_data(
+        augmented_start, params, interval_indices, node_indices
+    )
+    initial_summary = _source_band_replacement_summary(initial_data)
+    initial_score = _source_band_replacement_score(initial_summary)
+    initial_aux_midpoint, initial_aux_g_node, initial_aux_g_mid, initial_aux_mass_increment = _source_band_global_replacement_unpack_aux(
+        augmented_start, params, node_count, interval_count
+    )
+
+    def info_dict(
+        *,
+        applied: bool,
+        evaluate_only: bool,
+        best_augmented: np.ndarray,
+        best_data: dict[str, Any],
+        best_summary: dict[str, float],
+        best_score: float,
+        candidate_summary: dict[str, float] | None = None,
+        candidate_score: float | None = None,
+        alpha: float = 0.0,
+        nfev: int = 0,
+        success: bool = True,
+        message: str = "",
+        trials: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Any]:
+        aux_midpoint, aux_g_node, aux_g_mid, aux_mass_increment = _source_band_global_replacement_unpack_aux(
+            best_augmented, params, node_count, interval_count
+        )
+        return {
+            "source_band_global_replacement_enabled": True,
+            "source_band_global_replacement_applied": bool(applied),
+            "source_band_global_replacement_evaluate_only": bool(evaluate_only),
+            "source_band_global_replacement_checkpoint_aux_source": checkpoint_aux_source,
+            "source_band_global_replacement_halo_intervals": int(SOURCE_PLUS_BUFFER_HALO_INTERVALS),
+            "source_band_global_replacement_n_intervals": int(interval_indices.size),
+            "source_band_global_replacement_n_nodes": int(node_indices.size),
+            "source_band_global_replacement_n_variables": int(best_augmented.size),
+            "source_band_global_replacement_optimizer_n_variables": int(start.size),
+            "source_band_global_replacement_freeze_aux": bool(freeze_aux),
+            "source_band_global_replacement_n_rows": int(np.asarray(best_data.get("rows", []), dtype=float).size),
+            "source_band_global_replacement_max_nfev": int(SOURCE_BAND_GLOBAL_REPLACEMENT_MAX_NFEV),
+            "source_band_global_replacement_x_scale": str(SOURCE_BAND_GLOBAL_REPLACEMENT_X_SCALE),
+            "source_band_global_replacement_diff_step": (
+                float(SOURCE_BAND_GLOBAL_REPLACEMENT_DIFF_STEP)
+                if float(SOURCE_BAND_GLOBAL_REPLACEMENT_DIFF_STEP) > 0.0
+                else math.nan
+            ),
+            "source_band_global_replacement_state_trust": float(SOURCE_BAND_GLOBAL_REPLACEMENT_STATE_TRUST),
+            "source_band_global_replacement_skip_accepted": bool(SOURCE_BAND_GLOBAL_REPLACEMENT_SKIP_ACCEPTED),
+            "source_band_global_replacement_energy_audit": bool(SOURCE_BAND_REPLACEMENT_ENERGY_AUDIT),
+            "source_band_global_replacement_initial_score": initial_score,
+            "source_band_global_replacement_candidate_score": math.nan
+            if candidate_score is None
+            else float(candidate_score),
+            "source_band_global_replacement_final_score": best_score,
+            "source_band_global_replacement_initial_top_rows": _source_band_top_residual_rows(
+                initial_data, ETA_TANGENT_LOCALIZATION_TOP_N
+            ),
+            "source_band_global_replacement_initial_top_all_rows": _source_band_top_residual_rows(
+                initial_data, ETA_TANGENT_LOCALIZATION_TOP_N, preferred_groups=()
+            ),
+            "source_band_global_replacement_candidate_top_rows": []
+            if candidate_summary is None
+            else _source_band_top_residual_rows(candidate_data, ETA_TANGENT_LOCALIZATION_TOP_N),
+            "source_band_global_replacement_candidate_top_all_rows": []
+            if candidate_summary is None
+            else _source_band_top_residual_rows(
+                candidate_data, ETA_TANGENT_LOCALIZATION_TOP_N, preferred_groups=()
+            ),
+            "source_band_global_replacement_final_top_rows": _source_band_top_residual_rows(
+                best_data, ETA_TANGENT_LOCALIZATION_TOP_N
+            ),
+            "source_band_global_replacement_final_top_all_rows": _source_band_top_residual_rows(
+                best_data, ETA_TANGENT_LOCALIZATION_TOP_N, preferred_groups=()
+            ),
+            "source_band_global_replacement_initial_active": initial_summary.get("active", math.nan),
+            "source_band_global_replacement_candidate_active": math.nan
+            if candidate_summary is None
+            else candidate_summary.get("active", math.nan),
+            "source_band_global_replacement_final_active": best_summary.get("active", math.nan),
+            "source_band_global_replacement_initial_outside_old": initial_summary.get("active_outside_old", math.nan),
+            "source_band_global_replacement_final_outside_old": best_summary.get("active_outside_old", math.nan),
+            "source_band_global_replacement_initial_outside_old_peak_R_rg": initial_summary.get(
+                "active_outside_old_peak_R_rg", math.nan
+            ),
+            "source_band_global_replacement_final_outside_old_peak_R_rg": best_summary.get(
+                "active_outside_old_peak_R_rg", math.nan
+            ),
+            "source_band_global_replacement_initial_outside_old_radial": initial_summary.get(
+                "active_outside_old_radial", math.nan
+            ),
+            "source_band_global_replacement_final_outside_old_radial": best_summary.get(
+                "active_outside_old_radial", math.nan
+            ),
+            "source_band_global_replacement_initial_outside_old_energy": initial_summary.get(
+                "active_outside_old_energy", math.nan
+            ),
+            "source_band_global_replacement_final_outside_old_energy": best_summary.get(
+                "active_outside_old_energy", math.nan
+            ),
+            "source_band_global_replacement_initial_outside_old_mass": initial_summary.get(
+                "active_outside_old_mass", math.nan
+            ),
+            "source_band_global_replacement_final_outside_old_mass": best_summary.get(
+                "active_outside_old_mass", math.nan
+            ),
+            "source_band_global_replacement_initial_fv_mass": initial_summary.get("active_fv_mass", math.nan),
+            "source_band_global_replacement_final_fv_mass": best_summary.get("active_fv_mass", math.nan),
+            "source_band_global_replacement_initial_mass_increment_int": initial_summary.get(
+                "active_mass_increment_int", math.nan
+            ),
+            "source_band_global_replacement_final_mass_increment_int": best_summary.get(
+                "active_mass_increment_int", math.nan
+            ),
+            "source_band_global_replacement_initial_mass_increment_link": initial_summary.get(
+                "active_mass_increment_link", math.nan
+            ),
+            "source_band_global_replacement_final_mass_increment_link": best_summary.get(
+                "active_mass_increment_link", math.nan
+            ),
+            "source_band_global_replacement_initial_mass_increment_anchor": initial_summary.get(
+                "active_mass_increment_anchor", math.nan
+            ),
+            "source_band_global_replacement_final_mass_increment_anchor": best_summary.get(
+                "active_mass_increment_anchor", math.nan
+            ),
+            "source_band_global_replacement_initial_implicit_ode": initial_summary.get(
+                "active_implicit_ode", math.nan
+            ),
+            "source_band_global_replacement_final_implicit_ode": best_summary.get("active_implicit_ode", math.nan),
+            "source_band_global_replacement_initial_midpoint": initial_summary.get("active_midpoint", math.nan),
+            "source_band_global_replacement_final_midpoint": best_summary.get("active_midpoint", math.nan),
+            "source_band_global_replacement_initial_simpson": initial_summary.get("active_simpson", math.nan),
+            "source_band_global_replacement_final_simpson": best_summary.get("active_simpson", math.nan),
+            "source_band_global_replacement_initial_interface": initial_summary.get("active_interface", math.nan),
+            "source_band_global_replacement_final_interface": best_summary.get("active_interface", math.nan),
+            "source_band_global_replacement_initial_old_source": initial_summary.get("audit_old_source", math.nan),
+            "source_band_global_replacement_final_old_source": best_summary.get("audit_old_source", math.nan),
+            "source_band_global_replacement_initial_old_full": initial_summary.get("audit_old_full", math.nan),
+            "source_band_global_replacement_final_old_full": best_summary.get("audit_old_full", math.nan),
+            "source_band_global_replacement_initial_condition": initial_summary.get("audit_condition_max", math.nan),
+            "source_band_global_replacement_final_condition": best_summary.get("audit_condition_max", math.nan),
+            "source_band_global_replacement_initial_singular_min": initial_summary.get("audit_singular_min", math.nan),
+            "source_band_global_replacement_final_singular_min": best_summary.get("audit_singular_min", math.nan),
+            "source_band_global_replacement_g_node_initial_max": float(np.max(np.abs(initial_aux_g_node)))
+            if initial_aux_g_node.size
+            else math.nan,
+            "source_band_global_replacement_g_mid_initial_max": float(np.max(np.abs(initial_aux_g_mid)))
+            if initial_aux_g_mid.size
+            else math.nan,
+            "source_band_global_replacement_g_node_final_max": float(np.max(np.abs(aux_g_node)))
+            if aux_g_node.size
+            else math.nan,
+            "source_band_global_replacement_g_mid_final_max": float(np.max(np.abs(aux_g_mid)))
+            if aux_g_mid.size
+            else math.nan,
+            "source_band_global_replacement_mass_increment_initial_max": float(
+                np.max(np.abs(initial_aux_mass_increment))
+            )
+            if initial_aux_mass_increment is not None and initial_aux_mass_increment.size
+            else math.nan,
+            "source_band_global_replacement_mass_increment_final_max": float(np.max(np.abs(aux_mass_increment)))
+            if aux_mass_increment is not None and aux_mass_increment.size
+            else math.nan,
+            "source_band_global_replacement_alpha": float(alpha),
+            "source_band_global_replacement_nfev": int(nfev),
+            "source_band_global_replacement_success": bool(success),
+            "source_band_global_replacement_message": str(message),
+            "source_band_global_replacement_reason": best_data.get("reason", initial_data.get("reason", "")),
+            "source_band_global_replacement_trials": [] if trials is None else trials,
+            "source_band_replacement_aux_interval_indices": np.asarray(interval_indices, dtype=int),
+            "source_band_replacement_aux_node_indices": np.asarray(node_indices, dtype=int),
+            "source_band_replacement_aux_midpoint_y": np.asarray(aux_midpoint, dtype=float),
+            "source_band_replacement_aux_g_node": np.asarray(aux_g_node, dtype=float),
+            "source_band_replacement_aux_g_mid": np.asarray(aux_g_mid, dtype=float),
+            "source_band_mass_increment_aux_delta": np.asarray(
+                [] if aux_mass_increment is None else aux_mass_increment, dtype=float
+            ),
+        }
+
+    if SOURCE_BAND_GLOBAL_REPLACEMENT_EVALUATE_ONLY:
+        info = info_dict(
+            applied=False,
+            evaluate_only=True,
+            best_augmented=augmented_start,
+            best_data=initial_data,
+            best_summary=initial_summary,
+            best_score=initial_score,
+            nfev=0,
+            success=True,
+            message="evaluate_only",
+        )
+        _remember_source_band_aux(info)
+        return x_ref, info
+    if SOURCE_BAND_GLOBAL_REPLACEMENT_SKIP_ACCEPTED and initial_score <= ACCEPT_TOL:
+        info = info_dict(
+            applied=False,
+            evaluate_only=False,
+            best_augmented=augmented_start,
+            best_data=initial_data,
+            best_summary=initial_summary,
+            best_score=initial_score,
+            nfev=0,
+            success=True,
+            message="initial_score_below_accept_tol",
+        )
+        _remember_source_band_aux(info)
+        return x_ref, info
+
+    def residual(opt_trial: np.ndarray) -> np.ndarray:
+        data = _source_band_global_replacement_residual_data(
+            make_augmented(np.asarray(opt_trial, dtype=float)), params, interval_indices, node_indices
+        )
+        return np.asarray(data.get("rows", []), dtype=float)
+
+    from scipy.optimize import least_squares
+
+    sparsity = _source_band_global_replacement_sparsity(initial_data, params, node_indices)
+    if freeze_aux and sparsity is not None:
+        sparsity = sparsity[:, :base_size]
+    if sparsity is not None and sparsity.shape != (
+        np.asarray(initial_data.get("rows", []), dtype=float).size,
+        start.size,
+    ):
+        sparsity = None
+    x_scale: Any = "jac" if SOURCE_BAND_GLOBAL_REPLACEMENT_X_SCALE in {"jac", "auto"} else 1.0
+    diff_step = (
+        float(SOURCE_BAND_GLOBAL_REPLACEMENT_DIFF_STEP)
+        if float(SOURCE_BAND_GLOBAL_REPLACEMENT_DIFF_STEP) > 0.0
+        else None
+    )
+    result = least_squares(
+        residual,
+        start,
+        bounds=(lb, ub),
+        jac_sparsity=sparsity,
+        x_scale=x_scale,
+        diff_step=diff_step,
+        loss="linear",
+        ftol=RESIDUAL_TOL,
+        xtol=RESIDUAL_TOL,
+        gtol=RESIDUAL_TOL,
+        max_nfev=SOURCE_BAND_GLOBAL_REPLACEMENT_MAX_NFEV,
+        verbose=0,
+    )
+    candidate_augmented = make_augmented(result.x)
+    candidate_data = _source_band_global_replacement_residual_data(
+        candidate_augmented, params, interval_indices, node_indices
+    )
+    candidate_summary = _source_band_replacement_summary(candidate_data)
+    candidate_score = _source_band_replacement_score(candidate_summary)
+
+    best_augmented = augmented_start
+    best_data = initial_data
+    best_summary = initial_summary
+    best_score = initial_score
+    best_alpha = 0.0
+    step = np.asarray(result.x, dtype=float) - start
+    trials: list[dict[str, Any]] = []
+    for exponent in range(max(1, int(SOURCE_BAND_GLOBAL_REPLACEMENT_LINE_SEARCH_STEPS))):
+        alpha = 0.5**exponent
+        opt_trial = np.clip(start + alpha * step, lb + 1.0e-12, ub - 1.0e-12)
+        trial = make_augmented(opt_trial)
+        data = _source_band_global_replacement_residual_data(trial, params, interval_indices, node_indices)
+        summary = _source_band_replacement_summary(data)
+        score = _source_band_replacement_score(summary)
+        guard = bool(np.isfinite(score) and score <= max(initial_score, ACCEPT_TOL))
+        trials.append(
+            {
+                "alpha": float(alpha),
+                "score": score,
+                "active": summary.get("active", math.nan),
+                "outside_old": summary.get("active_outside_old", math.nan),
+                "fv_mass": summary.get("active_fv_mass", math.nan),
+                "implicit_ode": summary.get("active_implicit_ode", math.nan),
+                "midpoint": summary.get("active_midpoint", math.nan),
+                "simpson": summary.get("active_simpson", math.nan),
+                "interface": summary.get("active_interface", math.nan),
+                "old_source": summary.get("audit_old_source", math.nan),
+                "guard_pass": guard,
+            }
+        )
+        if guard and score < best_score:
+            best_augmented = trial
+            best_data = data
+            best_summary = summary
+            best_score = score
+            best_alpha = float(alpha)
+
+    best_full_x = np.asarray(best_augmented[:base_size], dtype=float)
+    info = info_dict(
+        applied=bool(best_alpha > 0.0),
+        evaluate_only=False,
+        best_augmented=best_augmented,
+        best_data=best_data,
+        best_summary=best_summary,
+        best_score=best_score,
+        candidate_summary=candidate_summary,
+        candidate_score=candidate_score,
+        alpha=best_alpha,
+        nfev=int(result.nfev),
+        success=bool(result.success),
+        message=str(result.message),
+        trials=trials,
+    )
+    _remember_source_band_aux(info)
+    return best_full_x, info
 
 
 def _source_plus_buffer_implicit_slope_correct(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
@@ -9629,6 +14083,425 @@ def _source_microdomain_seed(x0: np.ndarray, params, eta_E: float) -> tuple[np.n
     return x_corrected, new_params, info
 
 
+def _global_fv_mass_profile_audit(x: np.ndarray, params, eta_E: float) -> dict[str, float]:
+    _set_eta(eta_E)
+    logu, logT, logMdot, _logR_son, lambda0, logR = pilot._unpack(np.asarray(x, dtype=float), params)
+    local_params = pilot._local_params(params, logR, logMdot)
+    values: list[float] = []
+    radii: list[float] = []
+    for idx in range(max(0, int(params.n_nodes) - 1)):
+        try:
+            value = _finite_volume_mass_residual_from_unpacked(
+                logu, logT, logMdot, logR, float(lambda0), local_params, int(idx)
+            )
+        except Exception:
+            value = math.nan
+        values.append(float(value) if np.isfinite(value) else math.nan)
+        radii.append(float(np.exp(0.5 * (logR[idx] + logR[idx + 1])) / params.r_g))
+    arr = np.asarray(values, dtype=float)
+    if not np.any(np.isfinite(arr)):
+        return {"max": math.nan, "peak_R_rg": math.nan, "p90": math.nan}
+    abs_arr = np.abs(arr)
+    peak = int(np.nanargmax(abs_arr))
+    finite = abs_arr[np.isfinite(abs_arr)]
+    return {
+        "max": float(abs_arr[peak]),
+        "peak_R_rg": float(radii[peak]),
+        "p90": float(np.percentile(finite, 90.0)) if finite.size else math.nan,
+    }
+
+
+def _eta_mass_profile_predictor(x0: np.ndarray, params, eta_E: float) -> tuple[np.ndarray, dict[str, Any]]:
+    if not ETA_MASS_PROFILE_PREDICTOR:
+        return x0, {}
+    _set_eta(eta_E)
+    x_ref = np.asarray(x0, dtype=float)
+    logu, logT, logMdot0, logR_son, lambda0, logR = pilot._unpack(x_ref, params)
+    lower, upper = pilot._bounds(params)
+    n = int(params.n_nodes)
+    logMdot_lower = lower[2 * n : 3 * n] + 1.0e-12
+    logMdot_upper = upper[2 * n : 3 * n] - 1.0e-12
+    damping = min(max(float(ETA_MASS_PROFILE_PREDICTOR_DAMPING), 0.0), 1.0)
+    sweeps = max(1, int(ETA_MASS_PROFILE_PREDICTOR_SWEEPS))
+    before = _global_fv_mass_profile_audit(x_ref, params, eta_E)
+    logMdot = np.asarray(logMdot0, dtype=float).copy()
+    mdot_floor = max(1.0e-12 * float(params.Mdot_g_s), 1.0e-300)
+    for _sweep in range(sweeps):
+        local_params = pilot._local_params(params, logR, logMdot)
+        current_profile = np.exp(logMdot)
+        predicted = np.empty_like(current_profile)
+        predicted[0] = max(float(current_profile[0]), mdot_floor)
+        for idx in range(max(0, n - 1)):
+            try:
+                wind_integral, source_integral, _scale, _left, _right = _finite_volume_mass_terms_from_unpacked(
+                    logu, logT, logMdot, logR, float(lambda0), local_params, int(idx)
+                )
+                delta = float(wind_integral) - float(source_integral)
+            except Exception:
+                delta = 0.0
+            predicted[idx + 1] = max(float(predicted[idx]) + delta, mdot_floor)
+        blended = (1.0 - damping) * current_profile + damping * predicted
+        blended[0] = current_profile[0]
+        logMdot = np.log(np.maximum(blended, mdot_floor))
+        logMdot = np.clip(logMdot, logMdot_lower, logMdot_upper)
+    x_new = pilot._pack(logu, logT, logMdot, float(logR_son), float(lambda0))
+    x_new = np.clip(x_new, lower + 1.0e-12, upper - 1.0e-12)
+    after = _global_fv_mass_profile_audit(x_new, params, eta_E)
+    return x_new, {
+        "eta_mass_predictor_enabled": True,
+        "eta_mass_predictor_applied": True,
+        "eta_mass_predictor_damping": float(damping),
+        "eta_mass_predictor_sweeps": int(sweeps),
+        "eta_mass_predictor_before_fv_mass_max": before.get("max", math.nan),
+        "eta_mass_predictor_after_fv_mass_max": after.get("max", math.nan),
+        "eta_mass_predictor_before_fv_mass_peak_R_rg": before.get("peak_R_rg", math.nan),
+        "eta_mass_predictor_after_fv_mass_peak_R_rg": after.get("peak_R_rg", math.nan),
+        "eta_mass_predictor_before_fv_mass_p90": before.get("p90", math.nan),
+        "eta_mass_predictor_after_fv_mass_p90": after.get("p90", math.nan),
+        "eta_mass_predictor_delta_logMdot_max": float(np.max(np.abs(logMdot - logMdot0))) if logMdot.size else math.nan,
+    }
+
+
+def _eta_continuation_coordinate(eta_E: float) -> float:
+    if ETA_CONTINUATION_PARAM in {"inv_eta", "inverse_eta", "mu", "wind_strength"}:
+        return 1.0 / max(float(eta_E), 1.0e-300)
+    return float(eta_E)
+
+
+def _eta_from_continuation_coordinate(value: float) -> float:
+    if ETA_CONTINUATION_PARAM in {"inv_eta", "inverse_eta", "mu", "wind_strength"}:
+        return 1.0 / max(float(value), 1.0e-300)
+    return float(value)
+
+
+def _source_band_global_replacement_context(x_ref: np.ndarray, params) -> dict[str, Any]:
+    x_array = np.asarray(x_ref, dtype=float)
+    interval_indices, node_indices = _source_plus_buffer_interval_indices(x_array, params)
+    if interval_indices.size == 0 or node_indices.size < 2:
+        return {"ok": False, "reason": "no source-plus-buffer intervals"}
+    n = int(params.n_nodes)
+    base_size = 3 * n + 2
+    node_count = int(node_indices.size)
+    interval_count = int(interval_indices.size)
+    _reference_block, midpoint_y0, g_node0, g_mid0, checkpoint_aux_source = _source_band_replacement_seed_components(
+        x_array, params, interval_indices, node_indices
+    )
+    logu0, logT0, logMdot0, _logR_son0, lambda00, logR0 = pilot._unpack(x_array, params)
+    local_params0 = pilot._local_params(params, logR0, logMdot0)
+    mass_increment0 = _source_band_mass_increment_initial(
+        logu0, logT0, logMdot0, logR0, float(lambda00), local_params0, interval_indices
+    )
+    saved_mass_increment0 = _source_band_checkpoint_mass_increment(interval_indices, node_indices)
+    if saved_mass_increment0 is not None:
+        mass_increment0 = saved_mass_increment0
+    aux0 = _source_band_global_replacement_make_aux(midpoint_y0, g_node0, g_mid0, mass_increment0)
+    augmented_start = np.concatenate([x_array, aux0])
+    data = _source_band_global_replacement_residual_data(augmented_start, params, interval_indices, node_indices)
+    summary = _source_band_replacement_summary(data)
+    sparsity = _source_band_global_replacement_sparsity(data, params, node_indices)
+    if sparsity is not None:
+        sparsity = sparsity[:, :base_size]
+    return {
+        "ok": True,
+        "base_size": int(base_size),
+        "interval_indices": np.asarray(interval_indices, dtype=int),
+        "node_indices": np.asarray(node_indices, dtype=int),
+        "node_count": int(node_count),
+        "interval_count": int(interval_count),
+        "checkpoint_aux_source": str(checkpoint_aux_source),
+        "aux0": np.asarray(aux0, dtype=float),
+        "data": data,
+        "summary": summary,
+        "sparsity": sparsity,
+    }
+
+
+def _source_band_top_residual_rows(
+    data: dict[str, Any],
+    top_n: int,
+    preferred_groups: tuple[str, ...] | None = ("active_outside_old",),
+) -> list[dict[str, Any]]:
+    rows = np.asarray(data.get("rows", []), dtype=float)
+    groups = list(data.get("groups", []))
+    radii = np.asarray(data.get("R_rg", []), dtype=float)
+    old_row_indices = np.asarray(data.get("old_row_indices", []), dtype=int)
+    mass_start = int(data.get("mass_start", -1))
+    n_nodes = int(data.get("n_nodes", 0))
+    if rows.size == 0:
+        return []
+    preferred: list[int] = []
+    if preferred_groups is not None:
+        preferred = [idx for idx, group in enumerate(groups) if str(group) in preferred_groups]
+    candidate_indices = preferred if preferred else list(range(rows.size))
+    order = sorted(candidate_indices, key=lambda idx: abs(float(rows[idx])), reverse=True)
+    out: list[dict[str, Any]] = []
+    interval_count = max(0, n_nodes - 1)
+    outer_start = 2 * interval_count
+    sonic_start = outer_start + 2
+    inner_mdot_row = sonic_start + 2
+    for idx in order[: max(0, int(top_n))]:
+        old_idx = int(old_row_indices[idx]) if old_row_indices.size > idx else -1
+        if 0 <= old_idx < 2 * interval_count:
+            old_kind = "radial" if old_idx % 2 == 0 else "energy"
+            old_group = f"old_interval_{old_kind}"
+        elif old_idx == outer_start:
+            old_kind = "outer"
+            old_group = "old_outer_omega"
+        elif old_idx == outer_start + 1:
+            old_kind = "outer"
+            old_group = "old_outer_energy"
+        elif old_idx == sonic_start:
+            old_kind = "sonic"
+            old_group = "old_sonic_D"
+        elif old_idx == sonic_start + 1:
+            old_kind = "sonic"
+            old_group = "old_sonic_pivot"
+        elif old_idx == inner_mdot_row:
+            old_kind = "inner_mdot"
+            old_group = "old_inner_mdot"
+        elif mass_start <= old_idx < mass_start + interval_count:
+            old_kind = "mass"
+            old_group = "old_mass"
+        else:
+            old_kind = "other"
+            old_group = "old_other"
+        out.append(
+            {
+                "row": int(idx),
+                "group": str(groups[idx]) if idx < len(groups) else "",
+                "old_row": int(old_idx),
+                "old_kind": old_kind,
+                "old_group": old_group,
+                "R_rg": float(radii[idx]) if radii.size > idx else math.nan,
+                "value": float(rows[idx]),
+                "abs": abs(float(rows[idx])),
+            }
+        )
+    return out
+
+
+def _eta_tangent_predictor(
+    x0: np.ndarray,
+    params,
+    previous_eta_E: float | None,
+    eta_E: float,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    if not ETA_TANGENT_PREDICTOR:
+        return x0, {}
+    if previous_eta_E is None or not np.isfinite(float(previous_eta_E)):
+        return x0, {
+            "eta_tangent_enabled": True,
+            "eta_tangent_applied": False,
+            "eta_tangent_reason": "missing_previous_eta",
+        }
+    eta_ref = float(previous_eta_E)
+    eta_target = float(eta_E)
+    if abs(eta_target - eta_ref) <= 1.0e-14 * max(1.0, abs(eta_ref)):
+        return x0, {
+            "eta_tangent_enabled": True,
+            "eta_tangent_applied": False,
+            "eta_tangent_reason": "zero_eta_step",
+            "eta_tangent_previous_eta_E": eta_ref,
+            "eta_tangent_target_eta_E": eta_target,
+        }
+
+    _set_eta(eta_ref)
+    x_ref = np.asarray(x0, dtype=float)
+    lower, upper = pilot._bounds(params)
+    x_ref = np.clip(x_ref, lower + 1.0e-12, upper - 1.0e-12)
+    p_ref = _eta_continuation_coordinate(eta_ref)
+    p_target = _eta_continuation_coordinate(eta_target)
+    dp = float(p_target - p_ref)
+    if not np.isfinite(dp) or dp == 0.0:
+        return x0, {
+            "eta_tangent_enabled": True,
+            "eta_tangent_applied": False,
+            "eta_tangent_reason": "bad_continuation_step",
+            "eta_tangent_previous_eta_E": eta_ref,
+            "eta_tangent_target_eta_E": eta_target,
+            "eta_tangent_param": ETA_CONTINUATION_PARAM,
+        }
+
+    use_source_band_rows = bool(SOURCE_BAND_GLOBAL_REPLACEMENT)
+    context: dict[str, Any] = {}
+    if use_source_band_rows:
+        context = _source_band_global_replacement_context(x_ref, params)
+        if not context.get("ok", False):
+            return x0, {
+                "eta_tangent_enabled": True,
+                "eta_tangent_applied": False,
+                "eta_tangent_reason": str(context.get("reason", "bad_source_band_context")),
+                "eta_tangent_previous_eta_E": eta_ref,
+                "eta_tangent_target_eta_E": eta_target,
+                "eta_tangent_param": ETA_CONTINUATION_PARAM,
+            }
+        aux0 = np.asarray(context["aux0"], dtype=float)
+        interval_indices = np.asarray(context["interval_indices"], dtype=int)
+        node_indices = np.asarray(context["node_indices"], dtype=int)
+
+        def residual_data_for(candidate_x: np.ndarray, eta_value: float) -> tuple[np.ndarray, dict[str, Any]]:
+            _set_eta(float(eta_value))
+            augmented = np.concatenate([np.asarray(candidate_x, dtype=float), aux0])
+            data = _source_band_global_replacement_residual_data(augmented, params, interval_indices, node_indices)
+            return np.asarray(data.get("rows", []), dtype=float), data
+
+        sparsity = context.get("sparsity")
+        ref_rows = np.asarray(context["data"].get("rows", []), dtype=float)
+        ref_data = context["data"]
+        ref_score = _source_band_replacement_score(context["summary"])
+    else:
+
+        def residual_data_for(candidate_x: np.ndarray, eta_value: float) -> tuple[np.ndarray, dict[str, Any]]:
+            _set_eta(float(eta_value))
+            rows = np.asarray(_residual(np.asarray(candidate_x, dtype=float), params), dtype=float)
+            return rows, {"rows": rows}
+
+        try:
+            sparsity = pilot._sparsity(params)
+        except Exception:
+            sparsity = None
+        ref_rows, ref_data = residual_data_for(x_ref, eta_ref)
+        ref_score = float(np.linalg.norm(ref_rows, ord=np.inf)) if ref_rows.size else math.nan
+
+    target_seed_rows, target_seed_data = residual_data_for(x_ref, eta_target)
+    target_seed_score = float(np.linalg.norm(target_seed_rows, ord=np.inf)) if target_seed_rows.size else math.nan
+    if use_source_band_rows:
+        target_seed_score = _source_band_replacement_score(_source_band_replacement_summary(target_seed_data))
+
+    fd_abs = abs(float(ETA_TANGENT_FD_DMU))
+    if fd_abs <= 0.0:
+        fd_abs = min(max(0.25 * abs(dp), 1.0e-7), max(abs(dp), 1.0e-7))
+    fd_param = math.copysign(fd_abs, dp)
+    if p_ref + fd_param <= 0.0 and ETA_CONTINUATION_PARAM in {"inv_eta", "inverse_eta", "mu", "wind_strength"}:
+        fd_param = abs(fd_param)
+    eta_fd = _eta_from_continuation_coordinate(p_ref + fd_param)
+    fd_rows, fd_data = residual_data_for(x_ref, eta_fd)
+    if fd_rows.shape != ref_rows.shape:
+        return x0, {
+            "eta_tangent_enabled": True,
+            "eta_tangent_applied": False,
+            "eta_tangent_reason": "fd_row_shape_changed",
+            "eta_tangent_previous_eta_E": eta_ref,
+            "eta_tangent_target_eta_E": eta_target,
+            "eta_tangent_param": ETA_CONTINUATION_PARAM,
+            "eta_tangent_ref_rows": int(ref_rows.size),
+            "eta_tangent_fd_rows": int(fd_rows.size),
+        }
+    f_param = (fd_rows - ref_rows) / float(fd_param)
+
+    from scipy.optimize._numdiff import approx_derivative
+    from scipy.sparse import csr_matrix, eye, issparse, vstack
+    from scipy.sparse.linalg import lsmr
+
+    def ref_fun(candidate_x: np.ndarray) -> np.ndarray:
+        rows, _data = residual_data_for(candidate_x, eta_ref)
+        return rows
+
+    diff_step = float(ETA_TANGENT_DIFF_STEP) if float(ETA_TANGENT_DIFF_STEP) > 0.0 else None
+    jac = approx_derivative(
+        ref_fun,
+        x_ref,
+        method="2-point",
+        abs_step=diff_step,
+        bounds=(lower, upper),
+        sparsity=sparsity,
+        f0=ref_rows,
+    )
+    if not issparse(jac):
+        jac = csr_matrix(np.asarray(jac, dtype=float))
+    else:
+        jac = jac.tocsr()
+
+    rhs = -np.asarray(f_param, dtype=float)
+    reg = max(float(ETA_TANGENT_REG), 0.0)
+    if reg > 0.0:
+        system = vstack([jac, reg * eye(jac.shape[1], format="csr")], format="csr")
+        system_rhs = np.concatenate([rhs, np.zeros(jac.shape[1], dtype=float)])
+    else:
+        system = jac
+        system_rhs = rhs
+    lsmr_result = lsmr(
+        system,
+        system_rhs,
+        atol=max(float(RESIDUAL_TOL), 1.0e-12),
+        btol=max(float(RESIDUAL_TOL), 1.0e-12),
+        maxiter=max(1, int(ETA_TANGENT_LSMR_MAXITER)),
+    )
+    tangent = np.asarray(lsmr_result[0], dtype=float)
+    raw_step = dp * tangent
+    max_step = max(float(ETA_TANGENT_MAX_STEP), 0.0)
+    max_abs_raw = float(np.max(np.abs(raw_step))) if raw_step.size else 0.0
+    alpha = 1.0
+    if max_step > 0.0 and max_abs_raw > max_step:
+        alpha = max_step / max_abs_raw
+    x_pred = np.clip(x_ref + alpha * raw_step, lower + 1.0e-12, upper - 1.0e-12)
+    predicted_rows, predicted_data = residual_data_for(x_pred, eta_target)
+    predicted_score = float(np.linalg.norm(predicted_rows, ord=np.inf)) if predicted_rows.size else math.nan
+    if use_source_band_rows:
+        predicted_score = _source_band_replacement_score(_source_band_replacement_summary(predicted_data))
+    applied = bool(np.isfinite(predicted_score) and predicted_score < target_seed_score)
+    chosen_x = x_pred if applied else x_ref
+
+    delta = np.asarray(chosen_x, dtype=float) - x_ref
+    n = int(params.n_nodes)
+    info = {
+        "eta_tangent_enabled": True,
+        "eta_tangent_applied": bool(applied),
+        "eta_tangent_reason": "improved_target_score" if applied else "no_target_score_improvement",
+        "eta_tangent_param": ETA_CONTINUATION_PARAM,
+        "eta_tangent_include_aux_requested": bool(ETA_TANGENT_INCLUDE_AUX),
+        "eta_tangent_include_aux_effective": False,
+        "eta_tangent_previous_eta_E": eta_ref,
+        "eta_tangent_target_eta_E": eta_target,
+        "eta_tangent_previous_param": float(p_ref),
+        "eta_tangent_target_param": float(p_target),
+        "eta_tangent_dparam": float(dp),
+        "eta_tangent_fd_dparam": float(fd_param),
+        "eta_tangent_fd_eta_E": float(eta_fd),
+        "eta_tangent_ref_score": float(ref_score),
+        "eta_tangent_target_seed_score": float(target_seed_score),
+        "eta_tangent_predicted_score": float(predicted_score),
+        "eta_tangent_ref_norm_inf": float(np.linalg.norm(ref_rows, ord=np.inf)) if ref_rows.size else math.nan,
+        "eta_tangent_fd_norm_inf": float(np.linalg.norm(fd_rows, ord=np.inf)) if fd_rows.size else math.nan,
+        "eta_tangent_fparam_norm_inf": float(np.linalg.norm(f_param, ord=np.inf)) if f_param.size else math.nan,
+        "eta_tangent_jac_rows": int(jac.shape[0]),
+        "eta_tangent_jac_cols": int(jac.shape[1]),
+        "eta_tangent_jac_nnz": int(jac.nnz),
+        "eta_tangent_reg": float(reg),
+        "eta_tangent_lsmr_istop": int(lsmr_result[1]),
+        "eta_tangent_lsmr_itn": int(lsmr_result[2]),
+        "eta_tangent_lsmr_normr": float(lsmr_result[3]),
+        "eta_tangent_lsmr_normar": float(lsmr_result[4]),
+        "eta_tangent_lsmr_norma": float(lsmr_result[5]),
+        "eta_tangent_lsmr_conda": float(lsmr_result[6]),
+        "eta_tangent_raw_step_max": float(max_abs_raw),
+        "eta_tangent_alpha": float(alpha),
+        "eta_tangent_delta_max": float(np.max(np.abs(delta))) if delta.size else math.nan,
+        "eta_tangent_delta_logu_max": float(np.max(np.abs(delta[:n]))) if delta.size >= n else math.nan,
+        "eta_tangent_delta_logT_max": float(np.max(np.abs(delta[n : 2 * n]))) if delta.size >= 2 * n else math.nan,
+        "eta_tangent_delta_logMdot_max": float(np.max(np.abs(delta[2 * n : 3 * n]))) if delta.size >= 3 * n else math.nan,
+        "eta_tangent_checkpoint_aux_source": str(context.get("checkpoint_aux_source", "")) if context else "",
+        "eta_tangent_ref_top_rows": _source_band_top_residual_rows(ref_data, ETA_TANGENT_LOCALIZATION_TOP_N)
+        if use_source_band_rows
+        else [],
+        "eta_tangent_fd_top_rows": _source_band_top_residual_rows(fd_data, ETA_TANGENT_LOCALIZATION_TOP_N)
+        if use_source_band_rows
+        else [],
+        "eta_tangent_target_seed_top_rows": _source_band_top_residual_rows(
+            target_seed_data, ETA_TANGENT_LOCALIZATION_TOP_N
+        )
+        if use_source_band_rows
+        else [],
+        "eta_tangent_predicted_top_rows": _source_band_top_residual_rows(
+            predicted_data, ETA_TANGENT_LOCALIZATION_TOP_N
+        )
+        if use_source_band_rows
+        else [],
+    }
+    _set_eta(eta_target)
+    return chosen_x, info
+
+
 def _xi_from_x(x: np.ndarray, params) -> np.ndarray:
     _logu, _logT, _logMdot, _logR_son, _lambda0, logR = pilot._unpack(x, params)
     span = max(float(logR[-1] - logR[0]), 1.0e-300)
@@ -10049,21 +14922,36 @@ def _write_checkpoint(label: str, x: np.ndarray, params, row: dict[str, Any]) ->
     safe = _safe_eta_label(float(row["eta_E"]))
     path = CHECKPOINT_DIR / f"{label}_etaE_{safe}_N{int(params.n_nodes)}.npz"
     slopes = local_params.outer_match_log_slopes
-    np.savez_compressed(
-        path,
-        x=np.asarray(x, dtype=float),
-        z=np.asarray(z, dtype=float),
-        ratio=np.array(local_params.Mdot_g_s / eddington_mdot(local_params.M2_g)),
-        R_out_rg=np.array(local_params.R_out_rg),
-        n_nodes=np.array(local_params.n_nodes),
-        grid_power=np.array(local_params.grid_power),
-        custom_grid_xi=np.asarray([] if local_params.custom_grid_xi is None else local_params.custom_grid_xi, dtype=float),
-        outer_match_log_slopes=np.asarray([np.nan, np.nan] if slopes is None else slopes, dtype=float),
-        wind_energy_multiplier=np.array(row["eta_E"]),
-        full=np.array(row["final_full"]),
-        accepted=np.array(row["accepted_exploratory"]),
-        row_json=np.array(json.dumps(scan.json_safe(row), sort_keys=True)),
-    )
+    payload: dict[str, Any] = {
+        "x": np.asarray(x, dtype=float),
+        "z": np.asarray(z, dtype=float),
+        "ratio": np.array(local_params.Mdot_g_s / eddington_mdot(local_params.M2_g)),
+        "R_out_rg": np.array(local_params.R_out_rg),
+        "n_nodes": np.array(local_params.n_nodes),
+        "grid_power": np.array(local_params.grid_power),
+        "custom_grid_xi": np.asarray([] if local_params.custom_grid_xi is None else local_params.custom_grid_xi, dtype=float),
+        "outer_match_log_slopes": np.asarray([np.nan, np.nan] if slopes is None else slopes, dtype=float),
+        "wind_energy_multiplier": np.array(row["eta_E"]),
+        "full": np.array(row["final_full"]),
+        "accepted": np.array(row["accepted_exploratory"]),
+        "row_json": np.array(json.dumps(scan.json_safe(row), sort_keys=True)),
+    }
+    for row_key, payload_key in (
+        ("source_band_hs_aux_interval_indices", "source_band_hs_aux_interval_indices"),
+        ("source_band_hs_aux_node_indices", "source_band_hs_aux_node_indices"),
+        ("source_band_hs_aux_midpoint_y", "source_band_hs_aux_midpoint_y"),
+        ("source_band_hs_aux_g_node", "source_band_hs_aux_g_node"),
+        ("source_band_hs_aux_g_mid", "source_band_hs_aux_g_mid"),
+        ("source_band_replacement_aux_interval_indices", "source_band_replacement_aux_interval_indices"),
+        ("source_band_replacement_aux_node_indices", "source_band_replacement_aux_node_indices"),
+        ("source_band_replacement_aux_midpoint_y", "source_band_replacement_aux_midpoint_y"),
+        ("source_band_replacement_aux_g_node", "source_band_replacement_aux_g_node"),
+        ("source_band_replacement_aux_g_mid", "source_band_replacement_aux_g_mid"),
+        ("source_band_mass_increment_aux_delta", "source_band_mass_increment_aux_delta"),
+    ):
+        if row_key in row:
+            payload[payload_key] = np.asarray(row[row_key])
+    np.savez_compressed(path, **payload)
     return scan.relative_root_path(path)
 
 
@@ -10170,6 +15058,40 @@ def _write_outputs(rows: list[dict[str, Any]], profiles: list[dict[str, Any]]) -
         "inner_relax_initial_selected",
         "inner_relax_final_selected",
         "inner_relax_nfev",
+        "active_sonic_prepass_applied",
+        "active_sonic_prepass_outer_rg",
+        "active_sonic_prepass_include_inner_mass",
+        "active_sonic_prepass_initial_source_score",
+        "active_sonic_prepass_candidate_source_score",
+        "active_sonic_prepass_final_source_score",
+        "active_sonic_prepass_initial_selected",
+        "active_sonic_prepass_candidate_selected",
+        "active_sonic_prepass_final_selected",
+        "active_sonic_prepass_alpha",
+        "active_sonic_prepass_nfev",
+        "active_mass_profile_correct_applied",
+        "active_mass_profile_correct_adaptive_window",
+        "active_mass_profile_correct_adaptive_strategy",
+        "active_mass_profile_correct_adaptive_expanded_inner_mass",
+        "active_mass_profile_correct_peak_old_group",
+        "active_mass_profile_correct_peak_old_kind",
+        "active_mass_profile_correct_peak_zone",
+        "active_mass_profile_correct_peak_R_rg",
+        "active_mass_profile_correct_first_R_rg",
+        "active_mass_profile_correct_last_R_rg",
+        "active_mass_profile_correct_n_intervals",
+        "active_mass_profile_correct_n_variables",
+        "active_mass_profile_correct_row_mode",
+        "active_mass_profile_correct_active_source_rows",
+        "active_mass_profile_correct_include_sonic",
+        "active_mass_profile_correct_include_globals",
+        "active_mass_profile_correct_initial_source_score",
+        "active_mass_profile_correct_candidate_source_score",
+        "active_mass_profile_correct_final_source_score",
+        "active_mass_profile_correct_initial_selected",
+        "active_mass_profile_correct_candidate_selected",
+        "active_mass_profile_correct_alpha",
+        "active_mass_profile_correct_nfev",
         "outer_relax_min_rg",
         "outer_relax_max_rg",
         "outer_relax_initial_full",
@@ -10345,11 +15267,127 @@ def _write_outputs(rows: list[dict[str, Any]], profiles: list[dict[str, Any]]) -
         "source_plus_buffer_implicit_g_mid_max",
         "source_plus_buffer_implicit_alpha",
         "source_plus_buffer_implicit_nfev",
+        "source_band_fv_mass_correct_enabled",
+        "source_band_fv_mass_correct_applied",
+        "source_band_fv_mass_correct_halo_intervals",
+        "source_band_fv_mass_correct_n_intervals",
+        "source_band_fv_mass_correct_n_nodes",
+        "source_band_fv_mass_correct_n_variables",
+        "source_band_fv_mass_correct_initial_score",
+        "source_band_fv_mass_correct_candidate_score",
+        "source_band_fv_mass_correct_final_score",
+        "source_band_fv_mass_correct_initial_fv_mass",
+        "source_band_fv_mass_correct_candidate_fv_mass",
+        "source_band_fv_mass_correct_final_fv_mass",
+        "source_band_fv_mass_correct_initial_outside_old",
+        "source_band_fv_mass_correct_final_outside_old",
+        "source_band_fv_mass_correct_initial_implicit_ode",
+        "source_band_fv_mass_correct_final_implicit_ode",
+        "source_band_fv_mass_correct_initial_midpoint",
+        "source_band_fv_mass_correct_final_midpoint",
+        "source_band_fv_mass_correct_initial_simpson",
+        "source_band_fv_mass_correct_final_simpson",
+        "source_band_fv_mass_correct_edge_anchor_weight",
+        "source_band_fv_mass_correct_all_anchor_weight",
+        "source_band_fv_mass_correct_delta_logMdot_max",
+        "source_band_fv_mass_correct_alpha",
+        "source_band_fv_mass_correct_nfev",
+        "source_band_fv_mass_correct_success",
+        "source_band_global_replacement_enabled",
+        "source_band_global_replacement_applied",
+        "source_band_global_replacement_evaluate_only",
+        "source_band_global_replacement_checkpoint_aux_source",
+        "source_band_global_replacement_halo_intervals",
+        "source_band_global_replacement_n_intervals",
+        "source_band_global_replacement_n_nodes",
+        "source_band_global_replacement_n_variables",
+        "source_band_global_replacement_optimizer_n_variables",
+        "source_band_global_replacement_freeze_aux",
+        "source_band_global_replacement_n_rows",
+        "source_band_global_replacement_skip_accepted",
+        "source_band_global_replacement_energy_audit",
+        "source_band_global_replacement_initial_score",
+        "source_band_global_replacement_candidate_score",
+        "source_band_global_replacement_final_score",
+        "source_band_global_replacement_initial_outside_old",
+        "source_band_global_replacement_final_outside_old",
+        "source_band_global_replacement_initial_outside_old_peak_R_rg",
+        "source_band_global_replacement_final_outside_old_peak_R_rg",
+        "source_band_global_replacement_initial_outside_old_radial",
+        "source_band_global_replacement_final_outside_old_radial",
+        "source_band_global_replacement_initial_outside_old_energy",
+        "source_band_global_replacement_final_outside_old_energy",
+        "source_band_global_replacement_initial_outside_old_mass",
+        "source_band_global_replacement_final_outside_old_mass",
+        "source_band_global_replacement_initial_fv_mass",
+        "source_band_global_replacement_final_fv_mass",
+        "source_band_global_replacement_initial_mass_increment_int",
+        "source_band_global_replacement_final_mass_increment_int",
+        "source_band_global_replacement_initial_mass_increment_link",
+        "source_band_global_replacement_final_mass_increment_link",
+        "source_band_global_replacement_initial_mass_increment_anchor",
+        "source_band_global_replacement_final_mass_increment_anchor",
+        "source_band_global_replacement_initial_implicit_ode",
+        "source_band_global_replacement_final_implicit_ode",
+        "source_band_global_replacement_initial_midpoint",
+        "source_band_global_replacement_final_midpoint",
+        "source_band_global_replacement_initial_simpson",
+        "source_band_global_replacement_final_simpson",
+        "source_band_global_replacement_initial_interface",
+        "source_band_global_replacement_final_interface",
+        "source_band_global_replacement_initial_old_source",
+        "source_band_global_replacement_final_old_source",
+        "source_band_global_replacement_initial_old_full",
+        "source_band_global_replacement_final_old_full",
+        "source_band_global_replacement_initial_condition",
+        "source_band_global_replacement_final_condition",
+        "source_band_global_replacement_initial_singular_min",
+        "source_band_global_replacement_final_singular_min",
+        "source_band_global_replacement_mass_increment_initial_max",
+        "source_band_global_replacement_mass_increment_final_max",
+        "source_band_global_replacement_alpha",
+        "source_band_global_replacement_nfev",
+        "source_band_global_replacement_success",
+        "eta_tangent_enabled",
+        "eta_tangent_applied",
+        "eta_tangent_reason",
+        "eta_tangent_param",
+        "eta_tangent_previous_eta_E",
+        "eta_tangent_target_eta_E",
+        "eta_tangent_dparam",
+        "eta_tangent_fd_dparam",
+        "eta_tangent_ref_score",
+        "eta_tangent_target_seed_score",
+        "eta_tangent_predicted_score",
+        "eta_tangent_fparam_norm_inf",
+        "eta_tangent_jac_rows",
+        "eta_tangent_jac_cols",
+        "eta_tangent_jac_nnz",
+        "eta_tangent_lsmr_itn",
+        "eta_tangent_lsmr_conda",
+        "eta_tangent_raw_step_max",
+        "eta_tangent_alpha",
+        "eta_tangent_delta_logu_max",
+        "eta_tangent_delta_logT_max",
+        "eta_tangent_delta_logMdot_max",
+        "eta_mass_predictor_enabled",
+        "eta_mass_predictor_applied",
+        "eta_mass_predictor_damping",
+        "eta_mass_predictor_sweeps",
+        "eta_mass_predictor_before_fv_mass_max",
+        "eta_mass_predictor_after_fv_mass_max",
+        "eta_mass_predictor_before_fv_mass_peak_R_rg",
+        "eta_mass_predictor_after_fv_mass_peak_R_rg",
+        "eta_mass_predictor_before_fv_mass_p90",
+        "eta_mass_predictor_after_fv_mass_p90",
+        "eta_mass_predictor_delta_logMdot_max",
         "source_band_replacement_enabled",
         "source_band_replacement_applied",
+        "source_band_replacement_evaluate_only",
         "source_band_replacement_replace_mass",
         "source_band_replacement_replace_implicit_re",
         "source_band_replacement_old_rows_audit_only",
+        "source_band_replacement_row_mode",
         "source_band_replacement_chi_mass",
         "source_band_replacement_chi_impl",
         "source_band_replacement_write_edges",
@@ -10357,6 +15395,10 @@ def _write_outputs(rows: list[dict[str, Any]], profiles: list[dict[str, Any]]) -
         "source_band_replacement_buffer_new_weight",
         "source_band_replacement_buffer_old_weight",
         "source_band_replacement_slope_interface_weight",
+        "source_band_replacement_slope_interface_active",
+        "source_band_replacement_midpoint_states",
+        "source_band_replacement_midpoint_trust",
+        "source_band_replacement_midpoint_weight",
         "source_band_replacement_fv_energy_weight",
         "source_band_replacement_fv_am_weight",
         "source_band_replacement_fv_am_audit",
@@ -10368,18 +15410,42 @@ def _write_outputs(rows: list[dict[str, Any]], profiles: list[dict[str, Any]]) -
         "source_band_replacement_n_nodes",
         "source_band_replacement_n_variables",
         "source_band_replacement_n_rows",
+        "source_band_replacement_x_scale",
+        "source_band_replacement_diff_step",
+        "source_band_replacement_hybrid_jac",
+        "source_band_replacement_implicit_seed",
+        "source_band_replacement_implicit_seed_blend",
+        "source_band_replacement_checkpoint_aux_source",
         "source_band_replacement_initial_score",
         "source_band_replacement_final_score",
         "source_band_replacement_initial_active",
         "source_band_replacement_final_active",
         "source_band_replacement_initial_outside_old",
         "source_band_replacement_final_outside_old",
+        "source_band_replacement_initial_outside_old_peak_R_rg",
+        "source_band_replacement_final_outside_old_peak_R_rg",
+        "source_band_replacement_initial_outside_old_radial",
+        "source_band_replacement_final_outside_old_radial",
+        "source_band_replacement_initial_outside_old_energy",
+        "source_band_replacement_final_outside_old_energy",
+        "source_band_replacement_initial_outside_old_mass",
+        "source_band_replacement_final_outside_old_mass",
         "source_band_replacement_initial_buffer_old",
         "source_band_replacement_final_buffer_old",
         "source_band_replacement_initial_fv_mass",
         "source_band_replacement_final_fv_mass",
+        "source_band_replacement_initial_mass_increment_int",
+        "source_band_replacement_final_mass_increment_int",
+        "source_band_replacement_initial_mass_increment_link",
+        "source_band_replacement_final_mass_increment_link",
+        "source_band_replacement_initial_mass_increment_anchor",
+        "source_band_replacement_final_mass_increment_anchor",
+        "source_band_replacement_initial_fv_mass_raw",
+        "source_band_replacement_final_fv_mass_raw",
         "source_band_replacement_initial_implicit_ode",
         "source_band_replacement_final_implicit_ode",
+        "source_band_replacement_initial_midpoint",
+        "source_band_replacement_final_midpoint",
         "source_band_replacement_initial_simpson",
         "source_band_replacement_final_simpson",
         "source_band_replacement_initial_interface",
@@ -10402,6 +15468,8 @@ def _write_outputs(rows: list[dict[str, Any]], profiles: list[dict[str, Any]]) -
         "source_band_replacement_final_condition",
         "source_band_replacement_initial_singular_min",
         "source_band_replacement_final_singular_min",
+        "source_band_replacement_initial_slope_interface_audit",
+        "source_band_replacement_final_slope_interface_audit",
         "source_band_replacement_g_node_max",
         "source_band_replacement_g_mid_max",
         "source_band_replacement_active_limit",
@@ -10409,6 +15477,107 @@ def _write_outputs(rows: list[dict[str, Any]], profiles: list[dict[str, Any]]) -
         "source_band_replacement_old_source_limit",
         "source_band_replacement_alpha",
         "source_band_replacement_nfev",
+        "source_band_hs_enabled",
+        "source_band_hs_applied",
+        "source_band_hs_evaluate_only",
+        "source_band_hs_slope_only_applied",
+        "source_band_hs_midpoint_solve",
+        "source_band_hs_midpoint_solve_local_initial",
+        "source_band_hs_midpoint_solve_local_final",
+        "source_band_hs_midpoint_solve_nfev",
+        "source_band_hs_midpoint_solve_njev",
+        "source_band_hs_midpoint_solve_success",
+        "source_band_hs_release_endpoints",
+        "source_band_hs_endpoint_release_accepted",
+        "source_band_hs_endpoint_release_reason",
+        "source_band_hs_endpoint_release_mode",
+        "source_band_hs_endpoint_release_trust",
+        "source_band_hs_endpoint_release_prior_weight",
+        "source_band_hs_endpoint_release_mass_weight",
+        "source_band_hs_endpoint_release_old_source_penalty_weight",
+        "source_band_hs_endpoint_release_old_source_penalty_mode",
+        "source_band_hs_endpoint_release_logmdot",
+        "source_band_hs_endpoint_release_n_nodes",
+        "source_band_hs_endpoint_release_n_variables",
+        "source_band_hs_endpoint_release_n_rows",
+        "source_band_hs_endpoint_release_local_initial",
+        "source_band_hs_endpoint_release_local_final",
+        "source_band_hs_endpoint_release_nfev",
+        "source_band_hs_endpoint_release_njev",
+        "source_band_hs_endpoint_release_success",
+        "source_band_hs_endpoint_release_alpha",
+        "source_band_hs_endpoint_release_initial_score",
+        "source_band_hs_endpoint_release_final_score",
+        "source_band_hs_endpoint_release_initial_ode",
+        "source_band_hs_endpoint_release_final_ode",
+        "source_band_hs_endpoint_release_initial_midpoint",
+        "source_band_hs_endpoint_release_final_midpoint",
+        "source_band_hs_endpoint_release_initial_integral",
+        "source_band_hs_endpoint_release_final_integral",
+        "source_band_hs_endpoint_release_initial_fv_mass",
+        "source_band_hs_endpoint_release_final_fv_mass",
+        "source_band_hs_endpoint_release_initial_outside_old",
+        "source_band_hs_endpoint_release_final_outside_old",
+        "source_band_hs_endpoint_release_initial_old_source",
+        "source_band_hs_endpoint_release_final_old_source",
+        "source_band_hs_endpoint_release_initial_old_source_peak_R_rg",
+        "source_band_hs_endpoint_release_final_old_source_peak_R_rg",
+        "source_band_hs_endpoint_release_initial_old_source_reference_max",
+        "source_band_hs_endpoint_release_delta_logu_max",
+        "source_band_hs_endpoint_release_delta_logT_max",
+        "source_band_hs_endpoint_release_delta_peak_R_rg",
+        "source_band_hs_endpoint_release_fv_mass_limit",
+        "source_band_hs_endpoint_release_outside_old_limit",
+        "source_band_hs_endpoint_release_old_source_limit",
+        "source_band_hs_endpoint_release_trials",
+        "source_band_hs_core_only",
+        "source_band_hs_release_halo",
+        "source_band_hs_midpoint_states",
+        "source_band_hs_analytic_jac",
+        "source_band_hs_row_scale",
+        "source_band_hs_col_scale",
+        "source_band_hs_seed",
+        "source_band_hs_ode_points",
+        "source_band_hs_gamma",
+        "source_band_hs_ode_weight",
+        "source_band_hs_compat_weight",
+        "source_band_hs_slope_prior_weight",
+        "source_band_hs_slope_bound",
+        "source_band_hs_n_intervals",
+        "source_band_hs_n_nodes",
+        "source_band_hs_n_slope_variables",
+        "source_band_hs_n_midpoint_state_variables",
+        "source_band_hs_n_rows",
+        "source_band_hs_first_interval_R_rg",
+        "source_band_hs_last_interval_R_rg",
+        "source_band_hs_initial_score",
+        "source_band_hs_final_score",
+        "source_band_hs_initial_active",
+        "source_band_hs_final_active",
+        "source_band_hs_initial_ode",
+        "source_band_hs_final_ode",
+        "source_band_hs_initial_ode_mid",
+        "source_band_hs_final_ode_mid",
+        "source_band_hs_initial_midpoint",
+        "source_band_hs_final_midpoint",
+        "source_band_hs_initial_integral",
+        "source_band_hs_final_integral",
+        "source_band_hs_initial_fv_mass",
+        "source_band_hs_final_fv_mass",
+        "source_band_hs_initial_outside_old",
+        "source_band_hs_final_outside_old",
+        "source_band_hs_initial_old_source",
+        "source_band_hs_final_old_source",
+        "source_band_hs_initial_old_source_peak_R_rg",
+        "source_band_hs_final_old_source_peak_R_rg",
+        "source_band_hs_initial_condition",
+        "source_band_hs_final_condition",
+        "source_band_hs_initial_singular_min",
+        "source_band_hs_final_singular_min",
+        "source_band_hs_initial_g_node_max",
+        "source_band_hs_final_g_node_max",
+        "source_band_hs_initial_g_mid_max",
+        "source_band_hs_final_g_mid_max",
         "source_plus_buffer_production_applied",
         "source_plus_buffer_production_halo_intervals",
         "source_plus_buffer_production_n_intervals",
@@ -10538,10 +15707,15 @@ def _write_outputs(rows: list[dict[str, Any]], profiles: list[dict[str, Any]]) -
         "band_correct_nfev",
         "block_correct_applied",
         "block_correct_peak_kind",
+        "block_correct_source_band_peak_interval",
         "block_correct_half_width",
         "block_correct_edge_anchor_weight",
         "block_correct_all_anchor_weight",
         "block_correct_include_outer",
+        "block_correct_selection_metric",
+        "block_correct_initial_source_band_score",
+        "block_correct_final_source_band_score",
+        "block_correct_final_selection_score",
         "block_correct_initial_full",
         "block_correct_candidate_full",
         "block_correct_final_full",
@@ -10591,6 +15765,7 @@ def main() -> None:
     mdot_edd = eddington_mdot(fiducial.M2_g)
     anchor_z, anchor_params = scan.load_anchor(ANCHOR, fiducial, mdot_edd)
     x, params = _make_seed(anchor_z, anchor_params)
+    current_eta_E: float | None = None
     _set_eta(ETA_VALUES[0])
     startup_info: dict[str, Any] = {}
     if START_X_CHECKPOINT is not None:
@@ -10599,6 +15774,11 @@ def main() -> None:
         data = np.load(START_X_CHECKPOINT)
         if "x" not in data:
             raise ValueError(f"{START_X_CHECKPOINT} does not contain a local-Mdot x vector")
+        if "wind_energy_multiplier" in data.files:
+            try:
+                current_eta_E = float(np.asarray(data["wind_energy_multiplier"]).reshape(-1)[0])
+            except Exception:
+                current_eta_E = None
         x = np.asarray(data["x"], dtype=float)
         expected = 3 * int(params.n_nodes) + 2
         if x.size != expected:
@@ -10616,6 +15796,8 @@ def main() -> None:
                 x = _remap_local_x_to_params(x, old_params, params)
         else:
             params = _restore_checkpoint_params(params, data)
+    if current_eta_E is None:
+        current_eta_E = float(ETA_VALUES[0])
     if SOURCE_MICRO_DOMAIN:
         x, params, micro_info = _source_microdomain_seed(x, params, ETA_VALUES[0])
         startup_info.update(micro_info)
@@ -10628,12 +15810,21 @@ def main() -> None:
     for stage_index, eta_E in enumerate(ETA_VALUES):
         label = f"stage_{stage_index:02d}"
         _set_eta(eta_E)
+        eta_tangent_info: dict[str, Any] = {}
+        if ETA_TANGENT_PREDICTOR:
+            x, eta_tangent_info = _eta_tangent_predictor(x, params, current_eta_E, eta_E)
+        eta_mass_predictor_info: dict[str, Any] = {}
+        if ETA_MASS_PROFILE_PREDICTOR:
+            x, eta_mass_predictor_info = _eta_mass_profile_predictor(x, params, eta_E)
         remesh_info: dict[str, Any] = {}
         if RESIDUAL_REMESH_STRENGTH > 0.0:
             x, params, remesh_info = _residual_remesh(x, params, eta_E)
         inner_relax_info: dict[str, Any] = {}
         if INNER_RELAX_OUTER_RG > 0.0:
             x, inner_relax_info = _inner_window_relax(x, params, eta_E)
+        active_mass_profile_info: dict[str, Any] = {}
+        if ACTIVE_MASS_PROFILE_CORRECT:
+            x, active_mass_profile_info = _active_mass_profile_correct(x, params, eta_E)
         outer_relax_info: dict[str, Any] = {}
         if OUTER_RELAX_MIN_RG > 0.0 and OUTER_RELAX_MAX_RG > OUTER_RELAX_MIN_RG:
             x, outer_relax_info = _outer_band_relax(x, params, eta_E)
@@ -10652,9 +15843,18 @@ def main() -> None:
         source_plus_buffer_implicit_info: dict[str, Any] = {}
         if SOURCE_PLUS_BUFFER_IMPLICIT_SLOPE_CORRECT:
             x, source_plus_buffer_implicit_info = _source_plus_buffer_implicit_slope_correct(x, params, eta_E)
+        source_band_fv_mass_correct_info: dict[str, Any] = {}
+        if SOURCE_BAND_FV_MASS_CORRECT:
+            x, source_band_fv_mass_correct_info = _source_band_fv_mass_correct(x, params, eta_E)
+        source_band_global_replacement_info: dict[str, Any] = {}
+        if SOURCE_BAND_GLOBAL_REPLACEMENT:
+            x, source_band_global_replacement_info = _source_band_global_replacement_polish(x, params, eta_E)
         source_band_replacement_info: dict[str, Any] = {}
         if SOURCE_BAND_REPLACEMENT:
             x, source_band_replacement_info = _source_band_replacement_polish(x, params, eta_E)
+        source_band_hs_info: dict[str, Any] = {}
+        if SOURCE_BAND_HS_IMPLICIT:
+            x, source_band_hs_info = _source_band_hs_implicit_polish(x, params, eta_E)
         source_interface_info: dict[str, Any] = {}
         if SOURCE_INTERFACE_CORRECT:
             x, source_interface_info = _source_interface_correct(x, params, eta_E)
@@ -10667,6 +15867,9 @@ def main() -> None:
         block_correct_info: dict[str, Any] = {}
         if BLOCK_CORRECT:
             x, block_correct_info = _coupled_block_correct(x, params, eta_E)
+            if SOURCE_BAND_GLOBAL_REPLACEMENT and block_correct_info.get("block_correct_applied", False):
+                x, source_band_global_replacement_info = _source_band_global_replacement_polish(x, params, eta_E)
+                source_band_global_replacement_info["source_band_global_replacement_post_block_refresh"] = True
         initial_full = float(np.linalg.norm(_residual(x, params), ord=np.inf))
         initial_profile = _profile(f"{label}_initial", x, params, eta_E)
         print(f"{label} eta_E={eta_E:.8g} initial_full={initial_full:.3e}", flush=True)
@@ -10675,13 +15878,19 @@ def main() -> None:
             row = _seed_stage_row(label, x, params, eta_E, initial_full, seed_profile)
             row.update(remesh_info)
             row.update(inner_relax_info)
+            row.update(active_mass_profile_info)
             row.update(outer_relax_info)
             row.update(band_correct_info)
             row.update(source_domain_info)
             row.update(source_buffer_info)
             row.update(source_plus_buffer_info)
             row.update(source_plus_buffer_implicit_info)
+            row.update(source_band_fv_mass_correct_info)
+            row.update(source_band_global_replacement_info)
             row.update(source_band_replacement_info)
+            row.update(source_band_hs_info)
+            row.update(eta_tangent_info)
+            row.update(eta_mass_predictor_info)
             row.update(source_interface_info)
             row.update(source_element_ls_info)
             row.update(source_plus_buffer_production_info)
@@ -10696,6 +15905,7 @@ def main() -> None:
                 f"peakM={row['peak_mass_residual_rg']:.3f}rg accepted={row['accepted_exploratory']}",
                 flush=True,
             )
+            current_eta_E = float(eta_E)
             continue
         result, stage_params, nfev_total, picard_used = _solve_with_picard(x, params, eta_E)
         final_jac_norms = _jac_norms(result, stage_params)
@@ -10703,13 +15913,19 @@ def main() -> None:
         row = _stage_row(label, x, result, stage_params, eta_E, initial_full, final_profile)
         row.update(remesh_info)
         row.update(inner_relax_info)
+        row.update(active_mass_profile_info)
         row.update(outer_relax_info)
         row.update(band_correct_info)
         row.update(source_domain_info)
         row.update(source_buffer_info)
         row.update(source_plus_buffer_info)
         row.update(source_plus_buffer_implicit_info)
+        row.update(source_band_fv_mass_correct_info)
+        row.update(source_band_global_replacement_info)
         row.update(source_band_replacement_info)
+        row.update(source_band_hs_info)
+        row.update(eta_tangent_info)
+        row.update(eta_mass_predictor_info)
         row.update(source_interface_info)
         row.update(source_element_ls_info)
         row.update(source_plus_buffer_production_info)
@@ -10729,6 +15945,7 @@ def main() -> None:
         )
         x = np.asarray(result.x, dtype=float)
         params = stage_params
+        current_eta_E = float(eta_E)
 
     print(f"wrote {scan.relative_root_path(JSON_OUTPUT)}", flush=True)
     print(f"wrote {scan.relative_root_path(MD_OUTPUT)}", flush=True)
