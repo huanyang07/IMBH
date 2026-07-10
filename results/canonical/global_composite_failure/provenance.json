@@ -1,0 +1,20 @@
+{
+  "does_not_establish": "Global nonexistence of every independent outer branch.",
+  "establishes": "The tested global composite exports large radial/energy defects outside the phase block.",
+  "generation_command": "PYTHONPATH=src python3 scripts/build_canonical_results.py",
+  "payload_sha256": {
+    "config.json": "8474d568d350a81767b666c249627026e386626be8049ab6ebef6c96636bbb0c",
+    "interface_and_tail_snapshot.npz": "8c9f02e31d21d27562fd1593161f77792d4a9f9247b0917876d050efdd5b1fef",
+    "residual_profile.csv": "68703daa3b43a97708fecb0977249dfc9d8c7378b895a58f5373834cb1eee925"
+  },
+  "purpose": "Compact witness where the local phase block is accurate but the ordinary outer tail fails.",
+  "scientific_status": "REJECTED",
+  "source_commit": "0a000767a915880c0710b8f4ec03eb0c64aa168a",
+  "source_paths": [
+    "outputs/tables/m5_eta_phase_critical_globalization_98p125_N164.json"
+  ],
+  "source_sha256": {
+    "outputs/tables/m5_eta_phase_critical_globalization_98p125_N164.json": "619ee12f5cb220eb596f6c441b00621fcb8e7825bbf0a3adf40fbdd64767c837"
+  },
+  "source_tag": "pre-cleanup-p0-2026-07-11"
+}

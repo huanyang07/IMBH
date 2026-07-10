@@ -1,0 +1,20 @@
+{
+  "does_not_establish": "A global far-side connection or physical endpoint.",
+  "establishes": "The phase segment can be inserted with controlled local residuals.",
+  "generation_command": "PYTHONPATH=src python3 scripts/build_canonical_results.py",
+  "payload_sha256": {
+    "config.json": "8087faf54143c87b666e6613d1fa452a6ce4c47d29666791e95c18d58eb84317",
+    "state.npz": "39d3a2fea6255fb8c233406c9ccff9a6f591c816ba74e3796ce4e5066b17b860",
+    "summary.csv": "5bcfefd438bf698275a03cd815068ba10f8370bdc0fbb9a6359235882b9a60e5"
+  },
+  "purpose": "N164 global phase-DAE entry and interface regression state.",
+  "scientific_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
+  "source_commit": "0a000767a915880c0710b8f4ec03eb0c64aa168a",
+  "source_paths": [
+    "outputs/checkpoints/m5_eta_global_phase_dae_k13_98p125_N164/stage_00_etaE_98p125_N164.npz"
+  ],
+  "source_sha256": {
+    "outputs/checkpoints/m5_eta_global_phase_dae_k13_98p125_N164/stage_00_etaE_98p125_N164.npz": "39d3a2fea6255fb8c233406c9ccff9a6f591c816ba74e3796ce4e5066b17b860"
+  },
+  "source_tag": "pre-cleanup-p0-2026-07-11"
+}

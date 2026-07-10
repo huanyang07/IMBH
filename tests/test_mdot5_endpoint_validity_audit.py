@@ -7,10 +7,12 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SUMMARY = ROOT / "outputs/tables/m5_eta_endpoint_validity_audit_98p125_N164.json"
-PROFILES = ROOT / "outputs/tables/m5_eta_endpoint_validity_audit_98p125_N164_profiles.json"
-NOTE = ROOT / "Note/CODEX_MDOT5_ENDPOINT_VALIDITY_AND_EXPONENT_AUDIT_RESULTS.md"
-FIGURE = ROOT / "outputs/figures/m5_eta_endpoint_validity_audit_98p125_N164.png"
+P0 = ROOT / "results/canonical/p0_validity_ledger_outer_manifold"
+ENDPOINT = ROOT / "results/canonical/phase_endpoint_positive_N164"
+SUMMARY = P0 / "endpoint_validity_summary.json"
+PROFILES = ENDPOINT / "tail_state_or_downsampled_trajectory.npz"
+NOTE = ROOT / "docs/reports/current/CODEX_MDOT5_ENDPOINT_VALIDITY_AND_EXPONENT_AUDIT_RESULTS.md"
+FIGURE = P0 / "m5_eta_endpoint_validity_audit_98p125_N164.png"
 
 
 def _summary() -> dict:
@@ -65,9 +67,8 @@ def test_endpoint_common_window_fits_make_integrability_robust() -> None:
 
 
 def test_endpoint_physical_path_is_ordered_toward_the_limit() -> None:
-    result = json.loads(PROFILES.read_text())
-    path = result["physical_path"]
-    radii = np.asarray([row["R_rg"] for row in path], dtype=float)
+    with np.load(PROFILES, allow_pickle=False) as result:
+        radii = np.asarray(result["R_rg"], dtype=float)
     assert radii.size > 500
     assert np.all(np.isfinite(radii))
     assert np.min(np.diff(radii)) > -1.0e-3

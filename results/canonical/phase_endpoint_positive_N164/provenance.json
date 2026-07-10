@@ -1,0 +1,25 @@
+{
+  "does_not_establish": "A physical steady reservoir or global nonexistence.",
+  "establishes": "A finite-radius mathematical low-u limit and an earlier 1D validity boundary.",
+  "generation_command": "PYTHONPATH=src python3 scripts/build_canonical_results.py",
+  "payload_sha256": {
+    "config.json": "eebc8def8a7c6b3f01df11c4655e6ed5018bdbee9f258c19b265ab38b4baad70",
+    "scaling_fits.csv": "383ba3ce743c5c3daa14a608c9dd44521bff69a13392a575bd55da61eb167b0f",
+    "summary.json": "cf0569d78aa3825073ee3fbe811c1cf1fd86c9728fe604b98764a22ce2e10689",
+    "tail_state_or_downsampled_trajectory.npz": "2f2ae16580061481d5749a6836b84175100699a77329a506fb7fc405c3ad14ad"
+  },
+  "purpose": "Compact accepted positive phase tail and common-window validity/scaling audit.",
+  "scientific_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
+  "source_commit": "0a000767a915880c0710b8f4ec03eb0c64aa168a",
+  "source_paths": [
+    "outputs/tables/m5_eta_endpoint_validity_audit_98p125_N164.json",
+    "outputs/tables/m5_eta_endpoint_validity_audit_98p125_N164_profiles.json",
+    "outputs/tables/m5_eta_phase_critical_classification_98p125_N164.json"
+  ],
+  "source_sha256": {
+    "outputs/tables/m5_eta_endpoint_validity_audit_98p125_N164.json": "5d4000b4c3df9c8f96e75965d8a5cfa9c39351eb23de27c0ffa1a46162a688ba",
+    "outputs/tables/m5_eta_endpoint_validity_audit_98p125_N164_profiles.json": "7b8ceaa15e89b5fcc930f5648ff09427f89e349ec231cdea647ff2f323fa7007",
+    "outputs/tables/m5_eta_phase_critical_classification_98p125_N164.json": "2f7477dc37607867d3b3584c0524e0c36a4213cca79a8aa0218ac81915b5af4d"
+  },
+  "source_tag": "pre-cleanup-p0-2026-07-11"
+}

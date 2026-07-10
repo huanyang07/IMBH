@@ -1,0 +1,20 @@
+{
+  "does_not_establish": "Naive-remap robustness, stream heating, or mass-loaded wind.",
+  "establishes": "A mesh-supported stream-fed no-wind branch at Mdot_inner/Edd=2.",
+  "generation_command": "PYTHONPATH=src python3 scripts/build_canonical_results.py",
+  "payload_sha256": {
+    "config.json": "3370c56baa0b3d2116509be44ba062d1373f8fcc7cf4e2a01a7c466216fa3a52",
+    "state.npz": "94275a4fb752ec1be2ab3b731734f7ee891a33a0ffc418aad787e517d6ee730c",
+    "summary.csv": "60c3f85ca781e00a84c95b64f112fef3af45d656534eb5b281b82084634acaca"
+  },
+  "purpose": "N896 residual-remeshed compact stream-fed no-wind fs=0.80 anchor.",
+  "scientific_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
+  "source_commit": "0a000767a915880c0710b8f4ec03eb0c64aa168a",
+  "source_paths": [
+    "outputs/checkpoints/standard_slim_stream_residual_remesh_fs080_N640_N768_N896_s12/N896_s12_mass_0p8_torque_0p005_mdot_2_N896.npz"
+  ],
+  "source_sha256": {
+    "outputs/checkpoints/standard_slim_stream_residual_remesh_fs080_N640_N768_N896_s12/N896_s12_mass_0p8_torque_0p005_mdot_2_N896.npz": "94275a4fb752ec1be2ab3b731734f7ee891a33a0ffc418aad787e517d6ee730c"
+  },
+  "source_tag": "pre-cleanup-p0-2026-07-11"
+}

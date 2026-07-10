@@ -7,12 +7,11 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SUMMARY = ROOT / "outputs/tables/m5_eta_independent_outer_manifold_98p125_N164.json"
-PROFILES = (
-    ROOT / "outputs/tables/m5_eta_independent_outer_manifold_98p125_N164_profiles.json"
-)
-NOTE = ROOT / "Note/CODEX_MDOT5_INDEPENDENT_OUTER_MANIFOLD_RESULTS.md"
-FIGURE = ROOT / "outputs/figures/m5_eta_independent_outer_manifold_98p125_N164.png"
+P0 = ROOT / "results/canonical/p0_validity_ledger_outer_manifold"
+SUMMARY = P0 / "outer_manifold_summary.json"
+PROFILES = P0 / "outer_match_seeds.json"
+NOTE = ROOT / "docs/reports/current/CODEX_MDOT5_INDEPENDENT_OUTER_MANIFOLD_RESULTS.md"
+FIGURE = P0 / "m5_eta_independent_outer_manifold_98p125_N164.png"
 
 
 def _summary() -> dict:
@@ -61,11 +60,7 @@ def test_local_shooting_map_records_geometric_ill_conditioning() -> None:
 def test_outer_atlas_seeds_are_not_copied_from_inner_phase_endpoint() -> None:
     profiles = json.loads(PROFILES.read_text())
     inner = np.asarray(profiles["inner_match_state"]["z"][:3], dtype=float)
-    nominal = [
-        row
-        for row in profiles["atlas_rows"]
-        if row["variant"] == "compact_c2" and row["perturbation"] == "nominal"
-    ]
+    nominal = profiles["nominal_outer_seeds"]
     assert nominal
     for row in nominal:
         seed = np.asarray(row["z"][:3], dtype=float)

@@ -1,0 +1,47 @@
+{
+  "decision": {
+    "classification": "finite-radius low-u stagnation/singular boundary",
+    "explanation": "The positive-p_R branch remains regular when logu is used as the continuation coordinate, but approaches u=0 at finite radius while surface density and optical depth diverge. No step-converged finite-state p_R sign change is found, and no admissible outer radial branch is available.",
+    "finite_state_fold": false,
+    "global_certified": false,
+    "low_u_singular": true,
+    "regular_critical_point": false,
+    "source_shape_resolved": true,
+    "source_shape_sensitive": false
+  },
+  "interpretation": {
+    "formal_endpoint_within_1d_validity": false,
+    "global_nonexistence_established": false,
+    "local_annulus_mass_integrable": true,
+    "outer_search_required": true
+  },
+  "numerical_gates": {
+    "homogeneous_max": 3.07868191547185e-05,
+    "mass_differential_max_conditioned": 0.0044898246491197336,
+    "mass_homogeneous_max": 1.0686171290994612e-06,
+    "vertical_tau_identity_max": 0.0
+  },
+  "validity_gates": {
+    "first_model_validity_failure": {
+      "R_rg": 223.23642744192122,
+      "logu": 12.722114312545457,
+      "metric": "L_u_over_H",
+      "value": 0.6253011938051686
+    },
+    "non_self_gravitating": null,
+    "radial_scale_separation_Lu_over_H": {
+      "R_rg": 223.23642744192122,
+      "logu": 12.722114312545457,
+      "metric": "L_u_over_H",
+      "value": 0.6253011938051686
+    },
+    "radially_optically_thick": null,
+    "vertical_adjustment_tlayer_over_tdyn": {
+      "R_rg": 225.52081284461133,
+      "logu": 9.022817258104965,
+      "metric": "t_layer_over_t_dyn",
+      "value": 0.9600196615418471
+    },
+    "vertically_optically_thick": null
+  }
+}

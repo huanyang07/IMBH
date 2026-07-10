@@ -1,0 +1,36 @@
+{
+  "definitions": {
+    "L_u": "abs(d ln u / dR)^-1",
+    "diffusion_time": "3 tau L / c",
+    "scale_separation_gate": "L_u/H >= 1",
+    "tau_radial": "kappa rho L_u",
+    "tau_vertical": "kappa Sigma / 2",
+    "toomre_Q": "H Omega_K^2 / (pi G Sigma)",
+    "vertical_adjustment_gate": "t_layer/t_dyn >= 1"
+  },
+  "fit_windows": [
+    [
+      6.0,
+      7.5
+    ],
+    [
+      6.0,
+      8.5
+    ],
+    [
+      6.5,
+      9.0
+    ],
+    [
+      7.0,
+      9.0
+    ]
+  ],
+  "target": {
+    "Mdot_inner_edd": 5.0,
+    "N": 164,
+    "R_limit_rg": 225.5212571299543,
+    "Rout_rg": 335.0,
+    "eta_E": 98.125
+  }
+}

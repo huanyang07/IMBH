@@ -1,0 +1,503 @@
+{
+  "atlas": {
+    "accepted_root_count": 146,
+    "multiple_root_states": 0,
+    "state_count": 150
+  },
+  "decision": {
+    "best_match": {
+      "classification": "exploratory_near_match",
+      "flux_delta": {
+        "F": 1.0419379309567489e-05,
+        "advected_internal_energy_scaled": 3.006551546595699e-06,
+        "angular_flux_scaled": 2.5653421792948272e-06
+      },
+      "flux_max": 1.0419379309567489e-05,
+      "label": "R230_u04418_F004501",
+      "outer_R_rg": 223.23642744192122,
+      "state_delta": [
+        0.001770578032258996,
+        0.0017704544822692014,
+        1.0419379309567489e-05
+      ],
+      "state_max": 0.001770578032258996
+    },
+    "connected": false,
+    "outcome": "exploratory_near_match",
+    "physical_closure_certified": false,
+    "reached_validity_surface_count": 10,
+    "statement": "An independently seeded trajectory reaches an exploratory near-match at the validity surface, but strict state/flux matching is not achieved."
+  },
+  "shooting_jacobian": {
+    "available": true,
+    "base_label": "R230_u044_F0045",
+    "condition": 874061.6500871537,
+    "input_columns": [
+      "delta_logu_seed",
+      "delta_logT_seed",
+      "delta_F_seed"
+    ],
+    "jacobian": [
+      [
+        -3.1160776769567633,
+        -27.23688873357233,
+        7.169385505122842
+      ],
+      [
+        0.4016472307224461,
+        3.511760154687238,
+        -0.6796729204191129
+      ],
+      [
+        0.0032187705367725528,
+        0.03124104667051597,
+        0.992521481415117
+      ]
+    ],
+    "output_rows": [
+      "delta_logu_match",
+      "delta_logT_match",
+      "delta_F_match"
+    ],
+    "singular_values": [
+      28.56408666312064,
+      0.9964486995612565,
+      3.2679716196532e-05
+    ],
+    "smallest_right_singular_vector": [
+      0.993529790412271,
+      -0.11357123568660878,
+      0.00036053843833343605
+    ],
+    "u_T_direction_cosine": 0.9999999928726682
+  },
+  "target": {
+    "N": 164,
+    "arc_target": 0.02,
+    "eta_E": 98.125,
+    "max_steps": 180,
+    "validity_R_rg": 223.23642744192122
+  },
+  "trajectories": [
+    {
+      "accepted_steps": 180,
+      "crossed_scale_validity": true,
+      "crossed_vertical_validity": false,
+      "final_R_rg": 274.53690863711967,
+      "final_p_R": -0.4126625877408374,
+      "label": "R330",
+      "match": null,
+      "minimum_R_rg": 274.53690863711967,
+      "seed_perturbation": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "start_R_rg": 328.49051097601057,
+      "status": "max_steps"
+    },
+    {
+      "accepted_steps": 8,
+      "crossed_scale_validity": true,
+      "crossed_vertical_validity": true,
+      "final_R_rg": 297.503742762073,
+      "final_p_R": -2.931984844349265e-11,
+      "label": "R300",
+      "match": null,
+      "minimum_R_rg": 297.503742762073,
+      "seed_perturbation": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "start_R_rg": 297.50913803059626,
+      "status": "solver_failure"
+    },
+    {
+      "accepted_steps": 11,
+      "crossed_scale_validity": true,
+      "crossed_vertical_validity": true,
+      "final_R_rg": 268.998269911914,
+      "final_p_R": -4.213663223746156e-12,
+      "label": "R270",
+      "match": null,
+      "minimum_R_rg": 268.998269911914,
+      "seed_perturbation": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "start_R_rg": 269.00510263964014,
+      "status": "radial_stagnation_before_match"
+    },
+    {
+      "accepted_steps": 77,
+      "crossed_scale_validity": true,
+      "crossed_vertical_validity": false,
+      "final_R_rg": 247.7553331315834,
+      "final_p_R": 0.010630201416493222,
+      "label": "R250",
+      "match": null,
+      "minimum_R_rg": 247.66694512578547,
+      "seed_perturbation": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "start_R_rg": 247.86947451998998,
+      "status": "radial_turn_before_match"
+    },
+    {
+      "accepted_steps": 66,
+      "crossed_scale_validity": true,
+      "crossed_vertical_validity": false,
+      "final_R_rg": 223.23642744192122,
+      "final_p_R": -0.3002629748587918,
+      "label": "R235",
+      "match": {
+        "classification": "distinct_sheet_at_validity_surface",
+        "flux_delta": {
+          "F": -0.003364323707773176,
+          "advected_internal_energy_scaled": -2.0314140431693464e-05,
+          "angular_flux_scaled": -0.0008283258785706238
+        },
+        "flux_max": 0.003364323707773176,
+        "outer_R_rg": 223.23642744192122,
+        "state_delta": [
+          -0.14400900308883102,
+          0.01948774079158966,
+          -0.003364323707773176
+        ],
+        "state_max": 0.14400900308883102
+      },
+      "minimum_R_rg": 223.23642744192122,
+      "seed_perturbation": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "start_R_rg": 232.9355221717009,
+      "status": "reached_validity_surface"
+    },
+    {
+      "accepted_steps": 24,
+      "crossed_scale_validity": true,
+      "crossed_vertical_validity": false,
+      "final_R_rg": 223.23642744192122,
+      "final_p_R": -0.2282348839442687,
+      "label": "R230",
+      "match": {
+        "classification": "distinct_sheet_at_validity_surface",
+        "flux_delta": {
+          "F": -0.004274794459380171,
+          "advected_internal_energy_scaled": -2.578386427449928e-05,
+          "angular_flux_scaled": -0.0010524917290469227
+        },
+        "flux_max": 0.004274794459380171,
+        "outer_R_rg": 223.23642744192122,
+        "state_delta": [
+          -0.18148033964628318,
+          0.02402950230684553,
+          -0.004274794459380171
+        ],
+        "state_max": 0.18148033964628318
+      },
+      "minimum_R_rg": 223.23642744192122,
+      "seed_perturbation": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "start_R_rg": 228.1256508738293,
+      "status": "reached_validity_surface"
+    },
+    {
+      "accepted_steps": 21,
+      "crossed_scale_validity": false,
+      "crossed_vertical_validity": false,
+      "final_R_rg": 223.23642744192122,
+      "final_p_R": -0.7835455050849506,
+      "label": "R230_u_minus",
+      "match": {
+        "classification": "distinct_sheet_at_validity_surface",
+        "flux_delta": {
+          "F": -0.004402887283399659,
+          "advected_internal_energy_scaled": -1.0427592952264627e-05,
+          "angular_flux_scaled": -0.0010840293009982682
+        },
+        "flux_max": 0.004402887283399659,
+        "outer_R_rg": 223.23642744192122,
+        "state_delta": [
+          -0.07750423739758716,
+          0.01083562308593855,
+          -0.004402887283399659
+        ],
+        "state_max": 0.07750423739758716
+      },
+      "minimum_R_rg": 223.23642744192122,
+      "seed_perturbation": [
+        -0.02999999999999936,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "start_R_rg": 228.1256508738293,
+      "status": "reached_validity_surface"
+    },
+    {
+      "accepted_steps": 24,
+      "crossed_scale_validity": true,
+      "crossed_vertical_validity": false,
+      "final_R_rg": 223.23642744192122,
+      "final_p_R": -0.47711700984519334,
+      "label": "R230_u_minus_0525",
+      "match": {
+        "classification": "exploratory_near_match",
+        "flux_delta": {
+          "F": -0.004482972092493709,
+          "advected_internal_energy_scaled": 1.1917840777236964e-06,
+          "angular_flux_scaled": -0.0011037468803993256
+        },
+        "flux_max": 0.004482972092493709,
+        "outer_R_rg": 223.23642744192122,
+        "state_delta": [
+          -0.0045860597417402005,
+          0.0014880825487608718,
+          -0.004482972092493709
+        ],
+        "state_max": 0.0045860597417402005
+      },
+      "minimum_R_rg": 223.23642744192122,
+      "seed_perturbation": [
+        -0.05250000000000021,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "start_R_rg": 228.1256508738293,
+      "status": "reached_validity_surface"
+    },
+    {
+      "accepted_steps": 178,
+      "crossed_scale_validity": true,
+      "crossed_vertical_validity": true,
+      "final_R_rg": 227.8504327845136,
+      "final_p_R": -3.361079122604255e-06,
+      "label": "R230_T_plus",
+      "match": null,
+      "minimum_R_rg": 227.8504327845136,
+      "seed_perturbation": [
+        0.0,
+        0.02999999999999936,
+        0.0,
+        0.0
+      ],
+      "start_R_rg": 228.1256508738293,
+      "status": "max_steps"
+    },
+    {
+      "accepted_steps": 23,
+      "crossed_scale_validity": true,
+      "crossed_vertical_validity": false,
+      "final_R_rg": 223.23642744192122,
+      "final_p_R": -0.4737337032498961,
+      "label": "R230_u044_F0042",
+      "match": {
+        "classification": "exploratory_near_match",
+        "flux_delta": {
+          "F": -0.00028779368305720254,
+          "advected_internal_energy_scaled": 2.504224567029782e-06,
+          "angular_flux_scaled": -7.085731816075524e-05
+        },
+        "flux_max": 0.00028779368305720254,
+        "outer_R_rg": 223.23642744192122,
+        "state_delta": [
+          -0.0009514923009241727,
+          0.0020476693079718444,
+          -0.00028779368305720254
+        ],
+        "state_max": 0.0020476693079718444
+      },
+      "minimum_R_rg": 223.23642744192122,
+      "seed_perturbation": [
+        -0.04400000000000048,
+        0.0,
+        0.0041999999999999815,
+        0.0
+      ],
+      "start_R_rg": 228.1256508738293,
+      "status": "reached_validity_surface"
+    },
+    {
+      "accepted_steps": 24,
+      "crossed_scale_validity": true,
+      "crossed_vertical_validity": false,
+      "final_R_rg": 223.23642744192122,
+      "final_p_R": -0.4658182986242903,
+      "label": "R230_u044_F0045",
+      "match": {
+        "classification": "exploratory_near_match",
+        "flux_delta": {
+          "F": 1.0008326896127073e-05,
+          "advected_internal_energy_scaled": 2.9120322656053777e-06,
+          "angular_flux_scaled": 2.4641374897216295e-06
+        },
+        "flux_max": 1.0008326896127073e-05,
+        "outer_R_rg": 223.23642744192122,
+        "state_delta": [
+          0.0012017403704369656,
+          0.0018435179138087676,
+          1.0008326896127073e-05
+        ],
+        "state_max": 0.0018435179138087676
+      },
+      "minimum_R_rg": 223.23642744192122,
+      "seed_perturbation": [
+        -0.04400000000000048,
+        0.0,
+        0.0044999999999999485,
+        0.0
+      ],
+      "start_R_rg": 228.1256508738293,
+      "status": "reached_validity_surface"
+    },
+    {
+      "accepted_steps": 24,
+      "crossed_scale_validity": true,
+      "crossed_vertical_validity": false,
+      "final_R_rg": 223.23642744192122,
+      "final_p_R": -0.4582017262917019,
+      "label": "R230_u044_F0048",
+      "match": {
+        "classification": "exploratory_near_match",
+        "flux_delta": {
+          "F": 0.0003077192057918676,
+          "advected_internal_energy_scaled": 3.3198693966421345e-06,
+          "angular_flux_scaled": 7.576315587581872e-05
+        },
+        "flux_max": 0.0003077192057918676,
+        "outer_R_rg": 223.23642744192122,
+        "state_delta": [
+          0.0033501390021495325,
+          0.0016398655557203767,
+          0.0003077192057918676
+        ],
+        "state_max": 0.0033501390021495325
+      },
+      "minimum_R_rg": 223.23642744192122,
+      "seed_perturbation": [
+        -0.04400000000000048,
+        0.0,
+        0.0047999999999999154,
+        0.0
+      ],
+      "start_R_rg": 228.1256508738293,
+      "status": "reached_validity_surface"
+    },
+    {
+      "accepted_steps": 24,
+      "crossed_scale_validity": true,
+      "crossed_vertical_validity": false,
+      "final_R_rg": 223.23642744192122,
+      "final_p_R": -0.453732354159956,
+      "label": "R230_u045_F0045",
+      "match": {
+        "classification": "exploratory_near_match",
+        "flux_delta": {
+          "F": 6.7895563593545205e-06,
+          "advected_internal_energy_scaled": 3.4294143656636046e-06,
+          "angular_flux_scaled": 1.6716480686906898e-06
+        },
+        "flux_max": 6.7895563593545205e-06,
+        "outer_R_rg": 223.23642744192122,
+        "state_delta": [
+          0.004317818047393729,
+          0.0014418706830863215,
+          6.7895563593545205e-06
+        ],
+        "state_max": 0.004317818047393729
+      },
+      "minimum_R_rg": 223.23642744192122,
+      "seed_perturbation": [
+        -0.04499999999999993,
+        0.0,
+        0.0044999999999999485,
+        0.0
+      ],
+      "start_R_rg": 228.1256508738293,
+      "status": "reached_validity_surface"
+    },
+    {
+      "accepted_steps": 24,
+      "crossed_scale_validity": true,
+      "crossed_vertical_validity": false,
+      "final_R_rg": 223.23642744192122,
+      "final_p_R": -0.41597485206994755,
+      "label": "R230_u044_Tm0005_F0045",
+      "match": {
+        "classification": "exploratory_near_match",
+        "flux_delta": {
+          "F": -5.612196439130912e-06,
+          "advected_internal_energy_scaled": 5.184288851550924e-06,
+          "angular_flux_scaled": -1.3817717752218073e-06
+        },
+        "flux_max": 5.612196439130912e-06,
+        "outer_R_rg": 223.23642744192122,
+        "state_delta": [
+          0.01482018473722313,
+          8.763783646514867e-05,
+          -5.612196439130912e-06
+        ],
+        "state_max": 0.01482018473722313
+      },
+      "minimum_R_rg": 223.23642744192122,
+      "seed_perturbation": [
+        -0.04400000000000048,
+        -0.0005000000000006111,
+        0.0044999999999999485,
+        0.0
+      ],
+      "start_R_rg": 228.1256508738293,
+      "status": "reached_validity_surface"
+    },
+    {
+      "accepted_steps": 24,
+      "crossed_scale_validity": true,
+      "crossed_vertical_validity": false,
+      "final_R_rg": 223.23642744192122,
+      "final_p_R": -0.4635662916361032,
+      "label": "R230_u04418_F004501",
+      "match": {
+        "classification": "exploratory_near_match",
+        "flux_delta": {
+          "F": 1.0419379309567489e-05,
+          "advected_internal_energy_scaled": 3.006551546595699e-06,
+          "angular_flux_scaled": 2.5653421792948272e-06
+        },
+        "flux_max": 1.0419379309567489e-05,
+        "outer_R_rg": 223.23642744192122,
+        "state_delta": [
+          0.001770578032258996,
+          0.0017704544822692014,
+          1.0419379309567489e-05
+        ],
+        "state_max": 0.001770578032258996
+      },
+      "minimum_R_rg": 223.23642744192122,
+      "seed_perturbation": [
+        -0.044180000000000774,
+        0.0,
+        0.004501000000000088,
+        0.0
+      ],
+      "start_R_rg": 228.1256508738293,
+      "status": "reached_validity_surface"
+    }
+  ]
+}
