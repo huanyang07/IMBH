@@ -159,6 +159,13 @@ from .transonic_local import (
     wind_sink_prime,
     xi_eff_from_gradient,
 )
+from .angular_momentum_ledger import (
+    AngularMomentumLedger,
+    algebraic_flux_ledger,
+    angular_flux,
+    angular_flux_prime,
+    evaluate_angular_momentum_ledger,
+)
 from .transonic_potential import PaczynskiWiitaPotential
 from .transonic_thermo import (
     TransonicVerticalState,
@@ -180,6 +187,7 @@ from .winds import (
 
 __all__ = [
     "AlgebraicTransonicState",
+    "AngularMomentumLedger",
     "B_rank_minors",
     "DiffusionStepResult",
     "EnergyResidualMetrics",
@@ -214,6 +222,9 @@ __all__ = [
     "TransonicVerticalState",
     "PhaseSpaceTangentDiagnostics",
     "algebraic_state",
+    "algebraic_flux_ledger",
+    "angular_flux",
+    "angular_flux_prime",
     "analytic_state_partials",
     "alpha_viscosity",
     "best_local_temperature_profile",
@@ -242,6 +253,7 @@ __all__ = [
     "energy_limited_wind",
     "energy_limited_wind_derivatives",
     "effective_wind_powerlaw_slope",
+    "evaluate_angular_momentum_ledger",
     "evaluate_global_slim_profile",
     "evaluate_isolated_slim_profile",
     "integrated_energy_residual",
