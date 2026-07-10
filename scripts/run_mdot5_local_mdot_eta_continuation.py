@@ -22,7 +22,9 @@ from imri_qpe.layer3_minidisk_1d import (  # noqa: E402
     algebraic_state,
     differential_residual,
     differential_residual_scales,
+    energy_limited_wind,
     entropy_gradient_log,
+    q_edd_vertical,
     scaled_differential_matrix,
     state_partials,
     stream_annulus_shape_and_derivative,
@@ -5832,7 +5834,73 @@ def _global_flux_phase_dae_point_data(
     a_logF = (np.asarray(c_plus, dtype=float) - np.asarray(c_minus, dtype=float)) / (2.0 * slope_eps)
     matrix_dae = A_zero @ np.asarray(p_q[:2], dtype=float) + a_logF * (float(p_q[2]) / F_q) + c_zero * p_R
 
-    singular = np.linalg.svd(A_zero, compute_uv=False)
+    # Evaluate the physical equations directly in the intrinsic direction.
+    # This is the exact homogeneous form of p_R * R(z, dz/dlogR), but it never
+    # constructs dz/dlogR.  The finite-difference below is only with respect to
+    # the local Mdot value; the logR/logu/logT derivatives are analytic.
+    state = algebraic_state(x_q, float(y_q[0]), float(y_q[1]), float(lambda0), params_zero)
+    partials = state_partials(x_q, y_q, float(lambda0), params_zero)
+    mdot_eps = 1.0e-5
+    params_m_plus = _local_params_with_point_mdot(params, x_q, logMdot_q + mdot_eps, 0.0)
+    params_m_minus = _local_params_with_point_mdot(params, x_q, logMdot_q - mdot_eps, 0.0)
+    state_m_plus = algebraic_state(x_q, float(y_q[0]), float(y_q[1]), float(lambda0), params_m_plus)
+    state_m_minus = algebraic_state(x_q, float(y_q[0]), float(y_q[1]), float(lambda0), params_m_minus)
+
+    def directional(name: str) -> float:
+        dlogmdot = float(p_q[2]) / F_q
+        d_mdot = (float(getattr(state_m_plus, name)) - float(getattr(state_m_minus, name))) / (2.0 * mdot_eps)
+        return float(
+            float(partials.x[name]) * p_R
+            + np.dot(np.asarray(partials.y[name], dtype=float), np.asarray(p_q[:2], dtype=float))
+            + d_mdot * dlogmdot
+        )
+
+    dPi_ds = directional("Pi")
+    drho_ds = directional("rho")
+    de_ds = directional("e")
+    dOmega_ds = directional("Omega")
+    radial_h_raw = float(
+        state.u**2 * float(p_q[0])
+        - state.R**2 * (state.Omega**2 - state.Omega_K**2) * p_R
+        + dPi_ds / state.Sigma
+    )
+    q_visc_h = float(-state.W * dOmega_ds)
+    tds_h = float(de_ds - state.P / state.rho**2 * drho_ds)
+    q_adv_h = float(-(state.Sigma * state.u / state.R) * tds_h)
+    q_stream = float(stream_heating_rate(x_q, params_zero))
+    q_available_h = float(q_visc_h + q_stream * p_R - q_adv_h)
+
+    epsilon_w = float(getattr(params_zero, "wind_energy_limited_epsilon", 0.0))
+    q_wind_h = 0.0
+    if epsilon_w != 0.0:
+        q_edd = float(q_edd_vertical(state.Omega_K, state.H, kappa=params_zero.kappa))
+        e_w_dummy = 1.0
+        if abs(p_R) > 1.0e-14:
+            q_available = q_available_h / p_R
+            q_wind, _q_rad_limited, _dot_sigma = energy_limited_wind(
+                q_available,
+                q_edd,
+                e_w_dummy,
+                epsilon_w,
+                chi_edd=float(getattr(params_zero, "wind_eddington_chi", 1.0)),
+                activation_width=float(getattr(params_zero, "wind_activation_width_fraction", 0.0)) * q_edd,
+            )
+            q_wind_h = float(p_R * q_wind)
+        else:
+            # Positive-p_R perspective limit.  Signed continuation evaluates
+            # either side before reaching this exact, measure-zero state.
+            q_wind_h = float(epsilon_w * max(q_available_h, 0.0))
+
+    radial_scale, energy_scale = differential_residual_scales(
+        x_q, y_q, float(lambda0), params_zero
+    )
+    homogeneous_dae = np.asarray(
+        [radial_h_raw / max(float(radial_scale), 1.0e-300),
+         (q_available_h - state.Q_rad * p_R - q_wind_h) / max(float(energy_scale), 1.0e-300)],
+        dtype=float,
+    )
+
+    u_A, singular, vt_A = np.linalg.svd(A_zero, full_matrices=True)
     cond_A = (
         float(np.nanmax(singular) / np.nanmin(singular))
         if singular.size and float(np.nanmin(singular)) > 0.0
@@ -5864,13 +5932,29 @@ def _global_flux_phase_dae_point_data(
         wind_prime = 0.0
     source_prime = stream_source_prime(x_q, point_params)
     fprime_target = float((float(wind_prime) - float(source_prime)) / inner_scale)
-    fprime = float(p_q[2]) - fprime_target * p_R
-    dae = np.asarray(direct, dtype=float) if np.all(np.isfinite(direct)) else np.asarray(matrix_dae, dtype=float)
+    direct_fprime = float(p_q[2]) - fprime_target * p_R
+    e_w = float(pilot.WIND_ENERGY_MULTIPLIER * wind_energy_per_mass(params_zero.M2_g, state.R))
+    wind_mass_h = float(2.0 * np.pi * state.R**2 * q_wind_h / max(e_w, 1.0e-300))
+    homogeneous_fprime = float(
+        p_q[2] - (wind_mass_h - p_R * float(stream_source_prime(x_q, params_zero))) / inner_scale
+    )
+
+    dae = np.asarray(homogeneous_dae, dtype=float)
     return {
         "dae": np.asarray(dae, dtype=float),
+        "homogeneous_rows": np.concatenate([homogeneous_dae, np.asarray([homogeneous_fprime])]),
         "matrix_dae": np.asarray(matrix_dae, dtype=float),
         "direct": np.asarray(direct, dtype=float),
-        "fprime": float(fprime),
+        "fprime": float(homogeneous_fprime),
+        "direct_fprime": float(direct_fprime),
+        "equivalence": np.asarray(homogeneous_dae - direct, dtype=float),
+        "fprime_equivalence": float(homogeneous_fprime - direct_fprime),
+        "A": np.asarray(A_zero, dtype=float),
+        "c": np.asarray(c_zero, dtype=float),
+        "A_singular_values": np.asarray(singular, dtype=float),
+        "A_left_min": np.asarray(u_A[:, -1], dtype=float),
+        "A_right_min": np.asarray(vt_A[-1], dtype=float),
+        "compatibility": float(np.dot(np.asarray(u_A[:, -1], dtype=float), c_zero)),
         "cond_A": float(cond_A),
         "cond_phase": float(cond_phase),
         "g_norm": float(np.linalg.norm(g)) if np.all(np.isfinite(g)) else math.inf,
@@ -5918,6 +6002,9 @@ def _global_flux_phase_dae_segment_data(
     g_norms: list[float] = []
     direct_radial: list[float] = []
     direct_energy: list[float] = []
+    equivalence_radial: list[float] = []
+    equivalence_energy: list[float] = []
+    fprime_equivalence: list[float] = []
     a_logF_norms: list[float] = []
 
     for node_pos in range(int(z.shape[0])):
@@ -5929,7 +6016,12 @@ def _global_flux_phase_dae_segment_data(
                 "dae": np.full(2, 1.0e6, dtype=float),
                 "matrix_dae": np.full(2, 1.0e6, dtype=float),
                 "direct": np.full(2, math.nan, dtype=float),
+                "equivalence": np.full(2, math.nan, dtype=float),
                 "fprime": 1.0e6,
+                "fprime_equivalence": math.nan,
+                "A_singular_values": np.asarray([math.nan, math.nan]),
+                "A_right_min": np.asarray([math.nan, math.nan]),
+                "compatibility": math.nan,
                 "cond_A": math.inf,
                 "cond_phase": math.inf,
                 "g_norm": math.inf,
@@ -5955,6 +6047,9 @@ def _global_flux_phase_dae_segment_data(
         if direct.size >= 2 and np.all(np.isfinite(direct)):
             direct_radial.append(abs(float(direct[0])))
             direct_energy.append(abs(float(direct[1])))
+            equivalence_radial.append(abs(float(point["equivalence"][0])))
+            equivalence_energy.append(abs(float(point["equivalence"][1])))
+            fprime_equivalence.append(abs(float(point["fprime_equivalence"])))
         profile.append(
             {
                 "node": int(node_pos),
@@ -5971,6 +6066,19 @@ def _global_flux_phase_dae_segment_data(
                 "direct_energy": abs(float(direct[1])) if direct.size >= 2 and np.isfinite(direct[1]) else math.nan,
                 "matrix_radial": abs(float(matrix_dae[0])),
                 "matrix_energy": abs(float(matrix_dae[1])),
+                "equivalence_radial": abs(float(point["equivalence"][0])) if np.isfinite(point["equivalence"][0]) else math.nan,
+                "equivalence_energy": abs(float(point["equivalence"][1])) if np.isfinite(point["equivalence"][1]) else math.nan,
+                "fprime_equivalence": abs(float(point["fprime_equivalence"])),
+                "sigma_min_A": float(np.min(point["A_singular_values"])),
+                "sigma_max_A": float(np.max(point["A_singular_values"])),
+                "compatibility": float(point["compatibility"]),
+                "right_null_alignment": float(
+                    abs(np.dot(
+                        np.asarray(p[node_pos, :2], dtype=float)
+                        / max(float(np.linalg.norm(p[node_pos, :2])), 1.0e-300),
+                        np.asarray(point["A_right_min"], dtype=float),
+                    ))
+                ),
             }
         )
 
@@ -6002,7 +6110,12 @@ def _global_flux_phase_dae_segment_data(
                     "dae": np.full(2, 1.0e6, dtype=float),
                     "matrix_dae": np.full(2, 1.0e6, dtype=float),
                     "direct": np.full(2, math.nan, dtype=float),
+                    "equivalence": np.full(2, math.nan, dtype=float),
                     "fprime": 1.0e6,
+                    "fprime_equivalence": math.nan,
+                    "A_singular_values": np.asarray([math.nan, math.nan]),
+                    "A_right_min": np.asarray([math.nan, math.nan]),
+                    "compatibility": math.nan,
                     "cond_A": math.inf,
                     "cond_phase": math.inf,
                     "g_norm": math.inf,
@@ -6028,6 +6141,9 @@ def _global_flux_phase_dae_segment_data(
             if direct.size >= 2 and np.all(np.isfinite(direct)):
                 direct_radial.append(abs(float(direct[0])))
                 direct_energy.append(abs(float(direct[1])))
+                equivalence_radial.append(abs(float(point["equivalence"][0])))
+                equivalence_energy.append(abs(float(point["equivalence"][1])))
+                fprime_equivalence.append(abs(float(point["fprime_equivalence"])))
             profile.append(
                 {
                     "interval": int(idx_value),
@@ -6045,6 +6161,19 @@ def _global_flux_phase_dae_segment_data(
                     "direct_energy": abs(float(direct[1])) if direct.size >= 2 and np.isfinite(direct[1]) else math.nan,
                     "matrix_radial": abs(float(matrix_dae[0])),
                     "matrix_energy": abs(float(matrix_dae[1])),
+                    "equivalence_radial": abs(float(point["equivalence"][0])) if np.isfinite(point["equivalence"][0]) else math.nan,
+                    "equivalence_energy": abs(float(point["equivalence"][1])) if np.isfinite(point["equivalence"][1]) else math.nan,
+                    "fprime_equivalence": abs(float(point["fprime_equivalence"])),
+                    "sigma_min_A": float(np.min(point["A_singular_values"])),
+                    "sigma_max_A": float(np.max(point["A_singular_values"])),
+                    "compatibility": float(point["compatibility"]),
+                    "right_null_alignment": float(
+                        abs(np.dot(
+                            np.asarray(p_mid[interval_pos, :2], dtype=float)
+                            / max(float(np.linalg.norm(p_mid[interval_pos, :2])), 1.0e-300),
+                            np.asarray(point["A_right_min"], dtype=float),
+                        ))
+                    ),
                 }
             )
 
@@ -6127,6 +6256,9 @@ def _global_flux_phase_dae_segment_data(
             "norm_max": group_max("phase_dae_norm"),
             "direct_radial_max": float(np.nanmax(np.asarray(direct_radial, dtype=float))) if direct_radial else math.nan,
             "direct_energy_max": float(np.nanmax(np.asarray(direct_energy, dtype=float))) if direct_energy else math.nan,
+            "homogeneous_direct_radial_max": float(np.nanmax(np.asarray(equivalence_radial, dtype=float))) if equivalence_radial else math.nan,
+            "homogeneous_direct_energy_max": float(np.nanmax(np.asarray(equivalence_energy, dtype=float))) if equivalence_energy else math.nan,
+            "homogeneous_direct_fprime_max": float(np.nanmax(np.asarray(fprime_equivalence, dtype=float))) if fprime_equivalence else math.nan,
             "p_R_min": float(np.nanmin(p_R_values)) if p_R_values.size else math.nan,
             "p_R_max": float(np.nanmax(p_R_values)) if p_R_values.size else math.nan,
             "p_R_sign_changes": sign_changes,
@@ -9545,7 +9677,9 @@ def _source_transition_radii_rg(params) -> list[dict[str, Any]]:
         center_rg = float(center_fraction * params.R_out_rg)
         shape = str(getattr(params, "stream_source_shape", "tanh")).strip().lower()
         blend = float(getattr(params, "stream_source_shape_blend", 1.0))
-        compact = shape in {"compact", "compact_c2", "c2"} and blend >= 1.0 - 1.0e-12
+        compact = shape in {
+            "compact", "compact_c2", "c2", "compact_c4", "c4", "compact_cinf", "cinf", "c_infinity"
+        } and blend >= 1.0 - 1.0e-12
         transitions.extend(
             [
                 {

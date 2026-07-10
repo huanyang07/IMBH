@@ -195,8 +195,12 @@ class TransonicSlimParams:
             raise ValueError("stream_source_center_fraction must be positive")
         if self.stream_source_log_width <= 0.0:
             raise ValueError("stream_source_log_width must be positive")
-        if str(self.stream_source_shape).strip().lower() not in {"tanh", "compact", "compact_c2", "c2"}:
-            raise ValueError("stream_source_shape must be 'tanh' or 'compact_c2'")
+        if str(self.stream_source_shape).strip().lower() not in {
+            "tanh", "compact", "compact_c2", "c2", "compact_c4", "c4", "compact_cinf", "cinf", "c_infinity"
+        }:
+            raise ValueError(
+                "stream_source_shape must be 'tanh', 'compact_c2', 'compact_c4', or 'compact_cinf'"
+            )
         if not np.isfinite(float(self.stream_source_shape_blend)) or not 0.0 <= float(self.stream_source_shape_blend) <= 1.0:
             raise ValueError("stream_source_shape_blend must be finite and between zero and one")
         if not np.isfinite(float(self.wind_sink_fraction)):

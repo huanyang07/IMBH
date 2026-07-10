@@ -218,6 +218,50 @@ class TransonicLocalTests(unittest.TestCase):
         self.assertAlmostEqual(derivative_outer, 0.0)
         self.assertAlmostEqual(source_integral / self.params.Mdot_g_s, 0.03, places=8)
 
+    def test_higher_order_compact_stream_shapes_are_normalized_and_tail_free(self) -> None:
+        for shape in ("compact_c4", "compact_cinf"):
+            with self.subTest(shape=shape):
+                params = types.SimpleNamespace(
+                    **{
+                        **self.params.__dict__,
+                        "R_out": 300.0 * self.potential.r_g,
+                        "stream_source_fraction": 0.03,
+                        "stream_source_center_fraction": 0.8,
+                        "stream_source_log_width": 0.08,
+                        "stream_source_shape": shape,
+                    }
+                )
+                center = float(np.log(params.stream_source_center_fraction * params.R_out))
+                support = np.linspace(
+                    center - params.stream_source_log_width,
+                    center + params.stream_source_log_width,
+                    8001,
+                )
+                source_integral = np.trapezoid(
+                    [stream_source_prime(float(x), params) for x in support], support
+                )
+                below = center - 1.01 * params.stream_source_log_width
+                above = center + 1.01 * params.stream_source_log_width
+                below_shape, below_derivative = stream_annulus_shape_and_derivative(
+                    below,
+                    params.stream_source_center_fraction,
+                    params.stream_source_log_width,
+                    params.R_out,
+                    shape,
+                )
+                above_shape, above_derivative = stream_annulus_shape_and_derivative(
+                    above,
+                    params.stream_source_center_fraction,
+                    params.stream_source_log_width,
+                    params.R_out,
+                    shape,
+                )
+                self.assertAlmostEqual(below_shape, 0.0)
+                self.assertAlmostEqual(below_derivative, 0.0)
+                self.assertAlmostEqual(above_shape, 1.0)
+                self.assertAlmostEqual(above_derivative, 0.0)
+                self.assertAlmostEqual(source_integral / self.params.Mdot_g_s, 0.03, places=7)
+
     def test_source_sink_budget_helpers_are_explicit(self) -> None:
         params = types.SimpleNamespace(
             **{

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 
 import numpy as np
@@ -176,22 +177,30 @@ def stream_annulus_shape_and_derivative(
     else:
         sech = 1.0 / np.cosh(arg)
         tanh_dshape_dx = 0.5 * sech * sech / float(log_width)
-    if shape_kind in {"compact", "compact_c2", "c2"}:
+    if shape_kind in {"compact", "compact_c2", "c2", "compact_c4", "c4", "compact_cinf", "cinf", "c_infinity"}:
         half_width = float(log_width)
         u = (float(logR) - logR_center) / half_width
         blend = 1.0 if shape_blend is None else float(shape_blend)
         if not 0.0 <= blend <= 1.0:
             raise ValueError("stream annulus shape_blend must be between zero and one")
-        if u <= -1.0:
-            compact_shape = 0.0
-            compact_dshape_dx = 0.0
+        if shape_kind in {"compact_cinf", "cinf", "c_infinity"}:
+            compact_shape, compact_dshape_dx = _compact_cinf_shape_and_derivative(u, half_width)
+        elif u <= -1.0:
+            compact_shape, compact_dshape_dx = 0.0, 0.0
         elif u >= 1.0:
-            compact_shape = 1.0
-            compact_dshape_dx = 0.0
+            compact_shape, compact_dshape_dx = 1.0, 0.0
         else:
-            norm = 32.0 / 35.0
-            primitive = u - u**3 + 0.6 * u**5 - u**7 / 7.0 + 16.0 / 35.0
-            bump = (1.0 - u * u) ** 3
+            power = 5 if shape_kind in {"compact_c4", "c4"} else 3
+            coefficients = [
+                math.comb(power, order) * (-1.0) ** order / (2 * order + 1)
+                for order in range(power + 1)
+            ]
+            norm = 2.0 * sum(coefficients)
+            primitive = sum(
+                coefficient * (u ** (2 * order + 1) + 1.0)
+                for order, coefficient in enumerate(coefficients)
+            )
+            bump = (1.0 - u * u) ** power
             compact_shape = primitive / norm
             compact_dshape_dx = bump / (norm * half_width)
         return (
@@ -199,7 +208,7 @@ def stream_annulus_shape_and_derivative(
             float((1.0 - blend) * tanh_dshape_dx + blend * compact_dshape_dx),
         )
     if shape_kind != "tanh":
-        raise ValueError("stream annulus shape must be 'tanh' or 'compact_c2'")
+        raise ValueError("stream annulus shape must be 'tanh', 'compact_c2', 'compact_c4', or 'compact_cinf'")
     return float(tanh_shape), float(tanh_dshape_dx)
 
 
@@ -1125,4 +1134,36 @@ def sonic_diagnostics(logR: float, y, lambda0: float, params, floor: float = 1.0
         M_eff=M_eff,
         radial_scale=radial_scale,
         energy_scale=energy_scale,
+    )
+_CINF_QUAD_NODES, _CINF_QUAD_WEIGHTS = np.polynomial.legendre.leggauss(48)
+
+
+def _compact_cinf_bump(u):
+    values = np.asarray(u, dtype=float)
+    out = np.zeros_like(values)
+    active = np.abs(values) < 1.0
+    denominator = np.maximum(1.0 - values[active] ** 2, 1.0e-300)
+    out[active] = np.exp(-1.0 / denominator)
+    return out
+
+
+_CINF_NORMALIZATION = float(
+    np.sum(_CINF_QUAD_WEIGHTS * _compact_cinf_bump(_CINF_QUAD_NODES))
+)
+
+
+def _compact_cinf_shape_and_derivative(u: float, half_width: float) -> tuple[float, float]:
+    if u <= -1.0:
+        return 0.0, 0.0
+    if u >= 1.0:
+        return 1.0, 0.0
+    upper = float(u)
+    mapped = 0.5 * (upper + 1.0) * _CINF_QUAD_NODES + 0.5 * (upper - 1.0)
+    cumulative = 0.5 * (upper + 1.0) * float(
+        np.sum(_CINF_QUAD_WEIGHTS * _compact_cinf_bump(mapped))
+    )
+    bump = float(_compact_cinf_bump(np.asarray([upper]))[0])
+    return (
+        float(cumulative / _CINF_NORMALIZATION),
+        float(bump / (_CINF_NORMALIZATION * half_width)),
     )

@@ -1,0 +1,246 @@
+{
+  "angular_closures": [
+    {
+      "closure": "disk_local",
+      "max": 4.3243892664120085e-08,
+      "rms": 9.478366568341103e-09
+    },
+    {
+      "closure": "keplerian_local",
+      "max": 4.9871217686539146e-08,
+      "rms": 1.0932965073961003e-08
+    },
+    {
+      "closure": "keplerian_injection",
+      "max": 5.192244889944284e-08,
+      "rms": 1.1380576416021422e-08
+    }
+  ],
+  "baseline": [
+    {
+      "summary": {
+        "R_final_rg": 225.52124492617628,
+        "R_limit_rg": 225.52124493832005,
+        "accepted_steps": 274,
+        "complete": true,
+        "dt_initial": 0.02,
+        "label": "baseline_dt_0.02",
+        "max_homogeneous": 5.284304904136418e-09,
+        "p_R_decay_rate": 2.0980799833377706,
+        "p_R_final": 1.1297676741811397e-10,
+        "reached_logu": 4.0,
+        "rejected_steps": 0,
+        "tangent_initial": {
+          "accepted": true,
+          "max": 1.1111298606463431e-13,
+          "message": "`gtol` termination condition is satisfied.",
+          "nfev": 1,
+          "status": 1
+        },
+        "target_logu": 4.0
+      }
+    },
+    {
+      "summary": {
+        "R_final_rg": 225.52125711698562,
+        "R_limit_rg": 225.5212571299543,
+        "accepted_steps": 548,
+        "complete": true,
+        "dt_initial": 0.01,
+        "label": "baseline_dt_0.01",
+        "max_homogeneous": 1.0057400878321162e-07,
+        "p_R_decay_rate": 1.8932585120712089,
+        "p_R_final": 1.0887257053893437e-10,
+        "reached_logu": 4.0,
+        "rejected_steps": 0,
+        "tangent_initial": {
+          "accepted": true,
+          "max": 1.1111298606463431e-13,
+          "message": "`gtol` termination condition is satisfied.",
+          "nfev": 1,
+          "status": 1
+        },
+        "target_logu": 4.0
+      }
+    }
+  ],
+  "bordered": [
+    {
+      "accepted_steps": 30,
+      "arc_target": 0.005,
+      "crossed": false,
+      "final_R_rg": 225.52043535599952,
+      "final_p_R": 7.297180687122555e-06
+    },
+    {
+      "accepted_steps": 30,
+      "arc_target": 0.0025,
+      "crossed": false,
+      "final_R_rg": 225.52030181776152,
+      "final_p_R": 8.500411730395168e-06
+    }
+  ],
+  "decision": {
+    "classification": "finite-radius low-u stagnation/singular boundary",
+    "explanation": "The positive-p_R branch remains regular when logu is used as the continuation coordinate, but approaches u=0 at finite radius while surface density and optical depth diverge. No step-converged finite-state p_R sign change is found, and no admissible outer radial branch is available.",
+    "finite_state_fold": false,
+    "global_certified": false,
+    "low_u_singular": true,
+    "regular_critical_point": false,
+    "source_shape_resolved": true,
+    "source_shape_sensitive": false
+  },
+  "scaling": {
+    "H_over_R": {
+      "log_prefactor": -8.6231475301958,
+      "power_of_u": 0.5000146134524062
+    },
+    "Mach_eff": {
+      "log_prefactor": -12.800324331703111,
+      "power_of_u": 0.4999853861954497
+    },
+    "Sigma": {
+      "log_prefactor": 24.418018861450072,
+      "power_of_u": -0.9999999988786804
+    },
+    "p_R": {
+      "log_prefactor": -30.578603899215764,
+      "power_of_u": 1.9345746932010643
+    },
+    "rho": {
+      "log_prefactor": 5.816549606593005,
+      "power_of_u": -1.5000146116391713
+    },
+    "tau": {
+      "log_prefactor": 22.646062019518194,
+      "power_of_u": -0.9999999988786795
+    }
+  },
+  "source_branches": [
+    {
+      "summary": {
+        "R_final_rg": 225.52126458240934,
+        "R_limit_rg": 225.52126527823924,
+        "accepted_steps": 268,
+        "anchor_R_rg": 194.57856333811728,
+        "anchor_logu": 12.65476236056361,
+        "complete": true,
+        "dt_initial": 0.02,
+        "label": "compact_c2",
+        "max_homogeneous": 7.792671122725375e-09,
+        "p_R_decay_rate": 1.998331126549926,
+        "p_R_final": 6.165709213193675e-09,
+        "phase_homotopy_accepted": true,
+        "reached_logu": 6.0,
+        "rejected_steps": 0,
+        "shape": "compact_c2",
+        "source_cumulative_at_final": 0.0040376473086898255,
+        "source_inner_edge_rg": 221.5479231327926,
+        "tangent_initial": {
+          "accepted": true,
+          "max": 7.502074675215472e-13,
+          "message": "`gtol` termination condition is satisfied.",
+          "nfev": 3,
+          "status": 1
+        },
+        "target_logu": 6.0,
+        "width_factor": 1.0
+      }
+    },
+    {
+      "summary": {
+        "R_final_rg": 225.52041721513572,
+        "R_limit_rg": 225.52041789168547,
+        "accepted_steps": 268,
+        "anchor_R_rg": 194.57856333811728,
+        "anchor_logu": 12.65476236056361,
+        "complete": true,
+        "dt_initial": 0.02,
+        "label": "compact_c4",
+        "max_homogeneous": 5.5182007767017075e-09,
+        "p_R_decay_rate": 2.0337689142524393,
+        "p_R_final": 6.101202986086403e-09,
+        "phase_homotopy_accepted": true,
+        "reached_logu": 6.0,
+        "rejected_steps": 0,
+        "shape": "compact_c4",
+        "source_cumulative_at_final": 0.0005273222058744855,
+        "source_inner_edge_rg": 221.5479231327926,
+        "tangent_initial": {
+          "accepted": true,
+          "max": 6.16371879631993e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "nfev": 4,
+          "status": 1
+        },
+        "target_logu": 6.0,
+        "width_factor": 1.0
+      }
+    },
+    {
+      "summary": {
+        "R_final_rg": 225.52266853831821,
+        "R_limit_rg": 225.52266923274908,
+        "accepted_steps": 268,
+        "anchor_R_rg": 194.57856333811728,
+        "anchor_logu": 12.65476236056361,
+        "complete": true,
+        "dt_initial": 0.02,
+        "label": "compact_cinf",
+        "max_homogeneous": 4.836761221166256e-09,
+        "p_R_decay_rate": 2.028667373968758,
+        "p_R_final": 6.246685673187216e-09,
+        "phase_homotopy_accepted": true,
+        "reached_logu": 6.0,
+        "rejected_steps": 0,
+        "shape": "compact_cinf",
+        "source_cumulative_at_final": 0.01034457206210902,
+        "source_inner_edge_rg": 221.5479231327926,
+        "tangent_initial": {
+          "accepted": true,
+          "max": 5.727639450868439e-13,
+          "message": "`gtol` termination condition is satisfied.",
+          "nfev": 3,
+          "status": 1
+        },
+        "target_logu": 6.0,
+        "width_factor": 1.0
+      }
+    },
+    {
+      "summary": {
+        "R_final_rg": 225.52251433399124,
+        "R_limit_rg": 225.52251509241322,
+        "accepted_steps": 267,
+        "anchor_R_rg": 194.57856333811728,
+        "anchor_logu": 12.65476236056361,
+        "complete": true,
+        "dt_initial": 0.02,
+        "label": "compact_c2_wide",
+        "max_homogeneous": 4.893947996870947e-09,
+        "p_R_decay_rate": 2.0237016244155632,
+        "p_R_final": 6.805616521630823e-09,
+        "phase_homotopy_accepted": true,
+        "reached_logu": 6.0,
+        "rejected_steps": 0,
+        "shape": "compact_c2",
+        "source_cumulative_at_final": 0.02737262710630947,
+        "source_inner_edge_rg": 217.16098032863027,
+        "tangent_initial": {
+          "accepted": true,
+          "max": 1.4968067549956186e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "nfev": 4,
+          "status": 1
+        },
+        "target_logu": 6.0,
+        "width_factor": 1.25
+      }
+    }
+  ],
+  "target": {
+    "N": 164,
+    "Rout_rg": 335.0,
+    "eta_E": 98.125
+  }
+}
