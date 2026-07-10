@@ -83,6 +83,7 @@ Fits use all two step-size branches plus the four independently re-solved source
 
 ## Files
 
-- summary: `outputs/tables/m5_eta_endpoint_validity_audit_98p125_N164.json`
-- profiles: `outputs/tables/m5_eta_endpoint_validity_audit_98p125_N164_profiles.json`
-- figure: `outputs/figures/m5_eta_endpoint_validity_audit_98p125_N164.png`
+- summary: `results/canonical/p0_validity_ledger_outer_manifold/endpoint_validity_summary.json`
+- compact trajectory: `results/canonical/phase_endpoint_positive_N164/tail_state_or_downsampled_trajectory.npz`
+- figure: `results/canonical/p0_validity_ledger_outer_manifold/m5_eta_endpoint_validity_audit_98p125_N164.png`
+- full profiles: tag `pre-cleanup-p0-2026-07-11` or the verified legacy archive

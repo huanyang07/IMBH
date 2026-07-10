@@ -54,6 +54,7 @@ This is a topology search under the exact algebraic representation closure. It i
 
 ## Files
 
-- summary: `outputs/tables/m5_eta_independent_outer_manifold_98p125_N164.json`
-- profiles: `outputs/tables/m5_eta_independent_outer_manifold_98p125_N164_profiles.json`
-- figure: `outputs/figures/m5_eta_independent_outer_manifold_98p125_N164.png`
+- summary: `results/canonical/p0_validity_ledger_outer_manifold/outer_manifold_summary.json`
+- compact match seeds: `results/canonical/p0_validity_ledger_outer_manifold/outer_match_seeds.json`
+- figure: `results/canonical/p0_validity_ledger_outer_manifold/m5_eta_independent_outer_manifold_98p125_N164.png`
+- full profiles: tag `pre-cleanup-p0-2026-07-11` or the verified legacy archive

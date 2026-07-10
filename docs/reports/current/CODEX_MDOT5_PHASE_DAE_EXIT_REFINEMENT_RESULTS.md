@@ -1,5 +1,9 @@
 # Mdot=5 Phase-Space DAE Exit Refinement Results
 
+The compact phase entry and failed-composite witness are retained under
+`results/canonical/`. Raw refinement states remain available at tag
+`pre-cleanup-p0-2026-07-11` and in the verified legacy archive.
+
 The unified K13 solve localizes its remaining radial/FV defect in the
 ordinary source elements immediately outside the right phase interface.
 This audit h-refines the K13 tail and tests a positive-p_R extension to

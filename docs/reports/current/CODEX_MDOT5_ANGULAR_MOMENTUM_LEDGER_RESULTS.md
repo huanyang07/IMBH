@@ -38,6 +38,6 @@ Allowing the external torque to absorb the missing local-disk loading term resto
 
 ## Files
 
-- summary: `outputs/tables/m5_eta_angular_momentum_ledger_98p125_N164.json`
-- profiles: `outputs/tables/m5_eta_angular_momentum_ledger_98p125_N164_profiles.json`
-- figure: `outputs/figures/m5_eta_angular_momentum_ledger_98p125_N164.png`
+- summary: `results/canonical/p0_validity_ledger_outer_manifold/angular_ledger_summary.json`
+- figure: `results/canonical/p0_validity_ledger_outer_manifold/m5_eta_angular_momentum_ledger_98p125_N164.png`
+- full profiles: tag `pre-cleanup-p0-2026-07-11` or the verified legacy archive

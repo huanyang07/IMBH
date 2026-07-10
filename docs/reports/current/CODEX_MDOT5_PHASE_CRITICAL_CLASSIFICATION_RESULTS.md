@@ -1,5 +1,9 @@
 # Mdot=5 phase critical classification results
 
+Compact endpoint, convergence, and source-shape evidence is retained under
+`results/canonical/`. Raw trajectories remain available at tag
+`pre-cleanup-p0-2026-07-11` and in the verified legacy archive.
+
 Target: `Mdot_inner/Edd=5`, `Rout=335 rg`, `f_s=0.80`, `eta_E=98.125`, `N=164`.
 
 ## Low-u continuation

@@ -1,5 +1,9 @@
 # Mdot=5 Global Phase-Space DAE Production Results
 
+Canonical state: `results/canonical/phase_dae_entry_N164/state.npz`. Raw
+production profiles remain available at tag `pre-cleanup-p0-2026-07-11` and in
+the verified legacy archive.
+
 ## Target
 
 - `Mdot_inner/Edd = 5`

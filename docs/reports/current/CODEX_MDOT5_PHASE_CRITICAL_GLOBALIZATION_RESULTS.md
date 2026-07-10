@@ -1,5 +1,9 @@
 # Mdot=5 phase critical-point classification and globalization
 
+The decisive failed-composite witness is retained at
+`results/canonical/global_composite_failure/`. Raw profiles remain available at
+tag `pre-cleanup-p0-2026-07-11` and in the verified legacy archive.
+
 Target: `Mdot_inner/Edd=5`, `Rout=335 rg`, `f_s=0.80`, `eta_E=98.125`, `N=164`.
 
 ## Exact homogeneous DAE audit
