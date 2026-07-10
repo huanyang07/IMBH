@@ -94,7 +94,7 @@ def main() -> None:
         with tarfile.open(archive_path, mode="r:gz") as archive:
             _validate_member_names(archive)
             members = archive.getmembers()
-            archive.extractall(extract_root, members=members)
+            archive.extractall(extract_root, members=members, filter="data")
         extracted = sorted(
             path.relative_to(extract_root).as_posix()
             for path in extract_root.rglob("*")

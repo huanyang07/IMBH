@@ -70,7 +70,7 @@ def _classification(relative: str) -> tuple[str, str, str, str]:
             "Bulk generated output; decisive cases will be copied into results/canonical.",
             archive,
         )
-    if top == "Literature" and path.suffix.lower() == ".pdf":
+    if top == "Literature":
         return (
             "reference_full_text",
             "DELETE",
