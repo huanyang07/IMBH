@@ -26,7 +26,10 @@ This is the canonical project handoff. Status labels mean:
 | Existing global phase-plus-ordinary-tail composite | **REJECTED** | Phase rows remain small while outside radial/energy defects become large | Rejection is not global nonexistence |
 | Independent outer-manifold connection | **DIAGNOSTIC ONLY** | Best flux mismatch `1.04e-5`; best state mismatch `1.77e-3` | Misses strict `1e-3` state gate; shooting map condition `8.74e5` |
 | Algebraic angular representation ledger | **SUPPORTED BUT NOT FULLY CERTIFIED** | Point closure at machine precision; phase FV floor `9.75e-6` | Representation identity, not physical `l_s`, `l_w`, `tau_ext` closure |
-| Physical mass-loaded-wind steady branch | **PLANNED** | Requires conservative production equations and physical angular closure | Current result must not be labeled a recovered hot/wind branch |
+| Unified conservative mass/angular/energy formulation | **SUPPORTED BUT NOT FULLY CERTIFIED** | No-wind `Mdot/Edd=5` regression and physical compact-stream roots pass raw ledgers | Stream-fed wind tests currently start from `Mdot_inner/Edd=2` |
+| Physical mass-loaded-wind steady branch at `Mdot_inner/Edd=2` | **SUPPORTED BUT NOT FULLY CERTIFIED** | Exploratory roots through `epsilon_w=0.54`; scouts through `0.90` | Wind loss is `<0.5%`; this is not a strong hot branch |
+| Unified compact-stream branch at `Mdot_inner/Edd=5`, `Rout=335 rg` | **SUPPORTED BUT NOT FULLY CERTIFIED** | `f_s=0.05,0.10,0.30` pass at `N=192,256,384`; conservative mass budget closes | Outer compatibility convergence is only exploratory |
+| Unified Mdot=5 energy-limited wind | **DIAGNOSTIC ONLY** | `epsilon_w=0.20` passes at `eta_E=98.125`; eta scouts reach `8` | Wind loss reaches only `1.66%`; no hot transition; low-eta source-band defects remain |
 | Signed-flux/time-dependent conservative disk | **PLANNED** | Next formulation if a physically closed steady connection fails | Not implemented |
 
 ## Frozen Target Under Review
@@ -54,13 +57,13 @@ N                    = 164
 4. Independent outer branches reach the physical validity boundary, including
    a conservative near-match, but no strict state-and-flux connection has been
    certified at fixed `lambda0`.
-5. The existing angular ledger closes only as an algebraic representation. A
-   physical stream/wind model must specify `l_s(R)`, `l_w(R)`, and
-   `tau_ext(R)` without double counting.
+5. A new unified conservative solver explicitly specifies `l_s`, `B_s`,
+   `l_w`, and `B_w`, and separates external torque from external power. Its
+   first stream-fed wind branch is physical but only weakly mass loaded.
 
 ## Claims That Are Not Allowed Yet
 
-- “A physical advective/hot mass-loaded-wind branch has been recovered.”
+- “A strong advective/hot mass-loaded-wind branch has been recovered.”
 - “The branch ends physically at `225.52125 rg`.”
 - “No global far-side steady solution exists.”
 - “The present stream torque and local angular momentum prescription is a
@@ -68,13 +71,16 @@ N                    = 164
 
 ## Next Scientific Work
 
-1. Define physical stream and wind angular-momentum transport.
-2. Promote mass, angular momentum, and energy fluxes to one conservative
-   production formulation.
-3. Repeat validity-surface matching with a bordered global eigenvalue solve.
-4. If the physically closed steady problem still has no connection, implement
+1. Build a conservative source-band refinement for the Mdot=5 low-launch-energy
+   wind branch, preserving exact source support and sonic nodes.
+2. Certify selected `eta_E=20,10,8` checkpoints before continuing toward
+   order-unity launch energy.
+3. Test wind lever arm and stream heating separately after the low-eta branch
+   is stable.
+4. Repeat validity-surface matching with a bordered global eigenvalue solve if
+   a mesh-stable critical layer appears.
+5. If the physically closed steady problem still has no connection, implement
    the signed-flux/time-dependent conservative model.
-5. Keep `eta_E` frozen until the closure and connection gates pass.
 
 ## Review Entry Points
 
@@ -85,3 +91,4 @@ N                    = 164
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
 - Cleanup verification: `reports/current/CODEX_REPOSITORY_CLEANUP_RESULTS_2026-07-11.md`
+- Unified conservative transport: `reports/current/CODEX_UNIFIED_CONSERVATIVE_TRANSPORT_RESULTS_2026-07-11.md`
