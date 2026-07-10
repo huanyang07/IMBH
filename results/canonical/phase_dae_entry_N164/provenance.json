@@ -3,18 +3,39 @@
   "establishes": "The phase segment can be inserted with controlled local residuals.",
   "generation_command": "PYTHONPATH=src python3 scripts/build_canonical_results.py",
   "payload_sha256": {
-    "config.json": "8087faf54143c87b666e6613d1fa452a6ce4c47d29666791e95c18d58eb84317",
-    "state.npz": "39d3a2fea6255fb8c233406c9ccff9a6f591c816ba74e3796ce4e5066b17b860",
-    "summary.csv": "5bcfefd438bf698275a03cd815068ba10f8370bdc0fbb9a6359235882b9a60e5"
+    "base_anchor.npz": "94d7eb6f42b9a9fd639979579d90c19668c522c4fc9a1e5bfb23f7440569cb26",
+    "config.json": "3462eb179ab0455047f7c89cef31dc60df142a3fce3f2aadc64e86486a590fd7",
+    "exit_refinement_endpoint.npz": "1b516b928b865a98f9e8a8ebb0e05f278a6f8fa4452fbdf7b59e49d9d69a9cf4",
+    "k12_state.npz": "8ac85af57d577370359acbbc983535fcf2f19234d9005614cf0d64e276274915",
+    "k12_summary.json": "6ddd4bbe060cac735211b4a693d2f996f48783a4a94906bfe33af4935c0b35df",
+    "k13_summary.json": "54ef97d81457e0c9893339bfcf874e9e16e58a58d28c5f39addcda4ca21fd3e8",
+    "k14_state.npz": "ad8966dc4cc7533e8378385c5a36068f2d8b6cfa6446c3709a07b71f9c28998e",
+    "k14_summary.json": "f256627e25688d7f63a46c3b06a89bcbbbc81190b9f33e52ac37f8ecfe568188",
+    "state.npz": "694f464fb12e537d0d48ad3be97e435e99c7f78b54ed7011fe677cfdfa3fdf0d",
+    "summary.csv": "cd1d13f07bf1edec8ae3bc198ecd090abf0db97593640d0eace45c5ee15f4e07"
   },
   "purpose": "N164 global phase-DAE entry and interface regression state.",
   "scientific_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
   "source_commit": "0a000767a915880c0710b8f4ec03eb0c64aa168a",
   "source_paths": [
-    "outputs/checkpoints/m5_eta_global_phase_dae_k13_98p125_N164/stage_00_etaE_98p125_N164.npz"
+    "outputs/checkpoints/m5_eta_phase_dae_simpson_centered_k12_final_polish_98p125_N164/stage_00_etaE_98p125_N164.npz",
+    "outputs/checkpoints/m5_eta_phase_dae_simpson_k13_certified_98p125_N164/stage_00_etaE_98p125_N164.npz",
+    "outputs/checkpoints/m5_eta_phase_dae_simpson_k14_fromk13_98p125_N164/stage_00_etaE_98p125_N164.npz",
+    "outputs/tables/m5_eta_phase_dae_simpson_centered_k12_final_polish_98p125_N164.json",
+    "outputs/tables/m5_eta_phase_dae_simpson_k13_certified_98p125_N164.json",
+    "outputs/tables/m5_eta_phase_dae_simpson_k14_fromk13_98p125_N164.json",
+    "outputs/checkpoints/m5_eta_phase_dae_exit_refinement_98p125_N164/extend2_f8828125.npz",
+    "outputs/checkpoints/m5_energy_wind_powerlaw_mass_coupled_adaptive_0p015_to_0p03/zeta_0p03_N896.npz"
   ],
   "source_sha256": {
-    "outputs/checkpoints/m5_eta_global_phase_dae_k13_98p125_N164/stage_00_etaE_98p125_N164.npz": "39d3a2fea6255fb8c233406c9ccff9a6f591c816ba74e3796ce4e5066b17b860"
+    "outputs/checkpoints/m5_energy_wind_powerlaw_mass_coupled_adaptive_0p015_to_0p03/zeta_0p03_N896.npz": "94d7eb6f42b9a9fd639979579d90c19668c522c4fc9a1e5bfb23f7440569cb26",
+    "outputs/checkpoints/m5_eta_phase_dae_exit_refinement_98p125_N164/extend2_f8828125.npz": "1b516b928b865a98f9e8a8ebb0e05f278a6f8fa4452fbdf7b59e49d9d69a9cf4",
+    "outputs/checkpoints/m5_eta_phase_dae_simpson_centered_k12_final_polish_98p125_N164/stage_00_etaE_98p125_N164.npz": "8ac85af57d577370359acbbc983535fcf2f19234d9005614cf0d64e276274915",
+    "outputs/checkpoints/m5_eta_phase_dae_simpson_k13_certified_98p125_N164/stage_00_etaE_98p125_N164.npz": "694f464fb12e537d0d48ad3be97e435e99c7f78b54ed7011fe677cfdfa3fdf0d",
+    "outputs/checkpoints/m5_eta_phase_dae_simpson_k14_fromk13_98p125_N164/stage_00_etaE_98p125_N164.npz": "ad8966dc4cc7533e8378385c5a36068f2d8b6cfa6446c3709a07b71f9c28998e",
+    "outputs/tables/m5_eta_phase_dae_simpson_centered_k12_final_polish_98p125_N164.json": "5c9baea07283268d60124d1de481ebc8cb677d27a01bfd257776a0a09c3eefa4",
+    "outputs/tables/m5_eta_phase_dae_simpson_k13_certified_98p125_N164.json": "f9e4ab9a159336c177257a40406e872b07abbdea98f75adf2f17494b5b295f09",
+    "outputs/tables/m5_eta_phase_dae_simpson_k14_fromk13_98p125_N164.json": "c9d81ddfc221d33d774de3f4527872b66b458212049d2150a2bf6a8af5b9f09f"
   },
   "source_tag": "pre-cleanup-p0-2026-07-11"
 }

@@ -41,7 +41,7 @@ def test_every_canonical_case_has_provenance_and_valid_checksums() -> None:
 def test_canonical_manifest_matches_files() -> None:
     with MANIFEST.open(newline="") as handle:
         rows = list(csv.DictReader(handle))
-    assert len(rows) == 44
+    assert len(rows) == 52
     for row in rows:
         path = ROOT / row["path"]
         assert path.is_file()

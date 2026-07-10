@@ -46,8 +46,7 @@ from imri_qpe.scales import eddington_mdot  # noqa: E402
 
 DEFAULT_ANCHOR = (
     ROOT
-    / "outputs/checkpoints/m5_energy_wind_powerlaw_mass_coupled_adaptive_0p015_to_0p03/"
-    "zeta_0p03_N896.npz"
+    / "results/canonical/phase_dae_entry_N164/base_anchor.npz"
 )
 ANCHOR = Path(os.environ.get("IMBH_MDOT5_LOCAL_MDOT_ETA_ANCHOR", str(DEFAULT_ANCHOR))).expanduser()
 if not ANCHOR.is_absolute():

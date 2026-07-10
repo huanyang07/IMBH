@@ -8,35 +8,33 @@ import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CHECKPOINT_ROOT = ROOT / "outputs" / "checkpoints"
-TABLE_ROOT = ROOT / "outputs" / "tables"
+PHASE_ROOT = ROOT / "results/canonical/phase_dae_entry_N164"
+CLASSIFICATION = (
+    ROOT
+    / "results/canonical/p0_validity_ledger_outer_manifold"
+    / "phase_critical_classification_summary.json"
+)
 
 
 PHASE_CASES = (
     (
         "k12",
-        CHECKPOINT_ROOT
-        / "m5_eta_phase_dae_simpson_centered_k12_final_polish_98p125_N164"
-        / "stage_00_etaE_98p125_N164.npz",
-        TABLE_ROOT / "m5_eta_phase_dae_simpson_centered_k12_final_polish_98p125_N164.json",
+        PHASE_ROOT / "k12_state.npz",
+        PHASE_ROOT / "k12_summary.json",
         12,
         True,
     ),
     (
         "k13",
-        CHECKPOINT_ROOT
-        / "m5_eta_phase_dae_simpson_k13_certified_98p125_N164"
-        / "stage_00_etaE_98p125_N164.npz",
-        TABLE_ROOT / "m5_eta_phase_dae_simpson_k13_certified_98p125_N164.json",
+        PHASE_ROOT / "state.npz",
+        PHASE_ROOT / "k13_summary.json",
         13,
         True,
     ),
     (
         "k14",
-        CHECKPOINT_ROOT
-        / "m5_eta_phase_dae_simpson_k14_fromk13_98p125_N164"
-        / "stage_00_etaE_98p125_N164.npz",
-        TABLE_ROOT / "m5_eta_phase_dae_simpson_k14_fromk13_98p125_N164.json",
+        PHASE_ROOT / "k14_state.npz",
+        PHASE_ROOT / "k14_summary.json",
         14,
         False,
     ),
@@ -83,8 +81,7 @@ def test_phase_checkpoint_is_complete_and_classified(
     else:
         assert np.min(p_r) < 0.0
 
-    rows = json.loads(table.read_text())
-    row = rows[-1]
+    row = json.loads(table.read_text())
     assert int(row["global_flux_phase_dae_segment_n_intervals"]) == n_intervals
     if "global_flux_phase_dae_segment_accepted_exploratory" in row:
         assert bool(row["global_flux_phase_dae_segment_accepted_exploratory"]) is monotone
@@ -92,10 +89,7 @@ def test_phase_checkpoint_is_complete_and_classified(
 
 
 def test_k13_direct_physical_residual_gate() -> None:
-    rows = json.loads(
-        (TABLE_ROOT / "m5_eta_phase_dae_simpson_k13_certified_98p125_N164.json").read_text()
-    )
-    row = rows[-1]
+    row = json.loads((PHASE_ROOT / "k13_summary.json").read_text())
     assert row["global_flux_phase_dae_segment_final_direct_radial_max"] <= 1.0e-4
     assert row["global_flux_phase_dae_segment_final_direct_energy_max"] <= 1.0e-4
     assert row["global_flux_phase_dae_segment_final_fprime_max"] <= 1.0e-5
@@ -111,11 +105,7 @@ def test_phase_homogeneous_rows_match_direct_and_remain_finite_at_zero_pr() -> N
     import run_mdot5_global_phase_dae_production as global_phase
 
     _x, params, _context, _aux, phase = global_phase._load_problem()
-    checkpoint = (
-        CHECKPOINT_ROOT
-        / "m5_eta_phase_dae_exit_refinement_98p125_N164"
-        / "extend2_f8828125.npz"
-    )
+    checkpoint = PHASE_ROOT / "exit_refinement_endpoint.npz"
     with np.load(checkpoint) as data:
         z = np.asarray(data["z"], dtype=float)
         p = np.asarray(data["p"], dtype=float)
@@ -135,9 +125,7 @@ def test_phase_homogeneous_rows_match_direct_and_remain_finite_at_zero_pr() -> N
 
 
 def test_phase_critical_classification_is_step_converged_and_low_u_singular() -> None:
-    result = json.loads(
-        (TABLE_ROOT / "m5_eta_phase_critical_classification_98p125_N164.json").read_text()
-    )
+    result = json.loads(CLASSIFICATION.read_text())
     decision = result["decision"]
     assert decision["classification"] == "finite-radius low-u stagnation/singular boundary"
     assert decision["low_u_singular"] is True
@@ -161,9 +149,7 @@ def test_phase_critical_classification_is_step_converged_and_low_u_singular() ->
 
 
 def test_phase_critical_classification_source_shape_and_bordered_audits() -> None:
-    result = json.loads(
-        (TABLE_ROOT / "m5_eta_phase_critical_classification_98p125_N164.json").read_text()
-    )
+    result = json.loads(CLASSIFICATION.read_text())
     decision = result["decision"]
     assert decision["source_shape_resolved"] is True
     assert decision["source_shape_sensitive"] is False

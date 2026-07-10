@@ -23,8 +23,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 DEFAULT_CHECKPOINT = (
     ROOT
-    / "outputs/checkpoints/m5_eta_phase_dae_simpson_k13_certified_98p125_N164"
-    / "stage_00_etaE_98p125_N164.npz"
+    / "results/canonical/phase_dae_entry_N164/state.npz"
 )
 
 # Reproduce the exact source/phase context used by the certified K13 run.
@@ -97,7 +96,7 @@ RESUME_CHECKPOINT_RAW = os.environ.get("IMBH_MDOT5_GLOBAL_PHASE_RESUME_CHECKPOIN
 TABLE_PATH = ROOT / "outputs" / "tables" / f"{OUTPUT_STEM}.json"
 PROFILE_PATH = ROOT / "outputs" / "tables" / f"{OUTPUT_STEM}_profiles.json"
 CHECKPOINT_DIR = ROOT / "outputs" / "checkpoints" / OUTPUT_STEM
-NOTE_PATH = ROOT / "Note" / "CODEX_MDOT5_GLOBAL_PHASE_DAE_PRODUCTION_RESULTS.md"
+NOTE_PATH = ROOT / "docs/reports/current/CODEX_MDOT5_GLOBAL_PHASE_DAE_PRODUCTION_RESULTS.md"
 
 
 def _load_problem() -> tuple[np.ndarray, Any, dict[str, Any], np.ndarray, dict[str, Any]]:

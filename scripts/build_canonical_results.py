@@ -18,6 +18,16 @@ CANONICAL = RESULTS / "canonical"
 MANIFESTS = RESULTS / "manifests"
 SOURCE_COMMIT = "0a000767a915880c0710b8f4ec03eb0c64aa168a"
 SOURCE_TAG = "pre-cleanup-p0-2026-07-11"
+PHASE_SUMMARY_KEYS = (
+    "global_flux_phase_dae_segment_n_intervals",
+    "global_flux_phase_dae_segment_accepted_exploratory",
+    "global_flux_phase_dae_segment_final_p_R_sign_changes",
+    "global_flux_phase_dae_segment_final_direct_radial_max",
+    "global_flux_phase_dae_segment_final_direct_energy_max",
+    "global_flux_phase_dae_segment_final_fprime_max",
+    "global_flux_phase_dae_segment_final_kinematic_max",
+    "global_flux_phase_dae_segment_final_endpoint_state_mismatch_max",
+)
 
 NO_WIND = Path(
     "outputs/checkpoints/slim_benchmark_high_mdot_no_wind_m5_adaptive_outer_mesh_N768_spot/s32_mdot_5_N768.npz"
@@ -26,7 +36,28 @@ STREAM_NO_WIND = Path(
     "outputs/checkpoints/standard_slim_stream_residual_remesh_fs080_N640_N768_N896_s12/N896_s12_mass_0p8_torque_0p005_mdot_2_N896.npz"
 )
 PHASE_ENTRY = Path(
-    "outputs/checkpoints/m5_eta_global_phase_dae_k13_98p125_N164/stage_00_etaE_98p125_N164.npz"
+    "outputs/checkpoints/m5_eta_phase_dae_simpson_k13_certified_98p125_N164/stage_00_etaE_98p125_N164.npz"
+)
+PHASE_K12 = Path(
+    "outputs/checkpoints/m5_eta_phase_dae_simpson_centered_k12_final_polish_98p125_N164/stage_00_etaE_98p125_N164.npz"
+)
+PHASE_K14 = Path(
+    "outputs/checkpoints/m5_eta_phase_dae_simpson_k14_fromk13_98p125_N164/stage_00_etaE_98p125_N164.npz"
+)
+PHASE_K12_TABLE = Path(
+    "outputs/tables/m5_eta_phase_dae_simpson_centered_k12_final_polish_98p125_N164.json"
+)
+PHASE_K13_TABLE = Path(
+    "outputs/tables/m5_eta_phase_dae_simpson_k13_certified_98p125_N164.json"
+)
+PHASE_K14_TABLE = Path(
+    "outputs/tables/m5_eta_phase_dae_simpson_k14_fromk13_98p125_N164.json"
+)
+PHASE_EXIT = Path(
+    "outputs/checkpoints/m5_eta_phase_dae_exit_refinement_98p125_N164/extend2_f8828125.npz"
+)
+PHASE_BASE_ANCHOR = Path(
+    "outputs/checkpoints/m5_energy_wind_powerlaw_mass_coupled_adaptive_0p015_to_0p03/zeta_0p03_N896.npz"
 )
 CLASSIFICATION = Path(
     "outputs/tables/m5_eta_phase_critical_classification_98p125_N164.json"
@@ -202,12 +233,36 @@ def main() -> None:
 
     case = _prepare("phase_dae_entry_N164")
     shutil.copy2(ROOT / PHASE_ENTRY, case / "state.npz")
+    shutil.copy2(ROOT / PHASE_K12, case / "k12_state.npz")
+    shutil.copy2(ROOT / PHASE_K14, case / "k14_state.npz")
+    shutil.copy2(ROOT / PHASE_EXIT, case / "exit_refinement_endpoint.npz")
+    shutil.copy2(ROOT / PHASE_BASE_ANCHOR, case / "base_anchor.npz")
+    for label, source in (
+        ("k12", PHASE_K12_TABLE),
+        ("k13", PHASE_K13_TABLE),
+        ("k14", PHASE_K14_TABLE),
+    ):
+        rows = json.loads((ROOT / source).read_text())
+        final = rows[-1]
+        _write_json(
+            case / f"{label}_summary.json",
+            {key: final[key] for key in PHASE_SUMMARY_KEYS if key in final},
+        )
     config, summary = _npz_config(PHASE_ENTRY)
     _write_json(case / "config.json", config)
     _write_key_value_csv(case / "summary.csv", summary)
     records += _finalize_case(
         case,
-        sources=[PHASE_ENTRY],
+        sources=[
+            PHASE_K12,
+            PHASE_ENTRY,
+            PHASE_K14,
+            PHASE_K12_TABLE,
+            PHASE_K13_TABLE,
+            PHASE_K14_TABLE,
+            PHASE_EXIT,
+            PHASE_BASE_ANCHOR,
+        ],
         status="SUPPORTED BUT NOT FULLY CERTIFIED",
         purpose="N164 global phase-DAE entry and interface regression state.",
         establishes="The phase segment can be inserted with controlled local residuals.",
@@ -317,6 +372,7 @@ def main() -> None:
     shutil.copy2(ROOT / ENDPOINT, case / "endpoint_validity_summary.json")
     shutil.copy2(ROOT / ANGULAR, case / "angular_ledger_summary.json")
     shutil.copy2(ROOT / OUTER, case / "outer_manifold_summary.json")
+    shutil.copy2(ROOT / CLASSIFICATION, case / "phase_critical_classification_summary.json")
     nominal = [
         {
             "label": row["label"],
@@ -343,7 +399,7 @@ def main() -> None:
     )
     records += _finalize_case(
         case,
-        sources=[ENDPOINT, ANGULAR, OUTER, OUTER_PROFILES, *figures],
+        sources=[ENDPOINT, ANGULAR, OUTER, OUTER_PROFILES, CLASSIFICATION, *figures],
         status="DIAGNOSTIC ONLY",
         purpose="P0 validity, angular-ledger, and independent outer-manifold review evidence.",
         establishes="The validity boundary, representation-ledger identity, and best surveyed conservative near-match.",
