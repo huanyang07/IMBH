@@ -40,9 +40,10 @@ This is the canonical project handoff. Status labels mean:
 | Inner/reservoir overlap audit | **DIAGNOSTIC ONLY** | Open reservoir passes `14.73-59.69 rg`; a 10% pressure sensitivity gives common wall/transonic `29.45-59.69 rg` | No common band passes the primary 5% pressure gate; absorption opacity is only bracketed |
 | One-way transonic/reservoir composite | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Flux mismatch `<2.1e-16`; N128/N256 composite luminosity varies only `0.20-0.24%` across `30-60 rg` | Primitive continuity fails: integrated-pressure log mismatch remains `0.327-0.334` |
 | Projected pressure-supported reservoir | **DIAGNOSTIC ONLY** | Full-support N64 roots reduce the rotation mismatch to `0.37%` with closed fluxes | No N128 case passes; pressure mismatch worsens to `0.356`; projection leaves `1.38%` force mismatch |
-| Common-stress fixed-Keplerian reservoir | **DIAGNOSTIC ONLY** | Shared `W=alpha Pi`; all `30-60 rg`, N64/N128/N256 roots close stress, energy, and conserved fluxes | Maximum primitive mismatch remains `0.20-0.30`, dominated by surface density |
-| Simultaneous non-Keplerian reservoir | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | `40-60 rg`, N64/N128/N256 roots close stress/radial/energy equations without projection; pressure and rotation match near `1e-3` | N256 density mismatch is `0.057-0.099`; `30 rg` stalls between support fractions `0.24-0.25`; inner solution remains frozen |
-| Fully coupled inner/outer ideal-wall control | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Chained `96/64 -> 144/96 -> 192/128` roots; full-rank `772x772` systems at `34.97-50.05 rg`; luminosity spread `1.76e-5`; fixed-band `H/R` spread `0.397%` | Ideal wall has no calibrated tidal torque/power; outer endpoint row remains a numerical closure; stability, time evolution, and wind are pending |
+| Common-stress fixed-Keplerian reservoir | **DIAGNOSTIC ONLY** | Corrected `Rout=335 rg`; all `30-60 rg`, N64/N128/N256 roots close stress, energy, and conserved fluxes | Maximum primitive mismatch remains `0.20-0.30`, dominated by surface density |
+| Simultaneous non-Keplerian reservoir | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Corrected `Rout=335 rg`, `R_I=40 rg`, N256 root seeds the full coupled solve | The older multi-interface canonical sweep inherited a `10000 rg` numerical buffer and is superseded for physical interpretation; inner solution remains frozen |
+| Fully coupled inner/outer ideal-wall control | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Corrected finite `Rout=335 rg`; chained `96/64 -> 144/96 -> 192/128` roots; full-rank `772x772` systems at `34.97-50.05 rg`; luminosity spread `5.22e-5`; fixed-band `H/R` spread `0.284%` | Ideal zero-mass-flux wall remains a limiting control; stability, time evolution, and wind are pending |
+| Binary pattern-power wall continuation | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **REJECTED** physically | Paired torque/power identity closes to `1.7e-16`; 25%, 50%, and 75% stages solve numerically | Tidal-band `H/R` exceeds `0.3` at 25% power and reaches `0.61`; full-power step fails; confinement is outside the one-zone validity regime |
 | Fully time-dependent total-energy signed-flux disk | **PLANNED** | Required to test accumulation, fronts, and limit cycles under physical feeding | Coupled mass+total-energy IMEX evolution not implemented |
 
 ## Frozen Target Under Review
@@ -107,12 +108,17 @@ N                    = 164
     `5.7%`. This is the best splice candidate so far, but not a certified
     physical branch.
 15. Releasing the inner entropy/eigenvalue/sonic state closes the interface.
-    Chained prolongation reaches Ninner192/Nouter128, where pressure, rotation,
-    and scale-height mismatches are below `1.7e-4` and the `772x772` Jacobian is
-    full rank. Roots at `34.97,40.04,44.78,50.05 rg` have luminosity spread
-    `1.76e-5` and common-band `H/R` spread `0.397%`. The raw maximum over the
-    moving outer domain varies by `3.90%` and is retained as a partition
-    diagnostic, not used as a fixed-domain invariance metric.
+    After correcting the reservoir edge from the inherited `10000 rg`
+    numerical buffer to the physical `335 rg` minidisk, chained prolongation
+    reaches Ninner192/Nouter128 with a full-rank `772x772` Jacobian. Roots at
+    `34.97,40.04,44.78,50.05 rg` have luminosity spread `5.22e-5` and
+    common-band `H/R` spread `0.284%`.
+16. Pairing the wall torque with binary pattern-speed power makes the outer
+    tidal band thick before full power is reached. At 25% differential work,
+    the band reaches `H/R=0.432`; at 75% it reaches `0.609`. The full-power
+    solve fails, but the physical validity gate has already rejected perfect
+    confinement. The next steady problem must allow overflow and solve for
+    the inner accretion rate.
 
 ## Claims That Are Not Allowed Yet
 
@@ -124,11 +130,10 @@ N                    = 164
 
 ## Next Scientific Work
 
-1. Preserve the open boundary and ideal wall as limiting controls, then add
-   one binary-calibrated tidal-torque family with pattern-speed power and an
-   explicit differential-work destination.
-2. Continue the physical torque amplitude from overflow toward confinement and
-   determine whether the warm/thick state lies within the binary torque budget.
+1. Promote the inner accretion rate to an eigenvalue and implement a coupled
+   open-overflow outer boundary on the finite `335 rg` domain.
+2. Continue one physical distributed tidal torque from the open limit only
+   while the Hill-band thickness and torque/power validity gates pass.
 3. Implement coupled mass+energy IMEX evolution, allowing
    accumulation when no steady state exists.
 4. Repeat validity-surface matching with a bordered global eigenvalue solve if
@@ -161,3 +166,4 @@ N                    = 164
 - Common stress and simultaneous reservoir: `reports/current/CODEX_COMMON_STRESS_AND_SIMULTANEOUS_RESERVOIR_RESULTS_2026-07-11.md`
 - Fully coupled rank prototype: `reports/current/CODEX_COUPLED_INNER_OUTER_RANK_PROTOTYPE_RESULTS_2026-07-11.md`
 - Coupled mesh/interface certification: `reports/current/CODEX_COUPLED_MESH_INTERFACE_CERTIFICATION_RESULTS_2026-07-11.md`
+- Coupled wall pattern-power gate: `reports/current/CODEX_COUPLED_WALL_PATTERN_POWER_RESULTS_2026-07-11.md`

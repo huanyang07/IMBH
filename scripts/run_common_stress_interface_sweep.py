@@ -34,6 +34,7 @@ STRESS_STAGES = (0.0, 0.25, 0.5, 0.75, 1.0)
 ALPHA = 0.01
 MU_STRESS = 0.0
 STRESS_FACTOR = 1.0
+RESERVOIR_OUTER_RADIUS_RG = 335.0
 
 
 def _json_default(value):
@@ -94,7 +95,7 @@ def _build_case(target_rg: float, n_reservoir: int):
     )
     grid = make_log_grid(
         interface_radius,
-        params.R_out_rg * potential.r_g,
+        RESERVOIR_OUTER_RADIUS_RG * potential.r_g,
         n_reservoir,
     )
     stream_rate = 5.0 * eddington_mdot(params.M2_g)

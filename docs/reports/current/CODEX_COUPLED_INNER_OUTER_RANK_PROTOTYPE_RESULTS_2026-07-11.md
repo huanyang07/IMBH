@@ -13,6 +13,9 @@ R_I = 40.04153642035986 rg.
 It changes no physical closure. The stream, ideal tidal-wall control,
 Paczynski-Wiita potential, vertical thermodynamics, total-pressure alpha
 stress, and corrected total-energy identity are inherited from `1146e67`.
+The reservoir edge is the corrected finite-minidisk value `335 rg`. Earlier
+versions of this runner accidentally inherited the transonic benchmark's
+`10000 rg` numerical buffer and are superseded for physical interpretation.
 
 ## Boundary Rank
 
@@ -30,9 +33,9 @@ stress/radial/energy rows, two flux-extraction rows, and two primitive
 continuity rows. The hard primitive conditions are `log Sigma` and `log T`;
 `Pi`, `Omega`, `H`, and `u` are audits.
 
-The old isolated outer boundary is at `10000 rg`, so its residual cannot
-anchor a truncated `40 rg` problem. The implemented initialization instead
-uses the canonical `Sigma,T` state at `40.0415 rg`. Coupling then uses the
+The old isolated inner solution's outer boundary residual cannot anchor a
+truncated `40 rg` problem. The implemented initialization instead uses the
+finite-domain `Sigma,T` state at `40.0415 rg`. Coupling then uses the
 rank-preserving target-jump homotopy
 
 ```text
@@ -59,9 +62,7 @@ relaxation is used.
 
 | `N_i/N_o` | Max residual | `Lrad/LEdd` | Max `H/R` | Jacobian condition |
 |---:|---:|---:|---:|---:|
-| 24/12 | `4.74e-9` | `1.44620` | `0.29688` | `5.93e4` |
-| 48/32 | `2.56e-9` | `1.44412` | `0.30800` | `1.23e5` |
-| 96/64 | `5.96e-9` | `1.44424` | `0.30955` | `2.47e5` |
+| 96/64 | `1.68e-8` | `1.34822` | `0.31023` | `2.47e5` |
 
 The `96/64` system has 388 unknowns and 388 residuals. At both `mu=0` and
 `mu=1`:
@@ -78,15 +79,15 @@ At full coupling:
 ```text
 ln Sigma continuity mismatch       1.78e-15
 ln T continuity mismatch           1.78e-15
-ln Pi audit mismatch               2.89e-4
-relative Omega audit mismatch     -6.32e-4
-ln H audit mismatch                2.89e-4
+ln Pi audit mismatch               4.44e-5
+relative Omega audit mismatch     -9.66e-5
+ln H audit mismatch                4.45e-5
 ln u audit mismatch                3.55e-15
-lambda0                            3.81878484
-R_son                              4.36100000 rg
+lambda0                            3.81876001
+R_son                              4.36112038 rg
 ```
 
-The unused sonic compatibility residual is `9.90e-13`. The composite remains
+The unused sonic compatibility residual is `1.36e-12`. The composite remains
 warm/thick rather than collapsing to the open cool state.
 
 Removing the outermost radial row in a rank-only audit exposes an endpoint-

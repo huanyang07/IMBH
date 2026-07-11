@@ -55,6 +55,12 @@ rejected sequence.
     Ninner192/Nouter128, and full-rank roots at `35-50 rg` preserve luminosity
     and fixed-band thickness. The next uncertainty is physical tidal closure,
     not numerical splicing.
+21. **Finite-minidisk correction and tidal-power gate:** the coupled reservoir
+    edge was corrected from an inherited `10000 rg` numerical buffer to
+    `335 rg`. The corrected root remains full rank and interface invariant.
+    Paired binary pattern-speed work makes the Hill tidal band exceed
+    `H/R=0.3` at 25% power, rejecting perfect confinement and selecting an
+    open-overflow solve with emergent inner accretion rate.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

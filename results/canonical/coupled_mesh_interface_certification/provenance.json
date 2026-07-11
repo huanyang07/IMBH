@@ -2,23 +2,23 @@
   "canonical_packaging_command": "PYTHONPATH=src python3 scripts/build_coupled_mesh_interface_canonical.py",
   "claim_scope": "Mesh and numerical-interface certification of the fully coupled no-wind ideal-wall control",
   "does_not_establish": "A physical tidal torque and power, endpoint-stencil independence, stability, time evolution, or wind.",
-  "establishes": "Chained full-root convergence through Ninner192/Nouter128 and full-rank roots at 35-50 rg with invariant luminosity and fixed-band thickness metrics.",
+  "establishes": "Chained full-root convergence through Ninner192/Nouter128 and full-rank roots at 35-50 rg with invariant luminosity and fixed-band thickness metrics on the finite 335 rg domain.",
   "numerical_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
   "payload_sha256": {
-    "config.json": "6297d83ba55d0cf4a9de677da955e283dea073909114bc04866d5ee46eadc29b",
-    "interface_R35_Ninner192_Nouter128.npz": "b76146b687b2bfddb08fb3c1936294f4d6d56b1e1c697bd2daf7b71526888133",
-    "interface_R45_Ninner192_Nouter128.npz": "2b7729ebffcc5b0569a72e6f02c324338d46c3ea4cf547845a034ef683bed35c",
-    "interface_R50_Ninner192_Nouter128.npz": "a21a1df8cecc779238aa1321fc6f7277d3fa73c400cf78df88c087c4eac063f9",
-    "interface_summary.json": "1808ceee80fe62502dc8e4566d45fc3100ce45398536f0152816f6c71a70b05a",
-    "mesh_Ninner144_Nouter96.npz": "526d365fb93a2578620dfee66afea74c458d8f149fea4fde861eab9ca89cadc1",
-    "mesh_Ninner192_Nouter128.npz": "55ce3b1a1058c377b002dbc897c3c45e737a05c1a1a0d72f178f5b5bbeefe271",
-    "mesh_summary.json": "326b9df5a19bd2df11aa9852ba72d9b41452342fd14d8648aa788633d981737d"
+    "config.json": "73e2499a7fe1ee1488a1116135d57f1829e17b7cb2234169e035ed0a254f053a",
+    "interface_R35_Ninner192_Nouter128.npz": "78c171a2926bbb4cd48dee4e6ad6214b2405420370bef6d0643c56b3359a1ffe",
+    "interface_R45_Ninner192_Nouter128.npz": "ed91ea695f17ace0a5cbf7e4dc363331a2978de0cb147e4fe57dd9e44027928f",
+    "interface_R50_Ninner192_Nouter128.npz": "467937b381e0978edb10d9f8aaddf379cf43826b0fb75797328d21e2c3cbd6d1",
+    "interface_summary.json": "d656476584e3561b31303299eaf99e7d5f7b1ba1fb9c971f5dc0253f665f6d2b",
+    "mesh_Ninner144_Nouter96.npz": "cb05adb8b071bb8a59a91af6f75ec871022a44e61ce4e44ab2aaf6c50c6e04e3",
+    "mesh_Ninner192_Nouter128.npz": "898ff2c04d4c8bede7b8437dcdacc1cc7f01a0ff90d0823cc9f28678b06b2e06",
+    "mesh_summary.json": "5e53f2f3b86f94ea10292ef04cbf6ca7be65ed741f5e088053909fbf7896e951"
   },
   "physical_status": "DIAGNOSTIC ONLY",
-  "retained_negative_diagnostic": "The raw maximum over the moving outer domain varies by 3.90%; it is not used as an interface-invariance metric because the domain itself changes.",
+  "retained_negative_diagnostic": "The raw maximum over the moving outer domain varies; it is not used as an interface-invariance metric because the domain itself changes.",
   "solver_generation_commands": [
     "PYTHONPATH=src python3 scripts/run_coupled_inner_outer_mesh_certification.py",
     "PYTHONPATH=src python3 scripts/run_coupled_inner_outer_interface_continuation.py"
   ],
-  "source_parent_commit": "ab3f751"
+  "source_parent_commit": "0667263"
 }

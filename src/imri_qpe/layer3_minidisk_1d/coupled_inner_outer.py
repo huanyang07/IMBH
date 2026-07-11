@@ -55,6 +55,9 @@ class CoupledInnerOuterContext:
     alpha: float = 0.01
     mu_stress: float = 0.0
     stress_factor: float = 1.0
+    wall_pattern_omega: float | None = None
+    wall_pattern_power_fraction: float = 0.0
+    wall_power_weights: np.ndarray | None = None
 
     def __post_init__(self) -> None:
         if not 0.0 <= self.coupling_fraction <= 1.0:
@@ -63,6 +66,34 @@ class CoupledInnerOuterContext:
             raise ValueError("sonic_pivot must be frozen to C1, C2, or K")
         if self.angular_flux_scale <= 0.0 or self.energy_flux_scale <= 0.0:
             raise ValueError("interface flux scales must be positive")
+        if not 0.0 <= self.wall_pattern_power_fraction <= 1.0:
+            raise ValueError("wall_pattern_power_fraction must lie in [0,1]")
+        if self.wall_pattern_omega is not None and (
+            not np.isfinite(self.wall_pattern_omega)
+            or self.wall_pattern_omega <= 0.0
+        ):
+            raise ValueError("wall_pattern_omega must be positive and finite")
+        if (
+            self.wall_pattern_power_fraction > 0.0
+            and self.wall_pattern_omega is None
+        ):
+            raise ValueError("positive wall pattern power requires pattern omega")
+        if self.wall_power_weights is not None:
+            weights = np.array(self.wall_power_weights, dtype=float, copy=True)
+            if (
+                weights.shape != self.outer_grid.centers.shape
+                or np.any(~np.isfinite(weights))
+                or np.any(weights < 0.0)
+                or not np.isclose(
+                    np.sum(weights),
+                    1.0,
+                    rtol=1.0e-12,
+                    atol=1.0e-15,
+                )
+            ):
+                raise ValueError("wall_power_weights must be normalized on the grid")
+            weights.setflags(write=False)
+            object.__setattr__(self, "wall_power_weights", weights)
         expected_radius = self.inner_params.R_out_rg * self.inner_params.r_g
         if not np.isclose(
             self.outer_grid.edges[0],
@@ -551,6 +582,11 @@ def evaluate_coupled_inner_outer_residual(
             radial_support_fraction=1.0,
             mu_stress=context.mu_stress,
             stress_factor=context.stress_factor,
+            wall_pattern_omega=context.wall_pattern_omega,
+            wall_pattern_power_fraction=(
+                context.wall_pattern_power_fraction
+            ),
+            wall_power_weights=context.wall_power_weights,
         )
     )
     flux_rows = np.asarray(

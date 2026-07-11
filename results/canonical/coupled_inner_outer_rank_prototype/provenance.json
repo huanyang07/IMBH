@@ -2,14 +2,14 @@
   "canonical_packaging_command": "PYTHONPATH=src python3 scripts/build_coupled_inner_outer_canonical.py",
   "claim_scope": "First fully coupled no-wind inner-transonic/outer-reservoir control at 40.041536 rg",
   "does_not_establish": "N128/N256 mesh certification, interface-position invariance, a physical tidal torque and power, stability, time evolution, or wind.",
-  "establishes": "A square 388-variable root with full scaled Jacobian rank, rank-two interface and sonic responses, conserved fluxes, and continuous Sigma and T at Ninner=96/Nouter=64.",
+  "establishes": "A square 388-variable root with full scaled Jacobian rank, rank-two interface and sonic responses, conserved fluxes, and continuous Sigma and T at Ninner=96/Nouter=64 on the finite 335 rg minidisk domain.",
   "numerical_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
   "payload_sha256": {
-    "config.json": "4d6206c591c3a527ad4d06d448674cdab81830d452b180f1206c9ebb698cff85",
-    "state.npz": "468cc25dd4569e7e19ebe6756164c426f7384f50efa9867924ff6e8e87ef2c3a",
-    "summary.json": "e35f785842c47895495056b8100a86b6bd5b1ece95bfa3654ee2ad9a1a4821e3"
+    "config.json": "acc24a46540828dd7d320bef8975def110facd6bdda7d49c4d3af84e7a4eebab",
+    "state.npz": "bbd7259fc4cf834f4bd5e1f649b73f4dd7c5306e40ffd4b4fa267550f58b09b9",
+    "summary.json": "5915ff47df3b7fd7d9e12c3c3dabeb4a7c864a9f543c3321f3eb92a277509de5"
   },
   "physical_status": "DIAGNOSTIC ONLY",
   "solver_generation_command": "PYTHONPATH=src python3 scripts/run_coupled_inner_outer_rank_prototype.py",
-  "source_parent_commit": "1146e67"
+  "source_parent_commit": "0667263"
 }

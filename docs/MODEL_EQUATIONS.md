@@ -191,9 +191,25 @@ pairing it with enthalpy adds an extra `Mdot d(Pi/Sigma)` term.
 `-Omega G` carries viscous torque work, so `Qvisc` is not added independently.
 `P_ext` is signed power applied to the disk, so a torque applied by a pattern
 has `P_ext=Omega_pattern T_disk`. Distributed external torque and power are
-named separately. The ideal wall is
-still a limiting boundary control; its companion pattern speed is not yet a
-physical closure.
+named separately.
+
+For the finite-minidisk wall control, the angular boundary applies
+`T_disk=-G_out`. The conservative face flux initially carries disk-rate work
+`-Omega_out G_out`. A continuation fraction `f_tide` converts this to the
+binary pattern rate by depositing the differential work over a normalized
+Hill-band kernel:
+
+```text
+P_heat = f_tide (Omega_out-Omega_pattern) G_out
+P_wall = -Omega_out G_out + P_heat
+       = -[(1-f_tide)Omega_out+f_tide Omega_pattern] G_out.
+```
+
+The kernel is zero below `0.35 R_H` and uses exact cell integrals. This pairing
+closes the torque/power identity, but it does not make a zero-mass-flux wall
+physical when the tidal band becomes geometrically thick. The production
+coupled reservoir ends at `335 rg`; the superseded `10000 rg` numerical buffer
+must not be interpreted as a Hill-truncated disk.
 
 ## Conserved Inner Interface
 

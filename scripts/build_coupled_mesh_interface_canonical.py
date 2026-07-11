@@ -61,7 +61,7 @@ def _rebuild_manifest() -> None:
     existing = json.loads(CANONICAL_SUMMARY.read_text())
     existing.update(
         {
-            "latest_source_parent_commit": "ab3f751",
+            "latest_source_parent_commit": "0667263",
             "case_count": len({row["case"] for row in rows}),
             "file_count": len(rows),
             "total_bytes": sum(int(row["bytes"]) for row in rows),
@@ -97,6 +97,7 @@ def run() -> None:
         CASE / "config.json",
         {
             "mesh_sequence": [[96, 64], [144, 96], [192, 128]],
+            "reservoir_outer_radius_rg": 335.0,
             "interface_targets_rg": [35.0, 40.0, 45.0, 50.0],
             "mesh_restart_policy": "prolongate_previous_full_mu1_root",
             "interface_continuation_policy": (
@@ -124,7 +125,7 @@ def run() -> None:
                 "PYTHONPATH=src python3 "
                 "scripts/build_coupled_mesh_interface_canonical.py"
             ),
-            "source_parent_commit": "ab3f751",
+            "source_parent_commit": "0667263",
             "numerical_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
             "physical_status": "DIAGNOSTIC ONLY",
             "claim_scope": (
@@ -134,14 +135,14 @@ def run() -> None:
             "establishes": (
                 "Chained full-root convergence through Ninner192/Nouter128 and "
                 "full-rank roots at 35-50 rg with invariant luminosity and "
-                "fixed-band thickness metrics."
+                "fixed-band thickness metrics on the finite 335 rg domain."
             ),
             "does_not_establish": (
                 "A physical tidal torque and power, endpoint-stencil "
                 "independence, stability, time evolution, or wind."
             ),
             "retained_negative_diagnostic": (
-                "The raw maximum over the moving outer domain varies by 3.90%; "
+                "The raw maximum over the moving outer domain varies; "
                 "it is not used as an interface-invariance metric because the "
                 "domain itself changes."
             ),

@@ -1,0 +1,15 @@
+{
+  "canonical_packaging_command": "PYTHONPATH=src python3 scripts/build_coupled_wall_pattern_power_canonical.py",
+  "claim_scope": "Paired wall torque/pattern-speed power continuation on the fully coupled finite 335 rg minidisk",
+  "does_not_establish": "Nonexistence of a physical tidally interacting state, because overflow, a free inner accretion rate, and multidimensional tidal transport are not represented.",
+  "establishes": "The disk-rate wall control is mesh supported, but depositing 25% of the differential pattern work makes the tidal band geometrically thick; the confined one-zone continuation is outside its declared validity regime before full power.",
+  "numerical_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
+  "payload_sha256": {
+    "config.json": "77a380250b6e88f6aca837e1ad3f569a4f205e92705ed7830a7108932952f0a8",
+    "last_accepted_state.npz": "b88f94745052d6489e3aff919d776ffca8a9e292806e95cfae525e23d1b437df",
+    "summary.json": "2470b4ac67382d6da28303c43e39fe56696d119d3cba035609f1d4c52e60b513"
+  },
+  "physical_status": "REJECTED",
+  "solver_generation_command": "PYTHONPATH=src python3 scripts/run_coupled_wall_pattern_power_continuation.py",
+  "source_parent_commit": "0667263"
+}

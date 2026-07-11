@@ -29,6 +29,7 @@ TRANSONIC = ROOT / "results/canonical/no_wind_mdot5/state.npz"
 OUTPUT = ROOT / "outputs/tables/two_domain_interface_sweep.json"
 INTERFACE_TARGETS_RG = (30.0, 40.0, 50.0, 60.0)
 RESERVOIR_RESOLUTIONS = (128, 256)
+RESERVOIR_OUTER_RADIUS_RG = 335.0
 
 
 def _optional_pair(data, key: str) -> tuple[float, float] | None:
@@ -129,7 +130,7 @@ def _solve_one(
     )
     grid = make_log_grid(
         interface_radius,
-        params.R_out_rg * potential.r_g,
+        RESERVOIR_OUTER_RADIUS_RG * potential.r_g,
         n_reservoir,
     )
     stream_rate = 5.0 * eddington_mdot(params.M2_g)

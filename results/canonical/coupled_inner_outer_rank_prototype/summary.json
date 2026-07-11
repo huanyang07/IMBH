@@ -1,7 +1,7 @@
 {
   "actual_interface_rg": 40.04153642035986,
   "canonical_anchor": "log_surface_density_and_log_temperature",
-  "composite_Lrad_over_LEdd": 1.4442387970875596,
+  "composite_Lrad_over_LEdd": 1.3482241954864296,
   "coupling_stages_requested": [
     0.0,
     0.1,
@@ -10,56 +10,56 @@
     0.75,
     1.0
   ],
-  "inner_Lrad_over_LEdd": 0.8302867297171503,
+  "inner_Lrad_over_LEdd": 0.8300892431935266,
   "interface_homotopy": "reference_primitive_jump_to_zero",
-  "max_outer_H_over_R": 0.30954671812266876,
+  "max_outer_H_over_R": 0.3102314670780157,
   "n_inner": 96,
   "n_outer": 64,
   "next_stage": "mesh_certification",
-  "outer_Lrad_over_LEdd": 0.6139520673704093,
+  "outer_Lrad_over_LEdd": 0.518134952292903,
   "rank_audits": {
     "mu_0": {
-      "condition_estimate": 246768.1438892459,
+      "condition_estimate": 246766.87156969006,
       "endpoint_null_vectors": {
         "inner_radial": {
-          "first_three_outer_cells": 0.5336523541053733,
-          "inner": 0.802918328013442,
-          "interface_fluxes": 0.012998296269679624,
-          "last_three_outer_cells": 1.981533764365434e-05,
-          "outer_omega": 0.1509403025410908,
-          "outer_sigma": 0.5663121024612457,
-          "outer_temperature": 0.10798532543319142
+          "first_three_outer_cells": 0.512340555309793,
+          "inner": 0.6682108242782773,
+          "interface_fluxes": 0.011600659350625226,
+          "last_three_outer_cells": 1.5563236331882622e-05,
+          "outer_omega": 0.165847002499093,
+          "outer_sigma": 0.7126282402246332,
+          "outer_temperature": 0.13422176431705923
         },
         "outer_radial": {
-          "first_three_outer_cells": 5.948615108157298e-16,
-          "inner": 6.952187232269852e-14,
-          "interface_fluxes": 1.7702110337882015e-16,
-          "last_three_outer_cells": 0.9999999999999999,
-          "outer_omega": 0.3831522398263361,
-          "outer_sigma": 0.7447196433934461,
-          "outer_temperature": 0.5464311611356005
+          "first_three_outer_cells": 1.8504771518438723e-05,
+          "inner": 5.8654282245607756e-05,
+          "interface_fluxes": 7.655648749628029e-06,
+          "last_three_outer_cells": 0.9956520665564907,
+          "outer_omega": 0.03651367664194962,
+          "outer_sigma": 0.9917485098764248,
+          "outer_temperature": 0.12288873454082218
         }
       },
       "interface_response": [
         [
-          -1.0690909763017726,
-          0.3808045197302714
+          -0.6927546942685237,
+          -0.8882790993580353
         ],
         [
-          -0.1018024464972605,
-          0.13164258827760583
+          -0.012782545712550723,
+          -0.16390878659572616
         ]
       ],
       "interface_response_rank": 2,
       "interface_response_singular_values": [
-        1.1435513653236957,
-        0.08917052138709823
+        1.1348431920839304,
+        0.09005130741044395
       ],
       "jacobian_shape": [
         388,
         388
       ],
-      "largest_singular_value": 739.3186322664736,
+      "largest_singular_value": 739.3186322664728,
       "preboundary_nullity": 2,
       "ranks_by_relative_threshold": {
         "1e-08": 388,
@@ -67,12 +67,12 @@
         "1e-12": 388
       },
       "smallest_six_singular_values": [
-        0.11892592426381839,
-        0.1184348729373116,
-        0.11094280206741555,
-        0.08317265898113588,
-        0.006968738116332364,
-        0.002996005159394859
+        0.07270425476439243,
+        0.06437341120127169,
+        0.05412881559504472,
+        0.014267601045473945,
+        0.006968733204963823,
+        0.002996020606670778
       ],
       "sonic_rank": 2,
       "sonic_singular_values": [
@@ -80,63 +80,63 @@
         0.010526682978352981
       ],
       "weakest_left_block_norms": {
-        "flux_extraction": 0.0012511854998375925,
-        "inner_core": 0.999998733902406,
-        "interface_boundary": 0.0009153457426499005,
-        "outer_energy": 0.00035441168898228535,
-        "outer_radial": 5.605135259972509e-05,
-        "outer_stress": 1.1009162325106015e-05
+        "flux_extraction": 0.001248938358959759,
+        "inner_core": 0.999998760064466,
+        "interface_boundary": 0.0009132390936342912,
+        "outer_energy": 0.00022221023316820163,
+        "outer_radial": 0.00013210598318217986,
+        "outer_stress": 0.00013851890096156633
       },
       "weakest_right_block_norms": {
-        "inner": 0.999991295572215,
-        "interface_fluxes": 0.002387178447195414,
-        "outer_omega": 0.0006021881911945941,
-        "outer_sigma": 0.0030128292343666956,
-        "outer_temperature": 0.0015067807574607418
+        "inner": 0.9999925058449458,
+        "interface_fluxes": 0.002384968053604045,
+        "outer_omega": 0.000955098819494307,
+        "outer_sigma": 0.0024818550323373574,
+        "outer_temperature": 0.0014927703014071872
       }
     },
     "mu_1": {
-      "condition_estimate": 246954.34185197495,
+      "condition_estimate": 246977.50708019157,
       "endpoint_null_vectors": {
         "inner_radial": {
-          "first_three_outer_cells": 0.53188959213109,
-          "inner": 0.804337036997621,
-          "interface_fluxes": 0.014741932215398382,
-          "last_three_outer_cells": 1.4599309615827907e-05,
-          "outer_omega": 0.15071269689029448,
-          "outer_sigma": 0.5643702109829392,
-          "outer_temperature": 0.1076872986919603
+          "first_three_outer_cells": 0.51121030323555,
+          "inner": 0.6698067589607404,
+          "interface_fluxes": 0.013198200563660997,
+          "last_three_outer_cells": 1.0101975813066612e-05,
+          "outer_omega": 0.16563379726679894,
+          "outer_sigma": 0.7111948742212502,
+          "outer_temperature": 0.13398510826502735
         },
         "outer_radial": {
-          "first_three_outer_cells": 3.6670946487721823e-16,
-          "inner": 5.1947596761222595e-14,
-          "interface_fluxes": 1.1368860216063678e-16,
-          "last_three_outer_cells": 0.9999999999999998,
-          "outer_omega": 0.38315175748822605,
-          "outer_sigma": 0.7447207764298478,
-          "outer_temperature": 0.5464299551519922
+          "first_three_outer_cells": 1.8505492883268857e-05,
+          "inner": 5.845077382207373e-05,
+          "interface_fluxes": 7.596044190348619e-06,
+          "last_three_outer_cells": 0.9956516049302178,
+          "outer_omega": 0.03651424629678198,
+          "outer_sigma": 0.991748484968284,
+          "outer_temperature": 0.12288876639586806
         }
       },
       "interface_response": [
         [
-          -0.7103399682424508,
-          -0.862448932666933
+          0.03307234978648541,
+          1.1047721915457567
         ],
         [
-          -0.01754002586444093,
-          -0.16433512500172381
+          -0.08783064737841083,
+          0.13736327462508607
         ]
       ],
       "interface_response_rank": 2,
       "interface_response_singular_values": [
-        1.1258641595126986,
-        0.09024750457735856
+        1.1134975362158728,
+        0.09122227912649371
       ],
       "jacobian_shape": [
         388,
         388
       ],
-      "largest_singular_value": 738.2544340561808,
+      "largest_singular_value": 738.1209420661423,
       "preboundary_nullity": 2,
       "ranks_by_relative_threshold": {
         "1e-08": 388,
@@ -144,38 +144,38 @@
         "1e-12": 388
       },
       "smallest_six_singular_values": [
-        0.1189262882598694,
-        0.11843527437262256,
-        0.11094474515369146,
-        0.08423579068470047,
-        0.0069587593667336444,
-        0.002989436948222163
+        0.07270483601478311,
+        0.06437403366200851,
+        0.05412905442289835,
+        0.014267356058337656,
+        0.00695750719593695,
+        0.0029886160516896
       ],
       "sonic_rank": 2,
       "sonic_singular_values": [
-        0.12299504709029405,
-        0.01050805917057587
+        0.12298382654122067,
+        0.010505689681855045
       ],
       "weakest_left_block_norms": {
-        "flux_extraction": 0.0012463027839165377,
-        "inner_core": 0.9999987267282083,
-        "interface_boundary": 0.0009307870063020621,
-        "outer_energy": 0.0003516641013749656,
-        "outer_radial": 5.5834434490027596e-05,
-        "outer_stress": 1.1034405522710973e-05
+        "flux_extraction": 0.0012432200709139322,
+        "inner_core": 0.9999987505059234,
+        "interface_boundary": 0.0009319312689184458,
+        "outer_energy": 0.00022028773972777516,
+        "outer_radial": 0.00013162927001055983,
+        "outer_stress": 0.00013799131957964068
       },
       "weakest_right_block_norms": {
-        "inner": 0.9999913035137937,
-        "interface_fluxes": 0.0023884969388846037,
-        "outer_omega": 0.0006019594659051645,
-        "outer_sigma": 0.0030099182543295217,
-        "outer_temperature": 0.0015053292199223704
+        "inner": 0.9999925123657957,
+        "interface_fluxes": 0.002386549665291038,
+        "outer_omega": 0.000954178086593401,
+        "outer_sigma": 0.0024790413370754994,
+        "outer_temperature": 0.0014911375748957035
       }
     }
   },
   "reached_full_coupling": true,
-  "reference_log_surface_density_jump": 0.07246900744628881,
-  "reference_log_temperature_jump": 0.009463890892384086,
+  "reference_log_surface_density_jump": 0.07990303192311288,
+  "reference_log_temperature_jump": 0.010212175603230733,
   "residual_count": 388,
   "sonic_pivot": "C1",
   "stages": [
@@ -189,13 +189,13 @@
         "flux_extraction": 0.0,
         "inner_core": 6.831540250415593e-08,
         "interface_boundary": 0.0,
-        "outer_energy": 7.001890494487433e-14,
-        "outer_radial": 1.5276230889835836e-14,
-        "outer_stress": 2.025366135939811e-14
+        "outer_energy": 2.6615803589945285e-13,
+        "outer_radial": 1.6932295144259852e-14,
+        "outer_stress": 7.782037055169414e-15
       },
       "continuity_residual": [
-        0.07246900744628881,
-        0.009463890892384086
+        0.07990303192311288,
+        0.010212175603230733
       ],
       "interface_angular_flux": 1.3831089713762555e+43,
       "interface_energy_flux": -9.54241271016893e+41,
@@ -205,10 +205,10 @@
       "mu": 0.0,
       "nfev": 1,
       "primitive_audits": {
-        "log_inflow_speed": -0.07246900744629055,
-        "log_integrated_pressure": 0.0035732862615999376,
-        "log_scale_height": -0.03430287529621481,
-        "omega_relative": 0.0007063395387328997
+        "log_inflow_speed": -0.07990303192311295,
+        "log_integrated_pressure": 0.0018855885967865103,
+        "log_scale_height": -0.038986410901122696,
+        "omega_relative": 0.0006434535580978441
       },
       "sonic_radius_rg": 4.360056301281862,
       "unused_sonic_compatibility": 9.140437229049468e-10
@@ -216,172 +216,172 @@
     {
       "accepted": true,
       "anchor_residual": [
-        0.0008547839078865138,
-        0.00012864038338022965
+        0.0009135160800290976,
+        0.00012982768195612948
       ],
       "block_maximum_residuals": {
-        "flux_extraction": 1.3008705576846085e-11,
-        "inner_core": 4.8174396807154736e-11,
-        "interface_boundary": 2.3175905639050143e-15,
-        "outer_energy": 9.312610569003125e-10,
-        "outer_radial": 1.7947905484655126e-10,
-        "outer_stress": 7.952305663928317e-11
+        "flux_extraction": 1.8113430618650347e-11,
+        "inner_core": 7.922633925112616e-11,
+        "interface_boundary": 1.9550333574258616e-15,
+        "outer_energy": 2.6338018812449534e-09,
+        "outer_radial": 5.433451994764959e-10,
+        "outer_stress": 8.121486960028344e-11
       },
       "continuity_residual": [
-        0.06522210670165762,
-        0.008517501803146033
+        0.07191272873080301,
+        0.009190958042905706
       ],
-      "interface_angular_flux": 1.3831020019575901e+43,
-      "interface_energy_flux": -9.548346328924788e+41,
-      "lambda0": 3.8189601866753797,
-      "maximum_residual": 9.312610569003125e-10,
+      "interface_angular_flux": 1.383101133599359e+43,
+      "interface_energy_flux": -9.549059153680634e+41,
+      "lambda0": 3.818957789002968,
+      "maximum_residual": 2.6338018812449534e-09,
       "message": "residual tolerance reached",
       "mu": 0.1,
       "nfev": 5,
       "primitive_audits": {
-        "log_inflow_speed": -0.0652221067016575,
-        "log_integrated_pressure": 0.0032447569154779,
-        "log_scale_height": -0.030843689596957706,
-        "omega_relative": 0.0005724028826431225
+        "log_inflow_speed": -0.0719127287308012,
+        "log_integrated_pressure": 0.0017013807883229466,
+        "log_scale_height": -0.03508336320920245,
+        "omega_relative": 0.0005693979122084322
       },
-      "sonic_radius_rg": 4.360149538425549,
-      "unused_sonic_compatibility": 1.4172728296227832e-13
+      "sonic_radius_rg": 4.3601611558231435,
+      "unused_sonic_compatibility": 1.9303990345425353e-13
     },
     {
       "accepted": true,
       "anchor_residual": [
-        0.002141558918150821,
-        0.0003222665166990879
+        0.0022897723626655875,
+        0.00032537429929391237
       ],
       "block_maximum_residuals": {
-        "flux_extraction": 2.8519097777152708e-11,
-        "inner_core": 6.894513945188242e-11,
-        "interface_boundary": 1.7763568394002505e-15,
-        "outer_energy": 2.136445005386859e-09,
-        "outer_radial": 4.5322786006535417e-10,
-        "outer_stress": 1.8087496818084106e-10
+        "flux_extraction": 4.1449154361169447e-11,
+        "inner_core": 1.0540587023364097e-10,
+        "interface_boundary": 2.220446049250313e-15,
+        "outer_energy": 6.054195805839717e-09,
+        "outer_radial": 1.3646639411589294e-09,
+        "outer_stress": 1.8425465348335645e-10
       },
       "continuity_residual": [
-        0.054351755584717054,
-        0.007097918169289841
+        0.05992727394233377,
+        0.00765913170242527
       ],
-      "interface_angular_flux": 1.3830915219430013e+43,
-      "interface_energy_flux": -9.557273114894586e+41,
-      "lambda0": 3.818931249721767,
-      "maximum_residual": 2.136445005386859e-09,
+      "interface_angular_flux": 1.3830893388776591e+43,
+      "interface_energy_flux": -9.559064959129693e+41,
+      "lambda0": 3.8189252219381227,
+      "maximum_residual": 6.054195805839717e-09,
       "message": "residual tolerance reached",
       "mu": 0.25,
       "nfev": 5,
       "primitive_audits": {
-        "log_inflow_speed": -0.05435175558471893,
-        "log_integrated_pressure": 0.002751994751168814,
-        "log_scale_height": -0.025654895120640956,
-        "omega_relative": 0.0003715461682756341
+        "log_inflow_speed": -0.05992727394233186,
+        "log_integrated_pressure": 0.0014251088304883088,
+        "log_scale_height": -0.029228771793884948,
+        "omega_relative": 0.00045833620208137854
       },
-      "sonic_radius_rg": 4.36028985430504,
-      "unused_sonic_compatibility": 3.1996587960793707e-13
+      "sonic_radius_rg": 4.360319063450359,
+      "unused_sonic_compatibility": 4.370649125722408e-13
     },
     {
       "accepted": true,
       "anchor_residual": [
-        0.004298785084962731,
-        0.0006467969363406212
+        0.0045999724658400964,
+        0.0006534954148111893
       ],
       "block_maximum_residuals": {
-        "flux_extraction": 8.919249842889216e-11,
-        "inner_core": 1.7990355684264582e-10,
-        "interface_boundary": 2.6645352591003757e-15,
-        "outer_energy": 6.064822879470469e-09,
-        "outer_radial": 1.3872205032021576e-09,
-        "outer_stress": 5.048870235089131e-10
+        "flux_extraction": 1.3933666381380769e-10,
+        "inner_core": 2.861761944795633e-10,
+        "interface_boundary": 1.7763568394002505e-15,
+        "outer_energy": 1.7232686871205946e-08,
+        "outer_radial": 4.166341891970984e-09,
+        "outer_stress": 5.127101984502463e-10
       },
       "continuity_residual": [
-        0.03623450372314707,
-        0.004731945446192043
+        0.039951515961558215,
+        0.005106087801616255
       ],
-      "interface_angular_flux": 1.3830739653727676e+43,
-      "interface_energy_flux": -9.572223760264501e+41,
-      "lambda0": 3.818882773295126,
-      "maximum_residual": 6.064822879470469e-09,
+      "interface_angular_flux": 1.3830695573920174e+43,
+      "interface_energy_flux": -9.57584111138764e+41,
+      "lambda0": 3.81887060217328,
+      "maximum_residual": 1.7232686871205946e-08,
       "message": "residual tolerance reached",
       "mu": 0.5,
       "nfev": 5,
       "primitive_audits": {
-        "log_inflow_speed": -0.03623450372314706,
-        "log_integrated_pressure": 0.0019308086804736382,
-        "log_scale_height": -0.017006862225202615,
-        "omega_relative": 3.6912971420905984e-05
+        "log_inflow_speed": -0.039951515961558166,
+        "log_integrated_pressure": 0.0009647604907083035,
+        "log_scale_height": -0.019471066973384403,
+        "omega_relative": 0.00027329076415100894
       },
-      "sonic_radius_rg": 4.36052494433884,
-      "unused_sonic_compatibility": 9.06724604992977e-13
+      "sonic_radius_rg": 4.360583932202897,
+      "unused_sonic_compatibility": 1.2422091350195193e-12
     },
     {
       "accepted": true,
       "anchor_residual": [
-        0.006472309343219962,
-        0.000973673097067973
+        0.0069315163830623305,
+        0.0009844789776742857
       ],
       "block_maximum_residuals": {
-        "flux_extraction": 9.43909536106044e-11,
-        "inner_core": 1.8856836651818774e-10,
-        "interface_boundary": 3.9968028886505635e-15,
-        "outer_energy": 6.012496841389901e-09,
-        "outer_radial": 1.4214847112307583e-09,
-        "outer_stress": 4.995202193226682e-10
+        "flux_extraction": 1.4808162100207218e-10,
+        "inner_core": 2.9998678900828596e-10,
+        "interface_boundary": 8.881784197001252e-16,
+        "outer_energy": 1.70375428097488e-08,
+        "outer_radial": 4.2877035988803365e-09,
+        "outer_stress": 5.057156780301843e-10
       },
       "continuity_residual": [
-        0.018117251861568207,
-        0.002365972723097798
+        0.019975757980779107,
+        0.002553043900807239
       ],
-      "interface_angular_flux": 1.3830562918301825e+43,
-      "interface_energy_flux": -9.58726906633938e+41,
-      "lambda0": 3.8188339738895904,
-      "maximum_residual": 6.012496841389901e-09,
+      "interface_angular_flux": 1.383049614665325e+43,
+      "interface_energy_flux": -9.59274756960165e+41,
+      "lambda0": 3.8188155371967705,
+      "maximum_residual": 1.70375428097488e-08,
       "message": "residual tolerance reached",
       "mu": 0.75,
       "nfev": 5,
       "primitive_audits": {
-        "log_inflow_speed": -0.018117251861568158,
-        "log_integrated_pressure": 0.0011097266536704193,
-        "log_scale_height": -0.008358777307815004,
-        "omega_relative": -0.0002975617914728924
+        "log_inflow_speed": -0.019975757980780846,
+        "log_integrated_pressure": 0.0005045415306211107,
+        "log_scale_height": -0.009713297463041129,
+        "omega_relative": 8.831569150107681e-05
       },
-      "sonic_radius_rg": 4.360761634635535,
-      "unused_sonic_compatibility": 9.482518292557703e-13
+      "sonic_radius_rg": 4.360851003550728,
+      "unused_sonic_compatibility": 1.3021869938426067e-12
     },
     {
       "accepted": true,
       "anchor_residual": [
-        0.008662767018883244,
-        0.0013029767279046922
+        0.009285328927242986,
+        0.001318441047946095
       ],
       "block_maximum_residuals": {
-        "flux_extraction": 9.977265283746542e-11,
-        "inner_core": 1.9712411219520864e-10,
-        "interface_boundary": 1.7763568394002505e-15,
-        "outer_energy": 5.960716043859159e-09,
-        "outer_radial": 1.4566406516941784e-09,
-        "outer_stress": 4.942217506583537e-10
+        "flux_extraction": 1.5713841739283327e-10,
+        "inner_core": 3.139121623148669e-10,
+        "interface_boundary": 3.552713678800501e-15,
+        "outer_energy": 1.6844452526677894e-08,
+        "outer_radial": 4.412756593768489e-09,
+        "outer_stress": 4.988098218028002e-10
       },
       "continuity_residual": [
-        -1.7763568394002505e-15,
-        1.7763568394002505e-15
+        -3.552713678800501e-15,
+        -1.7763568394002505e-15
       ],
-      "interface_angular_flux": 1.3830384959632722e+43,
-      "interface_energy_flux": -9.602413459064089e+41,
-      "lambda0": 3.818784836727527,
-      "maximum_residual": 5.960716043859159e-09,
+      "interface_angular_flux": 1.3830295029166104e+43,
+      "interface_energy_flux": -9.60979074879069e+41,
+      "lambda0": 3.8187600055241093,
+      "maximum_residual": 1.6844452526677894e-08,
       "message": "residual tolerance reached",
       "mu": 1.0,
       "nfev": 5,
       "primitive_audits": {
         "log_inflow_speed": 3.5527136788004946e-15,
-        "log_integrated_pressure": 0.00028874726991753223,
-        "log_scale_height": 0.0002893589310910147,
-        "omega_relative": -0.0006318795602199093
+        "log_integrated_pressure": 4.444989601730522e-05,
+        "log_scale_height": 4.453571004727463e-05,
+        "omega_relative": -9.659016696140463e-05
       },
-      "sonic_radius_rg": 4.36099999765332,
-      "unused_sonic_compatibility": 9.897247670563558e-13
+      "sonic_radius_rg": 4.361120382914782,
+      "unused_sonic_compatibility": 1.3625047103556956e-12
     }
   ],
   "target_interface_rg": 40.0,

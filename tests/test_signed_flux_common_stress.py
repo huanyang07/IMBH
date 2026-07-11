@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 
 from imri_qpe.layer3_minidisk_1d import (
     PaczynskiWiitaPotential,
@@ -8,12 +9,15 @@ from imri_qpe.layer3_minidisk_1d import (
     SignedThermalClosure,
     common_alpha_stress_torque,
     diffusive_alpha_torque,
+    fiducial_hill_tidal_geometry,
+    hill_outer_torque_weights,
     make_log_grid,
     normalized_stream_injection_state,
     solve_common_stress_total_energy_steady,
     solve_nonkeplerian_common_stress_steady,
     solve_signed_flux_steady,
     solve_signed_thermal_steady,
+    wall_pattern_power_correction,
 )
 from imri_qpe.scales import eddington_mdot
 from imri_qpe.units import solar_masses_to_g
@@ -77,6 +81,34 @@ def test_diffusive_and_common_stress_differ_by_keplerian_shear() -> None:
     expected = -potential.dln_omega_k_dlnR(grid.centers)
 
     assert np.allclose(diffusive / common, expected, rtol=2.0e-13)
+
+
+def test_wall_pattern_power_correction_closes_external_work_identity() -> None:
+    _mass, _potential, grid, transport, _closure, _thermal = _supplied_wall()
+    pattern_omega = 0.2 * transport.omega_faces[-1]
+    fraction = 0.6
+    geometry = fiducial_hill_tidal_geometry()
+    weights = hill_outer_torque_weights(grid, geometry.hill_radius)
+    correction = wall_pattern_power_correction(
+        transport,
+        pattern_omega,
+        fraction,
+        weights,
+    )
+    torque = transport.viscous_torque_faces[-1]
+    effective_power = (
+        -transport.omega_faces[-1] * torque + np.sum(correction)
+    )
+    expected = -(
+        (1.0 - fraction) * transport.omega_faces[-1]
+        + fraction * pattern_omega
+    ) * torque
+
+    assert np.sum(weights) == pytest.approx(1.0, rel=2.0e-15)
+    assert np.all(weights[grid.edges[1:] <= 0.35 * geometry.hill_radius] == 0.0)
+    assert np.all(correction >= 0.0)
+    assert np.count_nonzero(correction) > 1
+    assert effective_power == pytest.approx(expected, rel=2.0e-15)
 
 
 def test_common_stress_homotopy_closes_torque_and_total_energy() -> None:

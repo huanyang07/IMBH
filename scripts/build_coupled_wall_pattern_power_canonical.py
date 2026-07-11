@@ -1,4 +1,4 @@
-"""Package the first fully coupled inner/outer rank prototype."""
+"""Package the finite-minidisk wall pattern-power decision gate."""
 
 from __future__ import annotations
 
@@ -11,9 +11,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CANONICAL = ROOT / "results/canonical"
-CASE = CANONICAL / "coupled_inner_outer_rank_prototype"
-SUMMARY_SOURCE = ROOT / "outputs/tables/coupled_inner_outer_rank_prototype.json"
-STATE_SOURCE = ROOT / "outputs/checkpoints/coupled_inner_outer_rank_prototype.npz"
+CASE = CANONICAL / "coupled_wall_pattern_power"
+SUMMARY_SOURCE = (
+    ROOT / "outputs/tables/coupled_wall_pattern_power_continuation.json"
+)
+STATE_SOURCE = ROOT / "outputs/checkpoints/coupled_wall_pattern_power_full.npz"
 MANIFEST = ROOT / "results/manifests/canonical_artifacts.csv"
 CANONICAL_SUMMARY = ROOT / "results/manifests/canonical_summary.json"
 
@@ -35,8 +37,7 @@ def _rebuild_manifest() -> None:
     for case in sorted(path for path in CANONICAL.iterdir() if path.is_dir()):
         provenance = json.loads((case / "provenance.json").read_text())
         status = provenance.get(
-            "scientific_status",
-            provenance.get("numerical_status"),
+            "scientific_status", provenance.get("numerical_status")
         )
         for path in sorted(item for item in case.iterdir() if item.is_file()):
             rows.append(
@@ -50,9 +51,7 @@ def _rebuild_manifest() -> None:
             )
     with MANIFEST.open("w", newline="") as handle:
         writer = csv.DictWriter(
-            handle,
-            fieldnames=rows[0].keys(),
-            lineterminator="\n",
+            handle, fieldnames=rows[0].keys(), lineterminator="\n"
         )
         writer.writeheader()
         writer.writerows(rows)
@@ -73,25 +72,28 @@ def run() -> None:
     for source in (SUMMARY_SOURCE, STATE_SOURCE):
         if not source.is_file():
             raise FileNotFoundError(f"missing production result: {source}")
+    summary = json.loads(SUMMARY_SOURCE.read_text())
+    if summary["next_stage"] != "promote_inner_mdot_and_test_open_overflow":
+        raise RuntimeError("pattern-power decision gate has not selected overflow")
+
     CASE.mkdir(parents=True, exist_ok=True)
     for path in CASE.iterdir():
         if path.is_file():
             path.unlink()
-
     shutil.copy2(SUMMARY_SOURCE, CASE / "summary.json")
-    shutil.copy2(STATE_SOURCE, CASE / "state.npz")
+    shutil.copy2(STATE_SOURCE, CASE / "last_accepted_state.npz")
     _write_json(
         CASE / "config.json",
         {
-            "interface_rg": 40.04153642035986,
             "reservoir_outer_radius_rg": 335.0,
-            "inner_nodes": 96,
-            "outer_cells": 64,
-            "coupling_stages": [0.0, 0.1, 0.25, 0.5, 0.75, 1.0],
-            "hard_interface_conditions": ["log_surface_density", "log_temperature"],
+            "hill_radius_rg": summary["hill_radius_secondary_rg"],
+            "pattern_omega_s_inverse": summary["rows"][0][
+                "binary_pattern_omega"
+            ],
+            "tidal_kernel_onset_hill_fraction": 0.35,
+            "power_fractions": summary["power_stages_requested"],
+            "tidal_band_validity_gate_H_over_R": 0.3,
             "wind": False,
-            "outer_boundary": "ideal_tidal_wall_control",
-            "stress": "shared_integrated_alpha_pressure",
         },
     )
     payload = sorted(path for path in CASE.iterdir() if path.is_file())
@@ -100,29 +102,29 @@ def run() -> None:
         {
             "solver_generation_command": (
                 "PYTHONPATH=src python3 "
-                "scripts/run_coupled_inner_outer_rank_prototype.py"
+                "scripts/run_coupled_wall_pattern_power_continuation.py"
             ),
             "canonical_packaging_command": (
                 "PYTHONPATH=src python3 "
-                "scripts/build_coupled_inner_outer_canonical.py"
+                "scripts/build_coupled_wall_pattern_power_canonical.py"
             ),
             "source_parent_commit": "0667263",
             "numerical_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
-            "physical_status": "DIAGNOSTIC ONLY",
+            "physical_status": "REJECTED",
             "claim_scope": (
-                "First fully coupled no-wind inner-transonic/outer-reservoir "
-                "control at 40.041536 rg"
+                "Paired wall torque/pattern-speed power continuation on the "
+                "fully coupled finite 335 rg minidisk"
             ),
             "establishes": (
-                "A square 388-variable root with full scaled Jacobian rank, "
-                "rank-two interface and sonic responses, conserved fluxes, and "
-                "continuous Sigma and T at Ninner=96/Nouter=64 on the "
-                "finite 335 rg minidisk domain."
+                "The disk-rate wall control is mesh supported, but depositing "
+                "25% of the differential pattern work makes the tidal band "
+                "geometrically thick; the confined one-zone continuation is "
+                "outside its declared validity regime before full power."
             ),
             "does_not_establish": (
-                "N128/N256 mesh certification, interface-position invariance, "
-                "a physical tidal torque and power, stability, time evolution, "
-                "or wind."
+                "Nonexistence of a physical tidally interacting state, because "
+                "overflow, a free inner accretion rate, and multidimensional "
+                "tidal transport are not represented."
             ),
             "payload_sha256": {path.name: _sha256(path) for path in payload},
         },

@@ -64,6 +64,42 @@ class NonKeplerianResidualScales:
     energy: np.ndarray
 
 
+def wall_pattern_power_correction(
+    transport: SignedFluxTransport,
+    pattern_omega: float,
+    fraction: float = 1.0,
+    deposition_weights=None,
+) -> np.ndarray:
+    """Return tidal heat that converts disk-rate wall work to pattern work.
+
+    The wall torque on the disk is ``-G_out``. Its physical external power is
+    ``-pattern_omega*G_out`` while the conservative torque-work flux already
+    exports ``-omega_out*G_out``. Their difference is positive tidal heat when
+    the disk rotates faster than the binary pattern.
+    """
+
+    if not np.isfinite(pattern_omega) or pattern_omega <= 0.0:
+        raise ValueError("pattern_omega must be positive and finite")
+    if not np.isfinite(fraction) or not 0.0 <= fraction <= 1.0:
+        raise ValueError("wall pattern-power fraction must lie in [0,1]")
+    if deposition_weights is None:
+        weights = np.zeros_like(transport.surface_density, dtype=float)
+        weights[-1] = 1.0
+    else:
+        weights = np.asarray(deposition_weights, dtype=float)
+        if (
+            weights.shape != transport.surface_density.shape
+            or np.any(~np.isfinite(weights))
+            or np.any(weights < 0.0)
+            or not np.isclose(np.sum(weights), 1.0, rtol=1.0e-12, atol=1.0e-15)
+        ):
+            raise ValueError("deposition_weights must be non-negative and normalized")
+    total = float(fraction) * (
+        float(transport.omega_faces[-1]) - float(pattern_omega)
+    ) * float(transport.viscous_torque_faces[-1])
+    return np.asarray(total * weights, dtype=float)
+
+
 def common_alpha_stress_torque(
     grid: RadialGrid,
     surface_density,
@@ -414,6 +450,9 @@ def build_nonkeplerian_residual_scales(
     *,
     closure: SignedThermalClosure,
     prescribed_inner_flux: ConservedInterfaceFlux | None = None,
+    wall_pattern_omega: float | None = None,
+    wall_pattern_power_fraction: float = 0.0,
+    wall_power_weights=None,
 ) -> NonKeplerianResidualScales:
     """Build immutable residual scales from one nearby physical state."""
 
@@ -432,12 +471,23 @@ def build_nonkeplerian_residual_scales(
         omega,
         inner_angular_flux=inner_angular,
     )
+    external_power = (
+        None
+        if wall_pattern_omega is None
+        else wall_pattern_power_correction(
+            transport,
+            wall_pattern_omega,
+            wall_pattern_power_fraction,
+            wall_power_weights,
+        )
+    )
     energy = signed_total_energy_profile(
         grid,
         transport,
         temperature,
         M_g,
         closure=closure,
+        external_power_rate_cells=external_power,
         prescribed_inner_flux=prescribed_inner_flux,
     )
     flux_difference = (
@@ -481,6 +531,9 @@ def evaluate_nonkeplerian_common_stress_residual(
     radial_support_fraction: float = 1.0,
     mu_stress: float = 0.0,
     stress_factor: float = 1.0,
+    wall_pattern_omega: float | None = None,
+    wall_pattern_power_fraction: float = 0.0,
+    wall_power_weights=None,
 ) -> tuple[
     np.ndarray,
     np.ndarray,
@@ -531,12 +584,23 @@ def evaluate_nonkeplerian_common_stress_residual(
     stress_residual = (
         common_torque - transport.viscous_torque_centers
     ) / scales.torque
+    external_power = (
+        None
+        if wall_pattern_omega is None
+        else wall_pattern_power_correction(
+            transport,
+            wall_pattern_omega,
+            wall_pattern_power_fraction,
+            wall_power_weights,
+        )
+    )
     energy = signed_total_energy_profile(
         grid,
         transport,
         temperature,
         M_g,
         closure=closure,
+        external_power_rate_cells=external_power,
         prescribed_inner_flux=prescribed_inner_flux,
     )
     log_radius = np.log(grid.centers)
@@ -585,6 +649,9 @@ def solve_nonkeplerian_common_stress_steady(
     radial_support_fraction: float = 1.0,
     mu_stress: float = 0.0,
     stress_factor: float = 1.0,
+    wall_pattern_omega: float | None = None,
+    wall_pattern_power_fraction: float = 0.0,
+    wall_power_weights=None,
     tolerance: float = 1.0e-7,
     max_nfev: int = 2000,
 ) -> NonKeplerianCommonStressResult:
@@ -630,6 +697,9 @@ def solve_nonkeplerian_common_stress_steady(
         M_g,
         closure=closure,
         prescribed_inner_flux=prescribed_inner_flux,
+        wall_pattern_omega=wall_pattern_omega,
+        wall_pattern_power_fraction=wall_pattern_power_fraction,
+        wall_power_weights=wall_power_weights,
     )
 
     def evaluate(state_vector):
@@ -650,6 +720,9 @@ def solve_nonkeplerian_common_stress_steady(
             radial_support_fraction=radial_support_fraction,
             mu_stress=mu_stress,
             stress_factor=stress_factor,
+            wall_pattern_omega=wall_pattern_omega,
+            wall_pattern_power_fraction=wall_pattern_power_fraction,
+            wall_power_weights=wall_power_weights,
         )
 
     def residual(state_vector):

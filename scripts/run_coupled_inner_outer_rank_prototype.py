@@ -32,8 +32,8 @@ from run_common_stress_interface_sweep import _build_case, _load_transonic
 ROOT = Path(__file__).resolve().parents[1]
 OUTER_SEED = (
     ROOT
-    / "results/canonical/common_stress_simultaneous_reservoir/"
-    "nonkeplerian_R40_N256.npz"
+    / "outputs/checkpoints/nonkeplerian_common_stress_sweep/"
+    "R40_N256.npz"
 )
 OUTPUT = ROOT / "outputs/tables/coupled_inner_outer_rank_prototype.json"
 CHECKPOINT = ROOT / "outputs/checkpoints/coupled_inner_outer_rank_prototype.npz"

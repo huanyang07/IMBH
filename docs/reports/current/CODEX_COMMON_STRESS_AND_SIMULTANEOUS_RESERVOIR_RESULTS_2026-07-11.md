@@ -1,5 +1,11 @@
 # Common-Stress And Simultaneous Reservoir Results
 
+> Correction, 2026-07-11: the historical multi-interface sweep in this report
+> inherited the transonic benchmark's `Rout=10000 rg` numerical buffer. It is
+> retained as a numerical closure study but is superseded for finite-minidisk
+> interpretation. The production builder now uses `Rout=335 rg`; the corrected
+> `R_I=40 rg`, N256 root seeds the fully coupled finite-domain results.
+
 Date: 2026-07-11
 
 ## Scope

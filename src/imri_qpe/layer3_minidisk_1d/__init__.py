@@ -40,6 +40,11 @@ from .interface_flux import (
     signed_inner_interface_flux,
     transonic_profile_interface_flux,
 )
+from .tidal_exchange import (
+    HillTidalGeometry,
+    fiducial_hill_tidal_geometry,
+    hill_outer_torque_weights,
+)
 from .coupled_inner_outer import (
     CoupledInnerOuterContext,
     CoupledInnerOuterResult,
@@ -155,6 +160,7 @@ from .signed_flux_common_stress import (
     positive_edge_reconstruction,
     solve_common_stress_total_energy_steady,
     solve_nonkeplerian_common_stress_steady,
+    wall_pattern_power_correction,
 )
 from .transonic_collocation import (
     TransonicResidualAudit,
