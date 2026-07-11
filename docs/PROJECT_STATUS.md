@@ -33,6 +33,9 @@ This is the canonical project handoff. Status labels mean:
 | Terminal-Bernoulli Mdot=5 wind | **SUPPORTED BUT NOT FULLY CERTIFIED** | Physical `B_infinity=0.02 c2` roots pass at N426/N512/N640 with wind loss `6.87-6.88%` and no mass-cap activation | Still no new hot topology; inner rate remains imposed and stream supply is fractional |
 | Angularly closed prescribed-viscosity signed-flux disk | **SUPPORTED BUT NOT FULLY CERTIFIED** | Exact stream `S_M,S_J,S_E`; open split `0.170064596`; wall torque `0.768986584`; unnamed angular defect below `9e-16` | Fixed-Keplerian steady reservoir; source-bearing coupled time evolution is pending |
 | Angularly closed thermoviscous signed-flux disk | **SUPPORTED BUT NOT FULLY CERTIFIED** | N64-N512 roots; wall internal-energy export `0.548`, `H/R=0.341`, `Lrad=1.323 LEdd`; angular defect at roundoff | Internal-energy ledger is not total energy; ideal wall power, inner transonic coupling, and stability are pending |
+| Signed-flux total-energy ledger | **SUPPORTED BUT NOT FULLY CERTIFIED** | `F_E=Mdot B_col-Omega G`; vertical-work manufactured convergence; source/radiation/power ledgers; energy residual below `3e-11` | Physical use requires a valid inner interface and calibrated tidal power |
+| Total-energy reservoir to `6.1 rg` | **REJECTED** | N512 wall/open viscosity mismatches `2.63` and `1.01`, localized to near-ISCO cells | Fixed-Keplerian diffusion is invalid where `dln l_K/dlnR` is small |
+| Total-energy `Rin=10 rg` interface control | **DIAGNOSTIC ONLY** | N512 wall/open converge; wall `H/R=0.284`, `Lrad=0.948 LEdd` | Pressure force exceeds `0.1` inside about `15 rg`; zero-torque interface is artificial |
 | Fully time-dependent total-energy signed-flux disk | **PLANNED** | Required to test accumulation, fronts, and limit cycles under physical feeding | Coupled mass+total-energy IMEX evolution not implemented |
 
 ## Frozen Target Under Review
@@ -80,6 +83,12 @@ N                    = 164
     internal-energy export `0.548`, `H/R=0.341`, and `Lrad=1.323 LEdd`. At
     `10 rg`, radial pressure support is `0.116`, so the Keplerian reservoir
     cannot be interpreted down to the current inner boundary.
+11. Promoting the reservoir to total energy lowers the wall state toward
+    `H/R~0.2975` and `Lrad~1.173 LEdd` on the near-ISCO control. The N256/N512
+    alpha-viscosity fixed point fails only in the invalid innermost cells.
+12. Moving the numerical interface to `10 rg` restores N512 convergence, but
+    radial pressure support remains above the production gate at `12 rg` and
+    falls below it by roughly `15 rg`. Inner transonic matching is mandatory.
 
 ## Claims That Are Not Allowed Yet
 
@@ -87,12 +96,14 @@ N                    = 164
 - “The branch ends physically at `225.52125 rg`.”
 - “No global far-side steady solution exists.”
 - “The current internal-energy wall state is a certified physical hot branch.”
+- “The total-energy `Rin=10 rg` control is already a physical inner match.”
 
 ## Next Scientific Work
 
-1. Replace internal-energy transport with a total-energy/enthalpy ledger and
-   recover the pressure-work identity used by the slim entropy equation.
-2. Couple `(Mdot,J,E)` fluxes to the existing inner no-wind slim solver.
+1. Couple `(Mdot,J,E)` fluxes to the existing inner no-wind slim solver over a
+   validity-gated overlap region beginning near `15 rg`.
+2. Add a binary-calibrated tidal torque and its pattern-speed power only after
+   the interface closes.
 3. Implement coupled mass+energy IMEX evolution, allowing
    accumulation when no steady state exists.
 4. Repeat validity-surface matching with a bordered global eigenvalue solve if
@@ -115,3 +126,4 @@ N                    = 164
 - Signed-flux absolute-stream baseline: `reports/current/CODEX_SIGNED_FLUX_ABSOLUTE_STREAM_RESULTS_2026-07-11.md`
 - Signed-flux thermoviscous baseline: `reports/current/CODEX_SIGNED_FLUX_THERMOVISCOUS_RESULTS_2026-07-11.md`
 - Signed-flux angular closure: `reports/current/CODEX_SIGNED_FLUX_ANGULAR_CLOSURE_RESULTS_2026-07-11.md`
+- Signed-flux total energy: `reports/current/CODEX_SIGNED_FLUX_TOTAL_ENERGY_RESULTS_2026-07-11.md`

@@ -16,6 +16,8 @@ the default branch.
 | `p0_validity_ledger_outer_manifold` | **DIAGNOSTIC ONLY** | Validity, angular ledger, and outer-manifold review |
 | `signed_flux_legacy_53566fa_N512` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Frozen mass-only angular wall/open controls |
 | `signed_flux_angular_closed_wp1_N512` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Angularly closed wall/open decision-gate states |
+| `signed_flux_total_energy_near_isco_failure` | **REJECTED** | N256/N512 fixed-point failure at the invalid near-ISCO boundary |
+| `signed_flux_total_energy_rin10_N512` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Total-energy wall/open interface controls |
 
 Each case contains `provenance.json` and `SHA256SUMS.txt`. The global file list
 and hashes are recorded in `manifests/canonical_artifacts.csv`.

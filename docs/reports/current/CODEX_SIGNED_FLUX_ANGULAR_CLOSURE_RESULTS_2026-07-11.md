@@ -2,6 +2,9 @@
 
 Date: 2026-07-11
 
+> WP2 is reported in `CODEX_SIGNED_FLUX_TOTAL_ENERGY_RESULTS_2026-07-11.md`.
+> This document remains the frozen angular-closure milestone.
+
 ## Scope
 
 This work implements WP0-WP1 from the review of commit `53566fa`. It freezes

@@ -170,6 +170,27 @@ The reported transport ratio is named `internal_energy_export_fraction`, and
 the roundoff telescoping check is `internal_energy_ledger_defect`. Neither is a
 total-energy or entropy-advection certification.
 
+The WP2 total-energy extension instead defines
+
+```text
+B_col = Phi + v_phi^2/2 + v_R^2/2 + e + Pi/Sigma
+F_E   = Mdot B_col - Omega G.
+```
+
+Its cell compatibility equation is
+
+```text
+Delta F_E + W_vertical - L_rad + S_E + P_ext = 0
+W_vertical = Mdot (Delta Pi/Sigma - P Delta rho/rho^2).
+```
+
+`-Omega G` carries viscous torque work, so `Qvisc` is not added independently.
+`P_ext` is signed power applied to the disk, so a torque applied by a pattern
+has `P_ext=Omega_pattern T_disk`. Distributed external torque and power are
+named separately. The ideal wall is
+still a limiting boundary control; its companion pattern speed is not yet a
+physical closure.
+
 ## Validity Gates
 
 Numerical residual acceptance is necessary but not sufficient. Current audits

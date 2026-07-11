@@ -78,6 +78,25 @@ def test_wp1_canonical_cases_preserve_legacy_and_closed_states() -> None:
             assert (case / f"thermoviscous_{boundary}.npz").is_file()
 
 
+def test_wp2_canonical_cases_preserve_controls_and_failure_witness() -> None:
+    accepted = CANONICAL / "signed_flux_total_energy_rin10_N512"
+    summary = json.loads((accepted / "summary.json").read_text())
+    assert summary["tidal_wall"]["converged"]
+    assert summary["zero_torque"]["converged"]
+    for boundary in ("tidal_wall", "zero_torque"):
+        with np.load(accepted / f"{boundary}.npz", allow_pickle=False) as state:
+            assert bool(state["converged"])
+            assert float(state["total_energy_residual"]) < 1.0e-6
+
+    rejected = CANONICAL / "signed_flux_total_energy_near_isco_failure"
+    rows = json.loads((rejected / "failure_summary.json").read_text())
+    assert any(not row["converged"] for row in rows)
+    assert any(
+        row["N"] == 512 and row["maximum_log_viscosity_change"] > 0.1
+        for row in rows
+    )
+
+
 def test_canonical_numerical_anchors_are_accepted() -> None:
     paths = [
         CANONICAL / "no_wind_mdot5/state.npz",
