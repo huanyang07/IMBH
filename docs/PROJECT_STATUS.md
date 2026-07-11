@@ -40,6 +40,8 @@ This is the canonical project handoff. Status labels mean:
 | Inner/reservoir overlap audit | **DIAGNOSTIC ONLY** | Open reservoir passes `14.73-59.69 rg`; a 10% pressure sensitivity gives common wall/transonic `29.45-59.69 rg` | No common band passes the primary 5% pressure gate; absorption opacity is only bracketed |
 | One-way transonic/reservoir composite | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Flux mismatch `<2.1e-16`; N128/N256 composite luminosity varies only `0.20-0.24%` across `30-60 rg` | Primitive continuity fails: integrated-pressure log mismatch remains `0.327-0.334` |
 | Projected pressure-supported reservoir | **DIAGNOSTIC ONLY** | Full-support N64 roots reduce the rotation mismatch to `0.37%` with closed fluxes | No N128 case passes; pressure mismatch worsens to `0.356`; projection leaves `1.38%` force mismatch |
+| Common-stress fixed-Keplerian reservoir | **DIAGNOSTIC ONLY** | Shared `W=alpha Pi`; all `30-60 rg`, N64/N128/N256 roots close stress, energy, and conserved fluxes | Maximum primitive mismatch remains `0.20-0.30`, dominated by surface density |
+| Simultaneous non-Keplerian reservoir | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | `40-60 rg`, N64/N128/N256 roots close stress/radial/energy equations without projection; pressure and rotation match near `1e-3` | N256 density mismatch is `0.057-0.099`; `30 rg` stalls between support fractions `0.24-0.25`; inner solution remains frozen |
 | Fully time-dependent total-energy signed-flux disk | **PLANNED** | Required to test accumulation, fronts, and limit cycles under physical feeding | Coupled mass+total-energy IMEX evolution not implemented |
 
 ## Frozen Target Under Review
@@ -95,6 +97,14 @@ N                    = 164
     convergence, with wall `H/R=0.311` and `Lrad=1.025 LEdd`, but
     radial pressure support remains above the production gate at `12 rg` and
     falls below it by roughly `15 rg`. Inner transonic matching is mandatory.
+13. The old reservoir and inner disk used different alpha-stress laws. Sharing
+    `W=alpha Pi` removes most of the pressure discontinuity but leaves a
+    `0.20-0.30` fixed-Keplerian density mismatch.
+14. A simultaneous `(Sigma,T,Omega)` solve closes common stress, radial
+    momentum, and total energy at `40-60 rg`. At `40 rg`, N256 pressure and
+    rotation match to about `0.13%` and `0.05%`, while density misses by
+    `5.7%`. This is the best splice candidate so far, but not a certified
+    physical branch.
 
 ## Claims That Are Not Allowed Yet
 
@@ -106,15 +116,17 @@ N                    = 164
 
 ## Next Scientific Work
 
-1. Use the threshold-sensitive `30-60 rg` candidate band for controlled
-   prescribed-flux interface experiments; do not call it certified overlap.
-2. Replace the staggered pressure update with one simultaneous nonlinear
-   radial-momentum/angular/total-energy residual in `(Sigma,T,Omega)`.
-3. Add a binary-calibrated tidal torque and its pattern-speed power only after
+1. Write the degree-of-freedom and boundary-rank specification for a fully
+   coupled inner-transonic/outer-reservoir solve centered near `40 rg`.
+2. Solve the inner eigenvalue, sonic state, and outer simultaneous reservoir
+   together; require flux, primitive, mesh, and interface-position gates.
+3. If that coupling fails, move directly to one global signed conservative
+   transonic system rather than another projected or staggered splice.
+4. Add a binary-calibrated tidal torque and its pattern-speed power only after
    the interface closes.
-4. Implement coupled mass+energy IMEX evolution, allowing
+5. Implement coupled mass+energy IMEX evolution, allowing
    accumulation when no steady state exists.
-5. Repeat validity-surface matching with a bordered global eigenvalue solve if
+6. Repeat validity-surface matching with a bordered global eigenvalue solve if
    a mesh-stable critical layer appears.
 
 ## Review Entry Points
@@ -140,3 +152,4 @@ N                    = 164
 - Inner/outer overlap audit: `reports/current/CODEX_INNER_OUTER_OVERLAP_AUDIT_RESULTS_2026-07-11.md`
 - Two-domain interface sweep: `reports/current/CODEX_TWO_DOMAIN_INTERFACE_SWEEP_RESULTS_2026-07-11.md`
 - Pressure-supported interface pilot: `reports/current/CODEX_PRESSURE_SUPPORTED_INTERFACE_PILOT_RESULTS_2026-07-11.md`
+- Common stress and simultaneous reservoir: `reports/current/CODEX_COMMON_STRESS_AND_SIMULTANEOUS_RESERVOIR_RESULTS_2026-07-11.md`

@@ -107,6 +107,27 @@ def test_wp2_canonical_cases_preserve_controls_and_failure_witness() -> None:
     )
 
 
+def test_common_stress_canonical_preserves_both_decision_gates() -> None:
+    case = CANONICAL / "common_stress_simultaneous_reservoir"
+    common = json.loads((case / "common_stress_summary.json").read_text())
+    simultaneous = json.loads((case / "nonkeplerian_summary.json").read_text())
+
+    assert not common["primitive_gate_passed"]
+    assert not simultaneous["production_gate_passed"]
+    assert all(
+        row["accepted"]
+        for row in simultaneous["rows"]
+        if row["target_interface_rg"] in (40.0, 50.0, 60.0)
+    )
+    assert any(
+        not row["accepted"]
+        for row in simultaneous["rows"]
+        if row["target_interface_rg"] == 30.0
+    )
+    for target in (40, 50, 60):
+        assert (case / f"nonkeplerian_R{target}_N256.npz").is_file()
+
+
 def test_canonical_numerical_anchors_are_accepted() -> None:
     paths = [
         CANONICAL / "no_wind_mdot5/state.npz",

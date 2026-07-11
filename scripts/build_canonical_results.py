@@ -152,6 +152,7 @@ def _finalize_case(
     purpose: str,
     establishes: str,
     does_not_establish: str,
+    solver_generation_command: str | None = None,
 ) -> list[dict[str, Any]]:
     payload = sorted(
         path for path in directory.iterdir() if path.is_file() and path.name != "SHA256SUMS.txt"
@@ -159,7 +160,14 @@ def _finalize_case(
     provenance = {
         "source_commit": SOURCE_COMMIT,
         "source_tag": SOURCE_TAG,
-        "generation_command": "PYTHONPATH=src python3 scripts/build_canonical_results.py",
+        "solver_generation_command": (
+            solver_generation_command
+            if solver_generation_command is not None
+            else "See source_paths and the pre-cleanup scientific tag."
+        ),
+        "canonical_packaging_command": (
+            "PYTHONPATH=src python3 scripts/build_canonical_results.py"
+        ),
         "source_paths": [path.as_posix() for path in sources],
         "source_sha256": {
             path.as_posix(): _sha256(ROOT / path) for path in sources
@@ -206,6 +214,13 @@ def main() -> None:
     case = _prepare("no_wind_mdot5")
     shutil.copy2(ROOT / NO_WIND, case / "state.npz")
     config, summary = _npz_config(NO_WIND)
+    config.update(
+        {
+            "alpha": 0.01,
+            "mu_stress": 0.0,
+            "stress_factor": 1.0,
+        }
+    )
     _write_json(case / "config.json", config)
     _write_key_value_csv(case / "summary.csv", summary)
     records += _finalize_case(
@@ -215,6 +230,10 @@ def main() -> None:
         purpose="N768 standard no-wind slim-disk Mdot/Edd=5 regression anchor.",
         establishes="The standard solver supports a strict high-Mdot no-wind branch.",
         does_not_establish="Stream, heating, or wind physics.",
+        solver_generation_command=(
+            "PYTHONPATH=src python3 "
+            "scripts/run_standard_slim_high_mdot_no_wind_ladder.py"
+        ),
     )
 
     case = _prepare("stream_no_wind_mdot2_fs080")

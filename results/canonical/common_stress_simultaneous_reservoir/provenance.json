@@ -1,0 +1,25 @@
+{
+  "canonical_packaging_command": "PYTHONPATH=src python3 scripts/build_common_stress_audit_canonical.py",
+  "claim_scope": "Common-stress fixed-Keplerian control and simultaneous non-Keplerian prescribed-flux reservoir",
+  "does_not_establish": "A fully coupled smooth inner-outer branch, physical tidal closure, stability, time evolution, or wind.",
+  "establishes": "Stress parity explains much of the old pressure jump; simultaneous 40-60 rg roots close stress, radial momentum, energy, and fluxes.",
+  "numerical_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
+  "payload_sha256": {
+    "common_R30_N256.npz": "0b3d6fe1a2d92c54ed7f2e848ae141fb7cff08afcda98091f8ee74fe1e4be891",
+    "common_R40_N256.npz": "a5334f27270c95a6e559c6bde8ec4b10382f0e66c56ccd374844a6e6b3813479",
+    "common_R50_N256.npz": "619b41675f00b95121115a3783eb04554623c3e85b24c9385c83f87dbbb8775b",
+    "common_R60_N256.npz": "d107c14038bea953caac89f6c4f23072392937bf8974d55fee41eb3c7d609664",
+    "common_stress_summary.json": "049140bb916adaec2fb4d6d32232d0c86ca48737ee24443c7e6d86edf3f01c94",
+    "config.json": "98f079d712cb1de5ee8b56ba64871788f6b5134cc841c967f53970db3401c1ac",
+    "nonkeplerian_R40_N256.npz": "c17779c400b222acbda51ec1437a30cbe10e0f8f9b7c89574effdf9dab3ca77c",
+    "nonkeplerian_R50_N256.npz": "777135bcc86bf6c327c65f709ea35067e45dd8fedad3edbfa57d594f47e9a36d",
+    "nonkeplerian_R60_N256.npz": "01cd3ab7768cc3bea90a6b9a8fe6bfae996ce0aa7a20a9d45cd0d8340f0a1cc9",
+    "nonkeplerian_summary.json": "e671644ec88cd72fc8a52a7492f4d0391a59dc422372e329fdc677dfe571b271"
+  },
+  "physical_status": "DIAGNOSTIC ONLY",
+  "solver_generation_commands": [
+    "PYTHONPATH=src python3 scripts/run_common_stress_interface_sweep.py",
+    "PYTHONPATH=src python3 scripts/run_nonkeplerian_common_stress_sweep.py"
+  ],
+  "source_parent_commit": "5d36c24"
+}

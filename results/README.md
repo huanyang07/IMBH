@@ -21,6 +21,7 @@ the default branch.
 | `inner_outer_overlap_audit` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Primary and pressure-sensitivity overlap bands for the transonic and reservoir controls |
 | `two_domain_interface_sweep` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Mesh and interface-position sweep of the conservative transonic-to-wall composite |
 | `pressure_supported_interface_pilot` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Coarse-grid-only projected pressure-support continuation and N128 failure evidence |
+| `common_stress_simultaneous_reservoir` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Shared-stress fixed-Keplerian gate and simultaneous non-Keplerian `30-60 rg` decision evidence |
 
 Each case contains `provenance.json` and `SHA256SUMS.txt`. The global file list
 and hashes are recorded in `manifests/canonical_artifacts.csv`.

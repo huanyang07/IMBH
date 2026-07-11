@@ -1,13 +1,19 @@
 {
   "does_not_establish": "Stream, heating, or wind physics.",
   "establishes": "The standard solver supports a strict high-Mdot no-wind branch.",
-  "generation_command": "PYTHONPATH=src python3 scripts/build_canonical_results.py",
+  "canonical_packaging_command": "PYTHONPATH=src python3 scripts/build_canonical_results.py",
   "payload_sha256": {
-    "config.json": "7eb3b11f838a6c6421d825bb7bef63623a75beb9d362e33cbdaf352aa32d4254",
+    "config.json": "76d90e59be38f101892101ba017486322414a56302cf8180733ead979b47f88c",
     "state.npz": "3e5af677eacb3262d0bcef99be7af51493db156d487737b1c0f93b652f3ece58",
     "summary.csv": "c27827228da60ca0e2da756ceb8d6cfcfc2c8ea002aaafb9cdf78a35bfd484cc"
   },
   "purpose": "N768 standard no-wind slim-disk Mdot/Edd=5 regression anchor.",
+  "solver_generation_command": "PYTHONPATH=src python3 scripts/run_standard_slim_high_mdot_no_wind_ladder.py",
+  "stress_parameters": {
+    "alpha": 0.01,
+    "mu_stress": 0.0,
+    "stress_factor": 1.0
+  },
   "scientific_status": "CERTIFIED",
   "source_commit": "0a000767a915880c0710b8f4ec03eb0c64aa168a",
   "source_paths": [

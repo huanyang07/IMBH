@@ -237,6 +237,54 @@ reported explicitly. This staggered closure is diagnostic only: full-pressure
 roots are coarse-grid-only and do not remove primitive-state discontinuity.
 The production successor must solve `Sigma`, `T`, and `Omega` simultaneously.
 
+## Common-Stress Simultaneous Reservoir
+
+The successor uses the same vertically integrated alpha stress as the inner
+transonic solver:
+
+```text
+W_alpha = integrated_stress(Sigma,T,alpha,mu_stress,stress_factor)
+G_alpha = 2 pi R^2 W_alpha.
+```
+
+For the current benchmark, `mu_stress=0` and `stress_factor=1`, so
+`W_alpha=alpha Pi`. The older steady reservoir relation
+`nu=alpha H^2 Omega` is not an additional constitutive equation. An effective
+viscosity may be reconstructed diagnostically after a root is found.
+
+The simultaneous cell state is `(log Sigma,log T,log Omega)`. Exact source and
+boundary integration first fixes `Mdot_face` and `J_face`; each trial rotation
+then gives
+
+```text
+l             = R^2 Omega
+G_required    = Mdot l - J
+G_alpha       = G_required.
+```
+
+The radial equation is the same sign convention as the transonic solver:
+
+```text
+(1/2) d(v_R^2)/dlnR
+  - R^2 (Omega^2-Omega_K^2)
+  + (1/Sigma) dPi/dlnR = 0.
+```
+
+Writing the inertia as `d(v_R^2)/2` keeps the equation finite where signed
+mass transport approaches zero. The third block is the corrected total-energy
+equation above, evaluated with the same trial `Omega`, `l`, and
+`G_required`. There is no projected rotation, pressure smoothing, or separate
+`Qvisc` source.
+
+Continuation replaces the radial block temporarily with
+
+```text
+(1-lambda) ln(Omega/Omega_K) + lambda R_radial = 0,
+```
+
+and advances from `lambda=0` to `lambda=1`. Only the full-support root is a
+candidate physical reservoir state.
+
 ## Validity Gates
 
 Numerical residual acceptance is necessary but not sufficient. Current audits

@@ -123,6 +123,14 @@ from .signed_flux_total_energy import (
     solve_signed_total_energy_steady,
     solve_signed_total_energy_thermoviscous_steady,
 )
+from .signed_flux_common_stress import (
+    CommonStressSteadyResult,
+    NonKeplerianCommonStressResult,
+    common_alpha_stress_torque,
+    diffusive_alpha_torque,
+    solve_common_stress_total_energy_steady,
+    solve_nonkeplerian_common_stress_steady,
+)
 from .transonic_collocation import (
     TransonicResidualAudit,
     TransonicResidualPartitionAudit,
@@ -349,6 +357,8 @@ __all__ = [
     "SignedTotalEnergyProfile",
     "SignedTotalEnergySteadyResult",
     "SignedTotalEnergyThermoviscousResult",
+    "CommonStressSteadyResult",
+    "NonKeplerianCommonStressResult",
     "RadialGrid",
     "SonicDiagnostics",
     "SonicDerivativeBranch",
@@ -380,6 +390,7 @@ __all__ = [
     "blockwise_continuation_metric",
     "carried_transport",
     "centered_gradient",
+    "common_alpha_stress_torque",
     "choose_sigma_root",
     "collocation_residual",
     "collocation_jacobian",
@@ -407,6 +418,7 @@ __all__ = [
     "integrate_interval_transport",
     "integrate_sampled_interval_transport",
     "default_conservative_scales",
+    "diffusive_alpha_torque",
     "differential_matrix",
     "differential_residual_scales",
     "differential_residual",
@@ -502,6 +514,8 @@ __all__ = [
     "solve_signed_thermoviscous_steady",
     "solve_signed_total_energy_steady",
     "solve_signed_total_energy_thermoviscous_steady",
+    "solve_common_stress_total_energy_steady",
+    "solve_nonkeplerian_common_stress_steady",
     "stream_source_interval_integral",
     "scaled_differential_matrix",
     "sonic_directional_B",

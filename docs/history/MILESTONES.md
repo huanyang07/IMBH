@@ -34,6 +34,20 @@ rejected sequence.
     independent outer sheet gives only a near-match at the validity boundary.
 13. **Current decision:** freeze `eta_E`; define physical angular transport and
     a unified conservative formulation before any further wind continuation.
+14. **Signed conservative reservoir:** independent `Sigma`, exact stream
+    moments, signed flux, and angular closure produced regular wall and
+    accretion/decretion controls.
+15. **Corrected total energy:** enthalpy flux was paired with the compatible
+    vertical-work term; fixed-Keplerian transport was rejected near the ISCO.
+16. **Conservative interface:** a one-way inner/outer composite closed
+    `(Mdot,J,F_E)` and was interface-position stable, but failed primitive
+    continuity.
+17. **Projected pressure support rejected:** the staggered closure improved
+    rotation only on the coarse grid and failed under refinement.
+18. **Common stress and simultaneous pressure support:** sharing `W=alpha Pi`
+    explains much of the old pressure jump. The simultaneous non-Keplerian
+    reservoir closes at `40-60 rg`; `40 rg` is the best coupled-solve target,
+    with a remaining N256 density mismatch of `5.7%`.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

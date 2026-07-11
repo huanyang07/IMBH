@@ -1,0 +1,698 @@
+{
+  "all_accepted": false,
+  "by_resolution": {
+    "64": {
+      "composite_luminosity_relative_spread": 0.043570966151376386,
+      "flux_gate": true,
+      "interface_position_gate": false,
+      "maximum_flux_mismatch": 2.050760201897403e-16,
+      "maximum_primitive_mismatch": 0.5700994624241388,
+      "primitive_continuity_gate": false
+    }
+  },
+  "interface_targets_rg": [
+    30.0,
+    40.0,
+    50.0,
+    60.0
+  ],
+  "mesh_relative_differences": {
+    "40.0": {
+      "composite_Lrad_over_LEdd": 0.0003635224880482617,
+      "max_H_over_R": 0.0029015332587552425,
+      "primitive_maximum_absolute": 0.0032973937774833095
+    },
+    "50.0": {
+      "composite_Lrad_over_LEdd": 0.00040553502500452417,
+      "max_H_over_R": 0.004663470631017684,
+      "primitive_maximum_absolute": 0.004919441171813199
+    },
+    "60.0": {
+      "composite_Lrad_over_LEdd": 0.0004369811841093013,
+      "max_H_over_R": 0.0059976095424681556,
+      "primitive_maximum_absolute": 0.006967247701176474
+    }
+  },
+  "model": {
+    "accepted_state_clipping": false,
+    "alpha": 0.01,
+    "equations": [
+      "common_alpha_stress",
+      "radial_momentum",
+      "total_energy"
+    ],
+    "mu_stress": 0.0,
+    "projection": false,
+    "smoothing": false,
+    "stress_factor": 1.0,
+    "unknowns": [
+      "log_surface_density",
+      "log_temperature",
+      "log_omega"
+    ]
+  },
+  "next_stage": "fully_coupled_inner_outer_at_40rg_then_global_fallback",
+  "production_gate_passed": false,
+  "radial_support_stages": [
+    0.0,
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "reservoir_resolutions": [
+    64,
+    128,
+    256
+  ],
+  "rows": [
+    {
+      "N_reservoir": 64,
+      "accepted": false,
+      "actual_interface_rg": 30.154479684807928,
+      "composite_Lrad_over_LEdd": 1.508570136646263,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": -2.050760201897403e-16,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.7310087155909241,
+      "max_H_over_R": 0.31318940663095957,
+      "max_radial_pressure_fraction": 0.07543124569844761,
+      "maximum_dln_omega_dln_R": -1.2473039722694672,
+      "maximum_energy_residual": 2.882908369795474e-06,
+      "maximum_radial_residual": 0.00016141668001561776,
+      "maximum_stress_residual": 1.455876269953916e-05,
+      "minimum_dln_l_dln_R": 0.16982449744483574,
+      "outer_Lrad_over_LEdd": 0.777561421055339,
+      "outer_torque_over_stream_J": 0.7599098952781506,
+      "primitive_mismatch": {
+        "log_integrated_pressure": 0.10829340337679874,
+        "log_scale_height": -0.23090285308314343,
+        "log_surface_density": 0.5700994624241388,
+        "log_temperature": 0.08476079364848682,
+        "maximum_absolute": 0.5700994624241388,
+        "omega_relative": 0.038454585771772694,
+        "radial_velocity_over_sound_speed": 0.005385966017745436
+      },
+      "radial_support_stages": [
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.5002087063200236,
+          "maximum_energy_residual": 8.361754322175637e-14,
+          "maximum_radial_residual": 8.881784197001256e-16,
+          "maximum_stress_residual": 7.45312325429403e-15,
+          "message": "`xtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.43253231632968436,
+          "nfev": 5,
+          "radial_support_fraction": 0.0
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.4835309300385795,
+          "maximum_energy_residual": 5.585651964544151e-14,
+          "maximum_radial_residual": 7.251144129583054e-16,
+          "maximum_stress_residual": 8.620128501040808e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.4535995999027591,
+          "nfev": 7,
+          "radial_support_fraction": 0.1
+        },
+        {
+          "accepted": false,
+          "maximum_dln_omega_dln_R": -1.2473039722694672,
+          "maximum_energy_residual": 2.882908369795474e-06,
+          "maximum_radial_residual": 0.00016141668001561776,
+          "maximum_stress_residual": 1.455876269953916e-05,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.16982449744483574,
+          "nfev": 47,
+          "radial_support_fraction": 0.25
+        }
+      ],
+      "target_interface_rg": 30.0
+    },
+    {
+      "N_reservoir": 64,
+      "accepted": true,
+      "actual_interface_rg": 40.04153642035986,
+      "composite_Lrad_over_LEdd": 1.4449149554152667,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": -2.050760201897403e-16,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.831521532306001,
+      "max_H_over_R": 0.30724652903141164,
+      "max_radial_pressure_fraction": 0.10167484121591752,
+      "maximum_dln_omega_dln_R": -1.4484760050972412,
+      "maximum_energy_residual": 5.351415546097926e-14,
+      "maximum_radial_residual": 1.622627210418605e-14,
+      "maximum_stress_residual": 7.727472231545339e-15,
+      "minimum_dln_l_dln_R": 0.4024910244684179,
+      "outer_Lrad_over_LEdd": 0.6133934231092658,
+      "outer_torque_over_stream_J": 0.7599098952781506,
+      "primitive_mismatch": {
+        "log_integrated_pressure": 0.0017300441528811043,
+        "log_scale_height": -0.023935848893093876,
+        "log_surface_density": 0.04960261016843146,
+        "log_temperature": 0.006412810650638959,
+        "maximum_absolute": 0.04960261016843146,
+        "omega_relative": 0.0007083876475229578,
+        "radial_velocity_over_sound_speed": 0.0004121031389602965
+      },
+      "radial_support_stages": [
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.5002083047207009,
+          "maximum_energy_residual": 7.779016149510389e-14,
+          "maximum_radial_residual": 8.881784197001248e-16,
+          "maximum_stress_residual": 7.418742691448303e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.4498900769957004,
+          "nfev": 4,
+          "radial_support_fraction": 0.0
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.4820932562377145,
+          "maximum_energy_residual": 8.138953986120791e-14,
+          "maximum_radial_residual": 1.2836953722228372e-15,
+          "maximum_stress_residual": 6.334360207938797e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.46265910625692186,
+          "nfev": 6,
+          "radial_support_fraction": 0.1
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.1479037637015672,
+          "maximum_energy_residual": 8.607322006364341e-14,
+          "maximum_radial_residual": 4.445228907190568e-15,
+          "maximum_stress_residual": 2.1785108014554473e-14,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.21004580237604387,
+          "nfev": 32,
+          "radial_support_fraction": 0.25
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.3860186318426564,
+          "maximum_energy_residual": 7.146113199286142e-14,
+          "maximum_radial_residual": 7.223388553967425e-15,
+          "maximum_stress_residual": 7.79915231534365e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.32167351235244723,
+          "nfev": 11,
+          "radial_support_fraction": 0.5
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.4383937961772482,
+          "maximum_energy_residual": 8.044431362312613e-14,
+          "maximum_radial_residual": 5.4539706084710815e-15,
+          "maximum_stress_residual": 8.2462284036249e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.3853701756738701,
+          "nfev": 6,
+          "radial_support_fraction": 0.75
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.4484760050972412,
+          "maximum_energy_residual": 5.351415546097926e-14,
+          "maximum_radial_residual": 1.622627210418605e-14,
+          "maximum_stress_residual": 7.727472231545339e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.4024910244684179,
+          "nfev": 5,
+          "radial_support_fraction": 1.0
+        }
+      ],
+      "target_interface_rg": 40.0
+    },
+    {
+      "N_reservoir": 128,
+      "accepted": true,
+      "actual_interface_rg": 40.04153642035986,
+      "composite_Lrad_over_LEdd": 1.445798070171721,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": -2.050760201897403e-16,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.831521532306001,
+      "max_H_over_R": 0.3093199052046504,
+      "max_radial_pressure_fraction": 0.10105205390607422,
+      "maximum_dln_omega_dln_R": -1.443454199975335,
+      "maximum_energy_residual": 1.9434275935941795e-13,
+      "maximum_radial_residual": 3.3472137620698253e-13,
+      "maximum_stress_residual": 2.198209980204773e-13,
+      "minimum_dln_l_dln_R": 0.39130384367422266,
+      "outer_Lrad_over_LEdd": 0.61427653786572,
+      "outer_torque_over_stream_J": 0.7599098952781506,
+      "primitive_mismatch": {
+        "log_integrated_pressure": 0.0014445327805689058,
+        "log_scale_height": -0.026138139363214314,
+        "log_surface_density": 0.05372130661196211,
+        "log_temperature": 0.006891737278531059,
+        "maximum_absolute": 0.05372130661196211,
+        "omega_relative": 0.0005839502073037665,
+        "radial_velocity_over_sound_speed": 0.00045328505395129373
+      },
+      "radial_support_stages": [
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.443454199975335,
+          "maximum_energy_residual": 1.9434275935941795e-13,
+          "maximum_radial_residual": 3.3472137620698253e-13,
+          "maximum_stress_residual": 2.198209980204773e-13,
+          "message": "`xtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.39130384367422266,
+          "nfev": 12,
+          "radial_support_fraction": 1.0
+        }
+      ],
+      "target_interface_rg": 40.0
+    },
+    {
+      "N_reservoir": 256,
+      "accepted": true,
+      "actual_interface_rg": 40.04153642035986,
+      "composite_Lrad_over_LEdd": 1.446323841413075,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": 0.0,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.831521532306001,
+      "max_H_over_R": 0.3102200189070409,
+      "max_radial_pressure_fraction": 0.10077399159829803,
+      "maximum_dln_omega_dln_R": -1.4429817363237305,
+      "maximum_energy_residual": 4.4455326745928106e-13,
+      "maximum_radial_residual": 9.297016345074582e-13,
+      "maximum_stress_residual": 1.4535492111479644e-12,
+      "minimum_dln_l_dln_R": 0.38655926861815715,
+      "outer_Lrad_over_LEdd": 0.614802309107074,
+      "outer_torque_over_stream_J": 0.7599098952781504,
+      "primitive_mismatch": {
+        "log_integrated_pressure": 0.001322058915417554,
+        "log_scale_height": -0.027848189001006583,
+        "log_surface_density": 0.05701870038944542,
+        "log_temperature": 0.007288406778345099,
+        "maximum_absolute": 0.05701870038944542,
+        "omega_relative": 0.0005312009263401885,
+        "radial_velocity_over_sound_speed": 0.0004848530796891569
+      },
+      "radial_support_stages": [
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.4429817363237305,
+          "maximum_energy_residual": 4.4455326745928106e-13,
+          "maximum_radial_residual": 9.297016345074582e-13,
+          "maximum_stress_residual": 1.4535492111479644e-12,
+          "message": "`xtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.38655926861815715,
+          "nfev": 14,
+          "radial_support_fraction": 1.0
+        }
+      ],
+      "target_interface_rg": 40.0
+    },
+    {
+      "N_reservoir": 64,
+      "accepted": true,
+      "actual_interface_rg": 50.05122130881059,
+      "composite_Lrad_over_LEdd": 1.445060449640918,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": 0.0,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.906894574913803,
+      "max_H_over_R": 0.2970443553121274,
+      "max_radial_pressure_fraction": 0.10216212271858376,
+      "maximum_dln_omega_dln_R": -1.4439704093419863,
+      "maximum_energy_residual": 3.186179761590968e-14,
+      "maximum_radial_residual": 5.0244650361159915e-15,
+      "maximum_stress_residual": 7.352382356694936e-15,
+      "minimum_dln_l_dln_R": 0.40342054660550275,
+      "outer_Lrad_over_LEdd": 0.5381658747271152,
+      "outer_torque_over_stream_J": 0.7599098952781503,
+      "primitive_mismatch": {
+        "log_integrated_pressure": 0.0023483271530722045,
+        "log_scale_height": -0.030993419081131787,
+        "log_surface_density": 0.06433615110608133,
+        "log_temperature": 0.00832962525064407,
+        "maximum_absolute": 0.06433615110608133,
+        "omega_relative": 0.0010931632398579467,
+        "radial_velocity_over_sound_speed": 0.0004586042757113629
+      },
+      "radial_support_stages": [
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.5002079869393299,
+          "maximum_energy_residual": 7.100102071534887e-14,
+          "maximum_radial_residual": 8.881784197001248e-16,
+          "maximum_stress_residual": 7.004865802543437e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.46022763880858975,
+          "nfev": 4,
+          "radial_support_fraction": 0.0
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.4748043461071703,
+          "maximum_energy_residual": 5.0136706142875093e-14,
+          "maximum_radial_residual": 7.28583859910259e-16,
+          "maximum_stress_residual": 7.777834178934498e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.4670982188588937,
+          "nfev": 6,
+          "radial_support_fraction": 0.1
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.0619256270555155,
+          "maximum_energy_residual": 1.6565871089977966e-13,
+          "maximum_radial_residual": 1.50115163355391e-13,
+          "maximum_stress_residual": 7.579396987191294e-14,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.24622111909872046,
+          "nfev": 20,
+          "radial_support_fraction": 0.25
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.395179718924389,
+          "maximum_energy_residual": 4.26670631739655e-14,
+          "maximum_radial_residual": 7.265021917390868e-15,
+          "maximum_stress_residual": 7.390789023313658e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.31342028850434644,
+          "nfev": 10,
+          "radial_support_fraction": 0.5
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.4333000003394005,
+          "maximum_energy_residual": 7.927115578421292e-14,
+          "maximum_radial_residual": 1.3258491526890737e-14,
+          "maximum_stress_residual": 1.2199947550619257e-14,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.38533054495070473,
+          "nfev": 6,
+          "radial_support_fraction": 0.75
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.4439704093419863,
+          "maximum_energy_residual": 3.186179761590968e-14,
+          "maximum_radial_residual": 5.0244650361159915e-15,
+          "maximum_stress_residual": 7.352382356694936e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.40342054660550275,
+          "nfev": 5,
+          "radial_support_fraction": 1.0
+        }
+      ],
+      "target_interface_rg": 50.0
+    },
+    {
+      "N_reservoir": 128,
+      "accepted": true,
+      "actual_interface_rg": 50.05122130881059,
+      "composite_Lrad_over_LEdd": 1.4460711344028008,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": 2.050760201897403e-16,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.906894574913803,
+      "max_H_over_R": 0.3001100513882136,
+      "max_radial_pressure_fraction": 0.10160577704815026,
+      "maximum_dln_omega_dln_R": -1.4443878078103154,
+      "maximum_energy_residual": 8.898336363609804e-14,
+      "maximum_radial_residual": 3.53574079234017e-13,
+      "maximum_stress_residual": 2.0201542293061165e-13,
+      "minimum_dln_l_dln_R": 0.39074574240930815,
+      "outer_Lrad_over_LEdd": 0.5391765594889977,
+      "outer_torque_over_stream_J": 0.7599098952781503,
+      "primitive_mismatch": {
+        "log_integrated_pressure": 0.001897957266490422,
+        "log_scale_height": -0.034819022613201155,
+        "log_surface_density": 0.07153660191320534,
+        "log_temperature": 0.009172826284300927,
+        "maximum_absolute": 0.07153660191320534,
+        "omega_relative": 0.0008742440841614795,
+        "radial_velocity_over_sound_speed": 0.0005173913408938855
+      },
+      "radial_support_stages": [
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.4443878078103154,
+          "maximum_energy_residual": 8.898336363609804e-14,
+          "maximum_radial_residual": 3.53574079234017e-13,
+          "maximum_stress_residual": 2.0201542293061165e-13,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.39074574240930815,
+          "nfev": 11,
+          "radial_support_fraction": 1.0
+        }
+      ],
+      "target_interface_rg": 50.0
+    },
+    {
+      "N_reservoir": 256,
+      "accepted": true,
+      "actual_interface_rg": 50.05122130881059,
+      "composite_Lrad_over_LEdd": 1.4466578048118481,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": 2.050760201897403e-16,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.906894574913803,
+      "max_H_over_R": 0.3015161631598869,
+      "max_radial_pressure_fraction": 0.10113126922423978,
+      "maximum_dln_omega_dln_R": -1.4430433262304803,
+      "maximum_energy_residual": 3.5005396954718716e-13,
+      "maximum_radial_residual": 5.17855529561531e-13,
+      "maximum_stress_residual": 5.262331128314417e-13,
+      "minimum_dln_l_dln_R": 0.38702588812338945,
+      "outer_Lrad_over_LEdd": 0.5397632298980451,
+      "outer_torque_over_stream_J": 0.7599098952781506,
+      "primitive_mismatch": {
+        "log_integrated_pressure": 0.0016705772184775042,
+        "log_scale_height": -0.037392569084162164,
+        "log_surface_density": 0.07645604308501854,
+        "log_temperature": 0.009758945558399389,
+        "maximum_absolute": 0.07645604308501854,
+        "omega_relative": 0.0007657322582318824,
+        "radial_velocity_over_sound_speed": 0.0005570150285545762
+      },
+      "radial_support_stages": [
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.4430433262304803,
+          "maximum_energy_residual": 3.5005396954718716e-13,
+          "maximum_radial_residual": 5.17855529561531e-13,
+          "maximum_stress_residual": 5.262331128314417e-13,
+          "message": "`xtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.38702588812338945,
+          "nfev": 13,
+          "radial_support_fraction": 1.0
+        }
+      ],
+      "target_interface_rg": 50.0
+    },
+    {
+      "N_reservoir": 64,
+      "accepted": true,
+      "actual_interface_rg": 59.71986356799088,
+      "composite_Lrad_over_LEdd": 1.4452708207662912,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": -2.050760201897403e-16,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.9639344998912873,
+      "max_H_over_R": 0.286656561581889,
+      "max_radial_pressure_fraction": 0.09959993180635653,
+      "maximum_dln_omega_dln_R": -1.4440123301988663,
+      "maximum_energy_residual": 3.051127904615851e-14,
+      "maximum_radial_residual": 4.7263810946916886e-15,
+      "maximum_stress_residual": 7.782392606014325e-15,
+      "minimum_dln_l_dln_R": 0.4072514570187309,
+      "outer_Lrad_over_LEdd": 0.481336320875004,
+      "outer_torque_over_stream_J": 0.7599098952781506,
+      "primitive_mismatch": {
+        "log_integrated_pressure": 0.0029943674508244216,
+        "log_scale_height": -0.03924832990984315,
+        "log_surface_density": 0.08149197864864638,
+        "log_temperature": 0.010551888947153532,
+        "maximum_absolute": 0.08149197864864638,
+        "omega_relative": 0.0015206454828550135,
+        "radial_velocity_over_sound_speed": 0.0005160361066719664
+      },
+      "radial_support_stages": [
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.5002077342980158,
+          "maximum_energy_residual": 3.3024302750298257e-14,
+          "maximum_radial_residual": 8.881784197001256e-16,
+          "maximum_stress_residual": 7.163551364581714e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.46682699402100525,
+          "nfev": 4,
+          "radial_support_fraction": 0.0
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.4590217358229118,
+          "maximum_energy_residual": 5.411988337366446e-14,
+          "maximum_radial_residual": 1.0321604682062002e-15,
+          "maximum_stress_residual": 7.409195763102489e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.4699202337957331,
+          "nfev": 6,
+          "radial_support_fraction": 0.1
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.0031707273550516,
+          "maximum_energy_residual": 4.7740579556612445e-14,
+          "maximum_radial_residual": 1.5265566588595902e-15,
+          "maximum_stress_residual": 8.159425222023002e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.27628227241950754,
+          "nfev": 17,
+          "radial_support_fraction": 0.25
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.383758863852023,
+          "maximum_energy_residual": 5.4226167971501657e-14,
+          "maximum_radial_residual": 5.821731985378165e-15,
+          "maximum_stress_residual": 6.1081330576552675e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.3360799304735451,
+          "nfev": 10,
+          "radial_support_fraction": 0.5
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.431417234021474,
+          "maximum_energy_residual": 6.347521361958831e-14,
+          "maximum_radial_residual": 2.976785484776201e-15,
+          "maximum_stress_residual": 9.08828759344436e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.3932806696114426,
+          "nfev": 6,
+          "radial_support_fraction": 0.75
+        },
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.4440123301988663,
+          "maximum_energy_residual": 3.051127904615851e-14,
+          "maximum_radial_residual": 4.7263810946916886e-15,
+          "maximum_stress_residual": 7.782392606014325e-15,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.4072514570187309,
+          "nfev": 5,
+          "radial_support_fraction": 1.0
+        }
+      ],
+      "target_interface_rg": 60.0
+    },
+    {
+      "N_reservoir": 128,
+      "accepted": true,
+      "actual_interface_rg": 59.71986356799088,
+      "composite_Lrad_over_LEdd": 1.4463644743772397,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": 2.050760201897403e-16,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.9639344998912873,
+      "max_H_over_R": 0.29040613932336257,
+      "max_radial_pressure_fraction": 0.09999934668282384,
+      "maximum_dln_omega_dln_R": -1.4440007908929289,
+      "maximum_energy_residual": 8.123031422981031e-14,
+      "maximum_radial_residual": 9.482120343030196e-14,
+      "maximum_stress_residual": 6.672824134710684e-14,
+      "minimum_dln_l_dln_R": 0.39125380484904326,
+      "outer_Lrad_over_LEdd": 0.48242997448595243,
+      "outer_torque_over_stream_J": 0.7599098952781502,
+      "primitive_mismatch": {
+        "log_integrated_pressure": 0.002379048489782881,
+        "log_scale_height": -0.04500544545876141,
+        "log_surface_density": 0.09239056524038779,
+        "log_temperature": 0.01183620708380499,
+        "maximum_absolute": 0.09239056524038779,
+        "omega_relative": 0.0011970966437071671,
+        "radial_velocity_over_sound_speed": 0.0005933391830165282
+      },
+      "radial_support_stages": [
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.4440007908929289,
+          "maximum_energy_residual": 8.123031422981031e-14,
+          "maximum_radial_residual": 9.482120343030196e-14,
+          "maximum_stress_residual": 6.672824134710684e-14,
+          "message": "`gtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.39125380484904326,
+          "nfev": 10,
+          "radial_support_fraction": 1.0
+        }
+      ],
+      "target_interface_rg": 60.0
+    },
+    {
+      "N_reservoir": 256,
+      "accepted": true,
+      "actual_interface_rg": 59.71986356799088,
+      "composite_Lrad_over_LEdd": 1.4469967847456402,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": -2.050760201897403e-16,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.9639344998912873,
+      "max_H_over_R": 0.2921583912788085,
+      "max_radial_pressure_fraction": 0.09994308731789978,
+      "maximum_dln_omega_dln_R": -1.4431937568691353,
+      "maximum_energy_residual": 2.5967441006914036e-13,
+      "maximum_radial_residual": 2.0362713689744136e-13,
+      "maximum_stress_residual": 1.7677915995246062e-13,
+      "minimum_dln_l_dln_R": 0.3868733907247588,
+      "outer_Lrad_over_LEdd": 0.4830622848543528,
+      "outer_torque_over_stream_J": 0.7599098952781506,
+      "primitive_mismatch": {
+        "log_integrated_pressure": 0.0020339289464311686,
+        "log_scale_height": -0.048661765808758084,
+        "log_surface_density": 0.09935781294156426,
+        "log_temperature": 0.012663274968334096,
+        "maximum_absolute": 0.09935781294156426,
+        "omega_relative": 0.001019061433280118,
+        "radial_velocity_over_sound_speed": 0.0006426246388884752
+      },
+      "radial_support_stages": [
+        {
+          "accepted": true,
+          "maximum_dln_omega_dln_R": -1.4431937568691353,
+          "maximum_energy_residual": 2.5967441006914036e-13,
+          "maximum_radial_residual": 2.0362713689744136e-13,
+          "maximum_stress_residual": 1.7677915995246062e-13,
+          "message": "`xtol` termination condition is satisfied.",
+          "minimum_dln_l_dln_R": 0.3868733907247588,
+          "nfev": 12,
+          "radial_support_fraction": 1.0
+        }
+      ],
+      "target_interface_rg": 60.0
+    }
+  ]
+}
