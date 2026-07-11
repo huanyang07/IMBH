@@ -12,8 +12,10 @@ from imri_qpe.layer3_minidisk_1d import (
     wind_escape_diagnostics,
     wind_launch_energy,
     conservative_source_terms,
+    enthalpy_energy_identity_audit,
     integrate_interval_transport,
     integrate_sampled_interval_transport,
+    local_gradient,
     legacy_energy_identity_audit,
     reconstruct_conservative_state,
     simpson_interval_residual,
@@ -432,6 +434,21 @@ def test_vertical_work_correction_closes_legacy_energy_identity(params: SimpleNa
 
     assert abs(audit.normalized_corrected_defect) < 1.0e-12
     assert audit.raw_identity_defect == pytest.approx(-audit.vertical_work_derivative)
+    assert abs(audit.normalized_raw_defect) > 1.0e-8
+
+
+def test_enthalpy_work_closes_actual_flux_derivative(params: SimpleNamespace) -> None:
+    potential = PaczynskiWiitaPotential(params.M2_g)
+    logR = float(np.log(30.0 * potential.r_g))
+    y = np.log(np.asarray([1.0e6, 2.0e6]))
+    lambda0 = float(
+        potential.l_k(potential.r_isco) / (potential.r_g * 2.99792458e10)
+    )
+    g = local_gradient(logR, y, lambda0, params)
+
+    audit = enthalpy_energy_identity_audit(logR, y, g, lambda0, params)
+
+    assert abs(audit.normalized_corrected_defect) < 1.0e-12
     assert abs(audit.normalized_raw_defect) > 1.0e-8
 
 

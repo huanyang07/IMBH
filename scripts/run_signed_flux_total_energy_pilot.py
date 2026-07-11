@@ -113,8 +113,8 @@ def run() -> list[dict[str, object]]:
                         profile.torque_work_flux_faces[-1]
                         / eddington_luminosity(mass)
                     ),
-                    "total_energy_ledger_defect_relative": float(
-                        profile.total_energy_ledger_defect / total_scale
+                    "total_energy_telescoping_defect_relative": float(
+                        profile.total_energy_telescoping_defect / total_scale
                     ),
                     "maximum_radial_pressure_force_fraction": float(
                         np.max(profile.radial_pressure_force_fraction)

@@ -1,6 +1,6 @@
 # Decision 0004: Signed-Flux Total-Energy Scope
 
-Status: accepted, 2026-07-11.
+Status: superseded by Decision 0005, 2026-07-11.
 
 The signed reservoir now uses the inward total-energy flux
 

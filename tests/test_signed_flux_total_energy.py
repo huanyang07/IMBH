@@ -78,7 +78,7 @@ def test_total_energy_flux_contains_bernoulli_and_torque_work_once() -> None:
     )
 
 
-def test_total_energy_ledger_telescopes_and_external_power_is_named() -> None:
+def test_total_energy_telescoping_defect_and_external_power_sign() -> None:
     mass, _potential, grid, _stream, transport, closure, internal = _supplied_disk()
     base = signed_total_energy_profile(
         grid, transport, internal.temperature, mass, closure=closure
@@ -94,7 +94,7 @@ def test_total_energy_ledger_telescopes_and_external_power_is_named() -> None:
     )
     scale = max(float(np.sum(np.abs(base.net_energy_rate_cells))), 1.0)
 
-    assert abs(base.total_energy_ledger_defect) / scale < 2.0e-15
+    assert abs(base.total_energy_telescoping_defect) / scale < 2.0e-15
     assert np.allclose(
         powered.net_energy_rate_cells,
         base.net_energy_rate_cells + external_power,
@@ -151,14 +151,14 @@ def test_total_energy_thermoviscous_fixed_point_is_self_consistent() -> None:
 
 def test_vertical_work_cell_integral_converges_for_smooth_manufactured_state() -> None:
     errors = []
-    for n in (32, 64):
+    for n in (64, 128, 256, 512):
         grid = make_log_grid(1.0, np.e, n)
         x = np.log(grid.centers)
         x_edges = np.log(grid.edges)
         mdot = np.full(n, 2.0)
-        sigma = np.full(n, 3.0)
-        pressure = np.full(n, 4.0)
-        integrated_pressure = 1.0 + x + x**2
+        sigma = np.exp(0.3 * x)
+        pressure = np.exp(0.6 * x)
+        integrated_pressure = np.exp(0.7 * x)
         density = np.exp(0.2 * x)
         numerical = signed_vertical_work_rate_cells(
             grid,
@@ -168,15 +168,10 @@ def test_vertical_work_cell_integral_converges_for_smooth_manufactured_state() -
             integrated_pressure,
             density,
         )
-        pi_edges = 1.0 + x_edges + x_edges**2
-        rho_edges = np.exp(0.2 * x_edges)
-        exact = 2.0 * (
-            np.diff(pi_edges) / 3.0
-            + 4.0 * (1.0 / rho_edges[1:] - 1.0 / rho_edges[:-1])
-        )
+        exact = 0.5 * np.diff(np.exp(0.4 * x_edges))
         errors.append(float(np.max(np.abs(numerical - exact))))
 
-    assert errors[1] < 0.3 * errors[0]
+    assert all(fine < 0.3 * coarse for coarse, fine in zip(errors, errors[1:]))
 
 
 def test_distributed_external_torque_requires_named_power() -> None:

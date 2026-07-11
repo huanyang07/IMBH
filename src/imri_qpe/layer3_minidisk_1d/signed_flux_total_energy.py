@@ -8,6 +8,7 @@ import numpy as np
 from scipy.optimize import least_squares
 from scipy.sparse import lil_matrix
 
+from .energy_identity import enthalpy_vertical_work
 from .grid import RadialGrid
 from .signed_flux_disk import (
     SignedFluxBoundary,
@@ -43,8 +44,20 @@ class SignedTotalEnergyProfile:
     vertically_integrated_pressure: np.ndarray
     radial_pressure_force_fraction: np.ndarray
     dln_l_k_dln_R: np.ndarray
-    total_energy_ledger_rate: float
-    total_energy_ledger_defect: float
+    total_energy_equation_rate: float
+    total_energy_telescoping_defect: float
+
+    @property
+    def total_energy_ledger_rate(self) -> float:
+        """Backward-compatible alias for the global equation rate."""
+
+        return self.total_energy_equation_rate
+
+    @property
+    def total_energy_ledger_defect(self) -> float:
+        """Backward-compatible alias for the bookkeeping-only defect."""
+
+        return self.total_energy_telescoping_defect
 
 
 @dataclass(frozen=True)
@@ -136,13 +149,17 @@ def signed_vertical_work_rate_cells(
         raise ValueError("surface density and density must be positive")
     log_centers = np.log(grid.centers)
     log_edges = np.log(grid.edges)
-    pi_edges = _edge_values(log_centers, pi, log_edges)
+    sigma_edges = np.exp(_edge_values(log_centers, np.log(sigma), log_edges))
     rho_edges = np.exp(_edge_values(log_centers, np.log(rho), log_edges))
     return np.asarray(
-        mdot
-        * (
-            (pi_edges[1:] - pi_edges[:-1]) / sigma
-            - gas_pressure * (rho_edges[1:] - rho_edges[:-1]) / rho**2
+        enthalpy_vertical_work(
+            mdot,
+            sigma,
+            pi,
+            sigma_edges[1:] - sigma_edges[:-1],
+            gas_pressure,
+            rho,
+            rho_edges[1:] - rho_edges[:-1],
         ),
         dtype=float,
     )
@@ -255,8 +272,8 @@ def signed_total_energy_profile(
             radial_pressure_fraction, dtype=float
         ),
         dln_l_k_dln_R=np.asarray(dln_l, dtype=float),
-        total_energy_ledger_rate=ledger_rate,
-        total_energy_ledger_defect=float(np.sum(net) - ledger_rate),
+        total_energy_equation_rate=ledger_rate,
+        total_energy_telescoping_defect=float(np.sum(net) - ledger_rate),
     )
 
 

@@ -2,6 +2,10 @@
 
 Date: 2026-07-11
 
+> Superseded by
+> `CODEX_SIGNED_FLUX_TOTAL_ENERGY_IDENTITY_CORRECTION_RESULTS_2026-07-11.md`.
+> This document preserves the first WP2 prototype at commit `248e43c`.
+
 ## Scope
 
 This work implements WP2 on top of commit `9668aea`. It adds a column

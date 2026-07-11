@@ -32,6 +32,7 @@ import numpy as np
 
 from imri_qpe.constants import C
 
+from .energy_identity import enthalpy_vertical_work, internal_energy_vertical_work
 from .transonic_local import algebraic_state, entropy_gradient_log, state_partials
 from .transonic_potential import PaczynskiWiitaPotential
 from .transonic_thermo import integrated_stress, radiative_cooling, surface_density, vertical_state
@@ -690,13 +691,12 @@ def legacy_energy_identity_audit(
     lambda0: float,
     params,
 ) -> EnergyIdentityAudit:
-    """Compare the legacy entropy row with a total-energy flux derivative.
+    """Compare the legacy entropy row with an internal-energy flux derivative.
 
     The legacy radial equation uses ``dPi/Sigma`` while its entropy equation
     uses ``P drho/rho**2``.  Their difference is the work associated with the
-    changing one-zone vertical column.  Adding the reported vertical-work
-    derivative makes the conservative identity exact without altering the
-    legacy equations.
+    changing one-zone vertical column. This audit deliberately preserves the
+    internal-energy representation used before the enthalpy-flux correction.
     """
 
     y = np.asarray(y, dtype=float)
@@ -730,7 +730,14 @@ def legacy_energy_identity_audit(
     expected_derivative = float(area * state.Q_rad + area * local_energy_residual)
     raw_defect = float(mechanical_derivative - expected_derivative)
     vertical_work = float(
-        mdot * (dPi_dx / state.Sigma - state.P * drho_dx / state.rho**2)
+        internal_energy_vertical_work(
+            mdot,
+            state.Sigma,
+            dPi_dx,
+            state.P,
+            state.rho,
+            drho_dx,
+        )
     )
     corrected = float(mechanical_derivative + vertical_work - expected_derivative)
     scale = max(
@@ -742,6 +749,87 @@ def legacy_energy_identity_audit(
     )
     return EnergyIdentityAudit(
         mechanical_flux_derivative=mechanical_derivative,
+        entropy_expected_derivative=expected_derivative,
+        raw_identity_defect=raw_defect,
+        vertical_work_derivative=vertical_work,
+        corrected_identity_defect=corrected,
+        normalized_raw_defect=float(raw_defect / scale),
+        normalized_corrected_defect=float(corrected / scale),
+    )
+
+
+def enthalpy_energy_identity_audit(
+    logR: float,
+    y,
+    g,
+    lambda0: float,
+    params,
+) -> EnergyIdentityAudit:
+    """Differentiate the actual enthalpy flux on a source-free legacy state."""
+
+    y = np.asarray(y, dtype=float)
+    g = np.asarray(g, dtype=float)
+    if y.shape != (2,) or g.shape != (2,):
+        raise ValueError("y and g must each have shape (2,)")
+    state = algebraic_state(logR, float(y[0]), float(y[1]), lambda0, params)
+    mdot = float(2.0 * np.pi * state.R * state.Sigma * state.u)
+    partials = state_partials(
+        logR,
+        y,
+        lambda0,
+        params,
+        eps_x=params.partial_eps,
+        eps_y=params.partial_eps,
+    )
+    dPi_dx = float(partials.x["Pi"] + np.dot(partials.y["Pi"], g))
+    drho_dx = float(partials.x["rho"] + np.dot(partials.y["rho"], g))
+    de_dx = float(partials.x["e"] + np.dot(partials.y["e"], g))
+    dOmega_dx = float(partials.x["Omega"] + np.dot(partials.y["Omega"], g))
+    dSigma_dx = float(state.Sigma * (-1.0 - g[0]))
+    dl_dx = float(state.l * (2.0 + dOmega_dx / state.Omega))
+    torque = float(2.0 * np.pi * state.R**2 * state.W)
+    dtorque_dx = float(mdot * dl_dx)
+    dq_dx = float(
+        state.u**2 * g[0]
+        + state.Omega * dl_dx
+        + state.R**2 * (state.Omega_K**2 - state.Omega**2)
+    )
+    dh_dx = float(
+        dPi_dx / state.Sigma - state.Pi * dSigma_dx / state.Sigma**2
+    )
+    flux_derivative = float(
+        mdot * (dq_dx + de_dx + dh_dx)
+        - dOmega_dx * torque
+        - state.Omega * dtorque_dx
+    )
+    vertical_work = float(
+        enthalpy_vertical_work(
+            mdot,
+            state.Sigma,
+            state.Pi,
+            dSigma_dx,
+            state.P,
+            state.rho,
+            drho_dx,
+        )
+    )
+    Tdsdx = float(entropy_gradient_log(logR, y, g, lambda0, params))
+    q_visc = float(-state.W * dOmega_dx)
+    q_adv = float(-(state.Sigma * state.u / state.R) * Tdsdx)
+    local_energy_residual = float(q_visc - state.Q_rad - q_adv)
+    area = float(2.0 * np.pi * state.R**2)
+    expected_derivative = float(area * state.Q_rad + area * local_energy_residual)
+    raw_defect = float(flux_derivative - expected_derivative)
+    corrected = float(flux_derivative + vertical_work - expected_derivative)
+    scale = max(
+        abs(flux_derivative),
+        abs(expected_derivative),
+        abs(vertical_work),
+        abs(area * state.Q_rad),
+        1.0,
+    )
+    return EnergyIdentityAudit(
+        mechanical_flux_derivative=flux_derivative,
         entropy_expected_derivative=expected_derivative,
         raw_identity_defect=raw_defect,
         vertical_work_derivative=vertical_work,

@@ -151,10 +151,14 @@ def run() -> None:
         )
     pilot_rows = json.loads(PILOT.read_text())
     near_isco_failure = [
-        row
+        dict(row)
         for row in pilot_rows
         if row["inner_radius_rg"] == 6.1 and row["N"] in {256, 512}
     ]
+    for row in near_isco_failure:
+        legacy_key = "total_energy_ledger_defect_relative"
+        if legacy_key in row:
+            row["total_energy_telescoping_defect_relative"] = row.pop(legacy_key)
     failure = _prepare("signed_flux_total_energy_near_isco_failure")
     _write_json(failure / "failure_summary.json", near_isco_failure)
     _finalize(
@@ -164,7 +168,9 @@ def run() -> None:
                 "PYTHONPATH=src python3 scripts/run_signed_flux_total_energy_pilot.py && "
                 "PYTHONPATH=src python3 scripts/build_signed_flux_wp2_canonical.py"
             ),
-            "source_parent_commit": "9668aea",
+            "source_parent_commit": "248e43c",
+            "energy_identity_revision": "enthalpy_vertical_work_v2",
+            "supersedes": "the mixed enthalpy/internal-work payload in 248e43c",
             "numerical_status": "REJECTED",
             "physical_status": "REJECTED",
             "claim_scope": "Near-ISCO fixed-Keplerian total-energy coupling",
@@ -236,7 +242,9 @@ def run() -> None:
             "generation_command": (
                 "PYTHONPATH=src python3 scripts/build_signed_flux_wp2_canonical.py"
             ),
-            "source_parent_commit": "9668aea",
+            "source_parent_commit": "248e43c",
+            "energy_identity_revision": "enthalpy_vertical_work_v2",
+            "supersedes": "the mixed enthalpy/internal-work payload in 248e43c",
             "numerical_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
             "physical_status": "DIAGNOSTIC ONLY",
             "claim_scope": "Rin=10 rg total-energy interface controls",

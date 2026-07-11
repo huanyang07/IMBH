@@ -80,6 +80,11 @@ def test_wp1_canonical_cases_preserve_legacy_and_closed_states() -> None:
 
 def test_wp2_canonical_cases_preserve_controls_and_failure_witness() -> None:
     accepted = CANONICAL / "signed_flux_total_energy_rin10_N512"
+    accepted_provenance = json.loads((accepted / "provenance.json").read_text())
+    assert (
+        accepted_provenance["energy_identity_revision"]
+        == "enthalpy_vertical_work_v2"
+    )
     summary = json.loads((accepted / "summary.json").read_text())
     assert summary["tidal_wall"]["converged"]
     assert summary["zero_torque"]["converged"]
@@ -89,6 +94,11 @@ def test_wp2_canonical_cases_preserve_controls_and_failure_witness() -> None:
             assert float(state["total_energy_residual"]) < 1.0e-6
 
     rejected = CANONICAL / "signed_flux_total_energy_near_isco_failure"
+    rejected_provenance = json.loads((rejected / "provenance.json").read_text())
+    assert (
+        rejected_provenance["energy_identity_revision"]
+        == "enthalpy_vertical_work_v2"
+    )
     rows = json.loads((rejected / "failure_summary.json").read_text())
     assert any(not row["converged"] for row in rows)
     assert any(

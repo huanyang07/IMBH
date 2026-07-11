@@ -20,6 +20,7 @@ from scipy.sparse import lil_matrix
 
 from imri_qpe.constants import C
 
+from .energy_identity import enthalpy_vertical_work
 from .conservative_transport import (
     ConservativeIntervalTransport,
     ConservativeNodeState,
@@ -433,7 +434,14 @@ def _directional_node_derivatives(
     )
     derivatives = {
         name: float((getattr(plus, name) - getattr(minus, name)) / (2.0 * step))
-        for name in ("Pi", "rho", "e", "Omega", "mechanical_energy_flux")
+        for name in (
+            "Sigma",
+            "Pi",
+            "rho",
+            "e",
+            "Omega",
+            "mechanical_energy_flux",
+        )
     }
     return center, derivatives
 
@@ -481,10 +489,14 @@ def conservative_local_dae_residual(
         1.0,
     )
     vertical_work = float(
-        state.mdot
-        * (
-            derivatives["Pi"] / state.Sigma
-            - state.P * derivatives["rho"] / state.rho**2
+        enthalpy_vertical_work(
+            state.mdot,
+            state.Sigma,
+            state.Pi,
+            derivatives["Sigma"],
+            state.P,
+            state.rho,
+            derivatives["rho"],
         )
     )
     scales = params.flux_scales
@@ -615,6 +627,7 @@ def _interval_rows(
     dx = float(logR[idx + 1] - logR[idx])
     dlogu_dx = float((logu[idx + 1] - logu[idx]) / dx)
     dPi_dx = float((right.Pi - left.Pi) / dx)
+    dSigma_dx = float((right.Sigma - left.Sigma) / dx)
     drho_dx = float((right.rho - left.rho) / dx)
     de_dx = float((right.e - left.e) / dx)
     dOmega_dx = float((right.Omega - left.Omega) / dx)
@@ -659,8 +672,15 @@ def _interval_rows(
             )
         )
         vertical_rows.append(
-            state.mdot
-            * (dPi_dx / state.Sigma - state.P * drho_dx / state.rho**2)
+            enthalpy_vertical_work(
+                state.mdot,
+                state.Sigma,
+                state.Pi,
+                dSigma_dx,
+                state.P,
+                state.rho,
+                drho_dx,
+            )
         )
 
     transport = integrate_interval_transport(
@@ -1638,6 +1658,7 @@ def conservative_seed_from_legacy(
     for idx in range(disk.n_nodes - 1):
         dx = float(logR[idx + 1] - logR[idx])
         dPi_dx = float((nodes[idx + 1].Pi - nodes[idx].Pi) / dx)
+        dSigma_dx = float((nodes[idx + 1].Sigma - nodes[idx].Sigma) / dx)
         drho_dx = float((nodes[idx + 1].rho - nodes[idx].rho) / dx)
         middle = reconstruct_conservative_state(
             0.5 * float(logR[idx] + logR[idx + 1]),
@@ -1650,8 +1671,15 @@ def conservative_seed_from_legacy(
         )
         vertical = float(
             dx
-            * middle.mdot
-            * (dPi_dx / middle.Sigma - middle.P * drho_dx / middle.rho**2)
+            * enthalpy_vertical_work(
+                middle.mdot,
+                middle.Sigma,
+                middle.Pi,
+                dSigma_dx,
+                middle.P,
+                middle.rho,
+                drho_dx,
+            )
         )
         epsilon[idx + 1] = float(
             epsilon[idx]

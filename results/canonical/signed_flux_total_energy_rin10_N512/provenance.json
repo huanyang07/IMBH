@@ -1,14 +1,16 @@
 {
   "claim_scope": "Rin=10 rg total-energy interface controls",
   "does_not_establish": "A physical hot branch or a valid inner match; radial pressure support still exceeds the production gate near the interface.",
+  "energy_identity_revision": "enthalpy_vertical_work_v2",
   "generation_command": "PYTHONPATH=src python3 scripts/build_signed_flux_wp2_canonical.py",
   "numerical_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
   "payload_sha256": {
     "config.json": "e7baef20134f64184a497b9217c6bd4cc0f68f923d55704206b3432b4b2f4ff7",
-    "summary.json": "464ab3d8d77507e159172b5e1f8bc7e5b9c9d37ffc1d4cc051ee899ebf71d6e8",
-    "tidal_wall.npz": "45f8326e9ce77b5d00cfb36cfe0cba9aeed7dbdaf7dcff0240fc61fe0d5dbc0c",
-    "zero_torque.npz": "5af4a159de8c6a247e5259158f8c1778e5c8dbbb7706f3fe93a746f732825cc1"
+    "summary.json": "1946c61ca06d36d3084e05ecb5581e14747598c5bedf03ef0876d9d8b6a4280f",
+    "tidal_wall.npz": "abf418c6c99f43a3da12c6b976557be04dc28a9aa9f32a376f894404d4005391",
+    "zero_torque.npz": "6ada3e5bea693973e0c20aac942159080d7cbf596b5dd3e02f4f38d2799fb6ec"
   },
   "physical_status": "DIAGNOSTIC ONLY",
-  "source_parent_commit": "9668aea"
+  "source_parent_commit": "248e43c",
+  "supersedes": "the mixed enthalpy/internal-work payload in 248e43c"
 }

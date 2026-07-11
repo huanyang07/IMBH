@@ -1,11 +1,13 @@
 {
   "claim_scope": "Near-ISCO fixed-Keplerian total-energy coupling",
+  "energy_identity_revision": "enthalpy_vertical_work_v2",
   "establishes": "At N>=256 the alpha-viscosity mismatch is localized to the invalid near-ISCO cells even though the total-energy row closes.",
   "generation_command": "PYTHONPATH=src python3 scripts/run_signed_flux_total_energy_pilot.py && PYTHONPATH=src python3 scripts/build_signed_flux_wp2_canonical.py",
   "numerical_status": "REJECTED",
   "payload_sha256": {
-    "failure_summary.json": "3644e7c2d674cff44d918656339264b0f1d703d3d04eb168415fb75d9f214fda"
+    "failure_summary.json": "9fe88f1231c185923c0587c28a10a8e7a66dbd77b2c38dca8e6f0b913ed33273"
   },
   "physical_status": "REJECTED",
-  "source_parent_commit": "9668aea"
+  "source_parent_commit": "248e43c",
+  "supersedes": "the mixed enthalpy/internal-work payload in 248e43c"
 }

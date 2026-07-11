@@ -29,6 +29,10 @@ from .entropy_advection import (
     total_pressure,
     xi_eff,
 )
+from .energy_identity import (
+    enthalpy_vertical_work,
+    internal_energy_vertical_work,
+)
 from .grid import RadialGrid, make_log_grid
 from .global_slim import (
     GlobalSlimParams,
@@ -215,6 +219,7 @@ from .conservative_transport import (
     carried_transport,
     conservative_source_terms,
     default_conservative_scales,
+    enthalpy_energy_identity_audit,
     integrate_interval_transport,
     integrate_sampled_interval_transport,
     legacy_energy_identity_audit,
@@ -385,6 +390,8 @@ __all__ = [
     "differential_residual",
     "energy_residual_metrics",
     "energy_residual_metrics_from_profile",
+    "enthalpy_vertical_work",
+    "enthalpy_energy_identity_audit",
     "entropy_gradient_log",
     "extended_phase_space_matrix",
     "finite_difference_state_partials",
@@ -401,6 +408,7 @@ __all__ = [
     "evaluate_global_slim_profile",
     "evaluate_isolated_slim_profile",
     "integrated_energy_residual",
+    "internal_energy_vertical_work",
     "integrated_stress",
     "initial_guess_from_reduced_solver",
     "initial_guess_from_repaired_reduced_solver",

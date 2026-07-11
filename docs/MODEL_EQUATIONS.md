@@ -180,10 +180,14 @@ F_E   = Mdot B_col - Omega G.
 Its cell compatibility equation is
 
 ```text
-Delta F_E + W_vertical - L_rad + S_E + P_ext = 0
-W_vertical = Mdot (Delta Pi/Sigma - P Delta rho/rho^2).
+Delta F_E + W_H - L_rad + S_E + P_ext = 0
+W_H = Mdot (Pi Delta Sigma/Sigma^2 - P Delta rho/rho^2).
 ```
 
+Using `Pi/Sigma=P/rho` and `Sigma=2 rho H`, the differential work is also
+`W_H=Mdot(P/rho)dlnH`. The older
+`Mdot(dPi/Sigma-P drho/rho^2)` expression belongs to an internal-energy flux;
+pairing it with enthalpy adds an extra `Mdot d(Pi/Sigma)` term.
 `-Omega G` carries viscous torque work, so `Qvisc` is not added independently.
 `P_ext` is signed power applied to the disk, so a torque applied by a pattern
 has `P_ext=Omega_pattern T_disk`. Distributed external torque and power are
