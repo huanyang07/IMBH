@@ -1,0 +1,24 @@
+{
+  "canonical_packaging_command": "PYTHONPATH=src python3 scripts/build_coupled_mesh_interface_canonical.py",
+  "claim_scope": "Mesh and numerical-interface certification of the fully coupled no-wind ideal-wall control",
+  "does_not_establish": "A physical tidal torque and power, endpoint-stencil independence, stability, time evolution, or wind.",
+  "establishes": "Chained full-root convergence through Ninner192/Nouter128 and full-rank roots at 35-50 rg with invariant luminosity and fixed-band thickness metrics.",
+  "numerical_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
+  "payload_sha256": {
+    "config.json": "6297d83ba55d0cf4a9de677da955e283dea073909114bc04866d5ee46eadc29b",
+    "interface_R35_Ninner192_Nouter128.npz": "b76146b687b2bfddb08fb3c1936294f4d6d56b1e1c697bd2daf7b71526888133",
+    "interface_R45_Ninner192_Nouter128.npz": "2b7729ebffcc5b0569a72e6f02c324338d46c3ea4cf547845a034ef683bed35c",
+    "interface_R50_Ninner192_Nouter128.npz": "a21a1df8cecc779238aa1321fc6f7277d3fa73c400cf78df88c087c4eac063f9",
+    "interface_summary.json": "1808ceee80fe62502dc8e4566d45fc3100ce45398536f0152816f6c71a70b05a",
+    "mesh_Ninner144_Nouter96.npz": "526d365fb93a2578620dfee66afea74c458d8f149fea4fde861eab9ca89cadc1",
+    "mesh_Ninner192_Nouter128.npz": "55ce3b1a1058c377b002dbc897c3c45e737a05c1a1a0d72f178f5b5bbeefe271",
+    "mesh_summary.json": "326b9df5a19bd2df11aa9852ba72d9b41452342fd14d8648aa788633d981737d"
+  },
+  "physical_status": "DIAGNOSTIC ONLY",
+  "retained_negative_diagnostic": "The raw maximum over the moving outer domain varies by 3.90%; it is not used as an interface-invariance metric because the domain itself changes.",
+  "solver_generation_commands": [
+    "PYTHONPATH=src python3 scripts/run_coupled_inner_outer_mesh_certification.py",
+    "PYTHONPATH=src python3 scripts/run_coupled_inner_outer_interface_continuation.py"
+  ],
+  "source_parent_commit": "ab3f751"
+}

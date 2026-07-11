@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import numpy as np
+
 
 ROOT = Path(__file__).resolve().parents[1]
 SUMMARY = (
@@ -32,3 +34,26 @@ def test_coupled_inner_outer_rank_prototype_passes_declared_gates() -> None:
         assert audit["preboundary_nullity"] == 2
         assert audit["interface_response_rank"] == 2
         assert audit["sonic_rank"] == 2
+
+
+def test_coupled_state_same_mesh_interpolation_is_identity() -> None:
+    import sys
+
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from run_coupled_inner_outer_rank_prototype import build_coupled_case
+
+    from imri_qpe.layer3_minidisk_1d import (
+        interpolate_coupled_state_components,
+        pack_coupled_state,
+    )
+
+    _canonical, _index, _radius, context, state = build_coupled_case(12, 8)
+    components = interpolate_coupled_state_components(
+        state,
+        context,
+        context.inner_params,
+        context.outer_grid,
+    )
+    reconstructed = pack_coupled_state(*components, context)
+
+    np.testing.assert_allclose(reconstructed, state, rtol=0.0, atol=2.0e-14)

@@ -322,6 +322,18 @@ every stage. A direct blend between a canonical inner anchor and continuity
 is not used because their inner-state derivatives have opposite signs and can
 artificially lose rank.
 
+Mesh continuation interpolates the complete accepted root in positive
+logarithmic variables and carries the signed `J_I,F_E,I` values unchanged.
+When `R_I` moves, the composite itself supplies the newly reassigned annulus:
+inner primitives seed newly exposed outer cells for inward moves, while outer
+primitives seed newly added inner nodes for outward moves.
+
+Interface-position invariance is evaluated on fixed physical quantities. In
+particular, a maximum over the whole outer numerical domain is not invariant
+when its inner edge moves. The thickness gate therefore uses the maximum
+`H/R` on the common `R>=60 rg` band and fixed-radius samples; the moving-domain
+maximum is retained separately as a diagnostic.
+
 ## Validity Gates
 
 Numerical residual acceptance is necessary but not sufficient. Current audits

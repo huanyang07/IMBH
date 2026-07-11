@@ -42,7 +42,7 @@ This is the canonical project handoff. Status labels mean:
 | Projected pressure-supported reservoir | **DIAGNOSTIC ONLY** | Full-support N64 roots reduce the rotation mismatch to `0.37%` with closed fluxes | No N128 case passes; pressure mismatch worsens to `0.356`; projection leaves `1.38%` force mismatch |
 | Common-stress fixed-Keplerian reservoir | **DIAGNOSTIC ONLY** | Shared `W=alpha Pi`; all `30-60 rg`, N64/N128/N256 roots close stress, energy, and conserved fluxes | Maximum primitive mismatch remains `0.20-0.30`, dominated by surface density |
 | Simultaneous non-Keplerian reservoir | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | `40-60 rg`, N64/N128/N256 roots close stress/radial/energy equations without projection; pressure and rotation match near `1e-3` | N256 density mismatch is `0.057-0.099`; `30 rg` stalls between support fractions `0.24-0.25`; inner solution remains frozen |
-| Fully coupled inner/outer `40.0415 rg` control | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Square `388x388` Ninner96/Nouter64 root; full Jacobian rank 388; interface and sonic rank 2; `Sigma,T` continuous; maximum residual `5.96e-9` | One interface and one production mesh only; ideal wall, no physical tidal power, stability, time evolution, or wind |
+| Fully coupled inner/outer ideal-wall control | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Chained `96/64 -> 144/96 -> 192/128` roots; full-rank `772x772` systems at `34.97-50.05 rg`; luminosity spread `1.76e-5`; fixed-band `H/R` spread `0.397%` | Ideal wall has no calibrated tidal torque/power; outer endpoint row remains a numerical closure; stability, time evolution, and wind are pending |
 | Fully time-dependent total-energy signed-flux disk | **PLANNED** | Required to test accumulation, fronts, and limit cycles under physical feeding | Coupled mass+total-energy IMEX evolution not implemented |
 
 ## Frozen Target Under Review
@@ -106,11 +106,13 @@ N                    = 164
     rotation match to about `0.13%` and `0.05%`, while density misses by
     `5.7%`. This is the best splice candidate so far, but not a certified
     physical branch.
-15. Releasing the inner entropy/eigenvalue/sonic state closes the `40.0415 rg`
-    interface at Ninner96/Nouter64. The final pressure, rotation, and scale-height
-    mismatches are `2.9e-4`, `6.3e-4`, and `2.9e-4`; the composite remains warm
-    and thick with `H/R=0.310` and `Lrad=1.444 LEdd`. Mesh and interface-radius
-    certification are still required before physical interpretation.
+15. Releasing the inner entropy/eigenvalue/sonic state closes the interface.
+    Chained prolongation reaches Ninner192/Nouter128, where pressure, rotation,
+    and scale-height mismatches are below `1.7e-4` and the `772x772` Jacobian is
+    full rank. Roots at `34.97,40.04,44.78,50.05 rg` have luminosity spread
+    `1.76e-5` and common-band `H/R` spread `0.397%`. The raw maximum over the
+    moving outer domain varies by `3.90%` and is retained as a partition
+    diagnostic, not used as a fixed-domain invariance metric.
 
 ## Claims That Are Not Allowed Yet
 
@@ -122,18 +124,16 @@ N                    = 164
 
 ## Next Scientific Work
 
-1. Prolongate the accepted coupled `40.0415 rg` root through the declared
-   N128/N256 mesh gate without returning to the frozen-inner seed.
-2. Continue the same coupled root to `35,45,50 rg` and require luminosity and
-   warm/thick metrics to be interface-position invariant.
-3. If mesh or interface continuation fails, move directly to one global signed conservative
-   transonic system rather than another projected or staggered splice.
-4. Add a binary-calibrated tidal torque and its pattern-speed power only after
-   the interface closes.
-5. Implement coupled mass+energy IMEX evolution, allowing
+1. Preserve the open boundary and ideal wall as limiting controls, then add
+   one binary-calibrated tidal-torque family with pattern-speed power and an
+   explicit differential-work destination.
+2. Continue the physical torque amplitude from overflow toward confinement and
+   determine whether the warm/thick state lies within the binary torque budget.
+3. Implement coupled mass+energy IMEX evolution, allowing
    accumulation when no steady state exists.
-6. Repeat validity-surface matching with a bordered global eigenvalue solve if
+4. Repeat validity-surface matching with a bordered global eigenvalue solve if
    a mesh-stable critical layer appears.
+5. Add wind only after the tidal and stability gates pass.
 
 ## Review Entry Points
 
@@ -160,3 +160,4 @@ N                    = 164
 - Pressure-supported interface pilot: `reports/current/CODEX_PRESSURE_SUPPORTED_INTERFACE_PILOT_RESULTS_2026-07-11.md`
 - Common stress and simultaneous reservoir: `reports/current/CODEX_COMMON_STRESS_AND_SIMULTANEOUS_RESERVOIR_RESULTS_2026-07-11.md`
 - Fully coupled rank prototype: `reports/current/CODEX_COUPLED_INNER_OUTER_RANK_PROTOTYPE_RESULTS_2026-07-11.md`
+- Coupled mesh/interface certification: `reports/current/CODEX_COUPLED_MESH_INTERFACE_CERTIFICATION_RESULTS_2026-07-11.md`

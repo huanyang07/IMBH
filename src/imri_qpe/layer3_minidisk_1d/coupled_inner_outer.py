@@ -22,11 +22,14 @@ from .signed_flux_disk import SignedFluxTransport
 from .signed_flux_thermal import SignedThermalClosure
 from .transonic_collocation import (
     TransonicSlimParams,
+    computational_grid,
+    pack_state,
     profile_from_state_vector,
     sonic_residual_jacobian,
     state_bounds,
     transonic_core_jacobian_without_outer_boundary,
     transonic_core_residual_without_outer_boundary,
+    unpack_state,
 )
 from .transonic_local import algebraic_state
 from .transonic_potential import PaczynskiWiitaPotential
@@ -355,6 +358,149 @@ def unpack_coupled_state(state, context: CoupledInnerOuterContext):
         np.exp(state[temperature_end:omega_end]),
         float(state[-2] * context.angular_flux_scale),
         float(state[-1] * context.energy_flux_scale),
+    )
+
+
+def interpolate_coupled_state_components(
+    state,
+    source_context: CoupledInnerOuterContext,
+    target_inner_params: TransonicSlimParams,
+    target_outer_grid: RadialGrid,
+):
+    """Interpolate a complete coupled root onto new inner and outer meshes."""
+
+    (
+        inner_state,
+        sigma,
+        temperature,
+        omega,
+        interface_angular,
+        interface_energy,
+    ) = unpack_coupled_state(state, source_context)
+    logu, logT, logR_son, lambda0, source_logR = unpack_state(
+        inner_state,
+        source_context.inner_params,
+    )
+    target_logR = computational_grid(target_inner_params, logR_son)
+    target_inner_state = pack_state(
+        np.interp(target_logR, source_logR, logu),
+        np.interp(target_logR, source_logR, logT),
+        logR_son,
+        lambda0,
+    )
+
+    source_log_outer_radius = np.log(source_context.outer_grid.centers)
+    target_log_outer_radius = np.log(target_outer_grid.centers)
+
+    def positive_interpolate(values):
+        return np.exp(
+            np.interp(
+                target_log_outer_radius,
+                source_log_outer_radius,
+                np.log(np.asarray(values, dtype=float)),
+            )
+        )
+
+    return (
+        target_inner_state,
+        positive_interpolate(sigma),
+        positive_interpolate(temperature),
+        positive_interpolate(omega),
+        interface_angular,
+        interface_energy,
+    )
+
+
+def interpolate_coupled_state_across_interface(
+    state,
+    source_context: CoupledInnerOuterContext,
+    target_inner_params: TransonicSlimParams,
+    target_outer_grid: RadialGrid,
+):
+    """Remap a coupled composite when its numerical interface moves."""
+
+    (
+        inner_state,
+        _sigma,
+        _temperature,
+        _omega,
+        interface_angular,
+        interface_energy,
+    ) = unpack_coupled_state(state, source_context)
+    evaluation = evaluate_coupled_inner_outer_residual(
+        state,
+        source_context,
+    )
+    inner = evaluation.inner_profile
+    outer = evaluation.outer_energy_profile
+    outer_transport = evaluation.outer_transport
+    source_radius = np.concatenate(
+        (inner.R, source_context.outer_grid.centers)
+    )
+
+    def interpolate_composite(inner_values, outer_values, target_radius):
+        values = np.concatenate(
+            (
+                np.asarray(inner_values, dtype=float),
+                np.asarray(outer_values, dtype=float),
+            )
+        )
+        return np.exp(
+            np.interp(
+                np.log(target_radius),
+                np.log(source_radius),
+                np.log(values),
+            )
+        )
+
+    _logu, _logT, logR_son, lambda0, _source_logR = unpack_state(
+        inner_state,
+        source_context.inner_params,
+    )
+    target_logR = computational_grid(target_inner_params, logR_son)
+    target_inner_radius = np.exp(target_logR)
+    outer_inflow_speed = np.maximum(
+        -outer.radial_velocity,
+        1.0e-300,
+    )
+    target_inner_state = pack_state(
+        np.log(
+            interpolate_composite(
+                inner.u,
+                outer_inflow_speed,
+                target_inner_radius,
+            )
+        ),
+        np.log(
+            interpolate_composite(
+                inner.T,
+                outer.temperature,
+                target_inner_radius,
+            )
+        ),
+        logR_son,
+        lambda0,
+    )
+    target_outer_radius = target_outer_grid.centers
+    return (
+        target_inner_state,
+        interpolate_composite(
+            inner.Sigma,
+            outer_transport.surface_density,
+            target_outer_radius,
+        ),
+        interpolate_composite(
+            inner.T,
+            outer.temperature,
+            target_outer_radius,
+        ),
+        interpolate_composite(
+            inner.Omega,
+            outer_transport.omega,
+            target_outer_radius,
+        ),
+        interface_angular,
+        interface_energy,
     )
 
 

@@ -48,6 +48,13 @@ rejected sequence.
     explains much of the old pressure jump. The simultaneous non-Keplerian
     reservoir closes at `40-60 rg`; `40 rg` is the best coupled-solve target,
     with a remaining N256 density mismatch of `5.7%`.
+19. **Fully coupled eigenproblem:** a square inner-transonic/outer-reservoir
+    solve releases the inner entropy, sonic state, and angular eigenvalue; the
+    `40.0415 rg` interface closes with full Jacobian and boundary-response rank.
+20. **Mesh and interface certification:** chained full-root prolongation reaches
+    Ninner192/Nouter128, and full-rank roots at `35-50 rg` preserve luminosity
+    and fixed-band thickness. The next uncertainty is physical tidal closure,
+    not numerical splicing.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

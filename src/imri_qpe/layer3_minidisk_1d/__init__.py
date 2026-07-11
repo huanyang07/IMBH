@@ -54,6 +54,8 @@ from .coupled_inner_outer import (
     canonical_anchor_inner_residual,
     dense_coupled_jacobian,
     evaluate_coupled_inner_outer_residual,
+    interpolate_coupled_state_components,
+    interpolate_coupled_state_across_interface,
     pack_coupled_state,
     solve_coupled_inner_outer_steady,
     solve_canonical_anchored_inner,

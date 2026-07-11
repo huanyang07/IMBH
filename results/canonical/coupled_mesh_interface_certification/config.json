@@ -1,0 +1,30 @@
+{
+  "interface_continuation_policy": "fork inward from 40; continue outward 40 to 45 to 50",
+  "interface_targets_rg": [
+    35.0,
+    40.0,
+    45.0,
+    50.0
+  ],
+  "luminosity_spread_gate": 0.01,
+  "mesh_restart_policy": "prolongate_previous_full_mu1_root",
+  "mesh_sequence": [
+    [
+      96,
+      64
+    ],
+    [
+      144,
+      96
+    ],
+    [
+      192,
+      128
+    ]
+  ],
+  "outer_boundary": "ideal_tidal_wall_control",
+  "primitive_audit_gate": 0.01,
+  "thickness_invariance_metric": "maximum H/R over fixed R >= 60 rg band",
+  "thickness_spread_gate": 0.02,
+  "wind": false
+}

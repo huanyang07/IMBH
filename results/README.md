@@ -22,6 +22,8 @@ the default branch.
 | `two_domain_interface_sweep` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Mesh and interface-position sweep of the conservative transonic-to-wall composite |
 | `pressure_supported_interface_pilot` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Coarse-grid-only projected pressure-support continuation and N128 failure evidence |
 | `common_stress_simultaneous_reservoir` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Shared-stress fixed-Keplerian gate and simultaneous non-Keplerian `30-60 rg` decision evidence |
+| `coupled_inner_outer_rank_prototype` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | First square full-rank coupled root at `40.0415 rg` |
+| `coupled_mesh_interface_certification` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Chained mesh convergence and full-rank `35-50 rg` numerical-interface invariance |
 
 Each case contains `provenance.json` and `SHA256SUMS.txt`. The global file list
 and hashes are recorded in `manifests/canonical_artifacts.csv`.
