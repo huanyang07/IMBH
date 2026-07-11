@@ -56,6 +56,14 @@ class NonKeplerianCommonStressResult:
     message: str
 
 
+@dataclass(frozen=True)
+class NonKeplerianResidualScales:
+    """Fixed scaling arrays shared by standalone and coupled residuals."""
+
+    torque: np.ndarray
+    energy: np.ndarray
+
+
 def common_alpha_stress_torque(
     grid: RadialGrid,
     surface_density,
@@ -171,12 +179,43 @@ def _log_edge_values(grid: RadialGrid, values: np.ndarray) -> np.ndarray:
     return edge
 
 
+def positive_edge_reconstruction(grid: RadialGrid, values) -> np.ndarray:
+    """Log-linearly reconstruct positive cell values to every grid edge."""
+
+    values = np.asarray(values, dtype=float)
+    if values.shape != grid.centers.shape or np.any(values <= 0.0):
+        raise ValueError("positive edge values must match the grid")
+    return np.exp(_log_edge_values(grid, np.log(values)))
+
+
+def _template_with_inner_angular_flux(
+    template: SignedFluxTransport,
+    inner_angular_flux: float | None,
+) -> SignedFluxTransport:
+    if inner_angular_flux is None:
+        return template
+    shift = float(inner_angular_flux) - float(template.angular_flux_faces[0])
+    return replace(
+        template,
+        angular_flux_faces=np.asarray(
+            template.angular_flux_faces + shift,
+            dtype=float,
+        ),
+    )
+
+
 def _transport_with_rotation(
     grid: RadialGrid,
     template: SignedFluxTransport,
     surface_density: np.ndarray,
     omega: np.ndarray,
+    *,
+    inner_angular_flux: float | None = None,
 ) -> SignedFluxTransport:
+    template = _template_with_inner_angular_flux(
+        template,
+        inner_angular_flux,
+    )
     log_omega_faces = _log_edge_values(grid, np.log(omega))
     omega_faces = np.exp(log_omega_faces)
     specific_l = grid.centers**2 * omega
@@ -365,6 +404,173 @@ def solve_common_stress_total_energy_steady(
     )
 
 
+def build_nonkeplerian_residual_scales(
+    grid: RadialGrid,
+    template_transport: SignedFluxTransport,
+    surface_density,
+    temperature,
+    omega,
+    M_g: float,
+    *,
+    closure: SignedThermalClosure,
+    prescribed_inner_flux: ConservedInterfaceFlux | None = None,
+) -> NonKeplerianResidualScales:
+    """Build immutable residual scales from one nearby physical state."""
+
+    sigma = np.asarray(surface_density, dtype=float)
+    temperature = np.asarray(temperature, dtype=float)
+    omega = np.asarray(omega, dtype=float)
+    inner_angular = (
+        None
+        if prescribed_inner_flux is None
+        else prescribed_inner_flux.angular_momentum
+    )
+    transport = _transport_with_rotation(
+        grid,
+        template_transport,
+        sigma,
+        omega,
+        inner_angular_flux=inner_angular,
+    )
+    energy = signed_total_energy_profile(
+        grid,
+        transport,
+        temperature,
+        M_g,
+        closure=closure,
+        prescribed_inner_flux=prescribed_inner_flux,
+    )
+    flux_difference = (
+        energy.total_energy_flux_faces[1:]
+        - energy.total_energy_flux_faces[:-1]
+    )
+    n = grid.centers.size
+    global_floor = max(
+        float(np.sum(np.abs(energy.stream_energy_rate_cells))) / n,
+        float(np.sum(energy.radiative_loss_rate_cells)) / n,
+        1.0,
+    )
+    energy_scale = np.maximum(
+        np.abs(flux_difference)
+        + np.abs(energy.vertical_work_rate_cells)
+        + energy.radiative_loss_rate_cells
+        + np.abs(energy.stream_energy_rate_cells)
+        + np.abs(energy.external_power_rate_cells),
+        1.0e-6 * global_floor,
+    )
+    torque = np.asarray(transport.viscous_torque_centers, dtype=float)
+    torque_floor = 1.0e-8 * max(float(np.max(np.abs(torque))), 1.0)
+    return NonKeplerianResidualScales(
+        torque=np.maximum(np.abs(torque), torque_floor),
+        energy=np.asarray(energy_scale, dtype=float),
+    )
+
+
+def evaluate_nonkeplerian_common_stress_residual(
+    grid: RadialGrid,
+    template_transport: SignedFluxTransport,
+    surface_density,
+    temperature,
+    omega,
+    M_g: float,
+    *,
+    alpha: float,
+    closure: SignedThermalClosure,
+    scales: NonKeplerianResidualScales,
+    prescribed_inner_flux: ConservedInterfaceFlux | None = None,
+    radial_support_fraction: float = 1.0,
+    mu_stress: float = 0.0,
+    stress_factor: float = 1.0,
+) -> tuple[
+    np.ndarray,
+    np.ndarray,
+    np.ndarray,
+    SignedFluxTransport,
+    SignedTotalEnergyProfile,
+]:
+    """Evaluate common stress, radial momentum, and total-energy rows."""
+
+    sigma = np.asarray(surface_density, dtype=float)
+    temperature = np.asarray(temperature, dtype=float)
+    omega = np.asarray(omega, dtype=float)
+    n = grid.centers.size
+    if any(value.shape != grid.centers.shape for value in (
+        sigma,
+        temperature,
+        omega,
+        scales.torque,
+        scales.energy,
+    )):
+        raise ValueError("state and residual scales must match the grid")
+    if not 0.0 <= radial_support_fraction <= 1.0:
+        raise ValueError("radial_support_fraction must lie in [0,1]")
+    potential = PaczynskiWiitaPotential(float(M_g))
+    omega_k = np.asarray(potential.omega_k(grid.centers), dtype=float)
+    inner_angular = (
+        None
+        if prescribed_inner_flux is None
+        else prescribed_inner_flux.angular_momentum
+    )
+    transport = _transport_with_rotation(
+        grid,
+        template_transport,
+        sigma,
+        omega,
+        inner_angular_flux=inner_angular,
+    )
+    common_torque = common_alpha_stress_torque(
+        grid,
+        sigma,
+        temperature,
+        M_g,
+        alpha=alpha,
+        closure=closure,
+        mu_stress=mu_stress,
+        stress_factor=stress_factor,
+    )
+    stress_residual = (
+        common_torque - transport.viscous_torque_centers
+    ) / scales.torque
+    energy = signed_total_energy_profile(
+        grid,
+        transport,
+        temperature,
+        M_g,
+        closure=closure,
+        prescribed_inner_flux=prescribed_inner_flux,
+    )
+    log_radius = np.log(grid.centers)
+    edge_order = 2 if n > 2 else 1
+    radial_velocity = np.asarray(energy.radial_velocity, dtype=float)
+    inertia = 0.5 * np.gradient(
+        radial_velocity**2,
+        log_radius,
+        edge_order=edge_order,
+    )
+    pressure_gradient = np.gradient(
+        energy.vertically_integrated_pressure,
+        log_radius,
+        edge_order=edge_order,
+    )
+    radial_full = (
+        inertia
+        - grid.centers**2 * (omega**2 - omega_k**2)
+        + pressure_gradient / sigma
+    ) / (grid.centers**2 * omega_k**2)
+    radial_residual = (
+        (1.0 - float(radial_support_fraction)) * np.log(omega / omega_k)
+        + float(radial_support_fraction) * radial_full
+    )
+    energy_residual = energy.net_energy_rate_cells / scales.energy
+    return (
+        np.asarray(stress_residual, dtype=float),
+        np.asarray(radial_residual, dtype=float),
+        np.asarray(energy_residual, dtype=float),
+        transport,
+        energy,
+    )
+
+
 def solve_nonkeplerian_common_stress_steady(
     grid: RadialGrid,
     template_transport: SignedFluxTransport,
@@ -415,95 +621,35 @@ def solve_nonkeplerian_common_stress_steady(
     omega_k = np.asarray(potential.omega_k(grid.centers), dtype=float)
     log_radius = np.log(grid.centers)
     edge_order = 2 if n > 2 else 1
-
-    reference_transport = _transport_with_rotation(
-        grid, template_transport, sigma_seed, omega_seed
-    )
-    reference_energy = signed_total_energy_profile(
+    scales = build_nonkeplerian_residual_scales(
         grid,
-        reference_transport,
+        template_transport,
+        sigma_seed,
         temperature_seed,
+        omega_seed,
         M_g,
         closure=closure,
         prescribed_inner_flux=prescribed_inner_flux,
     )
-    reference_flux_difference = (
-        reference_energy.total_energy_flux_faces[1:]
-        - reference_energy.total_energy_flux_faces[:-1]
-    )
-    global_floor = max(
-        float(np.sum(np.abs(reference_energy.stream_energy_rate_cells))) / n,
-        float(np.sum(reference_energy.radiative_loss_rate_cells)) / n,
-        1.0,
-    )
-    energy_scale = np.maximum(
-        np.abs(reference_flux_difference)
-        + np.abs(reference_energy.vertical_work_rate_cells)
-        + reference_energy.radiative_loss_rate_cells
-        + np.abs(reference_energy.stream_energy_rate_cells)
-        + np.abs(reference_energy.external_power_rate_cells),
-        1.0e-6 * global_floor,
-    )
-    reference_torque = np.asarray(
-        reference_transport.viscous_torque_centers, dtype=float
-    )
-    torque_floor = 1.0e-8 * max(float(np.max(np.abs(reference_torque))), 1.0)
-    torque_scale = np.maximum(np.abs(reference_torque), torque_floor)
 
     def evaluate(state_vector):
         sigma = np.exp(state_vector[:n])
         temperature = np.exp(state_vector[n : 2 * n])
         omega = np.exp(state_vector[2 * n :])
-        transport = _transport_with_rotation(
-            grid, template_transport, sigma, omega
-        )
-        common_torque = common_alpha_stress_torque(
+        return evaluate_nonkeplerian_common_stress_residual(
             grid,
+            template_transport,
             sigma,
             temperature,
+            omega,
             M_g,
             alpha=alpha,
             closure=closure,
+            scales=scales,
+            prescribed_inner_flux=prescribed_inner_flux,
+            radial_support_fraction=radial_support_fraction,
             mu_stress=mu_stress,
             stress_factor=stress_factor,
-        )
-        stress_residual = (
-            common_torque - transport.viscous_torque_centers
-        ) / torque_scale
-
-        energy = signed_total_energy_profile(
-            grid,
-            transport,
-            temperature,
-            M_g,
-            closure=closure,
-            prescribed_inner_flux=prescribed_inner_flux,
-        )
-        radial_velocity = np.asarray(energy.radial_velocity, dtype=float)
-        inertia = 0.5 * np.gradient(
-            radial_velocity**2, log_radius, edge_order=edge_order
-        )
-        pressure_gradient = np.gradient(
-            energy.vertically_integrated_pressure,
-            log_radius,
-            edge_order=edge_order,
-        )
-        radial_full = (
-            inertia
-            - grid.centers**2 * (omega**2 - omega_k**2)
-            + pressure_gradient / sigma
-        ) / (grid.centers**2 * omega_k**2)
-        radial_residual = (
-            (1.0 - float(radial_support_fraction)) * np.log(omega / omega_k)
-            + float(radial_support_fraction) * radial_full
-        )
-        energy_residual = energy.net_energy_rate_cells / energy_scale
-        return (
-            stress_residual,
-            radial_residual,
-            energy_residual,
-            transport,
-            energy,
         )
 
     def residual(state_vector):

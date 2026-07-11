@@ -285,6 +285,43 @@ Continuation replaces the radial block temporarily with
 and advances from `lambda=0` to `lambda=1`. Only the full-support root is a
 candidate physical reservoir state.
 
+## Fully Coupled Inner/Outer Control
+
+At a fixed physical interface edge `R_I`, the coupled no-wind control uses
+
+```text
+inner unknowns: log u, log T, log R_son, lambda0
+outer unknowns: log Sigma, log T, log Omega
+global unknowns: signed J_I, signed F_E,I.
+```
+
+The inner residual retains all interval equations and a frozen, independent
+two-row sonic pair, but removes its two artificial outer-boundary rows. The
+outer residual retains the simultaneous common-stress, radial-momentum, and
+total-energy rows. Explicit extraction rows impose
+
+```text
+J_I   = (Mdot l - G)_inner
+F_E,I = (Mdot B - Omega G)_inner.
+```
+
+The two remaining boundary freedoms are closed by continuity of `log Sigma`
+and `log T` at the same physical edge. The outer cell-centered state is
+positive-log reconstructed to that edge; no half-cell-separated comparison
+is used. Pressure, rotation, scale height, and radial velocity are dependent
+audits rather than extra boundary equations.
+
+The coupling homotopy drives the known one-way primitive jump `C_ref` to zero:
+
+```text
+R_I(mu) = C(current) - (1-mu) C_ref,   0 <= mu <= 1.
+```
+
+This keeps the derivative of the physical continuity conditions active at
+every stage. A direct blend between a canonical inner anchor and continuity
+is not used because their inner-state derivatives have opposite signs and can
+artificially lose rank.
+
 ## Validity Gates
 
 Numerical residual acceptance is necessary but not sufficient. Current audits

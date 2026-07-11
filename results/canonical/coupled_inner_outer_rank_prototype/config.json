@@ -1,0 +1,20 @@
+{
+  "coupling_stages": [
+    0.0,
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "hard_interface_conditions": [
+    "log_surface_density",
+    "log_temperature"
+  ],
+  "inner_nodes": 96,
+  "interface_rg": 40.04153642035986,
+  "outer_boundary": "ideal_tidal_wall_control",
+  "outer_cells": 64,
+  "stress": "shared_integrated_alpha_pressure",
+  "wind": false
+}

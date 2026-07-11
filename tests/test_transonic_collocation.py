@@ -30,6 +30,8 @@ from imri_qpe.layer3_minidisk_1d.transonic_collocation import (
     square_collocation_residual,
     square_jac_sparsity_pattern,
     state_bounds,
+    transonic_core_jacobian_without_outer_boundary,
+    transonic_core_residual_without_outer_boundary,
     unused_sonic_compatibility,
     unpack_state,
 )
@@ -175,6 +177,42 @@ class TransonicCollocationTests(unittest.TestCase):
         self.assertTrue(np.all(np.isfinite(pair)))
         self.assertTrue(np.isfinite(unused))
         self.assertLess(float(np.max(np.abs(residual))), 1.0e6)
+
+    def test_boundary_free_core_jacobian_matches_directional_difference(self) -> None:
+        pivot = select_sonic_compatibility_pivot(self.z, self.params)
+        residual = transonic_core_residual_without_outer_boundary(
+            self.z,
+            self.params,
+            pivot=pivot,
+        )
+        jacobian = transonic_core_jacobian_without_outer_boundary(
+            self.z,
+            self.params,
+            pivot=pivot,
+        )
+        direction = np.linspace(-0.5, 0.5, self.z.size)
+        direction /= np.linalg.norm(direction)
+        step = 1.0e-6
+        finite_difference = (
+            transonic_core_residual_without_outer_boundary(
+                self.z + step * direction,
+                self.params,
+                pivot=pivot,
+            )
+            - transonic_core_residual_without_outer_boundary(
+                self.z - step * direction,
+                self.params,
+                pivot=pivot,
+            )
+        ) / (2.0 * step)
+
+        self.assertEqual(residual.shape, (2 * self.params.n_nodes,))
+        self.assertEqual(jacobian.shape, (residual.size, self.z.size))
+        relative_error = np.linalg.norm(jacobian @ direction - finite_difference) / max(
+            np.linalg.norm(finite_difference),
+            1.0e-300,
+        )
+        self.assertLess(relative_error, 5.0e-3)
 
     def test_pressure_supported_outer_closure_is_opt_in_and_finite(self) -> None:
         params = replace(

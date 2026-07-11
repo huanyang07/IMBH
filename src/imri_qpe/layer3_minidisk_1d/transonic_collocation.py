@@ -1363,6 +1363,108 @@ def square_collocation_residual(z, params: TransonicSlimParams, pivot: str = "au
     return residual
 
 
+def transonic_core_residual_without_outer_boundary(
+    z,
+    params: TransonicSlimParams,
+    pivot: str = "auto",
+) -> np.ndarray:
+    """Return interval and square sonic rows, omitting two outer rows.
+
+    The block has ``2*n_nodes`` rows for ``2*n_nodes+2`` transonic unknowns,
+    leaving exactly two freedoms for physical interface conditions.
+    """
+
+    resolved = _resolve_sonic_pivot(z, params, pivot)
+    residual = np.zeros(2 * params.n_nodes, dtype=float)
+    try:
+        logu, logT, _logR_son, lambda0, logR = unpack_state(z, params)
+        if np.any(np.diff(logR) <= 0.0):
+            raise ValueError("mapped radius must increase")
+        row = 0
+        for idx in range(params.n_nodes - 1):
+            residual[row : row + 2] = _interval_residual_from_unpacked(
+                logu,
+                logT,
+                logR,
+                lambda0,
+                params,
+                idx,
+            )
+            row += 2
+        residual[row : row + 2] = sonic_residual_pair(
+            z,
+            params,
+            pivot=resolved,
+        )
+    except Exception:
+        residual.fill(1.0e6)
+    return residual
+
+
+def transonic_core_jacobian_without_outer_boundary(
+    z,
+    params: TransonicSlimParams,
+    pivot: str = "auto",
+    rel_step: float = 3.0e-5,
+):
+    """Return the block-local Jacobian for the boundary-free core rows."""
+
+    try:
+        from scipy.sparse import lil_matrix
+    except Exception as exc:
+        raise RuntimeError("scipy is required for the core Jacobian") from exc
+    if rel_step <= 0.0:
+        raise ValueError("rel_step must be positive")
+    z = np.asarray(z, dtype=float)
+    resolved = _resolve_sonic_pivot(z, params, pivot)
+    lower, upper = state_bounds(params)
+    unknown_size = 2 * params.n_nodes + 2
+    jac = lil_matrix((2 * params.n_nodes, unknown_size), dtype=float)
+
+    row = 0
+    for idx in range(params.n_nodes - 1):
+        columns = (
+            idx,
+            idx + 1,
+            params.n_nodes + idx,
+            params.n_nodes + idx + 1,
+            unknown_size - 2,
+            unknown_size - 1,
+        )
+        block_func = lambda trial, p, interval_idx=idx: _interval_residual_block(
+            trial,
+            p,
+            interval_idx,
+        )
+        base = block_func(z, params)
+        for col in columns:
+            values = _finite_difference_column(
+                block_func,
+                z,
+                params,
+                col,
+                lower,
+                upper,
+                rel_step,
+                base=base,
+            )
+            jac[row : row + 2, col] = values[:, None]
+        row += 2
+
+    sonic_components = ("D", resolved)
+    sonic_jacobian = sonic_residual_jacobian(
+        z,
+        params,
+        components=sonic_components,
+        rel_step=min(rel_step, 1.0e-6),
+    )
+    for local_col, col in enumerate(
+        (0, params.n_nodes, unknown_size - 2, unknown_size - 1)
+    ):
+        jac[row : row + 2, col] = sonic_jacobian[:, local_col][:, None]
+    return jac.tocsr()
+
+
 def _collocation_residual_weighted(
     z,
     params: TransonicSlimParams,

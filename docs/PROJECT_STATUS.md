@@ -42,6 +42,7 @@ This is the canonical project handoff. Status labels mean:
 | Projected pressure-supported reservoir | **DIAGNOSTIC ONLY** | Full-support N64 roots reduce the rotation mismatch to `0.37%` with closed fluxes | No N128 case passes; pressure mismatch worsens to `0.356`; projection leaves `1.38%` force mismatch |
 | Common-stress fixed-Keplerian reservoir | **DIAGNOSTIC ONLY** | Shared `W=alpha Pi`; all `30-60 rg`, N64/N128/N256 roots close stress, energy, and conserved fluxes | Maximum primitive mismatch remains `0.20-0.30`, dominated by surface density |
 | Simultaneous non-Keplerian reservoir | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | `40-60 rg`, N64/N128/N256 roots close stress/radial/energy equations without projection; pressure and rotation match near `1e-3` | N256 density mismatch is `0.057-0.099`; `30 rg` stalls between support fractions `0.24-0.25`; inner solution remains frozen |
+| Fully coupled inner/outer `40.0415 rg` control | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Square `388x388` Ninner96/Nouter64 root; full Jacobian rank 388; interface and sonic rank 2; `Sigma,T` continuous; maximum residual `5.96e-9` | One interface and one production mesh only; ideal wall, no physical tidal power, stability, time evolution, or wind |
 | Fully time-dependent total-energy signed-flux disk | **PLANNED** | Required to test accumulation, fronts, and limit cycles under physical feeding | Coupled mass+total-energy IMEX evolution not implemented |
 
 ## Frozen Target Under Review
@@ -105,6 +106,11 @@ N                    = 164
     rotation match to about `0.13%` and `0.05%`, while density misses by
     `5.7%`. This is the best splice candidate so far, but not a certified
     physical branch.
+15. Releasing the inner entropy/eigenvalue/sonic state closes the `40.0415 rg`
+    interface at Ninner96/Nouter64. The final pressure, rotation, and scale-height
+    mismatches are `2.9e-4`, `6.3e-4`, and `2.9e-4`; the composite remains warm
+    and thick with `H/R=0.310` and `Lrad=1.444 LEdd`. Mesh and interface-radius
+    certification are still required before physical interpretation.
 
 ## Claims That Are Not Allowed Yet
 
@@ -116,11 +122,11 @@ N                    = 164
 
 ## Next Scientific Work
 
-1. Write the degree-of-freedom and boundary-rank specification for a fully
-   coupled inner-transonic/outer-reservoir solve centered near `40 rg`.
-2. Solve the inner eigenvalue, sonic state, and outer simultaneous reservoir
-   together; require flux, primitive, mesh, and interface-position gates.
-3. If that coupling fails, move directly to one global signed conservative
+1. Prolongate the accepted coupled `40.0415 rg` root through the declared
+   N128/N256 mesh gate without returning to the frozen-inner seed.
+2. Continue the same coupled root to `35,45,50 rg` and require luminosity and
+   warm/thick metrics to be interface-position invariant.
+3. If mesh or interface continuation fails, move directly to one global signed conservative
    transonic system rather than another projected or staggered splice.
 4. Add a binary-calibrated tidal torque and its pattern-speed power only after
    the interface closes.
@@ -153,3 +159,4 @@ N                    = 164
 - Two-domain interface sweep: `reports/current/CODEX_TWO_DOMAIN_INTERFACE_SWEEP_RESULTS_2026-07-11.md`
 - Pressure-supported interface pilot: `reports/current/CODEX_PRESSURE_SUPPORTED_INTERFACE_PILOT_RESULTS_2026-07-11.md`
 - Common stress and simultaneous reservoir: `reports/current/CODEX_COMMON_STRESS_AND_SIMULTANEOUS_RESERVOIR_RESULTS_2026-07-11.md`
+- Fully coupled rank prototype: `reports/current/CODEX_COUPLED_INNER_OUTER_RANK_PROTOTYPE_RESULTS_2026-07-11.md`
