@@ -9,6 +9,7 @@ from imri_qpe.layer3_minidisk_1d import (
     SignedThermalClosure,
     make_log_grid,
     normalized_stream_injection_state,
+    rotation_profile_from_omega,
     signed_total_energy_profile,
     signed_inner_interface_flux,
     signed_vertical_work_rate_cells,
@@ -76,6 +77,36 @@ def test_total_energy_flux_contains_bernoulli_and_torque_work_once() -> None:
     assert np.allclose(
         profile.stream_energy_rate_cells,
         transport.source_total_energy_rate_cells,
+    )
+
+
+def test_total_energy_torque_work_uses_transport_rotation_faces() -> None:
+    mass, potential, grid, stream, transport, closure, internal = _supplied_disk()
+    custom_rotation = rotation_profile_from_omega(
+        grid,
+        0.97
+        * potential.omega_k(grid.centers)
+        * (grid.centers / grid.centers[0]) ** -0.01,
+    )
+    custom_transport = solve_signed_flux_steady(
+        grid,
+        transport.viscosity,
+        mass,
+        boundary=SignedFluxBoundary(outer_mode="tidal_wall"),
+        stream_state=stream,
+        rotation_profile=custom_rotation,
+    )
+    profile = signed_total_energy_profile(
+        grid,
+        custom_transport,
+        internal.temperature,
+        mass,
+        closure=closure,
+    )
+
+    assert np.allclose(
+        profile.torque_work_flux_faces,
+        -custom_rotation.omega_faces * custom_transport.viscous_torque_faces,
     )
 
 

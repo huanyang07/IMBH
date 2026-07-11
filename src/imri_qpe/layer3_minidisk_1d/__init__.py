@@ -85,6 +85,7 @@ from .limit_cycle import OneZoneCycleResult, one_zone_cycle
 from .source_profiles import gaussian_source, gaussian_source_on_grid, normalize_surface_source
 from .signed_flux_disk import (
     SignedFluxBoundary,
+    SignedRotationProfile,
     SignedFluxStepResult,
     SignedFluxTransport,
     StreamInjectionState,
@@ -92,6 +93,10 @@ from .signed_flux_disk import (
     advance_signed_flux_implicit,
     normalized_stream_cell_rates,
     normalized_stream_injection_state,
+    keplerian_rotation_profile,
+    pressure_supported_rotation_profile,
+    rotation_profile_from_omega,
+    stabilized_rotation_profile_from_omega,
     signed_flux_linear_operator,
     signed_flux_transport,
     solve_signed_flux_steady,

@@ -12,6 +12,7 @@ from dataclasses import dataclass
 import numpy as np
 from scipy.sparse import diags, eye, lil_matrix
 from scipy.sparse.linalg import spsolve
+from scipy.signal import savgol_filter
 
 from .grid import RadialGrid
 from .interface_flux import ConservedInterfaceFlux
@@ -72,6 +73,35 @@ class StreamInjectionState:
 
 
 @dataclass(frozen=True)
+class SignedRotationProfile:
+    """One self-consistent rotation, angular-momentum, and shear profile."""
+
+    omega: np.ndarray
+    omega_faces: np.ndarray
+    specific_angular_momentum: np.ndarray
+    specific_angular_momentum_faces: np.ndarray
+    shear: np.ndarray
+
+    def validated_for(self, grid: RadialGrid) -> SignedRotationProfile:
+        center_names = ("omega", "specific_angular_momentum", "shear")
+        face_names = ("omega_faces", "specific_angular_momentum_faces")
+        values = {}
+        for name in center_names + face_names:
+            value = np.asarray(getattr(self, name), dtype=float)
+            expected = grid.centers.shape if name in center_names else grid.edges.shape
+            if value.shape != expected or np.any(~np.isfinite(value)):
+                raise ValueError(f"rotation {name} must be finite and match its grid")
+            values[name] = value
+        if np.any(values["omega"] <= 0.0) or np.any(values["omega_faces"] <= 0.0):
+            raise ValueError("rotation frequencies must be positive")
+        if np.any(np.diff(values["specific_angular_momentum_faces"]) <= 0.0):
+            raise ValueError("face specific angular momentum must increase outward")
+        if np.any(values["shear"] >= 0.0):
+            raise ValueError("steady viscous rotation profile must have negative shear")
+        return self
+
+
+@dataclass(frozen=True)
 class SignedFluxTransport:
     """Face fluxes and exact integrated budget rates for one disk state."""
 
@@ -79,6 +109,7 @@ class SignedFluxTransport:
     viscosity: np.ndarray
     specific_angular_momentum: np.ndarray
     omega: np.ndarray
+    omega_faces: np.ndarray
     viscous_torque_centers: np.ndarray
     viscous_torque_faces: np.ndarray
     mdot_faces: np.ndarray
@@ -127,6 +158,155 @@ def _grid_array(name: str, values, grid: RadialGrid, *, nonnegative: bool = Fals
     if nonnegative and np.any(array < 0.0):
         raise ValueError(f"{name} must be non-negative")
     return array
+
+
+def rotation_profile_from_omega(grid: RadialGrid, omega) -> SignedRotationProfile:
+    """Construct face rotation, angular momentum, and shear from center omega."""
+
+    center_omega = _grid_array("omega", omega, grid)
+    if np.any(center_omega <= 0.0):
+        raise ValueError("omega must be strictly positive")
+    log_centers = np.log(grid.centers)
+    log_edges = np.log(grid.edges)
+    log_omega = np.log(center_omega)
+    face_log_omega = np.interp(log_edges, log_centers, log_omega)
+    if center_omega.size > 1:
+        left_slope = (log_omega[1] - log_omega[0]) / (
+            log_centers[1] - log_centers[0]
+        )
+        right_slope = (log_omega[-1] - log_omega[-2]) / (
+            log_centers[-1] - log_centers[-2]
+        )
+        face_log_omega[0] = log_omega[0] + left_slope * (
+            log_edges[0] - log_centers[0]
+        )
+        face_log_omega[-1] = log_omega[-1] + right_slope * (
+            log_edges[-1] - log_centers[-1]
+        )
+    face_omega = np.exp(face_log_omega)
+    specific_l = grid.centers**2 * center_omega
+    face_l = grid.edges**2 * face_omega
+    edge_order = 2 if grid.centers.size > 2 else 1
+    shear = np.gradient(center_omega, grid.centers, edge_order=edge_order)
+    return SignedRotationProfile(
+        omega=np.asarray(center_omega, dtype=float),
+        omega_faces=np.asarray(face_omega, dtype=float),
+        specific_angular_momentum=np.asarray(specific_l, dtype=float),
+        specific_angular_momentum_faces=np.asarray(face_l, dtype=float),
+        shear=np.asarray(shear, dtype=float),
+    ).validated_for(grid)
+
+
+def stabilized_rotation_profile_from_omega(
+    grid: RadialGrid,
+    omega,
+    *,
+    minimum_dln_l_dln_R: float = 0.2,
+    maximum_dln_omega_dln_R: float = -1.0e-4,
+) -> SignedRotationProfile:
+    """Project center rotation onto decreasing, Rayleigh-stable log slopes."""
+
+    center_omega = _grid_array("omega", omega, grid)
+    if np.any(center_omega <= 0.0):
+        raise ValueError("omega must be strictly positive")
+    if not 0.0 < minimum_dln_l_dln_R < 2.0:
+        raise ValueError("minimum_dln_l_dln_R must lie in (0,2)")
+    if maximum_dln_omega_dln_R >= 0.0:
+        raise ValueError("maximum_dln_omega_dln_R must be negative")
+    log_radius = np.log(grid.centers)
+    raw_log_omega = np.log(center_omega)
+    slopes = np.diff(raw_log_omega) / np.diff(log_radius)
+    clipped = np.clip(
+        slopes,
+        -2.0 + float(minimum_dln_l_dln_R),
+        float(maximum_dln_omega_dln_R),
+    )
+    relative = np.concatenate(
+        ([0.0], np.cumsum(clipped * np.diff(log_radius)))
+    )
+    offset = float(np.mean(raw_log_omega - relative))
+    return rotation_profile_from_omega(grid, np.exp(relative + offset))
+
+
+def keplerian_rotation_profile(
+    grid: RadialGrid,
+    M_g: float,
+) -> SignedRotationProfile:
+    """Return the Paczynski-Wiita Keplerian rotation profile on one grid."""
+
+    potential = PaczynskiWiitaPotential(float(M_g))
+    omega = np.asarray(potential.omega_k(grid.centers), dtype=float)
+    omega_faces = np.asarray(potential.omega_k(grid.edges), dtype=float)
+    specific_l = np.asarray(potential.l_k(grid.centers), dtype=float)
+    face_l = np.asarray(potential.l_k(grid.edges), dtype=float)
+    shear = np.asarray(
+        omega * potential.dln_omega_k_dlnR(grid.centers) / grid.centers,
+        dtype=float,
+    )
+    return SignedRotationProfile(
+        omega=omega,
+        omega_faces=omega_faces,
+        specific_angular_momentum=specific_l,
+        specific_angular_momentum_faces=face_l,
+        shear=shear,
+    ).validated_for(grid)
+
+
+def pressure_supported_rotation_profile(
+    grid: RadialGrid,
+    M_g: float,
+    surface_density,
+    integrated_pressure,
+    *,
+    smoothing_log_width: float = 0.08,
+    pressure_support_fraction: float = 1.0,
+) -> SignedRotationProfile:
+    """Return pressure-supported rotation using a resolved log-radius derivative."""
+
+    sigma = _grid_array(
+        "surface_density", surface_density, grid, nonnegative=True
+    )
+    pressure = _grid_array("integrated_pressure", integrated_pressure, grid)
+    if np.any(sigma <= 0.0) or np.any(pressure <= 0.0):
+        raise ValueError("surface density and integrated pressure must be positive")
+    if not np.isfinite(smoothing_log_width) or smoothing_log_width < 0.0:
+        raise ValueError("smoothing_log_width must be finite and non-negative")
+    if (
+        not np.isfinite(pressure_support_fraction)
+        or not 0.0 <= pressure_support_fraction <= 1.0
+    ):
+        raise ValueError("pressure_support_fraction must lie in [0,1]")
+    potential = PaczynskiWiitaPotential(float(M_g))
+    omega_k = np.asarray(potential.omega_k(grid.centers), dtype=float)
+    pressure_for_gradient = pressure
+    if smoothing_log_width > 0.0 and pressure.size >= 5:
+        log_radius = np.log(grid.centers)
+        spacing = float(np.median(np.diff(log_radius)))
+        window = max(5, int(np.ceil(smoothing_log_width / spacing)))
+        if window % 2 == 0:
+            window += 1
+        window = min(
+            window,
+            pressure.size if pressure.size % 2 == 1 else pressure.size - 1,
+        )
+        pressure_for_gradient = np.exp(
+            savgol_filter(np.log(pressure), window, 3, mode="interp")
+        )
+    edge_order = 2 if grid.centers.size > 2 else 1
+    pressure_gradient = np.gradient(
+        pressure_for_gradient,
+        grid.centers,
+        edge_order=edge_order,
+    )
+    omega_squared = omega_k**2 + float(pressure_support_fraction) * (
+        pressure_gradient / (grid.centers * sigma)
+    )
+    if np.any(~np.isfinite(omega_squared)) or np.any(omega_squared <= 0.0):
+        raise ValueError("radial pressure support produced non-positive omega squared")
+    return stabilized_rotation_profile_from_omega(
+        grid,
+        np.sqrt(omega_squared),
+    )
 
 
 def normalized_stream_cell_rates(
@@ -232,6 +412,7 @@ def signed_flux_transport(
     source_mass_rate_cells=None,
     source_specific_angular_momentum=None,
     external_angular_rate_cells=None,
+    rotation_profile: SignedRotationProfile | None = None,
 ) -> SignedFluxTransport:
     """Evaluate signed viscous transport and conservative global budgets.
 
@@ -248,14 +429,21 @@ def signed_flux_transport(
     boundary = SignedFluxBoundary() if boundary is None else boundary
     if boundary.inner_mode == "prescribed_flux":
         raise ValueError("prescribed_flux is currently supported only by the steady solver")
-    potential = PaczynskiWiitaPotential(float(M_g))
-    omega = np.asarray(potential.omega_k(grid.centers), dtype=float)
-    specific_l = np.asarray(potential.l_k(grid.centers), dtype=float)
-    edge_l = np.asarray(potential.l_k(grid.edges), dtype=float)
-    shear = np.asarray(
-        omega * potential.dln_omega_k_dlnR(grid.centers) / grid.centers,
-        dtype=float,
+    rotation = (
+        keplerian_rotation_profile(grid, M_g)
+        if rotation_profile is None
+        else rotation_profile.validated_for(grid)
     )
+    omega = rotation.omega
+    specific_l = rotation.specific_angular_momentum
+    edge_l = rotation.specific_angular_momentum_faces
+    shear = rotation.shear
+    if np.any(np.diff(edge_l) <= 0.0):
+        raise ValueError(
+            "time-dependent signed transport requires outward-increasing angular momentum"
+        )
+    if np.any(shear >= 0.0):
+        raise ValueError("time-dependent signed transport requires negative shear")
     torque = np.asarray(-2.0 * np.pi * grid.centers**3 * nu * sigma * shear, dtype=float)
 
     torque_faces = np.empty(grid.edges.size, dtype=float)
@@ -303,6 +491,7 @@ def signed_flux_transport(
         viscosity=nu,
         specific_angular_momentum=specific_l,
         omega=omega,
+        omega_faces=rotation.omega_faces,
         viscous_torque_centers=torque,
         viscous_torque_faces=torque_faces,
         mdot_faces=mdot_faces,
@@ -488,6 +677,7 @@ def solve_signed_flux_steady(
     source_specific_angular_momentum=None,
     external_angular_rate_cells=None,
     prescribed_inner_flux: ConservedInterfaceFlux | None = None,
+    rotation_profile: SignedRotationProfile | None = None,
 ) -> SignedFluxTransport:
     """Solve steady mass and angular momentum from one conservative ledger.
 
@@ -502,10 +692,26 @@ def solve_signed_flux_steady(
     nu = _grid_array("viscosity", viscosity, grid, nonnegative=True)
     if np.any(nu <= 0.0):
         raise ValueError("viscosity must be strictly positive for a steady disk")
-    potential = PaczynskiWiitaPotential(float(M_g))
-    omega = np.asarray(potential.omega_k(grid.centers), dtype=float)
-    specific_l = np.asarray(potential.l_k(grid.centers), dtype=float)
-    edge_l = np.asarray(potential.l_k(grid.edges), dtype=float)
+    rotation = (
+        keplerian_rotation_profile(grid, M_g)
+        if rotation_profile is None
+        else rotation_profile.validated_for(grid)
+    )
+    omega = rotation.omega
+    specific_l = rotation.specific_angular_momentum
+    edge_l = rotation.specific_angular_momentum_faces
+    if (
+        boundary.inner_mode != "prescribed_flux"
+        or boundary.outer_mode != "tidal_wall"
+    ) and np.any(np.diff(edge_l) <= 0.0):
+        raise ValueError(
+            "open steady transport requires outward-increasing angular momentum"
+        )
+    if (
+        boundary.inner_mode != "prescribed_flux"
+        or boundary.outer_mode != "tidal_wall"
+    ) and np.any(rotation.shear >= 0.0):
+        raise ValueError("open steady transport requires negative shear")
     source = _stream_state_from_legacy_arguments(
         grid,
         specific_l,
@@ -612,10 +818,7 @@ def solve_signed_flux_steady(
     mdot_centers = mdot_faces[:-1] - 0.5 * source.mass_rate_cells
     angular_flux_centers = angular_flux[:-1] - 0.5 * angular_injection
     torque_centers = mdot_centers * specific_l - angular_flux_centers
-    shear = np.asarray(
-        omega * potential.dln_omega_k_dlnR(grid.centers) / grid.centers,
-        dtype=float,
-    )
+    shear = rotation.shear
     torque_coefficient = -2.0 * np.pi * grid.centers**3 * nu * shear
     sigma = np.asarray(torque_centers / torque_coefficient, dtype=float)
     if np.any(~np.isfinite(sigma)) or np.any(sigma <= 0.0):
@@ -633,6 +836,7 @@ def solve_signed_flux_steady(
         viscosity=nu,
         specific_angular_momentum=specific_l,
         omega=omega,
+        omega_faces=rotation.omega_faces,
         viscous_torque_centers=torque_centers,
         viscous_torque_faces=torque_faces,
         mdot_faces=mdot_faces,

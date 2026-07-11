@@ -1,0 +1,14 @@
+{
+  "canonical_packaging_command": "PYTHONPATH=src python3 scripts/build_pressure_supported_interface_pilot_canonical.py",
+  "claim_scope": "Projected pressure-supported staggered reservoir iteration",
+  "does_not_establish": "A smooth transonic/reservoir match or a converged production pressure-supported disk.",
+  "establishes": "Full-pressure coarse N64 roots exist, but the closure is not mesh-supported at N128.",
+  "numerical_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
+  "payload_sha256": {
+    "config.json": "324236ce7acf2605b66744462bc2b248194f608273df7770fa34f59da9c70b60",
+    "summary.json": "4f7cc90f26d418b6500bd48b4a7d890c5faf7606f80b6b563b62cd936d0332db"
+  },
+  "physical_status": "DIAGNOSTIC ONLY",
+  "solver_generation_command": "PYTHONPATH=src python3 scripts/run_pressure_supported_interface_pilot.py",
+  "source_parent_commit": "4b11435"
+}

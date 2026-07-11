@@ -14,6 +14,7 @@ from imri_qpe.layer3_minidisk_1d import (
     TransonicSlimParams,
     make_log_grid,
     normalized_stream_injection_state,
+    rotation_profile_from_omega,
     signed_inner_interface_flux,
     solve_signed_total_energy_thermoviscous_steady,
     transonic_profile_from_state_vector,
@@ -107,7 +108,15 @@ def _primitive_mismatch(profile, signed, target_radius: float) -> dict[str, floa
     return values
 
 
-def _solve_one(target_rg: float, n_reservoir: int) -> dict[str, object]:
+def _solve_one(
+    target_rg: float,
+    n_reservoir: int,
+    *,
+    pressure_supported: bool = False,
+    pressure_damping: float = 0.05,
+    pressure_smoothing_log_width: float = 0.08,
+    pressure_max_iterations: int = 400,
+) -> dict[str, object]:
     transonic, params = _load_transonic()
     potential = PaczynskiWiitaPotential(params.M2_g)
     index = int(np.argmin(np.abs(transonic.R / potential.r_g - target_rg)))
@@ -138,25 +147,93 @@ def _solve_one(target_rg: float, n_reservoir: int) -> dict[str, object]:
         specific_angular_momentum=stream_l,
         specific_total_energy=stream_B,
     )
-    solved = solve_signed_total_energy_thermoviscous_steady(
-        grid,
-        params.M2_g,
-        alpha=0.01,
-        boundary=SignedFluxBoundary(
-            inner_mode="prescribed_flux",
-            outer_mode="tidal_wall",
-        ),
-        stream_state=stream,
-        closure=SignedThermalClosure(temperature_bounds=(1.0e3, 1.0e9)),
-        temperature_seed=np.interp(grid.centers, transonic.R, transonic.T),
-        prescribed_inner_flux=prescribed,
-        damping=0.2,
-        tolerance=2.0e-3,
-        max_iterations=60,
-        energy_tolerance=1.0e-6,
-        energy_max_nfev=1000,
+    boundary = SignedFluxBoundary(
+        inner_mode="prescribed_flux",
+        outer_mode="tidal_wall",
     )
+    closure = SignedThermalClosure(temperature_bounds=(1.0e3, 1.0e9))
+    temperature_seed = np.interp(grid.centers, transonic.R, transonic.T)
+    warm_start = None
+    if pressure_supported:
+        warm_start = solve_signed_total_energy_thermoviscous_steady(
+            grid,
+            params.M2_g,
+            alpha=0.01,
+            boundary=boundary,
+            stream_state=stream,
+            closure=closure,
+            temperature_seed=temperature_seed,
+            prescribed_inner_flux=prescribed,
+            damping=0.2,
+            tolerance=2.0e-3,
+            max_iterations=60,
+            energy_tolerance=1.0e-6,
+            energy_max_nfev=1000,
+        )
+        if not warm_start.converged:
+            raise RuntimeError("Keplerian warm start did not converge")
+        temperature_seed = warm_start.energy.temperature
+    solved = warm_start
+    support_stages = (
+        (0.10, 0.25, 0.50, 0.75, 1.0)
+        if pressure_supported
+        else (0.0,)
+    )
+    for support_fraction in support_stages:
+        solved = solve_signed_total_energy_thermoviscous_steady(
+            grid,
+            params.M2_g,
+            alpha=0.01,
+            boundary=boundary,
+            stream_state=stream,
+            closure=closure,
+            temperature_seed=temperature_seed,
+            prescribed_inner_flux=prescribed,
+            damping=pressure_damping if pressure_supported else 0.2,
+            tolerance=2.0e-3,
+            max_iterations=(
+                pressure_max_iterations if pressure_supported else 100
+            ),
+            energy_tolerance=1.0e-6,
+            energy_max_nfev=1000,
+            pressure_supported_rotation=pressure_supported,
+            pressure_support_fraction=support_fraction,
+            pressure_smoothing_log_width=pressure_smoothing_log_width,
+            viscosity_seed=(None if solved is None else solved.viscosity),
+            rotation_seed=(
+                None
+                if solved is None
+                else rotation_profile_from_omega(grid, solved.transport.omega)
+            ),
+        )
+        if not solved.converged:
+            break
+        temperature_seed = solved.energy.temperature
+    assert solved is not None
     recovered = signed_inner_interface_flux(solved.transport, solved.energy.profile)
+    log_radius = np.log(grid.centers)
+    dln_l = np.gradient(
+        np.log(solved.transport.specific_angular_momentum),
+        log_radius,
+        edge_order=2,
+    )
+    dln_omega = np.gradient(
+        np.log(solved.transport.omega),
+        log_radius,
+        edge_order=2,
+    )
+    pressure_gradient = np.gradient(
+        solved.energy.profile.vertically_integrated_pressure,
+        grid.centers,
+        edge_order=2,
+    )
+    force_target = potential.omega_k(grid.centers) ** 2 + pressure_gradient / (
+        grid.centers * solved.transport.surface_density
+    )
+    force_balance_mismatch = np.max(
+        np.abs(solved.transport.omega**2 - force_target)
+        / potential.omega_k(grid.centers) ** 2
+    )
     inner_luminosity = float(
         np.trapezoid(
             2.0 * np.pi * transonic.R[: index + 1] * transonic.Q_rad[: index + 1],
@@ -188,9 +265,17 @@ def _solve_one(target_rg: float, n_reservoir: int) -> dict[str, object]:
         "target_interface_rg": target_rg,
         "actual_interface_rg": interface_radius / potential.r_g,
         "N_reservoir": int(n_reservoir),
+        "rotation_mode": (
+            "pressure_supported" if pressure_supported else "keplerian"
+        ),
+        "pressure_support_fraction_reached": float(support_fraction),
+        "pressure_damping": float(pressure_damping),
+        "pressure_smoothing_log_width": float(pressure_smoothing_log_width),
         "converged": solved.converged,
         "iterations": solved.iterations,
         "maximum_log_viscosity_change": solved.maximum_log_viscosity_change,
+        "maximum_log_rotation_change": solved.maximum_log_rotation_change,
+        "iteration_history_tail": solved.history[-10:].tolist(),
         "maximum_energy_residual": solved.energy.maximum_normalized_residual,
         "flux_mismatch_relative": flux_mismatch,
         "primitive_mismatch": _primitive_mismatch(
@@ -208,6 +293,9 @@ def _solve_one(target_rg: float, n_reservoir: int) -> dict[str, object]:
         "max_radial_pressure_fraction": float(
             np.max(solved.energy.profile.radial_pressure_force_fraction)
         ),
+        "minimum_dln_l_dln_R": float(np.min(dln_l)),
+        "maximum_dln_omega_dln_R": float(np.max(dln_omega)),
+        "maximum_radial_force_balance_mismatch": float(force_balance_mismatch),
     }
 
 

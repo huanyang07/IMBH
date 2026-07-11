@@ -14,7 +14,11 @@ from .interface_flux import ConservedInterfaceFlux
 from .signed_flux_disk import (
     SignedFluxBoundary,
     SignedFluxTransport,
+    SignedRotationProfile,
     StreamInjectionState,
+    keplerian_rotation_profile,
+    pressure_supported_rotation_profile,
+    rotation_profile_from_omega,
     solve_signed_flux_steady,
 )
 from .signed_flux_thermal import SignedThermalClosure
@@ -83,6 +87,7 @@ class SignedTotalEnergyThermoviscousResult:
     converged: bool
     iterations: int
     maximum_log_viscosity_change: float
+    maximum_log_rotation_change: float
     history: np.ndarray
 
 
@@ -211,8 +216,7 @@ def signed_total_energy_profile(
     ) * grid.area
 
     advective_flux = _upwind_flux(transport.mdot_faces, bernoulli)
-    omega_edges = np.asarray(potential.omega_k(grid.edges), dtype=float)
-    torque_work_flux = -omega_edges * transport.viscous_torque_faces
+    torque_work_flux = -transport.omega_faces * transport.viscous_torque_faces
     if prescribed_inner_flux is not None:
         mass_scale = max(abs(prescribed_inner_flux.mdot), 1.0)
         angular_scale = max(abs(prescribed_inner_flux.angular_momentum), 1.0)
@@ -410,8 +414,13 @@ def solve_signed_total_energy_thermoviscous_steady(
     max_iterations: int = 50,
     energy_tolerance: float = 1.0e-6,
     energy_max_nfev: int = 500,
+    pressure_supported_rotation: bool = False,
+    pressure_support_fraction: float = 1.0,
+    pressure_smoothing_log_width: float = 0.08,
+    viscosity_seed=None,
+    rotation_seed: SignedRotationProfile | None = None,
 ) -> SignedTotalEnergyThermoviscousResult:
-    """Iterate alpha viscosity against the total-energy steady root."""
+    """Iterate alpha viscosity and optional projected rotation against energy."""
 
     if not np.isfinite(alpha) or alpha <= 0.0:
         raise ValueError("alpha must be positive and finite")
@@ -425,19 +434,35 @@ def solve_signed_total_energy_thermoviscous_steady(
         )
         if np.any(external_angular != 0.0):
             raise ValueError("external angular torque requires named external power")
+    if not 0.0 <= pressure_support_fraction <= 1.0:
+        raise ValueError("pressure_support_fraction must lie in [0,1]")
     potential = PaczynskiWiitaPotential(float(M_g))
-    omega = np.asarray(potential.omega_k(grid.centers), dtype=float)
-    viscosity = np.asarray(
-        alpha * initial_H_over_R**2 * grid.centers**2 * omega, dtype=float
+    rotation = (
+        keplerian_rotation_profile(grid, M_g)
+        if rotation_seed is None
+        else rotation_seed.validated_for(grid)
     )
+    if viscosity_seed is None:
+        viscosity = np.asarray(
+            alpha * initial_H_over_R**2 * grid.centers**2 * rotation.omega,
+            dtype=float,
+        )
+    else:
+        viscosity = _grid_array("viscosity_seed", viscosity_seed, grid)
+        if np.any(viscosity <= 0.0):
+            raise ValueError("viscosity_seed must be strictly positive")
     temperature = _positive_temperature(temperature_seed, grid)
     history = []
     transport = None
     energy = None
     maximum_change = float("inf")
+    maximum_rotation_change = float("inf")
     converged = False
 
-    def transport_for(trial_viscosity):
+    def transport_for(
+        trial_viscosity,
+        trial_rotation: SignedRotationProfile,
+    ):
         return solve_signed_flux_steady(
             grid,
             trial_viscosity,
@@ -446,10 +471,33 @@ def solve_signed_total_energy_thermoviscous_steady(
             stream_state=stream_state,
             external_angular_rate_cells=external_angular_rate_cells,
             prescribed_inner_flux=prescribed_inner_flux,
+            rotation_profile=trial_rotation,
+        )
+
+    def target_rotation_for(trial_transport, trial_energy):
+        if not pressure_supported_rotation:
+            return keplerian_rotation_profile(grid, M_g)
+        return pressure_supported_rotation_profile(
+            grid,
+            M_g,
+            trial_transport.surface_density,
+            trial_energy.profile.vertically_integrated_pressure,
+            smoothing_log_width=pressure_smoothing_log_width,
+            pressure_support_fraction=pressure_support_fraction,
+        )
+
+    def damped_rotation(current, target, log_ratio):
+        if not pressure_supported_rotation:
+            return target
+        return rotation_profile_from_omega(
+            grid,
+            np.exp(
+                np.log(current.omega) + float(damping) * log_ratio
+            ),
         )
 
     for iteration in range(1, int(max_iterations) + 1):
-        transport = transport_for(viscosity)
+        transport = transport_for(viscosity, rotation)
         energy = solve_signed_total_energy_steady(
             grid,
             transport,
@@ -462,20 +510,32 @@ def solve_signed_total_energy_thermoviscous_steady(
             max_nfev=energy_max_nfev,
         )
         temperature = energy.temperature
-        target_viscosity = np.asarray(alpha * energy.profile.H**2 * omega, dtype=float)
+        target_rotation = target_rotation_for(transport, energy)
+        target_viscosity = np.asarray(
+            alpha * energy.profile.H**2 * target_rotation.omega,
+            dtype=float,
+        )
         log_ratio = np.log(target_viscosity / viscosity)
+        rotation_log_ratio = np.log(target_rotation.omega / rotation.omega)
         maximum_change = float(np.max(np.abs(log_ratio)))
+        maximum_rotation_change = float(np.max(np.abs(rotation_log_ratio)))
         history.append(
             [
                 float(iteration),
                 maximum_change,
+                maximum_rotation_change,
                 energy.maximum_normalized_residual,
                 float(np.max(energy.profile.H / grid.centers)),
             ]
         )
-        if energy.accepted and maximum_change <= tolerance:
+        if (
+            energy.accepted
+            and maximum_change <= tolerance
+            and maximum_rotation_change <= tolerance
+        ):
             viscosity = target_viscosity
-            transport = transport_for(viscosity)
+            rotation = target_rotation
+            transport = transport_for(viscosity, rotation)
             energy = solve_signed_total_energy_steady(
                 grid,
                 transport,
@@ -488,29 +548,52 @@ def solve_signed_total_energy_thermoviscous_steady(
                 max_nfev=energy_max_nfev,
             )
             temperature = energy.temperature
+            final_rotation = target_rotation_for(transport, energy)
             final_target = np.asarray(
-                alpha * energy.profile.H**2 * omega, dtype=float
+                alpha * energy.profile.H**2 * final_rotation.omega,
+                dtype=float,
             )
             final_log_ratio = np.log(final_target / viscosity)
+            final_rotation_log_ratio = np.log(
+                final_rotation.omega / rotation.omega
+            )
             maximum_change = float(np.max(np.abs(final_log_ratio)))
+            maximum_rotation_change = float(
+                np.max(np.abs(final_rotation_log_ratio))
+            )
             history[-1] = [
                 float(iteration),
                 maximum_change,
+                maximum_rotation_change,
                 energy.maximum_normalized_residual,
                 float(np.max(energy.profile.H / grid.centers)),
             ]
-            if energy.accepted and maximum_change <= tolerance:
+            if (
+                energy.accepted
+                and maximum_change <= tolerance
+                and maximum_rotation_change <= tolerance
+            ):
                 converged = True
                 break
             viscosity = np.exp(
                 np.log(viscosity) + float(damping) * final_log_ratio
             )
+            rotation = damped_rotation(
+                rotation,
+                final_rotation,
+                final_rotation_log_ratio,
+            )
             continue
         viscosity = np.exp(np.log(viscosity) + float(damping) * log_ratio)
+        rotation = damped_rotation(
+            rotation,
+            target_rotation,
+            rotation_log_ratio,
+        )
 
     assert transport is not None and energy is not None
     if not converged:
-        transport = transport_for(viscosity)
+        transport = transport_for(viscosity, rotation)
         energy = solve_signed_total_energy_steady(
             grid,
             transport,
@@ -522,9 +605,16 @@ def solve_signed_total_energy_thermoviscous_steady(
             tolerance=energy_tolerance,
             max_nfev=energy_max_nfev,
         )
-        final_target = np.asarray(alpha * energy.profile.H**2 * omega, dtype=float)
+        final_rotation = target_rotation_for(transport, energy)
+        final_target = np.asarray(
+            alpha * energy.profile.H**2 * final_rotation.omega,
+            dtype=float,
+        )
         maximum_change = float(
             np.max(np.abs(np.log(final_target / viscosity)))
+        )
+        maximum_rotation_change = float(
+            np.max(np.abs(np.log(final_rotation.omega / rotation.omega)))
         )
     return SignedTotalEnergyThermoviscousResult(
         transport=transport,
@@ -533,5 +623,6 @@ def solve_signed_total_energy_thermoviscous_steady(
         converged=converged,
         iterations=len(history),
         maximum_log_viscosity_change=maximum_change,
+        maximum_log_rotation_change=maximum_rotation_change,
         history=np.asarray(history, dtype=float),
     )

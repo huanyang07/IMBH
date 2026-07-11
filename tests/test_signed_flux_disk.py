@@ -12,6 +12,8 @@ from imri_qpe.layer3_minidisk_1d import (
     make_log_grid,
     normalized_stream_cell_rates,
     normalized_stream_injection_state,
+    pressure_supported_rotation_profile,
+    stabilized_rotation_profile_from_omega,
     signed_flux_transport,
     solve_signed_flux_steady,
 )
@@ -47,6 +49,43 @@ def test_signed_ring_has_finite_density_accretion_and_decretion() -> None:
     crossing = int(crossings[np.argmin(np.abs(crossings - 80))])
     assert sigma[crossing] > 0.0
     assert sigma[crossing + 1] > 0.0
+
+
+def test_pressure_supported_rotation_matches_discrete_radial_force_balance() -> None:
+    mass = solar_masses_to_g(1.0e4)
+    potential = PaczynskiWiitaPotential(mass)
+    grid = make_log_grid(30.0 * potential.r_g, 300.0 * potential.r_g, 128)
+    sigma = np.full(grid.centers.size, 1.0e5)
+    omega_k = potential.omega_k(grid.centers)
+    pressure = 0.01 * sigma * grid.centers**2 * omega_k**2
+    rotation = pressure_supported_rotation_profile(
+        grid,
+        mass,
+        sigma,
+        pressure,
+        smoothing_log_width=0.0,
+    )
+    expected = omega_k**2 + np.gradient(
+        pressure,
+        grid.centers,
+        edge_order=2,
+    ) / (grid.centers * sigma)
+
+    assert np.allclose(rotation.omega**2, expected, rtol=2.0e-14)
+    assert np.all(rotation.omega < omega_k)
+
+
+def test_stabilized_rotation_projects_log_slopes_to_viscous_range() -> None:
+    mass = solar_masses_to_g(1.0e4)
+    potential = PaczynskiWiitaPotential(mass)
+    grid = make_log_grid(30.0 * potential.r_g, 300.0 * potential.r_g, 64)
+    omega = potential.omega_k(grid.centers).copy()
+    omega[20:24] *= np.asarray([0.8, 1.2, 0.85, 1.1])
+    rotation = stabilized_rotation_profile_from_omega(grid, omega)
+    slope = np.diff(np.log(rotation.omega)) / np.diff(np.log(grid.centers))
+
+    assert np.max(slope) <= -1.0e-4 + 1.0e-12
+    assert np.min(slope) >= -1.8 - 1.0e-12
 
 
 def test_signed_flux_global_mass_and_angular_ledgers_close() -> None:

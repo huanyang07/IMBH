@@ -212,6 +212,31 @@ retains exact zero outer mass flux and treats the prescribed inner `Mdot` as a
 compatibility gate; an open edge is integrated outward from the prescribed
 inner flux. Incompatible simultaneous boundary conditions are rejected.
 
+## Experimental Pressure-Supported Reservoir
+
+The diagnostic non-Keplerian extension evaluates
+
+```text
+Omega_force^2 = Omega_K^2 + (1/(R Sigma)) dPi/dR
+l             = R^2 Omega
+G             = -2 pi R^3 nu Sigma dOmega/dR.
+```
+
+The same `Omega` and `l` are used in angular transport, orbital energy,
+`-Omega G` torque work, and `nu=alpha H^2 Omega`. Derivatives of `Pi` are
+regularized over a stated log-radius width. Trial log-rotation slopes are
+projected to decreasing, Rayleigh-stable profiles before the viscous solve:
+
+```text
+0.2 <= dln(l)/dln(R)
+dln(Omega)/dln(R) < 0.
+```
+
+The projection mismatch from the unregularized radial-force equation is
+reported explicitly. This staggered closure is diagnostic only: full-pressure
+roots are coarse-grid-only and do not remove primitive-state discontinuity.
+The production successor must solve `Sigma`, `T`, and `Omega` simultaneously.
+
 ## Validity Gates
 
 Numerical residual acceptance is necessary but not sufficient. Current audits

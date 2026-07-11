@@ -39,6 +39,7 @@ This is the canonical project handoff. Status labels mean:
 | Prescribed conserved-flux inner boundary | **SUPPORTED BUT NOT FULLY CERTIFIED** | Shared `(Mdot,J,F_E)` object; wall/open transport and energy round-trip tests; incompatible wall flux rejected | No physical overlap band or coupled two-domain root yet |
 | Inner/reservoir overlap audit | **DIAGNOSTIC ONLY** | Open reservoir passes `14.73-59.69 rg`; a 10% pressure sensitivity gives common wall/transonic `29.45-59.69 rg` | No common band passes the primary 5% pressure gate; absorption opacity is only bracketed |
 | One-way transonic/reservoir composite | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Flux mismatch `<2.1e-16`; N128/N256 composite luminosity varies only `0.20-0.24%` across `30-60 rg` | Primitive continuity fails: integrated-pressure log mismatch remains `0.327-0.334` |
+| Projected pressure-supported reservoir | **DIAGNOSTIC ONLY** | Full-support N64 roots reduce the rotation mismatch to `0.37%` with closed fluxes | No N128 case passes; pressure mismatch worsens to `0.356`; projection leaves `1.38%` force mismatch |
 | Fully time-dependent total-energy signed-flux disk | **PLANNED** | Required to test accumulation, fronts, and limit cycles under physical feeding | Coupled mass+total-energy IMEX evolution not implemented |
 
 ## Frozen Target Under Review
@@ -107,8 +108,8 @@ N                    = 164
 
 1. Use the threshold-sensitive `30-60 rg` candidate band for controlled
    prescribed-flux interface experiments; do not call it certified overlap.
-2. Promote the reservoir to pressure-supported non-Keplerian rotation and
-   repeat the interface sweep until primitive-state continuity passes.
+2. Replace the staggered pressure update with one simultaneous nonlinear
+   radial-momentum/angular/total-energy residual in `(Sigma,T,Omega)`.
 3. Add a binary-calibrated tidal torque and its pattern-speed power only after
    the interface closes.
 4. Implement coupled mass+energy IMEX evolution, allowing
@@ -138,3 +139,4 @@ N                    = 164
 - Prescribed inner flux interface: `reports/current/CODEX_PRESCRIBED_INNER_FLUX_INTERFACE_RESULTS_2026-07-11.md`
 - Inner/outer overlap audit: `reports/current/CODEX_INNER_OUTER_OVERLAP_AUDIT_RESULTS_2026-07-11.md`
 - Two-domain interface sweep: `reports/current/CODEX_TWO_DOMAIN_INTERFACE_SWEEP_RESULTS_2026-07-11.md`
+- Pressure-supported interface pilot: `reports/current/CODEX_PRESSURE_SUPPORTED_INTERFACE_PILOT_RESULTS_2026-07-11.md`
