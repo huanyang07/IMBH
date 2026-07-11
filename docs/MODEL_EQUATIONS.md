@@ -43,6 +43,36 @@ T ds/dR = de/dR - P/rho^2 d rho/dR
 Qadv    = Sigma v_R T ds/dR.
 ```
 
+The unified conservative wind ledger uses launch power as the conditioned
+quantity:
+
+```text
+P_wind'    = 2 pi R^2 Qwind
+Mdot_wind' = P_wind' / E_launch
+B_wind     = B_disk + Omega (l_w-l) + E_launch
+```
+
+The wind energy sink is assembled as
+
+```text
+Mdot_wind' [B_disk + Omega (l_w-l)] + P_wind',
+```
+
+which is algebraically identical to `Mdot_wind' B_wind`. A terminal-Bernoulli
+audit compares `E_launch` with the energy required for `B_wind>=0`; it does not
+alter the eta regression mode.
+
+The physical alternative prescribes a terminal Bernoulli energy:
+
+```text
+E_launch = B_infinity - B_disk - Omega (l_w-l).
+```
+
+The state is invalid for this energy-limited closure if `E_launch<=0`; the code
+does not hide that singular limit with an energy floor. An optional explicit
+mass-availability constraint bounds `dMdot_wind/dlnR` relative to local
+throughput and reduces launch power consistently when active.
+
 ## Finite-Volume Mass Equation
 
 For interval `i`, the conservative mass row is
@@ -92,6 +122,39 @@ division by `p_R` is conditioned.
 
 Interfaces match state and conserved fluxes. Derivative continuity in `ln R`
 is not imposed across a phase interface.
+
+## Independent-Sigma Signed-Flux Bridge
+
+The new outer/reservoir core stores `Sigma` independently and permits signed
+mass flux. Under its initial nearly Keplerian, prescribed-viscosity closure,
+
+```text
+G             = -2 pi R^3 nu Sigma dOmega_K/dR
+Mdot          = dG/dl_K
+dM_cell/dt    = Mdot_outer - Mdot_inner + S_M
+J_face        = Mdot l_K - G.
+```
+
+`Mdot>0` remains inward and `Mdot<0` is decretion. A tidal wall sets outer mass
+flux to zero while retaining a finite torque. An open zero-torque edge permits
+outward overflow. The implementation never divides by `Mdot` or radial
+velocity, so a finite-density stagnation point is regular.
+
+The current bridge reports the explicit angular mixing torque required when
+the stream angular momentum differs from the local fixed-Keplerian value.
+
+The first thermal extension evolves annular internal energy:
+
+```text
+E_th          = Sigma e A
+F_e           = Mdot e_donor
+dE_th/dt      = F_e,out-F_e,in + Qvisc A + S_M(B_s-E_orb) - Qrad A
+nu            = alpha H(Sigma,T)^2 Omega_K.
+```
+
+Cooling is implicit and the steady mass, thermal, and viscosity equations are
+iterated to a fixed point. This is not yet the final total-energy equation:
+enthalpy/pressure work and inner transonic flux matching remain required.
 
 ## Validity Gates
 

@@ -81,6 +81,9 @@ class PhysicalTransportClosure:
     stream_circularization_radius: float | None = None
     wind_angular_momentum_factor: float = 1.0
     wind_launch_energy_multiplier: float = 1.0
+    wind_launch_mode: str = "eta"
+    wind_terminal_bernoulli: float = 0.0
+    wind_mass_loading_cap_per_log_radius: float | None = None
     external_torque_prime: float = 0.0
     external_power_prime: float = 0.0
 
@@ -98,6 +101,17 @@ class PhysicalTransportClosure:
             raise ValueError("wind_angular_momentum_factor must be finite and at least one")
         if not np.isfinite(self.wind_launch_energy_multiplier) or self.wind_launch_energy_multiplier < 0.0:
             raise ValueError("wind_launch_energy_multiplier must be finite and non-negative")
+        if self.wind_launch_mode not in {"eta", "terminal_bernoulli"}:
+            raise ValueError("wind_launch_mode must be 'eta' or 'terminal_bernoulli'")
+        if not np.isfinite(self.wind_terminal_bernoulli):
+            raise ValueError("wind_terminal_bernoulli must be finite")
+        if self.wind_mass_loading_cap_per_log_radius is not None and (
+            not np.isfinite(self.wind_mass_loading_cap_per_log_radius)
+            or self.wind_mass_loading_cap_per_log_radius <= 0.0
+        ):
+            raise ValueError(
+                "wind_mass_loading_cap_per_log_radius must be positive when supplied"
+            )
         if not np.isfinite(self.external_torque_prime):
             raise ValueError("external_torque_prime must be finite")
         if not np.isfinite(self.external_power_prime):
@@ -152,6 +166,8 @@ class ConservativeSourceTerms:
     stream_prime: float
     wind_prime: float
     radiative_loss_prime: float
+    wind_base_energy_prime: float
+    wind_launch_power_prime: float
     mass_rhs: float
     angular_rhs: float
     energy_rhs: float
@@ -171,6 +187,49 @@ class ConservativeIntervalResidual:
 
 
 @dataclass(frozen=True)
+class ConservativeIntervalTransport:
+    """Decomposed physical transport integrated across one radial interval."""
+
+    stream_mass: float
+    stream_mass_quadrature: float
+    wind_mass: float
+    stream_angular_momentum: float
+    wind_angular_momentum: float
+    external_angular_momentum: float
+    stream_energy: float
+    wind_base_energy: float
+    wind_launch_energy: float
+    wind_energy: float
+    radiative_energy: float
+    external_energy: float
+
+    @property
+    def mass_rhs(self) -> float:
+        return float(self.wind_mass - self.stream_mass)
+
+    @property
+    def angular_rhs(self) -> float:
+        return float(
+            self.wind_angular_momentum
+            - self.stream_angular_momentum
+            + self.external_angular_momentum
+        )
+
+    @property
+    def energy_rhs(self) -> float:
+        return float(
+            self.radiative_energy
+            + self.wind_energy
+            - self.stream_energy
+            + self.external_energy
+        )
+
+    @property
+    def stream_mass_quadrature_error(self) -> float:
+        return float(self.stream_mass_quadrature - self.stream_mass)
+
+
+@dataclass(frozen=True)
 class EnergyIdentityAudit:
     """Pointwise relation between legacy entropy and conservative energy."""
 
@@ -181,6 +240,20 @@ class EnergyIdentityAudit:
     corrected_identity_defect: float
     normalized_raw_defect: float
     normalized_corrected_defect: float
+
+
+@dataclass(frozen=True)
+class WindEscapeDiagnostics:
+    """Pointwise Bernoulli audit for the prescribed wind launch energy."""
+
+    disk_bernoulli: float
+    target_terminal_bernoulli: float
+    required_launch_energy: float
+    prescribed_launch_energy: float
+    wind_bernoulli: float
+    terminal_margin: float
+    terminal_speed: float
+    escaping: bool
 
 
 def default_conservative_scales(params) -> ConservativeScales:
@@ -309,10 +382,7 @@ def carried_transport(
 
     l_wind = float(closure.wind_angular_momentum_factor * state.l)
     torque_work = float(state.Omega * (l_wind - state.l))
-    launch = float(
-        closure.wind_launch_energy_multiplier
-        * wind_energy_per_mass(params.M2_g, state.R)
-    )
+    launch = wind_launch_energy(state, closure, params)
     B_wind = float(state.bernoulli + launch + torque_work)
     return CarriedTransport(
         l_stream=l_stream,
@@ -324,6 +394,34 @@ def carried_transport(
     )
 
 
+def wind_launch_energy(
+    state: ConservativeNodeState,
+    closure: PhysicalTransportClosure,
+    params,
+) -> float:
+    """Return the launch energy selected by the physical closure."""
+
+    if closure.wind_launch_mode == "eta":
+        launch = float(
+            closure.wind_launch_energy_multiplier
+            * wind_energy_per_mass(params.M2_g, state.R)
+        )
+    else:
+        l_wind = float(closure.wind_angular_momentum_factor * state.l)
+        torque_work = float(state.Omega * (l_wind - state.l))
+        launch = float(
+            closure.wind_terminal_bernoulli - state.bernoulli - torque_work
+        )
+        if launch <= 0.0:
+            raise ValueError(
+                "terminal-Bernoulli wind requires positive launch energy; "
+                "the requested target is already met by the local disk state"
+            )
+    if not np.isfinite(launch) or launch <= 0.0:
+        raise ValueError("wind launch energy must be positive and finite")
+    return launch
+
+
 def conservative_source_terms(
     state: ConservativeNodeState,
     *,
@@ -332,6 +430,7 @@ def conservative_source_terms(
     closure: PhysicalTransportClosure,
     params,
     radiative_loss_prime: float | None = None,
+    wind_launch_power_prime: float | None = None,
 ) -> ConservativeSourceTerms:
     """Return mass, angular, and energy source terms with one sign convention."""
 
@@ -344,6 +443,13 @@ def conservative_source_terms(
         radiative_loss_prime = float(2.0 * np.pi * state.R**2 * state.Q_rad)
     if not np.isfinite(radiative_loss_prime):
         raise ValueError("radiative_loss_prime must be finite")
+    wind_base_energy_prime = float(
+        wind_prime * (carried.B_wind - carried.wind_launch_energy)
+    )
+    if wind_launch_power_prime is None:
+        wind_launch_power_prime = float(wind_prime * carried.wind_launch_energy)
+    if not np.isfinite(wind_launch_power_prime) or wind_launch_power_prime < 0.0:
+        raise ValueError("wind_launch_power_prime must be finite and non-negative")
     mass_rhs = float(wind_prime - stream_prime)
     angular_rhs = float(
         wind_prime * carried.l_wind
@@ -352,7 +458,8 @@ def conservative_source_terms(
     )
     energy_rhs = float(
         radiative_loss_prime
-        + wind_prime * carried.B_wind
+        + wind_base_energy_prime
+        + wind_launch_power_prime
         - stream_prime * carried.B_stream
         + closure.external_power_prime
     )
@@ -360,10 +467,183 @@ def conservative_source_terms(
         stream_prime=float(stream_prime),
         wind_prime=float(wind_prime),
         radiative_loss_prime=float(radiative_loss_prime),
+        wind_base_energy_prime=wind_base_energy_prime,
+        wind_launch_power_prime=float(wind_launch_power_prime),
         mass_rhs=mass_rhs,
         angular_rhs=angular_rhs,
         energy_rhs=energy_rhs,
         carried=carried,
+    )
+
+
+def integrate_sampled_interval_transport(
+    dx: float,
+    sources,
+    weights,
+    *,
+    exact_stream_mass: float | None = None,
+    exact_stream_angular_momentum: float | None = None,
+    exact_stream_energy: float | None = None,
+) -> ConservativeIntervalTransport:
+    """Integrate conservative source samples with normalized quadrature weights.
+
+    Stream mass may use an analytic cell integral while state-dependent wind,
+    radiation, and external terms retain Simpson quadrature.  If only the exact
+    stream mass is supplied, the stream specific angular momentum and energy
+    must be constant across the interval, as in the current capture closure.
+    """
+
+    if not np.isfinite(dx) or dx <= 0.0:
+        raise ValueError("dx must be positive and finite")
+    sources = tuple(sources)
+    weights = np.asarray(tuple(weights), dtype=float)
+    if len(sources) == 0 or weights.shape != (len(sources),):
+        raise ValueError("source samples and quadrature weights must have equal nonzero length")
+    if np.any(~np.isfinite(weights)) or np.any(weights < 0.0):
+        raise ValueError("quadrature weights must be finite and non-negative")
+    if not np.isclose(np.sum(weights), 1.0, rtol=0.0, atol=1.0e-13):
+        raise ValueError("quadrature weights must sum to one")
+
+    def quadrature(values) -> float:
+        array = np.asarray(tuple(values), dtype=float)
+        if array.shape != weights.shape or np.any(~np.isfinite(array)):
+            raise ValueError("interval transport values must match the quadrature rule")
+        return float(dx * np.dot(weights, array))
+
+    stream_mass_quadrature = quadrature(source.stream_prime for source in sources)
+    if exact_stream_mass is None:
+        stream_mass = stream_mass_quadrature
+    else:
+        stream_mass = float(exact_stream_mass)
+        if not np.isfinite(stream_mass) or stream_mass < 0.0:
+            raise ValueError("exact stream mass must be finite and non-negative")
+
+    l_stream = np.asarray([source.carried.l_stream for source in sources], dtype=float)
+    B_stream = np.asarray([source.carried.B_stream for source in sources], dtype=float)
+    if exact_stream_angular_momentum is None:
+        if exact_stream_mass is None:
+            stream_angular = quadrature(
+                source.stream_prime * source.carried.l_stream for source in sources
+            )
+        else:
+            if not np.allclose(l_stream, l_stream[1], rtol=1.0e-12, atol=0.0):
+                raise ValueError("varying stream angular momentum requires an exact moment")
+            stream_angular = float(stream_mass * l_stream[1])
+    else:
+        stream_angular = float(exact_stream_angular_momentum)
+
+    if exact_stream_energy is None:
+        if exact_stream_mass is None:
+            stream_energy = quadrature(
+                source.stream_prime * source.carried.B_stream for source in sources
+            )
+        else:
+            if not np.allclose(B_stream, B_stream[1], rtol=1.0e-12, atol=0.0):
+                raise ValueError("varying stream energy requires an exact moment")
+            stream_energy = float(stream_mass * B_stream[1])
+    else:
+        stream_energy = float(exact_stream_energy)
+
+    wind_mass = quadrature(source.wind_prime for source in sources)
+    wind_angular = quadrature(
+        source.wind_prime * source.carried.l_wind for source in sources
+    )
+    wind_base_energy = quadrature(source.wind_base_energy_prime for source in sources)
+    wind_launch_energy = quadrature(source.wind_launch_power_prime for source in sources)
+    wind_energy = float(wind_base_energy + wind_launch_energy)
+    radiative_energy = quadrature(source.radiative_loss_prime for source in sources)
+    external_angular = quadrature(
+        source.angular_rhs
+        - source.wind_prime * source.carried.l_wind
+        + source.stream_prime * source.carried.l_stream
+        for source in sources
+    )
+    external_energy = quadrature(
+        source.energy_rhs
+        - source.radiative_loss_prime
+        - source.wind_base_energy_prime
+        - source.wind_launch_power_prime
+        + source.stream_prime * source.carried.B_stream
+        for source in sources
+    )
+    values = (
+        stream_angular,
+        stream_energy,
+        wind_mass,
+        wind_angular,
+        wind_base_energy,
+        wind_launch_energy,
+        wind_energy,
+        radiative_energy,
+        external_angular,
+        external_energy,
+    )
+    if any(not np.isfinite(value) for value in values):
+        raise ValueError("integrated transport moments must be finite")
+    return ConservativeIntervalTransport(
+        stream_mass=stream_mass,
+        stream_mass_quadrature=stream_mass_quadrature,
+        wind_mass=wind_mass,
+        stream_angular_momentum=stream_angular,
+        wind_angular_momentum=wind_angular,
+        external_angular_momentum=external_angular,
+        stream_energy=stream_energy,
+        wind_base_energy=wind_base_energy,
+        wind_launch_energy=wind_launch_energy,
+        wind_energy=wind_energy,
+        radiative_energy=radiative_energy,
+        external_energy=external_energy,
+    )
+
+
+def wind_escape_diagnostics(
+    state: ConservativeNodeState,
+    closure: PhysicalTransportClosure,
+    params,
+    *,
+    target_terminal_bernoulli: float = 0.0,
+) -> WindEscapeDiagnostics:
+    """Compare the prescribed launch energy with an unbound-wind target."""
+
+    if not np.isfinite(target_terminal_bernoulli):
+        raise ValueError("target_terminal_bernoulli must be finite")
+    carried = carried_transport(state, closure, params)
+    required = float(
+        target_terminal_bernoulli - state.bernoulli - carried.wind_torque_work
+    )
+    margin = float(carried.B_wind - target_terminal_bernoulli)
+    terminal_speed = float(math.sqrt(2.0 * max(carried.B_wind, 0.0)))
+    return WindEscapeDiagnostics(
+        disk_bernoulli=float(state.bernoulli),
+        target_terminal_bernoulli=float(target_terminal_bernoulli),
+        required_launch_energy=required,
+        prescribed_launch_energy=float(carried.wind_launch_energy),
+        wind_bernoulli=float(carried.B_wind),
+        terminal_margin=margin,
+        terminal_speed=terminal_speed,
+        escaping=bool(margin >= 0.0),
+    )
+
+
+def integrate_interval_transport(
+    dx: float,
+    source_left: ConservativeSourceTerms,
+    source_midpoint: ConservativeSourceTerms,
+    source_right: ConservativeSourceTerms,
+    *,
+    exact_stream_mass: float | None = None,
+    exact_stream_angular_momentum: float | None = None,
+    exact_stream_energy: float | None = None,
+) -> ConservativeIntervalTransport:
+    """Integrate one production interval with the shared Simpson operator."""
+
+    return integrate_sampled_interval_transport(
+        dx,
+        (source_left, source_midpoint, source_right),
+        (1.0 / 6.0, 4.0 / 6.0, 1.0 / 6.0),
+        exact_stream_mass=exact_stream_mass,
+        exact_stream_angular_momentum=exact_stream_angular_momentum,
+        exact_stream_energy=exact_stream_energy,
     )
 
 
@@ -379,30 +659,27 @@ def simpson_interval_residual(
     *,
     energy_flux_left: float | None = None,
     energy_flux_right: float | None = None,
+    exact_stream_mass: float | None = None,
+    exact_stream_angular_momentum: float | None = None,
+    exact_stream_energy: float | None = None,
 ) -> ConservativeIntervalResidual:
-    """Return finite-volume Simpson rows for one radial interval."""
+    """Return finite-volume rows from the shared production integrator."""
 
-    if not np.isfinite(dx) or dx <= 0.0:
-        raise ValueError("dx must be positive and finite")
-    mass_integral = (dx / 6.0) * (
-        source_left.mass_rhs + 4.0 * source_midpoint.mass_rhs + source_right.mass_rhs
-    )
-    angular_integral = (dx / 6.0) * (
-        source_left.angular_rhs
-        + 4.0 * source_midpoint.angular_rhs
-        + source_right.angular_rhs
-    )
-    energy_integral = (dx / 6.0) * (
-        source_left.energy_rhs
-        + 4.0 * source_midpoint.energy_rhs
-        + source_right.energy_rhs
+    transport = integrate_interval_transport(
+        dx,
+        source_left,
+        source_midpoint,
+        source_right,
+        exact_stream_mass=exact_stream_mass,
+        exact_stream_angular_momentum=exact_stream_angular_momentum,
+        exact_stream_energy=exact_stream_energy,
     )
     E_left = left.mechanical_energy_flux if energy_flux_left is None else float(energy_flux_left)
     E_right = right.mechanical_energy_flux if energy_flux_right is None else float(energy_flux_right)
     return ConservativeIntervalResidual(
-        mass=float((right.mdot - left.mdot - mass_integral) / scales.mdot),
-        angular_momentum=float((right.J - left.J - angular_integral) / scales.angular_flux),
-        energy=float((E_right - E_left - energy_integral) / scales.energy_flux),
+        mass=float((right.mdot - left.mdot - transport.mass_rhs) / scales.mdot),
+        angular_momentum=float((right.J - left.J - transport.angular_rhs) / scales.angular_flux),
+        energy=float((E_right - E_left - transport.energy_rhs) / scales.energy_flux),
     )
 
 

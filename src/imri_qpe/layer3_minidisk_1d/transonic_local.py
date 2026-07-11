@@ -307,6 +307,39 @@ def stream_source_prime(logR: float, params) -> float:
     return float(params.Mdot_g_s * fraction * dshape_dx)
 
 
+def stream_source_interval_integral(logR_left: float, logR_right: float, params) -> float:
+    """Return the exact stream mass added over one ``dlnR`` interval."""
+
+    left = float(logR_left)
+    right = float(logR_right)
+    if not np.isfinite(left) or not np.isfinite(right) or right <= left:
+        raise ValueError("stream source interval must be finite and outward increasing")
+    fraction = _stream_source_fraction(params)
+    if fraction == 0.0:
+        return 0.0
+    center_fraction, log_width = _source_geometry(params)
+    shape_left, _ = stream_annulus_shape_and_derivative(
+        left,
+        center_fraction,
+        log_width,
+        float(params.R_out),
+        _source_shape(params),
+        _source_shape_blend(params),
+    )
+    shape_right, _ = stream_annulus_shape_and_derivative(
+        right,
+        center_fraction,
+        log_width,
+        float(params.R_out),
+        _source_shape(params),
+        _source_shape_blend(params),
+    )
+    shape_increment = float(shape_right - shape_left)
+    if shape_increment < -1.0e-12:
+        raise ValueError("stream cumulative profile decreased across an interval")
+    return float(params.Mdot_g_s * fraction * max(shape_increment, 0.0))
+
+
 def wind_sink_prime(logR: float, params) -> float:
     """Return positive mass removed from the disk per ``dlnR``."""
 

@@ -9,6 +9,9 @@ import pytest
 from imri_qpe.layer3_minidisk_1d import (
     PhysicalTransportClosure,
     TransonicSlimParams,
+    conservative_block_jacobian,
+    conservative_eta_bordered_jacobian,
+    conservative_jacobian_directional_audit,
     conservative_jacobian_sparsity,
     conservative_local_dae_matrix,
     conservative_local_dae_residual,
@@ -16,9 +19,14 @@ from imri_qpe.layer3_minidisk_1d import (
     conservative_residual_audit,
     conservative_seed_from_legacy,
     conservative_sonic_diagnostics,
+    conservative_transport_quadrature_profile,
+    conservative_wind_escape_profile,
+    multidomain_conservative_grid,
+    nested_refined_conservative_grid,
     pack_conservative_state,
     remap_conservative_state,
     residual_adapted_conservative_grid,
+    source_block_refined_conservative_grid,
     unpack_conservative_state,
 )
 from imri_qpe.parameters import FiducialParams
@@ -168,6 +176,66 @@ def test_optimizer_weights_leave_raw_conservative_audit_unchanged() -> None:
     assert audit.inner_mass == pytest.approx(base.inner_mass)
 
 
+def test_power_and_carried_wind_modes_have_equivalent_production_residuals() -> None:
+    legacy, disk = _canonical_mdot5()
+    closure = PhysicalTransportClosure(
+        stream_circularization_radius=0.8 * disk.R_out,
+        wind_launch_energy_multiplier=8.0,
+    )
+    seed, params = conservative_seed_from_legacy(legacy, disk, closure)
+    wind_disk = replace(
+        disk,
+        wind_energy_limited_epsilon=0.2,
+        wind_activation_width_fraction=0.05,
+    )
+    power = replace(params, disk=wind_disk, wind_energy_transport_mode="power")
+    carried = replace(power, wind_energy_transport_mode="carried")
+
+    residual_power = conservative_residual(seed, power)
+    residual_carried = conservative_residual(seed, carried)
+    np.testing.assert_allclose(residual_power, residual_carried, rtol=0.0, atol=2.0e-14)
+
+    escape = conservative_wind_escape_profile(seed, power)
+    assert escape["R_mid_rg"].shape == (disk.n_nodes - 1,)
+    assert np.all(np.isfinite(escape["wind_bernoulli"]))
+    assert np.all(
+        escape["escaping"]
+        == (escape["terminal_margin"] >= 0.0)
+    )
+
+    capped = replace(
+        power,
+        closure=replace(
+            power.closure,
+            wind_mass_loading_cap_per_log_radius=1.0e-12,
+        ),
+    )
+    capped_profile = conservative_wind_escape_profile(seed, capped)
+    assert np.any(capped_profile["wind_cap_active"])
+    assert np.all(capped_profile["wind_prime"] <= capped_profile["wind_raw_prime"])
+    assert np.any(capped_profile["wind_prime"] < capped_profile["wind_raw_prime"])
+    np.testing.assert_allclose(
+        capped_profile["wind_launch_power_prime"],
+        capped_profile["wind_prime"] * capped_profile["prescribed_launch_energy"],
+        rtol=2.0e-15,
+        atol=0.0,
+    )
+
+    target_disk = replace(disk, n_nodes=97, custom_grid_xi=None, grid_power=0.6)
+    _remapped, remapped_params = remap_conservative_state(seed, carried, target_disk)
+    assert remapped_params.wind_energy_transport_mode == "carried"
+
+    from imri_qpe.layer3_minidisk_1d import ConservativeBoundary, ConservativeSolverParams
+
+    with pytest.raises(ValueError, match="wind_energy_transport_mode"):
+        ConservativeSolverParams(
+            disk=disk,
+            closure=closure,
+            boundary=ConservativeBoundary(0.0, 0.0),
+            wind_energy_transport_mode="invalid",
+        )
+
+
 def test_residual_adapted_grid_is_monotone_and_has_fixed_endpoints() -> None:
     legacy, disk = _canonical_mdot5()
     closure = PhysicalTransportClosure(stream_circularization_radius=0.8 * disk.R_out)
@@ -180,3 +248,153 @@ def test_residual_adapted_grid_is_monotone_and_has_fixed_endpoints() -> None:
     assert grid[0] == 0.0
     assert grid[-1] == 1.0
     assert np.all(np.diff(grid) > 0.0)
+
+
+def test_source_block_grid_preserves_outside_nodes_and_exact_landmarks() -> None:
+    legacy, disk = _canonical_mdot5()
+    disk = replace(
+        disk,
+        R_out_rg=335.0,
+        stream_source_fraction=0.3,
+        stream_source_center_fraction=240.0 / 335.0,
+        stream_source_log_width=0.08,
+        stream_source_shape="compact_c2",
+    )
+    closure = PhysicalTransportClosure(stream_circularization_radius=240.0 * disk.r_g)
+    seed, params = conservative_seed_from_legacy(legacy, disk, closure)
+    *_fields, logR_son, old_logR = unpack_conservative_state(seed, params)
+    grid = np.asarray(
+        source_block_refined_conservative_grid(seed, params, source_nodes=32),
+        dtype=float,
+    )
+    new_logR = logR_son + grid * (old_logR[-1] - logR_son)
+    center = np.log(240.0 * disk.r_g)
+    left = center - 0.08
+    right = center + 0.08
+
+    assert grid[0] == 0.0
+    assert grid[-1] == 1.0
+    assert np.all(np.diff(grid) > 0.0)
+    assert np.count_nonzero((new_logR >= left) & (new_logR <= right)) == 32
+    for landmark in (left, center, right):
+        assert np.min(np.abs(new_logR - landmark)) < 1.0e-13
+    inherited = old_logR[(old_logR < left) | (old_logR > right)]
+    for value in inherited:
+        assert np.min(np.abs(new_logR - value)) < 1.0e-13
+
+
+def test_high_order_transport_audit_returns_finite_interval_profiles() -> None:
+    legacy, disk = _canonical_mdot5()
+    closure = PhysicalTransportClosure(stream_circularization_radius=0.8 * disk.R_out)
+    seed, params = conservative_seed_from_legacy(legacy, disk, closure)
+    profile8 = conservative_transport_quadrature_profile(seed, params, order=8)
+    profile16 = conservative_transport_quadrature_profile(seed, params, order=16)
+
+    for name in ("mass_rhs", "angular_rhs", "energy_rhs"):
+        assert profile8[name].shape == (disk.n_nodes - 1,)
+        assert profile16[name].shape == (disk.n_nodes - 1,)
+        assert np.all(np.isfinite(profile8[name]))
+        assert np.all(np.isfinite(profile16[name]))
+    np.testing.assert_allclose(profile8["mass_rhs"], profile16["mass_rhs"], atol=0.0)
+
+
+def test_multidomain_grid_freezes_inner_nodes_and_resolves_source() -> None:
+    legacy, disk = _canonical_mdot5()
+    disk = replace(
+        disk,
+        R_out_rg=335.0,
+        stream_source_fraction=0.3,
+        stream_source_center_fraction=240.0 / 335.0,
+        stream_source_log_width=0.08,
+        stream_source_shape="compact_c2",
+    )
+    closure = PhysicalTransportClosure(stream_circularization_radius=240.0 * disk.r_g)
+    seed, params = conservative_seed_from_legacy(legacy, disk, closure)
+    *_fields, logR_son, old_logR = unpack_conservative_state(seed, params)
+    grid = np.asarray(
+        multidomain_conservative_grid(
+            seed,
+            params,
+            target_n=900,
+            source_nodes=64,
+            frozen_inner_nodes=12,
+        )
+    )
+    new_logR = logR_son + grid * (old_logR[-1] - logR_son)
+    center = np.log(240.0 * disk.r_g)
+
+    assert grid.shape == (900,)
+    assert np.all(np.diff(grid) > 0.0)
+    np.testing.assert_allclose(new_logR[:12], old_logR[:12], atol=1.0e-13)
+    for landmark in (center - 0.08, center, center + 0.08):
+        assert np.min(np.abs(new_logR - landmark)) < 1.0e-13
+
+
+def test_nested_grid_preserves_every_existing_node() -> None:
+    legacy, disk = _canonical_mdot5()
+    closure = PhysicalTransportClosure(stream_circularization_radius=0.8 * disk.R_out)
+    seed, params = conservative_seed_from_legacy(legacy, disk, closure)
+    *_fields, logR_son, old_logR = unpack_conservative_state(seed, params)
+    grid = np.asarray(
+        nested_refined_conservative_grid(seed, params, target_n=disk.n_nodes + 37)
+    )
+    new_logR = logR_son + grid * (old_logR[-1] - logR_son)
+
+    assert new_logR.size == old_logR.size + 37
+    assert np.all(np.diff(new_logR) > 0.0)
+    for value in old_logR:
+        assert np.min(np.abs(new_logR - value)) < 1.0e-13
+
+
+def test_block_jacobian_matches_production_direction_on_small_grid() -> None:
+    legacy, disk = _canonical_mdot5()
+    closure = PhysicalTransportClosure(stream_circularization_radius=0.8 * disk.R_out)
+    seed, params = conservative_seed_from_legacy(legacy, disk, closure)
+    target_disk = replace(
+        disk,
+        n_nodes=9,
+        custom_grid_xi=tuple(np.linspace(0.0, 1.0, 9)),
+    )
+    state, target = remap_conservative_state(seed, params, target_disk)
+    jacobian = conservative_block_jacobian(state, target, rel_step=3.0e-6)
+    audit = conservative_jacobian_directional_audit(
+        state,
+        target,
+        steps=(1.0e-3, 3.0e-4, 1.0e-4, 3.0e-5),
+        jacobian_rel_step=3.0e-6,
+    )
+
+    assert jacobian.shape == (state.size, state.size)
+    assert np.all(np.isfinite(jacobian.data))
+    # This synthetic nine-node state is not a resolved sonic anchor; the
+    # nested determinant/compatibility diagnostic limits its full-row audit.
+    assert audit.best_relative_error < 3.0e-2
+    n = target.disk.n_nodes
+    assert jacobian[3, 4 * n] == pytest.approx(-target.energy_flux_weight)
+    assert jacobian[3, 4 * n + 1] == pytest.approx(target.energy_flux_weight)
+
+
+def test_eta_bordered_jacobian_adds_parameter_and_arc_rows() -> None:
+    legacy, disk = _canonical_mdot5()
+    closure = PhysicalTransportClosure(stream_circularization_radius=0.8 * disk.R_out)
+    seed, params = conservative_seed_from_legacy(legacy, disk, closure)
+    target_disk = replace(
+        disk,
+        n_nodes=7,
+        custom_grid_xi=tuple(np.linspace(0.0, 1.0, 7)),
+    )
+    state, target = remap_conservative_state(seed, params, target_disk)
+    tangent = np.ones(state.size + 1, dtype=float)
+    tangent /= np.linalg.norm(tangent)
+    scales = np.ones_like(tangent)
+    jacobian = conservative_eta_bordered_jacobian(
+        state,
+        0.1,
+        target,
+        tangent=tangent,
+        scales=scales,
+    )
+
+    assert jacobian.shape == (state.size + 1, state.size + 1)
+    assert np.all(np.isfinite(jacobian.data))
+    np.testing.assert_allclose(jacobian[-1].toarray().ravel(), tangent)
