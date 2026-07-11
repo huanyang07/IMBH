@@ -23,16 +23,23 @@ def _sha256(path: Path) -> str:
 
 def test_every_canonical_case_has_provenance_and_valid_checksums() -> None:
     cases = sorted(path for path in CANONICAL.iterdir() if path.is_dir())
-    assert len(cases) == 8
+    assert len(cases) >= 8
     for case in cases:
         provenance = json.loads((case / "provenance.json").read_text())
-        assert provenance["source_tag"] == "pre-cleanup-p0-2026-07-11"
-        assert provenance["scientific_status"] in {
+        assert "source_tag" in provenance or "source_parent_commit" in provenance
+        status = provenance.get("scientific_status", provenance.get("numerical_status"))
+        assert status in {
             "CERTIFIED",
             "SUPPORTED BUT NOT FULLY CERTIFIED",
             "DIAGNOSTIC ONLY",
             "REJECTED",
         }
+        if "physical_status" in provenance:
+            assert provenance["physical_status"] in {
+                "SUPPORTED BUT NOT FULLY CERTIFIED",
+                "DIAGNOSTIC ONLY",
+                "REJECTED",
+            }
         for line in (case / "SHA256SUMS.txt").read_text().splitlines():
             expected, filename = line.split("  ", 1)
             assert _sha256(case / filename) == expected
@@ -41,12 +48,34 @@ def test_every_canonical_case_has_provenance_and_valid_checksums() -> None:
 def test_canonical_manifest_matches_files() -> None:
     with MANIFEST.open(newline="") as handle:
         rows = list(csv.DictReader(handle))
-    assert len(rows) == 52
+    expected_files = sum(
+        1
+        for case in CANONICAL.iterdir()
+        if case.is_dir()
+        for path in case.iterdir()
+        if path.is_file()
+    )
+    assert len(rows) == expected_files
     for row in rows:
         path = ROOT / row["path"]
         assert path.is_file()
         assert path.stat().st_size == int(row["bytes"])
         assert _sha256(path) == row["sha256"]
+
+
+def test_wp1_canonical_cases_preserve_legacy_and_closed_states() -> None:
+    for name in (
+        "signed_flux_legacy_53566fa_N512",
+        "signed_flux_angular_closed_wp1_N512",
+    ):
+        case = CANONICAL / name
+        assert case.is_dir()
+        summary = json.loads((case / "summary.json").read_text())
+        assert summary["tidal_wall"]["converged"]
+        assert summary["zero_torque"]["converged"]
+        for boundary in ("tidal_wall", "zero_torque"):
+            assert (case / f"prescribed_{boundary}.npz").is_file()
+            assert (case / f"thermoviscous_{boundary}.npz").is_file()
 
 
 def test_canonical_numerical_anchors_are_accepted() -> None:

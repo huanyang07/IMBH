@@ -2,6 +2,10 @@
 
 Date: 2026-07-11
 
+> Superseded for physical interpretation by
+> `CODEX_SIGNED_FLUX_ANGULAR_CLOSURE_RESULTS_2026-07-11.md`. This report is the
+> frozen `53566fa` mass-only angular baseline.
+
 ## Motivation
 
 The unified transonic solver cannot impose a physical tidal wall or open

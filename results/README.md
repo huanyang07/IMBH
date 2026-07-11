@@ -14,6 +14,8 @@ the default branch.
 | `source_shape_comparison` | **SUPPORTED BUT NOT FULLY CERTIFIED** | C2/C4/C-infinity/wider-source comparison |
 | `global_composite_failure` | **REJECTED** | Decisive failed global-tail witness |
 | `p0_validity_ledger_outer_manifold` | **DIAGNOSTIC ONLY** | Validity, angular ledger, and outer-manifold review |
+| `signed_flux_legacy_53566fa_N512` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Frozen mass-only angular wall/open controls |
+| `signed_flux_angular_closed_wp1_N512` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Angularly closed wall/open decision-gate states |
 
 Each case contains `provenance.json` and `SHA256SUMS.txt`. The global file list
 and hashes are recorded in `manifests/canonical_artifacts.csv`.

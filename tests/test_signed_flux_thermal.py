@@ -6,9 +6,11 @@ from imri_qpe.layer3_minidisk_1d import (
     PaczynskiWiitaPotential,
     SignedFluxBoundary,
     SignedThermalClosure,
+    StreamInjectionState,
     advance_signed_thermal_implicit,
     make_log_grid,
-    normalized_stream_cell_rates,
+    normalized_stream_injection_state,
+    signed_thermal_fixed_radius_diagnostics,
     signed_thermal_profile,
     solve_signed_flux_steady,
     solve_signed_thermal_steady,
@@ -23,28 +25,27 @@ def _supplied_disk(n: int = 48, outer_mode: str = "tidal_wall"):
     potential = PaczynskiWiitaPotential(mass)
     grid = make_log_grid(6.1 * potential.r_g, 335.0 * potential.r_g, n)
     viscosity = 1.0e-4 * grid.centers**2 * potential.omega_k(grid.centers)
-    source_mass, _ = normalized_stream_cell_rates(
-        grid,
-        5.0 * eddington_mdot(mass),
-        center=240.0 * potential.r_g,
-        log_width=0.08,
-    )
     stream_l = float(potential.l_k(248.96693 * potential.r_g))
     stream_B = float(
         potential.phi(248.96693 * potential.r_g)
         + 0.5 * (stream_l / (248.96693 * potential.r_g)) ** 2
+    )
+    stream_state = normalized_stream_injection_state(
+        grid,
+        5.0 * eddington_mdot(mass),
+        center=240.0 * potential.r_g,
+        log_width=0.08,
+        specific_angular_momentum=stream_l,
+        specific_total_energy=stream_B,
     )
     transport = solve_signed_flux_steady(
         grid,
         viscosity,
         mass,
         boundary=SignedFluxBoundary(outer_mode=outer_mode),
-        source_mass_rate_cells=source_mass,
-        source_specific_angular_momentum=np.full(n, stream_l),
+        stream_state=stream_state,
     )
     closure = SignedThermalClosure(
-        stream_specific_angular_momentum=stream_l,
-        stream_specific_total_energy=stream_B,
         temperature_bounds=(1.0e3, 1.0e9),
     )
     return mass, grid, transport, closure
@@ -59,9 +60,14 @@ def test_signed_thermal_profile_closes_global_energy_ledger() -> None:
         float(np.sum(profile.radiative_cooling_rate_cells)),
         1.0,
     )
-    assert abs(profile.energy_budget_defect) / scale < 2.0e-15
+    assert abs(profile.internal_energy_ledger_defect) / scale < 2.0e-15
     assert np.any(profile.stream_heating_rate_cells != 0.0)
     assert np.all(profile.thermal_energy_cells > 0.0)
+    assert np.all(np.isfinite(profile.radial_pressure_force_fraction))
+    diagnostics = signed_thermal_fixed_radius_diagnostics(
+        grid, profile, PaczynskiWiitaPotential(mass).r_g
+    )
+    assert set(diagnostics) == {"10_rg", "20_rg", "30_rg"}
 
 
 def test_implicit_thermal_step_satisfies_cell_energy_equation() -> None:
@@ -106,9 +112,10 @@ def test_thermoviscous_fixed_point_matches_alpha_viscosity() -> None:
         mass,
         alpha=0.01,
         boundary=SignedFluxBoundary(outer_mode="tidal_wall"),
-        source_mass_rate_cells=transport.source_mass_rate_cells,
-        source_specific_angular_momentum=np.full(
-            grid.centers.size, closure.stream_specific_angular_momentum
+        stream_state=StreamInjectionState(
+            transport.source_mass_rate_cells,
+            transport.source_angular_rate_cells,
+            transport.source_total_energy_rate_cells,
         ),
         thermal_closure=closure,
         temperature_seed=np.full(grid.centers.size, 1.0e6),
@@ -119,5 +126,33 @@ def test_thermoviscous_fixed_point_matches_alpha_viscosity() -> None:
 
     assert result.converged
     target = 0.01 * result.thermal.profile.H**2 * result.transport.omega
-    assert np.max(np.abs(np.log(target / result.viscosity))) < 5.0e-3
+    assert np.max(np.abs(np.log(target / result.viscosity))) <= 3.0e-3
+    assert result.maximum_log_viscosity_change <= 3.0e-3
+    assert result.history[-1, 1] == result.maximum_log_viscosity_change
     assert result.thermal.maximum_normalized_residual < 1.0e-6
+
+
+def test_nonconverged_thermoviscous_result_returns_its_final_state() -> None:
+    mass, grid, transport, closure = _supplied_disk(24, "tidal_wall")
+    result = solve_signed_thermoviscous_steady(
+        grid,
+        mass,
+        alpha=0.01,
+        boundary=SignedFluxBoundary(outer_mode="tidal_wall"),
+        stream_state=StreamInjectionState(
+            transport.source_mass_rate_cells,
+            transport.source_angular_rate_cells,
+            transport.source_total_energy_rate_cells,
+        ),
+        thermal_closure=closure,
+        temperature_seed=np.full(grid.centers.size, 1.0e6),
+        damping=0.25,
+        tolerance=1.0e-12,
+        max_iterations=1,
+    )
+    target = 0.01 * result.thermal.profile.H**2 * result.transport.omega
+
+    assert not result.converged
+    assert result.maximum_log_viscosity_change == np.max(
+        np.abs(np.log(target / result.viscosity))
+    )

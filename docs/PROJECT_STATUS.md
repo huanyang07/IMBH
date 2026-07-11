@@ -31,8 +31,8 @@ This is the canonical project handoff. Status labels mean:
 | Unified compact-stream branch at `Mdot_inner/Edd=5`, `Rout=335 rg` | **SUPPORTED BUT NOT FULLY CERTIFIED** | `f_s=0.05,0.10,0.30` pass at `N=192,256,384`; conservative mass budget closes | Outer compatibility convergence is only exploratory |
 | Unified Mdot=5 energy-limited wind | **SUPPORTED BUT NOT FULLY CERTIFIED** | Exact-source eta=8 roots pass at N426/N512/N640; power/carried residuals agree below `9e-20`; essentially all wind mass is Bernoulli-unbound | Wind loss is only `1.71%`; no hot transition; launch closure remains artificial and gives a tiny formally superluminal inner tail |
 | Terminal-Bernoulli Mdot=5 wind | **SUPPORTED BUT NOT FULLY CERTIFIED** | Physical `B_infinity=0.02 c2` roots pass at N426/N512/N640 with wind loss `6.87-6.88%` and no mass-cap activation | Still no new hot topology; inner rate remains imposed and stream supply is fractional |
-| Prescribed-viscosity signed-flux disk | **SUPPORTED BUT NOT FULLY CERTIFIED** | Ring spreading closes mass/angular budgets at `1e-16`; absolute `5 Mdot_Edd` stream gives mesh-stable tidal-wall and open-overflow solutions | Numerical transport baseline; physical use is superseded by the thermoviscous extension |
-| Thermoviscous signed-flux disk | **SUPPORTED BUT NOT FULLY CERTIFIED** | Self-consistent alpha-viscosity roots pass N64-N512; tidal wall gives `f_adv=0.548`, `H/R=0.341`, while open overflow remains cool | Internal-energy advection lacks the full enthalpy/pressure-work identity; inner transonic coupling is pending |
+| Angularly closed prescribed-viscosity signed-flux disk | **SUPPORTED BUT NOT FULLY CERTIFIED** | Exact stream `S_M,S_J,S_E`; open split `0.170064596`; wall torque `0.768986584`; unnamed angular defect below `9e-16` | Fixed-Keplerian steady reservoir; source-bearing coupled time evolution is pending |
+| Angularly closed thermoviscous signed-flux disk | **SUPPORTED BUT NOT FULLY CERTIFIED** | N64-N512 roots; wall internal-energy export `0.548`, `H/R=0.341`, `Lrad=1.323 LEdd`; angular defect at roundoff | Internal-energy ledger is not total energy; ideal wall power, inner transonic coupling, and stability are pending |
 | Fully time-dependent total-energy signed-flux disk | **PLANNED** | Required to test accumulation, fronts, and limit cycles under physical feeding | Coupled mass+total-energy IMEX evolution not implemented |
 
 ## Frozen Target Under Review
@@ -72,26 +72,25 @@ N                    = 164
 8. A target-terminal-Bernoulli closure reaches `B_infinity=0.02 c^2` with
    mesh-stable `6.9%` wind loss. `f_adv_global` rises only from about `0.400` to
    `0.414`, while `H/R`, luminosity, and sonic radius remain nearly fixed.
-9. The independent-Sigma signed-flux core passes ring spreading and supports
-   finite-density stagnation. For an absolute `5 Mdot_Edd` stream, a tidal wall
-   accretes all supply, while an open edge accretes `18.85%` and overflows
-   `81.15%`, with stagnation near `223.61 rg`.
-10. Adding gas+radiation thermal balance and self-consistent alpha viscosity
-    produces a mesh-stable tidal-wall hot state (`f_adv~0.548`, `H/R~0.341`,
-    `Lrad~1.32 LEdd`). The open-overflow state remains cooler (`f_adv~0.054`,
-    `H/R~0.157`).
+9. The independent-Sigma signed-flux core now includes the physical stream
+   angular moment in the steady solution. The ideal wall accretes all supply
+   and requires torque `0.7689866` of the stream angular flux; the open edge
+   accretes `17.006%`, overflows `82.994%`, and stagnates near `222.35 rg`.
+10. The angularly closed tidal-wall hot-reservoir candidate survives with
+    internal-energy export `0.548`, `H/R=0.341`, and `Lrad=1.323 LEdd`. At
+    `10 rg`, radial pressure support is `0.116`, so the Keplerian reservoir
+    cannot be interpreted down to the current inner boundary.
 
 ## Claims That Are Not Allowed Yet
 
 - “A strong advective/hot mass-loaded-wind branch has been recovered.”
 - “The branch ends physically at `225.52125 rg`.”
 - “No global far-side steady solution exists.”
-- “The present stream torque and local angular momentum prescription is a
-  conservative physical closure.”
+- “The current internal-energy wall state is a certified physical hot branch.”
 
 ## Next Scientific Work
 
-1. Replace internal-energy advection with a total-energy/enthalpy ledger and
+1. Replace internal-energy transport with a total-energy/enthalpy ledger and
    recover the pressure-work identity used by the slim entropy equation.
 2. Couple `(Mdot,J,E)` fluxes to the existing inner no-wind slim solver.
 3. Implement coupled mass+energy IMEX evolution, allowing
@@ -115,3 +114,4 @@ N                    = 164
 - Physical terminal-Bernoulli wind: `reports/current/CODEX_UNIFIED_TERMINAL_BERNOULLI_WIND_RESULTS_2026-07-11.md`
 - Signed-flux absolute-stream baseline: `reports/current/CODEX_SIGNED_FLUX_ABSOLUTE_STREAM_RESULTS_2026-07-11.md`
 - Signed-flux thermoviscous baseline: `reports/current/CODEX_SIGNED_FLUX_THERMOVISCOUS_RESULTS_2026-07-11.md`
+- Signed-flux angular closure: `reports/current/CODEX_SIGNED_FLUX_ANGULAR_CLOSURE_RESULTS_2026-07-11.md`

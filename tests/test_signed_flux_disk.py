@@ -6,10 +6,12 @@ import pytest
 from imri_qpe.layer3_minidisk_1d import (
     PaczynskiWiitaPotential,
     SignedFluxBoundary,
+    StreamInjectionState,
     advance_signed_flux_explicit,
     advance_signed_flux_implicit,
     make_log_grid,
     normalized_stream_cell_rates,
+    normalized_stream_injection_state,
     signed_flux_transport,
     solve_signed_flux_steady,
 )
@@ -90,6 +92,33 @@ def test_absolute_stream_source_is_exactly_normalized() -> None:
     )
 
 
+def test_unified_stream_state_normalizes_all_moments_and_is_immutable() -> None:
+    mass, grid, _sigma = _ring()
+    potential = PaczynskiWiitaPotential(mass)
+    stream_rate = 3.0e22
+    stream_l = float(potential.l_k(100.0 * potential.r_g))
+    stream_B = -2.0e18
+    source = normalized_stream_injection_state(
+        grid,
+        stream_rate,
+        center=100.0 * potential.r_g,
+        log_width=0.08,
+        specific_angular_momentum=stream_l,
+        specific_total_energy=stream_B,
+    )
+
+    assert isinstance(source, StreamInjectionState)
+    assert np.sum(source.mass_rate_cells) == pytest.approx(stream_rate, rel=2.0e-15)
+    assert np.sum(source.angular_momentum_rate_cells) == pytest.approx(
+        stream_rate * stream_l, rel=2.0e-15
+    )
+    assert np.sum(source.total_energy_rate_cells) == pytest.approx(
+        stream_rate * stream_B, rel=2.0e-15
+    )
+    with pytest.raises(ValueError):
+        source.mass_rate_cells[0] = 0.0
+
+
 def test_explicit_step_preserves_budget_and_rejects_negative_mass() -> None:
     mass, grid, sigma = _ring()
     transport = signed_flux_transport(grid, sigma, 1.0e14, mass)
@@ -128,6 +157,29 @@ def test_implicit_step_crosses_explicit_limit_and_satisfies_backward_euler() -> 
     assert np.max(np.abs(backward_euler)) / scale < 2.0e-11
 
 
+def test_time_step_rejects_unclosed_nonlocal_stream_angular_momentum() -> None:
+    mass, grid, sigma = _ring(64)
+    potential = PaczynskiWiitaPotential(mass)
+    source_mass, _ = normalized_stream_cell_rates(
+        grid,
+        1.0e20,
+        center=100.0 * potential.r_g,
+        log_width=0.08,
+    )
+    nonlocal_l = np.full(grid.centers.size, potential.l_k(150.0 * potential.r_g))
+
+    with pytest.raises(ValueError, match="coupled angular IMEX operator"):
+        advance_signed_flux_implicit(
+            grid,
+            sigma,
+            1.0e14,
+            mass,
+            1.0,
+            source_mass_rate_cells=source_mass,
+            source_specific_angular_momentum=nonlocal_l,
+        )
+
+
 @pytest.mark.parametrize("outer_mode", ["tidal_wall", "zero_torque"])
 def test_absolute_stream_supply_sets_emergent_boundary_flux(outer_mode: str) -> None:
     mass, grid, _sigma = _ring(192)
@@ -158,3 +210,81 @@ def test_absolute_stream_supply_sets_emergent_boundary_flux(outer_mode: str) -> 
     else:
         assert result.mdot_faces[-1] < 0.0
         assert 0.0 < result.mdot_faces[0] < stream_rate
+
+
+def test_physical_stream_angular_momentum_sets_open_split_and_wall_torque() -> None:
+    mass, grid, _sigma = _ring(256)
+    potential = PaczynskiWiitaPotential(mass)
+    stream_rate = 5.0e22
+    stream_l = float(potential.l_k(100.0 * potential.r_g))
+    source = normalized_stream_injection_state(
+        grid,
+        stream_rate,
+        center=92.0 * potential.r_g,
+        log_width=0.08,
+        specific_angular_momentum=stream_l,
+        specific_total_energy=0.0,
+    )
+    edge_l = np.asarray(potential.l_k(grid.edges), dtype=float)
+    expected_open = (edge_l[-1] - stream_l) / (edge_l[-1] - edge_l[0])
+    expected_wall_torque = (stream_l - edge_l[0]) / stream_l
+
+    opened = solve_signed_flux_steady(
+        grid,
+        1.0e14,
+        mass,
+        boundary=SignedFluxBoundary(outer_mode="zero_torque"),
+        stream_state=source,
+    )
+    wall = solve_signed_flux_steady(
+        grid,
+        1.0e14,
+        mass,
+        boundary=SignedFluxBoundary(outer_mode="tidal_wall"),
+        stream_state=source,
+    )
+
+    angular_scale = stream_rate * stream_l
+    assert opened.mdot_faces[0] / stream_rate == pytest.approx(
+        expected_open, rel=2.0e-14
+    )
+    assert opened.viscous_torque_faces[-1] == pytest.approx(0.0, abs=1.0e-12 * angular_scale)
+    assert wall.viscous_torque_faces[-1] / angular_scale == pytest.approx(
+        expected_wall_torque, rel=2.0e-14
+    )
+    assert abs(opened.angular_momentum_budget_defect) < 1.0e-12 * angular_scale
+    assert abs(wall.angular_momentum_budget_defect) < 1.0e-12 * angular_scale
+
+
+def test_named_external_torque_changes_open_split_without_unmodeled_defect() -> None:
+    mass, grid, _sigma = _ring(128)
+    potential = PaczynskiWiitaPotential(mass)
+    stream_rate = 2.0e22
+    stream_l = float(potential.l_k(100.0 * potential.r_g))
+    source = normalized_stream_injection_state(
+        grid,
+        stream_rate,
+        center=100.0 * potential.r_g,
+        log_width=0.08,
+        specific_angular_momentum=stream_l,
+        specific_total_energy=0.0,
+    )
+    external = np.zeros(grid.centers.size)
+    external[-4:] = 0.01 * stream_rate * stream_l / 4.0
+    result = solve_signed_flux_steady(
+        grid,
+        1.0e14,
+        mass,
+        boundary=SignedFluxBoundary(outer_mode="zero_torque"),
+        stream_state=source,
+        external_angular_rate_cells=external,
+    )
+    edge_l = np.asarray(potential.l_k(grid.edges), dtype=float)
+    expected = (
+        stream_rate * edge_l[-1]
+        - stream_rate * stream_l
+        - np.sum(external)
+    ) / (stream_rate * (edge_l[-1] - edge_l[0]))
+
+    assert result.mdot_faces[0] / stream_rate == pytest.approx(expected, rel=2.0e-14)
+    assert abs(result.angular_momentum_budget_defect) < 1.0e-12 * stream_rate * stream_l

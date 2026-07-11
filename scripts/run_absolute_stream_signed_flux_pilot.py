@@ -11,7 +11,7 @@ from imri_qpe.layer3_minidisk_1d import (
     PaczynskiWiitaPotential,
     SignedFluxBoundary,
     make_log_grid,
-    normalized_stream_cell_rates,
+    normalized_stream_injection_state,
     solve_signed_flux_steady,
 )
 from imri_qpe.scales import eddington_mdot
@@ -45,22 +45,21 @@ def run() -> list[dict[str, object]]:
         grid = make_log_grid(6.1 * potential.r_g, 335.0 * potential.r_g, n)
         omega = np.asarray(potential.omega_k(grid.centers), dtype=float)
         viscosity = 0.01 * 0.1**2 * grid.centers**2 * omega
-        source_mass, _ = normalized_stream_cell_rates(
+        stream_state = normalized_stream_injection_state(
             grid,
             stream_rate,
             center=240.0 * potential.r_g,
             log_width=0.08,
             specific_angular_momentum=stream_l,
+            specific_total_energy=0.0,
         )
-        source_l = np.full(n, stream_l, dtype=float)
         for outer_mode in ("tidal_wall", "zero_torque"):
             result = solve_signed_flux_steady(
                 grid,
                 viscosity,
                 mass,
                 boundary=SignedFluxBoundary(outer_mode=outer_mode),
-                source_mass_rate_cells=source_mass,
-                source_specific_angular_momentum=source_l,
+                stream_state=stream_state,
             )
             stagnation = _stagnation_radius(grid, result.mdot_faces)
             angular_scale = stream_rate * stream_l
@@ -81,7 +80,7 @@ def run() -> list[dict[str, object]]:
                 "outer_torque_over_stream_J": float(
                     result.viscous_torque_faces[-1] / angular_scale
                 ),
-                "required_mixing_torque_over_stream_J": float(
+                "unmodeled_angular_defect_over_stream_J": float(
                     result.angular_momentum_budget_defect / angular_scale
                 ),
                 "angular_budget_rate_over_stream_J": float(

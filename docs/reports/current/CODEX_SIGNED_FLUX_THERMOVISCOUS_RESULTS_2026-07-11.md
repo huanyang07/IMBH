@@ -2,6 +2,10 @@
 
 Date: 2026-07-11
 
+> Superseded for physical interpretation by
+> `CODEX_SIGNED_FLUX_ANGULAR_CLOSURE_RESULTS_2026-07-11.md`. The `f_adv`
+> terminology below refers only to internal-energy export.
+
 ## Scope
 
 This work adds thermal energy to the independent-surface-density, signed-flux

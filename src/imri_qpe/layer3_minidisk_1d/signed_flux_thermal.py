@@ -11,7 +11,9 @@ from .grid import RadialGrid
 from .signed_flux_disk import (
     SignedFluxBoundary,
     SignedFluxTransport,
+    StreamInjectionState,
     solve_signed_flux_steady,
+    solve_signed_flux_steady_legacy,
 )
 from .transonic_potential import PaczynskiWiitaPotential
 from .transonic_thermo import radiative_cooling, vertical_state
@@ -43,7 +45,7 @@ class SignedThermalClosure:
 
 @dataclass(frozen=True)
 class SignedThermalProfile:
-    """Thermal state and conservative energy-rate decomposition."""
+    """Internal-energy state and its telescoping finite-volume ledger."""
 
     temperature: np.ndarray
     specific_internal_energy: np.ndarray
@@ -57,9 +59,24 @@ class SignedThermalProfile:
     H: np.ndarray
     rho: np.ndarray
     tau: np.ndarray
+    vertically_integrated_pressure: np.ndarray
+    radial_pressure_force_fraction: np.ndarray
+    dln_l_k_dln_R: np.ndarray
     impact_specific_energy: np.ndarray
-    energy_budget_rate: float
-    energy_budget_defect: float
+    internal_energy_ledger_rate: float
+    internal_energy_ledger_defect: float
+
+    @property
+    def energy_budget_rate(self) -> float:
+        """Compatibility alias; this is not a total-energy budget."""
+
+        return self.internal_energy_ledger_rate
+
+    @property
+    def energy_budget_defect(self) -> float:
+        """Compatibility alias; this is only a telescoping ledger defect."""
+
+        return self.internal_energy_ledger_defect
 
 
 @dataclass(frozen=True)
@@ -91,6 +108,43 @@ class SignedThermoviscousSteadyResult:
     iterations: int
     maximum_log_viscosity_change: float
     history: np.ndarray
+
+
+def signed_thermal_fixed_radius_diagnostics(
+    grid: RadialGrid,
+    profile: SignedThermalProfile,
+    r_g: float,
+    *,
+    radii_rg: tuple[float, ...] = (10.0, 20.0, 30.0),
+) -> dict[str, dict[str, float]]:
+    """Interpolate validity metrics at fixed physical radii."""
+
+    if not np.isfinite(r_g) or r_g <= 0.0:
+        raise ValueError("r_g must be positive and finite")
+    log_radius = np.log(grid.centers)
+    diagnostics: dict[str, dict[str, float]] = {}
+    for radius_rg in radii_rg:
+        radius = float(radius_rg) * float(r_g)
+        if radius < grid.centers[0] or radius > grid.centers[-1]:
+            continue
+        coordinate = float(np.log(radius))
+        diagnostics[f"{float(radius_rg):g}_rg"] = {
+            "tau_scattering": float(np.interp(coordinate, log_radius, profile.tau)),
+            "H_over_R": float(
+                np.interp(coordinate, log_radius, profile.H / grid.centers)
+            ),
+            "radial_pressure_force_fraction": float(
+                np.interp(
+                    coordinate,
+                    log_radius,
+                    profile.radial_pressure_force_fraction,
+                )
+            ),
+            "dln_l_k_dln_R": float(
+                np.interp(coordinate, log_radius, profile.dln_l_k_dln_R)
+            ),
+        }
+    return diagnostics
 
 
 def _temperature_array(temperature, grid: RadialGrid) -> np.ndarray:
@@ -155,17 +209,40 @@ def signed_thermal_profile(
     viscous = q_visc * grid.area
     radiative = np.asarray(radiative_cooling(state, kappa=closure.kappa), dtype=float) * grid.area
 
-    if closure.stream_specific_total_energy is None:
-        impact_specific = np.zeros_like(grid.centers)
-        stream_heating = np.zeros_like(grid.centers)
-    else:
-        orbital = np.asarray(
-            potential.phi(grid.centers)
-            + 0.5 * (potential.l_k(grid.centers) / grid.centers) ** 2,
-            dtype=float,
+    orbital = np.asarray(
+        potential.phi(grid.centers)
+        + 0.5 * (potential.l_k(grid.centers) / grid.centers) ** 2,
+        dtype=float,
+    )
+    if np.any(transport.source_total_energy_rate_cells != 0.0):
+        stream_heating = (
+            transport.source_total_energy_rate_cells
+            - transport.source_mass_rate_cells * orbital
         )
+        impact_specific = np.divide(
+            stream_heating,
+            transport.source_mass_rate_cells,
+            out=np.zeros_like(stream_heating),
+            where=transport.source_mass_rate_cells > 0.0,
+        )
+    elif closure.stream_specific_total_energy is not None:
         impact_specific = float(closure.stream_specific_total_energy) - orbital
         stream_heating = transport.source_mass_rate_cells * impact_specific
+    else:
+        impact_specific = np.zeros_like(grid.centers)
+        stream_heating = np.zeros_like(grid.centers)
+
+    integrated_pressure = np.asarray(state.Pi, dtype=float)
+    edge_order = 2 if grid.centers.size > 2 else 1
+    pressure_gradient = np.gradient(
+        integrated_pressure, grid.centers, edge_order=edge_order
+    )
+    radial_pressure_fraction = np.abs(
+        pressure_gradient / transport.surface_density
+    ) / (grid.centers * transport.omega**2)
+    dln_l = 2.0 + np.asarray(
+        potential.dln_omega_k_dlnR(grid.centers), dtype=float
+    )
 
     net = advective + viscous + stream_heating - radiative
     boundary_and_sources = float(
@@ -186,9 +263,14 @@ def signed_thermal_profile(
         H=np.asarray(state.H, dtype=float),
         rho=np.asarray(state.rho, dtype=float),
         tau=np.asarray(state.tau, dtype=float),
+        vertically_integrated_pressure=integrated_pressure,
+        radial_pressure_force_fraction=np.asarray(
+            radial_pressure_fraction, dtype=float
+        ),
+        dln_l_k_dln_R=dln_l,
         impact_specific_energy=np.asarray(impact_specific, dtype=float),
-        energy_budget_rate=boundary_and_sources,
-        energy_budget_defect=float(np.sum(net) - boundary_and_sources),
+        internal_energy_ledger_rate=boundary_and_sources,
+        internal_energy_ledger_defect=float(np.sum(net) - boundary_and_sources),
     )
 
 
@@ -330,10 +412,12 @@ def solve_signed_thermoviscous_steady(
     *,
     alpha: float,
     boundary: SignedFluxBoundary,
-    source_mass_rate_cells,
-    source_specific_angular_momentum,
+    stream_state: StreamInjectionState | None = None,
+    source_mass_rate_cells=None,
+    source_specific_angular_momentum=None,
     thermal_closure: SignedThermalClosure,
     temperature_seed,
+    angular_closure: str = "conservative",
     initial_H_over_R: float = 0.1,
     damping: float = 0.3,
     tolerance: float = 1.0e-3,
@@ -351,6 +435,10 @@ def solve_signed_thermoviscous_steady(
         raise ValueError("damping must lie in (0,1]")
     if not np.isfinite(tolerance) or tolerance <= 0.0:
         raise ValueError("tolerance must be positive and finite")
+    if angular_closure not in {"conservative", "legacy_mass_only"}:
+        raise ValueError(
+            "angular_closure must be 'conservative' or 'legacy_mass_only'"
+        )
     potential = PaczynskiWiitaPotential(float(M_g))
     omega = np.asarray(potential.omega_k(grid.centers), dtype=float)
     viscosity = np.asarray(
@@ -362,15 +450,41 @@ def solve_signed_thermoviscous_steady(
     transport = None
     thermal = None
     maximum_change = float("inf")
-    for iteration in range(1, int(max_iterations) + 1):
-        transport = solve_signed_flux_steady(
+    converged = False
+
+    def transport_for(trial_viscosity):
+        if angular_closure == "legacy_mass_only":
+            if stream_state is not None:
+                source_mass = stream_state.validated_for(grid).mass_rate_cells
+                source_l = np.divide(
+                    stream_state.angular_momentum_rate_cells,
+                    source_mass,
+                    out=np.asarray(potential.l_k(grid.centers), dtype=float),
+                    where=source_mass > 0.0,
+                )
+            else:
+                source_mass = source_mass_rate_cells
+                source_l = source_specific_angular_momentum
+            return solve_signed_flux_steady_legacy(
+                grid,
+                trial_viscosity,
+                M_g,
+                boundary=boundary,
+                source_mass_rate_cells=source_mass,
+                source_specific_angular_momentum=source_l,
+            )
+        return solve_signed_flux_steady(
             grid,
-            viscosity,
+            trial_viscosity,
             M_g,
             boundary=boundary,
+            stream_state=stream_state,
             source_mass_rate_cells=source_mass_rate_cells,
             source_specific_angular_momentum=source_specific_angular_momentum,
         )
+
+    for iteration in range(1, int(max_iterations) + 1):
+        transport = transport_for(viscosity)
         thermal = solve_signed_thermal_steady(
             grid,
             transport,
@@ -394,20 +508,40 @@ def solve_signed_thermoviscous_steady(
         )
         if thermal.accepted and maximum_change <= tolerance:
             viscosity = target_viscosity
-            break
+            transport = transport_for(viscosity)
+            thermal = solve_signed_thermal_steady(
+                grid,
+                transport,
+                temperature,
+                M_g,
+                closure=thermal_closure,
+                tolerance=thermal_tolerance,
+                max_nfev=thermal_max_nfev,
+            )
+            temperature = thermal.temperature
+            final_target = np.asarray(
+                alpha * thermal.profile.H**2 * omega, dtype=float
+            )
+            final_log_ratio = np.log(final_target / viscosity)
+            maximum_change = float(np.max(np.abs(final_log_ratio)))
+            history[-1] = [
+                float(iteration),
+                maximum_change,
+                thermal.maximum_normalized_residual,
+                float(np.max(thermal.profile.H / grid.centers)),
+            ]
+            if thermal.accepted and maximum_change <= tolerance:
+                converged = True
+                break
+            viscosity = np.exp(
+                np.log(viscosity) + float(damping) * final_log_ratio
+            )
+            continue
         viscosity = np.exp(np.log(viscosity) + float(damping) * log_ratio)
 
     assert transport is not None and thermal is not None
-    converged = bool(thermal.accepted and maximum_change <= tolerance)
-    if converged:
-        transport = solve_signed_flux_steady(
-            grid,
-            viscosity,
-            M_g,
-            boundary=boundary,
-            source_mass_rate_cells=source_mass_rate_cells,
-            source_specific_angular_momentum=source_specific_angular_momentum,
-        )
+    if not converged:
+        transport = transport_for(viscosity)
         thermal = solve_signed_thermal_steady(
             grid,
             transport,
@@ -416,6 +550,10 @@ def solve_signed_thermoviscous_steady(
             closure=thermal_closure,
             tolerance=thermal_tolerance,
             max_nfev=thermal_max_nfev,
+        )
+        final_target = np.asarray(alpha * thermal.profile.H**2 * omega, dtype=float)
+        maximum_change = float(
+            np.max(np.abs(np.log(final_target / viscosity)))
         )
     return SignedThermoviscousSteadyResult(
         transport=transport,

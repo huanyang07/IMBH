@@ -130,7 +130,6 @@ mass flux. Under its initial nearly Keplerian, prescribed-viscosity closure,
 
 ```text
 G             = -2 pi R^3 nu Sigma dOmega_K/dR
-Mdot          = dG/dl_K
 dM_cell/dt    = Mdot_outer - Mdot_inner + S_M
 J_face        = Mdot l_K - G.
 ```
@@ -140,8 +139,19 @@ flux to zero while retaining a finite torque. An open zero-torque edge permits
 outward overflow. The implementation never divides by `Mdot` or radial
 velocity, so a finite-density stagnation point is regular.
 
-The current bridge reports the explicit angular mixing torque required when
-the stream angular momentum differs from the local fixed-Keplerian value.
+The accepted steady source-bearing model uses one cell-integrated source state
+`(S_M,S_J,S_E)` and solves both conservation laws:
+
+```text
+Mdot[i+1] - Mdot[i] + S_M[i] = 0
+J[i+1] - J[i] + S_J[i] + T_ext[i] = 0.
+```
+
+An open boundary sets `G=0`. An ideal tidal wall sets `Mdot=0` and returns its
+required torque. The older `Mdot=dG/dl_K` source solve is retained only to
+reproduce commit `53566fa`; it is not an accepted physical stream closure.
+Time evolution with nonlocal source angular momentum remains disabled until
+the coupled angular IMEX operator is implemented.
 
 The first thermal extension evolves annular internal energy:
 
@@ -155,6 +165,10 @@ nu            = alpha H(Sigma,T)^2 Omega_K.
 Cooling is implicit and the steady mass, thermal, and viscosity equations are
 iterated to a fixed point. This is not yet the final total-energy equation:
 enthalpy/pressure work and inner transonic flux matching remain required.
+
+The reported transport ratio is named `internal_energy_export_fraction`, and
+the roundoff telescoping check is `internal_energy_ledger_defect`. Neither is a
+total-energy or entropy-advection certification.
 
 ## Validity Gates
 

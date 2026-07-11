@@ -12,7 +12,8 @@ from imri_qpe.layer3_minidisk_1d import (
     SignedFluxBoundary,
     SignedThermalClosure,
     make_log_grid,
-    normalized_stream_cell_rates,
+    normalized_stream_injection_state,
+    signed_thermal_fixed_radius_diagnostics,
     solve_signed_thermoviscous_steady,
 )
 from imri_qpe.scales import eddington_luminosity, eddington_mdot
@@ -36,17 +37,15 @@ def run() -> list[dict[str, object]]:
     rows = []
     for n in N_VALUES:
         grid = make_log_grid(6.1 * potential.r_g, 335.0 * potential.r_g, n)
-        source_mass, _ = normalized_stream_cell_rates(
+        stream_state = normalized_stream_injection_state(
             grid,
             stream_rate,
             center=240.0 * potential.r_g,
             log_width=0.08,
             specific_angular_momentum=stream_l,
+            specific_total_energy=stream_B,
         )
-        source_l = np.full(n, stream_l, dtype=float)
         closure = SignedThermalClosure(
-            stream_specific_angular_momentum=stream_l,
-            stream_specific_total_energy=stream_B,
             temperature_bounds=(1.0e3, 1.0e9),
         )
         for outer_mode in ("tidal_wall", "zero_torque"):
@@ -55,8 +54,7 @@ def run() -> list[dict[str, object]]:
                 mass,
                 alpha=0.01,
                 boundary=SignedFluxBoundary(outer_mode=outer_mode),
-                source_mass_rate_cells=source_mass,
-                source_specific_angular_momentum=source_l,
+                stream_state=stream_state,
                 thermal_closure=closure,
                 temperature_seed=np.full(n, 1.0e6),
                 damping=0.2,
@@ -90,10 +88,22 @@ def run() -> list[dict[str, object]]:
                 ),
                 "Lrad_over_LEdd": radiative / eddington_luminosity(mass),
                 "stream_heating_over_viscous": stream / viscous,
-                "advective_sink_fraction": advective_sink / input_power,
+                "internal_energy_export_fraction": advective_sink / input_power,
+                "maximum_radial_pressure_force_fraction": float(
+                    np.max(profile.radial_pressure_force_fraction)
+                ),
+                "minimum_dln_l_k_dln_R": float(np.min(profile.dln_l_k_dln_R)),
+                "effective_optical_depth_available": False,
+                "fixed_radius_diagnostics": signed_thermal_fixed_radius_diagnostics(
+                    grid, profile, potential.r_g
+                ),
                 "energy_closure_relative": float(
                     (input_power - radiative - advective_sink)
                     / max(abs(input_power), abs(radiative), abs(advective_sink), 1.0)
+                ),
+                "internal_energy_ledger_defect_relative": float(
+                    profile.internal_energy_ledger_defect
+                    / max(abs(input_power), abs(radiative), 1.0)
                 ),
             }
             rows.append(row)

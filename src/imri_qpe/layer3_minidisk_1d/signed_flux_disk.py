@@ -32,6 +32,39 @@ class SignedFluxBoundary:
 
 
 @dataclass(frozen=True)
+class StreamInjectionState:
+    """Cell-integrated mass, angular-momentum, and energy injection rates."""
+
+    mass_rate_cells: np.ndarray
+    angular_momentum_rate_cells: np.ndarray
+    total_energy_rate_cells: np.ndarray
+
+    def __post_init__(self) -> None:
+        arrays = {}
+        for name in (
+            "mass_rate_cells",
+            "angular_momentum_rate_cells",
+            "total_energy_rate_cells",
+        ):
+            array = np.array(getattr(self, name), dtype=float, copy=True)
+            if array.ndim != 1 or np.any(~np.isfinite(array)):
+                raise ValueError(f"{name} must be a finite one-dimensional array")
+            array.setflags(write=False)
+            arrays[name] = array
+        if len({array.shape for array in arrays.values()}) != 1:
+            raise ValueError("stream injection arrays must have identical shapes")
+        if np.any(arrays["mass_rate_cells"] < 0.0):
+            raise ValueError("mass_rate_cells must be non-negative")
+        for name, array in arrays.items():
+            object.__setattr__(self, name, array)
+
+    def validated_for(self, grid: RadialGrid) -> StreamInjectionState:
+        if self.mass_rate_cells.shape != grid.centers.shape:
+            raise ValueError("stream injection arrays must match the radial grid")
+        return self
+
+
+@dataclass(frozen=True)
 class SignedFluxTransport:
     """Face fluxes and exact integrated budget rates for one disk state."""
 
@@ -45,6 +78,8 @@ class SignedFluxTransport:
     angular_flux_faces: np.ndarray
     source_mass_rate_cells: np.ndarray
     source_angular_rate_cells: np.ndarray
+    source_total_energy_rate_cells: np.ndarray
+    external_angular_rate_cells: np.ndarray
     mass_rate_cells: np.ndarray
     mass_budget_rate: float
     angular_momentum_rate_from_state: float
@@ -59,6 +94,21 @@ class SignedFluxStepResult:
     surface_density: np.ndarray
     transport: SignedFluxTransport
     dt: float
+
+
+def _require_closed_step_angular_ledger(transport: SignedFluxTransport) -> None:
+    scale = max(
+        float(np.sum(np.abs(transport.source_angular_rate_cells))),
+        float(np.sum(np.abs(transport.external_angular_rate_cells))),
+        abs(transport.angular_momentum_budget_rate),
+        abs(transport.angular_momentum_rate_from_state),
+        1.0,
+    )
+    if abs(transport.angular_momentum_budget_defect) > 1.0e-10 * scale:
+        raise ValueError(
+            "time evolution with nonlocal stream angular momentum requires the "
+            "coupled angular IMEX operator"
+        )
 
 
 def _grid_array(name: str, values, grid: RadialGrid, *, nonnegative: bool = False) -> np.ndarray:
@@ -100,6 +150,70 @@ def normalized_stream_cell_rates(
     return mass, angular
 
 
+def normalized_stream_injection_state(
+    grid: RadialGrid,
+    total_mass_rate: float,
+    *,
+    center: float,
+    log_width: float,
+    specific_angular_momentum: float,
+    specific_total_energy: float,
+) -> StreamInjectionState:
+    """Return one exactly normalized, immutable stream source state."""
+
+    mass, angular = normalized_stream_cell_rates(
+        grid,
+        total_mass_rate,
+        center=center,
+        log_width=log_width,
+        specific_angular_momentum=specific_angular_momentum,
+    )
+    if not np.isfinite(specific_total_energy):
+        raise ValueError("specific_total_energy must be finite")
+    return StreamInjectionState(
+        mass_rate_cells=mass,
+        angular_momentum_rate_cells=angular,
+        total_energy_rate_cells=mass * float(specific_total_energy),
+    )
+
+
+def _stream_state_from_legacy_arguments(
+    grid: RadialGrid,
+    specific_l: np.ndarray,
+    *,
+    stream_state: StreamInjectionState | None,
+    source_mass_rate_cells,
+    source_specific_angular_momentum,
+) -> StreamInjectionState:
+    if stream_state is not None:
+        if (
+            source_mass_rate_cells is not None
+            or source_specific_angular_momentum is not None
+        ):
+            raise ValueError("stream_state cannot be combined with legacy source arguments")
+        return stream_state.validated_for(grid)
+    if source_mass_rate_cells is None:
+        mass = np.zeros_like(grid.centers)
+    else:
+        mass = _grid_array(
+            "source_mass_rate_cells", source_mass_rate_cells, grid, nonnegative=True
+        )
+    if source_specific_angular_momentum is None:
+        angular = mass * specific_l
+    else:
+        source_l = _grid_array(
+            "source_specific_angular_momentum",
+            source_specific_angular_momentum,
+            grid,
+        )
+        angular = mass * source_l
+    return StreamInjectionState(
+        mass_rate_cells=mass,
+        angular_momentum_rate_cells=angular,
+        total_energy_rate_cells=np.zeros_like(mass),
+    )
+
+
 def signed_flux_transport(
     grid: RadialGrid,
     surface_density,
@@ -107,8 +221,10 @@ def signed_flux_transport(
     M_g: float,
     *,
     boundary: SignedFluxBoundary | None = None,
+    stream_state: StreamInjectionState | None = None,
     source_mass_rate_cells=None,
     source_specific_angular_momentum=None,
+    external_angular_rate_cells=None,
 ) -> SignedFluxTransport:
     """Evaluate signed viscous transport and conservative global budgets.
 
@@ -149,27 +265,29 @@ def signed_flux_transport(
     else:
         mdot_faces[-1] = 0.0
 
-    if source_mass_rate_cells is None:
-        source_mass = np.zeros_like(sigma)
+    source = _stream_state_from_legacy_arguments(
+        grid,
+        specific_l,
+        stream_state=stream_state,
+        source_mass_rate_cells=source_mass_rate_cells,
+        source_specific_angular_momentum=source_specific_angular_momentum,
+    )
+    if external_angular_rate_cells is None:
+        external_angular = np.zeros_like(sigma)
     else:
-        source_mass = _grid_array(
-            "source_mass_rate_cells", source_mass_rate_cells, grid, nonnegative=True
-        )
-    if source_specific_angular_momentum is None:
-        source_angular = source_mass * specific_l
-    else:
-        source_l = _grid_array(
-            "source_specific_angular_momentum",
-            source_specific_angular_momentum,
+        external_angular = _grid_array(
+            "external_angular_rate_cells",
+            external_angular_rate_cells,
             grid,
         )
-        source_angular = source_mass * source_l
 
-    mass_rate = mdot_faces[1:] - mdot_faces[:-1] + source_mass
+    mass_rate = mdot_faces[1:] - mdot_faces[:-1] + source.mass_rate_cells
     angular_flux = mdot_faces * edge_l - torque_faces
     state_angular_rate = float(np.sum(mass_rate * specific_l))
     budget_angular_rate = float(
-        angular_flux[-1] - angular_flux[0] + np.sum(source_angular)
+        angular_flux[-1]
+        - angular_flux[0]
+        + np.sum(source.angular_momentum_rate_cells + external_angular)
     )
     return SignedFluxTransport(
         surface_density=sigma,
@@ -180,11 +298,13 @@ def signed_flux_transport(
         viscous_torque_faces=torque_faces,
         mdot_faces=mdot_faces,
         angular_flux_faces=angular_flux,
-        source_mass_rate_cells=source_mass,
-        source_angular_rate_cells=source_angular,
+        source_mass_rate_cells=source.mass_rate_cells,
+        source_angular_rate_cells=source.angular_momentum_rate_cells,
+        source_total_energy_rate_cells=source.total_energy_rate_cells,
+        external_angular_rate_cells=external_angular,
         mass_rate_cells=mass_rate,
         mass_budget_rate=float(
-            mdot_faces[-1] - mdot_faces[0] + np.sum(source_mass)
+            mdot_faces[-1] - mdot_faces[0] + np.sum(source.mass_rate_cells)
         ),
         angular_momentum_rate_from_state=state_angular_rate,
         angular_momentum_budget_rate=budget_angular_rate,
@@ -211,6 +331,7 @@ def advance_signed_flux_explicit(
         M_g,
         **transport_kwargs,
     )
+    _require_closed_step_angular_ledger(transport)
     mass = transport.surface_density * grid.area
     updated_mass = mass + float(dt) * transport.mass_rate_cells
     if np.any(updated_mass <= 0.0):
@@ -307,10 +428,11 @@ def advance_signed_flux_implicit(
         source_mass_rate_cells=source_mass,
         source_specific_angular_momentum=source_specific_angular_momentum,
     )
+    _require_closed_step_angular_ledger(transport)
     return SignedFluxStepResult(surface_density=updated, transport=transport, dt=float(dt))
 
 
-def solve_signed_flux_steady(
+def solve_signed_flux_steady_legacy(
     grid: RadialGrid,
     viscosity,
     M_g: float,
@@ -319,7 +441,7 @@ def solve_signed_flux_steady(
     source_mass_rate_cells,
     source_specific_angular_momentum=None,
 ) -> SignedFluxTransport:
-    """Solve the prescribed-viscosity steady mass equation exactly."""
+    """Reproduce the pre-WP1 mass-only steady closure from commit 53566fa."""
 
     source_mass = _grid_array(
         "source_mass_rate_cells", source_mass_rate_cells, grid, nonnegative=True
@@ -341,4 +463,154 @@ def solve_signed_flux_steady(
         boundary=boundary,
         source_mass_rate_cells=source_mass,
         source_specific_angular_momentum=source_specific_angular_momentum,
+    )
+
+
+def solve_signed_flux_steady(
+    grid: RadialGrid,
+    viscosity,
+    M_g: float,
+    *,
+    boundary: SignedFluxBoundary | None = None,
+    stream_state: StreamInjectionState | None = None,
+    source_mass_rate_cells=None,
+    source_specific_angular_momentum=None,
+    external_angular_rate_cells=None,
+) -> SignedFluxTransport:
+    """Solve steady mass and angular momentum from one conservative ledger.
+
+    The stream is deposited at cell centers. Face mass and angular fluxes are
+    integrated across each cell, so both source moments affect the solved flow.
+    ``zero_torque`` is an open boundary and ``tidal_wall`` is a zero-mass-flux
+    boundary whose required torque is an output.
+    """
+
+    boundary = SignedFluxBoundary() if boundary is None else boundary
+    nu = _grid_array("viscosity", viscosity, grid, nonnegative=True)
+    if np.any(nu <= 0.0):
+        raise ValueError("viscosity must be strictly positive for a steady disk")
+    potential = PaczynskiWiitaPotential(float(M_g))
+    omega = np.asarray(potential.omega_k(grid.centers), dtype=float)
+    specific_l = np.asarray(potential.l_k(grid.centers), dtype=float)
+    edge_l = np.asarray(potential.l_k(grid.edges), dtype=float)
+    source = _stream_state_from_legacy_arguments(
+        grid,
+        specific_l,
+        stream_state=stream_state,
+        source_mass_rate_cells=source_mass_rate_cells,
+        source_specific_angular_momentum=source_specific_angular_momentum,
+    )
+    if not np.any(source.mass_rate_cells > 0.0):
+        raise ValueError("a steady supplied disk requires a nonzero mass source")
+    if external_angular_rate_cells is None:
+        external_angular = np.zeros_like(grid.centers)
+    else:
+        external_angular = _grid_array(
+            "external_angular_rate_cells", external_angular_rate_cells, grid
+        )
+    angular_injection = source.angular_momentum_rate_cells + external_angular
+    total_mass = float(np.sum(source.mass_rate_cells))
+    total_angular = float(np.sum(angular_injection))
+
+    if (
+        boundary.inner_mode == "tidal_wall"
+        and boundary.outer_mode == "tidal_wall"
+    ):
+        raise ValueError("a supplied steady disk cannot have mass walls at both boundaries")
+    if boundary.outer_mode == "tidal_wall":
+        mdot_inner = total_mass
+    elif boundary.inner_mode == "tidal_wall":
+        mdot_inner = 0.0
+    else:
+        denominator = float(edge_l[-1] - edge_l[0])
+        if denominator <= 0.0:
+            raise ValueError(
+                "open steady disk requires increasing boundary angular momentum"
+            )
+        mdot_inner = float((total_mass * edge_l[-1] - total_angular) / denominator)
+
+    mdot_faces = np.empty(grid.edges.size, dtype=float)
+    if boundary.outer_mode == "tidal_wall":
+        mdot_faces[-1] = 0.0
+        for cell in range(grid.centers.size - 1, -1, -1):
+            mdot_faces[cell] = mdot_faces[cell + 1] + source.mass_rate_cells[cell]
+    else:
+        mdot_faces[0] = mdot_inner
+        cumulative_mass = np.cumsum(source.mass_rate_cells)
+        mdot_faces[1:] = mdot_inner - cumulative_mass
+
+    angular_flux = np.empty(grid.edges.size, dtype=float)
+    if boundary.inner_mode == "zero_torque":
+        angular_flux[0] = mdot_faces[0] * edge_l[0]
+        for cell in range(grid.centers.size):
+            angular_flux[cell + 1] = angular_flux[cell] - angular_injection[cell]
+    else:
+        angular_flux[-1] = mdot_faces[-1] * edge_l[-1]
+        for cell in range(grid.centers.size - 1, -1, -1):
+            angular_flux[cell] = angular_flux[cell + 1] + angular_injection[cell]
+
+    torque_faces = mdot_faces * edge_l - angular_flux
+    tolerance_scale = max(
+        abs(total_angular), total_mass * float(np.max(edge_l)), 1.0
+    )
+    if (
+        boundary.inner_mode == "zero_torque"
+        and abs(torque_faces[0]) > 1.0e-12 * tolerance_scale
+    ):
+        raise ValueError("inner zero-torque boundary did not close")
+    if (
+        boundary.outer_mode == "zero_torque"
+        and abs(torque_faces[-1]) > 1.0e-12 * tolerance_scale
+    ):
+        raise ValueError("outer zero-torque boundary did not close")
+    if (
+        boundary.inner_mode == "tidal_wall"
+        and abs(mdot_faces[0]) > 1.0e-12 * total_mass
+    ):
+        raise ValueError("inner tidal wall did not close")
+    if (
+        boundary.outer_mode == "tidal_wall"
+        and abs(mdot_faces[-1]) > 1.0e-12 * total_mass
+    ):
+        raise ValueError("outer tidal wall did not close")
+
+    mdot_centers = mdot_faces[:-1] - 0.5 * source.mass_rate_cells
+    angular_flux_centers = angular_flux[:-1] - 0.5 * angular_injection
+    torque_centers = mdot_centers * specific_l - angular_flux_centers
+    shear = np.asarray(
+        omega * potential.dln_omega_k_dlnR(grid.centers) / grid.centers,
+        dtype=float,
+    )
+    torque_coefficient = -2.0 * np.pi * grid.centers**3 * nu * shear
+    sigma = np.asarray(torque_centers / torque_coefficient, dtype=float)
+    if np.any(~np.isfinite(sigma)) or np.any(sigma <= 0.0):
+        raise ValueError(
+            "conservative steady angular ledger did not produce positive surface density"
+        )
+
+    mass_rate = mdot_faces[1:] - mdot_faces[:-1] + source.mass_rate_cells
+    state_angular_rate = float(np.sum(mass_rate * specific_l))
+    budget_angular_rate = float(
+        angular_flux[-1] - angular_flux[0] + np.sum(angular_injection)
+    )
+    return SignedFluxTransport(
+        surface_density=sigma,
+        viscosity=nu,
+        specific_angular_momentum=specific_l,
+        omega=omega,
+        viscous_torque_centers=torque_centers,
+        viscous_torque_faces=torque_faces,
+        mdot_faces=mdot_faces,
+        angular_flux_faces=angular_flux,
+        source_mass_rate_cells=source.mass_rate_cells,
+        source_angular_rate_cells=source.angular_momentum_rate_cells,
+        source_total_energy_rate_cells=source.total_energy_rate_cells,
+        external_angular_rate_cells=external_angular,
+        mass_rate_cells=mass_rate,
+        mass_budget_rate=float(
+            mdot_faces[-1] - mdot_faces[0] + np.sum(source.mass_rate_cells)
+        ),
+        angular_momentum_rate_from_state=state_angular_rate,
+        angular_momentum_budget_rate=budget_angular_rate,
+        angular_momentum_budget_defect=float(state_angular_rate - budget_angular_rate),
     )
