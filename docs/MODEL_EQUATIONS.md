@@ -195,6 +195,23 @@ named separately. The ideal wall is
 still a limiting boundary control; its companion pattern speed is not yet a
 physical closure.
 
+## Conserved Inner Interface
+
+The shared inner/outer interface object carries inward-positive
+
+```text
+(Mdot, J, F_E)
+J   = Mdot l - G
+F_E = Mdot B - Omega G.
+```
+
+Both transonic and signed-reservoir extractors use these definitions. A
+prescribed signed-reservoir boundary consumes `Mdot` and `J` in the steady
+mass/angular solve and `F_E` in the total-energy row. A tidal-wall outer edge
+retains exact zero outer mass flux and treats the prescribed inner `Mdot` as a
+compatibility gate; an open edge is integrated outward from the prescribed
+inner flux. Incompatible simultaneous boundary conditions are rejected.
+
 ## Validity Gates
 
 Numerical residual acceptance is necessary but not sufficient. Current audits

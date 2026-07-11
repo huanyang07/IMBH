@@ -10,6 +10,7 @@ from imri_qpe.layer3_minidisk_1d import (
     make_log_grid,
     normalized_stream_injection_state,
     signed_total_energy_profile,
+    signed_inner_interface_flux,
     signed_vertical_work_rate_cells,
     solve_signed_flux_steady,
     solve_signed_thermal_steady,
@@ -193,3 +194,44 @@ def test_distributed_external_torque_requires_named_power() -> None:
             external_angular_rate_cells=external_angular,
             max_iterations=1,
         )
+
+
+def test_prescribed_inner_total_energy_round_trips_fixed_transport() -> None:
+    mass, _potential, grid, stream, transport, closure, internal = _supplied_disk(
+        32, "tidal_wall"
+    )
+    baseline = solve_signed_total_energy_steady(
+        grid,
+        transport,
+        internal.temperature,
+        mass,
+        closure=closure,
+    )
+    inner = signed_inner_interface_flux(transport, baseline.profile)
+    prescribed_transport = solve_signed_flux_steady(
+        grid,
+        transport.viscosity,
+        mass,
+        boundary=SignedFluxBoundary(
+            inner_mode="prescribed_flux", outer_mode="tidal_wall"
+        ),
+        stream_state=stream,
+        prescribed_inner_flux=inner,
+    )
+    prescribed = solve_signed_total_energy_steady(
+        grid,
+        prescribed_transport,
+        baseline.temperature,
+        mass,
+        closure=closure,
+        prescribed_inner_flux=inner,
+    )
+
+    assert baseline.accepted
+    assert prescribed.accepted
+    assert np.allclose(
+        prescribed.profile.total_energy_flux_faces,
+        baseline.profile.total_energy_flux_faces,
+        rtol=2.0e-9,
+    )
+    assert np.allclose(prescribed.temperature, baseline.temperature, rtol=2.0e-8)

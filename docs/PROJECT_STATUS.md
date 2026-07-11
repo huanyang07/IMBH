@@ -36,6 +36,7 @@ This is the canonical project handoff. Status labels mean:
 | Signed-flux total-energy ledger | **SUPPORTED BUT NOT FULLY CERTIFIED** | Enthalpy-compatible `W_H=Mdot(P/rho)dlnH`; direct transonic identity mismatch `6.32e-15`; four-level source-bearing FV convergence; equation residual below `3e-11` | Physical use requires a valid inner interface and calibrated tidal power |
 | Total-energy reservoir to `6.1 rg` | **REJECTED** | Corrected N512 wall/open viscosity mismatches `3.72` and `1.70`, localized to near-ISCO cells | Fixed-Keplerian diffusion is invalid where `dln l_K/dlnR` is small |
 | Total-energy `Rin=10 rg` interface control | **DIAGNOSTIC ONLY** | Corrected N512 wall/open converge; wall `H/R=0.311`, `Lrad=1.025 LEdd` | Pressure force exceeds `0.1` inside about `15 rg`; zero-torque interface is artificial |
+| Prescribed conserved-flux inner boundary | **SUPPORTED BUT NOT FULLY CERTIFIED** | Shared `(Mdot,J,F_E)` object; wall/open transport and energy round-trip tests; incompatible wall flux rejected | No physical overlap band or coupled two-domain root yet |
 | Fully time-dependent total-energy signed-flux disk | **PLANNED** | Required to test accumulation, fronts, and limit cycles under physical feeding | Coupled mass+total-energy IMEX evolution not implemented |
 
 ## Frozen Target Under Review
@@ -102,9 +103,10 @@ N                    = 164
 
 ## Next Scientific Work
 
-1. Add a prescribed `(Mdot,J,E)` inner boundary and one common flux extractor.
-2. Certify a contiguous overlap band across `12-60 rg`, including effective
+1. Certify a contiguous overlap band across `12-60 rg`, including effective
    optical depth, before coupling to the existing inner no-wind slim solver.
+2. Build the no-wind two-domain solve and require interface-position
+   independence across the certified overlap.
 3. Add a binary-calibrated tidal torque and its pattern-speed power only after
    the interface closes.
 4. Implement coupled mass+energy IMEX evolution, allowing
@@ -131,3 +133,4 @@ N                    = 164
 - Signed-flux angular closure: `reports/current/CODEX_SIGNED_FLUX_ANGULAR_CLOSURE_RESULTS_2026-07-11.md`
 - Signed-flux total energy: `reports/current/CODEX_SIGNED_FLUX_TOTAL_ENERGY_RESULTS_2026-07-11.md`
 - Enthalpy identity correction: `reports/current/CODEX_SIGNED_FLUX_TOTAL_ENERGY_IDENTITY_CORRECTION_RESULTS_2026-07-11.md`
+- Prescribed inner flux interface: `reports/current/CODEX_PRESCRIBED_INNER_FLUX_INTERFACE_RESULTS_2026-07-11.md`

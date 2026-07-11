@@ -34,6 +34,12 @@ from .energy_identity import (
     internal_energy_vertical_work,
 )
 from .grid import RadialGrid, make_log_grid
+from .interface_flux import (
+    ConservedInterfaceFlux,
+    conserved_interface_flux,
+    signed_inner_interface_flux,
+    transonic_profile_interface_flux,
+)
 from .global_slim import (
     GlobalSlimParams,
     GlobalSlimProfile,
@@ -294,6 +300,7 @@ __all__ = [
     "ConservativeJacobianDirectionalAudit",
     "ConservativePseudoArclengthResult",
     "ConservativeNodeState",
+    "ConservedInterfaceFlux",
     "ConservativeResidualAudit",
     "ConservativeScales",
     "ConservativeSolveResult",
@@ -382,6 +389,7 @@ __all__ = [
     "conservative_sonic_residual_pair",
     "conservative_state_bounds",
     "conservative_source_terms",
+    "conserved_interface_flux",
     "integrate_interval_transport",
     "integrate_sampled_interval_transport",
     "default_conservative_scales",
@@ -468,6 +476,7 @@ __all__ = [
     "sigma_roots_for_temperature",
     "simpson_interval_residual",
     "signed_flux_transport",
+    "signed_inner_interface_flux",
     "signed_flux_linear_operator",
     "signed_thermal_profile",
     "signed_thermal_fixed_radius_diagnostics",
@@ -520,6 +529,7 @@ __all__ = [
     "tangent_audit_from_scaled_tangent",
     "total_pressure",
     "transonic_profile_from_state_vector",
+    "transonic_profile_interface_flux",
     "unused_sonic_compatibility",
     "unpack_state",
     "unpack_conservative_state",

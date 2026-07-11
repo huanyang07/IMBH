@@ -10,6 +10,7 @@ from scipy.sparse import lil_matrix
 
 from .energy_identity import enthalpy_vertical_work
 from .grid import RadialGrid
+from .interface_flux import ConservedInterfaceFlux
 from .signed_flux_disk import (
     SignedFluxBoundary,
     SignedFluxTransport,
@@ -173,6 +174,7 @@ def signed_total_energy_profile(
     *,
     closure: SignedThermalClosure | None = None,
     external_power_rate_cells=None,
+    prescribed_inner_flux: ConservedInterfaceFlux | None = None,
 ) -> SignedTotalEnergyProfile:
     """Evaluate the total-energy compatibility ledger without viscous double-counting."""
 
@@ -211,6 +213,23 @@ def signed_total_energy_profile(
     advective_flux = _upwind_flux(transport.mdot_faces, bernoulli)
     omega_edges = np.asarray(potential.omega_k(grid.edges), dtype=float)
     torque_work_flux = -omega_edges * transport.viscous_torque_faces
+    if prescribed_inner_flux is not None:
+        mass_scale = max(abs(prescribed_inner_flux.mdot), 1.0)
+        angular_scale = max(abs(prescribed_inner_flux.angular_momentum), 1.0)
+        if (
+            abs(transport.mdot_faces[0] - prescribed_inner_flux.mdot)
+            > 1.0e-12 * mass_scale
+        ):
+            raise ValueError("transport inner mass flux does not match prescribed flux")
+        if (
+            abs(
+                transport.angular_flux_faces[0]
+                - prescribed_inner_flux.angular_momentum
+            )
+            > 1.0e-12 * angular_scale
+        ):
+            raise ValueError("transport inner angular flux does not match prescribed flux")
+        advective_flux[0] = prescribed_inner_flux.total_energy - torque_work_flux[0]
     total_flux = advective_flux + torque_work_flux
 
     rho = np.asarray(state.rho, dtype=float)
@@ -293,6 +312,7 @@ def solve_signed_total_energy_steady(
     *,
     closure: SignedThermalClosure | None = None,
     external_power_rate_cells=None,
+    prescribed_inner_flux: ConservedInterfaceFlux | None = None,
     tolerance: float = 1.0e-6,
     max_nfev: int = 500,
 ) -> SignedTotalEnergySteadyResult:
@@ -308,6 +328,7 @@ def solve_signed_total_energy_steady(
         M_g,
         closure=closure,
         external_power_rate_cells=external_power_rate_cells,
+        prescribed_inner_flux=prescribed_inner_flux,
     )
     reference_flux_difference = (
         reference.total_energy_flux_faces[1:]
@@ -335,6 +356,7 @@ def solve_signed_total_energy_steady(
             M_g,
             closure=closure,
             external_power_rate_cells=external_power_rate_cells,
+            prescribed_inner_flux=prescribed_inner_flux,
         )
         return profile.net_energy_rate_cells / residual_scale
 
@@ -357,6 +379,7 @@ def solve_signed_total_energy_steady(
         M_g,
         closure=closure,
         external_power_rate_cells=external_power_rate_cells,
+        prescribed_inner_flux=prescribed_inner_flux,
     )
     maximum = float(np.max(np.abs(residual(result.x))))
     return SignedTotalEnergySteadyResult(
@@ -380,6 +403,7 @@ def solve_signed_total_energy_thermoviscous_steady(
     temperature_seed,
     external_angular_rate_cells=None,
     external_power_rate_cells=None,
+    prescribed_inner_flux: ConservedInterfaceFlux | None = None,
     initial_H_over_R: float = 0.1,
     damping: float = 0.3,
     tolerance: float = 1.0e-3,
@@ -421,6 +445,7 @@ def solve_signed_total_energy_thermoviscous_steady(
             boundary=boundary,
             stream_state=stream_state,
             external_angular_rate_cells=external_angular_rate_cells,
+            prescribed_inner_flux=prescribed_inner_flux,
         )
 
     for iteration in range(1, int(max_iterations) + 1):
@@ -432,6 +457,7 @@ def solve_signed_total_energy_thermoviscous_steady(
             M_g,
             closure=closure,
             external_power_rate_cells=external_power_rate_cells,
+            prescribed_inner_flux=prescribed_inner_flux,
             tolerance=energy_tolerance,
             max_nfev=energy_max_nfev,
         )
@@ -457,6 +483,7 @@ def solve_signed_total_energy_thermoviscous_steady(
                 M_g,
                 closure=closure,
                 external_power_rate_cells=external_power_rate_cells,
+                prescribed_inner_flux=prescribed_inner_flux,
                 tolerance=energy_tolerance,
                 max_nfev=energy_max_nfev,
             )
@@ -491,6 +518,7 @@ def solve_signed_total_energy_thermoviscous_steady(
             M_g,
             closure=closure,
             external_power_rate_cells=external_power_rate_cells,
+            prescribed_inner_flux=prescribed_inner_flux,
             tolerance=energy_tolerance,
             max_nfev=energy_max_nfev,
         )

@@ -14,19 +14,26 @@ from scipy.sparse import diags, eye, lil_matrix
 from scipy.sparse.linalg import spsolve
 
 from .grid import RadialGrid
+from .interface_flux import ConservedInterfaceFlux
 from .transonic_potential import PaczynskiWiitaPotential
 
 
 @dataclass(frozen=True)
 class SignedFluxBoundary:
-    """Mass/torque conditions at the two radial boundaries."""
+    """Mass/torque conditions at the two radial boundaries.
+
+    ``prescribed_flux`` is a steady-only inner interface and requires one
+    :class:`ConservedInterfaceFlux` passed to the steady solver.
+    """
 
     inner_mode: str = "zero_torque"
     outer_mode: str = "tidal_wall"
 
     def __post_init__(self) -> None:
-        if self.inner_mode not in {"zero_torque", "tidal_wall"}:
-            raise ValueError("inner_mode must be 'zero_torque' or 'tidal_wall'")
+        if self.inner_mode not in {"zero_torque", "tidal_wall", "prescribed_flux"}:
+            raise ValueError(
+                "inner_mode must be 'zero_torque', 'tidal_wall', or 'prescribed_flux'"
+            )
         if self.outer_mode not in {"zero_torque", "tidal_wall"}:
             raise ValueError("outer_mode must be 'zero_torque' or 'tidal_wall'")
 
@@ -239,6 +246,8 @@ def signed_flux_transport(
     if np.any(sigma <= 0.0):
         raise ValueError("surface_density must be strictly positive")
     boundary = SignedFluxBoundary() if boundary is None else boundary
+    if boundary.inner_mode == "prescribed_flux":
+        raise ValueError("prescribed_flux is currently supported only by the steady solver")
     potential = PaczynskiWiitaPotential(float(M_g))
     omega = np.asarray(potential.omega_k(grid.centers), dtype=float)
     specific_l = np.asarray(potential.l_k(grid.centers), dtype=float)
@@ -354,6 +363,8 @@ def signed_flux_linear_operator(
 
     nu = _grid_array("viscosity", viscosity, grid, nonnegative=True)
     boundary = SignedFluxBoundary() if boundary is None else boundary
+    if boundary.inner_mode == "prescribed_flux":
+        raise ValueError("prescribed_flux is currently supported only by the steady solver")
     potential = PaczynskiWiitaPotential(float(M_g))
     omega = np.asarray(potential.omega_k(grid.centers), dtype=float)
     specific_l = np.asarray(potential.l_k(grid.centers), dtype=float)
@@ -476,13 +487,15 @@ def solve_signed_flux_steady(
     source_mass_rate_cells=None,
     source_specific_angular_momentum=None,
     external_angular_rate_cells=None,
+    prescribed_inner_flux: ConservedInterfaceFlux | None = None,
 ) -> SignedFluxTransport:
     """Solve steady mass and angular momentum from one conservative ledger.
 
     The stream is deposited at cell centers. Face mass and angular fluxes are
     integrated across each cell, so both source moments affect the solved flow.
-    ``zero_torque`` is an open boundary and ``tidal_wall`` is a zero-mass-flux
-    boundary whose required torque is an output.
+    ``zero_torque`` is an open boundary, ``tidal_wall`` is a zero-mass-flux
+    boundary whose required torque is an output, and ``prescribed_flux`` uses
+    an inner ``(Mdot,J)`` supplied by another disk domain.
     """
 
     boundary = SignedFluxBoundary() if boundary is None else boundary
@@ -512,12 +525,24 @@ def solve_signed_flux_steady(
     total_mass = float(np.sum(source.mass_rate_cells))
     total_angular = float(np.sum(angular_injection))
 
+    if boundary.inner_mode == "prescribed_flux" and prescribed_inner_flux is None:
+        raise ValueError("prescribed_flux inner mode requires prescribed_inner_flux")
+    if boundary.inner_mode != "prescribed_flux" and prescribed_inner_flux is not None:
+        raise ValueError("prescribed_inner_flux requires inner_mode='prescribed_flux'")
     if (
         boundary.inner_mode == "tidal_wall"
         and boundary.outer_mode == "tidal_wall"
     ):
         raise ValueError("a supplied steady disk cannot have mass walls at both boundaries")
-    if boundary.outer_mode == "tidal_wall":
+    if boundary.inner_mode == "prescribed_flux":
+        mdot_inner = prescribed_inner_flux.mdot
+        if boundary.outer_mode == "tidal_wall" and not np.isclose(
+            mdot_inner, total_mass, rtol=1.0e-12, atol=1.0e-12 * total_mass
+        ):
+            raise ValueError(
+                "prescribed inner mass flux is incompatible with the outer tidal wall"
+            )
+    elif boundary.outer_mode == "tidal_wall":
         mdot_inner = total_mass
     elif boundary.inner_mode == "tidal_wall":
         mdot_inner = 0.0
@@ -530,7 +555,13 @@ def solve_signed_flux_steady(
         mdot_inner = float((total_mass * edge_l[-1] - total_angular) / denominator)
 
     mdot_faces = np.empty(grid.edges.size, dtype=float)
-    if boundary.outer_mode == "tidal_wall":
+    if (
+        boundary.inner_mode == "prescribed_flux"
+        and boundary.outer_mode != "tidal_wall"
+    ):
+        mdot_faces[0] = mdot_inner
+        mdot_faces[1:] = mdot_inner - np.cumsum(source.mass_rate_cells)
+    elif boundary.outer_mode == "tidal_wall":
         mdot_faces[-1] = 0.0
         for cell in range(grid.centers.size - 1, -1, -1):
             mdot_faces[cell] = mdot_faces[cell + 1] + source.mass_rate_cells[cell]
@@ -540,7 +571,11 @@ def solve_signed_flux_steady(
         mdot_faces[1:] = mdot_inner - cumulative_mass
 
     angular_flux = np.empty(grid.edges.size, dtype=float)
-    if boundary.inner_mode == "zero_torque":
+    if boundary.inner_mode == "prescribed_flux":
+        angular_flux[0] = prescribed_inner_flux.angular_momentum
+        for cell in range(grid.centers.size):
+            angular_flux[cell + 1] = angular_flux[cell] - angular_injection[cell]
+    elif boundary.inner_mode == "zero_torque":
         angular_flux[0] = mdot_faces[0] * edge_l[0]
         for cell in range(grid.centers.size):
             angular_flux[cell + 1] = angular_flux[cell] - angular_injection[cell]
