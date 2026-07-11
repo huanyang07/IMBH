@@ -110,3 +110,14 @@ Move to coupled time evolution, rather than another steady boundary variant,
 if the open root cannot be prolonged to `192/128`, if the inner rate tends to
 zero, if no positive-Sigma state exists, or if the Hill band remains outside
 the thickness/optical-depth validity gates. Wind remains last.
+
+## Implementation Outcome
+
+The augmented wall and open roots are full rank at `96/64`, and the open root
+is full rank at `144/96`. It processes `16.9%` of the fixed stream supply and
+overflows `83.1%`, with finite-density stagnation near `222.2 rg`.
+
+The controlled `168/112` refinement fails in the outer stress and energy
+endpoint cells while the interface remains closed. The stop condition is
+therefore active: the next production implementation is coupled conservative
+mass-energy time evolution, not another steady boundary variant.

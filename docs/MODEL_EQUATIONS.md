@@ -211,6 +211,27 @@ physical when the tidal band becomes geometrically thick. The production
 coupled reservoir ends at `335 rg`; the superseded `10000 rg` numerical buffer
 must not be interpreted as a Hill-truncated disk.
 
+The open-overflow extension promotes the positive inner rate to an eigenvalue
+while retaining signed outer flux. Candidate face ledgers are integrated from
+the inner interface without imposing an outer condition:
+
+```text
+Mdot_out = Mdot_inner - sum(S_M)
+J_out    = J_inner - sum(S_J + T_ext)
+G_out    = Mdot_out l_out - J_out.
+```
+
+One added scalar row continues the mass wall to the open edge,
+
+```text
+R_edge(chi) = (1-chi) Mdot_out/Mdot_stream
+            + chi G_out/G_scale.
+```
+
+The augmented system has one additional `log(Mdot_inner/Mdot_stream)` unknown
+and remains square. At `chi=1`, outward overflow is permitted and `G_out=0`.
+No outer inflow state is configured.
+
 ## Conserved Inner Interface
 
 The shared inner/outer interface object carries inward-positive

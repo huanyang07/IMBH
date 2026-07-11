@@ -1,0 +1,18 @@
+{
+  "canonical_packaging_command": "PYTHONPATH=src python3 scripts/build_coupled_open_overflow_canonical.py",
+  "claim_scope": "Fully coupled finite-minidisk open-overflow control with Mdot_inner as an eigenvalue",
+  "does_not_establish": "A mesh-certified steady open branch: the controlled 168/112 refinement fails in the outer stress/energy endpoint cells.",
+  "establishes": "Full-rank 96/64 and 144/96 open roots with about 83.1% overflow, finite-density stagnation, and a thin Hill band.",
+  "numerical_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
+  "payload_sha256": {
+    "Ninner144_Nouter96.npz": "1a36cbd330cbe41474c72722ce3e6329cbbbc6ef4e9d37766be9d52189f06312",
+    "Ninner168_Nouter112.npz": "2a85c109a442b2bd75003f5edd7d52cfb6d4afabda11b757ff0db74c2d8e1a34",
+    "Ninner96_Nouter64.npz": "7f9a386a3e5a9d47e346865840570e78c23229d07e8c735c08ae6207525c41a6",
+    "config.json": "403e19c4b027ffc8aed6207cc14668e2106ca811a447bff14b681d1c35529096",
+    "summary.json": "ac190594c53e38a239aeea8c1cb20d3a6fa1e230b6376bf0703f693e98c162a7"
+  },
+  "physical_status": "DIAGNOSTIC ONLY",
+  "retained_negative_diagnostic": "The Ninner168/Nouter112 state is a rejected mesh-refinement witness and selects coupled mass-energy time evolution.",
+  "solver_generation_command": "PYTHONPATH=src python3 scripts/run_coupled_open_overflow_continuation.py",
+  "source_parent_commit": "0700292"
+}

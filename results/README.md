@@ -25,6 +25,7 @@ the default branch.
 | `coupled_inner_outer_rank_prototype` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | First square full-rank coupled root at `40.0415 rg` |
 | `coupled_mesh_interface_certification` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Chained mesh convergence and full-rank `35-50 rg` numerical-interface invariance |
 | `coupled_wall_pattern_power` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **REJECTED** physically | Finite-minidisk paired torque/power continuation; tidal-band thickness invalidates perfect confinement |
+| `coupled_open_overflow_eigenvalue` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Full-rank open roots at `96/64` and `144/96`, plus retained `168/112` endpoint-refinement failure |
 
 Each case contains `provenance.json` and `SHA256SUMS.txt`. The global file list
 and hashes are recorded in `manifests/canonical_artifacts.csv`.

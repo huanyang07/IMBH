@@ -61,6 +61,11 @@ rejected sequence.
     Paired binary pattern-speed work makes the Hill tidal band exceed
     `H/R=0.3` at 25% power, rejecting perfect confinement and selecting an
     open-overflow solve with emergent inner accretion rate.
+22. **Open-overflow eigenvalue:** the fully coupled boundary continuation
+    reaches a full-rank open root that accretes `16.9%` of the stream and
+    overflows `83.1%`. It remains thin in the Hill band and converges at
+    `144/96`, but fails the controlled `168/112` outer-endpoint refinement.
+    The declared fallback is coupled conservative mass-energy evolution.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

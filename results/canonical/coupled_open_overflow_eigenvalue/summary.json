@@ -1,0 +1,380 @@
+{
+  "boundary_stages_requested": [
+    0.0,
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "interface_rg": 40.04153642035986,
+  "mesh_gate": false,
+  "mesh_rows": [
+    {
+      "accepted": true,
+      "block_maximum_residuals": {
+        "edge_boundary": 1.5788421047441847e-12,
+        "flux_extraction": 2.4433647466129625e-11,
+        "inner_core": 3.998576051841307e-09,
+        "interface_boundary": 0.0,
+        "outer_energy": 1.8268529907585045e-08,
+        "outer_radial": 1.0097518281214255e-09,
+        "outer_stress": 1.6131770923110973e-08
+      },
+      "boundary_fraction": 1.0,
+      "composite_Lrad_over_LEdd": 0.4803300765497788,
+      "edge_boundary_residual": 1.5788421047441847e-12,
+      "lambda0": 3.709149059241058,
+      "max_outer_H_over_R": 0.1250839840956539,
+      "max_tidal_band_H_over_R": 0.03910731001288981,
+      "maximum_residual": 1.8268529907585045e-08,
+      "mdot_inner_over_stream": 0.16903369150622066,
+      "mdot_outer_over_stream": -0.8309663084937793,
+      "message": "residual tolerance reached",
+      "n_inner": 96,
+      "n_outer": 64,
+      "nfev": 72,
+      "outer_torque_relative": 1.5788421047441847e-12,
+      "overflow_fraction": 0.8309663084937793,
+      "sonic_radius_rg": 5.214887912268966,
+      "stagnation_radius_rg": 222.064630021548
+    },
+    {
+      "accepted": true,
+      "block_maximum_residuals": {
+        "edge_boundary": 2.234859251053397e-15,
+        "flux_extraction": 1.2081133950075208e-14,
+        "inner_core": 3.802914073859134e-13,
+        "interface_boundary": 1.7763568394002505e-15,
+        "outer_energy": 2.0460072992656436e-11,
+        "outer_radial": 6.498746909492785e-14,
+        "outer_stress": 9.082368530738136e-12
+      },
+      "boundary_fraction": 1.0,
+      "composite_Lrad_over_LEdd": 0.47970242642742156,
+      "edge_boundary_residual": 2.234859251053397e-15,
+      "lambda0": 3.7095402971878535,
+      "max_outer_H_over_R": 0.1245986067099354,
+      "max_tidal_band_H_over_R": 0.0382756094421839,
+      "maximum_residual": 2.0460072992656436e-11,
+      "mdot_inner_over_stream": 0.1689369766620336,
+      "mdot_outer_over_stream": -0.8310630233379666,
+      "message": "residual tolerance reached",
+      "n_inner": 144,
+      "n_outer": 96,
+      "nfev": 17,
+      "outer_torque_relative": 2.234859251053397e-15,
+      "overflow_fraction": 0.8310630233379666,
+      "sonic_radius_rg": 5.210237256314506,
+      "stagnation_radius_rg": 222.17983683459525
+    },
+    {
+      "accepted": false,
+      "block_maximum_residuals": {
+        "edge_boundary": 2.9289641443079577e-07,
+        "flux_extraction": 1.3064882539942934e-06,
+        "inner_core": 8.152925432547553e-05,
+        "interface_boundary": 7.904787935331115e-13,
+        "outer_energy": 0.3828431887821963,
+        "outer_radial": 0.0027249188179840037,
+        "outer_stress": 0.48134346205020545
+      },
+      "boundary_fraction": 1.0,
+      "composite_Lrad_over_LEdd": 0.47811182344371356,
+      "edge_boundary_residual": -2.9289641443079577e-07,
+      "lambda0": 3.7093448481633344,
+      "max_outer_H_over_R": 0.12407355692494862,
+      "max_tidal_band_H_over_R": 0.03795355513916367,
+      "maximum_residual": 0.48134346205020545,
+      "mdot_inner_over_stream": 0.1682075332015049,
+      "mdot_outer_over_stream": -0.8317924667984953,
+      "message": "Newton line search failed",
+      "n_inner": 168,
+      "n_outer": 112,
+      "nfev": 206,
+      "outer_torque_relative": -2.9289641443079577e-07,
+      "overflow_fraction": 0.8317924667984953,
+      "sonic_radius_rg": 5.212602747022421,
+      "stagnation_radius_rg": 222.16661720102812
+    }
+  ],
+  "next_stage": "coupled_mass_energy_time_evolution",
+  "open_mesh_sequence_requested": [
+    [
+      144,
+      96
+    ],
+    [
+      168,
+      112
+    ],
+    [
+      192,
+      128
+    ]
+  ],
+  "rank_audits": {
+    "chi_0": {
+      "condition_estimate": 246964.95577367287,
+      "interface_response_rank": 2,
+      "interface_response_singular_values": [
+        1.1135193980308724,
+        0.09122413560353562
+      ],
+      "jacobian_shape": [
+        389,
+        389
+      ],
+      "largest_singular_value": 738.1177366976657,
+      "preboundary_nullity": 2,
+      "ranks_by_relative_threshold": {
+        "1e-08": 389,
+        "1e-10": 389,
+        "1e-12": 389
+      },
+      "smallest_six_singular_values": [
+        0.07270462474504116,
+        0.06437429621512195,
+        0.05412048653393757,
+        0.014263709209430925,
+        0.006955945306476935,
+        0.002988754960740673
+      ],
+      "sonic_rank": 2,
+      "sonic_singular_values": [
+        0.1229838265472526,
+        0.01050568967424503
+      ]
+    },
+    "chi_1": {
+      "condition_estimate": 135232.741536456,
+      "interface_response_rank": 2,
+      "interface_response_singular_values": [
+        1.4071226228354206,
+        0.061216227653872864
+      ],
+      "jacobian_shape": [
+        389,
+        389
+      ],
+      "largest_singular_value": 206.63204847009345,
+      "preboundary_nullity": 2,
+      "ranks_by_relative_threshold": {
+        "1e-08": 389,
+        "1e-10": 389,
+        "1e-12": 389
+      },
+      "smallest_six_singular_values": [
+        0.008507744027068454,
+        0.006191067877739622,
+        0.005168815044329466,
+        0.0033926338597309617,
+        0.0016697887275582057,
+        0.0015279735227018945
+      ],
+      "sonic_rank": 2,
+      "sonic_singular_values": [
+        17.997817349099243,
+        0.006445816185911615
+      ]
+    },
+    "mesh_144_96": {
+      "condition_estimate": 5948260.043266597,
+      "interface_response_rank": 2,
+      "interface_response_singular_values": [
+        1.3296927341148588,
+        0.054034751549818856
+      ],
+      "jacobian_shape": [
+        581,
+        581
+      ],
+      "largest_singular_value": 670.4981160645705,
+      "preboundary_nullity": 2,
+      "ranks_by_relative_threshold": {
+        "1e-08": 581,
+        "1e-10": 581,
+        "1e-12": 581
+      },
+      "smallest_six_singular_values": [
+        0.004265260357657279,
+        0.003507121929539155,
+        0.002081280676712168,
+        0.0014875705151325897,
+        0.0010940049272562444,
+        0.00011272172218219868
+      ],
+      "sonic_rank": 2,
+      "sonic_singular_values": [
+        20.20901099591397,
+        0.006414445305695563
+      ]
+    }
+  },
+  "reached_open_boundary": true,
+  "reservoir_outer_radius_rg": 335.0,
+  "stages": [
+    {
+      "accepted": true,
+      "block_maximum_residuals": {
+        "edge_boundary": 9.999506744451738e-13,
+        "flux_extraction": 1.5917096682813855e-10,
+        "inner_core": 3.122932465023822e-10,
+        "interface_boundary": 9.983125437429408e-13,
+        "outer_energy": 1.684655803404497e-08,
+        "outer_radial": 4.412756604253346e-09,
+        "outer_stress": 5.01235265876454e-10
+      },
+      "boundary_fraction": 0.0,
+      "composite_Lrad_over_LEdd": 1.3482241954872598,
+      "edge_boundary_residual": -9.999506744451738e-13,
+      "lambda0": 3.8187600055241093,
+      "max_outer_H_over_R": 0.3102314670780157,
+      "max_tidal_band_H_over_R": 0.1695878235596293,
+      "maximum_residual": 1.684655803404497e-08,
+      "mdot_inner_over_stream": 0.999999999999,
+      "mdot_outer_over_stream": -9.999506744451738e-13,
+      "message": "residual tolerance reached",
+      "nfev": 1,
+      "outer_torque_relative": 0.7599240409159699,
+      "overflow_fraction": 9.999506744451738e-13,
+      "sonic_radius_rg": 4.361120382914782,
+      "stagnation_radius_rg": 334.9999998284141
+    },
+    {
+      "accepted": true,
+      "block_maximum_residuals": {
+        "edge_boundary": 1.6188134166483792e-11,
+        "flux_extraction": 2.325671799137176e-10,
+        "inner_core": 1.7476021173329574e-10,
+        "interface_boundary": 5.329070518200751e-15,
+        "outer_energy": 8.976493528654547e-08,
+        "outer_radial": 9.280555076154558e-08,
+        "outer_stress": 5.6151971784784006e-08
+      },
+      "boundary_fraction": 0.1,
+      "composite_Lrad_over_LEdd": 1.3092401863329564,
+      "edge_boundary_residual": 1.6188134166483792e-11,
+      "lambda0": 3.8154521179672924,
+      "max_outer_H_over_R": 0.30239803389072356,
+      "max_tidal_band_H_over_R": 0.15965750926864955,
+      "maximum_residual": 9.280555076154558e-08,
+      "mdot_inner_over_stream": 0.9231986600245711,
+      "mdot_outer_over_stream": -0.0768013399754289,
+      "message": "residual tolerance reached",
+      "nfev": 7,
+      "outer_torque_relative": 0.6912120599407414,
+      "overflow_fraction": 0.0768013399754289,
+      "sonic_radius_rg": 4.379612557499053,
+      "stagnation_radius_rg": 269.4432588752472
+    },
+    {
+      "accepted": true,
+      "block_maximum_residuals": {
+        "edge_boundary": 5.656863866221329e-12,
+        "flux_extraction": 1.251496828103677e-10,
+        "inner_core": 1.3345939689968285e-10,
+        "interface_boundary": 7.105427357601002e-15,
+        "outer_energy": 3.4032574809649786e-09,
+        "outer_radial": 4.419705569968311e-09,
+        "outer_stress": 6.911505285245496e-09
+      },
+      "boundary_fraction": 0.25,
+      "composite_Lrad_over_LEdd": 1.2415735355801119,
+      "edge_boundary_residual": 5.656863866221329e-12,
+      "lambda0": 3.809399382516028,
+      "max_outer_H_over_R": 0.2885967807809718,
+      "max_tidal_band_H_over_R": 0.14092594100808606,
+      "maximum_residual": 6.911505285245496e-09,
+      "mdot_inner_over_stream": 0.8050576682012294,
+      "mdot_outer_over_stream": -0.1949423317987706,
+      "message": "residual tolerance reached",
+      "nfev": 10,
+      "outer_torque_relative": 0.5848269954189392,
+      "overflow_fraction": 0.1949423317987706,
+      "sonic_radius_rg": 4.414076500257345,
+      "stagnation_radius_rg": 256.9792889023839
+    },
+    {
+      "accepted": true,
+      "block_maximum_residuals": {
+        "edge_boundary": 2.6001986674906163e-10,
+        "flux_extraction": 1.7060004387065331e-09,
+        "inner_core": 3.235980857786323e-09,
+        "interface_boundary": 2.4868995751603507e-14,
+        "outer_energy": 6.403647047150341e-08,
+        "outer_radial": 2.9199146007777535e-08,
+        "outer_stress": 3.763961066547874e-08
+      },
+      "boundary_fraction": 0.5,
+      "composite_Lrad_over_LEdd": 1.0939792642103225,
+      "edge_boundary_residual": 2.6001986674906163e-10,
+      "lambda0": 3.794787575773397,
+      "max_outer_H_over_R": 0.257700264472978,
+      "max_tidal_band_H_over_R": 0.10808686488298351,
+      "maximum_residual": 6.403647047150341e-08,
+      "mdot_inner_over_stream": 0.6010249239724857,
+      "mdot_outer_over_stream": -0.3989750760275143,
+      "message": "residual tolerance reached",
+      "nfev": 14,
+      "outer_torque_relative": 0.39897507654755404,
+      "overflow_fraction": 0.3989750760275143,
+      "sonic_radius_rg": 4.5011103214403345,
+      "stagnation_radius_rg": 245.0280072405917
+    },
+    {
+      "accepted": true,
+      "block_maximum_residuals": {
+        "edge_boundary": 1.1703943370022785e-11,
+        "flux_extraction": 1.2006360649882193e-10,
+        "inner_core": 3.372187544325091e-09,
+        "interface_boundary": 5.329070518200751e-15,
+        "outer_energy": 1.900318311859642e-09,
+        "outer_radial": 5.717909558848467e-10,
+        "outer_stress": 2.3051393213028012e-09
+      },
+      "boundary_fraction": 0.75,
+      "composite_Lrad_over_LEdd": 0.8713810647794062,
+      "edge_boundary_residual": 1.1703943370022785e-11,
+      "lambda0": 3.7688576427549925,
+      "max_outer_H_over_R": 0.20995456068686566,
+      "max_tidal_band_H_over_R": 0.07648623101455666,
+      "maximum_residual": 3.372187544325091e-09,
+      "mdot_inner_over_stream": 0.38928712434665774,
+      "mdot_outer_over_stream": -0.6107128756533423,
+      "message": "residual tolerance reached",
+      "nfev": 26,
+      "outer_torque_relative": 0.20357095856671936,
+      "overflow_fraction": 0.6107128756533423,
+      "sonic_radius_rg": 4.6726236064452165,
+      "stagnation_radius_rg": 234.62827951289395
+    },
+    {
+      "accepted": true,
+      "block_maximum_residuals": {
+        "edge_boundary": 1.5788421047441847e-12,
+        "flux_extraction": 2.4433647466129625e-11,
+        "inner_core": 3.998576051841307e-09,
+        "interface_boundary": 0.0,
+        "outer_energy": 1.8268529907585045e-08,
+        "outer_radial": 1.0097518281214255e-09,
+        "outer_stress": 1.6131770923110973e-08
+      },
+      "boundary_fraction": 1.0,
+      "composite_Lrad_over_LEdd": 0.4803300765497788,
+      "edge_boundary_residual": 1.5788421047441847e-12,
+      "lambda0": 3.709149059241058,
+      "max_outer_H_over_R": 0.1250839840956539,
+      "max_tidal_band_H_over_R": 0.03910731001288981,
+      "maximum_residual": 1.8268529907585045e-08,
+      "mdot_inner_over_stream": 0.16903369150622066,
+      "mdot_outer_over_stream": -0.8309663084937793,
+      "message": "residual tolerance reached",
+      "nfev": 72,
+      "outer_torque_relative": 1.5788421047441847e-12,
+      "overflow_fraction": 0.8309663084937793,
+      "sonic_radius_rg": 5.214887912268966,
+      "stagnation_radius_rg": 222.064630021548
+    }
+  ]
+}

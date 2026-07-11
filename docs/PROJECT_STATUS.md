@@ -44,6 +44,7 @@ This is the canonical project handoff. Status labels mean:
 | Simultaneous non-Keplerian reservoir | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Corrected `Rout=335 rg`, `R_I=40 rg`, N256 root seeds the full coupled solve | The older multi-interface canonical sweep inherited a `10000 rg` numerical buffer and is superseded for physical interpretation; inner solution remains frozen |
 | Fully coupled inner/outer ideal-wall control | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Corrected finite `Rout=335 rg`; chained `96/64 -> 144/96 -> 192/128` roots; full-rank `772x772` systems at `34.97-50.05 rg`; luminosity spread `5.22e-5`; fixed-band `H/R` spread `0.284%` | Ideal zero-mass-flux wall remains a limiting control; stability, time evolution, and wind are pending |
 | Binary pattern-power wall continuation | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **REJECTED** physically | Paired torque/power identity closes to `1.7e-16`; 25%, 50%, and 75% stages solve numerically | Tidal-band `H/R` exceeds `0.3` at 25% power and reaches `0.61`; full-power step fails; confinement is outside the one-zone validity regime |
+| Coupled open-overflow eigenvalue | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Full-rank `96/64` and `144/96` roots; inner/stream `0.16894`, overflow `0.83106`, stagnation near `222.18 rg`, Hill-band `H/R=0.0383` | Controlled `168/112` refinement fails in outer stress/energy endpoint cells; steady branch is not mesh certified |
 | Fully time-dependent total-energy signed-flux disk | **PLANNED** | Required to test accumulation, fronts, and limit cycles under physical feeding | Coupled mass+total-energy IMEX evolution not implemented |
 
 ## Frozen Target Under Review
@@ -119,6 +120,11 @@ N                    = 164
     solve fails, but the physical validity gate has already rejected perfect
     confinement. The next steady problem must allow overflow and solve for
     the inner accretion rate.
+17. The augmented open-boundary system is square and full rank. Its open root
+    processes about `16.9%` of the stream inward and overflows `83.1%`, while
+    remaining thin in the Hill band. It converges through `144/96` but fails
+    the controlled `168/112` endpoint refinement, activating the declared
+    conservative time-evolution fallback.
 
 ## Claims That Are Not Allowed Yet
 
@@ -130,12 +136,12 @@ N                    = 164
 
 ## Next Scientific Work
 
-1. Promote the inner accretion rate to an eigenvalue and implement a coupled
-   open-overflow outer boundary on the finite `335 rg` domain.
-2. Continue one physical distributed tidal torque from the open limit only
-   while the Hill-band thickness and torque/power validity gates pass.
-3. Implement coupled mass+energy IMEX evolution, allowing
-   accumulation when no steady state exists.
+1. Implement coupled conservative mass+energy IMEX evolution from the accepted
+   `144/96` open state, allowing accumulation and moving fronts.
+2. Verify mass, angular momentum, and total energy under open outflow before
+   adding any physical distributed tidal torque.
+3. Continue a physical tide only after the time-dependent open control is
+   mesh and timestep converged.
 4. Repeat validity-surface matching with a bordered global eigenvalue solve if
    a mesh-stable critical layer appears.
 5. Add wind only after the tidal and stability gates pass.
@@ -167,3 +173,4 @@ N                    = 164
 - Fully coupled rank prototype: `reports/current/CODEX_COUPLED_INNER_OUTER_RANK_PROTOTYPE_RESULTS_2026-07-11.md`
 - Coupled mesh/interface certification: `reports/current/CODEX_COUPLED_MESH_INTERFACE_CERTIFICATION_RESULTS_2026-07-11.md`
 - Coupled wall pattern-power gate: `reports/current/CODEX_COUPLED_WALL_PATTERN_POWER_RESULTS_2026-07-11.md`
+- Coupled open-overflow eigenvalue: `reports/current/CODEX_COUPLED_OPEN_OVERFLOW_RESULTS_2026-07-11.md`
