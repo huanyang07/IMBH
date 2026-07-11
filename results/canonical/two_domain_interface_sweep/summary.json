@@ -1,0 +1,292 @@
+{
+  "all_converged": true,
+  "by_resolution": {
+    "128": {
+      "flux_gate": true,
+      "interface_position_gate": true,
+      "maximum_flux_mismatch": 2.050760201897403e-16,
+      "maximum_primitive_mismatch": 0.3341786226090216,
+      "primitive_continuity_gate": false,
+      "relative_spreads": {
+        "composite_Lrad_over_LEdd": 0.0023636188469712783,
+        "max_H_over_R": 0.06980470364172799,
+        "outer_torque_over_stream_J": 4.3829789486506714e-16
+      }
+    },
+    "256": {
+      "flux_gate": true,
+      "interface_position_gate": true,
+      "maximum_flux_mismatch": 2.050760201897403e-16,
+      "maximum_primitive_mismatch": 0.33388650011613785,
+      "primitive_continuity_gate": false,
+      "relative_spreads": {
+        "composite_Lrad_over_LEdd": 0.0020265018446775614,
+        "max_H_over_R": 0.06418883678685387,
+        "outer_torque_over_stream_J": 1.460992982883557e-16
+      }
+    }
+  },
+  "interface_targets_rg": [
+    30.0,
+    40.0,
+    50.0,
+    60.0
+  ],
+  "mesh_relative_differences": {
+    "30.0": {
+      "composite_Lrad_over_LEdd": 0.00016277929753645884,
+      "max_H_over_R": 0.00033388554296297126
+    },
+    "40.0": {
+      "composite_Lrad_over_LEdd": 0.0003004165537486127,
+      "max_H_over_R": 0.002027924380922518
+    },
+    "50.0": {
+      "composite_Lrad_over_LEdd": 0.00041330132184422887,
+      "max_H_over_R": 0.003816543449000288
+    },
+    "60.0": {
+      "composite_Lrad_over_LEdd": 0.0004997387681774802,
+      "max_H_over_R": 0.005278521765554541
+    }
+  },
+  "outer_boundary": "tidal_wall",
+  "reservoir_resolutions": [
+    128,
+    256
+  ],
+  "rows": [
+    {
+      "N_reservoir": 128,
+      "actual_interface_rg": 30.154479684807928,
+      "composite_Lrad_over_LEdd": 1.4588407304308868,
+      "converged": true,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": 0.0,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.7310087155909241,
+      "iterations": 33,
+      "max_H_over_R": 0.31991397911466424,
+      "max_radial_pressure_fraction": 0.09772515163973909,
+      "maximum_energy_residual": 1.9984295544818135e-13,
+      "maximum_log_viscosity_change": 0.00013725720167215847,
+      "outer_Lrad_over_LEdd": 0.7278320148399628,
+      "outer_torque_over_stream_J": 0.7599098952781506,
+      "primitive_mismatch": {
+        "log_integrated_pressure": -0.33150289681470957,
+        "log_scale_height": -0.03948155005060643,
+        "log_surface_density": -0.25253959291938133,
+        "log_temperature": -0.07300564587344398,
+        "maximum_absolute": 0.33150289681470957,
+        "omega_relative": 0.041769116677668874,
+        "radial_velocity_over_sound_speed": -0.002982596666683137
+      },
+      "target_interface_rg": 30.0
+    },
+    {
+      "N_reservoir": 128,
+      "actual_interface_rg": 40.04153642035986,
+      "composite_Lrad_over_LEdd": 1.4575389924281041,
+      "converged": true,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": -2.050760201897403e-16,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.831521532306001,
+      "iterations": 33,
+      "max_H_over_R": 0.31550184309652485,
+      "max_radial_pressure_fraction": 0.09769115600754906,
+      "maximum_energy_residual": 1.416018007458648e-13,
+      "maximum_log_viscosity_change": 0.00013724938874935282,
+      "outer_Lrad_over_LEdd": 0.6260174601221031,
+      "outer_torque_over_stream_J": 0.7599098952781506,
+      "primitive_mismatch": {
+        "log_integrated_pressure": -0.32695270833648316,
+        "log_scale_height": -0.05711618135874657,
+        "log_surface_density": -0.2127198505140256,
+        "log_temperature": -0.067462219451949,
+        "maximum_absolute": 0.32695270833648316,
+        "omega_relative": 0.048067070507052286,
+        "radial_velocity_over_sound_speed": -0.0020228987830400334
+      },
+      "target_interface_rg": 40.0
+    },
+    {
+      "N_reservoir": 128,
+      "actual_interface_rg": 50.05122130881059,
+      "composite_Lrad_over_LEdd": 1.4563497191268693,
+      "converged": true,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": 2.050760201897403e-16,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.906894574913803,
+      "iterations": 33,
+      "max_H_over_R": 0.3073512873867704,
+      "max_radial_pressure_fraction": 0.09881416035258646,
+      "maximum_energy_residual": 1.624396076018674e-13,
+      "maximum_log_viscosity_change": 0.00013725701405734194,
+      "outer_Lrad_over_LEdd": 0.5494551442130663,
+      "outer_torque_over_stream_J": 0.7599098952781503,
+      "primitive_mismatch": {
+        "log_integrated_pressure": -0.3297086140062707,
+        "log_scale_height": -0.07734683077480213,
+        "log_surface_density": -0.17501435303635365,
+        "log_temperature": -0.0630979543511839,
+        "maximum_absolute": 0.3297086140062707,
+        "omega_relative": 0.04979089304647058,
+        "radial_velocity_over_sound_speed": -0.0014259694069383105
+      },
+      "target_interface_rg": 50.0
+    },
+    {
+      "N_reservoir": 128,
+      "actual_interface_rg": 59.71986356799088,
+      "composite_Lrad_over_LEdd": 1.4553968631365577,
+      "converged": true,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": 2.050760201897403e-16,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.9639344998912873,
+      "iterations": 33,
+      "max_H_over_R": 0.29825665508810123,
+      "max_radial_pressure_fraction": 0.09844563197217032,
+      "maximum_energy_residual": 5.938109622110481e-14,
+      "maximum_log_viscosity_change": 0.00013725662492007767,
+      "outer_Lrad_over_LEdd": 0.49146236324527026,
+      "outer_torque_over_stream_J": 0.7599098952781502,
+      "primitive_mismatch": {
+        "log_integrated_pressure": -0.3341786226090216,
+        "log_scale_height": -0.0986718264118256,
+        "log_surface_density": -0.13683434395228802,
+        "log_temperature": -0.05889043405625398,
+        "maximum_absolute": 0.3341786226090216,
+        "omega_relative": 0.049422011171085724,
+        "radial_velocity_over_sound_speed": -0.0009924458291895172
+      },
+      "target_interface_rg": 60.0
+    },
+    {
+      "N_reservoir": 256,
+      "actual_interface_rg": 30.154479684807928,
+      "composite_Lrad_over_LEdd": 1.4590782381615455,
+      "converged": true,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": -2.050760201897403e-16,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.7310087155909241,
+      "iterations": 33,
+      "max_H_over_R": 0.3198072001140107,
+      "max_radial_pressure_fraction": 0.0974396929137168,
+      "maximum_energy_residual": 4.65976841031642e-13,
+      "maximum_log_viscosity_change": 0.00013725406809878742,
+      "outer_Lrad_over_LEdd": 0.7280695225706215,
+      "outer_torque_over_stream_J": 0.7599098952781504,
+      "primitive_mismatch": {
+        "log_integrated_pressure": -0.3319640086718245,
+        "log_scale_height": -0.039696863785329724,
+        "log_surface_density": -0.2525701720755219,
+        "log_temperature": -0.07306711194453533,
+        "maximum_absolute": 0.3319640086718245,
+        "omega_relative": 0.04141292551617349,
+        "radial_velocity_over_sound_speed": -0.0030108878914226456
+      },
+      "target_interface_rg": 30.0
+    },
+    {
+      "N_reservoir": 256,
+      "actual_interface_rg": 40.04153642035986,
+      "composite_Lrad_over_LEdd": 1.4579769928517414,
+      "converged": true,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": 0.0,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.831521532306001,
+      "iterations": 33,
+      "max_H_over_R": 0.3161429571070993,
+      "max_radial_pressure_fraction": 0.09743005633982217,
+      "maximum_energy_residual": 3.280372754127876e-13,
+      "maximum_log_viscosity_change": 0.00013725551807751288,
+      "outer_Lrad_over_LEdd": 0.6264554605457404,
+      "outer_torque_over_stream_J": 0.7599098952781504,
+      "primitive_mismatch": {
+        "log_integrated_pressure": -0.3269326229754639,
+        "log_scale_height": -0.058024868517563326,
+        "log_surface_density": -0.21088262246832248,
+        "log_temperature": -0.06723013634923988,
+        "maximum_absolute": 0.3269326229754639,
+        "omega_relative": 0.04791482250098139,
+        "radial_velocity_over_sound_speed": -0.002020986907268519
+      },
+      "target_interface_rg": 40.0
+    },
+    {
+      "N_reservoir": 256,
+      "actual_interface_rg": 50.05122130881059,
+      "composite_Lrad_over_LEdd": 1.4569518792644327,
+      "converged": true,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": 2.050760201897403e-16,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.906894574913803,
+      "iterations": 33,
+      "max_H_over_R": 0.3085288009609057,
+      "max_radial_pressure_fraction": 0.09835712242392296,
+      "maximum_energy_residual": 3.0459933068772514e-13,
+      "maximum_log_viscosity_change": 0.00013725488817857855,
+      "outer_Lrad_over_LEdd": 0.5500573043506297,
+      "outer_torque_over_stream_J": 0.7599098952781506,
+      "primitive_mismatch": {
+        "log_integrated_pressure": -0.32949915384785744,
+        "log_scale_height": -0.0793364860195749,
+        "log_surface_density": -0.17082585411049128,
+        "log_temperature": -0.06254849091608616,
+        "maximum_absolute": 0.32949915384785744,
+        "omega_relative": 0.049767991311023156,
+        "radial_velocity_over_sound_speed": -0.0014014659276426742
+      },
+      "target_interface_rg": 50.0
+    },
+    {
+      "N_reservoir": 256,
+      "actual_interface_rg": 59.71986356799088,
+      "composite_Lrad_over_LEdd": 1.4561245450230005,
+      "converged": true,
+      "flux_mismatch_relative": {
+        "angular_momentum": 0.0,
+        "mdot": -2.050760201897403e-16,
+        "total_energy": 0.0
+      },
+      "inner_Lrad_over_LEdd": 0.9639344998912873,
+      "iterations": 33,
+      "max_H_over_R": 0.29983936369553815,
+      "max_radial_pressure_fraction": 0.09855308836780884,
+      "maximum_energy_residual": 2.5988999130571235e-13,
+      "maximum_log_viscosity_change": 0.00013725571608081487,
+      "outer_Lrad_over_LEdd": 0.4921900451317132,
+      "outer_torque_over_stream_J": 0.7599098952781506,
+      "primitive_mismatch": {
+        "log_integrated_pressure": -0.33388650011613785,
+        "log_scale_height": -0.10212426418976989,
+        "log_surface_density": -0.12963761935898127,
+        "log_temperature": -0.057954988165636954,
+        "maximum_absolute": 0.33388650011613785,
+        "omega_relative": 0.04947980015911333,
+        "radial_velocity_over_sound_speed": -0.0009462901083872273
+      },
+      "target_interface_rg": 60.0
+    }
+  ]
+}

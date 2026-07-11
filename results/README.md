@@ -19,6 +19,7 @@ the default branch.
 | `signed_flux_total_energy_near_isco_failure` | **REJECTED** | Corrected enthalpy-work N256/N512 failure at the invalid near-ISCO boundary |
 | `signed_flux_total_energy_rin10_N512` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Corrected enthalpy-work wall/open interface controls |
 | `inner_outer_overlap_audit` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Primary and pressure-sensitivity overlap bands for the transonic and reservoir controls |
+| `two_domain_interface_sweep` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Mesh and interface-position sweep of the conservative transonic-to-wall composite |
 
 Each case contains `provenance.json` and `SHA256SUMS.txt`. The global file list
 and hashes are recorded in `manifests/canonical_artifacts.csv`.

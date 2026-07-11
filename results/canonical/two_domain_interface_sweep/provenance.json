@@ -1,0 +1,14 @@
+{
+  "canonical_packaging_command": "PYTHONPATH=src python3 scripts/build_two_domain_interface_sweep_canonical.py",
+  "claim_scope": "One-way no-wind transonic-to-tidal-wall conserved-flux composite",
+  "does_not_establish": "A smooth physical domain match; the integrated-pressure state mismatch fails.",
+  "establishes": "Flux closure, mesh support, and interface-position-stable composite luminosity.",
+  "numerical_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
+  "payload_sha256": {
+    "config.json": "6633b1960efee182a71744526453e34ceb623c9d44d034bcd8d73e8d4ffba9c8",
+    "summary.json": "a8269933cde4d7fe250b959ed14582aaf3a931aa603698446fa402e9ecc5dbaf"
+  },
+  "physical_status": "DIAGNOSTIC ONLY",
+  "solver_generation_command": "PYTHONPATH=src python3 scripts/run_two_domain_interface_sweep.py",
+  "source_parent_commit": "02d7336"
+}
