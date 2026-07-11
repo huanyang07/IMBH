@@ -40,6 +40,15 @@ from .interface_flux import (
     signed_inner_interface_flux,
     transonic_profile_interface_flux,
 )
+from .overlap_audit import (
+    OverlapDiagnostics,
+    OverlapGateConfig,
+    contiguous_passing_bands,
+    effective_optical_depth,
+    intersect_bands,
+    kramers_absorption_opacity,
+    overlap_diagnostics,
+)
 from .global_slim import (
     GlobalSlimParams,
     GlobalSlimProfile,

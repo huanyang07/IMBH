@@ -1,0 +1,219 @@
+{
+  "absorption_opacity_bracket_cm2_g": [
+    6.4e+22,
+    5e+24
+  ],
+  "absorption_status": "diagnostic bracket; not used by the cooling closure",
+  "pressure_tolerance_sensitivity": {
+    "common_transonic_open_bands_rg": [
+      [
+        24.197007392544297,
+        59.69337273323729
+      ]
+    ],
+    "common_transonic_wall_bands_rg": [
+      [
+        29.4530309899945,
+        59.69337273323729
+      ]
+    ],
+    "gate_config": {
+      "max_H_over_R": 0.35,
+      "max_radial_mach": 0.1,
+      "max_radial_pressure_fraction": 0.1,
+      "max_source_fraction": 1e-08,
+      "min_dln_l_k_dln_R": 0.2,
+      "min_gradient_length_over_H": 3.0,
+      "min_tau_effective": 1.0,
+      "min_tau_scattering": 10.0
+    },
+    "open_zero_torque": {
+      "bands_rg": [
+        [
+          14.732996217060828,
+          59.69337273323729
+        ]
+      ],
+      "extrema": {
+        "max_H_over_R": 0.1278039056293423,
+        "max_radial_mach": 0.032178443454740205,
+        "max_radial_pressure_fraction": 0.037786294594611726,
+        "max_source_fraction": 7.00692899623814e-68,
+        "min_dln_l_k_dln_R": 0.3015022258656048,
+        "min_gradient_length_over_H": 3.1765339380090207,
+        "min_tau_effective_high": 6.006951781107926,
+        "min_tau_effective_low": 0.6795821159516483,
+        "min_tau_scattering": 670.7780579739839
+      },
+      "failure_counts": {
+        "H_over_R": 0,
+        "dln_l_k_dln_R": 0,
+        "gradient_length_over_H": 0,
+        "radial_mach": 0,
+        "radial_pressure_fraction": 0,
+        "source_fraction": 0,
+        "tau_effective_low": 29,
+        "tau_scattering": 0
+      },
+      "passing_fraction": 0.8760683760683761
+    },
+    "tidal_wall": {
+      "bands_rg": [
+        [
+          29.4530309899945,
+          59.69337273323729
+        ]
+      ],
+      "extrema": {
+        "max_H_over_R": 0.31141475951630676,
+        "max_radial_mach": 0.08559573927594047,
+        "max_radial_pressure_fraction": 0.2673677545152311,
+        "max_source_fraction": 7.00692899623814e-68,
+        "min_dln_l_k_dln_R": 0.3015022258656048,
+        "min_gradient_length_over_H": 0.8639700653485325,
+        "min_tau_effective_high": 1.931993568010611,
+        "min_tau_effective_low": 0.21857877415183025,
+        "min_tau_scattering": 546.908304035709
+      },
+      "failure_counts": {
+        "H_over_R": 0,
+        "dln_l_k_dln_R": 0,
+        "gradient_length_over_H": 109,
+        "radial_mach": 0,
+        "radial_pressure_fraction": 28,
+        "source_fraction": 0,
+        "tau_effective_low": 130,
+        "tau_scattering": 0
+      },
+      "passing_fraction": 0.4444444444444444
+    },
+    "transonic": {
+      "bands_rg": [
+        [
+          24.197007392544297,
+          59.71986356799088
+        ]
+      ],
+      "extrema": {
+        "max_H_over_R": 0.31637229125370275,
+        "max_radial_mach": 0.028666300223036765,
+        "max_radial_pressure_fraction": 0.09268569719496687,
+        "max_source_fraction": 0.0,
+        "min_dln_l_k_dln_R": 0.300141024961867,
+        "min_gradient_length_over_H": 2.6340075460996992,
+        "min_tau_effective_high": 5.467332644741861,
+        "min_tau_effective_low": 0.6185542299108354,
+        "min_tau_scattering": 1539.999360179206
+      },
+      "failure_counts": {
+        "H_over_R": 0,
+        "dln_l_k_dln_R": 0,
+        "gradient_length_over_H": 57,
+        "radial_mach": 0,
+        "radial_pressure_fraction": 0,
+        "source_fraction": 0,
+        "tau_effective_low": 38,
+        "tau_scattering": 0
+      },
+      "passing_fraction": 0.5869565217391305
+    }
+  },
+  "strict": {
+    "common_transonic_open_bands_rg": [],
+    "common_transonic_wall_bands_rg": [],
+    "gate_config": {
+      "max_H_over_R": 0.35,
+      "max_radial_mach": 0.1,
+      "max_radial_pressure_fraction": 0.05,
+      "max_source_fraction": 1e-08,
+      "min_dln_l_k_dln_R": 0.2,
+      "min_gradient_length_over_H": 3.0,
+      "min_tau_effective": 1.0,
+      "min_tau_scattering": 10.0
+    },
+    "open_zero_torque": {
+      "bands_rg": [
+        [
+          14.732996217060828,
+          59.69337273323729
+        ]
+      ],
+      "extrema": {
+        "max_H_over_R": 0.1278039056293423,
+        "max_radial_mach": 0.032178443454740205,
+        "max_radial_pressure_fraction": 0.037786294594611726,
+        "max_source_fraction": 7.00692899623814e-68,
+        "min_dln_l_k_dln_R": 0.3015022258656048,
+        "min_gradient_length_over_H": 3.1765339380090207,
+        "min_tau_effective_high": 6.006951781107926,
+        "min_tau_effective_low": 0.6795821159516483,
+        "min_tau_scattering": 670.7780579739839
+      },
+      "failure_counts": {
+        "H_over_R": 0,
+        "dln_l_k_dln_R": 0,
+        "gradient_length_over_H": 0,
+        "radial_mach": 0,
+        "radial_pressure_fraction": 0,
+        "source_fraction": 0,
+        "tau_effective_low": 29,
+        "tau_scattering": 0
+      },
+      "passing_fraction": 0.8760683760683761
+    },
+    "tidal_wall": {
+      "bands_rg": [],
+      "extrema": {
+        "max_H_over_R": 0.31141475951630676,
+        "max_radial_mach": 0.08559573927594047,
+        "max_radial_pressure_fraction": 0.2673677545152311,
+        "max_source_fraction": 7.00692899623814e-68,
+        "min_dln_l_k_dln_R": 0.3015022258656048,
+        "min_gradient_length_over_H": 0.8639700653485325,
+        "min_tau_effective_high": 1.931993568010611,
+        "min_tau_effective_low": 0.21857877415183025,
+        "min_tau_scattering": 546.908304035709
+      },
+      "failure_counts": {
+        "H_over_R": 0,
+        "dln_l_k_dln_R": 0,
+        "gradient_length_over_H": 109,
+        "radial_mach": 0,
+        "radial_pressure_fraction": 163,
+        "source_fraction": 0,
+        "tau_effective_low": 130,
+        "tau_scattering": 0
+      },
+      "passing_fraction": 0.0
+    },
+    "transonic": {
+      "bands_rg": [],
+      "extrema": {
+        "max_H_over_R": 0.31637229125370275,
+        "max_radial_mach": 0.028666300223036765,
+        "max_radial_pressure_fraction": 0.09268569719496687,
+        "max_source_fraction": 0.0,
+        "min_dln_l_k_dln_R": 0.300141024961867,
+        "min_gradient_length_over_H": 2.6340075460996992,
+        "min_tau_effective_high": 5.467332644741861,
+        "min_tau_effective_low": 0.6185542299108354,
+        "min_tau_scattering": 1539.999360179206
+      },
+      "failure_counts": {
+        "H_over_R": 0,
+        "dln_l_k_dln_R": 0,
+        "gradient_length_over_H": 57,
+        "radial_mach": 0,
+        "radial_pressure_fraction": 91,
+        "source_fraction": 0,
+        "tau_effective_low": 38,
+        "tau_scattering": 0
+      },
+      "passing_fraction": 0.0
+    }
+  },
+  "window_rg": [
+    12.0,
+    60.0
+  ]
+}

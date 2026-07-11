@@ -1,0 +1,14 @@
+{
+  "canonical_packaging_command": "PYTHONPATH=src python3 scripts/build_overlap_audit_canonical.py",
+  "claim_scope": "Inner transonic and corrected Rin=10 rg reservoir overlap audit",
+  "does_not_establish": "A physical two-domain match, calibrated absorption opacity, or primitive-state continuity.",
+  "establishes": "No common band passes the 5% radial-pressure gate; a threshold-sensitive candidate band exists for the 10% pressure sensitivity test.",
+  "numerical_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
+  "payload_sha256": {
+    "config.json": "3fdfd4b29418df502e16e38fb2437472005d662e6080e684738a10d5b5186bff",
+    "summary.json": "1600c6f6fb53e11c851a9fc71280e65538d379be9ca197e2888a155826a7d1a7"
+  },
+  "physical_status": "DIAGNOSTIC ONLY",
+  "solver_generation_command": "PYTHONPATH=src python3 scripts/run_inner_outer_overlap_audit.py",
+  "source_parent_commit": "c03f640"
+}
