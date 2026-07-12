@@ -133,6 +133,8 @@ def _target_mesh(
     source_state,
     n_inner: int,
     n_outer: int,
+    *,
+    outer_remap: str = "log_primitives",
 ):
     source_base_state, mdot_inner = unpack_coupled_open_state(
         source_state,
@@ -179,6 +181,7 @@ def _target_mesh(
         source_trial,
         target_inner_params,
         outer_grid,
+        outer_remap=outer_remap,
     )
     interface_flux = ConservedInterfaceFlux(
         mdot=mdot_inner,

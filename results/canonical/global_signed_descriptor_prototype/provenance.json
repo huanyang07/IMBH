@@ -1,0 +1,10 @@
+{
+  "claim_scope": "exact four-field finite-volume ledgers, signed mass-flux crossing, descriptor rank, manufactured backward-Euler rank, and conservative/primitive thermodynamic round trip plus a smooth inviscid radial equilibrium audit, bounded Rusanov step, and source-free temporal and interior mesh-convergence preflights; the common-stress flux pair and two-mesh, eight-step monolithic implicit preflight plus radiative-cooling certification are implemented; exact constant-state stream moments and one source-bearing step are certified; the physical absolute-supply open control has an admissible conservative remap from N64, matches the coupled boundary fluxes at N96, and passes N64 timestep refinement; certified sparse N64/N96 steps pass individually but the outer flux mesh gate fails by 0.02846 supply; direct open-face flux reconstruction and calibrated physical tide/wind closures are not implemented",
+  "generation_command": "python scripts/run_global_signed_descriptor_rank_prototype.py",
+  "numerical_status": "DIAGNOSTIC ONLY",
+  "packaging_command": "python scripts/build_global_signed_descriptor_canonical.py",
+  "physical_open_generation_command": "PYTHONPATH=src:scripts python scripts/run_global_physical_open_preflight.py",
+  "physical_status": "DIAGNOSTIC ONLY",
+  "source_parent_commit": "b9b1bc1",
+  "stream_generation_command": "python scripts/run_global_signed_stream_preflight.py"
+}

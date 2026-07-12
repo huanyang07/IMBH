@@ -1,0 +1,41 @@
+{
+  "all_exact_moment_gates_pass": true,
+  "constant_injected_state": true,
+  "exact_moment_meshes": [
+    {
+      "active_source_cells": 6,
+      "angular_momentum_relative_error": 2.220446049250313e-16,
+      "mass_relative_error": 2.220446049250313e-16,
+      "n_cells": 16,
+      "radial_momentum_relative_error": 0.0,
+      "total_energy_relative_error": 0.0
+    },
+    {
+      "active_source_cells": 10,
+      "angular_momentum_relative_error": 2.220446049250313e-16,
+      "mass_relative_error": 0.0,
+      "n_cells": 32,
+      "radial_momentum_relative_error": 0.0,
+      "total_energy_relative_error": 0.0
+    },
+    {
+      "active_source_cells": 19,
+      "angular_momentum_relative_error": 2.220446049250313e-16,
+      "mass_relative_error": 0.0,
+      "n_cells": 64,
+      "radial_momentum_relative_error": 0.0,
+      "total_energy_relative_error": 0.0
+    }
+  ],
+  "monolithic_step": {
+    "accepted": true,
+    "dt_seconds": 1.0,
+    "maximum_scaled_residual": 2.1110064167427773e-09,
+    "maximum_storage_scaled_ledger_defect": 1.143142179801721e-10,
+    "minimum_surface_density": 69879434.43972082,
+    "minimum_temperature": 709270.8332893208,
+    "nfev": 29,
+    "source_mass_rate": 1.2361504512500108e+23
+  },
+  "source_shape": "compact_c2"
+}

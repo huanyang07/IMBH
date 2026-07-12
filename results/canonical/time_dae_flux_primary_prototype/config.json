@@ -1,0 +1,16 @@
+{
+  "architecture": "flux_primary_low_mach_dae",
+  "backward_euler_meshes": [
+    16,
+    32
+  ],
+  "coupled_unknown_count": "2*Ni + 5*No + 5",
+  "outer_face_torque": "G = Mdot*l - J",
+  "small_rank_meshes": [
+    8,
+    12,
+    16
+  ],
+  "tide": false,
+  "wind": false
+}

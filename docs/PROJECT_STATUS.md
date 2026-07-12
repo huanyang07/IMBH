@@ -43,9 +43,10 @@ This is the canonical project handoff. Status labels mean:
 | Common-stress fixed-Keplerian reservoir | **DIAGNOSTIC ONLY** | Corrected `Rout=335 rg`; all `30-60 rg`, N64/N128/N256 roots close stress, energy, and conserved fluxes | Maximum primitive mismatch remains `0.20-0.30`, dominated by surface density |
 | Simultaneous non-Keplerian reservoir | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Corrected `Rout=335 rg`, `R_I=40 rg`, N256 root seeds the full coupled solve | The older multi-interface canonical sweep inherited a `10000 rg` numerical buffer and is superseded for physical interpretation; inner solution remains frozen |
 | Fully coupled inner/outer ideal-wall control | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Corrected finite `Rout=335 rg`; chained `96/64 -> 144/96 -> 192/128` roots; full-rank `772x772` systems at `34.97-50.05 rg`; luminosity spread `5.22e-5`; fixed-band `H/R` spread `0.284%` | Ideal zero-mass-flux wall remains a limiting control; stability, time evolution, and wind are pending |
-| Binary pattern-power wall continuation | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **REJECTED** physically | Paired torque/power identity closes to `1.7e-16`; 25%, 50%, and 75% stages solve numerically | Tidal-band `H/R` exceeds `0.3` at 25% power and reaches `0.61`; full-power step fails; confinement is outside the one-zone validity regime |
+| Binary pattern-power wall continuation | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Paired torque/power identity closes to `1.7e-16`; 25%, 50%, and 75% stages solve numerically | Tidal-band `H/R` exceeds `0.3` at 25% power and reaches `0.61`; this is a candidate transition to a thick inflow-outflow regime outside the one-zone validity domain |
 | Coupled open-overflow eigenvalue | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Full-rank `96/64` and `144/96` roots; inner/stream `0.16894`, overflow `0.83106`, stagnation near `222.18 rg`, Hill-band `H/R=0.0383` | Controlled `168/112` refinement fails in outer stress/energy endpoint cells; steady branch is not mesh certified |
-| Fully time-dependent total-energy signed-flux disk | **PLANNED** | Required to test accumulation, fronts, and limit cycles under physical feeding | Coupled mass+total-energy IMEX evolution not implemented |
+| Flux-primary time-dependent DAE | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Direct inner response, exact stream moments, cooling, resolved timestep comparison, eight accepted `16/8` steps, and bitwise restart | `24/16` evolved refinement fails the fixed gate; all interface remedies are closed; tide and wind remain blocked |
+| Global signed conservative descriptor | **DIAGNOSTIC ONLY** | Sparse local Jacobians have zero off-pattern defect at physical N64/N96; both steps pass below `1.3e-12`; N64 temporal gate passes | Evolved outer flux shifts by `0.02846` supply (`3.31%`) from N64 to N96; direct open-face flux reconstruction is pending; long evolution, tide, and wind remain blocked |
 
 ## Frozen Target Under Review
 
@@ -117,14 +118,37 @@ N                    = 164
 16. Pairing the wall torque with binary pattern-speed power makes the outer
     tidal band thick before full power is reached. At 25% differential work,
     the band reaches `H/R=0.432`; at 75% it reaches `0.609`. The full-power
-    solve fails, but the physical validity gate has already rejected perfect
-    confinement. The next steady problem must allow overflow and solve for
-    the inner accretion rate.
+    solve fails after the one-zone validity boundary has been crossed. This
+    is a candidate transition to a thick inflow-outflow state, not a physical
+    nonexistence result.
 17. The augmented open-boundary system is square and full rank. Its open root
     processes about `16.9%` of the stream inward and overflows `83.1%`, while
     remaining thin in the Hill band. It converges through `144/96` but fails
     the controlled `168/112` endpoint refinement, activating the declared
     conservative time-evolution fallback.
+18. The single endpoint-asymptotic retry also fails, closing steady open-edge
+    development. The selected time-dependent architecture is the
+    repository-compatible flux-primary DAE with explicit face `Mdot` and
+    angular flux. Small physical prototypes are full rank and conserve all
+    three global ledgers under accepted backward-Euler steps.
+19. The flux-primary DAE is now coupled directly to the re-solved inner
+    transonic core. It includes the absolute stream mass/angular/energy moments
+    and radiative cooling. A corrected, numerically complete colored sparsity
+    pattern and cross-interface first radial stencil support accepted `16/8`
+    and `24/16` steps with maximum residual below `3.2e-8` and independent
+    mass/angular/energy ledgers below `9e-9`.
+    A resolved three-level timestep comparison converges monotonically; long
+    evolution and evolved-mesh convergence are not yet certified.
+20. The `16/8` control now passes eight repeated steps through
+    `t/t_load=1e-7`, including a bitwise-identical restart continuation. The
+    `24/16` mesh accepts two subcycled steps but rejects the third at
+    `1.0466e-7`, localized in interface continuity and flux extraction while
+    all three global ledgers remain below `7.5e-9`. The radial row is no longer
+    controlling.
+21. The final boundary-eliminated interface test makes `Sigma,T` continuity
+    exact but fails the first `24/16` subcycled step at `1.271e-7` in the inner
+    transonic core. It is rejected and reverted. This closes further splice
+    conditioning and blocks tide and long evolution in the present hybrid DAE.
 
 ## Claims That Are Not Allowed Yet
 
@@ -136,14 +160,15 @@ N                    = 164
 
 ## Next Scientific Work
 
-1. Implement coupled conservative mass+energy IMEX evolution from the accepted
-   `144/96` open state, allowing accumulation and moving fronts.
-2. Verify mass, angular momentum, and total energy under open outflow before
-   adding any physical distributed tidal torque.
-3. Continue a physical tide only after the time-dependent open control is
-   mesh and timestep converged.
-4. Repeat validity-surface matching with a bordered global eigenvalue solve if
-   a mesh-stable critical layer appears.
+1. Stop further hybrid-interface conditioning. Do not scan residual weights or
+   relax the `1e-7` gate.
+2. Keep the split IMEX, grouped colored Jacobian, and iterative LSMR pilots
+   closed. Use certified local columns with exact factorization.
+3. Reconstruct conserved mass flux directly at the open face and repeat the
+   bounded conservative N64/N96 tiny-step comparison once. Do not begin long
+   loading evolution until that evolved-mesh gate passes.
+4. Continue one physical distributed tide only after the global no-tide model
+   passes; search for accumulation, fronts, hot phases, and limit cycles.
 5. Add wind only after the tidal and stability gates pass.
 
 ## Review Entry Points
@@ -174,3 +199,4 @@ N                    = 164
 - Coupled mesh/interface certification: `reports/current/CODEX_COUPLED_MESH_INTERFACE_CERTIFICATION_RESULTS_2026-07-11.md`
 - Coupled wall pattern-power gate: `reports/current/CODEX_COUPLED_WALL_PATTERN_POWER_RESULTS_2026-07-11.md`
 - Coupled open-overflow eigenvalue: `reports/current/CODEX_COUPLED_OPEN_OVERFLOW_RESULTS_2026-07-11.md`
+- Flux-primary time DAE selection: `reports/current/CODEX_TIME_DAE_BOUNDARY_AND_FLUX_PRIMARY_RESULTS_2026-07-12.md`

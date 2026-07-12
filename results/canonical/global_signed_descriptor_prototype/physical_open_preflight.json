@@ -1,0 +1,469 @@
+{
+  "conservative_N64_step": {
+    "initial": {
+      "active_source_cells": 4,
+      "inner_cell_radial_velocity_c": -0.015341572153876637,
+      "inner_mass_flux_over_supply": -0.1671959284334586,
+      "inner_radius_rg": 5.210237256314506,
+      "loading_time_seconds": 1517252.4419973027,
+      "mapping_mode": "conservative",
+      "maximum_H_over_R": 0.14100180945481633,
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "n_cells": 64,
+      "outer_cell_radial_velocity_c": 2.593629204177478e-06,
+      "outer_mass_flux_over_supply": 0.8608560922039032,
+      "radiative_luminosity_over_eddington": 0.478470337672587
+    },
+    "step": {
+      "all_steps_accepted": true,
+      "dt_over_loading_time": 1e-09,
+      "dt_seconds": 0.0015172524419973029,
+      "inner_mass_flux_over_supply": -0.16723183850174655,
+      "jacobian_audits": [
+        null
+      ],
+      "maximum_H_over_R": 0.14100180167688883,
+      "maximum_nfev": 13,
+      "maximum_scaled_residual": 1.2505713709811024e-12,
+      "maximum_storage_scaled_ledger_defect": 1.2183996619175853e-16,
+      "messages": [
+        "accepted"
+      ],
+      "minimum_surface_density": 661.5046239804162,
+      "minimum_temperature": 334844.6684061037,
+      "outer_mass_flux_over_supply": 0.8606900686744078,
+      "steps_accepted": 1,
+      "steps_attempted": 1
+    }
+  },
+  "conservative_N64_temporal_comparison": {
+    "inner_flux_difference": -9.370523026963617e-08,
+    "maximum_H_over_R_relative_difference": -1.4854006913367357e-11,
+    "outer_flux_difference": -9.452361116046859e-11
+  },
+  "conservative_N64_two_half_steps": {
+    "initial": {
+      "active_source_cells": 4,
+      "inner_cell_radial_velocity_c": -0.015341572153876637,
+      "inner_mass_flux_over_supply": -0.1671959284334586,
+      "inner_radius_rg": 5.210237256314506,
+      "loading_time_seconds": 1517252.4419973027,
+      "mapping_mode": "conservative",
+      "maximum_H_over_R": 0.14100180945481633,
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "n_cells": 64,
+      "outer_cell_radial_velocity_c": 2.593629204177478e-06,
+      "outer_mass_flux_over_supply": 0.8608560922039032,
+      "radiative_luminosity_over_eddington": 0.478470337672587
+    },
+    "step": {
+      "all_steps_accepted": true,
+      "dt_over_loading_time": 1e-09,
+      "dt_seconds": 0.0007586262209986514,
+      "inner_mass_flux_over_supply": -0.16723193220697682,
+      "jacobian_audits": [
+        null,
+        null
+      ],
+      "maximum_H_over_R": 0.1410018016747944,
+      "maximum_nfev": 13,
+      "maximum_scaled_residual": 5.038346968235007e-12,
+      "maximum_storage_scaled_ledger_defect": 2.831425426693327e-16,
+      "messages": [
+        "accepted",
+        "accepted"
+      ],
+      "minimum_surface_density": 661.5047568952021,
+      "minimum_temperature": 334844.66805787827,
+      "outer_mass_flux_over_supply": 0.8606900685798842,
+      "steps_accepted": 2,
+      "steps_attempted": 2
+    }
+  },
+  "conservative_mapping_only_meshes": [
+    {
+      "accepted": false,
+      "mapping_mode": "conservative",
+      "message": "cell 15 internal energy lies outside temperature bounds",
+      "n_cells": 16
+    },
+    {
+      "accepted": false,
+      "mapping_mode": "conservative",
+      "message": "cell 23 internal energy lies outside temperature bounds",
+      "n_cells": 24
+    },
+    {
+      "accepted": false,
+      "mapping_mode": "conservative",
+      "message": "cell 31 internal energy lies outside temperature bounds",
+      "n_cells": 32
+    },
+    {
+      "accepted": false,
+      "mapping_mode": "conservative",
+      "message": "cell 47 internal energy lies outside temperature bounds",
+      "n_cells": 48
+    },
+    {
+      "accepted": true,
+      "active_source_cells": 4,
+      "inner_cell_radial_velocity_c": -0.015341572153876637,
+      "inner_mass_flux_over_supply": -0.1671959284334586,
+      "mapping_mode": "conservative",
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "n_cells": 64,
+      "outer_cell_radial_velocity_c": 2.593629204177478e-06,
+      "outer_mass_flux_over_supply": 0.8608560922039032
+    },
+    {
+      "accepted": true,
+      "active_source_cells": 5,
+      "inner_cell_radial_velocity_c": -0.01698646069020995,
+      "inner_mass_flux_over_supply": -0.1686757257935856,
+      "mapping_mode": "conservative",
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "n_cells": 96,
+      "outer_cell_radial_velocity_c": 2.347632062571109e-06,
+      "outer_mass_flux_over_supply": 0.8326858338954788
+    },
+    {
+      "accepted": true,
+      "active_source_cells": 6,
+      "inner_cell_radial_velocity_c": -0.01776813542887546,
+      "inner_mass_flux_over_supply": -0.1687915622236061,
+      "mapping_mode": "conservative",
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "n_cells": 128,
+      "outer_cell_radial_velocity_c": 2.5434171606389916e-06,
+      "outer_mass_flux_over_supply": 0.8205406510929417
+    }
+  ],
+  "input_closure": {
+    "M2_g": 1.98847e+37,
+    "alpha": 0.01,
+    "circularization_radius_rg": 248.96693,
+    "outer_radius_rg": 335.0,
+    "source_center_rg": 240.0,
+    "source_log_width": 0.08,
+    "specific_angular_momentum": 7.041703861474777e+20,
+    "specific_radial_velocity": 0.0,
+    "specific_total_energy": -1.804850621893864e+18,
+    "stream_rate_over_eddington": 5.0,
+    "target_inner_outward_mass_flux_over_supply": -0.16893697666203364,
+    "target_outer_outward_mass_flux_over_supply": 0.8310630233379666
+  },
+  "mapping_only_conclusion": "Pointwise coarse mapping creates the boundary-flux sensitivity. Strict conservative remapping rejects N<=48 on thermal primitive recovery, while N64 and N96 are admissible and approach the canonical coupled boundary fluxes.",
+  "mesh_comparison_N16_N24_two_steps": {
+    "inner_flux_difference": -0.01850823199895782,
+    "maximum_H_over_R_relative_difference": 0.0012648220089581663,
+    "outer_flux_difference": -1.0675888616325504
+  },
+  "mesh_comparison_N24_N32_two_steps": {
+    "inner_flux_difference": -0.014464046783849493,
+    "maximum_H_over_R_relative_difference": 0.000703477191069668,
+    "outer_flux_difference": 0.08087373007589149
+  },
+  "pointwise_mapping_only_meshes": [
+    {
+      "accepted": true,
+      "active_source_cells": 2,
+      "inner_cell_radial_velocity_c": -0.005691053352955112,
+      "inner_mass_flux_over_supply": -0.12134921175092868,
+      "mapping_mode": "pointwise",
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "n_cells": 16,
+      "outer_cell_radial_velocity_c": 3.385028130156503e-06,
+      "outer_mass_flux_over_supply": 1.726138063361663
+    },
+    {
+      "accepted": true,
+      "active_source_cells": 2,
+      "inner_cell_radial_velocity_c": -0.008996707881593626,
+      "inner_mass_flux_over_supply": -0.1396293307728235,
+      "mapping_mode": "pointwise",
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "n_cells": 24,
+      "outer_cell_radial_velocity_c": 2.483284410087016e-06,
+      "outer_mass_flux_over_supply": 0.6585044265460048
+    },
+    {
+      "accepted": true,
+      "active_source_cells": 3,
+      "inner_cell_radial_velocity_c": -0.011734250531398078,
+      "inner_mass_flux_over_supply": -0.15399748084522327,
+      "mapping_mode": "pointwise",
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "n_cells": 32,
+      "outer_cell_radial_velocity_c": 2.8219590945509847e-06,
+      "outer_mass_flux_over_supply": 0.7393469801092586
+    },
+    {
+      "accepted": true,
+      "active_source_cells": 3,
+      "inner_cell_radial_velocity_c": -0.014471793181202982,
+      "inner_mass_flux_over_supply": -0.16505380013286605,
+      "mapping_mode": "pointwise",
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "n_cells": 48,
+      "outer_cell_radial_velocity_c": 2.495774723042357e-06,
+      "outer_mass_flux_over_supply": 0.8975475758025551
+    }
+  ],
+  "runs": [
+    {
+      "initial": {
+        "active_source_cells": 2,
+        "inner_cell_radial_velocity_c": -0.005691053352955112,
+        "inner_mass_flux_over_supply": -0.12134921175092868,
+        "inner_radius_rg": 5.210237256314506,
+        "loading_time_seconds": 1508534.6907721367,
+        "mapping_mode": "pointwise",
+        "maximum_H_over_R": 0.1409144606000965,
+        "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "n_cells": 16,
+        "outer_cell_radial_velocity_c": 3.385028130156503e-06,
+        "outer_mass_flux_over_supply": 1.726138063361663,
+        "radiative_luminosity_over_eddington": 0.48626183824068475
+      },
+      "step": {
+        "all_steps_accepted": true,
+        "dt_over_loading_time": 1e-09,
+        "dt_seconds": 0.0015085346907721367,
+        "inner_mass_flux_over_supply": -0.12099788209919059,
+        "jacobian_audits": [
+          null
+        ],
+        "maximum_H_over_R": 0.14091445223394858,
+        "maximum_nfev": 5,
+        "maximum_scaled_residual": 3.553438681508222e-14,
+        "maximum_storage_scaled_ledger_defect": 3.0738965252166396e-16,
+        "messages": [
+          "accepted"
+        ],
+        "minimum_surface_density": 1503.6461621546343,
+        "minimum_temperature": 1539873.9093073907,
+        "outer_mass_flux_over_supply": 1.7259508715894998,
+        "steps_accepted": 1,
+        "steps_attempted": 1
+      }
+    },
+    {
+      "initial": {
+        "active_source_cells": 2,
+        "inner_cell_radial_velocity_c": -0.005691053352955112,
+        "inner_mass_flux_over_supply": -0.12134921175092868,
+        "inner_radius_rg": 5.210237256314506,
+        "loading_time_seconds": 1508534.6907721367,
+        "mapping_mode": "pointwise",
+        "maximum_H_over_R": 0.1409144606000965,
+        "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "n_cells": 16,
+        "outer_cell_radial_velocity_c": 3.385028130156503e-06,
+        "outer_mass_flux_over_supply": 1.726138063361663,
+        "radiative_luminosity_over_eddington": 0.48626183824068475
+      },
+      "step": {
+        "all_steps_accepted": true,
+        "dt_over_loading_time": 1e-09,
+        "dt_seconds": 0.0007542673453860684,
+        "inner_mass_flux_over_supply": -0.12099791234728821,
+        "jacobian_audits": [
+          null,
+          null
+        ],
+        "maximum_H_over_R": 0.14091445223395815,
+        "maximum_nfev": 5,
+        "maximum_scaled_residual": 5.534991967631321e-13,
+        "maximum_storage_scaled_ledger_defect": 5.645945857888005e-16,
+        "messages": [
+          "accepted",
+          "accepted"
+        ],
+        "minimum_surface_density": 1503.6461824971698,
+        "minimum_temperature": 1539873.9093010856,
+        "outer_mass_flux_over_supply": 1.7259508715238965,
+        "steps_accepted": 2,
+        "steps_attempted": 2
+      }
+    },
+    {
+      "initial": {
+        "active_source_cells": 2,
+        "inner_cell_radial_velocity_c": -0.008996707881593626,
+        "inner_mass_flux_over_supply": -0.1396293307728235,
+        "inner_radius_rg": 5.210237256314506,
+        "loading_time_seconds": 1679583.356711139,
+        "mapping_mode": "pointwise",
+        "maximum_H_over_R": 0.14109269531807297,
+        "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "n_cells": 24,
+        "outer_cell_radial_velocity_c": 2.483284410087016e-06,
+        "outer_mass_flux_over_supply": 0.6585044265460048,
+        "radiative_luminosity_over_eddington": 0.48189664251291403
+      },
+      "step": {
+        "all_steps_accepted": true,
+        "dt_over_loading_time": 1e-09,
+        "dt_seconds": 0.0008397916783555695,
+        "inner_mass_flux_over_supply": -0.13950614434624603,
+        "jacobian_audits": [
+          null,
+          null
+        ],
+        "maximum_H_over_R": 0.14109268393452395,
+        "maximum_nfev": 5,
+        "maximum_scaled_residual": 8.844413121785483e-13,
+        "maximum_storage_scaled_ledger_defect": 3.222287025128828e-16,
+        "messages": [
+          "accepted",
+          "accepted"
+        ],
+        "minimum_surface_density": 1072.0589120415598,
+        "minimum_temperature": 1375863.9021342455,
+        "outer_mass_flux_over_supply": 0.658362009891346,
+        "steps_accepted": 2,
+        "steps_attempted": 2
+      }
+    },
+    {
+      "initial": {
+        "active_source_cells": 3,
+        "inner_cell_radial_velocity_c": -0.011734250531398078,
+        "inner_mass_flux_over_supply": -0.15399748084522327,
+        "inner_radius_rg": 5.210237256314506,
+        "loading_time_seconds": 1484619.9252733872,
+        "mapping_mode": "pointwise",
+        "maximum_H_over_R": 0.14119194689549755,
+        "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "n_cells": 32,
+        "outer_cell_radial_velocity_c": 2.8219590945509847e-06,
+        "outer_mass_flux_over_supply": 0.7393469801092586,
+        "radiative_luminosity_over_eddington": 0.4812859174758907
+      },
+      "step": {
+        "all_steps_accepted": true,
+        "dt_over_loading_time": 1e-09,
+        "dt_seconds": 0.0007423099626366937,
+        "inner_mass_flux_over_supply": -0.15397019113009552,
+        "jacobian_audits": [
+          null,
+          null
+        ],
+        "maximum_H_over_R": 0.1411919394194987,
+        "maximum_nfev": 7,
+        "maximum_scaled_residual": 1.5406116147548606e-12,
+        "maximum_storage_scaled_ledger_defect": 3.5590289832920995e-16,
+        "messages": [
+          "accepted",
+          "accepted"
+        ],
+        "minimum_surface_density": 876.1283325208555,
+        "minimum_temperature": 1278590.1446003208,
+        "outer_mass_flux_over_supply": 0.7392357399672375,
+        "steps_accepted": 2,
+        "steps_attempted": 2
+      }
+    }
+  ],
+  "sparse_evolved_N64_N96_comparison": {
+    "flux_mesh_gate_pass": false,
+    "inner_flux_difference_over_supply": -0.0014996598752878565,
+    "maximum_H_over_R_relative_difference": 0.0007470012037451568,
+    "outer_flux_difference_over_supply": -0.028462191067564424,
+    "outer_flux_relative_difference": -0.03306903623437929
+  },
+  "sparse_evolved_mesh_runs": [
+    {
+      "initial": {
+        "active_source_cells": 4,
+        "inner_cell_radial_velocity_c": -0.015341572153876637,
+        "inner_mass_flux_over_supply": -0.1671959284334586,
+        "inner_radius_rg": 5.210237256314506,
+        "loading_time_seconds": 1517252.4419973027,
+        "mapping_mode": "conservative",
+        "maximum_H_over_R": 0.14100180945481633,
+        "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "n_cells": 64,
+        "outer_cell_radial_velocity_c": 2.593629204177478e-06,
+        "outer_mass_flux_over_supply": 0.8608560922039032,
+        "radiative_luminosity_over_eddington": 0.478470337672587
+      },
+      "step": {
+        "all_steps_accepted": true,
+        "dt_over_loading_time": 1e-09,
+        "dt_seconds": 0.0015172524419973029,
+        "inner_mass_flux_over_supply": -0.16723183850174655,
+        "jacobian_audits": [
+          {
+            "accepted": true,
+            "directions": 256,
+            "maximum_absolute_defect": 0.0,
+            "maximum_relative_defect": 0.0,
+            "pattern_nonzeros": 2658
+          }
+        ],
+        "maximum_H_over_R": 0.14100180167688883,
+        "maximum_nfev": 13,
+        "maximum_scaled_residual": 1.2505944574667324e-12,
+        "maximum_storage_scaled_ledger_defect": 1.4482607313177266e-16,
+        "messages": [
+          "accepted"
+        ],
+        "minimum_surface_density": 661.5046239804162,
+        "minimum_temperature": 334844.6684061037,
+        "outer_mass_flux_over_supply": 0.860690068674408,
+        "steps_accepted": 1,
+        "steps_attempted": 1
+      }
+    },
+    {
+      "initial": {
+        "active_source_cells": 5,
+        "inner_cell_radial_velocity_c": -0.01698646069020995,
+        "inner_mass_flux_over_supply": -0.1686757257935856,
+        "inner_radius_rg": 5.210237256314506,
+        "loading_time_seconds": 1522807.7398162533,
+        "mapping_mode": "conservative",
+        "maximum_H_over_R": 0.1411071370680212,
+        "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "n_cells": 96,
+        "outer_cell_radial_velocity_c": 2.347632062571109e-06,
+        "outer_mass_flux_over_supply": 0.8326858338954788,
+        "radiative_luminosity_over_eddington": 0.47911679469884855
+      },
+      "step": {
+        "all_steps_accepted": true,
+        "dt_over_loading_time": 1e-09,
+        "dt_seconds": 0.0015228077398162533,
+        "inner_mass_flux_over_supply": -0.1687314983770344,
+        "jacobian_audits": [
+          {
+            "accepted": true,
+            "directions": 384,
+            "maximum_absolute_defect": 0.0,
+            "maximum_relative_defect": 0.0,
+            "pattern_nonzeros": 4003
+          }
+        ],
+        "maximum_H_over_R": 0.1411071301924717,
+        "maximum_nfev": 13,
+        "maximum_scaled_residual": 9.851565480423965e-13,
+        "maximum_storage_scaled_ledger_defect": 1.871872255228348e-16,
+        "messages": [
+          "accepted"
+        ],
+        "minimum_surface_density": 590.8836537117503,
+        "minimum_temperature": 137098.3605610427,
+        "outer_mass_flux_over_supply": 0.8322278776068436,
+        "steps_accepted": 1,
+        "steps_attempted": 1
+      }
+    }
+  ],
+  "temporal_comparison_N16": {
+    "inner_flux_difference": -3.0248097623863934e-08,
+    "maximum_H_over_R_relative_difference": 6.794564910705958e-14,
+    "outer_flux_difference": -6.560330056970543e-11
+  }
+}

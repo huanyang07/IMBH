@@ -1,0 +1,251 @@
+{
+  "algebraic_count": "4*(N+1)",
+  "all_ledger_gates_pass": true,
+  "all_primitive_recovery_gates_pass": true,
+  "all_radial_balance_gates_pass": true,
+  "all_rank_gates_pass": true,
+  "architecture": "one-domain four-conservation-law flux-primary DAE",
+  "common_stress_flux_audit": {
+    "alpha": 0.1,
+    "maximum_mass_flux_change": 0.0,
+    "maximum_radial_momentum_flux_change": 0.0,
+    "maximum_scaled_angular_pair_mismatch": 0.0,
+    "maximum_scaled_energy_pair_mismatch": 0.0,
+    "minimum_viscous_torque": 3.502866594321804e+42,
+    "outward_orientation": true,
+    "zero_torque_boundary_is_exact": true
+  },
+  "differential_count": "4*N",
+  "face_orientation": "outward positive",
+  "implicit_stress_audit": {
+    "all_steps_accepted": true,
+    "alpha": 0.1,
+    "error_ratio": 2.101044098850099,
+    "forced_rejection_returns_original_state": true,
+    "maximum_nfev": 5,
+    "maximum_relative_ledger_defect": 1.8010719522787687e-09,
+    "maximum_scaled_residual": 5.467602965396875e-15,
+    "maximum_storage_scaled_ledger_defect": 1.1844636822735692e-16,
+    "mesh_cells": 8,
+    "one_vs_two_step_error": 9.068103428275203e-09,
+    "total_time_seconds": 3.225007323404343,
+    "two_vs_four_step_error": 4.315998618609754e-09
+  },
+  "meshes": [
+    {
+      "algebraic_face_flux_variables": 36,
+      "backward_euler_rank": 68,
+      "condition_estimate": 10000.0,
+      "constant_pi_keplerian_balance_error": 8.248202117807239e-12,
+      "descriptor_rank": 32,
+      "differential_variables": 32,
+      "largest_singular_value": 10000.0,
+      "mass_flux_has_both_signs": true,
+      "mass_flux_has_zero_crossing": true,
+      "maximum_radial_velocity_round_trip_error_c": 0.0,
+      "maximum_relative_ledger_defect": 1.4853027661965168e-15,
+      "maximum_scaled_manufactured_residual": 1.0209545334793561e-16,
+      "maximum_surface_density_round_trip_error": 1.1102230246251565e-16,
+      "maximum_temperature_round_trip_error": 3.020916850005051e-12,
+      "n_cells": 8,
+      "pressure_supported_balance_error": 0.00018965849309304114,
+      "residuals": 68,
+      "smallest_singular_value": 1.0,
+      "unknowns": 68
+    },
+    {
+      "algebraic_face_flux_variables": 68,
+      "backward_euler_rank": 132,
+      "condition_estimate": 10000.0,
+      "constant_pi_keplerian_balance_error": 4.534603146903563e-12,
+      "descriptor_rank": 64,
+      "differential_variables": 64,
+      "largest_singular_value": 10000.0,
+      "mass_flux_has_both_signs": true,
+      "mass_flux_has_zero_crossing": true,
+      "maximum_radial_velocity_round_trip_error_c": 2.485246175513804e-19,
+      "maximum_relative_ledger_defect": 6.990935608186533e-16,
+      "maximum_scaled_manufactured_residual": 8.540400383698478e-17,
+      "maximum_surface_density_round_trip_error": 2.220446049250313e-16,
+      "maximum_temperature_round_trip_error": 4.585554158609284e-12,
+      "n_cells": 16,
+      "pressure_supported_balance_error": 2.4869415190286504e-05,
+      "residuals": 132,
+      "smallest_singular_value": 1.0,
+      "unknowns": 132
+    },
+    {
+      "algebraic_face_flux_variables": 132,
+      "backward_euler_rank": 260,
+      "condition_estimate": 10000.0,
+      "constant_pi_keplerian_balance_error": 1.0720310124581379e-11,
+      "descriptor_rank": 128,
+      "differential_variables": 128,
+      "largest_singular_value": 10000.0,
+      "mass_flux_has_both_signs": true,
+      "mass_flux_has_zero_crossing": true,
+      "maximum_radial_velocity_round_trip_error_c": 2.485246175513804e-19,
+      "maximum_relative_ledger_defect": 1.5692742244555191e-15,
+      "maximum_scaled_manufactured_residual": 9.272317913244387e-17,
+      "maximum_surface_density_round_trip_error": 1.1102230246251565e-16,
+      "maximum_temperature_round_trip_error": 4.463318603598054e-12,
+      "n_cells": 32,
+      "pressure_supported_balance_error": 3.1888852220425757e-06,
+      "residuals": 260,
+      "smallest_singular_value": 1.0,
+      "unknowns": 260
+    }
+  ],
+  "monolithic_backward_euler_audit": {
+    "alpha": 0.1,
+    "colored_jacobian_audit": {
+      "accepted": false,
+      "colored_nfev": 39,
+      "dense_nfev": 96,
+      "maximum_omega_fraction": 2.6566509769843094e-07,
+      "maximum_radial_velocity_difference_c": 5.004028181279457e-08,
+      "maximum_surface_density_fraction": 3.136499104883228e-08,
+      "maximum_temperature_fraction": 0.00236455225881671,
+      "pattern_nonzeros": 352,
+      "pattern_shape": [
+        32,
+        32
+      ]
+    },
+    "runs": [
+      {
+        "maximum_H_over_R": 0.003169640048059894,
+        "maximum_nfev": 96,
+        "maximum_radial_velocity_c": 4.740291136493094e-07,
+        "maximum_scaled_residual": 5.241278607864912e-09,
+        "maximum_storage_scaled_ledger_defect": 3.505759898642943e-09,
+        "maximum_surface_density": 115908095.08835942,
+        "minimum_omega": 0.019541371576648762,
+        "minimum_surface_density": 84999925.72604892,
+        "minimum_temperature": 678492.1489340244,
+        "n_cells": 8,
+        "remaining_mass_fraction": 0.9999999799882793,
+        "step_seconds": 0.6450014646808686,
+        "steps_accepted": 4,
+        "steps_attempted": 4
+      },
+      {
+        "maximum_H_over_R": 0.003169410561650629,
+        "maximum_nfev": 81,
+        "maximum_radial_velocity_c": 4.3629888367231115e-07,
+        "maximum_scaled_residual": 2.5059659114661855e-09,
+        "maximum_storage_scaled_ledger_defect": 1.5661336436042591e-09,
+        "maximum_surface_density": 115908095.00301918,
+        "minimum_omega": 0.019541371607879103,
+        "minimum_surface_density": 84999940.37466696,
+        "minimum_temperature": 678393.9219789185,
+        "n_cells": 8,
+        "remaining_mass_fraction": 0.9999999835507759,
+        "step_seconds": 0.3225007323404343,
+        "steps_accepted": 8,
+        "steps_attempted": 8
+      },
+      {
+        "maximum_H_over_R": 0.0032474225715758273,
+        "maximum_nfev": 115,
+        "maximum_radial_velocity_c": 1.0107756154333517e-06,
+        "maximum_scaled_residual": 7.239857607339801e-10,
+        "maximum_storage_scaled_ledger_defect": 5.992735761200004e-12,
+        "maximum_surface_density": 117107698.90328822,
+        "minimum_omega": 0.017518171221477474,
+        "minimum_surface_density": 83917893.68978027,
+        "minimum_temperature": 660951.7795546027,
+        "n_cells": 16,
+        "remaining_mass_fraction": 0.9999999709566006,
+        "step_seconds": 0.3225007323404343,
+        "steps_accepted": 8,
+        "steps_attempted": 8
+      }
+    ],
+    "split_imex_rejected_state_unchanged": true,
+    "split_imex_steps_before_rejection": 2,
+    "temporal_differences_4_vs_8": {
+      "maximum_omega_fraction": 2.366675255771611e-08,
+      "maximum_radial_velocity_difference_c": 3.773022997699823e-08,
+      "maximum_surface_density_fraction": 2.171019856112011e-07,
+      "maximum_temperature_fraction": 0.0001447933890965647
+    },
+    "total_time_seconds": 2.5800058587234744
+  },
+  "physics_status": "manufactured conservation and rank prototype only",
+  "radial_balance_error_ratios": [
+    7.626174224117579,
+    7.798780281705124
+  ],
+  "radiative_cooling_audit": {
+    "all_local_steps_accepted": true,
+    "local_error_ratio": 1.917753055322978,
+    "local_one_vs_two_error": 0.00033622468765126534,
+    "local_total_time_seconds": 7482932.631298849,
+    "local_two_vs_four_error": 0.0001753222015306033,
+    "maximum_local_storage_scaled_ledger_defect": 7.508624999567575e-17,
+    "maximum_monolithic_temperature_drop": 0.0010814610868692398,
+    "minimum_monolithic_temperature_drop": 5.1254406571388245e-05,
+    "monolithic_adiabatic_accepted": true,
+    "monolithic_cooled_accepted": true,
+    "monolithic_cooled_maximum_residual": 7.293510497358108e-10,
+    "monolithic_cooled_storage_scaled_ledger_defect": 3.324262365331841e-15,
+    "monolithic_step_seconds": 10.0
+  },
+  "rusanov_audit": {
+    "accepted_cfl": 0.005,
+    "accepted_maximum_relative_ledger_defect": 3.6887626897683074e-14,
+    "accepted_step": true,
+    "inner_unconfigured_inflow_blocked": true,
+    "maximum_equilibrium_corrected_flux_difference": 0.0,
+    "outer_unconfigured_inflow_blocked": true,
+    "rejected_state_is_unchanged": true,
+    "ten_times_larger_step_rejected": true
+  },
+  "sonic_treatment": "emerges dynamically from radial momentum",
+  "source_free_mesh_audit": {
+    "all_interior_mesh_gates_pass": true,
+    "interior_drift_ratios": [
+      3.09237817204292,
+      3.5127300436176028
+    ],
+    "meshes": [
+      {
+        "all_steps_accepted": true,
+        "interior_radial_velocity_c": 1.514535916193973e-11,
+        "maximum_drift_cell": 15,
+        "maximum_radial_velocity_c": 3.0228639860543613e-10,
+        "n_cells": 16
+      },
+      {
+        "all_steps_accepted": true,
+        "interior_radial_velocity_c": 4.89764133599942e-12,
+        "maximum_drift_cell": 31,
+        "maximum_radial_velocity_c": 2.785624588439665e-10,
+        "n_cells": 32
+      },
+      {
+        "all_steps_accepted": true,
+        "interior_radial_velocity_c": 1.3942549741042893e-12,
+        "maximum_drift_cell": 63,
+        "maximum_radial_velocity_c": 2.6740669011287515e-10,
+        "n_cells": 64
+      }
+    ],
+    "open_edge_response_is_bounded": true,
+    "steps_per_mesh": 4,
+    "total_time_seconds": 0.17238923022844077
+  },
+  "source_free_temporal_audit": {
+    "all_steps_accepted": true,
+    "error_ratio": 2.0008374146121963,
+    "full_step_cfl": 0.02,
+    "maximum_relative_ledger_defect": 6.136013813463602e-05,
+    "maximum_storage_scaled_ledger_defect": 2.8724419534488016e-17,
+    "mesh_cells": 32,
+    "one_vs_two_step_error": 2.425510725675865e-06,
+    "total_time_seconds": 1.409840810895317,
+    "two_vs_four_step_error": 1.2122477858332028e-06
+  },
+  "state_count": "8*N + 4"
+}

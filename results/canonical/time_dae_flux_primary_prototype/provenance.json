@@ -1,0 +1,13 @@
+{
+  "claim_scope": "outer-only flux-primary DAE architecture prototype",
+  "generation_commands": [
+    "python scripts/run_coupled_open_edge_asymptotic_audit.py",
+    "python scripts/run_time_dae_boundary_rank_prototype.py",
+    "python scripts/run_time_dae_flux_primary_rank_prototype.py",
+    "python scripts/run_time_dae_flux_primary_step_prototype.py"
+  ],
+  "numerical_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
+  "packaging_command": "python scripts/build_time_dae_flux_primary_canonical.py",
+  "physical_status": "DIAGNOSTIC ONLY",
+  "source_parent_commit": "b9b1bc1"
+}

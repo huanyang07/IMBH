@@ -20,6 +20,7 @@ from .signed_flux_common_stress import (
 )
 from .signed_flux_disk import SignedFluxTransport
 from .signed_flux_thermal import SignedThermalClosure
+from .time_dae_boundary import remap_zero_torque_thermodynamics
 from .transonic_collocation import (
     TransonicSlimParams,
     computational_grid,
@@ -58,6 +59,7 @@ class CoupledInnerOuterContext:
     wall_pattern_omega: float | None = None
     wall_pattern_power_fraction: float = 0.0
     wall_power_weights: np.ndarray | None = None
+    interface_stencil_fraction: float = 0.0
 
     def __post_init__(self) -> None:
         if not 0.0 <= self.coupling_fraction <= 1.0:
@@ -68,6 +70,8 @@ class CoupledInnerOuterContext:
             raise ValueError("interface flux scales must be positive")
         if not 0.0 <= self.wall_pattern_power_fraction <= 1.0:
             raise ValueError("wall_pattern_power_fraction must lie in [0,1]")
+        if not 0.0 <= self.interface_stencil_fraction <= 1.0:
+            raise ValueError("interface_stencil_fraction must lie in [0,1]")
         if self.wall_pattern_omega is not None and (
             not np.isfinite(self.wall_pattern_omega)
             or self.wall_pattern_omega <= 0.0
@@ -197,6 +201,42 @@ def _inner_endpoint_flux(endpoint, params: TransonicSlimParams):
     )
 
 
+def _cross_interface_radial_residual(
+    endpoint,
+    sigma,
+    omega,
+    outer_grid: RadialGrid,
+    energy_profile,
+    potential: PaczynskiWiitaPotential,
+) -> float:
+    """Evaluate radial force in cell zero with the inner endpoint as a ghost."""
+
+    log_radius = np.log(outer_grid.centers)
+    extended_radius = np.concatenate(([np.log(endpoint.R)], log_radius))
+    radial_velocity = np.asarray(energy_profile.radial_velocity, dtype=float)
+    pressure = np.asarray(
+        energy_profile.vertically_integrated_pressure, dtype=float
+    )
+    inertia = 0.5 * np.gradient(
+        np.concatenate(([(-endpoint.u) ** 2], radial_velocity**2)),
+        extended_radius,
+        edge_order=2,
+    )[1]
+    pressure_gradient = np.gradient(
+        np.concatenate(([endpoint.Pi], pressure)),
+        extended_radius,
+        edge_order=2,
+    )[1]
+    omega_k = float(potential.omega_k(outer_grid.centers[0]))
+    radius = float(outer_grid.centers[0])
+    return float(
+        (
+            inertia
+            - radius**2 * (omega[0] ** 2 - omega_k**2)
+            + pressure_gradient / sigma[0]
+        )
+        / (radius**2 * omega_k**2)
+    )
 def canonical_anchor_inner_residual(
     inner_state,
     params: TransonicSlimParams,
@@ -397,8 +437,13 @@ def interpolate_coupled_state_components(
     source_context: CoupledInnerOuterContext,
     target_inner_params: TransonicSlimParams,
     target_outer_grid: RadialGrid,
+    *,
+    outer_remap: str = "log_primitives",
 ):
     """Interpolate a complete coupled root onto new inner and outer meshes."""
+
+    if outer_remap not in {"log_primitives", "zero_torque"}:
+        raise ValueError("outer_remap must be log_primitives or zero_torque")
 
     (
         inner_state,
@@ -432,10 +477,31 @@ def interpolate_coupled_state_components(
             )
         )
 
+    if outer_remap == "zero_torque":
+        if source_context.mu_stress != 0.0:
+            raise ValueError(
+                "zero_torque remap currently requires total-pressure stress"
+            )
+        remap = remap_zero_torque_thermodynamics(
+            source_context.outer_grid,
+            target_outer_grid,
+            sigma,
+            temperature,
+            source_context.inner_params.M2_g,
+            alpha=source_context.alpha,
+            closure=source_context.outer_closure,
+            stress_factor=source_context.stress_factor,
+        )
+        target_sigma = remap.surface_density
+        target_temperature = remap.temperature
+    else:
+        target_sigma = positive_interpolate(sigma)
+        target_temperature = positive_interpolate(temperature)
+
     return (
         target_inner_state,
-        positive_interpolate(sigma),
-        positive_interpolate(temperature),
+        target_sigma,
+        target_temperature,
         positive_interpolate(omega),
         interface_angular,
         interface_energy,
@@ -589,6 +655,21 @@ def evaluate_coupled_inner_outer_residual(
             wall_power_weights=context.wall_power_weights,
         )
     )
+    if context.interface_stencil_fraction > 0.0:
+        potential = PaczynskiWiitaPotential(params.M2_g)
+        cross_radial = _cross_interface_radial_residual(
+            endpoint,
+            sigma,
+            omega,
+            context.outer_grid,
+            energy_profile,
+            potential,
+        )
+        outer_radial = np.array(outer_radial, copy=True)
+        fraction = context.interface_stencil_fraction
+        outer_radial[0] = (
+            (1.0 - fraction) * outer_radial[0] + fraction * cross_radial
+        )
     flux_rows = np.asarray(
         [
             (interface_angular - extracted.angular_momentum)
@@ -700,6 +781,11 @@ def coupled_jacobian_sparsity(context: CoupledInnerOuterContext):
                 pattern[residual_row, omega_start + neighbor] = 1
             pattern[residual_row, j_col] = 1
             pattern[residual_row, e_col] = 1
+
+    if context.interface_stencil_fraction > 0.0:
+        first_radial = rows["outer_radial"].start
+        for column in (ni - 1, 2 * ni - 1, 2 * ni + 1):
+            pattern[first_radial, column] = 1
 
     for residual_row in range(rows["flux_extraction"].start, size):
         for col in (ni - 1, 2 * ni - 1, 2 * ni, 2 * ni + 1, j_col, e_col):

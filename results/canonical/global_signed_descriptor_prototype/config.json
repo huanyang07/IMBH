@@ -1,0 +1,35 @@
+{
+  "algebraic_fields": [
+    "face_mass_flux",
+    "face_radial_momentum_flux",
+    "face_angular_momentum_flux",
+    "face_total_energy_flux"
+  ],
+  "architecture": "one_domain_flux_primary_conservative_evolution",
+  "common_stress": "shared alpha stress with outward +G and +Omega*G flux pairing; monolithic physical-state backward Euler with thermal-energy scaling and a rejected colored-sparsity audit",
+  "differential_fields": [
+    "cell_mass",
+    "cell_radial_momentum",
+    "cell_angular_momentum",
+    "cell_total_energy"
+  ],
+  "inviscid_radial_operator": "smooth reconstructed Euler flux with paired cylindrical source",
+  "meshes": [
+    8,
+    16,
+    32
+  ],
+  "physical_open_remap": "eight-point conservative annular remap; N64 temporal gate; certified sparse N64/N96 evolved comparison",
+  "primitive_recovery": "shared Paczynski-Wiita potential and one-zone vertical closure",
+  "radiative_cooling": "shared two-face diffusion sink, implicit",
+  "shock_flux": "gravity-compatible residual-equilibrium Rusanov diagnostic",
+  "source_free_meshes": [
+    16,
+    32,
+    64
+  ],
+  "state_count": "8*N + 4",
+  "stream_source": "exact compact-C2 cell moments for one constant injected state",
+  "tide": false,
+  "wind": false
+}

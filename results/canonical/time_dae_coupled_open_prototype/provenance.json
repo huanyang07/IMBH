@@ -1,0 +1,8 @@
+{
+  "claim_scope": "accepted small-mesh direct inner-outer backward-Euler steps, resolved timestep convergence, coarse restart control, and a cross-interface radial stencil; fine evolved-mesh and long evolution are not certified",
+  "generation_command": "python scripts/run_time_dae_coupled_open_evolution.py; python scripts/run_time_dae_coupled_open_repeated.py; python scripts/run_time_dae_coupled_open_evolved_mesh.py",
+  "numerical_status": "SUPPORTED BUT NOT FULLY CERTIFIED",
+  "packaging_command": "python scripts/build_time_dae_coupled_open_canonical.py",
+  "physical_status": "DIAGNOSTIC ONLY",
+  "source_parent_commit": "b9b1bc1"
+}
