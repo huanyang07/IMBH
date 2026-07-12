@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from dataclasses import replace
+
 import numpy as np
+import pytest
 
 from imri_qpe.constants import C, M_SUN
 from imri_qpe.layer3_minidisk_1d.global_signed_evolution import (
@@ -9,6 +12,7 @@ from imri_qpe.layer3_minidisk_1d.global_signed_evolution import (
     GlobalFaceFluxes,
     GlobalFluxPrimaryLayout,
     add_global_alpha_stress_fluxes,
+    apply_global_reference_characteristic_inner_flux,
     advance_global_alpha_stress_backward_euler,
     advance_global_backward_euler,
     advance_global_radiative_cooling_backward_euler,
@@ -24,7 +28,11 @@ from imri_qpe.layer3_minidisk_1d.global_signed_evolution import (
     evaluate_global_inviscid_profile,
     evaluate_global_rusanov_profile,
     global_inviscid_cfl_timestep,
+    global_inner_characteristic_audit,
+    global_outer_characteristic_audit,
     global_radiative_cooling_rate_cells,
+    global_temporal_vertical_work_cells,
+    global_vertical_work_rate_cells,
     manufactured_backward_euler_jacobian,
     pack_global_flux_primary_state,
     recover_global_primitives,
@@ -37,6 +45,9 @@ from imri_qpe.layer3_minidisk_1d.signed_flux_common_stress import (
     positive_edge_reconstruction,
 )
 from imri_qpe.layer3_minidisk_1d.signed_flux_thermal import SignedThermalClosure
+from imri_qpe.layer3_minidisk_1d.signed_flux_total_energy import (
+    signed_vertical_work_rate_cells,
+)
 from imri_qpe.layer3_minidisk_1d.time_dae_boundary import (
     recover_thermodynamics_from_pi_beta,
 )
@@ -193,6 +204,42 @@ def test_thermodynamic_primitive_recovery_round_trip() -> None:
     np.testing.assert_allclose(recovered.temperature, temperature, rtol=2.0e-11)
 
 
+def test_mechanical_reference_correction_preserves_thermal_round_trip() -> None:
+    mass = 1.0e4 * M_SUN
+    potential = PaczynskiWiitaPotential(mass)
+    grid = make_log_grid(6.2 * potential.r_g, 300.0 * potential.r_g, 10)
+    sigma = np.geomspace(1.0e4, 3.0e6, grid.centers.size)
+    radial_velocity = C * np.linspace(-2.0e-3, 2.0e-3, grid.centers.size)
+    omega = 0.82 * potential.omega_k(grid.centers)
+    temperature = np.geomspace(2.0e6, 2.0e8, grid.centers.size)
+    correction = np.linspace(-3.0e16, 2.0e16, grid.centers.size)
+    baseline = state_from_thermodynamic_primitives(
+        grid, sigma, radial_velocity, omega, temperature, mass
+    )
+    corrected = state_from_thermodynamic_primitives(
+        grid,
+        sigma,
+        radial_velocity,
+        omega,
+        temperature,
+        mass,
+        specific_mechanical_energy_correction=correction,
+    )
+    assert not np.array_equal(corrected.total_energy, baseline.total_energy)
+    recovered = recover_global_primitives(
+        grid,
+        corrected,
+        mass,
+        specific_mechanical_energy_correction=correction,
+    )
+    np.testing.assert_allclose(recovered.surface_density, sigma, rtol=1.0e-14)
+    np.testing.assert_allclose(
+        recovered.radial_velocity, radial_velocity, rtol=1.0e-14, atol=1.0e-8
+    )
+    np.testing.assert_allclose(recovered.omega, omega, rtol=1.0e-14)
+    np.testing.assert_allclose(recovered.temperature, temperature, rtol=2.0e-11)
+
+
 def test_primitive_recovery_rejects_nonphysical_internal_energy() -> None:
     mass = 1.0e4 * M_SUN
     potential = PaczynskiWiitaPotential(mass)
@@ -332,6 +379,420 @@ def test_equilibrium_corrected_rusanov_recovers_smooth_reference_flux() -> None:
             rtol=2.0e-15,
             atol=0.0,
         )
+
+
+def test_conserved_donor_outer_face_uses_one_shared_mass_flux() -> None:
+    grid, state, mass, _residual = _manufactured_rotating_equilibrium(16, -0.25)
+    base = recover_global_primitives(grid, state, mass)
+    radial_velocity = np.geomspace(1.0e5, 2.0e5, grid.centers.size)
+    state = state_from_thermodynamic_primitives(
+        grid,
+        base.surface_density,
+        radial_velocity,
+        base.omega,
+        base.temperature,
+        mass,
+    )
+    primitives = recover_global_primitives(grid, state, mass)
+    legacy = evaluate_global_rusanov_profile(
+        grid,
+        state,
+        mass,
+        reference_state=state,
+        boundary_mode="open_no_inflow",
+        alpha=0.1,
+        stress_boundary_mode="outer_zero_torque",
+    )
+    donor = evaluate_global_rusanov_profile(
+        grid,
+        state,
+        mass,
+        reference_state=state,
+        boundary_mode="open_no_inflow",
+        alpha=0.1,
+        stress_boundary_mode="outer_zero_torque",
+        open_face_reconstruction="conserved_donor",
+    )
+    expected_mass = (
+        2.0
+        * np.pi
+        * grid.centers[-1]
+        * primitives.surface_density[-1]
+        * primitives.radial_velocity[-1]
+    )
+    expected_l = grid.centers[-1] ** 2 * primitives.omega[-1]
+    expected_bernoulli = (
+        primitives.specific_total_energy[-1]
+        + primitives.vertical.Pi[-1] / primitives.surface_density[-1]
+    )
+    expected_radial = (
+        expected_mass * primitives.radial_velocity[-1]
+        + 2.0 * np.pi * grid.edges[-1] * primitives.vertical.Pi[-1]
+    )
+    assert donor.viscous_torque_faces[-1] == 0.0
+    assert donor.face_fluxes.mass[-1] == expected_mass
+    assert donor.face_fluxes.radial_momentum[-1] == expected_radial
+    assert donor.face_fluxes.angular_momentum[-1] == expected_mass * expected_l
+    assert donor.face_fluxes.total_energy[-1] == expected_mass * expected_bernoulli
+    assert legacy.face_fluxes.mass[-1] != donor.face_fluxes.mass[-1]
+
+
+def test_outer_characteristic_audit_counts_subsonic_exterior_condition() -> None:
+    grid, state, mass, _residual = _manufactured_rotating_equilibrium(16, -0.25)
+    primitives = recover_global_primitives(grid, state, mass)
+    sound_speed = global_outer_characteristic_audit(
+        primitives
+    ).effective_sound_speed
+    subsonic = state_from_thermodynamic_primitives(
+        grid,
+        primitives.surface_density,
+        np.full(grid.centers.size, 0.1 * sound_speed),
+        primitives.omega,
+        primitives.temperature,
+        mass,
+    )
+    audit = global_outer_characteristic_audit(
+        recover_global_primitives(grid, subsonic, mass)
+    )
+    assert 0.0 < audit.radial_mach_number < 1.0
+    assert audit.incoming_characteristics == 1
+    assert audit.eigenvalues[0] < 0.0
+    assert all(value > 0.0 for value in audit.eigenvalues[1:])
+
+
+def test_outer_characteristic_audit_counts_supersonic_outflow() -> None:
+    grid, state, mass, _residual = _manufactured_rotating_equilibrium(16, -0.25)
+    primitives = recover_global_primitives(grid, state, mass)
+    sound_speed = global_outer_characteristic_audit(
+        primitives
+    ).effective_sound_speed
+    supersonic = state_from_thermodynamic_primitives(
+        grid,
+        primitives.surface_density,
+        np.full(grid.centers.size, 1.1 * sound_speed),
+        primitives.omega,
+        primitives.temperature,
+        mass,
+    )
+    audit = global_outer_characteristic_audit(
+        recover_global_primitives(grid, supersonic, mass)
+    )
+    assert audit.radial_mach_number > 1.0
+    assert audit.incoming_characteristics == 0
+    assert all(value > 0.0 for value in audit.eigenvalues)
+
+
+def test_inner_characteristic_audit_counts_subsonic_acoustic_input() -> None:
+    grid, state, mass, _residual = _manufactured_rotating_equilibrium(16, -0.25)
+    primitives = recover_global_primitives(grid, state, mass)
+    sound_speed = global_inner_characteristic_audit(
+        primitives
+    ).effective_sound_speed
+    inflow = state_from_thermodynamic_primitives(
+        grid,
+        primitives.surface_density,
+        np.full(grid.centers.size, -0.8 * sound_speed),
+        primitives.omega,
+        primitives.temperature,
+        mass,
+    )
+    audit = global_inner_characteristic_audit(
+        recover_global_primitives(grid, inflow, mass)
+    )
+    assert -1.0 < audit.radial_mach_number < 0.0
+    assert audit.incoming_characteristics == 1
+    assert all(value < 0.0 for value in audit.eigenvalues[:3])
+    assert audit.eigenvalues[3] > 0.0
+
+
+def test_reference_characteristic_inner_flux_preserves_reference_exactly() -> None:
+    grid, state, mass, _residual = _manufactured_rotating_equilibrium(16, -0.25)
+    primitives = recover_global_primitives(grid, state, mass)
+    base = evaluate_global_rusanov_profile(
+        grid,
+        state,
+        mass,
+        reference_state=state,
+        boundary_mode="open_no_inflow",
+    )
+    selected = evaluate_global_rusanov_profile(
+        grid,
+        state,
+        mass,
+        reference_state=state,
+        boundary_mode="characteristic_inner_open_outer",
+    )
+    for name in ("mass", "radial_momentum", "angular_momentum", "total_energy"):
+        np.testing.assert_array_equal(
+            getattr(selected.face_fluxes, name), getattr(base.face_fluxes, name)
+        )
+    assert selected.inner_characteristic_projection.incoming_amplitude_after == 0.0
+    assert primitives.radial_velocity[0] == 0.0
+
+
+def test_reference_characteristic_inner_flux_removes_only_incoming_acoustic_mode() -> None:
+    grid, reference_state, mass, _residual = _manufactured_rotating_equilibrium(
+        16, -0.25
+    )
+    reference = recover_global_primitives(grid, reference_state, mass)
+    perturbed = state_from_thermodynamic_primitives(
+        grid,
+        reference.surface_density,
+        np.concatenate(([-2.0e5], np.zeros(grid.centers.size - 1))),
+        reference.omega,
+        np.concatenate(
+            (([1.03 * reference.temperature[0]]), reference.temperature[1:])
+        ),
+        mass,
+    )
+    primitives = recover_global_primitives(grid, perturbed, mass)
+    raw = evaluate_global_rusanov_profile(
+        grid,
+        perturbed,
+        mass,
+        boundary_mode="transmissive",
+    )
+    corrected, audit = apply_global_reference_characteristic_inner_flux(
+        grid,
+        raw.face_fluxes,
+        primitives,
+        reference,
+        mass,
+    )
+    scale = max(abs(audit.incoming_amplitude_before), 1.0)
+    assert abs(audit.incoming_amplitude_after) < 5.0e-10 * scale
+    assert audit.outgoing_amplitude_after == pytest.approx(
+        audit.outgoing_amplitude_before, rel=2.0e-10
+    )
+    assert corrected.mass[0] < 0.0
+    projected_l = grid.centers[0] ** 2 * primitives.omega[0]
+    assert corrected.angular_momentum[0] / corrected.mass[0] == pytest.approx(
+        projected_l, rel=2.0e-10
+    )
+    potential = PaczynskiWiitaPotential(mass)
+    projected_vertical = vertical_state(
+        primitives.surface_density[0],
+        audit.projected_temperature,
+        grid.centers[0],
+        potential,
+    )
+    projected_bernoulli = (
+        potential.phi(grid.centers[0])
+        + 0.5 * audit.projected_radial_velocity**2
+        + 0.5 * (grid.centers[0] * primitives.omega[0]) ** 2
+        + projected_vertical.e
+        + projected_vertical.Pi / primitives.surface_density[0]
+    )
+    assert corrected.total_energy[0] / corrected.mass[0] == pytest.approx(
+        projected_bernoulli, rel=2.0e-10
+    )
+    expected_radial = (
+        corrected.mass[0] * audit.projected_radial_velocity
+        + 2.0 * np.pi * grid.edges[0] * projected_vertical.Pi
+    )
+    assert corrected.radial_momentum[0] == pytest.approx(
+        expected_radial, rel=2.0e-10
+    )
+
+
+def test_reference_characteristic_inner_flux_does_not_reflect_outgoing_mode() -> None:
+    grid, reference_state, mass, _residual = _manufactured_rotating_equilibrium(
+        16, -0.25
+    )
+    reference = recover_global_primitives(grid, reference_state, mass)
+    temperature = np.array(reference.temperature, copy=True)
+    temperature[0] *= 1.01
+    thermal_trial = state_from_thermodynamic_primitives(
+        grid,
+        reference.surface_density,
+        reference.radial_velocity,
+        reference.omega,
+        temperature,
+        mass,
+    )
+    thermal = recover_global_primitives(grid, thermal_trial, mass)
+    sound_speed = global_inner_characteristic_audit(
+        reference
+    ).effective_sound_speed
+    pressure_velocity = (
+        thermal.vertical.Pi[0] - reference.vertical.Pi[0]
+    ) / (reference.surface_density[0] * sound_speed)
+    velocity = np.array(reference.radial_velocity, copy=True)
+    velocity[0] -= pressure_velocity
+    outgoing_state = state_from_thermodynamic_primitives(
+        grid,
+        reference.surface_density,
+        velocity,
+        reference.omega,
+        temperature,
+        mass,
+    )
+    outgoing = recover_global_primitives(grid, outgoing_state, mass)
+    raw = evaluate_global_rusanov_profile(
+        grid, outgoing_state, mass, boundary_mode="transmissive"
+    )
+    corrected, audit = apply_global_reference_characteristic_inner_flux(
+        grid, raw.face_fluxes, outgoing, reference, mass
+    )
+    scale = max(abs(audit.outgoing_amplitude_before), 1.0)
+    assert abs(audit.incoming_amplitude_before) < 2.0e-8 * scale
+    assert abs(audit.incoming_amplitude_after) < 2.0e-8 * scale
+    assert abs(
+        audit.outgoing_amplitude_after - audit.outgoing_amplitude_before
+    ) < 2.0e-8 * scale
+    for name in ("mass", "radial_momentum", "angular_momentum", "total_energy"):
+        np.testing.assert_allclose(
+            getattr(corrected, name)[0],
+            getattr(raw.face_fluxes, name)[0],
+            rtol=2.0e-8,
+            atol=0.0,
+        )
+
+
+def test_global_radial_column_work_matches_certified_inward_flux_form() -> None:
+    grid, state, mass, _residual = _manufactured_rotating_equilibrium(32, -0.25)
+    primitives = recover_global_primitives(grid, state, mass)
+    inward_faces = np.geomspace(2.0e18, 3.0e18, grid.edges.size)
+    outward_faces = -inward_faces
+    global_work = global_vertical_work_rate_cells(
+        grid, outward_faces, primitives
+    )
+    signed_work = signed_vertical_work_rate_cells(
+        grid,
+        0.5 * (inward_faces[:-1] + inward_faces[1:]),
+        primitives.surface_density,
+        primitives.vertical.P_tot,
+        primitives.vertical.Pi,
+        primitives.vertical.rho,
+    )
+    np.testing.assert_allclose(global_work, signed_work, rtol=2.0e-15)
+
+
+def test_temporal_column_work_integrates_manufactured_linear_path() -> None:
+    grid, state, mass, _residual = _manufactured_rotating_equilibrium(8, -0.25)
+    primitives = recover_global_primitives(grid, state, mass)
+    old_x = np.linspace(-0.2, 0.1, grid.centers.size)
+    new_x = old_x + np.linspace(0.03, 0.08, grid.centers.size)
+    old_q = np.linspace(2.0e30, 3.0e30, grid.centers.size)
+    new_q = old_q + np.linspace(0.4e30, 0.7e30, grid.centers.size)
+    sigma = primitives.surface_density
+    old_vertical = replace(
+        primitives.vertical,
+        H=np.exp(old_x),
+        Pi=old_q * sigma / state.mass,
+    )
+    new_vertical = replace(
+        primitives.vertical,
+        H=np.exp(new_x),
+        Pi=new_q * sigma / state.mass,
+    )
+    old_primitives = replace(primitives, vertical=old_vertical)
+    new_primitives = replace(primitives, vertical=new_vertical)
+    work = global_temporal_vertical_work_cells(
+        state, old_primitives, state, new_primitives
+    )
+    expected = 0.5 * (old_q + new_q) * (new_x - old_x)
+    np.testing.assert_allclose(work, expected, rtol=5.0e-15)
+
+
+def test_column_work_backward_euler_residual_and_ledger_close() -> None:
+    mass = 1.0e4 * M_SUN
+    potential = PaczynskiWiitaPotential(mass)
+    grid = make_log_grid(12.0 * potential.r_g, 120.0 * potential.r_g, 8)
+    sigma = np.geomspace(1.0e5, 3.0e5, grid.centers.size)
+    velocity = np.linspace(-2.0e5, 3.0e5, grid.centers.size)
+    omega = 0.9 * potential.omega_k(grid.centers)
+    old = state_from_thermodynamic_primitives(
+        grid, sigma, velocity, omega, np.full(8, 2.0e7), mass
+    )
+    new = state_from_thermodynamic_primitives(
+        grid,
+        1.01 * sigma,
+        0.98 * velocity,
+        1.002 * omega,
+        np.full(8, 2.1e7),
+        mass,
+    )
+    old_primitives = recover_global_primitives(grid, old, mass)
+    new_primitives = recover_global_primitives(grid, new, mass)
+    temporal = global_temporal_vertical_work_cells(
+        old, old_primitives, new, new_primitives
+    )
+    dt = 0.25
+    zero_faces = np.zeros(grid.edges.size)
+    fluxes = GlobalFaceFluxes(
+        mass=zero_faces,
+        radial_momentum=zero_faces,
+        angular_momentum=zero_faces,
+        total_energy=zero_faces,
+    )
+    sources = GlobalCellSources(
+        mass=(new.mass - old.mass) / dt,
+        radial_momentum=(new.radial_momentum - old.radial_momentum) / dt,
+        angular_momentum=(new.angular_momentum - old.angular_momentum) / dt,
+        total_energy=(new.total_energy - old.total_energy + temporal) / dt,
+    )
+    residual = global_backward_euler_residual(
+        new,
+        old,
+        dt,
+        fluxes,
+        sources,
+        energy_storage_correction=temporal,
+    )
+    assert np.max(np.abs(residual)) < 1.0e-9 * np.max(np.abs(new.total_energy))
+    audit = audit_global_backward_euler_ledgers(
+        new,
+        old,
+        dt,
+        fluxes,
+        sources,
+        energy_storage_correction=temporal,
+    )
+    assert audit.maximum_relative_defect < 3.0e-16
+
+
+def test_column_work_does_not_duplicate_torque_flux_or_other_sources() -> None:
+    grid, state, mass, _residual = _manufactured_rotating_equilibrium(16, -0.25)
+    primitives = recover_global_primitives(grid, state, mass)
+    moving = state_from_thermodynamic_primitives(
+        grid,
+        primitives.surface_density,
+        np.linspace(-3.0e5, 4.0e5, grid.centers.size),
+        primitives.omega,
+        primitives.temperature,
+        mass,
+    )
+    legacy = evaluate_global_rusanov_profile(
+        grid,
+        moving,
+        mass,
+        reference_state=moving,
+        alpha=0.1,
+        include_vertical_column_work=False,
+    )
+    selected = evaluate_global_rusanov_profile(
+        grid,
+        moving,
+        mass,
+        reference_state=moving,
+        alpha=0.1,
+        include_vertical_column_work=True,
+    )
+    for name in ("mass", "radial_momentum", "angular_momentum", "total_energy"):
+        np.testing.assert_array_equal(
+            getattr(selected.face_fluxes, name), getattr(legacy.face_fluxes, name)
+        )
+    for name in ("mass", "radial_momentum", "angular_momentum"):
+        np.testing.assert_array_equal(
+            getattr(selected.cell_sources, name), getattr(legacy.cell_sources, name)
+        )
+    np.testing.assert_allclose(
+        selected.cell_sources.total_energy - legacy.cell_sources.total_energy,
+        selected.vertical_work_rate_cells,
+        rtol=2.0e-15,
+        atol=0.0,
+    )
 
 
 def test_common_alpha_stress_adds_paired_outward_fluxes_once() -> None:

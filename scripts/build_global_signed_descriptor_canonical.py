@@ -65,8 +65,11 @@ def main() -> None:
             "exact compact-C2 cell moments for one constant injected state"
         ),
         "physical_open_remap": (
-            "eight-point conservative annular remap; N64 temporal gate; "
-            "certified sparse N64/N96 evolved comparison"
+            "32-point conservative annular remap with fixed mass-weighted "
+            "mechanical reference correction; N16-N128 positive primitive "
+            "recovery; N64 temporal gate; "
+            "certified sparse N64/N96 evolved comparison; bounded conserved-"
+            "donor outer-face reconstruction"
         ),
         "tide": False,
         "wind": False,
@@ -84,12 +87,22 @@ def main() -> None:
             "implicit preflight plus radiative-cooling certification are "
             "implemented; exact constant-state stream moments and one source-"
             "bearing step are certified; the physical absolute-supply open "
-            "control has an admissible conservative remap from N64, matches "
+            "control has an admissible conservative remap from N16, matches "
             "the coupled boundary fluxes at N96, and passes N64 timestep "
             "refinement; certified sparse N64/N96 steps pass individually "
-            "but the outer flux mesh gate fails by 0.02846 supply; direct "
-            "open-face flux reconstruction and calibrated physical tide/wind "
-            "closures are not implemented"
+            "but the legacy outer flux mesh gate fails by 0.02846 supply; one "
+            "conserved-donor correction improves this to 0.01150 but narrowly "
+            "fails the fixed gate; the characteristic audit finds one "
+            "incoming acoustic mode but the 335 rg edge is only 0.4485 R_H "
+            "and has no declared exterior thermodynamic state; a physical "
+            "truncation invariant or modeled Hill/Roche overflow layer, "
+            "remains open; the reference-state inner characteristic absorber "
+            "and enthalpy-compatible "
+            "radial/temporal column-energy identity is implemented and passes "
+            "the physical N64/N96 tiny-step gates; the fixed mechanical "
+            "reference passes 32/64-point quadrature and N64/N96 evolved-mesh "
+            "gates without floors; calibrated "
+            "physical tide/wind closures are not implemented"
         ),
         "source_parent_commit": "b9b1bc1",
         "generation_command": (

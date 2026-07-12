@@ -370,6 +370,219 @@ or `3.31%` relative to the `N=64` value, while the inner flux changes by only
 coupled target rather than converging monotonically. Long evolution remains
 blocked.
 
+## Direct conserved-donor open face
+
+One bounded WP1 correction reconstructs the complete cylindrical mass flux
+
+\[
+F_M=2\pi R\Sigma v_R
+\]
+
+from the final cell as a single donor quantity. The identical mass flux carries
+donor radial velocity, specific angular momentum, and Bernoulli energy. The
+pressure traction remains additive in radial momentum, and the open-control
+outer torque remains exactly zero. The legacy product reconstruction is
+retained only for comparison.
+
+The donor radial, angular, and energy flux consistency defects are exactly zero
+on `N=64,96,128`. Mapping-only outer fluxes become:
+
+| Global cells | Legacy product | Conserved donor |
+|---:|---:|---:|
+| 64 | `0.860856` | `0.855889` |
+| 96 | `0.832686` | `0.844674` |
+| 128 | `0.820541` | `0.836854` |
+
+The donor `N=96`/`N=128` mapping difference is `0.00782` supply and passes the
+fixed `0.01` mapping gate. Both donor-mode tiny steps also solve:
+
+| Global cells | Max residual | Ledger defect | Inner flux / supply | Outer flux / supply |
+|---:|---:|---:|---:|---:|
+| 64 | `1.74e-12` | `3.90e-16` | `-0.167232` | `0.855711` |
+| 96 | `6.11e-13` | `1.91e-16` | `-0.168731` | `0.844214` |
+
+The evolved outer difference falls from `0.02846` to `0.01150` supply, but it
+still exceeds the fixed `0.01` gate. The inner difference (`0.00150` supply)
+and maximum-`H/R` difference (`7.47e-4` relative) pass. No clipping,
+projection, tolerance change, or target forcing is used.
+
+WP1 is therefore a useful but narrowly failed reconstruction test. Per its stop
+condition, no additional extrapolation formula will be scanned. The next
+boundary work must define one physical characteristic/Roche-overflow contract.
+
+## Characteristic and Roche-geometry audit
+
+The radial Euler block has characteristic speeds
+
+\[
+v_R-c_{\rm eff},\quad v_R,\quad v_R,\quad v_R+c_{\rm eff}.
+\]
+
+At the outermost mapped cell the conservative meshes give:
+
+| Global cells | `v_R` [cm/s] | `c_eff` [cm/s] | radial Mach | incoming characteristics |
+|---:|---:|---:|---:|---:|
+| 64 | `7.7755e4` | `8.6511e6` | `0.00899` | 1 |
+| 96 | `7.0380e4` | `5.5164e6` | `0.01276` | 1 |
+| 128 | `7.6250e4` | `7.6107e6` | `0.01002` | 1 |
+
+The overflow is therefore extremely subsonic and requires exactly one
+exterior boundary condition. A zero-gradient or donor rule does not supply
+that physical datum; it only chooses a numerical extrapolation.
+
+The geometry also rules out calling the present edge a Roche outlet. For the
+checked-in fiducial binary, the live `335 rg` face is `0.44852 R_H` and
+`0.89704` of the current fiducial `0.5 R_H` truncation estimate. It is not an
+L1/L2 saddle. The repository contains no exterior pressure, entropy, or
+Bernoulli state at this radius. A pressure outlet copied from one mesh would
+force the target, while a vacuum state would introduce an uncalibrated
+rarefaction.
+
+The characteristic implementation is therefore intentionally stopped before
+inventing an exterior state. The boundary contract can be closed in only one
+of two declared ways:
+
+1. Layer 1 provides one physical exterior thermodynamic invariant at the
+   `335 rg` truncation surface.
+2. The global domain is extended through a Hill/Roche overflow layer whose
+   effective potential and escape/nozzle condition terminate at an actual
+   saddle.
+
+This is a physics-closure gate, not a solver failure. WP2 energy conditioning
+must not be used to conceal it, and tide/wind evolution remains blocked.
+
+## WP2 physical column-energy closure
+
+WP2 retains the existing total-energy storage. The accepted enthalpy flux is
+completed by radial and temporal one-zone column work:
+
+\[
+W_{R,i}=\dot M_i\frac{\Pi_i}{\Sigma_i}\Delta\ln H_i,
+\]
+
+\[
+W_{t,i}=\frac{1}{2}
+\left(M_i^{n+1}h_i^{n+1}+M_i^nh_i^n\right)
+\ln\frac{H_i^{n+1}}{H_i^n}.
+\]
+
+The global module uses outward-positive face fluxes, so the radial-work helper
+makes the sign conversion `Mdot_in=-F_M,out` explicitly. `W_R` enters only the
+total-energy cell source. `W_t` enters only the backward-Euler energy storage
+row and its independent telescoped ledger. Torque work remains exclusively in
+the paired `Omega G` face flux; no local viscous-heating term is added.
+
+The global radial-work operator matches the previously certified signed
+finite-volume operator to roundoff. The temporal operator exactly integrates a
+manufactured path linear in `M h` versus `ln H`. A source-bearing four-ledger
+backward-Euler state closes below `3e-16` relative, and enabling column work
+leaves all mass, radial, angular, and torque-work face fluxes bitwise unchanged.
+
+The physical donor-face tiny-step results are:
+
+| Global cells | Column work / `L_Edd` | Max residual | Ledger defect | Inner flux / supply | Outer flux / supply |
+|---:|---:|---:|---:|---:|---:|
+| 64 | `0.0399076` | `2.66e-12` | `2.00e-16` | `-0.167213` | `0.852768` |
+| 96 | `0.0398574` | `9.25e-12` | `2.80e-16` | `-0.168735` | `0.846416` |
+
+The final figures include the subsequent WP4 reference correction. WP2
+corrects the physical identity without tuning either radial boundary.
+
+## WP3 inner characteristic absorber
+
+The current global edge is fixed at `5.21024 rg`, close to the stationary sonic
+node but not inside a causally outgoing plunge for the time-dependent Euler
+system. The mapped first-cell audit gives:
+
+| Global cells | Radial Mach | `v_R+c_eff` [cm/s] | Incoming characteristics |
+|---:|---:|---:|---:|
+| 64 | `-0.6542` | `2.4310e8` | 1 |
+| 96 | `-0.7630` | `1.5817e8` | 1 |
+| 128 | `-0.8179` | `1.1860e8` | 1 |
+
+The old diode only blocked advective mass inflow. It did not close this incoming
+acoustic mode. WP3 now decomposes the inner-cell perturbation relative to the
+fixed certified transonic reference as
+
+\[
+w_+=\delta v_R+\frac{\delta\Pi}{\Sigma_{\rm ref}c_{\rm ref}},\qquad
+w_-=\delta v_R-\frac{\delta\Pi}{\Sigma_{\rm ref}c_{\rm ref}}.
+\]
+
+At the boundary, `w_+` is set to zero and `w_-` is preserved. Surface density
+and angular velocity are inherited from the interior. Temperature is recovered
+from the projected positive integrated pressure without clipping. The same
+projected state supplies all four inviscid face fluxes; alpha torque and paired
+work are added afterward exactly as before.
+
+The certified reference flux is bitwise unchanged. A manufactured outgoing
+acoustic perturbation changes by less than `2e-8` relative and generates no
+incoming reflected mode at that gate. Arbitrary perturbations preserve radial,
+angular, and Bernoulli flux consistency while annihilating the incoming linear
+invariant.
+
+The physical results are:
+
+| Global cells | Incoming before [cm/s] | Incoming after [cm/s] | Max residual | Ledger defect | Inner flux / supply |
+|---:|---:|---:|---:|---:|---:|
+| 64 | `7.6833e4` | `3.61e-3` | `2.64e-12` | `2.00e-16` | `-0.167228` |
+| 96 | `1.1332e5` | `4.91e-3` | `9.20e-12` | `2.63e-16` | `-0.168755` |
+
+The absorber changes the inner flux by only `2.23e-5` and `2.36e-5` supply
+relative to the matching WP2 runs. The outer flux is unchanged by WP3. WP3 is accepted as a reference-state
+absorbing boundary for the preflight; a future supersonic inner extension may
+replace it but is not required before WP4 conditioning work.
+
+## WP4 finite-volume mechanical-energy conditioning
+
+The original conservative remap averaged total energy over each annulus but
+subtracted mechanical energy evaluated only at the cell center. Near the inner
+edge, the difference between those two mechanical quantities exceeded the
+thermal energy and caused false negative-temperature recovery on `N<=48`.
+
+WP4 retains the physical total-energy storage and introduces one fixed
+well-balanced correction for each reference cell:
+
+\[
+\delta e_{{\rm mech},i}
+=\left<\Phi+\frac{v_R^2}{2}+\frac{v_\phi^2}{2}\right>_{M,i}
+-\left(\Phi+\frac{v_R^2}{2}+\frac{v_\phi^2}{2}\right)_i.
+\]
+
+The mass-weighted average is calculated in the same annular quadrature as the
+four conserved variables. Recovery subtracts the center value plus this fixed
+correction; reconstruction adds it back. It is never clipped or adjusted by
+the nonlinear solve.
+
+All conservative mappings now recover positive internal energy:
+
+| Global cells | Minimum specific internal energy [erg/g] | Maximum `|delta e_mech|` [erg/g] |
+|---:|---:|---:|
+| 16 | `3.273e15` | `4.817e17` |
+| 24 | `1.645e15` | `2.323e17` |
+| 32 | `1.020e15` | `1.318e17` |
+| 48 | `5.345e14` | `5.731e16` |
+| 64 | `3.765e14` | `3.343e16` |
+| 96 | `1.895e14` | `1.492e16` |
+| 128 | `1.549e14` | `8.405e15` |
+
+The correction decreases monotonically over `N=64,96,128`. Comparing the
+production 32-point remap with 64-point quadrature gives maximum relative
+differences below `1.2e-3` in every conserved field, below `7e-4` in the
+correction, and below `1.9e-4` in recovered temperature.
+
+With the WP2 and WP3 closures active, the selected evolved comparison is:
+
+| Global cells | Max residual | Ledger defect | Inner flux / supply | Outer flux / supply | Minimum `T` [K] |
+|---:|---:|---:|---:|---:|---:|
+| 64 | `2.64e-12` | `2.00e-16` | `-0.167228` | `0.852768` | `9.779e5` |
+| 96 | `9.20e-12` | `2.63e-16` | `-0.168755` | `0.846416` | `7.357e5` |
+
+The outer-flux difference is `0.006353` supply and passes the fixed `0.01`
+numerical mesh gate. This closes the cell-average energy-conditioning problem.
+It does not provide the still-missing exterior thermodynamic invariant at the
+subsonic truncation boundary.
+
 ## Interpretation
 
 The one-domain architecture passes its first structural gate. This removes the
@@ -386,7 +599,12 @@ removes that ambiguity, rejects under-resolved meshes, and approaches the
 coupled boundary fluxes at `N=64,96`; the `N=64` monolithic step also passes its
 temporal gate. The derivative-certified sparse path passes at both physical
 meshes, but the bounded evolved comparison fails only in outer mass flux. The
-next work package must reconstruct the nearly conserved outer mass flux
-directly at the open face rather than multiplying independently extrapolated
-surface density and radial velocity. Longer evolution, tide, and wind remain
-disabled.
+direct conserved-donor correction improves but does not pass that gate. The
+reconstruction investigation is closed. The characteristic count is now
+certified, but the contract is physically underdetermined because the current
+subsonic truncation edge is not the Roche saddle and has no declared exterior
+state. The next boundary work must supply that state or a modeled Hill/Roche
+overflow layer. The physical column-energy identity now passes WP2;
+the reference-state inner absorber now passes WP3, and finite-volume mechanical
+energy conditioning passes WP4. Longer evolution, tide, and wind remain
+disabled because the exterior-state physics gate is still open.

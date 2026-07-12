@@ -10,6 +10,7 @@ from scipy.sparse import block_diag, csr_matrix, eye, lil_matrix
 
 from imri_qpe.constants import C, DEFAULT_KAPPA_ES, DEFAULT_MU_MOL
 
+from .energy_identity import enthalpy_vertical_work
 from .grid import RadialGrid
 from .signed_flux_common_stress import positive_edge_reconstruction
 from .transonic_local import stream_annulus_shape_and_derivative
@@ -202,6 +203,30 @@ class GlobalPrimitiveState:
 
 
 @dataclass(frozen=True)
+class GlobalOuterCharacteristicAudit:
+    """Radial characteristic count at one domain edge."""
+
+    radial_velocity: float
+    effective_sound_speed: float
+    radial_mach_number: float
+    eigenvalues: tuple[float, float, float, float]
+    incoming_characteristics: int
+
+
+@dataclass(frozen=True)
+class GlobalInnerCharacteristicProjectionAudit:
+    """Linear acoustic projection used by the inner absorbing boundary."""
+
+    incoming_amplitude_before: float
+    incoming_amplitude_after: float
+    outgoing_amplitude_before: float
+    outgoing_amplitude_after: float
+    projected_radial_velocity: float
+    projected_integrated_pressure: float
+    projected_temperature: float
+
+
+@dataclass(frozen=True)
 class GlobalInviscidProfile:
     """Smooth reconstructed inviscid fluxes and cylindrical source terms."""
 
@@ -209,6 +234,10 @@ class GlobalInviscidProfile:
     face_fluxes: GlobalFaceFluxes
     cell_sources: GlobalCellSources
     viscous_torque_faces: np.ndarray | None = None
+    vertical_work_rate_cells: np.ndarray | None = None
+    inner_characteristic_projection: (
+        GlobalInnerCharacteristicProjectionAudit | None
+    ) = None
 
 
 @dataclass(frozen=True)
@@ -683,6 +712,7 @@ def state_from_thermodynamic_primitives(
     mu_mol: float = DEFAULT_MU_MOL,
     kappa: float = DEFAULT_KAPPA_ES,
     gamma_gas: float = 5.0 / 3.0,
+    specific_mechanical_energy_correction=None,
 ) -> GlobalConservativeState:
     """Construct total energy with the shared potential and vertical closure."""
 
@@ -701,10 +731,20 @@ def state_from_thermodynamic_primitives(
         kappa=kappa,
         gamma_gas=gamma_gas,
     )
+    mechanical_correction = (
+        np.zeros(n_cells, dtype=float)
+        if specific_mechanical_energy_correction is None
+        else _finite_vector(
+            "specific_mechanical_energy_correction",
+            specific_mechanical_energy_correction,
+            n_cells,
+        )
+    )
     specific_total = (
         np.asarray(potential.phi(grid.centers), dtype=float)
         + 0.5 * velocity**2
         + 0.5 * (grid.centers * rotation) ** 2
+        + mechanical_correction
         + np.asarray(vertical.e, dtype=float)
     )
     return state_from_primitives(
@@ -721,6 +761,7 @@ def recover_global_primitives(
     mu_mol: float = DEFAULT_MU_MOL,
     kappa: float = DEFAULT_KAPPA_ES,
     gamma_gas: float = 5.0 / 3.0,
+    specific_mechanical_energy_correction=None,
 ) -> GlobalPrimitiveState:
     """Recover a positive thermal state without dividing by radial mass flux."""
 
@@ -735,10 +776,20 @@ def recover_global_primitives(
     radial_velocity = state.radial_momentum / state.mass
     omega = state.angular_momentum / (state.mass * grid.centers**2)
     specific_total = state.total_energy / state.mass
+    mechanical_correction = (
+        np.zeros(state.n_cells, dtype=float)
+        if specific_mechanical_energy_correction is None
+        else _finite_vector(
+            "specific_mechanical_energy_correction",
+            specific_mechanical_energy_correction,
+            state.n_cells,
+        )
+    )
     target_internal = specific_total - (
         np.asarray(potential.phi(grid.centers), dtype=float)
         + 0.5 * radial_velocity**2
         + 0.5 * (grid.centers * omega) ** 2
+        + mechanical_correction
     )
     if np.any(~np.isfinite(target_internal)):
         raise ValueError("recovered internal energy target is not finite")
@@ -854,6 +905,144 @@ def global_inviscid_face_fluxes(
     ).validated_for(grid.centers.size)
 
 
+def apply_global_conserved_donor_outer_flux(
+    grid: RadialGrid,
+    fluxes: GlobalFaceFluxes,
+    primitives: GlobalPrimitiveState,
+) -> GlobalFaceFluxes:
+    """Use one donor mass flux for every advected outer-face quantity.
+
+    The complete cylindrical mass flux is reconstructed as a conserved object
+    from the final cell rather than as a product of independently extrapolated
+    surface density and radial velocity. The donor specific state is then
+    carried by that same mass flux. Viscous torque and torque work are added by
+    the shared stress operator after this boundary reconstruction.
+    """
+
+    fluxes = fluxes.validated_for(grid.centers.size)
+    sigma = np.asarray(primitives.surface_density, dtype=float)
+    velocity = np.asarray(primitives.radial_velocity, dtype=float)
+    omega = np.asarray(primitives.omega, dtype=float)
+    integrated_pressure = np.asarray(primitives.vertical.Pi, dtype=float)
+    if any(values.shape != grid.centers.shape for values in (
+        sigma,
+        velocity,
+        omega,
+        integrated_pressure,
+    )):
+        raise ValueError("outer donor primitives must match the radial grid")
+    cell = -1
+    mass_flux = float(
+        2.0
+        * np.pi
+        * grid.centers[cell]
+        * sigma[cell]
+        * velocity[cell]
+    )
+    specific_l = float(grid.centers[cell] ** 2 * omega[cell])
+    bernoulli = float(
+        primitives.specific_total_energy[cell]
+        + integrated_pressure[cell] / sigma[cell]
+    )
+    values = {
+        name: np.array(getattr(fluxes, name), copy=True)
+        for name in _COMPONENTS
+    }
+    values["mass"][-1] = mass_flux
+    values["radial_momentum"][-1] = (
+        mass_flux * velocity[cell]
+        + 2.0 * np.pi * grid.edges[-1] * integrated_pressure[cell]
+    )
+    values["angular_momentum"][-1] = mass_flux * specific_l
+    values["total_energy"][-1] = mass_flux * bernoulli
+    return GlobalFaceFluxes(**values).validated_for(grid.centers.size)
+
+
+def global_vertical_work_rate_cells(
+    grid: RadialGrid,
+    outward_mass_flux_faces,
+    primitives: GlobalPrimitiveState,
+) -> np.ndarray:
+    """Return radial one-zone column work paired with enthalpy transport.
+
+    ``enthalpy_vertical_work`` uses the legacy inward-positive accretion rate,
+    while this module orients every face flux outward.  The sign conversion is
+    therefore explicit here.  Surface-density and midplane-density increments
+    use the same positive edge reconstruction as the physical flux closure.
+    """
+
+    mass_flux = _finite_vector(
+        "outward_mass_flux_faces",
+        outward_mass_flux_faces,
+        grid.centers.size + 1,
+    )
+    sigma = _finite_vector(
+        "surface_density",
+        primitives.surface_density,
+        grid.centers.size,
+    )
+    rho = _finite_vector(
+        "density", primitives.vertical.rho, grid.centers.size
+    )
+    if np.any(sigma <= 0.0) or np.any(rho <= 0.0):
+        raise ValueError("surface density and density must be positive")
+    inward_mdot_centers = -0.5 * (mass_flux[:-1] + mass_flux[1:])
+    sigma_edges = positive_edge_reconstruction(grid, sigma)
+    rho_edges = positive_edge_reconstruction(grid, rho)
+    work = enthalpy_vertical_work(
+        inward_mdot_centers,
+        sigma,
+        primitives.vertical.Pi,
+        sigma_edges[1:] - sigma_edges[:-1],
+        primitives.vertical.P_tot,
+        rho,
+        rho_edges[1:] - rho_edges[:-1],
+    )
+    return _finite_vector(
+        "vertical_work_rate_cells", work, grid.centers.size
+    )
+
+
+def global_temporal_vertical_work_cells(
+    old_state: GlobalConservativeState,
+    old_primitives: GlobalPrimitiveState,
+    new_state: GlobalConservativeState,
+    new_primitives: GlobalPrimitiveState,
+) -> np.ndarray:
+    """Trapezoid the column work ``M*(Pi/Sigma)*dln(H)`` over one step."""
+
+    old_state = old_state.validated()
+    new_state = new_state.validated()
+    if old_state.n_cells != new_state.n_cells:
+        raise ValueError("old and new states must share one mesh")
+    size = old_state.n_cells
+    old_sigma = _finite_vector(
+        "old surface density", old_primitives.surface_density, size
+    )
+    new_sigma = _finite_vector(
+        "new surface density", new_primitives.surface_density, size
+    )
+    old_H = _finite_vector("old H", old_primitives.vertical.H, size)
+    new_H = _finite_vector("new H", new_primitives.vertical.H, size)
+    if np.any(old_H <= 0.0) or np.any(new_H <= 0.0):
+        raise ValueError("old and new H must be positive")
+    old_enthalpy = _finite_vector(
+        "old column enthalpy", old_primitives.vertical.Pi / old_sigma, size
+    )
+    new_enthalpy = _finite_vector(
+        "new column enthalpy", new_primitives.vertical.Pi / new_sigma, size
+    )
+    return np.asarray(
+        0.5
+        * (
+            old_state.mass * old_enthalpy
+            + new_state.mass * new_enthalpy
+        )
+        * np.log(new_H / old_H),
+        dtype=float,
+    )
+
+
 def global_alpha_stress_torque_faces(
     grid: RadialGrid,
     primitives: GlobalPrimitiveState,
@@ -956,6 +1145,271 @@ def global_effective_sound_speed(
     ):
         raise ValueError("effective sound speed is not physical")
     return np.sqrt(sound_speed_squared)
+
+
+def global_outer_characteristic_audit(
+    primitives: GlobalPrimitiveState,
+    *,
+    gamma_gas: float = 5.0 / 3.0,
+) -> GlobalOuterCharacteristicAudit:
+    """Count characteristics entering through the outer radial boundary.
+
+    Positive speeds point out of the modeled domain.  The four-field radial
+    Euler block has acoustic speeds ``v-c`` and ``v+c`` plus two advected
+    speeds ``v``.  A negative eigenvalue therefore requires exterior data.
+    """
+
+    velocity = _finite_vector(
+        "radial velocity",
+        primitives.radial_velocity,
+        np.asarray(primitives.radial_velocity).size,
+    )
+    if velocity.size < 1:
+        raise ValueError("characteristic audit requires at least one cell")
+    sound_speed = global_effective_sound_speed(
+        primitives, gamma_gas=gamma_gas
+    )
+    outer_velocity = float(velocity[-1])
+    outer_sound_speed = float(sound_speed[-1])
+    eigenvalues = (
+        outer_velocity - outer_sound_speed,
+        outer_velocity,
+        outer_velocity,
+        outer_velocity + outer_sound_speed,
+    )
+    return GlobalOuterCharacteristicAudit(
+        radial_velocity=outer_velocity,
+        effective_sound_speed=outer_sound_speed,
+        radial_mach_number=outer_velocity / outer_sound_speed,
+        eigenvalues=eigenvalues,
+        incoming_characteristics=sum(value < 0.0 for value in eigenvalues),
+    )
+
+
+def global_inner_characteristic_audit(
+    primitives: GlobalPrimitiveState,
+    *,
+    gamma_gas: float = 5.0 / 3.0,
+) -> GlobalOuterCharacteristicAudit:
+    """Count radial characteristics entering through the inner boundary.
+
+    Positive coordinate speeds travel from the inner ghost region into the
+    modeled domain. A causally outgoing plunge therefore has no positive
+    eigenvalues.
+    """
+
+    velocity = _finite_vector(
+        "radial velocity",
+        primitives.radial_velocity,
+        np.asarray(primitives.radial_velocity).size,
+    )
+    if velocity.size < 1:
+        raise ValueError("characteristic audit requires at least one cell")
+    sound_speed = global_effective_sound_speed(
+        primitives, gamma_gas=gamma_gas
+    )
+    inner_velocity = float(velocity[0])
+    inner_sound_speed = float(sound_speed[0])
+    eigenvalues = (
+        inner_velocity - inner_sound_speed,
+        inner_velocity,
+        inner_velocity,
+        inner_velocity + inner_sound_speed,
+    )
+    return GlobalOuterCharacteristicAudit(
+        radial_velocity=inner_velocity,
+        effective_sound_speed=inner_sound_speed,
+        radial_mach_number=inner_velocity / inner_sound_speed,
+        eigenvalues=eigenvalues,
+        incoming_characteristics=sum(value > 0.0 for value in eigenvalues),
+    )
+
+
+def _single_cell_inviscid_flux(
+    grid: RadialGrid,
+    primitives: GlobalPrimitiveState,
+    *,
+    cell: int,
+    face: int,
+) -> np.ndarray:
+    radius = float(grid.edges[face])
+    sigma = float(primitives.surface_density[cell])
+    velocity = float(primitives.radial_velocity[cell])
+    omega = float(primitives.omega[cell])
+    integrated_pressure = float(
+        np.asarray(primitives.vertical.Pi, dtype=float).reshape(-1)[cell]
+    )
+    mass_flux = 2.0 * np.pi * radius * sigma * velocity
+    specific_l = float(grid.centers[cell] ** 2 * omega)
+    bernoulli = float(
+        primitives.specific_total_energy[cell]
+        + integrated_pressure / sigma
+    )
+    return np.asarray(
+        [
+            mass_flux,
+            mass_flux * velocity + 2.0 * np.pi * radius * integrated_pressure,
+            mass_flux * specific_l,
+            mass_flux * bernoulli,
+        ],
+        dtype=float,
+    )
+
+
+def apply_global_reference_characteristic_inner_flux(
+    grid: RadialGrid,
+    fluxes: GlobalFaceFluxes,
+    primitives: GlobalPrimitiveState,
+    reference_primitives: GlobalPrimitiveState,
+    M_g: float,
+    *,
+    temperature_bounds: tuple[float, float] = (1.0e3, 1.0e12),
+    mu_mol: float = DEFAULT_MU_MOL,
+    kappa: float = DEFAULT_KAPPA_ES,
+    gamma_gas: float = 5.0 / 3.0,
+) -> tuple[GlobalFaceFluxes, GlobalInnerCharacteristicProjectionAudit]:
+    """Remove the incoming inner acoustic perturbation relative to a reference.
+
+    The outgoing acoustic invariant and the two inward-advected/contact fields
+    are inherited from the interior. Only the incoming ``v+c`` perturbation is
+    set to zero. The correction is applied to the existing well-balanced face
+    flux, so the supplied transonic reference remains exactly unchanged.
+    """
+
+    fluxes = fluxes.validated_for(grid.centers.size)
+    cell = 0
+    sigma = float(primitives.surface_density[cell])
+    velocity = float(primitives.radial_velocity[cell])
+    pressure = float(primitives.vertical.Pi[cell])
+    reference_sigma = float(reference_primitives.surface_density[cell])
+    reference_velocity = float(reference_primitives.radial_velocity[cell])
+    reference_pressure = float(reference_primitives.vertical.Pi[cell])
+    reference_sound = float(
+        global_effective_sound_speed(
+            reference_primitives, gamma_gas=gamma_gas
+        )[cell]
+    )
+    velocity_perturbation = velocity - reference_velocity
+    pressure_velocity = (
+        pressure - reference_pressure
+    ) / (reference_sigma * reference_sound)
+    incoming_before = velocity_perturbation + pressure_velocity
+    outgoing_before = velocity_perturbation - pressure_velocity
+    projected_velocity = velocity - 0.5 * incoming_before
+    projected_pressure = (
+        pressure
+        - 0.5
+        * reference_sigma
+        * reference_sound
+        * incoming_before
+    )
+    if incoming_before == 0.0:
+        audit = GlobalInnerCharacteristicProjectionAudit(
+            incoming_amplitude_before=0.0,
+            incoming_amplitude_after=0.0,
+            outgoing_amplitude_before=float(outgoing_before),
+            outgoing_amplitude_after=float(outgoing_before),
+            projected_radial_velocity=velocity,
+            projected_integrated_pressure=pressure,
+            projected_temperature=float(primitives.temperature[cell]),
+        )
+        return fluxes, audit
+    if not np.isfinite(projected_pressure) or projected_pressure <= 0.0:
+        raise ValueError("inner characteristic projection gives nonpositive pressure")
+
+    potential = PaczynskiWiitaPotential(float(M_g))
+    radius = float(grid.centers[cell])
+    lower_temperature, upper_temperature = map(float, temperature_bounds)
+
+    def pressure_residual(log_temperature: float) -> float:
+        local = vertical_state(
+            sigma,
+            float(np.exp(log_temperature)),
+            radius,
+            potential,
+            mu_mol=mu_mol,
+            kappa=kappa,
+            gamma_gas=gamma_gas,
+        )
+        return float(local.Pi - projected_pressure)
+
+    log_lower = float(np.log(lower_temperature))
+    log_upper = float(np.log(upper_temperature))
+    if pressure_residual(log_lower) > 0.0 or pressure_residual(log_upper) < 0.0:
+        raise ValueError(
+            "inner characteristic pressure lies outside temperature bounds"
+        )
+    projected_temperature = float(
+        np.exp(
+            brentq(
+                pressure_residual,
+                log_lower,
+                log_upper,
+                xtol=1.0e-12,
+                rtol=1.0e-12,
+            )
+        )
+    )
+    projected_vertical = vertical_state(
+        sigma,
+        projected_temperature,
+        radius,
+        potential,
+        mu_mol=mu_mol,
+        kappa=kappa,
+        gamma_gas=gamma_gas,
+    )
+    projected_specific_total = float(
+        potential.phi(radius)
+        + 0.5 * projected_velocity**2
+        + 0.5 * (radius * float(primitives.omega[cell])) ** 2
+        + projected_vertical.e
+    )
+    projected_primitives = GlobalPrimitiveState(
+        surface_density=np.asarray([sigma]),
+        radial_velocity=np.asarray([projected_velocity]),
+        omega=np.asarray([float(primitives.omega[cell])]),
+        temperature=np.asarray([projected_temperature]),
+        specific_total_energy=np.asarray([projected_specific_total]),
+        specific_internal_energy=np.asarray([float(projected_vertical.e)]),
+        vertical=projected_vertical,
+    )
+    projected_flux = _single_cell_inviscid_flux(
+        grid, projected_primitives, cell=0, face=0
+    )
+    current_flux = _single_cell_inviscid_flux(
+        grid, primitives, cell=cell, face=0
+    )
+    values = {
+        name: np.array(getattr(fluxes, name), copy=True)
+        for name in _COMPONENTS
+    }
+    for index, name in enumerate(_COMPONENTS):
+        values[name][0] += projected_flux[index] - current_flux[index]
+
+    projected_velocity_perturbation = (
+        projected_velocity - reference_velocity
+    )
+    projected_pressure_velocity = (
+        float(projected_vertical.Pi) - reference_pressure
+    ) / (reference_sigma * reference_sound)
+    audit = GlobalInnerCharacteristicProjectionAudit(
+        incoming_amplitude_before=float(incoming_before),
+        incoming_amplitude_after=float(
+            projected_velocity_perturbation + projected_pressure_velocity
+        ),
+        outgoing_amplitude_before=float(outgoing_before),
+        outgoing_amplitude_after=float(
+            projected_velocity_perturbation - projected_pressure_velocity
+        ),
+        projected_radial_velocity=float(projected_velocity),
+        projected_integrated_pressure=float(projected_vertical.Pi),
+        projected_temperature=projected_temperature,
+    )
+    return (
+        GlobalFaceFluxes(**values).validated_for(grid.centers.size),
+        audit,
+    )
 
 
 def global_rusanov_face_fluxes(
@@ -1142,6 +1596,25 @@ def global_inviscid_cell_sources(
     ).validated_for(grid.centers.size)
 
 
+def _add_global_vertical_work_source(
+    sources: GlobalCellSources,
+    vertical_work_rate_cells,
+) -> GlobalCellSources:
+    """Add physical column work only to the total-energy source ledger."""
+
+    size = np.asarray(sources.mass).size
+    sources = sources.validated_for(size)
+    work = _finite_vector(
+        "vertical_work_rate_cells", vertical_work_rate_cells, size
+    )
+    return GlobalCellSources(
+        mass=np.array(sources.mass, copy=True),
+        radial_momentum=np.array(sources.radial_momentum, copy=True),
+        angular_momentum=np.array(sources.angular_momentum, copy=True),
+        total_energy=np.asarray(sources.total_energy + work, dtype=float),
+    ).validated_for(size)
+
+
 def global_radiative_cooling_rate_cells(
     grid: RadialGrid,
     primitives: GlobalPrimitiveState,
@@ -1171,7 +1644,9 @@ def evaluate_global_inviscid_profile(
     kappa: float = DEFAULT_KAPPA_ES,
     gamma_gas: float = 5.0 / 3.0,
     include_radiative_cooling: bool = False,
+    include_vertical_column_work: bool = False,
     external_sources: GlobalCellSources | None = None,
+    specific_mechanical_energy_correction=None,
 ) -> GlobalInviscidProfile:
     """Recover primitives and evaluate the smooth inviscid balance operator."""
 
@@ -1183,7 +1658,11 @@ def evaluate_global_inviscid_profile(
         mu_mol=mu_mol,
         kappa=kappa,
         gamma_gas=gamma_gas,
+        specific_mechanical_energy_correction=(
+            specific_mechanical_energy_correction
+        ),
     )
+    face_fluxes = global_inviscid_face_fluxes(grid, primitives, M_g)
     cell_sources = global_inviscid_cell_sources(
         grid,
         primitives,
@@ -1191,15 +1670,27 @@ def evaluate_global_inviscid_profile(
         include_radiative_cooling=include_radiative_cooling,
         kappa=kappa,
     )
+    vertical_work = (
+        global_vertical_work_rate_cells(
+            grid, face_fluxes.mass, primitives
+        )
+        if include_vertical_column_work
+        else np.zeros(grid.centers.size, dtype=float)
+    )
+    if include_vertical_column_work:
+        cell_sources = _add_global_vertical_work_source(
+            cell_sources, vertical_work
+        )
     if external_sources is not None:
         cell_sources = combine_global_cell_sources(
             cell_sources, external_sources.validated_for(state.n_cells)
         )
     return GlobalInviscidProfile(
         primitives=primitives,
-        face_fluxes=global_inviscid_face_fluxes(grid, primitives, M_g),
+        face_fluxes=face_fluxes,
         cell_sources=cell_sources,
         viscous_torque_faces=np.zeros(grid.centers.size + 1, dtype=float),
+        vertical_work_rate_cells=vertical_work,
     )
 
 
@@ -1219,9 +1710,12 @@ def evaluate_global_rusanov_profile(
     stress_factor: float = 1.0,
     stress_boundary_mode: str = "extrapolated",
     include_radiative_cooling: bool = False,
+    include_vertical_column_work: bool = False,
     external_sources: GlobalCellSources | None = None,
     primitives: GlobalPrimitiveState | None = None,
     reference_primitives: GlobalPrimitiveState | None = None,
+    open_face_reconstruction: str = "primitive_product",
+    specific_mechanical_energy_correction=None,
 ) -> GlobalInviscidProfile:
     """Evaluate Rusanov transport with optional paired alpha-stress fluxes."""
 
@@ -1234,6 +1728,9 @@ def evaluate_global_rusanov_profile(
             mu_mol=mu_mol,
             kappa=kappa,
             gamma_gas=gamma_gas,
+            specific_mechanical_energy_correction=(
+                specific_mechanical_energy_correction
+            ),
         )
     if reference_state is None:
         if reference_primitives is not None:
@@ -1253,6 +1750,9 @@ def evaluate_global_rusanov_profile(
                 mu_mol=mu_mol,
                 kappa=kappa,
                 gamma_gas=gamma_gas,
+                specific_mechanical_energy_correction=(
+                    specific_mechanical_energy_correction
+                ),
             )
         face_fluxes = global_equilibrium_corrected_rusanov_fluxes(
             grid,
@@ -1263,12 +1763,46 @@ def evaluate_global_rusanov_profile(
             M_g,
             gamma_gas=gamma_gas,
         )
-    if boundary_mode == "open_no_inflow":
+    if open_face_reconstruction == "conserved_donor":
+        face_fluxes = apply_global_conserved_donor_outer_flux(
+            grid, face_fluxes, primitives
+        )
+    elif open_face_reconstruction != "primitive_product":
+        raise ValueError(
+            "open_face_reconstruction must be primitive_product or "
+            "conserved_donor"
+        )
+    inner_projection = None
+    if boundary_mode == "characteristic_inner_open_outer":
+        if reference_primitives is None:
+            raise ValueError(
+                "characteristic inner boundary requires a reference state"
+            )
+        face_fluxes, inner_projection = (
+            apply_global_reference_characteristic_inner_flux(
+                grid,
+                face_fluxes,
+                primitives,
+                reference_primitives,
+                M_g,
+                temperature_bounds=temperature_bounds,
+                mu_mol=mu_mol,
+                kappa=kappa,
+                gamma_gas=gamma_gas,
+            )
+        )
+        face_fluxes = global_open_no_inflow_boundary_fluxes(
+            grid, face_fluxes, primitives
+        )
+    elif boundary_mode == "open_no_inflow":
         face_fluxes = global_open_no_inflow_boundary_fluxes(
             grid, face_fluxes, primitives
         )
     elif boundary_mode != "transmissive":
-        raise ValueError("boundary_mode must be transmissive or open_no_inflow")
+        raise ValueError(
+            "boundary_mode must be transmissive, open_no_inflow, or "
+            "characteristic_inner_open_outer"
+        )
     face_fluxes, viscous_torque = add_global_alpha_stress_fluxes(
         grid,
         face_fluxes,
@@ -1285,6 +1819,17 @@ def evaluate_global_rusanov_profile(
         include_radiative_cooling=include_radiative_cooling,
         kappa=kappa,
     )
+    vertical_work = (
+        global_vertical_work_rate_cells(
+            grid, face_fluxes.mass, primitives
+        )
+        if include_vertical_column_work
+        else np.zeros(grid.centers.size, dtype=float)
+    )
+    if include_vertical_column_work:
+        cell_sources = _add_global_vertical_work_source(
+            cell_sources, vertical_work
+        )
     if external_sources is not None:
         cell_sources = combine_global_cell_sources(
             cell_sources, external_sources.validated_for(state.n_cells)
@@ -1294,6 +1839,8 @@ def evaluate_global_rusanov_profile(
         face_fluxes=face_fluxes,
         cell_sources=cell_sources,
         viscous_torque_faces=viscous_torque,
+        vertical_work_rate_cells=vertical_work,
+        inner_characteristic_projection=inner_projection,
     )
 
 
@@ -1852,7 +2399,10 @@ def advance_global_backward_euler(
     jacobian_mode: str | None = None,
     jacobian_relative_tolerance: float = 3.0e-5,
     include_radiative_cooling: bool = False,
+    include_vertical_column_work: bool = False,
     external_sources: GlobalCellSources | None = None,
+    open_face_reconstruction: str = "primitive_product",
+    specific_mechanical_energy_correction=None,
 ) -> GlobalBackwardEulerStepResult:
     """Solve all four conservation laws together at the new time level."""
 
@@ -1867,6 +2417,9 @@ def advance_global_backward_euler(
         mu_mol=mu_mol,
         kappa=kappa,
         gamma_gas=gamma_gas,
+        specific_mechanical_energy_correction=(
+            specific_mechanical_energy_correction
+        ),
     )
     n_cells = state.n_cells
     initial = np.concatenate(
@@ -1921,6 +2474,9 @@ def advance_global_backward_euler(
             mu_mol=mu_mol,
             kappa=kappa,
             gamma_gas=gamma_gas,
+            specific_mechanical_energy_correction=(
+                specific_mechanical_energy_correction
+            ),
         )
     )
 
@@ -1939,6 +2495,9 @@ def advance_global_backward_euler(
             mu_mol=mu_mol,
             kappa=kappa,
             gamma_gas=gamma_gas,
+            specific_mechanical_energy_correction=(
+                specific_mechanical_energy_correction
+            ),
         )
         vertical = vertical_state(
             sigma,
@@ -1975,26 +2534,39 @@ def advance_global_backward_euler(
             stress_factor=stress_factor,
             stress_boundary_mode=stress_boundary_mode,
             include_radiative_cooling=include_radiative_cooling,
+            include_vertical_column_work=include_vertical_column_work,
             external_sources=external_sources,
             primitives=trial_primitives,
             reference_primitives=fixed_reference_primitives,
+            open_face_reconstruction=open_face_reconstruction,
+            specific_mechanical_energy_correction=(
+                specific_mechanical_energy_correction
+            ),
         )
         return trial, profile
 
     def residual(values: np.ndarray) -> np.ndarray:
         trial, profile = reconstruct(values)
-        rhs = global_conservative_rhs(
-            profile.face_fluxes, profile.cell_sources
+        temporal_work = (
+            global_temporal_vertical_work_cells(
+                state, old, trial, profile.primitives
+            )
+            if include_vertical_column_work
+            else None
+        )
+        unscaled = global_backward_euler_residual(
+            trial,
+            state,
+            dt,
+            profile.face_fluxes,
+            profile.cell_sources,
+            energy_storage_correction=temporal_work,
         )
         return np.concatenate(
             tuple(
-                (
-                    getattr(trial, name)
-                    - getattr(state, name)
-                    - dt * getattr(rhs, name)
-                )
+                unscaled[index * n_cells : (index + 1) * n_cells]
                 / scales[name]
-                for name in _COMPONENTS
+                for index, name in enumerate(_COMPONENTS)
             )
         )
 
@@ -2078,6 +2650,13 @@ def advance_global_backward_euler(
                 dt,
                 profile.face_fluxes,
                 profile.cell_sources,
+                energy_storage_correction=(
+                    global_temporal_vertical_work_cells(
+                        state, old, trial, profile.primitives
+                    )
+                    if include_vertical_column_work
+                    else None
+                ),
             )
             return GlobalBackwardEulerStepResult(
                 state=state,
@@ -2137,6 +2716,13 @@ def advance_global_backward_euler(
         dt,
         profile.face_fluxes,
         profile.cell_sources,
+        energy_storage_correction=(
+            global_temporal_vertical_work_cells(
+                state, old, trial, profile.primitives
+            )
+            if include_vertical_column_work
+            else None
+        ),
     )
     storage_ledger_defect = maximum_storage_scaled_ledger_defect(trial, ledger)
     accepted = bool(
@@ -2225,6 +2811,8 @@ def global_backward_euler_residual(
     dt: float,
     new_fluxes: GlobalFaceFluxes,
     new_sources: GlobalCellSources,
+    *,
+    energy_storage_correction=None,
 ) -> np.ndarray:
     """Return unscaled backward-Euler conservation rows."""
 
@@ -2235,11 +2823,21 @@ def global_backward_euler_residual(
     if new_state.n_cells != old_state.n_cells:
         raise ValueError("old and new global states use different meshes")
     rhs = global_conservative_rhs(new_fluxes, new_sources)
+    correction = (
+        np.zeros(new_state.n_cells, dtype=float)
+        if energy_storage_correction is None
+        else _finite_vector(
+            "energy_storage_correction",
+            energy_storage_correction,
+            new_state.n_cells,
+        )
+    )
     return np.concatenate(
         tuple(
             getattr(new_state, name)
             - getattr(old_state, name)
             - dt * getattr(rhs, name)
+            + (correction if name == "total_energy" else 0.0)
             for name in _COMPONENTS
         )
     )
@@ -2251,6 +2849,8 @@ def audit_global_backward_euler_ledgers(
     dt: float,
     new_fluxes: GlobalFaceFluxes,
     new_sources: GlobalCellSources,
+    *,
+    energy_storage_correction=None,
 ) -> GlobalLedgerAudit:
     """Audit telescoped boundary fluxes independently of cell residuals."""
 
@@ -2258,11 +2858,23 @@ def audit_global_backward_euler_ledgers(
     new_state = new_state.validated()
     fluxes = new_fluxes.validated_for(old_state.n_cells)
     sources = new_sources.validated_for(old_state.n_cells)
+    correction = (
+        np.zeros(old_state.n_cells, dtype=float)
+        if energy_storage_correction is None
+        else _finite_vector(
+            "energy_storage_correction",
+            energy_storage_correction,
+            old_state.n_cells,
+        )
+    )
     defects: dict[str, float] = {}
     relative: dict[str, float] = {}
     for name in _COMPONENTS:
         cell_change = getattr(new_state, name) - getattr(old_state, name)
-        change = float(np.sum(cell_change))
+        corrected_change = cell_change + (
+            correction if name == "total_energy" else 0.0
+        )
+        change = float(np.sum(corrected_change))
         expected = dt * float(
             getattr(fluxes, name)[0]
             - getattr(fluxes, name)[-1]
@@ -2270,7 +2882,7 @@ def audit_global_backward_euler_ledgers(
         )
         defect = change - expected
         activity = float(
-            np.sum(np.abs(cell_change))
+            np.sum(np.abs(corrected_change))
             + dt
             * (
                 abs(getattr(fluxes, name)[0])

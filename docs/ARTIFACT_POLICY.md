@@ -26,6 +26,9 @@ archive.
 
 ## File Gates
 
+- Maximum tracked tree: fewer than `600` files. The current global-evolution
+  milestone intentionally includes compact source, tests, reports, and
+  canonical evidence; further growth must remain within this explicit cap.
 - Default maximum tracked file size: `5 MiB`.
 - Files above the limit require an allow-list entry and scientific rationale.
 - Every canonical case must have provenance and valid checksums.

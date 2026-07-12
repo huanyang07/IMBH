@@ -9,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MAX_BYTES = 5 * 1024 * 1024
+MAX_TRACKED_FILES = 600
 BANNED_PARTS = {"__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
 BANNED_SUFFIXES = {".pyc", ".pyo", ".swp", ".tmp"}
 
@@ -29,6 +30,11 @@ def sha256(path: Path) -> str:
 def hygiene_errors(paths: list[Path] | None = None) -> list[str]:
     paths = tracked_paths() if paths is None else paths
     errors: list[str] = []
+    if len(paths) >= MAX_TRACKED_FILES:
+        errors.append(
+            f"tracked file count {len(paths)} reaches policy limit "
+            f"{MAX_TRACKED_FILES}"
+        )
     for path in paths:
         relative = path.relative_to(ROOT)
         relative_text = relative.as_posix()

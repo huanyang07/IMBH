@@ -13,7 +13,10 @@ from imri_qpe.layer3_minidisk_1d import (
     advance_global_backward_euler,
     evaluate_global_rusanov_profile,
     evaluate_coupled_open_overflow_residual,
+    fiducial_hill_tidal_geometry,
     global_compact_stream_cell_sources,
+    global_inner_characteristic_audit,
+    global_outer_characteristic_audit,
     global_radiative_cooling_rate_cells,
     make_log_grid,
     recover_global_primitives,
@@ -77,7 +80,7 @@ def _mapped_global_state(context, evaluation, n_cells: int):
         mapped_temperature,
         context.base.inner_params.M2_g,
     )
-    return grid, state
+    return grid, state, np.zeros(n_cells, dtype=float)
 
 
 def _extrapolating_interpolation(query, nodes, values, *, positive: bool):
@@ -98,7 +101,7 @@ def _extrapolating_interpolation(query, nodes, values, *, positive: bool):
 
 
 def _conservatively_mapped_global_state(
-    context, evaluation, n_cells: int, *, quadrature_order: int = 8
+    context, evaluation, n_cells: int, *, quadrature_order: int = 32
 ):
     inner = evaluation.base.inner_profile
     outer = evaluation.base.outer_transport
@@ -115,6 +118,8 @@ def _conservatively_mapped_global_state(
     potential = PaczynskiWiitaPotential(mass)
     nodes, weights = np.polynomial.legendre.leggauss(quadrature_order)
     components = [np.empty(n_cells, dtype=float) for _ in range(4)]
+    mechanical_energy = np.empty(n_cells, dtype=float)
+    internal_energy = np.empty(n_cells, dtype=float)
     for index, (left, right) in enumerate(
         zip(np.log(grid.edges[:-1]), np.log(grid.edges[1:]))
     ):
@@ -141,6 +146,11 @@ def _conservatively_mapped_global_state(
             + 0.5 * (r * omega_q) ** 2
             + np.asarray(vertical.e, dtype=float)
         )
+        specific_mechanical = (
+            np.asarray(potential.phi(r), dtype=float)
+            + 0.5 * velocity_q**2
+            + 0.5 * (r * omega_q) ** 2
+        )
         measure = 2.0 * np.pi * r**2 * sigma_q
         integrands = (
             measure,
@@ -152,18 +162,50 @@ def _conservatively_mapped_global_state(
             component[index] = (
                 0.5 * (right - left) * np.sum(weights * integrand)
             )
-    return grid, GlobalConservativeState(*components).validated()
+        mechanical_energy[index] = (
+            0.5
+            * (right - left)
+            * np.sum(weights * measure * specific_mechanical)
+        )
+        internal_energy[index] = (
+            0.5
+            * (right - left)
+            * np.sum(weights * measure * np.asarray(vertical.e, dtype=float))
+        )
+    state = GlobalConservativeState(*components).validated()
+    cell_velocity = state.radial_momentum / state.mass
+    cell_omega = state.angular_momentum / (state.mass * grid.centers**2)
+    center_mechanical = (
+        np.asarray(potential.phi(grid.centers), dtype=float)
+        + 0.5 * cell_velocity**2
+        + 0.5 * (grid.centers * cell_omega) ** 2
+    )
+    averaged_mechanical = mechanical_energy / state.mass
+    correction = np.asarray(averaged_mechanical - center_mechanical, dtype=float)
+    averaged_internal = internal_energy / state.mass
+    if np.any(~np.isfinite(correction)) or np.any(averaged_internal <= 0.0):
+        raise ValueError("finite-volume energy reference is not physical")
+    return grid, state, correction
 
 
 def _initial_case(
-    context, evaluation, n_cells: int, *, mapping_mode: str = "conservative"
+    context,
+    evaluation,
+    n_cells: int,
+    *,
+    mapping_mode: str = "conservative",
+    open_face_reconstruction: str = "primitive_product",
+    include_vertical_column_work: bool = False,
+    boundary_mode: str = "open_no_inflow",
 ):
     if mapping_mode == "conservative":
-        grid, initial = _conservatively_mapped_global_state(
+        grid, initial, mechanical_correction = _conservatively_mapped_global_state(
             context, evaluation, n_cells
         )
     elif mapping_mode == "pointwise":
-        grid, initial = _mapped_global_state(context, evaluation, n_cells)
+        grid, initial, mechanical_correction = _mapped_global_state(
+            context, evaluation, n_cells
+        )
     else:
         raise ValueError("mapping_mode must be conservative or pointwise")
     mass = context.base.inner_params.M2_g
@@ -184,37 +226,90 @@ def _initial_case(
         specific_angular_momentum=stream_l,
         specific_total_energy=stream_energy,
     )
-    initial_primitives = recover_global_primitives(grid, initial, mass)
+    initial_primitives = recover_global_primitives(
+        grid,
+        initial,
+        mass,
+        specific_mechanical_energy_correction=mechanical_correction,
+    )
+    characteristic = global_outer_characteristic_audit(initial_primitives)
+    inner_characteristic = global_inner_characteristic_audit(
+        initial_primitives
+    )
+    hill_geometry = fiducial_hill_tidal_geometry()
     profile_without_stream = evaluate_global_rusanov_profile(
         grid,
         initial,
         mass,
         reference_state=initial,
-        boundary_mode="open_no_inflow",
+        boundary_mode=boundary_mode,
         alpha=context.base.alpha,
         stress_boundary_mode="outer_zero_torque",
         include_radiative_cooling=True,
+        include_vertical_column_work=include_vertical_column_work,
+        open_face_reconstruction=open_face_reconstruction,
+        specific_mechanical_energy_correction=mechanical_correction,
     )
     profile_with_stream = evaluate_global_rusanov_profile(
         grid,
         initial,
         mass,
         reference_state=initial,
-        boundary_mode="open_no_inflow",
+        boundary_mode=boundary_mode,
         alpha=context.base.alpha,
         stress_boundary_mode="outer_zero_torque",
         include_radiative_cooling=True,
+        include_vertical_column_work=include_vertical_column_work,
         external_sources=stream,
+        open_face_reconstruction=open_face_reconstruction,
+        specific_mechanical_energy_correction=mechanical_correction,
     )
+    donor_l = float(grid.centers[-1] ** 2 * initial_primitives.omega[-1])
+    donor_bernoulli = float(
+        initial_primitives.specific_total_energy[-1]
+        + initial_primitives.vertical.Pi[-1]
+        / initial_primitives.surface_density[-1]
+    )
+    outer_mass_flux = float(profile_with_stream.face_fluxes.mass[-1])
+    expected_outer_radial = float(
+        outer_mass_flux * initial_primitives.radial_velocity[-1]
+        + 2.0
+        * np.pi
+        * grid.edges[-1]
+        * initial_primitives.vertical.Pi[-1]
+    )
+    expected_outer_angular = outer_mass_flux * donor_l
+    expected_outer_energy = outer_mass_flux * donor_bernoulli
+
+    def relative_defect(actual: float, expected: float) -> float:
+        return float(
+            abs(actual - expected) / max(abs(actual), abs(expected), 1.0)
+        )
+
     mapping = {
         "mapping_mode": mapping_mode,
+        "open_face_reconstruction": open_face_reconstruction,
+        "include_vertical_column_work": include_vertical_column_work,
+        "boundary_mode": boundary_mode,
         "n_cells": n_cells,
         "active_source_cells": int(np.count_nonzero(stream.mass)),
         "inner_mass_flux_over_supply": float(
             profile_with_stream.face_fluxes.mass[0] / stream_rate
         ),
         "outer_mass_flux_over_supply": float(
-            profile_with_stream.face_fluxes.mass[-1] / stream_rate
+            outer_mass_flux / stream_rate
+        ),
+        "outer_radial_flux_donor_consistency": relative_defect(
+            float(profile_with_stream.face_fluxes.radial_momentum[-1]),
+            expected_outer_radial,
+        ),
+        "outer_angular_flux_donor_consistency": relative_defect(
+            float(profile_with_stream.face_fluxes.angular_momentum[-1]),
+            expected_outer_angular,
+        ),
+        "outer_energy_flux_donor_consistency": relative_defect(
+            float(profile_with_stream.face_fluxes.total_energy[-1]),
+            expected_outer_energy,
         ),
         "maximum_face_mass_flux_change_from_stream_source": float(
             np.max(
@@ -231,6 +326,47 @@ def _initial_case(
         "outer_cell_radial_velocity_c": float(
             initial_primitives.radial_velocity[-1] / 2.99792458e10
         ),
+        "outer_characteristic_audit": {
+            "radial_velocity": characteristic.radial_velocity,
+            "effective_sound_speed": characteristic.effective_sound_speed,
+            "radial_mach_number": characteristic.radial_mach_number,
+            "eigenvalues": list(characteristic.eigenvalues),
+            "incoming_characteristics": (
+                characteristic.incoming_characteristics
+            ),
+        },
+        "inner_characteristic_audit": {
+            "radial_velocity": inner_characteristic.radial_velocity,
+            "effective_sound_speed": (
+                inner_characteristic.effective_sound_speed
+            ),
+            "radial_mach_number": inner_characteristic.radial_mach_number,
+            "eigenvalues": list(inner_characteristic.eigenvalues),
+            "incoming_characteristics": (
+                inner_characteristic.incoming_characteristics
+            ),
+        },
+        "outer_boundary_geometry": {
+            "outer_radius_over_hill_radius": float(
+                grid.edges[-1] / hill_geometry.hill_radius
+            ),
+            "outer_radius_over_fiducial_truncation_radius": float(
+                grid.edges[-1] / hill_geometry.truncation_radius
+            ),
+            "is_roche_saddle": False,
+            "exterior_thermodynamic_state_declared": False,
+            "characteristic_contract_closed": False,
+        },
+        "integrated_vertical_work_over_eddington_luminosity": float(
+            np.sum(profile_with_stream.vertical_work_rate_cells)
+            / eddington_luminosity(mass)
+        ),
+        "maximum_absolute_specific_mechanical_energy_correction": float(
+            np.max(np.abs(mechanical_correction))
+        ),
+        "minimum_recovered_specific_internal_energy": float(
+            np.min(initial_primitives.specific_internal_energy)
+        ),
     }
     return (
         grid,
@@ -240,12 +376,20 @@ def _initial_case(
         stream_rate,
         stream,
         initial_primitives,
+        mechanical_correction,
         mapping,
     )
 
 
 def _mapping_attempt(
-    context, evaluation, n_cells: int, *, mapping_mode: str
+    context,
+    evaluation,
+    n_cells: int,
+    *,
+    mapping_mode: str,
+    open_face_reconstruction: str = "primitive_product",
+    include_vertical_column_work: bool = False,
+    boundary_mode: str = "open_no_inflow",
 ):
     try:
         return {
@@ -255,15 +399,78 @@ def _mapping_attempt(
                 evaluation,
                 n_cells,
                 mapping_mode=mapping_mode,
+                open_face_reconstruction=open_face_reconstruction,
+                include_vertical_column_work=include_vertical_column_work,
+                boundary_mode=boundary_mode,
             )[-1],
         }
     except ValueError as error:
         return {
             "accepted": False,
             "mapping_mode": mapping_mode,
+            "open_face_reconstruction": open_face_reconstruction,
+            "boundary_mode": boundary_mode,
             "n_cells": n_cells,
             "message": str(error),
         }
+
+
+def _mechanical_reference_quadrature_audit(
+    context, evaluation, n_cells: int
+) -> dict[str, float | int]:
+    grid_32, state_32, correction_32 = _conservatively_mapped_global_state(
+        context, evaluation, n_cells, quadrature_order=32
+    )
+    grid_64, state_64, correction_64 = _conservatively_mapped_global_state(
+        context, evaluation, n_cells, quadrature_order=64
+    )
+    if not np.array_equal(grid_32.edges, grid_64.edges):
+        raise RuntimeError("quadrature audit grids differ")
+    mass = context.base.inner_params.M2_g
+    primitives_32 = recover_global_primitives(
+        grid_32,
+        state_32,
+        mass,
+        specific_mechanical_energy_correction=correction_32,
+    )
+    primitives_64 = recover_global_primitives(
+        grid_64,
+        state_64,
+        mass,
+        specific_mechanical_energy_correction=correction_64,
+    )
+
+    def maximum_relative(left, right) -> float:
+        left = np.asarray(left, dtype=float)
+        right = np.asarray(right, dtype=float)
+        return float(
+            np.max(
+                np.abs(left - right)
+                / np.maximum(np.maximum(np.abs(left), np.abs(right)), 1.0)
+            )
+        )
+
+    return {
+        "n_cells": n_cells,
+        "maximum_mass_relative_difference": maximum_relative(
+            state_32.mass, state_64.mass
+        ),
+        "maximum_radial_momentum_relative_difference": maximum_relative(
+            state_32.radial_momentum, state_64.radial_momentum
+        ),
+        "maximum_angular_momentum_relative_difference": maximum_relative(
+            state_32.angular_momentum, state_64.angular_momentum
+        ),
+        "maximum_total_energy_relative_difference": maximum_relative(
+            state_32.total_energy, state_64.total_energy
+        ),
+        "maximum_correction_relative_difference": maximum_relative(
+            correction_32, correction_64
+        ),
+        "maximum_temperature_relative_difference": maximum_relative(
+            primitives_32.temperature, primitives_64.temperature
+        ),
+    }
 
 
 def _run_case(
@@ -274,6 +481,9 @@ def _run_case(
     *,
     mapping_mode: str = "pointwise",
     jacobian_mode: str = "dense",
+    open_face_reconstruction: str = "primitive_product",
+    include_vertical_column_work: bool = False,
+    boundary_mode: str = "open_no_inflow",
 ):
     (
         grid,
@@ -283,9 +493,16 @@ def _run_case(
         stream_rate,
         stream,
         initial_primitives,
+        mechanical_correction,
         mapping,
     ) = _initial_case(
-        context, evaluation, n_cells, mapping_mode=mapping_mode
+        context,
+        evaluation,
+        n_cells,
+        mapping_mode=mapping_mode,
+        open_face_reconstruction=open_face_reconstruction,
+        include_vertical_column_work=include_vertical_column_work,
+        boundary_mode=boundary_mode,
     )
     loading_time = float(np.sum(initial.mass) / stream_rate)
     dt = DT_LOADING_FRACTION * loading_time / n_steps
@@ -299,11 +516,14 @@ def _run_case(
             dt,
             alpha=context.base.alpha,
             reference_state=initial,
-            boundary_mode="open_no_inflow",
+            boundary_mode=boundary_mode,
             stress_boundary_mode="outer_zero_torque",
             include_radiative_cooling=True,
+            include_vertical_column_work=include_vertical_column_work,
             external_sources=stream,
             jacobian_mode=jacobian_mode,
+            open_face_reconstruction=open_face_reconstruction,
+            specific_mechanical_energy_correction=mechanical_correction,
             max_nfev=300,
         )
         results.append(result)
@@ -311,7 +531,12 @@ def _run_case(
             break
         current = result.state
     final_result = results[-1]
-    final = recover_global_primitives(grid, final_result.state, mass)
+    final = recover_global_primitives(
+        grid,
+        final_result.state,
+        mass,
+        specific_mechanical_energy_correction=mechanical_correction,
+    )
     return {
         "initial": {
             **mapping,
@@ -351,6 +576,33 @@ def _run_case(
                         result.jacobian_audit.maximum_relative_defect
                     ),
                     "accepted": result.jacobian_audit.accepted,
+                }
+                for result in results
+            ],
+            "inner_characteristic_projections": [
+                None
+                if result.profile.inner_characteristic_projection is None
+                else {
+                    "incoming_amplitude_before": (
+                        result.profile.inner_characteristic_projection
+                        .incoming_amplitude_before
+                    ),
+                    "incoming_amplitude_after": (
+                        result.profile.inner_characteristic_projection
+                        .incoming_amplitude_after
+                    ),
+                    "outgoing_amplitude_before": (
+                        result.profile.inner_characteristic_projection
+                        .outgoing_amplitude_before
+                    ),
+                    "outgoing_amplitude_after": (
+                        result.profile.inner_characteristic_projection
+                        .outgoing_amplitude_after
+                    ),
+                    "projected_radial_velocity": (
+                        result.profile.inner_characteristic_projection
+                        .projected_radial_velocity
+                    ),
                 }
                 for result in results
             ],
@@ -403,6 +655,22 @@ def main() -> None:
         )
         for n_cells in (16, 24, 32, 48, 64, 96, 128)
     ]
+    mechanical_reference_quadrature = [
+        _mechanical_reference_quadrature_audit(
+            context, evaluation, n_cells
+        )
+        for n_cells in (64, 96, 128)
+    ]
+    donor_mapping_only = [
+        _mapping_attempt(
+            context,
+            evaluation,
+            n_cells,
+            mapping_mode="conservative",
+            open_face_reconstruction="conserved_donor",
+        )
+        for n_cells in (64, 96, 128)
+    ]
     conservative_step = _run_case(
         context,
         evaluation,
@@ -433,6 +701,66 @@ def main() -> None:
         mapping_mode="conservative",
         jacobian_mode="sparse_forward",
     )
+    donor_64 = _run_case(
+        context,
+        evaluation,
+        64,
+        1,
+        mapping_mode="conservative",
+        jacobian_mode="sparse_forward",
+        open_face_reconstruction="conserved_donor",
+    )
+    donor_96 = _run_case(
+        context,
+        evaluation,
+        96,
+        1,
+        mapping_mode="conservative",
+        jacobian_mode="sparse_forward",
+        open_face_reconstruction="conserved_donor",
+    )
+    column_energy_64 = _run_case(
+        context,
+        evaluation,
+        64,
+        1,
+        mapping_mode="conservative",
+        jacobian_mode="sparse_forward",
+        open_face_reconstruction="conserved_donor",
+        include_vertical_column_work=True,
+    )
+    column_energy_96 = _run_case(
+        context,
+        evaluation,
+        96,
+        1,
+        mapping_mode="conservative",
+        jacobian_mode="sparse_forward",
+        open_face_reconstruction="conserved_donor",
+        include_vertical_column_work=True,
+    )
+    characteristic_inner_64 = _run_case(
+        context,
+        evaluation,
+        64,
+        1,
+        mapping_mode="conservative",
+        jacobian_mode="sparse_forward",
+        open_face_reconstruction="conserved_donor",
+        include_vertical_column_work=True,
+        boundary_mode="characteristic_inner_open_outer",
+    )
+    characteristic_inner_96 = _run_case(
+        context,
+        evaluation,
+        96,
+        1,
+        mapping_mode="conservative",
+        jacobian_mode="sparse_forward",
+        open_face_reconstruction="conserved_donor",
+        include_vertical_column_work=True,
+        boundary_mode="characteristic_inner_open_outer",
+    )
     target_inner = float(
         -evaluation.base.outer_transport.mdot_faces[0]
         / (5.0 * eddington_mdot(context.base.inner_params.M2_g))
@@ -459,6 +787,10 @@ def main() -> None:
         "runs": [coarse, temporal, medium, refined],
         "pointwise_mapping_only_meshes": pointwise_mapping_only,
         "conservative_mapping_only_meshes": conservative_mapping_only,
+        "mechanical_reference_quadrature_audit": (
+            mechanical_reference_quadrature
+        ),
+        "conserved_donor_mapping_only_meshes": donor_mapping_only,
         "conservative_N64_step": conservative_step,
         "conservative_N64_two_half_steps": conservative_temporal,
         "conservative_N64_temporal_comparison": {
@@ -508,6 +840,87 @@ def main() -> None:
                 abs(
                     sparse_96["step"]["outer_mass_flux_over_supply"]
                     - sparse_64["step"]["outer_mass_flux_over_supply"]
+                )
+                <= 0.01
+            ),
+        },
+        "conserved_donor_evolved_mesh_runs": [donor_64, donor_96],
+        "column_energy_evolved_mesh_runs": [
+            column_energy_64,
+            column_energy_96,
+        ],
+        "column_energy_N64_N96_comparison": {
+            "inner_flux_difference_over_supply": float(
+                column_energy_96["step"]["inner_mass_flux_over_supply"]
+                - column_energy_64["step"]["inner_mass_flux_over_supply"]
+            ),
+            "outer_flux_difference_over_supply": float(
+                column_energy_96["step"]["outer_mass_flux_over_supply"]
+                - column_energy_64["step"]["outer_mass_flux_over_supply"]
+            ),
+            "maximum_H_over_R_relative_difference": float(
+                column_energy_96["step"]["maximum_H_over_R"]
+                / column_energy_64["step"]["maximum_H_over_R"]
+                - 1.0
+            ),
+            "flux_mesh_gate_pass": bool(
+                abs(
+                    column_energy_96["step"]["outer_mass_flux_over_supply"]
+                    - column_energy_64["step"]["outer_mass_flux_over_supply"]
+                )
+                <= 0.01
+            ),
+        },
+        "characteristic_inner_evolved_mesh_runs": [
+            characteristic_inner_64,
+            characteristic_inner_96,
+        ],
+        "characteristic_inner_N64_N96_comparison": {
+            "inner_flux_difference_over_supply": float(
+                characteristic_inner_96["step"][
+                    "inner_mass_flux_over_supply"
+                ]
+                - characteristic_inner_64["step"][
+                    "inner_mass_flux_over_supply"
+                ]
+            ),
+            "outer_flux_difference_over_supply": float(
+                characteristic_inner_96["step"][
+                    "outer_mass_flux_over_supply"
+                ]
+                - characteristic_inner_64["step"][
+                    "outer_mass_flux_over_supply"
+                ]
+            ),
+            "maximum_H_over_R_relative_difference": float(
+                characteristic_inner_96["step"]["maximum_H_over_R"]
+                / characteristic_inner_64["step"]["maximum_H_over_R"]
+                - 1.0
+            ),
+        },
+        "conserved_donor_N64_N96_comparison": {
+            "inner_flux_difference_over_supply": float(
+                donor_96["step"]["inner_mass_flux_over_supply"]
+                - donor_64["step"]["inner_mass_flux_over_supply"]
+            ),
+            "outer_flux_difference_over_supply": float(
+                donor_96["step"]["outer_mass_flux_over_supply"]
+                - donor_64["step"]["outer_mass_flux_over_supply"]
+            ),
+            "outer_flux_relative_difference": float(
+                donor_96["step"]["outer_mass_flux_over_supply"]
+                / donor_64["step"]["outer_mass_flux_over_supply"]
+                - 1.0
+            ),
+            "maximum_H_over_R_relative_difference": float(
+                donor_96["step"]["maximum_H_over_R"]
+                / donor_64["step"]["maximum_H_over_R"]
+                - 1.0
+            ),
+            "flux_mesh_gate_pass": bool(
+                abs(
+                    donor_96["step"]["outer_mass_flux_over_supply"]
+                    - donor_64["step"]["outer_mass_flux_over_supply"]
                 )
                 <= 0.01
             ),

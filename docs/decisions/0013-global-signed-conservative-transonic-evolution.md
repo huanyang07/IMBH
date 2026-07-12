@@ -243,3 +243,88 @@ face values and is assigned to separately extrapolating `Sigma` and `v_R` at
 the open edge. The next and only authorized boundary correction is a direct
 conservative mass-flux face reconstruction, followed by the same one-time
 `N=64`/`N=96` comparison.
+
+That bounded correction is complete. A first-order conserved-donor outer face
+uses one mass flux for radial, angular, and total-energy advection; all three
+donor consistency defects are zero and the `N=96`/`N=128` mapping difference
+passes at `0.00782` supply. The evolved `N=64`/`N=96` outer difference improves
+from `0.02846` to `0.01150` supply but narrowly fails the fixed `0.01` gate.
+The inner-flux, thickness, residual, Jacobian, and ledger gates pass. Further
+reconstruction variants are prohibited. The only authorized outer-boundary
+fallback is one characteristic or modeled Roche-overflow contract with a
+declared exterior condition.
+
+The characteristic preflight is now complete. On the conservative
+`N=64,96,128` mappings the outer radial Mach number is only
+`0.0090, 0.0128, 0.0100`. The radial Euler eigenvalues therefore contain
+exactly one negative acoustic speed at the outward-facing edge: one exterior
+condition is required. The live `335 rg` edge is not a Roche saddle; it is
+`0.4485 R_H` and `0.8970` of the repository's current fiducial truncation
+radius. No exterior pressure, entropy, or Bernoulli state is declared there.
+Consequently an arbitrary pressure outlet, vacuum ghost state, or
+mesh-dependent reference state is prohibited. The characteristic/Roche
+boundary remains physically underdetermined until either (a) Layer 1 supplies
+one exterior thermodynamic invariant at `335 rg`, or (b) the domain gains a
+modeled Hill/Roche overflow layer terminating at an actual escape saddle.
+
+WP2 retains the existing conserved total energy and completes its one-zone
+identity with two matched terms. The outward-flux profile adds radial column
+work, evaluated with inward-positive `Mdot=-F_M`, to the total-energy source:
+
+```text
+W_R = Mdot * (Pi/Sigma) * Delta ln H.
+```
+
+The backward-Euler storage row adds the trapezoidal temporal work
+
+```text
+W_t = 0.5 * (M_new h_new + M_old h_old) * ln(H_new/H_old).
+```
+
+This is the same enthalpy-compatible identity previously certified against the
+transonic entropy equation. Manufactured radial and temporal tests, a
+source-bearing corrected residual/ledger test, and a torque non-double-counting
+test pass. Physical donor-face `N=64/96` tiny steps remain accepted with
+column-work power near `0.0399 L_Edd`, residuals below `1e-11`, and ledgers
+below `3e-16`. The later WP4 remap changes the numerical outer-flux comparison
+without changing this identity or concealing the independent physical boundary
+closure gate.
+
+WP3 finds that the fixed `5.21024 rg` inner edge is not causally outgoing for
+the time-dependent radial Euler block. After the final WP4 remap, the
+conservative `N=64,96,128` first cells have Mach numbers
+`-0.654,-0.763,-0.818` and exactly one positive
+`v_R+c_eff` characteristic entering the domain. The former no-inflow diode is
+therefore insufficient by itself.
+
+The selected inner boundary projects only that incoming acoustic perturbation
+to zero relative to the fixed certified transonic reference. It preserves the
+outgoing acoustic invariant and the two inward-advected contact fields, carries
+one projected donor state consistently through mass, radial momentum, angular
+momentum, and Bernoulli energy, and retains the diode solely as a final guard
+against black-hole ghost outflow. The reference profile is bitwise unchanged;
+a manufactured outgoing mode is unchanged below `2e-8` relative. Physical
+`N=64/96` tiny steps remove the incoming amplitude by more than seven orders of
+magnitude, preserve the outgoing amplitude below `4e-8` relative, and pass
+with residuals below `2.9e-12` and ledgers below `3.3e-16`. The accretion flux
+changes by less than `2.4e-5` supply relative to the unprojected WP2 control.
+
+WP4 removes the cell-average/center-point mechanical-energy contamination with
+a fixed finite-volume reference correction. For each mapped annulus, 32-point
+quadrature separately integrates mass-weighted mechanical and internal energy.
+Primitive recovery subtracts
+
+```text
+delta e_mech = <Phi + v_R^2/2 + v_phi^2/2>_M
+               - [Phi + v_R^2/2 + v_phi^2/2]_cell-center
+```
+
+from the specific total energy. The same correction is used when reconstructing
+every trial state, while the conserved total-energy storage and physical face
+flux remain unchanged. It is a fixed well-balanced reference, not a floor.
+All conservative `N=16-128` mappings now recover positive internal energy.
+The `N=64,96,128` 32/64-point quadrature comparison is below `1.2e-3` in every
+conserved field and below `1.9e-4` in temperature. The correction decreases
+monotonically on `N=64,96,128`. Selected `N=64/96` physical steps retain
+residuals below `1e-11` and ledgers below `3e-16`; their outer-flux difference
+is `0.00635` supply and passes the fixed numerical mesh gate.

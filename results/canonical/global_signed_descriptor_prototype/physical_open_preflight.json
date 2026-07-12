@@ -1,142 +1,1236 @@
 {
+  "characteristic_inner_N64_N96_comparison": {
+    "inner_flux_difference_over_supply": -0.0015270687417789364,
+    "maximum_H_over_R_relative_difference": 0.00030527822357329093,
+    "outer_flux_difference_over_supply": -0.006352722782920428
+  },
+  "characteristic_inner_evolved_mesh_runs": [
+    {
+      "initial": {
+        "active_source_cells": 4,
+        "boundary_mode": "characteristic_inner_open_outer",
+        "include_vertical_column_work": true,
+        "inner_cell_radial_velocity_c": -0.01534157215387666,
+        "inner_characteristic_audit": {
+          "effective_sound_speed": 703033126.2576854,
+          "eigenvalues": [
+            -1162961888.8171892,
+            -459928762.5595038,
+            -459928762.5595038,
+            243104363.69818163
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": -0.6542063885492138,
+          "radial_velocity": -459928762.5595038
+        },
+        "inner_mass_flux_over_supply": -0.16716812372719964,
+        "inner_radius_rg": 5.210237256314506,
+        "integrated_vertical_work_over_eddington_luminosity": 0.03990764231752255,
+        "loading_time_seconds": 1519889.5827240834,
+        "mapping_mode": "conservative",
+        "maximum_H_over_R": 0.1411145864879919,
+        "maximum_absolute_specific_mechanical_energy_correction": 3.3430356298358784e+16,
+        "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "minimum_recovered_specific_internal_energy": 376454566008832.25,
+        "n_cells": 64,
+        "open_face_reconstruction": "conserved_donor",
+        "outer_angular_flux_donor_consistency": 0.0,
+        "outer_boundary_geometry": {
+          "characteristic_contract_closed": false,
+          "exterior_thermodynamic_state_declared": false,
+          "is_roche_saddle": false,
+          "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+          "outer_radius_over_hill_radius": 0.44852007655505355
+        },
+        "outer_cell_radial_velocity_c": 2.5659395171711065e-06,
+        "outer_characteristic_audit": {
+          "effective_sound_speed": 17248507.12633693,
+          "eigenvalues": [
+            -17171582.194843724,
+            76924.93149320592,
+            76924.93149320592,
+            17325432.057830133
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": 0.004459802284903163,
+          "radial_velocity": 76924.93149320592
+        },
+        "outer_energy_flux_donor_consistency": 0.0,
+        "outer_mass_flux_over_supply": 0.852911859508638,
+        "outer_radial_flux_donor_consistency": 0.0,
+        "radiative_luminosity_over_eddington": 0.47995973752382765
+      },
+      "step": {
+        "all_steps_accepted": true,
+        "dt_over_loading_time": 1e-09,
+        "dt_seconds": 0.0015198895827240836,
+        "inner_characteristic_projections": [
+          {
+            "incoming_amplitude_after": 0.0036106987463426776,
+            "incoming_amplitude_before": 76833.0390143511,
+            "outgoing_amplitude_after": -129907.97038611607,
+            "outgoing_amplitude_before": -129907.96677542898,
+            "projected_radial_velocity": -459993716.5428915
+          }
+        ],
+        "inner_mass_flux_over_supply": -0.16722783711252204,
+        "jacobian_audits": [
+          {
+            "accepted": true,
+            "directions": 256,
+            "maximum_absolute_defect": 0.0,
+            "maximum_relative_defect": 0.0,
+            "pattern_nonzeros": 2659
+          }
+        ],
+        "maximum_H_over_R": 0.14111458635963967,
+        "maximum_nfev": 7,
+        "maximum_scaled_residual": 2.636172032119017e-12,
+        "maximum_storage_scaled_ledger_defect": 2.0047107734416106e-16,
+        "messages": [
+          "accepted"
+        ],
+        "minimum_surface_density": 661.505346250661,
+        "minimum_temperature": 977935.0911186063,
+        "outer_mass_flux_over_supply": 0.8527684596630108,
+        "steps_accepted": 1,
+        "steps_attempted": 1
+      }
+    },
+    {
+      "initial": {
+        "active_source_cells": 5,
+        "boundary_mode": "characteristic_inner_open_outer",
+        "include_vertical_column_work": true,
+        "inner_cell_radial_velocity_c": -0.01698646069020996,
+        "inner_characteristic_audit": {
+          "effective_sound_speed": 667410963.5850681,
+          "eigenvalues": [
+            -1176652243.8889103,
+            -509241280.30384207,
+            -509241280.30384207,
+            158169683.28122604
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": -0.7630100613996496,
+          "radial_velocity": -509241280.30384207
+        },
+        "inner_mass_flux_over_supply": -0.1686757257935857,
+        "inner_radius_rg": 5.210237256314506,
+        "integrated_vertical_work_over_eddington_luminosity": 0.039857409272317526,
+        "loading_time_seconds": 1520042.4976778505,
+        "mapping_mode": "conservative",
+        "maximum_H_over_R": 0.14115766562035062,
+        "maximum_absolute_specific_mechanical_energy_correction": 1.492060062134272e+16,
+        "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "minimum_recovered_specific_internal_energy": 189514061562367.97,
+        "n_cells": 96,
+        "open_face_reconstruction": "conserved_donor",
+        "outer_angular_flux_donor_consistency": 0.0,
+        "outer_boundary_geometry": {
+          "characteristic_contract_closed": false,
+          "exterior_thermodynamic_state_declared": false,
+          "is_roche_saddle": false,
+          "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+          "outer_radius_over_hill_radius": 0.44852007655505355
+        },
+        "outer_cell_radial_velocity_c": 2.3723620057148175e-06,
+        "outer_characteristic_audit": {
+          "effective_sound_speed": 13497294.321164032,
+          "eigenvalues": [
+            -13426172.697468126,
+            71121.62369590552,
+            71121.62369590552,
+            13568415.944859939
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": 0.005269324503384754,
+          "radial_velocity": 71121.62369590552
+        },
+        "outer_energy_flux_donor_consistency": 0.0,
+        "outer_mass_flux_over_supply": 0.8468356698675288,
+        "outer_radial_flux_donor_consistency": 0.0,
+        "radiative_luminosity_over_eddington": 0.4797685944795577
+      },
+      "step": {
+        "all_steps_accepted": true,
+        "dt_over_loading_time": 1e-09,
+        "dt_seconds": 0.0015200424976778506,
+        "inner_characteristic_projections": [
+          {
+            "incoming_amplitude_after": 0.004906688627670519,
+            "incoming_amplitude_before": 113318.54349610902,
+            "outgoing_amplitude_after": -176839.49262372107,
+            "outgoing_amplitude_before": -176839.48771700956,
+            "projected_radial_velocity": -509329700.0477006
+          }
+        ],
+        "inner_mass_flux_over_supply": -0.16875490585430097,
+        "jacobian_audits": [
+          {
+            "accepted": true,
+            "directions": 384,
+            "maximum_absolute_defect": 0.0,
+            "maximum_relative_defect": 0.0,
+            "pattern_nonzeros": 4003
+          }
+        ],
+        "maximum_H_over_R": 0.14115766556988382,
+        "maximum_nfev": 7,
+        "maximum_scaled_residual": 9.203412505106147e-12,
+        "maximum_storage_scaled_ledger_defect": 2.627342423966506e-16,
+        "messages": [
+          "accepted"
+        ],
+        "minimum_surface_density": 590.8832635573673,
+        "minimum_temperature": 735705.3392539342,
+        "outer_mass_flux_over_supply": 0.8464157368800904,
+        "steps_accepted": 1,
+        "steps_attempted": 1
+      }
+    }
+  ],
+  "column_energy_N64_N96_comparison": {
+    "flux_mesh_gate_pass": true,
+    "inner_flux_difference_over_supply": -0.0015223238108884596,
+    "maximum_H_over_R_relative_difference": 0.00030527822357329093,
+    "outer_flux_difference_over_supply": -0.006352722782920428
+  },
+  "column_energy_evolved_mesh_runs": [
+    {
+      "initial": {
+        "active_source_cells": 4,
+        "boundary_mode": "open_no_inflow",
+        "include_vertical_column_work": true,
+        "inner_cell_radial_velocity_c": -0.01534157215387666,
+        "inner_characteristic_audit": {
+          "effective_sound_speed": 703033126.2576854,
+          "eigenvalues": [
+            -1162961888.8171892,
+            -459928762.5595038,
+            -459928762.5595038,
+            243104363.69818163
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": -0.6542063885492138,
+          "radial_velocity": -459928762.5595038
+        },
+        "inner_mass_flux_over_supply": -0.16716812372719964,
+        "inner_radius_rg": 5.210237256314506,
+        "integrated_vertical_work_over_eddington_luminosity": 0.03990764231752255,
+        "loading_time_seconds": 1519889.5827240834,
+        "mapping_mode": "conservative",
+        "maximum_H_over_R": 0.1411145864879919,
+        "maximum_absolute_specific_mechanical_energy_correction": 3.3430356298358784e+16,
+        "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "minimum_recovered_specific_internal_energy": 376454566008832.25,
+        "n_cells": 64,
+        "open_face_reconstruction": "conserved_donor",
+        "outer_angular_flux_donor_consistency": 0.0,
+        "outer_boundary_geometry": {
+          "characteristic_contract_closed": false,
+          "exterior_thermodynamic_state_declared": false,
+          "is_roche_saddle": false,
+          "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+          "outer_radius_over_hill_radius": 0.44852007655505355
+        },
+        "outer_cell_radial_velocity_c": 2.5659395171711065e-06,
+        "outer_characteristic_audit": {
+          "effective_sound_speed": 17248507.12633693,
+          "eigenvalues": [
+            -17171582.194843724,
+            76924.93149320592,
+            76924.93149320592,
+            17325432.057830133
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": 0.004459802284903163,
+          "radial_velocity": 76924.93149320592
+        },
+        "outer_energy_flux_donor_consistency": 0.0,
+        "outer_mass_flux_over_supply": 0.852911859508638,
+        "outer_radial_flux_donor_consistency": 0.0,
+        "radiative_luminosity_over_eddington": 0.47995973752382765
+      },
+      "step": {
+        "all_steps_accepted": true,
+        "dt_over_loading_time": 1e-09,
+        "dt_seconds": 0.0015198895827240836,
+        "inner_characteristic_projections": [
+          null
+        ],
+        "inner_mass_flux_over_supply": -0.16721282281885072,
+        "jacobian_audits": [
+          {
+            "accepted": true,
+            "directions": 256,
+            "maximum_absolute_defect": 0.0,
+            "maximum_relative_defect": 0.0,
+            "pattern_nonzeros": 2659
+          }
+        ],
+        "maximum_H_over_R": 0.14111458635963967,
+        "maximum_nfev": 6,
+        "maximum_scaled_residual": 2.6612463973171133e-12,
+        "maximum_storage_scaled_ledger_defect": 2.0047051454787876e-16,
+        "messages": [
+          "accepted"
+        ],
+        "minimum_surface_density": 661.5054271003049,
+        "minimum_temperature": 977935.0911186063,
+        "outer_mass_flux_over_supply": 0.8527684596630108,
+        "steps_accepted": 1,
+        "steps_attempted": 1
+      }
+    },
+    {
+      "initial": {
+        "active_source_cells": 5,
+        "boundary_mode": "open_no_inflow",
+        "include_vertical_column_work": true,
+        "inner_cell_radial_velocity_c": -0.01698646069020996,
+        "inner_characteristic_audit": {
+          "effective_sound_speed": 667410963.5850681,
+          "eigenvalues": [
+            -1176652243.8889103,
+            -509241280.30384207,
+            -509241280.30384207,
+            158169683.28122604
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": -0.7630100613996496,
+          "radial_velocity": -509241280.30384207
+        },
+        "inner_mass_flux_over_supply": -0.1686757257935857,
+        "inner_radius_rg": 5.210237256314506,
+        "integrated_vertical_work_over_eddington_luminosity": 0.039857409272317526,
+        "loading_time_seconds": 1520042.4976778505,
+        "mapping_mode": "conservative",
+        "maximum_H_over_R": 0.14115766562035062,
+        "maximum_absolute_specific_mechanical_energy_correction": 1.492060062134272e+16,
+        "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "minimum_recovered_specific_internal_energy": 189514061562367.97,
+        "n_cells": 96,
+        "open_face_reconstruction": "conserved_donor",
+        "outer_angular_flux_donor_consistency": 0.0,
+        "outer_boundary_geometry": {
+          "characteristic_contract_closed": false,
+          "exterior_thermodynamic_state_declared": false,
+          "is_roche_saddle": false,
+          "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+          "outer_radius_over_hill_radius": 0.44852007655505355
+        },
+        "outer_cell_radial_velocity_c": 2.3723620057148175e-06,
+        "outer_characteristic_audit": {
+          "effective_sound_speed": 13497294.321164032,
+          "eigenvalues": [
+            -13426172.697468126,
+            71121.62369590552,
+            71121.62369590552,
+            13568415.944859939
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": 0.005269324503384754,
+          "radial_velocity": 71121.62369590552
+        },
+        "outer_energy_flux_donor_consistency": 0.0,
+        "outer_mass_flux_over_supply": 0.8468356698675288,
+        "outer_radial_flux_donor_consistency": 0.0,
+        "radiative_luminosity_over_eddington": 0.4797685944795577
+      },
+      "step": {
+        "all_steps_accepted": true,
+        "dt_over_loading_time": 1e-09,
+        "dt_seconds": 0.0015200424976778506,
+        "inner_characteristic_projections": [
+          null
+        ],
+        "inner_mass_flux_over_supply": -0.16873514662973918,
+        "jacobian_audits": [
+          {
+            "accepted": true,
+            "directions": 384,
+            "maximum_absolute_defect": 0.0,
+            "maximum_relative_defect": 0.0,
+            "pattern_nonzeros": 4003
+          }
+        ],
+        "maximum_H_over_R": 0.14115766556988382,
+        "maximum_nfev": 6,
+        "maximum_scaled_residual": 9.24516941624867e-12,
+        "maximum_storage_scaled_ledger_defect": 2.795392844118136e-16,
+        "messages": [
+          "accepted"
+        ],
+        "minimum_surface_density": 590.88341454596,
+        "minimum_temperature": 735705.3392539342,
+        "outer_mass_flux_over_supply": 0.8464157368800904,
+        "steps_accepted": 1,
+        "steps_attempted": 1
+      }
+    }
+  ],
   "conservative_N64_step": {
     "initial": {
       "active_source_cells": 4,
-      "inner_cell_radial_velocity_c": -0.015341572153876637,
-      "inner_mass_flux_over_supply": -0.1671959284334586,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
+      "inner_cell_radial_velocity_c": -0.01534157215387666,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 703033126.2576854,
+        "eigenvalues": [
+          -1162961888.8171892,
+          -459928762.5595038,
+          -459928762.5595038,
+          243104363.69818163
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.6542063885492138,
+        "radial_velocity": -459928762.5595038
+      },
+      "inner_mass_flux_over_supply": -0.16716812372719964,
       "inner_radius_rg": 5.210237256314506,
-      "loading_time_seconds": 1517252.4419973027,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
+      "loading_time_seconds": 1519889.5827240834,
       "mapping_mode": "conservative",
-      "maximum_H_over_R": 0.14100180945481633,
+      "maximum_H_over_R": 0.1411145864879919,
+      "maximum_absolute_specific_mechanical_energy_correction": 3.3430356298358784e+16,
       "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 376454566008832.25,
       "n_cells": 64,
-      "outer_cell_radial_velocity_c": 2.593629204177478e-06,
-      "outer_mass_flux_over_supply": 0.8608560922039032,
-      "radiative_luminosity_over_eddington": 0.478470337672587
+      "open_face_reconstruction": "primitive_product",
+      "outer_angular_flux_donor_consistency": 0.015267355796531882,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
+      "outer_cell_radial_velocity_c": 2.5659395171711065e-06,
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 17248507.12633693,
+        "eigenvalues": [
+          -17171582.194843724,
+          76924.93149320592,
+          76924.93149320592,
+          17325432.057830133
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.004459802284903163,
+        "radial_velocity": 76924.93149320592
+      },
+      "outer_energy_flux_donor_consistency": 0.030691377192713278,
+      "outer_mass_flux_over_supply": 0.8563308251533155,
+      "outer_radial_flux_donor_consistency": 0.46829386316127364,
+      "radiative_luminosity_over_eddington": 0.47995973752382765
     },
     "step": {
       "all_steps_accepted": true,
       "dt_over_loading_time": 1e-09,
-      "dt_seconds": 0.0015172524419973029,
-      "inner_mass_flux_over_supply": -0.16723183850174655,
+      "dt_seconds": 0.0015198895827240836,
+      "inner_characteristic_projections": [
+        null
+      ],
+      "inner_mass_flux_over_supply": -0.1672128137562265,
       "jacobian_audits": [
         null
       ],
-      "maximum_H_over_R": 0.14100180167688883,
-      "maximum_nfev": 13,
-      "maximum_scaled_residual": 1.2505713709811024e-12,
-      "maximum_storage_scaled_ledger_defect": 1.2183996619175853e-16,
+      "maximum_H_over_R": 0.14111457879736514,
+      "maximum_nfev": 6,
+      "maximum_scaled_residual": 3.927943922035475e-12,
+      "maximum_storage_scaled_ledger_defect": 2.73132180488941e-16,
       "messages": [
         "accepted"
       ],
-      "minimum_surface_density": 661.5046239804162,
-      "minimum_temperature": 334844.6684061037,
-      "outer_mass_flux_over_supply": 0.8606900686744078,
+      "minimum_surface_density": 661.505383059457,
+      "minimum_temperature": 977935.0931245988,
+      "outer_mass_flux_over_supply": 0.8562341752588567,
       "steps_accepted": 1,
       "steps_attempted": 1
     }
   },
   "conservative_N64_temporal_comparison": {
-    "inner_flux_difference": -9.370523026963617e-08,
-    "maximum_H_over_R_relative_difference": -1.4854006913367357e-11,
-    "outer_flux_difference": -9.452361116046859e-11
+    "inner_flux_difference": -9.595541633489191e-08,
+    "maximum_H_over_R_relative_difference": -1.5066725644885537e-11,
+    "outer_flux_difference": -8.841205545451203e-11
   },
   "conservative_N64_two_half_steps": {
     "initial": {
       "active_source_cells": 4,
-      "inner_cell_radial_velocity_c": -0.015341572153876637,
-      "inner_mass_flux_over_supply": -0.1671959284334586,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
+      "inner_cell_radial_velocity_c": -0.01534157215387666,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 703033126.2576854,
+        "eigenvalues": [
+          -1162961888.8171892,
+          -459928762.5595038,
+          -459928762.5595038,
+          243104363.69818163
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.6542063885492138,
+        "radial_velocity": -459928762.5595038
+      },
+      "inner_mass_flux_over_supply": -0.16716812372719964,
       "inner_radius_rg": 5.210237256314506,
-      "loading_time_seconds": 1517252.4419973027,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
+      "loading_time_seconds": 1519889.5827240834,
       "mapping_mode": "conservative",
-      "maximum_H_over_R": 0.14100180945481633,
+      "maximum_H_over_R": 0.1411145864879919,
+      "maximum_absolute_specific_mechanical_energy_correction": 3.3430356298358784e+16,
       "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 376454566008832.25,
       "n_cells": 64,
-      "outer_cell_radial_velocity_c": 2.593629204177478e-06,
-      "outer_mass_flux_over_supply": 0.8608560922039032,
-      "radiative_luminosity_over_eddington": 0.478470337672587
+      "open_face_reconstruction": "primitive_product",
+      "outer_angular_flux_donor_consistency": 0.015267355796531882,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
+      "outer_cell_radial_velocity_c": 2.5659395171711065e-06,
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 17248507.12633693,
+        "eigenvalues": [
+          -17171582.194843724,
+          76924.93149320592,
+          76924.93149320592,
+          17325432.057830133
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.004459802284903163,
+        "radial_velocity": 76924.93149320592
+      },
+      "outer_energy_flux_donor_consistency": 0.030691377192713278,
+      "outer_mass_flux_over_supply": 0.8563308251533155,
+      "outer_radial_flux_donor_consistency": 0.46829386316127364,
+      "radiative_luminosity_over_eddington": 0.47995973752382765
     },
     "step": {
       "all_steps_accepted": true,
       "dt_over_loading_time": 1e-09,
-      "dt_seconds": 0.0007586262209986514,
-      "inner_mass_flux_over_supply": -0.16723193220697682,
+      "dt_seconds": 0.0007599447913620418,
+      "inner_characteristic_projections": [
+        null,
+        null
+      ],
+      "inner_mass_flux_over_supply": -0.16721290971164285,
       "jacobian_audits": [
         null,
         null
       ],
-      "maximum_H_over_R": 0.1410018016747944,
-      "maximum_nfev": 13,
-      "maximum_scaled_residual": 5.038346968235007e-12,
-      "maximum_storage_scaled_ledger_defect": 2.831425426693327e-16,
+      "maximum_H_over_R": 0.141114578795239,
+      "maximum_nfev": 6,
+      "maximum_scaled_residual": 3.999895547114224e-12,
+      "maximum_storage_scaled_ledger_defect": 4.529694828299236e-16,
       "messages": [
         "accepted",
         "accepted"
       ],
-      "minimum_surface_density": 661.5047568952021,
-      "minimum_temperature": 334844.66805787827,
-      "outer_mass_flux_over_supply": 0.8606900685798842,
+      "minimum_surface_density": 661.5055118721226,
+      "minimum_temperature": 977935.0930729253,
+      "outer_mass_flux_over_supply": 0.8562341751704446,
       "steps_accepted": 2,
       "steps_attempted": 2
     }
   },
   "conservative_mapping_only_meshes": [
     {
-      "accepted": false,
+      "accepted": true,
+      "active_source_cells": 2,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
+      "inner_cell_radial_velocity_c": -0.005118790235844606,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 1072524756.4519149,
+        "eigenvalues": [
+          -1225982227.1309404,
+          -153457470.6790254,
+          -153457470.6790254,
+          919067285.7728895
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.14308058602459445,
+        "radial_velocity": -153457470.6790254
+      },
+      "inner_mass_flux_over_supply": -0.12780380100758829,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
       "mapping_mode": "conservative",
-      "message": "cell 15 internal energy lies outside temperature bounds",
-      "n_cells": 16
+      "maximum_absolute_specific_mechanical_energy_correction": 4.8169512868972134e+17,
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 3273453589224207.0,
+      "n_cells": 16,
+      "open_face_reconstruction": "primitive_product",
+      "outer_angular_flux_donor_consistency": 0.06679435454574875,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
+      "outer_cell_radial_velocity_c": 3.2770528206265455e-06,
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 40745118.44334232,
+        "eigenvalues": [
+          -40646874.871333174,
+          98243.57200914652,
+          98243.57200914652,
+          40843362.01535147
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.00241117404397187,
+        "radial_velocity": 98243.57200914652
+      },
+      "outer_energy_flux_donor_consistency": 0.1337088164331498,
+      "outer_mass_flux_over_supply": 1.5219251854476672,
+      "outer_radial_flux_donor_consistency": 0.4657321542895501
     },
     {
-      "accepted": false,
+      "accepted": true,
+      "active_source_cells": 2,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
+      "inner_cell_radial_velocity_c": -0.007907473233466283,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 918151230.4738855,
+        "eigenvalues": [
+          -1155211314.196892,
+          -237060083.7230065,
+          -237060083.7230065,
+          681091146.750879
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.25819285086690197,
+        "radial_velocity": -237060083.7230065
+      },
+      "inner_mass_flux_over_supply": -0.13728287757748173,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
       "mapping_mode": "conservative",
-      "message": "cell 23 internal energy lies outside temperature bounds",
-      "n_cells": 24
+      "maximum_absolute_specific_mechanical_energy_correction": 2.322944210248827e+17,
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 1644871828299257.2,
+      "n_cells": 24,
+      "open_face_reconstruction": "primitive_product",
+      "outer_angular_flux_donor_consistency": 0.043260488844016995,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
+      "outer_cell_radial_velocity_c": 2.8760027597159495e-06,
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 30277528.497990776,
+        "eigenvalues": [
+          -30191308.104335774,
+          86220.39365500279,
+          86220.39365500279,
+          30363748.891645778
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.002847669474102696,
+        "radial_velocity": 86220.39365500279
+      },
+      "outer_energy_flux_donor_consistency": 0.08643139613633792,
+      "outer_mass_flux_over_supply": 0.8621227531698872,
+      "outer_radial_flux_donor_consistency": 0.5042859209805917
     },
     {
-      "accepted": false,
+      "accepted": true,
+      "active_source_cells": 3,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
+      "inner_cell_radial_velocity_c": -0.010215078332451749,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 832734757.4321989,
+        "eigenvalues": [
+          -1138975101.627024,
+          -306240344.1948251,
+          -306240344.1948251,
+          526494413.23737377
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.36775256642239906,
+        "radial_velocity": -306240344.1948251
+      },
+      "inner_mass_flux_over_supply": -0.14658283486643997,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
       "mapping_mode": "conservative",
-      "message": "cell 31 internal energy lies outside temperature bounds",
-      "n_cells": 32
+      "maximum_absolute_specific_mechanical_energy_correction": 1.3176982598268518e+17,
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 1020072889135102.0,
+      "n_cells": 32,
+      "open_face_reconstruction": "primitive_product",
+      "outer_angular_flux_donor_consistency": 0.03125860719949778,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
+      "outer_cell_radial_velocity_c": 2.6467937117210427e-06,
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 24979584.852329914,
+        "eigenvalues": [
+          -24900235.973064333,
+          79348.87926557948,
+          79348.87926557948,
+          25058933.731595494
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.0031765491594300216,
+        "radial_velocity": 79348.87926557948
+      },
+      "outer_energy_flux_donor_consistency": 0.06261191761225504,
+      "outer_mass_flux_over_supply": 0.726717042547727,
+      "outer_radial_flux_donor_consistency": 0.4969263079699215
     },
     {
-      "accepted": false,
+      "accepted": true,
+      "active_source_cells": 3,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
+      "inner_cell_radial_velocity_c": -0.013590756608779201,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 743394728.2969153,
+        "eigenvalues": [
+          -1150835361.2794814,
+          -407440632.9825661,
+          -407440632.9825661,
+          335954095.3143492
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.5480811438036354,
+        "radial_velocity": -407440632.9825661
+      },
+      "inner_mass_flux_over_supply": -0.16170703819523616,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
       "mapping_mode": "conservative",
-      "message": "cell 47 internal energy lies outside temperature bounds",
-      "n_cells": 48
+      "maximum_absolute_specific_mechanical_energy_correction": 5.730671842053325e+16,
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 534482265860902.1,
+      "n_cells": 48,
+      "open_face_reconstruction": "primitive_product",
+      "outer_angular_flux_donor_consistency": 0.020264809248632245,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
+      "outer_cell_radial_velocity_c": 2.477032674742562e-06,
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 19601082.823364638,
+        "eigenvalues": [
+          -19526823.2519539,
+          74259.57141073872,
+          74259.57141073872,
+          19675342.394775376
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.0037885443411432734,
+        "radial_velocity": 74259.57141073872
+      },
+      "outer_energy_flux_donor_consistency": 0.040747977105998506,
+      "outer_mass_flux_over_supply": 0.8198317509876621,
+      "outer_radial_flux_donor_consistency": 0.47906409992568416
     },
     {
       "accepted": true,
       "active_source_cells": 4,
-      "inner_cell_radial_velocity_c": -0.015341572153876637,
-      "inner_mass_flux_over_supply": -0.1671959284334586,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
+      "inner_cell_radial_velocity_c": -0.01534157215387666,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 703033126.2576854,
+        "eigenvalues": [
+          -1162961888.8171892,
+          -459928762.5595038,
+          -459928762.5595038,
+          243104363.69818163
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.6542063885492138,
+        "radial_velocity": -459928762.5595038
+      },
+      "inner_mass_flux_over_supply": -0.16716812372719964,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
       "mapping_mode": "conservative",
+      "maximum_absolute_specific_mechanical_energy_correction": 3.3430356298358784e+16,
       "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 376454566008832.25,
       "n_cells": 64,
-      "outer_cell_radial_velocity_c": 2.593629204177478e-06,
-      "outer_mass_flux_over_supply": 0.8608560922039032
+      "open_face_reconstruction": "primitive_product",
+      "outer_angular_flux_donor_consistency": 0.015267355796531882,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
+      "outer_cell_radial_velocity_c": 2.5659395171711065e-06,
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 17248507.12633693,
+        "eigenvalues": [
+          -17171582.194843724,
+          76924.93149320592,
+          76924.93149320592,
+          17325432.057830133
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.004459802284903163,
+        "radial_velocity": 76924.93149320592
+      },
+      "outer_energy_flux_donor_consistency": 0.030691377192713278,
+      "outer_mass_flux_over_supply": 0.8563308251533155,
+      "outer_radial_flux_donor_consistency": 0.46829386316127364
     },
     {
       "accepted": true,
       "active_source_cells": 5,
-      "inner_cell_radial_velocity_c": -0.01698646069020995,
-      "inner_mass_flux_over_supply": -0.1686757257935856,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
+      "inner_cell_radial_velocity_c": -0.01698646069020996,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 667410963.5850681,
+        "eigenvalues": [
+          -1176652243.8889103,
+          -509241280.30384207,
+          -509241280.30384207,
+          158169683.28122604
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.7630100613996496,
+        "radial_velocity": -509241280.30384207
+      },
+      "inner_mass_flux_over_supply": -0.1686757257935857,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
       "mapping_mode": "conservative",
+      "maximum_absolute_specific_mechanical_energy_correction": 1.492060062134272e+16,
       "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 189514061562367.97,
       "n_cells": 96,
-      "outer_cell_radial_velocity_c": 2.347632062571109e-06,
-      "outer_mass_flux_over_supply": 0.8326858338954788
+      "open_face_reconstruction": "primitive_product",
+      "outer_angular_flux_donor_consistency": 0.010444581306446283,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
+      "outer_cell_radial_velocity_c": 2.3723620057148175e-06,
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 13497294.321164032,
+        "eigenvalues": [
+          -13426172.697468126,
+          71121.62369590552,
+          71121.62369590552,
+          13568415.944859939
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.005269324503384754,
+        "radial_velocity": 71121.62369590552
+      },
+      "outer_energy_flux_donor_consistency": 0.021043271360294664,
+      "outer_mass_flux_over_supply": 0.8363027204272302,
+      "outer_radial_flux_donor_consistency": 0.4569090235463474
     },
     {
       "accepted": true,
       "active_source_cells": 6,
-      "inner_cell_radial_velocity_c": -0.01776813542887546,
-      "inner_mass_flux_over_supply": -0.1687915622236061,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
+      "inner_cell_radial_velocity_c": -0.01776813542887544,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 651272543.4756389,
+        "eigenvalues": [
+          -1183947842.905584,
+          -532675299.4299452,
+          -532675299.4299452,
+          118597244.0456937
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.8178992109620081,
+        "radial_velocity": -532675299.4299452
+      },
+      "inner_mass_flux_over_supply": -0.168791562223606,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
       "mapping_mode": "conservative",
+      "maximum_absolute_specific_mechanical_energy_correction": 8404774574948352.0,
       "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 154853452473802.03,
       "n_cells": 128,
-      "outer_cell_radial_velocity_c": 2.5434171606389916e-06,
-      "outer_mass_flux_over_supply": 0.8205406510929417
+      "open_face_reconstruction": "primitive_product",
+      "outer_angular_flux_donor_consistency": 0.006946092811051513,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
+      "outer_cell_radial_velocity_c": 2.5434171606389695e-06,
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 12446967.996858584,
+        "eigenvalues": [
+          -12370718.26862785,
+          76249.72823073376,
+          76249.72823073376,
+          12523217.725089317
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.0061259680469957,
+        "radial_velocity": 76249.72823073376
+      },
+      "outer_energy_flux_donor_consistency": 0.014028488817902538,
+      "outer_mass_flux_over_supply": 0.8207028689133394,
+      "outer_radial_flux_donor_consistency": 0.4298019509550147
+    }
+  ],
+  "conserved_donor_N64_N96_comparison": {
+    "flux_mesh_gate_pass": true,
+    "inner_flux_difference_over_supply": -0.001522318748108209,
+    "maximum_H_over_R_relative_difference": 0.00030528385835615346,
+    "outer_flux_difference_over_supply": -0.006352722783091069,
+    "outer_flux_relative_difference": -0.007449528311122
+  },
+  "conserved_donor_evolved_mesh_runs": [
+    {
+      "initial": {
+        "active_source_cells": 4,
+        "boundary_mode": "open_no_inflow",
+        "include_vertical_column_work": false,
+        "inner_cell_radial_velocity_c": -0.01534157215387666,
+        "inner_characteristic_audit": {
+          "effective_sound_speed": 703033126.2576854,
+          "eigenvalues": [
+            -1162961888.8171892,
+            -459928762.5595038,
+            -459928762.5595038,
+            243104363.69818163
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": -0.6542063885492138,
+          "radial_velocity": -459928762.5595038
+        },
+        "inner_mass_flux_over_supply": -0.16716812372719964,
+        "inner_radius_rg": 5.210237256314506,
+        "integrated_vertical_work_over_eddington_luminosity": 0.0,
+        "loading_time_seconds": 1519889.5827240834,
+        "mapping_mode": "conservative",
+        "maximum_H_over_R": 0.1411145864879919,
+        "maximum_absolute_specific_mechanical_energy_correction": 3.3430356298358784e+16,
+        "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "minimum_recovered_specific_internal_energy": 376454566008832.25,
+        "n_cells": 64,
+        "open_face_reconstruction": "conserved_donor",
+        "outer_angular_flux_donor_consistency": 0.0,
+        "outer_boundary_geometry": {
+          "characteristic_contract_closed": false,
+          "exterior_thermodynamic_state_declared": false,
+          "is_roche_saddle": false,
+          "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+          "outer_radius_over_hill_radius": 0.44852007655505355
+        },
+        "outer_cell_radial_velocity_c": 2.5659395171711065e-06,
+        "outer_characteristic_audit": {
+          "effective_sound_speed": 17248507.12633693,
+          "eigenvalues": [
+            -17171582.194843724,
+            76924.93149320592,
+            76924.93149320592,
+            17325432.057830133
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": 0.004459802284903163,
+          "radial_velocity": 76924.93149320592
+        },
+        "outer_energy_flux_donor_consistency": 0.0,
+        "outer_mass_flux_over_supply": 0.852911859508638,
+        "outer_radial_flux_donor_consistency": 0.0,
+        "radiative_luminosity_over_eddington": 0.47995973752382765
+      },
+      "step": {
+        "all_steps_accepted": true,
+        "dt_over_loading_time": 1e-09,
+        "dt_seconds": 0.0015198895827240836,
+        "inner_characteristic_projections": [
+          null
+        ],
+        "inner_mass_flux_over_supply": -0.16721281375622646,
+        "jacobian_audits": [
+          {
+            "accepted": true,
+            "directions": 256,
+            "maximum_absolute_defect": 0.0,
+            "maximum_relative_defect": 0.0,
+            "pattern_nonzeros": 2659
+          }
+        ],
+        "maximum_H_over_R": 0.14111457879736514,
+        "maximum_nfev": 6,
+        "maximum_scaled_residual": 2.464941889932671e-12,
+        "maximum_storage_scaled_ledger_defect": 1.955584940917341e-16,
+        "messages": [
+          "accepted"
+        ],
+        "minimum_surface_density": 661.505383059457,
+        "minimum_temperature": 977935.0908919345,
+        "outer_mass_flux_over_supply": 0.8527684596629518,
+        "steps_accepted": 1,
+        "steps_attempted": 1
+      }
+    },
+    {
+      "initial": {
+        "active_source_cells": 5,
+        "boundary_mode": "open_no_inflow",
+        "include_vertical_column_work": false,
+        "inner_cell_radial_velocity_c": -0.01698646069020996,
+        "inner_characteristic_audit": {
+          "effective_sound_speed": 667410963.5850681,
+          "eigenvalues": [
+            -1176652243.8889103,
+            -509241280.30384207,
+            -509241280.30384207,
+            158169683.28122604
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": -0.7630100613996496,
+          "radial_velocity": -509241280.30384207
+        },
+        "inner_mass_flux_over_supply": -0.1686757257935857,
+        "inner_radius_rg": 5.210237256314506,
+        "integrated_vertical_work_over_eddington_luminosity": 0.0,
+        "loading_time_seconds": 1520042.4976778505,
+        "mapping_mode": "conservative",
+        "maximum_H_over_R": 0.14115766562035062,
+        "maximum_absolute_specific_mechanical_energy_correction": 1.492060062134272e+16,
+        "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "minimum_recovered_specific_internal_energy": 189514061562367.97,
+        "n_cells": 96,
+        "open_face_reconstruction": "conserved_donor",
+        "outer_angular_flux_donor_consistency": 0.0,
+        "outer_boundary_geometry": {
+          "characteristic_contract_closed": false,
+          "exterior_thermodynamic_state_declared": false,
+          "is_roche_saddle": false,
+          "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+          "outer_radius_over_hill_radius": 0.44852007655505355
+        },
+        "outer_cell_radial_velocity_c": 2.3723620057148175e-06,
+        "outer_characteristic_audit": {
+          "effective_sound_speed": 13497294.321164032,
+          "eigenvalues": [
+            -13426172.697468126,
+            71121.62369590552,
+            71121.62369590552,
+            13568415.944859939
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": 0.005269324503384754,
+          "radial_velocity": 71121.62369590552
+        },
+        "outer_energy_flux_donor_consistency": 0.0,
+        "outer_mass_flux_over_supply": 0.8468356698675288,
+        "outer_radial_flux_donor_consistency": 0.0,
+        "radiative_luminosity_over_eddington": 0.4797685944795577
+      },
+      "step": {
+        "all_steps_accepted": true,
+        "dt_over_loading_time": 1e-09,
+        "dt_seconds": 0.0015200424976778506,
+        "inner_characteristic_projections": [
+          null
+        ],
+        "inner_mass_flux_over_supply": -0.16873513250433467,
+        "jacobian_audits": [
+          {
+            "accepted": true,
+            "directions": 384,
+            "maximum_absolute_defect": 0.0,
+            "maximum_relative_defect": 0.0,
+            "pattern_nonzeros": 4003
+          }
+        ],
+        "maximum_H_over_R": 0.1411576588004507,
+        "maximum_nfev": 9,
+        "maximum_scaled_residual": 3.5108286949585877e-13,
+        "maximum_storage_scaled_ledger_defect": 2.7684798054686143e-16,
+        "messages": [
+          "accepted"
+        ],
+        "minimum_surface_density": 590.8833740552462,
+        "minimum_temperature": 735705.3407913109,
+        "outer_mass_flux_over_supply": 0.8464157368798607,
+        "steps_accepted": 1,
+        "steps_attempted": 1
+      }
+    }
+  ],
+  "conserved_donor_mapping_only_meshes": [
+    {
+      "accepted": true,
+      "active_source_cells": 4,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
+      "inner_cell_radial_velocity_c": -0.01534157215387666,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 703033126.2576854,
+        "eigenvalues": [
+          -1162961888.8171892,
+          -459928762.5595038,
+          -459928762.5595038,
+          243104363.69818163
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.6542063885492138,
+        "radial_velocity": -459928762.5595038
+      },
+      "inner_mass_flux_over_supply": -0.16716812372719964,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
+      "mapping_mode": "conservative",
+      "maximum_absolute_specific_mechanical_energy_correction": 3.3430356298358784e+16,
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 376454566008832.25,
+      "n_cells": 64,
+      "open_face_reconstruction": "conserved_donor",
+      "outer_angular_flux_donor_consistency": 0.0,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
+      "outer_cell_radial_velocity_c": 2.5659395171711065e-06,
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 17248507.12633693,
+        "eigenvalues": [
+          -17171582.194843724,
+          76924.93149320592,
+          76924.93149320592,
+          17325432.057830133
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.004459802284903163,
+        "radial_velocity": 76924.93149320592
+      },
+      "outer_energy_flux_donor_consistency": 0.0,
+      "outer_mass_flux_over_supply": 0.852911859508638,
+      "outer_radial_flux_donor_consistency": 0.0
+    },
+    {
+      "accepted": true,
+      "active_source_cells": 5,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
+      "inner_cell_radial_velocity_c": -0.01698646069020996,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 667410963.5850681,
+        "eigenvalues": [
+          -1176652243.8889103,
+          -509241280.30384207,
+          -509241280.30384207,
+          158169683.28122604
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.7630100613996496,
+        "radial_velocity": -509241280.30384207
+      },
+      "inner_mass_flux_over_supply": -0.1686757257935857,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
+      "mapping_mode": "conservative",
+      "maximum_absolute_specific_mechanical_energy_correction": 1.492060062134272e+16,
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 189514061562367.97,
+      "n_cells": 96,
+      "open_face_reconstruction": "conserved_donor",
+      "outer_angular_flux_donor_consistency": 0.0,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
+      "outer_cell_radial_velocity_c": 2.3723620057148175e-06,
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 13497294.321164032,
+        "eigenvalues": [
+          -13426172.697468126,
+          71121.62369590552,
+          71121.62369590552,
+          13568415.944859939
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.005269324503384754,
+        "radial_velocity": 71121.62369590552
+      },
+      "outer_energy_flux_donor_consistency": 0.0,
+      "outer_mass_flux_over_supply": 0.8468356698675288,
+      "outer_radial_flux_donor_consistency": 0.0
+    },
+    {
+      "accepted": true,
+      "active_source_cells": 6,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
+      "inner_cell_radial_velocity_c": -0.01776813542887544,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 651272543.4756389,
+        "eigenvalues": [
+          -1183947842.905584,
+          -532675299.4299452,
+          -532675299.4299452,
+          118597244.0456937
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.8178992109620081,
+        "radial_velocity": -532675299.4299452
+      },
+      "inner_mass_flux_over_supply": -0.168791562223606,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
+      "mapping_mode": "conservative",
+      "maximum_absolute_specific_mechanical_energy_correction": 8404774574948352.0,
+      "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 154853452473802.03,
+      "n_cells": 128,
+      "open_face_reconstruction": "conserved_donor",
+      "outer_angular_flux_donor_consistency": 0.0,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
+      "outer_cell_radial_velocity_c": 2.5434171606389695e-06,
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 12446967.996858584,
+        "eigenvalues": [
+          -12370718.26862785,
+          76249.72823073376,
+          76249.72823073376,
+          12523217.725089317
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.0061259680469957,
+        "radial_velocity": 76249.72823073376
+      },
+      "outer_energy_flux_donor_consistency": 0.0,
+      "outer_mass_flux_over_supply": 0.836854241531019,
+      "outer_radial_flux_donor_consistency": 0.0
     }
   ],
   "input_closure": {
@@ -154,6 +1248,35 @@
     "target_outer_outward_mass_flux_over_supply": 0.8310630233379666
   },
   "mapping_only_conclusion": "Pointwise coarse mapping creates the boundary-flux sensitivity. Strict conservative remapping rejects N<=48 on thermal primitive recovery, while N64 and N96 are admissible and approach the canonical coupled boundary fluxes.",
+  "mechanical_reference_quadrature_audit": [
+    {
+      "maximum_angular_momentum_relative_difference": 0.00038982821672580136,
+      "maximum_correction_relative_difference": 0.0006205886041239522,
+      "maximum_mass_relative_difference": 0.00038781701627799186,
+      "maximum_radial_momentum_relative_difference": 0.00019613034844011295,
+      "maximum_temperature_relative_difference": 0.0001855131634457572,
+      "maximum_total_energy_relative_difference": 0.00038353713440664384,
+      "n_cells": 64
+    },
+    {
+      "maximum_angular_momentum_relative_difference": 0.0002555747389075846,
+      "maximum_correction_relative_difference": 7.149709519857256e-05,
+      "maximum_mass_relative_difference": 0.0002564494216461772,
+      "maximum_radial_momentum_relative_difference": 0.0011893796000162563,
+      "maximum_temperature_relative_difference": 5.918150141857704e-05,
+      "maximum_total_energy_relative_difference": 0.0002582112523904665,
+      "n_cells": 96
+    },
+    {
+      "maximum_angular_momentum_relative_difference": 0.0004315376746688781,
+      "maximum_correction_relative_difference": 0.0003361001849646213,
+      "maximum_mass_relative_difference": 0.0004301617389646883,
+      "maximum_radial_momentum_relative_difference": 0.00019330189041966007,
+      "maximum_temperature_relative_difference": 5.387932070828549e-05,
+      "maximum_total_energy_relative_difference": 0.000427688899767116,
+      "n_cells": 128
+    }
+  ],
   "mesh_comparison_N16_N24_two_steps": {
     "inner_flux_difference": -0.01850823199895782,
     "maximum_H_over_R_relative_difference": 0.0012648220089581663,
@@ -168,68 +1291,271 @@
     {
       "accepted": true,
       "active_source_cells": 2,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
       "inner_cell_radial_velocity_c": -0.005691053352955112,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 965225199.6287494,
+        "eigenvalues": [
+          -1135838686.9579048,
+          -170613487.32915545,
+          -170613487.32915545,
+          794611712.2995939
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.17676029116808992,
+        "radial_velocity": -170613487.32915545
+      },
       "inner_mass_flux_over_supply": -0.12134921175092868,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
       "mapping_mode": "pointwise",
+      "maximum_absolute_specific_mechanical_energy_correction": 0.0,
       "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 3244522780311301.5,
       "n_cells": 16,
+      "open_face_reconstruction": "primitive_product",
+      "outer_angular_flux_donor_consistency": 0.061537517354636785,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
       "outer_cell_radial_velocity_c": 3.385028130156503e-06,
-      "outer_mass_flux_over_supply": 1.726138063361663
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 40583518.533459924,
+        "eigenvalues": [
+          -40482037.94310605,
+          101480.59035387619,
+          101480.59035387619,
+          40684999.1238138
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.0025005370165282347,
+        "radial_velocity": 101480.59035387619
+      },
+      "outer_energy_flux_donor_consistency": 0.11933110709340942,
+      "outer_mass_flux_over_supply": 1.726138063361663,
+      "outer_radial_flux_donor_consistency": 0.48202546393931234
     },
     {
       "accepted": true,
       "active_source_cells": 2,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
       "inner_cell_radial_velocity_c": -0.008996707881593626,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 845571056.4424438,
+        "eigenvalues": [
+          -1115285573.4155364,
+          -269714516.9730926,
+          -269714516.9730926,
+          575856539.4693513
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.31897321333095024,
+        "radial_velocity": -269714516.9730926
+      },
       "inner_mass_flux_over_supply": -0.1396293307728235,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
       "mapping_mode": "pointwise",
+      "maximum_absolute_specific_mechanical_energy_correction": 0.0,
       "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 1237004492126974.0,
       "n_cells": 24,
+      "open_face_reconstruction": "primitive_product",
+      "outer_angular_flux_donor_consistency": 0.04302996789282636,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
       "outer_cell_radial_velocity_c": 2.483284410087016e-06,
-      "outer_mass_flux_over_supply": 0.6585044265460048
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 27073161.529010918,
+        "eigenvalues": [
+          -26998714.53528961,
+          74446.99372130666,
+          74446.99372130666,
+          27147608.522732224
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.0027498448469541,
+        "radial_velocity": 74446.99372130666
+      },
+      "outer_energy_flux_donor_consistency": 0.08447717580726591,
+      "outer_mass_flux_over_supply": 0.6585044265460048,
+      "outer_radial_flux_donor_consistency": 0.528916071671895
     },
     {
       "accepted": true,
       "active_source_cells": 3,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
       "inner_cell_radial_velocity_c": -0.011734250531398078,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 779452696.3299297,
+        "eigenvalues": [
+          -1131236677.2894933,
+          -351783980.9595636,
+          -351783980.9595636,
+          427668715.3703661
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.4513217833692106,
+        "radial_velocity": -351783980.9595636
+      },
       "inner_mass_flux_over_supply": -0.15399748084522327,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
       "mapping_mode": "pointwise",
+      "maximum_absolute_specific_mechanical_energy_correction": 0.0,
       "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 1047404913684480.1,
       "n_cells": 32,
+      "open_face_reconstruction": "primitive_product",
+      "outer_angular_flux_donor_consistency": 0.03251276861891151,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
       "outer_cell_radial_velocity_c": 2.8219590945509847e-06,
-      "outer_mass_flux_over_supply": 0.7393469801092586
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 25213865.385578565,
+        "eigenvalues": [
+          -25129265.180245478,
+          84600.20533308941,
+          84600.20533308941,
+          25298465.590911653
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.003355304870528805,
+        "radial_velocity": 84600.20533308941
+      },
+      "outer_energy_flux_donor_consistency": 0.06413454452366145,
+      "outer_mass_flux_over_supply": 0.7393469801092586,
+      "outer_radial_flux_donor_consistency": 0.502139781380099
     },
     {
       "accepted": true,
       "active_source_cells": 3,
+      "boundary_mode": "open_no_inflow",
+      "include_vertical_column_work": false,
       "inner_cell_radial_velocity_c": -0.014471793181202982,
+      "inner_characteristic_audit": {
+        "effective_sound_speed": 718219162.8879982,
+        "eigenvalues": [
+          -1152072607.8340464,
+          -433853444.94604814,
+          -433853444.94604814,
+          284365717.9419501
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": -0.6040683225458645,
+        "radial_velocity": -433853444.94604814
+      },
       "inner_mass_flux_over_supply": -0.16505380013286605,
+      "integrated_vertical_work_over_eddington_luminosity": 0.0,
       "mapping_mode": "pointwise",
+      "maximum_absolute_specific_mechanical_energy_correction": 0.0,
       "maximum_face_mass_flux_change_from_stream_source": 0.0,
+      "minimum_recovered_specific_internal_energy": 372981868330808.94,
       "n_cells": 48,
+      "open_face_reconstruction": "primitive_product",
+      "outer_angular_flux_donor_consistency": 0.021520371884602155,
+      "outer_boundary_geometry": {
+        "characteristic_contract_closed": false,
+        "exterior_thermodynamic_state_declared": false,
+        "is_roche_saddle": false,
+        "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+        "outer_radius_over_hill_radius": 0.44852007655505355
+      },
       "outer_cell_radial_velocity_c": 2.495774723042357e-06,
-      "outer_mass_flux_over_supply": 0.8975475758025551
+      "outer_characteristic_audit": {
+        "effective_sound_speed": 17271241.889008313,
+        "eigenvalues": [
+          -17196420.4451248,
+          74821.44388351374,
+          74821.44388351374,
+          17346063.332891826
+        ],
+        "incoming_characteristics": 1,
+        "radial_mach_number": 0.004332140350088621,
+        "radial_velocity": 74821.44388351374
+      },
+      "outer_energy_flux_donor_consistency": 0.04285083248649687,
+      "outer_mass_flux_over_supply": 0.8975475758025551,
+      "outer_radial_flux_donor_consistency": 0.5344933203911343
     }
   ],
   "runs": [
     {
       "initial": {
         "active_source_cells": 2,
+        "boundary_mode": "open_no_inflow",
+        "include_vertical_column_work": false,
         "inner_cell_radial_velocity_c": -0.005691053352955112,
+        "inner_characteristic_audit": {
+          "effective_sound_speed": 965225199.6287494,
+          "eigenvalues": [
+            -1135838686.9579048,
+            -170613487.32915545,
+            -170613487.32915545,
+            794611712.2995939
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": -0.17676029116808992,
+          "radial_velocity": -170613487.32915545
+        },
         "inner_mass_flux_over_supply": -0.12134921175092868,
         "inner_radius_rg": 5.210237256314506,
+        "integrated_vertical_work_over_eddington_luminosity": 0.0,
         "loading_time_seconds": 1508534.6907721367,
         "mapping_mode": "pointwise",
         "maximum_H_over_R": 0.1409144606000965,
+        "maximum_absolute_specific_mechanical_energy_correction": 0.0,
         "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "minimum_recovered_specific_internal_energy": 3244522780311301.5,
         "n_cells": 16,
+        "open_face_reconstruction": "primitive_product",
+        "outer_angular_flux_donor_consistency": 0.061537517354636785,
+        "outer_boundary_geometry": {
+          "characteristic_contract_closed": false,
+          "exterior_thermodynamic_state_declared": false,
+          "is_roche_saddle": false,
+          "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+          "outer_radius_over_hill_radius": 0.44852007655505355
+        },
         "outer_cell_radial_velocity_c": 3.385028130156503e-06,
+        "outer_characteristic_audit": {
+          "effective_sound_speed": 40583518.533459924,
+          "eigenvalues": [
+            -40482037.94310605,
+            101480.59035387619,
+            101480.59035387619,
+            40684999.1238138
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": 0.0025005370165282347,
+          "radial_velocity": 101480.59035387619
+        },
+        "outer_energy_flux_donor_consistency": 0.11933110709340942,
         "outer_mass_flux_over_supply": 1.726138063361663,
+        "outer_radial_flux_donor_consistency": 0.48202546393931234,
         "radiative_luminosity_over_eddington": 0.48626183824068475
       },
       "step": {
         "all_steps_accepted": true,
         "dt_over_loading_time": 1e-09,
         "dt_seconds": 0.0015085346907721367,
+        "inner_characteristic_projections": [
+          null
+        ],
         "inner_mass_flux_over_supply": -0.12099788209919059,
         "jacobian_audits": [
           null
@@ -251,22 +1577,66 @@
     {
       "initial": {
         "active_source_cells": 2,
+        "boundary_mode": "open_no_inflow",
+        "include_vertical_column_work": false,
         "inner_cell_radial_velocity_c": -0.005691053352955112,
+        "inner_characteristic_audit": {
+          "effective_sound_speed": 965225199.6287494,
+          "eigenvalues": [
+            -1135838686.9579048,
+            -170613487.32915545,
+            -170613487.32915545,
+            794611712.2995939
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": -0.17676029116808992,
+          "radial_velocity": -170613487.32915545
+        },
         "inner_mass_flux_over_supply": -0.12134921175092868,
         "inner_radius_rg": 5.210237256314506,
+        "integrated_vertical_work_over_eddington_luminosity": 0.0,
         "loading_time_seconds": 1508534.6907721367,
         "mapping_mode": "pointwise",
         "maximum_H_over_R": 0.1409144606000965,
+        "maximum_absolute_specific_mechanical_energy_correction": 0.0,
         "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "minimum_recovered_specific_internal_energy": 3244522780311301.5,
         "n_cells": 16,
+        "open_face_reconstruction": "primitive_product",
+        "outer_angular_flux_donor_consistency": 0.061537517354636785,
+        "outer_boundary_geometry": {
+          "characteristic_contract_closed": false,
+          "exterior_thermodynamic_state_declared": false,
+          "is_roche_saddle": false,
+          "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+          "outer_radius_over_hill_radius": 0.44852007655505355
+        },
         "outer_cell_radial_velocity_c": 3.385028130156503e-06,
+        "outer_characteristic_audit": {
+          "effective_sound_speed": 40583518.533459924,
+          "eigenvalues": [
+            -40482037.94310605,
+            101480.59035387619,
+            101480.59035387619,
+            40684999.1238138
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": 0.0025005370165282347,
+          "radial_velocity": 101480.59035387619
+        },
+        "outer_energy_flux_donor_consistency": 0.11933110709340942,
         "outer_mass_flux_over_supply": 1.726138063361663,
+        "outer_radial_flux_donor_consistency": 0.48202546393931234,
         "radiative_luminosity_over_eddington": 0.48626183824068475
       },
       "step": {
         "all_steps_accepted": true,
         "dt_over_loading_time": 1e-09,
         "dt_seconds": 0.0007542673453860684,
+        "inner_characteristic_projections": [
+          null,
+          null
+        ],
         "inner_mass_flux_over_supply": -0.12099791234728821,
         "jacobian_audits": [
           null,
@@ -290,22 +1660,66 @@
     {
       "initial": {
         "active_source_cells": 2,
+        "boundary_mode": "open_no_inflow",
+        "include_vertical_column_work": false,
         "inner_cell_radial_velocity_c": -0.008996707881593626,
+        "inner_characteristic_audit": {
+          "effective_sound_speed": 845571056.4424438,
+          "eigenvalues": [
+            -1115285573.4155364,
+            -269714516.9730926,
+            -269714516.9730926,
+            575856539.4693513
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": -0.31897321333095024,
+          "radial_velocity": -269714516.9730926
+        },
         "inner_mass_flux_over_supply": -0.1396293307728235,
         "inner_radius_rg": 5.210237256314506,
+        "integrated_vertical_work_over_eddington_luminosity": 0.0,
         "loading_time_seconds": 1679583.356711139,
         "mapping_mode": "pointwise",
         "maximum_H_over_R": 0.14109269531807297,
+        "maximum_absolute_specific_mechanical_energy_correction": 0.0,
         "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "minimum_recovered_specific_internal_energy": 1237004492126974.0,
         "n_cells": 24,
+        "open_face_reconstruction": "primitive_product",
+        "outer_angular_flux_donor_consistency": 0.04302996789282636,
+        "outer_boundary_geometry": {
+          "characteristic_contract_closed": false,
+          "exterior_thermodynamic_state_declared": false,
+          "is_roche_saddle": false,
+          "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+          "outer_radius_over_hill_radius": 0.44852007655505355
+        },
         "outer_cell_radial_velocity_c": 2.483284410087016e-06,
+        "outer_characteristic_audit": {
+          "effective_sound_speed": 27073161.529010918,
+          "eigenvalues": [
+            -26998714.53528961,
+            74446.99372130666,
+            74446.99372130666,
+            27147608.522732224
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": 0.0027498448469541,
+          "radial_velocity": 74446.99372130666
+        },
+        "outer_energy_flux_donor_consistency": 0.08447717580726591,
         "outer_mass_flux_over_supply": 0.6585044265460048,
+        "outer_radial_flux_donor_consistency": 0.528916071671895,
         "radiative_luminosity_over_eddington": 0.48189664251291403
       },
       "step": {
         "all_steps_accepted": true,
         "dt_over_loading_time": 1e-09,
         "dt_seconds": 0.0008397916783555695,
+        "inner_characteristic_projections": [
+          null,
+          null
+        ],
         "inner_mass_flux_over_supply": -0.13950614434624603,
         "jacobian_audits": [
           null,
@@ -329,22 +1743,66 @@
     {
       "initial": {
         "active_source_cells": 3,
+        "boundary_mode": "open_no_inflow",
+        "include_vertical_column_work": false,
         "inner_cell_radial_velocity_c": -0.011734250531398078,
+        "inner_characteristic_audit": {
+          "effective_sound_speed": 779452696.3299297,
+          "eigenvalues": [
+            -1131236677.2894933,
+            -351783980.9595636,
+            -351783980.9595636,
+            427668715.3703661
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": -0.4513217833692106,
+          "radial_velocity": -351783980.9595636
+        },
         "inner_mass_flux_over_supply": -0.15399748084522327,
         "inner_radius_rg": 5.210237256314506,
+        "integrated_vertical_work_over_eddington_luminosity": 0.0,
         "loading_time_seconds": 1484619.9252733872,
         "mapping_mode": "pointwise",
         "maximum_H_over_R": 0.14119194689549755,
+        "maximum_absolute_specific_mechanical_energy_correction": 0.0,
         "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "minimum_recovered_specific_internal_energy": 1047404913684480.1,
         "n_cells": 32,
+        "open_face_reconstruction": "primitive_product",
+        "outer_angular_flux_donor_consistency": 0.03251276861891151,
+        "outer_boundary_geometry": {
+          "characteristic_contract_closed": false,
+          "exterior_thermodynamic_state_declared": false,
+          "is_roche_saddle": false,
+          "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+          "outer_radius_over_hill_radius": 0.44852007655505355
+        },
         "outer_cell_radial_velocity_c": 2.8219590945509847e-06,
+        "outer_characteristic_audit": {
+          "effective_sound_speed": 25213865.385578565,
+          "eigenvalues": [
+            -25129265.180245478,
+            84600.20533308941,
+            84600.20533308941,
+            25298465.590911653
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": 0.003355304870528805,
+          "radial_velocity": 84600.20533308941
+        },
+        "outer_energy_flux_donor_consistency": 0.06413454452366145,
         "outer_mass_flux_over_supply": 0.7393469801092586,
+        "outer_radial_flux_donor_consistency": 0.502139781380099,
         "radiative_luminosity_over_eddington": 0.4812859174758907
       },
       "step": {
         "all_steps_accepted": true,
         "dt_over_loading_time": 1e-09,
         "dt_seconds": 0.0007423099626366937,
+        "inner_characteristic_projections": [
+          null,
+          null
+        ],
         "inner_mass_flux_over_supply": -0.15397019113009552,
         "jacobian_audits": [
           null,
@@ -368,51 +1826,94 @@
   ],
   "sparse_evolved_N64_N96_comparison": {
     "flux_mesh_gate_pass": false,
-    "inner_flux_difference_over_supply": -0.0014996598752878565,
-    "maximum_H_over_R_relative_difference": 0.0007470012037451568,
-    "outer_flux_difference_over_supply": -0.028462191067564424,
-    "outer_flux_relative_difference": -0.03306903623437929
+    "inner_flux_difference_over_supply": -0.0015223187481083478,
+    "maximum_H_over_R_relative_difference": 0.00030528385835615346,
+    "outer_flux_difference_over_supply": -0.02031447395390429,
+    "outer_flux_relative_difference": -0.023725371564108366
   },
   "sparse_evolved_mesh_runs": [
     {
       "initial": {
         "active_source_cells": 4,
-        "inner_cell_radial_velocity_c": -0.015341572153876637,
-        "inner_mass_flux_over_supply": -0.1671959284334586,
+        "boundary_mode": "open_no_inflow",
+        "include_vertical_column_work": false,
+        "inner_cell_radial_velocity_c": -0.01534157215387666,
+        "inner_characteristic_audit": {
+          "effective_sound_speed": 703033126.2576854,
+          "eigenvalues": [
+            -1162961888.8171892,
+            -459928762.5595038,
+            -459928762.5595038,
+            243104363.69818163
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": -0.6542063885492138,
+          "radial_velocity": -459928762.5595038
+        },
+        "inner_mass_flux_over_supply": -0.16716812372719964,
         "inner_radius_rg": 5.210237256314506,
-        "loading_time_seconds": 1517252.4419973027,
+        "integrated_vertical_work_over_eddington_luminosity": 0.0,
+        "loading_time_seconds": 1519889.5827240834,
         "mapping_mode": "conservative",
-        "maximum_H_over_R": 0.14100180945481633,
+        "maximum_H_over_R": 0.1411145864879919,
+        "maximum_absolute_specific_mechanical_energy_correction": 3.3430356298358784e+16,
         "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "minimum_recovered_specific_internal_energy": 376454566008832.25,
         "n_cells": 64,
-        "outer_cell_radial_velocity_c": 2.593629204177478e-06,
-        "outer_mass_flux_over_supply": 0.8608560922039032,
-        "radiative_luminosity_over_eddington": 0.478470337672587
+        "open_face_reconstruction": "primitive_product",
+        "outer_angular_flux_donor_consistency": 0.015267355796531882,
+        "outer_boundary_geometry": {
+          "characteristic_contract_closed": false,
+          "exterior_thermodynamic_state_declared": false,
+          "is_roche_saddle": false,
+          "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+          "outer_radius_over_hill_radius": 0.44852007655505355
+        },
+        "outer_cell_radial_velocity_c": 2.5659395171711065e-06,
+        "outer_characteristic_audit": {
+          "effective_sound_speed": 17248507.12633693,
+          "eigenvalues": [
+            -17171582.194843724,
+            76924.93149320592,
+            76924.93149320592,
+            17325432.057830133
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": 0.004459802284903163,
+          "radial_velocity": 76924.93149320592
+        },
+        "outer_energy_flux_donor_consistency": 0.030691377192713278,
+        "outer_mass_flux_over_supply": 0.8563308251533155,
+        "outer_radial_flux_donor_consistency": 0.46829386316127364,
+        "radiative_luminosity_over_eddington": 0.47995973752382765
       },
       "step": {
         "all_steps_accepted": true,
         "dt_over_loading_time": 1e-09,
-        "dt_seconds": 0.0015172524419973029,
-        "inner_mass_flux_over_supply": -0.16723183850174655,
+        "dt_seconds": 0.0015198895827240836,
+        "inner_characteristic_projections": [
+          null
+        ],
+        "inner_mass_flux_over_supply": -0.16721281375622635,
         "jacobian_audits": [
           {
             "accepted": true,
             "directions": 256,
             "maximum_absolute_defect": 0.0,
             "maximum_relative_defect": 0.0,
-            "pattern_nonzeros": 2658
+            "pattern_nonzeros": 2659
           }
         ],
-        "maximum_H_over_R": 0.14100180167688883,
-        "maximum_nfev": 13,
-        "maximum_scaled_residual": 1.2505944574667324e-12,
-        "maximum_storage_scaled_ledger_defect": 1.4482607313177266e-16,
+        "maximum_H_over_R": 0.14111457879736514,
+        "maximum_nfev": 6,
+        "maximum_scaled_residual": 3.927939376012683e-12,
+        "maximum_storage_scaled_ledger_defect": 3.1572692143686904e-16,
         "messages": [
           "accepted"
         ],
-        "minimum_surface_density": 661.5046239804162,
-        "minimum_temperature": 334844.6684061037,
-        "outer_mass_flux_over_supply": 0.860690068674408,
+        "minimum_surface_density": 661.5053830594564,
+        "minimum_temperature": 977935.0931245988,
+        "outer_mass_flux_over_supply": 0.8562341752588567,
         "steps_accepted": 1,
         "steps_attempted": 1
       }
@@ -420,23 +1921,66 @@
     {
       "initial": {
         "active_source_cells": 5,
-        "inner_cell_radial_velocity_c": -0.01698646069020995,
-        "inner_mass_flux_over_supply": -0.1686757257935856,
+        "boundary_mode": "open_no_inflow",
+        "include_vertical_column_work": false,
+        "inner_cell_radial_velocity_c": -0.01698646069020996,
+        "inner_characteristic_audit": {
+          "effective_sound_speed": 667410963.5850681,
+          "eigenvalues": [
+            -1176652243.8889103,
+            -509241280.30384207,
+            -509241280.30384207,
+            158169683.28122604
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": -0.7630100613996496,
+          "radial_velocity": -509241280.30384207
+        },
+        "inner_mass_flux_over_supply": -0.1686757257935857,
         "inner_radius_rg": 5.210237256314506,
-        "loading_time_seconds": 1522807.7398162533,
+        "integrated_vertical_work_over_eddington_luminosity": 0.0,
+        "loading_time_seconds": 1520042.4976778505,
         "mapping_mode": "conservative",
-        "maximum_H_over_R": 0.1411071370680212,
+        "maximum_H_over_R": 0.14115766562035062,
+        "maximum_absolute_specific_mechanical_energy_correction": 1.492060062134272e+16,
         "maximum_face_mass_flux_change_from_stream_source": 0.0,
+        "minimum_recovered_specific_internal_energy": 189514061562367.97,
         "n_cells": 96,
-        "outer_cell_radial_velocity_c": 2.347632062571109e-06,
-        "outer_mass_flux_over_supply": 0.8326858338954788,
-        "radiative_luminosity_over_eddington": 0.47911679469884855
+        "open_face_reconstruction": "primitive_product",
+        "outer_angular_flux_donor_consistency": 0.010444581306446283,
+        "outer_boundary_geometry": {
+          "characteristic_contract_closed": false,
+          "exterior_thermodynamic_state_declared": false,
+          "is_roche_saddle": false,
+          "outer_radius_over_fiducial_truncation_radius": 0.8970401531101071,
+          "outer_radius_over_hill_radius": 0.44852007655505355
+        },
+        "outer_cell_radial_velocity_c": 2.3723620057148175e-06,
+        "outer_characteristic_audit": {
+          "effective_sound_speed": 13497294.321164032,
+          "eigenvalues": [
+            -13426172.697468126,
+            71121.62369590552,
+            71121.62369590552,
+            13568415.944859939
+          ],
+          "incoming_characteristics": 1,
+          "radial_mach_number": 0.005269324503384754,
+          "radial_velocity": 71121.62369590552
+        },
+        "outer_energy_flux_donor_consistency": 0.021043271360294664,
+        "outer_mass_flux_over_supply": 0.8363027204272302,
+        "outer_radial_flux_donor_consistency": 0.4569090235463474,
+        "radiative_luminosity_over_eddington": 0.4797685944795577
       },
       "step": {
         "all_steps_accepted": true,
         "dt_over_loading_time": 1e-09,
-        "dt_seconds": 0.0015228077398162533,
-        "inner_mass_flux_over_supply": -0.1687314983770344,
+        "dt_seconds": 0.0015200424976778506,
+        "inner_characteristic_projections": [
+          null
+        ],
+        "inner_mass_flux_over_supply": -0.1687351325043347,
         "jacobian_audits": [
           {
             "accepted": true,
@@ -446,16 +1990,16 @@
             "pattern_nonzeros": 4003
           }
         ],
-        "maximum_H_over_R": 0.1411071301924717,
+        "maximum_H_over_R": 0.1411576588004507,
         "maximum_nfev": 13,
-        "maximum_scaled_residual": 9.851565480423965e-13,
-        "maximum_storage_scaled_ledger_defect": 1.871872255228348e-16,
+        "maximum_scaled_residual": 5.019540917717592e-13,
+        "maximum_storage_scaled_ledger_defect": 1.2359566976410568e-16,
         "messages": [
           "accepted"
         ],
-        "minimum_surface_density": 590.8836537117503,
-        "minimum_temperature": 137098.3605610427,
-        "outer_mass_flux_over_supply": 0.8322278776068436,
+        "minimum_surface_density": 590.8833740552462,
+        "minimum_temperature": 735705.342049062,
+        "outer_mass_flux_over_supply": 0.8359197013049524,
         "steps_accepted": 1,
         "steps_attempted": 1
       }

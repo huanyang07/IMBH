@@ -46,7 +46,7 @@ This is the canonical project handoff. Status labels mean:
 | Binary pattern-power wall continuation | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Paired torque/power identity closes to `1.7e-16`; 25%, 50%, and 75% stages solve numerically | Tidal-band `H/R` exceeds `0.3` at 25% power and reaches `0.61`; this is a candidate transition to a thick inflow-outflow regime outside the one-zone validity domain |
 | Coupled open-overflow eigenvalue | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Full-rank `96/64` and `144/96` roots; inner/stream `0.16894`, overflow `0.83106`, stagnation near `222.18 rg`, Hill-band `H/R=0.0383` | Controlled `168/112` refinement fails in outer stress/energy endpoint cells; steady branch is not mesh certified |
 | Flux-primary time-dependent DAE | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Direct inner response, exact stream moments, cooling, resolved timestep comparison, eight accepted `16/8` steps, and bitwise restart | `24/16` evolved refinement fails the fixed gate; all interface remedies are closed; tide and wind remain blocked |
-| Global signed conservative descriptor | **DIAGNOSTIC ONLY** | Sparse local Jacobians have zero off-pattern defect at physical N64/N96; both steps pass below `1.3e-12`; N64 temporal gate passes | Evolved outer flux shifts by `0.02846` supply (`3.31%`) from N64 to N96; direct open-face flux reconstruction is pending; long evolution, tide, and wind remain blocked |
+| Global signed conservative descriptor | **DIAGNOSTIC ONLY** | Sparse local Jacobians have zero off-pattern defect; conserved-donor outer flux closes radial/J/E consistency exactly; donor N96/N128 mapping differs by `0.00782` supply | Donor evolved N64/N96 outer flux still differs by `0.01150` supply and narrowly fails the fixed gate; reconstruction tuning is closed; characteristic/Roche boundary, column energy, and inner absorption remain blocked |
 
 ## Frozen Target Under Review
 
@@ -164,12 +164,30 @@ N                    = 164
    relax the `1e-7` gate.
 2. Keep the split IMEX, grouped colored Jacobian, and iterative LSMR pilots
    closed. Use certified local columns with exact factorization.
-3. Reconstruct conserved mass flux directly at the open face and repeat the
-   bounded conservative N64/N96 tiny-step comparison once. Do not begin long
-   loading evolution until that evolved-mesh gate passes.
-4. Continue one physical distributed tide only after the global no-tide model
+3. Close open-face reconstruction tuning. The characteristic audit finds one
+   incoming acoustic mode at the deeply subsonic `335 rg` edge, but that edge
+   is only `0.4485 R_H`, not a Roche saddle, and no exterior thermodynamic
+   state is declared. Obtain one exterior invariant from Layer 1 or implement
+   a Hill/Roche overflow layer before repeating the bounded N64/N96 comparison.
+   Do not substitute a mesh-dependent pressure target or vacuum ghost state.
+4. Treat WP2 column energy as complete: the enthalpy-compatible radial and
+   temporal work terms pass manufactured, identity, physical tiny-step, and
+   independent-ledger gates.
+5. Treat WP3 inner absorption as complete for the reference-state preflight.
+   The actual edge is subsonic with one incoming acoustic mode; the new
+   characteristic projection removes only that mode, preserves outgoing
+   perturbations and all four flux ledgers, and leaves the physical accretion
+   fraction effectively unchanged.
+6. Treat WP4 finite-volume energy conditioning as complete. A fixed
+   mass-weighted mechanical reference removes the cell-average/center-point
+   contamination without floors; all N16-N128 mappings recover positive
+   internal energy, 32/64-point quadrature agrees below `1.2e-3`, and the
+   selected N64/N96 evolved outer-flux difference passes at `0.00635` supply.
+   The remaining blocker is the physical exterior invariant or Hill/Roche
+   overflow layer, not numerical remapping.
+7. Continue one physical distributed tide only after the global no-tide model
    passes; search for accumulation, fronts, hot phases, and limit cycles.
-5. Add wind only after the tidal and stability gates pass.
+8. Add wind only after the tidal and stability gates pass.
 
 ## Review Entry Points
 

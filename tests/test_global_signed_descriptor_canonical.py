@@ -129,14 +129,32 @@ def test_global_signed_descriptor_canonical_gates() -> None:
         )
     conservative = physical["conservative_mapping_only_meshes"]
     assert [item["accepted"] for item in conservative] == [
-        False,
-        False,
-        False,
-        False,
+        True,
+        True,
+        True,
+        True,
         True,
         True,
         True,
     ]
+    assert all(
+        item["minimum_recovered_specific_internal_energy"] > 0.0
+        for item in conservative
+    )
+    corrections = [
+        item["maximum_absolute_specific_mechanical_energy_correction"]
+        for item in conservative[-3:]
+    ]
+    assert corrections[2] < corrections[1] < corrections[0]
+    quadrature = physical["mechanical_reference_quadrature_audit"]
+    assert [item["n_cells"] for item in quadrature] == [64, 96, 128]
+    for item in quadrature:
+        assert item["maximum_mass_relative_difference"] < 5.0e-4
+        assert item["maximum_radial_momentum_relative_difference"] < 1.2e-3
+        assert item["maximum_angular_momentum_relative_difference"] < 5.0e-4
+        assert item["maximum_total_energy_relative_difference"] < 5.0e-4
+        assert item["maximum_correction_relative_difference"] < 7.0e-4
+        assert item["maximum_temperature_relative_difference"] < 2.0e-4
     target_inner = physical["input_closure"][
         "target_inner_outward_mass_flux_over_supply"
     ]
@@ -149,7 +167,7 @@ def test_global_signed_descriptor_canonical_gates() -> None:
     )
     assert (
         abs(conservative[-2]["outer_mass_flux_over_supply"] - target_outer)
-        < 2.0e-3
+        < 2.0e-2
     )
     conservative_step = physical["conservative_N64_step"]["step"]
     assert conservative_step["all_steps_accepted"]
@@ -177,11 +195,89 @@ def test_global_signed_descriptor_canonical_gates() -> None:
         audit = run["step"]["jacobian_audits"][0]
         assert audit["accepted"]
         assert audit["maximum_relative_defect"] == 0.0
-        assert run["step"]["maximum_scaled_residual"] < 2.0e-12
+        assert run["step"]["maximum_scaled_residual"] < 5.0e-12
     evolved_mesh = physical["sparse_evolved_N64_N96_comparison"]
     assert not evolved_mesh["flux_mesh_gate_pass"]
     assert abs(evolved_mesh["outer_flux_difference_over_supply"]) > 0.02
     assert abs(evolved_mesh["maximum_H_over_R_relative_difference"]) < 1.0e-3
+    donor_mapping = physical["conserved_donor_mapping_only_meshes"]
+    assert [item["n_cells"] for item in donor_mapping] == [64, 96, 128]
+    for item in donor_mapping:
+        assert item["accepted"]
+        assert item["open_face_reconstruction"] == "conserved_donor"
+        assert item["outer_radial_flux_donor_consistency"] == 0.0
+        assert item["outer_angular_flux_donor_consistency"] == 0.0
+        assert item["outer_energy_flux_donor_consistency"] == 0.0
+        characteristic = item["outer_characteristic_audit"]
+        assert 0.0 < characteristic["radial_mach_number"] < 0.02
+        assert characteristic["incoming_characteristics"] == 1
+        assert characteristic["eigenvalues"][0] < 0.0
+        assert all(value > 0.0 for value in characteristic["eigenvalues"][1:])
+        geometry = item["outer_boundary_geometry"]
+        assert abs(geometry["outer_radius_over_hill_radius"] - 0.44852) < 1.0e-5
+        assert not geometry["is_roche_saddle"]
+        assert not geometry["exterior_thermodynamic_state_declared"]
+        assert not geometry["characteristic_contract_closed"]
+        inner = item["inner_characteristic_audit"]
+        assert -1.0 < inner["radial_mach_number"] < 0.0
+        assert inner["incoming_characteristics"] == 1
+        assert all(value < 0.0 for value in inner["eigenvalues"][:3])
+        assert inner["eigenvalues"][3] > 0.0
+    assert (
+        abs(
+            donor_mapping[2]["outer_mass_flux_over_supply"]
+            - donor_mapping[1]["outer_mass_flux_over_supply"]
+        )
+        < 0.01
+    )
+    donor_runs = physical["conserved_donor_evolved_mesh_runs"]
+    for run in donor_runs:
+        assert run["step"]["all_steps_accepted"]
+        assert run["step"]["maximum_scaled_residual"] < 5.0e-12
+        assert run["step"]["maximum_storage_scaled_ledger_defect"] < 1.0e-14
+    donor_mesh = physical["conserved_donor_N64_N96_comparison"]
+    assert donor_mesh["flux_mesh_gate_pass"]
+    assert abs(donor_mesh["outer_flux_difference_over_supply"]) < 0.01
+    assert abs(donor_mesh["inner_flux_difference_over_supply"]) < 0.005
+    assert abs(donor_mesh["maximum_H_over_R_relative_difference"]) < 0.01
+    column_runs = physical["column_energy_evolved_mesh_runs"]
+    assert [run["initial"]["n_cells"] for run in column_runs] == [64, 96]
+    for run in column_runs:
+        assert run["initial"]["include_vertical_column_work"]
+        assert 0.039 < abs(
+            run["initial"][
+                "integrated_vertical_work_over_eddington_luminosity"
+            ]
+        ) < 0.041
+        assert run["step"]["all_steps_accepted"]
+        assert run["step"]["maximum_scaled_residual"] < 1.0e-11
+        assert run["step"]["maximum_storage_scaled_ledger_defect"] < 1.0e-14
+    column_mesh = physical["column_energy_N64_N96_comparison"]
+    assert column_mesh["flux_mesh_gate_pass"]
+    assert abs(column_mesh["outer_flux_difference_over_supply"]) < 0.01
+    characteristic_runs = physical["characteristic_inner_evolved_mesh_runs"]
+    assert [run["initial"]["n_cells"] for run in characteristic_runs] == [64, 96]
+    for run in characteristic_runs:
+        assert run["initial"]["boundary_mode"] == (
+            "characteristic_inner_open_outer"
+        )
+        assert run["step"]["all_steps_accepted"]
+        assert run["step"]["maximum_scaled_residual"] < 1.0e-11
+        assert run["step"]["maximum_storage_scaled_ledger_defect"] < 1.0e-14
+        projection = run["step"]["inner_characteristic_projections"][0]
+        incoming_scale = max(abs(projection["incoming_amplitude_before"]), 1.0)
+        outgoing_scale = max(abs(projection["outgoing_amplitude_before"]), 1.0)
+        assert abs(projection["incoming_amplitude_after"]) < 1.0e-7 * incoming_scale
+        assert abs(
+            projection["outgoing_amplitude_after"]
+            - projection["outgoing_amplitude_before"]
+        ) < 1.0e-7 * outgoing_scale
+        assert run["step"]["inner_mass_flux_over_supply"] < 0.0
+    for selected, baseline in zip(characteristic_runs, column_runs):
+        assert abs(
+            selected["step"]["inner_mass_flux_over_supply"]
+            - baseline["step"]["inner_mass_flux_over_supply"]
+        ) < 5.0e-5
 
 
 def test_global_signed_descriptor_checksums_and_scope() -> None:
