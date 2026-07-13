@@ -4,8 +4,10 @@
 
 Accepted for the global signed conservative preflight. The standalone
 Hill/Roche nozzle provider is implemented and passes its manufactured gates;
-the disk characteristic coupling remains planned and is not yet a production
-boundary.
+the disk edge coupling passes its closed/choked preflight. The former
+fixed-reference inner characteristic projection is retained as a regression
+control, while the selected production preflight boundary is the causally
+outgoing `4.5 rg` plunge face.
 
 ## Context
 
@@ -69,9 +71,11 @@ scaled conserved variables and reports eigenvalues, incoming-left-vector
 alignment, finite-difference refinement, biorthogonality, and eigenpair
 residuals.
 
-Long evolution still requires reference-state, inner-edge, and nonlinear
-perturbation sensitivity. A causally outgoing supersonic inner edge remains
-the preferred eventual boundary when feasible.
+The reference-state projection is certified only for the small-perturbation
+preflight. Long evolution uses the same-equation supersonic continuation to a
+`4.5 rg` face where every radial characteristic leaves the domain. That face
+applies no incoming invariant or projection. N64/N96/N128 pass the shared
+`1e-7 t_load` gate; the refined `1e-6` duration gate remains incomplete.
 
 ## Outer-Boundary Decision
 

@@ -28,9 +28,19 @@ OUTPUT = ROOT / "outputs/tables/global_roche_loading_preflight.json"
 TOTAL_LOADING_FRACTION = 1.0e-9
 
 
-def _prepared_case(context, evaluation, n_cells: int):
+def _prepared_case(
+    context,
+    evaluation,
+    n_cells: int,
+    *,
+    inner_radius_rg: float | None = None,
+):
     grid, state, correction = _conservatively_mapped_global_state(
-        context, evaluation, n_cells, quadrature_order=32
+        context,
+        evaluation,
+        n_cells,
+        quadrature_order=32,
+        inner_radius_rg=inner_radius_rg,
     )
     mass = context.base.inner_params.M2_g
     potential = PaczynskiWiitaPotential(mass)

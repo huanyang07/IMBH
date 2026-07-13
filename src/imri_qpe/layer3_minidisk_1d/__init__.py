@@ -383,6 +383,10 @@ from .transonic_continuation import (
     remap_profile_to_new_sonic_grid,
     tangent_audit_from_scaled_tangent,
 )
+from .transonic_plunge import (
+    TransonicPlungeProfile,
+    continue_transonic_supersonic_plunge,
+)
 from .transonic_local import (
     AlgebraicTransonicState,
     B_rank_minors,
@@ -626,6 +630,7 @@ __all__ = [
     "TransonicJacobianDirectionalAudit",
     "TransonicSquarePolishResult",
     "TransonicPseudoArclengthResult",
+    "TransonicPlungeProfile",
     "TransonicSlimParams",
     "TransonicSlimProfile",
     "TransonicSolveResult",
@@ -658,6 +663,7 @@ __all__ = [
     "collocation_jacobian",
     "computational_grid",
     "continue_in_mdot",
+    "continue_transonic_supersonic_plunge",
     "continue_isolated_slim_branch",
     "conservative_jacobian_sparsity",
     "conservative_block_jacobian",

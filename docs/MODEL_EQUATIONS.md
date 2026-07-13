@@ -400,6 +400,36 @@ The local characteristic audit differentiates the vertically integrated
 physical flux with respect to physical center-conserved variables. The mesh
 quadrature offset is not treated as a continuum thermodynamic variable.
 
+### Causally outgoing inner plunge
+
+The production global preflight no longer terminates at the subsonic side of
+the inner sonic transition. The accepted stationary transonic profile is
+continued from its regular sonic node at `5.210237 rg` to `4.5 rg` with the
+same local equations,
+
+```text
+d(ln u, ln T)/d ln R = f(R,u,T; lambda0),
+```
+
+and the same PW potential, common alpha stress, vertical closure, angular
+eigenvalue, and energy convention. The regular derivative branch is selected
+by its agreement with the first resolved outer transonic interval. No
+ballistic or free-fall closure is inserted.
+
+At the finite-volume inner face, the characteristic speeds are
+
+```text
+v_R-c_eff, v_R, v_R, v_R+c_eff.
+```
+
+The face is admissible as a pure outflow boundary only when all four are
+negative. The current `4.5 rg` stationary face has radial acoustic Mach number
+`-9.45`; the mapped N64/N96/N128 first cells also have zero incoming modes.
+The numerical boundary therefore uses the one-sided physical flux from the
+first cell. It supplies no exterior invariant and applies no characteristic
+projection. The incoming-mode count remains an acceptance diagnostic during
+every evolution run.
+
 At `335 rg` the current outer flow is subsonic and requires one incoming
 acoustic condition. Layer 1 does not provide an exterior thermodynamic
 invariant there. ADR 0014 therefore selects an adiabatic Hill/Roche overflow

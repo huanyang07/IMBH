@@ -22,6 +22,7 @@ from imri_qpe.layer3_minidisk_1d import (
     make_log_grid,
     recover_global_primitives,
     state_from_thermodynamic_primitives,
+    continue_transonic_supersonic_plunge,
     vertical_state,
 )
 from imri_qpe.scales import eddington_luminosity, eddington_mdot
@@ -102,19 +103,42 @@ def _extrapolating_interpolation(query, nodes, values, *, positive: bool):
 
 
 def _conservatively_mapped_global_state(
-    context, evaluation, n_cells: int, *, quadrature_order: int = 32
+    context,
+    evaluation,
+    n_cells: int,
+    *,
+    quadrature_order: int = 32,
+    inner_radius_rg: float | None = None,
 ):
     inner = evaluation.base.inner_profile
     outer = evaluation.base.outer_transport
     energy = evaluation.base.outer_energy_profile
     outer_grid = context.base.outer_grid
-    radius = np.concatenate((inner.R, outer_grid.centers))
+    plunge = None
+    if inner_radius_rg is not None:
+        plunge = continue_transonic_supersonic_plunge(
+            inner,
+            context.base.inner_params,
+            float(inner_radius_rg) * context.base.inner_params.r_g,
+        )
+    inner_radius = inner.R if plunge is None else plunge.R[:-1]
+    inner_sigma = inner.Sigma if plunge is None else plunge.Sigma[:-1]
+    inner_velocity = -inner.u if plunge is None else -plunge.u[:-1]
+    inner_omega = inner.Omega if plunge is None else plunge.Omega[:-1]
+    inner_temperature = inner.T if plunge is None else plunge.T[:-1]
+    if plunge is not None:
+        inner_radius = np.concatenate((inner_radius, inner.R))
+        inner_sigma = np.concatenate((inner_sigma, inner.Sigma))
+        inner_velocity = np.concatenate((inner_velocity, -inner.u))
+        inner_omega = np.concatenate((inner_omega, inner.Omega))
+        inner_temperature = np.concatenate((inner_temperature, inner.T))
+    radius = np.concatenate((inner_radius, outer_grid.centers))
     log_radius = np.log(radius)
-    sigma = np.concatenate((inner.Sigma, outer.surface_density))
-    radial_velocity = np.concatenate((-inner.u, energy.radial_velocity))
-    omega = np.concatenate((inner.Omega, outer.omega))
-    temperature = np.concatenate((inner.T, energy.temperature))
-    grid = make_log_grid(inner.R[0], outer_grid.edges[-1], n_cells)
+    sigma = np.concatenate((inner_sigma, outer.surface_density))
+    radial_velocity = np.concatenate((inner_velocity, energy.radial_velocity))
+    omega = np.concatenate((inner_omega, outer.omega))
+    temperature = np.concatenate((inner_temperature, energy.temperature))
+    grid = make_log_grid(radius[0], outer_grid.edges[-1], n_cells)
     mass = context.base.inner_params.M2_g
     potential = PaczynskiWiitaPotential(mass)
     nodes, weights = np.polynomial.legendre.leggauss(quadrature_order)

@@ -48,6 +48,7 @@ This is the canonical project handoff. Status labels mean:
 | Flux-primary time-dependent DAE | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Direct inner response, exact stream moments, cooling, resolved timestep comparison, eight accepted `16/8` steps, and bitwise restart | `24/16` evolved refinement fails the fixed gate; all interface remedies are closed; tide and wind remain blocked |
 | Global signed conservative descriptor | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | N64/N96/N128 reach shared `1e-6 t_load`; inner-flux spread is `0.56%` of supply, `H/R` spread `0.048%`, accepted residuals `<1.1e-11`, and overflow remains zero | The duration remains far below loading/thermal/viscous times; tide and wind remain blocked |
 | Gas-radiation Hill/Roche boundary | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Shared EOS entropy/enthalpy/acoustic closure; exact `335 rg` reconstruction; continuous closed/choked flux; disk/Jacobi/pattern-power ledgers; N64/N96/N128 and filling-factor preflight | All mapped states are energetically closed; the reduced symmetric local-Hill channel is not a multidimensional L1/L2 solution and its open-state filling remains uncertain |
+| Causally outgoing inner plunge boundary | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Same-equation continuation from `5.210237` to `4.5 rg`; stationary Mach `-9.45`; zero incoming modes; N64/N96/N128 pass mapping, tiny-step, restart, and shared `1e-7 t_load` gates | N64/N96 reach `1e-6`; N128 stops cleanly at `8.875e-7` for Jacobian cost, so the refined duration and long no-tide gates remain incomplete |
 
 ## Frozen Target Under Review
 
@@ -200,6 +201,14 @@ N                    = 164
     reaches `1.388` times the reference sound speed. This is outside the
     absorber's certified linear regime. The checkpoint is retained as a
     boundary-validity witness, not a long-time physical state.
+29. The accepted transonic solution now continues inward with the same local
+    equations from `5.210237` to `4.5 rg`. The stationary face has Mach
+    `-9.452` and zero incoming radial characteristics. Conservative
+    N64/N96/N128 mappings pass full/half tiny steps and a shared
+    `1e-7 t_load` adaptive gate without any inner projection. N64/N96 reach
+    `1e-6`; N128 remains causally outgoing at Mach `-26.69` through its last
+    accepted `8.875e-7` checkpoint. The old absorber breakdown is removed,
+    while the refined duration gate remains computationally incomplete.
 
 ## Claims That Are Not Allowed Yet
 
@@ -241,14 +250,11 @@ N                    = 164
    conservative energy and numerical dissipation retain their declared roles.
    The Hill/Roche layer now passes its preflight; the remaining gate is the
    no-tide loading evolution, not another boundary reconstruction.
-7. Build one causally outgoing inner plunge extension before resuming the
-   no-distributed-tide evolution. Continue the accepted stationary transonic
-   solution inward from `5.21024 rg` with the same equations and energy
-   convention, place the finite-volume face where no characteristic enters,
-   and recertify reference preservation, conservation, mapping, tiny steps,
-   restart, and the shared `1e-6 t_load` mesh gate. Do not continue the
-   `3.9166e-6` witness by smaller steps, reset its characteristic reference, or
-   relax the 2% physical-change gates.
+7. Treat the causally outgoing plunge architecture as selected. Resume only
+   the accepted N128 plunge checkpoint from `8.875e-7` to `1e-6 t_load` under
+   unchanged residual, ledger, and 2% physical-change gates, then emit one
+   shared-time mesh snapshot. Do not rerun completed N64/N96 trajectories,
+   reset a reference state, or restore the subsonic characteristic projection.
 8. Continue one physical distributed tide only after the global no-tide model
    passes; search for accumulation, fronts, hot phases, and limit cycles.
 9. Add wind only after the tidal and stability gates pass.
@@ -290,3 +296,4 @@ N                    = 164
 - Shared-time mesh and N64 extension: `reports/current/CODEX_GLOBAL_ROCHE_SHARED_TIME_EXTENSION_RESULTS_2026-07-13.md`
 - Shared `1e-6 t_load` mesh gate: `reports/current/CODEX_GLOBAL_ROCHE_SHARED_MILLIONTH_RESULTS_2026-07-13.md`
 - N64 long-extension boundary stop: `reports/current/CODEX_GLOBAL_ROCHE_N64_LONG_EXTENSION_STOP_RESULTS_2026-07-13.md`
+- Causally outgoing inner plunge: `reports/current/CODEX_GLOBAL_SUPERSONIC_PLUNGE_RESULTS_2026-07-13.md`

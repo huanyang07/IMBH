@@ -54,6 +54,15 @@ def _attempt_record(attempt) -> dict:
     }
 
 
+def _maximum_accepted_ledger_defect(records: list[dict]) -> float | None:
+    values = [
+        record["maximum_storage_scaled_ledger_defect"]
+        for record in records
+        if record["accepted"]
+    ]
+    return max(values) if values else None
+
+
 def run_adaptive_campaign(
     context,
     evaluation,
@@ -64,11 +73,15 @@ def run_adaptive_campaign(
     restart_path: Path,
     resume: bool = False,
     maximum_accepted_steps: int = 20,
+    inner_radius_rg: float | None = None,
 ) -> dict:
     """Run or resume one mesh while checkpointing every accepted state."""
 
     grid, initial, correction, stream, stream_rate, provider = _prepared_case(
-        context, evaluation, n_cells
+        context,
+        evaluation,
+        n_cells,
+        inner_radius_rg=inner_radius_rg,
     )
     mass = context.base.inner_params.M2_g
     loading_time = float(np.sum(initial.mass) / stream_rate)
@@ -95,7 +108,11 @@ def run_adaptive_campaign(
     step_options = {
         "alpha": context.base.alpha,
         "reference_state": initial,
-        "boundary_mode": "characteristic_inner_roche_outer",
+        "boundary_mode": (
+            "characteristic_inner_roche_outer"
+            if inner_radius_rg is None
+            else "roche_outer"
+        ),
         "stress_boundary_mode": "outer_zero_torque",
         "include_radiative_cooling": True,
         "include_vertical_column_work": True,
@@ -180,6 +197,9 @@ def run_adaptive_campaign(
                 "outer_mass_flux_over_supply": (
                     result.step.profile.face_fluxes.mass[-1] / stream_rate
                 ),
+                "maximum_storage_scaled_ledger_defect": (
+                    result.step.maximum_storage_scaled_ledger_defect
+                ),
             }
         )
         if not result.accepted:
@@ -200,6 +220,7 @@ def run_adaptive_campaign(
                 "case": f"global-roche-adaptive-N{n_cells}",
                 "n_cells": n_cells,
                 "target_loading_fraction": target_loading_fraction,
+                "inner_radius_rg": inner_radius_rg,
             },
         )
         save_global_adaptive_restart(restart_path, grid, restart)
@@ -233,7 +254,11 @@ def run_adaptive_campaign(
         current,
         mass,
         reference_state=initial,
-        boundary_mode="characteristic_inner_roche_outer",
+        boundary_mode=(
+            "characteristic_inner_roche_outer"
+            if inner_radius_rg is None
+            else "roche_outer"
+        ),
         alpha=context.base.alpha,
         stress_boundary_mode="outer_zero_torque",
         include_radiative_cooling=True,
@@ -246,6 +271,7 @@ def run_adaptive_campaign(
     final_boundary = final_profile.outer_roche_boundary
     if final_boundary is None:
         raise RuntimeError("final adaptive state lacks a Roche boundary audit")
+    final_inner_characteristic = global_inner_characteristic_audit(final)
     reference_primitives = recover_global_primitives(
         grid,
         initial,
@@ -292,6 +318,15 @@ def run_adaptive_campaign(
             None
             if incoming_amplitude is None
             else abs(incoming_amplitude) / reference_inner_sound
+        ),
+        "final_inner_radial_mach_number": (
+            final_inner_characteristic.radial_mach_number
+        ),
+        "final_inner_incoming_characteristics": (
+            final_inner_characteristic.incoming_characteristics
+        ),
+        "maximum_accepted_storage_scaled_ledger_defect_this_run": (
+            _maximum_accepted_ledger_defect(records)
         ),
         "records": records,
     }

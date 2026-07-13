@@ -347,3 +347,23 @@ radial characteristics leave the domain. If that supersonic plunge cannot be
 constructed with the current one-zone equations and common flux conventions,
 the global 1D long-time model must be escalated rather than patched at the
 subsonic sonic node.
+
+## Causally Outgoing Plunge Result
+
+The stationary plunge has now been constructed with the unchanged local
+transonic equations. It continues the accepted `5.210237 rg` sonic solution to
+a `4.5 rg` finite-volume face. The stationary inner Mach number is `-9.452`,
+all radial characteristics leave the domain, and the maximum checked local
+scaled residual is `6.66e-16`.
+
+The global face now uses the first cell's one-sided physical flux and applies
+no characteristic projection. N64/N96/N128 pass mapping, quadrature, tiny-step,
+ledger, and shared `1e-7 t_load` adaptive gates. N64 and N96 reach
+`1e-6 t_load`; the accepted N128 checkpoint reaches `8.875e-7 t_load` before a
+bounded manual stop for finite-difference Jacobian cost. Its inner Mach number
+is `-26.69`, with zero incoming modes and zero Roche flux.
+
+The plunge replaces the fixed-reference absorber for subsequent production
+preflights. The refined `1e-6` duration gate remains incomplete and must be
+finished without changing residual, ledger, or 2% physical-change thresholds
+before distributed tide is activated.
