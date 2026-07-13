@@ -190,6 +190,16 @@ N                    = 164
     N128 recover their rejected trials through adaptive halving. This passes
     the preliminary mesh gate but remains many orders of magnitude short of a
     physical loading time.
+28. The N64 continuation reaches `2e-6 t_load` cleanly, but a bounded
+    `5e-6` request stops after 60 new accepted states at
+    `3.9166e-6 t_load`. Retained residuals remain below `5.5e-12`, all ledgers
+    close, and the Roche edge stays closed. The timestep nevertheless falls to
+    `5.27e-9 t_load` because the first three cells at `5.38-6.13 rg` approach
+    the fixed 2% thickness-change gate. The inner Mach number changes from
+    `-0.654` to `-0.148`, and the fixed-reference incoming acoustic correction
+    reaches `1.388` times the reference sound speed. This is outside the
+    absorber's certified linear regime. The checkpoint is retained as a
+    boundary-validity witness, not a long-time physical state.
 
 ## Claims That Are Not Allowed Yet
 
@@ -212,11 +222,13 @@ N                    = 164
 4. Treat WP2 column energy as complete: the enthalpy-compatible radial and
    temporal work terms pass manufactured, identity, physical tiny-step, and
    independent-ledger gates.
-5. Treat WP3 inner absorption as complete for the reference-state preflight.
+5. Treat WP3 inner absorption as complete only for the reference-state
+   preflight.
    The actual edge is subsonic with one incoming acoustic mode; the new
    characteristic projection removes only that mode, preserves outgoing
    perturbations and all four flux ledgers, and leaves the physical accretion
-   fraction effectively unchanged.
+   fraction effectively unchanged. Long continuation has now left its linear
+   regime, so the fixed-reference absorber is closed for production evolution.
 6. Treat WP4 finite-volume energy conditioning and the WP0 energy convention
    as complete for the mapped-state preflight. A fixed
    mass-weighted mechanical reference removes the cell-average/center-point
@@ -229,15 +241,14 @@ N                    = 164
    conservative energy and numerical dissipation retain their declared roles.
    The Hill/Roche layer now passes its preflight; the remaining gate is the
    no-tide loading evolution, not another boundary reconstruction.
-7. Run the no-distributed-tide stream-loading evolution at N64/N96/N128 with
-   adaptive reject/halve/grow stepping, restart, and mechanical-reference
-   audits. Begin from the certified `1e-7 t_load` N64 step-size ceiling and
-   increase only after accepted-state continuation. Classify a
-   steady state, accumulation, front, or cycle only after relevant loading,
-   thermal, and viscous times have been covered.
-   The immediate target is the N64 `1e-5 t_load` checkpoint. N96/N128 should
-   follow only if that state remains regular and the adaptive cost is
-   tractable.
+7. Build one causally outgoing inner plunge extension before resuming the
+   no-distributed-tide evolution. Continue the accepted stationary transonic
+   solution inward from `5.21024 rg` with the same equations and energy
+   convention, place the finite-volume face where no characteristic enters,
+   and recertify reference preservation, conservation, mapping, tiny steps,
+   restart, and the shared `1e-6 t_load` mesh gate. Do not continue the
+   `3.9166e-6` witness by smaller steps, reset its characteristic reference, or
+   relax the 2% physical-change gates.
 8. Continue one physical distributed tide only after the global no-tide model
    passes; search for accumulation, fronts, hot phases, and limit cycles.
 9. Add wind only after the tidal and stability gates pass.
@@ -278,3 +289,4 @@ N                    = 164
 - Adaptive/restart preflight: `reports/current/CODEX_GLOBAL_ROCHE_ADAPTIVE_RESTART_RESULTS_2026-07-13.md`
 - Shared-time mesh and N64 extension: `reports/current/CODEX_GLOBAL_ROCHE_SHARED_TIME_EXTENSION_RESULTS_2026-07-13.md`
 - Shared `1e-6 t_load` mesh gate: `reports/current/CODEX_GLOBAL_ROCHE_SHARED_MILLIONTH_RESULTS_2026-07-13.md`
+- N64 long-extension boundary stop: `reports/current/CODEX_GLOBAL_ROCHE_N64_LONG_EXTENSION_STOP_RESULTS_2026-07-13.md`

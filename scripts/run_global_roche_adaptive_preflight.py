@@ -12,6 +12,7 @@ from imri_qpe.layer3_minidisk_1d import (
     GlobalAdaptiveStepConfig,
     advance_global_adaptive_backward_euler,
     evaluate_global_rusanov_profile,
+    global_inner_characteristic_audit,
     load_global_adaptive_restart,
     make_global_mechanical_energy_reference,
     recover_global_primitives,
@@ -245,6 +246,21 @@ def run_adaptive_campaign(
     final_boundary = final_profile.outer_roche_boundary
     if final_boundary is None:
         raise RuntimeError("final adaptive state lacks a Roche boundary audit")
+    reference_primitives = recover_global_primitives(
+        grid,
+        initial,
+        mass,
+        specific_mechanical_energy_correction=correction,
+    )
+    reference_inner_sound = global_inner_characteristic_audit(
+        reference_primitives
+    ).effective_sound_speed
+    inner_projection = final_profile.inner_characteristic_projection
+    incoming_amplitude = (
+        None
+        if inner_projection is None
+        else inner_projection.incoming_amplitude_before
+    )
     return {
         "n_cells": n_cells,
         "target_loading_fraction": target_loading_fraction,
@@ -270,6 +286,12 @@ def run_adaptive_campaign(
         "final_roche_choked": final_boundary.gate.choked,
         "final_roche_available_specific_energy": (
             final_boundary.gate.available_specific_energy
+        ),
+        "final_inner_characteristic_incoming_amplitude": incoming_amplitude,
+        "final_inner_characteristic_amplitude_over_reference_sound": (
+            None
+            if incoming_amplitude is None
+            else abs(incoming_amplitude) / reference_inner_sound
         ),
         "records": records,
     }

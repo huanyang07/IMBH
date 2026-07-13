@@ -328,3 +328,22 @@ conserved field and below `1.9e-4` in temperature. The correction decreases
 monotonically on `N=64,96,128`. Selected `N=64/96` physical steps retain
 residuals below `1e-11` and ledgers below `3e-16`; their outer-flux difference
 is `0.00635` supply and passes the fixed numerical mesh gate.
+
+## Long-Evolution Inner-Boundary Stop
+
+The fixed-reference characteristic projection remains valid for the original
+small-perturbation preflight, but it is not accepted as the production
+long-time boundary. A bounded N64 no-tide continuation reaches
+`3.9166e-6 t_load` with excellent nonlinear residuals and closed ledgers, then
+becomes controlled by the first three cells rather than the Roche edge or
+stream annulus. The first-cell Mach number changes from `-0.654` to `-0.148`,
+and the incoming amplitude removed by the projection reaches `1.388` times the
+reference effective sound speed.
+
+This violates the declared linear-reference scope. Further timestep halving,
+reference resetting, or gate relaxation is prohibited. Production evolution
+must first extend the stationary transonic solution inward to a face where all
+radial characteristics leave the domain. If that supersonic plunge cannot be
+constructed with the current one-zone equations and common flux conventions,
+the global 1D long-time model must be escalated rather than patched at the
+subsonic sonic node.
