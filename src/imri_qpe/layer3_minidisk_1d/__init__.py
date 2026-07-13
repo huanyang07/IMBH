@@ -37,6 +37,15 @@ from .energy_identity import (
     internal_energy_vertical_work,
 )
 from .grid import RadialGrid, make_log_grid
+from .global_adaptive_evolution import (
+    GlobalAdaptiveAttempt,
+    GlobalAdaptiveRestart,
+    GlobalAdaptiveStepConfig,
+    GlobalAdaptiveStepResult,
+    advance_global_adaptive_backward_euler,
+    load_global_adaptive_restart,
+    save_global_adaptive_restart,
+)
 from .hill_roche_nozzle import (
     GasRadiationHillRocheNozzleProvider,
     HillRocheNozzleGeometry,
@@ -542,6 +551,10 @@ __all__ = [
     "GlobalSlimProfile",
     "GlobalSlimRelaxationResult",
     "GlobalCellSources",
+    "GlobalAdaptiveAttempt",
+    "GlobalAdaptiveRestart",
+    "GlobalAdaptiveStepConfig",
+    "GlobalAdaptiveStepResult",
     "GlobalConservativeState",
     "GlobalFaceFluxes",
     "GlobalFluxPrimaryLayout",
@@ -685,6 +698,7 @@ __all__ = [
     "apply_global_conserved_donor_outer_flux",
     "apply_global_hill_roche_outer_boundary",
     "advance_global_alpha_stress_backward_euler",
+    "advance_global_adaptive_backward_euler",
     "advance_global_imex",
     "advance_global_backward_euler",
     "advance_global_radiative_cooling_backward_euler",
@@ -811,7 +825,9 @@ __all__ = [
     "recover_global_primitives",
     "reconstruct_global_outer_edge_state",
     "load_global_mechanical_energy_reference",
+    "load_global_adaptive_restart",
     "save_global_mechanical_energy_reference",
+    "save_global_adaptive_restart",
     "save_coupled_time_dae_restart",
     "pack_conservative_state",
     "remap_conservative_state",

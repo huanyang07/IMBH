@@ -36,6 +36,10 @@ archive.
   must store the complete offset array, grid edges, schema version,
   generating-state SHA-256, offset SHA-256, and provenance. It must never
   regenerate the reference silently.
+- Adaptive global restarts must additionally store the complete conservative
+  state, inner reference state, elapsed time, next timestep, accepted/rejected
+  counters, state checksums, and deterministic provenance. Only accepted
+  states may be checkpointed.
 - No cache, compiled Python, raw checkpoint, or full-paper PDF belongs in the
   default branch.
 - New generated runs belong outside the repository or under ignored `outputs/`.

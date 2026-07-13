@@ -483,6 +483,24 @@ zero at the opening threshold. The edge is required to remain subsonic, no
 inward mass is allowed, and the provider must close disk Bernoulli, binary
 torque, pattern power, and Jacobi energy before its flux is accepted.
 
+### Adaptive global continuation
+
+The physical backward-Euler evolution uses accepted-state continuation. A
+nonlinear root is accepted only when its standard residual/ledger gates pass
+and
+
+```text
+max |Delta ln Sigma| <= delta_Sigma
+max |Delta ln T|     <= delta_T
+max |Delta(H/R)|/(H/R) <= delta_H.
+```
+
+Failed nonlinear attempts or excessive physical changes halve `dt`. Easy
+accepted steps may grow `dt`; rejected candidates never replace the last
+accepted state. Restart data contain both conservative and inner-reference
+states, the exact mesh and mechanical offset, controller time and next step,
+checksums, counters, and provenance.
+
 ## Validity Gates
 
 Numerical residual acceptance is necessary but not sufficient. Current audits

@@ -46,7 +46,7 @@ This is the canonical project handoff. Status labels mean:
 | Binary pattern-power wall continuation | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Paired torque/power identity closes to `1.7e-16`; 25%, 50%, and 75% stages solve numerically | Tidal-band `H/R` exceeds `0.3` at 25% power and reaches `0.61`; this is a candidate transition to a thick inflow-outflow regime outside the one-zone validity domain |
 | Coupled open-overflow eigenvalue | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Full-rank `96/64` and `144/96` roots; inner/stream `0.16894`, overflow `0.83106`, stagnation near `222.18 rg`, Hill-band `H/R=0.0383` | Controlled `168/112` refinement fails in outer stress/energy endpoint cells; steady branch is not mesh certified |
 | Flux-primary time-dependent DAE | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Direct inner response, exact stream moments, cooling, resolved timestep comparison, eight accepted `16/8` steps, and bitwise restart | `24/16` evolved refinement fails the fixed gate; all interface remedies are closed; tide and wind remain blocked |
-| Global signed conservative descriptor | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | WP0 energy/restart contract and physical Roche edge pass; N64/N96/N128 full/half initial loading steps close residual and ledger gates | Only `1e-9 t_load` is mesh tested; a direct `1e-6 t_load` jump fails, so adaptive long evolution is pending; tide and wind remain blocked |
+| Global signed conservative descriptor | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Physical Roche edge and N64/N96/N128 initial loading pass; adaptive N64 run reaches `5e-7 t_load` with eight accepted restart continuations and two safe retries | Only `1e-9 t_load` is mesh tested and `5e-7 t_load` is still physically short; long mesh-supported evolution is pending; tide and wind remain blocked |
 | Gas-radiation Hill/Roche boundary | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Shared EOS entropy/enthalpy/acoustic closure; exact `335 rg` reconstruction; continuous closed/choked flux; disk/Jacobi/pattern-power ledgers; N64/N96/N128 and filling-factor preflight | All mapped states are energetically closed; the reduced symmetric local-Hill channel is not a multidimensional L1/L2 solution and its open-state filling remains uncertain |
 
 ## Frozen Target Under Review
@@ -172,6 +172,12 @@ N                    = 164
     required by the mass ledger. Full/half-step differences are negligible.
     N64 accepts direct steps through `1e-7 t_load` but rejects `1e-6 t_load`,
     so the next implementation is adaptive stepping plus restart, not tide.
+25. Adaptive backward-Euler continuation now rejects both unconverged roots
+    and accepted roots that exceed declared `Sigma`, temperature, or `H/R`
+    change gates. An N64 run reaches `5e-7 t_load` in eight accepted steps and
+    two recovered retries while reloading a checksum-verified checkpoint after
+    every step. The Roche deficit remains strongly negative. This validates
+    the controller, not a long-time physical state.
 
 ## Claims That Are Not Allowed Yet
 
@@ -254,3 +260,4 @@ N                    = 164
 - Standalone Roche nozzle: `reports/current/CODEX_HILL_ROCHE_NOZZLE_PROTOTYPE_RESULTS_2026-07-13.md`
 - Gas-radiation production Roche edge: `reports/current/CODEX_GAS_RADIATION_ROCHE_BOUNDARY_RESULTS_2026-07-13.md`
 - Physical-edge loading preflight: `reports/current/CODEX_GLOBAL_ROCHE_LOADING_PREFLIGHT_RESULTS_2026-07-13.md`
+- Adaptive/restart preflight: `reports/current/CODEX_GLOBAL_ROCHE_ADAPTIVE_RESTART_RESULTS_2026-07-13.md`
