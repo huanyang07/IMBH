@@ -46,8 +46,8 @@ This is the canonical project handoff. Status labels mean:
 | Binary pattern-power wall continuation | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Paired torque/power identity closes to `1.7e-16`; 25%, 50%, and 75% stages solve numerically | Tidal-band `H/R` exceeds `0.3` at 25% power and reaches `0.61`; this is a candidate transition to a thick inflow-outflow regime outside the one-zone validity domain |
 | Coupled open-overflow eigenvalue | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Full-rank `96/64` and `144/96` roots; inner/stream `0.16894`, overflow `0.83106`, stagnation near `222.18 rg`, Hill-band `H/R=0.0383` | Controlled `168/112` refinement fails in outer stress/energy endpoint cells; steady branch is not mesh certified |
 | Flux-primary time-dependent DAE | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Direct inner response, exact stream moments, cooling, resolved timestep comparison, eight accepted `16/8` steps, and bitwise restart | `24/16` evolved refinement fails the fixed gate; all interface remedies are closed; tide and wind remain blocked |
-| Global signed conservative descriptor | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | WP2 column work, WP3 reference-state absorber, WP4 finite-volume conditioning, and the WP0 stored/physical energy convention pass targeted tests; the pre-WP0 selected evolved N64/N96 outer-flux difference was `0.00635` supply | The physical N64/N96 run has not been regenerated after WP0; the subsonic `335 rg` edge still lacks characteristic coupling to the standalone Hill/Roche nozzle, so long evolution, tide, and wind remain blocked |
-| Standalone adiabatic Hill/Roche nozzle | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | PW-corrected saddle, analytic polytropic throat, sonic/Jacobi/pattern-power residuals below `2e-17`, and 256-zone transverse errors below `5.6e-6`; mapped N64/N96 edge deficits agree within `2.2%` | Both mapped `335 rg` states are energetically closed; fixed-gamma, symmetric local-Hill geometry and the column-to-nozzle characteristic bridge remain diagnostic |
+| Global signed conservative descriptor | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | WP0 stored/physical energy convention, exact acoustic derivative, restart contract, and the continuous physical Roche edge pass the full test suite | Long no-tide loading evolution and its mesh/timestep certification are pending; tide and wind remain blocked |
+| Gas-radiation Hill/Roche boundary | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Shared EOS entropy/enthalpy/acoustic closure; exact `335 rg` reconstruction; continuous closed/choked flux; disk/Jacobi/pattern-power ledgers; N64/N96/N128 and filling-factor preflight | All mapped states are energetically closed; the reduced symmetric local-Hill channel is not a multidimensional L1/L2 solution and its open-state filling remains uncertain |
 
 ## Frozen Target Under Review
 
@@ -157,13 +157,15 @@ N                    = 164
     full offset, mesh, hashes, and provenance. Layer 1 has no exterior
     thermodynamic invariant at `335 rg`, so the selected next boundary is one
     adiabatic Hill/Roche overflow side channel ending at a real saddle.
-23. The standalone side-channel now solves the PW-corrected Hill saddle and a
-    choked polytropic throat. It returns one mass/radial/angular/energy state
-    and records the implied binary torque and pattern power explicitly. This
-    certifies the algebraic nozzle only. The mapped N64/N96 edge states are
-    below the saddle threshold by `8.58e16` and `8.76e16 erg/g`; the old donor
-    overflow is therefore not reproduced. A continuous closed-to-choked
-    incoming-characteristic contract is still required.
+23. The Hill/Roche side-channel now uses the exact shared gas+radiation
+    entropy, enthalpy, and adiabatic acoustic derivative. It is coupled at
+    exactly `335 rg` through a continuous closed-to-choked conservative edge,
+    with one incoming acoustic condition, pressure traction, zero outer
+    viscous torque, and explicit disk/Jacobi/binary ledgers. The mapped
+    N64/N96/N128 deficits are `8.57e16`, `8.76e16`, and `8.93e16 erg/g`.
+    Filling factors `0.25-1.0` cannot change the closed classification. The
+    no-tide evolution must therefore begin with accumulation rather than an
+    imposed donor overflow.
 
 ## Claims That Are Not Allowed Yet
 
@@ -179,15 +181,10 @@ N                    = 164
    relax the `1e-7` gate.
 2. Keep the split IMEX, grouped colored Jacobian, and iterative LSMR pilots
    closed. Use certified local columns with exact factorization.
-3. Keep open-face reconstruction tuning closed. Layer 1 does not supply an
-   exterior thermodynamic invariant at the deeply subsonic `335 rg` edge.
-   Implement one adiabatic Hill/Roche overflow side channel ending at a real
-   saddle, with sonic and Jacobi regularity and one shared radial/J/E flux
-   state. Do not substitute a mesh-dependent pressure target or vacuum ghost
-   state, and stop if an unconstrained throat filling factor controls the
-   result.
-   The standalone nozzle passes its current gates; next build the
-   characteristic/Riemann bridge from the `335 rg` disk edge to that provider.
+3. Treat the physical Roche edge as complete for the no-tide preflight. It
+   starts closed, retains pressure traction, opens only when the Jacobi gate
+   becomes positive, and rejects inconsistent angular/energy ledgers. Do not
+   restore donor overflow, a vacuum ghost state, or a fitted pressure target.
 4. Treat WP2 column energy as complete: the enthalpy-compatible radial and
    temporal work terms pass manufactured, identity, physical tiny-step, and
    independent-ledger gates.
@@ -202,15 +199,19 @@ N                    = 164
    contamination without floors; all N16-N128 mappings recover positive
    internal energy, 32/64-point quadrature agrees below `1.2e-3`, and the
    pre-WP0 selected N64/N96 evolved outer-flux difference passed at `0.00635`
-   supply; that production pair must be regenerated after the physical nozzle
-   boundary exists.
+   supply; that production pair must now be regenerated with the physical
+   nozzle boundary.
    Physical face Bernoulli fluxes exclude the quadrature offset, while stored
    conservative energy and numerical dissipation retain their declared roles.
-   The remaining blocker is the Hill/Roche overflow layer, not numerical
-   remapping.
-7. Continue one physical distributed tide only after the global no-tide model
+   The Hill/Roche layer now passes its preflight; the remaining gate is the
+   no-tide loading evolution, not another boundary reconstruction.
+7. Run the no-distributed-tide stream-loading evolution at N64/N96/N128 with
+   timestep halving, restart, and mechanical-reference audits. Classify a
+   steady state, accumulation, front, or cycle only after relevant loading,
+   thermal, and viscous times have been covered.
+8. Continue one physical distributed tide only after the global no-tide model
    passes; search for accumulation, fronts, hot phases, and limit cycles.
-8. Add wind only after the tidal and stability gates pass.
+9. Add wind only after the tidal and stability gates pass.
 
 ## Review Entry Points
 
@@ -241,3 +242,6 @@ N                    = 164
 - Coupled wall pattern-power gate: `reports/current/CODEX_COUPLED_WALL_PATTERN_POWER_RESULTS_2026-07-11.md`
 - Coupled open-overflow eigenvalue: `reports/current/CODEX_COUPLED_OPEN_OVERFLOW_RESULTS_2026-07-11.md`
 - Flux-primary time DAE selection: `reports/current/CODEX_TIME_DAE_BOUNDARY_AND_FLUX_PRIMARY_RESULTS_2026-07-12.md`
+- Energy semantics and Roche contract: `reports/current/CODEX_GLOBAL_ENERGY_SEMANTICS_AND_ROCHE_BOUNDARY_CONTRACT_2026-07-13.md`
+- Standalone Roche nozzle: `reports/current/CODEX_HILL_ROCHE_NOZZLE_PROTOTYPE_RESULTS_2026-07-13.md`
+- Gas-radiation production Roche edge: `reports/current/CODEX_GAS_RADIATION_ROCHE_BOUNDARY_RESULTS_2026-07-13.md`

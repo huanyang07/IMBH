@@ -404,10 +404,12 @@ At `335 rg` the current outer flow is subsonic and requires one incoming
 acoustic condition. Layer 1 does not provide an exterior thermodynamic
 invariant there. ADR 0014 therefore selects an adiabatic Hill/Roche overflow
 side channel ending at a regular sonic throat at an actual `L1/L2` saddle.
-Until that boundary is implemented and certified, long evolution,
-distributed tide, and wind remain blocked.
+The production edge now reconstructs one column at exactly `335 rg`, retains
+pressure traction when the channel is closed, and adds a conservative nozzle
+flux only when the Jacobi gate opens. Distributed tide and wind remain
+blocked until the no-tide loading evolution passes.
 
-### Standalone Hill/Roche nozzle
+### Gas-radiation Hill/Roche boundary
 
 The selected boundary provider uses the secondary PW potential plus the local
 midplane Hill tide:
@@ -417,9 +419,21 @@ Phi_H(R) = -G M2/(R-R_PW) - (3/2) Omega_p^2 R^2.
 ```
 
 The actual saddle solves `dPhi_H/dR=0`; it is not forced to the Newtonian Hill
-radius. The disk-side reservoir supplies `rho`, total pressure, radial
-velocity, and specific angular momentum. A constant polytropic `gamma` must be
-declared explicitly for each provider.
+radius. The disk-side reservoir supplies `rho`, `T`, radial velocity, and
+specific angular momentum. The production provider uses the same gas plus
+radiation EOS as the disk:
+
+```text
+P = R_g rho T + a T^4/3
+e = R_g T/(gamma_g-1) + a T^4/rho
+h = gamma_g R_g T/(gamma_g-1) + 4 a T^4/(3 rho)
+s = R_g ln(T)/(gamma_g-1) - R_g ln(rho)
+    + 4 a T^3/(3 rho) + constant.
+```
+
+The acoustic speed is the exact derivative `(dP/d rho)_s`, not a weighted
+local gamma approximation. The fixed-gamma provider remains only as an
+analytic regression control.
 
 The rotating Bernoulli invariant is
 
@@ -427,15 +441,17 @@ The rotating Bernoulli invariant is
 B_J = Phi_H + h + v_R^2/2 + (l/R-Omega_p R)^2/2.
 ```
 
-For a regular adiabatic sonic throat,
+For the production regular sonic throat, `rho_s` and `T_s` solve
 
 ```text
-c_s^2 = 2 (gamma-1)/(gamma+1) (B_J-Phi_s)
-rho_s = [c_s^2/(gamma K)]^[1/(gamma-1)]
-K     = P_0/rho_0^gamma.
+s(rho_s,T_s) = s(rho_0,T_0)
+h(rho_s,T_s) + c_s^2/2 = B_J-Phi_s
+c_s^2 = (dP/d rho)_s.
 ```
 
-Analytic integration over the quadratic transverse saddle gives
+Fixed Gauss-Legendre integration over the quadratic transverse saddle follows
+the same isentrope and returns mass and pressure moments. In the fixed-gamma
+limit it regresses to
 
 ```text
 A_rho = N_channel f_fill 2 pi c_s^2
@@ -450,10 +466,22 @@ F_E = F_BJ + Omega_p F_J.
 ```
 
 Angular momentum exchanged between the reservoir and corotating saddle is
-reported as binary torque, with paired power `Omega_p T`. The standalone
-provider is certified only as an algebraic boundary module. It must still be
-connected through the one incoming outer characteristic before it can replace
-the current donor-face preflight.
+reported as binary torque, with paired power `Omega_p T`. A constant shift in
+the Hill effective potential makes `B_J+Omega_p l` at the reservoir edge equal
+the disk's PW Bernoulli without changing forces or the opening threshold.
+
+The finite-volume edge flux is
+
+```text
+closed:  (F_M,F_J,F_E) = (0,0,0)
+open:    (F_M,F_J,F_E) = nozzle edge flux
+F_PR = 2 pi R Pi + F_PR,nozzle
+```
+
+so the pressure traction is continuous and every nozzle contribution tends to
+zero at the opening threshold. The edge is required to remain subsonic, no
+inward mass is allowed, and the provider must close disk Bernoulli, binary
+torque, pattern power, and Jacobi energy before its flux is accepted.
 
 ## Validity Gates
 

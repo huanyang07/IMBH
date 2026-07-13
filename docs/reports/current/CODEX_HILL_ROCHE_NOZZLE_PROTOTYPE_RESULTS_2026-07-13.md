@@ -4,6 +4,11 @@
 **Scope:** Standalone WP2a/WP2b boundary-physics prototype. The provider is not
 yet connected to the global finite-volume disk.
 
+> **Superseded production status:** The fixed-gamma provider remains a
+> regression control. The exact shared-EOS coupling and N64/N96/N128 physical
+> edge results are reported in
+> `CODEX_GAS_RADIATION_ROCHE_BOUNDARY_RESULTS_2026-07-13.md`.
+
 ## Model
 
 The prototype follows the established interpretation of Roche overflow as a

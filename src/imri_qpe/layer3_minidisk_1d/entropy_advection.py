@@ -45,6 +45,91 @@ def specific_internal_energy(rho, T, mu_mol: float = DEFAULT_MU_MOL, gamma_gas: 
     return _as_float_or_array(gas_e + rad_e)
 
 
+def gas_radiation_specific_enthalpy(
+    rho,
+    T,
+    mu_mol: float = DEFAULT_MU_MOL,
+    gamma_gas: float = 5.0 / 3.0,
+):
+    """Return exact gas+radiation specific enthalpy for the shared EOS."""
+
+    _require_positive("rho", rho)
+    _require_positive("T", T)
+    if gamma_gas <= 1.0:
+        raise ValueError("gamma_gas must exceed 1")
+    rho = np.asarray(rho, dtype=float)
+    T = np.asarray(T, dtype=float)
+    R_gas = gas_constant_per_gram(mu_mol)
+    gas_h = gamma_gas * R_gas * T / (gamma_gas - 1.0)
+    radiation_h = 4.0 * A_RAD * T**4 / (3.0 * rho)
+    return _as_float_or_array(gas_h + radiation_h)
+
+
+def gas_radiation_specific_entropy(
+    rho,
+    T,
+    mu_mol: float = DEFAULT_MU_MOL,
+    gamma_gas: float = 5.0 / 3.0,
+    *,
+    reference_density: float = 1.0,
+    reference_temperature: float = 1.0,
+):
+    """Return a consistent gas+radiation entropy coordinate.
+
+    The additive entropy zero is fixed by the declared reference density and
+    temperature.  Only entropy differences enter the adiabatic nozzle solve.
+    """
+
+    _require_positive("rho", rho)
+    _require_positive("T", T)
+    _require_positive("reference_density", reference_density)
+    _require_positive("reference_temperature", reference_temperature)
+    if gamma_gas <= 1.0:
+        raise ValueError("gamma_gas must exceed 1")
+    rho = np.asarray(rho, dtype=float)
+    T = np.asarray(T, dtype=float)
+    R_gas = gas_constant_per_gram(mu_mol)
+    gas_entropy = (
+        R_gas / (gamma_gas - 1.0) * np.log(T / reference_temperature)
+        - R_gas * np.log(rho / reference_density)
+    )
+    radiation_entropy = 4.0 * A_RAD * T**3 / (3.0 * rho)
+    return _as_float_or_array(gas_entropy + radiation_entropy)
+
+
+def gas_radiation_adiabatic_sound_speed_squared(
+    rho,
+    T,
+    mu_mol: float = DEFAULT_MU_MOL,
+    gamma_gas: float = 5.0 / 3.0,
+):
+    """Return ``(dP/d rho)_s`` for the shared gas+radiation EOS."""
+
+    _require_positive("rho", rho)
+    _require_positive("T", T)
+    if gamma_gas <= 1.0:
+        raise ValueError("gamma_gas must exceed 1")
+    rho = np.asarray(rho, dtype=float)
+    T = np.asarray(T, dtype=float)
+    R_gas = gas_constant_per_gram(mu_mol)
+    heat_derivative = (
+        R_gas / (gamma_gas - 1.0) + 4.0 * A_RAD * T**3 / rho
+    )
+    temperature_density_slope = (
+        R_gas * T / rho + 4.0 * A_RAD * T**4 / (3.0 * rho**2)
+    ) / heat_derivative
+    sound_speed_squared = (
+        R_gas * T
+        + (R_gas * rho + 4.0 * A_RAD * T**3 / 3.0)
+        * temperature_density_slope
+    )
+    if np.any(~np.isfinite(sound_speed_squared)) or np.any(
+        sound_speed_squared <= 0.0
+    ):
+        raise ValueError("gas+radiation adiabatic sound speed is not physical")
+    return _as_float_or_array(sound_speed_squared)
+
+
 def slope_limited_gradient(y, R) -> np.ndarray:
     """Return a minmod-limited radial gradient on a 1D grid."""
 

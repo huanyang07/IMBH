@@ -14,7 +14,13 @@ from scipy.sparse import block_diag, csr_matrix, eye, lil_matrix
 from imri_qpe.constants import C, DEFAULT_KAPPA_ES, DEFAULT_MU_MOL
 
 from .energy_identity import enthalpy_vertical_work
+from .entropy_advection import gas_radiation_adiabatic_sound_speed_squared
 from .grid import RadialGrid
+from .hill_roche_nozzle import (
+    HillRocheNozzleGate,
+    HillRocheNozzleReservoir,
+    OverflowBoundaryProvider,
+)
 from .signed_flux_common_stress import positive_edge_reconstruction
 from .transonic_local import stream_annulus_shape_and_derivative
 from .transonic_potential import PaczynskiWiitaPotential
@@ -224,6 +230,43 @@ class GlobalPrimitiveState:
     specific_total_energy: np.ndarray
     specific_internal_energy: np.ndarray
     vertical: TransonicVerticalState
+
+
+@dataclass(frozen=True)
+class GlobalOuterEdgeState:
+    """One thermodynamic column reconstructed at the physical outer face."""
+
+    radius: float
+    surface_density: float
+    radial_velocity: float
+    omega: float
+    temperature: float
+    density: float
+    pressure: float
+    integrated_pressure: float
+    specific_internal_energy: float
+    specific_angular_momentum: float
+    specific_total_energy: float
+    bernoulli: float
+    adiabatic_sound_speed: float
+
+
+@dataclass(frozen=True)
+class GlobalRocheBoundaryAudit:
+    """Characteristic and binary ledgers for one physical Roche edge flux."""
+
+    edge_state: GlobalOuterEdgeState
+    gate: HillRocheNozzleGate
+    applied_mass_flux: float
+    applied_radial_momentum_flux: float
+    applied_angular_momentum_flux: float
+    applied_total_energy_flux: float
+    pressure_traction: float
+    incoming_acoustic_conditions: int
+    no_inward_mass: bool
+    angular_flux_relative_mismatch: float
+    energy_flux_relative_mismatch: float
+    binary_pattern_power_relative_mismatch: float
 
 
 @dataclass(frozen=True)
@@ -480,6 +523,7 @@ class GlobalInviscidProfile:
     inner_characteristic_projection: (
         GlobalInnerCharacteristicProjectionAudit | None
     ) = None
+    outer_roche_boundary: GlobalRocheBoundaryAudit | None = None
 
 
 @dataclass(frozen=True)
@@ -1373,18 +1417,24 @@ def add_global_alpha_stress_fluxes(
 def global_effective_sound_speed(
     primitives: GlobalPrimitiveState,
     *,
+    mu_mol: float = DEFAULT_MU_MOL,
     gamma_gas: float = 5.0 / 3.0,
 ) -> np.ndarray:
     """Return the gas-radiation acoustic speed used by the Rusanov flux."""
 
     if gamma_gas <= 1.0:
         raise ValueError("gamma_gas must exceed one")
-    pressure = (
-        gamma_gas * np.asarray(primitives.vertical.P_gas, dtype=float)
-        + (4.0 / 3.0) * np.asarray(primitives.vertical.P_rad, dtype=float)
-    )
     density = np.asarray(primitives.vertical.rho, dtype=float)
-    sound_speed_squared = pressure / density
+    temperature = np.asarray(primitives.temperature, dtype=float)
+    sound_speed_squared = np.asarray(
+        gas_radiation_adiabatic_sound_speed_squared(
+            density,
+            temperature,
+            mu_mol=mu_mol,
+            gamma_gas=gamma_gas,
+        ),
+        dtype=float,
+    )
     if np.any(~np.isfinite(sound_speed_squared)) or np.any(
         sound_speed_squared <= 0.0
     ):
@@ -1594,7 +1644,9 @@ def audit_global_physical_flux_eigensystem(
     analytic_left /= np.linalg.norm(analytic_left)
     numerical_left = np.asarray(left[-1], dtype=complex)
     numerical_left /= np.linalg.norm(numerical_left)
-    alignment = float(abs(np.vdot(numerical_left, analytic_left)))
+    alignment = float(
+        np.clip(abs(np.vdot(numerical_left, analytic_left)), 0.0, 1.0)
+    )
     jacobian_scale = max(float(np.linalg.norm(scaled_jacobian, ord=2)), 1.0)
     eigenpair_residual = 0.0
     for index in range(4):
@@ -2078,6 +2130,198 @@ def global_open_no_inflow_boundary_fluxes(
     return GlobalFaceFluxes(**values).validated_for(grid.centers.size)
 
 
+def reconstruct_global_outer_edge_state(
+    grid: RadialGrid,
+    primitives: GlobalPrimitiveState,
+    M_g: float,
+    *,
+    mu_mol: float = DEFAULT_MU_MOL,
+    kappa: float = DEFAULT_KAPPA_ES,
+    gamma_gas: float = 5.0 / 3.0,
+) -> GlobalOuterEdgeState:
+    """Reconstruct primitives once at the exact physical outer radius."""
+
+    radius = float(grid.edges[-1])
+    sigma = float(
+        positive_edge_reconstruction(grid, primitives.surface_density)[-1]
+    )
+    velocity = float(
+        _signed_edge_reconstruction(grid, primitives.radial_velocity)[-1]
+    )
+    omega = float(positive_edge_reconstruction(grid, primitives.omega)[-1])
+    temperature = float(
+        positive_edge_reconstruction(grid, primitives.temperature)[-1]
+    )
+    potential = PaczynskiWiitaPotential(float(M_g))
+    vertical = vertical_state(
+        sigma,
+        temperature,
+        radius,
+        potential,
+        mu_mol=mu_mol,
+        kappa=kappa,
+        gamma_gas=gamma_gas,
+    )
+    specific_l = radius**2 * omega
+    specific_total = float(
+        potential.phi(radius)
+        + 0.5 * velocity**2
+        + 0.5 * (radius * omega) ** 2
+        + vertical.e
+    )
+    bernoulli = float(specific_total + vertical.Pi / sigma)
+    sound_speed = float(
+        np.sqrt(
+            gas_radiation_adiabatic_sound_speed_squared(
+                float(vertical.rho),
+                temperature,
+                mu_mol=mu_mol,
+                gamma_gas=gamma_gas,
+            )
+        )
+    )
+    return GlobalOuterEdgeState(
+        radius=radius,
+        surface_density=sigma,
+        radial_velocity=velocity,
+        omega=omega,
+        temperature=temperature,
+        density=float(vertical.rho),
+        pressure=float(vertical.P_tot),
+        integrated_pressure=float(vertical.Pi),
+        specific_internal_energy=float(vertical.e),
+        specific_angular_momentum=float(specific_l),
+        specific_total_energy=specific_total,
+        bernoulli=bernoulli,
+        adiabatic_sound_speed=sound_speed,
+    )
+
+
+def apply_global_hill_roche_outer_boundary(
+    grid: RadialGrid,
+    fluxes: GlobalFaceFluxes,
+    primitives: GlobalPrimitiveState,
+    M_g: float,
+    provider: OverflowBoundaryProvider,
+    *,
+    mu_mol: float = DEFAULT_MU_MOL,
+    kappa: float = DEFAULT_KAPPA_ES,
+    gamma_gas: float = 5.0 / 3.0,
+    ledger_tolerance: float = 2.0e-9,
+) -> tuple[GlobalFaceFluxes, GlobalRocheBoundaryAudit]:
+    """Apply a continuous closed-to-choked physical Roche edge flux.
+
+    The finite-volume pressure traction is retained on both branches.  The
+    nozzle contributions vanish continuously at the energetic threshold.
+    Contact, entropy, and angular-momentum data are donor quantities from the
+    reconstructed disk edge; the boundary supplies one incoming acoustic
+    condition and never supplies mass from outside the domain.
+    """
+
+    if not isinstance(provider, OverflowBoundaryProvider):
+        raise TypeError("provider does not implement OverflowBoundaryProvider")
+    if not np.isfinite(ledger_tolerance) or ledger_tolerance <= 0.0:
+        raise ValueError("ledger_tolerance must be positive and finite")
+    fluxes = fluxes.validated_for(grid.centers.size)
+    edge = reconstruct_global_outer_edge_state(
+        grid,
+        primitives,
+        M_g,
+        mu_mol=mu_mol,
+        kappa=kappa,
+        gamma_gas=gamma_gas,
+    )
+    reservoir = HillRocheNozzleReservoir(
+        radius=edge.radius,
+        density=edge.density,
+        pressure=edge.pressure,
+        radial_velocity=edge.radial_velocity,
+        specific_angular_momentum=edge.specific_angular_momentum,
+        temperature=edge.temperature,
+    )
+    gate = provider.evaluate(reservoir)
+    pressure_traction = float(
+        2.0 * np.pi * edge.radius * edge.integrated_pressure
+    )
+    if gate.solution is None:
+        mass_flux = 0.0
+        nozzle_radial_momentum = 0.0
+        angular_flux = 0.0
+        energy_flux = 0.0
+        angular_mismatch = 0.0
+        energy_mismatch = 0.0
+        pattern_mismatch = 0.0
+    else:
+        solution = gate.solution
+        mass_flux = float(solution.saddle_flux.mass)
+        nozzle_radial_momentum = float(
+            solution.saddle_flux.radial_momentum
+        )
+        angular_flux = float(solution.edge_angular_momentum_flux)
+        energy_flux = float(solution.edge_total_energy_flux)
+        expected_angular = mass_flux * edge.specific_angular_momentum
+        expected_energy = mass_flux * edge.bernoulli
+        angular_scale = max(
+            abs(angular_flux), abs(expected_angular), 1.0
+        )
+        energy_scale = max(abs(energy_flux), abs(expected_energy), 1.0)
+        angular_mismatch = float(
+            (angular_flux - expected_angular) / angular_scale
+        )
+        energy_mismatch = float(
+            (energy_flux - expected_energy) / energy_scale
+        )
+        paired_power = provider.geometry.pattern_omega * (
+            angular_flux - solution.saddle_flux.angular_momentum
+        )
+        power_scale = max(
+            abs(solution.binary_power_gain), abs(paired_power), 1.0
+        )
+        pattern_mismatch = float(
+            (solution.binary_power_gain - paired_power) / power_scale
+        )
+        if max(
+            abs(angular_mismatch),
+            abs(energy_mismatch),
+            abs(pattern_mismatch),
+        ) > ledger_tolerance:
+            raise ValueError(
+                "Roche provider and disk edge do not share one flux ledger"
+            )
+    boundary_velocity = max(edge.radial_velocity, 0.0)
+    incoming_acoustic = int(
+        boundary_velocity - edge.adiabatic_sound_speed < 0.0
+    )
+    if incoming_acoustic != 1:
+        raise ValueError("Roche boundary requires a subsonic edge state")
+    values = {
+        name: np.array(getattr(fluxes, name), copy=True)
+        for name in _COMPONENTS
+    }
+    values["mass"][-1] = mass_flux
+    values["radial_momentum"][-1] = (
+        pressure_traction + nozzle_radial_momentum
+    )
+    values["angular_momentum"][-1] = angular_flux
+    values["total_energy"][-1] = energy_flux
+    applied = GlobalFaceFluxes(**values).validated_for(grid.centers.size)
+    audit = GlobalRocheBoundaryAudit(
+        edge_state=edge,
+        gate=gate,
+        applied_mass_flux=mass_flux,
+        applied_radial_momentum_flux=float(values["radial_momentum"][-1]),
+        applied_angular_momentum_flux=angular_flux,
+        applied_total_energy_flux=energy_flux,
+        pressure_traction=pressure_traction,
+        incoming_acoustic_conditions=incoming_acoustic,
+        no_inward_mass=mass_flux >= 0.0,
+        angular_flux_relative_mismatch=angular_mismatch,
+        energy_flux_relative_mismatch=energy_mismatch,
+        binary_pattern_power_relative_mismatch=pattern_mismatch,
+    )
+    return applied, audit
+
+
 def global_inviscid_cell_sources(
     grid: RadialGrid,
     primitives: GlobalPrimitiveState,
@@ -2237,6 +2481,7 @@ def evaluate_global_rusanov_profile(
     primitives: GlobalPrimitiveState | None = None,
     reference_primitives: GlobalPrimitiveState | None = None,
     open_face_reconstruction: str = "primitive_product",
+    outer_overflow_provider: OverflowBoundaryProvider | None = None,
     specific_mechanical_energy_correction=None,
 ) -> GlobalInviscidProfile:
     """Evaluate Rusanov transport with optional paired alpha-stress fluxes."""
@@ -2310,7 +2555,11 @@ def evaluate_global_rusanov_profile(
             "conserved_donor"
         )
     inner_projection = None
-    if boundary_mode == "characteristic_inner_open_outer":
+    outer_roche_audit = None
+    if boundary_mode in {
+        "characteristic_inner_open_outer",
+        "characteristic_inner_roche_outer",
+    }:
         if reference_primitives is None:
             raise ValueError(
                 "characteristic inner boundary requires a reference state"
@@ -2331,6 +2580,7 @@ def evaluate_global_rusanov_profile(
                 ),
             )
         )
+    if boundary_mode == "characteristic_inner_open_outer":
         face_fluxes = global_open_no_inflow_boundary_fluxes(
             grid, face_fluxes, primitives
         )
@@ -2338,10 +2588,31 @@ def evaluate_global_rusanov_profile(
         face_fluxes = global_open_no_inflow_boundary_fluxes(
             grid, face_fluxes, primitives
         )
+    elif boundary_mode in {
+        "roche_outer",
+        "characteristic_inner_roche_outer",
+    }:
+        if outer_overflow_provider is None:
+            raise ValueError("Roche boundary requires an overflow provider")
+        if stress_boundary_mode not in {"outer_zero_torque", "zero_torque"}:
+            raise ValueError("Roche boundary requires zero outer viscous torque")
+        face_fluxes, outer_roche_audit = (
+            apply_global_hill_roche_outer_boundary(
+                grid,
+                face_fluxes,
+                primitives,
+                M_g,
+                outer_overflow_provider,
+                mu_mol=mu_mol,
+                kappa=kappa,
+                gamma_gas=gamma_gas,
+            )
+        )
     elif boundary_mode != "transmissive":
         raise ValueError(
-            "boundary_mode must be transmissive, open_no_inflow, or "
-            "characteristic_inner_open_outer"
+            "boundary_mode must be transmissive, open_no_inflow, roche_outer, "
+            "characteristic_inner_open_outer, or "
+            "characteristic_inner_roche_outer"
         )
     face_fluxes, viscous_torque = add_global_alpha_stress_fluxes(
         grid,
@@ -2381,6 +2652,7 @@ def evaluate_global_rusanov_profile(
         viscous_torque_faces=viscous_torque,
         vertical_work_rate_cells=vertical_work,
         inner_characteristic_projection=inner_projection,
+        outer_roche_boundary=outer_roche_audit,
     )
 
 
@@ -2419,6 +2691,7 @@ def advance_global_inviscid_rusanov(
     stress_boundary_mode: str = "extrapolated",
     include_radiative_cooling: bool = False,
     external_sources: GlobalCellSources | None = None,
+    outer_overflow_provider: OverflowBoundaryProvider | None = None,
 ) -> GlobalInviscidStepResult:
     """Advance one explicit step and reject non-positive thermal states."""
 
@@ -2441,6 +2714,7 @@ def advance_global_inviscid_rusanov(
         stress_boundary_mode=stress_boundary_mode,
         include_radiative_cooling=include_radiative_cooling,
         external_sources=external_sources,
+        outer_overflow_provider=outer_overflow_provider,
     )
     rhs = global_conservative_rhs(profile.face_fluxes, profile.cell_sources)
     trial = GlobalConservativeState(
@@ -2682,6 +2956,7 @@ def advance_global_imex(
     mu_stress: float = 0.0,
     stress_factor: float = 1.0,
     ledger_tolerance: float = 1.0e-8,
+    outer_overflow_provider: OverflowBoundaryProvider | None = None,
 ) -> GlobalIMEXStepResult:
     """Compose explicit Euler transport and backward-Euler alpha stress."""
 
@@ -2697,6 +2972,8 @@ def advance_global_imex(
         mu_mol=mu_mol,
         kappa=kappa,
         gamma_gas=gamma_gas,
+        stress_boundary_mode=stress_boundary_mode,
+        outer_overflow_provider=outer_overflow_provider,
     )
     if not inviscid.accepted:
         return GlobalIMEXStepResult(
@@ -2942,6 +3219,7 @@ def advance_global_backward_euler(
     include_vertical_column_work: bool = False,
     external_sources: GlobalCellSources | None = None,
     open_face_reconstruction: str = "primitive_product",
+    outer_overflow_provider: OverflowBoundaryProvider | None = None,
     specific_mechanical_energy_correction=None,
 ) -> GlobalBackwardEulerStepResult:
     """Solve all four conservation laws together at the new time level."""
@@ -3079,6 +3357,7 @@ def advance_global_backward_euler(
             primitives=trial_primitives,
             reference_primitives=fixed_reference_primitives,
             open_face_reconstruction=open_face_reconstruction,
+            outer_overflow_provider=outer_overflow_provider,
             specific_mechanical_energy_correction=(
                 specific_mechanical_energy_correction
             ),

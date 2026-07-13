@@ -8,12 +8,12 @@ from pathlib import Path
 import numpy as np
 
 from imri_qpe.layer3_minidisk_1d import (
-    HillRocheNozzleProvider,
+    GasRadiationHillRocheNozzleProvider,
     HillRocheNozzleReservoir,
     fiducial_hill_roche_nozzle_geometry,
-)
-from imri_qpe.layer3_minidisk_1d.signed_flux_common_stress import (
-    positive_edge_reconstruction,
+    gas_radiation_adiabatic_sound_speed_squared,
+    evaluate_global_rusanov_profile,
+    reconstruct_global_outer_edge_state,
 )
 
 from run_global_physical_open_preflight import (
@@ -26,16 +26,18 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "outputs/tables/hill_roche_nozzle_preflight.json"
 
 
-def _mapped_edge_gate(context, evaluation, n_cells: int) -> dict:
+def _mapped_edge_gate(
+    context, evaluation, n_cells: int, filling_factor: float
+) -> dict:
     (
         grid,
-        _state,
+        state,
         _mass,
         _potential,
         stream_rate,
         _stream,
         primitives,
-        _correction,
+        correction,
         _mapping,
     ) = _initial_case(
         context,
@@ -46,58 +48,80 @@ def _mapped_edge_gate(context, evaluation, n_cells: int) -> dict:
         include_vertical_column_work=True,
         boundary_mode="characteristic_inner_open_outer",
     )
-    gas_pressure = float(
-        positive_edge_reconstruction(grid, primitives.vertical.P_gas)[-1]
+    edge = reconstruct_global_outer_edge_state(
+        grid, primitives, context.base.inner_params.M2_g
     )
-    radiation_pressure = float(
-        positive_edge_reconstruction(grid, primitives.vertical.P_rad)[-1]
-    )
-    gamma = (
-        (5.0 / 3.0) * gas_pressure
-        + (4.0 / 3.0) * radiation_pressure
-    ) / (gas_pressure + radiation_pressure)
-    log_centers = np.log(grid.centers)
-    log_outer = float(np.log(grid.edges[-1]))
-    velocity_slope = (
-        primitives.radial_velocity[-1] - primitives.radial_velocity[-2]
-    ) / (log_centers[-1] - log_centers[-2])
-    outer_velocity = float(
-        primitives.radial_velocity[-1]
-        + velocity_slope * (log_outer - log_centers[-1])
-    )
-    outer_omega = float(
-        positive_edge_reconstruction(grid, primitives.omega)[-1]
+    gamma_one = (
+        gas_radiation_adiabatic_sound_speed_squared(
+            edge.density, edge.temperature
+        )
+        * edge.density
+        / edge.pressure
     )
     reservoir = HillRocheNozzleReservoir(
-        radius=float(grid.edges[-1]),
-        density=float(
-            positive_edge_reconstruction(grid, primitives.vertical.rho)[-1]
-        ),
-        pressure=gas_pressure + radiation_pressure,
-        radial_velocity=outer_velocity,
-        specific_angular_momentum=float(grid.edges[-1] ** 2 * outer_omega),
+        radius=edge.radius,
+        density=edge.density,
+        pressure=edge.pressure,
+        radial_velocity=edge.radial_velocity,
+        specific_angular_momentum=edge.specific_angular_momentum,
+        temperature=edge.temperature,
     )
     geometry = fiducial_hill_roche_nozzle_geometry(
-        channel_count=2, filling_factor=1.0
+        channel_count=2, filling_factor=filling_factor
     )
-    gate = HillRocheNozzleProvider(geometry, gamma=gamma).evaluate(reservoir)
+    provider = GasRadiationHillRocheNozzleProvider(
+        geometry, transverse_quadrature_zones=48
+    )
+    profile = evaluate_global_rusanov_profile(
+        grid,
+        state,
+        context.base.inner_params.M2_g,
+        boundary_mode="roche_outer",
+        stress_boundary_mode="outer_zero_torque",
+        primitives=primitives,
+        outer_overflow_provider=provider,
+        specific_mechanical_energy_correction=correction,
+    )
+    boundary = profile.outer_roche_boundary
+    if boundary is None:
+        raise RuntimeError("production Roche boundary audit is missing")
+    gate = boundary.gate
     result = {
         "n_cells": n_cells,
-        "gamma": gamma,
+        "filling_factor": filling_factor,
+        "gamma_one": gamma_one,
         "reservoir_radius_over_hill_radius": (
             reservoir.radius / geometry.nominal_hill_radius
         ),
         "saddle_radius_over_hill_radius": (
             geometry.saddle_radius / geometry.nominal_hill_radius
         ),
+        "surface_density": edge.surface_density,
         "density": reservoir.density,
+        "temperature": reservoir.temperature,
         "pressure": reservoir.pressure,
         "radial_velocity": reservoir.radial_velocity,
         "specific_angular_momentum": reservoir.specific_angular_momentum,
+        "disk_bernoulli": edge.bernoulli,
         "choked": gate.choked,
         "available_specific_energy": gate.available_specific_energy,
         "reservoir_enthalpy": gate.reservoir_enthalpy,
         "required_enthalpy_multiplier": gate.required_enthalpy_multiplier,
+        "incoming_acoustic_conditions": (
+            boundary.incoming_acoustic_conditions
+        ),
+        "no_inward_mass": boundary.no_inward_mass,
+        "applied_mass_flux": boundary.applied_mass_flux,
+        "pressure_traction": boundary.pressure_traction,
+        "angular_flux_relative_mismatch": (
+            boundary.angular_flux_relative_mismatch
+        ),
+        "energy_flux_relative_mismatch": (
+            boundary.energy_flux_relative_mismatch
+        ),
+        "binary_pattern_power_relative_mismatch": (
+            boundary.binary_pattern_power_relative_mismatch
+        ),
     }
     if gate.solution is not None:
         result.update(
@@ -106,9 +130,15 @@ def _mapped_edge_gate(context, evaluation, n_cells: int) -> dict:
                     gate.solution.saddle_flux.mass / stream_rate
                 ),
                 "sonic_residual": gate.solution.sonic_residual,
+                "entropy_residual": gate.solution.entropy_residual,
                 "jacobi_residual": gate.solution.jacobi_residual,
                 "energy_pairing_residual": (
                     gate.solution.energy_pairing_residual
+                ),
+                "disk_energy_relative_mismatch": (
+                    gate.solution.edge_total_energy_flux
+                    / (gate.solution.saddle_flux.mass * edge.bernoulli)
+                    - 1.0
                 ),
             }
         )
@@ -120,14 +150,15 @@ def main() -> None:
     report = {
         "model": {
             "potential": "PW secondary plus local Hill tide",
-            "thermal_process": "adiabatic fixed local gamma",
+            "thermal_process": "adiabatic exact shared gas+radiation EOS",
             "channel_count": 2,
-            "filling_factor": 1.0,
-            "production_boundary": False,
+            "filling_factors": [0.25, 0.5, 1.0],
+            "production_boundary": True,
         },
         "mapped_edge_gates": [
-            _mapped_edge_gate(context, evaluation, n_cells)
-            for n_cells in (64, 96)
+            _mapped_edge_gate(context, evaluation, n_cells, filling_factor)
+            for n_cells in (64, 96, 128)
+            for filling_factor in (0.25, 0.5, 1.0)
         ],
     }
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)

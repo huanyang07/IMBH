@@ -4,14 +4,17 @@ from dataclasses import replace
 
 import numpy as np
 import pytest
+from scipy.optimize import brentq
 
 from imri_qpe.constants import C, M_SUN
+from imri_qpe.layer3_minidisk_1d.entropy_advection import total_pressure
 from imri_qpe.layer3_minidisk_1d.global_signed_evolution import (
     GlobalCellSources,
     GlobalConservativeState,
     GlobalFaceFluxes,
     GlobalFluxPrimaryLayout,
     add_global_alpha_stress_fluxes,
+    apply_global_hill_roche_outer_boundary,
     apply_global_reference_characteristic_inner_flux,
     advance_global_alpha_stress_backward_euler,
     advance_global_backward_euler,
@@ -40,10 +43,16 @@ from imri_qpe.layer3_minidisk_1d.global_signed_evolution import (
     manufactured_backward_euler_jacobian,
     pack_global_flux_primary_state,
     recover_global_primitives,
+    reconstruct_global_outer_edge_state,
     save_global_mechanical_energy_reference,
     state_from_primitives,
     state_from_thermodynamic_primitives,
     unpack_global_flux_primary_state,
+)
+from imri_qpe.layer3_minidisk_1d.hill_roche_nozzle import (
+    GasRadiationHillRocheNozzleProvider,
+    HillRocheNozzleReservoir,
+    fiducial_hill_roche_nozzle_geometry,
 )
 from imri_qpe.layer3_minidisk_1d.grid import make_log_grid
 from imri_qpe.layer3_minidisk_1d.signed_flux_common_stress import (
@@ -62,6 +71,7 @@ from imri_qpe.layer3_minidisk_1d.transonic_thermo import (
     radiative_cooling,
     vertical_state,
 )
+from imri_qpe.parameters import FiducialParams
 
 
 def _manufactured_case(n_cells: int = 8):
@@ -88,6 +98,35 @@ def _manufactured_case(n_cells: int = 8):
         total_energy=np.linspace(-0.2, 0.2, n_cells),
     )
     return grid, state, fluxes, sources
+
+
+def _physical_roche_column(temperature: float, n_cells: int = 32):
+    params = FiducialParams()
+    potential = PaczynskiWiitaPotential(params.M2_g)
+    outer_radius = 335.0 * potential.r_g
+    grid = make_log_grid(100.0 * potential.r_g, outer_radius, n_cells)
+    target_edge_density = 1.0e-8
+    edge_pressure = float(total_pressure(target_edge_density, temperature))
+    edge_height = np.sqrt(edge_pressure / target_edge_density) / float(
+        potential.omega_k(outer_radius)
+    )
+    surface_density = np.full(
+        n_cells, 2.0 * target_edge_density * edge_height
+    )
+    state = state_from_thermodynamic_primitives(
+        grid,
+        surface_density,
+        np.zeros(n_cells),
+        np.asarray(potential.omega_k(grid.centers), dtype=float),
+        np.full(n_cells, temperature),
+        params.M2_g,
+    )
+    primitives = recover_global_primitives(grid, state, params.M2_g)
+    provider = GasRadiationHillRocheNozzleProvider(
+        fiducial_hill_roche_nozzle_geometry(),
+        transverse_quadrature_zones=16,
+    )
+    return params, grid, state, primitives, provider
 
 
 def test_global_layout_has_four_differential_and_four_face_fields() -> None:
@@ -596,6 +635,140 @@ def test_outer_characteristic_audit_counts_supersonic_outflow() -> None:
     assert audit.radial_mach_number > 1.0
     assert audit.incoming_characteristics == 0
     assert all(value > 0.0 for value in audit.eigenvalues)
+
+
+def test_roche_edge_reconstruction_uses_one_exact_physical_column() -> None:
+    params, grid, _state, primitives, _provider = _physical_roche_column(
+        8.0e5
+    )
+    edge = reconstruct_global_outer_edge_state(
+        grid, primitives, params.M2_g
+    )
+    assert edge.radius == grid.edges[-1]
+    assert edge.density == pytest.approx(1.0e-8, rel=3.0e-12)
+    assert edge.pressure == pytest.approx(
+        total_pressure(edge.density, edge.temperature), rel=3.0e-12
+    )
+    assert edge.integrated_pressure / edge.surface_density == pytest.approx(
+        edge.pressure / edge.density, rel=3.0e-12
+    )
+    assert edge.bernoulli == pytest.approx(
+        edge.specific_total_energy
+        + edge.integrated_pressure / edge.surface_density,
+        rel=2.0e-15,
+    )
+
+
+def test_roche_boundary_closed_branch_retains_only_pressure_traction() -> None:
+    params, grid, state, primitives, provider = _physical_roche_column(1.0e5)
+    base = evaluate_global_rusanov_profile(grid, state, params.M2_g)
+    fluxes, audit = apply_global_hill_roche_outer_boundary(
+        grid,
+        base.face_fluxes,
+        primitives,
+        params.M2_g,
+        provider,
+    )
+    assert not audit.gate.choked
+    assert audit.applied_mass_flux == 0.0
+    assert audit.no_inward_mass
+    assert audit.incoming_acoustic_conditions == 1
+    assert fluxes.angular_momentum[-1] == 0.0
+    assert fluxes.total_energy[-1] == 0.0
+    assert fluxes.radial_momentum[-1] == pytest.approx(
+        audit.pressure_traction, rel=2.0e-15
+    )
+
+
+def test_roche_boundary_choked_branch_uses_one_conservative_nozzle_state() -> None:
+    params, grid, state, _primitives, provider = _physical_roche_column(8.0e5)
+    profile = evaluate_global_rusanov_profile(
+        grid,
+        state,
+        params.M2_g,
+        boundary_mode="roche_outer",
+        stress_boundary_mode="outer_zero_torque",
+        outer_overflow_provider=provider,
+    )
+    audit = profile.outer_roche_boundary
+    assert audit is not None
+    assert audit.gate.choked
+    assert audit.gate.solution is not None
+    assert audit.applied_mass_flux > 0.0
+    assert audit.no_inward_mass
+    assert audit.incoming_acoustic_conditions == 1
+    assert abs(audit.angular_flux_relative_mismatch) < 2.0e-12
+    assert abs(audit.energy_flux_relative_mismatch) < 2.0e-12
+    assert abs(audit.binary_pattern_power_relative_mismatch) < 2.0e-12
+    assert profile.viscous_torque_faces[-1] == 0.0
+    assert profile.face_fluxes.mass[-1] == audit.applied_mass_flux
+    assert (
+        profile.face_fluxes.radial_momentum[-1]
+        > audit.pressure_traction
+    )
+
+
+def test_roche_boundary_flux_is_continuous_across_opening_threshold() -> None:
+    params = FiducialParams()
+    potential = PaczynskiWiitaPotential(params.M2_g)
+    geometry = fiducial_hill_roche_nozzle_geometry()
+    provider = GasRadiationHillRocheNozzleProvider(
+        geometry, transverse_quadrature_zones=16
+    )
+    radius = 335.0 * potential.r_g
+    density = 1.0e-8
+    specific_l = float(potential.l_k(radius))
+
+    def availability(log_temperature: float) -> float:
+        temperature = float(np.exp(log_temperature))
+        reservoir = HillRocheNozzleReservoir(
+            radius=radius,
+            density=density,
+            pressure=total_pressure(density, temperature),
+            radial_velocity=0.0,
+            specific_angular_momentum=specific_l,
+            temperature=temperature,
+        )
+        return provider.available_specific_energy(reservoir)
+
+    threshold = float(
+        np.exp(brentq(availability, np.log(1.0e4), np.log(1.0e6)))
+    )
+    below = _physical_roche_column(0.999 * threshold)
+    above = _physical_roche_column(1.001 * threshold)
+    below_profile = evaluate_global_rusanov_profile(
+        below[1],
+        below[2],
+        below[0].M2_g,
+        boundary_mode="roche_outer",
+        stress_boundary_mode="outer_zero_torque",
+        outer_overflow_provider=below[4],
+    )
+    above_profile = evaluate_global_rusanov_profile(
+        above[1],
+        above[2],
+        above[0].M2_g,
+        boundary_mode="roche_outer",
+        stress_boundary_mode="outer_zero_torque",
+        outer_overflow_provider=above[4],
+    )
+    below_audit = below_profile.outer_roche_boundary
+    above_audit = above_profile.outer_roche_boundary
+    assert below_audit is not None and above_audit is not None
+    assert not below_audit.gate.choked
+    assert above_audit.gate.choked
+    assert above_audit.applied_mass_flux > 0.0
+    assert (
+        above_audit.applied_radial_momentum_flux
+        - above_audit.pressure_traction
+    ) / above_audit.pressure_traction < 2.0e-2
+    assert above_audit.applied_mass_flux < 1.0e-2 * (
+        2.0
+        * np.pi
+        * above_audit.edge_state.radius
+        * above_audit.edge_state.surface_density
+        * above_audit.edge_state.adiabatic_sound_speed
+    )
 
 
 def test_inner_characteristic_audit_counts_subsonic_acoustic_input() -> None:
