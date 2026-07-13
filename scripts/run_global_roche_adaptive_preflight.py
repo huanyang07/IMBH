@@ -13,6 +13,7 @@ from imri_qpe.layer3_minidisk_1d import (
     advance_global_adaptive_backward_euler,
     load_global_adaptive_restart,
     make_global_mechanical_energy_reference,
+    recover_global_primitives,
     save_global_adaptive_restart,
 )
 
@@ -51,10 +52,21 @@ def _attempt_record(attempt) -> dict:
     }
 
 
-def main() -> None:
-    context, evaluation = _canonical_open_evaluation()
+def run_adaptive_campaign(
+    context,
+    evaluation,
+    *,
+    n_cells: int,
+    target_loading_fraction: float,
+    initial_dt_loading_fraction: float,
+    restart_path: Path,
+    resume: bool = False,
+    maximum_accepted_steps: int = 20,
+) -> dict:
+    """Run or resume one mesh while checkpointing every accepted state."""
+
     grid, initial, correction, stream, stream_rate, provider = _prepared_case(
-        context, evaluation, 64
+        context, evaluation, n_cells
     )
     mass = context.base.inner_params.M2_g
     loading_time = float(np.sum(initial.mass) / stream_rate)
@@ -63,7 +75,7 @@ def main() -> None:
         correction,
         initial,
         provenance={
-            "case": "global-roche-adaptive-N64",
+            "case": f"global-roche-adaptive-N{n_cells}",
             "source": "canonical coupled open control remapped conservatively",
         },
     )
@@ -90,14 +102,45 @@ def main() -> None:
         "outer_overflow_provider": provider,
         "max_nfev": 300,
     }
-    current = initial
-    elapsed = 0.0
-    dt_next = INITIAL_DT_LOADING_FRACTION * loading_time
-    accepted_steps = 0
-    rejected_attempts = 0
+    if resume:
+        if not restart_path.exists():
+            raise ValueError("requested adaptive restart does not exist")
+        _loaded_grid, loaded = load_global_adaptive_restart(
+            restart_path, grid=grid
+        )
+        for name in (
+            "mass",
+            "radial_momentum",
+            "angular_momentum",
+            "total_energy",
+        ):
+            if not np.array_equal(
+                getattr(loaded.reference_state, name), getattr(initial, name)
+            ):
+                raise ValueError(
+                    "adaptive restart reference differs from canonical mapping"
+                )
+        current = loaded.state
+        initial = loaded.reference_state
+        correction = loaded.mechanical_reference.specific_offset
+        mechanical = loaded.mechanical_reference
+        elapsed = loaded.elapsed_time
+        dt_next = loaded.dt_next
+        accepted_steps = loaded.accepted_steps
+        rejected_attempts = loaded.rejected_attempts
+    else:
+        current = initial
+        elapsed = 0.0
+        dt_next = initial_dt_loading_fraction * loading_time
+        accepted_steps = 0
+        rejected_attempts = 0
+    starting_steps = accepted_steps
     records = []
-    target_time = TARGET_LOADING_FRACTION * loading_time
-    while elapsed < target_time and accepted_steps < 20:
+    target_time = target_loading_fraction * loading_time
+    while (
+        elapsed < target_time
+        and accepted_steps - starting_steps < maximum_accepted_steps
+    ):
         requested_dt = min(dt_next, target_time - elapsed)
         result = advance_global_adaptive_backward_euler(
             grid,
@@ -129,6 +172,12 @@ def main() -> None:
                     result.step.profile.outer_roche_boundary
                     .gate.available_specific_energy
                 ),
+                "inner_mass_flux_over_supply": (
+                    result.step.profile.face_fluxes.mass[0] / stream_rate
+                ),
+                "outer_mass_flux_over_supply": (
+                    result.step.profile.face_fluxes.mass[-1] / stream_rate
+                ),
             }
         )
         if not result.accepted:
@@ -146,12 +195,15 @@ def main() -> None:
             accepted_steps=accepted_steps,
             rejected_attempts=rejected_attempts,
             provenance={
-                "case": "global-roche-adaptive-N64",
-                "target_loading_fraction": TARGET_LOADING_FRACTION,
+                "case": f"global-roche-adaptive-N{n_cells}",
+                "n_cells": n_cells,
+                "target_loading_fraction": target_loading_fraction,
             },
         )
-        save_global_adaptive_restart(RESTART, grid, restart)
-        loaded_grid, loaded = load_global_adaptive_restart(RESTART, grid=grid)
+        save_global_adaptive_restart(restart_path, grid, restart)
+        loaded_grid, loaded = load_global_adaptive_restart(
+            restart_path, grid=grid
+        )
         if not np.array_equal(loaded_grid.edges, grid.edges):
             raise RuntimeError("adaptive restart changed the grid")
         for name in (
@@ -168,19 +220,42 @@ def main() -> None:
         elapsed = loaded.elapsed_time
         dt_next = loaded.dt_next
         correction = loaded.mechanical_reference.specific_offset
-    report = {
-        "n_cells": 64,
-        "target_loading_fraction": TARGET_LOADING_FRACTION,
+    final = recover_global_primitives(
+        grid,
+        current,
+        mass,
+        specific_mechanical_energy_correction=correction,
+    )
+    return {
+        "n_cells": n_cells,
+        "target_loading_fraction": target_loading_fraction,
         "elapsed_loading_fraction": elapsed / loading_time,
         "accepted_steps": accepted_steps,
+        "accepted_steps_this_run": accepted_steps - starting_steps,
         "rejected_attempts": rejected_attempts,
         "target_reached": elapsed >= target_time,
         "restart_after_every_accepted_step": True,
         "disk_mass_relative_change": float(
             np.sum(current.mass) / np.sum(initial.mass) - 1.0
         ),
+        "maximum_H_over_R": float(
+            np.max(np.asarray(final.vertical.H) / grid.centers)
+        ),
+        "minimum_temperature": float(np.min(final.temperature)),
         "records": records,
     }
+
+
+def main() -> None:
+    context, evaluation = _canonical_open_evaluation()
+    report = run_adaptive_campaign(
+        context,
+        evaluation,
+        n_cells=64,
+        target_loading_fraction=TARGET_LOADING_FRACTION,
+        initial_dt_loading_fraction=INITIAL_DT_LOADING_FRACTION,
+        restart_path=RESTART,
+    )
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(OUTPUT)

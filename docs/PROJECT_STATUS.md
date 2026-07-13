@@ -46,7 +46,7 @@ This is the canonical project handoff. Status labels mean:
 | Binary pattern-power wall continuation | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Paired torque/power identity closes to `1.7e-16`; 25%, 50%, and 75% stages solve numerically | Tidal-band `H/R` exceeds `0.3` at 25% power and reaches `0.61`; this is a candidate transition to a thick inflow-outflow regime outside the one-zone validity domain |
 | Coupled open-overflow eigenvalue | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Full-rank `96/64` and `144/96` roots; inner/stream `0.16894`, overflow `0.83106`, stagnation near `222.18 rg`, Hill-band `H/R=0.0383` | Controlled `168/112` refinement fails in outer stress/energy endpoint cells; steady branch is not mesh certified |
 | Flux-primary time-dependent DAE | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Direct inner response, exact stream moments, cooling, resolved timestep comparison, eight accepted `16/8` steps, and bitwise restart | `24/16` evolved refinement fails the fixed gate; all interface remedies are closed; tide and wind remain blocked |
-| Global signed conservative descriptor | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Physical Roche edge and N64/N96/N128 initial loading pass; adaptive N64 run reaches `5e-7 t_load` with eight accepted restart continuations and two safe retries | Only `1e-9 t_load` is mesh tested and `5e-7 t_load` is still physically short; long mesh-supported evolution is pending; tide and wind remain blocked |
+| Global signed conservative descriptor | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | N64/N96/N128 agree at shared `1e-7 t_load`; resumed N64 reaches `1e-6 t_load` with 16 cumulative accepted steps, zero overflow, and exact restart continuation | N96/N128 have not reached `1e-6 t_load`, and all durations remain physically short; tide and wind remain blocked |
 | Gas-radiation Hill/Roche boundary | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Shared EOS entropy/enthalpy/acoustic closure; exact `335 rg` reconstruction; continuous closed/choked flux; disk/Jacobi/pattern-power ledgers; N64/N96/N128 and filling-factor preflight | All mapped states are energetically closed; the reduced symmetric local-Hill channel is not a multidimensional L1/L2 solution and its open-state filling remains uncertain |
 
 ## Frozen Target Under Review
@@ -178,6 +178,12 @@ N                    = 164
     two recovered retries while reloading a checksum-verified checkpoint after
     every step. The Roche deficit remains strongly negative. This validates
     the controller, not a long-time physical state.
+26. At shared `1e-7 t_load`, N64/N96/N128 inner fluxes agree within `0.26%`
+    of supply and maximum `H/R` within `0.05%`. N128 rejects one full jump and
+    reaches the target through two accepted half steps. The resumed N64 state
+    reaches `1e-6 t_load`; its inner fraction rises to `0.1918`, the remainder
+    accumulates, and the Roche edge stays closed. The next gate is N96/N128 at
+    this same time, not a longer single-mesh claim.
 
 ## Claims That Are Not Allowed Yet
 
@@ -223,6 +229,8 @@ N                    = 164
    increase only after accepted-state continuation. Classify a
    steady state, accumulation, front, or cycle only after relevant loading,
    thermal, and viscous times have been covered.
+   The immediate target is the shared `1e-6 t_load` N96/N128 checkpoint before
+   extending N64 to `1e-5 t_load`.
 8. Continue one physical distributed tide only after the global no-tide model
    passes; search for accumulation, fronts, hot phases, and limit cycles.
 9. Add wind only after the tidal and stability gates pass.
@@ -261,3 +269,4 @@ N                    = 164
 - Gas-radiation production Roche edge: `reports/current/CODEX_GAS_RADIATION_ROCHE_BOUNDARY_RESULTS_2026-07-13.md`
 - Physical-edge loading preflight: `reports/current/CODEX_GLOBAL_ROCHE_LOADING_PREFLIGHT_RESULTS_2026-07-13.md`
 - Adaptive/restart preflight: `reports/current/CODEX_GLOBAL_ROCHE_ADAPTIVE_RESTART_RESULTS_2026-07-13.md`
+- Shared-time mesh and N64 extension: `reports/current/CODEX_GLOBAL_ROCHE_SHARED_TIME_EXTENSION_RESULTS_2026-07-13.md`
