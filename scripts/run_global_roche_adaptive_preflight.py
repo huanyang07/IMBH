@@ -11,6 +11,7 @@ from imri_qpe.layer3_minidisk_1d import (
     GlobalAdaptiveRestart,
     GlobalAdaptiveStepConfig,
     advance_global_adaptive_backward_euler,
+    evaluate_global_rusanov_profile,
     load_global_adaptive_restart,
     make_global_mechanical_energy_reference,
     recover_global_primitives,
@@ -226,6 +227,24 @@ def run_adaptive_campaign(
         mass,
         specific_mechanical_energy_correction=correction,
     )
+    final_profile = evaluate_global_rusanov_profile(
+        grid,
+        current,
+        mass,
+        reference_state=initial,
+        boundary_mode="characteristic_inner_roche_outer",
+        alpha=context.base.alpha,
+        stress_boundary_mode="outer_zero_torque",
+        include_radiative_cooling=True,
+        include_vertical_column_work=True,
+        external_sources=stream,
+        primitives=final,
+        outer_overflow_provider=provider,
+        specific_mechanical_energy_correction=correction,
+    )
+    final_boundary = final_profile.outer_roche_boundary
+    if final_boundary is None:
+        raise RuntimeError("final adaptive state lacks a Roche boundary audit")
     return {
         "n_cells": n_cells,
         "target_loading_fraction": target_loading_fraction,
@@ -242,6 +261,16 @@ def run_adaptive_campaign(
             np.max(np.asarray(final.vertical.H) / grid.centers)
         ),
         "minimum_temperature": float(np.min(final.temperature)),
+        "final_inner_mass_flux_over_supply": float(
+            final_profile.face_fluxes.mass[0] / stream_rate
+        ),
+        "final_outer_mass_flux_over_supply": float(
+            final_profile.face_fluxes.mass[-1] / stream_rate
+        ),
+        "final_roche_choked": final_boundary.gate.choked,
+        "final_roche_available_specific_energy": (
+            final_boundary.gate.available_specific_energy
+        ),
         "records": records,
     }
 
