@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 from dataclasses import dataclass
+from pathlib import Path
 
 import numpy as np
 from scipy.optimize import brentq, least_squares
@@ -31,6 +34,22 @@ def _finite_vector(name: str, values, size: int) -> np.ndarray:
     if array.shape != (size,) or np.any(~np.isfinite(array)):
         raise ValueError(f"{name} must be a finite vector of length {size}")
     return array
+
+
+def _sha256_float_arrays(*arrays) -> str:
+    digest = hashlib.sha256()
+    for values in arrays:
+        array = np.ascontiguousarray(np.asarray(values, dtype="<f8"))
+        digest.update(np.asarray(array.shape, dtype="<i8").tobytes())
+        digest.update(array.tobytes())
+    return digest.hexdigest()
+
+
+def _is_sha256(value: str) -> bool:
+    value = str(value)
+    return len(value) == 64 and all(
+        character in "0123456789abcdef" for character in value
+    )
 
 
 @dataclass(frozen=True)
@@ -191,7 +210,12 @@ class GlobalLedgerAudit:
 
 @dataclass(frozen=True)
 class GlobalPrimitiveState:
-    """Primitive and one-zone thermodynamic state recovered from conservation."""
+    """Primitive state recovered from cell-integrated conservation.
+
+    ``specific_total_energy`` is the stored cell-average quantity.  When a
+    fixed mechanical quadrature offset is active, physical face Bernoulli
+    energies must remove that offset explicitly.
+    """
 
     surface_density: np.ndarray
     radial_velocity: np.ndarray
@@ -200,6 +224,211 @@ class GlobalPrimitiveState:
     specific_total_energy: np.ndarray
     specific_internal_energy: np.ndarray
     vertical: TransonicVerticalState
+
+
+@dataclass(frozen=True)
+class GlobalMechanicalEnergyReference:
+    """Restart-safe fixed cell mechanical quadrature reference."""
+
+    grid_edges: np.ndarray
+    specific_offset: np.ndarray
+    reference_state_sha256: str
+    offset_sha256: str
+    provenance: dict
+    schema_version: int = 1
+
+    def validated_for(
+        self, grid: RadialGrid | None = None
+    ) -> GlobalMechanicalEnergyReference:
+        edges = np.asarray(self.grid_edges, dtype=float)
+        offset = np.asarray(self.specific_offset, dtype=float)
+        if (
+            edges.ndim != 1
+            or edges.size < 2
+            or np.any(~np.isfinite(edges))
+            or np.any(np.diff(edges) <= 0.0)
+        ):
+            raise ValueError("mechanical-reference grid edges are invalid")
+        if offset.shape != (edges.size - 1,) or np.any(~np.isfinite(offset)):
+            raise ValueError("mechanical-reference offset does not match the grid")
+        if int(self.schema_version) != 1:
+            raise ValueError("unsupported mechanical-reference schema version")
+        expected_offset_hash = _sha256_float_arrays(edges, offset)
+        if str(self.offset_sha256) != expected_offset_hash:
+            raise ValueError("mechanical-reference offset checksum mismatch")
+        if not _is_sha256(self.reference_state_sha256):
+            raise ValueError("mechanical-reference state checksum is invalid")
+        if not isinstance(self.provenance, dict):
+            raise ValueError("mechanical-reference provenance must be a mapping")
+        if grid is not None and not np.array_equal(edges, grid.edges):
+            raise ValueError("mechanical-reference grid does not match restart grid")
+        return GlobalMechanicalEnergyReference(
+            grid_edges=np.array(edges, copy=True),
+            specific_offset=np.array(offset, copy=True),
+            reference_state_sha256=str(self.reference_state_sha256),
+            offset_sha256=expected_offset_hash,
+            provenance=dict(self.provenance),
+            schema_version=1,
+        )
+
+
+def make_global_mechanical_energy_reference(
+    grid: RadialGrid,
+    specific_offset,
+    reference_state: GlobalConservativeState,
+    *,
+    provenance: dict,
+) -> GlobalMechanicalEnergyReference:
+    """Freeze one mesh-specific quadrature offset with restart provenance."""
+
+    state = reference_state.validated()
+    if state.n_cells != grid.centers.size:
+        raise ValueError("mechanical reference state does not match the grid")
+    offset = _finite_vector(
+        "specific mechanical quadrature offset",
+        specific_offset,
+        state.n_cells,
+    )
+    if not isinstance(provenance, dict):
+        raise ValueError("mechanical-reference provenance must be a mapping")
+    # Reject provenance that cannot be stored deterministically before a run.
+    json.dumps(
+        provenance, sort_keys=True, separators=(",", ":"), allow_nan=False
+    )
+    reference_hash = _sha256_float_arrays(
+        grid.edges,
+        state.mass,
+        state.radial_momentum,
+        state.angular_momentum,
+        state.total_energy,
+    )
+    return GlobalMechanicalEnergyReference(
+        grid_edges=np.array(grid.edges, copy=True),
+        specific_offset=np.array(offset, copy=True),
+        reference_state_sha256=reference_hash,
+        offset_sha256=_sha256_float_arrays(grid.edges, offset),
+        provenance=dict(provenance),
+    ).validated_for(grid)
+
+
+def save_global_mechanical_energy_reference(
+    path: str | Path,
+    reference: GlobalMechanicalEnergyReference,
+) -> None:
+    """Write a mechanical reference without object arrays or hidden pickle."""
+
+    reference = reference.validated_for()
+    destination = Path(path)
+    if destination.suffix != ".npz":
+        raise ValueError("mechanical-reference path must end in .npz")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    provenance_json = json.dumps(
+        reference.provenance,
+        sort_keys=True,
+        separators=(",", ":"),
+        allow_nan=False,
+    )
+    np.savez_compressed(
+        destination,
+        schema_version=np.asarray(reference.schema_version, dtype=np.int64),
+        grid_edges=reference.grid_edges,
+        specific_offset=reference.specific_offset,
+        reference_state_sha256=np.asarray(reference.reference_state_sha256),
+        offset_sha256=np.asarray(reference.offset_sha256),
+        provenance_json=np.asarray(provenance_json),
+    )
+
+
+def load_global_mechanical_energy_reference(
+    path: str | Path,
+    *,
+    grid: RadialGrid | None = None,
+    reference_state: GlobalConservativeState | None = None,
+) -> GlobalMechanicalEnergyReference:
+    """Load and verify the exact offset, mesh, and generating-state checksum."""
+
+    with np.load(Path(path), allow_pickle=False) as data:
+        required = {
+            "schema_version",
+            "grid_edges",
+            "specific_offset",
+            "reference_state_sha256",
+            "offset_sha256",
+            "provenance_json",
+        }
+        if set(data.files) != required:
+            raise ValueError("mechanical-reference checkpoint fields are invalid")
+        try:
+            provenance = json.loads(str(data["provenance_json"].item()))
+        except (TypeError, ValueError, json.JSONDecodeError) as error:
+            raise ValueError("mechanical-reference provenance is invalid") from error
+        reference = GlobalMechanicalEnergyReference(
+            grid_edges=np.asarray(data["grid_edges"], dtype=float),
+            specific_offset=np.asarray(data["specific_offset"], dtype=float),
+            reference_state_sha256=str(data["reference_state_sha256"].item()),
+            offset_sha256=str(data["offset_sha256"].item()),
+            provenance=provenance,
+            schema_version=int(data["schema_version"].item()),
+        ).validated_for(grid)
+    if reference_state is not None:
+        if grid is None:
+            raise ValueError("a grid is required to verify the reference state")
+        state = reference_state.validated()
+        if state.n_cells != grid.centers.size:
+            raise ValueError("mechanical reference state does not match the grid")
+        actual_hash = _sha256_float_arrays(
+            grid.edges,
+            state.mass,
+            state.radial_momentum,
+            state.angular_momentum,
+            state.total_energy,
+        )
+        if actual_hash != reference.reference_state_sha256:
+            raise ValueError("mechanical-reference generating state mismatch")
+    return reference
+
+
+def global_physical_specific_total_energy(
+    primitives: GlobalPrimitiveState,
+    specific_mechanical_energy_correction=None,
+) -> np.ndarray:
+    """Remove the cell quadrature offset from physical center energy.
+
+    The conservative state retains the true cell-average energy.  The fixed
+    offset only reconciles that average with center primitives; it is not a
+    physical Bernoulli contribution exported through a radial face.
+    """
+
+    stored = np.asarray(primitives.specific_total_energy, dtype=float)
+    if stored.ndim != 1 or np.any(~np.isfinite(stored)):
+        raise ValueError("stored specific total energy must be a finite vector")
+    correction = (
+        np.zeros(stored.size, dtype=float)
+        if specific_mechanical_energy_correction is None
+        else _finite_vector(
+            "specific_mechanical_energy_correction",
+            specific_mechanical_energy_correction,
+            stored.size,
+        )
+    )
+    return stored - correction
+
+
+def global_physical_bernoulli(
+    primitives: GlobalPrimitiveState,
+    specific_mechanical_energy_correction=None,
+) -> np.ndarray:
+    """Return physical center Bernoulli energy under the declared convention."""
+
+    sigma = np.asarray(primitives.surface_density, dtype=float)
+    pressure = np.asarray(primitives.vertical.Pi, dtype=float)
+    if pressure.ndim == 0:
+        pressure = np.full(sigma.shape, float(pressure), dtype=float)
+    if sigma.shape != pressure.shape or np.any(sigma <= 0.0):
+        raise ValueError("physical Bernoulli requires positive matching columns")
+    return global_physical_specific_total_energy(
+        primitives, specific_mechanical_energy_correction
+    ) + pressure / sigma
 
 
 @dataclass(frozen=True)
@@ -224,6 +453,19 @@ class GlobalInnerCharacteristicProjectionAudit:
     projected_radial_velocity: float
     projected_integrated_pressure: float
     projected_temperature: float
+
+
+@dataclass(frozen=True)
+class GlobalFluxEigensystemAudit:
+    """Numerical local eigensystem of the physical vertically integrated flux."""
+
+    numerical_eigenvalues: tuple[float, float, float, float]
+    analytic_eigenvalues: tuple[float, float, float, float]
+    incoming_acoustic_left_alignment: float
+    maximum_analytic_eigenvalue_defect_over_sound_speed: float
+    finite_difference_refinement_defect: float
+    maximum_biorthogonality_defect: float
+    maximum_eigenpair_residual: float
 
 
 @dataclass(frozen=True)
@@ -909,6 +1151,8 @@ def apply_global_conserved_donor_outer_flux(
     grid: RadialGrid,
     fluxes: GlobalFaceFluxes,
     primitives: GlobalPrimitiveState,
+    *,
+    specific_mechanical_energy_correction=None,
 ) -> GlobalFaceFluxes:
     """Use one donor mass flux for every advected outer-face quantity.
 
@@ -941,8 +1185,9 @@ def apply_global_conserved_donor_outer_flux(
     )
     specific_l = float(grid.centers[cell] ** 2 * omega[cell])
     bernoulli = float(
-        primitives.specific_total_energy[cell]
-        + integrated_pressure[cell] / sigma[cell]
+        global_physical_bernoulli(
+            primitives, specific_mechanical_energy_correction
+        )[cell]
     )
     values = {
         name: np.array(getattr(fluxes, name), copy=True)
@@ -1147,6 +1392,242 @@ def global_effective_sound_speed(
     return np.sqrt(sound_speed_squared)
 
 
+def _local_conserved_flux_and_pressure_from_primitives(
+    primitive: np.ndarray,
+    radius: float,
+    M_g: float,
+    mechanical_offset: float,
+    *,
+    mu_mol: float,
+    kappa: float,
+    gamma_gas: float,
+) -> tuple[np.ndarray, np.ndarray, float]:
+    """Map local primitives to physical center conserved fields and flux.
+
+    The cell quadrature offset is deliberately absent from the local
+    continuum energy field and face flux. It remains part of finite-volume
+    cell-average storage and its well-balanced numerical treatment.
+    """
+
+    values = np.asarray(primitive, dtype=float)
+    if values.shape != (4,) or np.any(~np.isfinite(values)):
+        raise ValueError("local primitive state is not finite")
+    sigma, velocity, specific_l, temperature = map(float, values)
+    if sigma <= 0.0 or temperature <= 0.0:
+        raise ValueError("local density and temperature must be positive")
+    omega = specific_l / radius**2
+    potential = PaczynskiWiitaPotential(float(M_g))
+    vertical = vertical_state(
+        sigma,
+        temperature,
+        radius,
+        potential,
+        mu_mol=mu_mol,
+        kappa=kappa,
+        gamma_gas=gamma_gas,
+    )
+    pressure = float(vertical.Pi)
+    stored_specific_total = float(
+        potential.phi(radius)
+        + 0.5 * velocity**2
+        + 0.5 * (radius * omega) ** 2
+        + mechanical_offset
+        + vertical.e
+    )
+    physical_specific_total = stored_specific_total - mechanical_offset
+    conserved = np.asarray(
+        [
+            sigma,
+            sigma * velocity,
+            sigma * specific_l,
+            sigma * physical_specific_total,
+        ],
+        dtype=float,
+    )
+    flux = np.asarray(
+        [
+            sigma * velocity,
+            sigma * velocity**2 + pressure,
+            sigma * velocity * specific_l,
+            sigma
+            * velocity
+            * (physical_specific_total + pressure / sigma),
+        ],
+        dtype=float,
+    )
+    return conserved, flux, pressure
+
+
+def audit_global_physical_flux_eigensystem(
+    grid: RadialGrid,
+    primitives: GlobalPrimitiveState,
+    M_g: float,
+    *,
+    cell: int = 0,
+    relative_step: float = 2.0e-5,
+    temperature_bounds: tuple[float, float] = (1.0e3, 1.0e12),
+    mu_mol: float = DEFAULT_MU_MOL,
+    kappa: float = DEFAULT_KAPPA_ES,
+    gamma_gas: float = 5.0 / 3.0,
+    specific_mechanical_energy_correction=None,
+) -> GlobalFluxEigensystemAudit:
+    """Compare the analytic acoustic rule with the implemented flux Jacobian."""
+
+    n_cells = grid.centers.size
+    if not 0 <= int(cell) < n_cells:
+        raise ValueError("eigensystem audit cell lies outside the grid")
+    if not np.isfinite(relative_step) or relative_step <= 0.0:
+        raise ValueError("relative_step must be positive and finite")
+    cell = int(cell)
+    correction = (
+        np.zeros(n_cells, dtype=float)
+        if specific_mechanical_energy_correction is None
+        else _finite_vector(
+            "specific_mechanical_energy_correction",
+            specific_mechanical_energy_correction,
+            n_cells,
+        )
+    )
+    radius = float(grid.centers[cell])
+    sigma = float(primitives.surface_density[cell])
+    velocity = float(primitives.radial_velocity[cell])
+    specific_l = float(radius**2 * primitives.omega[cell])
+    temperature = float(primitives.temperature[cell])
+    lower_temperature, upper_temperature = map(float, temperature_bounds)
+    if not lower_temperature < temperature < upper_temperature:
+        raise ValueError("eigensystem state lies outside temperature bounds")
+    primitive = np.asarray(
+        [sigma, velocity, specific_l, temperature], dtype=float
+    )
+    sound_speed = float(
+        global_effective_sound_speed(primitives, gamma_gas=gamma_gas)[cell]
+    )
+    internal_energy = float(primitives.specific_internal_energy[cell])
+    conserved_scales = np.asarray(
+        [
+            sigma,
+            sigma * max(abs(velocity), sound_speed, 1.0),
+            sigma * max(abs(specific_l), radius * sound_speed, 1.0),
+            sigma * max(abs(internal_energy), sound_speed**2, 1.0),
+        ],
+        dtype=float,
+    )
+    primitive_scales = np.asarray(
+        [sigma, max(abs(velocity), sound_speed, 1.0),
+         max(abs(specific_l), radius * sound_speed, 1.0), temperature],
+        dtype=float,
+    )
+    _, _, reference_pressure = (
+        _local_conserved_flux_and_pressure_from_primitives(
+            primitive,
+            radius,
+            M_g,
+            float(correction[cell]),
+            mu_mol=mu_mol,
+            kappa=kappa,
+            gamma_gas=gamma_gas,
+        )
+    )
+
+    def augmented(values: np.ndarray) -> np.ndarray:
+        conserved, flux, pressure = (
+            _local_conserved_flux_and_pressure_from_primitives(
+                values,
+                radius,
+                M_g,
+                float(correction[cell]),
+                mu_mol=mu_mol,
+                kappa=kappa,
+                gamma_gas=gamma_gas,
+            )
+        )
+        incoming_invariant = (
+            values[1]
+            + (pressure - reference_pressure) / (sigma * sound_speed)
+        )
+        return np.concatenate(
+            (conserved, flux, np.asarray([incoming_invariant]))
+        )
+
+    def derivative_matrix(step_scale: float) -> np.ndarray:
+        derivative = np.empty((9, 4), dtype=float)
+        for index in range(4):
+            step = float(step_scale * primitive_scales[index])
+            plus = np.array(primitive, copy=True)
+            minus = np.array(primitive, copy=True)
+            plus[index] += step
+            minus[index] -= step
+            derivative[:, index] = (
+                augmented(plus) - augmented(minus)
+            ) / (2.0 * step)
+        return derivative
+
+    coarse = derivative_matrix(relative_step)
+    fine = derivative_matrix(0.5 * relative_step)
+    conserved_jacobian = fine[:4]
+    flux_primitive_jacobian = fine[4:8]
+    jacobian = flux_primitive_jacobian @ np.linalg.inv(conserved_jacobian)
+    scaling = np.diag(conserved_scales)
+    inverse_scaling = np.diag(1.0 / conserved_scales)
+    scaled_jacobian = inverse_scaling @ jacobian @ scaling
+    eigenvalues, right = np.linalg.eig(scaled_jacobian)
+    imaginary_scale = max(float(np.max(np.abs(eigenvalues.real))), 1.0)
+    if np.max(np.abs(eigenvalues.imag)) > 1.0e-7 * imaginary_scale:
+        raise ValueError("physical flux Jacobian has non-real characteristics")
+    ordering = np.argsort(eigenvalues.real)
+    numerical = np.asarray(eigenvalues.real[ordering], dtype=float)
+    right = right[:, ordering]
+    left = np.linalg.inv(right)
+    analytic = np.asarray(
+        [
+            velocity - sound_speed,
+            velocity,
+            velocity,
+            velocity + sound_speed,
+        ],
+        dtype=float,
+    )
+    analytic_left_unscaled = fine[8] @ np.linalg.inv(conserved_jacobian)
+    analytic_left = np.asarray(
+        analytic_left_unscaled * conserved_scales, dtype=float
+    )
+    analytic_left /= np.linalg.norm(analytic_left)
+    numerical_left = np.asarray(left[-1], dtype=complex)
+    numerical_left /= np.linalg.norm(numerical_left)
+    alignment = float(abs(np.vdot(numerical_left, analytic_left)))
+    jacobian_scale = max(float(np.linalg.norm(scaled_jacobian, ord=2)), 1.0)
+    eigenpair_residual = 0.0
+    for index in range(4):
+        vector = right[:, index]
+        residual = np.linalg.norm(
+            scaled_jacobian @ vector - eigenvalues[ordering[index]] * vector
+        ) / (jacobian_scale * np.linalg.norm(vector))
+        eigenpair_residual = max(eigenpair_residual, float(residual))
+    coarse_jacobian = coarse[4:8] @ np.linalg.inv(coarse[:4])
+    coarse_scaled = inverse_scaling @ coarse_jacobian @ scaling
+    coarse_eigenvalues = np.linalg.eigvals(coarse_scaled)
+    if np.max(np.abs(coarse_eigenvalues.imag)) > 1.0e-7 * imaginary_scale:
+        raise ValueError("coarse physical flux Jacobian is not hyperbolic")
+    coarse_values = np.sort(coarse_eigenvalues.real)
+    refinement_defect = float(
+        np.max(np.abs(coarse_values - numerical))
+        / max(sound_speed, 1.0)
+    )
+    return GlobalFluxEigensystemAudit(
+        numerical_eigenvalues=tuple(float(value) for value in numerical),
+        analytic_eigenvalues=tuple(float(value) for value in analytic),
+        incoming_acoustic_left_alignment=alignment,
+        maximum_analytic_eigenvalue_defect_over_sound_speed=float(
+            np.max(np.abs(numerical - analytic)) / max(sound_speed, 1.0)
+        ),
+        finite_difference_refinement_defect=refinement_defect,
+        maximum_biorthogonality_defect=float(
+            np.max(np.abs(left @ right - np.eye(4)))
+        ),
+        maximum_eigenpair_residual=eigenpair_residual,
+    )
+
+
 def global_outer_characteristic_audit(
     primitives: GlobalPrimitiveState,
     *,
@@ -1231,6 +1712,7 @@ def _single_cell_inviscid_flux(
     *,
     cell: int,
     face: int,
+    specific_mechanical_energy_correction=None,
 ) -> np.ndarray:
     radius = float(grid.edges[face])
     sigma = float(primitives.surface_density[cell])
@@ -1242,8 +1724,9 @@ def _single_cell_inviscid_flux(
     mass_flux = 2.0 * np.pi * radius * sigma * velocity
     specific_l = float(grid.centers[cell] ** 2 * omega)
     bernoulli = float(
-        primitives.specific_total_energy[cell]
-        + integrated_pressure / sigma
+        global_physical_bernoulli(
+            primitives, specific_mechanical_energy_correction
+        )[cell]
     )
     return np.asarray(
         [
@@ -1267,6 +1750,7 @@ def apply_global_reference_characteristic_inner_flux(
     mu_mol: float = DEFAULT_MU_MOL,
     kappa: float = DEFAULT_KAPPA_ES,
     gamma_gas: float = 5.0 / 3.0,
+    specific_mechanical_energy_correction=None,
 ) -> tuple[GlobalFaceFluxes, GlobalInnerCharacteristicProjectionAudit]:
     """Remove the incoming inner acoustic perturbation relative to a reference.
 
@@ -1278,6 +1762,15 @@ def apply_global_reference_characteristic_inner_flux(
 
     fluxes = fluxes.validated_for(grid.centers.size)
     cell = 0
+    mechanical_correction = (
+        np.zeros(grid.centers.size, dtype=float)
+        if specific_mechanical_energy_correction is None
+        else _finite_vector(
+            "specific_mechanical_energy_correction",
+            specific_mechanical_energy_correction,
+            grid.centers.size,
+        )
+    )
     sigma = float(primitives.surface_density[cell])
     velocity = float(primitives.radial_velocity[cell])
     pressure = float(primitives.vertical.Pi[cell])
@@ -1363,6 +1856,7 @@ def apply_global_reference_characteristic_inner_flux(
         potential.phi(radius)
         + 0.5 * projected_velocity**2
         + 0.5 * (radius * float(primitives.omega[cell])) ** 2
+        + mechanical_correction[cell]
         + projected_vertical.e
     )
     projected_primitives = GlobalPrimitiveState(
@@ -1375,10 +1869,20 @@ def apply_global_reference_characteristic_inner_flux(
         vertical=projected_vertical,
     )
     projected_flux = _single_cell_inviscid_flux(
-        grid, projected_primitives, cell=0, face=0
+        grid,
+        projected_primitives,
+        cell=0,
+        face=0,
+        specific_mechanical_energy_correction=np.asarray(
+            [mechanical_correction[cell]], dtype=float
+        ),
     )
     current_flux = _single_cell_inviscid_flux(
-        grid, primitives, cell=cell, face=0
+        grid,
+        primitives,
+        cell=cell,
+        face=0,
+        specific_mechanical_energy_correction=mechanical_correction,
     )
     values = {
         name: np.array(getattr(fluxes, name), copy=True)
@@ -1419,6 +1923,7 @@ def global_rusanov_face_fluxes(
     M_g: float,
     *,
     gamma_gas: float = 5.0 / 3.0,
+    specific_mechanical_energy_correction=None,
 ) -> GlobalFaceFluxes:
     """Return first-order local Lax-Friedrichs fluxes for all four fields."""
 
@@ -1428,11 +1933,17 @@ def global_rusanov_face_fluxes(
     sigma = primitives.surface_density
     velocity = primitives.radial_velocity
     specific_l = state.angular_momentum / state.mass
-    specific_total = state.total_energy / state.mass
+    stored_specific_total = state.total_energy / state.mass
+    physical_specific_total = global_physical_specific_total_energy(
+        primitives, specific_mechanical_energy_correction
+    )
     integrated_pressure = np.asarray(primitives.vertical.Pi, dtype=float)
     potential = PaczynskiWiitaPotential(float(M_g))
     potential_centers = np.asarray(potential.phi(grid.centers), dtype=float)
-    nonpotential_specific = specific_total - potential_centers
+    stored_nonpotential_specific = stored_specific_total - potential_centers
+    physical_nonpotential_specific = (
+        physical_specific_total - potential_centers
+    )
     sound_speed = global_effective_sound_speed(
         primitives, gamma_gas=gamma_gas
     )
@@ -1441,7 +1952,7 @@ def global_rusanov_face_fluxes(
             sigma,
             sigma * velocity,
             sigma * specific_l,
-            sigma * specific_total,
+            sigma * stored_specific_total,
         )
     )
     physical_flux = np.vstack(
@@ -1451,12 +1962,12 @@ def global_rusanov_face_fluxes(
             sigma * velocity * specific_l,
             sigma
             * velocity
-            * (specific_total + integrated_pressure / sigma),
+            * (physical_specific_total + integrated_pressure / sigma),
         )
     )
-    nonpotential_energy = sigma * nonpotential_specific
+    nonpotential_energy = sigma * stored_nonpotential_specific
     nonpotential_energy_flux = sigma * velocity * (
-        nonpotential_specific + integrated_pressure / sigma
+        physical_nonpotential_specific + integrated_pressure / sigma
     )
     n_cells = state.n_cells
     face_flux = np.empty((4, n_cells + 1), dtype=float)
@@ -1504,11 +2015,19 @@ def global_equilibrium_corrected_rusanov_fluxes(
     M_g: float,
     *,
     gamma_gas: float = 5.0 / 3.0,
+    specific_mechanical_energy_correction=None,
 ) -> GlobalFaceFluxes:
     """Add Rusanov dissipation only to deviations from a reference equilibrium."""
 
     current = global_rusanov_face_fluxes(
-        grid, state, primitives, M_g, gamma_gas=gamma_gas
+        grid,
+        state,
+        primitives,
+        M_g,
+        gamma_gas=gamma_gas,
+        specific_mechanical_energy_correction=(
+            specific_mechanical_energy_correction
+        ),
     )
     reference_rusanov = global_rusanov_face_fluxes(
         grid,
@@ -1516,6 +2035,9 @@ def global_equilibrium_corrected_rusanov_fluxes(
         reference_primitives,
         M_g,
         gamma_gas=gamma_gas,
+        specific_mechanical_energy_correction=(
+            specific_mechanical_energy_correction
+        ),
     )
     reference_smooth = global_inviscid_face_fluxes(
         grid, reference_primitives, M_g
@@ -1738,7 +2260,14 @@ def evaluate_global_rusanov_profile(
                 "reference_primitives requires a reference_state"
             )
         face_fluxes = global_rusanov_face_fluxes(
-            grid, state, primitives, M_g, gamma_gas=gamma_gas
+            grid,
+            state,
+            primitives,
+            M_g,
+            gamma_gas=gamma_gas,
+            specific_mechanical_energy_correction=(
+                specific_mechanical_energy_correction
+            ),
         )
     else:
         if reference_primitives is None:
@@ -1762,10 +2291,18 @@ def evaluate_global_rusanov_profile(
             reference_primitives,
             M_g,
             gamma_gas=gamma_gas,
+            specific_mechanical_energy_correction=(
+                specific_mechanical_energy_correction
+            ),
         )
     if open_face_reconstruction == "conserved_donor":
         face_fluxes = apply_global_conserved_donor_outer_flux(
-            grid, face_fluxes, primitives
+            grid,
+            face_fluxes,
+            primitives,
+            specific_mechanical_energy_correction=(
+                specific_mechanical_energy_correction
+            ),
         )
     elif open_face_reconstruction != "primitive_product":
         raise ValueError(
@@ -1789,6 +2326,9 @@ def evaluate_global_rusanov_profile(
                 mu_mol=mu_mol,
                 kappa=kappa,
                 gamma_gas=gamma_gas,
+                specific_mechanical_energy_correction=(
+                    specific_mechanical_energy_correction
+                ),
             )
         )
         face_fluxes = global_open_no_inflow_boundary_fluxes(

@@ -371,6 +371,90 @@ when its inner edge moves. The thickness gate therefore uses the maximum
 `H/R` on the common `R>=60 rg` band and fixed-radius samples; the moving-domain
 maximum is retained separately as a diagnostic.
 
+## Global Signed Conservative Evolution
+
+The one-domain finite-volume state is cell-integrated
+
+```text
+(M, P_R, J, E).
+```
+
+It permits either sign of radial velocity and does not divide by radial mass
+flux. The finite-volume remap stores the true annular total-energy integral.
+When a fixed cell mechanical quadrature offset is active, the energy contract
+is:
+
+```text
+epsilon_stored  = epsilon_physical_center + delta_e_mech
+B_face          = epsilon_physical_face + Pi/Sigma
+```
+
+`delta_e_mech` reconciles a cell average with center primitives. It is not
+exported as physical Bernoulli energy. Smooth, Rusanov-physical,
+conserved-donor, and characteristic face fluxes all use physical energy. The
+Rusanov dissipative jump continues to act on the stored conservative field.
+The fixed offset, mesh, hashes, and generating-reference provenance are part
+of restart state.
+
+The local characteristic audit differentiates the vertically integrated
+physical flux with respect to physical center-conserved variables. The mesh
+quadrature offset is not treated as a continuum thermodynamic variable.
+
+At `335 rg` the current outer flow is subsonic and requires one incoming
+acoustic condition. Layer 1 does not provide an exterior thermodynamic
+invariant there. ADR 0014 therefore selects an adiabatic Hill/Roche overflow
+side channel ending at a regular sonic throat at an actual `L1/L2` saddle.
+Until that boundary is implemented and certified, long evolution,
+distributed tide, and wind remain blocked.
+
+### Standalone Hill/Roche nozzle
+
+The selected boundary provider uses the secondary PW potential plus the local
+midplane Hill tide:
+
+```text
+Phi_H(R) = -G M2/(R-R_PW) - (3/2) Omega_p^2 R^2.
+```
+
+The actual saddle solves `dPhi_H/dR=0`; it is not forced to the Newtonian Hill
+radius. The disk-side reservoir supplies `rho`, total pressure, radial
+velocity, and specific angular momentum. A constant polytropic `gamma` must be
+declared explicitly for each provider.
+
+The rotating Bernoulli invariant is
+
+```text
+B_J = Phi_H + h + v_R^2/2 + (l/R-Omega_p R)^2/2.
+```
+
+For a regular adiabatic sonic throat,
+
+```text
+c_s^2 = 2 (gamma-1)/(gamma+1) (B_J-Phi_s)
+rho_s = [c_s^2/(gamma K)]^[1/(gamma-1)]
+K     = P_0/rho_0^gamma.
+```
+
+Analytic integration over the quadratic transverse saddle gives
+
+```text
+A_rho = N_channel f_fill 2 pi c_s^2
+        / [gamma sqrt(Phi_yy Phi_zz)]
+Mdot_ov = rho_s c_s A_rho.
+```
+
+The saddle flux satisfies
+
+```text
+F_E = F_BJ + Omega_p F_J.
+```
+
+Angular momentum exchanged between the reservoir and corotating saddle is
+reported as binary torque, with paired power `Omega_p T`. The standalone
+provider is certified only as an algebraic boundary module. It must still be
+connected through the one incoming outer characteristic before it can replace
+the current donor-face preflight.
+
 ## Validity Gates
 
 Numerical residual acceptance is necessary but not sufficient. Current audits

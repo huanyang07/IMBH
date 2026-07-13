@@ -32,6 +32,10 @@ archive.
 - Default maximum tracked file size: `5 MiB`.
 - Files above the limit require an allow-list entry and scientific rationale.
 - Every canonical case must have provenance and valid checksums.
+- Any global-evolution restart using a fixed mechanical quadrature reference
+  must store the complete offset array, grid edges, schema version,
+  generating-state SHA-256, offset SHA-256, and provenance. It must never
+  regenerate the reference silently.
 - No cache, compiled Python, raw checkpoint, or full-paper PDF belongs in the
   default branch.
 - New generated runs belong outside the repository or under ignored `outputs/`.

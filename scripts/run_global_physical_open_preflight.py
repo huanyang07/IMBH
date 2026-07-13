@@ -17,6 +17,7 @@ from imri_qpe.layer3_minidisk_1d import (
     global_compact_stream_cell_sources,
     global_inner_characteristic_audit,
     global_outer_characteristic_audit,
+    global_physical_bernoulli,
     global_radiative_cooling_rate_cells,
     make_log_grid,
     recover_global_primitives,
@@ -266,9 +267,9 @@ def _initial_case(
     )
     donor_l = float(grid.centers[-1] ** 2 * initial_primitives.omega[-1])
     donor_bernoulli = float(
-        initial_primitives.specific_total_energy[-1]
-        + initial_primitives.vertical.Pi[-1]
-        / initial_primitives.surface_density[-1]
+        global_physical_bernoulli(
+            initial_primitives, mechanical_correction
+        )[-1]
     )
     outer_mass_flux = float(profile_with_stream.face_fluxes.mass[-1])
     expected_outer_radial = float(

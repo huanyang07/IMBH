@@ -608,3 +608,41 @@ overflow layer. The physical column-energy identity now passes WP2;
 the reference-state inner absorber now passes WP3, and finite-volume mechanical
 energy conditioning passes WP4. Longer evolution, tide, and wind remain
 disabled because the exterior-state physics gate is still open.
+
+## WP0 stored/physical energy cross-consistency
+
+The joint WP3/WP4 review found that the fixed cell mechanical quadrature
+offset was included in the current characteristic donor and conserved outer
+donor, omitted from the projected characteristic state, and already omitted
+from smooth physical face reconstruction. That mixed convention would produce
+a finite energy-flux jump as a nonzero incoming amplitude tended to zero.
+
+The corrected contract is:
+
+```text
+stored cell-average energy: includes delta e_mech
+physical center energy:     stored energy minus delta e_mech
+physical face Bernoulli:    excludes delta e_mech
+Rusanov dissipative state:  retains stored conservative energy
+```
+
+The Rusanov physical flux, conserved outer donor, and both current and
+projected characteristic fluxes now use physical Bernoulli energy. The
+projected stored state includes the same offset before physical conversion. A
+nonzero-offset amplitude sequence is continuous at zero.
+
+The physical-flux Jacobian audit uses scaled center-conserved variables and
+does not differentiate the mesh quadrature offset as continuum physics. In the
+manufactured radiation-pressure state, the maximum analytic eigenvalue defect
+is `2.40e-5 c_eff`, finite-difference refinement differs by `5.45e-7 c_eff`,
+and the incoming acoustic left-vector alignment is `1.0`.
+
+The mechanical-reference checkpoint stores the offset array, grid, schema,
+generating-state SHA-256, offset SHA-256, and JSON provenance. Incompatible or
+silently regenerated references are rejected.
+
+Layer 1 was also audited for the outer-boundary decision. It has no ambient
+pressure, entropy, temperature, or Bernoulli/Jacobi invariant at `335 rg`.
+ADR 0014 therefore selects one adiabatic Hill/Roche overflow side channel
+ending at a real `L1/L2` saddle. That nozzle remains unimplemented, so no long
+evolution, distributed tide, or wind is authorized yet.

@@ -1,6 +1,6 @@
 # Project Status
 
-- Updated: 2026-07-11
+- Updated: 2026-07-13
 - Pre-cleanup scientific tag: `pre-cleanup-p0-2026-07-11`
 - Legacy phase classification tag: `legacy-steady-positive-flux-dae-2026-07-10`
 
@@ -46,7 +46,8 @@ This is the canonical project handoff. Status labels mean:
 | Binary pattern-power wall continuation | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Paired torque/power identity closes to `1.7e-16`; 25%, 50%, and 75% stages solve numerically | Tidal-band `H/R` exceeds `0.3` at 25% power and reaches `0.61`; this is a candidate transition to a thick inflow-outflow regime outside the one-zone validity domain |
 | Coupled open-overflow eigenvalue | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Full-rank `96/64` and `144/96` roots; inner/stream `0.16894`, overflow `0.83106`, stagnation near `222.18 rg`, Hill-band `H/R=0.0383` | Controlled `168/112` refinement fails in outer stress/energy endpoint cells; steady branch is not mesh certified |
 | Flux-primary time-dependent DAE | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Direct inner response, exact stream moments, cooling, resolved timestep comparison, eight accepted `16/8` steps, and bitwise restart | `24/16` evolved refinement fails the fixed gate; all interface remedies are closed; tide and wind remain blocked |
-| Global signed conservative descriptor | **DIAGNOSTIC ONLY** | Sparse local Jacobians have zero off-pattern defect; conserved-donor outer flux closes radial/J/E consistency exactly; donor N96/N128 mapping differs by `0.00782` supply | Donor evolved N64/N96 outer flux still differs by `0.01150` supply and narrowly fails the fixed gate; reconstruction tuning is closed; characteristic/Roche boundary, column energy, and inner absorption remain blocked |
+| Global signed conservative descriptor | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | WP2 column work, WP3 reference-state absorber, WP4 finite-volume conditioning, and the WP0 stored/physical energy convention pass targeted tests; the pre-WP0 selected evolved N64/N96 outer-flux difference was `0.00635` supply | The physical N64/N96 run has not been regenerated after WP0; the subsonic `335 rg` edge still lacks characteristic coupling to the standalone Hill/Roche nozzle, so long evolution, tide, and wind remain blocked |
+| Standalone adiabatic Hill/Roche nozzle | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | PW-corrected saddle, analytic polytropic throat, sonic/Jacobi/pattern-power residuals below `2e-17`, and 256-zone transverse errors below `5.6e-6`; mapped N64/N96 edge deficits agree within `2.2%` | Both mapped `335 rg` states are energetically closed; fixed-gamma, symmetric local-Hill geometry and the column-to-nozzle characteristic bridge remain diagnostic |
 
 ## Frozen Target Under Review
 
@@ -149,6 +150,20 @@ N                    = 164
     exact but fails the first `24/16` subcycled step at `1.271e-7` in the inner
     transonic core. It is rejected and reverted. This closes further splice
     conditioning and blocks tide and long evolution in the present hybrid DAE.
+22. The global one-domain WP0 audit separates conserved cell-average energy
+    from physical face Bernoulli energy. Nonzero mechanical-offset boundary
+    corrections are continuous, the numerical physical-flux eigensystem
+    agrees with the analytic acoustic rule, and restart files now preserve the
+    full offset, mesh, hashes, and provenance. Layer 1 has no exterior
+    thermodynamic invariant at `335 rg`, so the selected next boundary is one
+    adiabatic Hill/Roche overflow side channel ending at a real saddle.
+23. The standalone side-channel now solves the PW-corrected Hill saddle and a
+    choked polytropic throat. It returns one mass/radial/angular/energy state
+    and records the implied binary torque and pattern power explicitly. This
+    certifies the algebraic nozzle only. The mapped N64/N96 edge states are
+    below the saddle threshold by `8.58e16` and `8.76e16 erg/g`; the old donor
+    overflow is therefore not reproduced. A continuous closed-to-choked
+    incoming-characteristic contract is still required.
 
 ## Claims That Are Not Allowed Yet
 
@@ -164,12 +179,15 @@ N                    = 164
    relax the `1e-7` gate.
 2. Keep the split IMEX, grouped colored Jacobian, and iterative LSMR pilots
    closed. Use certified local columns with exact factorization.
-3. Close open-face reconstruction tuning. The characteristic audit finds one
-   incoming acoustic mode at the deeply subsonic `335 rg` edge, but that edge
-   is only `0.4485 R_H`, not a Roche saddle, and no exterior thermodynamic
-   state is declared. Obtain one exterior invariant from Layer 1 or implement
-   a Hill/Roche overflow layer before repeating the bounded N64/N96 comparison.
-   Do not substitute a mesh-dependent pressure target or vacuum ghost state.
+3. Keep open-face reconstruction tuning closed. Layer 1 does not supply an
+   exterior thermodynamic invariant at the deeply subsonic `335 rg` edge.
+   Implement one adiabatic Hill/Roche overflow side channel ending at a real
+   saddle, with sonic and Jacobi regularity and one shared radial/J/E flux
+   state. Do not substitute a mesh-dependent pressure target or vacuum ghost
+   state, and stop if an unconstrained throat filling factor controls the
+   result.
+   The standalone nozzle passes its current gates; next build the
+   characteristic/Riemann bridge from the `335 rg` disk edge to that provider.
 4. Treat WP2 column energy as complete: the enthalpy-compatible radial and
    temporal work terms pass manufactured, identity, physical tiny-step, and
    independent-ledger gates.
@@ -178,13 +196,18 @@ N                    = 164
    characteristic projection removes only that mode, preserves outgoing
    perturbations and all four flux ledgers, and leaves the physical accretion
    fraction effectively unchanged.
-6. Treat WP4 finite-volume energy conditioning as complete. A fixed
+6. Treat WP4 finite-volume energy conditioning and the WP0 energy convention
+   as complete for the mapped-state preflight. A fixed
    mass-weighted mechanical reference removes the cell-average/center-point
    contamination without floors; all N16-N128 mappings recover positive
    internal energy, 32/64-point quadrature agrees below `1.2e-3`, and the
-   selected N64/N96 evolved outer-flux difference passes at `0.00635` supply.
-   The remaining blocker is the physical exterior invariant or Hill/Roche
-   overflow layer, not numerical remapping.
+   pre-WP0 selected N64/N96 evolved outer-flux difference passed at `0.00635`
+   supply; that production pair must be regenerated after the physical nozzle
+   boundary exists.
+   Physical face Bernoulli fluxes exclude the quadrature offset, while stored
+   conservative energy and numerical dissipation retain their declared roles.
+   The remaining blocker is the Hill/Roche overflow layer, not numerical
+   remapping.
 7. Continue one physical distributed tide only after the global no-tide model
    passes; search for accumulation, fronts, hot phases, and limit cycles.
 8. Add wind only after the tidal and stability gates pass.
