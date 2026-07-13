@@ -46,7 +46,7 @@ This is the canonical project handoff. Status labels mean:
 | Binary pattern-power wall continuation | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Paired torque/power identity closes to `1.7e-16`; 25%, 50%, and 75% stages solve numerically | Tidal-band `H/R` exceeds `0.3` at 25% power and reaches `0.61`; this is a candidate transition to a thick inflow-outflow regime outside the one-zone validity domain |
 | Coupled open-overflow eigenvalue | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Full-rank `96/64` and `144/96` roots; inner/stream `0.16894`, overflow `0.83106`, stagnation near `222.18 rg`, Hill-band `H/R=0.0383` | Controlled `168/112` refinement fails in outer stress/energy endpoint cells; steady branch is not mesh certified |
 | Flux-primary time-dependent DAE | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Direct inner response, exact stream moments, cooling, resolved timestep comparison, eight accepted `16/8` steps, and bitwise restart | `24/16` evolved refinement fails the fixed gate; all interface remedies are closed; tide and wind remain blocked |
-| Global signed conservative descriptor | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | WP0 stored/physical energy convention, exact acoustic derivative, restart contract, and the continuous physical Roche edge pass the full test suite | Long no-tide loading evolution and its mesh/timestep certification are pending; tide and wind remain blocked |
+| Global signed conservative descriptor | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | WP0 energy/restart contract and physical Roche edge pass; N64/N96/N128 full/half initial loading steps close residual and ledger gates | Only `1e-9 t_load` is mesh tested; a direct `1e-6 t_load` jump fails, so adaptive long evolution is pending; tide and wind remain blocked |
 | Gas-radiation Hill/Roche boundary | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Shared EOS entropy/enthalpy/acoustic closure; exact `335 rg` reconstruction; continuous closed/choked flux; disk/Jacobi/pattern-power ledgers; N64/N96/N128 and filling-factor preflight | All mapped states are energetically closed; the reduced symmetric local-Hill channel is not a multidimensional L1/L2 solution and its open-state filling remains uncertain |
 
 ## Frozen Target Under Review
@@ -166,6 +166,12 @@ N                    = 164
     Filling factors `0.25-1.0` cannot change the closed classification. The
     no-tide evolution must therefore begin with accumulation rather than an
     imposed donor overflow.
+24. The first physical-edge loading step passes at N64/N96/N128. About
+    `16.7-16.9%` of the supply initially accretes inward, zero mass crosses the
+    closed Roche edge, and the remaining `83.1-83.3%` accumulates exactly as
+    required by the mass ledger. Full/half-step differences are negligible.
+    N64 accepts direct steps through `1e-7 t_load` but rejects `1e-6 t_load`,
+    so the next implementation is adaptive stepping plus restart, not tide.
 
 ## Claims That Are Not Allowed Yet
 
@@ -206,7 +212,9 @@ N                    = 164
    The Hill/Roche layer now passes its preflight; the remaining gate is the
    no-tide loading evolution, not another boundary reconstruction.
 7. Run the no-distributed-tide stream-loading evolution at N64/N96/N128 with
-   timestep halving, restart, and mechanical-reference audits. Classify a
+   adaptive reject/halve/grow stepping, restart, and mechanical-reference
+   audits. Begin from the certified `1e-7 t_load` N64 step-size ceiling and
+   increase only after accepted-state continuation. Classify a
    steady state, accumulation, front, or cycle only after relevant loading,
    thermal, and viscous times have been covered.
 8. Continue one physical distributed tide only after the global no-tide model
@@ -245,3 +253,4 @@ N                    = 164
 - Energy semantics and Roche contract: `reports/current/CODEX_GLOBAL_ENERGY_SEMANTICS_AND_ROCHE_BOUNDARY_CONTRACT_2026-07-13.md`
 - Standalone Roche nozzle: `reports/current/CODEX_HILL_ROCHE_NOZZLE_PROTOTYPE_RESULTS_2026-07-13.md`
 - Gas-radiation production Roche edge: `reports/current/CODEX_GAS_RADIATION_ROCHE_BOUNDARY_RESULTS_2026-07-13.md`
+- Physical-edge loading preflight: `reports/current/CODEX_GLOBAL_ROCHE_LOADING_PREFLIGHT_RESULTS_2026-07-13.md`
