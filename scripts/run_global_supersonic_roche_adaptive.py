@@ -18,6 +18,19 @@ def _arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--target-loading-fraction", required=True, type=float)
     parser.add_argument("--maximum-accepted-steps", default=40, type=int)
+    parser.add_argument("--maximum-nfev", default=300, type=int)
+    parser.add_argument(
+        "--minimum-dt-loading-fraction", default=1.0e-9, type=float
+    )
+    parser.add_argument("--resume-dt-cap-loading-fraction", type=float)
+    parser.add_argument(
+        "--meshes",
+        nargs="+",
+        type=int,
+        choices=(64, 96, 128),
+        default=(64, 96, 128),
+        help="Mesh sizes to run; defaults to the full shared-time ladder.",
+    )
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--output", required=True, type=Path)
     return parser.parse_args()
@@ -27,6 +40,16 @@ def main() -> None:
     arguments = _arguments()
     if arguments.target_loading_fraction <= 0.0:
         raise ValueError("target loading fraction must be positive")
+    if arguments.maximum_nfev < 1:
+        raise ValueError("maximum nfev must be positive")
+    if arguments.minimum_dt_loading_fraction <= 0.0:
+        raise ValueError("minimum dt loading fraction must be positive")
+    if (
+        arguments.resume_dt_cap_loading_fraction is not None
+        and arguments.resume_dt_cap_loading_fraction <= 0.0
+    ):
+        raise ValueError("resume dt cap loading fraction must be positive")
+    meshes = tuple(dict.fromkeys(arguments.meshes))
     context, evaluation = _canonical_open_evaluation()
     runs = [
         run_adaptive_campaign(
@@ -43,8 +66,15 @@ def main() -> None:
             resume=arguments.resume,
             maximum_accepted_steps=arguments.maximum_accepted_steps,
             inner_radius_rg=INNER_RADIUS_RG,
+            maximum_nfev=arguments.maximum_nfev,
+            minimum_dt_loading_fraction=(
+                arguments.minimum_dt_loading_fraction
+            ),
+            resume_dt_cap_loading_fraction=(
+                arguments.resume_dt_cap_loading_fraction
+            ),
         )
-        for n_cells in (64, 96, 128)
+        for n_cells in meshes
     ]
     reference = runs[-1]
     comparisons = []
@@ -82,6 +112,14 @@ def main() -> None:
     report = {
         "inner_radius_rg": INNER_RADIUS_RG,
         "target_loading_fraction": arguments.target_loading_fraction,
+        "selected_meshes": list(meshes),
+        "maximum_nfev": arguments.maximum_nfev,
+        "minimum_dt_loading_fraction": (
+            arguments.minimum_dt_loading_fraction
+        ),
+        "resume_dt_cap_loading_fraction": (
+            arguments.resume_dt_cap_loading_fraction
+        ),
         "resume": arguments.resume,
         "runs": runs,
         "comparisons_to_N128": comparisons,

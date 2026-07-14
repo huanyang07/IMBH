@@ -75,7 +75,9 @@ The reference-state projection is certified only for the small-perturbation
 preflight. Long evolution uses the same-equation supersonic continuation to a
 `4.5 rg` face where every radial characteristic leaves the domain. That face
 applies no incoming invariant or projection. N64/N96/N128 pass the shared
-`1e-7 t_load` gate; the refined `1e-6` duration gate remains incomplete.
+`1.001e-6 t_load` gate. The N64 continuation remains closed and causally
+outgoing through `1.430993e-6`; the longer duration gate is blocked by
+nonlinear/Jacobian cost rather than the inner or Roche boundary contract.
 
 ## Outer-Boundary Decision
 

@@ -358,12 +358,14 @@ scaled residual is `6.66e-16`.
 
 The global face now uses the first cell's one-sided physical flux and applies
 no characteristic projection. N64/N96/N128 pass mapping, quadrature, tiny-step,
-ledger, and shared `1e-7 t_load` adaptive gates. N64 and N96 reach
-`1e-6 t_load`; the accepted N128 checkpoint reaches `8.875e-7 t_load` before a
-bounded manual stop for finite-difference Jacobian cost. Its inner Mach number
-is `-26.69`, with zero incoming modes and zero Roche flux.
+ledger, and shared `1.001e-6 t_load` adaptive gates. At that shared time the
+N96/N128 inner-flux difference is `1.43e-4` of supply and their relative
+maximum-`H/R` difference is `1.27e-4`. N128 has inner Mach `-50.89`, with zero
+incoming modes and zero Roche flux.
 
 The plunge replaces the fixed-reference absorber for subsequent production
-preflights. The refined `1e-6` duration gate remains incomplete and must be
-finished without changing residual, ledger, or 2% physical-change thresholds
+preflights. A bounded N64 continuation remains regular through
+`1.430993e-6 t_load` but cannot economically reach `2.1e-6` with the current
+certified sparse-forward nonlinear solve. Solver/Jacobian efficiency must be
+improved without changing residual, ledger, or 2% physical-change thresholds
 before distributed tide is activated.

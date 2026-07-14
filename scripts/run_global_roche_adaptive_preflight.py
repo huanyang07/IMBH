@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 import json
 from pathlib import Path
 
@@ -63,6 +64,24 @@ def _maximum_accepted_ledger_defect(records: list[dict]) -> float | None:
     return max(values) if values else None
 
 
+def _target_time_tolerance(target_time: float) -> float:
+    """Return a roundoff-only tolerance for an accumulated target time."""
+
+    return 64.0 * np.finfo(float).eps * max(abs(float(target_time)), 1.0)
+
+
+def _final_step_config(
+    config: GlobalAdaptiveStepConfig, requested_dt: float
+) -> GlobalAdaptiveStepConfig:
+    """Allow an exact final landing below the ordinary controller minimum."""
+
+    if requested_dt <= 0.0:
+        raise ValueError("requested final timestep must be positive")
+    if requested_dt >= config.minimum_dt:
+        return config
+    return replace(config, minimum_dt=float(requested_dt))
+
+
 def run_adaptive_campaign(
     context,
     evaluation,
@@ -74,8 +93,21 @@ def run_adaptive_campaign(
     resume: bool = False,
     maximum_accepted_steps: int = 20,
     inner_radius_rg: float | None = None,
+    maximum_nfev: int = 300,
+    minimum_dt_loading_fraction: float = 1.0e-9,
+    resume_dt_cap_loading_fraction: float | None = None,
 ) -> dict:
     """Run or resume one mesh while checkpointing every accepted state."""
+
+    if int(maximum_nfev) != maximum_nfev or maximum_nfev < 1:
+        raise ValueError("maximum_nfev must be a positive integer")
+    if minimum_dt_loading_fraction <= 0.0:
+        raise ValueError("minimum_dt_loading_fraction must be positive")
+    if (
+        resume_dt_cap_loading_fraction is not None
+        and resume_dt_cap_loading_fraction <= 0.0
+    ):
+        raise ValueError("resume_dt_cap_loading_fraction must be positive")
 
     grid, initial, correction, stream, stream_rate, provider = _prepared_case(
         context,
@@ -95,7 +127,7 @@ def run_adaptive_campaign(
         },
     )
     config = GlobalAdaptiveStepConfig(
-        minimum_dt=1.0e-9 * loading_time,
+        minimum_dt=minimum_dt_loading_fraction * loading_time,
         maximum_dt=5.0e-7 * loading_time,
         shrink_factor=0.5,
         growth_factor=1.5,
@@ -119,7 +151,7 @@ def run_adaptive_campaign(
         "external_sources": stream,
         "jacobian_mode": "sparse_forward",
         "outer_overflow_provider": provider,
-        "max_nfev": 300,
+        "max_nfev": int(maximum_nfev),
     }
     if resume:
         if not restart_path.exists():
@@ -145,6 +177,11 @@ def run_adaptive_campaign(
         mechanical = loaded.mechanical_reference
         elapsed = loaded.elapsed_time
         dt_next = loaded.dt_next
+        if resume_dt_cap_loading_fraction is not None:
+            dt_next = min(
+                dt_next,
+                resume_dt_cap_loading_fraction * loading_time,
+            )
         accepted_steps = loaded.accepted_steps
         rejected_attempts = loaded.rejected_attempts
     else:
@@ -156,17 +193,19 @@ def run_adaptive_campaign(
     starting_steps = accepted_steps
     records = []
     target_time = target_loading_fraction * loading_time
+    target_tolerance = _target_time_tolerance(target_time)
     while (
-        elapsed < target_time
+        elapsed < target_time - target_tolerance
         and accepted_steps - starting_steps < maximum_accepted_steps
     ):
         requested_dt = min(dt_next, target_time - elapsed)
+        step_config = _final_step_config(config, requested_dt)
         result = advance_global_adaptive_backward_euler(
             grid,
             current,
             mass,
             requested_dt,
-            config,
+            step_config,
             specific_mechanical_energy_correction=correction,
             step_options=step_options,
         )
@@ -243,6 +282,11 @@ def run_adaptive_campaign(
         elapsed = loaded.elapsed_time
         dt_next = loaded.dt_next
         correction = loaded.mechanical_reference.specific_offset
+    target_time_roundoff_snapped = bool(
+        abs(elapsed - target_time) <= target_tolerance
+    )
+    if target_time_roundoff_snapped:
+        elapsed = target_time
     final = recover_global_primitives(
         grid,
         current,
@@ -290,11 +334,16 @@ def run_adaptive_campaign(
     return {
         "n_cells": n_cells,
         "target_loading_fraction": target_loading_fraction,
+        "minimum_dt_loading_fraction": minimum_dt_loading_fraction,
+        "resume_dt_cap_loading_fraction": resume_dt_cap_loading_fraction,
         "elapsed_loading_fraction": elapsed / loading_time,
         "accepted_steps": accepted_steps,
         "accepted_steps_this_run": accepted_steps - starting_steps,
         "rejected_attempts": rejected_attempts,
-        "target_reached": elapsed >= target_time,
+        "target_reached": bool(
+            elapsed >= target_time - target_tolerance
+        ),
+        "target_time_roundoff_snapped": target_time_roundoff_snapped,
         "restart_after_every_accepted_step": True,
         "disk_mass_relative_change": float(
             np.sum(current.mass) / np.sum(initial.mass) - 1.0

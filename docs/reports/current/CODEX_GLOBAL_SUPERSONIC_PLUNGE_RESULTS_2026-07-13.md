@@ -89,36 +89,71 @@ Relative to N128, N96 differs by `0.1086%` of the stream supply in inner flux
 and by `0.0131%` in maximum `H/R`. The shared-time preliminary mesh gate
 passes.
 
-## Longer Adaptive Result
+## Refined Duration And Target Landing
 
-The same checkpoints were advanced under unchanged gates. N64 and N96 reach
-the requested `1e-6 t_load` target. The refined N128 run was stopped after its
-last accepted state at `8.875e-7 t_load` because completing the strict target
-would require a long sequence of increasingly expensive finite-difference
-Jacobian solves. The stopped trial was discarded; only checksum-verified
-accepted checkpoints remain.
+The accepted N128 checkpoint was resumed without rerunning N64 or N96. The
+certified sparse-forward Jacobian becomes expensive late in the sequence. One
+step stopped at the original 300-evaluation budget with a residual of
+`1.047e-8`, just above the unchanged `1e-8` gate. Raising only the iteration
+budget to 600 allowed the same residual gate to be met. No physical-change,
+ledger, or characteristic threshold was changed.
+
+The final landing exposed a controller defect. A machine-epsilon positive
+remainder was clipped upward to the ordinary `1e-9 t_load` minimum step, so the
+persisted N128 checkpoint landed at `1.001e-6 t_load`. The runner now:
+
+1. snaps roundoff-only remainders to the requested target without evolving;
+2. permits an exact final step below the ordinary controller minimum when the
+   remainder is physically finite; and
+3. reports the snap explicitly.
+
+The already accepted N128 state was not rewritten. N64 and N96 were instead
+advanced by one short accepted step to the same persisted `1.001e-6 t_load`
+time. The resulting zero-step checkpoint audit is:
+
+| Cells | Accepted | Retries | Inner flux / supply | Inner Mach | `max(H/R)` |
+|---:|---:|---:|---:|---:|---:|
+| 64 | 85 | 4 | `-0.195526` | `-12.0151` | `0.1411074` |
+| 96 | 100 | 4 | `-0.189096` | `-23.3424` | `0.1411658` |
+| 128 | 151 | 6 | `-0.188953` | `-50.8869` | `0.1411838` |
+
+All three states have zero incoming characteristics and zero outer Roche flux.
+Relative to N128, N96 differs by `1.43e-4` of the stream supply in inner flux
+and by `1.27e-4` in maximum `H/R`. The N64 differences are `6.57e-3` of supply
+and `5.41e-4`, respectively. The refined shared-time gate passes.
+
+In the final N128 completion segment, accepted residuals are at most
+`7.44e-9` and accepted storage-scaled ledger defects are at most `5.06e-16`.
+
+## Bounded N64 Extension
+
+The N64 checkpoint was continued toward `2.1e-6 t_load`. It reaches a final
+checksum-verified accepted state at `1.430993e-6 t_load`:
 
 ```text
-mesh                 N64           N96           N128
-elapsed/t_load       1.00022e-6    1.00000e-6    8.87500e-7
-accepted steps       84            99            95
-recovered retries    4             4             5
-inner flux/supply   -0.19552      -0.18907      -0.18573
-inner Mach          -12.006       -23.273       -26.687
-outer Roche flux     0             0             0
-incoming modes       0             0             0
-max(H/R)             0.141107      0.141166      0.141184
+accepted steps, total             225
+inner flux / stream supply       -0.206515
+inner radial Mach                -52.0655
+incoming radial characteristics   0
+outer Roche flux / supply         0
+maximum H/R                       0.141110
 ```
 
-The accepted N128 timestep was reduced by the fixed 2% relative thickness
-change gate, not by a failed nonlinear root, conservation defect, Roche
-opening, or incoming characteristic. In the preceding bounded segment, all
-accepted storage-scaled ledger defects were below `6.4e-16` and residuals
-below `1.33e-11`.
+There is no recurrence of the old fixed-reference absorber collapse. The
+inner face becomes more supersonic, the outer edge remains closed, and every
+persisted state remains conservative.
 
-The three final states are not a shared-time mesh comparison because N128 is
-younger by `11.25%` of the requested interval. The report JSON now labels such
-comparisons explicitly as non-shared-time diagnostics.
+The requested `2.1e-6` duration was not reached. At `1.418993e-6`, the next
+`1.98e-9 t_load` step hit 600 evaluations with residual `2.40e-8` while its
+storage-scaled ledger defect remained `5.77e-16`. A smaller
+`1e-9 t_load` continuation advances regularly to the final accepted state but
+is too costly for a brute-force duration march. Bounded 100- and
+200-evaluation probes are rejected safely; even their half-step residuals are
+`3.36e-8` and `2.27e-8`, respectively. The accepted checkpoint is unchanged by
+those probes.
+
+This is a nonlinear-solver efficiency boundary, not a physical inner or Roche
+boundary failure. The long N64 duration gate remains incomplete.
 
 ## Decision
 
@@ -133,23 +168,23 @@ Classification:
 ```text
 stationary plunge and boundary contract       supported numerically
 shared 1e-7 adaptive mesh gate                passed
-N64/N96 1e-6 duration gate                    passed
-N128 1e-6 duration gate                       incomplete at 8.875e-7
+shared N64/N96/N128 1.001e-6 gate             passed
+N64 bounded extension                         supported to 1.430993e-6
+N64 2.1e-6 duration gate                      incomplete: solver cost
 long no-tide physical evolution               not certified
 distributed tide and wind                     still blocked
 ```
 
 ## Locked Next Step
 
-1. Resume only the accepted N128 checkpoint to `1e-6 t_load` with the same
-   residual, ledger, and 2% physical-change gates. Do not rerun N64/N96.
-2. Emit one zero-step shared-time snapshot and apply the existing flux and
-   `H/R` mesh gates.
-3. Run one bounded N64 plunge-boundary extension beyond `2e-6 t_load` to test
-   whether the former `3.9166e-6` inner-boundary collapse has disappeared.
-4. If those gates pass, begin the already selected no-wind distributed-tide
-   continuation. If the refined march develops a true residual, ledger, or
-   characteristic failure, stop and diagnose that block without resetting a
-   reference state or relaxing the controller.
+1. Improve the certified sparse/block Jacobian or nonlinear stopping strategy.
+   It must reproduce accepted one-step states from the current N64 and N128
+   checkpoints under the same residual, ledger, and 2% physical-change gates.
+2. Resume N64 to `2.1e-6 t_load`, then perform one bounded comparison against
+   the former `3.9166e-6` fixed-absorber failure time.
+3. Begin the selected no-wind distributed-tide continuation only after the
+   long no-tide gate is computationally practical and passes.
+4. Do not reset the reference state, restore a subsonic projection, use the
+   rejected colored Jacobian, or relax a physical or numerical gate.
 
 Wind remains last.
