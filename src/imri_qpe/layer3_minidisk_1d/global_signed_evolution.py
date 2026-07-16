@@ -6,6 +6,7 @@ import hashlib
 import json
 from dataclasses import dataclass
 from pathlib import Path
+from time import perf_counter
 
 import numpy as np
 from scipy.optimize import brentq, least_squares
@@ -80,6 +81,69 @@ class GlobalConservativeState:
     @property
     def n_cells(self) -> int:
         return int(np.asarray(self.mass).size)
+
+
+def remap_global_cell_integrals(
+    source_grid: RadialGrid,
+    source_integrals,
+    target_grid: RadialGrid,
+) -> np.ndarray:
+    """Conservatively remap piecewise-constant cell integrals in log radius."""
+
+    values = _finite_vector(
+        "source_integrals", source_integrals, source_grid.centers.size
+    )
+    source_edges = np.log(np.asarray(source_grid.edges, dtype=float))
+    target_edges = np.log(np.asarray(target_grid.edges, dtype=float))
+    scale = max(abs(source_edges[0]), abs(source_edges[-1]), 1.0)
+    if not (
+        abs(source_edges[0] - target_edges[0]) <= 1.0e-13 * scale
+        and abs(source_edges[-1] - target_edges[-1]) <= 1.0e-13 * scale
+    ):
+        raise ValueError("source and target grids must span the same domain")
+    density = values / np.diff(source_edges)
+    remapped = np.zeros(target_grid.centers.size, dtype=float)
+    source_index = 0
+    for target_index in range(target_grid.centers.size):
+        left = target_edges[target_index]
+        right = target_edges[target_index + 1]
+        while (
+            source_index + 1 < source_grid.centers.size
+            and source_edges[source_index + 1] <= left
+        ):
+            source_index += 1
+        overlap_index = source_index
+        while overlap_index < source_grid.centers.size:
+            overlap_left = max(left, source_edges[overlap_index])
+            overlap_right = min(right, source_edges[overlap_index + 1])
+            if overlap_right > overlap_left:
+                remapped[target_index] += (
+                    density[overlap_index] * (overlap_right - overlap_left)
+                )
+            if source_edges[overlap_index + 1] >= right:
+                break
+            overlap_index += 1
+    return remapped
+
+
+def remap_global_conservative_state(
+    source_grid: RadialGrid,
+    state: GlobalConservativeState,
+    target_grid: RadialGrid,
+) -> GlobalConservativeState:
+    """Conservatively remap a global state without a nonlinear solve."""
+
+    state = state.validated()
+    if state.n_cells != source_grid.centers.size:
+        raise ValueError("state size does not match the source grid")
+    return GlobalConservativeState(
+        **{
+            name: remap_global_cell_integrals(
+                source_grid, getattr(state, name), target_grid
+            )
+            for name in _COMPONENTS
+        }
+    ).validated()
 
 
 @dataclass(frozen=True)
@@ -580,6 +644,22 @@ class GlobalJacobianAudit:
 
 
 @dataclass(frozen=True)
+class GlobalNonlinearSolveAudit:
+    """Work counters and wall times for one nonlinear solve attempt."""
+
+    jacobian_mode: str
+    termination: str
+    residual_evaluations: int
+    jacobian_assemblies: int
+    solver_reported_nfev: int
+    solver_reported_njev: int | None
+    residual_wall_seconds: float
+    jacobian_wall_seconds: float | None
+    total_wall_seconds: float
+    final_iterate_update: float | None = None
+
+
+@dataclass(frozen=True)
 class GlobalBackwardEulerStepResult:
     """One monolithic physical-state backward-Euler step."""
 
@@ -593,6 +673,7 @@ class GlobalBackwardEulerStepResult:
     maximum_storage_scaled_ledger_defect: float
     message: str
     jacobian_audit: GlobalJacobianAudit | None = None
+    nonlinear_solve_audit: GlobalNonlinearSolveAudit | None = None
 
 
 @dataclass(frozen=True)
@@ -3297,6 +3378,12 @@ def advance_global_backward_euler(
             ),
         )
     )
+    solve_wall_start = perf_counter()
+    residual_evaluations = 0
+    residual_wall_seconds = 0.0
+    jacobian_assemblies = 0
+    jacobian_wall_seconds = 0.0
+    final_iterate_update = None
 
     def reconstruct(values: np.ndarray):
         sigma = np.exp(values[:n_cells])
@@ -3365,29 +3452,47 @@ def advance_global_backward_euler(
         return trial, profile
 
     def residual(values: np.ndarray) -> np.ndarray:
-        trial, profile = reconstruct(values)
-        temporal_work = (
-            global_temporal_vertical_work_cells(
-                state, old, trial, profile.primitives
+        nonlocal residual_evaluations, residual_wall_seconds
+        residual_evaluations += 1
+        residual_wall_start = perf_counter()
+        try:
+            trial, profile = reconstruct(values)
+            temporal_work = (
+                global_temporal_vertical_work_cells(
+                    state, old, trial, profile.primitives
+                )
+                if include_vertical_column_work
+                else None
             )
-            if include_vertical_column_work
-            else None
-        )
-        unscaled = global_backward_euler_residual(
-            trial,
-            state,
-            dt,
-            profile.face_fluxes,
-            profile.cell_sources,
-            energy_storage_correction=temporal_work,
-        )
-        return np.concatenate(
-            tuple(
-                unscaled[index * n_cells : (index + 1) * n_cells]
-                / scales[name]
-                for index, name in enumerate(_COMPONENTS)
+            unscaled = global_backward_euler_residual(
+                trial,
+                state,
+                dt,
+                profile.face_fluxes,
+                profile.cell_sources,
+                energy_storage_correction=temporal_work,
             )
-        )
+            scaled = np.concatenate(
+                tuple(
+                    unscaled[index * n_cells : (index + 1) * n_cells]
+                    / scales[name]
+                    for index, name in enumerate(_COMPONENTS)
+                )
+            )
+            return scaled
+        finally:
+            residual_wall_seconds += perf_counter() - residual_wall_start
+
+    def assemble_jacobian(builder, values, *builder_arguments):
+        nonlocal jacobian_assemblies, jacobian_wall_seconds
+        jacobian_assemblies += 1
+        jacobian_wall_start = perf_counter()
+        try:
+            return builder(
+                residual, values, *builder_arguments, lower, upper
+            )
+        finally:
+            jacobian_wall_seconds += perf_counter() - jacobian_wall_start
 
     if jacobian_mode is None:
         jacobian_mode = (
@@ -3413,12 +3518,10 @@ def advance_global_backward_euler(
     if jacobian_mode == "colored_forward":
         pattern = global_backward_euler_jacobian_sparsity(n_cells)
         jacobian_options = {
-            "jac": lambda values: _colored_finite_difference_jacobian(
-                residual,
+            "jac": lambda values: assemble_jacobian(
+                _colored_finite_difference_jacobian,
                 values,
                 pattern,
-                lower,
-                upper,
             )
         }
     elif jacobian_mode in {
@@ -3433,10 +3536,9 @@ def advance_global_backward_euler(
             "sparse_forward": _sparse_forward_finite_difference_jacobian,
         }[jacobian_mode]
         if jacobian_mode == "sparse_forward":
-            dense_initial_jacobian = (
-                _dense_forward_finite_difference_jacobian(
-                    residual, initial, lower, upper
-                )
+            dense_initial_jacobian = assemble_jacobian(
+                _dense_forward_finite_difference_jacobian,
+                initial,
             )
             initial_jacobian, jacobian_audit = (
                 _audit_sparse_pattern_against_dense_columns(
@@ -3446,12 +3548,10 @@ def advance_global_backward_euler(
                 )
             )
         else:
-            initial_jacobian = jacobian_builder(
-                residual,
+            initial_jacobian = assemble_jacobian(
+                jacobian_builder,
                 initial,
                 pattern,
-                lower,
-                upper,
             )
             jacobian_audit = _audit_sparse_jacobian_directions(
                 residual,
@@ -3477,6 +3577,18 @@ def advance_global_backward_euler(
                     else None
                 ),
             )
+            maximum_residual = float(np.max(np.abs(residual(initial))))
+            nonlinear_solve_audit = GlobalNonlinearSolveAudit(
+                jacobian_mode=str(jacobian_mode),
+                termination="jacobian_certification_rejected",
+                residual_evaluations=int(residual_evaluations),
+                jacobian_assemblies=int(jacobian_assemblies),
+                solver_reported_nfev=0,
+                solver_reported_njev=0,
+                residual_wall_seconds=float(residual_wall_seconds),
+                jacobian_wall_seconds=float(jacobian_wall_seconds),
+                total_wall_seconds=float(perf_counter() - solve_wall_start),
+            )
             return GlobalBackwardEulerStepResult(
                 state=state,
                 profile=profile,
@@ -3484,9 +3596,7 @@ def advance_global_backward_euler(
                 accepted=False,
                 dt=float(dt),
                 nfev=0,
-                maximum_scaled_residual=float(
-                    np.max(np.abs(residual(initial)))
-                ),
+                maximum_scaled_residual=maximum_residual,
                 maximum_storage_scaled_ledger_defect=(
                     maximum_storage_scaled_ledger_defect(state, ledger)
                 ),
@@ -3496,22 +3606,25 @@ def advance_global_backward_euler(
                     f"{jacobian_relative_tolerance:.6e}"
                 ),
                 jacobian_audit=jacobian_audit,
+                nonlinear_solve_audit=nonlinear_solve_audit,
             )
         cached_values = np.array(initial, copy=True)
         cached_jacobian = initial_jacobian
 
         def certified_jacobian(values):
             nonlocal cached_values, cached_jacobian
+            nonlocal final_iterate_update
             values = np.asarray(values, dtype=float)
             if np.array_equal(values, cached_values):
                 return cached_jacobian.toarray()
+            final_iterate_update = float(
+                np.max(np.abs(values - cached_values))
+            )
             cached_values = np.array(values, copy=True)
-            cached_jacobian = jacobian_builder(
-                residual,
+            cached_jacobian = assemble_jacobian(
+                jacobian_builder,
                 values,
                 pattern,
-                lower,
-                upper,
             )
             return cached_jacobian.toarray()
 
@@ -3527,8 +3640,11 @@ def advance_global_backward_euler(
         max_nfev=int(max_nfev),
         **jacobian_options,
     )
-    trial, profile = reconstruct(solve.x)
-    maximum_residual = float(np.max(np.abs(residual(solve.x))))
+    solve_values = solve.x
+    solve_nfev = int(solve.nfev)
+    solver_njev = getattr(solve, "njev", None)
+    trial, profile = reconstruct(solve_values)
+    maximum_residual = float(np.max(np.abs(residual(solve_values))))
     ledger = audit_global_backward_euler_ledgers(
         trial,
         state,
@@ -3548,13 +3664,35 @@ def advance_global_backward_euler(
         maximum_residual <= residual_tolerance
         and storage_ledger_defect <= ledger_tolerance
     )
+    if jacobian_mode == "dense":
+        jacobian_assemblies = int(solver_njev or 0)
+        measured_jacobian_wall_seconds = None
+    else:
+        measured_jacobian_wall_seconds = float(jacobian_wall_seconds)
+    nonlinear_solve_audit = GlobalNonlinearSolveAudit(
+        jacobian_mode=str(jacobian_mode),
+        termination=(
+            "accepted_physical_gates" if accepted
+            else "scipy_terminated_without_physical_acceptance"
+        ),
+        residual_evaluations=int(residual_evaluations),
+        jacobian_assemblies=int(jacobian_assemblies),
+        solver_reported_nfev=solve_nfev,
+        solver_reported_njev=(
+            None if solver_njev is None else int(solver_njev)
+        ),
+        residual_wall_seconds=float(residual_wall_seconds),
+        jacobian_wall_seconds=measured_jacobian_wall_seconds,
+        total_wall_seconds=float(perf_counter() - solve_wall_start),
+        final_iterate_update=final_iterate_update,
+    )
     return GlobalBackwardEulerStepResult(
         state=trial if accepted else state,
         profile=profile,
         ledger=ledger,
         accepted=accepted,
         dt=float(dt),
-        nfev=int(solve.nfev),
+        nfev=solve_nfev,
         maximum_scaled_residual=maximum_residual,
         maximum_storage_scaled_ledger_defect=storage_ledger_defect,
         message=(
@@ -3566,6 +3704,7 @@ def advance_global_backward_euler(
             )
         ),
         jacobian_audit=jacobian_audit,
+        nonlinear_solve_audit=nonlinear_solve_audit,
     )
 
 

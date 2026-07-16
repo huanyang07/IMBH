@@ -1,6 +1,6 @@
 # Project Status
 
-- Updated: 2026-07-13
+- Updated: 2026-07-15
 - Pre-cleanup scientific tag: `pre-cleanup-p0-2026-07-11`
 - Legacy phase classification tag: `legacy-steady-positive-flux-dae-2026-07-10`
 
@@ -49,6 +49,15 @@ This is the canonical project handoff. Status labels mean:
 | Global signed conservative descriptor | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | N64/N96/N128 reach shared `1e-6 t_load`; inner-flux spread is `0.56%` of supply, `H/R` spread `0.048%`, accepted residuals `<1.1e-11`, and overflow remains zero | The duration remains far below loading/thermal/viscous times; tide and wind remain blocked |
 | Gas-radiation Hill/Roche boundary | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Shared EOS entropy/enthalpy/acoustic closure; exact `335 rg` reconstruction; continuous closed/choked flux; disk/Jacobi/pattern-power ledgers; N64/N96/N128 and filling-factor preflight | All mapped states are energetically closed; the reduced symmetric local-Hill channel is not a multidimensional L1/L2 solution and its open-state filling remains uncertain |
 | Causally outgoing inner plunge boundary | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Same-equation continuation from `5.210237` to `4.5 rg`; stationary Mach `-9.45`; zero incoming modes; N64/N96/N128 pass mapping, tiny-step, restart, and shared `1.001e-6 t_load` gates | N64 remains regular through `1.430993e-6`, but the `2.1e-6` duration gate is blocked by certified-Jacobian/nonlinear cost; long no-tide evolution remains incomplete |
+| Global evolution diagnostic/checkpoint contract | **CERTIFIED** for its diagnostic scope | Full inner/outer `M/J/E`, fixed-radius and sonic diagnostics, controller-cell characteristics, normalized Roche active-set audit, shared time metadata, immutable checksummed milestones; 377 tests plus 4 subtests pass | Long-duration physics remains pending |
+| Global solver-efficiency WP2 | **CERTIFIED** as a bounded negative result | N64 serial reference: 198 s, 600 nfev, 596 Jacobians, 153773 residual calls; gate stop gives only 1.18x; independent blocked columns only 1.11x | Both candidates were removed; production remains serial sparse-forward; N128 candidate runs were skipped after the coarse adoption gate failed |
+| Exact-common-time global snapshot | **SUPPORTED BUT NOT FULLY CERTIFIED** | N64/N96/N128 land at exactly `0.15200886034168773 s`; inner M/J/E differ by at most `0.109%/0.636%/0.981%` on the selected scales; Roche flux stays zero; immutable milestones are checksummed | Fixed-radius Mach and primitives converge slowly at `4.65-4.75 rg`; files predate the WP4 converged-rate mapper correction and are not restart-compatible with it |
+| Sonic-gradient and plunge-mapping WP4 | **SUPPORTED BUT NOT FULLY CERTIFIED** | Accepted `96/64 -> 144/96` gradient mismatch halves `0.3763 -> 0.1883`; offset/tolerance changes stay below `5.2e-8`; matched exact-time N64 evolution differs by only `2.53e-4` of supply in inner mass flux | Only two accepted coupled-root resolutions exist; the failed `168/112` steady root cannot provide a third stationary level |
+| Source-on/source-off WP5 control | **CERTIFIED** for its diagnostic scope | Exact source tendency closes below `1.21e-16`; matched N64 runs use identical 15-step histories; inner M/J/E and `H/R` agree at numerical precision while source-on minus source-off mass equals `1.0000000049` injected increments | Duration is `1e-7 t_load`; source-off is a counterfactual trajectory, not a relaxed physical equilibrium |
+| Source-free N64 relaxation WP6a | **DIAGNOSTIC ONLY** | Exact `2e-7`, `5e-7`, and `1e-6 t_load` milestones retain ledgers below `6.1e-16`, causal inner outflow, and a closed Roche edge | Relaxation gate fails; `L_v/Delta R_cell` falls to `0.900` at `1e-6`, activating the named plunge-resolution stop |
+| Source-free N96 refinement and N128 remap WP6a-R | **DIAGNOSTIC ONLY** | Exact N96 milestones retain ledgers below `4.6e-16`; `L_v/Delta R_cell=1.698` at `1e-6`; the N128 remap preserves all totals below `1.2e-16` | Temporal relaxation worsens, N64/N96 fixed-radius primitives disagree, and the remap changes inner Mach by `10.34`; no source-free reference may be frozen |
+| Local inner-plunge projection WP6b | **DIAGNOSTIC ONLY** | The exact supersonic prefix gives full-rank N64/N96 roots below `1.2e-14`; the source-on hold reaches exact `2e-7 t_load` without nonlinear rejection and passes all flux/thermal gates | N64 passes the complete hold gate but N96 fails the predeclared Mach-drift gate (`0.225>0.1`); the projected state is not a mesh-certified initializer |
+| Low-throughput remnant WP6c | **SUPPORTED BUT NOT FULLY CERTIFIED** as an initial state; **DIAGNOSTIC ONLY** for evolution | Fresh `0.025 Mdot_Edd` transonic state maps conservatively at N64/N96 with only `0.475-0.482%` of the physical stream throughput; disk mass/loading time agree to `1.1e-6`; Roche edge is closed | Coupled half-supply correction fails; subsonic N64 characteristic hold spends 30 CPU-minutes in its first Jacobian without completing a timestep, so source-on and N96 holds remain unverified |
 
 ## Frozen Target Under Review
 
@@ -217,6 +226,74 @@ N                    = 164
     600-evaluation certified sparse-forward solve, while 100/200-evaluation
     probes fail the unchanged residual gate. Jacobian/nonlinear efficiency is
     therefore the next numerical prerequisite.
+31. Global evolution reports now separate physical seconds, mesh loading time,
+    and a shared N128 reference loading time. They expose complete inner and
+    outer conserved fluxes, fixed-radius plunge states, the emergent sonic
+    crossing, controller cell/characteristics, and a normalized Roche
+    active-set residual. Immutable milestones include Git, state, reference,
+    and mechanical-offset hashes. A zero-step N96 production audit finds the
+    sonic crossing at `5.23284 rg`, three cells inside it, `L_v/dR=1.70`,
+    `L_v/H=2.02`, and a safely closed normalized Roche margin of `-0.0864`.
+32. The bounded solver-efficiency audit profiles one immutable N64 next step at
+    198 seconds, 600 nonlinear evaluations, 596 Jacobian assemblies, and
+    153773 residual evaluations. Gate-aware stopping reaches the unchanged
+    residual and ledger gates but gives only `1.18x`; independent blocked
+    columns give only `1.11x`. Both candidates are removed. Production remains
+    serial sparse-forward, now with persistent nonlinear work telemetry.
+33. A regenerated N64/N96/N128 snapshot lands at the exactly shared physical
+    time `0.15200886034168773 s`. Global inner fluxes, accumulated mass, and
+    maximum thickness remain mesh supported, and the Roche edge is safely
+    closed. Fixed-radius diagnostics expose slower local convergence at
+    `4.65-4.75 rg`; N96/N128 Mach differs by `0.38` at `4.65 rg` but only
+    `0.027` at `5 rg`. Sonic-gradient claims therefore remain a WP4 question.
+34. WP4 finds that the sonic-gradient mismatch halves from `0.3763` to
+    `0.1883` between the accepted `96/64` and `144/96` roots while the plunge
+    trajectory is already stable: at `4.5 rg`, Mach differs by `0.0263` and
+    `Delta ln Sigma=-0.00314`. A matched `1e-9 t_load` N64 step changes the
+    inner mass flux by only `2.53e-4` of supply and selects the same
+    causally-disconnected first-cell thickness controller. The audit also
+    corrects the mapper to use the accepted trial accretion rate and centers
+    the regular-root scan on the physical outer gradient.
+35. WP5 shows that the early inner evolution is mapping/operator relaxation.
+    Source-on and source-off N64 trajectories choose identical 15-step and
+    four-retry histories through exact `1e-7 t_load`; inner M/J/E, sonic
+    position, maximum thickness, and controller location agree at numerical
+    precision. The stream nevertheless adds exactly its prescribed mass,
+    angular momentum, and energy in the distant source annulus. A relaxed
+    source-free reference and controlled stream ramp must precede the physical
+    loading clock.
+36. The bounded N64 source-free relaxation reaches `1e-6 t_load` but cannot be
+    frozen as a reference. Inner mass flux moves toward `-0.1955` of supply,
+    while fixed-radius Mach changes by as much as `2.34` between the final two
+    milestones and `L_v/Delta R_cell` drops to `0.900`. Conservation and Roche
+    gates remain excellent. This is a named local-resolution stop requiring
+    one N96 refinement, not a physical instability claim.
+37. N96 resolves the local layer at `1e-6 t_load` with
+    `L_v/Delta R_cell=1.698`, but it does not relax: the final interval changes
+    fixed-radius Mach by `8.37`, temperature by `0.172` in log space, and the
+    angular/energy fluxes by about `5.5%`. A conservative N128 remap preserves
+    every total below `1.2e-16` yet shifts the innermost Mach by `10.34`.
+    More fundamentally, a source-free state with inward throughput and a
+    closed Roche edge must drain and cannot be a nontrivial global equilibrium.
+    The next baseline must be physically source compatible.
+38. A global source-balanced steady projection is impossible under the
+    selected no-tide contract: the Roche edge is closed, only `15-16%` of the
+    supply initially accretes, and neither tide nor wind removes the remaining
+    mass and angular momentum. Projecting only the causally outgoing
+    supersonic prefix gives machine-accurate full-rank roots at N64/N96. Its
+    source-on hold passes at N64, but N96 fixed-radius Mach drifts by `0.225`
+    against the declared `0.1` gate. The local projection is retained as a
+    diagnostic, not adopted as the production initializer.
+39. WP6c closes the coupled low-supply deformation after its fixed first
+    factor-of-two stage fails at residual `1.1826`. A fresh standard
+    transonic sequence nevertheless yields cross-mesh low-throughput remnants:
+    N64/N96 carry `0.00475-0.00482` of the eventual stream rate, retain a
+    closed Roche edge, and agree in disk mass and loading time to `1.1e-6`.
+    Their inner edge is subsonic, so the one-incoming-mode characteristic
+    boundary is required. Its first N64 source-off implicit step does not
+    complete within a fixed 30 CPU-minute ceiling because sparse Jacobian
+    perturbations repeatedly solve the boundary thermodynamic root. The state
+    is physically plausible but not yet an evolution-certified initializer.
 
 ## Claims That Are Not Allowed Yet
 
@@ -258,17 +335,22 @@ N                    = 164
    conservative energy and numerical dissipation retain their declared roles.
    The Hill/Roche layer now passes its preflight; the remaining gate is the
    no-tide loading evolution, not another boundary reconstruction.
-7. Treat the causally outgoing plunge architecture and shared
-   `1.001e-6 t_load` mesh gate as complete. Improve the certified sparse/block
-   Jacobian or nonlinear stopping strategy, reproducing current N64 and N128
-   one-step states without changing residual, ledger, or 2% physical-change
-   gates. Then resume N64 through `2.1e-6` and compare once against the former
-   `3.9166e-6` fixed-absorber failure time. Do not use the rejected colored
-   Jacobian, reset a reference state, or restore subsonic projection.
-8. Continue one physical distributed tide only after the global no-tide
+7. Treat the causally outgoing plunge architecture, shared
+   `1.001e-6 t_load` mesh gate, WP1 diagnostic contract, and bounded WP2
+   solver audit as complete. Keep the serial sparse-forward production
+   backend and its new work telemetry; do not start a third optimization
+   architecture.
+8. Treat the sonic-gradient, source-on/source-off, source-free relaxation,
+   local plunge projection, coupled supply deformation, and low-throughput
+   remnant construction as complete. The remnant passes the N64/N96 physical
+   state gates, but its first subsonic characteristic hold reaches a bounded
+   Jacobian-cost stop. Run one characteristic-response efficiency package
+   that preserves the existing one-incoming-mode boundary exactly. Rerun N64
+   once; launch source-on and N96 only after the fixed coarse gate passes.
+9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
-9. Add wind only after the tidal and stability gates pass.
+10. Add wind only after the tidal and stability gates pass.
 
 ## Review Entry Points
 
@@ -308,3 +390,12 @@ N                    = 164
 - Shared `1e-6 t_load` mesh gate: `reports/current/CODEX_GLOBAL_ROCHE_SHARED_MILLIONTH_RESULTS_2026-07-13.md`
 - N64 long-extension boundary stop: `reports/current/CODEX_GLOBAL_ROCHE_N64_LONG_EXTENSION_STOP_RESULTS_2026-07-13.md`
 - Causally outgoing inner plunge: `reports/current/CODEX_GLOBAL_SUPERSONIC_PLUNGE_RESULTS_2026-07-13.md`
+- Global evolution WP1 diagnostics: `reports/current/CODEX_GLOBAL_EVOLUTION_DIAGNOSTICS_WP1_RESULTS_2026-07-14.md`
+- Global solver-efficiency WP2: `reports/current/CODEX_GLOBAL_SOLVER_EFFICIENCY_WP2_RESULTS_2026-07-14.md`
+- Exact-common-time global snapshot WP3: `reports/current/CODEX_GLOBAL_EXACT_COMMON_TIME_WP3_RESULTS_2026-07-14.md`
+- Sonic-gradient and plunge-mapping WP4: `reports/current/CODEX_TRANSONIC_SONIC_GRADIENT_WP4_RESULTS_2026-07-14.md`
+- Source-on/source-off WP5: `reports/current/CODEX_GLOBAL_SOURCE_ON_OFF_WP5_RESULTS_2026-07-14.md`
+- Source-free N64 relaxation WP6a: `reports/current/CODEX_GLOBAL_SOURCE_FREE_RELAXATION_WP6A_RESULTS_2026-07-14.md`
+- Source-free N96 refinement and N128 remap WP6a-R: `reports/current/CODEX_GLOBAL_SOURCE_FREE_REFINEMENT_WP6AR_RESULTS_2026-07-15.md`
+- Local inner-plunge projection WP6b: `reports/current/CODEX_GLOBAL_INNER_PLUNGE_PROJECTION_WP6B_RESULTS_2026-07-15.md`
+- Low-throughput remnant WP6c: `reports/current/CODEX_GLOBAL_LOW_THROUGHPUT_REMNANT_WP6C_RESULTS_2026-07-15.md`

@@ -104,6 +104,7 @@ def continue_transonic_supersonic_plunge(
         sonic_state,
         profile.lambda0,
         params,
+        gradient_center=outer_gradient,
         half_width=100.0,
         scan_points=801,
     )

@@ -2,8 +2,11 @@ from __future__ import annotations
 
 import types
 import unittest
+from unittest.mock import patch
 
 import numpy as np
+
+import imri_qpe.layer3_minidisk_1d.transonic_local as transonic_local_module
 
 from imri_qpe.layer3_minidisk_1d import (
     B_rank_minors,
@@ -28,6 +31,7 @@ from imri_qpe.layer3_minidisk_1d import (
     sonic_directional_B,
     sonic_frozen_scaled_directional_B,
     sonic_diagnostics,
+    sonic_derivative_branches,
     sonic_lhopital_residual,
     sonic_lhopital_residual_form,
     sonic_null_vectors,
@@ -481,6 +485,53 @@ class TransonicLocalTests(unittest.TestCase):
             residual = sonic_lhopital_residual_form(self.logR, self.y, g, self.lambda0, self.params, eps=2.0e-5, form=form)
             self.assertTrue(np.isfinite(residual), form)
             self.assertLessEqual(abs(residual), 1.0 + 1.0e-12, form)
+
+    def test_sonic_branch_scan_can_center_on_physical_gradient(self) -> None:
+        nulls = types.SimpleNamespace(
+            matrix=np.asarray([[1.0, 0.0], [0.0, 0.0]]),
+            rhs=np.asarray([-2.0, 0.0]),
+            right_null=np.asarray([0.0, 1.0]),
+            left_null=np.asarray([0.0, 1.0]),
+        )
+
+        def directional(_logR, _y, gradient, *_args, **_kwargs):
+            return np.asarray(
+                [0.0, (float(gradient[1]) - 500.0) ** 2 - 1.0]
+            )
+
+        with (
+            patch.object(
+                transonic_local_module,
+                "_sonic_form_null_vectors",
+                return_value=nulls,
+            ),
+            patch.object(
+                transonic_local_module,
+                "_sonic_form_directional_B",
+                side_effect=directional,
+            ),
+            patch.object(
+                transonic_local_module,
+                "sonic_lhopital_residual_form",
+                return_value=0.0,
+            ),
+        ):
+            branches = sonic_derivative_branches(
+                0.0,
+                np.zeros(2),
+                0.0,
+                None,
+                gradient_center=np.asarray([2.0, 500.0]),
+                half_width=3.0,
+                scan_points=25,
+            )
+
+        np.testing.assert_allclose(
+            [branch.gradient[1] for branch in branches],
+            [499.0, 501.0],
+            rtol=0.0,
+            atol=1.0e-8,
+        )
 
     def test_analytic_partials_match_finite_difference_partials(self) -> None:
         analytic = analytic_state_partials(self.logR, self.y, self.lambda0, self.params)

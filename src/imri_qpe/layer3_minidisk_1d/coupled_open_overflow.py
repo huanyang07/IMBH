@@ -15,8 +15,11 @@ from .coupled_inner_outer import (
     coupled_row_slices,
     coupled_state_bounds,
     evaluate_coupled_inner_outer_residual,
+    pack_coupled_state,
     unpack_coupled_state,
 )
+from .interface_flux import ConservedInterfaceFlux
+from .signed_flux_common_stress import build_nonkeplerian_residual_scales
 from .transonic_collocation import sonic_residual_jacobian
 
 
@@ -84,6 +87,31 @@ class CoupledOpenRankAudit:
     sonic_rank: int
 
 
+@dataclass(frozen=True)
+class CoupledSupplyContinuationStage:
+    """One fixed supply stage on the open-overflow branch."""
+
+    supply_fraction: float
+    accepted: bool
+    maximum_residual: float
+    nfev: int
+    message: str
+    mdot_inner_over_initial_supply: float
+    mdot_inner_over_stage_supply: float
+    mdot_outer_over_initial_supply: float
+    mdot_outer_over_stage_supply: float
+
+
+@dataclass(frozen=True)
+class CoupledSupplyContinuationResult:
+    """Final context, state, and immutable records for a supply continuation."""
+
+    context: CoupledOpenOverflowContext
+    state: np.ndarray
+    stages: tuple[CoupledSupplyContinuationStage, ...]
+    accepted: bool
+
+
 def coupled_open_state_size(context: CoupledOpenOverflowContext) -> int:
     """Return one more than the square base coupled state size."""
 
@@ -124,6 +152,198 @@ def unpack_coupled_open_state(
     return (
         np.asarray(state[:-1], dtype=float),
         float(context.mass_flux_scale * np.exp(state[-1])),
+    )
+
+
+def rescale_coupled_open_supply(
+    state,
+    context: CoupledOpenOverflowContext,
+    supply_factor: float,
+) -> tuple[CoupledOpenOverflowContext, np.ndarray]:
+    """Scale one no-tide open root's complete stream ledger for continuation."""
+
+    factor = float(supply_factor)
+    if not np.isfinite(factor) or factor <= 0.0:
+        raise ValueError("supply_factor must be positive and finite")
+    template = context.base.outer_template
+    if np.any(np.asarray(template.external_angular_rate_cells) != 0.0):
+        raise ValueError("supply rescaling requires zero external torque")
+    base_state, mdot_inner = unpack_coupled_open_state(state, context)
+    (
+        inner_state,
+        sigma,
+        temperature,
+        omega,
+        interface_angular,
+        interface_energy,
+    ) = unpack_coupled_state(base_state, context.base)
+
+    scaled_template = replace(
+        template,
+        viscous_torque_centers=np.asarray(
+            factor * template.viscous_torque_centers, dtype=float
+        ),
+        viscous_torque_faces=np.asarray(
+            factor * template.viscous_torque_faces, dtype=float
+        ),
+        mdot_faces=np.asarray(factor * template.mdot_faces, dtype=float),
+        angular_flux_faces=np.asarray(
+            factor * template.angular_flux_faces, dtype=float
+        ),
+        source_mass_rate_cells=np.asarray(
+            factor * template.source_mass_rate_cells, dtype=float
+        ),
+        source_angular_rate_cells=np.asarray(
+            factor * template.source_angular_rate_cells, dtype=float
+        ),
+        source_total_energy_rate_cells=np.asarray(
+            factor * template.source_total_energy_rate_cells, dtype=float
+        ),
+        mass_rate_cells=np.asarray(
+            factor * template.mass_rate_cells, dtype=float
+        ),
+        mass_budget_rate=float(factor * template.mass_budget_rate),
+        angular_momentum_rate_from_state=float(
+            factor * template.angular_momentum_rate_from_state
+        ),
+        angular_momentum_budget_rate=float(
+            factor * template.angular_momentum_budget_rate
+        ),
+        angular_momentum_budget_defect=float(
+            factor * template.angular_momentum_budget_defect
+        ),
+    )
+    scaled_mdot = factor * mdot_inner
+    scaled_angular = factor * interface_angular
+    scaled_energy = factor * interface_energy
+    scaled_interface = ConservedInterfaceFlux(
+        mdot=scaled_mdot,
+        angular_momentum=scaled_angular,
+        total_energy=scaled_energy,
+    )
+    shifted_template = replace(
+        scaled_template,
+        mdot_faces=np.asarray(
+            scaled_template.mdot_faces
+            + (scaled_mdot - float(scaled_template.mdot_faces[0])),
+            dtype=float,
+        ),
+    )
+    scaled_base = replace(
+        context.base,
+        inner_params=replace(
+            context.base.inner_params,
+            Mdot_g_s=scaled_mdot,
+        ),
+        outer_template=scaled_template,
+        angular_flux_scale=factor * context.base.angular_flux_scale,
+        energy_flux_scale=factor * context.base.energy_flux_scale,
+    )
+    scaled_scales = build_nonkeplerian_residual_scales(
+        scaled_base.outer_grid,
+        shifted_template,
+        sigma,
+        temperature,
+        omega,
+        scaled_base.inner_params.M2_g,
+        closure=scaled_base.outer_closure,
+        prescribed_inner_flux=scaled_interface,
+    )
+    scaled_base = replace(scaled_base, outer_scales=scaled_scales)
+    scaled_context = replace(
+        context,
+        base=scaled_base,
+        mass_flux_scale=factor * context.mass_flux_scale,
+        torque_scale=factor * context.torque_scale,
+    )
+    scaled_base_state = pack_coupled_state(
+        inner_state,
+        sigma,
+        temperature,
+        omega,
+        scaled_angular,
+        scaled_energy,
+        scaled_base,
+    )
+    scaled_state = pack_coupled_open_state(
+        scaled_base_state,
+        scaled_mdot,
+        scaled_context,
+    )
+    return scaled_context, scaled_state
+
+
+def continue_coupled_open_supply(
+    state,
+    context: CoupledOpenOverflowContext,
+    supply_fractions,
+    *,
+    tolerance: float = 1.0e-7,
+    max_nfev: int = 200,
+) -> CoupledSupplyContinuationResult:
+    """Continue an accepted open root through fixed decreasing supply stages."""
+
+    fractions = tuple(float(value) for value in supply_fractions)
+    if not fractions:
+        raise ValueError("supply continuation needs at least one target")
+    if any(not np.isfinite(value) or value <= 0.0 for value in fractions):
+        raise ValueError("supply fractions must be positive and finite")
+    if any(right >= left for left, right in zip((1.0,) + fractions, fractions)):
+        raise ValueError("supply fractions must decrease strictly from one")
+    initial_scale = float(context.mass_flux_scale)
+    current_fraction = 1.0
+    current_context = context
+    current_state = np.asarray(state, dtype=float)
+    stages = []
+    for target_fraction in fractions:
+        stage_factor = target_fraction / current_fraction
+        trial_context, trial_state = rescale_coupled_open_supply(
+            current_state,
+            current_context,
+            stage_factor,
+        )
+        result = solve_coupled_open_overflow_steady(
+            trial_state,
+            trial_context,
+            tolerance=tolerance,
+            max_nfev=max_nfev,
+        )
+        evaluation = result.evaluation
+        stages.append(
+            CoupledSupplyContinuationStage(
+                supply_fraction=target_fraction,
+                accepted=result.accepted,
+                maximum_residual=result.maximum_residual,
+                nfev=result.nfev,
+                message=result.message,
+                mdot_inner_over_initial_supply=(
+                    evaluation.mdot_inner / initial_scale
+                ),
+                mdot_inner_over_stage_supply=(
+                    evaluation.mdot_inner / trial_context.mass_flux_scale
+                ),
+                mdot_outer_over_initial_supply=(
+                    evaluation.mdot_outer / initial_scale
+                ),
+                mdot_outer_over_stage_supply=(
+                    evaluation.mdot_outer / trial_context.mass_flux_scale
+                ),
+            )
+        )
+        current_context = trial_context
+        current_state = result.state
+        current_fraction = target_fraction
+        if not result.accepted:
+            break
+    return CoupledSupplyContinuationResult(
+        context=current_context,
+        state=current_state,
+        stages=tuple(stages),
+        accepted=bool(
+            len(stages) == len(fractions)
+            and stages[-1].accepted
+            and current_fraction == fractions[-1]
+        ),
     )
 
 

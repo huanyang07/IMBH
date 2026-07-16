@@ -8,6 +8,9 @@ from scipy.optimize import brentq
 
 from imri_qpe.constants import C, M_SUN
 from imri_qpe.layer3_minidisk_1d.entropy_advection import total_pressure
+from imri_qpe.layer3_minidisk_1d.global_evolution_diagnostics import (
+    global_roche_closure_diagnostic,
+)
 from imri_qpe.layer3_minidisk_1d.global_signed_evolution import (
     GlobalCellSources,
     GlobalConservativeState,
@@ -43,6 +46,8 @@ from imri_qpe.layer3_minidisk_1d.global_signed_evolution import (
     manufactured_backward_euler_jacobian,
     pack_global_flux_primary_state,
     recover_global_primitives,
+    remap_global_cell_integrals,
+    remap_global_conservative_state,
     reconstruct_global_outer_edge_state,
     save_global_mechanical_energy_reference,
     state_from_primitives,
@@ -98,6 +103,33 @@ def _manufactured_case(n_cells: int = 8):
         total_energy=np.linspace(-0.2, 0.2, n_cells),
     )
     return grid, state, fluxes, sources
+
+
+def test_global_conservative_log_radius_remap_preserves_integrals() -> None:
+    source_grid, state, _fluxes, _sources = _manufactured_case(7)
+    target_grid = make_log_grid(
+        source_grid.edges[0], source_grid.edges[-1], 13
+    )
+    remapped = remap_global_conservative_state(
+        source_grid, state, target_grid
+    )
+    for name in (
+        "mass",
+        "radial_momentum",
+        "angular_momentum",
+        "total_energy",
+    ):
+        assert np.sum(getattr(remapped, name)) == pytest.approx(
+            np.sum(getattr(state, name)), rel=2.0e-15, abs=1.0e-14
+        )
+
+    specific = np.linspace(-0.5, 0.75, source_grid.centers.size)
+    weighted = remap_global_cell_integrals(
+        source_grid, state.mass * specific, target_grid
+    )
+    assert np.sum(weighted) == pytest.approx(
+        np.sum(state.mass * specific), rel=2.0e-15, abs=1.0e-14
+    )
 
 
 def _physical_roche_column(temperature: float, n_cells: int = 32):
@@ -706,6 +738,43 @@ def test_roche_boundary_choked_branch_uses_one_conservative_nozzle_state() -> No
         profile.face_fluxes.radial_momentum[-1]
         > audit.pressure_traction
     )
+
+
+@pytest.mark.parametrize(
+    ("temperature", "expected_state"),
+    ((1.0e5, "closed"), (8.0e5, "choked")),
+)
+def test_roche_closure_diagnostic_normalizes_active_set(
+    temperature: float, expected_state: str
+) -> None:
+    params, grid, state, _primitives, provider = _physical_roche_column(
+        temperature
+    )
+    profile = evaluate_global_rusanov_profile(
+        grid,
+        state,
+        params.M2_g,
+        boundary_mode="roche_outer",
+        stress_boundary_mode="outer_zero_torque",
+        outer_overflow_provider=provider,
+    )
+    audit = profile.outer_roche_boundary
+    assert audit is not None
+    diagnostic = global_roche_closure_diagnostic(
+        audit, provider, mass_flux_scale=1.0e20
+    )
+    assert diagnostic.channel_state == expected_state
+    assert diagnostic.barrier_specific_energy > 0.0
+    if expected_state == "closed":
+        assert diagnostic.normalized_available_specific_energy < 0.0
+        assert diagnostic.nozzle_residual is None
+        assert diagnostic.active_set_residual == 0.0
+    else:
+        assert diagnostic.normalized_available_specific_energy > 0.0
+        assert diagnostic.nozzle_residual is not None
+        assert abs(diagnostic.nozzle_residual) < 1.0e-10 * (
+            diagnostic.barrier_specific_energy
+        )
 
 
 def test_roche_boundary_flux_is_continuous_across_opening_threshold() -> None:
@@ -1403,6 +1472,14 @@ def test_monolithic_backward_euler_accepts_exact_stream_moments() -> None:
     assert result.accepted, result.message
     assert result.maximum_scaled_residual < 1.0e-8
     assert result.maximum_storage_scaled_ledger_defect < 1.0e-8
+    assert result.nonlinear_solve_audit is not None
+    assert result.nonlinear_solve_audit.jacobian_mode == "dense"
+    assert result.nonlinear_solve_audit.termination == "accepted_physical_gates"
+    assert result.nonlinear_solve_audit.residual_evaluations >= result.nfev
+    assert result.nonlinear_solve_audit.jacobian_assemblies >= 1
+    assert result.nonlinear_solve_audit.residual_wall_seconds > 0.0
+    assert result.nonlinear_solve_audit.jacobian_wall_seconds is None
+    assert result.nonlinear_solve_audit.total_wall_seconds > 0.0
     np.testing.assert_allclose(np.sum(source.mass), source_rate, rtol=2.0e-15)
     recovered = recover_global_primitives(grid, result.state, mass)
     assert np.all(recovered.surface_density > 0.0)
@@ -1665,6 +1742,12 @@ def test_sparse_forward_jacobian_is_directionally_certified() -> None:
     assert sparse.jacobian_audit.maximum_relative_defect < 1.0e-4
     assert sparse.accepted, sparse.message
     assert dense.accepted, dense.message
+    assert sparse.nonlinear_solve_audit is not None
+    assert sparse.nonlinear_solve_audit.jacobian_mode == "sparse_forward"
+    assert sparse.nonlinear_solve_audit.jacobian_assemblies >= 1
+    assert sparse.nonlinear_solve_audit.jacobian_wall_seconds is not None
+    assert sparse.nonlinear_solve_audit.jacobian_wall_seconds > 0.0
+    assert sparse.nonlinear_solve_audit.residual_evaluations >= sparse.nfev
     sparse_primitives = recover_global_primitives(grid, sparse.state, mass)
     dense_primitives = recover_global_primitives(grid, dense.state, mass)
     np.testing.assert_allclose(

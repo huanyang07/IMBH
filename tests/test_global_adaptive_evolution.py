@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from types import SimpleNamespace
 
 import numpy as np
@@ -11,6 +12,7 @@ from imri_qpe.layer3_minidisk_1d.global_adaptive_evolution import (
     GlobalAdaptiveStepConfig,
     advance_global_adaptive_backward_euler,
     load_global_adaptive_restart,
+    save_global_adaptive_milestone,
     save_global_adaptive_restart,
 )
 from imri_qpe.layer3_minidisk_1d.global_signed_evolution import (
@@ -88,6 +90,21 @@ def test_adaptive_step_rejects_halves_and_then_grows(monkeypatch) -> None:
     assert len(result.attempts) == 2
     assert not result.attempts[0].nonlinear_accepted
     assert result.attempts[1].physical_change_accepted
+    controller = result.attempts[1].controller
+    assert controller is not None
+    assert controller.variable in {
+        "log_surface_density",
+        "log_temperature",
+        "relative_thickness",
+    }
+    assert 0 <= controller.cell_index < grid.centers.size
+    assert controller.radius == grid.centers[controller.cell_index]
+    assert controller.change_metric >= 0.0
+    assert controller.fraction_of_limit == pytest.approx(
+        controller.change_metric / controller.limit
+    )
+    assert len(controller.characteristic_speeds) == 4
+    assert result.attempts[1].nonlinear_solve_audit is None
 
 
 def test_global_adaptive_restart_round_trips_bitwise(tmp_path) -> None:
@@ -137,3 +154,46 @@ def test_global_adaptive_restart_round_trips_bitwise(tmp_path) -> None:
     )
     with pytest.raises(ValueError, match="grid does not match"):
         load_global_adaptive_restart(path, grid=incompatible)
+
+
+def test_global_adaptive_milestone_is_immutable_and_manifested(tmp_path) -> None:
+    _mass, grid, state = _state()
+    mechanical = make_global_mechanical_energy_reference(
+        grid,
+        np.zeros(grid.centers.size),
+        state,
+        provenance={"case": "milestone-test"},
+    )
+    restart = GlobalAdaptiveRestart(
+        state=state,
+        reference_state=state,
+        mechanical_reference=mechanical,
+        elapsed_time=3.25,
+        dt_next=0.125,
+        accepted_steps=11,
+        rejected_attempts=4,
+        provenance={"git": {"full_sha": "a" * 40}},
+    )
+    first = save_global_adaptive_milestone(
+        tmp_path,
+        "global test",
+        grid,
+        restart,
+        metadata={"target_reached": True},
+    )
+    second = save_global_adaptive_milestone(
+        tmp_path,
+        "global test",
+        grid,
+        restart,
+        metadata={"target_reached": True},
+    )
+    assert first == second
+    assert len(first["checkpoint_sha256"]) == 64
+    assert len(first["state_sha256"]) == 64
+    assert (tmp_path / first["path"]).exists()
+    manifest = json.loads(
+        (tmp_path / "manifest.json").read_text(encoding="utf-8")
+    )
+    assert manifest["schema_version"] == 1
+    assert manifest["checkpoints"] == [first]

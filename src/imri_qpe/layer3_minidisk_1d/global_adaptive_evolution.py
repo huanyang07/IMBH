@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -13,7 +15,9 @@ from .global_signed_evolution import (
     GlobalBackwardEulerStepResult,
     GlobalConservativeState,
     GlobalMechanicalEnergyReference,
+    GlobalNonlinearSolveAudit,
     advance_global_backward_euler,
+    global_effective_sound_speed,
     recover_global_primitives,
 )
 from .grid import RadialGrid
@@ -75,6 +79,23 @@ class GlobalAdaptiveStepConfig:
 
 
 @dataclass(frozen=True)
+class GlobalAdaptiveControllerAudit:
+    """Cell and characteristic state controlling one physical-change gate."""
+
+    variable: str
+    cell_index: int
+    radius: float
+    old_value: float
+    new_value: float
+    change_metric: float
+    limit: float
+    fraction_of_limit: float
+    radial_mach_number: float
+    characteristic_speeds: tuple[float, float, float, float]
+    causally_disconnected_from_outer_disk: bool
+
+
+@dataclass(frozen=True)
 class GlobalAdaptiveAttempt:
     """One accepted or rejected nonlinear attempt."""
 
@@ -87,6 +108,8 @@ class GlobalAdaptiveAttempt:
     maximum_log_temperature_change: float
     maximum_relative_thickness_change: float
     message: str
+    controller: GlobalAdaptiveControllerAudit | None = None
+    nonlinear_solve_audit: GlobalNonlinearSolveAudit | None = None
 
 
 @dataclass(frozen=True)
@@ -160,6 +183,7 @@ def advance_global_adaptive_backward_euler(
         temperature_change = np.inf
         thickness_change = np.inf
         physical_accepted = False
+        controller = None
         message = step.message
         if step.accepted:
             new = recover_global_primitives(
@@ -172,17 +196,71 @@ def advance_global_adaptive_backward_euler(
                 **recovery_options,
             )
             new_thickness = np.asarray(new.vertical.H, dtype=float) / grid.centers
-            sigma_change = float(
-                np.max(np.abs(np.log(new.surface_density / old.surface_density)))
+            sigma_changes = np.abs(
+                np.log(new.surface_density / old.surface_density)
             )
-            temperature_change = float(
-                np.max(np.abs(np.log(new.temperature / old.temperature)))
+            temperature_changes = np.abs(
+                np.log(new.temperature / old.temperature)
             )
-            thickness_change = float(
-                np.max(
-                    np.abs(new_thickness - old_thickness)
-                    / np.maximum(old_thickness, 1.0e-300)
-                )
+            thickness_changes = (
+                np.abs(new_thickness - old_thickness)
+                / np.maximum(old_thickness, 1.0e-300)
+            )
+            sigma_change = float(np.max(sigma_changes))
+            temperature_change = float(np.max(temperature_changes))
+            thickness_change = float(np.max(thickness_changes))
+            candidates = (
+                (
+                    "log_surface_density",
+                    sigma_changes,
+                    old.surface_density,
+                    new.surface_density,
+                    config.maximum_log_surface_density_change,
+                ),
+                (
+                    "log_temperature",
+                    temperature_changes,
+                    old.temperature,
+                    new.temperature,
+                    config.maximum_log_temperature_change,
+                ),
+                (
+                    "relative_thickness",
+                    thickness_changes,
+                    old_thickness,
+                    new_thickness,
+                    config.maximum_relative_thickness_change,
+                ),
+            )
+            controlling = max(
+                candidates,
+                key=lambda item: float(np.max(item[1])) / item[4],
+            )
+            variable, changes, old_values, new_values, limit = controlling
+            cell_index = int(np.argmax(changes))
+            sound_speed = global_effective_sound_speed(new)
+            velocity = float(new.radial_velocity[cell_index])
+            sound = float(sound_speed[cell_index])
+            characteristic_speeds = (
+                velocity - sound,
+                velocity,
+                velocity,
+                velocity + sound,
+            )
+            controller = GlobalAdaptiveControllerAudit(
+                variable=variable,
+                cell_index=cell_index,
+                radius=float(grid.centers[cell_index]),
+                old_value=float(old_values[cell_index]),
+                new_value=float(new_values[cell_index]),
+                change_metric=float(changes[cell_index]),
+                limit=float(limit),
+                fraction_of_limit=float(changes[cell_index] / limit),
+                radial_mach_number=velocity / sound,
+                characteristic_speeds=characteristic_speeds,
+                causally_disconnected_from_outer_disk=bool(
+                    max(characteristic_speeds) < 0.0
+                ),
             )
             physical_accepted = bool(
                 sigma_change <= config.maximum_log_surface_density_change
@@ -202,6 +280,10 @@ def advance_global_adaptive_backward_euler(
                 maximum_log_temperature_change=temperature_change,
                 maximum_relative_thickness_change=thickness_change,
                 message=message,
+                controller=controller,
+                nonlinear_solve_audit=getattr(
+                    step, "nonlinear_solve_audit", None
+                ),
             )
         )
         if step.accepted and physical_accepted:
@@ -253,6 +335,103 @@ class GlobalAdaptiveRestart:
     rejected_attempts: int
     provenance: dict
     schema_version: int = 1
+
+
+def _file_sha256(path: str | Path) -> str:
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def save_global_adaptive_milestone(
+    directory: str | Path,
+    case: str,
+    grid: RadialGrid,
+    restart: GlobalAdaptiveRestart,
+    *,
+    metadata: dict | None = None,
+) -> dict:
+    """Write one immutable checkpoint and append its checksums to a manifest."""
+
+    safe_case = re.sub(r"[^A-Za-z0-9_.-]+", "-", str(case)).strip("-.")
+    if not safe_case:
+        raise ValueError("milestone case must contain a filesystem-safe character")
+    state_sha256 = _state_hash(grid, restart.state)
+    git_sha = str(
+        restart.provenance.get("git", {}).get("full_sha") or "unknown"
+    )
+    git_tag = re.sub(r"[^A-Za-z0-9]+", "", git_sha)[:12] or "unknown"
+    time_tag = f"{float(restart.elapsed_time):.17e}"
+    filename = (
+        f"{safe_case}_N{grid.centers.size:03d}_tphys_{time_tag}_"
+        f"git_{git_tag}_state_{state_sha256[:12]}.npz"
+    )
+    destination_directory = Path(directory)
+    destination_directory.mkdir(parents=True, exist_ok=True)
+    destination = destination_directory / filename
+    if destination.exists():
+        loaded_grid, loaded = load_global_adaptive_restart(
+            destination, grid=grid
+        )
+        if (
+            not np.array_equal(loaded_grid.edges, grid.edges)
+            or _state_hash(grid, loaded.state) != state_sha256
+            or loaded.elapsed_time != restart.elapsed_time
+            or loaded.provenance != restart.provenance
+        ):
+            raise ValueError("existing milestone does not match requested state")
+    else:
+        temporary = destination.with_name(f".{destination.name}.tmp.npz")
+        save_global_adaptive_restart(temporary, grid, restart)
+        os.replace(temporary, destination)
+    checkpoint_sha256 = _file_sha256(destination)
+    entry = {
+        "path": destination.name,
+        "checkpoint_sha256": checkpoint_sha256,
+        "state_sha256": state_sha256,
+        "reference_state_sha256": _state_hash(grid, restart.reference_state),
+        "mechanical_offset_sha256": (
+            restart.mechanical_reference.offset_sha256
+        ),
+        "n_cells": int(grid.centers.size),
+        "elapsed_time_seconds": float(restart.elapsed_time),
+        "dt_next_seconds": float(restart.dt_next),
+        "accepted_steps": int(restart.accepted_steps),
+        "rejected_attempts": int(restart.rejected_attempts),
+        "metadata": {} if metadata is None else metadata,
+    }
+    json.dumps(entry, sort_keys=True, allow_nan=False)
+    manifest_path = destination_directory / "manifest.json"
+    if manifest_path.exists():
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    else:
+        manifest = {"schema_version": 1, "checkpoints": []}
+    if manifest.get("schema_version") != 1 or not isinstance(
+        manifest.get("checkpoints"), list
+    ):
+        raise ValueError("unsupported adaptive milestone manifest")
+    matching = [
+        item for item in manifest["checkpoints"] if item.get("path") == filename
+    ]
+    if matching and matching[0] != entry:
+        raise ValueError("milestone manifest entry conflicts with checkpoint")
+    if not matching:
+        manifest["checkpoints"].append(entry)
+        manifest["checkpoints"].sort(
+            key=lambda item: (
+                item["elapsed_time_seconds"], item["n_cells"], item["path"]
+            )
+        )
+        temporary_manifest = manifest_path.with_name(".manifest.json.tmp")
+        temporary_manifest.write_text(
+            json.dumps(manifest, indent=2, sort_keys=True, allow_nan=False)
+            + "\n",
+            encoding="utf-8",
+        )
+        os.replace(temporary_manifest, manifest_path)
+    return entry
 
 
 def save_global_adaptive_restart(

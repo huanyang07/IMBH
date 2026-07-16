@@ -114,13 +114,37 @@ def _conservatively_mapped_global_state(
     outer = evaluation.base.outer_transport
     energy = evaluation.base.outer_energy_profile
     outer_grid = context.base.outer_grid
+    trial_context = getattr(evaluation, "trial_context", None)
+    plunge_params = (
+        context.base.inner_params
+        if trial_context is None
+        else trial_context.inner_params
+    )
     plunge = None
     if inner_radius_rg is not None:
         plunge = continue_transonic_supersonic_plunge(
             inner,
-            context.base.inner_params,
-            float(inner_radius_rg) * context.base.inner_params.r_g,
+            plunge_params,
+            float(inner_radius_rg) * plunge_params.r_g,
         )
+        mapped_plunge_rate = float(
+            2.0
+            * np.pi
+            * plunge.R[0]
+            * plunge.Sigma[0]
+            * plunge.u[0]
+        )
+        expected_plunge_rate = float(
+            getattr(evaluation, "mdot_inner", plunge_params.Mdot_g_s)
+        )
+        if not np.isclose(
+            mapped_plunge_rate,
+            expected_plunge_rate,
+            rtol=2.0e-11,
+        ):
+            raise RuntimeError(
+                "plunge mapping does not use the converged accretion rate"
+            )
     inner_radius = inner.R if plunge is None else plunge.R[:-1]
     inner_sigma = inner.Sigma if plunge is None else plunge.Sigma[:-1]
     inner_velocity = -inner.u if plunge is None else -plunge.u[:-1]

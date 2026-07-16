@@ -1013,6 +1013,7 @@ def sonic_derivative_branches(
     eps: float = 1.0e-5,
     form: str = "scaled",
     a_center: float | None = None,
+    gradient_center=None,
     half_width: float = 1000.0,
     scan_points: int = 2001,
 ) -> tuple[SonicDerivativeBranch, ...]:
@@ -1020,8 +1021,10 @@ def sonic_derivative_branches(
 
     The roots are found by scanning the scalar regularity condition
     ``l.T @ d(A g + c)/dlnR = 0`` along the right-null direction of the sonic
-    matrix.  Branches are sorted by the scalar coordinate ``a`` so callers can
-    run fixed discrete branches reproducibly.
+    matrix.  ``gradient_center`` centers the scalar scan on a physical gradient
+    and avoids dependence on the arbitrary origin of the nullspace coordinate.
+    Branches are sorted by the scalar coordinate ``a`` so callers can run fixed
+    discrete branches reproducibly.
     """
 
     if scan_points < 3:
@@ -1030,6 +1033,13 @@ def sonic_derivative_branches(
     nulls = _sonic_form_null_vectors(logR, y, lambda0, params, form)
     g_p = np.linalg.lstsq(nulls.matrix, -nulls.rhs, rcond=None)[0]
     r = nulls.right_null / (np.linalg.norm(nulls.right_null) + 1.0e-300)
+    if a_center is not None and gradient_center is not None:
+        raise ValueError("a_center and gradient_center are mutually exclusive")
+    if gradient_center is not None:
+        gradient_center = np.asarray(gradient_center, dtype=float)
+        if gradient_center.shape != (2,) or np.any(~np.isfinite(gradient_center)):
+            raise ValueError("gradient_center must be a finite two-vector")
+        a_center = float(np.dot(gradient_center - g_p, r))
     if a_center is None:
         a_center = 0.0
     a_values = np.linspace(float(a_center) - half_width, float(a_center) + half_width, int(scan_points))
