@@ -173,6 +173,16 @@ rejected sequence.
     `1.00e-3`. One geometric no-tide duration extension to about
     `1e-9 t_load` is authorized; N64/N96, tide, wind, stability, hot-state,
     and cycle searches remain blocked.
+37. **Bounded source-compatible duration stop:** N16 and N32 each reach the
+    exact shared time `6.781724319e-4 s` with full descriptor/consistency
+    rank, no rejected attempts, a closed Roche edge, zero inner incoming
+    modes, scattering depth above `18.67`, and mass/five-field defects below
+    `4.5e-12`. The inner and outer flux responses agree, but the common-radius
+    `Delta ln(H/R)` response differs by `1.2557e-2`, failing the fixed `5e-3`
+    mesh gate broadly around `12-16 rg`. The independently tuned moving-cell
+    initial profiles prevent a clean continuum interpretation. Further
+    duration stops pending one mesh-common physical initial datum; N64/N96,
+    tide, wind, stability, hot-state, and cycle work remains blocked.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

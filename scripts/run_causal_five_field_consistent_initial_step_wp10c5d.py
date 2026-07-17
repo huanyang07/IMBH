@@ -18,6 +18,7 @@ from imri_qpe.layer3_minidisk_1d import (
     KERR_SCHILD_HILL_ENERGY_ZERO,
     CausalFiveFieldAdaptiveRestart,
     CausalFiveFieldAdaptiveStepConfig,
+    CausalFiveFieldPhysicalStepLedger,
     CausalFiveFieldDAEContext,
     GasRadiationHillRocheNozzleProvider,
     SchwarzschildCurvatureVerticalFrequency,
@@ -83,6 +84,10 @@ DEFAULT_SOURCE_COMPATIBLE_STARTUP_OUTPUT = (
     ROOT
     / "outputs/tables/causal_five_field_source_compatible_startup_wp10c5m.json"
 )
+DEFAULT_SOURCE_COMPATIBLE_DURATION_OUTPUT = (
+    ROOT
+    / "outputs/tables/causal_five_field_source_compatible_duration_wp10c5n.json"
+)
 DEFAULT_RESTART_DIRECTORY = (
     ROOT / "outputs/checkpoints/causal_five_field_wp10c5k"
 )
@@ -141,6 +146,10 @@ def _arguments() -> argparse.Namespace:
     )
     parser.add_argument(
         "--increment-primary-source-compatible-startup-audit",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--increment-primary-source-compatible-duration-audit",
         action="store_true",
     )
     return parser.parse_args()
@@ -1616,7 +1625,11 @@ def _run_resolution(
     }
 
 
-def _rank_summary(matrix: np.ndarray) -> dict:
+def _rank_summary(
+    matrix: np.ndarray,
+    *,
+    equilibrate: bool = True,
+) -> dict:
     def summary(values: np.ndarray) -> dict:
         singular = np.linalg.svd(values, compute_uv=False)
         largest = float(singular[0])
@@ -1642,6 +1655,8 @@ def _rank_summary(matrix: np.ndarray) -> dict:
         }
 
     result = summary(matrix)
+    if not equilibrate:
+        return result
     (
         row_scale,
         column_scale,
@@ -4526,6 +4541,247 @@ def _source_compatible_initialization(
     return report, (initialization, artifacts), seed_parameters
 
 
+def _source_compatible_state_audit(
+    context: CausalFiveFieldDAEContext,
+    vector: np.ndarray,
+) -> tuple[dict, bool]:
+    n_cells = int(context.grid.centers.size)
+    values = np.asarray(vector, dtype=float)
+    state = unpack_causal_five_field_state(values, n_cells)
+    evaluation = evaluate_causal_five_field_dae(values, context)
+    summary = causal_five_field_state_summary(context, values)
+    scaling = causal_five_field_dae_scaling(
+        state,
+        evaluation,
+    )
+    principal = _inner_principal_summary(
+        context,
+        state.primitives[0],
+    )
+    algebraic_blocks = (
+        evaluation.primitive_map_rows,
+        evaluation.interior_flux_rows,
+        evaluation.inner_flux_rows,
+        evaluation.outer_flux_rows,
+    )
+    maximum_raw_algebraic_residual = float(
+        max(np.max(np.abs(block)) for block in algebraic_blocks)
+    )
+    n_differential = 5 * n_cells
+    maximum_scaled_algebraic_residual = float(
+        np.max(
+            np.abs(
+                evaluation.residual[n_differential:]
+                / scaling.row_scales[n_differential:]
+            )
+        )
+    )
+    gates = {
+        "maximum_h_over_r": 0.25,
+        "minimum_scattering_optical_depth": 1.0,
+        "inner_incoming_characteristics": 0,
+        "maximum_inner_light_cone_excess": 1.0e-10,
+        "outer_channel_choked": False,
+        "outer_incoming_characteristics": 2,
+        "maximum_scaled_algebraic_map_residual": 1.0e-11,
+    }
+    passed = bool(
+        summary["maximum_h_over_r"] <= gates["maximum_h_over_r"]
+        and float(np.min(evaluation.scattering_optical_depths))
+        > gates["minimum_scattering_optical_depth"]
+        and principal["incoming_inner_characteristics"]
+        == gates["inner_incoming_characteristics"]
+        and principal["maximum_light_cone_excess"]
+        <= gates["maximum_inner_light_cone_excess"]
+        and evaluation.outer_boundary_choked
+        == gates["outer_channel_choked"]
+        and evaluation.outer_incoming_characteristics
+        == gates["outer_incoming_characteristics"]
+        and maximum_scaled_algebraic_residual
+        <= gates["maximum_scaled_algebraic_map_residual"]
+    )
+    return {
+        "state": summary,
+        "inner_principal": principal,
+        "outer_boundary_choked": evaluation.outer_boundary_choked,
+        "outer_incoming_characteristics": (
+            evaluation.outer_incoming_characteristics
+        ),
+        "minimum_scattering_optical_depth": float(
+            np.min(evaluation.scattering_optical_depths)
+        ),
+        "maximum_raw_algebraic_map_residual": (
+            maximum_raw_algebraic_residual
+        ),
+        "maximum_scaled_algebraic_map_residual": (
+            maximum_scaled_algebraic_residual
+        ),
+        "gates": gates,
+        "passed": passed,
+    }, passed
+
+
+def _source_compatible_consistency_rank_audit(
+    context: CausalFiveFieldDAEContext,
+    vector: np.ndarray,
+) -> dict:
+    n_cells = int(context.grid.centers.size)
+    values = np.asarray(vector, dtype=float)
+    state = unpack_causal_five_field_state(values, n_cells)
+    stationary_evaluation = evaluate_causal_five_field_dae(
+        values,
+        context,
+    )
+    scaling = causal_five_field_dae_scaling(
+        state,
+        stationary_evaluation,
+    )
+    pattern = causal_five_field_dae_jacobian_sparsity(n_cells)
+    zero = np.zeros_like(values)
+
+    def scaled_residual(
+        scaled_increment: np.ndarray,
+        *,
+        backward_euler: bool,
+    ) -> np.ndarray:
+        trial = (
+            values
+            + scaling.column_scales
+            * np.asarray(scaled_increment, dtype=float)
+        )
+        if backward_euler:
+            evaluation = evaluate_causal_five_field_dae(
+                trial,
+                context,
+                old_vector=values,
+                timestep_seconds=1.0,
+            )
+        else:
+            evaluation = evaluate_causal_five_field_dae(
+                trial,
+                context,
+            )
+        return evaluation.residual / scaling.row_scales
+
+    stationary = causal_five_field_colored_central_jacobian(
+        lambda increment: scaled_residual(
+            increment,
+            backward_euler=False,
+        ),
+        zero,
+        pattern,
+        finite_difference_step=FINITE_DIFFERENCE_STEP,
+    ).toarray()
+    backward_euler = causal_five_field_colored_central_jacobian(
+        lambda increment: scaled_residual(
+            increment,
+            backward_euler=True,
+        ),
+        zero,
+        pattern,
+        finite_difference_step=FINITE_DIFFERENCE_STEP,
+    ).toarray()
+    n_differential = 5 * n_cells
+    descriptor_rows = (
+        backward_euler - stationary
+    )[:n_differential]
+    algebraic_tangent = stationary[n_differential:]
+    consistency = np.vstack(
+        (descriptor_rows, algebraic_tangent)
+    )
+    descriptor = _rank_summary(
+        descriptor_rows,
+        equilibrate=False,
+    )
+    complete = _rank_summary(consistency)
+    passed = bool(
+        descriptor["numerical_rank"] == n_differential
+        and complete["equilibration"]["full_rank"]
+    )
+    return {
+        "descriptor": descriptor,
+        "consistency": complete,
+        "passed": passed,
+    }
+
+
+def _aggregate_physical_step_ledgers(
+    ledgers: list[CausalFiveFieldPhysicalStepLedger],
+) -> dict:
+    term_names = (
+        "conserved_storage_change",
+        "vertical_storage_change",
+        "boundary_transport",
+        "endogenous_source",
+        "prescribed_stream_source",
+    )
+    aggregated = {
+        name: np.asarray(
+            [
+                math.fsum(
+                    float(getattr(ledger, name)[field])
+                    for ledger in ledgers
+                )
+                for field in range(5)
+            ],
+            dtype=float,
+        )
+        for name in term_names
+    }
+    balance = (
+        aggregated["conserved_storage_change"]
+        + aggregated["vertical_storage_change"]
+        + aggregated["boundary_transport"]
+        - aggregated["endogenous_source"]
+        - aggregated["prescribed_stream_source"]
+    )
+    summed_closure = np.asarray(
+        [
+            math.fsum(
+                float(ledger.closure_defect[field])
+                for ledger in ledgers
+            )
+            for field in range(5)
+        ],
+        dtype=float,
+    )
+    absolute_term_scale = np.asarray(
+        [
+            math.fsum(
+                abs(float(getattr(ledger, name)[field]))
+                for ledger in ledgers
+                for name in term_names
+            )
+            for field in range(5)
+        ],
+        dtype=float,
+    )
+    relative_defect = np.abs(balance) / np.maximum(
+        absolute_term_scale,
+        1.0,
+    )
+    return {
+        "step_count": len(ledgers),
+        "terms": {
+            name: [float(value) for value in values]
+            for name, values in aggregated.items()
+        },
+        "balance_defect": [float(value) for value in balance],
+        "summed_step_closure_defect": [
+            float(value) for value in summed_closure
+        ],
+        "balance_identity_maximum_absolute_defect": float(
+            np.max(np.abs(balance - summed_closure))
+        ),
+        "relative_balance_defect": [
+            float(value) for value in relative_defect
+        ],
+        "maximum_relative_balance_defect": float(
+            np.max(relative_defect)
+        ),
+    }
+
+
 def _run_source_compatible_startup_audit(
     args: argparse.Namespace,
 ) -> None:
@@ -4629,6 +4885,678 @@ def _run_source_compatible_startup_audit(
     }
     output_path = _absolute(
         DEFAULT_SOURCE_COMPATIBLE_STARTUP_OUTPUT
+        if args.output == DEFAULT_OUTPUT
+        else args.output
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = json.dumps(
+        output,
+        indent=2,
+        sort_keys=True,
+        default=_json_default,
+    )
+    output_path.write_text(serialized + "\n", encoding="utf-8")
+    print(serialized)
+
+
+def _continue_source_compatible_duration_resolution(
+    n_cells: int,
+    *,
+    initialization: dict,
+    artifacts: dict,
+    seed_parameters: dict,
+    elapsed_time_target: float,
+    perform_first_step_replay_audit: bool,
+) -> tuple[dict, bool]:
+    context = artifacts["context"]
+    initial_vector = np.asarray(artifacts["old_vector"], dtype=float)
+    base_dt = float(artifacts["timestep_seconds"])
+    restart_path = (
+        DEFAULT_RESTART_DIRECTORY
+        / f"causal_wp10c5m_N{n_cells:03d}_final.npz"
+    )
+    if not restart_path.exists():
+        return {
+            "n_cells": n_cells,
+            "restart_path": str(restart_path.relative_to(ROOT)),
+            "passed": False,
+            "decision": "required_wp10c5m_restart_missing",
+        }, False
+    checkpoint = load_causal_five_field_adaptive_restart(
+        restart_path,
+        context,
+    )
+    checkpoint_audit, checkpoint_state_passed = (
+        _source_compatible_state_audit(
+            context,
+            checkpoint.state_vector,
+        )
+    )
+    checkpoint_rank = _source_compatible_consistency_rank_audit(
+        context,
+        checkpoint.state_vector,
+    )
+    checkpoint_provenance_passed = bool(
+        checkpoint.provenance.get("n_cells") == n_cells
+        and "exact circularized regression stream"
+        in str(checkpoint.provenance.get("source", ""))
+    )
+    checkpoint_passed = bool(
+        initialization["resolution_passed"]
+        and checkpoint_state_passed
+        and checkpoint_rank["passed"]
+        and checkpoint_provenance_passed
+        and checkpoint.elapsed_time < elapsed_time_target
+    )
+    if not checkpoint_passed:
+        return {
+            "n_cells": n_cells,
+            "restart_path": str(restart_path.relative_to(ROOT)),
+            "checkpoint": {
+                "elapsed_time_seconds": checkpoint.elapsed_time,
+                "provenance": checkpoint.provenance,
+                "provenance_passed": checkpoint_provenance_passed,
+                "state_audit": checkpoint_audit,
+                "rank_audit": checkpoint_rank,
+            },
+            "target_elapsed_time_seconds": elapsed_time_target,
+            "passed": False,
+            "decision": "wp10c5m_checkpoint_gate_failed",
+        }, False
+
+    config = CausalFiveFieldAdaptiveStepConfig(
+        minimum_dt=base_dt / 128.0,
+        maximum_dt=16.0 * base_dt,
+        maximum_scaled_primitive_change=5.0e-4,
+        maximum_scaled_total_change=1.0e-3,
+        shrink_factor=0.5,
+        growth_factor=1.5,
+        maximum_retries=6,
+        easy_iterations=3,
+        residual_tolerance=1.0e-10,
+        algebraic_residual_tolerance=1.0e-11,
+        conservation_tolerance=1.0e-10,
+        finite_difference_step=FINITE_DIFFERENCE_STEP,
+        maximum_newton_iterations=12,
+    ).validated()
+    if context.stream_sources is None:
+        raise RuntimeError("duration extension requires a stream")
+    source_rate = float(np.sum(context.stream_sources.rest_mass))
+    loading_time = causal_five_field_loading_time(
+        context,
+        initial_vector,
+    )
+    state_vector = np.asarray(
+        checkpoint.state_vector,
+        dtype=float,
+    )
+    previous_increment = np.asarray(
+        checkpoint.previous_physical_increment,
+        dtype=float,
+    )
+    elapsed_time = float(checkpoint.elapsed_time)
+    checkpoint_elapsed_time = elapsed_time
+    dt_next = float(checkpoint.dt_next)
+    previous_dt = float(checkpoint.previous_dt)
+    accepted_steps = int(checkpoint.accepted_steps)
+    rejected_attempts = int(checkpoint.rejected_attempts)
+    extension_accepted_steps = 0
+    extension_rejected_attempts = 0
+    first_step_replay_bitwise = not perform_first_step_replay_audit
+    first_step_replay_completed = False
+    step_rows: list[dict] = []
+    physical_ledgers: list[CausalFiveFieldPhysicalStepLedger] = []
+    actual_mass_increments: list[float] = []
+    expected_mass_increments: list[float] = []
+    all_step_gates_passed = True
+    terminal_message = "target reached"
+    target_tolerance = max(
+        1.0e-20,
+        5.0e-14 * elapsed_time_target,
+    )
+
+    while True:
+        remaining = elapsed_time_target - elapsed_time
+        if abs(remaining) <= target_tolerance:
+            break
+        if remaining <= 0.0:
+            terminal_message = "elapsed-time target overshot"
+            all_step_gates_passed = False
+            break
+        requested_dt = min(dt_next, remaining)
+        local_config = config
+        if requested_dt < config.minimum_dt:
+            local_config = replace(
+                config,
+                minimum_dt=requested_dt,
+            ).validated()
+        if (
+            perform_first_step_replay_audit
+            and not first_step_replay_completed
+        ):
+            first = advance_causal_five_field_adaptive_backward_euler(
+                context,
+                state_vector,
+                requested_dt,
+                previous_increment,
+                previous_dt,
+                local_config,
+            )
+            replay = advance_causal_five_field_adaptive_backward_euler(
+                context,
+                state_vector,
+                requested_dt,
+                previous_increment,
+                previous_dt,
+                local_config,
+            )
+            first_step_replay_bitwise = _adaptive_results_are_bitwise(
+                first,
+                replay,
+            )
+            first_step_replay_completed = True
+            result = first
+            if not first_step_replay_bitwise:
+                terminal_message = "first continuation step is not bitwise"
+                all_step_gates_passed = False
+                break
+        else:
+            result = advance_causal_five_field_adaptive_backward_euler(
+                context,
+                state_vector,
+                requested_dt,
+                previous_increment,
+                previous_dt,
+                local_config,
+            )
+
+        attempt_rejections = max(0, len(result.attempts) - 1)
+        extension_rejected_attempts += attempt_rejections
+        if not result.accepted:
+            terminal_message = result.message
+            all_step_gates_passed = False
+            step_rows.append(
+                {
+                    "accepted_step": None,
+                    "elapsed_time_seconds": elapsed_time,
+                    "requested_dt_seconds": requested_dt,
+                    "attempts": [
+                        asdict(attempt) for attempt in result.attempts
+                    ],
+                    "accepted": False,
+                    "message": result.message,
+                }
+            )
+            break
+
+        candidate_vector = np.asarray(
+            result.state_vector,
+            dtype=float,
+        )
+        candidate_audit, candidate_state_passed = (
+            _source_compatible_state_audit(
+                context,
+                candidate_vector,
+            )
+        )
+        step_gate_passed = bool(
+            result.step.maximum_scaled_residual
+            <= config.residual_tolerance
+            and result.step.maximum_scaled_algebraic_residual
+            <= config.algebraic_residual_tolerance
+            and result.step.maximum_scaled_primitive_change
+            <= config.maximum_scaled_primitive_change
+            and result.step.maximum_scaled_total_change
+            <= config.maximum_scaled_total_change
+            and result.step.conservation_telescoping_relative_defect
+            <= config.conservation_tolerance
+            and candidate_state_passed
+        )
+        row = _adaptive_step_row(
+            accepted_steps + 1,
+            elapsed_time + result.dt_used,
+            result,
+        )
+        row["state_audit"] = candidate_audit
+        row["step_gate_passed"] = step_gate_passed
+        step_rows.append(row)
+        if not step_gate_passed:
+            terminal_message = "accepted nonlinear state failed physical gate"
+            all_step_gates_passed = False
+            break
+
+        ledger = causal_five_field_physical_step_ledger(
+            context,
+            state_vector,
+            result.physical_increment,
+            result.dt_used,
+        )
+        candidate_summary = candidate_audit["state"]
+        physical_ledgers.append(ledger)
+        actual_mass_increments.append(
+            _integrated_rest_mass_increment(
+                context,
+                result.physical_increment,
+            )
+        )
+        expected_mass_increments.append(
+            result.dt_used
+            * (
+                source_rate
+                + candidate_summary["inner_face_rates"][0]
+                - candidate_summary["outer_face_rates"][0]
+            )
+        )
+        state_vector = candidate_vector
+        previous_increment = np.asarray(
+            result.physical_increment,
+            dtype=float,
+        )
+        previous_dt = float(result.dt_used)
+        dt_next = float(result.dt_next)
+        elapsed_time += result.dt_used
+        accepted_steps += 1
+        extension_accepted_steps += 1
+
+    target_reached = bool(
+        abs(elapsed_time - elapsed_time_target)
+        <= target_tolerance
+    )
+    final_audit, final_state_passed = _source_compatible_state_audit(
+        context,
+        state_vector,
+    )
+    final_rank = (
+        _source_compatible_consistency_rank_audit(
+            context,
+            state_vector,
+        )
+        if target_reached and all_step_gates_passed
+        else None
+    )
+    extension_elapsed_time = (
+        elapsed_time - checkpoint_elapsed_time
+    )
+    actual_mass_change = math.fsum(actual_mass_increments)
+    expected_mass_change = math.fsum(expected_mass_increments)
+    mass_budget_relative_defect = float(
+        abs(actual_mass_change - expected_mass_change)
+        / max(
+            abs(actual_mass_change),
+            abs(expected_mass_change),
+            source_rate * extension_elapsed_time,
+            1.0,
+        )
+    )
+    physical_ledger = _aggregate_physical_step_ledgers(
+        physical_ledgers
+    )
+    final_restart = CausalFiveFieldAdaptiveRestart(
+        state_vector=state_vector,
+        previous_physical_increment=previous_increment,
+        elapsed_time=elapsed_time,
+        dt_next=dt_next,
+        previous_dt=previous_dt,
+        accepted_steps=accepted_steps,
+        rejected_attempts=(
+            rejected_attempts + extension_rejected_attempts
+        ),
+        provenance={
+            "work_package": "WP10c5n",
+            "parent_work_package": "WP10c5m",
+            "n_cells": n_cells,
+            "role": "bounded_billionth_loading_time_duration",
+            "source": (
+                "exact circularized regression stream; not ballistic "
+                "Layer-1 calibration"
+            ),
+        },
+    )
+    final_path = (
+        DEFAULT_RESTART_DIRECTORY
+        / f"causal_wp10c5n_N{n_cells:03d}_final.npz"
+    )
+    save_causal_five_field_adaptive_restart(
+        final_path,
+        context,
+        final_restart,
+    )
+    restored_final = load_causal_five_field_adaptive_restart(
+        final_path,
+        context,
+    )
+    final_restart_roundtrip_bitwise = (
+        _restart_roundtrip_is_bitwise(
+            final_restart,
+            restored_final,
+        )
+    )
+    h_over_r_response = _h_over_r_response_summary(
+        context,
+        initial_vector,
+        state_vector,
+    )
+    extension_h_over_r_response = _h_over_r_response_summary(
+        context,
+        checkpoint.state_vector,
+        state_vector,
+    )
+    passed = bool(
+        target_reached
+        and all_step_gates_passed
+        and first_step_replay_bitwise
+        and final_state_passed
+        and final_rank is not None
+        and final_rank["passed"]
+        and mass_budget_relative_defect <= 1.0e-10
+        and physical_ledger["maximum_relative_balance_defect"]
+        <= 1.0e-10
+        and final_restart_roundtrip_bitwise
+    )
+    return {
+        "n_cells": n_cells,
+        "seed_parameters": seed_parameters,
+        "loading_time_seconds": loading_time,
+        "target_elapsed_time_seconds": elapsed_time_target,
+        "target_loading_time_fraction": (
+            elapsed_time_target / loading_time
+        ),
+        "checkpoint": {
+            "path": str(restart_path.relative_to(ROOT)),
+            "elapsed_time_seconds": checkpoint_elapsed_time,
+            "accepted_steps": checkpoint.accepted_steps,
+            "rejected_attempts": checkpoint.rejected_attempts,
+            "provenance": checkpoint.provenance,
+            "provenance_passed": checkpoint_provenance_passed,
+            "state_audit": checkpoint_audit,
+            "rank_audit": checkpoint_rank,
+            "passed": checkpoint_passed,
+        },
+        "extension": {
+            "elapsed_time_seconds": extension_elapsed_time,
+            "accepted_steps": extension_accepted_steps,
+            "rejected_attempts": extension_rejected_attempts,
+            "first_step_replay_bitwise": (
+                first_step_replay_bitwise
+            ),
+            "steps": step_rows,
+        },
+        "elapsed_time_seconds": elapsed_time,
+        "elapsed_loading_time_fraction": elapsed_time / loading_time,
+        "accepted_steps_total": accepted_steps,
+        "rejected_attempts_total": (
+            rejected_attempts + extension_rejected_attempts
+        ),
+        "source_rate_g_s": source_rate,
+        "final_state": final_audit["state"],
+        "final_state_audit": final_audit,
+        "final_rank_audit": final_rank,
+        "h_over_r_response": h_over_r_response,
+        "extension_h_over_r_response": (
+            extension_h_over_r_response
+        ),
+        "mass_budget": {
+            "scope": "WP10c5m checkpoint to WP10c5n endpoint",
+            "cancellation_safe_actual_change_g": (
+                actual_mass_change
+            ),
+            "expected_change_g": expected_mass_change,
+            "injected_mass_g": (
+                source_rate * extension_elapsed_time
+            ),
+            "relative_defect": mass_budget_relative_defect,
+        },
+        "physical_five_field_ledger": physical_ledger,
+        "restart": {
+            "final_path": str(final_path.relative_to(ROOT)),
+            "final_roundtrip_bitwise": (
+                final_restart_roundtrip_bitwise
+            ),
+        },
+        "acceptance_tolerances": {
+            "scaled_residual": config.residual_tolerance,
+            "scaled_algebraic_residual": (
+                config.algebraic_residual_tolerance
+            ),
+            "scaled_primitive_change": (
+                config.maximum_scaled_primitive_change
+            ),
+            "scaled_total_change": (
+                config.maximum_scaled_total_change
+            ),
+            "conservation_relative_defect": (
+                config.conservation_tolerance
+            ),
+            "aggregate_mass_relative_defect": 1.0e-10,
+            "aggregate_five_field_relative_defect": 1.0e-10,
+        },
+        "target_reached": target_reached,
+        "all_step_gates_passed": all_step_gates_passed,
+        "passed": passed,
+        "terminal_message": terminal_message,
+        "decision": (
+            "source_compatible_duration_resolution_passed"
+            if passed
+            else "source_compatible_duration_resolution_failed"
+        ),
+    }, passed
+
+
+def _source_compatible_duration_mesh_comparison(
+    n16: dict,
+    n32: dict,
+) -> dict:
+    def metrics(run: dict) -> dict:
+        source_rate = run["source_rate_g_s"]
+        extension = run["extension"]["elapsed_time_seconds"]
+        return {
+            "extension_mass_response_per_injected_mass": (
+                run["mass_budget"][
+                    "cancellation_safe_actual_change_g"
+                ]
+                / (source_rate * extension)
+            ),
+            "inner_mass_flux_over_supply": (
+                run["final_state"]["inner_face_rates"][0]
+                / source_rate
+            ),
+            "outer_mass_flux_over_supply": (
+                run["final_state"]["outer_face_rates"][0]
+                / source_rate
+            ),
+            "maximum_h_over_r": (
+                run["final_state"]["maximum_h_over_r"]
+            ),
+            "minimum_scattering_optical_depth": (
+                run["final_state_audit"][
+                    "minimum_scattering_optical_depth"
+                ]
+            ),
+        }
+
+    left = metrics(n16)
+    right = metrics(n32)
+    left_radius = np.asarray(
+        n16["h_over_r_response"]["sample_radius_rg"],
+        dtype=float,
+    )
+    right_radius = np.asarray(
+        n32["h_over_r_response"]["sample_radius_rg"],
+        dtype=float,
+    )
+    if not np.array_equal(left_radius, right_radius):
+        raise RuntimeError("duration responses do not share radii")
+    left_response = np.asarray(
+        n16["h_over_r_response"]["delta_log_h_over_r"],
+        dtype=float,
+    )
+    right_response = np.asarray(
+        n32["h_over_r_response"]["delta_log_h_over_r"],
+        dtype=float,
+    )
+    response_difference = left_response - right_response
+    exact_time_defect = abs(
+        n16["elapsed_time_seconds"] - n32["elapsed_time_seconds"]
+    )
+    differences = {
+        "extension_mass_response_per_injected_mass": abs(
+            left["extension_mass_response_per_injected_mass"]
+            - right["extension_mass_response_per_injected_mass"]
+        ),
+        "inner_mass_flux_over_supply": abs(
+            left["inner_mass_flux_over_supply"]
+            - right["inner_mass_flux_over_supply"]
+        ),
+        "outer_mass_flux_over_supply": abs(
+            left["outer_mass_flux_over_supply"]
+            - right["outer_mass_flux_over_supply"]
+        ),
+        "maximum_h_over_r_relative": abs(
+            left["maximum_h_over_r"] - right["maximum_h_over_r"]
+        )
+        / max(
+            abs(left["maximum_h_over_r"]),
+            abs(right["maximum_h_over_r"]),
+            np.finfo(float).tiny,
+        ),
+        "minimum_scattering_optical_depth_relative": abs(
+            left["minimum_scattering_optical_depth"]
+            - right["minimum_scattering_optical_depth"]
+        )
+        / max(
+            abs(left["minimum_scattering_optical_depth"]),
+            abs(right["minimum_scattering_optical_depth"]),
+            np.finfo(float).tiny,
+        ),
+        "maximum_delta_log_h_over_r_response_difference": float(
+            np.max(np.abs(response_difference))
+        ),
+        "rms_delta_log_h_over_r_response_difference": float(
+            np.sqrt(np.mean(response_difference**2))
+        ),
+        "exact_elapsed_time_defect_seconds": exact_time_defect,
+    }
+    gates = {
+        "extension_mass_response_per_injected_mass": 0.05,
+        "inner_mass_flux_over_supply": 0.05,
+        "outer_mass_flux_over_supply": 0.05,
+        "maximum_delta_log_h_over_r_response_difference": 5.0e-3,
+        "exact_elapsed_time_defect_seconds": max(
+            1.0e-20,
+            5.0e-14 * n16["elapsed_time_seconds"],
+        ),
+    }
+    passed = all(
+        differences[name] <= limit
+        for name, limit in gates.items()
+    )
+    return {
+        "n16": left,
+        "n32": right,
+        "absolute_or_relative_differences": differences,
+        "gates": gates,
+        "passed": passed,
+    }
+
+
+def _run_source_compatible_duration_audit(
+    args: argparse.Namespace,
+) -> None:
+    n16_initial, n16_bundle, n16_parameters = (
+        _source_compatible_initialization(16)
+    )
+    n16_loading_time = causal_five_field_loading_time(
+        n16_bundle[1]["context"],
+        np.asarray(n16_bundle[1]["old_vector"], dtype=float),
+    )
+    n16_target = 1.0e-9 * n16_loading_time
+    n16, n16_passed = (
+        _continue_source_compatible_duration_resolution(
+            16,
+            initialization=n16_bundle[0],
+            artifacts=n16_bundle[1],
+            seed_parameters=n16_parameters,
+            elapsed_time_target=n16_target,
+            perform_first_step_replay_audit=True,
+        )
+        if n16_initial["passed"]
+        else (
+            {
+                "n_cells": 16,
+                "passed": False,
+                "decision": "source_compatible_n16_setup_failed",
+            },
+            False,
+        )
+    )
+
+    n32_initial = None
+    n32 = None
+    n32_passed = False
+    mesh = None
+    if n16_passed:
+        n32_initial, n32_bundle, n32_parameters = (
+            _source_compatible_initialization(32)
+        )
+        if n32_initial["passed"]:
+            n32, n32_passed = (
+                _continue_source_compatible_duration_resolution(
+                    32,
+                    initialization=n32_bundle[0],
+                    artifacts=n32_bundle[1],
+                    seed_parameters=n32_parameters,
+                    elapsed_time_target=n16["elapsed_time_seconds"],
+                    perform_first_step_replay_audit=False,
+                )
+            )
+    if n32_passed:
+        mesh = _source_compatible_duration_mesh_comparison(
+            n16,
+            n32,
+        )
+    passed = bool(
+        n16_passed
+        and n32_initial is not None
+        and n32_initial["passed"]
+        and n32_passed
+        and mesh is not None
+        and mesh["passed"]
+    )
+    output = {
+        "work_package": "WP10c5n",
+        "scope": (
+            "bounded source-compatible no-tide duration extension from "
+            "the certified WP10c5m restarts"
+        ),
+        "n16_initial_datum": n16_initial,
+        "n16_duration": n16,
+        "n32_initial_datum": n32_initial,
+        "n32_duration": n32,
+        "mesh_comparison": mesh,
+        "gates": {
+            "n16_billionth_loading_time_passed": n16_passed,
+            "n32_attempted": n32 is not None,
+            "n32_exact_time_passed": n32_passed,
+            "mesh_gate_passed": (
+                mesh["passed"] if mesh is not None else False
+            ),
+            "bounded_duration_extension_certified": passed,
+            "further_no_tide_duration_extension_authorized": passed,
+            "long_evolution_certified": False,
+            "stability_certified": False,
+            "hot_state_certified": False,
+            "limit_cycle_certified": False,
+            "tide_authorized": False,
+            "wind_authorized": False,
+        },
+        "decision": (
+            "source_compatible_billionth_loading_time_mesh_gate_passed"
+            if passed
+            else "stop_at_bounded_duration_gate"
+        ),
+    }
+    output_path = _absolute(
+        DEFAULT_SOURCE_COMPATIBLE_DURATION_OUTPUT
         if args.output == DEFAULT_OUTPUT
         else args.output
     )
@@ -4770,6 +5698,9 @@ def _run_increment_primary_audit(
 
 def main() -> None:
     args = _arguments()
+    if args.increment_primary_source_compatible_duration_audit:
+        _run_source_compatible_duration_audit(args)
+        return
     if args.increment_primary_source_compatible_startup_audit:
         _run_source_compatible_startup_audit(args)
         return

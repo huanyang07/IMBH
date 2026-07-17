@@ -81,6 +81,7 @@ This is the canonical project handoff. Status labels mean:
 | Repeated causal source-on startup WP10c5k | **SUPPORTED BUT NOT FULLY CERTIFIED** for short no-tide startup; **DIAGNOSTIC ONLY** physically | N16/N32 reach exact `3.39278e-7 s`; no rejected steps; mass defects `6.32e-13/8.14e-12`; bitwise restart; common-radius `Delta ln(H/R)` mesh difference `2.05e-3` | Only about `2e-13 t_load`; arbitrary seed relaxation has inner flux about `9.2e4` times supply; long evolution, tide, wind, stability, hot state, and cycle remain blocked |
 | Matched causal source control WP10c5l | **CERTIFIED** for differential source isolation; **DIAGNOSTIC ONLY** physically | Lockstep N16/N32 exact-time controls recover the four prescribed stream moments to `3.25e-6/1.08e-6`; isolated mass and `H/R` response mesh defects are at most `1.38e-9/1.03e-9` | Regression stream and only `1.73e-7 s`; the stress field has no direct stream moment; no physical relaxation is established |
 | Source-compatible causal startup WP10c5m | **SUPPORTED BUT NOT FULLY CERTIFIED** for bounded no-tide startup; **DIAGNOSTIC ONLY** physically | Exact unit inner throughput, `H/R=0.1`, `tau=18.5`, zero inner incoming modes, closed Roche edge, and full rank; equal-time N16/N32 startup reaches `5.542e-5 s` with mass defects `6.59e-13/1.57e-11` and response mismatch `1.00e-3` | Constructed datum, circularized source, and only about `1e-10 t_load`; duration, stability, tide, wind, hot-state, and cycle claims remain blocked |
+| Bounded causal duration WP10c5n | **CERTIFIED** as a bounded negative mesh result; **DIAGNOSTIC ONLY** physically | N16/N32 separately pass at exact `6.78172e-4 s` with full rank, no retries, closed Roche flow, `tau>18.67`, and mass/five-field defects `<4.5e-12` | Thickness-response mesh mismatch is `1.2557e-2 > 5e-3`; independently tuned moving-cell initial profiles confound continuum interpretation; no further duration or physics is authorized |
 
 ## Frozen Target Under Review
 
@@ -446,6 +447,16 @@ N                    = 164
     aggregate mass defects remain below `1.57e-11`. This authorizes one
     bounded geometric duration extension, not a hot, stable, or cyclic
     physical interpretation.
+56. WP10c5n reaches the exact shared time `6.781724319e-4 s` at N16 and N32.
+    Each resolution retains zero inner incoming modes, two closed-edge outer
+    responses, scattering depth above `18.67`, full descriptor and
+    consistency rank, no rejected steps, and aggregate mass/five-field
+    defects below `4.5e-12`. The global fluxes agree, but the
+    baseline-subtracted N16/N32 `Delta ln(H/R)` response differs by
+    `1.2557e-2`, above the fixed `5e-3` gate, broadly around `12-16 rg`.
+    Further evolution stops. The current initializer also tunes temperature
+    at each moving first cell center, so one fixed physical continuum datum
+    must be tested before the mismatch is called spatial nonconvergence.
 
 ## Claims That Are Not Allowed Yet
 
@@ -500,15 +511,17 @@ N                    = 164
    frozen linear-precision audit, the WP10c5g component audit, and the
    WP10c5h increment-primary startup, WP10c5i exact-stream startup, WP10c5j
    sparse parity backend, WP10c5k repeated startup, WP10c5l matched source
-   control, and WP10c5m source-compatible startup as complete. The old PW
-   plunge has superluminal transverse rotation and must not be mapped into the
-   new variables. Continue only the selected one-domain ingoing-Kerr-Schild
-   Valencia path. Restart N16 from WP10c5m and extend geometrically to about
-   `1e-9 t_load` under the unchanged `1e-10` nonlinear and aggregate
-   conservation gates. Stop at the first failed physical or numerical gate.
-   Only after N16 passes may N32 be evolved to exactly the same physical time.
-   Do not launch N64/N96, distributed tide, wind, stability, or a hot/cycle
-   search in this duration package.
+   control, WP10c5m source-compatible startup, and the WP10c5n bounded
+   duration stop as complete. The old PW plunge has superluminal transverse
+   rotation and must not be mapped into the new variables. Continue only the
+   selected one-domain ingoing-Kerr-Schild Valencia path. Define one
+   mesh-common analytic primitive datum with fixed physical radial anchors
+   and one shared inner thermodynamic state; do not retune a moving first-cell
+   temperature by resolution. Preserve order-unity throughput, zero inner
+   incoming modes, optical thickness, a closed Roche edge, exact scaled maps,
+   and full rank. Repeat only the short N16/N32 WP10c5m gate first, and repeat
+   WP10c5n only if that common-data gate passes. Do not launch N64/N96, longer
+   duration, distributed tide, wind, stability, or a hot/cycle search.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -551,6 +564,7 @@ N                    = 164
 - Increment-primary startup audit: `reports/current/CODEX_CAUSAL_FIVE_FIELD_INCREMENT_PRIMARY_WP10C5H_RESULTS_2026-07-17.md`
 - Exact-stream sparse repeated startup: `reports/current/CODEX_CAUSAL_SOURCE_ON_SPARSE_REPEATED_STARTUP_WP10C5I_K_RESULTS_2026-07-18.md`
 - Matched source and source-compatible startup: `reports/current/CODEX_CAUSAL_MATCHED_SOURCE_AND_COMPATIBLE_STARTUP_WP10C5L_M_RESULTS_2026-07-18.md`
+- Bounded source-compatible duration: `reports/current/CODEX_CAUSAL_BOUNDED_DURATION_WP10C5N_RESULTS_2026-07-18.md`
 - Fully coupled rank prototype: `reports/current/CODEX_COUPLED_INNER_OUTER_RANK_PROTOTYPE_RESULTS_2026-07-11.md`
 - Coupled mesh/interface certification: `reports/current/CODEX_COUPLED_MESH_INTERFACE_CERTIFICATION_RESULTS_2026-07-11.md`
 - Coupled wall pattern-power gate: `reports/current/CODEX_COUPLED_WALL_PATTERN_POWER_RESULTS_2026-07-11.md`
