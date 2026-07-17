@@ -64,6 +64,7 @@ This is the canonical project handoff. Status labels mean:
 | Causal inner thermodynamics WP10a | **SUPPORTED BUT NOT FULLY CERTIFIED** for diagnostic thermodynamics; **REJECTED** as a standalone production boundary | Relativistic enthalpy derivative keeps all audited sound speeds subluminal and approaches `c/sqrt(3)`; radial-only SR characteristics reach zero incoming modes at `2.0001 rg` | The PW profile has `v_phi>c` by `3 rg` and no subluminal full-state excision; its stationary equations and global flux remain Newtonian |
 | Horizon-penetrating Valencia core WP10b | **SUPPORTED BUT NOT FULLY CERTIFIED** as an architecture; **DIAGNOSTIC ONLY** physically | Ingoing-Kerr-Schild flux includes transverse rotation; analytic/numerical eigenvalues agree to `9.71e-11`; stationary rank changes `4 -> 3` at one acoustic critical mode; all 342 sampled inside-horizon states have zero incoming modes | Local ideal-gas column prototype only; gas+radiation recovery, geometric sources, stress, radiation, stream/Roche migration, and stationary roots are pending |
 | Valencia gas+radiation primitive recovery WP10c1 | **SUPPORTED BUT NOT FULLY CERTIFIED** for the local map; **DIAGNOSTIC ONLY** physically | Nine rotating gas-to-radiation states give primitive/conserved defects `7.42e-11/6.46e-15`, characteristic defect `1.94e-8`, causal sound speed, and zero inside-horizon incoming modes | Fixed-height EOS chart only; geometric sources, vertical closure, stress, radiation, stream/Roche migration, stationary roots, and evolution remain pending |
+| Kerr-Schild geometric finite volume WP10c2 | **SUPPORTED BUT NOT FULLY CERTIFIED** for source-free geometry; **DIAGNOSTIC ONLY** physically | Direct/3+1 source identities close below `4.85e-15`; flat pressure balance closes at `9.54e-16`; horizon-crossing free fall converges at order `1.997-2.000` with mass/Killing-energy flux spreads below `1.9e-15` | Equatorial `2+1` fixed-height column only; stress, radiation, dynamic vertical closure, stream/Roche migration, stationary roots, and evolution remain pending |
 
 ## Frozen Target Under Review
 
@@ -352,6 +353,13 @@ N                    = 164
     `1.94e-8`; all three inside-horizon states have zero incoming modes. The
     fixed height is only a thermodynamic chart. It does not select vertical
     equilibrium or authorize a stationary/evolution run.
+46. WP10c2 selects the stationary Killing-energy chart
+    `E_K=alpha(tau+D)-beta^R S_R`, exact proper column measures, and the
+    covariant radial geometric source. Twelve gas/radiation identity states
+    close below `4.85e-15`; flat cylindrical pressure closes at `9.54e-16`;
+    and radial dust free fall through the horizon converges at second order
+    while preserving mass and Killing-energy fluxes below `1.9e-15`. This is
+    a source-free `2+1` column result, not a stationary disk.
 
 ## Claims That Are Not Allowed Yet
 
@@ -398,11 +406,12 @@ N                    = 164
    solver audit as complete. Keep the serial sparse-forward production
    backend and its new work telemetry; do not start a third optimization
    architecture.
-8. Treat WP9, WP10a, WP10b, and the WP10c1 primitive map as complete. The old
+8. Treat WP9, WP10a, WP10b, WP10c1, and the source-free WP10c2 geometry as
+   complete. The old
    PW plunge has superluminal transverse rotation and must not be mapped into
    the new variables. Continue only the selected one-domain ingoing-Kerr-
-   Schild Valencia path. Next implement covariant geometric finite-volume
-   sources, then the common stress and thermal ledger. Migrate stream and
+   Schild Valencia path. Next implement the common stress and paired
+   torque-work ledger, then radiation and vertical work. Migrate stream and
    Hill/Roche contracts only after those local gates pass. Do not add another
    inner/outer splice.
 9. Continue one physical distributed tide only after the global no-tide
@@ -463,3 +472,4 @@ N                    = 164
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
 - Horizon-penetrating Valencia core WP10b: `reports/current/CODEX_HORIZON_PENETRATING_VALENCIA_WP10B_RESULTS_2026-07-17.md`
 - Valencia gas+radiation primitive recovery WP10c1: `reports/current/CODEX_VALENCIA_GAS_RADIATION_PRIMITIVE_RECOVERY_WP10C1_RESULTS_2026-07-17.md`
+- Kerr-Schild geometric finite volume WP10c2: `reports/current/CODEX_KERR_SCHILD_GEOMETRIC_FINITE_VOLUME_WP10C2_RESULTS_2026-07-17.md`

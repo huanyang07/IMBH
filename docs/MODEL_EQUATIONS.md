@@ -647,6 +647,87 @@ maximum primitive, conserved, and analytic/numerical characteristic defects
 are respectively `7.42e-11`, `6.46e-15`, and `1.94e-8`. All audited
 inside-horizon states retain zero incoming modes.
 
+#### Kerr-Schild geometric finite volume
+
+ADR 0019 selects an equatorial `2+1` source-free column in spacetime
+coordinates `(ct,R,phi)`. With `H=2rg/R`, the nonzero metric terms are
+
+```text
+g_tt     = H - 1
+g_tR     = H
+g_RR     = 1 + H
+g_phiphi = R^2.
+```
+
+The exact proper column face measure is
+
+```text
+A(R) = 2 pi R sqrt(1+2rg/R).
+```
+
+Cell measures use differences of
+
+```text
+V(R) = pi [
+    (R+rg) sqrt(R(R+2rg))
+    - rg^2 arcosh((R+rg)/rg)
+].
+```
+
+The local primitive map remains in `(D,S_R,S_phi,tau)`, but the stationary
+finite-volume chart uses
+
+```text
+U_K = (D,S_R,S_phi,E_K),
+E_K = alpha(tau+D) - beta^R S_R.
+```
+
+Its inverse is
+
+```text
+tau = (E_K + beta^R S_R)/alpha - D.
+```
+
+The radial Killing-energy flux divided by `c` is
+
+```text
+F_EK/c = alpha(F_tau/c + F_D/c) - beta^R F_SR/c.
+```
+
+For the stationary axisymmetric metric,
+
+```text
+d[A F_K/c]/dR = A S_K,
+```
+
+with
+
+```text
+S_K = (
+    0,
+    alpha T^munu d_R g_munu/2,
+    0,
+    0
+).
+```
+
+Mass, covariant angular momentum, and Killing energy therefore telescope
+without geometric sources. The radial momentum source is independently
+checked against the equivalent `3+1` lapse, shift, and spatial-metric form.
+The local `tau` source is also checked both from extrinsic curvature and from
+the differentiated Killing transform.
+
+The vertical direction is already integrated into the column primitives.
+The `2+1` radial source retains cylindrical azimuthal curvature but does not
+add a separate `theta` source. This avoids double counting vertical geometry
+before WP10c3 declares the relativistic vertical-work contract.
+
+The WP10c2 source identities close below `4.85e-15`. Flat cylindrical
+constant pressure balances at `9.54e-16`; circular dust orbits have zero
+radial source; and marginally bound radial dust free fall from `20` through
+`1.5 rg` converges at second order while preserving mass and Killing-energy
+fluxes below `1.9e-15`.
+
 At `335 rg` the current outer flow is subsonic and requires one incoming
 acoustic condition. Layer 1 does not provide an exterior thermodynamic
 invariant there. ADR 0014 therefore selects an adiabatic Hill/Roche overflow
