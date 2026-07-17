@@ -473,7 +473,123 @@ relativistic conservative system, and the prototype omits relativistic
 transverse-rotation and spacetime lapse/shift effects. The first zero-incoming
 point on the WP9 low-rate profile occurs only at `2.0001 rg`, too close to the
 Paczynski-Wiita singularity to adopt as a production excision without that
-complete system.
+complete system. The old profile also has `v_phi/c=1.71` by `3 rg` and
+`357` at the radial-only crossing, so it supplies no subluminal full-state
+candidate there.
+
+#### Horizon-penetrating Valencia core
+
+ADR 0017 selects an ingoing-Kerr-Schild Schwarzschild Valencia column system
+for the next one-domain architecture. With
+
+```text
+H = 2 rg/R,
+```
+
+the equatorial 3+1 metric is
+
+```text
+alpha        = (1+H)^(-1/2)
+beta^R       = H/(1+H)
+gamma_RR     = 1+H
+gamma_phiphi = R^2.
+```
+
+The coordinate radial light speeds are
+
+```text
+lambda_light,- = -1
+lambda_light,+ = (1-H)/(1+H).
+```
+
+The outgoing cone is tangent to the horizon at `2 rg` and points toward
+decreasing radius inside it.
+
+For Eulerian velocity `v^i`, Lorentz factor
+
+```text
+W = (1-gamma_ij v^i v^j)^(-1/2),
+```
+
+and dimensionless column enthalpy
+
+```text
+h = 1 + (e + Pi/Sigma)/c^2,
+```
+
+the mass-equivalent conserved variables are
+
+```text
+D     = Sigma W
+S_i   = Sigma h W^2 v_i
+tau   = Sigma h W^2 - Pi/c^2 - D.
+```
+
+Momentum is divided by `c`, energy by `c^2`, and the covariant azimuthal
+component `S_phi` is the angular-momentum density divided by `c`. Define
+
+```text
+q^R = alpha v^R - beta^R.
+```
+
+The radial coordinate flux divided by `c` is
+
+```text
+F_D     = D q^R
+F_SR    = S_R q^R + alpha Pi/c^2
+F_Sphi  = S_phi q^R
+F_tau   = tau q^R + alpha (Pi/c^2) v^R.
+```
+
+The proper vertically integrated radial Jacobian is
+
+```text
+J_column = 2 pi R sqrt(gamma_RR).
+```
+
+For dimensionless sound speed `a` and
+
+```text
+v^2 = gamma_ij v^i v^j,
+```
+
+the two advected radial speeds are
+
+```text
+lambda_0 = alpha v^R - beta^R,
+```
+
+and the acoustic speeds are
+
+```text
+lambda_+/- = alpha/(1-v^2 a^2) [
+    v^R(1-a^2)
+    +/- a sqrt((1-v^2) [
+        gamma^RR(1-v^2 a^2) - (v^R)^2(1-a^2)
+    ])
+] - beta^R.
+```
+
+This expression includes transverse rotation. The WP10b analytic speeds
+match the numerical conservative-flux Jacobian below `9.8e-11`. Inside the
+horizon every sampled physical fluid characteristic is negative.
+
+The flux-primary DAE count is
+
+```text
+conserved cells + primitive cells + all face fluxes
+= 4N + 4N + 4(N+1)
+= 12N + 4 unknowns and rows.
+```
+
+The inner edge has four one-sided flux-definition rows and zero exterior
+physical boundary rows. A stationary state is a root of this same
+finite-volume operator. At an acoustic critical point its stationary flux
+matrix loses one rank; no separately defined PW sonic condition is added.
+
+The current implementation is a local flux/rank prototype. Gas+radiation
+primitive recovery, geometric sources, stress, cooling, stream injection, and
+the Hill/Roche provider have not yet been migrated.
 
 At `335 rg` the current outer flow is subsonic and requires one incoming
 acoustic condition. Layer 1 does not provide an exterior thermodynamic

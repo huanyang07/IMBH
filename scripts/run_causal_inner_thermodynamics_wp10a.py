@@ -51,6 +51,13 @@ def main() -> None:
             {
                 "radius_rg": float(old["radius_rg"]),
                 "radial_speed_over_c": float(old["radial_speed_over_c"]),
+                "azimuthal_speed_over_c": float(
+                    old["azimuthal_speed_over_c"]
+                ),
+                "total_speed_over_c": float(old["total_speed_over_c"]),
+                "full_velocity_subluminal": bool(
+                    old["subluminal_total_speed"]
+                ),
                 "newtonian_sound_speed_over_c": float(
                     old["sound_speed_over_c"]
                 ),
@@ -65,18 +72,26 @@ def main() -> None:
         )
 
     causal_rows = [row for row in rows if row["causally_outgoing"]]
+    full_state_rows = [
+        row
+        for row in causal_rows
+        if row["full_velocity_subluminal"]
+    ]
+    all_sound_speeds_subluminal = all(
+        row["relativistic_sound_speed_over_c"] < 1.0 for row in rows
+    )
     output = {
         "derivative": (
             "a2 = c2 (dP/drho)_s / (c2 + e + P/rho)"
         ),
         "rows": rows,
-        "all_sound_speeds_subluminal": all(
-            row["relativistic_sound_speed_over_c"] < 1.0 for row in rows
-        ),
+        "all_sound_speeds_subluminal": all_sound_speeds_subluminal,
         "first_audited_causally_outgoing_radius_rg": (
             None if not causal_rows else causal_rows[0]["radius_rg"]
         ),
-        "thermodynamic_prototype_passed": bool(causal_rows),
+        "thermodynamic_prototype_passed": all_sound_speeds_subluminal,
+        "radial_characteristic_prototype_passed": bool(causal_rows),
+        "full_state_excision_candidate_exists": bool(full_state_rows),
         "production_ready": False,
         "blocking_reason": (
             "the global conservative flux and stationary plunge do not yet "

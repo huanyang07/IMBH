@@ -61,7 +61,8 @@ This is the canonical project handoff. Status labels mean:
 | Characteristic-response efficiency WP7 | **CERTIFIED** for local equivalence; **REJECTED** as an initializer unlock | Exact trace caching cuts one-Jacobian pressure roots `260 -> 5`, accelerates characteristic work `23.8x`, and reproduces the 20-evaluation trajectory exactly; 378 tests plus 4 subtests pass | Cached N64 coarse retry still ends at residual `9.83e-7 > 1e-8`; source-on, N96, tide, and wind were not launched |
 | Fresh low-mass global startup WP8 | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **REJECTED** as a production initializer | Constant-`Pi` N64/N96 states close radial balance below `3.3e-13`; predicted N64 first step takes 5 evaluations; all matched N64/N96 equations and ledgers pass at exact common time | N64 retains one incoming inner mode but N96 reverses to weak outflow and requires three; the fixed one-mode boundary is not mesh invariant |
 | Fresh-loading inner-boundary architecture WP9 | **CERTIFIED** as a stop decision; **REJECTED** for production evolution | Exact counts completed; the low-rate branch retains one incoming acoustic mode from `4.5` through `2.0001 rg`; the prior quasi-steady hybrid fails its refined repeated-step gate | Neither current candidate supplies a mesh-invariant causal low-throughput boundary; inner causal physics must be repaired before evolution |
-| Causal inner thermodynamics WP10a | **SUPPORTED BUT NOT FULLY CERTIFIED** for diagnostic thermodynamics; **REJECTED** as a standalone production boundary | Relativistic enthalpy derivative keeps all audited sound speeds subluminal and approaches `c/sqrt(3)`; local SR characteristics reach zero incoming modes at `2.0001 rg` | The stationary plunge and global conservative flux are still Newtonian and do not share these characteristics; the crossing is too close to the PW singularity for production use |
+| Causal inner thermodynamics WP10a | **SUPPORTED BUT NOT FULLY CERTIFIED** for diagnostic thermodynamics; **REJECTED** as a standalone production boundary | Relativistic enthalpy derivative keeps all audited sound speeds subluminal and approaches `c/sqrt(3)`; radial-only SR characteristics reach zero incoming modes at `2.0001 rg` | The PW profile has `v_phi>c` by `3 rg` and no subluminal full-state excision; its stationary equations and global flux remain Newtonian |
+| Horizon-penetrating Valencia core WP10b | **SUPPORTED BUT NOT FULLY CERTIFIED** as an architecture; **DIAGNOSTIC ONLY** physically | Ingoing-Kerr-Schild flux includes transverse rotation; analytic/numerical eigenvalues agree to `9.71e-11`; stationary rank changes `4 -> 3` at one acoustic critical mode; all 342 sampled inside-horizon states have zero incoming modes | Local ideal-gas column prototype only; gas+radiation recovery, geometric sources, stress, radiation, stream/Roche migration, and stationary roots are pending |
 
 ## Frozen Target Under Review
 
@@ -330,10 +331,19 @@ N                    = 164
     with the relativistic enthalpy derivative
     `a^2=c^2(dP/d rho)_s/(c^2+e+P/rho)`. The low-rate audit remains subsonic
     from `4.5` through `2.001 rg` and first reaches zero incoming modes at
-    `2.0001 rg`, where `v_R/c=-0.8615` and `a/c=0.57735`. This repairs the
-    local EOS causality defect without a cap, but it does not repair the mixed
-    equation architecture. A complete conservative causal inner system is
-    required before another trajectory.
+    `2.0001 rg`, where `v_R/c=-0.8615` and `a/c=0.57735`. The old PW
+    azimuthal speed exceeds `c` by `3 rg` and reaches `357c` at that radial
+    crossing. This repairs the local EOS causality defect without a cap, but
+    it confirms that a complete conservative causal system is required before
+    another trajectory.
+44. WP10b selects one ingoing-Kerr-Schild Schwarzschild Valencia column
+    system from an inner excision inside `2 rg` to the Hill/Roche edge. Its
+    rotating analytic characteristics match the numerical conservative-flux
+    Jacobian to `9.71e-11`; the stationary matrix loses exactly one rank when
+    one acoustic speed vanishes. At `1.9` and `1.5 rg`, all 342 sampled
+    physical states have zero incoming inner modes. The exact flux-primary
+    count is `12N+4` unknowns and rows with zero physical inner boundary rows.
+    This locks the architecture, not a production disk solution.
 
 ## Claims That Are Not Allowed Yet
 
@@ -380,16 +390,13 @@ N                    = 164
    solver audit as complete. Keep the serial sparse-forward production
    backend and its new work telemetry; do not start a third optimization
    architecture.
-8. Treat the remnant, characteristic-response, fresh low-mass startup, WP9
-   architecture gate, and WP10a thermodynamic prototype as complete. The
-   relativistic enthalpy derivative repairs local EOS causality without a
-   cap, but zero incoming modes appear only at `2.0001 rg` on a stationary
-   profile and global flux that remain Newtonian. Do not substitute this
-   derivative into the old flux, move the edge closer to the singularity, add
-   sign clipping, or reopen hybrid interface conditioning. The next work
-   package must derive one conservative causal inner system whose stationary
-   critical condition, time-dependent characteristics, gravity, and excision
-   are mutually consistent before another trajectory.
+8. Treat WP9, WP10a, and the WP10b architecture selection as complete. The old
+   PW plunge has superluminal transverse rotation and must not be mapped into
+   the new variables. Continue only the selected one-domain ingoing-Kerr-
+   Schild Valencia path. Next implement gas+radiation column primitive
+   recovery, then covariant geometric finite-volume sources, then the common
+   stress and thermal ledger. Migrate stream and Hill/Roche contracts only
+   after those local gates pass. Do not add another inner/outer splice.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -446,3 +453,4 @@ N                    = 164
 - Fresh low-mass global startup WP8: `reports/current/CODEX_GLOBAL_FRESH_LOW_MASS_STARTUP_WP8_RESULTS_2026-07-17.md`
 - Fresh-loading inner-boundary architecture WP9: `reports/current/CODEX_GLOBAL_INNER_BOUNDARY_ARCHITECTURE_WP9_RESULTS_2026-07-17.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
+- Horizon-penetrating Valencia core WP10b: `reports/current/CODEX_HORIZON_PENETRATING_VALENCIA_WP10B_RESULTS_2026-07-17.md`

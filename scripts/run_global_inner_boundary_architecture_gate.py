@@ -130,23 +130,32 @@ def _causal_excision_rows(profile, params) -> list[dict]:
             maximum_log_step=1.0e-3,
         )
         radial_speed_over_c = float(-plunge.u[0] / C)
+        azimuthal_speed_over_c = float(
+            radius_rg * params.r_g * plunge.Omega[0] / C
+        )
+        total_speed_over_c = float(
+            np.hypot(radial_speed_over_c, azimuthal_speed_over_c)
+        )
         sound_speed_over_c = float(plunge.effective_sound_speed[0] / C)
         incoming = int(plunge.incoming_characteristics[0])
         rows.append(
             {
                 "radius_rg": radius_rg,
                 "radial_speed_over_c": radial_speed_over_c,
+                "azimuthal_speed_over_c": azimuthal_speed_over_c,
+                "total_speed_over_c": total_speed_over_c,
                 "sound_speed_over_c": sound_speed_over_c,
                 "euler_acoustic_mach": float(plunge.radial_mach_number[0]),
                 "density": float(plunge.rho[0]),
                 "temperature": float(plunge.T[0]),
                 "incoming_characteristics": incoming,
                 "subluminal_radial_speed": abs(radial_speed_over_c) < 1.0,
+                "subluminal_total_speed": total_speed_over_c < 1.0,
                 "subluminal_sound_speed": sound_speed_over_c < 1.0,
                 "zero_incoming_characteristics": incoming == 0,
                 "causal_excision_gate": bool(
                     incoming == 0
-                    and abs(radial_speed_over_c) < 1.0
+                    and total_speed_over_c < 1.0
                     and sound_speed_over_c < 1.0
                 ),
             }

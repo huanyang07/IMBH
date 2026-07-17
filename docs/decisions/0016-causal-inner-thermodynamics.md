@@ -50,13 +50,18 @@ lambda_plus  = (v_R+a) / (1+v_R a/c^2).
 
 The low-rate WP9 profile has subluminal causal sound speeds at every audited
 radius. It retains one incoming acoustic mode from `4.5` through `2.001 rg`.
-The first audited zero-incoming point is `2.0001 rg`, where
+The radial-only prototype first reaches zero incoming modes at `2.0001 rg`,
+where
 
 ```text
 v_R/c = -0.86150
 a/c   =  0.57735
 v_R/a = -1.49217.
 ```
+
+The same PW profile has `v_phi/c=0.848` at `4.5 rg`, exceeds `c` by
+`3 rg`, and reaches `357` at `2.0001 rg`. It therefore contains no
+full-state relativistic excision candidate.
 
 ## Decision
 
@@ -67,7 +72,7 @@ v_R/a = -1.49217.
 3. Do not interpret the `2.0001 rg` crossing as a production excision. It is
    extremely close to the pseudo-potential singularity, and the stationary
    profile and global conservative flux are not the relativistic system used
-   by the characteristic audit.
+   by the characteristic audit. Its transverse velocity is also superluminal.
 4. The prototype does not include relativistic transverse-rotation effects or
    a spacetime lapse and shift. Those belong to the complete inner system.
 5. Keep fresh-loading evolution, tide, and wind blocked.

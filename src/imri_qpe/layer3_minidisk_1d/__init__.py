@@ -14,6 +14,17 @@ from .causal_inner import (
     gas_radiation_relativistic_sound_speed_squared,
     special_relativistic_radial_characteristic_speeds,
 )
+from .causal_inner_valencia import (
+    SchwarzschildKerrSchildGeometry,
+    ValenciaCharacteristicAudit,
+    ValenciaColumnState,
+    ValenciaFluxPrimaryCount,
+    audit_ideal_gas_valencia_eigensystem,
+    schwarzschild_kerr_schild_geometry,
+    valencia_column_state,
+    valencia_flux_primary_count,
+    valencia_radial_characteristic_speeds_over_c,
+)
 from .diffusion_solver import (
     DiffusionStepResult,
     explicit_diffusion_step,
@@ -816,6 +827,15 @@ __all__ = [
     "audit_causal_inner_characteristics",
     "special_relativistic_radial_characteristic_speeds",
     "CausalInnerCharacteristicAudit",
+    "SchwarzschildKerrSchildGeometry",
+    "ValenciaCharacteristicAudit",
+    "ValenciaColumnState",
+    "ValenciaFluxPrimaryCount",
+    "audit_ideal_gas_valencia_eigensystem",
+    "schwarzschild_kerr_schild_geometry",
+    "valencia_column_state",
+    "valencia_flux_primary_count",
+    "valencia_radial_characteristic_speeds_over_c",
     "global_temporal_vertical_work_cells",
     "global_vertical_work_rate_cells",
     "fiducial_hill_roche_nozzle_geometry",

@@ -15,7 +15,9 @@ The causal thermodynamic prototype passes: all audited sound speeds are below
 `c`, and the radiation-dominated values approach `c/sqrt(3)`. The result does
 not yet unlock production evolution. The first audited zero-incoming point is
 only at `2.0001 rg`, while the stationary plunge and global conservative flux
-still use the older Newtonian system.
+still use the older Newtonian system. More decisively, the old PW profile's
+azimuthal speed exceeds `c` by `3 rg`, so the radial-only crossing is not a
+physical full-state excision.
 
 ## Thermodynamic Derivative
 
@@ -51,19 +53,20 @@ frame:
 (v_R-a)/(1-v_R a/c^2), v_R, v_R, (v_R+a)/(1+v_R a/c^2).
 ```
 
-| Radius (`rg`) | `v_R/c` | Newtonian `c_s/c` | Causal `a/c` | `v_R/a` | Incoming modes |
+| Radius (`rg`) | `v_R/c` | `v_phi/c` | Newtonian `c_s/c` | Causal `a/c` | Incoming modes |
 |---:|---:|---:|---:|---:|---:|
-| 4.5 | `-8.5359e-6` | `4.9459e-3` | `4.9457e-3` | `-1.7259e-3` | 1 |
-| 3.0 | `-3.4763e-4` | `1.2242e-1` | `1.1976e-1` | `-2.9028e-3` | 1 |
-| 2.1 | `-1.2450e-2` | `2.9510` | `0.56661` | `-2.1973e-2` | 1 |
-| 2.01 | `-7.0869e-2` | `14.941` | `0.57692` | `-0.12284` | 1 |
-| 2.001 | `-0.26276` | `51.890` | `0.57731` | `-0.45513` | 1 |
-| 2.0001 | `-0.86150` | `164.93` | `0.57735` | `-1.49217` | 0 |
+| 4.5 | `-8.5359e-6` | `0.8484` | `4.9459e-3` | `4.9457e-3` | 1 |
+| 3.0 | `-3.4763e-4` | `1.7096` | `1.2242e-1` | `1.1976e-1` | 1 |
+| 2.1 | `-1.2450e-2` | `9.6183` | `2.9510` | `0.56661` | 1 |
+| 2.01 | `-7.0869e-2` | `37.266` | `14.941` | `0.57692` | 1 |
+| 2.001 | `-0.26276` | `117.12` | `51.890` | `0.57731` | 1 |
+| 2.0001 | `-0.86150` | `357.06` | `164.93` | `0.57735` | 0 |
 
 The Newtonian sound speed diverges near the pseudo-potential singularity. The
 causal derivative instead saturates at the radiation limit. The accepted WP9
-stationary trajectory becomes locally acoustic-supersonic only in the final
-audited interval.
+stationary trajectory becomes radially acoustic-supersonic only in the final
+audited interval, after its transverse velocity has already become
+nonphysical.
 
 ## What This Does And Does Not Establish
 
