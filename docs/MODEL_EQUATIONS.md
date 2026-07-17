@@ -430,6 +430,51 @@ first cell. It supplies no exterior invariant and applies no characteristic
 projection. The incoming-mode count remains an acceptance diagnostic during
 every evolution run.
 
+#### Causal inner thermodynamic prototype
+
+The Newtonian gas+radiation acoustic derivative is
+
+```text
+c_s,N^2 = (dP/d rho)_s.
+```
+
+For total energy density including rest mass,
+
+```text
+epsilon_total = rho (c^2 + e),
+```
+
+the first law along an adiabat gives
+
+```text
+d epsilon_total/d rho = c^2 + e + P/rho.
+```
+
+The local relativistic acoustic speed used by the WP10a diagnostic is
+
+```text
+a^2 = c^2 c_s,N^2 / (c^2 + e + P/rho).
+```
+
+It recovers the Newtonian cold limit and approaches `c^2/3` in the
+radiation-dominated relativistic limit. It is not a cap applied to the
+Newtonian sound speed.
+
+In a one-dimensional local outward-oriented special-relativistic frame, the
+diagnostic radial speeds are
+
+```text
+(v_R-a)/(1-v_R a/c^2), v_R, v_R, (v_R+a)/(1+v_R a/c^2).
+```
+
+This characteristic audit is not yet the production global flux. The current
+stationary plunge and finite-volume evolution do not use one common
+relativistic conservative system, and the prototype omits relativistic
+transverse-rotation and spacetime lapse/shift effects. The first zero-incoming
+point on the WP9 low-rate profile occurs only at `2.0001 rg`, too close to the
+Paczynski-Wiita singularity to adopt as a production excision without that
+complete system.
+
 At `335 rg` the current outer flow is subsonic and requires one incoming
 acoustic condition. Layer 1 does not provide an exterior thermodynamic
 invariant there. ADR 0014 therefore selects an adiabatic Hill/Roche overflow

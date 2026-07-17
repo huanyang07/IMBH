@@ -138,6 +138,8 @@ def _causal_excision_rows(profile, params) -> list[dict]:
                 "radial_speed_over_c": radial_speed_over_c,
                 "sound_speed_over_c": sound_speed_over_c,
                 "euler_acoustic_mach": float(plunge.radial_mach_number[0]),
+                "density": float(plunge.rho[0]),
+                "temperature": float(plunge.T[0]),
                 "incoming_characteristics": incoming,
                 "subluminal_radial_speed": abs(radial_speed_over_c) < 1.0,
                 "subluminal_sound_speed": sound_speed_over_c < 1.0,

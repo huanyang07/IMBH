@@ -8,6 +8,12 @@ from .audit_metrics import (
     normalized_mdot_continuity_residual,
     pointwise_energy_residual,
 )
+from .causal_inner import (
+    CausalInnerCharacteristicAudit,
+    audit_causal_inner_characteristics,
+    gas_radiation_relativistic_sound_speed_squared,
+    special_relativistic_radial_characteristic_speeds,
+)
 from .diffusion_solver import (
     DiffusionStepResult,
     explicit_diffusion_step,
@@ -800,12 +806,16 @@ __all__ = [
     "global_open_no_inflow_boundary_fluxes",
     "global_rusanov_face_fluxes",
     "gas_radiation_adiabatic_sound_speed_squared",
+    "gas_radiation_relativistic_sound_speed_squared",
     "gas_radiation_specific_enthalpy",
     "gas_radiation_specific_entropy",
     "global_radiative_cooling_rate_cells",
     "global_roche_closure_diagnostic",
     "global_sonic_resolution_diagnostic",
     "global_supersonic_prefix_cell_count",
+    "audit_causal_inner_characteristics",
+    "special_relativistic_radial_characteristic_speeds",
+    "CausalInnerCharacteristicAudit",
     "global_temporal_vertical_work_cells",
     "global_vertical_work_rate_cells",
     "fiducial_hill_roche_nozzle_geometry",
