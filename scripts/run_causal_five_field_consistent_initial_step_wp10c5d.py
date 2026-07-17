@@ -10,6 +10,7 @@ from pathlib import Path
 
 import numpy as np
 from scipy.linalg.lapack import dgeequ, dgesvx
+from scipy.interpolate import PchipInterpolator
 from scipy.sparse import issparse
 from scipy.sparse.csgraph import structural_rank
 
@@ -88,6 +89,14 @@ DEFAULT_SOURCE_COMPATIBLE_DURATION_OUTPUT = (
     ROOT
     / "outputs/tables/causal_five_field_source_compatible_duration_wp10c5n.json"
 )
+DEFAULT_MESH_COMMON_STARTUP_DURATION_OUTPUT = (
+    ROOT
+    / "outputs/tables/causal_five_field_mesh_common_startup_duration_wp10c5op.json"
+)
+DEFAULT_MESH_COMMON_TEMPORAL_PARITY_OUTPUT = (
+    ROOT
+    / "outputs/tables/causal_five_field_mesh_common_temporal_parity_wp10c5q.json"
+)
 DEFAULT_RESTART_DIRECTORY = (
     ROOT / "outputs/checkpoints/causal_five_field_wp10c5k"
 )
@@ -150,6 +159,14 @@ def _arguments() -> argparse.Namespace:
     )
     parser.add_argument(
         "--increment-primary-source-compatible-duration-audit",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--increment-primary-mesh-common-startup-duration-audit",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--increment-primary-mesh-common-temporal-parity-audit",
         action="store_true",
     )
     return parser.parse_args()
@@ -2804,6 +2821,7 @@ def _restart_payload(
     rejected_attempts: int,
     n_cells: int,
     role: str,
+    work_package: str,
 ) -> CausalFiveFieldAdaptiveRestart:
     return CausalFiveFieldAdaptiveRestart(
         state_vector=np.asarray(state_vector, dtype=float),
@@ -2817,7 +2835,7 @@ def _restart_payload(
         accepted_steps=accepted_steps,
         rejected_attempts=rejected_attempts,
         provenance={
-            "work_package": "WP10c5k",
+            "work_package": work_package,
             "n_cells": n_cells,
             "role": role,
             "source": (
@@ -2905,6 +2923,7 @@ def _run_repeated_source_on_resolution(
     perform_restart_resume_audit: bool,
     seed_kwargs: dict | None = None,
     restart_label: str = "wp10c5k",
+    restart_work_package: str = "WP10c5k",
     initialization_bundle: tuple[dict, dict] | None = None,
     step_residual_tolerance: float = 1.0e-8,
     step_algebraic_tolerance: float = 1.0e-10,
@@ -3091,6 +3110,7 @@ def _run_repeated_source_on_resolution(
                 rejected_attempts=rejected_attempts,
                 n_cells=n_cells,
                 role="midpoint_restart_resume_audit",
+                work_package=restart_work_package,
             )
             save_causal_five_field_adaptive_restart(
                 midpoint_path,
@@ -3194,6 +3214,7 @@ def _run_repeated_source_on_resolution(
         rejected_attempts=rejected_attempts,
         n_cells=n_cells,
         role="final_repeated_source_on_state",
+        work_package=restart_work_package,
     )
     save_causal_five_field_adaptive_restart(
         final_path,
@@ -4297,6 +4318,113 @@ def _source_compatible_seed_parameters(
     }
 
 
+def _mesh_common_source_compatible_seed_parameters() -> tuple[
+    dict,
+    dict,
+]:
+    context = _context(16, include_stream=True)
+    if context.stream_sources is None:
+        raise RuntimeError("mesh-common datum requires a stream")
+    gravitational_radius = context.grid.gravitational_radius
+    inner_plateau = 6.0 * gravitational_radius
+    outer_plateau = STREAM_CENTER_RG * gravitational_radius
+    source_rate = float(np.sum(context.stream_sources.rest_mass))
+    unit_state = make_causal_five_field_seed(
+        context,
+        inner_surface_density=1.0,
+        inner_temperature=1.0e6,
+        profile_inner_plateau_radius=inner_plateau,
+        profile_outer_plateau_radius=outer_plateau,
+    )
+    unit_summary = causal_five_field_state_summary(
+        context,
+        pack_causal_five_field_state(unit_state),
+    )
+    unit_inner_rate = float(unit_summary["inner_face_rates"][0])
+    if unit_inner_rate >= 0.0:
+        raise RuntimeError("mesh-common datum requires inner inflow")
+    inner_surface_density = source_rate / abs(unit_inner_rate)
+
+    target_inner_h_over_r = 0.1
+    physical_inner_radius = float(context.grid.edges[0])
+    eos = context.vertical_frequency.eos(physical_inner_radius)
+
+    def thickness(log_temperature: float) -> float:
+        thermodynamics = eos.from_surface_density_temperature(
+            inner_surface_density,
+            float(np.exp(log_temperature)),
+        )
+        return (
+            thermodynamics.proper_half_thickness
+            / physical_inner_radius
+        )
+
+    lower = float(np.log(1.0e5))
+    upper = float(np.log(1.0e7))
+    if (
+        thickness(lower) >= target_inner_h_over_r
+        or thickness(upper) <= target_inner_h_over_r
+    ):
+        raise RuntimeError(
+            "mesh-common thickness target is not bracketed"
+        )
+    for _iteration in range(80):
+        midpoint = 0.5 * (lower + upper)
+        if thickness(midpoint) < target_inner_h_over_r:
+            lower = midpoint
+        else:
+            upper = midpoint
+    inner_temperature = float(np.exp(0.5 * (lower + upper)))
+    outer_surface_density = 1.0e5
+    outer_temperature = 8.0e5
+    physical_outer_radius = float(context.grid.edges[-1])
+    target_outer_h_over_r = (
+        context.vertical_frequency.eos(
+            physical_outer_radius
+        ).from_surface_density_temperature(
+            outer_surface_density,
+            outer_temperature,
+        ).proper_half_thickness
+        / physical_outer_radius
+    )
+    parameters = {
+        "inner_surface_density": inner_surface_density,
+        "outer_surface_density": outer_surface_density,
+        "inner_temperature": inner_temperature,
+        "outer_temperature": outer_temperature,
+        "inner_radial_velocity_over_c": -0.40,
+        "inner_azimuthal_velocity_over_c": 0.60,
+        "outer_radial_velocity_margin_over_c": 1.0e-5,
+        "profile_inner_plateau_radius": inner_plateau,
+        "profile_outer_plateau_radius": outer_plateau,
+        "profile_interpolate_log_h_over_r": True,
+    }
+    return parameters, {
+        "target_absolute_inner_mass_flux_over_supply": 1.0,
+        "target_physical_inner_face_h_over_r": (
+            target_inner_h_over_r
+        ),
+        "target_physical_outer_face_h_over_r": (
+            target_outer_h_over_r
+        ),
+        "inner_plateau_radius_rg": 6.0,
+        "outer_plateau_radius_rg": STREAM_CENTER_RG,
+        "profile": (
+            "common C2 smootherstep in log radius for log Sigma, "
+            "velocities, and log H/R between fixed physical plateaus"
+        ),
+        "surface_density_construction": (
+            "exact linear rest-mass face-flux inversion on the "
+            "shared inner plateau"
+        ),
+        "temperature_construction": (
+            "shared physical-face temperature anchors converted to "
+            "log H/R, followed by local EOS inversion"
+        ),
+        "temperature_bracket_k": [1.0e5, 1.0e7],
+    }
+
+
 def _inner_principal_summary(
     context: CausalFiveFieldDAEContext,
     primitive_chart: np.ndarray,
@@ -4359,10 +4487,17 @@ def _inner_principal_summary(
 
 def _source_compatible_initialization(
     n_cells: int,
+    *,
+    seed_parameters_override: dict | None = None,
+    construction_override: dict | None = None,
 ) -> tuple[dict, tuple[dict, dict], dict]:
-    seed_parameters, construction = (
-        _source_compatible_seed_parameters(n_cells)
-    )
+    if seed_parameters_override is None:
+        seed_parameters, construction = (
+            _source_compatible_seed_parameters(n_cells)
+        )
+    else:
+        seed_parameters = dict(seed_parameters_override)
+        construction = dict(construction_override or {})
     initialization, artifacts = _run_increment_primary_resolution(
         n_cells,
         TARGET_SCALED_PRIMITIVE_CHANGES[0],
@@ -4621,6 +4756,252 @@ def _source_compatible_state_audit(
     }, passed
 
 
+def _reconstructed_primitive_profile(
+    context: CausalFiveFieldDAEContext,
+    vector: np.ndarray,
+    sample_log_radius: np.ndarray,
+) -> np.ndarray:
+    state = unpack_causal_five_field_state(
+        np.asarray(vector, dtype=float),
+        int(context.grid.centers.size),
+    )
+    log_radius = np.log(context.grid.centers)
+    sample = np.asarray(sample_log_radius, dtype=float)
+    reconstructed = np.empty((sample.size, 4), dtype=float)
+    for field in range(4):
+        values = state.primitives[:, field]
+        reconstructed[:, field] = PchipInterpolator(
+            log_radius,
+            values,
+            extrapolate=True,
+        )(sample)
+    return reconstructed
+
+
+def _pchip_reconstructed_log_h_over_r(
+    context: CausalFiveFieldDAEContext,
+    vector: np.ndarray,
+    sample_log_radius: np.ndarray,
+) -> np.ndarray:
+    values = np.log(
+        causal_five_field_h_over_r_profile(
+            context,
+            np.asarray(vector, dtype=float),
+        )
+    )
+    return np.asarray(
+        PchipInterpolator(
+            np.log(context.grid.centers),
+            values,
+            extrapolate=True,
+        )(np.asarray(sample_log_radius, dtype=float)),
+        dtype=float,
+    )
+
+
+def _mesh_common_initial_profile_audit(
+    n16_artifacts: dict,
+    n32_artifacts: dict,
+    construction: dict,
+) -> dict:
+    context16 = n16_artifacts["context"]
+    context32 = n32_artifacts["context"]
+    vector16 = np.asarray(n16_artifacts["old_vector"], dtype=float)
+    vector32 = np.asarray(n32_artifacts["old_vector"], dtype=float)
+    state16 = unpack_causal_five_field_state(vector16, 16)
+    state32 = unpack_causal_five_field_state(vector32, 32)
+    sample_log_radius = np.linspace(
+        np.log(float(context16.grid.edges[0])),
+        np.log(float(context16.grid.edges[-1])),
+        257,
+    )
+    profile16 = _reconstructed_primitive_profile(
+        context16,
+        vector16,
+        sample_log_radius,
+    )
+    profile32 = _reconstructed_primitive_profile(
+        context32,
+        vector32,
+        sample_log_radius,
+    )
+    inner_plateau = (
+        construction["inner_plateau_radius_rg"]
+        * context16.grid.gravitational_radius
+    )
+    outer_plateau = (
+        construction["outer_plateau_radius_rg"]
+        * context16.grid.gravitational_radius
+    )
+    radius = np.exp(sample_log_radius)
+    coordinate = np.clip(
+        (
+            np.log(radius / inner_plateau)
+            / np.log(outer_plateau / inner_plateau)
+        ),
+        0.0,
+        1.0,
+    )
+    fraction = coordinate**3 * (
+        10.0 - 15.0 * coordinate + 6.0 * coordinate**2
+    )
+    reference_primitives = (
+        (1.0 - fraction[:, None])
+        * state16.primitives[0, :3]
+        + fraction[:, None] * state16.primitives[-1, :3]
+    )
+    field_names = (
+        "log_surface_density",
+        "radial_velocity_over_c",
+        "azimuthal_velocity_over_c",
+        "log_temperature",
+    )
+    analytic_field_names = field_names[:3]
+    cross_defects = np.max(
+        np.abs(profile16 - profile32),
+        axis=0,
+    )
+    n16_reference_defects = np.max(
+        np.abs(profile16[:, :3] - reference_primitives),
+        axis=0,
+    )
+    n32_reference_defects = np.max(
+        np.abs(profile32[:, :3] - reference_primitives),
+        axis=0,
+    )
+    log_h16 = _pchip_reconstructed_log_h_over_r(
+        context16,
+        vector16,
+        sample_log_radius,
+    )
+    log_h32 = _pchip_reconstructed_log_h_over_r(
+        context32,
+        vector32,
+        sample_log_radius,
+    )
+    reference_log_h = (
+        (1.0 - fraction)
+        * np.log(
+            construction["target_physical_inner_face_h_over_r"]
+        )
+        + fraction
+        * np.log(
+            construction["target_physical_outer_face_h_over_r"]
+        )
+    )
+    gates = {
+        "maximum_cross_mesh_field_defects": {
+            "log_surface_density": 5.0e-2,
+            "radial_velocity_over_c": 1.0e-2,
+            "azimuthal_velocity_over_c": 1.0e-2,
+            "log_temperature": 2.0e-2,
+        },
+        "maximum_reference_field_defects": {
+            "log_surface_density": 5.0e-2,
+            "radial_velocity_over_c": 1.0e-2,
+            "azimuthal_velocity_over_c": 1.0e-2,
+        },
+        "maximum_cross_mesh_log_h_over_r_defect": 1.0e-2,
+        "maximum_reference_log_h_over_r_defect": 1.0e-2,
+        "inner_plateau_kinematic_primitives_bitwise": True,
+        "outer_plateau_kinematic_primitives_bitwise": True,
+    }
+    cross = {
+        name: float(value)
+        for name, value in zip(
+            field_names,
+            cross_defects,
+            strict=True,
+        )
+    }
+    n16_reference = {
+        name: float(value)
+        for name, value in zip(
+            analytic_field_names,
+            n16_reference_defects,
+            strict=True,
+        )
+    }
+    n32_reference = {
+        name: float(value)
+        for name, value in zip(
+            analytic_field_names,
+            n32_reference_defects,
+            strict=True,
+        )
+    }
+    inner_bitwise = np.array_equal(
+        state16.primitives[0, :3],
+        state32.primitives[0, :3],
+    )
+    outer_bitwise = np.array_equal(
+        state16.primitives[-1, :3],
+        state32.primitives[-1, :3],
+    )
+    maximum_log_h_defect = float(
+        np.max(np.abs(log_h16 - log_h32))
+    )
+    n16_log_h_reference_defect = float(
+        np.max(np.abs(log_h16 - reference_log_h))
+    )
+    n32_log_h_reference_defect = float(
+        np.max(np.abs(log_h32 - reference_log_h))
+    )
+    passed = bool(
+        inner_bitwise
+        and outer_bitwise
+        and all(
+            cross[name]
+            <= gates["maximum_cross_mesh_field_defects"][name]
+            for name in field_names
+        )
+        and all(
+            n16_reference[name]
+            <= gates["maximum_reference_field_defects"][name]
+            and n32_reference[name]
+            <= gates["maximum_reference_field_defects"][name]
+            for name in analytic_field_names
+        )
+        and maximum_log_h_defect
+        <= gates["maximum_cross_mesh_log_h_over_r_defect"]
+        and n16_log_h_reference_defect
+        <= gates["maximum_reference_log_h_over_r_defect"]
+        and n32_log_h_reference_defect
+        <= gates["maximum_reference_log_h_over_r_defect"]
+    )
+    return {
+        "method": (
+            "shape-preserving cubic reconstruction of one fixed-anchor "
+            "analytic kinematic/log-H/R profile on 257 shared "
+            "log-radius points"
+        ),
+        "sample_radius_rg": [
+            float(value / context16.grid.gravitational_radius)
+            for value in radius
+        ],
+        "inner_plateau_kinematic_primitives_bitwise": (
+            inner_bitwise
+        ),
+        "outer_plateau_kinematic_primitives_bitwise": (
+            outer_bitwise
+        ),
+        "maximum_cross_mesh_field_defects": cross,
+        "maximum_n16_reference_field_defects": n16_reference,
+        "maximum_n32_reference_field_defects": n32_reference,
+        "maximum_cross_mesh_log_h_over_r_defect": (
+            maximum_log_h_defect
+        ),
+        "maximum_n16_reference_log_h_over_r_defect": (
+            n16_log_h_reference_defect
+        ),
+        "maximum_n32_reference_log_h_over_r_defect": (
+            n32_log_h_reference_defect
+        ),
+        "gates": gates,
+        "passed": passed,
+    }
+
+
 def _source_compatible_consistency_rank_audit(
     context: CausalFiveFieldDAEContext,
     vector: np.ndarray,
@@ -4799,6 +5180,7 @@ def _run_source_compatible_startup_audit(
                 perform_restart_resume_audit=True,
                 seed_kwargs=n16_parameters,
                 restart_label="wp10c5m",
+                restart_work_package="WP10c5m",
                 initialization_bundle=n16_bundle,
                 step_residual_tolerance=1.0e-10,
                 step_algebraic_tolerance=1.0e-11,
@@ -4825,6 +5207,7 @@ def _run_source_compatible_startup_audit(
                     perform_restart_resume_audit=False,
                     seed_kwargs=n32_parameters,
                     restart_label="wp10c5m",
+                    restart_work_package="WP10c5m",
                     initialization_bundle=n32_bundle,
                     step_residual_tolerance=1.0e-10,
                     step_algebraic_tolerance=1.0e-11,
@@ -4907,20 +5290,29 @@ def _continue_source_compatible_duration_resolution(
     seed_parameters: dict,
     elapsed_time_target: float,
     perform_first_step_replay_audit: bool,
+    parent_restart_label: str = "wp10c5m",
+    output_restart_label: str = "wp10c5n",
+    work_package: str = "WP10c5n",
+    parent_work_package: str = "WP10c5m",
+    initial_dt_next_override: float | None = None,
+    maximum_dt_override: float | None = None,
 ) -> tuple[dict, bool]:
     context = artifacts["context"]
     initial_vector = np.asarray(artifacts["old_vector"], dtype=float)
     base_dt = float(artifacts["timestep_seconds"])
     restart_path = (
         DEFAULT_RESTART_DIRECTORY
-        / f"causal_wp10c5m_N{n_cells:03d}_final.npz"
+        / (
+            f"causal_{parent_restart_label}_N"
+            f"{n_cells:03d}_final.npz"
+        )
     )
     if not restart_path.exists():
         return {
             "n_cells": n_cells,
             "restart_path": str(restart_path.relative_to(ROOT)),
             "passed": False,
-            "decision": "required_wp10c5m_restart_missing",
+            "decision": "required_parent_restart_missing",
         }, False
     checkpoint = load_causal_five_field_adaptive_restart(
         restart_path,
@@ -4938,6 +5330,8 @@ def _continue_source_compatible_duration_resolution(
     )
     checkpoint_provenance_passed = bool(
         checkpoint.provenance.get("n_cells") == n_cells
+        and checkpoint.provenance.get("work_package")
+        == parent_work_package
         and "exact circularized regression stream"
         in str(checkpoint.provenance.get("source", ""))
     )
@@ -4961,12 +5355,17 @@ def _continue_source_compatible_duration_resolution(
             },
             "target_elapsed_time_seconds": elapsed_time_target,
             "passed": False,
-            "decision": "wp10c5m_checkpoint_gate_failed",
+            "decision": "parent_checkpoint_gate_failed",
         }, False
 
+    maximum_dt = (
+        16.0 * base_dt
+        if maximum_dt_override is None
+        else float(maximum_dt_override)
+    )
     config = CausalFiveFieldAdaptiveStepConfig(
         minimum_dt=base_dt / 128.0,
-        maximum_dt=16.0 * base_dt,
+        maximum_dt=maximum_dt,
         maximum_scaled_primitive_change=5.0e-4,
         maximum_scaled_total_change=1.0e-3,
         shrink_factor=0.5,
@@ -4996,7 +5395,11 @@ def _continue_source_compatible_duration_resolution(
     )
     elapsed_time = float(checkpoint.elapsed_time)
     checkpoint_elapsed_time = elapsed_time
-    dt_next = float(checkpoint.dt_next)
+    dt_next = (
+        float(checkpoint.dt_next)
+        if initial_dt_next_override is None
+        else float(initial_dt_next_override)
+    )
     previous_dt = float(checkpoint.previous_dt)
     accepted_steps = int(checkpoint.accepted_steps)
     rejected_attempts = int(checkpoint.rejected_attempts)
@@ -5202,8 +5605,8 @@ def _continue_source_compatible_duration_resolution(
             rejected_attempts + extension_rejected_attempts
         ),
         provenance={
-            "work_package": "WP10c5n",
-            "parent_work_package": "WP10c5m",
+            "work_package": work_package,
+            "parent_work_package": parent_work_package,
             "n_cells": n_cells,
             "role": "bounded_billionth_loading_time_duration",
             "source": (
@@ -5214,7 +5617,10 @@ def _continue_source_compatible_duration_resolution(
     )
     final_path = (
         DEFAULT_RESTART_DIRECTORY
-        / f"causal_wp10c5n_N{n_cells:03d}_final.npz"
+        / (
+            f"causal_{output_restart_label}_N"
+            f"{n_cells:03d}_final.npz"
+        )
     )
     save_causal_five_field_adaptive_restart(
         final_path,
@@ -5296,7 +5702,10 @@ def _continue_source_compatible_duration_resolution(
             extension_h_over_r_response
         ),
         "mass_budget": {
-            "scope": "WP10c5m checkpoint to WP10c5n endpoint",
+            "scope": (
+                f"{parent_work_package} checkpoint to "
+                f"{work_package} endpoint"
+            ),
             "cancellation_safe_actual_change_g": (
                 actual_mass_change
             ),
@@ -5314,6 +5723,7 @@ def _continue_source_compatible_duration_resolution(
             ),
         },
         "acceptance_tolerances": {
+            "maximum_timestep_seconds": config.maximum_dt,
             "scaled_residual": config.residual_tolerance,
             "scaled_algebraic_residual": (
                 config.algebraic_residual_tolerance
@@ -5571,6 +5981,464 @@ def _run_source_compatible_duration_audit(
     print(serialized)
 
 
+def _run_mesh_common_startup_duration_audit(
+    args: argparse.Namespace,
+) -> None:
+    common_parameters, construction = (
+        _mesh_common_source_compatible_seed_parameters()
+    )
+    n16_initial, n16_bundle, _n16_parameters = (
+        _source_compatible_initialization(
+            16,
+            seed_parameters_override=common_parameters,
+            construction_override=construction,
+        )
+    )
+    n32_initial = None
+    n32_bundle = None
+    initial_profile = None
+    if n16_initial["passed"]:
+        n32_initial, n32_bundle, _n32_parameters = (
+            _source_compatible_initialization(
+                32,
+                seed_parameters_override=common_parameters,
+                construction_override=construction,
+            )
+        )
+        if n32_initial["passed"]:
+            initial_profile = _mesh_common_initial_profile_audit(
+                n16_bundle[1],
+                n32_bundle[1],
+                construction,
+            )
+
+    short_n16 = None
+    short_n32 = None
+    short_mesh = None
+    short_n16_passed = False
+    short_n32_passed = False
+    initial_gate_passed = bool(
+        n16_initial["passed"]
+        and n32_initial is not None
+        and n32_initial["passed"]
+        and initial_profile is not None
+        and initial_profile["passed"]
+    )
+    if initial_gate_passed:
+        short_n16, short_n16_passed = (
+            _run_repeated_source_on_resolution(
+                16,
+                accepted_step_target=8,
+                elapsed_time_target=None,
+                perform_restart_resume_audit=True,
+                seed_kwargs=common_parameters,
+                restart_label="wp10c5o",
+                restart_work_package="WP10c5o",
+                initialization_bundle=n16_bundle,
+                step_residual_tolerance=1.0e-10,
+                step_algebraic_tolerance=1.0e-11,
+                mass_budget_tolerance=1.0e-10,
+            )
+        )
+    if short_n16_passed:
+        assert n32_bundle is not None
+        short_n32, short_n32_passed = (
+            _run_repeated_source_on_resolution(
+                32,
+                accepted_step_target=None,
+                elapsed_time_target=(
+                    short_n16["elapsed_time_seconds"]
+                ),
+                perform_restart_resume_audit=False,
+                seed_kwargs=common_parameters,
+                restart_label="wp10c5o",
+                restart_work_package="WP10c5o",
+                initialization_bundle=n32_bundle,
+                step_residual_tolerance=1.0e-10,
+                step_algebraic_tolerance=1.0e-11,
+                mass_budget_tolerance=1.0e-10,
+            )
+        )
+    if short_n32_passed:
+        short_mesh = _repeated_mesh_comparison(
+            short_n16,
+            short_n32,
+        )
+    short_passed = bool(
+        initial_gate_passed
+        and short_n16_passed
+        and short_n32_passed
+        and short_mesh is not None
+        and short_mesh["passed"]
+    )
+
+    duration_n16 = None
+    duration_n32 = None
+    duration_mesh = None
+    duration_n16_passed = False
+    duration_n32_passed = False
+    if short_passed:
+        n16_loading_time = causal_five_field_loading_time(
+            n16_bundle[1]["context"],
+            np.asarray(n16_bundle[1]["old_vector"], dtype=float),
+        )
+        duration_n16, duration_n16_passed = (
+            _continue_source_compatible_duration_resolution(
+                16,
+                initialization=n16_bundle[0],
+                artifacts=n16_bundle[1],
+                seed_parameters=common_parameters,
+                elapsed_time_target=1.0e-9 * n16_loading_time,
+                perform_first_step_replay_audit=True,
+                parent_restart_label="wp10c5o",
+                output_restart_label="wp10c5p",
+                work_package="WP10c5p",
+                parent_work_package="WP10c5o",
+            )
+        )
+    if duration_n16_passed:
+        assert n32_bundle is not None
+        duration_n32, duration_n32_passed = (
+            _continue_source_compatible_duration_resolution(
+                32,
+                initialization=n32_bundle[0],
+                artifacts=n32_bundle[1],
+                seed_parameters=common_parameters,
+                elapsed_time_target=(
+                    duration_n16["elapsed_time_seconds"]
+                ),
+                perform_first_step_replay_audit=False,
+                parent_restart_label="wp10c5o",
+                output_restart_label="wp10c5p",
+                work_package="WP10c5p",
+                parent_work_package="WP10c5o",
+            )
+        )
+    if duration_n32_passed:
+        duration_mesh = (
+            _source_compatible_duration_mesh_comparison(
+                duration_n16,
+                duration_n32,
+            )
+        )
+    duration_passed = bool(
+        short_passed
+        and duration_n16_passed
+        and duration_n32_passed
+        and duration_mesh is not None
+        and duration_mesh["passed"]
+    )
+    output = {
+        "work_package": "WP10c5o-p",
+        "scope": (
+            "fixed-anchor mesh-common source-compatible startup and "
+            "conditionally authorized bounded duration rerun"
+        ),
+        "construction": construction,
+        "common_seed_parameters": common_parameters,
+        "n16_initial_datum": n16_initial,
+        "n32_initial_datum": n32_initial,
+        "initial_profile_mesh_audit": initial_profile,
+        "short_startup": {
+            "n16": short_n16,
+            "n32": short_n32,
+            "mesh_comparison": short_mesh,
+            "passed": short_passed,
+        },
+        "bounded_duration": {
+            "n16": duration_n16,
+            "n32": duration_n32,
+            "mesh_comparison": duration_mesh,
+            "passed": duration_passed,
+        },
+        "gates": {
+            "mesh_common_initial_data_passed": initial_gate_passed,
+            "short_n16_passed": short_n16_passed,
+            "short_n32_attempted": short_n32 is not None,
+            "short_n32_passed": short_n32_passed,
+            "short_mesh_gate_passed": (
+                short_mesh["passed"]
+                if short_mesh is not None
+                else False
+            ),
+            "short_common_data_startup_certified": short_passed,
+            "duration_n16_attempted": duration_n16 is not None,
+            "duration_n16_passed": duration_n16_passed,
+            "duration_n32_attempted": duration_n32 is not None,
+            "duration_n32_passed": duration_n32_passed,
+            "duration_mesh_gate_passed": (
+                duration_mesh["passed"]
+                if duration_mesh is not None
+                else False
+            ),
+            "bounded_common_data_duration_certified": (
+                duration_passed
+            ),
+            "long_evolution_certified": False,
+            "stability_certified": False,
+            "hot_state_certified": False,
+            "limit_cycle_certified": False,
+            "tide_authorized": False,
+            "wind_authorized": False,
+        },
+        "decision": (
+            "mesh_common_bounded_duration_gate_passed"
+            if duration_passed
+            else (
+                "stop_after_short_common_data_gate"
+                if short_passed
+                else "stop_before_bounded_duration"
+            )
+        ),
+    }
+    output_path = _absolute(
+        DEFAULT_MESH_COMMON_STARTUP_DURATION_OUTPUT
+        if args.output == DEFAULT_OUTPUT
+        else args.output
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = json.dumps(
+        output,
+        indent=2,
+        sort_keys=True,
+        default=_json_default,
+    )
+    output_path.write_text(serialized + "\n", encoding="utf-8")
+    print(serialized)
+
+
+def _duration_response_difference(
+    reference: dict,
+    candidate: dict,
+) -> dict:
+    reference_radius = np.asarray(
+        reference["h_over_r_response"]["sample_radius_rg"],
+        dtype=float,
+    )
+    candidate_radius = np.asarray(
+        candidate["h_over_r_response"]["sample_radius_rg"],
+        dtype=float,
+    )
+    if not np.array_equal(reference_radius, candidate_radius):
+        raise RuntimeError("duration controls do not share response radii")
+    reference_response = np.asarray(
+        reference["h_over_r_response"]["delta_log_h_over_r"],
+        dtype=float,
+    )
+    candidate_response = np.asarray(
+        candidate["h_over_r_response"]["delta_log_h_over_r"],
+        dtype=float,
+    )
+    difference = candidate_response - reference_response
+    maximum_index = int(np.argmax(np.abs(difference)))
+    return {
+        "maximum_absolute_delta_log_h_over_r_change": float(
+            np.max(np.abs(difference))
+        ),
+        "rms_delta_log_h_over_r_change": float(
+            np.sqrt(np.mean(difference**2))
+        ),
+        "maximum_change_radius_rg": float(
+            reference_radius[maximum_index]
+        ),
+        "accepted_step_change": int(
+            candidate["accepted_steps_total"]
+            - reference["accepted_steps_total"]
+        ),
+        "inner_mass_flux_over_supply_change": float(
+            (
+                candidate["final_state"]["inner_face_rates"][0]
+                / candidate["source_rate_g_s"]
+            )
+            - (
+                reference["final_state"]["inner_face_rates"][0]
+                / reference["source_rate_g_s"]
+            )
+        ),
+        "maximum_h_over_r_change": float(
+            candidate["final_state"]["maximum_h_over_r"]
+            - reference["final_state"]["maximum_h_over_r"]
+        ),
+    }
+
+
+def _run_mesh_common_temporal_parity_audit(
+    args: argparse.Namespace,
+) -> None:
+    parent_path = DEFAULT_MESH_COMMON_STARTUP_DURATION_OUTPUT
+    if not parent_path.exists():
+        raise FileNotFoundError(
+            "WP10c5o-p parent result is required for temporal parity"
+        )
+    parent = json.loads(parent_path.read_text(encoding="utf-8"))
+    prerequisites_passed = bool(
+        parent["gates"]["mesh_common_initial_data_passed"]
+        and parent["gates"]["short_common_data_startup_certified"]
+        and parent["gates"]["duration_n16_passed"]
+        and parent["gates"]["duration_n32_passed"]
+    )
+    short = parent["short_startup"]
+    regular_step_candidates = {
+        label: float(
+            max(
+                row["dt_used_seconds"]
+                for row in short[label]["steps"]
+            )
+        )
+        for label in ("n16", "n32")
+    }
+    shared_timestep = min(regular_step_candidates.values())
+    elapsed_time_target = float(
+        parent["bounded_duration"]["n16"][
+            "target_elapsed_time_seconds"
+        ]
+    )
+    common_parameters, construction = (
+        _mesh_common_source_compatible_seed_parameters()
+    )
+    controls: dict[str, dict | None] = {
+        "n16": None,
+        "n32": None,
+    }
+    control_passes = {"n16": False, "n32": False}
+    if prerequisites_passed:
+        for label, n_cells in (("n16", 16), ("n32", 32)):
+            context = _context(n_cells, include_stream=True)
+            initial_state = make_causal_five_field_seed(
+                context,
+                **common_parameters,
+            )
+            artifacts = {
+                "context": context,
+                "old_vector": pack_causal_five_field_state(
+                    initial_state
+                ),
+                "timestep_seconds": float(
+                    short[label]["steps"][0]["dt_used_seconds"]
+                ),
+            }
+            control, control_passed = (
+                _continue_source_compatible_duration_resolution(
+                    n_cells,
+                    initialization={"resolution_passed": True},
+                    artifacts=artifacts,
+                    seed_parameters=common_parameters,
+                    elapsed_time_target=elapsed_time_target,
+                    perform_first_step_replay_audit=(n_cells == 16),
+                    parent_restart_label="wp10c5o",
+                    output_restart_label="wp10c5q",
+                    work_package="WP10c5q",
+                    parent_work_package="WP10c5o",
+                    initial_dt_next_override=shared_timestep,
+                    maximum_dt_override=shared_timestep,
+                )
+            )
+            controls[label] = control
+            control_passes[label] = control_passed
+            if not control_passed:
+                break
+    mesh_comparison = None
+    if control_passes["n16"] and control_passes["n32"]:
+        mesh_comparison = (
+            _source_compatible_duration_mesh_comparison(
+                controls["n16"],
+                controls["n32"],
+            )
+        )
+    passed = bool(
+        prerequisites_passed
+        and control_passes["n16"]
+        and control_passes["n32"]
+        and mesh_comparison is not None
+        and mesh_comparison["passed"]
+    )
+    original = parent["bounded_duration"]
+    output = {
+        "work_package": "WP10c5q",
+        "scope": (
+            "shared-timestep causal duration control from the certified "
+            "mesh-common WP10c5o checkpoints"
+        ),
+        "parent_result": str(parent_path.relative_to(ROOT)),
+        "construction": construction,
+        "common_seed_parameters": common_parameters,
+        "temporal_parity": {
+            "selection_rule": (
+                "minimum across meshes of the maximum accepted "
+                "short-startup timestep; changes no physical or nonlinear "
+                "tolerance"
+            ),
+            "regular_step_candidates_seconds": (
+                regular_step_candidates
+            ),
+            "shared_maximum_timestep_seconds": shared_timestep,
+            "target_elapsed_time_seconds": elapsed_time_target,
+        },
+        "n16": controls["n16"],
+        "n32": controls["n32"],
+        "mesh_comparison": mesh_comparison,
+        "change_from_uncontrolled_duration": {
+            "n16": (
+                _duration_response_difference(
+                    original["n16"],
+                    controls["n16"],
+                )
+                if control_passes["n16"]
+                else None
+            ),
+            "n32": (
+                _duration_response_difference(
+                    original["n32"],
+                    controls["n32"],
+                )
+                if control_passes["n32"]
+                else None
+            ),
+        },
+        "gates": {
+            "parent_prerequisites_passed": prerequisites_passed,
+            "n16_shared_timestep_duration_passed": (
+                control_passes["n16"]
+            ),
+            "n32_shared_timestep_duration_passed": (
+                control_passes["n32"]
+            ),
+            "shared_timestep_mesh_gate_passed": (
+                mesh_comparison["passed"]
+                if mesh_comparison is not None
+                else False
+            ),
+            "bounded_common_data_duration_certified": passed,
+            "long_evolution_certified": False,
+            "stability_certified": False,
+            "hot_state_certified": False,
+            "limit_cycle_certified": False,
+            "n64_authorized": False,
+            "tide_authorized": False,
+            "wind_authorized": False,
+        },
+        "decision": (
+            "shared_timestep_bounded_duration_gate_passed"
+            if passed
+            else "stop_at_shared_timestep_duration_gate"
+        ),
+    }
+    output_path = _absolute(
+        DEFAULT_MESH_COMMON_TEMPORAL_PARITY_OUTPUT
+        if args.output == DEFAULT_OUTPUT
+        else args.output
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = json.dumps(
+        output,
+        indent=2,
+        sort_keys=True,
+        default=_json_default,
+    )
+    output_path.write_text(serialized + "\n", encoding="utf-8")
+    print(serialized)
+
+
 def _run_increment_primary_audit(
     args: argparse.Namespace,
     *,
@@ -5698,6 +6566,12 @@ def _run_increment_primary_audit(
 
 def main() -> None:
     args = _arguments()
+    if args.increment_primary_mesh_common_temporal_parity_audit:
+        _run_mesh_common_temporal_parity_audit(args)
+        return
+    if args.increment_primary_mesh_common_startup_duration_audit:
+        _run_mesh_common_startup_duration_audit(args)
+        return
     if args.increment_primary_source_compatible_duration_audit:
         _run_source_compatible_duration_audit(args)
         return

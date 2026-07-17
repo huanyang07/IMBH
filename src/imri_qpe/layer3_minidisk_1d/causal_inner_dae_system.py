@@ -1560,24 +1560,142 @@ def make_causal_five_field_seed(
     inner_radial_velocity_over_c: float = -0.40,
     inner_azimuthal_velocity_over_c: float = 0.60,
     outer_radial_velocity_margin_over_c: float = 1.0e-5,
+    profile_inner_plateau_radius: float | None = None,
+    profile_outer_plateau_radius: float | None = None,
+    profile_interpolate_log_h_over_r: bool = False,
 ) -> CausalFiveFieldDAEState:
-    """Return a smooth low-throughput, alpha-equilibrium preflight seed."""
+    """Return a smooth low-throughput, alpha-equilibrium preflight seed.
+
+    When both plateau radii are supplied, the primitive endpoints are fixed
+    physical states joined by one C2 smootherstep in log radius. This gives
+    different meshes samples of the same continuum profile. With
+    ``profile_interpolate_log_h_over_r``, the endpoint temperatures instead
+    define H/R at the physical domain faces; local temperatures are recovered
+    from a C2 log-H/R profile. This avoids a radiation-pressure thickness
+    bulge from independently interpolating surface density and temperature.
+    """
 
     context = context.validated()
     radius = np.asarray(context.grid.centers, dtype=float)
-    fraction = (
-        np.log(radius / radius[0]) / np.log(radius[-1] / radius[0])
-        if radius.size > 1
-        else np.zeros(1)
-    )
+    if (
+        profile_inner_plateau_radius is None
+        and profile_outer_plateau_radius is None
+    ):
+        fraction = (
+            np.log(radius / radius[0])
+            / np.log(radius[-1] / radius[0])
+            if radius.size > 1
+            else np.zeros(1)
+        )
+    elif (
+        profile_inner_plateau_radius is None
+        or profile_outer_plateau_radius is None
+    ):
+        raise ValueError("both profile plateau radii are required")
+    else:
+        inner_plateau = float(profile_inner_plateau_radius)
+        outer_plateau = float(profile_outer_plateau_radius)
+        if (
+            not np.isfinite(inner_plateau)
+            or not np.isfinite(outer_plateau)
+            or inner_plateau < context.grid.edges[0]
+            or outer_plateau > context.grid.edges[-1]
+            or outer_plateau <= inner_plateau
+        ):
+            raise ValueError("profile plateau radii are invalid")
+        coordinate = np.clip(
+            (
+                np.log(radius / inner_plateau)
+                / np.log(outer_plateau / inner_plateau)
+            ),
+            0.0,
+            1.0,
+        )
+        fraction = (
+            coordinate**3
+            * (
+                10.0
+                - 15.0 * coordinate
+                + 6.0 * coordinate**2
+            )
+        )
     sigma = np.exp(
         (1.0 - fraction) * np.log(inner_surface_density)
         + fraction * np.log(outer_surface_density)
     )
-    temperature = np.exp(
-        (1.0 - fraction) * np.log(inner_temperature)
-        + fraction * np.log(outer_temperature)
-    )
+    if profile_interpolate_log_h_over_r:
+        if (
+            profile_inner_plateau_radius is None
+            or profile_outer_plateau_radius is None
+        ):
+            raise ValueError(
+                "log-H/R interpolation requires fixed profile anchors"
+            )
+        inner_radius = float(context.grid.edges[0])
+        outer_radius = float(context.grid.edges[-1])
+        inner_eos = context.vertical_frequency.eos(inner_radius)
+        outer_eos = context.vertical_frequency.eos(outer_radius)
+        inner_h_over_r = (
+            inner_eos.from_surface_density_temperature(
+                inner_surface_density,
+                inner_temperature,
+            ).proper_half_thickness
+            / inner_radius
+        )
+        outer_h_over_r = (
+            outer_eos.from_surface_density_temperature(
+                outer_surface_density,
+                outer_temperature,
+            ).proper_half_thickness
+            / outer_radius
+        )
+        target_h_over_r = np.exp(
+            (1.0 - fraction) * np.log(inner_h_over_r)
+            + fraction * np.log(outer_h_over_r)
+        )
+        temperature = np.empty_like(radius)
+        for index, (local_radius, local_sigma, local_h_over_r) in enumerate(
+            zip(radius, sigma, target_h_over_r, strict=True)
+        ):
+            eos = context.vertical_frequency.eos(float(local_radius))
+            lower = float(np.log(eos.minimum_temperature))
+            upper = float(np.log(eos.maximum_temperature))
+
+            def h_over_r(log_temperature: float) -> float:
+                local_temperature = float(
+                    np.clip(
+                        np.exp(log_temperature),
+                        eos.minimum_temperature,
+                        eos.maximum_temperature,
+                    )
+                )
+                return (
+                    eos.from_surface_density_temperature(
+                        float(local_sigma),
+                        local_temperature,
+                    ).proper_half_thickness
+                    / float(local_radius)
+                )
+
+            if (
+                h_over_r(lower) >= local_h_over_r
+                or h_over_r(upper) <= local_h_over_r
+            ):
+                raise ValueError(
+                    "target seed H/R lies outside the EOS temperature range"
+                )
+            for _iteration in range(80):
+                midpoint = 0.5 * (lower + upper)
+                if h_over_r(midpoint) < local_h_over_r:
+                    lower = midpoint
+                else:
+                    upper = midpoint
+            temperature[index] = np.exp(0.5 * (lower + upper))
+    else:
+        temperature = np.exp(
+            (1.0 - fraction) * np.log(inner_temperature)
+            + fraction * np.log(outer_temperature)
+        )
     outer_radius = float(context.grid.edges[-1])
     outer_geometry = kerr_schild_column_geometry(
         outer_radius,

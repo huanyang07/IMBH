@@ -183,6 +183,16 @@ rejected sequence.
     initial profiles prevent a clean continuum interpretation. Further
     duration stops pending one mesh-common physical initial datum; N64/N96,
     tide, wind, stability, hot-state, and cycle work remains blocked.
+38. **Mesh-common startup and temporal-parity stop:** one fixed C2 primitive
+    profile anchored at `6 rg` and `240 rg` gives exact unit throughput and
+    passes the N16/N32 common-data, causal, optical, Roche, map, and rank gates.
+    The short response mismatch is `2.7898e-3 < 5e-3`. Both bounded
+    trajectories pass separately, but their common-time `Delta ln(H/R)`
+    response differs by `2.1033e-2`. A control using the same maximum timestep
+    and exactly 63 extension steps on both meshes changes either response by
+    at most `3.00e-6`, excluding temporal alignment as the explanation. The
+    remaining failure is spatial at N16/N32. A term-resolved semidiscrete audit
+    is required before N64 or any physical evolution.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

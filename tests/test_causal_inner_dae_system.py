@@ -120,6 +120,177 @@ def test_seed_closes_primitive_and_all_face_maps_exactly() -> None:
     )
 
 
+def test_fixed_plateau_seed_samples_one_common_continuum_profile() -> None:
+    context16 = _context(16)
+    context32 = _context(32)
+    gravitational_radius = context16.grid.gravitational_radius
+    kwargs = {
+        "inner_surface_density": 120.0,
+        "outer_surface_density": 8.0e4,
+        "inner_temperature": 4.2e6,
+        "outer_temperature": 9.0e5,
+        "profile_inner_plateau_radius": (
+            6.0 * gravitational_radius
+        ),
+        "profile_outer_plateau_radius": (
+            240.0 * gravitational_radius
+        ),
+    }
+    state16 = make_causal_five_field_seed(context16, **kwargs)
+    state32 = make_causal_five_field_seed(context32, **kwargs)
+
+    np.testing.assert_array_equal(
+        state16.primitives[0, :4],
+        state32.primitives[0, :4],
+    )
+    np.testing.assert_array_equal(
+        state16.primitives[-1, :4],
+        state32.primitives[-1, :4],
+    )
+    for context, state in (
+        (context16, state16),
+        (context32, state32),
+    ):
+        coordinate = np.clip(
+            (
+                np.log(
+                    context.grid.centers
+                    / kwargs["profile_inner_plateau_radius"]
+                )
+                / np.log(
+                    kwargs["profile_outer_plateau_radius"]
+                    / kwargs["profile_inner_plateau_radius"]
+                )
+            ),
+            0.0,
+            1.0,
+        )
+        fraction = coordinate**3 * (
+            10.0 - 15.0 * coordinate + 6.0 * coordinate**2
+        )
+        expected_log_sigma = (
+            (1.0 - fraction)
+            * np.log(kwargs["inner_surface_density"])
+            + fraction * np.log(kwargs["outer_surface_density"])
+        )
+        expected_log_temperature = (
+            (1.0 - fraction)
+            * np.log(kwargs["inner_temperature"])
+            + fraction * np.log(kwargs["outer_temperature"])
+        )
+        np.testing.assert_allclose(
+            state.primitives[:, 0],
+            expected_log_sigma,
+            rtol=0.0,
+            atol=2.0e-15,
+        )
+        np.testing.assert_allclose(
+            state.primitives[:, 3],
+            expected_log_temperature,
+            rtol=0.0,
+            atol=2.0e-15,
+        )
+
+
+def test_fixed_plateau_seed_can_interpolate_one_bounded_h_over_r_profile() -> (
+    None
+):
+    context16 = _context(16)
+    context32 = _context(32)
+    gravitational_radius = context16.grid.gravitational_radius
+    kwargs = {
+        "inner_surface_density": 120.0,
+        "outer_surface_density": 8.0e4,
+        "inner_temperature": 4.2e6,
+        "outer_temperature": 9.0e5,
+        "profile_inner_plateau_radius": (
+            6.0 * gravitational_radius
+        ),
+        "profile_outer_plateau_radius": (
+            240.0 * gravitational_radius
+        ),
+        "profile_interpolate_log_h_over_r": True,
+    }
+    state16 = make_causal_five_field_seed(context16, **kwargs)
+    state32 = make_causal_five_field_seed(context32, **kwargs)
+
+    np.testing.assert_array_equal(
+        state16.primitives[0, :3],
+        state32.primitives[0, :3],
+    )
+    np.testing.assert_array_equal(
+        state16.primitives[-1, :3],
+        state32.primitives[-1, :3],
+    )
+    for context, state in (
+        (context16, state16),
+        (context32, state32),
+    ):
+        inner_radius = float(context.grid.edges[0])
+        outer_radius = float(context.grid.edges[-1])
+        inner_h_over_r = (
+            context.vertical_frequency.eos(
+                inner_radius
+            ).from_surface_density_temperature(
+                kwargs["inner_surface_density"],
+                kwargs["inner_temperature"],
+            ).proper_half_thickness
+            / inner_radius
+        )
+        outer_h_over_r = (
+            context.vertical_frequency.eos(
+                outer_radius
+            ).from_surface_density_temperature(
+                kwargs["outer_surface_density"],
+                kwargs["outer_temperature"],
+            ).proper_half_thickness
+            / outer_radius
+        )
+        coordinate = np.clip(
+            (
+                np.log(
+                    context.grid.centers
+                    / kwargs["profile_inner_plateau_radius"]
+                )
+                / np.log(
+                    kwargs["profile_outer_plateau_radius"]
+                    / kwargs["profile_inner_plateau_radius"]
+                )
+            ),
+            0.0,
+            1.0,
+        )
+        fraction = coordinate**3 * (
+            10.0 - 15.0 * coordinate + 6.0 * coordinate**2
+        )
+        expected = np.exp(
+            (1.0 - fraction) * np.log(inner_h_over_r)
+            + fraction * np.log(outer_h_over_r)
+        )
+        actual = np.asarray(
+            [
+                context.vertical_frequency.eos(
+                    float(radius)
+                ).from_surface_density_temperature(
+                    float(np.exp(primitive[0])),
+                    float(np.exp(primitive[3])),
+                ).proper_half_thickness
+                / float(radius)
+                for radius, primitive in zip(
+                    context.grid.centers,
+                    state.primitives,
+                    strict=True,
+                )
+            ]
+        )
+        np.testing.assert_allclose(
+            actual,
+            expected,
+            rtol=2.0e-14,
+            atol=0.0,
+        )
+
+
 def test_stationary_conservation_rows_telescope_componentwise() -> None:
     context = _context(8)
     state = make_causal_five_field_seed(context)
