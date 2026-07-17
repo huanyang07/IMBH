@@ -1202,6 +1202,31 @@ two outgoing modes. The physical edge therefore supplies exactly two
 conditions: the Hill/Roche acoustic contract and zero shear stress. The
 inner face remains inside `2 rg` and supplies no physical boundary condition.
 
-The local count and principal audit do not authorize a stationary root until
-the covariant shear path, temporal storage map, and fifth Roche face are
-assembled in one nonlinear finite-volume residual.
+WP10c5b assembles these terms in one nonlinear finite-volume residual. Cell
+storage is unweighted, while face unknowns include the proper column measure.
+For cell `i`, the stationary conservation row is
+
+```text
+F_(i+1/2) - F_(i-1/2) - S_i = 0.
+```
+
+Backward Euler adds
+
+```text
+A_i (U_i^(n+1)-U_i^n)/(c Delta t)
++ A_i Delta U_(H,i)/(c Delta t).
+```
+
+The second term applies only to the four Killing fields. The fifth field uses
+the ordinary `D chi` storage.
+
+Interior faces use a five-field local-Lax-Friedrichs/Rusanov flux whose signal
+bound includes both acoustic and shear cones. The nonconservative shear source
+uses one declared straight arithmetic face path in lower four-velocity; radial
+height work uses the matching straight path in `ln H`.
+
+The assembled N16 descriptor contribution has exact rank `5N=80`, and
+backward-Euler Jacobians are full rank for the audited timesteps. The
+stationary Jacobian is, however, stably `244/245` under the declared rank
+threshold. Therefore the equations above are implemented, but stationary
+production roots remain blocked pending a reduced primitive null-mode audit.

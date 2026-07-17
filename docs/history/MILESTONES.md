@@ -101,6 +101,14 @@ rejected sequence.
     height work is mapped into all Killing storage components. Production
     roots remain blocked until these pieces are assembled into one
     path-conservative nonlinear residual with a fifth zero-stress Roche face.
+28. **Five-field causal DAE assembly:** the complete `15N+5` flux-primary
+    residual now includes the straight covariant-shear path, responsive radial
+    and temporal height work, cooling, exact optional stream moments, geometric
+    sources, excision flux, and five-component Roche face. At N16 the
+    descriptor storage has exact rank `80/80` and backward Euler is full rank,
+    but the stationary response is stably `244/245`, localized to an outer
+    thermal/stress direction. The locked gate stops before N64/N96 roots and a
+    timestep pending one reduced primitive null-mode audit.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed
