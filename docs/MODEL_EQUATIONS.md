@@ -587,9 +587,11 @@ physical boundary rows. A stationary state is a root of this same
 finite-volume operator. At an acoustic critical point its stationary flux
 matrix loses one rank; no separately defined PW sonic condition is added.
 
-The current implementation is a local flux/rank prototype. Gas+radiation
-primitive recovery, geometric sources, stress, cooling, stream injection, and
-the Hill/Roche provider have not yet been migrated.
+The current implementation remains a local flux/rank prototype.
+Gas+radiation primitive recovery, source-free geometry, and a causal
+relativistic stress prototype have now been migrated. Cooling, dynamic
+vertical structure, stream injection, and the Hill/Roche provider remain
+pending.
 
 #### Valencia gas+radiation primitive recovery
 
@@ -720,13 +722,106 @@ the differentiated Killing transform.
 The vertical direction is already integrated into the column primitives.
 The `2+1` radial source retains cylindrical azimuthal curvature but does not
 add a separate `theta` source. This avoids double counting vertical geometry
-before WP10c3 declares the relativistic vertical-work contract.
+before WP10c3b declares the relativistic vertical-work contract.
 
 The WP10c2 source identities close below `4.85e-15`. Flat cylindrical
 constant pressure balances at `9.54e-16`; circular dust orbits have zero
 radial source; and marginally bound radial dust free fall from `20` through
 `1.5 rg` converges at second order while preserving mass and Killing-energy
 fluxes below `1.9e-15`.
+
+#### Causal relativistic alpha shear
+
+WP10c3a represents viscous transport by one off-diagonal stress in the local
+fluid rest frame:
+
+```text
+t^munu = S (e_R^mu e_phi^nu + e_phi^mu e_R^nu),
+S      = Sigma chi.
+```
+
+The tetrad vectors are orthonormal and perpendicular to the four-velocity, so
+
+```text
+t^mu_mu = 0,
+t^munu u_nu = 0.
+```
+
+The common alpha prescription fixes the equilibrium stress amplitude at one
+reference positive shear rate:
+
+```text
+chi_alpha = alpha Pi/(Sigma c^2),
+nu_s      = chi_alpha/q_ref.
+```
+
+It is not inserted as an instantaneous algebraic stress. The resolved
+Maxwell-Cattaneo law is
+
+```text
+tau_r u^mu nabla_mu chi + chi = nu_s q,
+```
+
+where `q` is the positive rest-frame `R-phi` shear rate. The relaxation time
+and finite viscous signal speed obey
+
+```text
+c_nu^2/c^2 = nu_s/(tau_r h).
+```
+
+The bounded gate chooses
+
+```text
+c_nu = sqrt(alpha) a
+```
+
+and calibrates `tau_r` from this identity. The local transverse principal
+matrix in variables `(delta v_phi/c, delta chi)` is
+
+```text
+[ 0              1/h       ]
+[ h c_nu^2/c^2   0         ],
+```
+
+with real rest-frame modes `+/-c_nu`. In the declared frozen-coefficient
+principal model, the coordinate chart has five modes: two acoustic, one
+material/contact, and two shear. The shear modes use the same covariant
+Valencia cone formula as the acoustic pair with `a` replaced by `c_nu`.
+
+The stress contribution to the Killing chart is evaluated directly from the
+same tensor:
+
+```text
+delta S_i  = alpha t^0_i,
+delta E_K  = -alpha t^0_t,
+delta F_i  = alpha t^R_i,
+delta F_EK = -alpha t^R_t.
+```
+
+The associated outward torque and Killing power are
+
+```text
+G_stress = A c^2 delta F_Sphi/c,
+P_stress = A c^3 delta F_EK/c.
+```
+
+For a stationary circular flow,
+
+```text
+P_stress = Omega G_stress
+```
+
+to roundoff. In the weak-field limit the torque approaches
+
+```text
+G_stress -> 2 pi R^2 alpha Pi.
+```
+
+A rejected control advects an independent `D chi` and relaxes it toward
+`alpha Pi` without including the shear-gradient principal coupling. Its cold
+weak-field flux Jacobian has a finite-difference-stable complex pair. This
+demonstrates that the old instantaneous pressure amplitude is an equilibrium
+calibration only, not by itself a causal evolution law.
 
 At `335 rg` the current outer flow is subsonic and requires one incoming
 acoustic condition. Layer 1 does not provide an exterior thermodynamic

@@ -66,6 +66,18 @@ rejected sequence.
     overflows `83.1%`. It remains thin in the Hill band and converges at
     `144/96`, but fails the controlled `168/112` outer-endpoint refinement.
     The declared fallback is coupled conservative mass-energy evolution.
+23. **Causal one-domain inner architecture:** the failed low-throughput
+    boundary candidates selected one ingoing-Kerr-Schild Valencia column from
+    inside the horizon to the Roche edge. Relativistic gas+radiation recovery
+    and source-free geometric finite volumes pass local inversion,
+    characteristic, tensor-source, and horizon-crossing controls.
+24. **Causal relativistic alpha shear:** a rest-frame `R-phi` stress is
+    transformed through the same Killing chart and evolved with finite
+    Maxwell-Cattaneo relaxation. The common `alpha Pi` law is recovered at a
+    reference shear, paired torque/work closes to roundoff, and all selected
+    shear modes remain causal. A pressure-amplitude-only advected stress is
+    rejected because its weak-field flux Jacobian has a step-stable complex
+    pair.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

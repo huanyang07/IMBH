@@ -64,7 +64,8 @@ This is the canonical project handoff. Status labels mean:
 | Causal inner thermodynamics WP10a | **SUPPORTED BUT NOT FULLY CERTIFIED** for diagnostic thermodynamics; **REJECTED** as a standalone production boundary | Relativistic enthalpy derivative keeps all audited sound speeds subluminal and approaches `c/sqrt(3)`; radial-only SR characteristics reach zero incoming modes at `2.0001 rg` | The PW profile has `v_phi>c` by `3 rg` and no subluminal full-state excision; its stationary equations and global flux remain Newtonian |
 | Horizon-penetrating Valencia core WP10b | **SUPPORTED BUT NOT FULLY CERTIFIED** as an architecture; **DIAGNOSTIC ONLY** physically | Ingoing-Kerr-Schild flux includes transverse rotation; analytic/numerical eigenvalues agree to `9.71e-11`; stationary rank changes `4 -> 3` at one acoustic critical mode; all 342 sampled inside-horizon states have zero incoming modes | Local ideal-gas column prototype only; gas+radiation recovery, geometric sources, stress, radiation, stream/Roche migration, and stationary roots are pending |
 | Valencia gas+radiation primitive recovery WP10c1 | **SUPPORTED BUT NOT FULLY CERTIFIED** for the local map; **DIAGNOSTIC ONLY** physically | Nine rotating gas-to-radiation states give primitive/conserved defects `7.42e-11/6.46e-15`, characteristic defect `1.94e-8`, causal sound speed, and zero inside-horizon incoming modes | Fixed-height EOS chart only; geometric sources, vertical closure, stress, radiation, stream/Roche migration, stationary roots, and evolution remain pending |
-| Kerr-Schild geometric finite volume WP10c2 | **SUPPORTED BUT NOT FULLY CERTIFIED** for source-free geometry; **DIAGNOSTIC ONLY** physically | Direct/3+1 source identities close below `4.85e-15`; flat pressure balance closes at `9.54e-16`; horizon-crossing free fall converges at order `1.997-2.000` with mass/Killing-energy flux spreads below `1.9e-15` | Equatorial `2+1` fixed-height column only; stress, radiation, dynamic vertical closure, stream/Roche migration, stationary roots, and evolution remain pending |
+| Kerr-Schild geometric finite volume WP10c2 | **SUPPORTED BUT NOT FULLY CERTIFIED** for source-free geometry; **DIAGNOSTIC ONLY** physically | Direct/3+1 source identities close below `4.85e-15`; flat pressure balance closes at `9.54e-16`; horizon-crossing free fall converges at order `1.997-2.000` with mass/Killing-energy flux spreads below `1.9e-15` | Equatorial `2+1` fixed-height column only; supplemented by WP10c3a stress, while radiation, dynamic vertical closure, stream/Roche migration, stationary roots, and evolution remain pending |
+| Causal relativistic alpha shear WP10c3a | **SUPPORTED BUT NOT FULLY CERTIFIED** for the local stress/flux contract; **DIAGNOSTIC ONLY** physically | Nine gas/radiation states have real acoustic/contact/shear spectra with zero light-cone excess; all inside-horizon modes leave the domain; tensor and paired torque/Killing-work identities close below `8.67e-16` | Fixed-height frozen-coefficient prototype only; `c_nu=sqrt(alpha)a` and the nonlinear coupled characteristic structure are unvalidated; radiation, dynamic vertical work, stationary roots, and evolution remain pending |
 
 ## Frozen Target Under Review
 
@@ -360,6 +361,15 @@ N                    = 164
     and radial dust free fall through the horizon converges at second order
     while preserving mass and Killing-energy fluxes below `1.9e-15`. This is
     a source-free `2+1` column result, not a stationary disk.
+47. WP10c3a transforms one rest-frame `R-phi` stress through the same
+    Kerr-Schild tensor and pairs its angular flux with Killing power. A
+    Maxwell-Cattaneo shear law recovers `W=alpha Pi` at the reference shear
+    while propagating transverse modes at finite `c_nu=sqrt(alpha)a`. Nine
+    states have real causal spectra, zero inside-horizon incoming modes, and
+    tensor/work defects below `8.67e-16`. The rejected pressure-amplitude-only
+    control retains a step-stable complex pair with
+    `max |Im lambda| >= 6.66e-5`; instantaneous `alpha Pi` is therefore only
+    an equilibrium calibration, not a causal time-dependent closure.
 
 ## Claims That Are Not Allowed Yet
 
@@ -406,14 +416,14 @@ N                    = 164
    solver audit as complete. Keep the serial sparse-forward production
    backend and its new work telemetry; do not start a third optimization
    architecture.
-8. Treat WP9, WP10a, WP10b, WP10c1, and the source-free WP10c2 geometry as
-   complete. The old
+8. Treat WP9, WP10a, WP10b, WP10c1, source-free WP10c2 geometry, and the
+   local WP10c3a causal-stress contract as complete. The old
    PW plunge has superluminal transverse rotation and must not be mapped into
    the new variables. Continue only the selected one-domain ingoing-Kerr-
-   Schild Valencia path. Next implement the common stress and paired
-   torque-work ledger, then radiation and vertical work. Migrate stream and
-   Hill/Roche contracts only after those local gates pass. Do not add another
-   inner/outer splice.
+   Schild Valencia path. Next implement WP10c3b radiation and dynamic
+   vertical work in the same Killing-energy ledger without duplicating stress
+   work. Migrate stream and Hill/Roche contracts only after that local gate
+   passes. Do not add another inner/outer splice.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -443,6 +453,7 @@ N                    = 164
 - Two-domain interface sweep: `reports/current/CODEX_TWO_DOMAIN_INTERFACE_SWEEP_RESULTS_2026-07-11.md`
 - Pressure-supported interface pilot: `reports/current/CODEX_PRESSURE_SUPPORTED_INTERFACE_PILOT_RESULTS_2026-07-11.md`
 - Common stress and simultaneous reservoir: `reports/current/CODEX_COMMON_STRESS_AND_SIMULTANEOUS_RESERVOIR_RESULTS_2026-07-11.md`
+- Causal relativistic alpha shear: `reports/current/CODEX_CAUSAL_RELATIVISTIC_ALPHA_SHEAR_WP10C3A_RESULTS_2026-07-17.md`
 - Fully coupled rank prototype: `reports/current/CODEX_COUPLED_INNER_OUTER_RANK_PROTOTYPE_RESULTS_2026-07-11.md`
 - Coupled mesh/interface certification: `reports/current/CODEX_COUPLED_MESH_INTERFACE_CERTIFICATION_RESULTS_2026-07-11.md`
 - Coupled wall pattern-power gate: `reports/current/CODEX_COUPLED_WALL_PATTERN_POWER_RESULTS_2026-07-11.md`
