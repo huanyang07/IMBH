@@ -222,6 +222,98 @@ def _fluid_rest_tetrad(
     return four_velocity, rest_radial, corotating_phi
 
 
+def causal_rest_frame_shear_rate(
+    geometry: KerrSchildColumnGeometry,
+    primitive: ValenciaPerfectFluidPrimitive,
+    *,
+    radial_lower_four_velocity_derivative: np.ndarray,
+) -> float:
+    """Return the signed rest-frame ``-2 sigma_(R)(phi)`` shear rate.
+
+    The derivative is ``d u_mu / dR`` in the Kerr-Schild Killing chart.
+    Stationarity and axisymmetry are assumed, so radial derivatives are the
+    only explicit derivatives. The sign is positive for ordinary
+    differentially rotating disks with decreasing angular velocity. In the
+    Newtonian circular limit this reduces to ``-R dOmega/dR``.
+    """
+
+    derivative = np.asarray(
+        radial_lower_four_velocity_derivative,
+        dtype=float,
+    )
+    if derivative.shape != (3,) or np.any(~np.isfinite(derivative)):
+        raise ValueError(
+            "radial lower-four-velocity derivative must be finite "
+            "and length three"
+        )
+
+    metric = geometry.spacetime_metric
+    inverse_metric = geometry.inverse_spacetime_metric
+    metric_derivative = geometry.radial_spacetime_metric_derivative
+    four_velocity, rest_radial, rest_azimuthal = _fluid_rest_tetrad(
+        geometry,
+        primitive,
+    )
+    lower_velocity = metric @ four_velocity
+
+    connection = np.zeros((3, 3, 3), dtype=float)
+    radial_index = 1
+    for upper in range(3):
+        for first in range(3):
+            for second in range(3):
+                value = 0.0
+                for contracted in range(3):
+                    first_term = (
+                        metric_derivative[contracted, second]
+                        if first == radial_index
+                        else 0.0
+                    )
+                    second_term = (
+                        metric_derivative[contracted, first]
+                        if second == radial_index
+                        else 0.0
+                    )
+                    third_term = (
+                        metric_derivative[first, second]
+                        if contracted == radial_index
+                        else 0.0
+                    )
+                    value += inverse_metric[upper, contracted] * (
+                        first_term + second_term - third_term
+                    )
+                connection[upper, first, second] = 0.5 * value
+
+    partial_lower_velocity = np.zeros((3, 3), dtype=float)
+    partial_lower_velocity[radial_index] = derivative
+    covariant_derivative = np.array(
+        partial_lower_velocity,
+        copy=True,
+    )
+    for first in range(3):
+        for second in range(3):
+            covariant_derivative[first, second] -= float(
+                np.dot(
+                    connection[:, first, second],
+                    lower_velocity,
+                )
+            )
+    symmetric_gradient = (
+        covariant_derivative + covariant_derivative.T
+    )
+    shear_per_length = -float(
+        np.einsum(
+            "i,j,ij->",
+            rest_radial,
+            rest_azimuthal,
+            symmetric_gradient,
+        )
+    )
+    shear_rate = C * shear_per_length
+    if not np.isfinite(shear_rate):
+        raise ValueError("rest-frame shear rate is not finite")
+    return float(shear_rate)
+
+
 def causal_stress_column_state(
     geometry: KerrSchildColumnGeometry,
     primitive: ValenciaPerfectFluidPrimitive,

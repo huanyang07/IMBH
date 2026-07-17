@@ -438,6 +438,14 @@ class StressWorkPartition:
     explicit_total_energy_heating_source: float
 
 
+@dataclass(frozen=True)
+class CausalTemporalVerticalWorkStorage:
+    """Finite responsive-height work mapped into Killing storage."""
+
+    work_per_area: float
+    killing_storage_increment: np.ndarray
+
+
 def kerr_schild_column_four_velocity(
     geometry: KerrSchildColumnGeometry,
     primitive: ValenciaPerfectFluidPrimitive,
@@ -664,6 +672,45 @@ def temporal_vertical_work_per_area(
         * np.log(
             new.proper_half_thickness / old.proper_half_thickness
         )
+    )
+
+
+def causal_temporal_vertical_work_storage(
+    geometry: KerrSchildColumnGeometry,
+    primitive: ValenciaPerfectFluidPrimitive,
+    old: GasRadiationColumnThermodynamics,
+    new: GasRadiationColumnThermodynamics,
+) -> CausalTemporalVerticalWorkStorage:
+    """Return trapezoidal ``Pi dlnH`` in all Killing storage components.
+
+    The vertical pressure work is isotropic in the local fluid rest frame.
+    Integrating its comoving four-force over one coordinate-time increment
+    and moving it to the storage side gives the returned mass-equivalent
+    correction. The result is independent of the size of that time
+    increment.
+    """
+
+    work = temporal_vertical_work_per_area(old, new)
+    four_velocity = kerr_schild_column_four_velocity(
+        geometry,
+        primitive,
+    )
+    lower_velocity = geometry.spacetime_metric @ four_velocity
+    coefficient = (
+        geometry.base.lapse * work * four_velocity[0] / C**2
+    )
+    storage = np.asarray(
+        [
+            0.0,
+            coefficient * lower_velocity[1],
+            coefficient * lower_velocity[2],
+            -coefficient * lower_velocity[0],
+        ],
+        dtype=float,
+    )
+    return CausalTemporalVerticalWorkStorage(
+        work_per_area=float(work),
+        killing_storage_increment=storage,
     )
 
 

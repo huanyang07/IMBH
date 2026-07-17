@@ -68,6 +68,7 @@ This is the canonical project handoff. Status labels mean:
 | Causal relativistic alpha shear WP10c3a | **SUPPORTED BUT NOT FULLY CERTIFIED** for the local stress/flux contract; **DIAGNOSTIC ONLY** physically | Nine gas/radiation states have real acoustic/contact/shear spectra with zero light-cone excess; all inside-horizon modes leave the domain; tensor and paired torque/Killing-work identities close below `8.67e-16` | Its fixed-height thermodynamic chart is superseded by WP10c3b; `c_nu=sqrt(alpha)a` and the final nonlinear coupled characteristic structure remain unvalidated |
 | Responsive-height thermal ledger WP10c3b | **SUPPORTED BUT NOT FULLY CERTIFIED** for the local thermal/source contract; **DIAGNOSTIC ONLY** physically | Nine bounded dynamic-height states recover below `5.35e-13`; the vertical-work acoustic matrix closes below `8.33e-17`; comoving cooling/work identities close below `1.16e-15`; source integration is second order | `Omega_perp` is a supplied provisional closure; no full nonlinear characteristic proof, stream/Roche migration, stationary root, or timestep |
 | Kerr-Schild stream/Roche migration WP10c4 | **SUPPORTED BUT NOT FULLY CERTIFIED** for the source/boundary adapter; **DIAGNOSTIC ONLY** physically | Exact C2/C4 four-state moments close below `2.06e-16`; source-per-`ct` conversion below `1.80e-16`; the closed/choked Roche edge has one incoming acoustic mode and exact angular/Killing/pattern-power ledgers; outer face-row rank is four | Circular stream state is a regression fixture, local Hill force remains reduced PW+Hill, and the final causal-stress augmented nonlinear count, stationary root, and timestep remain pending |
+| Five-field causal DAE preflight WP10c5 | **SUPPORTED BUT NOT FULLY CERTIFIED** for local count/rank; **DIAGNOSTIC ONLY** physically | Exact count `15N+5`; covariant shear recovers `-R dOmega/dR`; five real responsive acoustic/contact/shear modes; zero inner incoming modes; two independent outer incoming responses; temporal Killing-storage transform closes at `2.74e-16` | Path-conservative shear row, transformed global mass matrix, and fifth Roche face are not yet assembled; N64/N96 roots and a timestep are not authorized |
 
 ## Frozen Target Under Review
 
@@ -437,17 +438,17 @@ N                    = 164
    backend and its new work telemetry; do not start a third optimization
    architecture.
 8. Treat WP9, WP10a, WP10b, WP10c1, source-free WP10c2 geometry, the local
-   WP10c3a/WP10c3b stress and thermal contracts, and the WP10c4 stream/Roche
-   adapters as complete. The old
+   WP10c3a/WP10c3b stress and thermal contracts, the WP10c4 stream/Roche
+   adapters, and the bounded WP10c5 count/rank preflight as complete. The old
    PW plunge has superluminal transverse rotation and must not be mapped into
    the new variables. Continue only the selected one-domain ingoing-Kerr-
-   Schild Valencia path. Next assemble the full causal-stress augmented
-   finite-volume DAE with the responsive thermal mass matrix, exact migrated
-   stream source, and migrated Roche face. Freeze the exact unknown/row count,
-   repeat the nonlinear characteristic and boundary-rank audit, and only then
-   attempt chained N64/N96 stationary roots followed by one tiny implicit
-   step. Do not add another inner/outer splice, distributed tide, wind, or
-   long evolution in this first production gate.
+   Schild Valencia path. WP10c5b must insert the covariant shear gradient as
+   one declared path-conservative fifth row, insert temporal vertical work in
+   the full Killing storage map, and extend the Roche provider to a fifth
+   zero-stress face. Differentiate that assembled residual at N16. Only a
+   full-rank result authorizes chained N64/N96 stationary roots followed by
+   one tiny implicit step. Do not add another inner/outer splice, distributed
+   tide, wind, or long evolution in this production gate.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -480,6 +481,7 @@ N                    = 164
 - Causal relativistic alpha shear: `reports/current/CODEX_CAUSAL_RELATIVISTIC_ALPHA_SHEAR_WP10C3A_RESULTS_2026-07-17.md`
 - Responsive-height thermal ledger: `reports/current/CODEX_RESPONSIVE_HEIGHT_THERMAL_LEDGER_WP10C3B_RESULTS_2026-07-17.md`
 - Kerr-Schild stream/Roche migration: `reports/current/CODEX_KERR_SCHILD_STREAM_ROCHE_MIGRATION_WP10C4_RESULTS_2026-07-17.md`
+- Five-field causal DAE preflight: `reports/current/CODEX_CAUSAL_FIVE_FIELD_DAE_PREFLIGHT_WP10C5_RESULTS_2026-07-17.md`
 - Fully coupled rank prototype: `reports/current/CODEX_COUPLED_INNER_OUTER_RANK_PROTOTYPE_RESULTS_2026-07-11.md`
 - Coupled mesh/interface certification: `reports/current/CODEX_COUPLED_MESH_INTERFACE_CERTIFICATION_RESULTS_2026-07-11.md`
 - Coupled wall pattern-power gate: `reports/current/CODEX_COUPLED_WALL_PATTERN_POWER_RESULTS_2026-07-11.md`

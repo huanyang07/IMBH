@@ -1147,3 +1147,61 @@ also monitor radial gradient length relative to scale height, radial and
 vertical optical depth, vertical adjustment time, self-gravity, and conserved
 flux compatibility. The first current-model failure is `L_u/H<1`, before the
 formal low-velocity endpoint.
+
+### Five-field causal DAE preflight
+
+The causal stress augments the four Killing conservation laws with
+
+```text
+Q_chi = D chi.
+```
+
+The production primitive order is
+
+```text
+(ln Sigma, beta_R, beta_phi, ln T, chi).
+```
+
+The stress relaxation law must retain its resolved spatial principal term:
+
+```text
+tau_r u^mu nabla_mu chi + chi = nu_s q,
+q = -2 c e_(R)^mu e_(phi)^nu sigma_mu_nu.
+```
+
+For stationary axisymmetric profiles, `q` is evaluated from the full
+Kerr-Schild connection and `d u_mu/dR`. Its Newtonian circular limit is
+`-R dOmega/dR`.
+
+With five cell-conserved states, five primitive states, and five fluxes at
+every face, the exact flux-primary count is
+
+```text
+unknowns = rows = 5N + 5N + 5(N+1) = 15N+5.
+```
+
+The covariant shear-gradient term belongs in the fifth conservation row and
+does not add a separate row. The responsive-height temporal work contributes
+to the Killing storage map:
+
+```text
+Delta W_H = 0.5 (Pi_old + Pi_new) Delta ln H.
+```
+
+For four-velocity `u^mu`, its mass-equivalent storage correction is
+
+```text
+Delta U_H =
+alpha Delta W_H u^0/c^2
+    (0, u_R, u_phi, -u_t).
+```
+
+At a coordinate-stationary subsonic Roche edge, the five-field system has one
+incoming acoustic mode, one incoming shear mode, one zero contact mode, and
+two outgoing modes. The physical edge therefore supplies exactly two
+conditions: the Hill/Roche acoustic contract and zero shear stress. The
+inner face remains inside `2 rg` and supplies no physical boundary condition.
+
+The local count and principal audit do not authorize a stationary root until
+the covariant shear path, temporal storage map, and fifth Roche face are
+assembled in one nonlinear finite-volume residual.

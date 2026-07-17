@@ -93,6 +93,14 @@ rejected sequence.
     and opening gate. Exact source, energy/Jacobi, characteristic-count, and
     base face-rank audits pass; the full stress-augmented stationary DAE is the
     next gate.
+27. **Five-field causal DAE preflight:** the evolved stress changes the exact
+    flux-primary count to `15N+5`. A covariant rest-frame shear operator
+    recovers `-R dOmega/dR`, the responsive acoustic/contact/shear principal
+    has five real causal modes, the inner excision has zero incoming modes,
+    and the Roche edge has two independent incoming responses. Temporal
+    height work is mapped into all Killing storage components. Production
+    roots remain blocked until these pieces are assembled into one
+    path-conservative nonlinear residual with a fifth zero-stress Roche face.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed
