@@ -149,7 +149,10 @@ class CausalFiveFieldDAEEvaluation:
     outer_flux_rows: np.ndarray
     mapped_conserved: np.ndarray
     numerical_weighted_face_fluxes_over_c: np.ndarray
+    central_weighted_face_fluxes_over_c: np.ndarray
+    rusanov_dissipation_weighted_face_fluxes_over_c: np.ndarray
     integrated_sources_per_ct: np.ndarray
+    integrated_source_components_per_ct: dict[str, np.ndarray]
     proper_shear_rates: np.ndarray
     proper_log_height_rates: np.ndarray
     scattering_optical_depths: np.ndarray
@@ -701,13 +704,13 @@ def _cell_state(
     )
 
 
-def _interior_rusanov_flux(
+def _interior_rusanov_flux_components(
     context: CausalFiveFieldDAEContext,
     face_index: int,
     left_chart: np.ndarray,
     right_chart: np.ndarray,
-) -> np.ndarray:
-    """Return one proper-measure weighted five-field Rusanov flux."""
+) -> tuple[np.ndarray, np.ndarray]:
+    """Return central and dissipative pieces of one Rusanov flux."""
 
     radius = float(context.grid.edges[face_index])
     left = _cell_state(context, radius, left_chart)
@@ -729,14 +732,37 @@ def _interior_rusanov_flux(
         )
         speeds.extend(audit.coordinate_speeds_over_c)
     maximum_speed = float(np.max(np.abs(speeds)))
-    flux = (
-        0.5 * (left.flux_over_c + right.flux_over_c)
-        - 0.5 * maximum_speed * (right.conserved - left.conserved)
+    measure = float(context.grid.face_measures[face_index])
+    central = (
+        measure * 0.5 * (left.flux_over_c + right.flux_over_c)
     )
-    return np.asarray(
-        context.grid.face_measures[face_index] * flux,
-        dtype=float,
+    dissipation = (
+        -measure
+        * 0.5
+        * maximum_speed
+        * (right.conserved - left.conserved)
     )
+    return (
+        np.asarray(central, dtype=float),
+        np.asarray(dissipation, dtype=float),
+    )
+
+
+def _interior_rusanov_flux(
+    context: CausalFiveFieldDAEContext,
+    face_index: int,
+    left_chart: np.ndarray,
+    right_chart: np.ndarray,
+) -> np.ndarray:
+    """Return one proper-measure weighted five-field Rusanov flux."""
+
+    central, dissipation = _interior_rusanov_flux_components(
+        context,
+        face_index,
+        left_chart,
+        right_chart,
+    )
+    return central + dissipation
 
 
 def _inner_face_flux(
@@ -859,16 +885,34 @@ def _integrated_cell_sources(
     cell_states: list[CausalFiveFieldCellState],
     shear_rates: np.ndarray,
     height_rates: np.ndarray,
-) -> tuple[np.ndarray, np.ndarray]:
+) -> tuple[np.ndarray, np.ndarray, dict[str, np.ndarray]]:
     """Return cell-integrated five-field sources per coordinate ``ct``."""
 
     n_cells = len(cell_states)
     sources = np.zeros((n_cells, _N_FIELDS), dtype=float)
+    components = {
+        name: np.zeros((n_cells, _N_FIELDS), dtype=float)
+        for name in (
+            "perfect_fluid_geometry",
+            "stress_geometry",
+            "radiative_cooling",
+            "vertical_work",
+            "stress_relaxation",
+            "stream",
+        )
+    }
     optical_depths = np.full(n_cells, np.nan, dtype=float)
     for index, state in enumerate(cell_states):
         perfect = audit_kerr_schild_column_sources(
             state.geometry,
             state.primitive,
+        )
+        measure = float(context.grid.cell_measures[index])
+        components["perfect_fluid_geometry"][index, 1] = (
+            measure * perfect.radial_momentum_source
+        )
+        components["stress_geometry"][index, 1] = (
+            measure * state.stress.radial_geometric_source_increment
         )
         local = np.asarray(
             [
@@ -898,40 +942,54 @@ def _integrated_cell_sources(
                 kappa=context.kappa,
             )
             local += thermal.total_killing_source_per_ct
+            components["radiative_cooling"][index, :4] = (
+                measure
+                * thermal.cooling_source.killing_source_per_ct
+            )
+            components["vertical_work"][index, :4] = (
+                measure
+                * thermal.vertical_work_source.killing_source_per_ct
+            )
             optical_depths[index] = thermal.scattering_optical_depth
         else:
             vertical_work = (
                 -state.thermodynamics.integrated_pressure
                 * height_rates[index]
             )
-            local += causal_comoving_energy_source(
+            vertical_source = causal_comoving_energy_source(
                 state.geometry,
                 state.primitive,
                 comoving_energy_rate=float(vertical_work),
-            ).killing_source_per_ct
+            )
+            local += vertical_source.killing_source_per_ct
+            components["vertical_work"][index, :4] = (
+                measure * vertical_source.killing_source_per_ct
+            )
             optical_depths[index] = (
                 0.5
                 * context.kappa
                 * state.thermodynamics.surface_density
             )
 
-        sources[index, :4] = (
-            context.grid.cell_measures[index] * local
+        sources[index, :4] = measure * local
+        stress_relaxation = causal_stress_relaxation_source(
+            state.geometry,
+            state.stress,
+            state.closure,
+            positive_shear_rate=float(shear_rates[index]),
         )
-        sources[index, 4] = (
-            context.grid.cell_measures[index]
-            * causal_stress_relaxation_source(
-                state.geometry,
-                state.stress,
-                state.closure,
-                positive_shear_rate=float(shear_rates[index]),
-            )
+        sources[index, 4] = measure * stress_relaxation
+        components["stress_relaxation"][index, 4] = (
+            measure * stress_relaxation
         )
     if context.stream_sources is not None:
-        sources[:, :4] += (
-            context.stream_sources.weighted_killing_source_per_ct
+        stream = np.asarray(
+            context.stream_sources.weighted_killing_source_per_ct,
+            dtype=float,
         )
-    return sources, optical_depths
+        sources[:, :4] += stream
+        components["stream"][:, :4] = stream
+    return sources, optical_depths, components
 
 
 def _mapped_state_and_fluxes(
@@ -939,6 +997,8 @@ def _mapped_state_and_fluxes(
     primitive_charts: np.ndarray,
 ) -> tuple[
     list[CausalFiveFieldCellState],
+    np.ndarray,
+    np.ndarray,
     np.ndarray,
     np.ndarray,
     bool,
@@ -960,19 +1020,36 @@ def _mapped_state_and_fluxes(
     )
     n_cells = len(cell_states)
     faces = np.empty((n_cells + 1, _N_FIELDS), dtype=float)
+    central_faces = np.empty_like(faces)
+    dissipative_faces = np.zeros_like(faces)
     faces[0] = _inner_face_flux(context, primitive_charts[0])
+    central_faces[0] = faces[0]
     for face in range(1, n_cells):
-        faces[face] = _interior_rusanov_flux(
-            context,
-            face,
-            primitive_charts[face - 1],
-            primitive_charts[face],
+        central_faces[face], dissipative_faces[face] = (
+            _interior_rusanov_flux_components(
+                context,
+                face,
+                primitive_charts[face - 1],
+                primitive_charts[face],
+            )
+        )
+        faces[face] = (
+            central_faces[face] + dissipative_faces[face]
         )
     faces[-1], choked, incoming = _outer_face_flux(
         context,
         primitive_charts[-1],
     )
-    return cell_states, mapped, faces, choked, incoming
+    central_faces[-1] = faces[-1]
+    return (
+        cell_states,
+        mapped,
+        faces,
+        central_faces,
+        dissipative_faces,
+        choked,
+        incoming,
+    )
 
 
 def evaluate_causal_five_field_dae(
@@ -997,14 +1074,20 @@ def evaluate_causal_five_field_dae(
     if temporal_storage_scheme not in ("endpoint", "path_integrated"):
         raise ValueError("unknown temporal-storage scheme")
 
-    cell_states, mapped, numerical_fluxes, choked, incoming = (
-        _mapped_state_and_fluxes(context, state.primitives)
-    )
+    (
+        cell_states,
+        mapped,
+        numerical_fluxes,
+        central_fluxes,
+        dissipative_fluxes,
+        choked,
+        incoming,
+    ) = _mapped_state_and_fluxes(context, state.primitives)
     shear_rates, height_rates = _straight_path_cell_rates(
         context,
         cell_states,
     )
-    sources, optical_depths = _integrated_cell_sources(
+    sources, optical_depths, source_components = _integrated_cell_sources(
         context,
         cell_states,
         shear_rates,
@@ -1126,7 +1209,12 @@ def evaluate_causal_five_field_dae(
         outer_flux_rows=outer_flux,
         mapped_conserved=mapped,
         numerical_weighted_face_fluxes_over_c=numerical_fluxes,
+        central_weighted_face_fluxes_over_c=central_fluxes,
+        rusanov_dissipation_weighted_face_fluxes_over_c=(
+            dissipative_fluxes
+        ),
         integrated_sources_per_ct=sources,
+        integrated_source_components_per_ct=source_components,
         proper_shear_rates=shear_rates,
         proper_log_height_rates=height_rates,
         scattering_optical_depths=optical_depths,
@@ -1234,7 +1322,16 @@ def evaluate_causal_five_field_increment_backward_euler(
         numerical_weighted_face_fluxes_over_c=(
             stationary.numerical_weighted_face_fluxes_over_c
         ),
+        central_weighted_face_fluxes_over_c=(
+            stationary.central_weighted_face_fluxes_over_c
+        ),
+        rusanov_dissipation_weighted_face_fluxes_over_c=(
+            stationary.rusanov_dissipation_weighted_face_fluxes_over_c
+        ),
         integrated_sources_per_ct=stationary.integrated_sources_per_ct,
+        integrated_source_components_per_ct=(
+            stationary.integrated_source_components_per_ct
+        ),
         proper_shear_rates=stationary.proper_shear_rates,
         proper_log_height_rates=stationary.proper_log_height_rates,
         scattering_optical_depths=stationary.scattering_optical_depths,
@@ -1258,9 +1355,15 @@ def causal_five_field_state_from_primitives(
     n_cells = int(context.grid.centers.size)
     if primitives.shape != (n_cells, _N_FIELDS):
         raise ValueError("primitive seed has the wrong shape")
-    _states, mapped, faces, _choked, _incoming = (
-        _mapped_state_and_fluxes(context, primitives)
-    )
+    (
+        _states,
+        mapped,
+        faces,
+        _central_faces,
+        _dissipative_faces,
+        _choked,
+        _incoming,
+    ) = _mapped_state_and_fluxes(context, primitives)
     return CausalFiveFieldDAEState(
         conserved=mapped,
         primitives=np.array(primitives, copy=True),

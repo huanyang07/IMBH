@@ -83,6 +83,7 @@ This is the canonical project handoff. Status labels mean:
 | Source-compatible causal startup WP10c5m | **SUPPORTED BUT NOT FULLY CERTIFIED** for bounded no-tide startup; **DIAGNOSTIC ONLY** physically | Exact unit inner throughput, `H/R=0.1`, `tau=18.5`, zero inner incoming modes, closed Roche edge, and full rank; equal-time N16/N32 startup reaches `5.542e-5 s` with mass defects `6.59e-13/1.57e-11` and response mismatch `1.00e-3` | Constructed datum, circularized source, and only about `1e-10 t_load`; duration, stability, tide, wind, hot-state, and cycle claims remain blocked |
 | Bounded causal duration WP10c5n | **CERTIFIED** as a bounded negative mesh result; **DIAGNOSTIC ONLY** physically | N16/N32 separately pass at exact `6.78172e-4 s` with full rank, no retries, closed Roche flow, `tau>18.67`, and mass/five-field defects `<4.5e-12` | Thickness-response mesh mismatch is `1.2557e-2 > 5e-3`; independently tuned moving-cell initial profiles confound continuum interpretation; no further duration or physics is authorized |
 | Mesh-common startup and temporal parity WP10c5o-q | **CERTIFIED** for common-data short startup and temporal-confound exclusion; **CERTIFIED** as a bounded negative spatial result; **DIAGNOSTIC ONLY** physically | One fixed physical profile passes N16/N32 initialization; short response mismatch is `2.7898e-3`; both bounded trajectories pass individually; equal 63-step duration control preserves full rank and ledgers below `4.7e-12` | Duration `Delta ln(H/R)` mismatch remains `2.1033e-2 > 5e-3`; the failure is spatial at N16/N32, and N64 plus all physical searches remain blocked |
+| Causal spatial-response audit WP10c5r | **CERTIFIED** for spatial-error classification; **DIAGNOSTIC ONLY** physically | Exact term tangents reconstruct below `2.7e-11`; face transport controls the N16/N32 mismatch at `24.05 s^-1`; central flux converges at order `>=1.996`, Rusanov/full transport at `>=1.106`, all source terms at expected order, and exact stream moments restrict below `2.26e-16` | The discrepancy is ordinary first-order coarse-grid truncation; no operator change is justified; one bounded N64 confirmation is authorized, while N96, long evolution, tide, wind, stability, hot-state, and cycle work remain blocked |
 
 ## Frozen Target Under Review
 
@@ -468,6 +469,17 @@ N                    = 164
     steps changes their responses by at most `3.00e-6`, so temporal alignment
     is excluded. The remaining failure is spatial at N16/N32; N64 and physical
     evolution remain blocked pending one term-resolved semidiscrete audit.
+58. WP10c5r decomposes the exact constrained semidiscrete tangent into face
+    transport and six production source components. Exact N32-to-N16
+    finite-volume restriction localizes `24.0482 s^-1` of the thickness-rate
+    mismatch to face transport at `55.5662 rg`; the next source contribution
+    is only `1.58902 s^-1`, and linear/PCHIP reconstructions recover the same
+    result. Operator-only N16-N128 tests give central-flux order at least
+    `1.9961`, Rusanov/full-transport order at least `1.1058`, source-term
+    order at least `1.9837`, and exact-stream restriction error below
+    `2.26e-16`. The N16/N32 duration failure is quantified first-order
+    truncation, not an inconsistent stencil. No correction is authorized;
+    one bounded N64 confirmation is the next gate.
 
 ## Claims That Are Not Allowed Yet
 
@@ -522,19 +534,19 @@ N                    = 164
    frozen linear-precision audit, the WP10c5g component audit, and the
    WP10c5h increment-primary startup, WP10c5i exact-stream startup, WP10c5j
    sparse parity backend, WP10c5k repeated startup, WP10c5l matched source
-   control, WP10c5m source-compatible startup, WP10c5n bounded stop, and
-   WP10c5o-q mesh-common/temporal-parity controls as complete. The old PW
+   control, WP10c5m source-compatible startup, WP10c5n bounded stop,
+   WP10c5o-q mesh-common/temporal-parity controls, and WP10c5r spatial
+   classification as complete. The old PW
    plunge has superluminal transverse rotation and must not be mapped into the
    new variables. Continue only the selected one-domain ingoing-Kerr-Schild
-   Valencia path. The next package is one no-evolution, term-resolved
-   semidiscrete spatial-response audit on the fixed analytic profile at N16
-   and N32. Separate conservative cell-average and reconstructed comparisons;
-   manufacture a smooth response for every production spatial term; permit
-   one correction only for a demonstrated inconsistent stencil, map, or term.
-   Authorize N64 only after expected spatial convergence is demonstrated or
-   the current mismatch is quantitatively classified as ordinary coarse-grid
-   truncation error. Do not launch longer duration, distributed tide, wind,
-   stability, or a hot/cycle search.
+   Valencia path. The next package is one bounded N64 confirmation from the
+   same analytic profile. Require the unchanged N32/N64 short gate before the
+   existing bounded target; then measure N16/N32 versus N32/N64 contraction.
+   A passing `5e-3` duration gate certifies the mesh comparison. A remaining
+   failure may authorize N128 only when contraction order is at least `0.75`
+   and every causal, rank, optical, Roche, nonlinear, and ledger gate passes.
+   Do not change the first-order operator, launch N96 or longer duration, or
+   begin distributed tide, wind, stability, or a hot/cycle search.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -546,7 +558,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_MESH_COMMON_STARTUP_AND_TEMPORAL_PARITY_WP10C5O_Q_RESULTS_2026-07-18.md`
+  `reports/current/CODEX_CAUSAL_SPATIAL_RESPONSE_WP10C5R_RESULTS_2026-07-18.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)

@@ -97,6 +97,10 @@ DEFAULT_MESH_COMMON_TEMPORAL_PARITY_OUTPUT = (
     ROOT
     / "outputs/tables/causal_five_field_mesh_common_temporal_parity_wp10c5q.json"
 )
+DEFAULT_MESH_COMMON_SPATIAL_RESPONSE_OUTPUT = (
+    ROOT
+    / "outputs/tables/causal_five_field_mesh_common_spatial_response_wp10c5r.json"
+)
 DEFAULT_RESTART_DIRECTORY = (
     ROOT / "outputs/checkpoints/causal_five_field_wp10c5k"
 )
@@ -169,6 +173,10 @@ def _arguments() -> argparse.Namespace:
         "--increment-primary-mesh-common-temporal-parity-audit",
         action="store_true",
     )
+    parser.add_argument(
+        "--increment-primary-mesh-common-spatial-response-audit",
+        action="store_true",
+    )
     return parser.parse_args()
 
 
@@ -179,6 +187,8 @@ def _absolute(path: Path) -> Path:
 def _json_default(value):
     if isinstance(value, np.generic):
         return value.item()
+    if isinstance(value, np.ndarray):
+        return value.tolist()
     raise TypeError(f"cannot serialize {type(value).__name__}")
 
 
@@ -2014,6 +2024,10 @@ def _run_increment_primary_resolution(
         "context": context,
         "old_vector": old_vector,
         "scaling": scaling,
+        "stationary_evaluation": stationary_evaluation,
+        "stationary_jacobian_audit": stationary,
+        "backward_euler_jacobian_audit": backward_euler,
+        "consistent_initial_data_audit": consistent,
         "initial_scaled_increment": initial_increment,
         "initial_dense_jacobian": initial_jacobian,
         "timestep_seconds": timestep,
@@ -5002,6 +5016,1114 @@ def _mesh_common_initial_profile_audit(
     }
 
 
+def _log_h_over_r_tangent(
+    context: CausalFiveFieldDAEContext,
+    vector: np.ndarray,
+    primitive_tangent: np.ndarray,
+) -> np.ndarray:
+    n_cells = int(context.grid.centers.size)
+    state = unpack_causal_five_field_state(
+        np.asarray(vector, dtype=float),
+        n_cells,
+    )
+    tangent = np.asarray(primitive_tangent, dtype=float)
+    if tangent.shape != (n_cells, 5):
+        raise ValueError("primitive tangent has the wrong shape")
+    result = np.empty(n_cells, dtype=float)
+    for index, radius in enumerate(context.grid.centers):
+        sigma = float(np.exp(state.primitives[index, 0]))
+        temperature = float(np.exp(state.primitives[index, 3]))
+        derivatives = context.vertical_frequency.eos(
+            float(radius)
+        ).derivatives(
+            sigma,
+            temperature,
+        )
+        result[index] = (
+            derivatives.height_log_surface_density
+            * tangent[index, 0]
+            + derivatives.height_log_temperature
+            * tangent[index, 3]
+        )
+    return result
+
+
+def _mesh_common_spatial_seed_artifacts(
+    n_cells: int,
+    seed_parameters: dict,
+) -> tuple[dict, dict]:
+    context = _context(n_cells, include_stream=True)
+    state = make_causal_five_field_seed(
+        context,
+        **seed_parameters,
+    )
+    vector = pack_causal_five_field_state(state)
+    evaluation = evaluate_causal_five_field_dae(
+        vector,
+        context,
+    )
+    scaling = causal_five_field_dae_scaling(
+        state,
+        evaluation,
+    )
+    size = vector.size
+    zero = np.zeros(size, dtype=float)
+    pattern = causal_five_field_dae_jacobian_sparsity(n_cells)
+
+    def scaled_residual(
+        scaled_increment: np.ndarray,
+        *,
+        backward_euler: bool,
+    ) -> np.ndarray:
+        trial = (
+            vector
+            + np.asarray(scaling.column_scales, dtype=float)
+            * np.asarray(scaled_increment, dtype=float)
+        )
+        if backward_euler:
+            trial_evaluation = evaluate_causal_five_field_dae(
+                trial,
+                context,
+                old_vector=vector,
+                timestep_seconds=1.0,
+            )
+        else:
+            trial_evaluation = evaluate_causal_five_field_dae(
+                trial,
+                context,
+            )
+        return (
+            trial_evaluation.residual
+            / np.asarray(scaling.row_scales, dtype=float)
+        )
+
+    stationary = causal_five_field_colored_central_jacobian(
+        lambda increment: scaled_residual(
+            increment,
+            backward_euler=False,
+        ),
+        zero,
+        pattern,
+        finite_difference_step=FINITE_DIFFERENCE_STEP,
+    ).toarray()
+    backward_euler = causal_five_field_colored_central_jacobian(
+        lambda increment: scaled_residual(
+            increment,
+            backward_euler=True,
+        ),
+        zero,
+        pattern,
+        finite_difference_step=FINITE_DIFFERENCE_STEP,
+    ).toarray()
+    n_differential = 5 * n_cells
+    descriptor_rows = (
+        backward_euler - stationary
+    )[:n_differential]
+    algebraic_tangent = stationary[n_differential:]
+    consistency_matrix = np.vstack(
+        (descriptor_rows, algebraic_tangent)
+    )
+    scaled_stationary_residual = (
+        evaluation.residual
+        / np.asarray(scaling.row_scales, dtype=float)
+    )
+    right_hand_side = np.concatenate(
+        (
+            -scaled_stationary_residual[:n_differential],
+            np.zeros(size - n_differential, dtype=float),
+        )
+    )
+    scaled_tangent = np.linalg.solve(
+        consistency_matrix,
+        right_hand_side,
+    )
+    consistency_defect = float(
+        np.max(
+            np.abs(
+                consistency_matrix @ scaled_tangent
+                - right_hand_side
+            )
+        )
+    )
+    descriptor_rank = _rank_summary(
+        descriptor_rows,
+        equilibrate=False,
+    )
+    consistency_rank = _rank_summary(consistency_matrix)
+    state_audit, state_passed = _source_compatible_state_audit(
+        context,
+        vector,
+    )
+    maximum_initial_algebraic_residual = float(
+        np.max(
+            np.abs(
+                scaled_stationary_residual[n_differential:]
+            )
+        )
+    )
+    passed = bool(
+        state_passed
+        and descriptor_rank["numerical_rank"] == n_differential
+        and consistency_rank["equilibration"]["full_rank"]
+        and maximum_initial_algebraic_residual <= 1.0e-12
+        and consistency_defect <= 1.0e-10
+    )
+    return {
+        "n_cells": n_cells,
+        "state_audit": state_audit,
+        "descriptor_rank": descriptor_rank,
+        "consistency_rank": consistency_rank,
+        "maximum_initial_algebraic_residual": (
+            maximum_initial_algebraic_residual
+        ),
+        "maximum_scaled_consistency_defect": consistency_defect,
+        "passed": passed,
+    }, {
+        "context": context,
+        "old_vector": vector,
+        "scaling": scaling,
+        "stationary_evaluation": evaluation,
+        "stationary_scaled_jacobian": stationary,
+        "backward_euler_scaled_jacobian": backward_euler,
+        "consistent_scaled_tangent": scaled_tangent,
+    }
+
+
+def _mesh_common_semidiscrete_tangent_resolution(
+    initialization: dict,
+    artifacts: dict,
+) -> dict:
+    context = artifacts["context"]
+    vector = np.asarray(artifacts["old_vector"], dtype=float)
+    n_cells = int(context.grid.centers.size)
+    n_differential = 5 * n_cells
+    scaling = artifacts["scaling"]
+    if "stationary_scaled_jacobian" in artifacts:
+        stationary_matrix = np.asarray(
+            artifacts["stationary_scaled_jacobian"],
+            dtype=float,
+        )
+        backward_euler_matrix = np.asarray(
+            artifacts["backward_euler_scaled_jacobian"],
+            dtype=float,
+        )
+        full_scaled_tangent = np.asarray(
+            artifacts["consistent_scaled_tangent"],
+            dtype=float,
+        )
+    else:
+        stationary_matrix = np.asarray(
+            artifacts["stationary_jacobian_audit"].scaled_jacobian,
+            dtype=float,
+        )
+        backward_euler_matrix = np.asarray(
+            artifacts[
+                "backward_euler_jacobian_audit"
+            ].scaled_jacobian,
+            dtype=float,
+        )
+        full_scaled_tangent = np.asarray(
+            artifacts[
+                "consistent_initial_data_audit"
+            ].scaled_tangent,
+            dtype=float,
+        )
+    evaluation = artifacts["stationary_evaluation"]
+    state = unpack_causal_five_field_state(vector, n_cells)
+
+    descriptor = (
+        backward_euler_matrix - stationary_matrix
+    )
+    descriptor_rows = descriptor[:n_differential]
+    algebraic_tangent = np.asarray(
+        stationary_matrix[n_differential:],
+        dtype=float,
+    )
+    consistency_matrix = np.vstack(
+        (descriptor_rows, algebraic_tangent)
+    )
+    transport = (
+        evaluation.numerical_weighted_face_fluxes_over_c[1:]
+        - evaluation.numerical_weighted_face_fluxes_over_c[:-1]
+    )
+    residual_terms = {"face_transport": transport}
+    residual_terms.update(
+        {
+            name: -np.asarray(values, dtype=float)
+            for name, values in (
+                evaluation.integrated_source_components_per_ct.items()
+            )
+        }
+    )
+    term_names = tuple(residual_terms)
+    row_scale = np.asarray(
+        scaling.row_scales[:n_differential],
+        dtype=float,
+    ).reshape(n_cells, 5)
+    right_hand_sides = np.zeros(
+        (consistency_matrix.shape[0], len(term_names)),
+        dtype=float,
+    )
+    for index, name in enumerate(term_names):
+        right_hand_sides[:n_differential, index] = (
+            -np.asarray(residual_terms[name], dtype=float).ravel()
+            / row_scale.ravel()
+        )
+    scaled_component_tangents = np.linalg.solve(
+        consistency_matrix,
+        right_hand_sides,
+    )
+    physical_component_tangents = (
+        np.asarray(scaling.column_scales, dtype=float)[:, None]
+        * scaled_component_tangents
+    )
+    full_physical_tangent = (
+        np.asarray(scaling.column_scales, dtype=float)
+        * full_scaled_tangent
+    )
+    component_sum = np.sum(
+        physical_component_tangents,
+        axis=1,
+    )
+    tangent_scale = np.maximum(
+        np.abs(full_physical_tangent),
+        np.sum(np.abs(physical_component_tangents), axis=1),
+    )
+    tangent_scale = np.maximum(tangent_scale, 1.0e-300)
+    tangent_reconstruction_relative_defect = float(
+        np.max(
+            np.abs(component_sum - full_physical_tangent)
+            / tangent_scale
+        )
+    )
+    residual_reconstruction = np.sum(
+        np.asarray(list(residual_terms.values()), dtype=float),
+        axis=0,
+    )
+    residual_scale = np.maximum(
+        np.abs(evaluation.conservation_rows),
+        np.abs(transport)
+        + np.abs(evaluation.integrated_sources_per_ct),
+    )
+    residual_scale = np.maximum(residual_scale, 1.0)
+    residual_reconstruction_relative_defect = float(
+        np.max(
+            np.abs(
+                residual_reconstruction
+                - evaluation.conservation_rows
+            )
+            / residual_scale
+        )
+    )
+
+    primitive_slice = slice(
+        n_differential,
+        2 * n_differential,
+    )
+    full_primitive_tangent = full_physical_tangent[
+        primitive_slice
+    ].reshape(n_cells, 5)
+    full_conserved_tangent = full_physical_tangent[
+        :n_differential
+    ].reshape(n_cells, 5)
+    full_log_h_tangent = _log_h_over_r_tangent(
+        context,
+        vector,
+        full_primitive_tangent,
+    )
+    components = {}
+    for index, name in enumerate(term_names):
+        physical = physical_component_tangents[:, index]
+        primitive = physical[primitive_slice].reshape(n_cells, 5)
+        conserved = physical[:n_differential].reshape(n_cells, 5)
+        log_h_tangent = _log_h_over_r_tangent(
+            context,
+            vector,
+            primitive,
+        )
+        components[name] = {
+            "primitive_tangent_per_s": primitive,
+            "conserved_tangent_per_s": conserved,
+            "log_h_over_r_tangent_per_s": log_h_tangent,
+            "maximum_absolute_log_h_over_r_tangent_per_s": float(
+                np.max(np.abs(log_h_tangent))
+            ),
+            "primitive_field_maxima_per_s": {
+                name: float(value)
+                for name, value in zip(
+                    (
+                        "log_surface_density",
+                        "radial_velocity_over_c",
+                        "azimuthal_velocity_over_c",
+                        "log_temperature",
+                        "specific_stress",
+                    ),
+                    np.max(np.abs(primitive), axis=0),
+                    strict=True,
+                )
+            },
+        }
+    passed = bool(
+        initialization["passed"]
+        and residual_reconstruction_relative_defect <= 1.0e-12
+        and tangent_reconstruction_relative_defect <= 5.0e-10
+    )
+    return {
+        "n_cells": n_cells,
+        "radius_rg": (
+            np.asarray(context.grid.centers, dtype=float)
+            / context.grid.gravitational_radius
+        ),
+        "cell_measures": np.asarray(
+            context.grid.cell_measures,
+            dtype=float,
+        ),
+        "grid_edges_rg": (
+            np.asarray(context.grid.edges, dtype=float)
+            / context.grid.gravitational_radius
+        ),
+        "full": {
+            "primitive_tangent_per_s": full_primitive_tangent,
+            "conserved_tangent_per_s": full_conserved_tangent,
+            "log_h_over_r_tangent_per_s": full_log_h_tangent,
+            "maximum_absolute_log_h_over_r_tangent_per_s": float(
+                np.max(np.abs(full_log_h_tangent))
+            ),
+        },
+        "components": components,
+        "term_names": list(term_names),
+        "residual_reconstruction_relative_defect": (
+            residual_reconstruction_relative_defect
+        ),
+        "tangent_reconstruction_relative_defect": (
+            tangent_reconstruction_relative_defect
+        ),
+        "passed": passed,
+    }
+
+
+def _linear_center_reconstruction(
+    log_radius: np.ndarray,
+    values: np.ndarray,
+    sample_log_radius: np.ndarray,
+) -> np.ndarray:
+    centers = np.asarray(log_radius, dtype=float)
+    field = np.asarray(values, dtype=float)
+    sample = np.asarray(sample_log_radius, dtype=float)
+    reconstructed = np.interp(sample, centers, field)
+    left = sample < centers[0]
+    right = sample > centers[-1]
+    reconstructed[left] = (
+        field[0]
+        + (field[1] - field[0])
+        / (centers[1] - centers[0])
+        * (sample[left] - centers[0])
+    )
+    reconstructed[right] = (
+        field[-1]
+        + (field[-1] - field[-2])
+        / (centers[-1] - centers[-2])
+        * (sample[right] - centers[-1])
+    )
+    return reconstructed
+
+
+def _tangent_field_difference(
+    first: np.ndarray,
+    second: np.ndarray,
+    radius_rg: np.ndarray,
+) -> dict:
+    first_values = np.asarray(first, dtype=float)
+    second_values = np.asarray(second, dtype=float)
+    difference = first_values - second_values
+    maximum_index = int(np.argmax(np.abs(difference)))
+    amplitude = max(
+        float(np.max(np.abs(first_values))),
+        float(np.max(np.abs(second_values))),
+        np.finfo(float).tiny,
+    )
+    return {
+        "maximum_absolute_difference_per_s": float(
+            np.max(np.abs(difference))
+        ),
+        "rms_difference_per_s": float(
+            np.sqrt(np.mean(difference**2))
+        ),
+        "maximum_difference_relative_to_profile_amplitude": float(
+            np.max(np.abs(difference)) / amplitude
+        ),
+        "maximum_difference_radius_rg": float(
+            np.asarray(radius_rg, dtype=float)[maximum_index]
+        ),
+    }
+
+
+def _mesh_common_semidiscrete_tangent_comparison(
+    n16: dict,
+    n32: dict,
+) -> dict:
+    coarse_edges = np.asarray(n16["grid_edges_rg"], dtype=float)
+    fine_edges = np.asarray(n32["grid_edges_rg"], dtype=float)
+    nested = bool(np.array_equal(coarse_edges, fine_edges[::2]))
+    coarse_measures = np.asarray(n16["cell_measures"], dtype=float)
+    fine_measures = np.asarray(n32["cell_measures"], dtype=float)
+    restriction_weights = fine_measures.reshape(16, 2)
+
+    def restrict(values: np.ndarray) -> np.ndarray:
+        fine = np.asarray(values, dtype=float)
+        reshaped = fine.reshape((16, 2) + fine.shape[1:])
+        weights = restriction_weights
+        while weights.ndim < reshaped.ndim:
+            weights = weights[..., None]
+        return np.sum(weights * reshaped, axis=1) / (
+            coarse_measures.reshape(
+                (16,) + (1,) * (fine.ndim - 1)
+            )
+        )
+
+    sample_log_radius = np.linspace(
+        np.log(coarse_edges[0]),
+        np.log(coarse_edges[-1]),
+        257,
+    )
+    sample_radius = np.exp(sample_log_radius)
+    coarse_log_radius = np.log(
+        np.asarray(n16["radius_rg"], dtype=float)
+    )
+    fine_log_radius = np.log(
+        np.asarray(n32["radius_rg"], dtype=float)
+    )
+
+    def compare_log_h(
+        coarse_values: np.ndarray,
+        fine_values: np.ndarray,
+    ) -> dict:
+        coarse = np.asarray(coarse_values, dtype=float)
+        fine = np.asarray(fine_values, dtype=float)
+        restricted = restrict(fine)
+        linear_coarse = _linear_center_reconstruction(
+            coarse_log_radius,
+            coarse,
+            sample_log_radius,
+        )
+        linear_fine = _linear_center_reconstruction(
+            fine_log_radius,
+            fine,
+            sample_log_radius,
+        )
+        pchip_coarse = PchipInterpolator(
+            coarse_log_radius,
+            coarse,
+            extrapolate=True,
+        )(sample_log_radius)
+        pchip_fine = PchipInterpolator(
+            fine_log_radius,
+            fine,
+            extrapolate=True,
+        )(sample_log_radius)
+        return {
+            "fine_to_coarse_cell_average": _tangent_field_difference(
+                coarse,
+                restricted,
+                np.asarray(n16["radius_rg"], dtype=float),
+            ),
+            "log_linear_shared_radius": _tangent_field_difference(
+                linear_coarse,
+                linear_fine,
+                sample_radius,
+            ),
+            "pchip_shared_radius": _tangent_field_difference(
+                pchip_coarse,
+                pchip_fine,
+                sample_radius,
+            ),
+            "n16_reconstruction_spread": _tangent_field_difference(
+                linear_coarse,
+                pchip_coarse,
+                sample_radius,
+            ),
+            "n32_reconstruction_spread": _tangent_field_difference(
+                linear_fine,
+                pchip_fine,
+                sample_radius,
+            ),
+        }
+
+    full_log_h = compare_log_h(
+        n16["full"]["log_h_over_r_tangent_per_s"],
+        n32["full"]["log_h_over_r_tangent_per_s"],
+    )
+    component_log_h = {
+        name: compare_log_h(
+            n16["components"][name][
+                "log_h_over_r_tangent_per_s"
+            ],
+            n32["components"][name][
+                "log_h_over_r_tangent_per_s"
+            ],
+        )
+        for name in n16["term_names"]
+    }
+    coarse_conserved = np.asarray(
+        n16["full"]["conserved_tangent_per_s"],
+        dtype=float,
+    )
+    restricted_conserved = restrict(
+        n32["full"]["conserved_tangent_per_s"]
+    )
+    conserved_restriction = {
+        name: _tangent_field_difference(
+            coarse_conserved[:, index],
+            restricted_conserved[:, index],
+            np.asarray(n16["radius_rg"], dtype=float),
+        )
+        for index, name in enumerate(FIELD_NAMES)
+    }
+    component_ranking = sorted(
+        (
+            {
+                "term": name,
+                **metrics["fine_to_coarse_cell_average"],
+            }
+            for name, metrics in component_log_h.items()
+        ),
+        key=lambda row: row["maximum_absolute_difference_per_s"],
+        reverse=True,
+    )
+    return {
+        "grids_are_exactly_nested": nested,
+        "full_log_h_over_r_tangent": full_log_h,
+        "component_log_h_over_r_tangent": component_log_h,
+        "component_cell_average_difference_ranking": component_ranking,
+        "full_conserved_tangent_fine_to_coarse": (
+            conserved_restriction
+        ),
+        "passed": bool(
+            nested
+            and n16["passed"]
+            and n32["passed"]
+        ),
+    }
+
+
+def _mesh_common_transport_flux_resolution(
+    n_cells: int,
+    seed_parameters: dict,
+) -> tuple[dict, dict]:
+    """Evaluate the production Rusanov split on one analytic-profile mesh."""
+
+    context = _context(n_cells, include_stream=True)
+    state = make_causal_five_field_seed(
+        context,
+        **seed_parameters,
+    )
+    evaluation = evaluate_causal_five_field_dae(
+        pack_causal_five_field_state(state),
+        context,
+    )
+    central = np.asarray(
+        evaluation.central_weighted_face_fluxes_over_c,
+        dtype=float,
+    )
+    dissipation = np.asarray(
+        evaluation.rusanov_dissipation_weighted_face_fluxes_over_c,
+        dtype=float,
+    )
+    numerical = np.asarray(
+        evaluation.numerical_weighted_face_fluxes_over_c,
+        dtype=float,
+    )
+    scale = np.maximum(np.abs(numerical), 1.0)
+    reconstruction_defect = float(
+        np.max(
+            np.abs(central + dissipation - numerical)
+            / scale
+        )
+    )
+    passed = bool(
+        reconstruction_defect <= 5.0e-15
+        and np.all(dissipation[[0, -1]] == 0.0)
+    )
+    return {
+        "n_cells": n_cells,
+        "maximum_relative_flux_split_reconstruction_defect": (
+            reconstruction_defect
+        ),
+        "boundary_dissipation_is_exactly_zero": bool(
+            np.all(dissipation[[0, -1]] == 0.0)
+        ),
+        "passed": passed,
+    }, {
+        "grid_edges_rg": (
+            np.asarray(context.grid.edges, dtype=float)
+            / context.grid.gravitational_radius
+        ),
+        "central": central,
+        "rusanov_dissipation": dissipation,
+        "total": numerical,
+        "source_components": {
+            name: np.asarray(values, dtype=float)
+            for name, values in (
+                evaluation.integrated_source_components_per_ct.items()
+            )
+        },
+    }
+
+
+def _mesh_common_transport_pair_error(
+    coarse: dict,
+    fine: dict,
+) -> dict:
+    """Compare one nested pair using shared faces and cell balances."""
+
+    coarse_edges = np.asarray(coarse["grid_edges_rg"], dtype=float)
+    fine_edges = np.asarray(fine["grid_edges_rg"], dtype=float)
+    n_coarse = coarse_edges.size - 1
+    nested = bool(
+        fine_edges.size == 2 * n_coarse + 1
+        and np.array_equal(coarse_edges, fine_edges[::2])
+    )
+    if not nested:
+        raise RuntimeError("manufactured transport grids are not nested")
+    field_scale = np.maximum(
+        np.max(np.abs(fine["central"][1:-1]), axis=0),
+        np.finfo(float).tiny,
+    )
+
+    def metrics(name: str) -> dict:
+        coarse_faces = np.asarray(coarse[name], dtype=float)
+        fine_faces = np.asarray(fine[name], dtype=float)
+        shared_difference = (
+            coarse_faces[1:-1] - fine_faces[2:-1:2]
+        )
+        normalized_shared = shared_difference / field_scale
+        coarse_balance = coarse_faces[1:] - coarse_faces[:-1]
+        fine_balance = fine_faces[1:] - fine_faces[:-1]
+        restricted_fine_balance = np.sum(
+            fine_balance.reshape(n_coarse, 2, 5),
+            axis=1,
+        )
+        balance_difference = (
+            coarse_balance[1:-1]
+            - restricted_fine_balance[1:-1]
+        )
+        normalized_balance = balance_difference / field_scale
+        return {
+            "shared_face_scaled_l2_error": float(
+                np.sqrt(np.mean(normalized_shared**2))
+            ),
+            "shared_face_scaled_linf_error": float(
+                np.max(np.abs(normalized_shared))
+            ),
+            "cell_balance_scaled_l2_error": float(
+                np.sqrt(np.mean(normalized_balance**2))
+            ),
+            "cell_balance_scaled_linf_error": float(
+                np.max(np.abs(normalized_balance))
+            ),
+            "shared_face_field_linf_errors": {
+                field: float(value)
+                for field, value in zip(
+                    FIELD_NAMES,
+                    np.max(np.abs(normalized_shared), axis=0),
+                    strict=True,
+                )
+            },
+            "cell_balance_field_linf_errors": {
+                field: float(value)
+                for field, value in zip(
+                    FIELD_NAMES,
+                    np.max(np.abs(normalized_balance), axis=0),
+                    strict=True,
+                )
+            },
+        }
+
+    return {
+        "coarse_cells": n_coarse,
+        "fine_cells": 2 * n_coarse,
+        "grids_are_exactly_nested": nested,
+        "central": metrics("central"),
+        "rusanov_dissipation": metrics("rusanov_dissipation"),
+        "total": metrics("total"),
+    }
+
+
+def _observed_pair_orders(
+    pair_errors: list[dict],
+    component: str,
+    metric: str,
+) -> list[float]:
+    errors = [
+        float(pair[component][metric])
+        for pair in pair_errors
+    ]
+    return [
+        float(np.log2(first / second))
+        for first, second in zip(errors[:-1], errors[1:], strict=True)
+        if first > 0.0 and second > 0.0
+    ]
+
+
+def _mesh_common_source_pair_error(
+    coarse: dict,
+    fine: dict,
+) -> dict:
+    """Compare integrated production sources on one nested grid pair."""
+
+    coarse_edges = np.asarray(coarse["grid_edges_rg"], dtype=float)
+    fine_edges = np.asarray(fine["grid_edges_rg"], dtype=float)
+    n_coarse = coarse_edges.size - 1
+    nested = bool(
+        fine_edges.size == 2 * n_coarse + 1
+        and np.array_equal(coarse_edges, fine_edges[::2])
+    )
+    if not nested:
+        raise RuntimeError("manufactured source grids are not nested")
+    result = {
+        "coarse_cells": n_coarse,
+        "fine_cells": 2 * n_coarse,
+        "grids_are_exactly_nested": nested,
+        "components": {},
+    }
+    for name, coarse_values in coarse["source_components"].items():
+        coarse_component = np.asarray(coarse_values, dtype=float)
+        fine_component = np.asarray(
+            fine["source_components"][name],
+            dtype=float,
+        )
+        restricted = np.sum(
+            fine_component.reshape(n_coarse, 2, 5),
+            axis=1,
+        )
+        difference = (
+            coarse_component[1:-1] - restricted[1:-1]
+        )
+        amplitude_l2 = max(
+            float(np.linalg.norm(coarse_component[1:-1])),
+            float(np.linalg.norm(restricted[1:-1])),
+            np.finfo(float).tiny,
+        )
+        amplitude_linf = max(
+            float(np.max(np.abs(coarse_component[1:-1]))),
+            float(np.max(np.abs(restricted[1:-1]))),
+            np.finfo(float).tiny,
+        )
+        result["components"][name] = {
+            "scaled_l2_error": float(
+                np.linalg.norm(difference) / amplitude_l2
+            ),
+            "scaled_linf_error": float(
+                np.max(np.abs(difference)) / amplitude_linf
+            ),
+            "maximum_absolute_error": float(
+                np.max(np.abs(difference))
+            ),
+        }
+    return result
+
+
+def _mesh_common_manufactured_transport_convergence(
+    seed_parameters: dict,
+) -> dict:
+    """Certify the declared central-plus-Rusanov spatial order."""
+
+    resolutions = (16, 32, 64, 128)
+    summaries = {}
+    artifacts = {}
+    for n_cells in resolutions:
+        summary, artifact = _mesh_common_transport_flux_resolution(
+            n_cells,
+            seed_parameters,
+        )
+        summaries[str(n_cells)] = summary
+        artifacts[n_cells] = artifact
+    pair_errors = [
+        _mesh_common_transport_pair_error(
+            artifacts[coarse],
+            artifacts[2 * coarse],
+        )
+        for coarse in resolutions[:-1]
+    ]
+    source_pair_errors = [
+        _mesh_common_source_pair_error(
+            artifacts[coarse],
+            artifacts[2 * coarse],
+        )
+        for coarse in resolutions[:-1]
+    ]
+    metrics = (
+        "shared_face_scaled_l2_error",
+        "cell_balance_scaled_l2_error",
+    )
+    observed_orders = {
+        component: {
+            metric: _observed_pair_orders(
+                pair_errors,
+                component,
+                metric,
+            )
+            for metric in metrics
+        }
+        for component in (
+            "central",
+            "rusanov_dissipation",
+            "total",
+        )
+    }
+    central_orders = [
+        value
+        for metric in metrics
+        for value in observed_orders["central"][metric]
+    ]
+    dissipation_orders = [
+        value
+        for metric in metrics
+        for value in observed_orders[
+            "rusanov_dissipation"
+        ][metric]
+    ]
+    total_orders = [
+        value
+        for metric in metrics
+        for value in observed_orders["total"][metric]
+    ]
+    source_observed_orders = {
+        name: _observed_pair_orders(
+            [
+                {
+                    "source": pair["components"][name],
+                }
+                for pair in source_pair_errors
+            ],
+            "source",
+            "scaled_l2_error",
+        )
+        for name in artifacts[16]["source_components"]
+        if name != "stream"
+    }
+    local_source_names = (
+        "perfect_fluid_geometry",
+        "stress_geometry",
+        "radiative_cooling",
+    )
+    derivative_source_names = (
+        "vertical_work",
+        "stress_relaxation",
+    )
+    local_source_orders = [
+        value
+        for name in local_source_names
+        for value in source_observed_orders[name]
+    ]
+    derivative_source_orders = [
+        value
+        for name in derivative_source_names
+        for value in source_observed_orders[name]
+    ]
+    maximum_stream_scaled_linf_error = max(
+        pair["components"]["stream"]["scaled_linf_error"]
+        for pair in source_pair_errors
+    )
+    gates = {
+        "all_flux_splits_reconstruct": all(
+            summary["passed"] for summary in summaries.values()
+        ),
+        "minimum_central_observed_order": (
+            min(central_orders) if central_orders else float("-inf")
+        ),
+        "minimum_rusanov_dissipation_observed_order": (
+            min(dissipation_orders)
+            if dissipation_orders
+            else float("-inf")
+        ),
+        "minimum_total_observed_order": (
+            min(total_orders) if total_orders else float("-inf")
+        ),
+        "required_minimum_central_order": 1.5,
+        "required_minimum_rusanov_dissipation_order": 0.75,
+        "required_minimum_total_order": 0.75,
+        "minimum_local_source_observed_order": (
+            min(local_source_orders)
+            if local_source_orders
+            else float("-inf")
+        ),
+        "minimum_derivative_source_observed_order": (
+            min(derivative_source_orders)
+            if derivative_source_orders
+            else float("-inf")
+        ),
+        "maximum_stream_scaled_linf_error": (
+            maximum_stream_scaled_linf_error
+        ),
+        "required_minimum_local_source_order": 1.5,
+        "required_minimum_derivative_source_order": 0.75,
+        "required_maximum_stream_scaled_linf_error": 5.0e-13,
+    }
+    passed = bool(
+        gates["all_flux_splits_reconstruct"]
+        and gates["minimum_central_observed_order"]
+        >= gates["required_minimum_central_order"]
+        and gates[
+            "minimum_rusanov_dissipation_observed_order"
+        ]
+        >= gates["required_minimum_rusanov_dissipation_order"]
+        and gates["minimum_total_observed_order"]
+        >= gates["required_minimum_total_order"]
+        and gates["minimum_local_source_observed_order"]
+        >= gates["required_minimum_local_source_order"]
+        and gates["minimum_derivative_source_observed_order"]
+        >= gates["required_minimum_derivative_source_order"]
+        and gates["maximum_stream_scaled_linf_error"]
+        <= gates["required_maximum_stream_scaled_linf_error"]
+    )
+    return {
+        "profile": (
+            "the same fixed-anchor C2 continuum primitive profile used "
+            "by the mesh-common causal startup"
+        ),
+        "scope": (
+            "operator-only face-flux evaluation; N64 and N128 are not "
+            "physical evolution runs"
+        ),
+        "resolutions": list(resolutions),
+        "resolution_summaries": summaries,
+        "nested_pair_errors": pair_errors,
+        "nested_source_pair_errors": source_pair_errors,
+        "observed_orders": observed_orders,
+        "source_observed_orders": source_observed_orders,
+        "gates": gates,
+        "passed": passed,
+        "interpretation": (
+            "declared first-order Rusanov truncation is demonstrated"
+            if passed
+            else "the production face operator fails its declared order"
+        ),
+    }
+
+
+def _run_mesh_common_spatial_response_audit(
+    args: argparse.Namespace,
+) -> None:
+    common_parameters, construction = (
+        _mesh_common_source_compatible_seed_parameters()
+    )
+    n16_initial, n16_artifacts = (
+        _mesh_common_spatial_seed_artifacts(
+            16,
+            common_parameters,
+        )
+    )
+    n32_initial, n32_artifacts = (
+        _mesh_common_spatial_seed_artifacts(
+            32,
+            common_parameters,
+        )
+    )
+    profile = _mesh_common_initial_profile_audit(
+        n16_artifacts,
+        n32_artifacts,
+        construction,
+    )
+    prerequisites_passed = bool(
+        n16_initial["passed"]
+        and n32_initial["passed"]
+        and profile["passed"]
+    )
+    n16 = None
+    n32 = None
+    comparison = None
+    manufactured = None
+    if prerequisites_passed:
+        n16 = _mesh_common_semidiscrete_tangent_resolution(
+            n16_initial,
+            n16_artifacts,
+        )
+        n32 = _mesh_common_semidiscrete_tangent_resolution(
+            n32_initial,
+            n32_artifacts,
+        )
+        if n16["passed"] and n32["passed"]:
+            comparison = (
+                _mesh_common_semidiscrete_tangent_comparison(
+                    n16,
+                    n32,
+                )
+            )
+            if comparison["passed"]:
+                manufactured = (
+                    _mesh_common_manufactured_transport_convergence(
+                        common_parameters,
+                    )
+                )
+    passed = bool(
+        prerequisites_passed
+        and comparison is not None
+        and comparison["passed"]
+        and manufactured is not None
+        and manufactured["passed"]
+    )
+    output = {
+        "work_package": "WP10c5r",
+        "scope": (
+            "no-evolution term-resolved semidiscrete response on the "
+            "fixed mesh-common causal datum"
+        ),
+        "construction": construction,
+        "common_seed_parameters": common_parameters,
+        "initial_profile_mesh_audit": profile,
+        "n16": n16,
+        "n32": n32,
+        "mesh_comparison": comparison,
+        "manufactured_transport_convergence": manufactured,
+        "gates": {
+            "common_initial_data_passed": prerequisites_passed,
+            "n16_tangent_decomposition_passed": bool(
+                n16 is not None and n16["passed"]
+            ),
+            "n32_tangent_decomposition_passed": bool(
+                n32 is not None and n32["passed"]
+            ),
+            "nested_cell_average_comparison_passed": bool(
+                comparison is not None and comparison["passed"]
+            ),
+            "manufactured_spatial_response_complete": bool(
+                manufactured is not None
+            ),
+            "manufactured_spatial_response_passed": bool(
+                manufactured is not None and manufactured["passed"]
+            ),
+            "operator_correction_authorized": False,
+            "operator_correction_applied": False,
+            "n64_physical_evolution_executed": False,
+            "n64_physical_evolution_authorized_for_next_wp": passed,
+            "long_evolution_authorized": False,
+            "tide_authorized": False,
+            "wind_authorized": False,
+        },
+        "passed": passed,
+        "decision": (
+            "ordinary_first_order_rusanov_truncation_quantified"
+            if passed
+            else "stop_before_evolution_and_review_face_operator"
+        ),
+    }
+    output_path = _absolute(
+        DEFAULT_MESH_COMMON_SPATIAL_RESPONSE_OUTPUT
+        if args.output == DEFAULT_OUTPUT
+        else args.output
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = json.dumps(
+        output,
+        indent=2,
+        sort_keys=True,
+        default=_json_default,
+    )
+    output_path.write_text(serialized + "\n", encoding="utf-8")
+    print(serialized)
+
+
 def _source_compatible_consistency_rank_audit(
     context: CausalFiveFieldDAEContext,
     vector: np.ndarray,
@@ -6566,6 +7688,9 @@ def _run_increment_primary_audit(
 
 def main() -> None:
     args = _arguments()
+    if args.increment_primary_mesh_common_spatial_response_audit:
+        _run_mesh_common_spatial_response_audit(args)
+        return
     if args.increment_primary_mesh_common_temporal_parity_audit:
         _run_mesh_common_temporal_parity_audit(args)
         return

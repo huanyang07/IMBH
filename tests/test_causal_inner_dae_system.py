@@ -120,6 +120,40 @@ def test_seed_closes_primitive_and_all_face_maps_exactly() -> None:
     )
 
 
+def test_rusanov_flux_components_reconstruct_production_flux() -> None:
+    context = _context(8)
+    state = make_causal_five_field_seed(context)
+    evaluation = evaluate_causal_five_field_dae(
+        pack_causal_five_field_state(state),
+        context,
+    )
+    reconstructed = (
+        evaluation.central_weighted_face_fluxes_over_c
+        + evaluation.rusanov_dissipation_weighted_face_fluxes_over_c
+    )
+    scale = np.maximum(
+        np.abs(evaluation.numerical_weighted_face_fluxes_over_c),
+        1.0,
+    )
+
+    assert np.max(
+        np.abs(
+            reconstructed
+            - evaluation.numerical_weighted_face_fluxes_over_c
+        )
+        / scale
+    ) < 2.0e-16
+    assert evaluation.rusanov_dissipation_weighted_face_fluxes_over_c[
+        [0, -1]
+    ] == pytest.approx(np.zeros((2, 5)), abs=0.0)
+    assert np.any(
+        evaluation.rusanov_dissipation_weighted_face_fluxes_over_c[
+            1:-1
+        ]
+        != 0.0
+    )
+
+
 def test_fixed_plateau_seed_samples_one_common_continuum_profile() -> None:
     context16 = _context(16)
     context32 = _context(32)
@@ -382,6 +416,54 @@ def test_diffusion_cooling_is_included_without_breaking_the_ledger() -> None:
         evaluation.integrated_sources_per_ct[:, 3]
         < no_cooling.integrated_sources_per_ct[:, 3]
     )
+
+
+def test_integrated_source_components_reconstruct_production_source() -> None:
+    context = _context(4, cooling=True)
+    mass = np.asarray([0.0, 2.0e20, 3.0e20, 0.0])
+    stream = KerrSchildCellSourceRates(
+        rest_mass=mass,
+        radial_momentum_over_c=0.25 * mass,
+        angular_momentum_over_c=1.5e9 * mass,
+        killing_energy_over_c2=1.01 * mass,
+    )
+    context = replace(context, stream_sources=stream)
+    state = make_causal_five_field_seed(context)
+    evaluation = evaluate_causal_five_field_dae(
+        pack_causal_five_field_state(state),
+        context,
+    )
+    components = evaluation.integrated_source_components_per_ct
+
+    assert set(components) == {
+        "perfect_fluid_geometry",
+        "stress_geometry",
+        "radiative_cooling",
+        "vertical_work",
+        "stress_relaxation",
+        "stream",
+    }
+    reconstructed = np.sum(
+        np.asarray(list(components.values()), dtype=float),
+        axis=0,
+    )
+    scale = np.maximum(
+        np.abs(evaluation.integrated_sources_per_ct),
+        1.0,
+    )
+    assert np.max(
+        np.abs(
+            reconstructed - evaluation.integrated_sources_per_ct
+        )
+        / scale
+    ) < 1.0e-14
+    assert components["stream"][:, :4] == pytest.approx(
+        stream.weighted_killing_source_per_ct
+    )
+    assert np.count_nonzero(components["stream"][:, 4]) == 0
+    assert np.count_nonzero(
+        components["stress_relaxation"][:, :4]
+    ) == 0
 
 
 def test_exact_stream_moments_enter_only_the_four_killing_rows() -> None:

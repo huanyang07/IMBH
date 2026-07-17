@@ -193,6 +193,17 @@ rejected sequence.
     at most `3.00e-6`, excluding temporal alignment as the explanation. The
     remaining failure is spatial at N16/N32. A term-resolved semidiscrete audit
     is required before N64 or any physical evolution.
+39. **Causal spatial-response classification:** exact constrained tangents
+    reconstruct below `2.7e-11`, and conservative N32-to-N16 restriction
+    localizes the broad thickness-rate discrepancy to face transport:
+    `24.0482 s^-1` at `55.5662 rg`, versus `1.58902 s^-1` from the next
+    source contribution. Linear and PCHIP comparisons give the same result.
+    Operator-only N16-N128 checks recover central order at least `1.9961`,
+    Rusanov/full-transport order at least `1.1058`, all source orders at least
+    `1.9837`, and exact-stream restriction below `2.26e-16`. The prior
+    duration mismatch is ordinary first-order coarse-grid truncation. No
+    operator correction is justified; one bounded N64 confirmation is
+    authorized before any longer or physical evolution.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed
