@@ -1366,3 +1366,44 @@ Then the amplified temporal term is the primary `Delta U_cell / Delta t`.
 Primitive and numerical-face maps remain algebraic rows without `1/Delta t`
 amplification. The responsive-height path one-form may remain because it
 passes the component directional gate.
+
+WP10c5h implements this representation without changing the physical
+equations. The Newton coordinates are
+
+```text
+(Delta U_cell, Delta p_cell, Delta F_face),
+```
+
+with the absolute new state reconstructed as
+
+\[
+U^{n+1}=U^n+\Delta U,\qquad
+p^{n+1}=p^n+\Delta p,\qquad
+F^{n+1}=F^n+\Delta F.
+\]
+
+The cell conservation residual is
+
+\[
+\frac{{\cal V}_i\Delta U_i}{c\Delta t}
++F_{i+1/2}^{n+1}-F_{i-1/2}^{n+1}
+-S_i^{n+1}
++W_{H,i}^{n+1}=0,
+\]
+
+where \(W_H\) is the already certified responsive-height Killing-storage
+one-form. The remaining rows are the same absolute algebraic maps,
+
+\[
+U^{n+1}-U(p^{n+1})=0,
+\qquad
+F^{n+1}-F_{\rm num}(p^{n+1})=0.
+\]
+
+Thus only the conserved increment is placed directly in the amplified
+temporal row. The primitive and face maps are not divided by the timestep.
+At N16 and N32 the equilibrated square Jacobians are full rank, bounded
+backward-Euler steps pass below `8.8e-9`, and one-full-step versus
+two-half-step differences are `2.76e-6` and `1.01e-6` of the corresponding
+full changes. These are source-free startup results, not a physical
+relaxation or stability result.

@@ -882,6 +882,116 @@ def evaluate_causal_five_field_dae(
     )
 
 
+def evaluate_causal_five_field_increment_backward_euler(
+    increment_vector: np.ndarray,
+    context: CausalFiveFieldDAEContext,
+    *,
+    old_vector: np.ndarray,
+    timestep_seconds: float,
+    temporal_height_scheme: str = "path_integrated",
+) -> CausalFiveFieldDAEEvaluation:
+    """Evaluate backward Euler with primary state and face increments.
+
+    The conserved increment is an independent Newton unknown and enters the
+    amplified storage row directly. Primitive recovery and numerical face
+    closure remain algebraic constraints at the new state.
+    """
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    count = causal_five_field_dae_count(n_cells)
+    increment = np.asarray(increment_vector, dtype=float)
+    old_values = np.asarray(old_vector, dtype=float)
+    if (
+        increment.shape != (count.total_unknowns,)
+        or old_values.shape != (count.total_unknowns,)
+        or np.any(~np.isfinite(increment))
+        or np.any(~np.isfinite(old_values))
+    ):
+        raise ValueError("increment-primary DAE vectors are invalid")
+    timestep = float(timestep_seconds)
+    if not np.isfinite(timestep) or timestep <= 0.0:
+        raise ValueError("backward-Euler timestep must be positive and finite")
+    if temporal_height_scheme not in ("endpoint", "path_integrated"):
+        raise ValueError("unknown temporal-height scheme")
+
+    old = unpack_causal_five_field_state(old_values, n_cells)
+    new_state = unpack_causal_five_field_state(
+        old_values + increment,
+        n_cells,
+    )
+    stationary = evaluate_causal_five_field_dae(
+        pack_causal_five_field_state(new_state),
+        context,
+    )
+    n_differential = _N_FIELDS * n_cells
+    conserved_increment = increment[:n_differential].reshape(
+        n_cells,
+        _N_FIELDS,
+    )
+    if temporal_height_scheme == "endpoint":
+        temporal = causal_five_field_endpoint_temporal_storage_increment(
+            context,
+            old.primitives,
+            new_state.primitives,
+        )
+    else:
+        temporal = causal_five_field_path_temporal_storage_increment(
+            context,
+            old.primitives,
+            new_state.primitives,
+        )
+    coordinate_timestep = C * timestep
+    temporal_conserved_storage = (
+        context.grid.cell_measures[:, None]
+        * conserved_increment
+        / coordinate_timestep
+    )
+    temporal_vertical_storage = (
+        context.grid.cell_measures[:, None]
+        * temporal.vertical_killing_increment
+        / coordinate_timestep
+    )
+    conservation = (
+        stationary.conservation_rows
+        + temporal_conserved_storage
+    )
+    conservation[:, :4] += temporal_vertical_storage
+    residual = np.concatenate(
+        (
+            conservation.ravel(),
+            stationary.primitive_map_rows.ravel(),
+            stationary.interior_flux_rows.ravel(),
+            stationary.inner_flux_rows,
+            stationary.outer_flux_rows,
+        )
+    )
+    if residual.shape != (count.total_rows,) or np.any(~np.isfinite(residual)):
+        raise ValueError("increment-primary DAE residual is invalid")
+    return CausalFiveFieldDAEEvaluation(
+        residual=residual,
+        conservation_rows=conservation,
+        primitive_map_rows=stationary.primitive_map_rows,
+        interior_flux_rows=stationary.interior_flux_rows,
+        inner_flux_rows=stationary.inner_flux_rows,
+        outer_flux_rows=stationary.outer_flux_rows,
+        mapped_conserved=stationary.mapped_conserved,
+        numerical_weighted_face_fluxes_over_c=(
+            stationary.numerical_weighted_face_fluxes_over_c
+        ),
+        integrated_sources_per_ct=stationary.integrated_sources_per_ct,
+        proper_shear_rates=stationary.proper_shear_rates,
+        proper_log_height_rates=stationary.proper_log_height_rates,
+        scattering_optical_depths=stationary.scattering_optical_depths,
+        temporal_conserved_storage=temporal_conserved_storage,
+        temporal_vertical_storage=temporal_vertical_storage,
+        outer_boundary_choked=stationary.outer_boundary_choked,
+        outer_incoming_characteristics=(
+            stationary.outer_incoming_characteristics
+        ),
+    )
+
+
 def causal_five_field_state_from_primitives(
     context: CausalFiveFieldDAEContext,
     primitive_charts: np.ndarray,

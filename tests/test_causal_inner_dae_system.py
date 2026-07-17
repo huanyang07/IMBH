@@ -23,6 +23,7 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_five_field_reduced_stationary_residual,
     causal_five_field_state_from_primitives,
     evaluate_causal_five_field_dae,
+    evaluate_causal_five_field_increment_backward_euler,
     fiducial_hill_roche_nozzle_geometry,
     make_causal_five_field_seed,
     make_kerr_schild_column_grid,
@@ -412,6 +413,141 @@ def test_consistent_initial_tangent_balances_storage_on_constraint_manifold() ->
     assert reduced_backward_euler == pytest.approx(
         evaluation.conservation_rows.ravel()
     )
+
+
+def test_increment_primary_zero_state_preserves_stationary_constraints() -> None:
+    context = _context(2)
+    old_state = make_causal_five_field_seed(context)
+    old_vector = pack_causal_five_field_state(old_state)
+    stationary = evaluate_causal_five_field_dae(old_vector, context)
+    count = causal_five_field_dae_count(2)
+    evaluation = evaluate_causal_five_field_increment_backward_euler(
+        np.zeros(count.total_unknowns),
+        context,
+        old_vector=old_vector,
+        timestep_seconds=1.0,
+    )
+
+    assert evaluation.conservation_rows == pytest.approx(
+        stationary.conservation_rows
+    )
+    assert evaluation.primitive_map_rows == pytest.approx(
+        np.zeros((2, 5)),
+        abs=0.0,
+    )
+    assert evaluation.interior_flux_rows == pytest.approx(
+        np.zeros((1, 5)),
+        abs=0.0,
+    )
+    assert evaluation.inner_flux_rows == pytest.approx(
+        np.zeros(5),
+        abs=0.0,
+    )
+    assert evaluation.outer_flux_rows == pytest.approx(
+        np.zeros(5),
+        abs=0.0,
+    )
+    assert evaluation.temporal_conserved_storage == pytest.approx(
+        np.zeros((2, 5)),
+        abs=0.0,
+    )
+    assert evaluation.temporal_vertical_storage == pytest.approx(
+        np.zeros((2, 4)),
+        abs=0.0,
+    )
+
+
+def test_increment_primary_storage_uses_declared_conserved_increment() -> None:
+    context = _context(2)
+    old_state = make_causal_five_field_seed(context)
+    old_vector = pack_causal_five_field_state(old_state)
+    count = causal_five_field_dae_count(2)
+    increment = np.zeros(count.total_unknowns)
+    declared = abs(old_state.conserved[1, 2]) * 1.0e-12
+    increment[7] = declared
+    timestep = 3.0e-4
+    evaluation = evaluate_causal_five_field_increment_backward_euler(
+        increment,
+        context,
+        old_vector=old_vector,
+        timestep_seconds=timestep,
+    )
+    expected = (
+        context.grid.cell_measures[1]
+        * declared
+        / (C * timestep)
+    )
+
+    assert evaluation.temporal_conserved_storage[1, 2] == expected
+    assert np.count_nonzero(evaluation.temporal_conserved_storage) == 1
+    assert evaluation.temporal_vertical_storage == pytest.approx(
+        np.zeros((2, 4)),
+        abs=0.0,
+    )
+
+
+def test_increment_primary_matches_endpoint_form_at_resolved_increment() -> None:
+    context = _context(2)
+    old_state = make_causal_five_field_seed(context)
+    old_vector = pack_causal_five_field_state(old_state)
+    new_primitives = np.array(old_state.primitives, copy=True)
+    new_primitives[:, 0] += 1.0e-4
+    new_primitives[:, 1] += 2.0e-5
+    new_primitives[:, 2] -= 1.0e-5
+    new_primitives[:, 3] += 3.0e-4
+    new_primitives[:, 4] *= 1.0002
+    new_state = causal_five_field_state_from_primitives(
+        context,
+        new_primitives,
+    )
+    new_vector = pack_causal_five_field_state(new_state)
+    timestep = 1.0e-3
+    endpoint = evaluate_causal_five_field_dae(
+        new_vector,
+        context,
+        old_vector=old_vector,
+        timestep_seconds=timestep,
+        temporal_storage_scheme="endpoint",
+    )
+    increment = evaluate_causal_five_field_increment_backward_euler(
+        new_vector - old_vector,
+        context,
+        old_vector=old_vector,
+        timestep_seconds=timestep,
+        temporal_height_scheme="endpoint",
+    )
+
+    assert increment.residual == pytest.approx(
+        endpoint.residual,
+        rel=2.0e-13,
+        abs=1.0e-12,
+    )
+
+
+def test_increment_primary_backward_euler_is_full_rank() -> None:
+    context = _context(2)
+    old_state = make_causal_five_field_seed(context)
+    old_vector = pack_causal_five_field_state(old_state)
+    stationary = evaluate_causal_five_field_dae(old_vector, context)
+    scaling = causal_five_field_dae_scaling(old_state, stationary)
+    count = causal_five_field_dae_count(2)
+    audit = audit_causal_five_field_dae_jacobian(
+        lambda increment: (
+            evaluate_causal_five_field_increment_backward_euler(
+                increment,
+                context,
+                old_vector=old_vector,
+                timestep_seconds=1.0,
+            ).residual
+        ),
+        np.zeros(count.total_unknowns),
+        scaling,
+        finite_difference_step=2.0e-6,
+        rank_relative_threshold=1.0e-11,
+    )
+
+    assert audit.dimensions == (35, 35)
+    assert audit.full_rank
 
 
 def test_path_storage_recovers_tiny_rest_mass_increment() -> None:

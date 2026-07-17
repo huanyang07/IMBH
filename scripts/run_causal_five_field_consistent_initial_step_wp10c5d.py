@@ -25,10 +25,12 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_five_field_reduced_backward_euler_residual,
     causal_five_field_state_from_primitives,
     evaluate_causal_five_field_dae,
+    evaluate_causal_five_field_increment_backward_euler,
     fiducial_hill_roche_nozzle_geometry,
     make_causal_five_field_seed,
     make_kerr_schild_column_grid,
     pack_causal_five_field_state,
+    unpack_causal_five_field_state,
 )
 from imri_qpe.parameters import FiducialParams
 
@@ -64,6 +66,10 @@ def _arguments() -> argparse.Namespace:
     )
     parser.add_argument(
         "--directional-consistency-audit",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--increment-primary-audit",
         action="store_true",
     )
     return parser.parse_args()
@@ -1191,7 +1197,7 @@ def _run_resolution(
         }
 
     nonlinear_bound = 1.25 * target_scaled_primitive_change
-    final_increment, solver, last_matrix, last_values = _bounded_newton(
+    final_increment, solver, last_matrix, _last_values = _bounded_newton(
         residual,
         jacobian,
         initial_increment,
@@ -1411,8 +1417,753 @@ def _run_resolution(
     }
 
 
+def _rank_summary(matrix: np.ndarray) -> dict:
+    def summary(values: np.ndarray) -> dict:
+        singular = np.linalg.svd(values, compute_uv=False)
+        largest = float(singular[0])
+        smallest = float(singular[-1])
+        threshold = max(
+            RANK_THRESHOLD * largest,
+            np.finfo(float).eps * max(values.shape) * largest,
+        )
+        rank = int(np.sum(singular > threshold))
+        return {
+            "dimensions": [int(value) for value in values.shape],
+            "numerical_rank": rank,
+            "full_rank": rank == min(values.shape),
+            "rank_threshold": threshold,
+            "largest_singular_value": largest,
+            "smallest_singular_value": smallest,
+            "condition_estimate": float(
+                largest / max(smallest, np.finfo(float).tiny)
+            ),
+            "smallest_six_singular_values": [
+                float(value) for value in singular[-6:]
+            ],
+        }
+
+    result = summary(matrix)
+    (
+        row_scale,
+        column_scale,
+        row_condition,
+        column_condition,
+        maximum_entry,
+        info,
+    ) = dgeequ(matrix)
+    if int(info) != 0:
+        raise RuntimeError(f"dgeequ rank audit failed with info={info}")
+    equilibrated = (
+        row_scale[:, None]
+        * matrix
+        * column_scale[None, :]
+    )
+    result["equilibration"] = {
+        "row_scale_minimum": float(np.min(row_scale)),
+        "row_scale_maximum": float(np.max(row_scale)),
+        "column_scale_minimum": float(np.min(column_scale)),
+        "column_scale_maximum": float(np.max(column_scale)),
+        "row_condition": float(row_condition),
+        "column_condition": float(column_condition),
+        "maximum_matrix_entry": float(maximum_entry),
+        "dgeequ_info": int(info),
+        **summary(equilibrated),
+    }
+    return result
+
+
+def _run_increment_primary_resolution(
+    n_cells: int,
+    target_scaled_primitive_change: float,
+) -> tuple[dict, dict]:
+    context = _context(n_cells)
+    old_state = make_causal_five_field_seed(context)
+    old_vector = pack_causal_five_field_state(old_state)
+    stationary_evaluation = evaluate_causal_five_field_dae(
+        old_vector,
+        context,
+    )
+    scaling = causal_five_field_dae_scaling(
+        old_state,
+        stationary_evaluation,
+    )
+    audit_kwargs = {
+        "finite_difference_step": FINITE_DIFFERENCE_STEP,
+        "rank_relative_threshold": RANK_THRESHOLD,
+    }
+    stationary = audit_causal_five_field_dae_jacobian(
+        lambda trial: evaluate_causal_five_field_dae(
+            trial,
+            context,
+        ).residual,
+        old_vector,
+        scaling,
+        **audit_kwargs,
+    )
+    descriptor_timestep = 1.0
+    backward_euler = audit_causal_five_field_dae_jacobian(
+        lambda trial: evaluate_causal_five_field_dae(
+            trial,
+            context,
+            old_vector=old_vector,
+            timestep_seconds=descriptor_timestep,
+        ).residual,
+        old_vector,
+        scaling,
+        **audit_kwargs,
+    )
+    consistent = audit_causal_five_field_consistent_initial_data(
+        context,
+        old_state,
+        stationary,
+        backward_euler,
+        scaling=scaling,
+        descriptor_timestep_seconds=descriptor_timestep,
+        rank_relative_threshold=RANK_THRESHOLD,
+    )
+    n_differential = 5 * n_cells
+    primitive_columns = slice(n_differential, 2 * n_differential)
+    primitive_tangent = np.asarray(
+        consistent.scaled_tangent[primitive_columns],
+        dtype=float,
+    )
+    timestep = float(
+        target_scaled_primitive_change
+        / max(
+            np.max(np.abs(primitive_tangent)),
+            np.finfo(float).tiny,
+        )
+    )
+    initial_increment = timestep * np.asarray(
+        consistent.scaled_tangent,
+        dtype=float,
+    )
+
+    def residual(scaled_increment: np.ndarray) -> np.ndarray:
+        physical_increment = (
+            scaling.column_scales
+            * np.asarray(scaled_increment, dtype=float)
+        )
+        return (
+            evaluate_causal_five_field_increment_backward_euler(
+                physical_increment,
+                context,
+                old_vector=old_vector,
+                timestep_seconds=timestep,
+                temporal_height_scheme="path_integrated",
+            ).residual
+            / scaling.row_scales
+        )
+
+    def central_jacobian(scaled_increment: np.ndarray) -> np.ndarray:
+        size = scaled_increment.size
+        columns = np.empty((size, size), dtype=float)
+        for index in range(size):
+            plus = np.array(scaled_increment, copy=True)
+            minus = np.array(scaled_increment, copy=True)
+            plus[index] += FINITE_DIFFERENCE_STEP
+            minus[index] -= FINITE_DIFFERENCE_STEP
+            columns[:, index] = (
+                residual(plus) - residual(minus)
+            ) / (2.0 * FINITE_DIFFERENCE_STEP)
+        return columns
+
+    initial_jacobian = central_jacobian(initial_increment)
+    initial_rank = _rank_summary(initial_jacobian)
+    initial_matrix_available = True
+
+    def jacobian(scaled_increment: np.ndarray) -> np.ndarray:
+        nonlocal initial_matrix_available
+        if (
+            initial_matrix_available
+            and np.array_equal(scaled_increment, initial_increment)
+        ):
+            initial_matrix_available = False
+            return initial_jacobian
+        return central_jacobian(scaled_increment)
+
+    nonlinear_bound = 1.25 * target_scaled_primitive_change
+    final_increment, solver, last_matrix, _last_values = _bounded_newton(
+        residual,
+        jacobian,
+        initial_increment,
+        bound=nonlinear_bound,
+        residual_tolerance=1.0e-8,
+        linear_solver="direct",
+    )
+    physical_increment = scaling.column_scales * final_increment
+    new_state = unpack_causal_five_field_state(
+        old_vector + physical_increment,
+        n_cells,
+    )
+    evaluation = evaluate_causal_five_field_increment_backward_euler(
+        physical_increment,
+        context,
+        old_vector=old_vector,
+        timestep_seconds=timestep,
+        temporal_height_scheme="path_integrated",
+    )
+    scaled_residual = evaluation.residual / scaling.row_scales
+    scaled_conservation = scaled_residual[:n_differential].reshape(
+        n_cells,
+        5,
+    )
+    controlling_flat_index = int(np.argmax(np.abs(scaled_conservation)))
+    controlling_cell, controlling_field = np.unravel_index(
+        controlling_flat_index,
+        scaled_conservation.shape,
+    )
+    algebraic_scaled_residual = scaled_residual[n_differential:]
+    ledger_defect, component_ledger_defects = _ledger_defect(
+        new_state,
+        evaluation,
+    )
+    if last_matrix is None:
+        last_matrix = initial_jacobian
+    final_rank = _rank_summary(np.asarray(last_matrix, dtype=float))
+    block_maxima = {
+        "conserved": float(
+            np.max(np.abs(final_increment[:n_differential]))
+        ),
+        "primitive": float(
+            np.max(
+                np.abs(
+                    final_increment[
+                        n_differential : 2 * n_differential
+                    ]
+                )
+            )
+        ),
+        "face_flux": float(
+            np.max(np.abs(final_increment[2 * n_differential :]))
+        ),
+    }
+    maximum_change = float(np.max(np.abs(final_increment)))
+    maximum_scaled_residual = float(np.max(np.abs(scaled_residual)))
+    maximum_scaled_conservation_residual = float(
+        np.max(np.abs(scaled_conservation))
+    )
+    maximum_scaled_algebraic_residual = float(
+        np.max(np.abs(algebraic_scaled_residual))
+    )
+    consistency_passed = (
+        consistent.full_rank
+        and consistent.descriptor_full_row_rank
+        and consistent.maximum_initial_algebraic_residual <= 1.0e-12
+        and consistent.maximum_scaled_consistency_residual <= 1.0e-10
+        and consistent.storage_balance_residual_norm <= 1.0e-9
+        and consistent.algebraic_tangent_residual_norm <= 1.0e-9
+    )
+    step_passed = (
+        solver["success"]
+        and initial_rank["equilibration"]["full_rank"]
+        and final_rank["equilibration"]["full_rank"]
+        and maximum_scaled_residual <= 1.0e-8
+        and maximum_scaled_algebraic_residual <= 1.0e-10
+        and maximum_change <= nonlinear_bound
+        and evaluation.outer_boundary_choked
+        == stationary_evaluation.outer_boundary_choked
+        and np.min(evaluation.scattering_optical_depths) > 1.0
+        and ledger_defect <= 1.0e-10
+    )
+    report = {
+        "n_cells": n_cells,
+        "unknown_count": int(final_increment.size),
+        "residual_count": int(scaled_residual.size),
+        "coordinate": "primary physical increments",
+        "temporal_height_scheme": "path_integrated",
+        "seed_is_stationary_root": False,
+        "seed_maximum_scaled_conservation_residual": float(
+            np.max(
+                np.abs(
+                    stationary_evaluation.conservation_rows.ravel()
+                    / scaling.row_scales[:n_differential]
+                )
+            )
+        ),
+        "consistent_initial_data": {
+            "dimensions": list(consistent.dimensions),
+            "numerical_rank": consistent.numerical_rank,
+            "full_rank": consistent.full_rank,
+            "condition_estimate": consistent.condition_estimate,
+            "descriptor_dimensions": list(
+                consistent.descriptor_dimensions
+            ),
+            "descriptor_numerical_rank": (
+                consistent.descriptor_numerical_rank
+            ),
+            "descriptor_full_row_rank": (
+                consistent.descriptor_full_row_rank
+            ),
+            "maximum_initial_algebraic_residual": (
+                consistent.maximum_initial_algebraic_residual
+            ),
+            "maximum_scaled_consistency_residual": (
+                consistent.maximum_scaled_consistency_residual
+            ),
+            "storage_balance_residual_norm": (
+                consistent.storage_balance_residual_norm
+            ),
+            "algebraic_tangent_residual_norm": (
+                consistent.algebraic_tangent_residual_norm
+            ),
+            "maximum_scaled_tangent_per_s": (
+                consistent.maximum_scaled_tangent
+            ),
+            "maximum_scaled_primitive_tangent_per_s": (
+                consistent.maximum_scaled_primitive_tangent
+            ),
+            "primitive_tangent_field_norms_per_s": _field_norms(
+                primitive_tangent,
+                n_cells,
+            ),
+            "passed": consistency_passed,
+        },
+        "tiny_step": {
+            "timestep_seconds": timestep,
+            "target_scaled_primitive_change": (
+                target_scaled_primitive_change
+            ),
+            "tangent_predictor_maximum_scaled_change": float(
+                np.max(np.abs(initial_increment))
+            ),
+            "maximum_scaled_change": maximum_change,
+            "maximum_scaled_block_changes": block_maxima,
+            "solver_success": solver["success"],
+            "solver_message": solver["message"],
+            "solver_iterations": solver["iterations"],
+            "function_evaluations": solver["function_evaluations"],
+            "jacobian_evaluations": solver["jacobian_evaluations"],
+            "solver_history": solver["history"],
+            "initial_jacobian": initial_rank,
+            "final_newton_jacobian": final_rank,
+            "maximum_scaled_residual": maximum_scaled_residual,
+            "maximum_scaled_conservation_residual": (
+                maximum_scaled_conservation_residual
+            ),
+            "maximum_scaled_algebraic_residual": (
+                maximum_scaled_algebraic_residual
+            ),
+            "controlling_residual_cell": int(controlling_cell),
+            "controlling_residual_field": FIELD_NAMES[controlling_field],
+            "controlling_scaled_residual": float(
+                scaled_conservation[controlling_cell, controlling_field]
+            ),
+            "maximum_absolute_temporal_vertical_storage": float(
+                np.max(np.abs(evaluation.temporal_vertical_storage))
+            ),
+            "maximum_absolute_integrated_source": float(
+                np.max(np.abs(evaluation.integrated_sources_per_ct))
+            ),
+            "outer_boundary_choked_before": (
+                stationary_evaluation.outer_boundary_choked
+            ),
+            "outer_boundary_choked_after": (
+                evaluation.outer_boundary_choked
+            ),
+            "minimum_scattering_optical_depth": float(
+                np.min(evaluation.scattering_optical_depths)
+            ),
+            "conservation_telescoping_relative_defect": ledger_defect,
+            "component_conservation_defects": component_ledger_defects,
+            "passed": step_passed,
+        },
+        "resolution_passed": consistency_passed and step_passed,
+    }
+    artifacts = {
+        "context": context,
+        "old_vector": old_vector,
+        "scaling": scaling,
+        "initial_scaled_increment": initial_increment,
+        "timestep_seconds": timestep,
+        "physical_increment": physical_increment,
+        "new_vector": old_vector + physical_increment,
+    }
+    return report, artifacts
+
+
+def _solve_increment_primary_substep(
+    context: CausalFiveFieldDAEContext,
+    old_vector: np.ndarray,
+    *,
+    timestep_seconds: float,
+    initial_physical_increment: np.ndarray,
+    scaled_change_bound: float,
+) -> tuple[dict, dict]:
+    n_cells = int(context.grid.centers.size)
+    n_differential = 5 * n_cells
+    old_state = unpack_causal_five_field_state(old_vector, n_cells)
+    stationary_evaluation = evaluate_causal_five_field_dae(
+        old_vector,
+        context,
+    )
+    scaling = causal_five_field_dae_scaling(
+        old_state,
+        stationary_evaluation,
+    )
+    initial_scaled_increment = (
+        np.asarray(initial_physical_increment, dtype=float)
+        / scaling.column_scales
+    )
+
+    def residual(scaled_increment: np.ndarray) -> np.ndarray:
+        physical_increment = (
+            scaling.column_scales
+            * np.asarray(scaled_increment, dtype=float)
+        )
+        return (
+            evaluate_causal_five_field_increment_backward_euler(
+                physical_increment,
+                context,
+                old_vector=old_vector,
+                timestep_seconds=timestep_seconds,
+                temporal_height_scheme="path_integrated",
+            ).residual
+            / scaling.row_scales
+        )
+
+    def central_jacobian(scaled_increment: np.ndarray) -> np.ndarray:
+        size = scaled_increment.size
+        columns = np.empty((size, size), dtype=float)
+        for index in range(size):
+            plus = np.array(scaled_increment, copy=True)
+            minus = np.array(scaled_increment, copy=True)
+            plus[index] += FINITE_DIFFERENCE_STEP
+            minus[index] -= FINITE_DIFFERENCE_STEP
+            columns[:, index] = (
+                residual(plus) - residual(minus)
+            ) / (2.0 * FINITE_DIFFERENCE_STEP)
+        return columns
+
+    initial_jacobian = central_jacobian(initial_scaled_increment)
+    initial_rank = _rank_summary(initial_jacobian)
+    initial_matrix_available = True
+
+    def jacobian(scaled_increment: np.ndarray) -> np.ndarray:
+        nonlocal initial_matrix_available
+        if (
+            initial_matrix_available
+            and np.array_equal(
+                scaled_increment,
+                initial_scaled_increment,
+            )
+        ):
+            initial_matrix_available = False
+            return initial_jacobian
+        return central_jacobian(scaled_increment)
+
+    (
+        final_scaled_increment,
+        solver,
+        last_matrix,
+        _last_values,
+    ) = _bounded_newton(
+        residual,
+        jacobian,
+        initial_scaled_increment,
+        bound=scaled_change_bound,
+        residual_tolerance=1.0e-8,
+        linear_solver="direct",
+    )
+    physical_increment = (
+        scaling.column_scales * final_scaled_increment
+    )
+    new_vector = old_vector + physical_increment
+    new_state = unpack_causal_five_field_state(
+        new_vector,
+        n_cells,
+    )
+    evaluation = evaluate_causal_five_field_increment_backward_euler(
+        physical_increment,
+        context,
+        old_vector=old_vector,
+        timestep_seconds=timestep_seconds,
+        temporal_height_scheme="path_integrated",
+    )
+    scaled_residual = evaluation.residual / scaling.row_scales
+    algebraic_scaled_residual = scaled_residual[n_differential:]
+    ledger_defect, component_ledger_defects = _ledger_defect(
+        new_state,
+        evaluation,
+    )
+    if last_matrix is None:
+        last_matrix = initial_jacobian
+    final_rank = _rank_summary(np.asarray(last_matrix, dtype=float))
+    maximum_change = float(
+        np.max(np.abs(final_scaled_increment))
+    )
+    maximum_scaled_residual = float(
+        np.max(np.abs(scaled_residual))
+    )
+    maximum_scaled_algebraic_residual = float(
+        np.max(np.abs(algebraic_scaled_residual))
+    )
+    passed = (
+        solver["success"]
+        and initial_rank["equilibration"]["full_rank"]
+        and final_rank["equilibration"]["full_rank"]
+        and maximum_scaled_residual <= 1.0e-8
+        and maximum_scaled_algebraic_residual <= 1.0e-10
+        and maximum_change <= scaled_change_bound
+        and evaluation.outer_boundary_choked
+        == stationary_evaluation.outer_boundary_choked
+        and np.min(evaluation.scattering_optical_depths) > 1.0
+        and ledger_defect <= 1.0e-10
+    )
+    report = {
+        "timestep_seconds": timestep_seconds,
+        "scaled_change_bound": scaled_change_bound,
+        "predictor_maximum_scaled_change": float(
+            np.max(np.abs(initial_scaled_increment))
+        ),
+        "maximum_scaled_change": maximum_change,
+        "solver_success": solver["success"],
+        "solver_message": solver["message"],
+        "solver_iterations": solver["iterations"],
+        "function_evaluations": solver["function_evaluations"],
+        "jacobian_evaluations": solver["jacobian_evaluations"],
+        "solver_history": solver["history"],
+        "initial_jacobian": initial_rank,
+        "final_newton_jacobian": final_rank,
+        "maximum_scaled_residual": maximum_scaled_residual,
+        "maximum_scaled_algebraic_residual": (
+            maximum_scaled_algebraic_residual
+        ),
+        "outer_boundary_choked_before": (
+            stationary_evaluation.outer_boundary_choked
+        ),
+        "outer_boundary_choked_after": (
+            evaluation.outer_boundary_choked
+        ),
+        "minimum_scattering_optical_depth": float(
+            np.min(evaluation.scattering_optical_depths)
+        ),
+        "conservation_telescoping_relative_defect": ledger_defect,
+        "component_conservation_defects": component_ledger_defects,
+        "passed": passed,
+    }
+    artifacts = {
+        "scaling": scaling,
+        "physical_increment": physical_increment,
+        "new_vector": new_vector,
+    }
+    return report, artifacts
+
+
+def _temporal_refinement_comparison(
+    full_step_artifacts: dict,
+    target_scaled_change: float,
+) -> dict:
+    context = full_step_artifacts["context"]
+    old_vector = np.asarray(
+        full_step_artifacts["old_vector"],
+        dtype=float,
+    )
+    base_scaling = full_step_artifacts["scaling"]
+    timestep = float(full_step_artifacts["timestep_seconds"])
+    predictor = np.asarray(
+        full_step_artifacts["initial_scaled_increment"],
+        dtype=float,
+    )
+    half_bound = 0.75 * target_scaled_change
+    first_report, first_artifacts = _solve_increment_primary_substep(
+        context,
+        old_vector,
+        timestep_seconds=0.5 * timestep,
+        initial_physical_increment=(
+            0.5 * base_scaling.column_scales * predictor
+        ),
+        scaled_change_bound=half_bound,
+    )
+    if not first_report["passed"]:
+        return {
+            "n_cells": int(context.grid.centers.size),
+            "full_timestep_seconds": timestep,
+            "relative_error_gate": 0.05,
+            "first_half": first_report,
+            "second_half": None,
+            "passed": False,
+            "decision": "first_half_step_failed",
+        }
+    second_report, second_artifacts = _solve_increment_primary_substep(
+        context,
+        first_artifacts["new_vector"],
+        timestep_seconds=0.5 * timestep,
+        initial_physical_increment=(
+            first_artifacts["physical_increment"]
+        ),
+        scaled_change_bound=half_bound,
+    )
+    full_new_vector = np.asarray(
+        full_step_artifacts["new_vector"],
+        dtype=float,
+    )
+    two_half_new_vector = np.asarray(
+        second_artifacts["new_vector"],
+        dtype=float,
+    )
+    scaled_difference = (
+        two_half_new_vector - full_new_vector
+    ) / base_scaling.column_scales
+    scaled_full_change = (
+        full_new_vector - old_vector
+    ) / base_scaling.column_scales
+    n_cells = int(context.grid.centers.size)
+    n_differential = 5 * n_cells
+    block_slices = {
+        "conserved": slice(0, n_differential),
+        "primitive": slice(
+            n_differential,
+            2 * n_differential,
+        ),
+        "face_flux": slice(2 * n_differential, None),
+    }
+    block_errors = {
+        name: float(np.max(np.abs(scaled_difference[block])))
+        for name, block in block_slices.items()
+    }
+    maximum_error = float(np.max(np.abs(scaled_difference)))
+    maximum_full_change = float(
+        np.max(np.abs(scaled_full_change))
+    )
+    relative_error = float(
+        maximum_error
+        / max(maximum_full_change, np.finfo(float).tiny)
+    )
+    relative_error_gate = 0.05
+    passed = (
+        first_report["passed"]
+        and second_report["passed"]
+        and relative_error <= relative_error_gate
+    )
+    return {
+        "n_cells": n_cells,
+        "full_timestep_seconds": timestep,
+        "half_timestep_seconds": 0.5 * timestep,
+        "maximum_scaled_full_step_change": maximum_full_change,
+        "maximum_scaled_full_vs_two_half_error": maximum_error,
+        "maximum_scaled_block_errors": block_errors,
+        "relative_full_vs_two_half_error": relative_error,
+        "relative_error_gate": relative_error_gate,
+        "first_half": first_report,
+        "second_half": second_report,
+        "passed": passed,
+        "decision": (
+            "temporal_refinement_gate_passed"
+            if passed
+            else "temporal_refinement_gate_failed"
+        ),
+    }
+
+
+def _run_increment_primary_audit(args: argparse.Namespace) -> None:
+    n16_attempts = []
+    selected_n16_artifacts = None
+    for target_change in TARGET_SCALED_PRIMITIVE_CHANGES:
+        attempt, artifacts = _run_increment_primary_resolution(
+            16,
+            target_change,
+        )
+        n16_attempts.append(attempt)
+        selected_n16_artifacts = artifacts
+        if attempt["resolution_passed"]:
+            break
+    selected_n16 = n16_attempts[-1]
+    n32_result = None
+    n32_artifacts = None
+    if selected_n16["resolution_passed"]:
+        n32_result, n32_artifacts = _run_increment_primary_resolution(
+            32,
+            selected_n16["tiny_step"][
+                "target_scaled_primitive_change"
+            ],
+        )
+    all_passed = (
+        selected_n16["resolution_passed"]
+        and n32_result is not None
+        and n32_result["resolution_passed"]
+    )
+    temporal_n16 = None
+    temporal_n32 = None
+    if all_passed:
+        temporal_n16 = _temporal_refinement_comparison(
+            selected_n16_artifacts,
+            selected_n16["tiny_step"][
+                "target_scaled_primitive_change"
+            ],
+        )
+        if temporal_n16["passed"]:
+            temporal_n32 = _temporal_refinement_comparison(
+                n32_artifacts,
+                n32_result["tiny_step"][
+                    "target_scaled_primitive_change"
+                ],
+            )
+    temporal_passed = (
+        temporal_n16 is not None
+        and temporal_n16["passed"]
+        and temporal_n32 is not None
+        and temporal_n32["passed"]
+    )
+    output = {
+        "work_package": "WP10c5h",
+        "scope": (
+            "full-DAE primary-increment backward Euler with direct "
+            "conserved storage"
+        ),
+        "rank_relative_threshold": RANK_THRESHOLD,
+        "finite_difference_step": FINITE_DIFFERENCE_STEP,
+        "n16_attempts": n16_attempts,
+        "n32_result": n32_result,
+        "temporal_refinement": {
+            "n16": temporal_n16,
+            "n32": temporal_n32,
+        },
+        "gates": {
+            "n16_passed": selected_n16["resolution_passed"],
+            "n32_attempted": n32_result is not None,
+            "n32_passed": (
+                n32_result["resolution_passed"]
+                if n32_result is not None
+                else False
+            ),
+            "temporal_comparison_attempted": (
+                temporal_n16 is not None
+            ),
+            "temporal_comparison_passed": temporal_passed,
+            "early_time_numerical_gate_passed": temporal_passed,
+            "physical_evolution_certified": False,
+            "stability_certified": False,
+            "tide_authorized": False,
+            "wind_authorized": False,
+        },
+        "decision": (
+            "increment_primary_startup_gate_passed"
+            if temporal_passed
+            else (
+                "stop_after_temporal_refinement"
+                if all_passed
+                else "stop_before_temporal_refinement"
+            )
+        ),
+    }
+    output_path = _absolute(args.output)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = json.dumps(
+        output,
+        indent=2,
+        sort_keys=True,
+        default=_json_default,
+    )
+    output_path.write_text(serialized + "\n", encoding="utf-8")
+    print(serialized)
+
+
 def main() -> None:
     args = _arguments()
+    if args.increment_primary_audit:
+        _run_increment_primary_audit(args)
+        return
     n16_attempts = []
     for target_change in TARGET_SCALED_PRIMITIVE_CHANGES:
         attempt = _run_resolution(

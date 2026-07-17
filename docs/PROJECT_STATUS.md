@@ -75,6 +75,7 @@ This is the canonical project handoff. Status labels mean:
 | Temporal-storage increment WP10c5e | **CERTIFIED** for the exact-map path identity; **REJECTED** as an evolution unlock | Endpoint/path rate defects reach `7.05e-6`; the path converges below `2.53e-9` and telescopes below `5.60e-17`; tiny `Delta lnSigma` recovery improves by over six orders of magnitude | Path-integrated N16 steps still stop at `3.77e-6` and `1.42e-6` with reduced-Newton condition near `1.03e10`; N32 and all physical searches remain blocked |
 | Reduced linear precision WP10c5f | **CERTIFIED** for the frozen linear-solve audit; **REJECTED** as an evolution unlock | LAPACK equilibration reduces condition `1.03e10 -> 27.5`; direct/refined corrections agree to `2.62e-14`; linear residuals are `1.49e-16`; second/fourth-order Jacobians agree to `4.47e-12` | Every correction gives nonlinear residual `3.35e-6`; no recoverable precision is demonstrated, so N16 is not repeated and N32 remains blocked |
 | Residual directional consistency WP10c5g | **CERTIFIED** for component diagnosis; **REJECTED** as an evolution unlock | Flux, source, and height-work directional defects are at most `2.09e-13`; residual/component identities close below `2.0e-16`; path conserved storage is the unique failing block | One coordinate-Jacobian storage repair still leaves N16 at `1.42473e-6`; no second repair or N32 attempt is authorized |
+| Increment-primary causal startup WP10c5h | **SUPPORTED BUT NOT FULLY CERTIFIED** for source-free startup; **DIAGNOSTIC ONLY** physically | Direct `Delta U/(c Delta t)` storage gives full equilibrated rank `245/245` and `485/485`; N16/N32 residuals are `8.80e-9/3.64e-9`; relative full/two-half errors are `2.76e-6/1.01e-6` | Only one bounded step from a nonstationary source-free seed; repeated source-on evolution, stability, tide, wind, and hot-state claims remain blocked |
 
 ## Frozen Target Under Review
 
@@ -397,6 +398,13 @@ N                    = 164
     opening gate. The four base face rows remain full rank at N16-N128. This
     is an adapter/rank result, not a ballistic stream calibration, stationary
     disk, or final causal-stress characteristic proof.
+50. WP10c5h reparameterizes the same complete `15N+5` DAE in
+    `(Delta U,Delta p,Delta F)`, so conserved storage enters backward Euler
+    directly. Equilibrated N16 and N32 systems are `245/245` and `485/485`;
+    both bounded steps pass below `8.8e-9`, and one-full-step versus
+    two-half-step differences are only `2.76e-6` and `1.01e-6` of the full
+    change. This unlocks short source-on no-tide startup work, not a physical
+    relaxation, hot-state, or stability claim.
 
 ## Claims That Are Not Allowed Yet
 
@@ -448,25 +456,16 @@ N                    = 164
    adapters, the bounded WP10c5 count/rank preflight, the WP10c5b
    assembled-residual stop decision, the WP10c5c reduced audit, the
    WP10c5d consistent-data gate, the WP10c5e storage audit, the WP10c5f
-   frozen linear-precision audit, and the WP10c5g component audit as
-   complete. The old
-   PW plunge has superluminal transverse rotation and must not be mapped into
-   the new variables. Continue only the selected one-domain ingoing-Kerr-
-   Schild Valencia path. Exact algebraic elimination shows that the physical
-   N16 primitive stationary operator is `80/80`; the old `244/245` result is
-   flux-primary embedding conditioning at a nonroot seed, not a missing
-   boundary condition. Index-one consistent initial data also exist, but the
-   direct endpoint storage subtraction is cancellation sensitive, while its
-   converged path-integrated replacement does not unlock either bounded N16
-   step. Equilibration and iterative refinement exclude the linear solve, and
-   component-wise directional tests uniquely identify finite-difference path
-   conserved storage as the remaining nonlinear floor. The one authorized
-   coordinate-Jacobian repair also fails the unchanged N16 gate. If work
-   continues, reparameterize the complete DAE in primary increments
-   `(Delta U, Delta p, Delta F)` so temporal storage is represented directly.
-   Do not launch N32, N64/N96 roots, another inner/outer splice, distributed
-   tide, wind, or long evolution unless that unchanged N16 finite-step gate
-   passes.
+   frozen linear-precision audit, the WP10c5g component audit, and the
+   WP10c5h increment-primary startup as complete. The old PW plunge has
+   superluminal transverse rotation and must not be mapped into the new
+   variables. Continue only the selected one-domain ingoing-Kerr-Schild
+   Valencia path. Direct `(Delta U,Delta p,Delta F)` storage now passes the
+   unchanged N16 gate, N32, and equal-time temporal comparison. The next
+   bounded package is one exact-stream source-on N16/N32 startup, followed by
+   a parity-certified sparse/local Jacobian and short adaptive no-tide
+   repeated stepping. Do not launch N64/N96, distributed tide, wind, or long
+   evolution before that source-on repeated-step mesh gate passes.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -506,6 +505,7 @@ N                    = 164
 - Temporal-storage increment audit: `reports/current/CODEX_CAUSAL_FIVE_FIELD_TEMPORAL_STORAGE_INCREMENT_WP10C5E_RESULTS_2026-07-17.md`
 - Reduced linear-precision audit: `reports/current/CODEX_CAUSAL_FIVE_FIELD_LINEAR_PRECISION_WP10C5F_RESULTS_2026-07-17.md`
 - Residual directional-consistency audit: `reports/current/CODEX_CAUSAL_FIVE_FIELD_DIRECTIONAL_CONSISTENCY_WP10C5G_RESULTS_2026-07-17.md`
+- Increment-primary startup audit: `reports/current/CODEX_CAUSAL_FIVE_FIELD_INCREMENT_PRIMARY_WP10C5H_RESULTS_2026-07-17.md`
 - Fully coupled rank prototype: `reports/current/CODEX_COUPLED_INNER_OUTER_RANK_PROTOTYPE_RESULTS_2026-07-11.md`
 - Coupled mesh/interface certification: `reports/current/CODEX_COUPLED_MESH_INTERFACE_CERTIFICATION_RESULTS_2026-07-11.md`
 - Coupled wall pattern-power gate: `reports/current/CODEX_COUPLED_WALL_PATTERN_POWER_RESULTS_2026-07-11.md`

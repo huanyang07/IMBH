@@ -143,6 +143,14 @@ rejected sequence.
     single N16 retry still stops at `1.42473e-6`; the post-repair storage defect
     is `1.42457e-6`. N32 remains blocked. Any continuation must carry
     `Delta U` as a primary unknown rather than perform another storage scan.
+34. **Increment-primary causal startup:** the same complete `15N+5` DAE uses
+    `(Delta U,Delta p,Delta F)` as Newton coordinates, with conserved storage
+    entering backward Euler directly. Equilibrated N16 and N32 systems are
+    `245/245` and `485/485`; both bounded steps pass below `8.8e-9`.
+    One-full-step versus two-half-step differences are `2.76e-6` and
+    `1.01e-6` of the full changes. Short source-on no-tide startup is now
+    authorized; physical relaxation, stability, tide, wind, and hot-state
+    claims remain blocked.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed
