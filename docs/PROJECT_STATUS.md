@@ -64,8 +64,9 @@ This is the canonical project handoff. Status labels mean:
 | Causal inner thermodynamics WP10a | **SUPPORTED BUT NOT FULLY CERTIFIED** for diagnostic thermodynamics; **REJECTED** as a standalone production boundary | Relativistic enthalpy derivative keeps all audited sound speeds subluminal and approaches `c/sqrt(3)`; radial-only SR characteristics reach zero incoming modes at `2.0001 rg` | The PW profile has `v_phi>c` by `3 rg` and no subluminal full-state excision; its stationary equations and global flux remain Newtonian |
 | Horizon-penetrating Valencia core WP10b | **SUPPORTED BUT NOT FULLY CERTIFIED** as an architecture; **DIAGNOSTIC ONLY** physically | Ingoing-Kerr-Schild flux includes transverse rotation; analytic/numerical eigenvalues agree to `9.71e-11`; stationary rank changes `4 -> 3` at one acoustic critical mode; all 342 sampled inside-horizon states have zero incoming modes | Local ideal-gas column prototype only; gas+radiation recovery, geometric sources, stress, radiation, stream/Roche migration, and stationary roots are pending |
 | Valencia gas+radiation primitive recovery WP10c1 | **SUPPORTED BUT NOT FULLY CERTIFIED** for the local map; **DIAGNOSTIC ONLY** physically | Nine rotating gas-to-radiation states give primitive/conserved defects `7.42e-11/6.46e-15`, characteristic defect `1.94e-8`, causal sound speed, and zero inside-horizon incoming modes | Fixed-height EOS chart only; geometric sources, vertical closure, stress, radiation, stream/Roche migration, stationary roots, and evolution remain pending |
-| Kerr-Schild geometric finite volume WP10c2 | **SUPPORTED BUT NOT FULLY CERTIFIED** for source-free geometry; **DIAGNOSTIC ONLY** physically | Direct/3+1 source identities close below `4.85e-15`; flat pressure balance closes at `9.54e-16`; horizon-crossing free fall converges at order `1.997-2.000` with mass/Killing-energy flux spreads below `1.9e-15` | Equatorial `2+1` fixed-height column only; supplemented by WP10c3a stress, while radiation, dynamic vertical closure, stream/Roche migration, stationary roots, and evolution remain pending |
-| Causal relativistic alpha shear WP10c3a | **SUPPORTED BUT NOT FULLY CERTIFIED** for the local stress/flux contract; **DIAGNOSTIC ONLY** physically | Nine gas/radiation states have real acoustic/contact/shear spectra with zero light-cone excess; all inside-horizon modes leave the domain; tensor and paired torque/Killing-work identities close below `8.67e-16` | Fixed-height frozen-coefficient prototype only; `c_nu=sqrt(alpha)a` and the nonlinear coupled characteristic structure are unvalidated; radiation, dynamic vertical work, stationary roots, and evolution remain pending |
+| Kerr-Schild geometric finite volume WP10c2 | **SUPPORTED BUT NOT FULLY CERTIFIED** for source-free geometry; **DIAGNOSTIC ONLY** physically | Direct/3+1 source identities close below `4.85e-15`; flat pressure balance closes at `9.54e-16`; horizon-crossing free fall converges at order `1.997-2.000` with mass/Killing-energy flux spreads below `1.9e-15` | Equatorial `2+1` geometry only; supplemented by WP10c3a stress and WP10c3b thermal sources, while stream/Roche migration, stationary roots, and evolution remain pending |
+| Causal relativistic alpha shear WP10c3a | **SUPPORTED BUT NOT FULLY CERTIFIED** for the local stress/flux contract; **DIAGNOSTIC ONLY** physically | Nine gas/radiation states have real acoustic/contact/shear spectra with zero light-cone excess; all inside-horizon modes leave the domain; tensor and paired torque/Killing-work identities close below `8.67e-16` | Its fixed-height thermodynamic chart is superseded by WP10c3b; `c_nu=sqrt(alpha)a` and the final nonlinear coupled characteristic structure remain unvalidated |
+| Responsive-height thermal ledger WP10c3b | **SUPPORTED BUT NOT FULLY CERTIFIED** for the local thermal/source contract; **DIAGNOSTIC ONLY** physically | Nine bounded dynamic-height states recover below `5.35e-13`; the vertical-work acoustic matrix closes below `8.33e-17`; comoving cooling/work identities close below `1.16e-15`; source integration is second order | `Omega_perp` is a supplied provisional closure; no full nonlinear characteristic proof, stream/Roche migration, stationary root, or timestep |
 
 ## Frozen Target Under Review
 
@@ -370,6 +371,14 @@ N                    = 164
     control retains a step-stable complex pair with
     `max |Im lambda| >= 6.66e-5`; instantaneous `alpha Pi` is therefore only
     an equilibrium calibration, not a causal time-dependent closure.
+48. WP10c3b replaces the fixed-height chart with a responsive
+    `H(Sigma,T,Omega_perp)` gas+radiation column and includes vertical pressure
+    work in the acoustic principal matrix. Nine bounded states recover below
+    `5.35e-13`; acoustic/shear defects stay below `8.33e-17`; inside-horizon
+    states retain zero incoming modes; and comoving cooling/vertical-work
+    identities close below `1.16e-15`. Midpoint Killing-source integration is
+    second order with N128 error `1.16e-5`. The supplied vertical frequency
+    remains a physical closure input, and no disk root or timestep has run.
 
 ## Claims That Are Not Allowed Yet
 
@@ -417,13 +426,15 @@ N                    = 164
    backend and its new work telemetry; do not start a third optimization
    architecture.
 8. Treat WP9, WP10a, WP10b, WP10c1, source-free WP10c2 geometry, and the
-   local WP10c3a causal-stress contract as complete. The old
+   local WP10c3a/WP10c3b stress and thermal contracts as complete. The old
    PW plunge has superluminal transverse rotation and must not be mapped into
    the new variables. Continue only the selected one-domain ingoing-Kerr-
-   Schild Valencia path. Next implement WP10c3b radiation and dynamic
-   vertical work in the same Killing-energy ledger without duplicating stress
-   work. Migrate stream and Hill/Roche contracts only after that local gate
-   passes. Do not add another inner/outer splice.
+   Schild Valencia path. Next migrate the exact stream moments and physical
+   Hill/Roche boundary into that one-domain chart, preserving the comoving
+   cooling/height-work source and paired stress work. The global provider must
+   declare `Omega_perp`; do not infer it from the rejected PW plunge. Do not
+   add another inner/outer splice or start long evolution in the migration
+   work package.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -454,6 +465,7 @@ N                    = 164
 - Pressure-supported interface pilot: `reports/current/CODEX_PRESSURE_SUPPORTED_INTERFACE_PILOT_RESULTS_2026-07-11.md`
 - Common stress and simultaneous reservoir: `reports/current/CODEX_COMMON_STRESS_AND_SIMULTANEOUS_RESERVOIR_RESULTS_2026-07-11.md`
 - Causal relativistic alpha shear: `reports/current/CODEX_CAUSAL_RELATIVISTIC_ALPHA_SHEAR_WP10C3A_RESULTS_2026-07-17.md`
+- Responsive-height thermal ledger: `reports/current/CODEX_RESPONSIVE_HEIGHT_THERMAL_LEDGER_WP10C3B_RESULTS_2026-07-17.md`
 - Fully coupled rank prototype: `reports/current/CODEX_COUPLED_INNER_OUTER_RANK_PROTOTYPE_RESULTS_2026-07-11.md`
 - Coupled mesh/interface certification: `reports/current/CODEX_COUPLED_MESH_INTERFACE_CERTIFICATION_RESULTS_2026-07-11.md`
 - Coupled wall pattern-power gate: `reports/current/CODEX_COUPLED_WALL_PATTERN_POWER_RESULTS_2026-07-11.md`

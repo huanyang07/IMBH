@@ -823,6 +823,119 @@ weak-field flux Jacobian has a finite-difference-stable complex pair. This
 demonstrates that the old instantaneous pressure amplitude is an equilibrium
 calibration only, not by itself a causal evolution law.
 
+#### Responsive height, cooling, and vertical work
+
+WP10c3b replaces the fixed-height thermodynamic chart by one algebraically
+responsive, quasi-hydrostatic gas+radiation column:
+
+```text
+Sigma = 2 rho H,
+P     = R_g rho T + a T^4/3,
+Pi    = 2 H P,
+Omega_perp^2 H^2 = Pi/Sigma = P/rho.
+```
+
+The positive quadratic root determines `H(Sigma,T,Omega_perp)`. The EOS
+exports exact logarithmic derivatives with respect to all three inputs. The
+vertical frequency is a required provider value; WP10c3b does not identify a
+unique near-horizon frequency for a noncircular plunging flow.
+
+The physical column adiabat includes the work done by the responsive height:
+
+```text
+de - (P/rho^2) d rho = 0.
+```
+
+Consequently, the acoustic derivative is
+
+```text
+a_col^2
+    = c^2 (dPi/dSigma)_s
+      / (c^2 + e + Pi/Sigma),
+```
+
+where the derivative follows the hydrostatic `H(Sigma,T,Omega_perp)` surface
+at frozen `Omega_perp`. It is not the fixed-height three-dimensional
+gas+radiation derivative. In the local fluid rest frame, the principal
+variables `(dlnSigma,dv_R/c,dlnT)` give two modes `+/-a_col/c` and one entropy
+mode. The analytic and direct matrix eigenvalues agree below `8.4e-17` in
+the bounded audit.
+
+The height work can be written equivalently as
+
+```text
+Pi/Sigma^2 dSigma - P/rho^2 d rho
+    = (P/rho) dlnH.
+```
+
+The temporal finite-volume correction uses
+
+```text
+integral Pi dlnH
+    ~= (Pi_old+Pi_new) ln(H_new/H_old)/2.
+```
+
+For source assembly, the caller supplies the full proper-time rate
+
+```text
+dlnH/dtau
+    = H_Sigma dlnSigma/dtau
+    + H_T dlnT/dtau
+    + H_Omega dlnOmega_perp/dtau.
+```
+
+The signed comoving column power is
+
+```text
+q_H = -Pi dlnH/dtau,
+```
+
+so compression (`dlnH/dtau<0`) heats the column. Optically thick two-face
+diffusion cooling is
+
+```text
+Q_rad = 16 sigma_SB T^4/(3 kappa Sigma),
+tau_sc = kappa Sigma/2,
+q_rad = -Q_rad.
+```
+
+Each isotropic comoving exchange is transformed through one four-force:
+
+```text
+G^mu = q u^mu/c^3,
+
+S_K = (
+    0,
+    alpha G_R,
+    alpha G_phi,
+   -alpha G_t
+).
+```
+
+Thus a moving cooling column carries the momentum and Killing-energy exchange
+required by covariance while adding no comoving momentum. The contraction
+`-c^3 u_mu G^mu` recovers `q` directly.
+
+Stress work is not inserted again as a local total-energy heat source. The
+same stress tensor already carries torque and Killing power. On one finite
+interval the exact midpoint product rule is
+
+```text
+Delta(Omega G)
+    = Omegabar Delta G + Gbar Delta Omega.
+```
+
+The second term is the resolved shear conversion in an internal/entropy
+partition; the explicit source in the conservative total Killing-energy
+equation is zero. Adding both `-Omega G` in the flux and a separate `Q_visc`
+would double count the same work.
+
+The WP10c3b gate covers only local states and source integration. The
+responsive-height term changes the time-derivative mass matrix, so the old
+fixed-height conservative flux Jacobian is not an independent characteristic
+proof for this closure. No stream, tide, wind, stationary root, or timestep is
+included.
+
 At `335 rg` the current outer flow is subsonic and requires one incoming
 acoustic condition. Layer 1 does not provide an exterior thermodynamic
 invariant there. ADR 0014 therefore selects an adiabatic Hill/Roche overflow

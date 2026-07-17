@@ -78,6 +78,13 @@ rejected sequence.
     shear modes remain causal. A pressure-amplitude-only advected stress is
     rejected because its weak-field flux Jacobian has a step-stable complex
     pair.
+25. **Responsive-height thermal ledger:** a quasi-hydrostatic
+    `H(Sigma,T,Omega_perp)` column replaces the fixed-height chart. Its
+    physical adiabat includes vertical pressure work, cooling and compression
+    are transformed as comoving four-forces, and stress work remains solely
+    in the tensor flux. Local acoustic/shear causality, source identities, and
+    second-order finite-volume integration pass; the vertical-frequency
+    provider and global stream/Roche migration remain open.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed
