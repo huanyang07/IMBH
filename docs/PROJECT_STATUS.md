@@ -60,6 +60,7 @@ This is the canonical project handoff. Status labels mean:
 | Low-throughput remnant WP6c | **SUPPORTED BUT NOT FULLY CERTIFIED** as an initial state; **DIAGNOSTIC ONLY** for evolution | Fresh `0.025 Mdot_Edd` transonic state maps conservatively at N64/N96 with only `0.475-0.482%` of the physical stream throughput; disk mass/loading time agree to `1.1e-6`; Roche edge is closed | Coupled half-supply correction fails; subsonic N64 characteristic hold spends 30 CPU-minutes in its first Jacobian without completing a timestep, so source-on and N96 holds remain unverified |
 | Characteristic-response efficiency WP7 | **CERTIFIED** for local equivalence; **REJECTED** as an initializer unlock | Exact trace caching cuts one-Jacobian pressure roots `260 -> 5`, accelerates characteristic work `23.8x`, and reproduces the 20-evaluation trajectory exactly; 378 tests plus 4 subtests pass | Cached N64 coarse retry still ends at residual `9.83e-7 > 1e-8`; source-on, N96, tide, and wind were not launched |
 | Fresh low-mass global startup WP8 | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **REJECTED** as a production initializer | Constant-`Pi` N64/N96 states close radial balance below `3.3e-13`; predicted N64 first step takes 5 evaluations; all matched N64/N96 equations and ledgers pass at exact common time | N64 retains one incoming inner mode but N96 reverses to weak outflow and requires three; the fixed one-mode boundary is not mesh invariant |
+| Fresh-loading inner-boundary architecture WP9 | **CERTIFIED** as a stop decision; **REJECTED** for production evolution | Exact counts completed; the low-rate branch retains one incoming acoustic mode from `4.5` through `2.0001 rg`; the prior quasi-steady hybrid fails its refined repeated-step gate | Neither current candidate supplies a mesh-invariant causal low-throughput boundary; inner causal physics must be repaired before evolution |
 
 ## Frozen Target Under Review
 
@@ -315,6 +316,15 @@ N                    = 164
     source-off are identical at the inner edge, so this is a mesh-dependent
     boundary/initial relaxation. The startup is not adopted and no longer run,
     tide, or wind is authorized.
+42. WP9 completes the required inner-boundary rank decision. The one-domain
+    global system has `4N` backward-Euler unknowns and rows and needs no inner
+    boundary row only when zero characteristics enter. The accepted
+    `0.025 Mdot_Edd` stationary branch never reaches that regime: it retains
+    one incoming acoustic mode from `4.5` through `2.0001 rg`, while its
+    Newtonian radiation sound speed becomes superluminal near the
+    Paczynski-Wiita singularity. The alternative `2Ni+5No+5` quasi-steady
+    hybrid is ADR 0012 and already fails refined repeated evolution. Neither
+    candidate is selected; tide, wind, and longer loading remain blocked.
 
 ## Claims That Are Not Allowed Yet
 
@@ -361,13 +371,15 @@ N                    = 164
    solver audit as complete. Keep the serial sparse-forward production
    backend and its new work telemetry; do not start a third optimization
    architecture.
-8. Treat the remnant, characteristic-response, and fresh low-mass startup
-   packages as complete. The fresh state solves the computational startup
-   problem, but N64/N96 straddle a one-to-three incoming-characteristic rank
-   change. Do not tune the initial drift or add sign clipping. Before more
-   evolution, choose between a permanently supersonic inner excision and a
-   quasi-steady transonic inner response module. Require an explicit
-   degree-of-freedom, boundary-equation, and rank document before coding.
+8. Treat the remnant, characteristic-response, fresh low-mass startup, and
+   WP9 architecture gate as complete. The exact rank comparison selects
+   neither existing boundary: the low-rate branch has no physically causal
+   zero-incoming excision under the current EOS, while the quasi-steady hybrid
+   is already closed by refined repeated-step failure. Do not tune the drift,
+   move the edge toward `2 rg`, cap the sound speed, add sign clipping, or
+   reopen hybrid interface conditioning. The next work package must make the
+   stationary inner critical condition, time-dependent characteristics, and
+   causal EOS one consistent physical system before another trajectory.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -422,3 +434,4 @@ N                    = 164
 - Low-throughput remnant WP6c: `reports/current/CODEX_GLOBAL_LOW_THROUGHPUT_REMNANT_WP6C_RESULTS_2026-07-15.md`
 - Characteristic-response efficiency WP7: `reports/current/CODEX_GLOBAL_CHARACTERISTIC_RESPONSE_WP7_RESULTS_2026-07-17.md`
 - Fresh low-mass global startup WP8: `reports/current/CODEX_GLOBAL_FRESH_LOW_MASS_STARTUP_WP8_RESULTS_2026-07-17.md`
+- Fresh-loading inner-boundary architecture WP9: `reports/current/CODEX_GLOBAL_INNER_BOUNDARY_ARCHITECTURE_WP9_RESULTS_2026-07-17.md`
