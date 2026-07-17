@@ -150,6 +150,18 @@ class CausalFiveFieldAdaptiveRestart:
     schema_version: int = 1
 
 
+@dataclass(frozen=True)
+class CausalFiveFieldPhysicalStepLedger:
+    """Physical five-field balance for one backward-Euler step."""
+
+    conserved_storage_change: np.ndarray
+    vertical_storage_change: np.ndarray
+    boundary_transport: np.ndarray
+    endogenous_source: np.ndarray
+    prescribed_stream_source: np.ndarray
+    closure_defect: np.ndarray
+
+
 def _ledger_defect(
     new_state,
     evaluation,
@@ -192,6 +204,98 @@ def _ledger_defect(
     return (
         float(np.max(np.abs(components))),
         tuple(float(value) for value in components),
+    )
+
+
+def causal_five_field_physical_step_ledger(
+    context: CausalFiveFieldDAEContext,
+    old_vector: np.ndarray,
+    physical_increment: np.ndarray,
+    timestep_seconds: float,
+) -> CausalFiveFieldPhysicalStepLedger:
+    """Return a cancellation-aware physical ledger for one solved step.
+
+    All entries use the physical mass-equivalent units of the conserved
+    Killing chart. The balance is
+
+    ``storage + vertical + boundary - endogenous - stream = 0``.
+    """
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    count = causal_five_field_dae_count(n_cells)
+    old_values = np.asarray(old_vector, dtype=float)
+    increment = np.asarray(physical_increment, dtype=float)
+    if (
+        old_values.shape != (count.total_unknowns,)
+        or increment.shape != old_values.shape
+        or np.any(~np.isfinite(old_values))
+        or np.any(~np.isfinite(increment))
+    ):
+        raise ValueError("causal physical-ledger vectors are invalid")
+    timestep = float(timestep_seconds)
+    if not np.isfinite(timestep) or timestep <= 0.0:
+        raise ValueError("causal physical-ledger timestep must be positive")
+
+    evaluation = evaluate_causal_five_field_increment_backward_euler(
+        increment,
+        context,
+        old_vector=old_values,
+        timestep_seconds=timestep,
+        temporal_height_scheme="path_integrated",
+    )
+    new_state = unpack_causal_five_field_state(
+        old_values + increment,
+        n_cells,
+    )
+    conserved_increment = increment[: 5 * n_cells].reshape(
+        n_cells,
+        5,
+    )
+    conserved_storage = np.sum(
+        context.grid.cell_measures[:, None] * conserved_increment,
+        axis=0,
+    )
+    vertical_storage = np.zeros(5, dtype=float)
+    vertical_storage[:4] = (
+        C
+        * timestep
+        * np.sum(evaluation.temporal_vertical_storage, axis=0)
+    )
+    boundary_transport = (
+        C
+        * timestep
+        * (
+            new_state.weighted_face_fluxes_over_c[-1]
+            - new_state.weighted_face_fluxes_over_c[0]
+        )
+    )
+    total_source = (
+        C
+        * timestep
+        * np.sum(evaluation.integrated_sources_per_ct, axis=0)
+    )
+    prescribed_stream = np.zeros(5, dtype=float)
+    if context.stream_sources is not None:
+        prescribed_stream[:4] = (
+            timestep
+            * np.sum(context.stream_sources.matrix, axis=0)
+        )
+    endogenous_source = total_source - prescribed_stream
+    closure_defect = (
+        conserved_storage
+        + vertical_storage
+        + boundary_transport
+        - endogenous_source
+        - prescribed_stream
+    )
+    return CausalFiveFieldPhysicalStepLedger(
+        conserved_storage_change=conserved_storage,
+        vertical_storage_change=vertical_storage,
+        boundary_transport=boundary_transport,
+        endogenous_source=endogenous_source,
+        prescribed_stream_source=prescribed_stream,
+        closure_defect=closure_defect,
     )
 
 

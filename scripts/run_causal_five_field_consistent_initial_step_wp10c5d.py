@@ -24,7 +24,10 @@ from imri_qpe.layer3_minidisk_1d import (
     ValenciaPerfectFluidPrimitive,
     audit_causal_five_field_consistent_initial_data,
     audit_causal_five_field_dae_jacobian,
+    audit_causal_five_field_principal,
     advance_causal_five_field_adaptive_backward_euler,
+    advance_causal_five_field_increment_backward_euler,
+    calibrate_causal_alpha_shear,
     causal_five_field_colored_central_jacobian,
     causal_five_field_dae_jacobian_color_groups,
     causal_five_field_dae_jacobian_sparsity,
@@ -32,6 +35,7 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_five_field_equilibrated_sparse_solve,
     causal_five_field_h_over_r_profile,
     causal_five_field_loading_time,
+    causal_five_field_physical_step_ledger,
     causal_five_field_state_summary,
     causal_five_field_endpoint_temporal_storage_increment,
     causal_five_field_path_temporal_storage_increment,
@@ -70,6 +74,14 @@ DEFAULT_SPARSE_BACKEND_OUTPUT = (
 DEFAULT_REPEATED_SOURCE_ON_OUTPUT = (
     ROOT
     / "outputs/tables/causal_five_field_repeated_source_on_wp10c5k.json"
+)
+DEFAULT_MATCHED_SOURCE_CONTROL_OUTPUT = (
+    ROOT
+    / "outputs/tables/causal_five_field_matched_source_control_wp10c5l.json"
+)
+DEFAULT_SOURCE_COMPATIBLE_STARTUP_OUTPUT = (
+    ROOT
+    / "outputs/tables/causal_five_field_source_compatible_startup_wp10c5m.json"
 )
 DEFAULT_RESTART_DIRECTORY = (
     ROOT / "outputs/checkpoints/causal_five_field_wp10c5k"
@@ -121,6 +133,14 @@ def _arguments() -> argparse.Namespace:
     )
     parser.add_argument(
         "--increment-primary-repeated-source-on-audit",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--increment-primary-matched-source-control-audit",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--increment-primary-source-compatible-startup-audit",
         action="store_true",
     )
     return parser.parse_args()
@@ -1656,9 +1676,14 @@ def _run_increment_primary_resolution(
     target_scaled_primitive_change: float,
     *,
     include_stream: bool = False,
+    seed_kwargs: dict | None = None,
 ) -> tuple[dict, dict]:
     context = _context(n_cells, include_stream=include_stream)
-    old_state = make_causal_five_field_seed(context)
+    seed_parameters = dict(seed_kwargs or {})
+    old_state = make_causal_five_field_seed(
+        context,
+        **seed_parameters,
+    )
     old_vector = pack_causal_five_field_state(old_state)
     stationary_evaluation = evaluate_causal_five_field_dae(
         old_vector,
@@ -1854,6 +1879,7 @@ def _run_increment_primary_resolution(
         "coordinate": "primary physical increments",
         "temporal_height_scheme": "path_integrated",
         "stream": _stream_summary(context),
+        "seed_parameters": seed_parameters,
         "seed_is_stationary_root": False,
         "seed_maximum_scaled_conservation_residual": float(
             np.max(
@@ -2862,12 +2888,26 @@ def _run_repeated_source_on_resolution(
     accepted_step_target: int | None,
     elapsed_time_target: float | None,
     perform_restart_resume_audit: bool,
+    seed_kwargs: dict | None = None,
+    restart_label: str = "wp10c5k",
+    initialization_bundle: tuple[dict, dict] | None = None,
+    step_residual_tolerance: float = 1.0e-8,
+    step_algebraic_tolerance: float = 1.0e-10,
+    mass_budget_tolerance: float = 1.0e-10,
 ) -> tuple[dict, bool]:
-    initialization, artifacts = _run_increment_primary_resolution(
-        n_cells,
-        TARGET_SCALED_PRIMITIVE_CHANGES[0],
-        include_stream=True,
-    )
+    if initialization_bundle is None:
+        initialization, artifacts = _run_increment_primary_resolution(
+            n_cells,
+            TARGET_SCALED_PRIMITIVE_CHANGES[0],
+            include_stream=True,
+            seed_kwargs=seed_kwargs,
+        )
+    else:
+        initialization, artifacts = initialization_bundle
+        if initialization.get("n_cells") != n_cells:
+            raise ValueError(
+                "repeated-run initialization resolution does not match"
+            )
     if not initialization["resolution_passed"]:
         return {
             "n_cells": n_cells,
@@ -2901,8 +2941,8 @@ def _run_repeated_source_on_resolution(
         growth_factor=1.5,
         maximum_retries=6,
         easy_iterations=3,
-        residual_tolerance=1.0e-8,
-        algebraic_residual_tolerance=1.0e-10,
+        residual_tolerance=step_residual_tolerance,
+        algebraic_residual_tolerance=step_algebraic_tolerance,
         conservation_tolerance=1.0e-10,
         finite_difference_step=FINITE_DIFFERENCE_STEP,
         maximum_newton_iterations=12,
@@ -2984,11 +3024,11 @@ def _run_repeated_source_on_resolution(
     restart_directory.mkdir(parents=True, exist_ok=True)
     midpoint_path = (
         restart_directory
-        / f"causal_wp10c5k_N{n_cells:03d}_midpoint.npz"
+        / f"causal_{restart_label}_N{n_cells:03d}_midpoint.npz"
     )
     final_path = (
         restart_directory
-        / f"causal_wp10c5k_N{n_cells:03d}_final.npz"
+        / f"causal_{restart_label}_N{n_cells:03d}_final.npz"
     )
     restart_roundtrip_bitwise = not perform_restart_resume_audit
     restart_resume_step_bitwise = not perform_restart_resume_audit
@@ -3192,8 +3232,9 @@ def _run_repeated_source_on_resolution(
             <= target_tolerance
         )
     all_step_gates_passed = all(
-        row["maximum_scaled_residual"] <= 1.0e-8
-        and row["maximum_scaled_algebraic_residual"] <= 1.0e-10
+        row["maximum_scaled_residual"] <= step_residual_tolerance
+        and row["maximum_scaled_algebraic_residual"]
+        <= step_algebraic_tolerance
         and row["maximum_scaled_primitive_change"] <= 5.0e-4
         and row["maximum_scaled_total_change"] <= 1.0e-3
         and row["conservation_telescoping_relative_defect"]
@@ -3207,7 +3248,7 @@ def _run_repeated_source_on_resolution(
         and restart_roundtrip_bitwise
         and restart_resume_step_bitwise
         and final_restart_roundtrip_bitwise
-        and mass_budget_relative_defect <= 1.0e-10
+        and mass_budget_relative_defect <= mass_budget_tolerance
     )
     report = {
         "n_cells": n_cells,
@@ -3265,6 +3306,13 @@ def _run_repeated_source_on_resolution(
         "steps": step_rows,
         "target_reached": target_reached,
         "all_step_gates_passed": all_step_gates_passed,
+        "acceptance_tolerances": {
+            "scaled_residual": step_residual_tolerance,
+            "scaled_algebraic_residual": (
+                step_algebraic_tolerance
+            ),
+            "mass_budget_relative_defect": mass_budget_tolerance,
+        },
         "passed": passed,
         "terminal_message": terminal_message,
         "decision": (
@@ -3459,6 +3507,1142 @@ def _run_repeated_source_on_audit(args: argparse.Namespace) -> None:
     print(serialized)
 
 
+def _matched_source_step_ledger(
+    source_on_context: CausalFiveFieldDAEContext,
+    source_off_context: CausalFiveFieldDAEContext,
+    source_on_old: np.ndarray,
+    source_off_old: np.ndarray,
+    source_on_increment: np.ndarray,
+    source_off_increment: np.ndarray,
+    timestep_seconds: float,
+) -> dict:
+    source_on = causal_five_field_physical_step_ledger(
+        source_on_context,
+        source_on_old,
+        source_on_increment,
+        timestep_seconds,
+    )
+    source_off = causal_five_field_physical_step_ledger(
+        source_off_context,
+        source_off_old,
+        source_off_increment,
+        timestep_seconds,
+    )
+    term_names = (
+        "conserved_storage_change",
+        "vertical_storage_change",
+        "boundary_transport",
+        "endogenous_source",
+        "prescribed_stream_source",
+    )
+    differential = {
+        name: (
+            np.asarray(getattr(source_on, name), dtype=float)
+            - np.asarray(getattr(source_off, name), dtype=float)
+        )
+        for name in term_names
+    }
+    inferred_stream = (
+        differential["conserved_storage_change"]
+        + differential["vertical_storage_change"]
+        + differential["boundary_transport"]
+        - differential["endogenous_source"]
+    )
+    prescribed_stream = differential["prescribed_stream_source"]
+    recovery_defect = inferred_stream - prescribed_stream
+    closure_difference = (
+        np.asarray(source_on.closure_defect, dtype=float)
+        - np.asarray(source_off.closure_defect, dtype=float)
+    )
+    return {
+        "timestep_seconds": timestep_seconds,
+        "differential_terms": {
+            name: [float(value) for value in values]
+            for name, values in differential.items()
+        },
+        "inferred_stream_source": [
+            float(value) for value in inferred_stream
+        ],
+        "prescribed_stream_source": [
+            float(value) for value in prescribed_stream
+        ],
+        "recovery_defect": [
+            float(value) for value in recovery_defect
+        ],
+        "closure_difference": [
+            float(value) for value in closure_difference
+        ],
+        "recovery_closure_identity_maximum_absolute_defect": float(
+            np.max(np.abs(recovery_defect - closure_difference))
+        ),
+    }
+
+
+def _aggregate_matched_source_ledgers(step_ledgers: list[dict]) -> dict:
+    term_names = (
+        "conserved_storage_change",
+        "vertical_storage_change",
+        "boundary_transport",
+        "endogenous_source",
+        "prescribed_stream_source",
+    )
+    aggregated = {
+        name: np.asarray(
+            [
+                math.fsum(
+                    row["differential_terms"][name][field]
+                    for row in step_ledgers
+                )
+                for field in range(5)
+            ],
+            dtype=float,
+        )
+        for name in term_names
+    }
+    inferred = (
+        aggregated["conserved_storage_change"]
+        + aggregated["vertical_storage_change"]
+        + aggregated["boundary_transport"]
+        - aggregated["endogenous_source"]
+    )
+    prescribed = aggregated["prescribed_stream_source"]
+    defect = inferred - prescribed
+    closure_difference = np.asarray(
+        [
+            math.fsum(row["closure_difference"][field] for row in step_ledgers)
+            for field in range(5)
+        ],
+        dtype=float,
+    )
+    balanced_scale = (
+        np.abs(aggregated["conserved_storage_change"])
+        + np.abs(aggregated["vertical_storage_change"])
+        + np.abs(aggregated["boundary_transport"])
+        + np.abs(aggregated["endogenous_source"])
+        + np.abs(prescribed)
+    )
+    balanced_scale = np.maximum(balanced_scale, 1.0)
+    source_scale = np.maximum(np.abs(prescribed), 1.0)
+    source_relative = np.abs(defect) / source_scale
+    balanced_relative = np.abs(defect) / balanced_scale
+    return {
+        "differential_terms": {
+            name: [float(value) for value in values]
+            for name, values in aggregated.items()
+        },
+        "inferred_stream_source": [float(value) for value in inferred],
+        "prescribed_stream_source": [
+            float(value) for value in prescribed
+        ],
+        "recovery_defect": [float(value) for value in defect],
+        "source_relative_recovery_defect": [
+            float(value) for value in source_relative
+        ],
+        "balanced_relative_recovery_defect": [
+            float(value) for value in balanced_relative
+        ],
+        "maximum_source_relative_recovery_defect_first_four": float(
+            np.max(source_relative[:4])
+        ),
+        "maximum_balanced_relative_recovery_defect": float(
+            np.max(balanced_relative)
+        ),
+        "maximum_balanced_relative_recovery_defect_first_four": float(
+            np.max(balanced_relative[:4])
+        ),
+        "closure_difference": [
+            float(value) for value in closure_difference
+        ],
+        "recovery_closure_identity_maximum_absolute_defect": float(
+            np.max(np.abs(defect - closure_difference))
+        ),
+    }
+
+
+def _matched_source_profile_response(
+    context: CausalFiveFieldDAEContext,
+    source_on_vector: np.ndarray,
+    source_off_vector: np.ndarray,
+) -> dict:
+    radii = np.geomspace(
+        2.0 * context.grid.gravitational_radius,
+        330.0 * context.grid.gravitational_radius,
+        129,
+    )
+    log_radii = np.log(radii)
+    source_on = _reconstructed_log_h_over_r(
+        context,
+        source_on_vector,
+        log_radii,
+    )
+    source_off = _reconstructed_log_h_over_r(
+        context,
+        source_off_vector,
+        log_radii,
+    )
+    response = source_on - source_off
+    return {
+        "sample_radius_rg": [
+            float(value / context.grid.gravitational_radius)
+            for value in radii
+        ],
+        "delta_log_h_over_r": [float(value) for value in response],
+        "maximum_absolute_delta_log_h_over_r": float(
+            np.max(np.abs(response))
+        ),
+        "rms_delta_log_h_over_r": float(
+            np.sqrt(np.mean(response**2))
+        ),
+    }
+
+
+def _fixed_step_summary(result) -> dict:
+    return {
+        "accepted": result.accepted,
+        "maximum_scaled_residual": result.maximum_scaled_residual,
+        "maximum_scaled_algebraic_residual": (
+            result.maximum_scaled_algebraic_residual
+        ),
+        "maximum_scaled_primitive_change": (
+            result.maximum_scaled_primitive_change
+        ),
+        "maximum_scaled_total_change": (
+            result.maximum_scaled_total_change
+        ),
+        "conservation_telescoping_relative_defect": (
+            result.conservation_telescoping_relative_defect
+        ),
+        "minimum_scattering_optical_depth": (
+            result.minimum_scattering_optical_depth
+        ),
+        "outer_boundary_choked_before": (
+            result.outer_boundary_choked_before
+        ),
+        "outer_boundary_choked_after": (
+            result.outer_boundary_choked_after
+        ),
+        "iterations": result.iterations,
+        "function_evaluations": result.function_evaluations,
+        "jacobian_evaluations": result.jacobian_evaluations,
+        "maximum_linear_residual": result.maximum_linear_residual,
+        "message": result.message,
+    }
+
+
+def _run_matched_source_control_resolution(
+    n_cells: int,
+    *,
+    accepted_step_target: int | None,
+    elapsed_time_target: float | None,
+) -> tuple[dict, bool]:
+    initialization, artifacts = _run_increment_primary_resolution(
+        n_cells,
+        TARGET_SCALED_PRIMITIVE_CHANGES[0],
+        include_stream=True,
+    )
+    if not initialization["resolution_passed"]:
+        return {
+            "n_cells": n_cells,
+            "initialization_passed": False,
+            "passed": False,
+            "decision": "source_on_initialization_failed",
+        }, False
+    if (accepted_step_target is None) == (elapsed_time_target is None):
+        raise ValueError(
+            "matched control requires exactly one duration target"
+        )
+
+    source_on_context = artifacts["context"]
+    source_off_context = _context(n_cells, include_stream=False)
+    source_on_vector = np.asarray(artifacts["old_vector"], dtype=float)
+    source_off_vector = pack_causal_five_field_state(
+        make_causal_five_field_seed(source_off_context)
+    )
+    initial_vectors_bitwise_equal = np.array_equal(
+        source_on_vector,
+        source_off_vector,
+    )
+    if not initial_vectors_bitwise_equal:
+        return {
+            "n_cells": n_cells,
+            "initialization_passed": True,
+            "initial_vectors_bitwise_equal": False,
+            "passed": False,
+            "decision": "matched_control_initial_states_differ",
+        }, False
+    if source_on_context.stream_sources is None:
+        raise RuntimeError("matched source-on context has no stream")
+
+    base_dt = float(artifacts["timestep_seconds"])
+    config = CausalFiveFieldAdaptiveStepConfig(
+        minimum_dt=base_dt / 128.0,
+        maximum_dt=16.0 * base_dt,
+        maximum_scaled_primitive_change=5.0e-4,
+        maximum_scaled_total_change=1.0e-3,
+        shrink_factor=0.5,
+        growth_factor=1.5,
+        maximum_retries=6,
+        easy_iterations=3,
+        residual_tolerance=1.0e-10,
+        algebraic_residual_tolerance=1.0e-11,
+        conservation_tolerance=1.0e-10,
+        finite_difference_step=FINITE_DIFFERENCE_STEP,
+        maximum_newton_iterations=12,
+    ).validated()
+    source_on_previous_increment = np.asarray(
+        artifacts["physical_increment"],
+        dtype=float,
+    )
+    source_off_previous_increment = np.array(
+        source_on_previous_increment,
+        copy=True,
+    )
+    previous_dt = base_dt
+    dt_next = base_dt
+    elapsed_time = 0.0
+    accepted_steps = 0
+    rejected_pair_attempts = 0
+    step_rows: list[dict] = []
+    step_ledgers: list[dict] = []
+    terminal_message = "target reached"
+    target_tolerance = (
+        0.0
+        if elapsed_time_target is None
+        else max(1.0e-20, 5.0e-14 * elapsed_time_target)
+    )
+
+    while True:
+        if accepted_step_target is not None:
+            if accepted_steps >= accepted_step_target:
+                break
+            requested_dt = dt_next
+        else:
+            assert elapsed_time_target is not None
+            remaining = elapsed_time_target - elapsed_time
+            if abs(remaining) <= target_tolerance:
+                break
+            if remaining <= 0.0:
+                terminal_message = "elapsed-time target overshot"
+                break
+            requested_dt = min(dt_next, remaining)
+
+        trial_dt = requested_dt
+        pair_attempts: list[dict] = []
+        source_on_step = None
+        source_off_step = None
+        for retry in range(config.maximum_retries + 1):
+            source_on_predictor = (
+                source_on_previous_increment
+                * (trial_dt / previous_dt)
+            )
+            source_off_predictor = (
+                source_off_previous_increment
+                * (trial_dt / previous_dt)
+            )
+            source_on_trial = (
+                advance_causal_five_field_increment_backward_euler(
+                    source_on_context,
+                    source_on_vector,
+                    trial_dt,
+                    source_on_predictor,
+                    config,
+                )
+            )
+            source_off_trial = (
+                advance_causal_five_field_increment_backward_euler(
+                    source_off_context,
+                    source_off_vector,
+                    trial_dt,
+                    source_off_predictor,
+                    config,
+                )
+            )
+            pair_accepted = bool(
+                source_on_trial.accepted
+                and source_off_trial.accepted
+            )
+            pair_attempts.append(
+                {
+                    "retry": retry,
+                    "timestep_seconds": trial_dt,
+                    "accepted": pair_accepted,
+                    "source_on": _fixed_step_summary(source_on_trial),
+                    "source_off": _fixed_step_summary(source_off_trial),
+                }
+            )
+            if pair_accepted:
+                source_on_step = source_on_trial
+                source_off_step = source_off_trial
+                break
+            rejected_pair_attempts += 1
+            next_dt = trial_dt * config.shrink_factor
+            if next_dt < config.minimum_dt:
+                break
+            trial_dt = next_dt
+        if source_on_step is None or source_off_step is None:
+            terminal_message = (
+                "lockstep retries exhausted without two accepted states"
+            )
+            break
+
+        source_on_old = source_on_vector
+        source_off_old = source_off_vector
+        source_on_vector = np.asarray(
+            source_on_step.state_vector,
+            dtype=float,
+        )
+        source_off_vector = np.asarray(
+            source_off_step.state_vector,
+            dtype=float,
+        )
+        source_on_previous_increment = np.asarray(
+            source_on_step.physical_increment,
+            dtype=float,
+        )
+        source_off_previous_increment = np.asarray(
+            source_off_step.physical_increment,
+            dtype=float,
+        )
+        previous_dt = trial_dt
+        elapsed_time += trial_dt
+        accepted_steps += 1
+        ledger = _matched_source_step_ledger(
+            source_on_context,
+            source_off_context,
+            source_on_old,
+            source_off_old,
+            source_on_step.physical_increment,
+            source_off_step.physical_increment,
+            trial_dt,
+        )
+        step_ledgers.append(ledger)
+        easy = bool(
+            source_on_step.iterations <= config.easy_iterations
+            and source_off_step.iterations <= config.easy_iterations
+            and source_on_step.maximum_scaled_primitive_change
+            <= 0.5 * config.maximum_scaled_primitive_change
+            and source_off_step.maximum_scaled_primitive_change
+            <= 0.5 * config.maximum_scaled_primitive_change
+            and source_on_step.maximum_scaled_total_change
+            <= 0.5 * config.maximum_scaled_total_change
+            and source_off_step.maximum_scaled_total_change
+            <= 0.5 * config.maximum_scaled_total_change
+        )
+        dt_next = min(
+            (
+                trial_dt * config.growth_factor
+                if easy
+                else trial_dt
+            ),
+            config.maximum_dt,
+        )
+        step_rows.append(
+            {
+                "accepted_step": accepted_steps,
+                "elapsed_time_seconds": elapsed_time,
+                "dt_used_seconds": trial_dt,
+                "dt_next_seconds": dt_next,
+                "attempts": pair_attempts,
+                "source_ledger": ledger,
+            }
+        )
+
+    if accepted_step_target is not None:
+        target_reached = accepted_steps == accepted_step_target
+    else:
+        assert elapsed_time_target is not None
+        target_reached = (
+            abs(elapsed_time - elapsed_time_target)
+            <= target_tolerance
+        )
+    aggregate = _aggregate_matched_source_ledgers(step_ledgers)
+    source_on_summary = causal_five_field_state_summary(
+        source_on_context,
+        source_on_vector,
+    )
+    source_off_summary = causal_five_field_state_summary(
+        source_off_context,
+        source_off_vector,
+    )
+    source_rate = float(
+        np.sum(source_on_context.stream_sources.rest_mass)
+    )
+    source_profile = _matched_source_profile_response(
+        source_on_context,
+        source_on_vector,
+        source_off_vector,
+    )
+    exact_timestep_history = bool(
+        all(
+            row["attempts"][-1]["source_on"]["accepted"]
+            and row["attempts"][-1]["source_off"]["accepted"]
+            for row in step_rows
+        )
+    )
+    source_relative_gate = 1.0e-4
+    balanced_relative_gate = 1.0e-4
+    passed = bool(
+        target_reached
+        and exact_timestep_history
+        and aggregate[
+            "maximum_source_relative_recovery_defect_first_four"
+        ]
+        <= source_relative_gate
+        and aggregate[
+            "maximum_balanced_relative_recovery_defect_first_four"
+        ]
+        <= balanced_relative_gate
+    )
+    return {
+        "n_cells": n_cells,
+        "initialization_passed": True,
+        "initial_vectors_bitwise_equal": initial_vectors_bitwise_equal,
+        "target": {
+            "accepted_steps": accepted_step_target,
+            "elapsed_time_seconds": elapsed_time_target,
+        },
+        "accepted_steps": accepted_steps,
+        "rejected_pair_attempts": rejected_pair_attempts,
+        "elapsed_time_seconds": elapsed_time,
+        "loading_time_seconds": causal_five_field_loading_time(
+            source_on_context,
+            np.asarray(artifacts["old_vector"], dtype=float),
+        ),
+        "source_rate_g_s": source_rate,
+        "source_on_final_state": source_on_summary,
+        "source_off_final_state": source_off_summary,
+        "source_isolated_response": {
+            "cancellation_safe_integrated_conserved_change": (
+                aggregate["differential_terms"][
+                    "conserved_storage_change"
+                ]
+            ),
+            "inner_face_rate_difference": [
+                float(left - right)
+                for left, right in zip(
+                    source_on_summary["inner_face_rates"],
+                    source_off_summary["inner_face_rates"],
+                    strict=True,
+                )
+            ],
+            "outer_face_rate_difference": [
+                float(left - right)
+                for left, right in zip(
+                    source_on_summary["outer_face_rates"],
+                    source_off_summary["outer_face_rates"],
+                    strict=True,
+                )
+            ],
+            "h_over_r": source_profile,
+        },
+        "aggregate_source_moment_ledger": aggregate,
+        "gates": {
+            "target_reached": target_reached,
+            "exact_shared_timestep_history": exact_timestep_history,
+            "source_relative_recovery_defect_first_four": (
+                source_relative_gate
+            ),
+            "balanced_relative_recovery_defect_first_four": (
+                balanced_relative_gate
+            ),
+        },
+        "steps": step_rows,
+        "passed": passed,
+        "terminal_message": terminal_message,
+        "decision": (
+            "matched_source_control_passed"
+            if passed
+            else "matched_source_control_failed"
+        ),
+    }, passed
+
+
+def _matched_source_mesh_comparison(n16: dict, n32: dict) -> dict:
+    def metrics(run: dict) -> dict:
+        source_rate = run["source_rate_g_s"]
+        injected_mass = source_rate * run["elapsed_time_seconds"]
+        response = run["source_isolated_response"]
+        return {
+            "conserved_mass_response_per_injected_mass": (
+                response[
+                    "cancellation_safe_integrated_conserved_change"
+                ][0]
+                / injected_mass
+            ),
+            "inner_mass_flux_response_over_supply": (
+                response["inner_face_rate_difference"][0]
+                / source_rate
+            ),
+            "outer_mass_flux_response_over_supply": (
+                response["outer_face_rate_difference"][0]
+                / source_rate
+            ),
+            "maximum_absolute_delta_log_h_over_r": (
+                response["h_over_r"][
+                    "maximum_absolute_delta_log_h_over_r"
+                ]
+            ),
+            "rms_delta_log_h_over_r": (
+                response["h_over_r"]["rms_delta_log_h_over_r"]
+            ),
+        }
+
+    left = metrics(n16)
+    right = metrics(n32)
+    left_profile = np.asarray(
+        n16["source_isolated_response"]["h_over_r"][
+            "delta_log_h_over_r"
+        ],
+        dtype=float,
+    )
+    right_profile = np.asarray(
+        n32["source_isolated_response"]["h_over_r"][
+            "delta_log_h_over_r"
+        ],
+        dtype=float,
+    )
+    profile_difference = left_profile - right_profile
+    differences = {
+        "conserved_mass_response_per_injected_mass": abs(
+            left["conserved_mass_response_per_injected_mass"]
+            - right["conserved_mass_response_per_injected_mass"]
+        ),
+        "inner_mass_flux_response_over_supply": abs(
+            left["inner_mass_flux_response_over_supply"]
+            - right["inner_mass_flux_response_over_supply"]
+        ),
+        "outer_mass_flux_response_over_supply": abs(
+            left["outer_mass_flux_response_over_supply"]
+            - right["outer_mass_flux_response_over_supply"]
+        ),
+        "maximum_delta_log_h_over_r_response_difference": float(
+            np.max(np.abs(profile_difference))
+        ),
+        "rms_delta_log_h_over_r_response_difference": float(
+            np.sqrt(np.mean(profile_difference**2))
+        ),
+    }
+    gates = {
+        "conserved_mass_response_per_injected_mass": 0.05,
+        "inner_mass_flux_response_over_supply": 0.05,
+        "outer_mass_flux_response_over_supply": 0.05,
+        "maximum_delta_log_h_over_r_response_difference": 5.0e-3,
+    }
+    passed = all(
+        differences[name] <= limit
+        for name, limit in gates.items()
+    )
+    return {
+        "n16": left,
+        "n32": right,
+        "absolute_differences": differences,
+        "gates": gates,
+        "passed": passed,
+    }
+
+
+def _run_matched_source_control_audit(args: argparse.Namespace) -> None:
+    n16, n16_passed = _run_matched_source_control_resolution(
+        16,
+        accepted_step_target=8,
+        elapsed_time_target=None,
+    )
+    n32 = None
+    n32_passed = False
+    mesh = None
+    if n16_passed:
+        n32, n32_passed = _run_matched_source_control_resolution(
+            32,
+            accepted_step_target=None,
+            elapsed_time_target=n16["elapsed_time_seconds"],
+        )
+    if n32_passed:
+        mesh = _matched_source_mesh_comparison(n16, n32)
+    passed = bool(
+        n16_passed
+        and n32_passed
+        and mesh is not None
+        and mesh["passed"]
+    )
+    output = {
+        "work_package": "WP10c5l",
+        "scope": (
+            "lockstep source-on/source-off causal control with exact "
+            "differential five-field source-moment recovery"
+        ),
+        "n16": n16,
+        "n32": n32,
+        "mesh_comparison": mesh,
+        "gates": {
+            "n16_matched_control_passed": n16_passed,
+            "n32_attempted": n32 is not None,
+            "n32_equal_time_control_passed": n32_passed,
+            "mesh_gate_passed": (
+                mesh["passed"] if mesh is not None else False
+            ),
+            "isolated_stream_response_certified": passed,
+            "long_evolution_authorized": False,
+            "source_compatible_initial_datum_certified": False,
+            "tide_authorized": False,
+            "wind_authorized": False,
+        },
+        "decision": (
+            "matched_source_on_off_control_mesh_gate_passed"
+            if passed
+            else "stop_before_source_compatible_initialization"
+        ),
+    }
+    output_path = _absolute(
+        DEFAULT_MATCHED_SOURCE_CONTROL_OUTPUT
+        if args.output == DEFAULT_OUTPUT
+        else args.output
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = json.dumps(
+        output,
+        indent=2,
+        sort_keys=True,
+        default=_json_default,
+    )
+    output_path.write_text(serialized + "\n", encoding="utf-8")
+    print(serialized)
+
+
+def _source_compatible_seed_parameters(
+    n_cells: int,
+) -> tuple[dict, dict]:
+    context = _context(n_cells, include_stream=True)
+    if context.stream_sources is None:
+        raise RuntimeError("source-compatible datum requires a stream")
+    source_rate = float(np.sum(context.stream_sources.rest_mass))
+    unit_state = make_causal_five_field_seed(
+        context,
+        inner_surface_density=1.0,
+        inner_temperature=1.0e6,
+    )
+    unit_summary = causal_five_field_state_summary(
+        context,
+        pack_causal_five_field_state(unit_state),
+    )
+    unit_inner_rate = float(unit_summary["inner_face_rates"][0])
+    if unit_inner_rate >= 0.0:
+        raise RuntimeError(
+            "source-compatible seed requires inward inner flux"
+        )
+    inner_surface_density = source_rate / abs(unit_inner_rate)
+
+    target_inner_h_over_r = 0.1
+    inner_radius = float(context.grid.centers[0])
+    eos = context.vertical_frequency.eos(inner_radius)
+
+    def thickness(log_temperature: float) -> float:
+        thermodynamics = eos.from_surface_density_temperature(
+            inner_surface_density,
+            float(np.exp(log_temperature)),
+        )
+        return (
+            thermodynamics.proper_half_thickness / inner_radius
+        )
+
+    lower = float(np.log(1.0e5))
+    upper = float(np.log(1.0e7))
+    if (
+        thickness(lower) >= target_inner_h_over_r
+        or thickness(upper) <= target_inner_h_over_r
+    ):
+        raise RuntimeError(
+            "source-compatible thickness target is not bracketed"
+        )
+    for _iteration in range(80):
+        midpoint = 0.5 * (lower + upper)
+        if thickness(midpoint) < target_inner_h_over_r:
+            lower = midpoint
+        else:
+            upper = midpoint
+    inner_temperature = float(np.exp(0.5 * (lower + upper)))
+    parameters = {
+        "inner_surface_density": inner_surface_density,
+        "outer_surface_density": 1.0e5,
+        "inner_temperature": inner_temperature,
+        "outer_temperature": 8.0e5,
+        "inner_radial_velocity_over_c": -0.40,
+        "inner_azimuthal_velocity_over_c": 0.60,
+        "outer_radial_velocity_margin_over_c": 1.0e-5,
+    }
+    return parameters, {
+        "target_absolute_inner_mass_flux_over_supply": 1.0,
+        "target_inner_h_over_r": target_inner_h_over_r,
+        "surface_density_construction": (
+            "exact linear rest-mass face-flux inversion"
+        ),
+        "temperature_construction": (
+            "log-temperature bisection at the first cell center"
+        ),
+        "temperature_bracket_k": [1.0e5, 1.0e7],
+    }
+
+
+def _inner_principal_summary(
+    context: CausalFiveFieldDAEContext,
+    primitive_chart: np.ndarray,
+) -> dict:
+    radius = float(context.grid.edges[0])
+    geometry = kerr_schild_column_geometry(
+        radius,
+        context.grid.gravitational_radius,
+    )
+    sigma = float(np.exp(primitive_chart[0]))
+    temperature = float(np.exp(primitive_chart[3]))
+    thermodynamics = context.vertical_frequency.eos(
+        radius
+    ).from_surface_density_temperature(
+        sigma,
+        temperature,
+    )
+    primitive = ValenciaPerfectFluidPrimitive(
+        surface_density=sigma,
+        radial_velocity_over_c=float(primitive_chart[1]),
+        azimuthal_velocity_over_c=float(primitive_chart[2]),
+        specific_internal_energy=(
+            thermodynamics.specific_internal_energy
+        ),
+        integrated_pressure=thermodynamics.integrated_pressure,
+    )
+    closure = calibrate_causal_alpha_shear(
+        primitive,
+        alpha=context.alpha,
+        stress_factor=context.stress_factor,
+        reference_positive_shear_rate=(
+            1.5 * context.vertical_frequency.frequency(radius)
+        ),
+        viscous_signal_speed_over_c=(
+            np.sqrt(context.alpha)
+            * thermodynamics.sound_speed
+            / C
+        ),
+    )
+    audit = audit_causal_five_field_principal(
+        geometry,
+        context.vertical_frequency.eos(radius),
+        closure,
+        surface_density=sigma,
+        radial_velocity_over_c=primitive.radial_velocity_over_c,
+        azimuthal_velocity_over_c=primitive.azimuthal_velocity_over_c,
+        temperature=temperature,
+    )
+    return {
+        "radius_rg": radius / context.grid.gravitational_radius,
+        "incoming_inner_characteristics": (
+            audit.incoming_inner_characteristics
+        ),
+        "coordinate_speeds_over_c": [
+            float(value) for value in audit.coordinate_speeds_over_c
+        ],
+        "maximum_light_cone_excess": audit.maximum_light_cone_excess,
+    }
+
+
+def _source_compatible_initialization(
+    n_cells: int,
+) -> tuple[dict, tuple[dict, dict], dict]:
+    seed_parameters, construction = (
+        _source_compatible_seed_parameters(n_cells)
+    )
+    initialization, artifacts = _run_increment_primary_resolution(
+        n_cells,
+        TARGET_SCALED_PRIMITIVE_CHANGES[0],
+        include_stream=True,
+        seed_kwargs=seed_parameters,
+    )
+    dense_reference_tiny_step = dict(initialization["tiny_step"])
+    base_dt = float(artifacts["timestep_seconds"])
+    polish_config = CausalFiveFieldAdaptiveStepConfig(
+        minimum_dt=base_dt / 128.0,
+        maximum_dt=16.0 * base_dt,
+        maximum_scaled_primitive_change=5.0e-4,
+        maximum_scaled_total_change=1.0e-3,
+        shrink_factor=0.5,
+        growth_factor=1.5,
+        maximum_retries=0,
+        easy_iterations=3,
+        residual_tolerance=1.0e-10,
+        algebraic_residual_tolerance=1.0e-11,
+        conservation_tolerance=1.0e-10,
+        finite_difference_step=FINITE_DIFFERENCE_STEP,
+        maximum_newton_iterations=12,
+    ).validated()
+    polished_step = advance_causal_five_field_increment_backward_euler(
+        artifacts["context"],
+        np.asarray(artifacts["old_vector"], dtype=float),
+        base_dt,
+        np.asarray(artifacts["physical_increment"], dtype=float),
+        polish_config,
+    )
+    if polished_step.accepted:
+        artifacts = {
+            **artifacts,
+            "physical_increment": np.asarray(
+                polished_step.physical_increment,
+                dtype=float,
+            ),
+            "new_vector": np.asarray(
+                polished_step.state_vector,
+                dtype=float,
+            ),
+        }
+        polished_tiny_step = dict(initialization["tiny_step"])
+        polished_tiny_step.update(
+            {
+                "maximum_scaled_residual": (
+                    polished_step.maximum_scaled_residual
+                ),
+                "maximum_scaled_algebraic_residual": (
+                    polished_step.maximum_scaled_algebraic_residual
+                ),
+                "maximum_scaled_change": (
+                    polished_step.maximum_scaled_total_change
+                ),
+                "maximum_scaled_block_changes": {
+                    **polished_tiny_step[
+                        "maximum_scaled_block_changes"
+                    ],
+                    "primitive": (
+                        polished_step.maximum_scaled_primitive_change
+                    ),
+                },
+                "solver_success": True,
+                "solver_message": polished_step.message,
+                "solver_iterations": polished_step.iterations,
+                "function_evaluations": (
+                    polished_step.function_evaluations
+                ),
+                "jacobian_evaluations": (
+                    polished_step.jacobian_evaluations
+                ),
+                "conservation_telescoping_relative_defect": (
+                    polished_step
+                    .conservation_telescoping_relative_defect
+                ),
+                "minimum_scattering_optical_depth": (
+                    polished_step.minimum_scattering_optical_depth
+                ),
+                "outer_boundary_choked_after": (
+                    polished_step.outer_boundary_choked_after
+                ),
+                "passed": True,
+                "backend": "equilibrated_sparse_polish",
+            }
+        )
+        initialization = {
+            **initialization,
+            "tiny_step": polished_tiny_step,
+            "resolution_passed": True,
+        }
+    context = artifacts["context"]
+    old_vector = np.asarray(artifacts["old_vector"], dtype=float)
+    old_state = unpack_causal_five_field_state(old_vector, n_cells)
+    evaluation = evaluate_causal_five_field_dae(
+        old_vector,
+        context,
+    )
+    summary = causal_five_field_state_summary(context, old_vector)
+    h_over_r = causal_five_field_h_over_r_profile(
+        context,
+        old_vector,
+    )
+    if context.stream_sources is None:
+        raise RuntimeError("source-compatible audit lost its stream")
+    source_rate = float(np.sum(context.stream_sources.rest_mass))
+    throughput_ratio = (
+        summary["inner_face_rates"][0] / source_rate
+    )
+    algebraic_blocks = (
+        evaluation.primitive_map_rows,
+        evaluation.interior_flux_rows,
+        evaluation.inner_flux_rows,
+        evaluation.outer_flux_rows,
+    )
+    maximum_algebraic_residual = float(
+        max(np.max(np.abs(block)) for block in algebraic_blocks)
+    )
+    principal = _inner_principal_summary(
+        context,
+        old_state.primitives[0],
+    )
+    gates = {
+        "absolute_inner_mass_flux_over_supply": [0.95, 1.05],
+        "maximum_h_over_r": 0.25,
+        "minimum_scattering_optical_depth": 1.0,
+        "inner_incoming_characteristics": 0,
+        "outer_channel_choked": False,
+        "outer_incoming_characteristics": 2,
+        "maximum_initial_algebraic_residual": 1.0e-12,
+        "increment_primary_initialization_passed": True,
+    }
+    passed = bool(
+        0.95 <= abs(throughput_ratio) <= 1.05
+        and float(np.max(h_over_r)) <= 0.25
+        and float(np.min(evaluation.scattering_optical_depths)) > 1.0
+        and principal["incoming_inner_characteristics"] == 0
+        and not evaluation.outer_boundary_choked
+        and evaluation.outer_incoming_characteristics == 2
+        and maximum_algebraic_residual <= 1.0e-12
+        and initialization["resolution_passed"]
+        and polished_step.accepted
+    )
+    report = {
+        "n_cells": n_cells,
+        "construction": construction,
+        "seed_parameters": seed_parameters,
+        "inner_mass_flux_over_supply": throughput_ratio,
+        "minimum_scattering_optical_depth": float(
+            np.min(evaluation.scattering_optical_depths)
+        ),
+        "maximum_h_over_r": float(np.max(h_over_r)),
+        "inner_h_over_r": float(h_over_r[0]),
+        "outer_h_over_r": float(h_over_r[-1]),
+        "outer_boundary_choked": evaluation.outer_boundary_choked,
+        "outer_incoming_characteristics": (
+            evaluation.outer_incoming_characteristics
+        ),
+        "inner_principal": principal,
+        "maximum_initial_algebraic_residual": (
+            maximum_algebraic_residual
+        ),
+        "consistent_initial_data": (
+            initialization["consistent_initial_data"]
+        ),
+        "tiny_step": initialization["tiny_step"],
+        "dense_reference_tiny_step": dense_reference_tiny_step,
+        "sparse_initial_polish": _fixed_step_summary(polished_step),
+        "gates": gates,
+        "passed": passed,
+        "decision": (
+            "source_compatible_initial_datum_passed"
+            if passed
+            else "source_compatible_initial_datum_failed"
+        ),
+    }
+    return report, (initialization, artifacts), seed_parameters
+
+
+def _run_source_compatible_startup_audit(
+    args: argparse.Namespace,
+) -> None:
+    n16_initial, n16_bundle, n16_parameters = (
+        _source_compatible_initialization(16)
+    )
+    n16_repeated = None
+    n16_repeated_passed = False
+    if n16_initial["passed"]:
+        n16_repeated, n16_repeated_passed = (
+            _run_repeated_source_on_resolution(
+                16,
+                accepted_step_target=8,
+                elapsed_time_target=None,
+                perform_restart_resume_audit=True,
+                seed_kwargs=n16_parameters,
+                restart_label="wp10c5m",
+                initialization_bundle=n16_bundle,
+                step_residual_tolerance=1.0e-10,
+                step_algebraic_tolerance=1.0e-11,
+                mass_budget_tolerance=1.0e-10,
+            )
+        )
+
+    n32_initial = None
+    n32_repeated = None
+    n32_repeated_passed = False
+    mesh = None
+    if n16_repeated_passed:
+        n32_initial, n32_bundle, n32_parameters = (
+            _source_compatible_initialization(32)
+        )
+        if n32_initial["passed"]:
+            n32_repeated, n32_repeated_passed = (
+                _run_repeated_source_on_resolution(
+                    32,
+                    accepted_step_target=None,
+                    elapsed_time_target=(
+                        n16_repeated["elapsed_time_seconds"]
+                    ),
+                    perform_restart_resume_audit=False,
+                    seed_kwargs=n32_parameters,
+                    restart_label="wp10c5m",
+                    initialization_bundle=n32_bundle,
+                    step_residual_tolerance=1.0e-10,
+                    step_algebraic_tolerance=1.0e-11,
+                    mass_budget_tolerance=1.0e-10,
+                )
+            )
+    if n32_repeated_passed:
+        mesh = _repeated_mesh_comparison(
+            n16_repeated,
+            n32_repeated,
+        )
+    passed = bool(
+        n16_initial["passed"]
+        and n16_repeated_passed
+        and n32_initial is not None
+        and n32_initial["passed"]
+        and n32_repeated_passed
+        and mesh is not None
+        and mesh["passed"]
+    )
+    output = {
+        "work_package": "WP10c5m",
+        "scope": (
+            "co-tuned source-compatible causal datum and short adaptive "
+            "exact-stream no-tide startup"
+        ),
+        "n16_initial_datum": n16_initial,
+        "n16_repeated_startup": n16_repeated,
+        "n32_initial_datum": n32_initial,
+        "n32_repeated_startup": n32_repeated,
+        "mesh_comparison": mesh,
+        "gates": {
+            "n16_initial_datum_passed": n16_initial["passed"],
+            "n16_repeated_startup_passed": n16_repeated_passed,
+            "n32_initial_datum_attempted": n32_initial is not None,
+            "n32_initial_datum_passed": (
+                n32_initial["passed"]
+                if n32_initial is not None
+                else False
+            ),
+            "n32_repeated_startup_passed": n32_repeated_passed,
+            "mesh_gate_passed": (
+                mesh["passed"] if mesh is not None else False
+            ),
+            "source_compatible_short_startup_certified": passed,
+            "duration_extension_authorized": passed,
+            "long_evolution_certified": False,
+            "hot_state_certified": False,
+            "limit_cycle_certified": False,
+            "tide_authorized": False,
+            "wind_authorized": False,
+        },
+        "decision": (
+            "source_compatible_short_startup_mesh_gate_passed"
+            if passed
+            else "stop_before_duration_extension"
+        ),
+    }
+    output_path = _absolute(
+        DEFAULT_SOURCE_COMPATIBLE_STARTUP_OUTPUT
+        if args.output == DEFAULT_OUTPUT
+        else args.output
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = json.dumps(
+        output,
+        indent=2,
+        sort_keys=True,
+        default=_json_default,
+    )
+    output_path.write_text(serialized + "\n", encoding="utf-8")
+    print(serialized)
+
+
 def _run_increment_primary_audit(
     args: argparse.Namespace,
     *,
@@ -3586,6 +4770,12 @@ def _run_increment_primary_audit(
 
 def main() -> None:
     args = _arguments()
+    if args.increment_primary_source_compatible_startup_audit:
+        _run_source_compatible_startup_audit(args)
+        return
+    if args.increment_primary_matched_source_control_audit:
+        _run_matched_source_control_audit(args)
+        return
     if args.increment_primary_repeated_source_on_audit:
         _run_repeated_source_on_audit(args)
         return

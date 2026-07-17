@@ -16,7 +16,9 @@ from imri_qpe.layer3_minidisk_1d import (
     SchwarzschildCurvatureVerticalFrequency,
     causal_five_field_h_over_r_profile,
     causal_five_field_loading_time,
+    causal_five_field_physical_step_ledger,
     causal_five_field_state_summary,
+    evaluate_causal_five_field_increment_backward_euler,
     fiducial_hill_roche_nozzle_geometry,
     load_causal_five_field_adaptive_restart,
     make_causal_five_field_seed,
@@ -100,6 +102,45 @@ def test_causal_state_summary_and_loading_time_are_finite() -> None:
     assert np.all(np.isfinite(summary["outer_face_rates"]))
     assert np.isfinite(loading_time)
     assert loading_time > 0.0
+
+
+def test_causal_physical_step_ledger_separates_exact_stream() -> None:
+    context = _context(stream=True)
+    vector = pack_causal_five_field_state(
+        make_causal_five_field_seed(context)
+    )
+    increment = np.zeros_like(vector)
+    timestep = 2.5e-8
+
+    ledger = causal_five_field_physical_step_ledger(
+        context,
+        vector,
+        increment,
+        timestep,
+    )
+    evaluation = evaluate_causal_five_field_increment_backward_euler(
+        increment,
+        context,
+        old_vector=vector,
+        timestep_seconds=timestep,
+        temporal_height_scheme="path_integrated",
+    )
+    expected_stream = np.zeros(5)
+    assert context.stream_sources is not None
+    expected_stream[:4] = (
+        timestep * np.sum(context.stream_sources.matrix, axis=0)
+    )
+
+    np.testing.assert_array_equal(
+        ledger.prescribed_stream_source,
+        expected_stream,
+    )
+    np.testing.assert_allclose(
+        ledger.closure_defect,
+        C * timestep * np.sum(evaluation.conservation_rows, axis=0),
+        rtol=2.0e-14,
+        atol=1.0e-5,
+    )
 
 
 def test_causal_adaptive_restart_round_trips_bitwise(tmp_path) -> None:

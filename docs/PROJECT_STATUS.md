@@ -79,6 +79,8 @@ This is the canonical project handoff. Status labels mean:
 | Exact-stream causal startup WP10c5i | **SUPPORTED BUT NOT FULLY CERTIFIED** for source-on startup; **DIAGNOSTIC ONLY** physically | Exact C2 moments normalize at roundoff; N16/N32 residuals are `8.80e-9/3.64e-9`; full/two-half errors are `5.63e-6/1.21e-6` | Circularized regression stream, not ballistic Layer-1 input; only one tiny step from a nonstationary seed |
 | Colored sparse causal backend WP10c5j | **CERTIFIED** for numerical parity | Exact 18-color pattern; omitted derivatives and colored/dense matrix defects are zero; directional defects `<7.1e-16`; root defects `<9.3e-18`; evaluations fall `490/970 -> 36` | Finite-difference sparse direct backend, not an analytic Jacobian or long-duration performance result |
 | Repeated causal source-on startup WP10c5k | **SUPPORTED BUT NOT FULLY CERTIFIED** for short no-tide startup; **DIAGNOSTIC ONLY** physically | N16/N32 reach exact `3.39278e-7 s`; no rejected steps; mass defects `6.32e-13/8.14e-12`; bitwise restart; common-radius `Delta ln(H/R)` mesh difference `2.05e-3` | Only about `2e-13 t_load`; arbitrary seed relaxation has inner flux about `9.2e4` times supply; long evolution, tide, wind, stability, hot state, and cycle remain blocked |
+| Matched causal source control WP10c5l | **CERTIFIED** for differential source isolation; **DIAGNOSTIC ONLY** physically | Lockstep N16/N32 exact-time controls recover the four prescribed stream moments to `3.25e-6/1.08e-6`; isolated mass and `H/R` response mesh defects are at most `1.38e-9/1.03e-9` | Regression stream and only `1.73e-7 s`; the stress field has no direct stream moment; no physical relaxation is established |
+| Source-compatible causal startup WP10c5m | **SUPPORTED BUT NOT FULLY CERTIFIED** for bounded no-tide startup; **DIAGNOSTIC ONLY** physically | Exact unit inner throughput, `H/R=0.1`, `tau=18.5`, zero inner incoming modes, closed Roche edge, and full rank; equal-time N16/N32 startup reaches `5.542e-5 s` with mass defects `6.59e-13/1.57e-11` and response mismatch `1.00e-3` | Constructed datum, circularized source, and only about `1e-10 t_load`; duration, stability, tide, wind, hot-state, and cycle claims remain blocked |
 
 ## Frozen Target Under Review
 
@@ -428,6 +430,22 @@ N                    = 164
     `2e-13 t_load`, and the seed's inner flux is about `9.2e4` times the
     stream supply, so longer physical evolution remains blocked pending a
     source-compatible causal initializer.
+54. WP10c5l evolves bitwise-identical source-on/source-off pairs through the
+    same accepted timestep histories. The four prescribed stream moments are
+    recovered to `3.25e-6/1.08e-6` at N16/N32, while stored-mass and
+    baseline-subtracted thickness response differences across the meshes stay
+    below `1.39e-9`. The relaxing-stress field remains an explicit residual
+    audit but is not falsely counted as a fifth injected stream moment.
+55. WP10c5m replaces the arbitrary high-throughput preflight seed with a
+    constraint-consistent datum satisfying
+    `|Mdot_inner|/Mdot_stream=1` and `H_inner/R_inner=0.1`. Both meshes retain
+    zero inner incoming modes, a closed Roche channel, scattering depth above
+    `18.5`, exact maps, and full scaled/equilibrated rank. Seven or eight
+    accepted equal-time steps reach `5.542012666e-5 s`; the N16/N32
+    baseline-subtracted thickness response differs by `1.00e-3` and the
+    aggregate mass defects remain below `1.57e-11`. This authorizes one
+    bounded geometric duration extension, not a hot, stable, or cyclic
+    physical interpretation.
 
 ## Claims That Are Not Allowed Yet
 
@@ -481,16 +499,16 @@ N                    = 164
    WP10c5d consistent-data gate, the WP10c5e storage audit, the WP10c5f
    frozen linear-precision audit, the WP10c5g component audit, and the
    WP10c5h increment-primary startup, WP10c5i exact-stream startup, WP10c5j
-   sparse parity backend, and WP10c5k repeated startup as complete. The old PW
+   sparse parity backend, WP10c5k repeated startup, WP10c5l matched source
+   control, and WP10c5m source-compatible startup as complete. The old PW
    plunge has superluminal transverse rotation and must not be mapped into the
    new variables. Continue only the selected one-domain ingoing-Kerr-Schild
-   Valencia path. Before extending duration, run one matched causal
-   source-on/source-off control and construct one constraint-consistent datum
-   whose inner throughput is order unity relative to the stream supply while
-   preserving zero inner incoming modes, optical thickness, a closed Roche
-   edge, full rank, and exact maps. Repeat the N16/N32 adaptive mesh gate from
-   that datum. Do not launch N64/N96, distributed tide, wind, stability, or a
-   hot/cycle search before this source-compatible no-tide gate passes.
+   Valencia path. Restart N16 from WP10c5m and extend geometrically to about
+   `1e-9 t_load` under the unchanged `1e-10` nonlinear and aggregate
+   conservation gates. Stop at the first failed physical or numerical gate.
+   Only after N16 passes may N32 be evolved to exactly the same physical time.
+   Do not launch N64/N96, distributed tide, wind, stability, or a hot/cycle
+   search in this duration package.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -532,6 +550,7 @@ N                    = 164
 - Residual directional-consistency audit: `reports/current/CODEX_CAUSAL_FIVE_FIELD_DIRECTIONAL_CONSISTENCY_WP10C5G_RESULTS_2026-07-17.md`
 - Increment-primary startup audit: `reports/current/CODEX_CAUSAL_FIVE_FIELD_INCREMENT_PRIMARY_WP10C5H_RESULTS_2026-07-17.md`
 - Exact-stream sparse repeated startup: `reports/current/CODEX_CAUSAL_SOURCE_ON_SPARSE_REPEATED_STARTUP_WP10C5I_K_RESULTS_2026-07-18.md`
+- Matched source and source-compatible startup: `reports/current/CODEX_CAUSAL_MATCHED_SOURCE_AND_COMPATIBLE_STARTUP_WP10C5L_M_RESULTS_2026-07-18.md`
 - Fully coupled rank prototype: `reports/current/CODEX_COUPLED_INNER_OUTER_RANK_PROTOTYPE_RESULTS_2026-07-11.md`
 - Coupled mesh/interface certification: `reports/current/CODEX_COUPLED_MESH_INTERFACE_CERTIFICATION_RESULTS_2026-07-11.md`
 - Coupled wall pattern-power gate: `reports/current/CODEX_COUPLED_WALL_PATTERN_POWER_RESULTS_2026-07-11.md`

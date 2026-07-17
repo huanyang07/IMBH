@@ -161,6 +161,18 @@ rejected sequence.
     `2e-13 t_load` and the arbitrary preflight seed drains at about `9.2e4`
     times the stream supply. A source-compatible causal datum is required
     before longer physical evolution.
+36. **Matched-source and source-compatible causal startup:** bitwise-identical
+    source-on/source-off controls recover all four prescribed stream moments
+    to `3.25e-6/1.08e-6` at N16/N32, with cross-mesh isolated mass and
+    thickness-response defects below `1.39e-9`. A new constrained datum has
+    unit inner throughput relative to the stream, `H/R=0.1`, scattering depth
+    above `18.5`, zero incoming inner modes, a closed Roche channel, and full
+    scaled/equilibrated rank. The repeated N16/N32 trajectories reach the
+    exact shared time `5.54201e-5 s` with aggregate mass defects below
+    `1.57e-11` and a baseline-subtracted thickness response difference of
+    `1.00e-3`. One geometric no-tide duration extension to about
+    `1e-9 t_load` is authorized; N64/N96, tide, wind, stability, hot-state,
+    and cycle searches remain blocked.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed
