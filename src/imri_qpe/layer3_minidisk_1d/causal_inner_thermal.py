@@ -438,7 +438,7 @@ class StressWorkPartition:
     explicit_total_energy_heating_source: float
 
 
-def _column_four_velocity(
+def kerr_schild_column_four_velocity(
     geometry: KerrSchildColumnGeometry,
     primitive: ValenciaPerfectFluidPrimitive,
 ) -> np.ndarray:
@@ -485,7 +485,10 @@ def causal_comoving_energy_source(
     rate = float(comoving_energy_rate)
     if not np.isfinite(rate):
         raise ValueError("comoving energy rate must be finite")
-    four_velocity = _column_four_velocity(geometry, primitive)
+    four_velocity = kerr_schild_column_four_velocity(
+        geometry,
+        primitive,
+    )
     four_force = rate * four_velocity / C**3
     lower_force = geometry.spacetime_metric @ four_force
     alpha = geometry.base.lapse

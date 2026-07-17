@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MAX_BYTES = 5 * 1024 * 1024
-MAX_TRACKED_FILES = 600
+MAX_TRACKED_FILES = 700
 BANNED_PARTS = {"__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
 BANNED_SUFFIXES = {".pyc", ".pyo", ".swp", ".tmp"}
 

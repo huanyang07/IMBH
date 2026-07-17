@@ -85,6 +85,14 @@ rejected sequence.
     in the tensor flux. Local acoustic/shear causality, source identities, and
     second-order finite-volume integration pass; the vertical-frequency
     provider and global stream/Roche migration remain open.
+26. **Kerr-Schild stream and Roche migration:** one immutable stream
+    four-state now supplies exact compact mass, radial-momentum,
+    angular-momentum, and Killing-energy moments in the `x^0=ct` chart. The
+    physical closed/choked Hill/Roche boundary consumes the relativistic edge
+    Killing and angular moments while preserving its reduced local-Hill force
+    and opening gate. Exact source, energy/Jacobi, characteristic-count, and
+    base face-rank audits pass; the full stress-augmented stationary DAE is the
+    next gate.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

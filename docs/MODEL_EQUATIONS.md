@@ -936,6 +936,109 @@ fixed-height conservative flux Jacobian is not an independent characteristic
 proof for this closure. No stream, tide, wind, stationary root, or timestep is
 included.
 
+#### Kerr-Schild stream and Roche migration
+
+WP10c4 supplies the responsive column with one explicit vertical-frequency
+provider:
+
+```text
+Omega_perp(R) = c sqrt(rg/R^3),
+dlnOmega_perp/dlnR = -3/2.
+```
+
+This is the positive Schwarzschild curvature scale. It is finite through the
+Kerr-Schild horizon and has the correct weak-field orbital limit. It remains a
+quasi-hydrostatic closure, not a resolved vertical equation for plunging gas.
+
+One injected stream state is specified by an absolute rest-mass rate and one
+local Eulerian four-state. With
+
+```text
+hbar = 1 + e/c^2 + Pi/(Sigma c^2),
+u_mu = g_munu u^nu,
+```
+
+the specific Killing-chart moments per injected rest mass are
+
+```text
+p_R/c = hbar u_R,
+l/c   = hbar u_phi,
+E_K/c^2 = -hbar u_t.
+```
+
+The transport radial velocity is
+
+```text
+v_tr = c [alpha beta_R/sqrt(gamma_RR) - beta_shift^R].
+```
+
+Mass, radial momentum, angular momentum, and Killing energy therefore come
+from one immutable state rather than four independently tunable source
+numbers. For the current constant-moment compact source, exact cell weights
+are differences of the analytic cumulative C2 or C4 profile:
+
+```text
+w_i = S(ln R_{i+1}) - S(ln R_i),
+sum_i w_i = 1.
+```
+
+The physical mass-equivalent rates are
+
+```text
+S_i = Mdot_stream w_i
+      [1, hbar u_R, hbar u_phi, -hbar u_t].
+```
+
+Because the finite-volume time coordinate is `x^0=ct`, the source inserted
+into that DAE is `S_i/c`. A future ballistic source may supply a different
+four-state or conservative radial moment table, but it must preserve this
+single-state ledger. The WP10c4 runner's circular source state is a bounded
+regression fixture, not a Layer-1 ballistic calibration.
+
+At the Roche edge, the Kerr-Schild column supplies
+
+```text
+v_R,nozzle = v_tr,
+l_kin      = c u_phi,
+l_flux     = c hbar u_phi,
+B_inertial = -c^2 hbar u_t - c^2.
+```
+
+The reduced Hill nozzle retains its local PW-secondary plus Hill force
+geometry. A constant potential shift makes its edge inertial Bernoulli equal
+`B_inertial`; this changes neither force nor edge-to-saddle availability.
+The flux angular momentum uses `l_flux`, while the local rotating nozzle
+kinematics use `l_kin`.
+
+The outward physical edge rates are converted to the Killing finite-volume
+chart as
+
+```text
+F_edge/c = [
+    Mdot/c,
+    Pdot_R/c^2,
+    Jdot/c^2,
+    Edot_K/c^3
+].
+```
+
+Closed states retain only pressure traction. Choked states add outward nozzle
+mass, momentum, angular momentum, and total Killing energy including rest
+mass. Nonzero outer shear stress, inward nozzle mass, a PW disk-energy zero,
+or a failed Jacobi/pattern-power ledger is rejected.
+
+The bounded outer fixture has exactly one incoming acoustic characteristic in
+both closed and choked states. Exact stream sources add no unknowns or rows.
+Relative to the four-field WP10b flux-primary base, the four outer face rows
+remain full rank and the count remains `12N+4`. This is not yet the final
+causal-stress augmented count or its nonlinear characteristic proof; those
+belong to the first production assembly.
+
+At `10000 rg`, a cold circular fixture recovers Newtonian specific angular
+momentum and binding energy with relative defects `1.50034e-4` and
+`-7.50338e-5`, respectively. Exact C2/C4 stream moments close below
+`2.06e-16`; the source-per-`ct` conversion closes below `1.80e-16`.
+
 At `335 rg` the current outer flow is subsonic and requires one incoming
 acoustic condition. Layer 1 does not provide an exterior thermodynamic
 invariant there. ADR 0014 therefore selects an adiabatic Hill/Roche overflow

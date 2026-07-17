@@ -95,6 +95,8 @@ class HillRocheNozzleReservoir:
     radial_velocity: float
     specific_angular_momentum: float
     temperature: float | None = None
+    specific_inertial_bernoulli: float | None = None
+    specific_flux_angular_momentum: float | None = None
 
     def validated(self) -> HillRocheNozzleReservoir:
         values = (
@@ -112,6 +114,15 @@ class HillRocheNozzleReservoir:
             not np.isfinite(self.temperature) or self.temperature <= 0.0
         ):
             raise ValueError("nozzle temperature must be positive and finite")
+        optional_values = (
+            self.specific_inertial_bernoulli,
+            self.specific_flux_angular_momentum,
+        )
+        if any(
+            value is not None and not np.isfinite(value)
+            for value in optional_values
+        ):
+            raise ValueError("optional nozzle flux moments must be finite")
         return self
 
 
@@ -247,6 +258,64 @@ def hill_roche_disk_matched_potential(
         )
         + float(pattern_omega) ** 2 * float(reservoir_radius) ** 2
     )
+
+
+def _hill_roche_budget_potentials(
+    reservoir: HillRocheNozzleReservoir,
+    geometry: HillRocheNozzleGeometry,
+    *,
+    enthalpy: float,
+    kinetic: float,
+) -> tuple[float, float]:
+    """Return edge/saddle potentials on the declared inertial-energy zero."""
+
+    if reservoir.specific_inertial_bernoulli is None:
+        edge_potential = float(
+            hill_roche_disk_matched_potential(
+                reservoir.radius,
+                geometry.secondary_mass,
+                geometry.pattern_omega,
+                reservoir.radius,
+            )
+        )
+        saddle_potential = float(
+            hill_roche_disk_matched_potential(
+                geometry.saddle_radius,
+                geometry.secondary_mass,
+                geometry.pattern_omega,
+                reservoir.radius,
+            )
+        )
+        return edge_potential, saddle_potential
+
+    flux_angular_momentum = (
+        reservoir.specific_angular_momentum
+        if reservoir.specific_flux_angular_momentum is None
+        else reservoir.specific_flux_angular_momentum
+    )
+    rotating_bernoulli = (
+        reservoir.specific_inertial_bernoulli
+        - geometry.pattern_omega * flux_angular_momentum
+    )
+    edge_potential = rotating_bernoulli - enthalpy - kinetic
+    unshifted_edge = float(
+        hill_roche_midplane_potential(
+            reservoir.radius,
+            geometry.secondary_mass,
+            geometry.pattern_omega,
+        )
+    )
+    unshifted_saddle = float(
+        hill_roche_midplane_potential(
+            geometry.saddle_radius,
+            geometry.secondary_mass,
+            geometry.pattern_omega,
+        )
+    )
+    saddle_potential = (
+        edge_potential + unshifted_saddle - unshifted_edge
+    )
+    return float(edge_potential), float(saddle_potential)
 
 
 def hill_roche_midplane_force_derivative(
@@ -413,9 +482,12 @@ class HillRocheNozzleProvider:
             total_energy=total_energy_flux,
             rotating_energy=rotating_energy_flux,
         ).validated()
-        edge_angular_flux = float(
-            mass_flux * reservoir.specific_angular_momentum
+        edge_specific_l = (
+            reservoir.specific_angular_momentum
+            if reservoir.specific_flux_angular_momentum is None
+            else reservoir.specific_flux_angular_momentum
         )
+        edge_angular_flux = float(mass_flux * edge_specific_l)
         edge_total_energy_flux = float(
             rotating_energy_flux
             + geometry.pattern_omega * edge_angular_flux
@@ -528,25 +600,17 @@ class HillRocheNozzleProvider:
             reservoir.specific_angular_momentum / reservoir.radius
             - geometry.pattern_omega * reservoir.radius
         )
-        edge_potential = float(
-            hill_roche_disk_matched_potential(
-                reservoir.radius,
-                geometry.secondary_mass,
-                geometry.pattern_omega,
-                reservoir.radius,
-            )
-        )
-        saddle_potential = float(
-            hill_roche_disk_matched_potential(
-                geometry.saddle_radius,
-                geometry.secondary_mass,
-                geometry.pattern_omega,
-                reservoir.radius,
-            )
-        )
         kinetic = float(
             0.5 * reservoir.radial_velocity**2
             + 0.5 * rotating_tangential_velocity**2
+        )
+        edge_potential, saddle_potential = (
+            _hill_roche_budget_potentials(
+                reservoir,
+                geometry,
+                enthalpy=enthalpy,
+                kinetic=kinetic,
+            )
         )
         rotating_bernoulli = edge_potential + enthalpy + kinetic
         required_enthalpy = max(saddle_potential - edge_potential - kinetic, 0.0)
@@ -704,25 +768,17 @@ class GasRadiationHillRocheNozzleProvider:
             reservoir.specific_angular_momentum / reservoir.radius
             - geometry.pattern_omega * reservoir.radius
         )
-        edge_potential = float(
-            hill_roche_disk_matched_potential(
-                reservoir.radius,
-                geometry.secondary_mass,
-                geometry.pattern_omega,
-                reservoir.radius,
-            )
-        )
-        saddle_potential = float(
-            hill_roche_disk_matched_potential(
-                geometry.saddle_radius,
-                geometry.secondary_mass,
-                geometry.pattern_omega,
-                reservoir.radius,
-            )
-        )
         kinetic = float(
             0.5 * reservoir.radial_velocity**2
             + 0.5 * rotating_tangential_velocity**2
+        )
+        edge_potential, saddle_potential = (
+            _hill_roche_budget_potentials(
+                reservoir,
+                geometry,
+                enthalpy=enthalpy,
+                kinetic=kinetic,
+            )
         )
         rotating_bernoulli = edge_potential + enthalpy + kinetic
         required_enthalpy = max(
@@ -925,9 +981,12 @@ class GasRadiationHillRocheNozzleProvider:
             total_energy=saddle_total_energy_flux,
             rotating_energy=rotating_energy_flux,
         ).validated()
-        edge_angular_flux = float(
-            mass_flux * reservoir.specific_angular_momentum
+        edge_specific_l = (
+            reservoir.specific_angular_momentum
+            if reservoir.specific_flux_angular_momentum is None
+            else reservoir.specific_flux_angular_momentum
         )
+        edge_angular_flux = float(mass_flux * edge_specific_l)
         edge_total_energy_flux = float(
             rotating_energy_flux
             + geometry.pattern_omega * edge_angular_flux

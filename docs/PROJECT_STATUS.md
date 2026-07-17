@@ -67,6 +67,7 @@ This is the canonical project handoff. Status labels mean:
 | Kerr-Schild geometric finite volume WP10c2 | **SUPPORTED BUT NOT FULLY CERTIFIED** for source-free geometry; **DIAGNOSTIC ONLY** physically | Direct/3+1 source identities close below `4.85e-15`; flat pressure balance closes at `9.54e-16`; horizon-crossing free fall converges at order `1.997-2.000` with mass/Killing-energy flux spreads below `1.9e-15` | Equatorial `2+1` geometry only; supplemented by WP10c3a stress and WP10c3b thermal sources, while stream/Roche migration, stationary roots, and evolution remain pending |
 | Causal relativistic alpha shear WP10c3a | **SUPPORTED BUT NOT FULLY CERTIFIED** for the local stress/flux contract; **DIAGNOSTIC ONLY** physically | Nine gas/radiation states have real acoustic/contact/shear spectra with zero light-cone excess; all inside-horizon modes leave the domain; tensor and paired torque/Killing-work identities close below `8.67e-16` | Its fixed-height thermodynamic chart is superseded by WP10c3b; `c_nu=sqrt(alpha)a` and the final nonlinear coupled characteristic structure remain unvalidated |
 | Responsive-height thermal ledger WP10c3b | **SUPPORTED BUT NOT FULLY CERTIFIED** for the local thermal/source contract; **DIAGNOSTIC ONLY** physically | Nine bounded dynamic-height states recover below `5.35e-13`; the vertical-work acoustic matrix closes below `8.33e-17`; comoving cooling/work identities close below `1.16e-15`; source integration is second order | `Omega_perp` is a supplied provisional closure; no full nonlinear characteristic proof, stream/Roche migration, stationary root, or timestep |
+| Kerr-Schild stream/Roche migration WP10c4 | **SUPPORTED BUT NOT FULLY CERTIFIED** for the source/boundary adapter; **DIAGNOSTIC ONLY** physically | Exact C2/C4 four-state moments close below `2.06e-16`; source-per-`ct` conversion below `1.80e-16`; the closed/choked Roche edge has one incoming acoustic mode and exact angular/Killing/pattern-power ledgers; outer face-row rank is four | Circular stream state is a regression fixture, local Hill force remains reduced PW+Hill, and the final causal-stress augmented nonlinear count, stationary root, and timestep remain pending |
 
 ## Frozen Target Under Review
 
@@ -379,6 +380,16 @@ N                    = 164
     identities close below `1.16e-15`. Midpoint Killing-source integration is
     second order with N128 error `1.16e-5`. The supplied vertical frequency
     remains a physical closure input, and no disk root or timestep has run.
+49. WP10c4 migrates one immutable stream four-state and the physical
+    closed/choked Hill/Roche contract into the Kerr-Schild Killing chart.
+    Exact compact C2/C4 cell moments close below `2.06e-16`; conversion from
+    physical rates to the `x^0=ct` source closes below `1.80e-16`; and the
+    fiducial edge retains exactly one incoming acoustic mode. The nozzle uses
+    the relativistic edge Killing energy and flux angular momentum while a
+    constant potential shift preserves the existing reduced Hill force and
+    opening gate. The four base face rows remain full rank at N16-N128. This
+    is an adapter/rank result, not a ballistic stream calibration, stationary
+    disk, or final causal-stress characteristic proof.
 
 ## Claims That Are Not Allowed Yet
 
@@ -425,16 +436,18 @@ N                    = 164
    solver audit as complete. Keep the serial sparse-forward production
    backend and its new work telemetry; do not start a third optimization
    architecture.
-8. Treat WP9, WP10a, WP10b, WP10c1, source-free WP10c2 geometry, and the
-   local WP10c3a/WP10c3b stress and thermal contracts as complete. The old
+8. Treat WP9, WP10a, WP10b, WP10c1, source-free WP10c2 geometry, the local
+   WP10c3a/WP10c3b stress and thermal contracts, and the WP10c4 stream/Roche
+   adapters as complete. The old
    PW plunge has superluminal transverse rotation and must not be mapped into
    the new variables. Continue only the selected one-domain ingoing-Kerr-
-   Schild Valencia path. Next migrate the exact stream moments and physical
-   Hill/Roche boundary into that one-domain chart, preserving the comoving
-   cooling/height-work source and paired stress work. The global provider must
-   declare `Omega_perp`; do not infer it from the rejected PW plunge. Do not
-   add another inner/outer splice or start long evolution in the migration
-   work package.
+   Schild Valencia path. Next assemble the full causal-stress augmented
+   finite-volume DAE with the responsive thermal mass matrix, exact migrated
+   stream source, and migrated Roche face. Freeze the exact unknown/row count,
+   repeat the nonlinear characteristic and boundary-rank audit, and only then
+   attempt chained N64/N96 stationary roots followed by one tiny implicit
+   step. Do not add another inner/outer splice, distributed tide, wind, or
+   long evolution in this first production gate.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -466,6 +479,7 @@ N                    = 164
 - Common stress and simultaneous reservoir: `reports/current/CODEX_COMMON_STRESS_AND_SIMULTANEOUS_RESERVOIR_RESULTS_2026-07-11.md`
 - Causal relativistic alpha shear: `reports/current/CODEX_CAUSAL_RELATIVISTIC_ALPHA_SHEAR_WP10C3A_RESULTS_2026-07-17.md`
 - Responsive-height thermal ledger: `reports/current/CODEX_RESPONSIVE_HEIGHT_THERMAL_LEDGER_WP10C3B_RESULTS_2026-07-17.md`
+- Kerr-Schild stream/Roche migration: `reports/current/CODEX_KERR_SCHILD_STREAM_ROCHE_MIGRATION_WP10C4_RESULTS_2026-07-17.md`
 - Fully coupled rank prototype: `reports/current/CODEX_COUPLED_INNER_OUTER_RANK_PROTOTYPE_RESULTS_2026-07-11.md`
 - Coupled mesh/interface certification: `reports/current/CODEX_COUPLED_MESH_INTERFACE_CERTIFICATION_RESULTS_2026-07-11.md`
 - Coupled wall pattern-power gate: `reports/current/CODEX_COUPLED_WALL_PATTERN_POWER_RESULTS_2026-07-11.md`
