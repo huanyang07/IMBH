@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from collections import OrderedDict
 from dataclasses import dataclass
 from pathlib import Path
 from time import perf_counter
@@ -563,6 +564,94 @@ class GlobalInnerCharacteristicProjectionAudit:
 
 
 @dataclass(frozen=True)
+class GlobalInnerCharacteristicWorkAudit:
+    """Measured work spent in the reference characteristic inner boundary."""
+
+    calls: int
+    zero_amplitude_calls: int
+    pressure_root_calls: int
+    pressure_root_function_calls: int
+    pressure_root_iterations: int
+    vertical_state_calls: int
+    cache_hits: int
+    cache_misses: int
+    wall_seconds: float
+    pressure_root_wall_seconds: float
+
+
+@dataclass
+class _GlobalInnerCharacteristicWorkCounter:
+    calls: int = 0
+    zero_amplitude_calls: int = 0
+    pressure_root_calls: int = 0
+    pressure_root_function_calls: int = 0
+    pressure_root_iterations: int = 0
+    vertical_state_calls: int = 0
+    cache_hits: int = 0
+    cache_misses: int = 0
+    wall_seconds: float = 0.0
+    pressure_root_wall_seconds: float = 0.0
+
+    def snapshot(self) -> GlobalInnerCharacteristicWorkAudit:
+        return GlobalInnerCharacteristicWorkAudit(
+            calls=int(self.calls),
+            zero_amplitude_calls=int(self.zero_amplitude_calls),
+            pressure_root_calls=int(self.pressure_root_calls),
+            pressure_root_function_calls=int(
+                self.pressure_root_function_calls
+            ),
+            pressure_root_iterations=int(self.pressure_root_iterations),
+            vertical_state_calls=int(self.vertical_state_calls),
+            cache_hits=int(self.cache_hits),
+            cache_misses=int(self.cache_misses),
+            wall_seconds=float(self.wall_seconds),
+            pressure_root_wall_seconds=float(
+                self.pressure_root_wall_seconds
+            ),
+        )
+
+
+@dataclass(frozen=True)
+class _GlobalInnerCharacteristicCacheEntry:
+    flux_delta: np.ndarray
+    audit: GlobalInnerCharacteristicProjectionAudit
+
+
+class _GlobalInnerCharacteristicCache:
+    """Exact bounded cache for one nonlinear step's inner trace states."""
+
+    def __init__(self, maximum_entries: int):
+        if int(maximum_entries) != maximum_entries or maximum_entries < 1:
+            raise ValueError("maximum cache entries must be a positive integer")
+        self.maximum_entries = int(maximum_entries)
+        self._entries: OrderedDict[
+            tuple[float, ...], _GlobalInnerCharacteristicCacheEntry
+        ] = OrderedDict()
+
+    def get(
+        self, key: tuple[float, ...]
+    ) -> _GlobalInnerCharacteristicCacheEntry | None:
+        entry = self._entries.pop(key, None)
+        if entry is not None:
+            self._entries[key] = entry
+        return entry
+
+    def put(
+        self,
+        key: tuple[float, ...],
+        flux_delta: np.ndarray,
+        audit: GlobalInnerCharacteristicProjectionAudit,
+    ) -> None:
+        self._entries.pop(key, None)
+        self._entries[key] = _GlobalInnerCharacteristicCacheEntry(
+            flux_delta=np.array(flux_delta, dtype=float, copy=True),
+            audit=audit,
+        )
+        while len(self._entries) > self.maximum_entries:
+            self._entries.popitem(last=False)
+
+
+@dataclass(frozen=True)
 class GlobalFluxEigensystemAudit:
     """Numerical local eigensystem of the physical vertically integrated flux."""
 
@@ -657,6 +746,9 @@ class GlobalNonlinearSolveAudit:
     jacobian_wall_seconds: float | None
     total_wall_seconds: float
     final_iterate_update: float | None = None
+    inner_characteristic_work: (
+        GlobalInnerCharacteristicWorkAudit | None
+    ) = None
 
 
 @dataclass(frozen=True)
@@ -1884,6 +1976,8 @@ def apply_global_reference_characteristic_inner_flux(
     kappa: float = DEFAULT_KAPPA_ES,
     gamma_gas: float = 5.0 / 3.0,
     specific_mechanical_energy_correction=None,
+    _work_counter: _GlobalInnerCharacteristicWorkCounter | None = None,
+    _cache: _GlobalInnerCharacteristicCache | None = None,
 ) -> tuple[GlobalFaceFluxes, GlobalInnerCharacteristicProjectionAudit]:
     """Remove the incoming inner acoustic perturbation relative to a reference.
 
@@ -1893,6 +1987,9 @@ def apply_global_reference_characteristic_inner_flux(
     flux, so the supplied transonic reference remains exactly unchanged.
     """
 
+    work_start = perf_counter()
+    if _work_counter is not None:
+        _work_counter.calls += 1
     fluxes = fluxes.validated_for(grid.centers.size)
     cell = 0
     mechanical_correction = (
@@ -1907,6 +2004,36 @@ def apply_global_reference_characteristic_inner_flux(
     sigma = float(primitives.surface_density[cell])
     velocity = float(primitives.radial_velocity[cell])
     pressure = float(primitives.vertical.Pi[cell])
+    omega = float(primitives.omega[cell])
+    temperature = float(primitives.temperature[cell])
+    specific_total_energy = float(primitives.specific_total_energy[cell])
+    cache_key = (
+        sigma,
+        velocity,
+        omega,
+        temperature,
+        specific_total_energy,
+    )
+    if _cache is not None:
+        cached = _cache.get(cache_key)
+        if cached is not None:
+            if _work_counter is not None:
+                _work_counter.cache_hits += 1
+                _work_counter.wall_seconds += perf_counter() - work_start
+            values = {
+                name: np.array(getattr(fluxes, name), copy=True)
+                for name in _COMPONENTS
+            }
+            for index, name in enumerate(_COMPONENTS):
+                values[name][0] += cached.flux_delta[index]
+            return (
+                GlobalFaceFluxes(**values).validated_for(
+                    grid.centers.size
+                ),
+                cached.audit,
+            )
+        if _work_counter is not None:
+            _work_counter.cache_misses += 1
     reference_sigma = float(reference_primitives.surface_density[cell])
     reference_velocity = float(reference_primitives.radial_velocity[cell])
     reference_pressure = float(reference_primitives.vertical.Pi[cell])
@@ -1939,6 +2066,11 @@ def apply_global_reference_characteristic_inner_flux(
             projected_integrated_pressure=pressure,
             projected_temperature=float(primitives.temperature[cell]),
         )
+        if _cache is not None:
+            _cache.put(cache_key, np.zeros(4, dtype=float), audit)
+        if _work_counter is not None:
+            _work_counter.zero_amplitude_calls += 1
+            _work_counter.wall_seconds += perf_counter() - work_start
         return fluxes, audit
     if not np.isfinite(projected_pressure) or projected_pressure <= 0.0:
         raise ValueError("inner characteristic projection gives nonpositive pressure")
@@ -1948,6 +2080,8 @@ def apply_global_reference_characteristic_inner_flux(
     lower_temperature, upper_temperature = map(float, temperature_bounds)
 
     def pressure_residual(log_temperature: float) -> float:
+        if _work_counter is not None:
+            _work_counter.vertical_state_calls += 1
         local = vertical_state(
             sigma,
             float(np.exp(log_temperature)),
@@ -1965,17 +2099,28 @@ def apply_global_reference_characteristic_inner_flux(
         raise ValueError(
             "inner characteristic pressure lies outside temperature bounds"
         )
-    projected_temperature = float(
-        np.exp(
-            brentq(
-                pressure_residual,
-                log_lower,
-                log_upper,
-                xtol=1.0e-12,
-                rtol=1.0e-12,
-            )
-        )
+    pressure_root_start = perf_counter()
+    projected_log_temperature, pressure_root = brentq(
+        pressure_residual,
+        log_lower,
+        log_upper,
+        xtol=1.0e-12,
+        rtol=1.0e-12,
+        full_output=True,
     )
+    if _work_counter is not None:
+        _work_counter.pressure_root_calls += 1
+        _work_counter.pressure_root_function_calls += int(
+            pressure_root.function_calls
+        )
+        _work_counter.pressure_root_iterations += int(
+            pressure_root.iterations
+        )
+        _work_counter.pressure_root_wall_seconds += (
+            perf_counter() - pressure_root_start
+        )
+        _work_counter.vertical_state_calls += 1
+    projected_temperature = float(np.exp(projected_log_temperature))
     projected_vertical = vertical_state(
         sigma,
         projected_temperature,
@@ -1988,14 +2133,14 @@ def apply_global_reference_characteristic_inner_flux(
     projected_specific_total = float(
         potential.phi(radius)
         + 0.5 * projected_velocity**2
-        + 0.5 * (radius * float(primitives.omega[cell])) ** 2
+        + 0.5 * (radius * omega) ** 2
         + mechanical_correction[cell]
         + projected_vertical.e
     )
     projected_primitives = GlobalPrimitiveState(
         surface_density=np.asarray([sigma]),
         radial_velocity=np.asarray([projected_velocity]),
-        omega=np.asarray([float(primitives.omega[cell])]),
+        omega=np.asarray([omega]),
         temperature=np.asarray([projected_temperature]),
         specific_total_energy=np.asarray([projected_specific_total]),
         specific_internal_energy=np.asarray([float(projected_vertical.e)]),
@@ -2017,12 +2162,13 @@ def apply_global_reference_characteristic_inner_flux(
         face=0,
         specific_mechanical_energy_correction=mechanical_correction,
     )
+    flux_delta = np.asarray(projected_flux - current_flux, dtype=float)
     values = {
         name: np.array(getattr(fluxes, name), copy=True)
         for name in _COMPONENTS
     }
     for index, name in enumerate(_COMPONENTS):
-        values[name][0] += projected_flux[index] - current_flux[index]
+        values[name][0] += flux_delta[index]
 
     projected_velocity_perturbation = (
         projected_velocity - reference_velocity
@@ -2043,6 +2189,10 @@ def apply_global_reference_characteristic_inner_flux(
         projected_integrated_pressure=float(projected_vertical.Pi),
         projected_temperature=projected_temperature,
     )
+    if _cache is not None:
+        _cache.put(cache_key, flux_delta, audit)
+    if _work_counter is not None:
+        _work_counter.wall_seconds += perf_counter() - work_start
     return (
         GlobalFaceFluxes(**values).validated_for(grid.centers.size),
         audit,
@@ -2564,6 +2714,10 @@ def evaluate_global_rusanov_profile(
     open_face_reconstruction: str = "primitive_product",
     outer_overflow_provider: OverflowBoundaryProvider | None = None,
     specific_mechanical_energy_correction=None,
+    _inner_characteristic_work: (
+        _GlobalInnerCharacteristicWorkCounter | None
+    ) = None,
+    _inner_characteristic_cache: _GlobalInnerCharacteristicCache | None = None,
 ) -> GlobalInviscidProfile:
     """Evaluate Rusanov transport with optional paired alpha-stress fluxes."""
 
@@ -2659,6 +2813,8 @@ def evaluate_global_rusanov_profile(
                 specific_mechanical_energy_correction=(
                     specific_mechanical_energy_correction
                 ),
+                _work_counter=_inner_characteristic_work,
+                _cache=_inner_characteristic_cache,
             )
         )
     if boundary_mode == "characteristic_inner_open_outer":
@@ -3302,11 +3458,20 @@ def advance_global_backward_euler(
     open_face_reconstruction: str = "primitive_product",
     outer_overflow_provider: OverflowBoundaryProvider | None = None,
     specific_mechanical_energy_correction=None,
+    inner_characteristic_cache_size: int = 0,
 ) -> GlobalBackwardEulerStepResult:
     """Solve all four conservation laws together at the new time level."""
 
     if not np.isfinite(dt) or dt <= 0.0:
         raise ValueError("dt must be positive and finite")
+    if (
+        int(inner_characteristic_cache_size)
+        != inner_characteristic_cache_size
+        or inner_characteristic_cache_size < 0
+    ):
+        raise ValueError(
+            "inner characteristic cache size must be a non-negative integer"
+        )
     state = state.validated()
     old = recover_global_primitives(
         grid,
@@ -3384,6 +3549,12 @@ def advance_global_backward_euler(
     jacobian_assemblies = 0
     jacobian_wall_seconds = 0.0
     final_iterate_update = None
+    inner_characteristic_work = _GlobalInnerCharacteristicWorkCounter()
+    inner_characteristic_cache = (
+        None
+        if inner_characteristic_cache_size == 0
+        else _GlobalInnerCharacteristicCache(inner_characteristic_cache_size)
+    )
 
     def reconstruct(values: np.ndarray):
         sigma = np.exp(values[:n_cells])
@@ -3448,6 +3619,8 @@ def advance_global_backward_euler(
             specific_mechanical_energy_correction=(
                 specific_mechanical_energy_correction
             ),
+            _inner_characteristic_work=inner_characteristic_work,
+            _inner_characteristic_cache=inner_characteristic_cache,
         )
         return trial, profile
 
@@ -3588,6 +3761,9 @@ def advance_global_backward_euler(
                 residual_wall_seconds=float(residual_wall_seconds),
                 jacobian_wall_seconds=float(jacobian_wall_seconds),
                 total_wall_seconds=float(perf_counter() - solve_wall_start),
+                inner_characteristic_work=(
+                    inner_characteristic_work.snapshot()
+                ),
             )
             return GlobalBackwardEulerStepResult(
                 state=state,
@@ -3685,6 +3861,7 @@ def advance_global_backward_euler(
         jacobian_wall_seconds=measured_jacobian_wall_seconds,
         total_wall_seconds=float(perf_counter() - solve_wall_start),
         final_iterate_update=final_iterate_update,
+        inner_characteristic_work=inner_characteristic_work.snapshot(),
     )
     return GlobalBackwardEulerStepResult(
         state=trial if accepted else state,

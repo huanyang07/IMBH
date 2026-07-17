@@ -1124,6 +1124,81 @@ def test_characteristic_energy_correction_is_continuous_with_nonzero_offset() ->
     assert ledger.maximum_relative_defect < 1.0e-9
 
 
+def test_characteristic_trace_cache_preserves_sparse_forward_result() -> None:
+    grid, state, mass, _residual = _manufactured_rotating_equilibrium(
+        8, -0.25
+    )
+    primitives = recover_global_primitives(grid, state, mass)
+    velocity = np.array(primitives.radial_velocity, copy=True)
+    velocity[0] += (
+        1.0e-3
+        * global_inner_characteristic_audit(primitives).effective_sound_speed
+    )
+    current = state_from_thermodynamic_primitives(
+        grid,
+        primitives.surface_density,
+        velocity,
+        primitives.omega,
+        primitives.temperature,
+        mass,
+    )
+    options = {
+        "reference_state": state,
+        "boundary_mode": "characteristic_inner_open_outer",
+        "jacobian_mode": "sparse_forward",
+        "max_nfev": 1,
+    }
+    reference = advance_global_backward_euler(
+        grid, current, mass, 1.0e-8, **options
+    )
+    cached = advance_global_backward_euler(
+        grid,
+        current,
+        mass,
+        1.0e-8,
+        inner_characteristic_cache_size=16,
+        **options,
+    )
+
+    assert cached.accepted == reference.accepted
+    assert cached.message == reference.message
+    assert cached.nfev == reference.nfev
+    assert cached.maximum_scaled_residual == reference.maximum_scaled_residual
+    assert (
+        cached.maximum_storage_scaled_ledger_defect
+        == reference.maximum_storage_scaled_ledger_defect
+    )
+    assert cached.jacobian_audit == reference.jacobian_audit
+    assert cached.profile.inner_characteristic_projection is not None
+    assert reference.profile.inner_characteristic_projection is not None
+    assert (
+        cached.profile.inner_characteristic_projection
+        == reference.profile.inner_characteristic_projection
+    )
+    for name in (
+        "mass",
+        "radial_momentum",
+        "angular_momentum",
+        "total_energy",
+    ):
+        np.testing.assert_array_equal(
+            getattr(cached.profile.face_fluxes, name),
+            getattr(reference.profile.face_fluxes, name),
+        )
+
+    assert cached.nonlinear_solve_audit is not None
+    assert reference.nonlinear_solve_audit is not None
+    cached_work = cached.nonlinear_solve_audit.inner_characteristic_work
+    reference_work = reference.nonlinear_solve_audit.inner_characteristic_work
+    assert cached_work is not None
+    assert reference_work is not None
+    assert cached_work.calls == reference_work.calls
+    assert cached_work.cache_hits > 0
+    assert cached_work.cache_misses > 0
+    assert cached_work.pressure_root_calls < reference_work.pressure_root_calls
+    assert cached_work.pressure_root_calls == cached_work.cache_misses
+
+
 def test_physical_flux_eigensystem_audits_analytic_acoustic_projection() -> None:
     grid, state, mass, _residual = _manufactured_rotating_equilibrium(16, -0.25)
     base = recover_global_primitives(grid, state, mass)
