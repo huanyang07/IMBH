@@ -63,6 +63,7 @@ This is the canonical project handoff. Status labels mean:
 | Fresh-loading inner-boundary architecture WP9 | **CERTIFIED** as a stop decision; **REJECTED** for production evolution | Exact counts completed; the low-rate branch retains one incoming acoustic mode from `4.5` through `2.0001 rg`; the prior quasi-steady hybrid fails its refined repeated-step gate | Neither current candidate supplies a mesh-invariant causal low-throughput boundary; inner causal physics must be repaired before evolution |
 | Causal inner thermodynamics WP10a | **SUPPORTED BUT NOT FULLY CERTIFIED** for diagnostic thermodynamics; **REJECTED** as a standalone production boundary | Relativistic enthalpy derivative keeps all audited sound speeds subluminal and approaches `c/sqrt(3)`; radial-only SR characteristics reach zero incoming modes at `2.0001 rg` | The PW profile has `v_phi>c` by `3 rg` and no subluminal full-state excision; its stationary equations and global flux remain Newtonian |
 | Horizon-penetrating Valencia core WP10b | **SUPPORTED BUT NOT FULLY CERTIFIED** as an architecture; **DIAGNOSTIC ONLY** physically | Ingoing-Kerr-Schild flux includes transverse rotation; analytic/numerical eigenvalues agree to `9.71e-11`; stationary rank changes `4 -> 3` at one acoustic critical mode; all 342 sampled inside-horizon states have zero incoming modes | Local ideal-gas column prototype only; gas+radiation recovery, geometric sources, stress, radiation, stream/Roche migration, and stationary roots are pending |
+| Valencia gas+radiation primitive recovery WP10c1 | **SUPPORTED BUT NOT FULLY CERTIFIED** for the local map; **DIAGNOSTIC ONLY** physically | Nine rotating gas-to-radiation states give primitive/conserved defects `7.42e-11/6.46e-15`, characteristic defect `1.94e-8`, causal sound speed, and zero inside-horizon incoming modes | Fixed-height EOS chart only; geometric sources, vertical closure, stress, radiation, stream/Roche migration, stationary roots, and evolution remain pending |
 
 ## Frozen Target Under Review
 
@@ -344,6 +345,13 @@ N                    = 164
     physical states have zero incoming inner modes. The exact flux-primary
     count is `12N+4` unknowns and rows with zero physical inner boundary rows.
     This locks the architecture, not a production disk solution.
+45. WP10c1 implements the gravity-independent fixed-height gas+radiation
+    column EOS and pressure-root Valencia primitive recovery. Across nine
+    rotating states at `20`, `4.5`, and `1.8 rg`, the maximum primitive,
+    conserved, and characteristic defects are `7.42e-11`, `6.46e-15`, and
+    `1.94e-8`; all three inside-horizon states have zero incoming modes. The
+    fixed height is only a thermodynamic chart. It does not select vertical
+    equilibrium or authorize a stationary/evolution run.
 
 ## Claims That Are Not Allowed Yet
 
@@ -390,13 +398,13 @@ N                    = 164
    solver audit as complete. Keep the serial sparse-forward production
    backend and its new work telemetry; do not start a third optimization
    architecture.
-8. Treat WP9, WP10a, and the WP10b architecture selection as complete. The old
+8. Treat WP9, WP10a, WP10b, and the WP10c1 primitive map as complete. The old
    PW plunge has superluminal transverse rotation and must not be mapped into
    the new variables. Continue only the selected one-domain ingoing-Kerr-
-   Schild Valencia path. Next implement gas+radiation column primitive
-   recovery, then covariant geometric finite-volume sources, then the common
-   stress and thermal ledger. Migrate stream and Hill/Roche contracts only
-   after those local gates pass. Do not add another inner/outer splice.
+   Schild Valencia path. Next implement covariant geometric finite-volume
+   sources, then the common stress and thermal ledger. Migrate stream and
+   Hill/Roche contracts only after those local gates pass. Do not add another
+   inner/outer splice.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -454,3 +462,4 @@ N                    = 164
 - Fresh-loading inner-boundary architecture WP9: `reports/current/CODEX_GLOBAL_INNER_BOUNDARY_ARCHITECTURE_WP9_RESULTS_2026-07-17.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
 - Horizon-penetrating Valencia core WP10b: `reports/current/CODEX_HORIZON_PENETRATING_VALENCIA_WP10B_RESULTS_2026-07-17.md`
+- Valencia gas+radiation primitive recovery WP10c1: `reports/current/CODEX_VALENCIA_GAS_RADIATION_PRIMITIVE_RECOVERY_WP10C1_RESULTS_2026-07-17.md`

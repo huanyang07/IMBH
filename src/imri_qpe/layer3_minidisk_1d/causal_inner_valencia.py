@@ -141,7 +141,13 @@ def valencia_column_state(
     rest_mass = sigma * lorentz_factor
     radial_momentum = common * covariant_v_r
     angular_momentum = common * covariant_v_phi
-    energy = common - pressure_mass - rest_mass
+    thermal_enthalpy = (
+        internal_energy / C**2 + pressure_mass / sigma
+    )
+    energy = rest_mass * (
+        lorentz_factor - 1.0
+        + thermal_enthalpy * lorentz_factor
+    ) - pressure_mass
     conserved = np.asarray(
         [rest_mass, radial_momentum, angular_momentum, energy],
         dtype=float,

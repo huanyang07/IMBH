@@ -591,6 +591,62 @@ The current implementation is a local flux/rank prototype. Gas+radiation
 primitive recovery, geometric sources, stress, cooling, stream injection, and
 the Hill/Roche provider have not yet been migrated.
 
+#### Valencia gas+radiation primitive recovery
+
+ADR 0018 certifies the local gas+radiation `P -> U -> P` map without importing
+the old Paczynski-Wiita vertical gravity. For this thermodynamic gate, hold one
+proper half-height `H` fixed:
+
+```text
+rho = Sigma/(2H)
+P   = rho R_g T + a T^4/3
+Pi  = 2H P
+e   = R_g T/(gamma_g-1) + a T^4/rho.
+```
+
+The fixed height is a local EOS chart parameter, not the production vertical
+equilibrium.
+
+Given conserved variables and a trial pressure mass `p=Pi/c^2`, define
+
+```text
+S^2 = gamma^RR S_R^2 + S_phi^2/gamma_phiphi
+Q   = tau + D + p
+W   = Q/sqrt(Q^2-S^2)
+Sigma = D/W.
+```
+
+The stable thermal inversion uses
+
+```text
+e/c^2 = [tau - D(W-1) - p(W^2-1)]/(D W).
+```
+
+After the monotone EOS inversion for `T`, solve
+
+```text
+p - Pi_EOS(Sigma,T)/c^2 = 0
+```
+
+in `log p`. The Eulerian velocities are
+
+```text
+v_hat_R/c   = S_R/[Q sqrt(gamma_RR)]
+v_hat_phi/c = S_phi/(Q R).
+```
+
+The forward energy uses the equivalent stable expression
+
+```text
+tau = D[(W-1) + (e/c^2 + p/Sigma)W] - p.
+```
+
+The nine-state WP10c1 matrix spans `20`, `4.5`, and `1.8 rg`, includes
+rotation, and crosses gas-dominated through radiation-dominated columns. Its
+maximum primitive, conserved, and analytic/numerical characteristic defects
+are respectively `7.42e-11`, `6.46e-15`, and `1.94e-8`. All audited
+inside-horizon states retain zero incoming modes.
+
 At `335 rg` the current outer flow is subsonic and requires one incoming
 acoustic condition. Layer 1 does not provide an exterior thermodynamic
 invariant there. ADR 0014 therefore selects an adiabatic Hill/Roche overflow
