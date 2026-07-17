@@ -49,7 +49,7 @@ This is the canonical project handoff. Status labels mean:
 | Global signed conservative descriptor | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | N64/N96/N128 reach shared `1e-6 t_load`; inner-flux spread is `0.56%` of supply, `H/R` spread `0.048%`, accepted residuals `<1.1e-11`, and overflow remains zero | The duration remains far below loading/thermal/viscous times; tide and wind remain blocked |
 | Gas-radiation Hill/Roche boundary | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Shared EOS entropy/enthalpy/acoustic closure; exact `335 rg` reconstruction; continuous closed/choked flux; disk/Jacobi/pattern-power ledgers; N64/N96/N128 and filling-factor preflight | All mapped states are energetically closed; the reduced symmetric local-Hill channel is not a multidimensional L1/L2 solution and its open-state filling remains uncertain |
 | Causally outgoing inner plunge boundary | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Same-equation continuation from `5.210237` to `4.5 rg`; stationary Mach `-9.45`; zero incoming modes; N64/N96/N128 pass mapping, tiny-step, restart, and shared `1.001e-6 t_load` gates | N64 remains regular through `1.430993e-6`, but the `2.1e-6` duration gate is blocked by certified-Jacobian/nonlinear cost; long no-tide evolution remains incomplete |
-| Global evolution diagnostic/checkpoint contract | **CERTIFIED** for its diagnostic scope | Full inner/outer `M/J/E`, fixed-radius and sonic diagnostics, controller-cell characteristics, normalized Roche active-set audit, shared time metadata, immutable checksummed milestones; 378 tests plus 4 subtests pass | Long-duration physics remains pending |
+| Global evolution diagnostic/checkpoint contract | **CERTIFIED** for its diagnostic scope | Full inner/outer `M/J/E`, fixed-radius and sonic diagnostics, controller-cell characteristics, normalized Roche active-set audit, shared time metadata, immutable checksummed milestones; 380 tests plus 4 subtests pass | Long-duration physics remains pending |
 | Global solver-efficiency WP2 | **CERTIFIED** as a bounded negative result | N64 serial reference: 198 s, 600 nfev, 596 Jacobians, 153773 residual calls; gate stop gives only 1.18x; independent blocked columns only 1.11x | Both candidates were removed; production remains serial sparse-forward; N128 candidate runs were skipped after the coarse adoption gate failed |
 | Exact-common-time global snapshot | **SUPPORTED BUT NOT FULLY CERTIFIED** | N64/N96/N128 land at exactly `0.15200886034168773 s`; inner M/J/E differ by at most `0.109%/0.636%/0.981%` on the selected scales; Roche flux stays zero; immutable milestones are checksummed | Fixed-radius Mach and primitives converge slowly at `4.65-4.75 rg`; files predate the WP4 converged-rate mapper correction and are not restart-compatible with it |
 | Sonic-gradient and plunge-mapping WP4 | **SUPPORTED BUT NOT FULLY CERTIFIED** | Accepted `96/64 -> 144/96` gradient mismatch halves `0.3763 -> 0.1883`; offset/tolerance changes stay below `5.2e-8`; matched exact-time N64 evolution differs by only `2.53e-4` of supply in inner mass flux | Only two accepted coupled-root resolutions exist; the failed `168/112` steady root cannot provide a third stationary level |
@@ -59,6 +59,7 @@ This is the canonical project handoff. Status labels mean:
 | Local inner-plunge projection WP6b | **DIAGNOSTIC ONLY** | The exact supersonic prefix gives full-rank N64/N96 roots below `1.2e-14`; the source-on hold reaches exact `2e-7 t_load` without nonlinear rejection and passes all flux/thermal gates | N64 passes the complete hold gate but N96 fails the predeclared Mach-drift gate (`0.225>0.1`); the projected state is not a mesh-certified initializer |
 | Low-throughput remnant WP6c | **SUPPORTED BUT NOT FULLY CERTIFIED** as an initial state; **DIAGNOSTIC ONLY** for evolution | Fresh `0.025 Mdot_Edd` transonic state maps conservatively at N64/N96 with only `0.475-0.482%` of the physical stream throughput; disk mass/loading time agree to `1.1e-6`; Roche edge is closed | Coupled half-supply correction fails; subsonic N64 characteristic hold spends 30 CPU-minutes in its first Jacobian without completing a timestep, so source-on and N96 holds remain unverified |
 | Characteristic-response efficiency WP7 | **CERTIFIED** for local equivalence; **REJECTED** as an initializer unlock | Exact trace caching cuts one-Jacobian pressure roots `260 -> 5`, accelerates characteristic work `23.8x`, and reproduces the 20-evaluation trajectory exactly; 378 tests plus 4 subtests pass | Cached N64 coarse retry still ends at residual `9.83e-7 > 1e-8`; source-on, N96, tide, and wind were not launched |
+| Fresh low-mass global startup WP8 | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **REJECTED** as a production initializer | Constant-`Pi` N64/N96 states close radial balance below `3.3e-13`; predicted N64 first step takes 5 evaluations; all matched N64/N96 equations and ledgers pass at exact common time | N64 retains one incoming inner mode but N96 reverses to weak outflow and requires three; the fixed one-mode boundary is not mesh invariant |
 
 ## Frozen Target Under Review
 
@@ -304,6 +305,16 @@ N                    = 164
     is then only `1.406%` of Jacobian time. The local optimization is retained,
     but the low-throughput remnant is rejected as an implicit initializer under
     the present complete global solve.
+41. WP8 constructs a fresh constant-pressure, optically thick global datum
+    directly on N64/N96. A conservative explicit predictor used only as the
+    implicit initial guess reduces the N64 first step to five evaluations with
+    residual `9.27e-14`. N64 source-on/source-off holds pass at exact
+    `2e-7 t_load`; N96 equations and ledgers also pass. The N96 first cell,
+    however, reaches Mach `+1.05e-4` while N64 remains at `-1.27e-4`.
+    The incoming characteristic count changes from one to three. Source-on and
+    source-off are identical at the inner edge, so this is a mesh-dependent
+    boundary/initial relaxation. The startup is not adopted and no longer run,
+    tide, or wind is authorized.
 
 ## Claims That Are Not Allowed Yet
 
@@ -350,14 +361,13 @@ N                    = 164
    solver audit as complete. Keep the serial sparse-forward production
    backend and its new work telemetry; do not start a third optimization
    architecture.
-8. Treat the sonic-gradient, source-on/source-off, source-free relaxation,
-   local plunge projection, coupled supply deformation, low-throughput
-   remnant construction, and characteristic-response package as complete.
-   The exact local cache is certified but does not unlock the first N64 step.
-   Choose exactly one next route: a bounded complete-global-residual nonlinear
-   convergence audit with no physics change, or closure of this initializer in
-   favor of a fresh low-mass global explicit/IMEX startup. Do not develop both
-   routes, and do not start another generic Jacobian optimization architecture.
+8. Treat the remnant, characteristic-response, and fresh low-mass startup
+   packages as complete. The fresh state solves the computational startup
+   problem, but N64/N96 straddle a one-to-three incoming-characteristic rank
+   change. Do not tune the initial drift or add sign clipping. Before more
+   evolution, choose between a permanently supersonic inner excision and a
+   quasi-steady transonic inner response module. Require an explicit
+   degree-of-freedom, boundary-equation, and rank document before coding.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -411,3 +421,4 @@ N                    = 164
 - Local inner-plunge projection WP6b: `reports/current/CODEX_GLOBAL_INNER_PLUNGE_PROJECTION_WP6B_RESULTS_2026-07-15.md`
 - Low-throughput remnant WP6c: `reports/current/CODEX_GLOBAL_LOW_THROUGHPUT_REMNANT_WP6C_RESULTS_2026-07-15.md`
 - Characteristic-response efficiency WP7: `reports/current/CODEX_GLOBAL_CHARACTERISTIC_RESPONSE_WP7_RESULTS_2026-07-17.md`
+- Fresh low-mass global startup WP8: `reports/current/CODEX_GLOBAL_FRESH_LOW_MASS_STARTUP_WP8_RESULTS_2026-07-17.md`

@@ -6,6 +6,9 @@ import pytest
 from imri_qpe.layer3_minidisk_1d import (
     PaczynskiWiitaPotential,
     conservatively_map_global_profile,
+    construct_global_constant_pressure_startup,
+    evaluate_global_rusanov_profile,
+    global_conservative_rhs,
     recover_global_primitives,
 )
 from imri_qpe.parameters import FiducialParams
@@ -60,3 +63,55 @@ def test_conservative_global_profile_mapping_rejects_extrapolated_bounds() -> No
             8,
             inner_radius=5.0 * potential.r_g,
         )
+
+
+def test_constant_pressure_startup_is_a_discrete_radial_equilibrium() -> None:
+    mass = FiducialParams().M2_g
+    potential = PaczynskiWiitaPotential(mass)
+    grid, state, correction, audit = (
+        construct_global_constant_pressure_startup(
+            mass,
+            32,
+            inner_radius=4.5 * potential.r_g,
+            outer_radius=335.0 * potential.r_g,
+            aspect_ratio=0.05,
+            minimum_scattering_optical_depth=10.0,
+        )
+    )
+    primitives = recover_global_primitives(
+        grid,
+        state,
+        mass,
+        specific_mechanical_energy_correction=correction,
+    )
+    np.testing.assert_allclose(
+        primitives.omega,
+        potential.omega_k(grid.centers),
+        rtol=2.0e-13,
+    )
+    np.testing.assert_array_equal(
+        primitives.radial_velocity, np.zeros(grid.centers.size)
+    )
+    assert audit.minimum_scattering_optical_depth >= 10.0
+    assert audit.maximum_relative_pressure_defect < 5.0e-11
+    assert audit.maximum_relative_aspect_ratio_defect < 3.0e-11
+
+    profile = evaluate_global_rusanov_profile(
+        grid,
+        state,
+        mass,
+        reference_state=state,
+        specific_mechanical_energy_correction=correction,
+    )
+    rhs = global_conservative_rhs(
+        profile.face_fluxes, profile.cell_sources
+    )
+    np.testing.assert_array_equal(rhs.mass, np.zeros(grid.centers.size))
+    np.testing.assert_array_equal(
+        rhs.angular_momentum, np.zeros(grid.centers.size)
+    )
+    np.testing.assert_array_equal(
+        rhs.total_energy, np.zeros(grid.centers.size)
+    )
+    force_scale = np.max(np.abs(profile.cell_sources.radial_momentum))
+    assert np.max(np.abs(rhs.radial_momentum)) <= 2.0e-9 * force_scale

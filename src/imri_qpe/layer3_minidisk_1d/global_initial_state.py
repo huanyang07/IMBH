@@ -2,12 +2,220 @@
 
 from __future__ import annotations
 
-import numpy as np
+from dataclasses import dataclass
 
-from .global_signed_evolution import GlobalConservativeState
+import numpy as np
+from scipy.optimize import brentq
+
+from imri_qpe.constants import DEFAULT_KAPPA_ES
+
+from .global_signed_evolution import (
+    GlobalConservativeState,
+    evaluate_global_rusanov_profile,
+    global_conservative_rhs,
+    state_from_thermodynamic_primitives,
+)
 from .grid import make_log_grid
 from .transonic_potential import PaczynskiWiitaPotential
 from .transonic_thermo import vertical_state
+
+
+@dataclass(frozen=True)
+class GlobalConstantPressureStartupAudit:
+    """Construction diagnostics for one fresh radial-force equilibrium."""
+
+    integrated_pressure: float
+    total_mass: float
+    minimum_scattering_optical_depth: float
+    maximum_scattering_optical_depth: float
+    minimum_temperature: float
+    maximum_temperature: float
+    maximum_relative_pressure_defect: float
+    maximum_relative_aspect_ratio_defect: float
+    maximum_radial_speed_over_orbital_speed: float
+    maximum_relative_rotation_correction: float
+
+
+def construct_global_constant_pressure_startup(
+    M_g: float,
+    n_cells: int,
+    *,
+    inner_radius: float,
+    outer_radius: float,
+    aspect_ratio: float = 0.05,
+    minimum_scattering_optical_depth: float = 10.0,
+    viscous_drift_alpha: float = 0.0,
+    temperature_bounds: tuple[float, float] = (1.0e3, 1.0e12),
+    kappa: float = DEFAULT_KAPPA_ES,
+):
+    """Construct a fresh constant-integrated-pressure startup state.
+
+    Constant ``Pi`` and ``Omega=Omega_K`` cancel the finite-volume pressure
+    flux, cylindrical pressure source, centrifugal force, and gravity source
+    when ``viscous_drift_alpha`` is zero. With drift enabled, a tiny rotation
+    correction restores the same discrete radial balance. The state is an
+    initial-value datum, not a claimed viscous or thermal steady solution.
+    """
+
+    if int(n_cells) != n_cells or n_cells < 2:
+        raise ValueError("startup construction requires at least two cells")
+    if not np.isfinite(inner_radius) or inner_radius <= 0.0:
+        raise ValueError("inner radius must be positive and finite")
+    if not np.isfinite(outer_radius) or outer_radius <= inner_radius:
+        raise ValueError("outer radius must exceed the inner radius")
+    if not np.isfinite(aspect_ratio) or not 0.0 < aspect_ratio < 1.0:
+        raise ValueError("aspect ratio must lie strictly between zero and one")
+    if (
+        not np.isfinite(minimum_scattering_optical_depth)
+        or minimum_scattering_optical_depth <= 0.0
+    ):
+        raise ValueError("minimum optical depth must be positive and finite")
+    if not np.isfinite(kappa) or kappa <= 0.0:
+        raise ValueError("opacity must be positive and finite")
+    if (
+        not np.isfinite(viscous_drift_alpha)
+        or not 0.0 <= viscous_drift_alpha <= 1.0
+    ):
+        raise ValueError("viscous drift alpha must lie between zero and one")
+    lower_temperature, upper_temperature = map(float, temperature_bounds)
+    if not 0.0 < lower_temperature < upper_temperature:
+        raise ValueError("temperature bounds must be positive and ordered")
+
+    grid = make_log_grid(inner_radius, outer_radius, int(n_cells))
+    potential = PaczynskiWiitaPotential(float(M_g))
+    omega = np.asarray(potential.omega_k(grid.centers), dtype=float)
+    orbital_speed_squared = (grid.centers * omega) ** 2
+    sigma_per_pressure = 1.0 / (
+        aspect_ratio**2 * orbital_speed_squared
+    )
+    target_minimum_sigma = (
+        2.0 * minimum_scattering_optical_depth / kappa
+    )
+    inner_orbital_speed_squared = float(
+        (inner_radius * potential.omega_k(inner_radius)) ** 2
+    )
+    integrated_pressure = float(
+        target_minimum_sigma
+        * aspect_ratio**2
+        * inner_orbital_speed_squared
+    )
+    sigma = integrated_pressure * sigma_per_pressure
+
+    log_lower = float(np.log(lower_temperature))
+    log_upper = float(np.log(upper_temperature))
+    temperature = np.empty(grid.centers.size, dtype=float)
+    for index, radius in enumerate(grid.centers):
+
+        def pressure_residual(log_temperature: float) -> float:
+            column = vertical_state(
+                float(sigma[index]),
+                float(np.exp(log_temperature)),
+                float(radius),
+                potential,
+                kappa=kappa,
+            )
+            return float(column.Pi) - integrated_pressure
+
+        lower_residual = pressure_residual(log_lower)
+        upper_residual = pressure_residual(log_upper)
+        if lower_residual > 0.0 or upper_residual < 0.0:
+            raise ValueError(
+                f"cell {index} pressure target lies outside temperature bounds"
+            )
+        temperature[index] = np.exp(
+            brentq(
+                pressure_residual,
+                log_lower,
+                log_upper,
+                xtol=1.0e-12,
+                rtol=1.0e-12,
+            )
+        )
+
+    vertical = vertical_state(
+        sigma,
+        temperature,
+        grid.centers,
+        potential,
+        kappa=kappa,
+    )
+    keplerian_omega = np.array(omega, copy=True)
+    velocity = (
+        -viscous_drift_alpha
+        * aspect_ratio**2
+        * grid.centers
+        * keplerian_omega
+    )
+    correction = np.zeros(grid.centers.size, dtype=float)
+    provisional = state_from_thermodynamic_primitives(
+        grid,
+        sigma,
+        velocity,
+        omega,
+        temperature,
+        M_g,
+        kappa=kappa,
+        specific_mechanical_energy_correction=correction,
+    )
+    if viscous_drift_alpha > 0.0:
+        profile = evaluate_global_rusanov_profile(
+            grid,
+            provisional,
+            M_g,
+            reference_state=provisional,
+            kappa=kappa,
+            specific_mechanical_energy_correction=correction,
+        )
+        rhs = global_conservative_rhs(
+            profile.face_fluxes, profile.cell_sources
+        )
+        omega_squared = keplerian_omega**2 - (
+            rhs.radial_momentum / (grid.area * sigma * grid.centers)
+        )
+        if np.any(~np.isfinite(omega_squared)) or np.any(
+            omega_squared <= 0.0
+        ):
+            raise ValueError("viscous drift has no positive radial balance")
+        omega = np.sqrt(omega_squared)
+    state = state_from_thermodynamic_primitives(
+        grid,
+        sigma,
+        velocity,
+        omega,
+        temperature,
+        M_g,
+        kappa=kappa,
+        specific_mechanical_energy_correction=correction,
+    )
+    optical_depth = 0.5 * kappa * sigma
+    pressure_defect = np.abs(
+        np.asarray(vertical.Pi, dtype=float) / integrated_pressure - 1.0
+    )
+    aspect_defect = np.abs(
+        np.asarray(vertical.H, dtype=float)
+        / (aspect_ratio * grid.centers)
+        - 1.0
+    )
+    audit = GlobalConstantPressureStartupAudit(
+        integrated_pressure=integrated_pressure,
+        total_mass=float(np.sum(state.mass)),
+        minimum_scattering_optical_depth=float(np.min(optical_depth)),
+        maximum_scattering_optical_depth=float(np.max(optical_depth)),
+        minimum_temperature=float(np.min(temperature)),
+        maximum_temperature=float(np.max(temperature)),
+        maximum_relative_pressure_defect=float(np.max(pressure_defect)),
+        maximum_relative_aspect_ratio_defect=float(np.max(aspect_defect)),
+        maximum_radial_speed_over_orbital_speed=float(
+            np.max(
+                np.abs(velocity)
+                / (grid.centers * keplerian_omega)
+            )
+        ),
+        maximum_relative_rotation_correction=float(
+            np.max(np.abs(omega / keplerian_omega - 1.0))
+        ),
+    )
+    return grid, state, correction, audit
 
 
 def _interpolate_profile(query, nodes, values, *, positive: bool) -> np.ndarray:

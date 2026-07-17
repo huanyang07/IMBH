@@ -62,7 +62,11 @@ from .global_inner_projection import (
     global_supersonic_prefix_cell_count,
     solve_global_inner_steady_projection,
 )
-from .global_initial_state import conservatively_map_global_profile
+from .global_initial_state import (
+    GlobalConstantPressureStartupAudit,
+    conservatively_map_global_profile,
+    construct_global_constant_pressure_startup,
+)
 from .hill_roche_nozzle import (
     GasRadiationHillRocheNozzleProvider,
     HillRocheNozzleGeometry,
@@ -345,6 +349,7 @@ from .global_signed_evolution import (
     make_global_mechanical_energy_reference,
     maximum_storage_scaled_ledger_defect,
     pack_global_flux_primary_state,
+    predict_global_explicit_euler_state,
     recover_global_primitives,
     remap_global_cell_integrals,
     remap_global_conservative_state,
@@ -590,6 +595,7 @@ __all__ = [
     "GlobalRocheClosureDiagnostic",
     "GlobalSonicResolutionDiagnostic",
     "GlobalConservativeState",
+    "GlobalConstantPressureStartupAudit",
     "GlobalFaceFluxes",
     "GlobalFluxPrimaryLayout",
     "GlobalInviscidProfile",
@@ -746,6 +752,7 @@ __all__ = [
     "audit_global_backward_euler_ledgers",
     "combine_global_cell_sources",
     "conservatively_map_global_profile",
+    "construct_global_constant_pressure_startup",
     "audit_outer_dae_backward_euler_ledgers",
     "audit_coupled_open_rank",
     "canonical_anchor_inner_residual",
@@ -867,6 +874,7 @@ __all__ = [
     "pack_coupled_open_state",
     "pack_coupled_time_dae_state",
     "pack_global_flux_primary_state",
+    "predict_global_explicit_euler_state",
     "recover_global_primitives",
     "remap_global_cell_integrals",
     "remap_global_conservative_state",

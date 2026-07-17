@@ -3459,6 +3459,7 @@ def advance_global_backward_euler(
     outer_overflow_provider: OverflowBoundaryProvider | None = None,
     specific_mechanical_energy_correction=None,
     inner_characteristic_cache_size: int = 0,
+    initial_guess_state: GlobalConservativeState | None = None,
 ) -> GlobalBackwardEulerStepResult:
     """Solve all four conservation laws together at the new time level."""
 
@@ -3486,12 +3487,35 @@ def advance_global_backward_euler(
         ),
     )
     n_cells = state.n_cells
+    guess = (
+        state
+        if initial_guess_state is None
+        else initial_guess_state.validated()
+    )
+    if guess.n_cells != n_cells:
+        raise ValueError("initial guess and old state use different meshes")
+    guess_primitives = (
+        old
+        if initial_guess_state is None
+        else recover_global_primitives(
+            grid,
+            guess,
+            M_g,
+            temperature_bounds=temperature_bounds,
+            mu_mol=mu_mol,
+            kappa=kappa,
+            gamma_gas=gamma_gas,
+            specific_mechanical_energy_correction=(
+                specific_mechanical_energy_correction
+            ),
+        )
+    )
     initial = np.concatenate(
         (
-            np.log(old.surface_density),
-            old.radial_velocity / C,
-            np.log(old.omega),
-            np.log(old.temperature),
+            np.log(guess_primitives.surface_density),
+            guess_primitives.radial_velocity / C,
+            np.log(guess_primitives.omega),
+            np.log(guess_primitives.temperature),
         )
     )
     lower_temperature, upper_temperature = map(float, temperature_bounds)
@@ -3938,6 +3962,32 @@ def global_conservative_rhs(
         for name in _COMPONENTS
     }
     return GlobalConservativeState(**rates)
+
+
+def predict_global_explicit_euler_state(
+    state: GlobalConservativeState,
+    dt: float,
+    profile: GlobalInviscidProfile,
+) -> GlobalConservativeState:
+    """Return one unclipped conservative Euler predictor for an implicit step."""
+
+    if not np.isfinite(dt) or dt <= 0.0:
+        raise ValueError("predictor dt must be positive and finite")
+    state = state.validated()
+    rhs = global_conservative_rhs(
+        profile.face_fluxes, profile.cell_sources
+    )
+    if rhs.n_cells != state.n_cells:
+        raise ValueError("predictor profile and state use different meshes")
+    return GlobalConservativeState(
+        **{
+            name: np.asarray(
+                getattr(state, name) + dt * getattr(rhs, name),
+                dtype=float,
+            )
+            for name in _COMPONENTS
+        }
+    ).validated()
 
 
 def global_backward_euler_residual(

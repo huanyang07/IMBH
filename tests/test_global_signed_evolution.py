@@ -45,6 +45,7 @@ from imri_qpe.layer3_minidisk_1d.global_signed_evolution import (
     make_global_mechanical_energy_reference,
     manufactured_backward_euler_jacobian,
     pack_global_flux_primary_state,
+    predict_global_explicit_euler_state,
     recover_global_primitives,
     remap_global_cell_integrals,
     remap_global_conservative_state,
@@ -1199,6 +1200,29 @@ def test_characteristic_trace_cache_preserves_sparse_forward_result() -> None:
     assert cached_work.pressure_root_calls == cached_work.cache_misses
 
 
+def test_explicit_predictor_obeys_the_unclipped_conservative_ledger() -> None:
+    grid, state, mass, _residual = _manufactured_rotating_equilibrium(
+        8, -0.25
+    )
+    profile = evaluate_global_rusanov_profile(grid, state, mass)
+    dt = 1.0e-8
+    predictor = predict_global_explicit_euler_state(state, dt, profile)
+    residual = global_backward_euler_residual(
+        predictor,
+        state,
+        dt,
+        profile.face_fluxes,
+        profile.cell_sources,
+    )
+    storage_scale = max(
+        np.max(np.abs(state.mass)),
+        np.max(np.abs(state.radial_momentum)),
+        np.max(np.abs(state.angular_momentum)),
+        np.max(np.abs(state.total_energy)),
+    )
+    assert np.max(np.abs(residual)) / storage_scale < 2.0e-15
+
+
 def test_physical_flux_eigensystem_audits_analytic_acoustic_projection() -> None:
     grid, state, mass, _residual = _manufactured_rotating_equilibrium(16, -0.25)
     base = recover_global_primitives(grid, state, mass)
@@ -1544,7 +1568,30 @@ def test_monolithic_backward_euler_accepts_exact_stream_moments() -> None:
         boundary_mode="transmissive",
         external_sources=source,
     )
+    predictor_profile = evaluate_global_rusanov_profile(
+        grid,
+        initial,
+        mass,
+        reference_state=initial,
+        external_sources=source,
+    )
+    predictor = predict_global_explicit_euler_state(
+        initial, dt, predictor_profile
+    )
+    predicted_result = advance_global_backward_euler(
+        grid,
+        initial,
+        mass,
+        dt,
+        reference_state=initial,
+        boundary_mode="transmissive",
+        external_sources=source,
+        initial_guess_state=predictor,
+    )
     assert result.accepted, result.message
+    assert predicted_result.accepted, predicted_result.message
+    assert predicted_result.maximum_scaled_residual < 1.0e-8
+    assert predicted_result.maximum_storage_scaled_ledger_defect < 1.0e-8
     assert result.maximum_scaled_residual < 1.0e-8
     assert result.maximum_storage_scaled_ledger_defect < 1.0e-8
     assert result.nonlinear_solve_audit is not None
