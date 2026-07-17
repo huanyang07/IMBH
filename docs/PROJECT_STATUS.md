@@ -1,6 +1,6 @@
 # Project Status
 
-- Updated: 2026-07-17
+- Updated: 2026-07-18
 - Pre-cleanup scientific tag: `pre-cleanup-p0-2026-07-11`
 - Legacy phase classification tag: `legacy-steady-positive-flux-dae-2026-07-10`
 
@@ -76,6 +76,9 @@ This is the canonical project handoff. Status labels mean:
 | Reduced linear precision WP10c5f | **CERTIFIED** for the frozen linear-solve audit; **REJECTED** as an evolution unlock | LAPACK equilibration reduces condition `1.03e10 -> 27.5`; direct/refined corrections agree to `2.62e-14`; linear residuals are `1.49e-16`; second/fourth-order Jacobians agree to `4.47e-12` | Every correction gives nonlinear residual `3.35e-6`; no recoverable precision is demonstrated, so N16 is not repeated and N32 remains blocked |
 | Residual directional consistency WP10c5g | **CERTIFIED** for component diagnosis; **REJECTED** as an evolution unlock | Flux, source, and height-work directional defects are at most `2.09e-13`; residual/component identities close below `2.0e-16`; path conserved storage is the unique failing block | One coordinate-Jacobian storage repair still leaves N16 at `1.42473e-6`; no second repair or N32 attempt is authorized |
 | Increment-primary causal startup WP10c5h | **SUPPORTED BUT NOT FULLY CERTIFIED** for source-free startup; **DIAGNOSTIC ONLY** physically | Direct `Delta U/(c Delta t)` storage gives full equilibrated rank `245/245` and `485/485`; N16/N32 residuals are `8.80e-9/3.64e-9`; relative full/two-half errors are `2.76e-6/1.01e-6` | Only one bounded step from a nonstationary source-free seed; repeated source-on evolution, stability, tide, wind, and hot-state claims remain blocked |
+| Exact-stream causal startup WP10c5i | **SUPPORTED BUT NOT FULLY CERTIFIED** for source-on startup; **DIAGNOSTIC ONLY** physically | Exact C2 moments normalize at roundoff; N16/N32 residuals are `8.80e-9/3.64e-9`; full/two-half errors are `5.63e-6/1.21e-6` | Circularized regression stream, not ballistic Layer-1 input; only one tiny step from a nonstationary seed |
+| Colored sparse causal backend WP10c5j | **CERTIFIED** for numerical parity | Exact 18-color pattern; omitted derivatives and colored/dense matrix defects are zero; directional defects `<7.1e-16`; root defects `<9.3e-18`; evaluations fall `490/970 -> 36` | Finite-difference sparse direct backend, not an analytic Jacobian or long-duration performance result |
+| Repeated causal source-on startup WP10c5k | **SUPPORTED BUT NOT FULLY CERTIFIED** for short no-tide startup; **DIAGNOSTIC ONLY** physically | N16/N32 reach exact `3.39278e-7 s`; no rejected steps; mass defects `6.32e-13/8.14e-12`; bitwise restart; common-radius `Delta ln(H/R)` mesh difference `2.05e-3` | Only about `2e-13 t_load`; arbitrary seed relaxation has inner flux about `9.2e4` times supply; long evolution, tide, wind, stability, hot state, and cycle remain blocked |
 
 ## Frozen Target Under Review
 
@@ -405,6 +408,26 @@ N                    = 164
     two-half-step differences are only `2.76e-6` and `1.01e-6` of the full
     change. This unlocks short source-on no-tide startup work, not a physical
     relaxation, hot-state, or stability claim.
+51. WP10c5i adds one exact compact-C2 circularized regression stream at
+    `240 rg` and `5 Mdot_Edd`. Its mass, radial momentum, angular momentum,
+    and Killing-energy moments normalize exactly. N16/N32 source-on steps pass
+    below `8.8e-9`, and full/two-half temporal errors remain
+    `5.63e-6/1.21e-6`. This is not yet a ballistic Layer-1 source.
+52. WP10c5j certifies the complete DAE's exact nearest-neighbor sparsity and an
+    18-color central Jacobian. It reproduces every dense derivative and root
+    while reducing one Jacobian from `490/970` residual evaluations at
+    N16/N32 to `36`. Max-norm-equilibrated sparse LU preserves the accepted
+    decisions and full equilibrated ranks.
+53. WP10c5k reaches the exact shared time `3.392784696e-7 s` in eight N16 and
+    seven N32 accepted steps with no retries, cancellation-safe mass defects
+    `6.32e-13/8.14e-12`, and bitwise restart replay. The common-radius
+    baseline-subtracted `Delta ln(H/R)` response differs by `2.05e-3`, below
+    its `5e-3` gate. The raw seed maxima differ by `6.8%` because the physical
+    nozzle-compatible endpoint datum is anchored at moving cell centers; that
+    remains an explicit non-gating diagnostic. The duration is only about
+    `2e-13 t_load`, and the seed's inner flux is about `9.2e4` times the
+    stream supply, so longer physical evolution remains blocked pending a
+    source-compatible causal initializer.
 
 ## Claims That Are Not Allowed Yet
 
@@ -457,15 +480,17 @@ N                    = 164
    assembled-residual stop decision, the WP10c5c reduced audit, the
    WP10c5d consistent-data gate, the WP10c5e storage audit, the WP10c5f
    frozen linear-precision audit, the WP10c5g component audit, and the
-   WP10c5h increment-primary startup as complete. The old PW plunge has
-   superluminal transverse rotation and must not be mapped into the new
-   variables. Continue only the selected one-domain ingoing-Kerr-Schild
-   Valencia path. Direct `(Delta U,Delta p,Delta F)` storage now passes the
-   unchanged N16 gate, N32, and equal-time temporal comparison. The next
-   bounded package is one exact-stream source-on N16/N32 startup, followed by
-   a parity-certified sparse/local Jacobian and short adaptive no-tide
-   repeated stepping. Do not launch N64/N96, distributed tide, wind, or long
-   evolution before that source-on repeated-step mesh gate passes.
+   WP10c5h increment-primary startup, WP10c5i exact-stream startup, WP10c5j
+   sparse parity backend, and WP10c5k repeated startup as complete. The old PW
+   plunge has superluminal transverse rotation and must not be mapped into the
+   new variables. Continue only the selected one-domain ingoing-Kerr-Schild
+   Valencia path. Before extending duration, run one matched causal
+   source-on/source-off control and construct one constraint-consistent datum
+   whose inner throughput is order unity relative to the stream supply while
+   preserving zero inner incoming modes, optical thickness, a closed Roche
+   edge, full rank, and exact maps. Repeat the N16/N32 adaptive mesh gate from
+   that datum. Do not launch N64/N96, distributed tide, wind, stability, or a
+   hot/cycle search before this source-compatible no-tide gate passes.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -506,6 +531,7 @@ N                    = 164
 - Reduced linear-precision audit: `reports/current/CODEX_CAUSAL_FIVE_FIELD_LINEAR_PRECISION_WP10C5F_RESULTS_2026-07-17.md`
 - Residual directional-consistency audit: `reports/current/CODEX_CAUSAL_FIVE_FIELD_DIRECTIONAL_CONSISTENCY_WP10C5G_RESULTS_2026-07-17.md`
 - Increment-primary startup audit: `reports/current/CODEX_CAUSAL_FIVE_FIELD_INCREMENT_PRIMARY_WP10C5H_RESULTS_2026-07-17.md`
+- Exact-stream sparse repeated startup: `reports/current/CODEX_CAUSAL_SOURCE_ON_SPARSE_REPEATED_STARTUP_WP10C5I_K_RESULTS_2026-07-18.md`
 - Fully coupled rank prototype: `reports/current/CODEX_COUPLED_INNER_OUTER_RANK_PROTOTYPE_RESULTS_2026-07-11.md`
 - Coupled mesh/interface certification: `reports/current/CODEX_COUPLED_MESH_INTERFACE_CERTIFICATION_RESULTS_2026-07-11.md`
 - Coupled wall pattern-power gate: `reports/current/CODEX_COUPLED_WALL_PATTERN_POWER_RESULTS_2026-07-11.md`

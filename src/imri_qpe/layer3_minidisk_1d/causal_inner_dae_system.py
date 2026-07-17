@@ -5,6 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
+from scipy.sparse import csr_matrix, diags, lil_matrix
+from scipy.sparse.linalg import splu
 
 from imri_qpe.constants import C, DEFAULT_KAPPA_ES
 
@@ -181,6 +183,20 @@ class CausalFiveFieldDAEScaling:
 
 
 @dataclass(frozen=True)
+class CausalFiveFieldSparseLinearAudit:
+    """Equilibration and residual audit for one sparse Newton solve."""
+
+    dimensions: tuple[int, int]
+    nonzeros: int
+    row_scale_minimum: float
+    row_scale_maximum: float
+    column_scale_minimum: float
+    column_scale_maximum: float
+    relative_linear_residual: float
+    method: str
+
+
+@dataclass(frozen=True)
 class CausalFiveFieldJacobianAudit:
     """Dense scaled finite-difference Jacobian rank audit."""
 
@@ -341,6 +357,245 @@ def unpack_causal_five_field_state(
             _N_FIELDS,
         ),
     ).validated()
+
+
+def causal_five_field_dae_jacobian_sparsity(
+    n_cells: int,
+) -> csr_matrix:
+    """Return the declared block-local full-DAE Jacobian pattern.
+
+    The ordering matches :func:`pack_causal_five_field_state`: cell-major
+    conserved values, cell-major primitive charts, and cell-major face
+    fluxes. Conservation sources use one-cell neighbor stencils through the
+    shear and responsive-height rates. Primitive maps are cell local, while
+    each numerical flux consumes only its adjacent primitive states.
+    """
+
+    count = causal_five_field_dae_count(n_cells)
+    n_cells = count.n_cells
+    conserved_start = 0
+    primitive_start = count.conserved_unknowns
+    face_start = primitive_start + count.primitive_unknowns
+    conservation_start = 0
+    primitive_map_start = count.conservation_rows
+    interior_flux_start = (
+        primitive_map_start + count.primitive_map_rows
+    )
+    inner_flux_start = (
+        interior_flux_start + count.interior_flux_rows
+    )
+    outer_flux_start = inner_flux_start + count.inner_flux_rows
+    pattern = lil_matrix(
+        (count.total_rows, count.total_unknowns),
+        dtype=np.int8,
+    )
+
+    for cell in range(n_cells):
+        neighbors = range(
+            max(0, cell - 1),
+            min(n_cells, cell + 2),
+        )
+        for component in range(_N_FIELDS):
+            conservation_row = (
+                conservation_start + _N_FIELDS * cell + component
+            )
+            pattern[
+                conservation_row,
+                conserved_start + _N_FIELDS * cell + component,
+            ] = 1
+            for neighbor in neighbors:
+                primitive_slice = slice(
+                    primitive_start + _N_FIELDS * neighbor,
+                    primitive_start + _N_FIELDS * (neighbor + 1),
+                )
+                pattern[conservation_row, primitive_slice] = 1
+            pattern[
+                conservation_row,
+                face_start + _N_FIELDS * cell + component,
+            ] = 1
+            pattern[
+                conservation_row,
+                face_start + _N_FIELDS * (cell + 1) + component,
+            ] = 1
+
+            primitive_map_row = (
+                primitive_map_start + _N_FIELDS * cell + component
+            )
+            pattern[
+                primitive_map_row,
+                conserved_start + _N_FIELDS * cell + component,
+            ] = 1
+            primitive_slice = slice(
+                primitive_start + _N_FIELDS * cell,
+                primitive_start + _N_FIELDS * (cell + 1),
+            )
+            pattern[primitive_map_row, primitive_slice] = 1
+
+    for face in range(1, n_cells):
+        for component in range(_N_FIELDS):
+            row = (
+                interior_flux_start
+                + _N_FIELDS * (face - 1)
+                + component
+            )
+            for cell in (face - 1, face):
+                primitive_slice = slice(
+                    primitive_start + _N_FIELDS * cell,
+                    primitive_start + _N_FIELDS * (cell + 1),
+                )
+                pattern[row, primitive_slice] = 1
+            pattern[
+                row,
+                face_start + _N_FIELDS * face + component,
+            ] = 1
+
+    for component in range(_N_FIELDS):
+        inner_row = inner_flux_start + component
+        outer_row = outer_flux_start + component
+        pattern[
+            inner_row,
+            primitive_start : primitive_start + _N_FIELDS,
+        ] = 1
+        pattern[
+            inner_row,
+            face_start + component,
+        ] = 1
+        pattern[
+            outer_row,
+            primitive_start
+            + _N_FIELDS * (n_cells - 1) : primitive_start
+            + _N_FIELDS * n_cells,
+        ] = 1
+        pattern[
+            outer_row,
+            face_start + _N_FIELDS * n_cells + component,
+        ] = 1
+    return pattern.tocsr()
+
+
+def causal_five_field_dae_jacobian_color_groups(
+    pattern: csr_matrix,
+) -> tuple[np.ndarray, ...]:
+    """Greedily color columns whose declared residual supports do not meet."""
+
+    declared = pattern.tocsc()
+    if declared.shape[0] != declared.shape[1]:
+        raise ValueError("causal DAE Jacobian pattern must be square")
+    row_colors: list[set[int]] = [
+        set() for _ in range(declared.shape[0])
+    ]
+    groups: list[list[int]] = []
+    for column in range(declared.shape[1]):
+        start = declared.indptr[column]
+        stop = declared.indptr[column + 1]
+        rows = declared.indices[start:stop]
+        forbidden: set[int] = set()
+        for row in rows:
+            forbidden.update(row_colors[int(row)])
+        color = 0
+        while color in forbidden:
+            color += 1
+        if color == len(groups):
+            groups.append([])
+        groups[color].append(column)
+        for row in rows:
+            row_colors[int(row)].add(color)
+    return tuple(
+        np.asarray(group, dtype=int)
+        for group in groups
+    )
+
+
+def causal_five_field_colored_central_jacobian(
+    residual,
+    values: np.ndarray,
+    pattern: csr_matrix,
+    *,
+    finite_difference_step: float = 2.0e-6,
+) -> csr_matrix:
+    """Assemble a colored central Jacobian on a certified local pattern."""
+
+    values = np.asarray(values, dtype=float)
+    declared = pattern.tocsc()
+    if (
+        declared.shape != (values.size, values.size)
+        or np.any(~np.isfinite(values))
+    ):
+        raise ValueError("colored Jacobian values or pattern are invalid")
+    step = float(finite_difference_step)
+    if not np.isfinite(step) or step <= 0.0:
+        raise ValueError("finite-difference step must be positive")
+    jacobian = lil_matrix(declared.shape, dtype=float)
+    for group in causal_five_field_dae_jacobian_color_groups(declared):
+        plus = np.array(values, copy=True)
+        minus = np.array(values, copy=True)
+        plus[group] += step
+        minus[group] -= step
+        difference = (
+            np.asarray(residual(plus), dtype=float)
+            - np.asarray(residual(minus), dtype=float)
+        ) / (2.0 * step)
+        for column in group:
+            start = declared.indptr[column]
+            stop = declared.indptr[column + 1]
+            rows = declared.indices[start:stop]
+            jacobian[rows, column] = difference[rows, None]
+    return jacobian.tocsr()
+
+
+def causal_five_field_equilibrated_sparse_solve(
+    matrix: csr_matrix,
+    right_hand_side: np.ndarray,
+) -> tuple[np.ndarray, CausalFiveFieldSparseLinearAudit]:
+    """Solve one scaled Newton system after sparse max-norm equilibration."""
+
+    sparse = matrix.tocsr().astype(float)
+    right = np.asarray(right_hand_side, dtype=float)
+    if (
+        sparse.shape[0] != sparse.shape[1]
+        or right.shape != (sparse.shape[0],)
+        or np.any(~np.isfinite(sparse.data))
+        or np.any(~np.isfinite(right))
+    ):
+        raise ValueError("sparse Newton system is invalid")
+    tiny = np.finfo(float).tiny
+    row_maximum = np.asarray(
+        np.abs(sparse).max(axis=1).toarray(),
+        dtype=float,
+    ).ravel()
+    if np.any(row_maximum <= tiny):
+        raise np.linalg.LinAlgError("sparse Newton matrix has a zero row")
+    row_scale = 1.0 / row_maximum
+    row_scaled = diags(row_scale) @ sparse
+    column_maximum = np.asarray(
+        np.abs(row_scaled).max(axis=0).toarray(),
+        dtype=float,
+    ).ravel()
+    if np.any(column_maximum <= tiny):
+        raise np.linalg.LinAlgError("sparse Newton matrix has a zero column")
+    column_scale = 1.0 / column_maximum
+    balanced = (
+        diags(row_scale)
+        @ sparse
+        @ diags(column_scale)
+    ).tocsc()
+    factor = splu(balanced, permc_spec="COLAMD")
+    balanced_solution = factor.solve(row_scale * right)
+    solution = column_scale * balanced_solution
+    relative_residual = float(
+        np.max(np.abs(sparse @ solution - right))
+        / max(np.max(np.abs(right)), tiny)
+    )
+    return solution, CausalFiveFieldSparseLinearAudit(
+        dimensions=sparse.shape,
+        nonzeros=int(sparse.nnz),
+        row_scale_minimum=float(np.min(row_scale)),
+        row_scale_maximum=float(np.max(row_scale)),
+        column_scale_minimum=float(np.min(column_scale)),
+        column_scale_maximum=float(np.max(column_scale)),
+        relative_linear_residual=relative_residual,
+        method="max_norm_equilibrated_splu_colamd",
+    )
 
 
 def _primitive_from_chart(

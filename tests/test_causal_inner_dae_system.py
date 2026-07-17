@@ -12,11 +12,16 @@ from imri_qpe.layer3_minidisk_1d import (
     GasRadiationHillRocheNozzleProvider,
     KerrSchildCellSourceRates,
     SchwarzschildCurvatureVerticalFrequency,
+    ValenciaPerfectFluidPrimitive,
     audit_causal_five_field_consistent_initial_data,
     audit_causal_five_field_dae_jacobian,
     audit_causal_five_field_reduced_stationary_response,
+    causal_five_field_colored_central_jacobian,
     causal_five_field_dae_count,
+    causal_five_field_dae_jacobian_color_groups,
+    causal_five_field_dae_jacobian_sparsity,
     causal_five_field_dae_scaling,
+    causal_five_field_equilibrated_sparse_solve,
     causal_five_field_endpoint_temporal_storage_increment,
     causal_five_field_path_temporal_storage_increment,
     causal_five_field_reduced_backward_euler_residual,
@@ -24,13 +29,17 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_five_field_state_from_primitives,
     evaluate_causal_five_field_dae,
     evaluate_causal_five_field_increment_backward_euler,
+    exact_kerr_schild_compact_stream_sources,
     fiducial_hill_roche_nozzle_geometry,
+    kerr_schild_column_geometry,
+    kerr_schild_stream_injection,
     make_causal_five_field_seed,
     make_kerr_schild_column_grid,
     pack_causal_five_field_state,
     unpack_causal_five_field_state,
 )
 from imri_qpe.parameters import FiducialParams
+from imri_qpe.scales import eddington_mdot
 
 
 def _context(
@@ -237,6 +246,89 @@ def test_exact_stream_moments_enter_only_the_four_killing_rows() -> None:
     )
 
 
+def test_exact_stream_moments_enter_increment_primary_rows_exactly() -> None:
+    context = _context(16, cooling=True)
+    mass = FiducialParams().M2_g
+    gravitational_radius = G * mass / C**2
+    radius = 240.0 * gravitational_radius
+    geometry = kerr_schild_column_geometry(
+        radius,
+        gravitational_radius,
+    )
+    thermodynamics = context.vertical_frequency.eos(
+        radius
+    ).from_surface_density_temperature(1.0e5, 1.0e6)
+    primitive = ValenciaPerfectFluidPrimitive(
+        surface_density=1.0e5,
+        radial_velocity_over_c=2.0 * gravitational_radius / radius,
+        azimuthal_velocity_over_c=float(
+            np.sqrt(gravitational_radius / radius)
+            / geometry.base.lapse
+        ),
+        specific_internal_energy=(
+            thermodynamics.specific_internal_energy
+        ),
+        integrated_pressure=thermodynamics.integrated_pressure,
+    )
+    injection = kerr_schild_stream_injection(
+        geometry,
+        primitive,
+        rest_mass_rate=5.0 * eddington_mdot(mass),
+    )
+    stream = exact_kerr_schild_compact_stream_sources(
+        context.grid,
+        injection,
+        center=radius,
+        log_width=0.08,
+        shape="compact_c2",
+    )
+    sourced_context = replace(context, stream_sources=stream).validated()
+    state = make_causal_five_field_seed(context)
+    old_vector = pack_causal_five_field_state(state)
+    zero_increment = np.zeros_like(old_vector)
+    baseline = evaluate_causal_five_field_increment_backward_euler(
+        zero_increment,
+        context,
+        old_vector=old_vector,
+        timestep_seconds=1.0,
+    )
+    sourced = evaluate_causal_five_field_increment_backward_euler(
+        zero_increment,
+        sourced_context,
+        old_vector=old_vector,
+        timestep_seconds=1.0,
+    )
+    expected = stream.weighted_killing_source_per_ct
+
+    assert np.count_nonzero(stream.rest_mass) > 0
+    assert np.sum(stream.matrix, axis=0) == pytest.approx(
+        np.asarray(
+            [
+                injection.rest_mass_rate,
+                injection.rest_mass_rate
+                * injection.moments.radial_momentum_over_c,
+                injection.rest_mass_rate
+                * injection.moments.angular_momentum_over_c,
+                injection.rest_mass_rate
+                * injection.moments.killing_energy_over_c2,
+            ]
+        ),
+        rel=2.0e-15,
+    )
+    assert (
+        sourced.conservation_rows[:, :4]
+        - baseline.conservation_rows[:, :4]
+        == pytest.approx(-expected)
+    )
+    assert sourced.conservation_rows[:, 4] == pytest.approx(
+        baseline.conservation_rows[:, 4]
+    )
+    n_differential = 5 * context.grid.centers.size
+    assert sourced.residual[n_differential:] == pytest.approx(
+        baseline.residual[n_differential:]
+    )
+
+
 def test_small_assembled_scaled_jacobian_is_numerically_full_rank() -> None:
     context = _context(2)
     state = make_causal_five_field_seed(context)
@@ -256,6 +348,94 @@ def test_small_assembled_scaled_jacobian_is_numerically_full_rank() -> None:
     assert audit.dimensions == (35, 35)
     assert audit.full_rank
     assert audit.smallest_singular_value > 1.0e-8
+
+
+def test_colored_increment_jacobian_matches_every_dense_column() -> None:
+    context = _context(4, cooling=True)
+    state = make_causal_five_field_seed(context)
+    old_vector = pack_causal_five_field_state(state)
+    stationary = evaluate_causal_five_field_dae(
+        old_vector,
+        context,
+    )
+    scaling = causal_five_field_dae_scaling(state, stationary)
+    values = np.zeros_like(old_vector)
+    step = 2.0e-6
+
+    def residual(scaled_increment):
+        return (
+            evaluate_causal_five_field_increment_backward_euler(
+                scaling.column_scales * scaled_increment,
+                context,
+                old_vector=old_vector,
+                timestep_seconds=2.0e-8,
+            ).residual
+            / scaling.row_scales
+        )
+
+    dense = np.empty((values.size, values.size), dtype=float)
+    for column in range(values.size):
+        plus = np.array(values, copy=True)
+        minus = np.array(values, copy=True)
+        plus[column] += step
+        minus[column] -= step
+        dense[:, column] = (
+            residual(plus) - residual(minus)
+        ) / (2.0 * step)
+    pattern = causal_five_field_dae_jacobian_sparsity(4)
+    groups = causal_five_field_dae_jacobian_color_groups(pattern)
+    colored = causal_five_field_colored_central_jacobian(
+        residual,
+        values,
+        pattern,
+        finite_difference_step=step,
+    ).toarray()
+    allowed = pattern.toarray().astype(bool)
+    row_scale = np.maximum(
+        np.max(np.abs(dense), axis=1),
+        1.0e-14,
+    )
+    omitted_relative = np.abs(
+        np.where(allowed, 0.0, dense)
+    ) / row_scale[:, None]
+    colored_relative = np.abs(colored - dense) / row_scale[:, None]
+
+    assert pattern.shape == dense.shape
+    assert pattern.nnz < dense.size // 3
+    assert len(groups) < values.size // 2
+    for group in groups:
+        assert np.max(
+            np.asarray(pattern[:, group].sum(axis=1))
+        ) <= 1
+    assert np.max(omitted_relative) < 1.0e-11
+    assert np.max(colored_relative) < 1.0e-11
+
+    right_hand_side = -residual(values)
+    sparse_solution, audit = (
+        causal_five_field_equilibrated_sparse_solve(
+            causal_five_field_colored_central_jacobian(
+                residual,
+                values,
+                pattern,
+                finite_difference_step=step,
+            ),
+            right_hand_side,
+        )
+    )
+    dense_solution = np.linalg.solve(dense, right_hand_side)
+    correction_scale = max(
+        np.max(np.abs(dense_solution)),
+        1.0e-14,
+    )
+
+    assert audit.dimensions == dense.shape
+    assert audit.nonzeros <= pattern.nnz
+    assert audit.relative_linear_residual < 1.0e-8
+    assert (
+        np.max(np.abs(sparse_solution - dense_solution))
+        / correction_scale
+        < 1.0e-7
+    )
 
 
 def test_reduced_stationary_residual_eliminates_exact_map_rows() -> None:

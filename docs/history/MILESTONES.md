@@ -151,6 +151,16 @@ rejected sequence.
     `1.01e-6` of the full changes. Short source-on no-tide startup is now
     authorized; physical relaxation, stability, tide, wind, and hot-state
     claims remain blocked.
+35. **Exact-stream sparse repeated startup:** exact circularized C2 source
+    moments pass N16/N32 startup and temporal gates. An exact 18-color local
+    Jacobian reproduces the dense matrices and roots while reducing each
+    assembly to 36 residual evaluations. Eight N16 and seven equal-time N32
+    steps pass adaptive, conservation, optical-depth, and bitwise-restart
+    gates through `3.39278e-7 s`. The baseline-subtracted common-radius
+    thickness response is mesh supported, but the duration is only about
+    `2e-13 t_load` and the arbitrary preflight seed drains at about `9.2e4`
+    times the stream supply. A source-compatible causal datum is required
+    before longer physical evolution.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

@@ -5,34 +5,53 @@ from __future__ import annotations
 import argparse
 import json
 import math
-from dataclasses import replace
+from dataclasses import asdict, replace
 from pathlib import Path
 
 import numpy as np
 from scipy.linalg.lapack import dgeequ, dgesvx
+from scipy.sparse import issparse
+from scipy.sparse.csgraph import structural_rank
 
 from imri_qpe.constants import C, G
 from imri_qpe.layer3_minidisk_1d import (
     KERR_SCHILD_HILL_ENERGY_ZERO,
+    CausalFiveFieldAdaptiveRestart,
+    CausalFiveFieldAdaptiveStepConfig,
     CausalFiveFieldDAEContext,
     GasRadiationHillRocheNozzleProvider,
     SchwarzschildCurvatureVerticalFrequency,
+    ValenciaPerfectFluidPrimitive,
     audit_causal_five_field_consistent_initial_data,
     audit_causal_five_field_dae_jacobian,
+    advance_causal_five_field_adaptive_backward_euler,
+    causal_five_field_colored_central_jacobian,
+    causal_five_field_dae_jacobian_color_groups,
+    causal_five_field_dae_jacobian_sparsity,
     causal_five_field_dae_scaling,
+    causal_five_field_equilibrated_sparse_solve,
+    causal_five_field_h_over_r_profile,
+    causal_five_field_loading_time,
+    causal_five_field_state_summary,
     causal_five_field_endpoint_temporal_storage_increment,
     causal_five_field_path_temporal_storage_increment,
     causal_five_field_reduced_backward_euler_residual,
     causal_five_field_state_from_primitives,
     evaluate_causal_five_field_dae,
     evaluate_causal_five_field_increment_backward_euler,
+    exact_kerr_schild_compact_stream_sources,
     fiducial_hill_roche_nozzle_geometry,
+    kerr_schild_column_geometry,
+    kerr_schild_stream_injection,
+    load_causal_five_field_adaptive_restart,
     make_causal_five_field_seed,
     make_kerr_schild_column_grid,
     pack_causal_five_field_state,
+    save_causal_five_field_adaptive_restart,
     unpack_causal_five_field_state,
 )
 from imri_qpe.parameters import FiducialParams
+from imri_qpe.scales import eddington_mdot
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -40,9 +59,29 @@ DEFAULT_OUTPUT = (
     ROOT
     / "outputs/tables/causal_five_field_consistent_step_wp10c5d.json"
 )
+DEFAULT_SOURCE_ON_OUTPUT = (
+    ROOT
+    / "outputs/tables/causal_five_field_source_on_startup_wp10c5i.json"
+)
+DEFAULT_SPARSE_BACKEND_OUTPUT = (
+    ROOT
+    / "outputs/tables/causal_five_field_sparse_backend_wp10c5j.json"
+)
+DEFAULT_REPEATED_SOURCE_ON_OUTPUT = (
+    ROOT
+    / "outputs/tables/causal_five_field_repeated_source_on_wp10c5k.json"
+)
+DEFAULT_RESTART_DIRECTORY = (
+    ROOT / "outputs/checkpoints/causal_five_field_wp10c5k"
+)
 RANK_THRESHOLD = 1.0e-11
 FINITE_DIFFERENCE_STEP = 2.0e-6
 TARGET_SCALED_PRIMITIVE_CHANGES = (1.0e-4, 1.0e-3)
+STREAM_CENTER_RG = 240.0
+STREAM_LOG_WIDTH = 0.08
+STREAM_MDOT_EDD = 5.0
+STREAM_SURFACE_DENSITY = 1.0e5
+STREAM_TEMPERATURE = 1.0e6
 FIELD_NAMES = (
     "rest_mass",
     "radial_momentum",
@@ -72,6 +111,18 @@ def _arguments() -> argparse.Namespace:
         "--increment-primary-audit",
         action="store_true",
     )
+    parser.add_argument(
+        "--increment-primary-source-on-audit",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--increment-primary-sparse-backend-audit",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--increment-primary-repeated-source-on-audit",
+        action="store_true",
+    )
     return parser.parse_args()
 
 
@@ -85,7 +136,55 @@ def _json_default(value):
     raise TypeError(f"cannot serialize {type(value).__name__}")
 
 
-def _context(n_cells: int) -> CausalFiveFieldDAEContext:
+def _exact_regression_stream(
+    context: CausalFiveFieldDAEContext,
+    mass: float,
+    gravitational_radius: float,
+):
+    radius = STREAM_CENTER_RG * gravitational_radius
+    geometry = kerr_schild_column_geometry(
+        radius,
+        gravitational_radius,
+    )
+    thermodynamics = context.vertical_frequency.eos(
+        radius
+    ).from_surface_density_temperature(
+        STREAM_SURFACE_DENSITY,
+        STREAM_TEMPERATURE,
+    )
+    primitive = ValenciaPerfectFluidPrimitive(
+        surface_density=STREAM_SURFACE_DENSITY,
+        radial_velocity_over_c=(
+            2.0 * gravitational_radius / radius
+        ),
+        azimuthal_velocity_over_c=float(
+            np.sqrt(gravitational_radius / radius)
+            / geometry.base.lapse
+        ),
+        specific_internal_energy=(
+            thermodynamics.specific_internal_energy
+        ),
+        integrated_pressure=thermodynamics.integrated_pressure,
+    )
+    injection = kerr_schild_stream_injection(
+        geometry,
+        primitive,
+        rest_mass_rate=STREAM_MDOT_EDD * eddington_mdot(mass),
+    )
+    return exact_kerr_schild_compact_stream_sources(
+        context.grid,
+        injection,
+        center=radius,
+        log_width=STREAM_LOG_WIDTH,
+        shape="compact_c2",
+    )
+
+
+def _context(
+    n_cells: int,
+    *,
+    include_stream: bool = False,
+) -> CausalFiveFieldDAEContext:
     mass = FiducialParams().M2_g
     gravitational_radius = G * mass / C**2
     grid = make_kerr_schild_column_grid(
@@ -98,7 +197,7 @@ def _context(n_cells: int) -> CausalFiveFieldDAEContext:
         fiducial_hill_roche_nozzle_geometry(),
         energy_zero=KERR_SCHILD_HILL_ENERGY_ZERO,
     )
-    return CausalFiveFieldDAEContext(
+    context = CausalFiveFieldDAEContext(
         grid=grid,
         vertical_frequency=SchwarzschildCurvatureVerticalFrequency(
             gravitational_radius
@@ -109,6 +208,62 @@ def _context(n_cells: int) -> CausalFiveFieldDAEContext:
         ),
         include_radiative_cooling=True,
     ).validated()
+    if include_stream:
+        context = replace(
+            context,
+            stream_sources=_exact_regression_stream(
+                context,
+                mass,
+                gravitational_radius,
+            ),
+        ).validated()
+    return context
+
+
+def _stream_summary(
+    context: CausalFiveFieldDAEContext,
+) -> dict:
+    source = context.stream_sources
+    if source is None:
+        return {
+            "enabled": False,
+            "source_role": "none",
+        }
+    totals = np.sum(source.matrix, axis=0)
+    active = np.flatnonzero(source.rest_mass > 0.0)
+    mass_rate = float(totals[0])
+    expected_mass_rate = (
+        STREAM_MDOT_EDD * eddington_mdot(FiducialParams().M2_g)
+    )
+    return {
+        "enabled": True,
+        "source_role": (
+            "exact circularized regression stream; not a ballistic "
+            "Layer-1 calibration"
+        ),
+        "shape": "compact_c2",
+        "center_rg": STREAM_CENTER_RG,
+        "log_width": STREAM_LOG_WIDTH,
+        "supply_mdot_edd": STREAM_MDOT_EDD,
+        "injection_surface_density_g_cm2": STREAM_SURFACE_DENSITY,
+        "injection_temperature_k": STREAM_TEMPERATURE,
+        "active_cell_count": int(active.size),
+        "active_cell_indices": [int(value) for value in active],
+        "rest_mass_rate_g_s": mass_rate,
+        "specific_radial_momentum_over_c": float(
+            totals[1] / mass_rate
+        ),
+        "specific_angular_momentum_over_c_cm": float(
+            totals[2] / mass_rate
+        ),
+        "specific_killing_energy_over_c2": float(
+            totals[3] / mass_rate
+        ),
+        "source_normalization_relative_defect": float(
+            abs(mass_rate - expected_mass_rate)
+            / expected_mass_rate
+        ),
+    }
 
 
 def _ledger_defect(
@@ -346,7 +501,7 @@ def _bounded_newton(
     residual_tolerance: float,
     maximum_iterations: int = 12,
     linear_solver: str = "direct",
-) -> tuple[np.ndarray, dict, np.ndarray | None, np.ndarray]:
+) -> tuple[np.ndarray, dict, object | None, np.ndarray]:
     state = np.asarray(initial, dtype=float)
     history = []
     message = "maximum iterations reached"
@@ -370,17 +525,28 @@ def _bounded_newton(
             break
         if iteration == maximum_iterations:
             break
-        matrix = np.asarray(jacobian(state), dtype=float)
+        raw_matrix = jacobian(state)
+        matrix = (
+            raw_matrix.tocsr()
+            if issparse(raw_matrix)
+            else np.asarray(raw_matrix, dtype=float)
+        )
         last_matrix = matrix
         jacobian_evaluations += 1
-        singular = np.linalg.svd(matrix, compute_uv=False)
-        row["jacobian_condition_estimate"] = float(
-            singular[0] / max(singular[-1], np.finfo(float).tiny)
-        )
         try:
             if linear_solver == "direct":
+                singular = np.linalg.svd(matrix, compute_uv=False)
+                row["jacobian_condition_estimate"] = float(
+                    singular[0]
+                    / max(singular[-1], np.finfo(float).tiny)
+                )
                 correction = np.linalg.solve(matrix, -values)
             elif linear_solver == "dgesvx":
+                singular = np.linalg.svd(matrix, compute_uv=False)
+                row["jacobian_condition_estimate"] = float(
+                    singular[0]
+                    / max(singular[-1], np.finfo(float).tiny)
+                )
                 result = dgesvx(
                     matrix,
                     (-values).reshape(-1, 1),
@@ -391,9 +557,22 @@ def _bounded_newton(
                     raise np.linalg.LinAlgError(
                         f"dgesvx failed with info={int(result[11])}"
                     )
+            elif linear_solver == "equilibrated_splu":
+                if not issparse(matrix):
+                    raise ValueError(
+                        "equilibrated_splu requires a sparse Jacobian"
+                    )
+                correction, linear_audit = (
+                    causal_five_field_equilibrated_sparse_solve(
+                        matrix,
+                        -values,
+                    )
+                )
+                row["jacobian_nonzeros"] = int(matrix.nnz)
+                row["linear_solver_audit"] = asdict(linear_audit)
             else:
                 raise ValueError("unknown reduced Newton linear solver")
-        except np.linalg.LinAlgError:
+        except (np.linalg.LinAlgError, RuntimeError):
             message = "reduced Newton Jacobian is singular"
             break
         row["raw_correction_maximum"] = float(
@@ -1475,8 +1654,10 @@ def _rank_summary(matrix: np.ndarray) -> dict:
 def _run_increment_primary_resolution(
     n_cells: int,
     target_scaled_primitive_change: float,
+    *,
+    include_stream: bool = False,
 ) -> tuple[dict, dict]:
-    context = _context(n_cells)
+    context = _context(n_cells, include_stream=include_stream)
     old_state = make_causal_five_field_seed(context)
     old_vector = pack_causal_five_field_state(old_state)
     stationary_evaluation = evaluate_causal_five_field_dae(
@@ -1672,6 +1853,7 @@ def _run_increment_primary_resolution(
         "residual_count": int(scaled_residual.size),
         "coordinate": "primary physical increments",
         "temporal_height_scheme": "path_integrated",
+        "stream": _stream_summary(context),
         "seed_is_stationary_root": False,
         "seed_maximum_scaled_conservation_residual": float(
             np.max(
@@ -1775,8 +1957,11 @@ def _run_increment_primary_resolution(
         "old_vector": old_vector,
         "scaling": scaling,
         "initial_scaled_increment": initial_increment,
+        "initial_dense_jacobian": initial_jacobian,
         "timestep_seconds": timestep,
         "physical_increment": physical_increment,
+        "final_scaled_increment": final_increment,
+        "final_dense_jacobian": last_matrix,
         "new_vector": old_vector + physical_increment,
     }
     return report, artifacts
@@ -2056,13 +2241,1236 @@ def _temporal_refinement_comparison(
     }
 
 
-def _run_increment_primary_audit(args: argparse.Namespace) -> None:
+def _increment_primary_residual_from_artifacts(artifacts: dict):
+    context = artifacts["context"]
+    old_vector = np.asarray(artifacts["old_vector"], dtype=float)
+    scaling = artifacts["scaling"]
+    timestep = float(artifacts["timestep_seconds"])
+
+    def residual(scaled_increment: np.ndarray) -> np.ndarray:
+        physical_increment = (
+            scaling.column_scales
+            * np.asarray(scaled_increment, dtype=float)
+        )
+        return (
+            evaluate_causal_five_field_increment_backward_euler(
+                physical_increment,
+                context,
+                old_vector=old_vector,
+                timestep_seconds=timestep,
+                temporal_height_scheme="path_integrated",
+            ).residual
+            / scaling.row_scales
+        )
+
+    return residual
+
+
+def _sparse_matrix_parity(
+    residual,
+    values: np.ndarray,
+    dense_matrix: np.ndarray,
+    sparse_matrix,
+    pattern,
+) -> dict:
+    dense = np.asarray(dense_matrix, dtype=float)
+    sparse = sparse_matrix.toarray()
+    allowed = pattern.toarray().astype(bool)
+    row_scale = np.maximum(
+        np.max(np.abs(dense), axis=1),
+        1.0e-14,
+    )
+    omitted = np.where(allowed, 0.0, dense)
+    matrix_difference = sparse - dense
+    maximum_directional_defect = 0.0
+    coordinates = np.arange(values.size, dtype=float) + 1.0
+    directional_step = 5.0e-7
+    for index in range(3):
+        direction = np.sin((index + 1.0) * coordinates)
+        direction += 0.5 * np.cos((index + 2.0) * coordinates)
+        direction /= max(np.max(np.abs(direction)), 1.0)
+        finite_difference = (
+            residual(values + directional_step * direction)
+            - residual(values - directional_step * direction)
+        ) / (2.0 * directional_step)
+        product = sparse_matrix @ direction
+        scale = max(
+            np.max(np.abs(finite_difference)),
+            np.max(np.abs(product)),
+            1.0e-14,
+        )
+        maximum_directional_defect = max(
+            maximum_directional_defect,
+            float(
+                np.max(np.abs(product - finite_difference)) / scale
+            ),
+        )
+    groups = causal_five_field_dae_jacobian_color_groups(pattern)
+    return {
+        "dimensions": list(dense.shape),
+        "pattern_nonzeros": int(pattern.nnz),
+        "pattern_density": float(pattern.nnz / dense.size),
+        "structural_rank": int(structural_rank(pattern)),
+        "color_count": len(groups),
+        "maximum_color_size": int(max(len(group) for group in groups)),
+        "dense_central_residual_evaluations_per_jacobian": int(
+            2 * values.size
+        ),
+        "colored_central_residual_evaluations_per_jacobian": int(
+            2 * len(groups)
+        ),
+        "assembly_evaluation_reduction_factor": float(
+            values.size / len(groups)
+        ),
+        "maximum_omitted_absolute_derivative": float(
+            np.max(np.abs(omitted))
+        ),
+        "maximum_omitted_row_relative_derivative": float(
+            np.max(np.abs(omitted) / row_scale[:, None])
+        ),
+        "maximum_colored_absolute_matrix_defect": float(
+            np.max(np.abs(matrix_difference))
+        ),
+        "maximum_colored_row_relative_matrix_defect": float(
+            np.max(
+                np.abs(matrix_difference) / row_scale[:, None]
+            )
+        ),
+        "maximum_directional_relative_defect": (
+            maximum_directional_defect
+        ),
+    }
+
+
+def _run_sparse_backend_resolution(
+    n_cells: int,
+    target_scaled_primitive_change: float,
+) -> tuple[dict, bool]:
+    dense_report, artifacts = _run_increment_primary_resolution(
+        n_cells,
+        target_scaled_primitive_change,
+        include_stream=True,
+    )
+    if not dense_report["resolution_passed"]:
+        return {
+            "n_cells": n_cells,
+            "dense_reference_passed": False,
+            "sparse_attempted": False,
+            "passed": False,
+            "decision": "dense_reference_failed",
+        }, False
+
+    context = artifacts["context"]
+    old_vector = np.asarray(artifacts["old_vector"], dtype=float)
+    scaling = artifacts["scaling"]
+    residual = _increment_primary_residual_from_artifacts(artifacts)
+    initial = np.asarray(
+        artifacts["initial_scaled_increment"],
+        dtype=float,
+    )
+    dense_matrix = np.asarray(
+        artifacts["initial_dense_jacobian"],
+        dtype=float,
+    )
+    pattern = causal_five_field_dae_jacobian_sparsity(n_cells)
+    initial_sparse = causal_five_field_colored_central_jacobian(
+        residual,
+        initial,
+        pattern,
+        finite_difference_step=FINITE_DIFFERENCE_STEP,
+    )
+    matrix_parity = _sparse_matrix_parity(
+        residual,
+        initial,
+        dense_matrix,
+        initial_sparse,
+        pattern,
+    )
+    initial_rank = _rank_summary(initial_sparse.toarray())
+    initial_matrix_available = True
+
+    def jacobian(scaled_increment: np.ndarray):
+        nonlocal initial_matrix_available
+        if (
+            initial_matrix_available
+            and np.array_equal(scaled_increment, initial)
+        ):
+            initial_matrix_available = False
+            return initial_sparse
+        return causal_five_field_colored_central_jacobian(
+            residual,
+            scaled_increment,
+            pattern,
+            finite_difference_step=FINITE_DIFFERENCE_STEP,
+        )
+
+    nonlinear_bound = 1.25 * target_scaled_primitive_change
+    (
+        sparse_increment,
+        solver,
+        last_matrix,
+        _last_values,
+    ) = _bounded_newton(
+        residual,
+        jacobian,
+        initial,
+        bound=nonlinear_bound,
+        residual_tolerance=1.0e-8,
+        linear_solver="equilibrated_splu",
+    )
+    if last_matrix is None:
+        last_matrix = initial_sparse
+    final_rank = _rank_summary(last_matrix.toarray())
+    physical_increment = scaling.column_scales * sparse_increment
+    new_vector = old_vector + physical_increment
+    new_state = unpack_causal_five_field_state(
+        new_vector,
+        n_cells,
+    )
+    evaluation = evaluate_causal_five_field_increment_backward_euler(
+        physical_increment,
+        context,
+        old_vector=old_vector,
+        timestep_seconds=float(artifacts["timestep_seconds"]),
+        temporal_height_scheme="path_integrated",
+    )
+    scaled_residual = evaluation.residual / scaling.row_scales
+    n_differential = 5 * n_cells
+    maximum_residual = float(np.max(np.abs(scaled_residual)))
+    maximum_algebraic_residual = float(
+        np.max(np.abs(scaled_residual[n_differential:]))
+    )
+    ledger_defect, component_ledger_defects = _ledger_defect(
+        new_state,
+        evaluation,
+    )
+    dense_increment = np.asarray(
+        artifacts["final_scaled_increment"],
+        dtype=float,
+    )
+    maximum_root_defect = float(
+        np.max(np.abs(sparse_increment - dense_increment))
+    )
+    relative_root_defect = float(
+        maximum_root_defect
+        / max(
+            np.max(np.abs(dense_increment)),
+            np.finfo(float).tiny,
+        )
+    )
+    matrix_passed = (
+        matrix_parity[
+            "maximum_omitted_row_relative_derivative"
+        ]
+        <= 1.0e-10
+        and matrix_parity[
+            "maximum_colored_row_relative_matrix_defect"
+        ]
+        <= 1.0e-10
+        and matrix_parity["maximum_directional_relative_defect"]
+        <= 1.0e-6
+        and matrix_parity["structural_rank"] == initial.size
+        and initial_rank["equilibration"]["full_rank"]
+        and final_rank["equilibration"]["full_rank"]
+    )
+    root_passed = (
+        solver["success"]
+        and maximum_residual <= 1.0e-8
+        and maximum_algebraic_residual <= 1.0e-10
+        and relative_root_defect <= 1.0e-5
+        and ledger_defect <= 1.0e-10
+        and np.min(evaluation.scattering_optical_depths) > 1.0
+    )
+    passed = matrix_passed and root_passed
+    report = {
+        "n_cells": n_cells,
+        "unknown_count": int(initial.size),
+        "stream": _stream_summary(context),
+        "dense_reference": {
+            "passed": dense_report["resolution_passed"],
+            "timestep_seconds": dense_report["tiny_step"][
+                "timestep_seconds"
+            ],
+            "maximum_scaled_residual": dense_report["tiny_step"][
+                "maximum_scaled_residual"
+            ],
+            "maximum_scaled_algebraic_residual": dense_report[
+                "tiny_step"
+            ]["maximum_scaled_algebraic_residual"],
+        },
+        "matrix_parity": matrix_parity,
+        "initial_sparse_jacobian": initial_rank,
+        "final_sparse_jacobian": final_rank,
+        "sparse_root": {
+            "solver": solver,
+            "maximum_scaled_residual": maximum_residual,
+            "maximum_scaled_algebraic_residual": (
+                maximum_algebraic_residual
+            ),
+            "maximum_scaled_dense_root_defect": maximum_root_defect,
+            "relative_scaled_dense_root_defect": relative_root_defect,
+            "conservation_telescoping_relative_defect": ledger_defect,
+            "component_conservation_defects": (
+                component_ledger_defects
+            ),
+            "minimum_scattering_optical_depth": float(
+                np.min(evaluation.scattering_optical_depths)
+            ),
+        },
+        "matrix_gate_passed": matrix_passed,
+        "root_gate_passed": root_passed,
+        "passed": passed,
+        "decision": (
+            "sparse_backend_parity_passed"
+            if passed
+            else "sparse_backend_parity_failed"
+        ),
+    }
+    return report, passed
+
+
+def _run_sparse_backend_audit(args: argparse.Namespace) -> None:
+    n16, n16_passed = _run_sparse_backend_resolution(
+        16,
+        TARGET_SCALED_PRIMITIVE_CHANGES[0],
+    )
+    n32 = None
+    n32_passed = False
+    if n16_passed:
+        n32, n32_passed = _run_sparse_backend_resolution(
+            32,
+            TARGET_SCALED_PRIMITIVE_CHANGES[0],
+        )
+    passed = n16_passed and n32 is not None and n32_passed
+    output = {
+        "work_package": "WP10c5j",
+        "scope": (
+            "dense-certified local colored-central Jacobian with "
+            "max-norm-equilibrated sparse LU"
+        ),
+        "finite_difference_step": FINITE_DIFFERENCE_STEP,
+        "n16": n16,
+        "n32": n32,
+        "gates": {
+            "n16_sparse_parity_passed": n16_passed,
+            "n32_attempted": n32 is not None,
+            "n32_sparse_parity_passed": n32_passed,
+            "practical_backend_certified": passed,
+            "repeated_source_on_evolution_authorized": passed,
+            "tide_authorized": False,
+            "wind_authorized": False,
+        },
+        "decision": (
+            "practical_sparse_backend_certified"
+            if passed
+            else "stop_before_repeated_evolution"
+        ),
+    }
+    output_path = _absolute(
+        DEFAULT_SPARSE_BACKEND_OUTPUT
+        if args.output == DEFAULT_OUTPUT
+        else args.output
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = json.dumps(
+        output,
+        indent=2,
+        sort_keys=True,
+        default=_json_default,
+    )
+    output_path.write_text(serialized + "\n", encoding="utf-8")
+    print(serialized)
+
+
+def _adaptive_step_row(
+    accepted_step: int,
+    elapsed_time: float,
+    result,
+) -> dict:
+    step = result.step
+    return {
+        "accepted_step": accepted_step,
+        "elapsed_time_seconds": elapsed_time,
+        "dt_used_seconds": result.dt_used,
+        "dt_next_seconds": result.dt_next,
+        "attempts": [asdict(attempt) for attempt in result.attempts],
+        "maximum_scaled_residual": step.maximum_scaled_residual,
+        "maximum_scaled_algebraic_residual": (
+            step.maximum_scaled_algebraic_residual
+        ),
+        "maximum_scaled_primitive_change": (
+            step.maximum_scaled_primitive_change
+        ),
+        "maximum_scaled_total_change": (
+            step.maximum_scaled_total_change
+        ),
+        "conservation_telescoping_relative_defect": (
+            step.conservation_telescoping_relative_defect
+        ),
+        "minimum_scattering_optical_depth": (
+            step.minimum_scattering_optical_depth
+        ),
+        "outer_boundary_choked": step.outer_boundary_choked_after,
+        "iterations": step.iterations,
+        "function_evaluations": step.function_evaluations,
+        "jacobian_evaluations": step.jacobian_evaluations,
+        "maximum_linear_residual": step.maximum_linear_residual,
+        "jacobian_nonzeros": step.jacobian_nonzeros,
+        "jacobian_color_count": step.jacobian_color_count,
+    }
+
+
+def _integrated_rest_mass_increment(
+    context: CausalFiveFieldDAEContext,
+    physical_increment: np.ndarray,
+) -> float:
+    n_cells = int(context.grid.centers.size)
+    count = 15 * n_cells + 5
+    increment = np.asarray(
+        physical_increment,
+        dtype=float,
+    )
+    if increment.shape != (count,) or np.any(~np.isfinite(increment)):
+        raise ValueError("physical increment has the wrong shape or value")
+    conserved_increment = increment[: 5 * n_cells].reshape(
+        n_cells,
+        5,
+    )
+    weighted = (
+        np.asarray(context.grid.cell_measures, dtype=np.longdouble)
+        * np.asarray(
+            conserved_increment[:, 0],
+            dtype=np.longdouble,
+        )
+    )
+    return float(np.sum(weighted, dtype=np.longdouble))
+
+
+def _reconstructed_log_h_over_r(
+    context: CausalFiveFieldDAEContext,
+    vector: np.ndarray,
+    sample_log_radius: np.ndarray,
+) -> np.ndarray:
+    radius = np.asarray(context.grid.centers, dtype=float)
+    h_over_r = causal_five_field_h_over_r_profile(context, vector)
+    log_radius = np.log(radius)
+    log_h_over_r = np.log(h_over_r)
+    reconstructed = np.interp(
+        sample_log_radius,
+        log_radius,
+        log_h_over_r,
+    )
+    left = sample_log_radius < log_radius[0]
+    right = sample_log_radius > log_radius[-1]
+    reconstructed[left] = (
+        log_h_over_r[0]
+        + (
+            (log_h_over_r[1] - log_h_over_r[0])
+            / (log_radius[1] - log_radius[0])
+        )
+        * (sample_log_radius[left] - log_radius[0])
+    )
+    reconstructed[right] = (
+        log_h_over_r[-1]
+        + (
+            (log_h_over_r[-1] - log_h_over_r[-2])
+            / (log_radius[-1] - log_radius[-2])
+        )
+        * (sample_log_radius[right] - log_radius[-1])
+    )
+    return reconstructed
+
+
+def _reconstructed_h_over_r_summary(
+    context: CausalFiveFieldDAEContext,
+    vector: np.ndarray,
+) -> dict:
+    h_over_r = causal_five_field_h_over_r_profile(context, vector)
+    sample_log_radius = np.linspace(
+        np.log(float(context.grid.edges[0])),
+        np.log(float(context.grid.edges[-1])),
+        1025,
+    )
+    reconstructed = np.exp(
+        _reconstructed_log_h_over_r(
+            context,
+            vector,
+            sample_log_radius,
+        )
+    )
+    maximum_index = int(np.argmax(reconstructed))
+    return {
+        "raw_cell_center_maximum": float(np.max(h_over_r)),
+        "reconstructed_common_domain_maximum": float(
+            reconstructed[maximum_index]
+        ),
+        "reconstructed_maximum_radius_rg": float(
+            np.exp(sample_log_radius[maximum_index])
+            / context.grid.gravitational_radius
+        ),
+    }
+
+
+def _h_over_r_response_summary(
+    context: CausalFiveFieldDAEContext,
+    initial_vector: np.ndarray,
+    final_vector: np.ndarray,
+) -> dict:
+    sample_log_radius = np.linspace(
+        np.log(float(context.grid.edges[0])),
+        np.log(float(context.grid.edges[-1])),
+        129,
+    )
+    initial = _reconstructed_log_h_over_r(
+        context,
+        initial_vector,
+        sample_log_radius,
+    )
+    final = _reconstructed_log_h_over_r(
+        context,
+        final_vector,
+        sample_log_radius,
+    )
+    response = final - initial
+    return {
+        "method": (
+            "baseline-subtracted Delta log(H/R) from log-linear "
+            "cell-center reconstruction and one-cell edge extrapolation "
+            "on a shared 129-point log-radius grid"
+        ),
+        "sample_radius_rg": [
+            float(np.exp(value) / context.grid.gravitational_radius)
+            for value in sample_log_radius
+        ],
+        "delta_log_h_over_r": [float(value) for value in response],
+        "maximum_absolute_delta_log_h_over_r": float(
+            np.max(np.abs(response))
+        ),
+        "rms_delta_log_h_over_r": float(
+            np.sqrt(np.mean(response**2))
+        ),
+    }
+
+
+def _restart_payload(
+    state_vector: np.ndarray,
+    previous_increment: np.ndarray,
+    *,
+    elapsed_time: float,
+    dt_next: float,
+    previous_dt: float,
+    accepted_steps: int,
+    rejected_attempts: int,
+    n_cells: int,
+    role: str,
+) -> CausalFiveFieldAdaptiveRestart:
+    return CausalFiveFieldAdaptiveRestart(
+        state_vector=np.asarray(state_vector, dtype=float),
+        previous_physical_increment=np.asarray(
+            previous_increment,
+            dtype=float,
+        ),
+        elapsed_time=elapsed_time,
+        dt_next=dt_next,
+        previous_dt=previous_dt,
+        accepted_steps=accepted_steps,
+        rejected_attempts=rejected_attempts,
+        provenance={
+            "work_package": "WP10c5k",
+            "n_cells": n_cells,
+            "role": role,
+            "source": (
+                "exact circularized regression stream; not ballistic "
+                "Layer-1 calibration"
+            ),
+        },
+    )
+
+
+def _restart_roundtrip_is_bitwise(
+    original: CausalFiveFieldAdaptiveRestart,
+    restored: CausalFiveFieldAdaptiveRestart,
+) -> bool:
+    return bool(
+        np.array_equal(
+            original.state_vector,
+            restored.state_vector,
+        )
+        and np.array_equal(
+            original.previous_physical_increment,
+            restored.previous_physical_increment,
+        )
+        and original.elapsed_time == restored.elapsed_time
+        and original.dt_next == restored.dt_next
+        and original.previous_dt == restored.previous_dt
+        and original.accepted_steps == restored.accepted_steps
+        and original.rejected_attempts == restored.rejected_attempts
+        and original.provenance == restored.provenance
+    )
+
+
+def _adaptive_results_are_bitwise(left, right) -> bool:
+    scalar_step_fields = (
+        "accepted",
+        "timestep_seconds",
+        "maximum_scaled_residual",
+        "maximum_scaled_algebraic_residual",
+        "maximum_scaled_primitive_change",
+        "maximum_scaled_total_change",
+        "conservation_telescoping_relative_defect",
+        "component_conservation_defects",
+        "minimum_scattering_optical_depth",
+        "outer_boundary_choked_before",
+        "outer_boundary_choked_after",
+        "iterations",
+        "function_evaluations",
+        "jacobian_evaluations",
+        "maximum_linear_residual",
+        "jacobian_nonzeros",
+        "jacobian_color_count",
+        "message",
+    )
+    return bool(
+        left.accepted == right.accepted
+        and left.dt_used == right.dt_used
+        and left.dt_next == right.dt_next
+        and left.message == right.message
+        and np.array_equal(left.state_vector, right.state_vector)
+        and np.array_equal(
+            left.physical_increment,
+            right.physical_increment,
+        )
+        and np.array_equal(
+            left.step.state_vector,
+            right.step.state_vector,
+        )
+        and np.array_equal(
+            left.step.physical_increment,
+            right.step.physical_increment,
+        )
+        and all(
+            getattr(left.step, field) == getattr(right.step, field)
+            for field in scalar_step_fields
+        )
+        and left.attempts == right.attempts
+    )
+
+
+def _run_repeated_source_on_resolution(
+    n_cells: int,
+    *,
+    accepted_step_target: int | None,
+    elapsed_time_target: float | None,
+    perform_restart_resume_audit: bool,
+) -> tuple[dict, bool]:
+    initialization, artifacts = _run_increment_primary_resolution(
+        n_cells,
+        TARGET_SCALED_PRIMITIVE_CHANGES[0],
+        include_stream=True,
+    )
+    if not initialization["resolution_passed"]:
+        return {
+            "n_cells": n_cells,
+            "initialization_passed": False,
+            "passed": False,
+            "decision": "source_on_initialization_failed",
+        }, False
+    if (accepted_step_target is None) == (elapsed_time_target is None):
+        raise ValueError(
+            "repeated run requires exactly one duration target"
+        )
+
+    context = artifacts["context"]
+    initial_vector = np.asarray(artifacts["old_vector"], dtype=float)
+    state_vector = np.asarray(artifacts["new_vector"], dtype=float)
+    previous_increment = np.asarray(
+        artifacts["physical_increment"],
+        dtype=float,
+    )
+    previous_dt = float(artifacts["timestep_seconds"])
+    elapsed_time = previous_dt
+    dt_next = 1.5 * previous_dt
+    accepted_steps = 1
+    rejected_attempts = 0
+    config = CausalFiveFieldAdaptiveStepConfig(
+        minimum_dt=previous_dt / 128.0,
+        maximum_dt=16.0 * previous_dt,
+        maximum_scaled_primitive_change=5.0e-4,
+        maximum_scaled_total_change=1.0e-3,
+        shrink_factor=0.5,
+        growth_factor=1.5,
+        maximum_retries=6,
+        easy_iterations=3,
+        residual_tolerance=1.0e-8,
+        algebraic_residual_tolerance=1.0e-10,
+        conservation_tolerance=1.0e-10,
+        finite_difference_step=FINITE_DIFFERENCE_STEP,
+        maximum_newton_iterations=12,
+    ).validated()
+    if context.stream_sources is None:
+        raise RuntimeError("repeated source-on run has no stream")
+    source_rate = float(np.sum(context.stream_sources.rest_mass))
+    initial_summary = causal_five_field_state_summary(
+        context,
+        initial_vector,
+    )
+    initial_h_over_r = _reconstructed_h_over_r_summary(
+        context,
+        initial_vector,
+    )
+    first_summary = causal_five_field_state_summary(
+        context,
+        state_vector,
+    )
+    loading_time = causal_five_field_loading_time(
+        context,
+        initial_vector,
+    )
+    actual_mass_increments = [
+        _integrated_rest_mass_increment(
+            context,
+            artifacts["physical_increment"],
+        )
+    ]
+    expected_mass_increments = [
+        previous_dt
+        * (
+            source_rate
+            + first_summary["inner_face_rates"][0]
+            - first_summary["outer_face_rates"][0]
+        )
+    ]
+    step_rows = [
+        {
+            "accepted_step": 1,
+            "elapsed_time_seconds": elapsed_time,
+            "dt_used_seconds": previous_dt,
+            "dt_next_seconds": dt_next,
+            "attempts": [],
+            "maximum_scaled_residual": initialization["tiny_step"][
+                "maximum_scaled_residual"
+            ],
+            "maximum_scaled_algebraic_residual": initialization[
+                "tiny_step"
+            ]["maximum_scaled_algebraic_residual"],
+            "maximum_scaled_primitive_change": initialization[
+                "tiny_step"
+            ]["maximum_scaled_block_changes"]["primitive"],
+            "maximum_scaled_total_change": initialization["tiny_step"][
+                "maximum_scaled_change"
+            ],
+            "conservation_telescoping_relative_defect": initialization[
+                "tiny_step"
+            ]["conservation_telescoping_relative_defect"],
+            "minimum_scattering_optical_depth": initialization[
+                "tiny_step"
+            ]["minimum_scattering_optical_depth"],
+            "outer_boundary_choked": initialization["tiny_step"][
+                "outer_boundary_choked_after"
+            ],
+            "iterations": initialization["tiny_step"][
+                "solver_iterations"
+            ],
+            "function_evaluations": initialization["tiny_step"][
+                "function_evaluations"
+            ],
+            "jacobian_evaluations": initialization["tiny_step"][
+                "jacobian_evaluations"
+            ],
+            "backend": "dense_reference_startup",
+        }
+    ]
+    restart_directory = DEFAULT_RESTART_DIRECTORY
+    restart_directory.mkdir(parents=True, exist_ok=True)
+    midpoint_path = (
+        restart_directory
+        / f"causal_wp10c5k_N{n_cells:03d}_midpoint.npz"
+    )
+    final_path = (
+        restart_directory
+        / f"causal_wp10c5k_N{n_cells:03d}_final.npz"
+    )
+    restart_roundtrip_bitwise = not perform_restart_resume_audit
+    restart_resume_step_bitwise = not perform_restart_resume_audit
+    restart_audited = False
+    terminal_message = "target reached"
+    target_tolerance = (
+        0.0
+        if elapsed_time_target is None
+        else max(1.0e-20, 5.0e-14 * elapsed_time_target)
+    )
+
+    while True:
+        if accepted_step_target is not None:
+            if accepted_steps >= accepted_step_target:
+                break
+            requested_dt = dt_next
+        else:
+            assert elapsed_time_target is not None
+            remaining = elapsed_time_target - elapsed_time
+            if abs(remaining) <= target_tolerance:
+                break
+            if remaining <= 0.0:
+                terminal_message = "elapsed-time target overshot"
+                break
+            requested_dt = min(dt_next, remaining)
+        local_config = config
+        if requested_dt < config.minimum_dt:
+            local_config = replace(
+                config,
+                minimum_dt=requested_dt,
+            ).validated()
+
+        if (
+            perform_restart_resume_audit
+            and not restart_audited
+            and accepted_steps == 4
+        ):
+            midpoint = _restart_payload(
+                state_vector,
+                previous_increment,
+                elapsed_time=elapsed_time,
+                dt_next=dt_next,
+                previous_dt=previous_dt,
+                accepted_steps=accepted_steps,
+                rejected_attempts=rejected_attempts,
+                n_cells=n_cells,
+                role="midpoint_restart_resume_audit",
+            )
+            save_causal_five_field_adaptive_restart(
+                midpoint_path,
+                context,
+                midpoint,
+            )
+            restored = load_causal_five_field_adaptive_restart(
+                midpoint_path,
+                context,
+            )
+            restart_roundtrip_bitwise = (
+                _restart_roundtrip_is_bitwise(midpoint, restored)
+            )
+            original_result = (
+                advance_causal_five_field_adaptive_backward_euler(
+                    context,
+                    midpoint.state_vector,
+                    requested_dt,
+                    midpoint.previous_physical_increment,
+                    midpoint.previous_dt,
+                    local_config,
+                )
+            )
+            result = advance_causal_five_field_adaptive_backward_euler(
+                context,
+                restored.state_vector,
+                requested_dt,
+                restored.previous_physical_increment,
+                restored.previous_dt,
+                local_config,
+            )
+            restart_resume_step_bitwise = (
+                _adaptive_results_are_bitwise(
+                    original_result,
+                    result,
+                )
+            )
+            restart_audited = True
+            if (
+                not restart_roundtrip_bitwise
+                or not restart_resume_step_bitwise
+            ):
+                terminal_message = "restart parity gate failed"
+                break
+        else:
+            result = advance_causal_five_field_adaptive_backward_euler(
+                context,
+                state_vector,
+                requested_dt,
+                previous_increment,
+                previous_dt,
+                local_config,
+            )
+
+        rejected_attempts += max(0, len(result.attempts) - 1)
+        if not result.accepted:
+            terminal_message = result.message
+            break
+        state_vector = np.asarray(result.state_vector, dtype=float)
+        previous_increment = np.asarray(
+            result.physical_increment,
+            dtype=float,
+        )
+        previous_dt = result.dt_used
+        dt_next = result.dt_next
+        elapsed_time += result.dt_used
+        accepted_steps += 1
+        accepted_summary = causal_five_field_state_summary(
+            context,
+            state_vector,
+        )
+        actual_mass_increments.append(
+            _integrated_rest_mass_increment(
+                context,
+                result.physical_increment,
+            )
+        )
+        expected_mass_increments.append(
+            result.dt_used
+            * (
+                source_rate
+                + accepted_summary["inner_face_rates"][0]
+                - accepted_summary["outer_face_rates"][0]
+            )
+        )
+        step_rows.append(
+            _adaptive_step_row(
+                accepted_steps,
+                elapsed_time,
+                result,
+            )
+        )
+
+    final_restart = _restart_payload(
+        state_vector,
+        previous_increment,
+        elapsed_time=elapsed_time,
+        dt_next=dt_next,
+        previous_dt=previous_dt,
+        accepted_steps=accepted_steps,
+        rejected_attempts=rejected_attempts,
+        n_cells=n_cells,
+        role="final_repeated_source_on_state",
+    )
+    save_causal_five_field_adaptive_restart(
+        final_path,
+        context,
+        final_restart,
+    )
+    restored_final = load_causal_five_field_adaptive_restart(
+        final_path,
+        context,
+    )
+    final_restart_roundtrip_bitwise = (
+        _restart_roundtrip_is_bitwise(
+            final_restart,
+            restored_final,
+        )
+    )
+    final_summary = causal_five_field_state_summary(
+        context,
+        state_vector,
+    )
+    final_h_over_r = _reconstructed_h_over_r_summary(
+        context,
+        state_vector,
+    )
+    h_over_r_response = _h_over_r_response_summary(
+        context,
+        initial_vector,
+        state_vector,
+    )
+    endpoint_subtraction_mass_change = (
+        final_summary["integrated_conserved"][0]
+        - initial_summary["integrated_conserved"][0]
+    )
+    actual_mass_change = math.fsum(actual_mass_increments)
+    expected_mass_change = math.fsum(expected_mass_increments)
+    mass_budget_relative_defect = float(
+        abs(actual_mass_change - expected_mass_change)
+        / max(
+            abs(actual_mass_change),
+            abs(expected_mass_change),
+            source_rate * elapsed_time,
+            1.0,
+        )
+    )
+    if accepted_step_target is not None:
+        target_reached = accepted_steps == accepted_step_target
+    else:
+        assert elapsed_time_target is not None
+        target_reached = (
+            abs(elapsed_time - elapsed_time_target)
+            <= target_tolerance
+        )
+    all_step_gates_passed = all(
+        row["maximum_scaled_residual"] <= 1.0e-8
+        and row["maximum_scaled_algebraic_residual"] <= 1.0e-10
+        and row["maximum_scaled_primitive_change"] <= 5.0e-4
+        and row["maximum_scaled_total_change"] <= 1.0e-3
+        and row["conservation_telescoping_relative_defect"]
+        <= 1.0e-10
+        and row["minimum_scattering_optical_depth"] > 1.0
+        for row in step_rows
+    )
+    passed = bool(
+        target_reached
+        and all_step_gates_passed
+        and restart_roundtrip_bitwise
+        and restart_resume_step_bitwise
+        and final_restart_roundtrip_bitwise
+        and mass_budget_relative_defect <= 1.0e-10
+    )
+    report = {
+        "n_cells": n_cells,
+        "initialization_passed": True,
+        "target": {
+            "accepted_steps": accepted_step_target,
+            "elapsed_time_seconds": elapsed_time_target,
+        },
+        "accepted_steps": accepted_steps,
+        "rejected_attempts": rejected_attempts,
+        "elapsed_time_seconds": elapsed_time,
+        "loading_time_seconds": loading_time,
+        "elapsed_loading_time_fraction": elapsed_time / loading_time,
+        "source_rate_g_s": source_rate,
+        "initial_state": initial_summary,
+        "final_state": final_summary,
+        "h_over_r_reconstruction": {
+            "method": (
+                "log-linear cell-center reconstruction and one-cell "
+                "edge extrapolation on a shared 1025-point log-radius grid"
+            ),
+            "initial": initial_h_over_r,
+            "final": final_h_over_r,
+        },
+        "h_over_r_response": h_over_r_response,
+        "mass_budget": {
+            "cancellation_safe_actual_change_g": actual_mass_change,
+            "endpoint_subtraction_change_g": (
+                endpoint_subtraction_mass_change
+            ),
+            "endpoint_subtraction_relative_defect": float(
+                abs(
+                    endpoint_subtraction_mass_change
+                    - actual_mass_change
+                )
+                / max(abs(actual_mass_change), 1.0)
+            ),
+            "expected_change_g": expected_mass_change,
+            "injected_mass_g": source_rate * elapsed_time,
+            "relative_defect": mass_budget_relative_defect,
+        },
+        "restart": {
+            "midpoint_path": (
+                str(midpoint_path.relative_to(ROOT))
+                if perform_restart_resume_audit
+                else None
+            ),
+            "roundtrip_bitwise": restart_roundtrip_bitwise,
+            "resume_step_bitwise": restart_resume_step_bitwise,
+            "final_path": str(final_path.relative_to(ROOT)),
+            "final_roundtrip_bitwise": (
+                final_restart_roundtrip_bitwise
+            ),
+        },
+        "steps": step_rows,
+        "target_reached": target_reached,
+        "all_step_gates_passed": all_step_gates_passed,
+        "passed": passed,
+        "terminal_message": terminal_message,
+        "decision": (
+            "short_repeated_source_on_gate_passed"
+            if passed
+            else "short_repeated_source_on_gate_failed"
+        ),
+    }
+    return report, passed
+
+
+def _repeated_mesh_comparison(n16: dict, n32: dict) -> dict:
+    supply16 = n16["source_rate_g_s"]
+    supply32 = n32["source_rate_g_s"]
+
+    def metrics(run: dict, supply: float) -> dict:
+        injected = supply * run["elapsed_time_seconds"]
+        return {
+            "mass_response_per_injected_mass": (
+                run["mass_budget"][
+                    "cancellation_safe_actual_change_g"
+                ]
+                / injected
+            ),
+            "inner_mass_flux_over_supply": (
+                run["final_state"]["inner_face_rates"][0] / supply
+            ),
+            "outer_mass_flux_over_supply": (
+                run["final_state"]["outer_face_rates"][0] / supply
+            ),
+            "maximum_h_over_r": run["final_state"]["maximum_h_over_r"],
+            "reconstructed_maximum_h_over_r": (
+                run["h_over_r_reconstruction"]["final"][
+                    "reconstructed_common_domain_maximum"
+                ]
+            ),
+            "maximum_absolute_delta_log_h_over_r": (
+                run["h_over_r_response"][
+                    "maximum_absolute_delta_log_h_over_r"
+                ]
+            ),
+            "rms_delta_log_h_over_r": (
+                run["h_over_r_response"]["rms_delta_log_h_over_r"]
+            ),
+        }
+
+    left = metrics(n16, supply16)
+    right = metrics(n32, supply32)
+    left_radius = np.asarray(
+        n16["h_over_r_response"]["sample_radius_rg"],
+        dtype=float,
+    )
+    right_radius = np.asarray(
+        n32["h_over_r_response"]["sample_radius_rg"],
+        dtype=float,
+    )
+    if not np.array_equal(left_radius, right_radius):
+        raise RuntimeError("H/R response samples do not share radii")
+    left_response = np.asarray(
+        n16["h_over_r_response"]["delta_log_h_over_r"],
+        dtype=float,
+    )
+    right_response = np.asarray(
+        n32["h_over_r_response"]["delta_log_h_over_r"],
+        dtype=float,
+    )
+    response_difference = left_response - right_response
+    differences = {
+        "mass_response_per_injected_mass": abs(
+            left["mass_response_per_injected_mass"]
+            - right["mass_response_per_injected_mass"]
+        ),
+        "inner_mass_flux_over_supply": abs(
+            left["inner_mass_flux_over_supply"]
+            - right["inner_mass_flux_over_supply"]
+        ),
+        "outer_mass_flux_over_supply": abs(
+            left["outer_mass_flux_over_supply"]
+            - right["outer_mass_flux_over_supply"]
+        ),
+        "reconstructed_maximum_h_over_r_relative": abs(
+            left["reconstructed_maximum_h_over_r"]
+            - right["reconstructed_maximum_h_over_r"]
+        )
+        / max(
+            abs(left["reconstructed_maximum_h_over_r"]),
+            abs(right["reconstructed_maximum_h_over_r"]),
+            np.finfo(float).tiny,
+        ),
+        "raw_cell_center_maximum_h_over_r_relative": abs(
+            left["maximum_h_over_r"] - right["maximum_h_over_r"]
+        )
+        / max(
+            abs(left["maximum_h_over_r"]),
+            abs(right["maximum_h_over_r"]),
+            np.finfo(float).tiny,
+        ),
+        "maximum_delta_log_h_over_r_response_difference": float(
+            np.max(np.abs(response_difference))
+        ),
+        "rms_delta_log_h_over_r_response_difference": float(
+            np.sqrt(np.mean(response_difference**2))
+        ),
+    }
+    gates = {
+        "mass_response_per_injected_mass": 0.05,
+        "inner_mass_flux_over_supply": 0.05,
+        "outer_mass_flux_over_supply": 0.05,
+        "maximum_delta_log_h_over_r_response_difference": 5.0e-3,
+    }
+    passed = all(
+        differences[name] <= limit
+        for name, limit in gates.items()
+    )
+    return {
+        "n16": left,
+        "n32": right,
+        "absolute_or_relative_differences": differences,
+        "gates": gates,
+        "passed": passed,
+    }
+
+
+def _run_repeated_source_on_audit(args: argparse.Namespace) -> None:
+    n16, n16_passed = _run_repeated_source_on_resolution(
+        16,
+        accepted_step_target=8,
+        elapsed_time_target=None,
+        perform_restart_resume_audit=True,
+    )
+    n32 = None
+    n32_passed = False
+    mesh = None
+    if n16_passed:
+        n32, n32_passed = _run_repeated_source_on_resolution(
+            32,
+            accepted_step_target=None,
+            elapsed_time_target=n16["elapsed_time_seconds"],
+            perform_restart_resume_audit=False,
+        )
+    if n32_passed:
+        mesh = _repeated_mesh_comparison(n16, n32)
+    passed = bool(
+        n16_passed
+        and n32_passed
+        and mesh is not None
+        and mesh["passed"]
+    )
+    output = {
+        "work_package": "WP10c5k",
+        "scope": (
+            "short adaptive exact-stream no-tide repeated startup with "
+            "restart and N16/N32 equal-time gates"
+        ),
+        "n16": n16,
+        "n32": n32,
+        "mesh_comparison": mesh,
+        "gates": {
+            "n16_repeated_passed": n16_passed,
+            "n32_attempted": n32 is not None,
+            "n32_equal_time_passed": n32_passed,
+            "mesh_gate_passed": (
+                mesh["passed"] if mesh is not None else False
+            ),
+            "short_no_tide_startup_certified": passed,
+            "long_evolution_authorized": False,
+            "stability_certified": False,
+            "hot_state_certified": False,
+            "limit_cycle_certified": False,
+            "tide_authorized": False,
+            "wind_authorized": False,
+        },
+        "decision": (
+            "short_repeated_source_on_mesh_gate_passed"
+            if passed
+            else "stop_before_long_or_forced_evolution"
+        ),
+    }
+    output_path = _absolute(
+        DEFAULT_REPEATED_SOURCE_ON_OUTPUT
+        if args.output == DEFAULT_OUTPUT
+        else args.output
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = json.dumps(
+        output,
+        indent=2,
+        sort_keys=True,
+        default=_json_default,
+    )
+    output_path.write_text(serialized + "\n", encoding="utf-8")
+    print(serialized)
+
+
+def _run_increment_primary_audit(
+    args: argparse.Namespace,
+    *,
+    include_stream: bool = False,
+) -> None:
     n16_attempts = []
     selected_n16_artifacts = None
     for target_change in TARGET_SCALED_PRIMITIVE_CHANGES:
         attempt, artifacts = _run_increment_primary_resolution(
             16,
             target_change,
+            include_stream=include_stream,
         )
         n16_attempts.append(attempt)
         selected_n16_artifacts = artifacts
@@ -2077,6 +3485,7 @@ def _run_increment_primary_audit(args: argparse.Namespace) -> None:
             selected_n16["tiny_step"][
                 "target_scaled_primitive_change"
             ],
+            include_stream=include_stream,
         )
     all_passed = (
         selected_n16["resolution_passed"]
@@ -2106,10 +3515,17 @@ def _run_increment_primary_audit(args: argparse.Namespace) -> None:
         and temporal_n32["passed"]
     )
     output = {
-        "work_package": "WP10c5h",
+        "work_package": "WP10c5i" if include_stream else "WP10c5h",
         "scope": (
-            "full-DAE primary-increment backward Euler with direct "
-            "conserved storage"
+            (
+                "full-DAE primary-increment backward Euler with direct "
+                "conserved storage and exact circularized stream moments"
+            )
+            if include_stream
+            else (
+                "full-DAE primary-increment backward Euler with direct "
+                "conserved storage"
+            )
         ),
         "rank_relative_threshold": RANK_THRESHOLD,
         "finite_difference_step": FINITE_DIFFERENCE_STEP,
@@ -2120,6 +3536,7 @@ def _run_increment_primary_audit(args: argparse.Namespace) -> None:
             "n32": temporal_n32,
         },
         "gates": {
+            "exact_stream_enabled": include_stream,
             "n16_passed": selected_n16["resolution_passed"],
             "n32_attempted": n32_result is not None,
             "n32_passed": (
@@ -2138,7 +3555,11 @@ def _run_increment_primary_audit(args: argparse.Namespace) -> None:
             "wind_authorized": False,
         },
         "decision": (
-            "increment_primary_startup_gate_passed"
+            (
+                "source_on_increment_primary_startup_gate_passed"
+                if include_stream
+                else "increment_primary_startup_gate_passed"
+            )
             if temporal_passed
             else (
                 "stop_after_temporal_refinement"
@@ -2147,7 +3568,11 @@ def _run_increment_primary_audit(args: argparse.Namespace) -> None:
             )
         ),
     }
-    output_path = _absolute(args.output)
+    output_path = _absolute(
+        DEFAULT_SOURCE_ON_OUTPUT
+        if include_stream and args.output == DEFAULT_OUTPUT
+        else args.output
+    )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     serialized = json.dumps(
         output,
@@ -2161,6 +3586,15 @@ def _run_increment_primary_audit(args: argparse.Namespace) -> None:
 
 def main() -> None:
     args = _arguments()
+    if args.increment_primary_repeated_source_on_audit:
+        _run_repeated_source_on_audit(args)
+        return
+    if args.increment_primary_sparse_backend_audit:
+        _run_sparse_backend_audit(args)
+        return
+    if args.increment_primary_source_on_audit:
+        _run_increment_primary_audit(args, include_stream=True)
+        return
     if args.increment_primary_audit:
         _run_increment_primary_audit(args)
         return
