@@ -109,6 +109,40 @@ rejected sequence.
     but the stationary response is stably `244/245`, localized to an outer
     thermal/stress direction. The locked gate stops before N64/N96 roots and a
     timestep pending one reduced primitive null-mode audit.
+29. **Reduced primitive null audit:** exact elimination of the `165/165`
+    conserved-state and face-flux identity block produces an `80/80` primitive
+    stationary response. Direct remapping and the Schur operator agree to
+    `2.99e-11`, the outer thermal/stress response is `2/2`, and opening the
+    same Roche provider strengthens rather than supplies the weak direction.
+    The former `244/245` result is flux-primary embedding conditioning at a
+    nonroot seed, not a missing boundary condition or physical marginal mode.
+30. **Index-one consistent initialization:** the N16 descriptor and algebraic
+    tangent system is `245/245` and balances the nonzero conservation residual
+    below `9.1e-15`. Two bounded tangent-sized backward-Euler attempts preserve
+    exact algebraic maps but stop at `4.79e-6` and `1.40e-6`, localized to
+    outer-cell mass and angular-momentum temporal storage. N32 and physical
+    evolution remain blocked pending one cancellation-safe storage-increment
+    audit.
+31. **Cancellation-safe temporal storage:** direct endpoint subtraction differs
+    from the converged primitive-path storage rate by as much as `7.05e-6`.
+    The path identity converges below `2.53e-9` and telescopes below `5.60e-17`,
+    but its two bounded N16 steps still stop at `3.77e-6` and `1.42e-6`.
+    Storage cancellation is real but not the sole blocker; the remaining floor
+    tracks a reduced Newton condition near `1.03e10`, and N32 remains blocked.
+32. **Frozen reduced linear precision:** LAPACK equilibration reduces the final
+    N16 matrix condition estimate from `1.03e10` to `27.5`, but direct and
+    iteratively refined corrections agree to `2.62e-14` and solve the linear
+    equation to `1.49e-16`. A fourth-order Jacobian agrees to `4.47e-12`, and
+    every full correction gives nonlinear residual `3.35e-6`. No recoverable
+    linear precision is found, so N16 is not repeated and N32 remains blocked.
+33. **Component directional consistency:** compensated diagnostic differences
+    reconstruct the residual change below `2.8e-16`. Flux, source, and
+    responsive-height blocks follow the Newton direction below `2.1e-13`,
+    while path conserved storage alone misses by `3.35e-6`. One authorized
+    fixed-coordinate Jacobian-vector repair passes focused tests but its
+    single N16 retry still stops at `1.42473e-6`; the post-repair storage defect
+    is `1.42457e-6`. N32 remains blocked. Any continuation must carry
+    `Delta U` as a primary unknown rather than perform another storage scan.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

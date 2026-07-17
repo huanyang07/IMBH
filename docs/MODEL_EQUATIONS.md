@@ -1230,3 +1230,139 @@ backward-Euler Jacobians are full rank for the audited timesteps. The
 stationary Jacobian is, however, stably `244/245` under the declared rank
 threshold. Therefore the equations above are implemented, but stationary
 production roots remain blocked pending a reduced primitive null-mode audit.
+
+### Reduced primitive response and consistent initial data
+
+WP10c5c partitions the stationary unknowns into algebraic conserved/face
+variables `q` and cell primitives `p`. Linearized primitive-map and face-map
+rows give
+
+```text
+A_qq delta q + A_qp delta p = 0,
+delta q = -A_qq^(-1) A_qp delta p.
+```
+
+Substitution into the conservation rows gives the exact scaled primitive
+response
+
+```text
+J_red = A_pp - A_pq A_qq^(-1) A_qp.
+```
+
+At N16, `A_qq` is `165/165` with condition approximately one. The direct
+primitive-only conservation derivative and the Schur operator agree to
+`2.99e-11` in relative Frobenius norm and to `5.04e-12` under an
+operator-scaled directional test. `J_red` is `80/80`; after eliminating the
+other 78 primitives, the outer `(ln T, chi)` response is also `2/2`.
+Therefore the flux-primary stationary rank `244/245` is an embedding/scaling
+conditioning result at the nonstationary seed, not an exact missing physical
+constraint.
+
+For a nonstationary but algebraically consistent state, WP10c5d obtains the
+continuous storage derivative from
+
+```text
+M = Delta t (J_BE - J_stationary)
+```
+
+and solves the index-one tangent system
+
+```text
+[ M_conservation ] ydot = [ -R_conservation ]
+[ A_algebraic    ]        [         0       ].
+```
+
+The N16 matrix is full rank `245/245`, the descriptor conservation block is
+`80/80`, and the tangent balances storage and algebraic constraints below
+`9.1e-15`. This certifies consistent initialization, not a stationary root or
+physical stability.
+
+Two tangent-sized backward-Euler attempts, with maximum predicted primitive
+changes `1e-4` and `1e-3`, retain exact primitive and face maps but stop at
+scaled conservation residuals `4.79e-6` and `1.40e-6`. The controlling rows
+are the outermost rest-mass and angular-momentum storage equations,
+respectively. The finite temporal-storage difference must therefore be
+audited against a path-integrated primitive-storage Jacobian before any N32
+step, stationary-root campaign, tide, wind, or physical evolution.
+
+WP10c5e performs that audit. For exact-map reduced states, a
+cancellation-safe option replaces endpoint subtraction with
+
+```text
+Delta U =
+integral_0^1 J_U(p_old + lambda Delta p) Delta p dlambda.
+```
+
+The same straight primitive path carries the nonconservative height work:
+
+```text
+Delta W_H =
+integral_0^1 Pi(lambda) dlnH/dlambda dlambda.
+```
+
+The mapped-state derivative uses a fourth-order centered directional
+difference in its original form, and the selected finite increment uses
+two-node Gauss-Legendre quadrature. WP10c5g replaces the endpoint-dependent
+magnitude/direction normalization with the algebraically equivalent
+fixed-coordinate Jacobian-vector product
+
+```text
+dU/dlambda = sum_a (dU/dq_a) Delta q_a.
+```
+
+Orders four and eight and half/double coordinate steps are retained as audits.
+This path mode requires exact conserved/primitive maps and does not replace the
+endpoint storage of an unconstrained flux-primary Newton iterate.
+
+At N16, order and directional-step defects remain below `2.53e-9`, while the
+five-field global ledger telescopes below `5.60e-17`. Endpoint/path rate
+differences reach `7.05e-6`, confirming cancellation. The path-integrated
+backward-Euler steps nevertheless stop at `3.77e-6` and `1.42e-6`. Their
+reduced Newton matrices have condition estimates near `1.03e10`; therefore
+N32 and physical evolution remain blocked pending, at most, one
+frozen-candidate linear-solve precision audit.
+
+WP10c5f performs that frozen audit. LAPACK row/column equilibration changes
+the matrix condition estimate from `1.03e10` to `27.5`, and iterative
+refinement reports backward error `9.86e-17`. The direct and refined
+corrections differ by only `2.62e-14`, while their linear residuals are
+`1.49e-16`.
+
+One fourth-order centered Jacobian at the same declared perturbation differs
+from the second-order matrix by `4.47e-12` in relative Frobenius norm. Direct,
+refined, and fourth-order corrections all produce the same nonlinear residual
+`3.35e-6`. Linear-solve precision and the declared Jacobian derivative are
+therefore excluded as timestep unlocks. The next admissible numerical audit
+is component-wise verification of
+
+```text
+R(p + delta p) - R(p) = J delta p + O(|delta p|^2)
+```
+
+for face flux, sources, path storage, and height work separately.
+
+WP10c5g performs that component audit. Compensated differences are diagnostic
+only. The component sum reproduces the production residual change below
+`2.8e-16`. Face-flux, geometric/thermal-source, and responsive-height-work
+changes agree with the fourth-order directional prediction to `2.51e-15`,
+`5.13e-15`, and `1.91e-13`, respectively. Path conserved storage alone misses
+by `3.34921e-6`, even though its second- and fourth-order predictions agree to
+`2.88e-13`.
+
+The fixed-coordinate path derivative passes focused tiny-endpoint tests and
+retains path convergence below `5e-9`. Its one authorized N16 retry still stops
+at `1.4247308e-6`; the post-repair storage defect is `1.42457e-6`, while all
+other component defects remain below `2.09e-13`. Finite-difference path
+storage is therefore rejected as the timestep unlock.
+
+The next admissible representation, if work continues, is the same complete
+`15N+5` backward-Euler DAE written in primary increments:
+
+```text
+(Delta U_cell, Delta p_cell, Delta F_face).
+```
+
+Then the amplified temporal term is the primary `Delta U_cell / Delta t`.
+Primitive and numerical-face maps remain algebraic rows without `1/Delta t`
+amplification. The responsive-height path one-form may remain because it
+passes the component directional gate.

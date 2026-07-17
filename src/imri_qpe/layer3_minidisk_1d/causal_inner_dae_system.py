@@ -151,6 +151,7 @@ class CausalFiveFieldDAEEvaluation:
     proper_shear_rates: np.ndarray
     proper_log_height_rates: np.ndarray
     scattering_optical_depths: np.ndarray
+    temporal_conserved_storage: np.ndarray
     temporal_vertical_storage: np.ndarray
     outer_boundary_choked: bool
     outer_incoming_characteristics: int
@@ -197,6 +198,106 @@ class CausalFiveFieldJacobianAudit:
     @property
     def full_rank(self) -> bool:
         return self.numerical_rank == min(self.dimensions)
+
+
+@dataclass(frozen=True)
+class CausalFiveFieldOuterThermalStressAudit:
+    """Two-variable response after eliminating all other primitives."""
+
+    interior_dimensions: tuple[int, int]
+    interior_numerical_rank: int
+    interior_condition_estimate: float
+    response_matrix: np.ndarray
+    singular_values: np.ndarray
+    numerical_rank: int
+    condition_estimate: float
+    determinant: float
+
+    @property
+    def interior_full_rank(self) -> bool:
+        return self.interior_numerical_rank == min(self.interior_dimensions)
+
+
+@dataclass(frozen=True)
+class CausalFiveFieldReducedJacobianAudit:
+    """Primitive-only stationary response and full-system Schur comparison."""
+
+    dimensions: tuple[int, int]
+    numerical_rank: int
+    singular_values: np.ndarray
+    smallest_singular_value: float
+    largest_singular_value: float
+    condition_estimate: float
+    finite_difference_step: float
+    direct_scaled_jacobian: np.ndarray
+    schur_scaled_jacobian: np.ndarray
+    schur_singular_values: np.ndarray
+    schur_numerical_rank: int
+    schur_condition_estimate: float
+    maximum_absolute_matrix_defect: float
+    relative_frobenius_matrix_defect: float
+    maximum_directional_relative_defect: float
+    maximum_directional_operator_scaled_defect: float
+    algebraic_dimensions: tuple[int, int]
+    algebraic_numerical_rank: int
+    algebraic_condition_estimate: float
+    reconstructed_algebraic_residual_norm: float
+    reconstructed_full_residual_norm: float
+    full_weakest_vector_alignment: float
+    weakest_right_singular_vector: np.ndarray
+    weakest_left_singular_vector: np.ndarray
+    reconstructed_full_scaled_vector: np.ndarray
+    outer_thermal_stress: CausalFiveFieldOuterThermalStressAudit
+    outer_boundary_choked: bool
+
+    @property
+    def full_rank(self) -> bool:
+        return self.numerical_rank == min(self.dimensions)
+
+    @property
+    def algebraic_full_rank(self) -> bool:
+        return self.algebraic_numerical_rank == min(
+            self.algebraic_dimensions
+        )
+
+
+@dataclass(frozen=True)
+class CausalFiveFieldConsistentInitialDataAudit:
+    """Index-one storage balance and algebraic-tangent compatibility."""
+
+    dimensions: tuple[int, int]
+    numerical_rank: int
+    singular_values: np.ndarray
+    condition_estimate: float
+    descriptor_dimensions: tuple[int, int]
+    descriptor_numerical_rank: int
+    maximum_initial_algebraic_residual: float
+    maximum_scaled_consistency_residual: float
+    scaled_tangent: np.ndarray
+    maximum_scaled_tangent: float
+    maximum_scaled_primitive_tangent: float
+    storage_balance_residual_norm: float
+    algebraic_tangent_residual_norm: float
+
+    @property
+    def full_rank(self) -> bool:
+        return self.numerical_rank == min(self.dimensions)
+
+    @property
+    def descriptor_full_row_rank(self) -> bool:
+        return self.descriptor_numerical_rank == self.descriptor_dimensions[0]
+
+
+@dataclass(frozen=True)
+class CausalFiveFieldTemporalStorageIncrement:
+    """Finite storage increment along one declared primitive-space path."""
+
+    conserved_increment: np.ndarray
+    vertical_killing_increment: np.ndarray
+    vertical_work_per_area: np.ndarray
+    quadrature_order: int
+    directional_step: float
+    scheme: str
 
 
 def pack_causal_five_field_state(
@@ -625,6 +726,7 @@ def evaluate_causal_five_field_dae(
     *,
     old_vector: np.ndarray | None = None,
     timestep_seconds: float | None = None,
+    temporal_storage_scheme: str = "endpoint",
 ) -> CausalFiveFieldDAEEvaluation:
     """Evaluate the stationary or backward-Euler flux-primary residual."""
 
@@ -637,6 +739,8 @@ def evaluate_causal_five_field_dae(
         not np.isfinite(timestep_seconds) or timestep_seconds <= 0.0
     ):
         raise ValueError("backward-Euler timestep must be positive and finite")
+    if temporal_storage_scheme not in ("endpoint", "path_integrated"):
+        raise ValueError("unknown temporal-storage scheme")
 
     cell_states, mapped, numerical_fluxes, choked, incoming = (
         _mapped_state_and_fluxes(context, state.primitives)
@@ -657,37 +761,86 @@ def evaluate_causal_five_field_dae(
         - state.weighted_face_fluxes_over_c[:-1]
         - sources
     )
+    temporal_conserved_storage = np.zeros(
+        (n_cells, _N_FIELDS),
+        dtype=float,
+    )
     temporal_storage = np.zeros((n_cells, 4), dtype=float)
     if old_vector is not None:
         assert timestep_seconds is not None
         old = unpack_causal_five_field_state(old_vector, n_cells)
         coordinate_timestep = C * timestep_seconds
-        conservation += (
+        if temporal_storage_scheme == "endpoint":
+            conserved_increment = state.conserved - old.conserved
+            vertical_increment = np.zeros((n_cells, 4), dtype=float)
+            for index, (cell_state, old_chart) in enumerate(
+                zip(cell_states, old.primitives, strict=True)
+            ):
+                _old_geometry, old_thermodynamics, _old_primitive = (
+                    _primitive_from_chart(
+                        context,
+                        float(context.grid.centers[index]),
+                        old_chart,
+                    )
+                )
+                storage = causal_temporal_vertical_work_storage(
+                    cell_state.geometry,
+                    cell_state.primitive,
+                    old_thermodynamics,
+                    cell_state.thermodynamics,
+                )
+                vertical_increment[index] = (
+                    storage.killing_storage_increment
+                )
+        else:
+            old_mapped = np.asarray(
+                [
+                    _cell_state(
+                        context,
+                        float(radius),
+                        chart,
+                    ).conserved
+                    for radius, chart in zip(
+                        context.grid.centers,
+                        old.primitives,
+                        strict=True,
+                    )
+                ],
+                dtype=float,
+            )
+            old_scale = np.maximum(np.abs(old_mapped), 1.0)
+            new_scale = np.maximum(np.abs(mapped), 1.0)
+            if (
+                np.max(
+                    np.abs(old.conserved - old_mapped) / old_scale
+                )
+                > 1.0e-12
+                or np.max(
+                    np.abs(state.conserved - mapped) / new_scale
+                )
+                > 1.0e-12
+            ):
+                raise ValueError(
+                    "path-integrated storage requires exact primitive maps"
+                )
+            path = causal_five_field_path_temporal_storage_increment(
+                context,
+                old.primitives,
+                state.primitives,
+            )
+            conserved_increment = path.conserved_increment
+            vertical_increment = path.vertical_killing_increment
+        temporal_conserved_storage = (
             context.grid.cell_measures[:, None]
-            * (state.conserved - old.conserved)
+            * conserved_increment
             / coordinate_timestep
         )
-        for index, (cell_state, old_chart) in enumerate(
-            zip(cell_states, old.primitives, strict=True)
-        ):
-            _old_geometry, old_thermodynamics, _old_primitive = (
-                _primitive_from_chart(
-                    context,
-                    float(context.grid.centers[index]),
-                    old_chart,
-                )
-            )
-            storage = causal_temporal_vertical_work_storage(
-                cell_state.geometry,
-                cell_state.primitive,
-                old_thermodynamics,
-                cell_state.thermodynamics,
-            )
-            temporal_storage[index] = (
-                context.grid.cell_measures[index]
-                * storage.killing_storage_increment
-                / coordinate_timestep
-            )
+        conservation += temporal_conserved_storage
+        temporal_storage = (
+            context.grid.cell_measures[:, None]
+            * vertical_increment
+            / coordinate_timestep
+        )
         conservation[:, :4] += temporal_storage
 
     primitive_map = state.conserved - mapped
@@ -722,6 +875,7 @@ def evaluate_causal_five_field_dae(
         proper_shear_rates=shear_rates,
         proper_log_height_rates=height_rates,
         scattering_optical_depths=optical_depths,
+        temporal_conserved_storage=temporal_conserved_storage,
         temporal_vertical_storage=temporal_storage,
         outer_boundary_choked=choked,
         outer_incoming_characteristics=incoming,
@@ -747,6 +901,288 @@ def causal_five_field_state_from_primitives(
         primitives=np.array(primitives, copy=True),
         weighted_face_fluxes_over_c=faces,
     ).validated()
+
+
+def causal_five_field_reduced_stationary_residual(
+    primitive_vector: np.ndarray,
+    context: CausalFiveFieldDAEContext,
+) -> np.ndarray:
+    """Return conservation rows after exact primitive/face elimination."""
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    primitives = np.asarray(primitive_vector, dtype=float)
+    if (
+        primitives.shape != (_N_FIELDS * n_cells,)
+        or np.any(~np.isfinite(primitives))
+    ):
+        raise ValueError("reduced primitive vector has the wrong shape or value")
+    state = causal_five_field_state_from_primitives(
+        context,
+        primitives.reshape(n_cells, _N_FIELDS),
+    )
+    evaluation = evaluate_causal_five_field_dae(
+        pack_causal_five_field_state(state),
+        context,
+    )
+    return np.asarray(evaluation.conservation_rows, dtype=float).ravel()
+
+
+def causal_five_field_reduced_backward_euler_residual(
+    primitive_vector: np.ndarray,
+    context: CausalFiveFieldDAEContext,
+    *,
+    old_vector: np.ndarray,
+    timestep_seconds: float,
+    temporal_storage_scheme: str = "endpoint",
+) -> np.ndarray:
+    """Return backward-Euler conservation after exact map elimination."""
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    primitives = np.asarray(primitive_vector, dtype=float)
+    if (
+        primitives.shape != (_N_FIELDS * n_cells,)
+        or np.any(~np.isfinite(primitives))
+    ):
+        raise ValueError("reduced primitive vector has the wrong shape or value")
+    old = np.asarray(old_vector, dtype=float)
+    expected = causal_five_field_dae_count(n_cells).total_unknowns
+    if old.shape != (expected,) or np.any(~np.isfinite(old)):
+        raise ValueError("old DAE state has the wrong shape or value")
+    state = causal_five_field_state_from_primitives(
+        context,
+        primitives.reshape(n_cells, _N_FIELDS),
+    )
+    evaluation = evaluate_causal_five_field_dae(
+        pack_causal_five_field_state(state),
+        context,
+        old_vector=old,
+        timestep_seconds=timestep_seconds,
+        temporal_storage_scheme=temporal_storage_scheme,
+    )
+    return np.asarray(evaluation.conservation_rows, dtype=float).ravel()
+
+
+def _vertical_storage_increment_from_work(
+    geometry: KerrSchildColumnGeometry,
+    primitive: ValenciaPerfectFluidPrimitive,
+    work_per_area: float,
+) -> np.ndarray:
+    four_velocity = kerr_schild_column_four_velocity(
+        geometry,
+        primitive,
+    )
+    lower_velocity = geometry.spacetime_metric @ four_velocity
+    coefficient = (
+        geometry.base.lapse
+        * float(work_per_area)
+        * four_velocity[0]
+        / C**2
+    )
+    return np.asarray(
+        [
+            0.0,
+            coefficient * lower_velocity[1],
+            coefficient * lower_velocity[2],
+            -coefficient * lower_velocity[0],
+        ],
+        dtype=float,
+    )
+
+
+def causal_five_field_endpoint_temporal_storage_increment(
+    context: CausalFiveFieldDAEContext,
+    old_primitive_charts: np.ndarray,
+    new_primitive_charts: np.ndarray,
+) -> CausalFiveFieldTemporalStorageIncrement:
+    """Return the original endpoint/trapezoidal finite storage increment."""
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    old = np.asarray(old_primitive_charts, dtype=float)
+    new = np.asarray(new_primitive_charts, dtype=float)
+    if (
+        old.shape != (n_cells, _N_FIELDS)
+        or new.shape != (n_cells, _N_FIELDS)
+        or np.any(~np.isfinite(old))
+        or np.any(~np.isfinite(new))
+    ):
+        raise ValueError("temporal-storage primitive arrays are invalid")
+    old_states = [
+        _cell_state(context, float(radius), chart)
+        for radius, chart in zip(context.grid.centers, old, strict=True)
+    ]
+    new_states = [
+        _cell_state(context, float(radius), chart)
+        for radius, chart in zip(context.grid.centers, new, strict=True)
+    ]
+    conserved_increment = np.asarray(
+        [
+            new_state.conserved - old_state.conserved
+            for old_state, new_state in zip(
+                old_states,
+                new_states,
+                strict=True,
+            )
+        ],
+        dtype=float,
+    )
+    vertical_increment = np.zeros((n_cells, 4), dtype=float)
+    work = np.zeros(n_cells, dtype=float)
+    for index, (old_state, new_state) in enumerate(
+        zip(old_states, new_states, strict=True)
+    ):
+        storage = causal_temporal_vertical_work_storage(
+            new_state.geometry,
+            new_state.primitive,
+            old_state.thermodynamics,
+            new_state.thermodynamics,
+        )
+        work[index] = storage.work_per_area
+        vertical_increment[index] = storage.killing_storage_increment
+    return CausalFiveFieldTemporalStorageIncrement(
+        conserved_increment=conserved_increment,
+        vertical_killing_increment=vertical_increment,
+        vertical_work_per_area=work,
+        quadrature_order=0,
+        directional_step=0.0,
+        scheme="endpoint",
+    )
+
+
+def causal_five_field_path_temporal_storage_increment(
+    context: CausalFiveFieldDAEContext,
+    old_primitive_charts: np.ndarray,
+    new_primitive_charts: np.ndarray,
+    *,
+    quadrature_order: int = 2,
+    directional_step: float = 1.0e-3,
+) -> CausalFiveFieldTemporalStorageIncrement:
+    """Integrate finite storage on a straight primitive-space path.
+
+    Fourth-order centered coordinate derivatives avoid subtracting endpoint
+    conserved states at the timestep-sized separation. Their Jacobian-vector
+    product uses the primitive endpoint increment directly, without a
+    magnitude/direction normalization that becomes noisy under tiny Newton
+    corrections. Gauss-Legendre quadrature then integrates both the exact-state
+    derivative and the responsive-height ``Pi dlnH`` one-form along the same
+    declared path.
+    """
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    old = np.asarray(old_primitive_charts, dtype=float)
+    new = np.asarray(new_primitive_charts, dtype=float)
+    if (
+        old.shape != (n_cells, _N_FIELDS)
+        or new.shape != (n_cells, _N_FIELDS)
+        or np.any(~np.isfinite(old))
+        or np.any(~np.isfinite(new))
+    ):
+        raise ValueError("temporal-storage primitive arrays are invalid")
+    order = int(quadrature_order)
+    if order != quadrature_order or not 2 <= order <= 16:
+        raise ValueError("storage quadrature order must lie in [2, 16]")
+    step = float(directional_step)
+    if not np.isfinite(step) or not 1.0e-5 <= step <= 5.0e-3:
+        raise ValueError("storage directional step lies outside its audit range")
+    nodes, weights = np.polynomial.legendre.leggauss(order)
+    lambdas = 0.5 * (nodes + 1.0)
+    weights = 0.5 * weights
+    conserved_increment = np.zeros((n_cells, _N_FIELDS), dtype=float)
+    vertical_increment = np.zeros((n_cells, 4), dtype=float)
+    work_increment = np.zeros(n_cells, dtype=float)
+
+    for cell, radius in enumerate(context.grid.centers):
+        delta = new[cell] - old[cell]
+        primitive_scale = np.ones(_N_FIELDS, dtype=float)
+        primitive_scale[4] = max(abs(old[cell, 4]), 1.0e-14)
+        normalized_delta = delta / primitive_scale
+        if not np.any(normalized_delta):
+            continue
+
+        for path_fraction, weight in zip(
+            lambdas,
+            weights,
+            strict=True,
+        ):
+            center = old[cell] + path_fraction * delta
+            derivative_weights = np.asarray(
+                [1.0, -8.0, 8.0, -1.0],
+                dtype=float,
+            ) / (12.0 * step)
+            conserved_derivative = np.zeros(_N_FIELDS, dtype=float)
+            log_height_derivative = 0.0
+            for field in range(_N_FIELDS):
+                if normalized_delta[field] == 0.0:
+                    continue
+                perturbation = np.zeros(_N_FIELDS, dtype=float)
+                perturbation[field] = step * primitive_scale[field]
+                samples = [
+                    _cell_state(
+                        context,
+                        float(radius),
+                        center + multiplier * perturbation,
+                    )
+                    for multiplier in (-2.0, -1.0, 1.0, 2.0)
+                ]
+                conserved_coordinate_derivative = np.sum(
+                    derivative_weights[:, None]
+                    * np.asarray(
+                        [sample.conserved for sample in samples],
+                        dtype=float,
+                    ),
+                    axis=0,
+                )
+                log_height_coordinate_derivative = float(
+                    np.dot(
+                        derivative_weights,
+                        np.log(
+                            [
+                                sample.thermodynamics.proper_half_thickness
+                                for sample in samples
+                            ]
+                        ),
+                    )
+                )
+                conserved_derivative += (
+                    normalized_delta[field]
+                    * conserved_coordinate_derivative
+                )
+                log_height_derivative += (
+                    normalized_delta[field]
+                    * log_height_coordinate_derivative
+                )
+            center_state = _cell_state(
+                context,
+                float(radius),
+                center,
+            )
+            work_rate = (
+                center_state.thermodynamics.integrated_pressure
+                * log_height_derivative
+            )
+            conserved_increment[cell] += (
+                weight * conserved_derivative
+            )
+            work_increment[cell] += weight * work_rate
+            vertical_increment[cell] += (
+                weight
+                * _vertical_storage_increment_from_work(
+                    center_state.geometry,
+                    center_state.primitive,
+                    work_rate,
+                )
+            )
+    return CausalFiveFieldTemporalStorageIncrement(
+        conserved_increment=conserved_increment,
+        vertical_killing_increment=vertical_increment,
+        vertical_work_per_area=work_increment,
+        quadrature_order=order,
+        directional_step=step,
+        scheme="path_integrated",
+    )
 
 
 def make_causal_five_field_seed(
@@ -953,5 +1389,407 @@ def audit_causal_five_field_dae_jacobian(
         weakest_left_singular_vector=np.asarray(
             left_vectors[:, -1],
             dtype=float,
+        ),
+    )
+
+
+def _matrix_rank_and_condition(
+    values: np.ndarray,
+    relative_threshold: float,
+) -> tuple[np.ndarray, int, float]:
+    singular = np.linalg.svd(values, compute_uv=False)
+    largest = float(singular[0]) if singular.size else 0.0
+    threshold = max(
+        relative_threshold * largest,
+        np.finfo(float).eps * max(values.shape) * largest,
+    )
+    rank = int(np.sum(singular > threshold))
+    condition = float(
+        largest / max(float(singular[-1]), np.finfo(float).tiny)
+    )
+    return np.asarray(singular, dtype=float), rank, condition
+
+
+def _outer_thermal_stress_response(
+    reduced_jacobian: np.ndarray,
+    n_cells: int,
+    relative_threshold: float,
+) -> CausalFiveFieldOuterThermalStressAudit:
+    target = np.asarray(
+        [
+            _N_FIELDS * (n_cells - 1) + 3,
+            _N_FIELDS * (n_cells - 1) + 4,
+        ],
+        dtype=int,
+    )
+    all_indices = np.arange(_N_FIELDS * n_cells)
+    interior = np.setdiff1d(all_indices, target, assume_unique=True)
+    interior_block = reduced_jacobian[np.ix_(interior, interior)]
+    coupling_to_target = reduced_jacobian[np.ix_(interior, target)]
+    target_from_interior = reduced_jacobian[np.ix_(target, interior)]
+    target_block = reduced_jacobian[np.ix_(target, target)]
+    (
+        _interior_singular,
+        interior_rank,
+        interior_condition,
+    ) = _matrix_rank_and_condition(
+        interior_block,
+        relative_threshold,
+    )
+    if interior_rank == interior.size:
+        interior_response = np.linalg.solve(
+            interior_block,
+            coupling_to_target,
+        )
+    else:
+        interior_response = np.linalg.pinv(
+            interior_block,
+            rcond=relative_threshold,
+        ) @ coupling_to_target
+    response = target_block - target_from_interior @ interior_response
+    singular, rank, condition = _matrix_rank_and_condition(
+        response,
+        relative_threshold,
+    )
+    return CausalFiveFieldOuterThermalStressAudit(
+        interior_dimensions=interior_block.shape,
+        interior_numerical_rank=interior_rank,
+        interior_condition_estimate=interior_condition,
+        response_matrix=np.asarray(response, dtype=float),
+        singular_values=singular,
+        numerical_rank=rank,
+        condition_estimate=condition,
+        determinant=float(np.linalg.det(response)),
+    )
+
+
+def audit_causal_five_field_reduced_stationary_response(
+    context: CausalFiveFieldDAEContext,
+    state: CausalFiveFieldDAEState,
+    full_audit: CausalFiveFieldJacobianAudit,
+    *,
+    scaling: CausalFiveFieldDAEScaling | None = None,
+    finite_difference_step: float = 2.0e-6,
+    rank_relative_threshold: float = 1.0e-11,
+) -> CausalFiveFieldReducedJacobianAudit:
+    """Audit the exact primitive Schur response against direct differences."""
+
+    context = context.validated()
+    state = state.validated()
+    n_cells = state.n_cells
+    if n_cells != int(context.grid.centers.size):
+        raise ValueError("state and reduced-audit context use different grids")
+    count = causal_five_field_dae_count(n_cells)
+    if full_audit.dimensions != (
+        count.total_unknowns,
+        count.total_unknowns,
+    ):
+        raise ValueError("full Jacobian audit has incompatible dimensions")
+    step = float(finite_difference_step)
+    if not np.isfinite(step) or not 0.0 < step < 1.0e-2:
+        raise ValueError("finite-difference step must be positive and small")
+    threshold = float(rank_relative_threshold)
+    if not np.isfinite(threshold) or threshold <= 0.0:
+        raise ValueError("rank threshold must be positive and finite")
+
+    vector = pack_causal_five_field_state(state)
+    evaluation = evaluate_causal_five_field_dae(vector, context)
+    if scaling is None:
+        scaling = causal_five_field_dae_scaling(state, evaluation)
+    scaling = scaling.validated_for(count.total_unknowns)
+    n_reduced = _N_FIELDS * n_cells
+    conserved_columns = np.arange(0, n_reduced)
+    primitive_columns = np.arange(n_reduced, 2 * n_reduced)
+    face_columns = np.arange(2 * n_reduced, count.total_unknowns)
+    algebraic_columns = np.concatenate(
+        (conserved_columns, face_columns)
+    )
+    conservation_rows = np.arange(0, n_reduced)
+    algebraic_rows = np.arange(n_reduced, count.total_rows)
+    full = np.asarray(full_audit.scaled_jacobian, dtype=float)
+    algebraic_block = full[np.ix_(algebraic_rows, algebraic_columns)]
+    algebraic_from_primitives = full[
+        np.ix_(algebraic_rows, primitive_columns)
+    ]
+    conservation_from_algebraic = full[
+        np.ix_(conservation_rows, algebraic_columns)
+    ]
+    conservation_from_primitives = full[
+        np.ix_(conservation_rows, primitive_columns)
+    ]
+    (
+        _algebraic_singular,
+        algebraic_rank,
+        algebraic_condition,
+    ) = _matrix_rank_and_condition(algebraic_block, threshold)
+    if algebraic_rank != algebraic_block.shape[0]:
+        raise ValueError("primitive/face identity block is not invertible")
+    algebraic_response = np.linalg.solve(
+        algebraic_block,
+        algebraic_from_primitives,
+    )
+    schur = (
+        conservation_from_primitives
+        - conservation_from_algebraic @ algebraic_response
+    )
+
+    primitive_scale = scaling.column_scales[primitive_columns]
+    conservation_scale = scaling.row_scales[conservation_rows]
+    base_primitives = np.asarray(state.primitives, dtype=float).ravel()
+    direct = np.empty((n_reduced, n_reduced), dtype=float)
+    baseline_choked = bool(evaluation.outer_boundary_choked)
+    for index in range(n_reduced):
+        delta = step * primitive_scale[index]
+        plus = np.array(base_primitives, copy=True)
+        minus = np.array(base_primitives, copy=True)
+        plus[index] += delta
+        minus[index] -= delta
+        plus_state = causal_five_field_state_from_primitives(
+            context,
+            plus.reshape(n_cells, _N_FIELDS),
+        )
+        minus_state = causal_five_field_state_from_primitives(
+            context,
+            minus.reshape(n_cells, _N_FIELDS),
+        )
+        plus_evaluation = evaluate_causal_five_field_dae(
+            pack_causal_five_field_state(plus_state),
+            context,
+        )
+        minus_evaluation = evaluate_causal_five_field_dae(
+            pack_causal_five_field_state(minus_state),
+            context,
+        )
+        if (
+            bool(plus_evaluation.outer_boundary_choked) != baseline_choked
+            or bool(minus_evaluation.outer_boundary_choked)
+            != baseline_choked
+        ):
+            raise ValueError(
+                "reduced finite difference crossed the Roche active set"
+            )
+        direct[:, index] = (
+            plus_evaluation.conservation_rows.ravel()
+            - minus_evaluation.conservation_rows.ravel()
+        ) / (2.0 * step * conservation_scale)
+
+    left, singular, right = np.linalg.svd(direct, full_matrices=False)
+    largest = float(singular[0])
+    smallest = float(singular[-1])
+    rank_threshold = max(
+        threshold * largest,
+        np.finfo(float).eps * n_reduced * largest,
+    )
+    rank = int(np.sum(singular > rank_threshold))
+    difference = direct - schur
+    maximum_absolute_defect = float(np.max(np.abs(difference)))
+    relative_frobenius_defect = float(
+        np.linalg.norm(difference)
+        / max(
+            np.linalg.norm(direct),
+            np.linalg.norm(schur),
+            np.finfo(float).tiny,
+        )
+    )
+    directions = [
+        np.ones(n_reduced, dtype=float),
+        np.linspace(-1.0, 1.0, n_reduced),
+        np.eye(1, n_reduced, n_reduced - 2, dtype=float).ravel(),
+        np.eye(1, n_reduced, n_reduced - 1, dtype=float).ravel(),
+        np.asarray(right[-1], dtype=float),
+    ]
+    directional_defects = []
+    operator_scaled_directional_defects = []
+    for direction in directions:
+        normalized = direction / max(
+            np.linalg.norm(direction),
+            np.finfo(float).tiny,
+        )
+        direct_product = direct @ normalized
+        schur_product = schur @ normalized
+        directional_defects.append(
+            np.linalg.norm(direct_product - schur_product)
+            / max(
+                np.linalg.norm(direct_product),
+                np.linalg.norm(schur_product),
+                np.finfo(float).tiny,
+            )
+        )
+        operator_scaled_directional_defects.append(
+            np.linalg.norm(direct_product - schur_product)
+            / max(largest, np.finfo(float).tiny)
+        )
+
+    reduced_right = np.asarray(right[-1], dtype=float)
+    algebraic_direction = -np.linalg.solve(
+        algebraic_block,
+        algebraic_from_primitives @ reduced_right,
+    )
+    reconstructed = np.zeros(count.total_unknowns, dtype=float)
+    reconstructed[primitive_columns] = reduced_right
+    reconstructed[algebraic_columns] = algebraic_direction
+    reconstructed /= max(
+        np.linalg.norm(reconstructed),
+        np.finfo(float).tiny,
+    )
+    algebraic_residual_norm = float(
+        np.linalg.norm(full[algebraic_rows] @ reconstructed)
+    )
+    full_residual_norm = float(np.linalg.norm(full @ reconstructed))
+    alignment = float(
+        abs(
+            np.dot(
+                reconstructed,
+                np.asarray(
+                    full_audit.weakest_right_singular_vector,
+                    dtype=float,
+                ),
+            )
+        )
+    )
+    outer_response = _outer_thermal_stress_response(
+        direct,
+        n_cells,
+        threshold,
+    )
+    schur_singular, schur_rank, schur_condition = (
+        _matrix_rank_and_condition(schur, threshold)
+    )
+    return CausalFiveFieldReducedJacobianAudit(
+        dimensions=direct.shape,
+        numerical_rank=rank,
+        singular_values=np.asarray(singular, dtype=float),
+        smallest_singular_value=smallest,
+        largest_singular_value=largest,
+        condition_estimate=float(
+            largest / max(smallest, np.finfo(float).tiny)
+        ),
+        finite_difference_step=step,
+        direct_scaled_jacobian=np.asarray(direct, dtype=float),
+        schur_scaled_jacobian=np.asarray(schur, dtype=float),
+        schur_singular_values=schur_singular,
+        schur_numerical_rank=schur_rank,
+        schur_condition_estimate=schur_condition,
+        maximum_absolute_matrix_defect=maximum_absolute_defect,
+        relative_frobenius_matrix_defect=relative_frobenius_defect,
+        maximum_directional_relative_defect=float(
+            max(directional_defects)
+        ),
+        maximum_directional_operator_scaled_defect=float(
+            max(operator_scaled_directional_defects)
+        ),
+        algebraic_dimensions=algebraic_block.shape,
+        algebraic_numerical_rank=algebraic_rank,
+        algebraic_condition_estimate=algebraic_condition,
+        reconstructed_algebraic_residual_norm=algebraic_residual_norm,
+        reconstructed_full_residual_norm=full_residual_norm,
+        full_weakest_vector_alignment=alignment,
+        weakest_right_singular_vector=reduced_right,
+        weakest_left_singular_vector=np.asarray(left[:, -1], dtype=float),
+        reconstructed_full_scaled_vector=reconstructed,
+        outer_thermal_stress=outer_response,
+        outer_boundary_choked=baseline_choked,
+    )
+
+
+def audit_causal_five_field_consistent_initial_data(
+    context: CausalFiveFieldDAEContext,
+    state: CausalFiveFieldDAEState,
+    stationary_audit: CausalFiveFieldJacobianAudit,
+    backward_euler_audit: CausalFiveFieldJacobianAudit,
+    *,
+    scaling: CausalFiveFieldDAEScaling | None = None,
+    descriptor_timestep_seconds: float = 1.0,
+    rank_relative_threshold: float = 1.0e-11,
+) -> CausalFiveFieldConsistentInitialDataAudit:
+    """Solve the initial storage balance on the algebraic tangent manifold."""
+
+    context = context.validated()
+    state = state.validated()
+    n_cells = state.n_cells
+    count = causal_five_field_dae_count(n_cells)
+    expected_dimensions = (count.total_unknowns, count.total_unknowns)
+    if (
+        stationary_audit.dimensions != expected_dimensions
+        or backward_euler_audit.dimensions != expected_dimensions
+    ):
+        raise ValueError("consistent-data audits have incompatible dimensions")
+    timestep = float(descriptor_timestep_seconds)
+    if not np.isfinite(timestep) or timestep <= 0.0:
+        raise ValueError("descriptor timestep must be positive and finite")
+    threshold = float(rank_relative_threshold)
+    if not np.isfinite(threshold) or threshold <= 0.0:
+        raise ValueError("rank threshold must be positive and finite")
+
+    vector = pack_causal_five_field_state(state)
+    evaluation = evaluate_causal_five_field_dae(vector, context)
+    if scaling is None:
+        scaling = causal_five_field_dae_scaling(state, evaluation)
+    scaling = scaling.validated_for(count.total_unknowns)
+    n_differential = _N_FIELDS * n_cells
+    conservation_rows = np.arange(0, n_differential)
+    algebraic_rows = np.arange(n_differential, count.total_rows)
+    descriptor = timestep * (
+        np.asarray(backward_euler_audit.scaled_jacobian, dtype=float)
+        - np.asarray(stationary_audit.scaled_jacobian, dtype=float)
+    )
+    descriptor_rows = descriptor[conservation_rows]
+    (
+        _descriptor_singular,
+        descriptor_rank,
+        _descriptor_condition,
+    ) = _matrix_rank_and_condition(descriptor_rows, threshold)
+    algebraic_tangent = np.asarray(
+        stationary_audit.scaled_jacobian[algebraic_rows],
+        dtype=float,
+    )
+    consistency_matrix = np.vstack(
+        (descriptor_rows, algebraic_tangent)
+    )
+    singular, rank, condition = _matrix_rank_and_condition(
+        consistency_matrix,
+        threshold,
+    )
+    if rank != count.total_unknowns:
+        raise ValueError("consistent-initial-data matrix is not invertible")
+    scaled_residual = np.asarray(
+        evaluation.residual / scaling.row_scales,
+        dtype=float,
+    )
+    right_hand_side = np.concatenate(
+        (
+            -scaled_residual[conservation_rows],
+            np.zeros(algebraic_rows.size, dtype=float),
+        )
+    )
+    tangent = np.linalg.solve(consistency_matrix, right_hand_side)
+    consistency_residual = consistency_matrix @ tangent - right_hand_side
+    storage_residual = (
+        descriptor_rows @ tangent
+        + scaled_residual[conservation_rows]
+    )
+    algebraic_residual = algebraic_tangent @ tangent
+    primitive_columns = slice(n_differential, 2 * n_differential)
+    return CausalFiveFieldConsistentInitialDataAudit(
+        dimensions=consistency_matrix.shape,
+        numerical_rank=rank,
+        singular_values=singular,
+        condition_estimate=condition,
+        descriptor_dimensions=descriptor_rows.shape,
+        descriptor_numerical_rank=descriptor_rank,
+        maximum_initial_algebraic_residual=float(
+            np.max(np.abs(scaled_residual[algebraic_rows]))
+        ),
+        maximum_scaled_consistency_residual=float(
+            np.max(np.abs(consistency_residual))
+        ),
+        scaled_tangent=np.asarray(tangent, dtype=float),
+        maximum_scaled_tangent=float(np.max(np.abs(tangent))),
+        maximum_scaled_primitive_tangent=float(
+            np.max(np.abs(tangent[primitive_columns]))
+        ),
+        storage_balance_residual_norm=float(np.linalg.norm(storage_residual)),
+        algebraic_tangent_residual_norm=float(
+            np.linalg.norm(algebraic_residual)
         ),
     )

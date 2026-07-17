@@ -70,6 +70,11 @@ This is the canonical project handoff. Status labels mean:
 | Kerr-Schild stream/Roche migration WP10c4 | **SUPPORTED BUT NOT FULLY CERTIFIED** for the source/boundary adapter; **DIAGNOSTIC ONLY** physically | Exact C2/C4 four-state moments close below `2.06e-16`; source-per-`ct` conversion below `1.80e-16`; the closed/choked Roche edge has one incoming acoustic mode and exact angular/Killing/pattern-power ledgers; outer face-row rank is four | Circular stream state is a regression fixture, local Hill force remains reduced PW+Hill, and the final causal-stress augmented nonlinear count, stationary root, and timestep remain pending |
 | Five-field causal DAE preflight WP10c5 | **SUPPORTED BUT NOT FULLY CERTIFIED** for local count/rank; **DIAGNOSTIC ONLY** physically | Exact count `15N+5`; covariant shear recovers `-R dOmega/dR`; five real responsive acoustic/contact/shear modes; zero inner incoming modes; two independent outer incoming responses; temporal Killing-storage transform closes at `2.74e-16` | Superseded operationally by the assembled WP10c5b gate; no root was authorized by this local preflight alone |
 | Five-field causal DAE assembly WP10c5b | **SUPPORTED BUT NOT FULLY CERTIFIED** for the time-dependent descriptor; **REJECTED** as a stationary-root unlock | Complete five-field residual closes primitive/face maps exactly and telescopes at `1.78e-16`; descriptor rank is `80/80`; backward-Euler rank is `245/245` at `0.1-10 s` | Stationary N16 rank is stably `244/245`; its outermost thermal/stress mode blocks N64/N96 roots and the tiny step under the locked gate |
+| Reduced primitive null audit WP10c5c | **CERTIFIED** for algebraic reduction and rank classification; **DIAGNOSTIC ONLY** physically | The algebraic block is `165/165` with condition approximately one; direct and Schur reduced operators agree to `2.99e-11`; the primitive response is `80/80`, the outer thermal/stress response is `2/2`, and the same provider remains full rank when the Roche channel opens | The audited seed is not a stationary root; the weak outer mode is nonzero and cannot establish equilibrium, marginality, or stability |
+| Consistent initial step WP10c5d | **SUPPORTED BUT NOT FULLY CERTIFIED** for index-one initialization; **REJECTED** as an evolution unlock | The consistency matrix is `245/245`, descriptor rows are `80/80`, and storage/algebraic tangent defects are below `9.1e-15` | Both bounded N16 steps stop above the unchanged `1e-8` gate (`4.79e-6`, `1.40e-6`), localized to outer-cell temporal storage; N32, roots, tide, wind, and physical evolution remain blocked |
+| Temporal-storage increment WP10c5e | **CERTIFIED** for the exact-map path identity; **REJECTED** as an evolution unlock | Endpoint/path rate defects reach `7.05e-6`; the path converges below `2.53e-9` and telescopes below `5.60e-17`; tiny `Delta lnSigma` recovery improves by over six orders of magnitude | Path-integrated N16 steps still stop at `3.77e-6` and `1.42e-6` with reduced-Newton condition near `1.03e10`; N32 and all physical searches remain blocked |
+| Reduced linear precision WP10c5f | **CERTIFIED** for the frozen linear-solve audit; **REJECTED** as an evolution unlock | LAPACK equilibration reduces condition `1.03e10 -> 27.5`; direct/refined corrections agree to `2.62e-14`; linear residuals are `1.49e-16`; second/fourth-order Jacobians agree to `4.47e-12` | Every correction gives nonlinear residual `3.35e-6`; no recoverable precision is demonstrated, so N16 is not repeated and N32 remains blocked |
+| Residual directional consistency WP10c5g | **CERTIFIED** for component diagnosis; **REJECTED** as an evolution unlock | Flux, source, and height-work directional defects are at most `2.09e-13`; residual/component identities close below `2.0e-16`; path conserved storage is the unique failing block | One coordinate-Jacobian storage repair still leaves N16 at `1.42473e-6`; no second repair or N32 attempt is authorized |
 
 ## Frozen Target Under Review
 
@@ -440,16 +445,28 @@ N                    = 164
    architecture.
 8. Treat WP9, WP10a, WP10b, WP10c1, source-free WP10c2 geometry, the local
    WP10c3a/WP10c3b stress and thermal contracts, the WP10c4 stream/Roche
-   adapters, the bounded WP10c5 count/rank preflight, and the WP10c5b
-   assembled-residual stop decision as complete. The old
+   adapters, the bounded WP10c5 count/rank preflight, the WP10c5b
+   assembled-residual stop decision, the WP10c5c reduced audit, the
+   WP10c5d consistent-data gate, the WP10c5e storage audit, the WP10c5f
+   frozen linear-precision audit, and the WP10c5g component audit as
+   complete. The old
    PW plunge has superluminal transverse rotation and must not be mapped into
    the new variables. Continue only the selected one-domain ingoing-Kerr-
-   Schild Valencia path. The assembled descriptor has the expected `5N`
-   storage rank and full backward-Euler rank, but the stationary N16 response
-   is stably `244/245`. Perform one reduced primitive Schur/null-mode audit;
-   do not launch N64/N96 roots, a timestep, another inner/outer splice,
-   distributed tide, wind, or long evolution unless that audit identifies
-   and repairs an exact operator defect.
+   Schild Valencia path. Exact algebraic elimination shows that the physical
+   N16 primitive stationary operator is `80/80`; the old `244/245` result is
+   flux-primary embedding conditioning at a nonroot seed, not a missing
+   boundary condition. Index-one consistent initial data also exist, but the
+   direct endpoint storage subtraction is cancellation sensitive, while its
+   converged path-integrated replacement does not unlock either bounded N16
+   step. Equilibration and iterative refinement exclude the linear solve, and
+   component-wise directional tests uniquely identify finite-difference path
+   conserved storage as the remaining nonlinear floor. The one authorized
+   coordinate-Jacobian repair also fails the unchanged N16 gate. If work
+   continues, reparameterize the complete DAE in primary increments
+   `(Delta U, Delta p, Delta F)` so temporal storage is represented directly.
+   Do not launch N32, N64/N96 roots, another inner/outer splice, distributed
+   tide, wind, or long evolution unless that unchanged N16 finite-step gate
+   passes.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -483,6 +500,12 @@ N                    = 164
 - Responsive-height thermal ledger: `reports/current/CODEX_RESPONSIVE_HEIGHT_THERMAL_LEDGER_WP10C3B_RESULTS_2026-07-17.md`
 - Kerr-Schild stream/Roche migration: `reports/current/CODEX_KERR_SCHILD_STREAM_ROCHE_MIGRATION_WP10C4_RESULTS_2026-07-17.md`
 - Five-field causal DAE preflight: `reports/current/CODEX_CAUSAL_FIVE_FIELD_DAE_PREFLIGHT_WP10C5_RESULTS_2026-07-17.md`
+- Five-field causal DAE assembly: `reports/current/CODEX_CAUSAL_FIVE_FIELD_DAE_ASSEMBLY_WP10C5B_RESULTS_2026-07-17.md`
+- Reduced primitive null audit: `reports/current/CODEX_CAUSAL_FIVE_FIELD_REDUCED_NULL_AUDIT_WP10C5C_RESULTS_2026-07-17.md`
+- Consistent initial step: `reports/current/CODEX_CAUSAL_FIVE_FIELD_CONSISTENT_INITIAL_STEP_WP10C5D_RESULTS_2026-07-17.md`
+- Temporal-storage increment audit: `reports/current/CODEX_CAUSAL_FIVE_FIELD_TEMPORAL_STORAGE_INCREMENT_WP10C5E_RESULTS_2026-07-17.md`
+- Reduced linear-precision audit: `reports/current/CODEX_CAUSAL_FIVE_FIELD_LINEAR_PRECISION_WP10C5F_RESULTS_2026-07-17.md`
+- Residual directional-consistency audit: `reports/current/CODEX_CAUSAL_FIVE_FIELD_DIRECTIONAL_CONSISTENCY_WP10C5G_RESULTS_2026-07-17.md`
 - Fully coupled rank prototype: `reports/current/CODEX_COUPLED_INNER_OUTER_RANK_PROTOTYPE_RESULTS_2026-07-11.md`
 - Coupled mesh/interface certification: `reports/current/CODEX_COUPLED_MESH_INTERFACE_CERTIFICATION_RESULTS_2026-07-11.md`
 - Coupled wall pattern-power gate: `reports/current/CODEX_COUPLED_WALL_PATTERN_POWER_RESULTS_2026-07-11.md`
