@@ -101,6 +101,14 @@ DEFAULT_MESH_COMMON_SPATIAL_RESPONSE_OUTPUT = (
     ROOT
     / "outputs/tables/causal_five_field_mesh_common_spatial_response_wp10c5r.json"
 )
+DEFAULT_MESH_COMMON_N64_CONFIRMATION_OUTPUT = (
+    ROOT
+    / "outputs/tables/causal_five_field_mesh_common_n64_confirmation_wp10c5s.json"
+)
+DEFAULT_MESH_COMMON_N64_LEDGER_REPLAY_OUTPUT = (
+    ROOT
+    / "outputs/tables/causal_five_field_mesh_common_n64_ledger_replay_wp10c5t.json"
+)
 DEFAULT_RESTART_DIRECTORY = (
     ROOT / "outputs/checkpoints/causal_five_field_wp10c5k"
 )
@@ -175,6 +183,14 @@ def _arguments() -> argparse.Namespace:
     )
     parser.add_argument(
         "--increment-primary-mesh-common-spatial-response-audit",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--increment-primary-mesh-common-n64-confirmation-audit",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--increment-primary-mesh-common-n64-ledger-replay-audit",
         action="store_true",
     )
     return parser.parse_args()
@@ -3374,9 +3390,15 @@ def _run_repeated_source_on_resolution(
     return report, passed
 
 
-def _repeated_mesh_comparison(n16: dict, n32: dict) -> dict:
-    supply16 = n16["source_rate_g_s"]
-    supply32 = n32["source_rate_g_s"]
+def _repeated_mesh_comparison(
+    left_run: dict,
+    right_run: dict,
+    *,
+    left_label: str = "n16",
+    right_label: str = "n32",
+) -> dict:
+    left_supply = left_run["source_rate_g_s"]
+    right_supply = right_run["source_rate_g_s"]
 
     def metrics(run: dict, supply: float) -> dict:
         injected = supply * run["elapsed_time_seconds"]
@@ -3409,24 +3431,24 @@ def _repeated_mesh_comparison(n16: dict, n32: dict) -> dict:
             ),
         }
 
-    left = metrics(n16, supply16)
-    right = metrics(n32, supply32)
+    left = metrics(left_run, left_supply)
+    right = metrics(right_run, right_supply)
     left_radius = np.asarray(
-        n16["h_over_r_response"]["sample_radius_rg"],
+        left_run["h_over_r_response"]["sample_radius_rg"],
         dtype=float,
     )
     right_radius = np.asarray(
-        n32["h_over_r_response"]["sample_radius_rg"],
+        right_run["h_over_r_response"]["sample_radius_rg"],
         dtype=float,
     )
     if not np.array_equal(left_radius, right_radius):
         raise RuntimeError("H/R response samples do not share radii")
     left_response = np.asarray(
-        n16["h_over_r_response"]["delta_log_h_over_r"],
+        left_run["h_over_r_response"]["delta_log_h_over_r"],
         dtype=float,
     )
     right_response = np.asarray(
-        n32["h_over_r_response"]["delta_log_h_over_r"],
+        right_run["h_over_r_response"]["delta_log_h_over_r"],
         dtype=float,
     )
     response_difference = left_response - right_response
@@ -3478,8 +3500,8 @@ def _repeated_mesh_comparison(n16: dict, n32: dict) -> dict:
         for name, limit in gates.items()
     )
     return {
-        "n16": left,
-        "n32": right,
+        left_label: left,
+        right_label: right,
         "absolute_or_relative_differences": differences,
         "gates": gates,
         "passed": passed,
@@ -4499,11 +4521,194 @@ def _inner_principal_summary(
     }
 
 
+def _sparse_source_compatible_increment_initialization(
+    n_cells: int,
+    seed_parameters: dict,
+) -> tuple[dict, dict]:
+    """Build one bounded increment using the certified colored backend."""
+
+    seed_audit, artifacts = _mesh_common_spatial_seed_artifacts(
+        n_cells,
+        seed_parameters,
+    )
+    context = artifacts["context"]
+    old_vector = np.asarray(artifacts["old_vector"], dtype=float)
+    scaling = artifacts["scaling"]
+    tangent = np.asarray(
+        artifacts["consistent_scaled_tangent"],
+        dtype=float,
+    )
+    n_differential = 5 * n_cells
+    primitive_tangent = tangent[
+        n_differential : 2 * n_differential
+    ]
+    timestep = float(
+        TARGET_SCALED_PRIMITIVE_CHANGES[0]
+        / max(
+            np.max(np.abs(primitive_tangent)),
+            np.finfo(float).tiny,
+        )
+    )
+    predictor = (
+        np.asarray(scaling.column_scales, dtype=float)
+        * timestep
+        * tangent
+    )
+    bound = 1.25 * TARGET_SCALED_PRIMITIVE_CHANGES[0]
+    config = CausalFiveFieldAdaptiveStepConfig(
+        minimum_dt=timestep / 128.0,
+        maximum_dt=16.0 * timestep,
+        maximum_scaled_primitive_change=bound,
+        maximum_scaled_total_change=bound,
+        shrink_factor=0.5,
+        growth_factor=1.5,
+        maximum_retries=0,
+        easy_iterations=3,
+        residual_tolerance=1.0e-8,
+        algebraic_residual_tolerance=1.0e-10,
+        conservation_tolerance=1.0e-10,
+        finite_difference_step=FINITE_DIFFERENCE_STEP,
+        maximum_newton_iterations=12,
+    ).validated()
+    step = advance_causal_five_field_increment_backward_euler(
+        context,
+        old_vector,
+        timestep,
+        predictor,
+        config,
+    )
+    physical_increment = np.asarray(
+        step.physical_increment,
+        dtype=float,
+    )
+    scaled_increment = (
+        physical_increment
+        / np.asarray(scaling.column_scales, dtype=float)
+    )
+    block_maxima = {
+        "conserved": float(
+            np.max(np.abs(scaled_increment[:n_differential]))
+        ),
+        "primitive": float(
+            np.max(
+                np.abs(
+                    scaled_increment[
+                        n_differential : 2 * n_differential
+                    ]
+                )
+            )
+        ),
+        "face_flux": float(
+            np.max(
+                np.abs(scaled_increment[2 * n_differential :])
+            )
+        ),
+    }
+    consistency = seed_audit["consistency_rank"]["equilibration"]
+    descriptor = seed_audit["descriptor_rank"]
+    consistent_initial_data = {
+        "dimensions": [old_vector.size, old_vector.size],
+        "numerical_rank": consistency["numerical_rank"],
+        "full_rank": consistency["full_rank"],
+        "condition_estimate": consistency["condition_estimate"],
+        "descriptor_dimensions": [n_differential, old_vector.size],
+        "descriptor_numerical_rank": descriptor["numerical_rank"],
+        "descriptor_full_row_rank": bool(
+            descriptor["numerical_rank"] == n_differential
+        ),
+        "maximum_initial_algebraic_residual": (
+            seed_audit["maximum_initial_algebraic_residual"]
+        ),
+        "maximum_scaled_consistency_residual": (
+            seed_audit["maximum_scaled_consistency_defect"]
+        ),
+        "maximum_scaled_tangent_per_s": float(
+            np.max(np.abs(tangent))
+        ),
+        "maximum_scaled_primitive_tangent_per_s": float(
+            np.max(np.abs(primitive_tangent))
+        ),
+        "backend": (
+            "exact_18_color_central_jacobian_with_dense_rank_and_"
+            "consistency_solve"
+        ),
+        "passed": seed_audit["passed"],
+    }
+    tiny_step = {
+        "timestep_seconds": timestep,
+        "target_scaled_primitive_change": (
+            TARGET_SCALED_PRIMITIVE_CHANGES[0]
+        ),
+        "tangent_predictor_maximum_scaled_change": float(
+            np.max(
+                np.abs(
+                    predictor
+                    / np.asarray(scaling.column_scales, dtype=float)
+                )
+            )
+        ),
+        "maximum_scaled_change": (
+            step.maximum_scaled_total_change
+        ),
+        "maximum_scaled_block_changes": block_maxima,
+        "solver_success": step.accepted,
+        "solver_message": step.message,
+        "solver_iterations": step.iterations,
+        "function_evaluations": step.function_evaluations,
+        "jacobian_evaluations": step.jacobian_evaluations,
+        "solver_history": [],
+        "maximum_scaled_residual": step.maximum_scaled_residual,
+        "maximum_scaled_algebraic_residual": (
+            step.maximum_scaled_algebraic_residual
+        ),
+        "conservation_telescoping_relative_defect": (
+            step.conservation_telescoping_relative_defect
+        ),
+        "component_conservation_defects": (
+            step.component_conservation_defects
+        ),
+        "minimum_scattering_optical_depth": (
+            step.minimum_scattering_optical_depth
+        ),
+        "outer_boundary_choked_before": (
+            step.outer_boundary_choked_before
+        ),
+        "outer_boundary_choked_after": (
+            step.outer_boundary_choked_after
+        ),
+        "backend": "equilibrated_sparse_colored_startup",
+        "passed": step.accepted,
+    }
+    initialization = {
+        "n_cells": n_cells,
+        "unknown_count": int(old_vector.size),
+        "residual_count": int(old_vector.size),
+        "coordinate": "primary physical increments",
+        "temporal_height_scheme": "path_integrated",
+        "stream": _stream_summary(context),
+        "seed_parameters": seed_parameters,
+        "seed_is_stationary_root": False,
+        "consistent_initial_data": consistent_initial_data,
+        "tiny_step": tiny_step,
+        "resolution_passed": bool(
+            seed_audit["passed"] and step.accepted
+        ),
+        "initialization_backend": "certified_colored_sparse",
+    }
+    return initialization, {
+        **artifacts,
+        "timestep_seconds": timestep,
+        "physical_increment": physical_increment,
+        "new_vector": old_vector + physical_increment,
+    }
+
+
 def _source_compatible_initialization(
     n_cells: int,
     *,
     seed_parameters_override: dict | None = None,
     construction_override: dict | None = None,
+    use_sparse_colored_initialization: bool = False,
 ) -> tuple[dict, tuple[dict, dict], dict]:
     if seed_parameters_override is None:
         seed_parameters, construction = (
@@ -4512,13 +4717,21 @@ def _source_compatible_initialization(
     else:
         seed_parameters = dict(seed_parameters_override)
         construction = dict(construction_override or {})
-    initialization, artifacts = _run_increment_primary_resolution(
-        n_cells,
-        TARGET_SCALED_PRIMITIVE_CHANGES[0],
-        include_stream=True,
-        seed_kwargs=seed_parameters,
-    )
-    dense_reference_tiny_step = dict(initialization["tiny_step"])
+    if use_sparse_colored_initialization:
+        initialization, artifacts = (
+            _sparse_source_compatible_increment_initialization(
+                n_cells,
+                seed_parameters,
+            )
+        )
+    else:
+        initialization, artifacts = _run_increment_primary_resolution(
+            n_cells,
+            TARGET_SCALED_PRIMITIVE_CHANGES[0],
+            include_stream=True,
+            seed_kwargs=seed_parameters,
+        )
+    reference_tiny_step = dict(initialization["tiny_step"])
     base_dt = float(artifacts["timestep_seconds"])
     polish_config = CausalFiveFieldAdaptiveStepConfig(
         minimum_dt=base_dt / 128.0,
@@ -4677,7 +4890,22 @@ def _source_compatible_initialization(
             initialization["consistent_initial_data"]
         ),
         "tiny_step": initialization["tiny_step"],
-        "dense_reference_tiny_step": dense_reference_tiny_step,
+        "initialization_backend": (
+            initialization.get(
+                "initialization_backend",
+                "dense_reference",
+            )
+        ),
+        "dense_reference_tiny_step": (
+            None
+            if use_sparse_colored_initialization
+            else reference_tiny_step
+        ),
+        "sparse_reference_tiny_step": (
+            reference_tiny_step
+            if use_sparse_colored_initialization
+            else None
+        ),
         "sparse_initial_polish": _fixed_step_summary(polished_step),
         "gates": gates,
         "passed": passed,
@@ -4814,38 +5042,49 @@ def _pchip_reconstructed_log_h_over_r(
 
 
 def _mesh_common_initial_profile_audit(
-    n16_artifacts: dict,
-    n32_artifacts: dict,
+    left_artifacts: dict,
+    right_artifacts: dict,
     construction: dict,
+    *,
+    left_label: str = "n16",
+    right_label: str = "n32",
 ) -> dict:
-    context16 = n16_artifacts["context"]
-    context32 = n32_artifacts["context"]
-    vector16 = np.asarray(n16_artifacts["old_vector"], dtype=float)
-    vector32 = np.asarray(n32_artifacts["old_vector"], dtype=float)
-    state16 = unpack_causal_five_field_state(vector16, 16)
-    state32 = unpack_causal_five_field_state(vector32, 32)
+    left_context = left_artifacts["context"]
+    right_context = right_artifacts["context"]
+    left_vector = np.asarray(left_artifacts["old_vector"], dtype=float)
+    right_vector = np.asarray(right_artifacts["old_vector"], dtype=float)
+    left_n_cells = int(left_context.grid.centers.size)
+    right_n_cells = int(right_context.grid.centers.size)
+    left_state = unpack_causal_five_field_state(
+        left_vector,
+        left_n_cells,
+    )
+    right_state = unpack_causal_five_field_state(
+        right_vector,
+        right_n_cells,
+    )
     sample_log_radius = np.linspace(
-        np.log(float(context16.grid.edges[0])),
-        np.log(float(context16.grid.edges[-1])),
+        np.log(float(left_context.grid.edges[0])),
+        np.log(float(left_context.grid.edges[-1])),
         257,
     )
-    profile16 = _reconstructed_primitive_profile(
-        context16,
-        vector16,
+    left_profile = _reconstructed_primitive_profile(
+        left_context,
+        left_vector,
         sample_log_radius,
     )
-    profile32 = _reconstructed_primitive_profile(
-        context32,
-        vector32,
+    right_profile = _reconstructed_primitive_profile(
+        right_context,
+        right_vector,
         sample_log_radius,
     )
     inner_plateau = (
         construction["inner_plateau_radius_rg"]
-        * context16.grid.gravitational_radius
+        * left_context.grid.gravitational_radius
     )
     outer_plateau = (
         construction["outer_plateau_radius_rg"]
-        * context16.grid.gravitational_radius
+        * left_context.grid.gravitational_radius
     )
     radius = np.exp(sample_log_radius)
     coordinate = np.clip(
@@ -4861,8 +5100,8 @@ def _mesh_common_initial_profile_audit(
     )
     reference_primitives = (
         (1.0 - fraction[:, None])
-        * state16.primitives[0, :3]
-        + fraction[:, None] * state16.primitives[-1, :3]
+        * left_state.primitives[0, :3]
+        + fraction[:, None] * left_state.primitives[-1, :3]
     )
     field_names = (
         "log_surface_density",
@@ -4872,25 +5111,25 @@ def _mesh_common_initial_profile_audit(
     )
     analytic_field_names = field_names[:3]
     cross_defects = np.max(
-        np.abs(profile16 - profile32),
+        np.abs(left_profile - right_profile),
         axis=0,
     )
-    n16_reference_defects = np.max(
-        np.abs(profile16[:, :3] - reference_primitives),
+    left_reference_defects = np.max(
+        np.abs(left_profile[:, :3] - reference_primitives),
         axis=0,
     )
-    n32_reference_defects = np.max(
-        np.abs(profile32[:, :3] - reference_primitives),
+    right_reference_defects = np.max(
+        np.abs(right_profile[:, :3] - reference_primitives),
         axis=0,
     )
-    log_h16 = _pchip_reconstructed_log_h_over_r(
-        context16,
-        vector16,
+    left_log_h = _pchip_reconstructed_log_h_over_r(
+        left_context,
+        left_vector,
         sample_log_radius,
     )
-    log_h32 = _pchip_reconstructed_log_h_over_r(
-        context32,
-        vector32,
+    right_log_h = _pchip_reconstructed_log_h_over_r(
+        right_context,
+        right_vector,
         sample_log_radius,
     )
     reference_log_h = (
@@ -4928,38 +5167,38 @@ def _mesh_common_initial_profile_audit(
             strict=True,
         )
     }
-    n16_reference = {
+    left_reference = {
         name: float(value)
         for name, value in zip(
             analytic_field_names,
-            n16_reference_defects,
+            left_reference_defects,
             strict=True,
         )
     }
-    n32_reference = {
+    right_reference = {
         name: float(value)
         for name, value in zip(
             analytic_field_names,
-            n32_reference_defects,
+            right_reference_defects,
             strict=True,
         )
     }
     inner_bitwise = np.array_equal(
-        state16.primitives[0, :3],
-        state32.primitives[0, :3],
+        left_state.primitives[0, :3],
+        right_state.primitives[0, :3],
     )
     outer_bitwise = np.array_equal(
-        state16.primitives[-1, :3],
-        state32.primitives[-1, :3],
+        left_state.primitives[-1, :3],
+        right_state.primitives[-1, :3],
     )
     maximum_log_h_defect = float(
-        np.max(np.abs(log_h16 - log_h32))
+        np.max(np.abs(left_log_h - right_log_h))
     )
-    n16_log_h_reference_defect = float(
-        np.max(np.abs(log_h16 - reference_log_h))
+    left_log_h_reference_defect = float(
+        np.max(np.abs(left_log_h - reference_log_h))
     )
-    n32_log_h_reference_defect = float(
-        np.max(np.abs(log_h32 - reference_log_h))
+    right_log_h_reference_defect = float(
+        np.max(np.abs(right_log_h - reference_log_h))
     )
     passed = bool(
         inner_bitwise
@@ -4970,17 +5209,17 @@ def _mesh_common_initial_profile_audit(
             for name in field_names
         )
         and all(
-            n16_reference[name]
+            left_reference[name]
             <= gates["maximum_reference_field_defects"][name]
-            and n32_reference[name]
+            and right_reference[name]
             <= gates["maximum_reference_field_defects"][name]
             for name in analytic_field_names
         )
         and maximum_log_h_defect
         <= gates["maximum_cross_mesh_log_h_over_r_defect"]
-        and n16_log_h_reference_defect
+        and left_log_h_reference_defect
         <= gates["maximum_reference_log_h_over_r_defect"]
-        and n32_log_h_reference_defect
+        and right_log_h_reference_defect
         <= gates["maximum_reference_log_h_over_r_defect"]
     )
     return {
@@ -4990,9 +5229,13 @@ def _mesh_common_initial_profile_audit(
             "log-radius points"
         ),
         "sample_radius_rg": [
-            float(value / context16.grid.gravitational_radius)
+            float(value / left_context.grid.gravitational_radius)
             for value in radius
         ],
+        "left_label": left_label,
+        "right_label": right_label,
+        "left_n_cells": left_n_cells,
+        "right_n_cells": right_n_cells,
         "inner_plateau_kinematic_primitives_bitwise": (
             inner_bitwise
         ),
@@ -5000,16 +5243,20 @@ def _mesh_common_initial_profile_audit(
             outer_bitwise
         ),
         "maximum_cross_mesh_field_defects": cross,
-        "maximum_n16_reference_field_defects": n16_reference,
-        "maximum_n32_reference_field_defects": n32_reference,
+        f"maximum_{left_label}_reference_field_defects": (
+            left_reference
+        ),
+        f"maximum_{right_label}_reference_field_defects": (
+            right_reference
+        ),
         "maximum_cross_mesh_log_h_over_r_defect": (
             maximum_log_h_defect
         ),
-        "maximum_n16_reference_log_h_over_r_defect": (
-            n16_log_h_reference_defect
+        f"maximum_{left_label}_reference_log_h_over_r_defect": (
+            left_log_h_reference_defect
         ),
-        "maximum_n32_reference_log_h_over_r_defect": (
-            n32_log_h_reference_defect
+        f"maximum_{right_label}_reference_log_h_over_r_defect": (
+            right_log_h_reference_defect
         ),
         "gates": gates,
         "passed": passed,
@@ -6418,6 +6665,7 @@ def _continue_source_compatible_duration_resolution(
     parent_work_package: str = "WP10c5m",
     initial_dt_next_override: float | None = None,
     maximum_dt_override: float | None = None,
+    step_residual_tolerance: float = 1.0e-10,
 ) -> tuple[dict, bool]:
     context = artifacts["context"]
     initial_vector = np.asarray(artifacts["old_vector"], dtype=float)
@@ -6494,7 +6742,7 @@ def _continue_source_compatible_duration_resolution(
         growth_factor=1.5,
         maximum_retries=6,
         easy_iterations=3,
-        residual_tolerance=1.0e-10,
+        residual_tolerance=step_residual_tolerance,
         algebraic_residual_tolerance=1.0e-11,
         conservation_tolerance=1.0e-10,
         finite_difference_step=FINITE_DIFFERENCE_STEP,
@@ -6875,8 +7123,11 @@ def _continue_source_compatible_duration_resolution(
 
 
 def _source_compatible_duration_mesh_comparison(
-    n16: dict,
-    n32: dict,
+    left_run: dict,
+    right_run: dict,
+    *,
+    left_label: str = "n16",
+    right_label: str = "n32",
 ) -> dict:
     def metrics(run: dict) -> dict:
         source_rate = run["source_rate_g_s"]
@@ -6906,29 +7157,30 @@ def _source_compatible_duration_mesh_comparison(
             ),
         }
 
-    left = metrics(n16)
-    right = metrics(n32)
+    left = metrics(left_run)
+    right = metrics(right_run)
     left_radius = np.asarray(
-        n16["h_over_r_response"]["sample_radius_rg"],
+        left_run["h_over_r_response"]["sample_radius_rg"],
         dtype=float,
     )
     right_radius = np.asarray(
-        n32["h_over_r_response"]["sample_radius_rg"],
+        right_run["h_over_r_response"]["sample_radius_rg"],
         dtype=float,
     )
     if not np.array_equal(left_radius, right_radius):
         raise RuntimeError("duration responses do not share radii")
     left_response = np.asarray(
-        n16["h_over_r_response"]["delta_log_h_over_r"],
+        left_run["h_over_r_response"]["delta_log_h_over_r"],
         dtype=float,
     )
     right_response = np.asarray(
-        n32["h_over_r_response"]["delta_log_h_over_r"],
+        right_run["h_over_r_response"]["delta_log_h_over_r"],
         dtype=float,
     )
     response_difference = left_response - right_response
     exact_time_defect = abs(
-        n16["elapsed_time_seconds"] - n32["elapsed_time_seconds"]
+        left_run["elapsed_time_seconds"]
+        - right_run["elapsed_time_seconds"]
     )
     differences = {
         "extension_mass_response_per_injected_mass": abs(
@@ -6975,7 +7227,7 @@ def _source_compatible_duration_mesh_comparison(
         "maximum_delta_log_h_over_r_response_difference": 5.0e-3,
         "exact_elapsed_time_defect_seconds": max(
             1.0e-20,
-            5.0e-14 * n16["elapsed_time_seconds"],
+            5.0e-14 * left_run["elapsed_time_seconds"],
         ),
     }
     passed = all(
@@ -6983,8 +7235,8 @@ def _source_compatible_duration_mesh_comparison(
         for name, limit in gates.items()
     )
     return {
-        "n16": left,
-        "n32": right,
+        left_label: left,
+        right_label: right,
         "absolute_or_relative_differences": differences,
         "gates": gates,
         "passed": passed,
@@ -7561,6 +7813,782 @@ def _run_mesh_common_temporal_parity_audit(
     print(serialized)
 
 
+def _mesh_contraction_summary(
+    coarse_comparison: dict,
+    fine_comparison: dict,
+) -> dict:
+    coarse = coarse_comparison["absolute_or_relative_differences"]
+    fine = fine_comparison["absolute_or_relative_differences"]
+    metric_names = (
+        "maximum_delta_log_h_over_r_response_difference",
+        "rms_delta_log_h_over_r_response_difference",
+    )
+    metrics = {}
+    for name in metric_names:
+        coarse_error = float(coarse[name])
+        fine_error = float(fine[name])
+        if coarse_error > 0.0 and fine_error > 0.0:
+            ratio = coarse_error / fine_error
+            observed_order = float(np.log2(ratio))
+        elif coarse_error > 0.0 and fine_error == 0.0:
+            ratio = np.inf
+            observed_order = np.inf
+        else:
+            ratio = np.nan
+            observed_order = np.nan
+        metrics[name] = {
+            "n16_n32_error": coarse_error,
+            "n32_n64_error": fine_error,
+            "coarse_to_fine_error_ratio": ratio,
+            "observed_doubling_order": observed_order,
+            "contracted": bool(fine_error < coarse_error),
+        }
+    maximum = metrics[
+        "maximum_delta_log_h_over_r_response_difference"
+    ]
+    return {
+        "method": (
+            "log2 of N16/N32 error divided by N32/N64 error at "
+            "one exact common physical time and one shared maximum "
+            "timestep"
+        ),
+        "metrics": metrics,
+        "minimum_order_for_one_n128_confirmation": 0.75,
+        "maximum_response_contracts": maximum["contracted"],
+        "maximum_response_order_passes": bool(
+            maximum["observed_doubling_order"] >= 0.75
+        ),
+    }
+
+
+def _run_mesh_common_n64_confirmation_audit(
+    args: argparse.Namespace,
+) -> None:
+    parent_paths = {
+        "startup_duration": DEFAULT_MESH_COMMON_STARTUP_DURATION_OUTPUT,
+        "temporal_parity": DEFAULT_MESH_COMMON_TEMPORAL_PARITY_OUTPUT,
+        "spatial_response": DEFAULT_MESH_COMMON_SPATIAL_RESPONSE_OUTPUT,
+    }
+    missing = [
+        name for name, path in parent_paths.items() if not path.exists()
+    ]
+    if missing:
+        raise FileNotFoundError(
+            "WP10c5s requires parent results: " + ", ".join(missing)
+        )
+    parents = {
+        name: json.loads(path.read_text(encoding="utf-8"))
+        for name, path in parent_paths.items()
+    }
+    startup_parent = parents["startup_duration"]
+    temporal_parent = parents["temporal_parity"]
+    spatial_parent = parents["spatial_response"]
+    common_parameters, construction = (
+        _mesh_common_source_compatible_seed_parameters()
+    )
+    parent_contract = {
+        "startup_short_passed": bool(
+            startup_parent["gates"][
+                "short_common_data_startup_certified"
+            ]
+        ),
+        "temporal_n16_passed": bool(
+            temporal_parent["gates"][
+                "n16_shared_timestep_duration_passed"
+            ]
+        ),
+        "temporal_n32_passed": bool(
+            temporal_parent["gates"][
+                "n32_shared_timestep_duration_passed"
+            ]
+        ),
+        "temporal_mesh_failed_as_expected": bool(
+            not temporal_parent["gates"][
+                "shared_timestep_mesh_gate_passed"
+            ]
+        ),
+        "spatial_classification_passed": bool(
+            spatial_parent["passed"]
+        ),
+        "n64_authorized_by_spatial_audit": bool(
+            spatial_parent["gates"][
+                "n64_physical_evolution_authorized_for_next_wp"
+            ]
+        ),
+        "startup_parameters_unchanged": bool(
+            startup_parent["common_seed_parameters"]
+            == common_parameters
+            and startup_parent["construction"] == construction
+        ),
+        "temporal_parameters_unchanged": bool(
+            temporal_parent["common_seed_parameters"]
+            == common_parameters
+            and temporal_parent["construction"] == construction
+        ),
+        "spatial_parameters_unchanged": bool(
+            spatial_parent["common_seed_parameters"]
+            == common_parameters
+            and spatial_parent["construction"] == construction
+        ),
+    }
+    prerequisites_passed = all(parent_contract.values())
+
+    n64_initial = None
+    n64_bundle = None
+    initial_profile = None
+    if prerequisites_passed:
+        n64_initial, n64_bundle, _n64_parameters = (
+            _source_compatible_initialization(
+                64,
+                seed_parameters_override=common_parameters,
+                construction_override=construction,
+                use_sparse_colored_initialization=True,
+            )
+        )
+        if n64_initial["passed"]:
+            n32_context = _context(32, include_stream=True)
+            n32_state = make_causal_five_field_seed(
+                n32_context,
+                **common_parameters,
+            )
+            n32_artifacts = {
+                "context": n32_context,
+                "old_vector": pack_causal_five_field_state(
+                    n32_state
+                ),
+            }
+            initial_profile = _mesh_common_initial_profile_audit(
+                n32_artifacts,
+                n64_bundle[1],
+                construction,
+                left_label="n32",
+                right_label="n64",
+            )
+
+    parent_short_n32 = startup_parent["short_startup"]["n32"]
+    short_n64 = None
+    short_mesh = None
+    short_n64_passed = False
+    initial_gate_passed = bool(
+        prerequisites_passed
+        and n64_initial is not None
+        and n64_initial["passed"]
+        and initial_profile is not None
+        and initial_profile["passed"]
+    )
+    if initial_gate_passed:
+        assert n64_bundle is not None
+        short_n64, short_n64_passed = (
+            _run_repeated_source_on_resolution(
+                64,
+                accepted_step_target=None,
+                elapsed_time_target=float(
+                    parent_short_n32["elapsed_time_seconds"]
+                ),
+                perform_restart_resume_audit=True,
+                seed_kwargs=common_parameters,
+                restart_label="wp10c5s",
+                restart_work_package="WP10c5s",
+                initialization_bundle=n64_bundle,
+                step_residual_tolerance=1.0e-10,
+                step_algebraic_tolerance=1.0e-11,
+                mass_budget_tolerance=1.0e-10,
+            )
+        )
+    if short_n64_passed:
+        short_mesh = _repeated_mesh_comparison(
+            parent_short_n32,
+            short_n64,
+            left_label="n32",
+            right_label="n64",
+        )
+    short_gate_passed = bool(
+        initial_gate_passed
+        and short_n64_passed
+        and short_mesh is not None
+        and short_mesh["passed"]
+    )
+
+    shared_maximum_timestep = None
+    duration_n32 = None
+    duration_n64 = None
+    duration_mesh = None
+    duration_n32_passed = False
+    duration_n64_passed = False
+    if short_gate_passed:
+        assert short_n64 is not None
+        assert n64_bundle is not None
+        n32_short_maximum = float(
+            max(
+                row["dt_used_seconds"]
+                for row in parent_short_n32["steps"]
+            )
+        )
+        n64_short_maximum = float(
+            max(
+                row["dt_used_seconds"]
+                for row in short_n64["steps"]
+            )
+        )
+        shared_maximum_timestep = min(
+            n32_short_maximum,
+            n64_short_maximum,
+        )
+        n32_context = _context(32, include_stream=True)
+        n32_state = make_causal_five_field_seed(
+            n32_context,
+            **common_parameters,
+        )
+        n32_artifacts = {
+            "context": n32_context,
+            "old_vector": pack_causal_five_field_state(n32_state),
+            "timestep_seconds": float(
+                parent_short_n32["steps"][0]["dt_used_seconds"]
+            ),
+        }
+        duration_target = float(
+            temporal_parent["temporal_parity"][
+                "target_elapsed_time_seconds"
+            ]
+        )
+        duration_n32, duration_n32_passed = (
+            _continue_source_compatible_duration_resolution(
+                32,
+                initialization={"resolution_passed": True},
+                artifacts=n32_artifacts,
+                seed_parameters=common_parameters,
+                elapsed_time_target=duration_target,
+                perform_first_step_replay_audit=False,
+                parent_restart_label="wp10c5o",
+                output_restart_label="wp10c5s_duration",
+                work_package="WP10c5s",
+                parent_work_package="WP10c5o",
+                initial_dt_next_override=shared_maximum_timestep,
+                maximum_dt_override=shared_maximum_timestep,
+            )
+        )
+        if duration_n32_passed:
+            duration_n64, duration_n64_passed = (
+                _continue_source_compatible_duration_resolution(
+                    64,
+                    initialization=n64_bundle[0],
+                    artifacts=n64_bundle[1],
+                    seed_parameters=common_parameters,
+                    elapsed_time_target=duration_target,
+                    perform_first_step_replay_audit=True,
+                    parent_restart_label="wp10c5s",
+                    output_restart_label="wp10c5s_duration",
+                    work_package="WP10c5s",
+                    parent_work_package="WP10c5s",
+                    initial_dt_next_override=(
+                        shared_maximum_timestep
+                    ),
+                    maximum_dt_override=shared_maximum_timestep,
+                )
+            )
+    if duration_n32_passed and duration_n64_passed:
+        duration_mesh = (
+            _source_compatible_duration_mesh_comparison(
+                duration_n32,
+                duration_n64,
+                left_label="n32",
+                right_label="n64",
+            )
+        )
+
+    contraction = None
+    if duration_mesh is not None:
+        contraction = _mesh_contraction_summary(
+            temporal_parent["mesh_comparison"],
+            duration_mesh,
+        )
+    duration_execution_passed = bool(
+        short_gate_passed
+        and duration_n32_passed
+        and duration_n64_passed
+        and duration_mesh is not None
+    )
+    mesh_gate_certified = bool(
+        duration_execution_passed and duration_mesh["passed"]
+    )
+    fine_maximum_error = (
+        float(
+            duration_mesh["absolute_or_relative_differences"][
+                "maximum_delta_log_h_over_r_response_difference"
+            ]
+        )
+        if duration_mesh is not None
+        else np.inf
+    )
+    response_gate = (
+        float(
+            duration_mesh["gates"][
+                "maximum_delta_log_h_over_r_response_difference"
+            ]
+        )
+        if duration_mesh is not None
+        else 5.0e-3
+    )
+    n128_authorized = bool(
+        duration_execution_passed
+        and not mesh_gate_certified
+        and fine_maximum_error > response_gate
+        and contraction is not None
+        and contraction["maximum_response_contracts"]
+        and contraction["maximum_response_order_passes"]
+    )
+    classification_passed = bool(
+        mesh_gate_certified or n128_authorized
+    )
+    output = {
+        "work_package": "WP10c5s",
+        "scope": (
+            "one bounded N64 confirmation from the certified fixed "
+            "analytic causal datum, with an unchanged short gate and "
+            "conditional exact-time duration contraction audit"
+        ),
+        "parent_results": {
+            name: str(path.relative_to(ROOT))
+            for name, path in parent_paths.items()
+        },
+        "parent_contract": parent_contract,
+        "construction": construction,
+        "common_seed_parameters": common_parameters,
+        "n64_initial_datum": n64_initial,
+        "n32_n64_initial_profile_audit": initial_profile,
+        "short_startup": {
+            "reference_n32": parent_short_n32,
+            "n64": short_n64,
+            "mesh_comparison": short_mesh,
+            "passed": short_gate_passed,
+        },
+        "temporal_parity": {
+            "selection_rule": (
+                "minimum of the N32 and N64 maximum accepted "
+                "short-startup timesteps; physical and nonlinear "
+                "tolerances are unchanged"
+            ),
+            "shared_maximum_timestep_seconds": (
+                shared_maximum_timestep
+            ),
+            "target_elapsed_time_seconds": float(
+                temporal_parent["temporal_parity"][
+                    "target_elapsed_time_seconds"
+                ]
+            ),
+        },
+        "bounded_duration": {
+            "n32": duration_n32,
+            "n64": duration_n64,
+            "mesh_comparison": duration_mesh,
+            "passed_individually": duration_execution_passed,
+            "mesh_gate_certified": mesh_gate_certified,
+        },
+        "coarse_duration_reference": {
+            "pair": "n16_n32",
+            "mesh_comparison": temporal_parent["mesh_comparison"],
+        },
+        "duration_contraction": contraction,
+        "gates": {
+            "parent_prerequisites_passed": prerequisites_passed,
+            "n64_initial_datum_passed": bool(
+                n64_initial is not None and n64_initial["passed"]
+            ),
+            "n32_n64_initial_profile_passed": bool(
+                initial_profile is not None
+                and initial_profile["passed"]
+            ),
+            "n64_short_startup_passed": short_n64_passed,
+            "n32_n64_short_mesh_gate_passed": bool(
+                short_mesh is not None and short_mesh["passed"]
+            ),
+            "short_common_data_startup_certified": (
+                short_gate_passed
+            ),
+            "n32_duration_passed": duration_n32_passed,
+            "n64_duration_passed": duration_n64_passed,
+            "n32_n64_duration_mesh_gate_passed": (
+                mesh_gate_certified
+            ),
+            "bounded_duration_mesh_certified": mesh_gate_certified,
+            "one_n128_confirmation_authorized": n128_authorized,
+            "n64_physical_evolution_executed": (
+                short_n64 is not None
+            ),
+            "n128_physical_evolution_executed": False,
+            "n96_physical_evolution_executed": False,
+            "operator_correction_authorized": False,
+            "long_evolution_authorized": False,
+            "tide_authorized": False,
+            "wind_authorized": False,
+            "stability_authorized": False,
+            "hot_state_search_authorized": False,
+            "limit_cycle_search_authorized": False,
+        },
+        "passed": classification_passed,
+        "decision": (
+            "mesh_gate_certified_at_n64"
+            if mesh_gate_certified
+            else (
+                "one_bounded_n128_confirmation_authorized"
+                if n128_authorized
+                else (
+                    "stop_after_n64_confirmation"
+                    if duration_execution_passed
+                    else (
+                        "stop_after_n64_short_gate"
+                        if short_n64 is not None
+                        else "stop_before_n64_evolution"
+                    )
+                )
+            )
+        ),
+    }
+    output_path = _absolute(
+        DEFAULT_MESH_COMMON_N64_CONFIRMATION_OUTPUT
+        if args.output == DEFAULT_OUTPUT
+        else args.output
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = json.dumps(
+        output,
+        indent=2,
+        sort_keys=True,
+        default=_json_default,
+    )
+    output_path.write_text(serialized + "\n", encoding="utf-8")
+    print(serialized)
+
+
+def _run_mesh_common_n64_ledger_replay_audit(
+    args: argparse.Namespace,
+) -> None:
+    parent_paths = {
+        "n64_confirmation": (
+            DEFAULT_MESH_COMMON_N64_CONFIRMATION_OUTPUT
+        ),
+        "temporal_parity": DEFAULT_MESH_COMMON_TEMPORAL_PARITY_OUTPUT,
+    }
+    missing = [
+        name for name, path in parent_paths.items() if not path.exists()
+    ]
+    if missing:
+        raise FileNotFoundError(
+            "WP10c5t requires parent results: " + ", ".join(missing)
+        )
+    parent = json.loads(
+        parent_paths["n64_confirmation"].read_text(encoding="utf-8")
+    )
+    temporal_parent = json.loads(
+        parent_paths["temporal_parity"].read_text(encoding="utf-8")
+    )
+    baseline_n64 = parent["bounded_duration"]["n64"]
+    reference_n32 = parent["bounded_duration"]["n32"]
+    if baseline_n64 is None or reference_n32 is None:
+        raise RuntimeError(
+            "WP10c5t requires completed N32 and N64 duration attempts"
+        )
+    baseline_ledger_tolerance = float(
+        baseline_n64["acceptance_tolerances"][
+            "aggregate_five_field_relative_defect"
+        ]
+    )
+    strict_residual_tolerance = 1.0e-11
+    n32_step_residuals = [
+        float(row["maximum_scaled_residual"])
+        for row in reference_n32["extension"]["steps"]
+        if row.get("step_gate_passed", False)
+    ]
+    baseline_n64_step_residuals = [
+        float(row["maximum_scaled_residual"])
+        for row in baseline_n64["extension"]["steps"]
+        if row.get("step_gate_passed", False)
+    ]
+    ledger_only_failure = bool(
+        not baseline_n64["passed"]
+        and baseline_n64["terminal_message"] == "target reached"
+        and baseline_n64["target_reached"]
+        and baseline_n64["all_step_gates_passed"]
+        and baseline_n64["extension"]["first_step_replay_bitwise"]
+        and baseline_n64["final_state_audit"]["passed"]
+        and baseline_n64["final_rank_audit"] is not None
+        and baseline_n64["final_rank_audit"]["passed"]
+        and baseline_n64["mass_budget"]["relative_defect"]
+        <= baseline_n64["acceptance_tolerances"][
+            "aggregate_mass_relative_defect"
+        ]
+        and baseline_n64["restart"]["final_roundtrip_bitwise"]
+        and baseline_n64["physical_five_field_ledger"][
+            "maximum_relative_balance_defect"
+        ]
+        > baseline_ledger_tolerance
+    )
+    n32_already_strict = bool(
+        reference_n32["passed"]
+        and n32_step_residuals
+        and max(n32_step_residuals) <= strict_residual_tolerance
+    )
+    common_parameters, construction = (
+        _mesh_common_source_compatible_seed_parameters()
+    )
+    parent_contract = {
+        "work_package_is_wp10c5s": (
+            parent["work_package"] == "WP10c5s"
+        ),
+        "short_gate_passed": parent["short_startup"]["passed"],
+        "n32_duration_passed": reference_n32["passed"],
+        "n64_failure_is_ledger_only": ledger_only_failure,
+        "n32_already_satisfies_strict_residual": n32_already_strict,
+        "common_parameters_unchanged": (
+            parent["common_seed_parameters"] == common_parameters
+        ),
+        "construction_unchanged": (
+            parent["construction"] == construction
+        ),
+        "baseline_ledger_gate_unchanged": (
+            baseline_ledger_tolerance == 1.0e-10
+        ),
+    }
+    prerequisites_passed = all(parent_contract.values())
+
+    strict_n64 = None
+    strict_n64_passed = False
+    if prerequisites_passed:
+        context = _context(64, include_stream=True)
+        initial_state = make_causal_five_field_seed(
+            context,
+            **common_parameters,
+        )
+        artifacts = {
+            "context": context,
+            "old_vector": pack_causal_five_field_state(
+                initial_state
+            ),
+            "timestep_seconds": float(
+                parent["short_startup"]["n64"]["steps"][0][
+                    "dt_used_seconds"
+                ]
+            ),
+        }
+        strict_n64, strict_n64_passed = (
+            _continue_source_compatible_duration_resolution(
+                64,
+                initialization={"resolution_passed": True},
+                artifacts=artifacts,
+                seed_parameters=common_parameters,
+                elapsed_time_target=float(
+                    parent["temporal_parity"][
+                        "target_elapsed_time_seconds"
+                    ]
+                ),
+                perform_first_step_replay_audit=True,
+                parent_restart_label="wp10c5s",
+                output_restart_label="wp10c5t_duration",
+                work_package="WP10c5t",
+                parent_work_package="WP10c5s",
+                initial_dt_next_override=float(
+                    parent["temporal_parity"][
+                        "shared_maximum_timestep_seconds"
+                    ]
+                ),
+                maximum_dt_override=float(
+                    parent["temporal_parity"][
+                        "shared_maximum_timestep_seconds"
+                    ]
+                ),
+                step_residual_tolerance=(
+                    strict_residual_tolerance
+                ),
+            )
+        )
+
+    strict_step_residuals = (
+        [
+            float(row["maximum_scaled_residual"])
+            for row in strict_n64["extension"]["steps"]
+            if row.get("step_gate_passed", False)
+        ]
+        if strict_n64 is not None
+        else []
+    )
+    strict_residual_contract_passed = bool(
+        strict_n64_passed
+        and strict_step_residuals
+        and max(strict_step_residuals)
+        <= strict_residual_tolerance
+    )
+    fine_comparison = None
+    contraction = None
+    if strict_residual_contract_passed:
+        fine_comparison = (
+            _source_compatible_duration_mesh_comparison(
+                reference_n32,
+                strict_n64,
+                left_label="n32",
+                right_label="n64",
+            )
+        )
+        contraction = _mesh_contraction_summary(
+            temporal_parent["mesh_comparison"],
+            fine_comparison,
+        )
+    mesh_gate_certified = bool(
+        fine_comparison is not None and fine_comparison["passed"]
+    )
+    fine_maximum_error = (
+        float(
+            fine_comparison["absolute_or_relative_differences"][
+                "maximum_delta_log_h_over_r_response_difference"
+            ]
+        )
+        if fine_comparison is not None
+        else np.inf
+    )
+    response_gate = (
+        float(
+            fine_comparison["gates"][
+                "maximum_delta_log_h_over_r_response_difference"
+            ]
+        )
+        if fine_comparison is not None
+        else 5.0e-3
+    )
+    n128_authorized = bool(
+        strict_residual_contract_passed
+        and not mesh_gate_certified
+        and fine_maximum_error > response_gate
+        and contraction is not None
+        and contraction["maximum_response_contracts"]
+        and contraction["maximum_response_order_passes"]
+    )
+    classification_passed = bool(
+        mesh_gate_certified or n128_authorized
+    )
+    output = {
+        "work_package": "WP10c5t",
+        "scope": (
+            "one bounded ledger-tight N64 replay from the certified "
+            "WP10c5s short checkpoint after an otherwise passing "
+            "duration accumulated nonlinear closure above the unchanged "
+            "aggregate ledger gate"
+        ),
+        "parent_results": {
+            name: str(path.relative_to(ROOT))
+            for name, path in parent_paths.items()
+        },
+        "parent_contract": parent_contract,
+        "construction": construction,
+        "common_seed_parameters": common_parameters,
+        "numerical_change": {
+            "baseline_step_residual_tolerance": float(
+                baseline_n64["acceptance_tolerances"][
+                    "scaled_residual"
+                ]
+            ),
+            "strict_step_residual_tolerance": (
+                strict_residual_tolerance
+            ),
+            "aggregate_five_field_ledger_tolerance": (
+                baseline_ledger_tolerance
+            ),
+            "aggregate_mass_ledger_tolerance": float(
+                baseline_n64["acceptance_tolerances"][
+                    "aggregate_mass_relative_defect"
+                ]
+            ),
+            "physical_equations_changed": False,
+            "physical_gates_changed": False,
+            "acceptance_gate_relaxed": False,
+        },
+        "baseline_n64": {
+            "maximum_step_residual": max(
+                baseline_n64_step_residuals
+            ),
+            "aggregate_five_field_ledger_defect": (
+                baseline_n64["physical_five_field_ledger"][
+                    "maximum_relative_balance_defect"
+                ]
+            ),
+            "aggregate_mass_ledger_defect": (
+                baseline_n64["mass_budget"]["relative_defect"]
+            ),
+            "passed": baseline_n64["passed"],
+        },
+        "reference_n32": {
+            "maximum_step_residual": max(n32_step_residuals),
+            "already_satisfies_strict_residual": n32_already_strict,
+            "duration": reference_n32,
+        },
+        "strict_n64": strict_n64,
+        "change_from_baseline_n64": (
+            _duration_response_difference(
+                baseline_n64,
+                strict_n64,
+            )
+            if strict_n64_passed
+            else None
+        ),
+        "fine_mesh_comparison": fine_comparison,
+        "duration_contraction": contraction,
+        "gates": {
+            "parent_prerequisites_passed": prerequisites_passed,
+            "strict_n64_duration_passed": strict_n64_passed,
+            "strict_n64_residual_contract_passed": (
+                strict_residual_contract_passed
+            ),
+            "strict_n64_aggregate_ledger_gate_passed": bool(
+                strict_n64 is not None
+                and strict_n64[
+                    "physical_five_field_ledger"
+                ]["maximum_relative_balance_defect"]
+                <= baseline_ledger_tolerance
+            ),
+            "n32_n64_duration_mesh_gate_passed": (
+                mesh_gate_certified
+            ),
+            "bounded_duration_mesh_certified": mesh_gate_certified,
+            "one_n128_confirmation_authorized": n128_authorized,
+            "n128_physical_evolution_executed": False,
+            "n96_physical_evolution_executed": False,
+            "operator_correction_authorized": False,
+            "long_evolution_authorized": False,
+            "tide_authorized": False,
+            "wind_authorized": False,
+            "stability_authorized": False,
+            "hot_state_search_authorized": False,
+            "limit_cycle_search_authorized": False,
+        },
+        "passed": classification_passed,
+        "decision": (
+            "mesh_gate_certified_at_ledger_tight_n64"
+            if mesh_gate_certified
+            else (
+                "one_bounded_n128_confirmation_authorized"
+                if n128_authorized
+                else (
+                    "stop_after_ledger_tight_n64"
+                    if strict_n64 is not None
+                    else "stop_before_ledger_tight_n64"
+                )
+            )
+        ),
+    }
+    output_path = _absolute(
+        DEFAULT_MESH_COMMON_N64_LEDGER_REPLAY_OUTPUT
+        if args.output == DEFAULT_OUTPUT
+        else args.output
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = json.dumps(
+        output,
+        indent=2,
+        sort_keys=True,
+        default=_json_default,
+    )
+    output_path.write_text(serialized + "\n", encoding="utf-8")
+    print(serialized)
+
+
 def _run_increment_primary_audit(
     args: argparse.Namespace,
     *,
@@ -7688,6 +8716,12 @@ def _run_increment_primary_audit(
 
 def main() -> None:
     args = _arguments()
+    if args.increment_primary_mesh_common_n64_ledger_replay_audit:
+        _run_mesh_common_n64_ledger_replay_audit(args)
+        return
+    if args.increment_primary_mesh_common_n64_confirmation_audit:
+        _run_mesh_common_n64_confirmation_audit(args)
+        return
     if args.increment_primary_mesh_common_spatial_response_audit:
         _run_mesh_common_spatial_response_audit(args)
         return

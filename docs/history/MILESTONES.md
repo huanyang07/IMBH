@@ -204,6 +204,15 @@ rejected sequence.
     duration mismatch is ordinary first-order coarse-grid truncation. No
     operator correction is justified; one bounded N64 confirmation is
     authorized before any longer or physical evolution.
+40. **N64 contraction and ledger-tight confirmation:** an independently
+    generated N64 datum passes the exact-time N32/N64 short gate with response
+    error `8.6493e-4`. The baseline duration passes every state, rank, and step
+    gate but accumulates a five-field ledger defect of `1.8082e-10`. One
+    stricter-residual replay lowers that defect to `1.8084e-12` while changing
+    the response by only `5.01e-10`. The bounded N32/N64 response error is
+    `6.6677e-3`, above `5e-3`, but contracts from N16/N32 at order `1.657`
+    (RMS `1.463`). Exactly one bounded N128 confirmation is authorized; no
+    longer or physical evolution is unlocked.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed
