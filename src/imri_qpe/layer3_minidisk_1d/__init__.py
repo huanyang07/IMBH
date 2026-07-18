@@ -173,6 +173,13 @@ from .causal_inner_temporal_controller import (
     advance_causal_five_field_step_doubling_backward_euler,
     audit_causal_five_field_temporal_step_contract,
 )
+from .causal_inner_temporal_campaign import (
+    CausalFiveFieldTemporalCampaignRecord,
+    CausalFiveFieldTemporalCampaignResult,
+    CausalFiveFieldTemporalCampaignState,
+    causal_five_field_temporal_campaign_states_equal,
+    evolve_causal_five_field_horizon_budget,
+)
 from .causal_inner_temporal_reference import (
     CausalFiveFieldFixedReferenceResult,
     evolve_causal_five_field_fixed_reference,
@@ -1026,6 +1033,9 @@ __all__ = [
     "CAUSAL_FIVE_FIELD_TEMPORAL_ACCURACY_GATES_V1",
     "CausalFiveFieldStepDoublingAttempt",
     "CausalFiveFieldStepDoublingResult",
+    "CausalFiveFieldTemporalCampaignRecord",
+    "CausalFiveFieldTemporalCampaignResult",
+    "CausalFiveFieldTemporalCampaignState",
     "CausalFiveFieldFixedReferenceResult",
     "CausalFiveFieldTemporalControllerConfig",
     "CausalFiveFieldTemporalStepContract",
@@ -1112,8 +1122,10 @@ __all__ = [
     "causal_stress_work_partition",
     "causal_temporal_vertical_work_storage",
     "causal_thermal_column_source",
+    "causal_five_field_temporal_campaign_states_equal",
     "evaluate_causal_five_field_dae",
     "evaluate_causal_five_field_increment_backward_euler",
+    "evolve_causal_five_field_horizon_budget",
     "evolve_causal_five_field_fixed_reference",
     "equilibrium_alpha_specific_stress",
     "exact_kerr_schild_compact_stream_sources",
