@@ -173,6 +173,10 @@ from .causal_inner_temporal_controller import (
     advance_causal_five_field_step_doubling_backward_euler,
     audit_causal_five_field_temporal_step_contract,
 )
+from .causal_inner_temporal_reference import (
+    CausalFiveFieldFixedReferenceResult,
+    evolve_causal_five_field_fixed_reference,
+)
 from .causal_inner_valencia import (
     SchwarzschildKerrSchildGeometry,
     ValenciaCharacteristicAudit,
@@ -1022,6 +1026,7 @@ __all__ = [
     "CAUSAL_FIVE_FIELD_TEMPORAL_ACCURACY_GATES_V1",
     "CausalFiveFieldStepDoublingAttempt",
     "CausalFiveFieldStepDoublingResult",
+    "CausalFiveFieldFixedReferenceResult",
     "CausalFiveFieldTemporalControllerConfig",
     "CausalFiveFieldTemporalStepContract",
     "CAUSAL_REGRESSION_STREAM_CENTER_RG",
@@ -1109,6 +1114,7 @@ __all__ = [
     "causal_thermal_column_source",
     "evaluate_causal_five_field_dae",
     "evaluate_causal_five_field_increment_backward_euler",
+    "evolve_causal_five_field_fixed_reference",
     "equilibrium_alpha_specific_stress",
     "exact_kerr_schild_compact_stream_sources",
     "hydrostatic_vertical_work_identity_defect",
