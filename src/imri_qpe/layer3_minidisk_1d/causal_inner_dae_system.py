@@ -10,6 +10,11 @@ from scipy.sparse.linalg import splu
 
 from imri_qpe.constants import C, DEFAULT_KAPPA_ES
 
+from .causal_inner_bdf import (
+    CausalFiveFieldBDFHistory,
+    causal_bdf_coefficients,
+    causal_bdf_increment_rate,
+)
 from .causal_inner_dae import (
     audit_causal_five_field_principal,
     causal_five_field_dae_count,
@@ -1244,15 +1249,81 @@ def evaluate_causal_five_field_dae(
     )
 
 
-def evaluate_causal_five_field_increment_backward_euler(
+def causal_five_field_bdf_history(
+    context: CausalFiveFieldDAEContext,
+    current_vector: np.ndarray,
+    previous_physical_increment: np.ndarray,
+    previous_timestep_seconds: float,
+    *,
+    temporal_height_scheme: str = "path_integrated",
+) -> CausalFiveFieldBDFHistory:
+    """Build complete fixed history for the next BDF2 residual."""
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    count = causal_five_field_dae_count(n_cells)
+    current_values = np.asarray(current_vector, dtype=float)
+    previous_increment = np.asarray(
+        previous_physical_increment,
+        dtype=float,
+    )
+    if (
+        current_values.shape != (count.total_unknowns,)
+        or previous_increment.shape != current_values.shape
+        or np.any(~np.isfinite(current_values))
+        or np.any(~np.isfinite(previous_increment))
+    ):
+        raise ValueError("causal BDF history vectors are invalid")
+    previous_timestep = float(previous_timestep_seconds)
+    if not np.isfinite(previous_timestep) or previous_timestep <= 0.0:
+        raise ValueError("previous BDF timestep must be positive")
+    if temporal_height_scheme not in ("endpoint", "path_integrated"):
+        raise ValueError("unknown temporal-height scheme")
+    current = unpack_causal_five_field_state(
+        current_values,
+        n_cells,
+    )
+    previous = unpack_causal_five_field_state(
+        current_values - previous_increment,
+        n_cells,
+    )
+    if temporal_height_scheme == "endpoint":
+        temporal = causal_five_field_endpoint_temporal_storage_increment(
+            context,
+            previous.primitives,
+            current.primitives,
+        )
+    else:
+        temporal = causal_five_field_path_temporal_storage_increment(
+            context,
+            previous.primitives,
+            current.primitives,
+        )
+    return CausalFiveFieldBDFHistory(
+        previous_physical_increment=previous_increment,
+        previous_vertical_killing_increment=np.asarray(
+            temporal.vertical_killing_increment,
+            dtype=float,
+        ),
+        previous_timestep_seconds=previous_timestep,
+        temporal_height_scheme=temporal_height_scheme,
+    ).validated(
+        total_unknowns=count.total_unknowns,
+        n_cells=n_cells,
+    )
+
+
+def evaluate_causal_five_field_increment_bdf(
     increment_vector: np.ndarray,
     context: CausalFiveFieldDAEContext,
     *,
     old_vector: np.ndarray,
     timestep_seconds: float,
+    order: int,
+    history: CausalFiveFieldBDFHistory | None = None,
     temporal_height_scheme: str = "path_integrated",
 ) -> CausalFiveFieldDAEEvaluation:
-    """Evaluate backward Euler with primary state and face increments.
+    """Evaluate BDF1 or BDF2 with primary state and face increments.
 
     The conserved increment is an independent Newton unknown and enters the
     amplified storage row directly. Primitive recovery and numerical face
@@ -1273,9 +1344,35 @@ def evaluate_causal_five_field_increment_backward_euler(
         raise ValueError("increment-primary DAE vectors are invalid")
     timestep = float(timestep_seconds)
     if not np.isfinite(timestep) or timestep <= 0.0:
-        raise ValueError("backward-Euler timestep must be positive and finite")
+        raise ValueError("BDF timestep must be positive and finite")
     if temporal_height_scheme not in ("endpoint", "path_integrated"):
         raise ValueError("unknown temporal-height scheme")
+    if int(order) != order or order not in (1, 2):
+        raise ValueError("causal BDF order must be one or two")
+    if order == 1:
+        if history is not None:
+            raise ValueError("BDF1 does not consume temporal history")
+        validated_history = None
+        coefficients = causal_bdf_coefficients(1, timestep)
+    else:
+        if history is None:
+            raise ValueError("BDF2 requires complete temporal history")
+        validated_history = history.validated(
+            total_unknowns=count.total_unknowns,
+            n_cells=n_cells,
+        )
+        if (
+            validated_history.temporal_height_scheme
+            != temporal_height_scheme
+        ):
+            raise ValueError(
+                "BDF history uses a different temporal-height scheme"
+            )
+        coefficients = causal_bdf_coefficients(
+            order,
+            timestep,
+            validated_history.previous_timestep_seconds,
+        )
 
     old = unpack_causal_five_field_state(old_values, n_cells)
     new_state = unpack_causal_five_field_state(
@@ -1303,16 +1400,35 @@ def evaluate_causal_five_field_increment_backward_euler(
             old.primitives,
             new_state.primitives,
         )
-    coordinate_timestep = C * timestep
+    previous_conserved_increment = (
+        None
+        if validated_history is None
+        else validated_history.previous_physical_increment[
+            :n_differential
+        ].reshape(n_cells, _N_FIELDS)
+    )
+    previous_vertical_increment = (
+        None
+        if validated_history is None
+        else validated_history.previous_vertical_killing_increment
+    )
     temporal_conserved_storage = (
         context.grid.cell_measures[:, None]
-        * conserved_increment
-        / coordinate_timestep
+        * causal_bdf_increment_rate(
+            conserved_increment,
+            previous_conserved_increment,
+            coefficients,
+        )
+        / C
     )
     temporal_vertical_storage = (
         context.grid.cell_measures[:, None]
-        * temporal.vertical_killing_increment
-        / coordinate_timestep
+        * causal_bdf_increment_rate(
+            temporal.vertical_killing_increment,
+            previous_vertical_increment,
+            coefficients,
+        )
+        / C
     )
     conservation = (
         stationary.conservation_rows
@@ -1360,6 +1476,26 @@ def evaluate_causal_five_field_increment_backward_euler(
         outer_incoming_characteristics=(
             stationary.outer_incoming_characteristics
         ),
+    )
+
+
+def evaluate_causal_five_field_increment_backward_euler(
+    increment_vector: np.ndarray,
+    context: CausalFiveFieldDAEContext,
+    *,
+    old_vector: np.ndarray,
+    timestep_seconds: float,
+    temporal_height_scheme: str = "path_integrated",
+) -> CausalFiveFieldDAEEvaluation:
+    """Evaluate the order-one increment-primary BDF formula."""
+
+    return evaluate_causal_five_field_increment_bdf(
+        increment_vector,
+        context,
+        old_vector=old_vector,
+        timestep_seconds=timestep_seconds,
+        order=1,
+        temporal_height_scheme=temporal_height_scheme,
     )
 
 

@@ -1,0 +1,250 @@
+"""Complete restart payload for increment-primary causal BDF evolution."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+import hashlib
+import json
+from pathlib import Path
+
+import numpy as np
+
+from .causal_inner_bdf import (
+    CausalFiveFieldBDFHistory,
+    causal_bdf_coefficients,
+)
+from .causal_inner_dae import causal_five_field_dae_count
+from .causal_inner_dae_system import CausalFiveFieldDAEContext
+
+
+@dataclass(frozen=True)
+class CausalFiveFieldBDFRestart:
+    """State, two-step history, controller state, and provenance."""
+
+    state_vector: np.ndarray
+    history: CausalFiveFieldBDFHistory
+    elapsed_time: float
+    dt_next: float
+    next_order: int
+    accepted_steps: int
+    rejected_attempts: int
+    provenance: dict
+    schema_version: int = 1
+
+
+def _validated_restart(
+    context: CausalFiveFieldDAEContext,
+    restart: CausalFiveFieldBDFRestart,
+) -> CausalFiveFieldBDFRestart:
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    count = causal_five_field_dae_count(n_cells)
+    state = np.asarray(restart.state_vector, dtype=float)
+    history = restart.history.validated(
+        total_unknowns=count.total_unknowns,
+        n_cells=n_cells,
+    )
+    elapsed = float(restart.elapsed_time)
+    dt_next = float(restart.dt_next)
+    if (
+        state.shape != (count.total_unknowns,)
+        or np.any(~np.isfinite(state))
+        or not np.isfinite(elapsed)
+        or elapsed < 0.0
+        or not np.isfinite(dt_next)
+        or dt_next <= 0.0
+        or int(restart.next_order) != restart.next_order
+        or restart.next_order not in (1, 2)
+        or restart.accepted_steps < 0
+        or restart.rejected_attempts < 0
+        or restart.schema_version != 1
+        or not isinstance(restart.provenance, dict)
+    ):
+        raise ValueError("causal BDF restart is invalid")
+    if restart.next_order == 2:
+        causal_bdf_coefficients(
+            2,
+            dt_next,
+            history.previous_timestep_seconds,
+        )
+    return CausalFiveFieldBDFRestart(
+        state_vector=state,
+        history=history,
+        elapsed_time=elapsed,
+        dt_next=dt_next,
+        next_order=int(restart.next_order),
+        accepted_steps=int(restart.accepted_steps),
+        rejected_attempts=int(restart.rejected_attempts),
+        provenance=dict(restart.provenance),
+        schema_version=1,
+    )
+
+
+def _restart_hash(
+    context: CausalFiveFieldDAEContext,
+    restart: CausalFiveFieldBDFRestart,
+) -> str:
+    digest = hashlib.sha256()
+    arrays = (
+        context.grid.edges,
+        restart.state_vector,
+        restart.history.previous_physical_increment,
+        restart.history.previous_vertical_killing_increment,
+        np.asarray(
+            (
+                restart.elapsed_time,
+                restart.dt_next,
+                restart.history.previous_timestep_seconds,
+            ),
+            dtype="<f8",
+        ),
+        np.asarray(
+            (
+                restart.next_order,
+                restart.accepted_steps,
+                restart.rejected_attempts,
+                restart.schema_version,
+            ),
+            dtype="<i8",
+        ),
+    )
+    for values in arrays:
+        array = np.ascontiguousarray(values)
+        digest.update(np.asarray(array.shape, dtype="<i8").tobytes())
+        digest.update(array.tobytes())
+    digest.update(
+        restart.history.temporal_height_scheme.encode("ascii")
+    )
+    return digest.hexdigest()
+
+
+def causal_five_field_bdf_restarts_equal(
+    left: CausalFiveFieldBDFRestart,
+    right: CausalFiveFieldBDFRestart,
+) -> bool:
+    """Return whether two BDF restart payloads are bitwise identical."""
+
+    return bool(
+        np.array_equal(left.state_vector, right.state_vector)
+        and np.array_equal(
+            left.history.previous_physical_increment,
+            right.history.previous_physical_increment,
+        )
+        and np.array_equal(
+            left.history.previous_vertical_killing_increment,
+            right.history.previous_vertical_killing_increment,
+        )
+        and left.history.previous_timestep_seconds
+        == right.history.previous_timestep_seconds
+        and left.history.temporal_height_scheme
+        == right.history.temporal_height_scheme
+        and left.elapsed_time == right.elapsed_time
+        and left.dt_next == right.dt_next
+        and left.next_order == right.next_order
+        and left.accepted_steps == right.accepted_steps
+        and left.rejected_attempts == right.rejected_attempts
+        and left.provenance == right.provenance
+        and left.schema_version == right.schema_version
+    )
+
+
+def save_causal_five_field_bdf_restart(
+    path: str | Path,
+    context: CausalFiveFieldDAEContext,
+    restart: CausalFiveFieldBDFRestart,
+) -> None:
+    """Persist one complete causal BDF restart."""
+
+    validated = _validated_restart(context, restart)
+    destination = Path(path)
+    if destination.suffix != ".npz":
+        raise ValueError("causal BDF restart path must end in .npz")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    provenance = json.dumps(
+        validated.provenance,
+        sort_keys=True,
+        separators=(",", ":"),
+        allow_nan=False,
+    )
+    np.savez_compressed(
+        destination,
+        schema_version=np.asarray(
+            validated.schema_version,
+            dtype=np.int64,
+        ),
+        grid_edges=context.grid.edges,
+        state_vector=validated.state_vector,
+        previous_physical_increment=(
+            validated.history.previous_physical_increment
+        ),
+        previous_vertical_killing_increment=(
+            validated.history.previous_vertical_killing_increment
+        ),
+        previous_timestep_seconds=np.asarray(
+            validated.history.previous_timestep_seconds
+        ),
+        temporal_height_scheme=np.asarray(
+            validated.history.temporal_height_scheme
+        ),
+        elapsed_time=np.asarray(validated.elapsed_time),
+        dt_next=np.asarray(validated.dt_next),
+        next_order=np.asarray(validated.next_order, dtype=np.int64),
+        accepted_steps=np.asarray(
+            validated.accepted_steps,
+            dtype=np.int64,
+        ),
+        rejected_attempts=np.asarray(
+            validated.rejected_attempts,
+            dtype=np.int64,
+        ),
+        state_history_sha256=np.asarray(
+            _restart_hash(context, validated)
+        ),
+        provenance_json=np.asarray(provenance),
+    )
+
+
+def load_causal_five_field_bdf_restart(
+    path: str | Path,
+    context: CausalFiveFieldDAEContext,
+) -> CausalFiveFieldBDFRestart:
+    """Load and checksum one complete causal BDF restart."""
+
+    context = context.validated()
+    with np.load(Path(path), allow_pickle=False) as data:
+        edges = np.asarray(data["grid_edges"], dtype=float)
+        if not np.array_equal(edges, context.grid.edges):
+            raise ValueError("causal BDF restart grid does not match")
+        restart = CausalFiveFieldBDFRestart(
+            state_vector=np.asarray(data["state_vector"], dtype=float),
+            history=CausalFiveFieldBDFHistory(
+                previous_physical_increment=np.asarray(
+                    data["previous_physical_increment"],
+                    dtype=float,
+                ),
+                previous_vertical_killing_increment=np.asarray(
+                    data["previous_vertical_killing_increment"],
+                    dtype=float,
+                ),
+                previous_timestep_seconds=float(
+                    data["previous_timestep_seconds"]
+                ),
+                temporal_height_scheme=str(
+                    data["temporal_height_scheme"].item()
+                ),
+            ),
+            elapsed_time=float(data["elapsed_time"]),
+            dt_next=float(data["dt_next"]),
+            next_order=int(data["next_order"]),
+            accepted_steps=int(data["accepted_steps"]),
+            rejected_attempts=int(data["rejected_attempts"]),
+            provenance=json.loads(
+                str(data["provenance_json"].item())
+            ),
+            schema_version=int(data["schema_version"]),
+        )
+        expected_hash = str(data["state_history_sha256"].item())
+    validated = _validated_restart(context, restart)
+    if expected_hash != _restart_hash(context, validated):
+        raise ValueError("causal BDF restart checksum mismatch")
+    return validated
