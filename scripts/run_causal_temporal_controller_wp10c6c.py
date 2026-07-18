@@ -244,6 +244,12 @@ def _attempt_summary(
         ),
         "temporal_errors": attempt.temporal_errors,
         "temporal_gate_audit": attempt.temporal_gate_audit,
+        "temporal_budget_fraction": (
+            attempt.temporal_budget_fraction
+        ),
+        "effective_temporal_accuracy_gates": (
+            attempt.effective_temporal_accuracy_gates
+        ),
     }
 
 

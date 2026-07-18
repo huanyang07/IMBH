@@ -89,6 +89,7 @@ This is the canonical project handoff. Status labels mean:
 | Causal N16 timestep ceiling WP10c6a | **CERTIFIED** for local temporal control; **DIAGNOSTIC ONLY** physically | One-full/two-half backward-Euler ladder passes through `1.92182e-3 s` and first fails temporal accuracy at `3.84364e-3 s`; all solver, ledger, causal, optical, and Roche gates pass; the inherited step is enlarged by `256x` | One N16 checkpoint only; the ceiling is `4.0-8.0%` of the shortest physical clock and requires an N32 mesh check before becoming a production controller |
 | Causal N16/N32 temporal-controller contract WP10c6b | **CERTIFIED** for local temporal control; **DIAGNOSTIC ONLY** physically | N32 exactly reproduces the N16 passing/failing bracket and the same cooling/`H/R` failure observables while its shortest cell-crossing clock falls to `2.16380e-2 s`; all solver, ledger, causal, optical, and Roche gates pass | The step-doubling controller contract is authorized but not yet implemented or tested over a matched duration; no N64/N128, long evolution, tide, wind, stability, hot-state, or cycle run is authorized |
 | Causal accumulated-error controller WP10c6c | **CERTIFIED** as a bounded negative production result; **DIAGNOSTIC ONLY** physically | N16 local controller takes 9 accepted/0 rejected steps, restart replay is bitwise, all contracts pass, and Jacobian work is `2.19x` below a 64-step reference | Final cooling and `H/R` errors reach `2.26-3.69x` their gates; N32 is correctly skipped and the local contract is not a production accumulated-error law |
+| Causal horizon-budget reference WP10c6d | **CERTIFIED** for first-order temporal convergence; **DIAGNOSTIC ONLY** physically | All 224 N16 fixed steps at 32/64/128 subdivisions pass and all six observables converge at order `0.9947-1.0030` | Raw 64-to-128 uncertainty is `0.369-0.605` of three cooling/`H/R` gates, above the locked `0.25`; controller and N32 runs are correctly blocked |
 
 ## Frozen Target Under Review
 
@@ -530,6 +531,14 @@ N                    = 164
     and `7.39e-3`, giving a maximum normalized error `3.695`. The local
     controller therefore fails the accumulated-accuracy gate. N32 is not
     launched and the next package must calibrate a horizon-wide error budget.
+64. WP10c6d encodes the horizon rule and first certifies its reference. All
+    32/64/128 fixed N16 trajectories pass every solver and physical contract,
+    and all immutable observables converge almost exactly at first order.
+    The 64-to-128 uncertainty nevertheless consumes `0.561` of the total
+    cooling gate, `0.369` of exterior cooling, and `0.605` of the
+    `Delta ln(H/R)` gate, above the predeclared `0.25` allowance. The hard
+    stop correctly prevents the adaptive and N32 campaigns. A direct
+    128/256/512 reference refinement is required without changing any gate.
 
 ## Claims That Are Not Allowed Yet
 
@@ -593,13 +602,14 @@ N                    = 164
    The old PW
    plunge has superluminal transverse rotation and must not be mapped into the
    new variables. Continue only the selected one-domain ingoing-Kerr-Schild
-   Valencia path. WP10c6c shows that the local one-full/two-half contract is
-   deterministic and cheaper but does not control accumulated error over
-   eight shared ceilings. The next package remains N16-only: certify
-   32/64/128 fixed-step reference convergence and test one predeclared
-   horizon-budget rule that allocates local observable error in proportion
-   to `dt/T_output`. Do not fit a smaller safety factor, relax a gate, run
-   N32 before that N16 gate, run N64/N128 production, extend to a physical
+   Valencia path. WP10c6d proves clean first-order temporal convergence but
+   shows that the 128-step endpoint is not yet a sufficiently accurate
+   reference. The next package remains N16-only: save direct 128/256/512
+   fixed endpoints under the unchanged `0.25` uncertainty gate, and run the
+   implemented `dt/T_output` horizon-budget controller only if that refined
+   reference passes. Do not use post-hoc extrapolation, fit a smaller safety
+   factor, relax a gate, run N32 before that N16 gate, run N64/N128
+   production, extend to a physical
    loading/thermal time, or begin distributed tide, wind, stability, or a
    hot/cycle search.
 9. Continue one physical distributed tide only after the global no-tide
@@ -613,7 +623,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_TEMPORAL_CONTROLLER_WP10C6C_RESULTS_2026-07-18.md`
+  `reports/current/CODEX_CAUSAL_HORIZON_BUDGET_WP10C6D_RESULTS_2026-07-18.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -678,6 +688,7 @@ N                    = 164
 - Causal N16 timescale and timestep ceiling WP10c6a: `reports/current/CODEX_CAUSAL_N16_TIMESCALE_TIMESTEP_CEILING_WP10C6A_RESULTS_2026-07-18.md`
 - Causal N32 temporal-controller contract WP10c6b: `reports/current/CODEX_CAUSAL_N32_TEMPORAL_CONTROLLER_WP10C6B_RESULTS_2026-07-18.md`
 - Causal accumulated-error controller WP10c6c: `reports/current/CODEX_CAUSAL_TEMPORAL_CONTROLLER_WP10C6C_RESULTS_2026-07-18.md`
+- Causal horizon-budget reference WP10c6d: `reports/current/CODEX_CAUSAL_HORIZON_BUDGET_WP10C6D_RESULTS_2026-07-18.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
 - Horizon-penetrating Valencia core WP10b: `reports/current/CODEX_HORIZON_PENETRATING_VALENCIA_WP10B_RESULTS_2026-07-17.md`
 - Valencia gas+radiation primitive recovery WP10c1: `reports/current/CODEX_VALENCIA_GAS_RADIATION_PRIMITIVE_RECOVERY_WP10C1_RESULTS_2026-07-17.md`

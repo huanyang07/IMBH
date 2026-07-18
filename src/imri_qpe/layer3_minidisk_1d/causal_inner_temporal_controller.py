@@ -17,6 +17,7 @@ from .causal_inner_dae_system import (
 from .causal_inner_diagnostics import (
     CAUSAL_FIVE_FIELD_TEMPORAL_ACCURACY_GATES_V1,
     audit_causal_five_field_state_gates,
+    causal_backward_euler_horizon_budget_factor,
     causal_backward_euler_step_doubling_factor,
     causal_five_field_observable_snapshot,
     causal_five_field_temporal_error_ratio,
@@ -49,6 +50,8 @@ class CausalFiveFieldTemporalControllerConfig:
     minimum_factor: float = 0.25
     maximum_factor: float = 2.0
     maximum_retries: int = 6
+    output_horizon_seconds: float | None = None
+    horizon_budget_fraction: float = 1.0
 
     def validated(self) -> CausalFiveFieldTemporalControllerConfig:
         step_config = self.step_config.validated()
@@ -60,6 +63,7 @@ class CausalFiveFieldTemporalControllerConfig:
             self.safety_factor,
             self.minimum_factor,
             self.maximum_factor,
+            self.horizon_budget_fraction,
         )
         if any(
             not np.isfinite(value) or value <= 0.0
@@ -94,6 +98,20 @@ class CausalFiveFieldTemporalControllerConfig:
             raise ValueError(
                 "maximum_retries must be a non-negative integer"
             )
+        if self.horizon_budget_fraction > 1.0:
+            raise ValueError(
+                "horizon_budget_fraction must not exceed one"
+            )
+        if self.output_horizon_seconds is not None:
+            horizon = float(self.output_horizon_seconds)
+            if not np.isfinite(horizon) or horizon <= 0.0:
+                raise ValueError(
+                    "output_horizon_seconds must be positive"
+                )
+            if self.maximum_dt > horizon:
+                raise ValueError(
+                    "temporal maximum_dt must not exceed output horizon"
+                )
         gates = {
             str(name): float(value)
             for name, value in self.temporal_accuracy_gates.items()
@@ -114,6 +132,13 @@ class CausalFiveFieldTemporalControllerConfig:
             minimum_factor=self.minimum_factor,
             maximum_factor=self.maximum_factor,
         )
+        if self.output_horizon_seconds is not None:
+            causal_backward_euler_horizon_budget_factor(
+                1.0,
+                safety_factor=self.safety_factor,
+                minimum_factor=self.minimum_factor,
+                maximum_factor=self.maximum_factor,
+            )
         return replace(
             self,
             step_config=step_config,
@@ -145,6 +170,8 @@ class CausalFiveFieldStepDoublingAttempt:
     second_half_contract: CausalFiveFieldTemporalStepContract | None
     temporal_errors: dict[str, float | list[float]] | None
     temporal_gate_audit: dict[str, object] | None
+    temporal_budget_fraction: float
+    effective_temporal_accuracy_gates: dict[str, float]
     accepted: bool
     failure_class: str
     proposed_factor: float
@@ -369,6 +396,17 @@ def advance_causal_five_field_step_doubling_backward_euler(
         )
         temporal_errors = None
         temporal_gate_audit = None
+        temporal_budget_fraction = 1.0
+        if config.output_horizon_seconds is not None:
+            temporal_budget_fraction = (
+                config.horizon_budget_fraction
+                * trial_dt
+                / config.output_horizon_seconds
+            )
+        effective_temporal_accuracy_gates = {
+            name: float(limit) * temporal_budget_fraction
+            for name, limit in config.temporal_accuracy_gates.items()
+        }
         if contracts_passed:
             assert second_half is not None
             full_observables = causal_five_field_observable_snapshot(
@@ -401,20 +439,29 @@ def advance_causal_five_field_step_doubling_backward_euler(
             temporal_gate_audit = (
                 causal_five_field_temporal_error_ratio(
                     temporal_errors,
-                    dict(config.temporal_accuracy_gates),
+                    effective_temporal_accuracy_gates,
                 )
             )
         if temporal_gate_audit is None:
             factor = config.minimum_factor
         else:
-            factor = causal_backward_euler_step_doubling_factor(
-                float(
-                    temporal_gate_audit["maximum_normalized_error"]
-                ),
-                safety_factor=config.safety_factor,
-                minimum_factor=config.minimum_factor,
-                maximum_factor=config.maximum_factor,
+            normalized_error = float(
+                temporal_gate_audit["maximum_normalized_error"]
             )
+            if config.output_horizon_seconds is None:
+                factor = causal_backward_euler_step_doubling_factor(
+                    normalized_error,
+                    safety_factor=config.safety_factor,
+                    minimum_factor=config.minimum_factor,
+                    maximum_factor=config.maximum_factor,
+                )
+            else:
+                factor = causal_backward_euler_horizon_budget_factor(
+                    normalized_error,
+                    safety_factor=config.safety_factor,
+                    minimum_factor=config.minimum_factor,
+                    maximum_factor=config.maximum_factor,
+                )
         failure_class = _failure_class(
             (full_contract, first_contract, second_contract),
             temporal_gate_audit=temporal_gate_audit,
@@ -430,6 +477,10 @@ def advance_causal_five_field_step_doubling_backward_euler(
             second_half_contract=second_contract,
             temporal_errors=temporal_errors,
             temporal_gate_audit=temporal_gate_audit,
+            temporal_budget_fraction=float(temporal_budget_fraction),
+            effective_temporal_accuracy_gates=(
+                effective_temporal_accuracy_gates
+            ),
             accepted=accepted,
             failure_class=failure_class,
             proposed_factor=float(factor),

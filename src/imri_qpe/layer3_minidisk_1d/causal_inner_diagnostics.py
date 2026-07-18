@@ -198,6 +198,61 @@ def compare_causal_five_field_observables(
     }
 
 
+def compare_causal_five_field_endpoint_vectors(
+    context: CausalFiveFieldDAEContext,
+    baseline_vector: np.ndarray,
+    left_vector: np.ndarray,
+    right_vector: np.ndarray,
+    *,
+    cooling_inner_cutoff: float,
+) -> dict[str, float | list[float]]:
+    """Compare two endpoint states using the immutable v1 observables."""
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    baseline = np.asarray(baseline_vector, dtype=float)
+    left = np.asarray(left_vector, dtype=float)
+    right = np.asarray(right_vector, dtype=float)
+    if (
+        baseline.shape != left.shape
+        or left.shape != right.shape
+        or np.any(~np.isfinite(baseline))
+        or np.any(~np.isfinite(left))
+        or np.any(~np.isfinite(right))
+    ):
+        raise ValueError("endpoint vectors must be finite and conformable")
+    left_snapshot = causal_five_field_observable_snapshot(
+        context,
+        left,
+        cooling_inner_cutoff=cooling_inner_cutoff,
+    )
+    right_snapshot = causal_five_field_observable_snapshot(
+        context,
+        right,
+        cooling_inner_cutoff=cooling_inner_cutoff,
+    )
+    errors = compare_causal_five_field_observables(
+        left_snapshot,
+        right_snapshot,
+    )
+    baseline_state = unpack_causal_five_field_state(
+        baseline,
+        n_cells,
+    )
+    baseline_evaluation = evaluate_causal_five_field_dae(
+        baseline,
+        context,
+    )
+    scales = causal_five_field_dae_scaling(
+        baseline_state,
+        baseline_evaluation,
+    ).column_scales
+    errors["maximum_baseline_scaled_state_difference"] = float(
+        np.max(np.abs((left - right) / scales))
+    )
+    return errors
+
+
 def causal_five_field_temporal_error_ratio(
     errors: dict[str, float | list[float]],
     gates: dict[str, float],
@@ -233,6 +288,123 @@ def causal_five_field_temporal_error_ratio(
     }
 
 
+def audit_causal_five_field_reference_convergence(
+    coarse_errors: dict[str, float | list[float]],
+    fine_errors: dict[str, float | list[float]],
+    gates: dict[str, float],
+    *,
+    maximum_reference_uncertainty_fraction: float,
+    minimum_observed_order: float,
+    order_floor_fraction: float,
+) -> dict[str, object]:
+    """Audit halved-step reference convergence against declared gates."""
+
+    uncertainty_limit = float(maximum_reference_uncertainty_fraction)
+    minimum_order = float(minimum_observed_order)
+    floor_fraction = float(order_floor_fraction)
+    if (
+        not np.isfinite(uncertainty_limit)
+        or not 0.0 < uncertainty_limit < 1.0
+        or not np.isfinite(minimum_order)
+        or minimum_order <= 0.0
+        or not np.isfinite(floor_fraction)
+        or not 0.0 < floor_fraction < uncertainty_limit
+    ):
+        raise ValueError("reference-convergence contract is invalid")
+    rows: dict[str, dict[str, object]] = {}
+    for name, gate in gates.items():
+        tolerance = float(gate)
+        coarse = float(coarse_errors[name])
+        fine = float(fine_errors[name])
+        if (
+            not np.isfinite(tolerance)
+            or tolerance <= 0.0
+            or not np.isfinite(coarse)
+            or coarse < 0.0
+            or not np.isfinite(fine)
+            or fine < 0.0
+        ):
+            raise ValueError("reference errors and gates must be valid")
+        coarse_ratio = coarse / tolerance
+        fine_ratio = fine / tolerance
+        below_floor = fine_ratio <= floor_fraction
+        observed_order = None
+        if fine > 0.0 and coarse > 0.0:
+            observed_order = float(np.log2(coarse / fine))
+        order_passed = bool(
+            below_floor
+            or (
+                observed_order is not None
+                and observed_order >= minimum_order
+            )
+        )
+        uncertainty_passed = fine_ratio <= uncertainty_limit
+        rows[name] = {
+            "coarse_error": coarse,
+            "fine_error": fine,
+            "coarse_normalized_error": coarse_ratio,
+            "fine_normalized_error": fine_ratio,
+            "observed_order": observed_order,
+            "below_order_floor": below_floor,
+            "order_passed": order_passed,
+            "uncertainty_passed": uncertainty_passed,
+            "passed": bool(order_passed and uncertainty_passed),
+        }
+    failed = sorted(
+        name for name, row in rows.items() if not bool(row["passed"])
+    )
+    return {
+        "maximum_reference_uncertainty_fraction": uncertainty_limit,
+        "minimum_observed_order": minimum_order,
+        "order_floor_fraction": floor_fraction,
+        "observables": rows,
+        "failed_observables": failed,
+        "passed": not failed,
+    }
+
+
+def audit_causal_five_field_endpoint_with_reference_uncertainty(
+    endpoint_errors: dict[str, float | list[float]],
+    reference_errors: dict[str, float | list[float]],
+    gates: dict[str, float],
+) -> dict[str, object]:
+    """Conservatively add endpoint and selected-reference uncertainty."""
+
+    endpoint = causal_five_field_temporal_error_ratio(
+        endpoint_errors,
+        gates,
+    )
+    reference = causal_five_field_temporal_error_ratio(
+        reference_errors,
+        gates,
+    )
+    combined = {
+        name: (
+            float(endpoint["normalized_errors"][name])
+            + float(reference["normalized_errors"][name])
+        )
+        for name in gates
+    }
+    maximum = max(combined.values(), default=0.0)
+    controlling = sorted(
+        name
+        for name, ratio in combined.items()
+        if np.isclose(ratio, maximum, rtol=1.0e-12, atol=0.0)
+    )
+    violated = sorted(
+        name for name, ratio in combined.items() if ratio > 1.0
+    )
+    return {
+        "endpoint_gate_audit": endpoint,
+        "reference_uncertainty_gate_audit": reference,
+        "combined_normalized_errors": combined,
+        "maximum_combined_normalized_error": float(maximum),
+        "controlling_observables": controlling,
+        "violated_observables": violated,
+        "passed": not violated,
+    }
+
+
 def causal_backward_euler_step_doubling_factor(
     normalized_error: float,
     *,
@@ -256,6 +428,38 @@ def causal_backward_euler_step_doubling_factor(
     if error == 0.0:
         return maximum
     proposed = safety / np.sqrt(error)
+    return float(np.clip(proposed, minimum, maximum))
+
+
+def causal_backward_euler_horizon_budget_factor(
+    normalized_error: float,
+    *,
+    safety_factor: float = 0.8,
+    minimum_factor: float = 0.25,
+    maximum_factor: float = 2.0,
+) -> float:
+    """Return the BE multiplier for a timestep-weighted global budget.
+
+    Backward-Euler step-doubling differences are second order in the
+    timestep. Dividing their gate by ``dt / T_output`` makes the normalized
+    budget error first order in the timestep, so its controller exponent is
+    one rather than one half.
+    """
+
+    error = float(normalized_error)
+    safety = float(safety_factor)
+    minimum = float(minimum_factor)
+    maximum = float(maximum_factor)
+    values = (error, safety, minimum, maximum)
+    if any(not np.isfinite(value) for value in values):
+        raise ValueError("horizon-controller inputs must be finite")
+    if error < 0.0 or safety <= 0.0:
+        raise ValueError("error must be non-negative and safety positive")
+    if not 0.0 < minimum <= maximum:
+        raise ValueError("timestep-factor bounds are invalid")
+    if error == 0.0:
+        return maximum
+    proposed = safety / error
     return float(np.clip(proposed, minimum, maximum))
 
 

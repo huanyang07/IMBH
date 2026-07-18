@@ -8,6 +8,9 @@ from imri_qpe.layer3_minidisk_1d import (
     CausalFiveFieldAdaptiveStepConfig,
     CausalFiveFieldTemporalControllerConfig,
     advance_causal_five_field_step_doubling_backward_euler,
+    audit_causal_five_field_endpoint_with_reference_uncertainty,
+    audit_causal_five_field_reference_convergence,
+    causal_backward_euler_horizon_budget_factor,
     make_causal_five_field_regression_context,
     make_causal_five_field_seed,
     pack_causal_five_field_state,
@@ -83,6 +86,70 @@ def test_causal_temporal_controller_rejects_gate_schema_drift() -> None:
             minimum_factor=1.0,
         ).validated()
 
+    with pytest.raises(ValueError, match="must not exceed output horizon"):
+        CausalFiveFieldTemporalControllerConfig(
+            step_config=_step_config(),
+            cooling_inner_cutoff=(
+                6.0 * context.grid.gravitational_radius
+            ),
+            minimum_dt=1.0e-10,
+            maximum_dt=1.0e-5,
+            output_horizon_seconds=5.0e-6,
+        ).validated()
+
+
+def test_causal_horizon_budget_factor_uses_linear_error_scaling() -> None:
+    assert causal_backward_euler_horizon_budget_factor(0.0) == 2.0
+    assert causal_backward_euler_horizon_budget_factor(0.4) == 2.0
+    assert causal_backward_euler_horizon_budget_factor(2.0) == 0.4
+
+
+def test_causal_reference_and_combined_endpoint_audits() -> None:
+    gates = dict(CAUSAL_FIVE_FIELD_TEMPORAL_ACCURACY_GATES_V1)
+    coarse = {name: 0.2 * gate for name, gate in gates.items()}
+    fine = {name: 0.1 * gate for name, gate in gates.items()}
+    convergence = audit_causal_five_field_reference_convergence(
+        coarse,
+        fine,
+        gates,
+        maximum_reference_uncertainty_fraction=0.25,
+        minimum_observed_order=0.75,
+        order_floor_fraction=1.0e-3,
+    )
+    assert convergence["passed"]
+    assert all(
+        row["observed_order"] == 1.0
+        for row in convergence["observables"].values()
+    )
+
+    endpoint = {name: 0.8 * gate for name, gate in gates.items()}
+    combined = (
+        audit_causal_five_field_endpoint_with_reference_uncertainty(
+            endpoint,
+            fine,
+            gates,
+        )
+    )
+    assert combined["passed"]
+    assert combined["maximum_combined_normalized_error"] == pytest.approx(
+        0.9
+    )
+
+    endpoint["maximum_log_h_over_r_profile"] = (
+        0.95 * gates["maximum_log_h_over_r_profile"]
+    )
+    combined = (
+        audit_causal_five_field_endpoint_with_reference_uncertainty(
+            endpoint,
+            fine,
+            gates,
+        )
+    )
+    assert not combined["passed"]
+    assert combined["violated_observables"] == [
+        "maximum_log_h_over_r_profile"
+    ]
+
 
 def test_causal_temporal_controller_accepts_two_half_step_state() -> None:
     context = make_causal_five_field_regression_context(4)
@@ -111,6 +178,10 @@ def test_causal_temporal_controller_accepts_two_half_step_state() -> None:
     assert attempt.first_half_contract.passed
     assert attempt.second_half_contract is not None
     assert attempt.second_half_contract.passed
+    assert attempt.temporal_budget_fraction == 1.0
+    assert attempt.effective_temporal_accuracy_gates == dict(
+        CAUSAL_FIVE_FIELD_TEMPORAL_ACCURACY_GATES_V1
+    )
     assert attempt.second_half_step is not None
     np.testing.assert_array_equal(
         result.state_vector,
@@ -120,3 +191,39 @@ def test_causal_temporal_controller_accepts_two_half_step_state() -> None:
         result.physical_increment,
         result.state_vector - old_vector,
     )
+
+
+def test_causal_temporal_controller_applies_horizon_budget() -> None:
+    context = make_causal_five_field_regression_context(4)
+    old_vector = pack_causal_five_field_state(
+        make_causal_five_field_seed(context)
+    )
+    config = CausalFiveFieldTemporalControllerConfig(
+        step_config=_step_config(),
+        cooling_inner_cutoff=(
+            6.0 * context.grid.gravitational_radius
+        ),
+        minimum_dt=1.0e-10,
+        maximum_dt=1.0e-5,
+        physical_ledger_tolerance=1.0e-9,
+        output_horizon_seconds=1.0e-4,
+    ).validated()
+    result = advance_causal_five_field_step_doubling_backward_euler(
+        context,
+        old_vector,
+        1.0e-8,
+        np.zeros_like(old_vector),
+        1.0e-8,
+        config,
+    )
+
+    assert result.accepted
+    attempt = result.attempts[0]
+    assert attempt.temporal_budget_fraction == pytest.approx(1.0e-4)
+    for name, gate in CAUSAL_FIVE_FIELD_TEMPORAL_ACCURACY_GATES_V1.items():
+        assert attempt.effective_temporal_accuracy_gates[
+            name
+        ] == pytest.approx(1.0e-4 * gate)
+    assert result.normalized_error is not None
+    assert result.normalized_error < 1.0
+    assert result.dt_next == 2.0e-8
