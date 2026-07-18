@@ -146,8 +146,10 @@ from .causal_inner_diagnostics import (
     CausalFiveFieldLocalTimescaleAudit,
     CausalFiveFieldObservableSnapshot,
     audit_causal_five_field_state_gates,
+    causal_backward_euler_step_doubling_factor,
     causal_five_field_local_timescale_audit,
     causal_five_field_observable_snapshot,
+    causal_five_field_temporal_error_ratio,
     compare_causal_five_field_observables,
 )
 from .causal_inner_valencia import (
@@ -1048,8 +1050,10 @@ __all__ = [
     "causal_five_field_physical_step_ledger",
     "causal_five_field_state_summary",
     "audit_causal_five_field_state_gates",
+    "causal_backward_euler_step_doubling_factor",
     "causal_five_field_local_timescale_audit",
     "causal_five_field_observable_snapshot",
+    "causal_five_field_temporal_error_ratio",
     "compare_causal_five_field_observables",
     "causal_five_field_endpoint_temporal_storage_increment",
     "causal_five_field_path_temporal_storage_increment",

@@ -13,9 +13,11 @@ from imri_qpe.layer3_minidisk_1d import (
     KerrSchildCellSourceRates,
     SchwarzschildCurvatureVerticalFrequency,
     audit_causal_five_field_state_gates,
+    causal_backward_euler_step_doubling_factor,
     causal_five_field_cell_states,
     causal_five_field_local_timescale_audit,
     causal_five_field_observable_snapshot,
+    causal_five_field_temporal_error_ratio,
     compare_causal_five_field_observables,
     fiducial_hill_roche_nozzle_geometry,
     make_causal_five_field_seed,
@@ -130,3 +132,24 @@ def test_causal_state_gate_audit_preserves_declared_contract() -> None:
     assert audit["gates"]["outer_boundary_choked"] is False
     assert audit["measured"]["maximum_h_over_r"] > 0.0
     assert audit["passed"]
+
+
+def test_causal_temporal_error_ratio_and_controller_factor() -> None:
+    audit = causal_five_field_temporal_error_ratio(
+        {"cooling": 2.0e-4, "thickness": 3.0e-3},
+        {"cooling": 1.0e-3, "thickness": 2.0e-3},
+    )
+
+    assert audit["maximum_normalized_error"] == 1.5
+    assert audit["controlling_observables"] == ["thickness"]
+    assert audit["violated_observables"] == ["thickness"]
+    assert not audit["passed"]
+    assert causal_backward_euler_step_doubling_factor(0.0) == 2.0
+    assert np.isclose(
+        causal_backward_euler_step_doubling_factor(0.25),
+        1.6,
+    )
+    assert (
+        causal_backward_euler_step_doubling_factor(1.0e4)
+        == 0.25
+    )

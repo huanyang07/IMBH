@@ -189,6 +189,67 @@ def compare_causal_five_field_observables(
     }
 
 
+def causal_five_field_temporal_error_ratio(
+    errors: dict[str, float | list[float]],
+    gates: dict[str, float],
+) -> dict[str, object]:
+    """Normalize declared temporal errors and identify controlling gates."""
+
+    normalized: dict[str, float] = {}
+    for name, limit in gates.items():
+        tolerance = float(limit)
+        if not np.isfinite(tolerance) or tolerance <= 0.0:
+            raise ValueError("temporal error gates must be positive")
+        if name not in errors:
+            raise ValueError(f"temporal error is missing {name}")
+        value = float(errors[name])
+        if not np.isfinite(value) or value < 0.0:
+            raise ValueError("temporal errors must be finite and non-negative")
+        normalized[name] = value / tolerance
+    maximum = max(normalized.values(), default=0.0)
+    controlling = sorted(
+        name
+        for name, ratio in normalized.items()
+        if np.isclose(ratio, maximum, rtol=1.0e-12, atol=0.0)
+    )
+    violated = sorted(
+        name for name, ratio in normalized.items() if ratio > 1.0
+    )
+    return {
+        "normalized_errors": normalized,
+        "maximum_normalized_error": float(maximum),
+        "controlling_observables": controlling,
+        "violated_observables": violated,
+        "passed": bool(maximum <= 1.0),
+    }
+
+
+def causal_backward_euler_step_doubling_factor(
+    normalized_error: float,
+    *,
+    safety_factor: float = 0.8,
+    minimum_factor: float = 0.25,
+    maximum_factor: float = 2.0,
+) -> float:
+    """Return the first-order step-doubling timestep multiplier."""
+
+    error = float(normalized_error)
+    safety = float(safety_factor)
+    minimum = float(minimum_factor)
+    maximum = float(maximum_factor)
+    values = (error, safety, minimum, maximum)
+    if any(not np.isfinite(value) for value in values):
+        raise ValueError("timestep-controller inputs must be finite")
+    if error < 0.0 or safety <= 0.0:
+        raise ValueError("error must be non-negative and safety positive")
+    if not 0.0 < minimum <= maximum:
+        raise ValueError("timestep-factor bounds are invalid")
+    if error == 0.0:
+        return maximum
+    proposed = safety / np.sqrt(error)
+    return float(np.clip(proposed, minimum, maximum))
+
+
 def causal_five_field_local_timescale_audit(
     context: CausalFiveFieldDAEContext,
     vector: np.ndarray,

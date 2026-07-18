@@ -21,10 +21,12 @@ from imri_qpe.layer3_minidisk_1d import (
     ValenciaPerfectFluidPrimitive,
     advance_causal_five_field_increment_backward_euler,
     audit_causal_five_field_state_gates,
+    causal_backward_euler_step_doubling_factor,
     causal_five_field_dae_scaling,
     causal_five_field_local_timescale_audit,
     causal_five_field_observable_snapshot,
     causal_five_field_physical_step_ledger,
+    causal_five_field_temporal_error_ratio,
     compare_causal_five_field_observables,
     evaluate_causal_five_field_dae,
     exact_kerr_schild_compact_stream_sources,
@@ -40,18 +42,15 @@ from imri_qpe.scales import eddington_mdot
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_CHECKPOINT = (
-    ROOT
-    / "outputs/checkpoints/causal_five_field_wp10c5k"
-    / "causal_wp10c5q_N016_final.npz"
+DEFAULT_RESTART_DIRECTORY = (
+    ROOT / "outputs/checkpoints/causal_five_field_wp10c5k"
 )
-DEFAULT_OUTPUT = (
+N16_RESULT = (
     ROOT
     / "outputs/tables"
     / "causal_timescale_timestep_audit_wp10c6a.json"
 )
-WORK_PACKAGE = "WP10c6a"
-N_CELLS = 16
+SUPPORTED_CELL_COUNTS = (16, 32)
 STREAM_CENTER_RG = 240.0
 STREAM_LOG_WIDTH = 0.08
 STREAM_MDOT_EDD = 5.0
@@ -75,11 +74,17 @@ TEMPORAL_ACCURACY_GATES = {
 def _arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
+        "--n-cells",
+        type=int,
+        choices=SUPPORTED_CELL_COUNTS,
+        default=16,
+    )
+    parser.add_argument(
         "--checkpoint",
         type=Path,
-        default=DEFAULT_CHECKPOINT,
+        default=None,
     )
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--output", type=Path, default=None)
     parser.add_argument(
         "--maximum-rungs",
         type=int,
@@ -90,6 +95,22 @@ def _arguments() -> argparse.Namespace:
 
 def _absolute(path: Path) -> Path:
     return path if path.is_absolute() else ROOT / path
+
+
+def _default_checkpoint(n_cells: int) -> Path:
+    return (
+        DEFAULT_RESTART_DIRECTORY
+        / f"causal_wp10c5q_N{n_cells:03d}_final.npz"
+    )
+
+
+def _default_output(n_cells: int) -> Path:
+    label = "wp10c6a" if n_cells == 16 else "wp10c6b"
+    return (
+        ROOT
+        / "outputs/tables"
+        / f"causal_timescale_timestep_audit_{label}.json"
+    )
 
 
 def _sha256(path: Path) -> str:
@@ -144,13 +165,13 @@ def _exact_regression_stream(
     )
 
 
-def _context() -> CausalFiveFieldDAEContext:
+def _context(n_cells: int) -> CausalFiveFieldDAEContext:
     mass = FiducialParams().M2_g
     gravitational_radius = G * mass / C**2
     grid = make_kerr_schild_column_grid(
         1.8 * gravitational_radius,
         335.0 * gravitational_radius,
-        N_CELLS,
+        n_cells,
         gravitational_radius,
     )
     geometry = replace(
@@ -356,28 +377,10 @@ def _step_contract_passed(summary: dict) -> bool:
     )
 
 
-def _accuracy_passed(errors: dict) -> bool:
-    return bool(
-        errors["cooling_power_proxy_relative"]
-        <= TEMPORAL_ACCURACY_GATES["cooling_power_proxy_relative"]
-        and errors["cooling_power_proxy_outside_cutoff_relative"]
-        <= TEMPORAL_ACCURACY_GATES[
-            "cooling_power_proxy_outside_cutoff_relative"
-        ]
-        and errors["inner_accretion_rate_relative"]
-        <= TEMPORAL_ACCURACY_GATES["inner_accretion_rate_relative"]
-        and errors["maximum_log_h_over_r_profile"]
-        <= TEMPORAL_ACCURACY_GATES[
-            "maximum_log_h_over_r_profile"
-        ]
-        and errors["maximum_integrated_conserved_relative"]
-        <= TEMPORAL_ACCURACY_GATES[
-            "maximum_integrated_conserved_relative"
-        ]
-        and errors["maximum_baseline_scaled_state_difference"]
-        <= TEMPORAL_ACCURACY_GATES[
-            "maximum_baseline_scaled_state_difference"
-        ]
+def _accuracy_audit(errors: dict) -> dict[str, object]:
+    return causal_five_field_temporal_error_ratio(
+        errors,
+        TEMPORAL_ACCURACY_GATES,
     )
 
 
@@ -475,6 +478,7 @@ def _run_rung(
         and _step_contract_passed(half_two)
     )
     errors = None
+    accuracy_audit = None
     accuracy_passed = None
     if contracts_passed:
         full_observables = causal_five_field_observable_snapshot(
@@ -502,7 +506,8 @@ def _run_rung(
                 )
             )
         )
-        accuracy_passed = _accuracy_passed(errors)
+        accuracy_audit = _accuracy_audit(errors)
+        accuracy_passed = bool(accuracy_audit["passed"])
     failure = _failure_class(
         full,
         half_one,
@@ -518,29 +523,167 @@ def _run_rung(
         "second_half_step": half_two,
         "all_step_contracts_passed": contracts_passed,
         "step_doubling_errors": errors,
+        "temporal_gate_audit": accuracy_audit,
         "temporal_accuracy_passed": accuracy_passed,
         "passed": passed,
         "failure_class": failure,
     }
 
 
+def _temporal_mesh_comparison(
+    *,
+    n32_previous_dt: float,
+    n32_largest_passed: float,
+    n32_first_failed: float,
+    n32_rungs: list[dict],
+) -> dict:
+    if not N16_RESULT.exists():
+        raise FileNotFoundError(
+            "WP10c6a N16 result is required for N32 comparison"
+        )
+    parent = json.loads(N16_RESULT.read_text(encoding="utf-8"))
+    parent_result = parent["result"]
+    parent_failure = next(
+        row for row in parent["rungs"] if not row["passed"]
+    )
+    current_failure = next(
+        row for row in n32_rungs if not row["passed"]
+    )
+    parent_failure_audit = causal_five_field_temporal_error_ratio(
+        parent_failure["step_doubling_errors"],
+        parent["temporal_accuracy_gates"],
+    )
+    current_failure_audit = current_failure["temporal_gate_audit"]
+    parent_largest = float(
+        parent_result["largest_passing_timestep_seconds"]
+    )
+    parent_first_failed = float(
+        parent_result["first_failing_timestep_seconds"]
+    )
+    ceiling_ratio = n32_largest_passed / parent_largest
+    failure_ratio = n32_first_failed / parent_first_failed
+    parent_violated = set(
+        parent_failure_audit["violated_observables"]
+    )
+    current_violated = set(
+        current_failure_audit["violated_observables"]
+    )
+    common_violated = sorted(parent_violated & current_violated)
+    same_schema = bool(
+        parent["construction"]["observable_schema_version"]
+        == CAUSAL_FIVE_FIELD_OBSERVABLE_SCHEMA_VERSION
+    )
+    same_gates = bool(
+        parent["temporal_accuracy_gates"]
+        == TEMPORAL_ACCURACY_GATES
+    )
+    same_starting_timestep = bool(
+        np.isclose(
+            float(parent["checkpoint"]["previous_dt_seconds"]),
+            n32_previous_dt,
+            rtol=0.0,
+            atol=0.0,
+        )
+    )
+    ceiling_within_one_rung = bool(0.5 <= ceiling_ratio <= 2.0)
+    failure_within_one_rung = bool(0.5 <= failure_ratio <= 2.0)
+    passed = bool(
+        parent_result["passed"]
+        and same_schema
+        and same_gates
+        and same_starting_timestep
+        and ceiling_within_one_rung
+        and failure_within_one_rung
+        and common_violated
+        and parent_result["first_failure_class"]
+        == "temporal_accuracy_gate"
+        and current_failure["failure_class"]
+        == "temporal_accuracy_gate"
+    )
+    shared_ceiling = min(parent_largest, n32_largest_passed)
+    last_passing_n32 = next(
+        row for row in reversed(n32_rungs) if row["passed"]
+    )
+    normalized_error = float(
+        last_passing_n32["temporal_gate_audit"][
+            "maximum_normalized_error"
+        ]
+    )
+    return {
+        "parent_result": str(N16_RESULT.relative_to(ROOT)),
+        "n16_largest_passing_timestep_seconds": parent_largest,
+        "n32_largest_passing_timestep_seconds": n32_largest_passed,
+        "n16_first_failing_timestep_seconds": parent_first_failed,
+        "n32_first_failing_timestep_seconds": n32_first_failed,
+        "n32_over_n16_ceiling_ratio": float(ceiling_ratio),
+        "n32_over_n16_failure_ratio": float(failure_ratio),
+        "same_observable_schema": same_schema,
+        "same_temporal_accuracy_gates": same_gates,
+        "same_starting_timestep": same_starting_timestep,
+        "ceiling_within_one_factor_two_rung": (
+            ceiling_within_one_rung
+        ),
+        "failure_within_one_factor_two_rung": (
+            failure_within_one_rung
+        ),
+        "n16_violated_observables": sorted(parent_violated),
+        "n32_violated_observables": sorted(current_violated),
+        "common_violated_observables": common_violated,
+        "shared_conservative_ceiling_seconds": float(shared_ceiling),
+        "passed": passed,
+        "controller_contract": {
+            "authorized": passed,
+            "accepted_state": "two_half_step_state",
+            "error_estimator": (
+                "one_full_step_minus_two_half_steps"
+            ),
+            "normalized_error": (
+                "maximum declared observable error divided by its gate"
+            ),
+            "backward_euler_error_exponent": 0.5,
+            "safety_factor": 0.8,
+            "minimum_timestep_factor": 0.25,
+            "maximum_timestep_factor": 2.0,
+            "factor_rule": (
+                "clip(0.8/sqrt(normalized_error), 0.25, 2.0)"
+            ),
+            "initial_timestep_seconds": float(0.5 * shared_ceiling),
+            "n32_last_passing_normalized_error": normalized_error,
+            "n32_last_passing_proposed_factor": (
+                causal_backward_euler_step_doubling_factor(
+                    normalized_error
+                )
+            ),
+            "all_existing_state_and_ledger_gates_remain_mandatory": (
+                True
+            ),
+        },
+    }
+
+
 def main() -> None:
     args = _arguments()
+    n_cells = int(args.n_cells)
+    work_package = "WP10c6a" if n_cells == 16 else "WP10c6b"
     if args.maximum_rungs < 2 or args.maximum_rungs > MAXIMUM_RUNGS:
         raise ValueError(
             f"maximum rungs must lie in [2, {MAXIMUM_RUNGS}]"
         )
-    checkpoint_path = _absolute(args.checkpoint)
+    checkpoint_path = (
+        _default_checkpoint(n_cells)
+        if args.checkpoint is None
+        else _absolute(args.checkpoint)
+    )
     if not checkpoint_path.exists():
         raise FileNotFoundError(checkpoint_path)
-    context = _context()
+    context = _context(n_cells)
     restart = load_causal_five_field_adaptive_restart(
         checkpoint_path,
         context,
     )
     checkpoint_provenance_passed = bool(
         restart.provenance.get("work_package") == "WP10c5q"
-        and restart.provenance.get("n_cells") == N_CELLS
+        and restart.provenance.get("n_cells") == n_cells
         and "exact circularized regression stream"
         in str(restart.provenance.get("source", ""))
     )
@@ -552,7 +695,7 @@ def main() -> None:
         raise RuntimeError("WP10c5q checkpoint prerequisite failed")
     state = unpack_causal_five_field_state(
         restart.state_vector,
-        N_CELLS,
+        n_cells,
     )
     evaluation = evaluate_causal_five_field_dae(
         restart.state_vector,
@@ -648,7 +791,7 @@ def main() -> None:
         classification = "ceiling_not_bracketed_by_bounded_ladder"
     else:
         classification = first_failure_class
-    passed = bool(
+    individual_passed = bool(
         checkpoint_provenance_passed
         and initial_gates["passed"]
         and largest_passed is not None
@@ -657,11 +800,31 @@ def main() -> None:
         and largest_passed < first_failed
         and first_failed < shortest_clock
     )
+    mesh_comparison = None
+    if n_cells == 32 and individual_passed:
+        assert largest_passed is not None
+        assert first_failed is not None
+        mesh_comparison = _temporal_mesh_comparison(
+            n32_previous_dt=restart.previous_dt,
+            n32_largest_passed=largest_passed,
+            n32_first_failed=first_failed,
+            n32_rungs=rungs,
+        )
+    passed = bool(
+        individual_passed
+        and (
+            n_cells == 16
+            or (
+                mesh_comparison is not None
+                and mesh_comparison["passed"]
+            )
+        )
+    )
     output = {
-        "work_package": WORK_PACKAGE,
+        "work_package": work_package,
         "scope": (
-            "bounded N16 one-full-versus-two-half backward-Euler "
-            "timescale and timestep-ceiling audit"
+            f"bounded N{n_cells} one-full-versus-two-half "
+            "backward-Euler timescale and timestep-ceiling audit"
         ),
         "checkpoint": {
             "path": str(checkpoint_path.relative_to(ROOT)),
@@ -675,7 +838,7 @@ def main() -> None:
             "provenance_passed": checkpoint_provenance_passed,
         },
         "construction": {
-            "n_cells": N_CELLS,
+            "n_cells": n_cells,
             "observable_schema_version": (
                 CAUSAL_FIVE_FIELD_OBSERVABLE_SCHEMA_VERSION
             ),
@@ -697,7 +860,8 @@ def main() -> None:
                     "the accepted timestep ceiling"
                 ),
             },
-            "no_n32_run": True,
+            "no_n32_run": n_cells == 16,
+            "no_n64_n128_run": True,
             "no_physics_change": True,
         },
         "step_config": asdict(config),
@@ -730,12 +894,36 @@ def main() -> None:
                 if largest_passed is None
                 else largest_passed / restart.previous_dt
             ),
+            "individual_mesh_passed": individual_passed,
             "passed": passed,
         },
+        "mesh_comparison": mesh_comparison,
         "authorization": {
-            "n16_timescale_and_timestep_ceiling_certified": passed,
-            "n32_timestep_audit_authorized": passed,
-            "n32_timestep_audit_performed": False,
+            "n16_timescale_and_timestep_ceiling_certified": (
+                bool(
+                    passed
+                    if n_cells == 16
+                    else mesh_comparison is not None
+                    and mesh_comparison["passed"]
+                )
+            ),
+            "n32_timestep_audit_authorized": (
+                passed if n_cells == 16 else True
+            ),
+            "n32_timestep_audit_performed": n_cells == 32,
+            "n32_timescale_and_timestep_ceiling_certified": (
+                passed if n_cells == 32 else False
+            ),
+            "production_temporal_controller_contract_authorized": (
+                bool(
+                    n_cells == 32
+                    and mesh_comparison is not None
+                    and mesh_comparison["controller_contract"][
+                        "authorized"
+                    ]
+                )
+            ),
+            "production_temporal_controller_implemented": False,
             "long_evolution_certified": False,
             "tide_authorized": False,
             "wind_authorized": False,
@@ -744,12 +932,20 @@ def main() -> None:
             "limit_cycle_certified": False,
         },
         "decision": (
-            "bounded_n16_temporal_ceiling_bracketed"
+            (
+                "bounded_n16_temporal_ceiling_bracketed"
+                if n_cells == 16
+                else "mesh_supported_temporal_controller_contract"
+            )
             if passed
-            else "stop_after_bounded_n16_temporal_audit"
+            else f"stop_after_bounded_n{n_cells}_temporal_audit"
         ),
     }
-    output_path = _absolute(args.output)
+    output_path = (
+        _default_output(n_cells)
+        if args.output is None
+        else _absolute(args.output)
+    )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     serialized = json.dumps(
         output,

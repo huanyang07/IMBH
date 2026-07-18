@@ -87,6 +87,7 @@ This is the canonical project handoff. Status labels mean:
 | Causal N64 confirmation WP10c5s-t | **CERTIFIED** for bounded contraction and ledger closure; **DIAGNOSTIC ONLY** physically | Independent N64 short error `8.65e-4`; strict 63-step duration has full `320/320` and `965/965` rank, no retries, five-field defect `1.81e-12`; N32/N64 error contracts `2.1033e-2 -> 6.6677e-3` at order `1.657` | The `5e-3` duration gate is not yet met; exactly one N128 confirmation is authorized, while N96/N256, longer evolution, tide, wind, stability, hot-state, and cycle work remain blocked |
 | Causal N128 mesh certification WP10c5u | **CERTIFIED** for bounded first-order spatial convergence; **DIAGNOSTIC ONLY** physically | Independent N128 datum has full `640/640` descriptor and `1925/1925` consistency rank; exact-time duration has 63 steps, no retries, ledger defect `1.77e-12`; N64/N128 error is `2.5897e-3 < 5e-3` at order `1.364` | Only `9.98e-10 t_load` is evolved and the run costs roughly two wall-clock hours; no further fine mesh or direct microstep duration is justified, and physics searches remain blocked pending a timestep-ceiling audit |
 | Causal N16 timestep ceiling WP10c6a | **CERTIFIED** for local temporal control; **DIAGNOSTIC ONLY** physically | One-full/two-half backward-Euler ladder passes through `1.92182e-3 s` and first fails temporal accuracy at `3.84364e-3 s`; all solver, ledger, causal, optical, and Roche gates pass; the inherited step is enlarged by `256x` | One N16 checkpoint only; the ceiling is `4.0-8.0%` of the shortest physical clock and requires an N32 mesh check before becoming a production controller |
+| Causal N16/N32 temporal-controller contract WP10c6b | **CERTIFIED** for local temporal control; **DIAGNOSTIC ONLY** physically | N32 exactly reproduces the N16 passing/failing bracket and the same cooling/`H/R` failure observables while its shortest cell-crossing clock falls to `2.16380e-2 s`; all solver, ledger, causal, optical, and Roche gates pass | The step-doubling controller contract is authorized but not yet implemented or tested over a matched duration; no N64/N128, long evolution, tide, wind, stability, hot-state, or cycle run is authorized |
 
 ## Frozen Target Under Review
 
@@ -510,6 +511,15 @@ N                    = 164
     `3.84364e-3 s` only because total cooling and `Delta ln(H/R)` exceed their
     temporal gates. N32 is authorized solely to test whether this local
     ceiling is mesh supported.
+62. WP10c6b repeats the unchanged audit on the accepted WP10c5q N32 datum.
+    The N16 and N32 last passing timestep is identically `1.92182e-3 s`, the
+    first failing timestep is identically `3.84364e-3 s`, and both failures
+    violate only total cooling and `Delta ln(H/R)`. The N32 shortest
+    characteristic cell-crossing clock is smaller, `2.16380e-2 s`, while the
+    observable ceiling is unchanged. This certifies a local step-doubling
+    controller contract with a two-half-step accepted state, initial
+    `9.60911e-4 s` step, and bounded `0.8/sqrt(error)` update. It does not yet
+    certify the controller implementation or any long/physical trajectory.
 
 ## Claims That Are Not Allowed Yet
 
@@ -567,17 +577,17 @@ N                    = 164
    control, WP10c5m source-compatible startup, WP10c5n bounded stop,
    WP10c5o-q mesh-common/temporal-parity controls, WP10c5r spatial
    classification, WP10c5s-t N64 contraction/ledger result, and WP10c5u
-   N128 bounded mesh certification and WP10c6a N16 temporal ceiling as
-   complete.
+   N128 bounded mesh certification, WP10c6a N16 temporal ceiling, and
+   WP10c6b N16/N32 controller contract as complete.
    The old PW
    plunge has superluminal transverse rotation and must not be mapped into the
    new variables. Continue only the selected one-domain ingoing-Kerr-Schild
-   Valencia path. WP10c6a has identified a finite N16 observable-accuracy
-   ceiling. The next package is the same bounded N32 clock and
-   one-full-versus-two-half-step audit, with unchanged observables and gates.
-   Compare the N16/N32 ceilings before defining a production temporal
-   controller. Do not run N64/N128 production ladders, extend directly with
-   either timestep, or begin distributed tide, wind, stability, or a
+   Valencia path. WP10c6b authorizes the local one-full/two-half
+   backward-Euler controller contract. The next package is one bounded
+   N16/N32 implementation and matched-duration accuracy/efficiency
+   certification against tighter fixed-step references, beginning at half
+   the shared ceiling. Do not run N64/N128, extend to a physical
+   loading/thermal time, or begin distributed tide, wind, stability, or a
    hot/cycle search.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
@@ -590,7 +600,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_N16_TIMESCALE_TIMESTEP_CEILING_WP10C6A_RESULTS_2026-07-18.md`
+  `reports/current/CODEX_CAUSAL_N32_TEMPORAL_CONTROLLER_WP10C6B_RESULTS_2026-07-18.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -653,6 +663,7 @@ N                    = 164
 - Causal N64 confirmation WP10c5s-t: `reports/current/CODEX_CAUSAL_N64_CONFIRMATION_WP10C5S_T_RESULTS_2026-07-18.md`
 - Causal N128 mesh certification WP10c5u: `reports/current/CODEX_CAUSAL_N128_MESH_CERTIFICATION_WP10C5U_RESULTS_2026-07-18.md`
 - Causal N16 timescale and timestep ceiling WP10c6a: `reports/current/CODEX_CAUSAL_N16_TIMESCALE_TIMESTEP_CEILING_WP10C6A_RESULTS_2026-07-18.md`
+- Causal N32 temporal-controller contract WP10c6b: `reports/current/CODEX_CAUSAL_N32_TEMPORAL_CONTROLLER_WP10C6B_RESULTS_2026-07-18.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
 - Horizon-penetrating Valencia core WP10b: `reports/current/CODEX_HORIZON_PENETRATING_VALENCIA_WP10B_RESULTS_2026-07-17.md`
 - Valencia gas+radiation primitive recovery WP10c1: `reports/current/CODEX_VALENCIA_GAS_RADIATION_PRIMITIVE_RECOVERY_WP10C1_RESULTS_2026-07-17.md`
