@@ -704,6 +704,25 @@ def _cell_state(
     )
 
 
+def causal_five_field_cell_states(
+    context: CausalFiveFieldDAEContext,
+    vector: np.ndarray,
+) -> tuple[CausalFiveFieldCellState, ...]:
+    """Recover the physical cell states from one packed DAE vector."""
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    state = unpack_causal_five_field_state(vector, n_cells)
+    return tuple(
+        _cell_state(context, float(radius), chart)
+        for radius, chart in zip(
+            context.grid.centers,
+            state.primitives,
+            strict=True,
+        )
+    )
+
+
 def _interior_rusanov_flux_components(
     context: CausalFiveFieldDAEContext,
     face_index: int,
