@@ -109,6 +109,10 @@ DEFAULT_MESH_COMMON_N64_LEDGER_REPLAY_OUTPUT = (
     ROOT
     / "outputs/tables/causal_five_field_mesh_common_n64_ledger_replay_wp10c5t.json"
 )
+DEFAULT_MESH_COMMON_N128_CONFIRMATION_OUTPUT = (
+    ROOT
+    / "outputs/tables/causal_five_field_mesh_common_n128_confirmation_wp10c5u.json"
+)
 DEFAULT_RESTART_DIRECTORY = (
     ROOT / "outputs/checkpoints/causal_five_field_wp10c5k"
 )
@@ -191,6 +195,10 @@ def _arguments() -> argparse.Namespace:
     )
     parser.add_argument(
         "--increment-primary-mesh-common-n64-ledger-replay-audit",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--increment-primary-mesh-common-n128-confirmation-audit",
         action="store_true",
     )
     return parser.parse_args()
@@ -7816,9 +7824,14 @@ def _run_mesh_common_temporal_parity_audit(
 def _mesh_contraction_summary(
     coarse_comparison: dict,
     fine_comparison: dict,
+    *,
+    coarse_pair: tuple[str, str] = ("n16", "n32"),
+    fine_pair: tuple[str, str] = ("n32", "n64"),
 ) -> dict:
     coarse = coarse_comparison["absolute_or_relative_differences"]
     fine = fine_comparison["absolute_or_relative_differences"]
+    coarse_key = "_".join(coarse_pair)
+    fine_key = "_".join(fine_pair)
     metric_names = (
         "maximum_delta_log_h_over_r_response_difference",
         "rms_delta_log_h_over_r_response_difference",
@@ -7837,8 +7850,8 @@ def _mesh_contraction_summary(
             ratio = np.nan
             observed_order = np.nan
         metrics[name] = {
-            "n16_n32_error": coarse_error,
-            "n32_n64_error": fine_error,
+            f"{coarse_key}_error": coarse_error,
+            f"{fine_key}_error": fine_error,
             "coarse_to_fine_error_ratio": ratio,
             "observed_doubling_order": observed_order,
             "contracted": bool(fine_error < coarse_error),
@@ -7848,10 +7861,14 @@ def _mesh_contraction_summary(
     ]
     return {
         "method": (
-            "log2 of N16/N32 error divided by N32/N64 error at "
-            "one exact common physical time and one shared maximum "
-            "timestep"
+            f"log2 of {coarse_pair[0].upper()}/"
+            f"{coarse_pair[1].upper()} error divided by "
+            f"{fine_pair[0].upper()}/{fine_pair[1].upper()} error "
+            "at one exact common physical time and one shared "
+            "maximum timestep"
         ),
+        "coarse_pair": list(coarse_pair),
+        "fine_pair": list(fine_pair),
         "metrics": metrics,
         "minimum_order_for_one_n128_confirmation": 0.75,
         "maximum_response_contracts": maximum["contracted"],
@@ -8589,6 +8606,384 @@ def _run_mesh_common_n64_ledger_replay_audit(
     print(serialized)
 
 
+def _run_mesh_common_n128_confirmation_audit(
+    args: argparse.Namespace,
+) -> None:
+    parent_paths = {
+        "n64_ledger_replay": (
+            DEFAULT_MESH_COMMON_N64_LEDGER_REPLAY_OUTPUT
+        ),
+        "n64_confirmation": (
+            DEFAULT_MESH_COMMON_N64_CONFIRMATION_OUTPUT
+        ),
+    }
+    missing = [
+        name for name, path in parent_paths.items() if not path.exists()
+    ]
+    if missing:
+        raise FileNotFoundError(
+            "WP10c5u requires parent results: " + ", ".join(missing)
+        )
+    ledger_parent = json.loads(
+        parent_paths["n64_ledger_replay"].read_text(
+            encoding="utf-8"
+        )
+    )
+    confirmation_parent = json.loads(
+        parent_paths["n64_confirmation"].read_text(
+            encoding="utf-8"
+        )
+    )
+    reference_n64 = ledger_parent["strict_n64"]
+    reference_short_n64 = confirmation_parent["short_startup"]["n64"]
+    if reference_n64 is None or reference_short_n64 is None:
+        raise RuntimeError(
+            "WP10c5u requires accepted strict-duration and short N64 "
+            "references"
+        )
+
+    common_parameters, construction = (
+        _mesh_common_source_compatible_seed_parameters()
+    )
+    short_residual_tolerance = 1.0e-10
+    strict_residual_tolerance = 1.0e-11
+    target_elapsed_time = float(
+        reference_n64["target_elapsed_time_seconds"]
+    )
+    maximum_timestep = float(
+        reference_n64["acceptance_tolerances"][
+            "maximum_timestep_seconds"
+        ]
+    )
+    parent_contract = {
+        "ledger_parent_is_wp10c5t": (
+            ledger_parent["work_package"] == "WP10c5t"
+        ),
+        "n128_authorized_exactly_once": bool(
+            ledger_parent["gates"][
+                "one_n128_confirmation_authorized"
+            ]
+        ),
+        "strict_n64_duration_passed": bool(
+            ledger_parent["gates"][
+                "strict_n64_duration_passed"
+            ]
+        ),
+        "strict_n64_residual_contract_passed": bool(
+            ledger_parent["gates"][
+                "strict_n64_residual_contract_passed"
+            ]
+        ),
+        "n32_n64_contraction_order_passed": bool(
+            ledger_parent["duration_contraction"][
+                "maximum_response_order_passes"
+            ]
+        ),
+        "n64_short_startup_passed": bool(
+            confirmation_parent["gates"][
+                "n64_short_startup_passed"
+            ]
+        ),
+        "short_residual_tolerance_unchanged": bool(
+            reference_short_n64["acceptance_tolerances"][
+                "scaled_residual"
+            ]
+            == short_residual_tolerance
+        ),
+        "common_parameters_unchanged": bool(
+            ledger_parent["common_seed_parameters"]
+            == common_parameters
+            and confirmation_parent["common_seed_parameters"]
+            == common_parameters
+        ),
+        "construction_unchanged": bool(
+            ledger_parent["construction"] == construction
+            and confirmation_parent["construction"] == construction
+        ),
+        "strict_residual_tolerance_unchanged": bool(
+            reference_n64["acceptance_tolerances"][
+                "scaled_residual"
+            ]
+            == strict_residual_tolerance
+        ),
+        "duration_target_unchanged": bool(
+            target_elapsed_time
+            == confirmation_parent["temporal_parity"][
+                "target_elapsed_time_seconds"
+            ]
+        ),
+        "maximum_timestep_unchanged": bool(
+            maximum_timestep
+            == confirmation_parent["temporal_parity"][
+                "shared_maximum_timestep_seconds"
+            ]
+        ),
+    }
+    prerequisites_passed = all(parent_contract.values())
+
+    n128_initial = None
+    n128_bundle = None
+    initial_profile = None
+    if prerequisites_passed:
+        n128_initial, n128_bundle, _n128_parameters = (
+            _source_compatible_initialization(
+                128,
+                seed_parameters_override=common_parameters,
+                construction_override=construction,
+                use_sparse_colored_initialization=True,
+            )
+        )
+        if n128_initial["passed"]:
+            n64_context = _context(64, include_stream=True)
+            n64_state = make_causal_five_field_seed(
+                n64_context,
+                **common_parameters,
+            )
+            n64_artifacts = {
+                "context": n64_context,
+                "old_vector": pack_causal_five_field_state(
+                    n64_state
+                ),
+            }
+            initial_profile = _mesh_common_initial_profile_audit(
+                n64_artifacts,
+                n128_bundle[1],
+                construction,
+                left_label="n64",
+                right_label="n128",
+            )
+
+    initial_gate_passed = bool(
+        prerequisites_passed
+        and n128_initial is not None
+        and n128_initial["passed"]
+        and initial_profile is not None
+        and initial_profile["passed"]
+    )
+    short_n128 = None
+    short_n128_passed = False
+    short_mesh = None
+    if initial_gate_passed:
+        assert n128_bundle is not None
+        short_n128, short_n128_passed = (
+            _run_repeated_source_on_resolution(
+                128,
+                accepted_step_target=None,
+                elapsed_time_target=float(
+                    reference_short_n64["elapsed_time_seconds"]
+                ),
+                perform_restart_resume_audit=True,
+                seed_kwargs=common_parameters,
+                restart_label="wp10c5u",
+                restart_work_package="WP10c5u",
+                initialization_bundle=n128_bundle,
+                step_residual_tolerance=short_residual_tolerance,
+                step_algebraic_tolerance=1.0e-11,
+                mass_budget_tolerance=1.0e-10,
+            )
+        )
+    if short_n128_passed:
+        short_mesh = _repeated_mesh_comparison(
+            reference_short_n64,
+            short_n128,
+            left_label="n64",
+            right_label="n128",
+        )
+    short_gate_passed = bool(
+        initial_gate_passed
+        and short_n128_passed
+        and short_mesh is not None
+        and short_mesh["passed"]
+    )
+
+    duration_n128 = None
+    duration_n128_passed = False
+    duration_mesh = None
+    contraction = None
+    if short_gate_passed:
+        assert n128_bundle is not None
+        duration_n128, duration_n128_passed = (
+            _continue_source_compatible_duration_resolution(
+                128,
+                initialization=n128_bundle[0],
+                artifacts=n128_bundle[1],
+                seed_parameters=common_parameters,
+                elapsed_time_target=target_elapsed_time,
+                perform_first_step_replay_audit=True,
+                parent_restart_label="wp10c5u",
+                output_restart_label="wp10c5u_duration",
+                work_package="WP10c5u",
+                parent_work_package="WP10c5u",
+                initial_dt_next_override=maximum_timestep,
+                maximum_dt_override=maximum_timestep,
+                step_residual_tolerance=(
+                    strict_residual_tolerance
+                ),
+            )
+        )
+    if duration_n128_passed:
+        duration_mesh = (
+            _source_compatible_duration_mesh_comparison(
+                reference_n64,
+                duration_n128,
+                left_label="n64",
+                right_label="n128",
+            )
+        )
+        contraction = _mesh_contraction_summary(
+            ledger_parent["fine_mesh_comparison"],
+            duration_mesh,
+            coarse_pair=("n32", "n64"),
+            fine_pair=("n64", "n128"),
+        )
+
+    strict_step_residuals = (
+        [
+            float(row["maximum_scaled_residual"])
+            for row in duration_n128["extension"]["steps"]
+            if row.get("step_gate_passed", False)
+        ]
+        if duration_n128 is not None
+        else []
+    )
+    strict_residual_contract_passed = bool(
+        duration_n128_passed
+        and strict_step_residuals
+        and max(strict_step_residuals)
+        <= strict_residual_tolerance
+    )
+    mesh_gate_certified = bool(
+        strict_residual_contract_passed
+        and duration_mesh is not None
+        and duration_mesh["passed"]
+    )
+    bounded_classification_completed = bool(
+        prerequisites_passed
+        and (
+            not initial_gate_passed
+            or (
+                short_n128 is not None
+                and not short_gate_passed
+            )
+            or duration_n128 is not None
+        )
+    )
+    output = {
+        "work_package": "WP10c5u",
+        "scope": (
+            "exactly one bounded N128 confirmation from the fixed "
+            "analytic datum, with an unchanged N64/N128 short gate "
+            "and conditional strict-residual duration comparison"
+        ),
+        "parent_results": {
+            name: str(path.relative_to(ROOT))
+            for name, path in parent_paths.items()
+        },
+        "parent_contract": parent_contract,
+        "construction": construction,
+        "common_seed_parameters": common_parameters,
+        "numerical_contract": {
+            "short_step_residual_tolerance": (
+                short_residual_tolerance
+            ),
+            "duration_step_residual_tolerance": (
+                strict_residual_tolerance
+            ),
+            "maximum_timestep_seconds": maximum_timestep,
+            "target_elapsed_time_seconds": target_elapsed_time,
+            "physical_equations_changed": False,
+            "physical_gates_changed": False,
+            "operator_changed": False,
+        },
+        "n128_initial_datum": n128_initial,
+        "n64_n128_initial_profile_audit": initial_profile,
+        "short_startup": {
+            "reference_n64": reference_short_n64,
+            "n128": short_n128,
+            "mesh_comparison": short_mesh,
+            "passed": short_gate_passed,
+        },
+        "bounded_duration": {
+            "reference_strict_n64": reference_n64,
+            "n128": duration_n128,
+            "mesh_comparison": duration_mesh,
+            "duration_contraction": contraction,
+            "mesh_gate_certified": mesh_gate_certified,
+        },
+        "gates": {
+            "parent_prerequisites_passed": prerequisites_passed,
+            "n128_initial_datum_passed": bool(
+                n128_initial is not None and n128_initial["passed"]
+            ),
+            "n64_n128_initial_profile_passed": bool(
+                initial_profile is not None
+                and initial_profile["passed"]
+            ),
+            "n128_short_startup_passed": short_n128_passed,
+            "n64_n128_short_mesh_gate_passed": bool(
+                short_mesh is not None and short_mesh["passed"]
+            ),
+            "short_common_data_startup_certified": (
+                short_gate_passed
+            ),
+            "n128_duration_attempted": duration_n128 is not None,
+            "n128_duration_passed": duration_n128_passed,
+            "n128_strict_residual_contract_passed": (
+                strict_residual_contract_passed
+            ),
+            "n64_n128_duration_mesh_gate_passed": (
+                mesh_gate_certified
+            ),
+            "bounded_duration_mesh_certified": mesh_gate_certified,
+            "bounded_classification_completed": (
+                bounded_classification_completed
+            ),
+            "further_mesh_confirmation_authorized": False,
+            "n96_physical_evolution_executed": False,
+            "n256_physical_evolution_executed": False,
+            "operator_correction_authorized": False,
+            "long_evolution_authorized": False,
+            "tide_authorized": False,
+            "wind_authorized": False,
+            "stability_authorized": False,
+            "hot_state_search_authorized": False,
+            "limit_cycle_search_authorized": False,
+        },
+        "passed": mesh_gate_certified,
+        "decision": (
+            "bounded_first_order_mesh_gate_certified_at_n128"
+            if mesh_gate_certified
+            else (
+                "stop_and_reassess_first_order_method"
+                if duration_n128_passed
+                else (
+                    "stop_after_n128_duration_failure"
+                    if duration_n128 is not None
+                    else (
+                        "stop_after_n128_short_gate"
+                        if short_n128 is not None
+                        else "stop_before_n128_evolution"
+                    )
+                )
+            )
+        ),
+    }
+    output_path = _absolute(
+        DEFAULT_MESH_COMMON_N128_CONFIRMATION_OUTPUT
+        if args.output == DEFAULT_OUTPUT
+        else args.output
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = json.dumps(
+        output,
+        indent=2,
+        sort_keys=True,
+        default=_json_default,
+    )
+    output_path.write_text(serialized + "\n", encoding="utf-8")
+    print(serialized)
+
+
 def _run_increment_primary_audit(
     args: argparse.Namespace,
     *,
@@ -8716,6 +9111,9 @@ def _run_increment_primary_audit(
 
 def main() -> None:
     args = _arguments()
+    if args.increment_primary_mesh_common_n128_confirmation_audit:
+        _run_mesh_common_n128_confirmation_audit(args)
+        return
     if args.increment_primary_mesh_common_n64_ledger_replay_audit:
         _run_mesh_common_n64_ledger_replay_audit(args)
         return

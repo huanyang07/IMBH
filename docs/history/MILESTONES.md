@@ -213,6 +213,14 @@ rejected sequence.
     `6.6677e-3`, above `5e-3`, but contracts from N16/N32 at order `1.657`
     (RMS `1.463`). Exactly one bounded N128 confirmation is authorized; no
     longer or physical evolution is unlocked.
+41. **N128 bounded spatial certification:** an independently generated N128
+    datum passes the N64/N128 short gate with response error `3.33334e-4`.
+    The strict exact-time duration reaches `8.48423e-4 s` in 63 extension
+    steps with no retries, full `640/640` descriptor and `1925/1925`
+    consistency rank, and five-field defect `1.77056e-12`. The N64/N128
+    response error is `2.58967e-3 < 5e-3`, contracting at observed order
+    `1.36443` (RMS `1.22561`). The first-order bounded mesh gate is certified;
+    further fine meshes and direct microstep duration extension are closed.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

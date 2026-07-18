@@ -85,6 +85,7 @@ This is the canonical project handoff. Status labels mean:
 | Mesh-common startup and temporal parity WP10c5o-q | **CERTIFIED** for common-data short startup and temporal-confound exclusion; **CERTIFIED** as a bounded negative spatial result; **DIAGNOSTIC ONLY** physically | One fixed physical profile passes N16/N32 initialization; short response mismatch is `2.7898e-3`; both bounded trajectories pass individually; equal 63-step duration control preserves full rank and ledgers below `4.7e-12` | Duration `Delta ln(H/R)` mismatch remains `2.1033e-2 > 5e-3`; the failure is spatial at N16/N32, and N64 plus all physical searches remain blocked |
 | Causal spatial-response audit WP10c5r | **CERTIFIED** for spatial-error classification; **DIAGNOSTIC ONLY** physically | Exact term tangents reconstruct below `2.7e-11`; face transport controls the N16/N32 mismatch at `24.05 s^-1`; central flux converges at order `>=1.996`, Rusanov/full transport at `>=1.106`, all source terms at expected order, and exact stream moments restrict below `2.26e-16` | The discrepancy is ordinary first-order coarse-grid truncation; no operator change is justified; its N64 authorization is consumed by WP10c5s-t |
 | Causal N64 confirmation WP10c5s-t | **CERTIFIED** for bounded contraction and ledger closure; **DIAGNOSTIC ONLY** physically | Independent N64 short error `8.65e-4`; strict 63-step duration has full `320/320` and `965/965` rank, no retries, five-field defect `1.81e-12`; N32/N64 error contracts `2.1033e-2 -> 6.6677e-3` at order `1.657` | The `5e-3` duration gate is not yet met; exactly one N128 confirmation is authorized, while N96/N256, longer evolution, tide, wind, stability, hot-state, and cycle work remain blocked |
+| Causal N128 mesh certification WP10c5u | **CERTIFIED** for bounded first-order spatial convergence; **DIAGNOSTIC ONLY** physically | Independent N128 datum has full `640/640` descriptor and `1925/1925` consistency rank; exact-time duration has 63 steps, no retries, ledger defect `1.77e-12`; N64/N128 error is `2.5897e-3 < 5e-3` at order `1.364` | Only `9.98e-10 t_load` is evolved and the run costs roughly two wall-clock hours; no further fine mesh or direct microstep duration is justified, and physics searches remain blocked pending a timestep-ceiling audit |
 
 ## Frozen Target Under Review
 
@@ -490,6 +491,15 @@ N                    = 164
     `5.01e-10`. N32/N64 duration error is `6.6677e-3`, contracting from
     N16/N32 at order `1.657` (RMS `1.463`). The mesh gate is not yet
     certified; exactly one bounded N128 confirmation is authorized.
+60. WP10c5u independently regenerates N128 and passes the unchanged
+    N64/N128 short gate with a `3.33334e-4` thickness-response difference.
+    Its strict duration reaches exactly `8.48423267e-4 s` in 63 extension
+    steps with no retries, full `640/640` descriptor and `1925/1925`
+    consistency rank, five-field defect `1.77056e-12`, and mass defect
+    `2.48535e-13`. The N64/N128 response error is `2.58967e-3 < 5e-3`,
+    contracting at order `1.36443` (RMS `1.22561`). This certifies the
+    bounded first-order spatial gate and closes further fine-mesh work. It
+    does not authorize direct long evolution or physical claims.
 
 ## Claims That Are Not Allowed Yet
 
@@ -546,18 +556,18 @@ N                    = 164
    sparse parity backend, WP10c5k repeated startup, WP10c5l matched source
    control, WP10c5m source-compatible startup, WP10c5n bounded stop,
    WP10c5o-q mesh-common/temporal-parity controls, WP10c5r spatial
-   classification, and WP10c5s-t N64 contraction/ledger result as complete.
+   classification, WP10c5s-t N64 contraction/ledger result, and WP10c5u
+   N128 bounded mesh certification as complete.
    The old PW
    plunge has superluminal transverse rotation and must not be mapped into the
    new variables. Continue only the selected one-domain ingoing-Kerr-Schild
-   Valencia path. The next package is exactly one bounded N128 confirmation
-   from the same analytic profile, using the accepted `1e-11` solve contract
-   and the same target/time cap. Require the unchanged N64/N128 short gate
-   before the bounded target, compare N32/N64 versus N64/N128 contraction,
-   and certify only if the fine response is at most `5e-3` with every existing
-   gate passing. Otherwise stop and reassess the first-order method. Do not
-   launch N96, N256, longer duration, distributed tide, wind, stability, or a
-   hot/cycle search.
+   Valencia path. The next package is an N16 observable-aware local-timescale
+   and one-full-versus-two-half-step timestep-ceiling audit. Preserve every
+   existing nonlinear, causal, optical, Roche, and ledger gate. Advance to
+   N32 only after N16 identifies a finite observable-accuracy ceiling. Do not
+   run N64/N128 production ladders, extend directly with the microstep
+   controller, or begin distributed tide, wind, stability, or a hot/cycle
+   search.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -630,6 +640,7 @@ N                    = 164
 - Fresh low-mass global startup WP8: `reports/current/CODEX_GLOBAL_FRESH_LOW_MASS_STARTUP_WP8_RESULTS_2026-07-17.md`
 - Fresh-loading inner-boundary architecture WP9: `reports/current/CODEX_GLOBAL_INNER_BOUNDARY_ARCHITECTURE_WP9_RESULTS_2026-07-17.md`
 - Causal N64 confirmation WP10c5s-t: `reports/current/CODEX_CAUSAL_N64_CONFIRMATION_WP10C5S_T_RESULTS_2026-07-18.md`
+- Causal N128 mesh certification WP10c5u: `reports/current/CODEX_CAUSAL_N128_MESH_CERTIFICATION_WP10C5U_RESULTS_2026-07-18.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
 - Horizon-penetrating Valencia core WP10b: `reports/current/CODEX_HORIZON_PENETRATING_VALENCIA_WP10B_RESULTS_2026-07-17.md`
 - Valencia gas+radiation primitive recovery WP10c1: `reports/current/CODEX_VALENCIA_GAS_RADIATION_PRIMITIVE_RECOVERY_WP10C1_RESULTS_2026-07-17.md`
