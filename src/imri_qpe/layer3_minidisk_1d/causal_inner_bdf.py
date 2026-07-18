@@ -195,6 +195,51 @@ def causal_bdf_increment_rate(
     )
 
 
+def causal_bdf_quadratic_history_predictor(
+    current_state: np.ndarray | float,
+    previous_increment: np.ndarray | float,
+    previous_timestep_seconds: float,
+    older_increment: np.ndarray | float,
+    older_timestep_seconds: float,
+    requested_timestep_seconds: float,
+) -> np.ndarray:
+    """Extrapolate one state from its two most recent finite increments."""
+
+    current = np.asarray(current_state, dtype=float)
+    previous = np.asarray(previous_increment, dtype=float)
+    older = np.asarray(older_increment, dtype=float)
+    previous_dt = float(previous_timestep_seconds)
+    older_dt = float(older_timestep_seconds)
+    requested_dt = float(requested_timestep_seconds)
+    if (
+        previous.shape != current.shape
+        or older.shape != current.shape
+        or np.any(~np.isfinite(current))
+        or np.any(~np.isfinite(previous))
+        or np.any(~np.isfinite(older))
+        or not np.isfinite(previous_dt)
+        or previous_dt <= 0.0
+        or not np.isfinite(older_dt)
+        or older_dt <= 0.0
+        or not np.isfinite(requested_dt)
+        or requested_dt <= 0.0
+    ):
+        raise ValueError("causal BDF predictor history is invalid")
+    recent_rate = previous / previous_dt
+    older_rate = older / older_dt
+    second_divided_difference = (
+        (recent_rate - older_rate) / (previous_dt + older_dt)
+    )
+    return np.asarray(
+        current
+        + requested_dt * recent_rate
+        + requested_dt
+        * (requested_dt + previous_dt)
+        * second_divided_difference,
+        dtype=float,
+    )
+
+
 def causal_bdf_discrete_ledger(
     current_storage_increment: np.ndarray | float,
     previous_storage_increment: np.ndarray | float | None,

@@ -11,6 +11,7 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_bdf_coefficients,
     causal_bdf_discrete_ledger,
     causal_bdf_increment_rate,
+    causal_bdf_quadratic_history_predictor,
     causal_five_field_bdf_history,
     causal_five_field_bdf_restarts_equal,
     causal_five_field_dae_scaling,
@@ -74,6 +75,27 @@ def test_variable_step_bdf2_is_exact_for_a_quadratic() -> None:
 
     assert float(derivative) == pytest.approx(
         2.0 * new_time,
+        rel=2.0e-15,
+    )
+
+
+def test_quadratic_history_predictor_is_exact_on_nonuniform_steps() -> None:
+    older_time = 0.2
+    previous_time = 0.7
+    current_time = 1.4
+    requested_timestep = 0.3
+    polynomial = lambda value: 2.0 - 0.5 * value + 1.2 * value**2
+    predicted = causal_bdf_quadratic_history_predictor(
+        polynomial(current_time),
+        polynomial(current_time) - polynomial(previous_time),
+        current_time - previous_time,
+        polynomial(previous_time) - polynomial(older_time),
+        previous_time - older_time,
+        requested_timestep,
+    )
+
+    assert float(predicted) == pytest.approx(
+        polynomial(current_time + requested_timestep),
         rel=2.0e-15,
     )
 
