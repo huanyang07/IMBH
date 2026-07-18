@@ -5,20 +5,16 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-from dataclasses import asdict, replace
+from dataclasses import asdict
 from pathlib import Path
 
 import numpy as np
 
-from imri_qpe.constants import C, G
 from imri_qpe.layer3_minidisk_1d import (
     CAUSAL_FIVE_FIELD_OBSERVABLE_SCHEMA_VERSION,
-    KERR_SCHILD_HILL_ENERGY_ZERO,
+    CAUSAL_FIVE_FIELD_TEMPORAL_ACCURACY_GATES_V1,
     CausalFiveFieldAdaptiveStepConfig,
     CausalFiveFieldDAEContext,
-    GasRadiationHillRocheNozzleProvider,
-    SchwarzschildCurvatureVerticalFrequency,
-    ValenciaPerfectFluidPrimitive,
     advance_causal_five_field_increment_backward_euler,
     audit_causal_five_field_state_gates,
     causal_backward_euler_step_doubling_factor,
@@ -29,16 +25,10 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_five_field_temporal_error_ratio,
     compare_causal_five_field_observables,
     evaluate_causal_five_field_dae,
-    exact_kerr_schild_compact_stream_sources,
-    fiducial_hill_roche_nozzle_geometry,
-    kerr_schild_column_geometry,
-    kerr_schild_stream_injection,
     load_causal_five_field_adaptive_restart,
-    make_kerr_schild_column_grid,
+    make_causal_five_field_regression_context,
     unpack_causal_five_field_state,
 )
-from imri_qpe.parameters import FiducialParams
-from imri_qpe.scales import eddington_mdot
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -51,24 +41,14 @@ N16_RESULT = (
     / "causal_timescale_timestep_audit_wp10c6a.json"
 )
 SUPPORTED_CELL_COUNTS = (16, 32)
-STREAM_CENTER_RG = 240.0
-STREAM_LOG_WIDTH = 0.08
-STREAM_MDOT_EDD = 5.0
-STREAM_SURFACE_DENSITY = 1.0e5
-STREAM_TEMPERATURE = 1.0e6
 TIMESTEP_FACTOR = 2.0
 MAXIMUM_RUNGS = 12
 COOLING_INNER_CUTOFF_RG = 6.0
 FINITE_DIFFERENCE_STEP = 2.0e-6
 
-TEMPORAL_ACCURACY_GATES = {
-    "cooling_power_proxy_relative": 1.0e-3,
-    "cooling_power_proxy_outside_cutoff_relative": 1.0e-3,
-    "inner_accretion_rate_relative": 1.0e-3,
-    "maximum_log_h_over_r_profile": 2.0e-3,
-    "maximum_integrated_conserved_relative": 1.0e-3,
-    "maximum_baseline_scaled_state_difference": 2.0e-3,
-}
+TEMPORAL_ACCURACY_GATES = dict(
+    CAUSAL_FIVE_FIELD_TEMPORAL_ACCURACY_GATES_V1
+)
 
 
 def _arguments() -> argparse.Namespace:
@@ -119,84 +99,6 @@ def _sha256(path: Path) -> str:
         for block in iter(lambda: source.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
-
-
-def _exact_regression_stream(
-    context: CausalFiveFieldDAEContext,
-    mass: float,
-    gravitational_radius: float,
-):
-    radius = STREAM_CENTER_RG * gravitational_radius
-    geometry = kerr_schild_column_geometry(
-        radius,
-        gravitational_radius,
-    )
-    thermodynamics = context.vertical_frequency.eos(
-        radius
-    ).from_surface_density_temperature(
-        STREAM_SURFACE_DENSITY,
-        STREAM_TEMPERATURE,
-    )
-    primitive = ValenciaPerfectFluidPrimitive(
-        surface_density=STREAM_SURFACE_DENSITY,
-        radial_velocity_over_c=(
-            2.0 * gravitational_radius / radius
-        ),
-        azimuthal_velocity_over_c=float(
-            np.sqrt(gravitational_radius / radius)
-            / geometry.base.lapse
-        ),
-        specific_internal_energy=(
-            thermodynamics.specific_internal_energy
-        ),
-        integrated_pressure=thermodynamics.integrated_pressure,
-    )
-    injection = kerr_schild_stream_injection(
-        geometry,
-        primitive,
-        rest_mass_rate=STREAM_MDOT_EDD * eddington_mdot(mass),
-    )
-    return exact_kerr_schild_compact_stream_sources(
-        context.grid,
-        injection,
-        center=radius,
-        log_width=STREAM_LOG_WIDTH,
-        shape="compact_c2",
-    )
-
-
-def _context(n_cells: int) -> CausalFiveFieldDAEContext:
-    mass = FiducialParams().M2_g
-    gravitational_radius = G * mass / C**2
-    grid = make_kerr_schild_column_grid(
-        1.8 * gravitational_radius,
-        335.0 * gravitational_radius,
-        n_cells,
-        gravitational_radius,
-    )
-    geometry = replace(
-        fiducial_hill_roche_nozzle_geometry(),
-        energy_zero=KERR_SCHILD_HILL_ENERGY_ZERO,
-    )
-    context = CausalFiveFieldDAEContext(
-        grid=grid,
-        vertical_frequency=SchwarzschildCurvatureVerticalFrequency(
-            gravitational_radius
-        ),
-        outer_boundary_provider=GasRadiationHillRocheNozzleProvider(
-            geometry,
-            transverse_quadrature_zones=24,
-        ),
-        include_radiative_cooling=True,
-    ).validated()
-    return replace(
-        context,
-        stream_sources=_exact_regression_stream(
-            context,
-            mass,
-            gravitational_radius,
-        ),
-    ).validated()
 
 
 def _array(values: np.ndarray) -> list[float]:
@@ -676,7 +578,7 @@ def main() -> None:
     )
     if not checkpoint_path.exists():
         raise FileNotFoundError(checkpoint_path)
-    context = _context(n_cells)
+    context = make_causal_five_field_regression_context(n_cells)
     restart = load_causal_five_field_adaptive_restart(
         checkpoint_path,
         context,

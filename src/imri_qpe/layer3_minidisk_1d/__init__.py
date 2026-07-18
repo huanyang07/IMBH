@@ -143,6 +143,7 @@ from .causal_inner_evolution import (
 )
 from .causal_inner_diagnostics import (
     CAUSAL_FIVE_FIELD_OBSERVABLE_SCHEMA_VERSION,
+    CAUSAL_FIVE_FIELD_TEMPORAL_ACCURACY_GATES_V1,
     CausalFiveFieldLocalTimescaleAudit,
     CausalFiveFieldObservableSnapshot,
     audit_causal_five_field_state_gates,
@@ -151,6 +152,22 @@ from .causal_inner_diagnostics import (
     causal_five_field_observable_snapshot,
     causal_five_field_temporal_error_ratio,
     compare_causal_five_field_observables,
+)
+from .causal_inner_regression import (
+    CAUSAL_REGRESSION_STREAM_CENTER_RG,
+    CAUSAL_REGRESSION_STREAM_LOG_WIDTH,
+    CAUSAL_REGRESSION_STREAM_MDOT_EDD,
+    CAUSAL_REGRESSION_STREAM_SURFACE_DENSITY,
+    CAUSAL_REGRESSION_STREAM_TEMPERATURE,
+    make_causal_five_field_regression_context,
+)
+from .causal_inner_temporal_controller import (
+    CausalFiveFieldStepDoublingAttempt,
+    CausalFiveFieldStepDoublingResult,
+    CausalFiveFieldTemporalControllerConfig,
+    CausalFiveFieldTemporalStepContract,
+    advance_causal_five_field_step_doubling_backward_euler,
+    audit_causal_five_field_temporal_step_contract,
 )
 from .causal_inner_valencia import (
     SchwarzschildKerrSchildGeometry,
@@ -998,6 +1015,16 @@ __all__ = [
     "CausalFiveFieldLocalTimescaleAudit",
     "CausalFiveFieldObservableSnapshot",
     "CAUSAL_FIVE_FIELD_OBSERVABLE_SCHEMA_VERSION",
+    "CAUSAL_FIVE_FIELD_TEMPORAL_ACCURACY_GATES_V1",
+    "CausalFiveFieldStepDoublingAttempt",
+    "CausalFiveFieldStepDoublingResult",
+    "CausalFiveFieldTemporalControllerConfig",
+    "CausalFiveFieldTemporalStepContract",
+    "CAUSAL_REGRESSION_STREAM_CENTER_RG",
+    "CAUSAL_REGRESSION_STREAM_LOG_WIDTH",
+    "CAUSAL_REGRESSION_STREAM_MDOT_EDD",
+    "CAUSAL_REGRESSION_STREAM_SURFACE_DENSITY",
+    "CAUSAL_REGRESSION_STREAM_TEMPERATURE",
     "CausalInnerCharacteristicAudit",
     "CausalStressCharacteristicAudit",
     "CausalStressColumnState",
@@ -1037,6 +1064,8 @@ __all__ = [
     "apply_kerr_schild_hill_roche_boundary",
     "advance_causal_five_field_adaptive_backward_euler",
     "advance_causal_five_field_increment_backward_euler",
+    "advance_causal_five_field_step_doubling_backward_euler",
+    "audit_causal_five_field_temporal_step_contract",
     "calibrate_causal_alpha_shear",
     "causal_five_field_colored_central_jacobian",
     "causal_five_field_cell_states",
@@ -1055,6 +1084,7 @@ __all__ = [
     "causal_five_field_observable_snapshot",
     "causal_five_field_temporal_error_ratio",
     "compare_causal_five_field_observables",
+    "make_causal_five_field_regression_context",
     "causal_five_field_endpoint_temporal_storage_increment",
     "causal_five_field_path_temporal_storage_increment",
     "causal_five_field_reduced_backward_euler_residual",

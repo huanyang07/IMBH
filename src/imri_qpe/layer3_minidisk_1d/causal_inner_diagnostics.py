@@ -30,6 +30,15 @@ CAUSAL_FIVE_FIELD_OBSERVABLE_SCHEMA_VERSION = (
     "causal-five-field-observables-v1"
 )
 
+CAUSAL_FIVE_FIELD_TEMPORAL_ACCURACY_GATES_V1 = {
+    "cooling_power_proxy_relative": 1.0e-3,
+    "cooling_power_proxy_outside_cutoff_relative": 1.0e-3,
+    "inner_accretion_rate_relative": 1.0e-3,
+    "maximum_log_h_over_r_profile": 2.0e-3,
+    "maximum_integrated_conserved_relative": 1.0e-3,
+    "maximum_baseline_scaled_state_difference": 2.0e-3,
+}
+
 
 @dataclass(frozen=True)
 class CausalFiveFieldObservableSnapshot:
