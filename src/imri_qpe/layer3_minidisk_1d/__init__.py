@@ -198,6 +198,14 @@ from .causal_inner_bdf_controller import (
     CausalFiveFieldBDF2Audit,
     advance_causal_five_field_adaptive_bdf2,
 )
+from .causal_inner_bdf_campaign import (
+    CausalFiveFieldAdaptiveBDF2CampaignResult,
+    add_causal_five_field_bdf_physical_ledgers,
+    causal_five_field_bdf_physical_ledger_from_restart,
+    causal_five_field_bdf_physical_ledger_relative_defects,
+    causal_five_field_bdf_zero_physical_ledger,
+    evolve_causal_five_field_adaptive_bdf2_campaign,
+)
 from .causal_inner_regression import (
     CAUSAL_REGRESSION_STREAM_CENTER_RG,
     CAUSAL_REGRESSION_STREAM_LOG_WIDTH,
@@ -1065,6 +1073,7 @@ __all__ = [
     "CausalFiveFieldDAEEvaluation",
     "CausalFiveFieldAdaptiveAttempt",
     "CausalFiveFieldAdaptiveBDF2Attempt",
+    "CausalFiveFieldAdaptiveBDF2CampaignResult",
     "CausalFiveFieldAdaptiveBDF2Config",
     "CausalFiveFieldAdaptiveBDF2StepResult",
     "CausalFiveFieldAdaptiveBDF2Restart",
@@ -1139,6 +1148,7 @@ __all__ = [
     "apply_kerr_schild_hill_roche_boundary",
     "advance_causal_five_field_adaptive_backward_euler",
     "advance_causal_five_field_adaptive_bdf2",
+    "add_causal_five_field_bdf_physical_ledgers",
     "advance_causal_five_field_increment_backward_euler",
     "advance_causal_five_field_increment_bdf",
     "advance_causal_five_field_step_doubling_backward_euler",
@@ -1150,6 +1160,9 @@ __all__ = [
     "causal_bdf_quadratic_history_predictor",
     "causal_bdf_weighted_increment",
     "causal_five_field_bdf_history",
+    "causal_five_field_bdf_physical_ledger_from_restart",
+    "causal_five_field_bdf_physical_ledger_relative_defects",
+    "causal_five_field_bdf_zero_physical_ledger",
     "causal_five_field_bdf_step_ledgers",
     "causal_five_field_adaptive_bdf2_restarts_equal",
     "causal_five_field_bdf_restarts_equal",
@@ -1197,6 +1210,7 @@ __all__ = [
     "evolve_causal_five_field_horizon_budget",
     "evolve_causal_five_field_fixed_reference",
     "evolve_causal_five_field_fixed_bdf2",
+    "evolve_causal_five_field_adaptive_bdf2_campaign",
     "equilibrium_alpha_specific_stress",
     "exact_kerr_schild_compact_stream_sources",
     "hydrostatic_vertical_work_identity_defect",

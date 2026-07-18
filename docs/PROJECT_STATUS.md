@@ -95,6 +95,7 @@ This is the canonical project handoff. Status labels mean:
 | Increment-primary BDF method WP10c7a | **CERTIFIED** for method-level BDF1/BDF2 and complete history; **DIAGNOSTIC ONLY** physically | Scalar/index-one/vertical tests converge at order `2.006-2.074`; BDF1 parity and five-field history defects are zero; N4 Jacobian is `65/65`; restart is bitwise | No N16 BDF2 disk trajectory or adaptive controller yet; only WP10c7b fixed-step N16 certification is authorized |
 | Fixed-step N16 BDF2 WP10c7b | **CERTIFIED** for bounded second-order temporal evolution and restart; **DIAGNOSTIC ONLY** physically | All six observables converge at order `1.994-2.005`; S64 plus S256/S512 uncertainty is at most `0.27474` of a gate; all physical-ledger components converge at order two; replay is bitwise | Only WP10c7c adaptive N16 BDF2 is authorized; N32 and physical-duration evolution remain gated |
 | Adaptive N16 BDF2 WP10c7c | **CERTIFIED** for bounded adaptive temporal evolution and restart; **DIAGNOSTIC ONLY** physically | Exact horizon in 20 accepted steps with zero retries and five independent audits; endpoint plus reference uncertainty is at most `0.28886` of a gate; physical-ledger defect is `7.11e-5`; replay is bitwise; Jacobian work is `0.4125` of fixed S64 | Only matched N32 WP10c7d is authorized; no N64/N128, physical-duration evolution, tide, wind, stability, hot-state, or cycle run |
+| Matched N32 BDF2 WP10c7d | **CERTIFIED** for bounded N32 temporal evolution; **REJECTED** for N16/N32 spatial response; **DIAGNOSTIC ONLY** physically | N32 fixed orders `1.995-2.007`; adaptive plus S32/S64 uncertainty is at most `0.11411` of a gate; replay is bitwise; Jacobian work is `0.2844` of fixed S64 | N16/N32 `Delta log(H/R)` response differs by `0.61293 > 0.005` near `20.86 rg`; no N64/N128 or longer/physical run is authorized before a localized spatial audit |
 
 ## Frozen Target Under Review
 
@@ -583,6 +584,15 @@ N                    = 164
     uncertainty consumes at most `0.28886` of a gate; the physical ledger is
     below `7.12e-5`; and split replay is bitwise. Its 132 Jacobians are
     `0.4125` of fixed S64. This authorizes only matched N32 WP10c7d.
+70. WP10c7d builds an independent N32 fixed BDF2 reference at 16/32/64
+    subdivisions. All six observable orders are `1.995-2.007`, all five
+    physical-ledger orders are near two, and the adaptive N32 endpoint plus
+    raw S32/S64 uncertainty consumes at most `0.11411` of a gate. The
+    adaptive trajectory uses 91 Jacobians, four independent audits, no
+    retries, and bitwise replay. Temporal control is therefore certified
+    through N32. The exact-common-time N16/N32 `Delta log(H/R)` response
+    differs by `0.61293`, however, failing the `0.005` spatial gate by
+    `122.6x` near `20.86 rg`. Spatial resolution is now the active blocker.
 
 ## Claims That Are Not Allowed Yet
 
@@ -652,15 +662,16 @@ N                    = 164
    raw fine uncertainty below `0.152` of every gate, and WP10c6f closes the
    horizon-budget controller below every combined gate with bitwise restart.
    Backward Euler is now frozen as the reference/startup/fallback backend.
-   WP10c7a passes the method-level BDF contract, WP10c7b passes fixed
-   equal-step N16 BDF2, and WP10c7c passes bounded adaptive N16 BDF2 with one
-   ordinary corrector, periodic independent audits, dual ledgers, and bitwise
-   restart replay. Continue only to matched N32 WP10c7d at the identical
-   physical horizon and with the unchanged controller. Require a converged
-   N32 temporal reference and an exact-common-time N16/N32 response audit.
-   Do not fit another backward-Euler controller, relax a gate, run N64/N128
-   production, extend to a physical loading/thermal time, or begin distributed
-   tide, wind, stability, or a hot/cycle search.
+   WP10c7a-d close the bounded temporal-method question through N32. N32 fixed
+   and adaptive BDF2 pass their independent temporal references, audits,
+   ledgers, work gates, and replay. The exact-common-time N16/N32 spatial
+   response fails by more than two orders of magnitude, localized near
+   `20.86 rg`. Continue only to a no-evolution/localized term audit of that
+   response. Authorize one matched N64 adaptive horizon only if the audit
+   confirms ordinary spatial truncation and predefines a tighter N64 temporal
+   check. Do not alter the flux operator, relax `0.005`, run N128, extend to a
+   physical loading/thermal time, or begin distributed tide, wind, stability,
+   or a hot/cycle search.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -672,7 +683,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_ADAPTIVE_BDF2_WP10C7C_RESULTS_2026-07-18.md`
+  `reports/current/CODEX_CAUSAL_MATCHED_BDF2_WP10C7D_RESULTS_2026-07-18.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -743,6 +754,7 @@ N                    = 164
 - Increment-primary BDF method WP10c7a: `reports/current/CODEX_CAUSAL_BDF_METHOD_WP10C7A_RESULTS_2026-07-18.md`
 - Fixed-step N16 BDF2 WP10c7b: `reports/current/CODEX_CAUSAL_FIXED_BDF2_WP10C7B_RESULTS_2026-07-18.md`
 - Adaptive N16 BDF2 WP10c7c: `reports/current/CODEX_CAUSAL_ADAPTIVE_BDF2_WP10C7C_RESULTS_2026-07-18.md`
+- Matched N32 BDF2 WP10c7d: `reports/current/CODEX_CAUSAL_MATCHED_BDF2_WP10C7D_RESULTS_2026-07-18.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
 - Horizon-penetrating Valencia core WP10b: `reports/current/CODEX_HORIZON_PENETRATING_VALENCIA_WP10B_RESULTS_2026-07-17.md`
 - Valencia gas+radiation primitive recovery WP10c1: `reports/current/CODEX_VALENCIA_GAS_RADIATION_PRIMITIVE_RECOVERY_WP10C1_RESULTS_2026-07-17.md`
