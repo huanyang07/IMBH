@@ -93,6 +93,7 @@ This is the canonical project handoff. Status labels mean:
 | Causal refined reference WP10c6e | **CERTIFIED** for the bounded N16 temporal reference; **DIAGNOSTIC ONLY** physically | All 896 fixed steps at 128/256/512 subdivisions pass; saved checkpoints reload bitwise; all six observables converge at order `0.9987-1.0008` | Raw 256-to-512 uncertainty is at most `0.1517` of a gate; only one separate N16 horizon-budget closure is authorized |
 | Causal horizon-budget closure WP10c6f | **CERTIFIED** for bounded N16 temporal accuracy and restart; **DIAGNOSTIC ONLY** physically | Exact horizon in 46 accepted steps; split replay is bitwise; controller error plus S256/S512 uncertainty is at most `0.85294` of a gate; Jacobian work is `0.27539` of S512 | The `dt/T_output` first-order budget scales poorly with horizon; backward Euler is frozen as reference/fallback and only WP10c7a method work is authorized |
 | Increment-primary BDF method WP10c7a | **CERTIFIED** for method-level BDF1/BDF2 and complete history; **DIAGNOSTIC ONLY** physically | Scalar/index-one/vertical tests converge at order `2.006-2.074`; BDF1 parity and five-field history defects are zero; N4 Jacobian is `65/65`; restart is bitwise | No N16 BDF2 disk trajectory or adaptive controller yet; only WP10c7b fixed-step N16 certification is authorized |
+| Fixed-step N16 BDF2 WP10c7b | **CERTIFIED** for bounded second-order temporal evolution and restart; **DIAGNOSTIC ONLY** physically | All six observables converge at order `1.994-2.005`; S64 plus S256/S512 uncertainty is at most `0.27474` of a gate; all physical-ledger components converge at order two; replay is bitwise | Only WP10c7c adaptive N16 BDF2 is authorized; N32 and physical-duration evolution remain gated |
 
 ## Frozen Target Under Review
 
@@ -567,6 +568,12 @@ N                    = 164
     physical interval defects converge near third order; BDF1 parity and both
     five-field history defects are zero; the N4 Jacobian is full `65/65`.
     This authorizes only WP10c7b fixed-step N16 BDF2 certification.
+68. WP10c7b runs one BDF1 startup step followed by fixed equal-step N16
+    BDF2 at 8/16/32/64 subdivisions. All six observable fine orders are
+    `1.994-2.005`; the S64 endpoint plus raw S256/S512 uncertainty uses at
+    most `0.27474` of a gate; the maximum discrete defect is `5.24e-12`;
+    all five physical horizon-ledger components converge at order two; and
+    split restart replay is bitwise. Only adaptive N16 WP10c7c is authorized.
 
 ## Claims That Are Not Allowed Yet
 
@@ -636,12 +643,12 @@ N                    = 164
    raw fine uncertainty below `0.152` of every gate, and WP10c6f closes the
    horizon-budget controller below every combined gate with bitwise restart.
    Backward Euler is now frozen as the reference/startup/fallback backend.
-   WP10c7a now passes method-level increment-primary BDF1/BDF2 coefficients,
-   path-integrated vertical-storage history, dual ledger primitives, complete
-   restart history, and manufactured scalar/index-one/vertical tests.
-   Continue only to WP10c7b: one BE startup step plus fixed equal-step N16
-   BDF2 at 8/16/32/64 subdivisions against S512 plus measured reference
-   uncertainty. WP10c7c adaptive N16 and WP10c7d matched N32 remain gated.
+   WP10c7a passes the method-level BDF contract and WP10c7b passes fixed
+   equal-step N16 BDF2 at 8/16/32/64 subdivisions against S512 plus measured
+   reference uncertainty. Continue only to WP10c7c adaptive N16 BDF2 with
+   variable-step history, one ordinary corrector solve, periodic independent
+   audits, dual ledgers, and complete restart replay. WP10c7d matched N32
+   remains gated.
    Do not fit another backward-Euler controller, relax a gate, run N64/N128
    production, extend to a physical loading/thermal time, or begin distributed
    tide, wind, stability, or a hot/cycle search.
@@ -656,7 +663,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_BDF_METHOD_WP10C7A_RESULTS_2026-07-18.md`
+  `reports/current/CODEX_CAUSAL_FIXED_BDF2_WP10C7B_RESULTS_2026-07-18.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -725,6 +732,7 @@ N                    = 164
 - Causal refined temporal reference WP10c6e: `reports/current/CODEX_CAUSAL_REFINED_REFERENCE_WP10C6E_RESULTS_2026-07-18.md`
 - Causal horizon-budget closure WP10c6f: `reports/current/CODEX_CAUSAL_HORIZON_BUDGET_CLOSURE_WP10C6F_RESULTS_2026-07-18.md`
 - Increment-primary BDF method WP10c7a: `reports/current/CODEX_CAUSAL_BDF_METHOD_WP10C7A_RESULTS_2026-07-18.md`
+- Fixed-step N16 BDF2 WP10c7b: `reports/current/CODEX_CAUSAL_FIXED_BDF2_WP10C7B_RESULTS_2026-07-18.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
 - Horizon-penetrating Valencia core WP10b: `reports/current/CODEX_HORIZON_PENETRATING_VALENCIA_WP10B_RESULTS_2026-07-17.md`
 - Valencia gas+radiation primitive recovery WP10c1: `reports/current/CODEX_VALENCIA_GAS_RADIATION_PRIMITIVE_RECOVERY_WP10C1_RESULTS_2026-07-17.md`
