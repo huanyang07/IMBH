@@ -105,6 +105,7 @@ This is the canonical project handoff. Status labels mean:
 | Matched adaptive spatial balance WP10c7k | **CERTIFIED** for bounded N32/N64 adaptive evolution; **DIAGNOSTIC ONLY** physically | Both meshes take 13 accepted/0 rejected steps with four audits; endpoint `Delta log(H/R)` is `1.52763e-3`; adding adaptive and fixed-reference uncertainty gives at most `1.85230e-3 < 0.005`; ledgers are below `7.60e-5`; replay is bitwise; Jacobian work is `0.3281` of fixed S64 | Exactly one matched no-tide extension toward the `~0.05 s` characteristic-crossing rung is authorized; N128, later physical clocks, tide, wind, stability, hot-state, and cycle work remain closed |
 | Characteristic-crossing extension WP10c7l | **CERTIFIED** for robust N32/N64 temporal evolution and the conservative `0.0375 s` spatial horizon; **REJECTED** at the `0.05 s` spatial gate; **DIAGNOSTIC ONLY** physically | All four production/control campaigns reach exact `0.05 s` with no retries; temporal audits, state gates, ledgers, source restriction, work, and replay pass; the conservative spatial total is `0.002845/0.004101` at `0.025/0.0375 s` | At `0.05 s`, raw `Delta log(H/R)=0.004944` becomes `0.005348 > 0.005` after uncertainty; growth is linear at `0.099015 s^-1`; stress/cooling/thermal rungs and new physics remain closed pending an evolved-state spatial-order audit |
 | Evolved-state spatial order WP10c7m | **CERTIFIED** for one N128 reference campaign; **DIAGNOSTIC ONLY** physically | Two independent common-state N32/N64/N128 oracles give full-domain thickness-tangent order `1.989/1.996`, interior temperature order `2.127-2.131`, and scaled-energy order `1.875-1.876`; projected spatial plus temporal/oracle reserve is `0.001751 < 0.0025` | Full-domain raw temperature/energy maxima remain boundary limited; no duration extension or reduction calibration is authorized before measured N64/N128 `0.05 s` certification |
+| Fresh N128 reference WP10c7n | **CERTIFIED** for N64/N128 evolution through `0.05 s`; **DIAGNOSTIC ONLY** physically | Fresh N128 production/control take 30/60 accepted steps with zero retries; raw N64/N128 `Delta log(H/R)=0.0012235`, conservative total `0.0014873`, observed order `2.0147`, Richardson remainder `0.0004023`; replay is bitwise | Only one third of a stress-relaxation time is covered; selected-state descriptor spectra and full/reduced validation are required before any slow-manifold or long-duration claim |
 
 ## Frozen Target Under Review
 
@@ -798,10 +799,15 @@ N                    = 164
    `0.005` gate. The raw response grows linearly at `0.099015 s^-1`, matching
    the original selected-operator tangent. WP10c7m now measures full-domain
    thickness order `1.989-1.996` and projects the N64/N128 conservative
-   authorization total to `0.001751 < 0.0025`, so one fresh N128 production
-   plus half-ceiling temporal-control campaign is authorized. Do not
-   extend to the stress/cooling/thermal clocks or begin distributed tide,
-   wind, stability, or a hot/cycle search.
+   authorization total to `0.001751 < 0.0025`. WP10c7n now replaces that
+   projection with a fresh measured N128 trajectory: the raw endpoint
+   difference is `0.0012235`, the conservative total is `0.0014873`, the
+   observed order is `2.0147`, and the N128 Richardson remainder is
+   `0.0004023`. The N128 cell-crossing clock falls to `0.00554 s` while
+   stress relaxation remains `0.147 s`. Selected-state finite descriptor
+   spectra are authorized; no physical slow-manifold, stress/cooling/thermal
+   extension, distributed tide, wind, stability, or hot/cycle claim is yet
+   authorized.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -813,7 +819,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_EVOLVED_SPATIAL_ORDER_WP10C7M_RESULTS_2026-07-19.md`
+  `reports/current/CODEX_CAUSAL_N128_REFERENCE_WP10C7N_RESULTS_2026-07-19.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)

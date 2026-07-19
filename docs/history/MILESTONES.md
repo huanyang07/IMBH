@@ -314,6 +314,17 @@ rejected sequence.
     consistency solve closes below `5.35e-15`. One fresh N128 production plus
     temporal-control campaign is authorized, while boundary-limited raw
     temperature/energy orders remain diagnostic.
+51. **Fresh N128 `0.05 s` spatial certification:** independently initialized
+    N128 production and half-ceiling temporal-control trajectories reach exact
+    `0.025`, `0.0375`, and `0.05 s` in `30/60` accepted steps with no retries.
+    The measured N64/N128 thickness difference grows
+    `6.135e-4 -> 1.223e-3`; adding complete temporal uncertainty gives
+    `8.340e-4 -> 1.487e-3`, below both the original `0.005` gate and preferred
+    `0.0025` half-gate. The observed order is `2.0147`, the remaining N128
+    Richardson estimate is `4.023e-4`, physical ledgers remain below
+    `1.52e-4`, and production replay is bitwise after excluding wall-clock
+    telemetry. Selected-state finite descriptor spectra are authorized before
+    any slow-manifold reduction claim.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed
