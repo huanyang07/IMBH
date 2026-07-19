@@ -7,6 +7,7 @@ import pytest
 
 from imri_qpe.constants import C, G
 from imri_qpe.layer3_minidisk_1d import (
+    CAUSAL_FIVE_FIELD_SPATIAL_RECONSTRUCTIONS,
     KERR_SCHILD_HILL_ENERGY_ZERO,
     CausalFiveFieldDAEContext,
     GasRadiationHillRocheNozzleProvider,
@@ -26,6 +27,7 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_five_field_path_temporal_storage_increment,
     causal_five_field_reduced_backward_euler_residual,
     causal_five_field_reduced_stationary_residual,
+    causal_five_field_reconstruct_face_charts,
     causal_five_field_state_from_primitives,
     evaluate_causal_five_field_dae,
     evaluate_causal_five_field_increment_backward_euler,
@@ -85,6 +87,159 @@ def test_flux_primary_state_pack_is_exact_and_round_trips() -> None:
     assert recovered.primitives == pytest.approx(state.primitives)
     assert recovered.weighted_face_fluxes_over_c == pytest.approx(
         state.weighted_face_fluxes_over_c
+    )
+
+
+def test_spatial_reconstruction_mode_is_validated() -> None:
+    context = _context(4)
+
+    assert (
+        context.spatial_reconstruction
+        == CAUSAL_FIVE_FIELD_SPATIAL_RECONSTRUCTIONS[0]
+    )
+    with pytest.raises(ValueError):
+        replace(
+            context,
+            spatial_reconstruction="unsupported",
+        ).validated()
+
+
+def test_explicit_piecewise_constant_backend_is_bitwise_frozen() -> None:
+    context = _context(8)
+    explicit = replace(
+        context,
+        spatial_reconstruction="piecewise_constant",
+    ).validated()
+    state = make_causal_five_field_seed(context)
+    vector = pack_causal_five_field_state(state)
+
+    default_evaluation = evaluate_causal_five_field_dae(vector, context)
+    explicit_evaluation = evaluate_causal_five_field_dae(vector, explicit)
+
+    assert np.array_equal(
+        default_evaluation.residual,
+        explicit_evaluation.residual,
+    )
+    assert np.array_equal(
+        default_evaluation.numerical_weighted_face_fluxes_over_c,
+        explicit_evaluation.numerical_weighted_face_fluxes_over_c,
+    )
+    assert np.array_equal(
+        default_evaluation.central_weighted_face_fluxes_over_c,
+        explicit_evaluation.central_weighted_face_fluxes_over_c,
+    )
+    assert np.array_equal(
+        default_evaluation.rusanov_dissipation_weighted_face_fluxes_over_c,
+        explicit_evaluation.rusanov_dissipation_weighted_face_fluxes_over_c,
+    )
+
+
+@pytest.mark.parametrize("mode", ("plm_unlimited", "plm_smooth"))
+def test_plm_reconstruction_preserves_constant_charts(mode: str) -> None:
+    context = replace(
+        _context(8),
+        spatial_reconstruction=mode,
+    ).validated()
+    chart = np.asarray(
+        [np.log(120.0), 0.02, 0.12, np.log(4.0e6), 0.0],
+        dtype=float,
+    )
+    charts = np.repeat(chart[None, :], 8, axis=0)
+    reconstruction = causal_five_field_reconstruct_face_charts(
+        context,
+        charts,
+    )
+
+    assert reconstruction.unlimited_slopes == pytest.approx(
+        np.zeros((8, 5)),
+        abs=0.0,
+    )
+    assert reconstruction.limited_slopes == pytest.approx(
+        np.zeros((8, 5)),
+        abs=0.0,
+    )
+    assert reconstruction.left_face_charts == pytest.approx(
+        np.repeat(chart[None, :], 9, axis=0),
+        abs=0.0,
+    )
+    assert reconstruction.right_face_charts == pytest.approx(
+        np.repeat(chart[None, :], 9, axis=0),
+        abs=0.0,
+    )
+    state = causal_five_field_state_from_primitives(context, charts)
+    evaluation = evaluate_causal_five_field_dae(
+        pack_causal_five_field_state(state),
+        context,
+    )
+    assert evaluation.rusanov_dissipation_weighted_face_fluxes_over_c[
+        1:-1
+    ] == pytest.approx(np.zeros((7, 5)), abs=0.0)
+
+
+def test_unlimited_plm_is_exact_for_linear_log_radius_chart() -> None:
+    context = replace(
+        _context(8),
+        spatial_reconstruction="plm_unlimited",
+    ).validated()
+    log_centers = np.log(context.grid.centers)
+    log_edges = np.log(context.grid.edges)
+    origin = float(np.mean(log_centers))
+    intercept = np.asarray(
+        [np.log(120.0), 0.02, 0.12, np.log(4.0e6), 1.0e12],
+        dtype=float,
+    )
+    slope = np.asarray([0.04, 0.002, -0.003, -0.02, 2.0e10])
+    charts = intercept + (log_centers - origin)[:, None] * slope
+    reconstruction = causal_five_field_reconstruct_face_charts(
+        context,
+        charts,
+    )
+    exact = intercept + (log_edges - origin)[:, None] * slope
+
+    assert reconstruction.unlimited_slopes[1:-1] == pytest.approx(
+        np.repeat(slope[None, :], 6, axis=0),
+        rel=2.0e-13,
+        abs=2.0e-13,
+    )
+    assert reconstruction.left_face_charts[2:-2] == pytest.approx(
+        exact[2:-2],
+        rel=2.0e-13,
+        abs=2.0e-13,
+    )
+    assert reconstruction.right_face_charts[2:-2] == pytest.approx(
+        exact[2:-2],
+        rel=2.0e-13,
+        abs=2.0e-13,
+    )
+
+
+@pytest.mark.parametrize("mode", ("plm_unlimited", "plm_smooth"))
+def test_plm_seed_closes_all_algebraic_maps(mode: str) -> None:
+    context = replace(
+        _context(8),
+        spatial_reconstruction=mode,
+    ).validated()
+    state = make_causal_five_field_seed(context)
+    evaluation = evaluate_causal_five_field_dae(
+        pack_causal_five_field_state(state),
+        context,
+    )
+
+    assert evaluation.primitive_map_rows == pytest.approx(
+        np.zeros((8, 5)),
+        abs=0.0,
+    )
+    assert evaluation.interior_flux_rows == pytest.approx(
+        np.zeros((7, 5)),
+        abs=0.0,
+    )
+    assert evaluation.inner_flux_rows == pytest.approx(
+        np.zeros(5),
+        abs=0.0,
+    )
+    assert evaluation.outer_flux_rows == pytest.approx(
+        np.zeros(5),
+        abs=0.0,
     )
 
 
@@ -603,8 +758,17 @@ def test_small_assembled_scaled_jacobian_is_numerically_full_rank() -> None:
     assert audit.smallest_singular_value > 1.0e-8
 
 
-def test_colored_increment_jacobian_matches_every_dense_column() -> None:
-    context = _context(4, cooling=True)
+@pytest.mark.parametrize(
+    "spatial_reconstruction",
+    ("piecewise_constant", "plm_smooth"),
+)
+def test_colored_increment_jacobian_matches_every_dense_column(
+    spatial_reconstruction: str,
+) -> None:
+    context = replace(
+        _context(4, cooling=True),
+        spatial_reconstruction=spatial_reconstruction,
+    ).validated()
     state = make_causal_five_field_seed(context)
     old_vector = pack_causal_five_field_state(state)
     stationary = evaluate_causal_five_field_dae(
@@ -635,7 +799,10 @@ def test_colored_increment_jacobian_matches_every_dense_column() -> None:
         dense[:, column] = (
             residual(plus) - residual(minus)
         ) / (2.0 * step)
-    pattern = causal_five_field_dae_jacobian_sparsity(4)
+    pattern = causal_five_field_dae_jacobian_sparsity(
+        4,
+        spatial_reconstruction=spatial_reconstruction,
+    )
     groups = causal_five_field_dae_jacobian_color_groups(pattern)
     colored = causal_five_field_colored_central_jacobian(
         residual,

@@ -82,6 +82,12 @@ def test_causal_adaptive_config_rejects_invalid_values() -> None:
             maximum_dt=2.0,
             shrink_factor=1.0,
         ).validated()
+    with pytest.raises(ValueError):
+        CausalFiveFieldAdaptiveStepConfig(
+            minimum_dt=1.0,
+            maximum_dt=2.0,
+            jacobian_reuse_iterations=0,
+        ).validated()
 
 
 def test_causal_state_summary_and_loading_time_are_finite() -> None:
@@ -169,6 +175,11 @@ def test_causal_adaptive_restart_round_trips_bitwise(tmp_path) -> None:
         path,
         context,
     )
+    with pytest.raises(ValueError, match="spatial reconstruction"):
+        load_causal_five_field_adaptive_restart(
+            path,
+            replace(context, spatial_reconstruction="plm_smooth"),
+        )
 
     np.testing.assert_array_equal(
         restored.state_vector,

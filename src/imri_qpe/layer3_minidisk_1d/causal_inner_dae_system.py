@@ -50,6 +50,11 @@ from .hill_roche_nozzle import OverflowBoundaryProvider
 
 
 _N_FIELDS = 5
+CAUSAL_FIVE_FIELD_SPATIAL_RECONSTRUCTIONS = (
+    "piecewise_constant",
+    "plm_unlimited",
+    "plm_smooth",
+)
 
 
 @dataclass(frozen=True)
@@ -64,6 +69,7 @@ class CausalFiveFieldDAEContext:
     stress_factor: float = 1.0
     kappa: float = DEFAULT_KAPPA_ES
     include_radiative_cooling: bool = True
+    spatial_reconstruction: str = "piecewise_constant"
 
     def validated(self) -> CausalFiveFieldDAEContext:
         n_cells = int(np.asarray(self.grid.centers).size)
@@ -96,6 +102,13 @@ class CausalFiveFieldDAEContext:
             raise ValueError("stress_factor must be positive and finite")
         if not np.isfinite(self.kappa) or self.kappa <= 0.0:
             raise ValueError("opacity must be positive and finite")
+        if (
+            self.spatial_reconstruction
+            not in CAUSAL_FIVE_FIELD_SPATIAL_RECONSTRUCTIONS
+        ):
+            raise ValueError(
+                "unsupported causal five-field spatial reconstruction"
+            )
         return self
 
 
@@ -127,6 +140,18 @@ class CausalFiveFieldDAEState:
                 raise ValueError(f"{name} has an invalid shape or value")
         causal_five_field_dae_count(n_cells)
         return self
+
+
+@dataclass(frozen=True)
+class CausalFiveFieldFaceReconstruction:
+    """Primitive face charts and slope diagnostics for one mesh."""
+
+    mode: str
+    left_face_charts: np.ndarray
+    right_face_charts: np.ndarray
+    unlimited_slopes: np.ndarray
+    limited_slopes: np.ndarray
+    admissibility_factors: np.ndarray
 
 
 @dataclass(frozen=True)
@@ -369,6 +394,8 @@ def unpack_causal_five_field_state(
 
 def causal_five_field_dae_jacobian_sparsity(
     n_cells: int,
+    *,
+    spatial_reconstruction: str = "piecewise_constant",
 ) -> csr_matrix:
     """Return the declared block-local full-DAE Jacobian pattern.
 
@@ -376,11 +403,20 @@ def causal_five_field_dae_jacobian_sparsity(
     conserved values, cell-major primitive charts, and cell-major face
     fluxes. Conservation sources use one-cell neighbor stencils through the
     shear and responsive-height rates. Primitive maps are cell local, while
-    each numerical flux consumes only its adjacent primitive states.
+    each piecewise-constant numerical flux consumes only its adjacent
+    primitive states. Piecewise-linear reconstruction widens each interior
+    face row to the four-cell slope stencil.
     """
 
     count = causal_five_field_dae_count(n_cells)
     n_cells = count.n_cells
+    if (
+        spatial_reconstruction
+        not in CAUSAL_FIVE_FIELD_SPATIAL_RECONSTRUCTIONS
+    ):
+        raise ValueError(
+            "unsupported causal five-field spatial reconstruction"
+        )
     conserved_start = 0
     primitive_start = count.conserved_unknowns
     face_start = primitive_start + count.primitive_unknowns
@@ -440,13 +476,20 @@ def causal_five_field_dae_jacobian_sparsity(
             pattern[primitive_map_row, primitive_slice] = 1
 
     for face in range(1, n_cells):
+        if spatial_reconstruction == "piecewise_constant":
+            face_cells = (face - 1, face)
+        else:
+            face_cells = range(
+                max(0, face - 2),
+                min(n_cells, face + 2),
+            )
         for component in range(_N_FIELDS):
             row = (
                 interior_flux_start
                 + _N_FIELDS * (face - 1)
                 + component
             )
-            for cell in (face - 1, face):
+            for cell in face_cells:
                 primitive_slice = slice(
                     primitive_start + _N_FIELDS * cell,
                     primitive_start + _N_FIELDS * (cell + 1),
@@ -725,6 +768,221 @@ def causal_five_field_cell_states(
             state.primitives,
             strict=True,
         )
+    )
+
+
+def _smooth_van_albada_slope(
+    left_derivative: np.ndarray,
+    right_derivative: np.ndarray,
+) -> np.ndarray:
+    """Return a differentiable same-sign van-Albada slope."""
+
+    left = np.asarray(left_derivative, dtype=float)
+    right = np.asarray(right_derivative, dtype=float)
+    epsilon_squared = 1.0e-24 * (
+        1.0 + left**2 + right**2
+    )
+    correlation = (
+        left
+        * right
+        / np.sqrt(
+            (left**2 + epsilon_squared)
+            * (right**2 + epsilon_squared)
+        )
+    )
+    same_sign_weight = 0.5 * (1.0 + correlation)
+    van_albada = (
+        left
+        * right
+        * (left + right)
+        / (left**2 + right**2 + epsilon_squared)
+    )
+    return np.asarray(same_sign_weight * van_albada, dtype=float)
+
+
+def _reconstructed_chart_is_admissible(
+    context: CausalFiveFieldDAEContext,
+    radius: float,
+    chart: np.ndarray,
+) -> bool:
+    """Return whether one reconstructed chart closes the causal state."""
+
+    try:
+        with np.errstate(over="raise", invalid="raise", divide="raise"):
+            state = _cell_state(context, radius, chart)
+            audit = audit_causal_five_field_principal(
+                state.geometry,
+                context.vertical_frequency.eos(radius),
+                state.closure,
+                surface_density=state.primitive.surface_density,
+                radial_velocity_over_c=(
+                    state.primitive.radial_velocity_over_c
+                ),
+                azimuthal_velocity_over_c=(
+                    state.primitive.azimuthal_velocity_over_c
+                ),
+                temperature=state.thermodynamics.temperature,
+            )
+        return bool(
+            np.all(
+                np.isfinite(
+                    np.asarray(
+                        audit.coordinate_speeds_over_c,
+                        dtype=float,
+                    )
+                )
+            )
+        )
+    except (FloatingPointError, OverflowError, ValueError):
+        return False
+
+
+def _coupled_admissibility_factor(
+    context: CausalFiveFieldDAEContext,
+    cell: int,
+    chart: np.ndarray,
+    slope: np.ndarray,
+    log_centers: np.ndarray,
+    log_edges: np.ndarray,
+) -> float:
+    """Scale one complete chart slope until both interior faces are valid."""
+
+    n_cells = int(log_centers.size)
+    face_indices = tuple(
+        face
+        for face in (cell, cell + 1)
+        if 0 < face < n_cells
+    )
+    if not face_indices or np.all(slope == 0.0):
+        return 1.0
+
+    def admissible(factor: float) -> bool:
+        return all(
+            _reconstructed_chart_is_admissible(
+                context,
+                float(context.grid.edges[face]),
+                chart
+                + factor
+                * slope
+                * (log_edges[face] - log_centers[cell]),
+            )
+            for face in face_indices
+        )
+
+    if admissible(1.0):
+        return 1.0
+    if not admissible(0.0):
+        raise ValueError("cell-centered causal primitive is inadmissible")
+    lower = 0.0
+    upper = 1.0
+    for _iteration in range(52):
+        middle = 0.5 * (lower + upper)
+        if admissible(middle):
+            lower = middle
+        else:
+            upper = middle
+    return float(lower)
+
+
+def causal_five_field_reconstruct_face_charts(
+    context: CausalFiveFieldDAEContext,
+    primitive_charts: np.ndarray,
+) -> CausalFiveFieldFaceReconstruction:
+    """Reconstruct both primitive charts at every radial face.
+
+    The outermost physical faces retain the existing one-sided
+    piecewise-constant maps. Interior PLM slopes use the spacing-aware
+    quadratic derivative in ``ln(R)``. The smooth production mode applies
+    one differentiable component limiter followed by one coupled
+    admissibility factor per cell.
+    """
+
+    context = context.validated()
+    charts = np.asarray(primitive_charts, dtype=float)
+    n_cells = int(context.grid.centers.size)
+    if (
+        charts.shape != (n_cells, _N_FIELDS)
+        or np.any(~np.isfinite(charts))
+    ):
+        raise ValueError("primitive reconstruction charts are invalid")
+
+    left_faces = np.empty((n_cells + 1, _N_FIELDS), dtype=float)
+    right_faces = np.empty_like(left_faces)
+    left_faces[0] = charts[0]
+    right_faces[0] = charts[0]
+    left_faces[-1] = charts[-1]
+    right_faces[-1] = charts[-1]
+    unlimited = np.zeros_like(charts)
+    limited = np.zeros_like(charts)
+    admissibility = np.ones(n_cells, dtype=float)
+    mode = context.spatial_reconstruction
+
+    if mode == "piecewise_constant":
+        for face in range(1, n_cells):
+            left_faces[face] = charts[face - 1]
+            right_faces[face] = charts[face]
+        return CausalFiveFieldFaceReconstruction(
+            mode=mode,
+            left_face_charts=left_faces,
+            right_face_charts=right_faces,
+            unlimited_slopes=unlimited,
+            limited_slopes=limited,
+            admissibility_factors=admissibility,
+        )
+
+    log_centers = np.log(np.asarray(context.grid.centers, dtype=float))
+    log_edges = np.log(np.asarray(context.grid.edges, dtype=float))
+    if n_cells > 2:
+        left_spacing = log_centers[1:-1] - log_centers[:-2]
+        right_spacing = log_centers[2:] - log_centers[1:-1]
+        left_derivative = (
+            charts[1:-1] - charts[:-2]
+        ) / left_spacing[:, None]
+        right_derivative = (
+            charts[2:] - charts[1:-1]
+        ) / right_spacing[:, None]
+        unlimited[1:-1] = (
+            right_spacing[:, None] * left_derivative
+            + left_spacing[:, None] * right_derivative
+        ) / (left_spacing + right_spacing)[:, None]
+        if mode == "plm_unlimited":
+            limited[1:-1] = unlimited[1:-1]
+        else:
+            limited[1:-1] = _smooth_van_albada_slope(
+                left_derivative,
+                right_derivative,
+            )
+            for cell in range(1, n_cells - 1):
+                admissibility[cell] = _coupled_admissibility_factor(
+                    context,
+                    cell,
+                    charts[cell],
+                    limited[cell],
+                    log_centers,
+                    log_edges,
+                )
+            limited *= admissibility[:, None]
+
+    for face in range(1, n_cells):
+        left_cell = face - 1
+        right_cell = face
+        left_faces[face] = (
+            charts[left_cell]
+            + limited[left_cell]
+            * (log_edges[face] - log_centers[left_cell])
+        )
+        right_faces[face] = (
+            charts[right_cell]
+            + limited[right_cell]
+            * (log_edges[face] - log_centers[right_cell])
+        )
+    return CausalFiveFieldFaceReconstruction(
+        mode=mode,
+        left_face_charts=left_faces,
+        right_face_charts=right_faces,
+        unlimited_slopes=unlimited,
+        limited_slopes=limited,
+        admissibility_factors=admissibility,
     )
 
 
@@ -1046,6 +1304,10 @@ def _mapped_state_and_fluxes(
     faces = np.empty((n_cells + 1, _N_FIELDS), dtype=float)
     central_faces = np.empty_like(faces)
     dissipative_faces = np.zeros_like(faces)
+    reconstruction = causal_five_field_reconstruct_face_charts(
+        context,
+        primitive_charts,
+    )
     faces[0] = _inner_face_flux(context, primitive_charts[0])
     central_faces[0] = faces[0]
     for face in range(1, n_cells):
@@ -1053,8 +1315,8 @@ def _mapped_state_and_fluxes(
             _interior_rusanov_flux_components(
                 context,
                 face,
-                primitive_charts[face - 1],
-                primitive_charts[face],
+                reconstruction.left_face_charts[face],
+                reconstruction.right_face_charts[face],
             )
         )
         faces[face] = (

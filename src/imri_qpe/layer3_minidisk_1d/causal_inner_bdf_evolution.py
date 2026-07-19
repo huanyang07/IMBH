@@ -377,7 +377,10 @@ def advance_causal_five_field_increment_bdf(
     stationary = evaluate_causal_five_field_dae(old_values, context)
     scaling = causal_five_field_dae_scaling(old_state, stationary)
     state = predictor / scaling.column_scales
-    pattern = causal_five_field_dae_jacobian_sparsity(n_cells)
+    pattern = causal_five_field_dae_jacobian_sparsity(
+        n_cells,
+        spatial_reconstruction=context.spatial_reconstruction,
+    )
     color_count = len(
         causal_five_field_dae_jacobian_color_groups(pattern)
     )
@@ -410,6 +413,8 @@ def advance_causal_five_field_increment_bdf(
     message = "maximum Newton iterations reached"
     linear_residuals: list[float] = []
     iterations = 0
+    matrix = None
+    matrix_age = config.jacobian_reuse_iterations
     for iteration in range(config.maximum_newton_iterations + 1):
         iterations = iteration
         maximum_residual = float(np.max(np.abs(values)))
@@ -419,13 +424,19 @@ def advance_causal_five_field_increment_bdf(
             break
         if iteration == config.maximum_newton_iterations:
             break
-        matrix = causal_five_field_colored_central_jacobian(
-            residual,
-            state,
-            pattern,
-            finite_difference_step=config.finite_difference_step,
+        rebuilt_matrix = bool(
+            matrix is None
+            or matrix_age >= config.jacobian_reuse_iterations
         )
-        jacobian_evaluations += 1
+        if rebuilt_matrix:
+            matrix = causal_five_field_colored_central_jacobian(
+                residual,
+                state,
+                pattern,
+                finite_difference_step=config.finite_difference_step,
+            )
+            jacobian_evaluations += 1
+            matrix_age = 0
         try:
             correction, linear_audit = (
                 causal_five_field_equilibrated_sparse_solve(
@@ -472,8 +483,13 @@ def advance_causal_five_field_increment_bdf(
                 break
             alpha *= 0.5
         if not accepted_correction:
+            if not rebuilt_matrix:
+                matrix = None
+                matrix_age = config.jacobian_reuse_iterations
+                continue
             message = "bound-aware line search failed"
             break
+        matrix_age += 1
 
     physical_increment = scaling.column_scales * state
     new_vector = old_values + physical_increment

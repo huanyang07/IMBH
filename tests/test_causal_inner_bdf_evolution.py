@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from dataclasses import replace
+
 import numpy as np
 import pytest
 
@@ -77,6 +79,51 @@ def test_bdf1_sparse_step_matches_backward_euler() -> None:
     assert (
         generic.maximum_discrete_ledger_relative_defect
         <= config.conservation_tolerance
+    )
+
+
+def test_bdf_step_can_reuse_one_jacobian_across_newton_iterations() -> None:
+    context, vector = _seed()
+    predictor = np.zeros_like(vector)
+    timestep = 1.0e-8
+    config = _step_config()
+
+    rebuilt = advance_causal_five_field_increment_bdf(
+        context,
+        vector,
+        timestep,
+        predictor,
+        config,
+        order=1,
+    )
+    reused = advance_causal_five_field_increment_bdf(
+        context,
+        vector,
+        timestep,
+        predictor,
+        replace(config, jacobian_reuse_iterations=12),
+        order=1,
+    )
+
+    assert rebuilt.accepted
+    assert reused.accepted
+    assert rebuilt.jacobian_evaluations > 1
+    assert reused.jacobian_evaluations == 1
+    assert reused.jacobian_evaluations < rebuilt.jacobian_evaluations
+    assert reused.maximum_scaled_residual <= config.residual_tolerance
+    assert (
+        reused.maximum_discrete_ledger_relative_defect
+        <= config.conservation_tolerance
+    )
+    scale = np.maximum(np.abs(rebuilt.physical_increment), 1.0)
+    assert (
+        np.max(
+            np.abs(
+                reused.physical_increment - rebuilt.physical_increment
+            )
+            / scale
+        )
+        <= 1.0e-6
     )
 
 
@@ -196,6 +243,11 @@ def test_fixed_bdf2_complete_restart_replays_bitwise(tmp_path) -> None:
     save_causal_five_field_bdf_restart(path, context, restart)
     restored = load_causal_five_field_bdf_restart(path, context)
     assert causal_five_field_bdf_restarts_equal(restart, restored)
+    with pytest.raises(ValueError, match="spatial reconstruction"):
+        load_causal_five_field_bdf_restart(
+            path,
+            replace(context, spatial_reconstruction="plm_smooth"),
+        )
 
     replay = evolve_causal_five_field_fixed_bdf2(
         context,

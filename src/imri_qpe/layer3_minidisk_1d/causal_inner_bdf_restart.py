@@ -401,6 +401,9 @@ def save_causal_five_field_bdf_restart(
             dtype=np.int64,
         ),
         grid_edges=context.grid.edges,
+        spatial_reconstruction=np.asarray(
+            context.spatial_reconstruction
+        ),
         state_vector=validated.state_vector,
         previous_physical_increment=(
             validated.history.previous_physical_increment
@@ -443,6 +446,21 @@ def load_causal_five_field_bdf_restart(
         edges = np.asarray(data["grid_edges"], dtype=float)
         if not np.array_equal(edges, context.grid.edges):
             raise ValueError("causal BDF restart grid does not match")
+        provenance = json.loads(str(data["provenance_json"].item()))
+        stored_reconstruction = (
+            str(data["spatial_reconstruction"].item())
+            if "spatial_reconstruction" in data.files
+            else str(
+                provenance.get(
+                    "spatial_reconstruction",
+                    "piecewise_constant",
+                )
+            )
+        )
+        if stored_reconstruction != context.spatial_reconstruction:
+            raise ValueError(
+                "causal BDF restart spatial reconstruction differs"
+            )
         restart = CausalFiveFieldBDFRestart(
             state_vector=np.asarray(data["state_vector"], dtype=float),
             history=CausalFiveFieldBDFHistory(
@@ -466,9 +484,7 @@ def load_causal_five_field_bdf_restart(
             next_order=int(data["next_order"]),
             accepted_steps=int(data["accepted_steps"]),
             rejected_attempts=int(data["rejected_attempts"]),
-            provenance=json.loads(
-                str(data["provenance_json"].item())
-            ),
+            provenance=provenance,
             schema_version=int(data["schema_version"]),
         )
         expected_hash = str(data["state_history_sha256"].item())
@@ -500,6 +516,9 @@ def save_causal_five_field_adaptive_bdf2_restart(
         destination,
         schema_version=np.asarray(validated.schema_version, dtype=np.int64),
         grid_edges=context.grid.edges,
+        spatial_reconstruction=np.asarray(
+            context.spatial_reconstruction
+        ),
         state_vector=validated.state_vector,
         previous_physical_increment=(
             validated.history.previous_physical_increment
@@ -567,6 +586,21 @@ def load_causal_five_field_adaptive_bdf2_restart(
             context.grid.edges,
         ):
             raise ValueError("adaptive causal BDF2 restart grid differs")
+        provenance = json.loads(str(data["provenance_json"].item()))
+        stored_reconstruction = (
+            str(data["spatial_reconstruction"].item())
+            if "spatial_reconstruction" in data.files
+            else str(
+                provenance.get(
+                    "spatial_reconstruction",
+                    "piecewise_constant",
+                )
+            )
+        )
+        if stored_reconstruction != context.spatial_reconstruction:
+            raise ValueError(
+                "adaptive BDF2 restart spatial reconstruction differs"
+            )
         restart = CausalFiveFieldAdaptiveBDF2Restart(
             state_vector=np.asarray(data["state_vector"], dtype=float),
             history=CausalFiveFieldBDFHistory(
@@ -623,7 +657,7 @@ def load_causal_five_field_adaptive_bdf2_restart(
             accepted_bdf2_steps=int(data["accepted_bdf2_steps"]),
             rejected_attempts=int(data["rejected_attempts"]),
             audit_count=int(data["audit_count"]),
-            provenance=json.loads(str(data["provenance_json"].item())),
+            provenance=provenance,
             schema_version=int(data["schema_version"]),
         )
         expected_hash = str(data["state_history_sha256"].item())

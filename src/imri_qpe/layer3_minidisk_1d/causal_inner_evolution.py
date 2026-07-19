@@ -42,6 +42,7 @@ class CausalFiveFieldAdaptiveStepConfig:
     conservation_tolerance: float = 1.0e-10
     finite_difference_step: float = 2.0e-6
     maximum_newton_iterations: int = 12
+    jacobian_reuse_iterations: int = 1
 
     def validated(self) -> CausalFiveFieldAdaptiveStepConfig:
         positive = (
@@ -79,6 +80,12 @@ class CausalFiveFieldAdaptiveStepConfig:
             or self.maximum_newton_iterations < 1
         ):
             raise ValueError("maximum_newton_iterations must be positive")
+        if (
+            int(self.jacobian_reuse_iterations)
+            != self.jacobian_reuse_iterations
+            or self.jacobian_reuse_iterations < 1
+        ):
+            raise ValueError("jacobian_reuse_iterations must be positive")
         return self
 
 
@@ -328,7 +335,10 @@ def advance_causal_five_field_increment_backward_euler(
     stationary = evaluate_causal_five_field_dae(old_values, context)
     scaling = causal_five_field_dae_scaling(old_state, stationary)
     initial = predictor / scaling.column_scales
-    pattern = causal_five_field_dae_jacobian_sparsity(n_cells)
+    pattern = causal_five_field_dae_jacobian_sparsity(
+        n_cells,
+        spatial_reconstruction=context.spatial_reconstruction,
+    )
     color_count = len(
         causal_five_field_dae_jacobian_color_groups(pattern)
     )
@@ -738,6 +748,9 @@ def save_causal_five_field_adaptive_restart(
         destination,
         schema_version=np.asarray(restart.schema_version, dtype=np.int64),
         grid_edges=context.grid.edges,
+        spatial_reconstruction=np.asarray(
+            context.spatial_reconstruction
+        ),
         state_vector=state,
         previous_physical_increment=increment,
         state_controller_sha256=np.asarray(checksum),
@@ -772,6 +785,21 @@ def load_causal_five_field_adaptive_restart(
         checksum = str(data["state_controller_sha256"].item())
         if checksum != _restart_hash(context, state, increment):
             raise ValueError("causal restart checksum mismatch")
+        provenance = json.loads(str(data["provenance_json"].item()))
+        stored_reconstruction = (
+            str(data["spatial_reconstruction"].item())
+            if "spatial_reconstruction" in data.files
+            else str(
+                provenance.get(
+                    "spatial_reconstruction",
+                    "piecewise_constant",
+                )
+            )
+        )
+        if stored_reconstruction != context.spatial_reconstruction:
+            raise ValueError(
+                "causal restart spatial reconstruction does not match"
+            )
         restart = CausalFiveFieldAdaptiveRestart(
             state_vector=state,
             previous_physical_increment=increment,
@@ -780,7 +808,7 @@ def load_causal_five_field_adaptive_restart(
             previous_dt=float(data["previous_dt"]),
             accepted_steps=int(data["accepted_steps"]),
             rejected_attempts=int(data["rejected_attempts"]),
-            provenance=json.loads(str(data["provenance_json"].item())),
+            provenance=provenance,
             schema_version=int(data["schema_version"]),
         )
     if restart.schema_version != 1:

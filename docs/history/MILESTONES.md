@@ -241,6 +241,26 @@ rejected sequence.
     `0.02958`, still `5.92x` above the gate. N128 and uniform refinement are
     closed; only a separate operator-level second-order reconstruction audit
     is authorized.
+44. **Second-order interior reconstruction:** optional smooth and unlimited
+    PLM reconstruction in `ln(R)` feeds the complete causal Rusanov face
+    calculation while the piecewise-constant backend remains frozen.
+    Smooth-PLM finest-pair manufactured order is at least `1.910`; diagnosed
+    total/full tangent orders are `2.116/2.172`; and the N32/N64 full tangent
+    discrepancy falls by `5.235x`. The widened N8 Jacobian uses 23 colors and
+    agrees with dense differences to `1.27e-10`; N16/N32 consistency rank
+    remains `245/245` and `485/485`. The unchanged physical boundary traces
+    remain first order, so only one bounded reconstructed trajectory is
+    authorized.
+45. **Reconstructed-flux trajectory stop:** independently initialized N32
+    and N64 S32/S64 campaigns complete all 192 fixed BDF steps with temporal
+    thickness uncertainty below `1.48e-4`, source restriction `1.73e-16`,
+    physical ledgers below `1.58e-4`, and bitwise restart. PLM reduces the
+    prior N32/N64 thickness mismatch `0.134682 -> 0.044619` over the full
+    domain and to `0.021412` over `15-60 rg`, but both fail `0.005`. The full
+    peak moves to the first-cell boundary trace at `1.953 rg`; the interior
+    thermodynamic peak persists at `19.220 rg`. N128 and longer evolution
+    remain closed; only a nonzero-baseline-preserving balance audit is
+    authorized.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

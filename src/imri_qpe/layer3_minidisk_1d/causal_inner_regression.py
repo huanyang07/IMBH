@@ -10,7 +10,10 @@ from imri_qpe.constants import C, G
 from imri_qpe.parameters import FiducialParams
 from imri_qpe.scales import eddington_mdot
 
-from .causal_inner_dae_system import CausalFiveFieldDAEContext
+from .causal_inner_dae_system import (
+    CausalFiveFieldDAEContext,
+    make_causal_five_field_seed,
+)
 from .causal_inner_geometry import (
     ValenciaPerfectFluidPrimitive,
     kerr_schild_column_geometry,
@@ -37,6 +40,8 @@ CAUSAL_REGRESSION_STREAM_TEMPERATURE = 1.0e6
 
 def make_causal_five_field_regression_context(
     n_cells: int,
+    *,
+    spatial_reconstruction: str = "piecewise_constant",
 ) -> CausalFiveFieldDAEContext:
     """Return the exact circularized C2 context used since WP10c5q."""
 
@@ -64,6 +69,7 @@ def make_causal_five_field_regression_context(
             transverse_quadrature_zones=24,
         ),
         include_radiative_cooling=True,
+        spatial_reconstruction=spatial_reconstruction,
     ).validated()
     radius = CAUSAL_REGRESSION_STREAM_CENTER_RG * gravitational_radius
     geometry = kerr_schild_column_geometry(
@@ -109,3 +115,73 @@ def make_causal_five_field_regression_context(
         context,
         stream_sources=stream_sources,
     ).validated()
+
+
+def causal_five_field_regression_seed_parameters(
+    context: CausalFiveFieldDAEContext,
+) -> dict:
+    """Return the shared source-compatible C2 continuum seed parameters."""
+
+    context = context.validated()
+    if context.stream_sources is None:
+        raise ValueError("causal regression seed requires a stream")
+    gravitational_radius = context.grid.gravitational_radius
+    inner_plateau = 6.0 * gravitational_radius
+    outer_plateau = (
+        CAUSAL_REGRESSION_STREAM_CENTER_RG * gravitational_radius
+    )
+    source_rate = float(np.sum(context.stream_sources.rest_mass))
+    unit_state = make_causal_five_field_seed(
+        context,
+        inner_surface_density=1.0,
+        inner_temperature=1.0e6,
+        profile_inner_plateau_radius=inner_plateau,
+        profile_outer_plateau_radius=outer_plateau,
+    )
+    unit_inner_rate = float(
+        C * unit_state.weighted_face_fluxes_over_c[0, 0]
+    )
+    if unit_inner_rate >= 0.0:
+        raise ValueError("causal regression seed requires inner inflow")
+    inner_surface_density = source_rate / abs(unit_inner_rate)
+
+    target_h_over_r = 0.1
+    inner_radius = float(context.grid.edges[0])
+    eos = context.vertical_frequency.eos(inner_radius)
+
+    def thickness(log_temperature: float) -> float:
+        column = eos.from_surface_density_temperature(
+            inner_surface_density,
+            float(np.exp(log_temperature)),
+        )
+        return column.proper_half_thickness / inner_radius
+
+    lower = float(np.log(1.0e5))
+    upper = float(np.log(1.0e7))
+    if (
+        thickness(lower) >= target_h_over_r
+        or thickness(upper) <= target_h_over_r
+    ):
+        raise ValueError("causal regression thickness target is unbracketed")
+    for _iteration in range(80):
+        middle = 0.5 * (lower + upper)
+        if thickness(middle) < target_h_over_r:
+            lower = middle
+        else:
+            upper = middle
+    return {
+        "inner_surface_density": inner_surface_density,
+        "outer_surface_density": (
+            CAUSAL_REGRESSION_STREAM_SURFACE_DENSITY
+        ),
+        "inner_temperature": float(
+            np.exp(0.5 * (lower + upper))
+        ),
+        "outer_temperature": 8.0e5,
+        "inner_radial_velocity_over_c": -0.40,
+        "inner_azimuthal_velocity_over_c": 0.60,
+        "outer_radial_velocity_margin_over_c": 1.0e-5,
+        "profile_inner_plateau_radius": inner_plateau,
+        "profile_outer_plateau_radius": outer_plateau,
+        "profile_interpolate_log_h_over_r": True,
+    }

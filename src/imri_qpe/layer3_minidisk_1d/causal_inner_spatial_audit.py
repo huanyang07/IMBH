@@ -370,6 +370,7 @@ def causal_five_field_consistent_tangent_decomposition(
     vector: np.ndarray,
     *,
     finite_difference_step: float = 2.0e-6,
+    rank_relative_threshold: float | None = None,
 ) -> dict:
     """Solve the DAE-consistent tangent for each signed stationary forcing."""
 
@@ -379,7 +380,10 @@ def causal_five_field_consistent_tangent_decomposition(
     evaluation = evaluate_causal_five_field_dae(vector, context)
     scaling = causal_five_field_dae_scaling(state, evaluation)
     zero = np.zeros_like(np.asarray(vector, dtype=float))
-    pattern = causal_five_field_dae_jacobian_sparsity(n_cells)
+    pattern = causal_five_field_dae_jacobian_sparsity(
+        n_cells,
+        spatial_reconstruction=context.spatial_reconstruction,
+    )
 
     def scaled_residual(
         scaled_increment: np.ndarray,
@@ -433,6 +437,28 @@ def causal_five_field_consistent_tangent_decomposition(
             stationary[n_differential:],
         )
     )
+    if rank_relative_threshold is None:
+        consistency_rank = None
+        consistency_condition = None
+    else:
+        threshold = float(rank_relative_threshold)
+        if not np.isfinite(threshold) or threshold <= 0.0:
+            raise ValueError(
+                "rank_relative_threshold must be positive and finite"
+            )
+        singular_values = np.linalg.svd(
+            consistency_matrix,
+            compute_uv=False,
+        )
+        consistency_rank = int(
+            np.count_nonzero(
+                singular_values
+                > threshold * float(singular_values[0])
+            )
+        )
+        consistency_condition = float(
+            singular_values[0] / singular_values[-1]
+        )
     scaled_stationary_residual = (
         np.asarray(evaluation.residual, dtype=float)
         / np.asarray(scaling.row_scales, dtype=float)
@@ -538,12 +564,16 @@ def causal_five_field_consistent_tangent_decomposition(
             dtype=float,
         ),
         "full": {
+            "physical_tangent_per_s": full_physical_tangent,
             "primitive_tangent_per_s": full_primitive,
             "conserved_tangent_per_s": full_conserved,
             "log_h_over_r_tangent_per_s": full_log_h,
         },
         "components": components,
         "term_names": term_names,
+        "consistency_dimensions": consistency_matrix.shape,
+        "consistency_numerical_rank": consistency_rank,
+        "consistency_condition_estimate": consistency_condition,
         "maximum_scaled_consistency_defect": float(
             np.max(np.abs(consistency_defect))
         ),

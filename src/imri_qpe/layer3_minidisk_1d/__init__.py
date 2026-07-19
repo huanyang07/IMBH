@@ -107,10 +107,12 @@ from .causal_inner_bdf import (
     causal_trapezoidal_physical_interval_ledger,
 )
 from .causal_inner_dae_system import (
+    CAUSAL_FIVE_FIELD_SPATIAL_RECONSTRUCTIONS,
     CausalFiveFieldCellState,
     CausalFiveFieldConsistentInitialDataAudit,
     CausalFiveFieldDAEContext,
     CausalFiveFieldDAEEvaluation,
+    CausalFiveFieldFaceReconstruction,
     CausalFiveFieldReducedJacobianAudit,
     CausalFiveFieldDAEScaling,
     CausalFiveFieldDAEState,
@@ -132,6 +134,7 @@ from .causal_inner_dae_system import (
     causal_five_field_path_temporal_storage_increment,
     causal_five_field_reduced_backward_euler_residual,
     causal_five_field_reduced_stationary_residual,
+    causal_five_field_reconstruct_face_charts,
     causal_five_field_state_from_primitives,
     evaluate_causal_five_field_dae,
     evaluate_causal_five_field_increment_bdf,
@@ -227,6 +230,7 @@ from .causal_inner_regression import (
     CAUSAL_REGRESSION_STREAM_MDOT_EDD,
     CAUSAL_REGRESSION_STREAM_SURFACE_DENSITY,
     CAUSAL_REGRESSION_STREAM_TEMPERATURE,
+    causal_five_field_regression_seed_parameters,
     make_causal_five_field_regression_context,
 )
 from .causal_inner_temporal_controller import (
@@ -1069,6 +1073,7 @@ __all__ = [
     "special_relativistic_radial_characteristic_speeds",
     "AdvectedStressFluxAudit",
     "CAUSAL_BDF2_MAXIMUM_STEP_RATIO",
+    "CAUSAL_FIVE_FIELD_SPATIAL_RECONSTRUCTIONS",
     "CausalBDFCoefficients",
     "CausalBDFDiscreteLedger",
     "CausalFiveFieldBDF2Audit",
@@ -1086,6 +1091,7 @@ __all__ = [
     "CausalFiveFieldDAEContext",
     "CausalFiveFieldDAECount",
     "CausalFiveFieldDAEEvaluation",
+    "CausalFiveFieldFaceReconstruction",
     "CausalFiveFieldAdaptiveAttempt",
     "CausalFiveFieldAdaptiveBDF2Attempt",
     "CausalFiveFieldAdaptiveBDF2CampaignResult",
@@ -1218,6 +1224,8 @@ __all__ = [
     "causal_five_field_path_temporal_storage_increment",
     "causal_five_field_reduced_backward_euler_residual",
     "causal_five_field_reduced_stationary_residual",
+    "causal_five_field_regression_seed_parameters",
+    "causal_five_field_reconstruct_face_charts",
     "causal_five_field_state_from_primitives",
     "causal_rest_frame_shear_rate",
     "causal_stress_column_state",
