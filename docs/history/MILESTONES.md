@@ -293,6 +293,17 @@ rejected sequence.
     below `7.60e-5`, T/2-to-T replays are bitwise, and each mesh uses
     `0.328125` of fixed-S64 Jacobian work. One matched no-tide extension
     toward the `~0.05 s` characteristic-crossing horizon is authorized.
+49. **Characteristic-crossing spatial stop:** matched N32/N64 production and
+    half-ceiling temporal-control trajectories reach exact `0.05 s` with no
+    retries. Accumulated temporal audits, state gates, physical ledgers, exact
+    source restriction, work, limiter, and bitwise replay contracts all pass.
+    The conservative thickness-response budget passes at `0.025/0.0375 s`
+    with `0.002845/0.004101`, but the raw endpoint difference `0.004944`
+    becomes `0.005348 > 0.005` after inherited and new temporal uncertainty.
+    The raw mismatch grows linearly at `0.099015 s^-1`, within `0.4%` of the
+    WP10c7i initial tangent, so this is accumulated spatial truncation rather
+    than a temporal or physical failure. Stress/cooling/thermal extension
+    remains closed pending an evolved-state spatial-order and reference audit.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

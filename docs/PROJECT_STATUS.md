@@ -103,6 +103,7 @@ This is the canonical project handoff. Status labels mean:
 | Causal spatial balance WP10c7i | **CERTIFIED** for method-level full-domain consistency; **DIAGNOSTIC ONLY** physically | Quadratic admissible faces plus reconstructed local-rate source quadrature reduce the N32/N64 full tangent by `23.87x` and the `15-60 rg` tangent by `13.50x`; both have order `2.361`; projected error is `1.528e-3 < 2.5e-3`; N16/N32 rank is full | No trajectory was run; exactly one fresh N32/N64 fixed-BDF2 bounded confirmation is authorized before N128, longer evolution, or new physics |
 | Spatial-balance trajectory WP10c7j | **CERTIFIED** for bounded N32/N64 spatial evolution; **DIAGNOSTIC ONLY** physically | All 192 fixed steps pass; endpoint `Delta log(H/R)` difference is `1.52769e-3`; adding both temporal uncertainties gives `1.81679e-3 < 0.005`; the measured response is `0.999803` of the WP10c7i projection; ledgers remain below `2.02e-4`; restart and snapshots are bitwise | Exactly one matched adaptive-BDF2 confirmation is authorized; no longer physical horizon, N128, tide, wind, stability, hot-state, or cycle work yet |
 | Matched adaptive spatial balance WP10c7k | **CERTIFIED** for bounded N32/N64 adaptive evolution; **DIAGNOSTIC ONLY** physically | Both meshes take 13 accepted/0 rejected steps with four audits; endpoint `Delta log(H/R)` is `1.52763e-3`; adding adaptive and fixed-reference uncertainty gives at most `1.85230e-3 < 0.005`; ledgers are below `7.60e-5`; replay is bitwise; Jacobian work is `0.3281` of fixed S64 | Exactly one matched no-tide extension toward the `~0.05 s` characteristic-crossing rung is authorized; N128, later physical clocks, tide, wind, stability, hot-state, and cycle work remain closed |
+| Characteristic-crossing extension WP10c7l | **CERTIFIED** for robust N32/N64 temporal evolution and the conservative `0.0375 s` spatial horizon; **REJECTED** at the `0.05 s` spatial gate; **DIAGNOSTIC ONLY** physically | All four production/control campaigns reach exact `0.05 s` with no retries; temporal audits, state gates, ledgers, source restriction, work, and replay pass; the conservative spatial total is `0.002845/0.004101` at `0.025/0.0375 s` | At `0.05 s`, raw `Delta log(H/R)=0.004944` becomes `0.005348 > 0.005` after uncertainty; growth is linear at `0.099015 s^-1`; stress/cooling/thermal rungs and new physics remain closed pending an evolved-state spatial-order audit |
 
 ## Frozen Target Under Review
 
@@ -677,6 +678,18 @@ N                    = 164
     `0.328125` of fixed S64 on each mesh. Exactly one matched no-tide
     extension toward an absolute `~0.05 s` characteristic-crossing horizon
     is authorized.
+78. WP10c7l restarts those exact histories and advances production plus
+    half-ceiling temporal controls on both meshes to exact common outputs at
+    `0.025`, `0.0375`, and `0.05 s`. All four campaigns have zero retries;
+    accumulated temporal audits, state gates, physical ledgers, exact source
+    restriction, work, checkpoint roundtrips, and endpoint replays pass. The
+    conservative N32/N64 thickness budget passes at `0.025/0.0375 s` with
+    totals `0.002845/0.004101`, but the raw `0.004944` endpoint response plus
+    inherited and new temporal uncertainties gives `0.005348 > 0.005`.
+    The raw difference follows a near-perfect `0.099015 s^-1` line, `0.9963`
+    of the WP10c7i initial tangent. This is a narrow accumulated spatial stop,
+    not a temporal or physical failure; only an evolved-state spatial-order
+    and fine-reference audit is authorized.
 
 ## Claims That Are Not Allowed Yet
 
@@ -767,10 +780,16 @@ N                    = 164
    `0.00181679 < 0.005` at its worst common time. WP10c7k then closes the
    matched adaptive confirmation with a raw endpoint mismatch of
    `0.00152763`, a stricter all-times conservative maximum of `0.00185230`,
-   bitwise replay, and `0.3281` of fixed-S64 Jacobian work. Continue only
-   to one matched no-tide extension toward `~0.05 s`. Do not extend to N128
-   or the stress/cooling/thermal clocks, or begin distributed tide, wind,
-   stability, or a hot/cycle search.
+   bitwise replay, and `0.3281` of fixed-S64 Jacobian work. WP10c7l reaches
+   exact `0.05 s` on both meshes and both temporal controls with all numerical
+   and physical gates passing, but the conservative spatial total grows from
+   `0.00410055` at `0.0375 s` to `0.00534815` at `0.05 s`, failing the fixed
+   `0.005` gate. The raw response grows linearly at `0.099015 s^-1`, matching
+   the original selected-operator tangent. Continue only to an evolved-state
+   N32/N64/N128 operator-order audit, followed by one N128 `0.05 s`
+   diagnostic only if its projection has at least half-gate margin. Do not
+   extend to the stress/cooling/thermal clocks or begin distributed tide,
+   wind, stability, or a hot/cycle search.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -782,7 +801,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_SPATIAL_BALANCE_ADAPTIVE_WP10C7K_RESULTS_2026-07-19.md`
+  `reports/current/CODEX_CAUSAL_CHARACTERISTIC_EXTENSION_WP10C7L_RESULTS_2026-07-19.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -860,6 +879,7 @@ N                    = 164
 - Causal spatial balance WP10c7i: `reports/current/CODEX_CAUSAL_SPATIAL_BALANCE_WP10C7I_RESULTS_2026-07-19.md`
 - Causal spatial-balance trajectory WP10c7j: `reports/current/CODEX_CAUSAL_SPATIAL_BALANCE_TRAJECTORY_WP10C7J_RESULTS_2026-07-19.md`
 - Matched adaptive spatial balance WP10c7k: `reports/current/CODEX_CAUSAL_SPATIAL_BALANCE_ADAPTIVE_WP10C7K_RESULTS_2026-07-19.md`
+- Characteristic-crossing extension WP10c7l: `reports/current/CODEX_CAUSAL_CHARACTERISTIC_EXTENSION_WP10C7L_RESULTS_2026-07-19.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
 - Horizon-penetrating Valencia core WP10b: `reports/current/CODEX_HORIZON_PENETRATING_VALENCIA_WP10B_RESULTS_2026-07-17.md`
 - Valencia gas+radiation primitive recovery WP10c1: `reports/current/CODEX_VALENCIA_GAS_RADIATION_PRIMITIVE_RECOVERY_WP10C1_RESULTS_2026-07-17.md`

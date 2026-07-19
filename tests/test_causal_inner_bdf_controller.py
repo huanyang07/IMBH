@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from dataclasses import replace
+
 import numpy as np
 import pytest
 
@@ -221,6 +223,90 @@ def test_adaptive_bdf2_campaign_lands_exactly_and_updates_history() -> None:
     assert result.restart.accepted_bdf2_steps > 0
     assert result.restart.audit_count > 0
     assert result.steps
+
+
+def test_adaptive_bdf2_segmented_extension_obeys_tighter_ceiling(
+    tmp_path,
+) -> None:
+    context, initial, startup, timestep = _startup()
+    ledger = causal_five_field_bdf_zero_physical_ledger()
+    start = CausalFiveFieldAdaptiveBDF2Restart(
+        state_vector=startup.state_vector,
+        history=startup.history,
+        older_physical_increment=np.zeros_like(initial),
+        older_timestep_seconds=timestep,
+        cumulative_actual_conserved_storage=(
+            ledger.actual_conserved_storage
+        ),
+        cumulative_actual_vertical_storage=(
+            ledger.actual_vertical_storage
+        ),
+        cumulative_boundary_transport=(
+            ledger.trapezoidal_boundary_transport
+        ),
+        cumulative_endogenous_source=(
+            ledger.trapezoidal_endogenous_source
+        ),
+        cumulative_stream_source=(
+            ledger.exact_prescribed_stream_source
+        ),
+        cumulative_closure_defect=ledger.closure_defect,
+        elapsed_time=timestep,
+        dt_next=4.0 * timestep,
+        next_order=2,
+        accepted_steps=1,
+        accepted_bdf2_steps=0,
+        rejected_attempts=0,
+        audit_count=0,
+        provenance={"work_package": "test", "case": "segmented"},
+    )
+    maximum_dt = 2.0 * timestep
+    config = replace(
+        _controller_config(context),
+        maximum_dt=maximum_dt,
+        audit_interval=2,
+    ).validated()
+
+    midpoint = evolve_causal_five_field_adaptive_bdf2_campaign(
+        context,
+        start,
+        3.0 * timestep,
+        config,
+    )
+    assert midpoint.passed
+    assert midpoint.restart.elapsed_time == 3.0 * timestep
+    assert all(step.dt_used <= maximum_dt for step in midpoint.steps)
+
+    path = tmp_path / "segmented_midpoint.npz"
+    save_causal_five_field_adaptive_bdf2_restart(
+        path,
+        context,
+        midpoint.restart,
+    )
+    restored = load_causal_five_field_adaptive_bdf2_restart(
+        path,
+        context,
+    )
+    direct = evolve_causal_five_field_adaptive_bdf2_campaign(
+        context,
+        midpoint.restart,
+        5.0 * timestep,
+        config,
+    )
+    replay = evolve_causal_five_field_adaptive_bdf2_campaign(
+        context,
+        restored,
+        5.0 * timestep,
+        config,
+    )
+
+    assert direct.passed
+    assert replay.passed
+    assert all(step.dt_used <= maximum_dt for step in direct.steps)
+    assert causal_five_field_adaptive_bdf2_restarts_equal(
+        direct.restart,
+        replay.restart,
+    )
 
 
 def test_adaptive_bdf2_accepts_wp10c7i_spatial_operator() -> None:
