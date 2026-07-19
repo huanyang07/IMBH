@@ -104,6 +104,7 @@ This is the canonical project handoff. Status labels mean:
 | Spatial-balance trajectory WP10c7j | **CERTIFIED** for bounded N32/N64 spatial evolution; **DIAGNOSTIC ONLY** physically | All 192 fixed steps pass; endpoint `Delta log(H/R)` difference is `1.52769e-3`; adding both temporal uncertainties gives `1.81679e-3 < 0.005`; the measured response is `0.999803` of the WP10c7i projection; ledgers remain below `2.02e-4`; restart and snapshots are bitwise | Exactly one matched adaptive-BDF2 confirmation is authorized; no longer physical horizon, N128, tide, wind, stability, hot-state, or cycle work yet |
 | Matched adaptive spatial balance WP10c7k | **CERTIFIED** for bounded N32/N64 adaptive evolution; **DIAGNOSTIC ONLY** physically | Both meshes take 13 accepted/0 rejected steps with four audits; endpoint `Delta log(H/R)` is `1.52763e-3`; adding adaptive and fixed-reference uncertainty gives at most `1.85230e-3 < 0.005`; ledgers are below `7.60e-5`; replay is bitwise; Jacobian work is `0.3281` of fixed S64 | Exactly one matched no-tide extension toward the `~0.05 s` characteristic-crossing rung is authorized; N128, later physical clocks, tide, wind, stability, hot-state, and cycle work remain closed |
 | Characteristic-crossing extension WP10c7l | **CERTIFIED** for robust N32/N64 temporal evolution and the conservative `0.0375 s` spatial horizon; **REJECTED** at the `0.05 s` spatial gate; **DIAGNOSTIC ONLY** physically | All four production/control campaigns reach exact `0.05 s` with no retries; temporal audits, state gates, ledgers, source restriction, work, and replay pass; the conservative spatial total is `0.002845/0.004101` at `0.025/0.0375 s` | At `0.05 s`, raw `Delta log(H/R)=0.004944` becomes `0.005348 > 0.005` after uncertainty; growth is linear at `0.099015 s^-1`; stress/cooling/thermal rungs and new physics remain closed pending an evolved-state spatial-order audit |
+| Evolved-state spatial order WP10c7m | **CERTIFIED** for one N128 reference campaign; **DIAGNOSTIC ONLY** physically | Two independent common-state N32/N64/N128 oracles give full-domain thickness-tangent order `1.989/1.996`, interior temperature order `2.127-2.131`, and scaled-energy order `1.875-1.876`; projected spatial plus temporal/oracle reserve is `0.001751 < 0.0025` | Full-domain raw temperature/energy maxima remain boundary limited; no duration extension or reduction calibration is authorized before measured N64/N128 `0.05 s` certification |
 
 ## Frozen Target Under Review
 
@@ -690,6 +691,16 @@ N                    = 164
     of the WP10c7i initial tangent. This is a narrow accumulated spatial stop,
     not a temporal or physical failure; only an evolved-state spatial-order
     and fine-reference audit is authorized.
+79. WP10c7m evaluates one evolved N64 physical profile on exact N32/N64/N128
+    DAE manifolds using independent PCHIP and natural-cubic oracles. The
+    full-domain thickness tangent contracts at order `1.989/1.996`; the
+    `15-60 rg` temperature and scaled-energy tangents have minimum order
+    `2.127` and `1.875`. The measured WP10c7l endpoint projects to at most
+    `0.001246` on N64/N128; adding a `0.0005` combined temporal reserve and
+    `5.75e-6` oracle spread gives `0.001751 < 0.0025`. A sparse N128
+    consistency solve closes below `5.35e-15`. One fresh N128 production
+    plus half-ceiling temporal-control campaign is authorized; raw
+    full-domain energy/temperature boundary orders remain diagnostic.
 
 ## Claims That Are Not Allowed Yet
 
@@ -785,9 +796,10 @@ N                    = 164
    and physical gates passing, but the conservative spatial total grows from
    `0.00410055` at `0.0375 s` to `0.00534815` at `0.05 s`, failing the fixed
    `0.005` gate. The raw response grows linearly at `0.099015 s^-1`, matching
-   the original selected-operator tangent. Continue only to an evolved-state
-   N32/N64/N128 operator-order audit, followed by one N128 `0.05 s`
-   diagnostic only if its projection has at least half-gate margin. Do not
+   the original selected-operator tangent. WP10c7m now measures full-domain
+   thickness order `1.989-1.996` and projects the N64/N128 conservative
+   authorization total to `0.001751 < 0.0025`, so one fresh N128 production
+   plus half-ceiling temporal-control campaign is authorized. Do not
    extend to the stress/cooling/thermal clocks or begin distributed tide,
    wind, stability, or a hot/cycle search.
 9. Continue one physical distributed tide only after the global no-tide
@@ -801,7 +813,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_CHARACTERISTIC_EXTENSION_WP10C7L_RESULTS_2026-07-19.md`
+  `reports/current/CODEX_CAUSAL_EVOLVED_SPATIAL_ORDER_WP10C7M_RESULTS_2026-07-19.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)

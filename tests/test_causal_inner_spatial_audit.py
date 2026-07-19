@@ -182,6 +182,45 @@ def test_consistent_tangent_decomposition_closes_component_sum() -> None:
     )
 
 
+def test_sparse_consistent_tangent_matches_dense_solver() -> None:
+    context = make_causal_five_field_regression_context(4)
+    vector = pack_causal_five_field_state(
+        make_causal_five_field_seed(context)
+    )
+
+    dense = causal_five_field_consistent_tangent_decomposition(
+        context,
+        vector,
+        linear_solver="dense",
+    )
+    sparse = causal_five_field_consistent_tangent_decomposition(
+        context,
+        vector,
+        linear_solver="sparse",
+    )
+
+    assert dense["linear_solver"] == "dense"
+    assert sparse["linear_solver"] == "sparse"
+    assert sparse["consistency_nonzeros"] > 0
+    assert np.allclose(
+        sparse["full"]["physical_tangent_per_s"],
+        dense["full"]["physical_tangent_per_s"],
+        rtol=2.0e-8,
+        atol=1.0e-10,
+    )
+    for name in dense["components"]:
+        assert np.allclose(
+            sparse["components"][name][
+                "log_h_over_r_tangent_per_s"
+            ],
+            dense["components"][name][
+                "log_h_over_r_tangent_per_s"
+            ],
+            rtol=1.0e-6,
+            atol=1.0e-10,
+        )
+
+
 def test_constraint_manifold_jvp_reconstructs_term_derivative() -> None:
     context = make_causal_five_field_regression_context(
         4,

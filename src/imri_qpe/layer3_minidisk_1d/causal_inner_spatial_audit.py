@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import numpy as np
+from scipy.sparse import diags, vstack
+from scipy.sparse.linalg import splu
 
 from .causal_inner_dae_system import (
     CausalFiveFieldDAEContext,
@@ -460,6 +462,7 @@ def causal_five_field_consistent_tangent_decomposition(
     *,
     finite_difference_step: float = 2.0e-6,
     rank_relative_threshold: float | None = None,
+    linear_solver: str = "auto",
 ) -> dict:
     """Solve the DAE-consistent tangent for each signed stationary forcing."""
 
@@ -507,7 +510,13 @@ def causal_five_field_consistent_tangent_decomposition(
             / np.asarray(scaling.row_scales, dtype=float)
         )
 
-    stationary = causal_five_field_colored_central_jacobian(
+    solver = str(linear_solver)
+    if solver not in ("auto", "dense", "sparse"):
+        raise ValueError("consistent tangent linear solver is unsupported")
+    if solver == "auto":
+        solver = "sparse" if n_cells > 64 else "dense"
+
+    stationary_sparse = causal_five_field_colored_central_jacobian(
         lambda increment: scaled_residual(
             increment,
             backward_euler=False,
@@ -515,8 +524,8 @@ def causal_five_field_consistent_tangent_decomposition(
         zero,
         pattern,
         finite_difference_step=finite_difference_step,
-    ).toarray()
-    backward_euler = causal_five_field_colored_central_jacobian(
+    )
+    backward_euler_sparse = causal_five_field_colored_central_jacobian(
         lambda increment: scaled_residual(
             increment,
             backward_euler=True,
@@ -524,18 +533,20 @@ def causal_five_field_consistent_tangent_decomposition(
         zero,
         pattern,
         finite_difference_step=finite_difference_step,
-    ).toarray()
+    )
     n_differential = 5 * n_cells
-    consistency_matrix = np.vstack(
+    consistency_sparse = vstack(
         (
-            (backward_euler - stationary)[:n_differential],
-            stationary[n_differential:],
-        )
+            (backward_euler_sparse - stationary_sparse)[:n_differential],
+            stationary_sparse[n_differential:],
+        ),
+        format="csr",
     )
     if rank_relative_threshold is None:
         consistency_rank = None
         consistency_condition = None
     else:
+        consistency_matrix = consistency_sparse.toarray()
         threshold = float(rank_relative_threshold)
         if not np.isfinite(threshold) or threshold <= 0.0:
             raise ValueError(
@@ -561,12 +572,11 @@ def causal_five_field_consistent_tangent_decomposition(
     full_right_hand_side = np.concatenate(
         (
             -scaled_stationary_residual[:n_differential],
-            np.zeros(stationary.shape[0] - n_differential, dtype=float),
+            np.zeros(
+                stationary_sparse.shape[0] - n_differential,
+                dtype=float,
+            ),
         )
-    )
-    scaled_full_tangent = np.linalg.solve(
-        consistency_matrix,
-        full_right_hand_side,
     )
     signed_terms = causal_five_field_residual_terms(
         context,
@@ -588,7 +598,7 @@ def causal_five_field_consistent_tangent_decomposition(
         dtype=float,
     ).reshape(n_cells, 5)
     component_right_hand_sides = np.zeros(
-        (consistency_matrix.shape[0], len(term_names)),
+        (consistency_sparse.shape[0], len(term_names)),
         dtype=float,
     )
     for index, name in enumerate(term_names):
@@ -596,10 +606,47 @@ def causal_five_field_consistent_tangent_decomposition(
             -np.asarray(forcing_terms[name], dtype=float).ravel()
             / row_scale.ravel()
         )
-    scaled_component_tangents = np.linalg.solve(
-        consistency_matrix,
-        component_right_hand_sides,
+    all_right_hand_sides = np.column_stack(
+        (full_right_hand_side, component_right_hand_sides)
     )
+    if solver == "dense":
+        consistency_matrix = consistency_sparse.toarray()
+        all_scaled_tangents = np.linalg.solve(
+            consistency_matrix,
+            all_right_hand_sides,
+        )
+    else:
+        row_maximum = np.asarray(
+            np.abs(consistency_sparse).max(axis=1).toarray(),
+            dtype=float,
+        ).ravel()
+        if np.any(row_maximum <= np.finfo(float).tiny):
+            raise np.linalg.LinAlgError(
+                "consistent tangent matrix has a zero row"
+            )
+        row_scale = 1.0 / row_maximum
+        row_scaled = diags(row_scale) @ consistency_sparse
+        column_maximum = np.asarray(
+            np.abs(row_scaled).max(axis=0).toarray(),
+            dtype=float,
+        ).ravel()
+        if np.any(column_maximum <= np.finfo(float).tiny):
+            raise np.linalg.LinAlgError(
+                "consistent tangent matrix has a zero column"
+            )
+        column_scale = 1.0 / column_maximum
+        balanced = (
+            diags(row_scale)
+            @ consistency_sparse
+            @ diags(column_scale)
+        ).tocsc()
+        factorization = splu(balanced)
+        balanced_tangents = factorization.solve(
+            row_scale[:, None] * all_right_hand_sides
+        )
+        all_scaled_tangents = column_scale[:, None] * balanced_tangents
+    scaled_full_tangent = all_scaled_tangents[:, 0]
+    scaled_component_tangents = all_scaled_tangents[:, 1:]
     column_scale = np.asarray(scaling.column_scales, dtype=float)
     full_physical_tangent = column_scale * scaled_full_tangent
     component_physical_tangents = (
@@ -642,7 +689,7 @@ def causal_five_field_consistent_tangent_decomposition(
     )
     tangent_scale = np.maximum(tangent_scale, 1.0e-300)
     consistency_defect = (
-        consistency_matrix @ scaled_full_tangent
+        consistency_sparse @ scaled_full_tangent
         - full_right_hand_side
     )
     term_defect = causal_five_field_term_reconstruction_defect(
@@ -666,9 +713,11 @@ def causal_five_field_consistent_tangent_decomposition(
         },
         "components": components,
         "term_names": term_names,
-        "consistency_dimensions": consistency_matrix.shape,
+        "consistency_dimensions": consistency_sparse.shape,
         "consistency_numerical_rank": consistency_rank,
         "consistency_condition_estimate": consistency_condition,
+        "linear_solver": solver,
+        "consistency_nonzeros": int(consistency_sparse.nnz),
         "maximum_scaled_consistency_defect": float(
             np.max(np.abs(consistency_defect))
         ),

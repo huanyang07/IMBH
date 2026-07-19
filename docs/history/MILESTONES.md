@@ -304,6 +304,16 @@ rejected sequence.
     WP10c7i initial tangent, so this is accumulated spatial truncation rather
     than a temporal or physical failure. Stress/cooling/thermal extension
     remains closed pending an evolved-state spatial-order and reference audit.
+50. **Evolved-state N128 authorization:** independent PCHIP and natural-cubic
+    representations of the N64 `0.05 s` state are remapped onto exact
+    N32/N64/N128 DAE manifolds. The full-domain thickness tangent contracts at
+    order `1.989/1.996`; the controlling interior temperature and scaled-energy
+    orders are at least `2.127/1.875`. The projected N64/N128 endpoint
+    difference is at most `1.2456e-3`; adding the complete planned temporal
+    reserve and oracle spread gives `1.7513e-3 < 2.5e-3`. The sparse N128
+    consistency solve closes below `5.35e-15`. One fresh N128 production plus
+    temporal-control campaign is authorized, while boundary-limited raw
+    temperature/energy orders remain diagnostic.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed
