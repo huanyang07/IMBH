@@ -1,6 +1,6 @@
 # Project Status
 
-- Updated: 2026-07-18
+- Updated: 2026-07-19
 - Pre-cleanup scientific tag: `pre-cleanup-p0-2026-07-11`
 - Legacy phase classification tag: `legacy-steady-positive-flux-dae-2026-07-10`
 
@@ -96,6 +96,7 @@ This is the canonical project handoff. Status labels mean:
 | Fixed-step N16 BDF2 WP10c7b | **CERTIFIED** for bounded second-order temporal evolution and restart; **DIAGNOSTIC ONLY** physically | All six observables converge at order `1.994-2.005`; S64 plus S256/S512 uncertainty is at most `0.27474` of a gate; all physical-ledger components converge at order two; replay is bitwise | Only WP10c7c adaptive N16 BDF2 is authorized; N32 and physical-duration evolution remain gated |
 | Adaptive N16 BDF2 WP10c7c | **CERTIFIED** for bounded adaptive temporal evolution and restart; **DIAGNOSTIC ONLY** physically | Exact horizon in 20 accepted steps with zero retries and five independent audits; endpoint plus reference uncertainty is at most `0.28886` of a gate; physical-ledger defect is `7.11e-5`; replay is bitwise; Jacobian work is `0.4125` of fixed S64 | Only matched N32 WP10c7d is authorized; no N64/N128, physical-duration evolution, tide, wind, stability, hot-state, or cycle run |
 | Matched N32 BDF2 WP10c7d | **CERTIFIED** for bounded N32 temporal evolution; **REJECTED** for N16/N32 spatial response; **DIAGNOSTIC ONLY** physically | N32 fixed orders `1.995-2.007`; adaptive plus S32/S64 uncertainty is at most `0.11411` of a gate; replay is bitwise; Jacobian work is `0.2844` of fixed S64 | N16/N32 `Delta log(H/R)` response differs by `0.61293 > 0.005` near `20.86 rg`; no N64/N128 or longer/physical run is authorized before a localized spatial audit |
+| Localized spatial response WP10c7e | **CERTIFIED** for spatial-error classification; **DIAGNOSTIC ONLY** physically | Exact restriction gives fixed/adaptive N16/N32 `Delta log(H/R)` differences `0.613215/0.613234`; fixed/adaptive history differs by at most `7.62e-5`; the first S64 step already fails; the initial DAE tangent is controlled by total face transport at `24.14 s^-1`, with Rusanov exceeding central transport | Exactly one N64 fixed-BDF2 contraction diagnostic is authorized as WP10c7f; no operator change, N128, longer duration, tide, wind, stability, hot-state, or cycle run |
 
 ## Frozen Target Under Review
 
@@ -593,6 +594,18 @@ N                    = 164
     through N32. The exact-common-time N16/N32 `Delta log(H/R)` response
     differs by `0.61293`, however, failing the `0.005` spatial gate by
     `122.6x` near `20.86 rg`. Spatial resolution is now the active blocker.
+71. WP10c7e verifies the WP10c7d failure with exact Kerr-Schild restriction,
+    native coincident faces, fixed/fixed and adaptive/adaptive endpoints, and
+    exact fixed-S64 snapshots. The fixed/adaptive restricted thickness
+    mismatch is `0.613215/0.613234`, while either mesh's temporal-history
+    difference is at most `7.62e-5`. The mismatch exceeds `0.005` on the first
+    S64 step and grows approximately linearly at first. At the initial
+    checkpoint, total face transport controls the DAE-consistent mismatch at
+    `24.1407 s^-1`; Rusanov contributes `13.5426 s^-1`, central transport
+    `12.0895 s^-1`, and the next source only `2.60490 s^-1`. Combined with
+    WP10c5r's measured first-order Rusanov/full-transport convergence, this
+    confirms inherited coarse-grid transport truncation. Exactly one N64
+    fixed S32/S64 contraction diagnostic is authorized as WP10c7f.
 
 ## Claims That Are Not Allowed Yet
 
@@ -666,12 +679,13 @@ N                    = 164
    and adaptive BDF2 pass their independent temporal references, audits,
    ledgers, work gates, and replay. The exact-common-time N16/N32 spatial
    response fails by more than two orders of magnitude, localized near
-   `20.86 rg`. Continue only to a no-evolution/localized term audit of that
-   response. Authorize one matched N64 adaptive horizon only if the audit
-   confirms ordinary spatial truncation and predefines a tighter N64 temporal
-   check. Do not alter the flux operator, relax `0.005`, run N128, extend to a
-   physical loading/thermal time, or begin distributed tide, wind, stability,
-   or a hot/cycle search.
+   `20.86 rg`. WP10c7e excludes interpolation, temporal history, source, and
+   boundary confounds and traces the onset to the inherited first-order
+   Rusanov transport. Continue only to one matched N64 fixed S32/S64
+   contraction diagnostic under a `5e-4` temporal-uncertainty gate. Do not
+   alter the flux operator, relax `0.005`, run N128, extend to a physical
+   loading/thermal time, or begin distributed tide, wind, stability, or a
+   hot/cycle search.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -683,7 +697,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_MATCHED_BDF2_WP10C7D_RESULTS_2026-07-18.md`
+  `reports/current/CODEX_CAUSAL_SPATIAL_RESPONSE_WP10C7E_RESULTS_2026-07-19.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -755,6 +769,7 @@ N                    = 164
 - Fixed-step N16 BDF2 WP10c7b: `reports/current/CODEX_CAUSAL_FIXED_BDF2_WP10C7B_RESULTS_2026-07-18.md`
 - Adaptive N16 BDF2 WP10c7c: `reports/current/CODEX_CAUSAL_ADAPTIVE_BDF2_WP10C7C_RESULTS_2026-07-18.md`
 - Matched N32 BDF2 WP10c7d: `reports/current/CODEX_CAUSAL_MATCHED_BDF2_WP10C7D_RESULTS_2026-07-18.md`
+- Localized spatial response WP10c7e: `reports/current/CODEX_CAUSAL_SPATIAL_RESPONSE_WP10C7E_RESULTS_2026-07-19.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
 - Horizon-penetrating Valencia core WP10b: `reports/current/CODEX_HORIZON_PENETRATING_VALENCIA_WP10B_RESULTS_2026-07-17.md`
 - Valencia gas+radiation primitive recovery WP10c1: `reports/current/CODEX_VALENCIA_GAS_RADIATION_PRIMITIVE_RECOVERY_WP10C1_RESULTS_2026-07-17.md`

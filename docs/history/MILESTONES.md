@@ -221,6 +221,17 @@ rejected sequence.
     response error is `2.58967e-3 < 5e-3`, contracting at observed order
     `1.36443` (RMS `1.22561`). The first-order bounded mesh gate is certified;
     further fine meshes and direct microstep duration extension are closed.
+42. **Localized longer-horizon spatial classification:** exact Kerr-Schild
+    restriction reproduces the WP10c7d fixed/adaptive N16/N32
+    `Delta log(H/R)` mismatch at `0.613215/0.613234`; the largest
+    fixed/adaptive history effect is only `7.62e-5`. The mismatch crosses
+    `0.005` on the first fixed-S64 step and grows approximately linearly at
+    first. Initial DAE-consistent attribution is controlled by total face
+    transport at `24.1407 s^-1`, with Rusanov `13.5426 s^-1`, central
+    transport `12.0895 s^-1`, and the next source `2.60490 s^-1`.
+    Combined with the prior manufactured first-order Rusanov result, this
+    confirms inherited coarse-grid truncation and authorizes exactly one N64
+    fixed S32/S64 contraction diagnostic.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed
