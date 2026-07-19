@@ -202,6 +202,41 @@ def test_fixed_bdf2_uses_one_startup_step_and_reaches_target() -> None:
     )
 
 
+def test_fixed_bdf2_accepts_wp10c7i_spatial_operator() -> None:
+    context = make_causal_five_field_regression_context(
+        4,
+        spatial_reconstruction="quadratic_admissible",
+        boundary_trace_reconstruction="plm_one_sided",
+        cell_rate_scheme="arithmetic_face",
+        cell_source_quadrature="gauss_legendre_4_local_rates",
+        cell_storage_quadrature="gauss_legendre_4",
+    )
+    vector = pack_causal_five_field_state(
+        make_causal_five_field_seed(context)
+    )
+    snapshots: dict[int, np.ndarray] = {}
+    result = evolve_causal_five_field_fixed_bdf2(
+        context,
+        vector,
+        np.zeros_like(vector),
+        1.0e-8,
+        4.0e-8,
+        4,
+        _step_config(),
+        progress=lambda completed, _total, state, _history: (
+            snapshots.__setitem__(completed, np.array(state, copy=True))
+        ),
+    )
+
+    assert result.passed
+    assert result.bdf1_steps == 1
+    assert result.bdf2_steps == 3
+    assert tuple(snapshots) == (1, 2, 3, 4)
+    np.testing.assert_array_equal(snapshots[4], result.state_vector)
+    assert result.maximum_discrete_ledger_relative_defect <= 1.0e-9
+    assert result.cumulative_physical_ledger_relative_defect <= 1.0e-3
+
+
 def test_fixed_bdf2_complete_restart_replays_bitwise(tmp_path) -> None:
     context, vector = _seed()
     split: dict[str, object] = {}
@@ -248,6 +283,20 @@ def test_fixed_bdf2_complete_restart_replays_bitwise(tmp_path) -> None:
             path,
             replace(context, spatial_reconstruction="plm_smooth"),
         )
+    for name, value in (
+        ("boundary_trace_reconstruction", "plm_one_sided"),
+        ("cell_rate_scheme", "quadratic_log_radius"),
+        ("cell_source_quadrature", "gauss_legendre_4"),
+        ("cell_storage_quadrature", "gauss_legendre_4"),
+    ):
+        with pytest.raises(ValueError, match=name.replace("_", " ")):
+            load_causal_five_field_bdf_restart(
+                path,
+                replace(
+                    context,
+                    **{name: value},
+                ),
+            )
 
     replay = evolve_causal_five_field_fixed_bdf2(
         context,

@@ -17,6 +17,41 @@ from .causal_inner_dae import causal_five_field_dae_count
 from .causal_inner_dae_system import CausalFiveFieldDAEContext
 
 
+_SPATIAL_CONTEXT_DEFAULTS = {
+    "spatial_reconstruction": "piecewise_constant",
+    "boundary_trace_reconstruction": "cell_centered",
+    "cell_rate_scheme": "arithmetic_face",
+    "cell_source_quadrature": "midpoint",
+    "cell_storage_quadrature": "midpoint",
+}
+
+
+def _spatial_context_arrays(
+    context: CausalFiveFieldDAEContext,
+) -> dict[str, np.ndarray]:
+    return {
+        name: np.asarray(getattr(context, name))
+        for name in _SPATIAL_CONTEXT_DEFAULTS
+    }
+
+
+def _validate_stored_spatial_context(
+    data,
+    provenance: dict,
+    context: CausalFiveFieldDAEContext,
+    *,
+    label: str,
+) -> None:
+    for name, default in _SPATIAL_CONTEXT_DEFAULTS.items():
+        stored = (
+            str(data[name].item())
+            if name in data.files
+            else str(provenance.get(name, default))
+        )
+        if stored != getattr(context, name):
+            raise ValueError(f"{label} {name.replace('_', ' ')} differs")
+
+
 @dataclass(frozen=True)
 class CausalFiveFieldBDFRestart:
     """State, two-step history, controller state, and provenance."""
@@ -401,9 +436,7 @@ def save_causal_five_field_bdf_restart(
             dtype=np.int64,
         ),
         grid_edges=context.grid.edges,
-        spatial_reconstruction=np.asarray(
-            context.spatial_reconstruction
-        ),
+        **_spatial_context_arrays(context),
         state_vector=validated.state_vector,
         previous_physical_increment=(
             validated.history.previous_physical_increment
@@ -447,20 +480,12 @@ def load_causal_five_field_bdf_restart(
         if not np.array_equal(edges, context.grid.edges):
             raise ValueError("causal BDF restart grid does not match")
         provenance = json.loads(str(data["provenance_json"].item()))
-        stored_reconstruction = (
-            str(data["spatial_reconstruction"].item())
-            if "spatial_reconstruction" in data.files
-            else str(
-                provenance.get(
-                    "spatial_reconstruction",
-                    "piecewise_constant",
-                )
-            )
+        _validate_stored_spatial_context(
+            data,
+            provenance,
+            context,
+            label="causal BDF restart",
         )
-        if stored_reconstruction != context.spatial_reconstruction:
-            raise ValueError(
-                "causal BDF restart spatial reconstruction differs"
-            )
         restart = CausalFiveFieldBDFRestart(
             state_vector=np.asarray(data["state_vector"], dtype=float),
             history=CausalFiveFieldBDFHistory(
@@ -516,9 +541,7 @@ def save_causal_five_field_adaptive_bdf2_restart(
         destination,
         schema_version=np.asarray(validated.schema_version, dtype=np.int64),
         grid_edges=context.grid.edges,
-        spatial_reconstruction=np.asarray(
-            context.spatial_reconstruction
-        ),
+        **_spatial_context_arrays(context),
         state_vector=validated.state_vector,
         previous_physical_increment=(
             validated.history.previous_physical_increment
@@ -587,20 +610,12 @@ def load_causal_five_field_adaptive_bdf2_restart(
         ):
             raise ValueError("adaptive causal BDF2 restart grid differs")
         provenance = json.loads(str(data["provenance_json"].item()))
-        stored_reconstruction = (
-            str(data["spatial_reconstruction"].item())
-            if "spatial_reconstruction" in data.files
-            else str(
-                provenance.get(
-                    "spatial_reconstruction",
-                    "piecewise_constant",
-                )
-            )
+        _validate_stored_spatial_context(
+            data,
+            provenance,
+            context,
+            label="adaptive BDF2 restart",
         )
-        if stored_reconstruction != context.spatial_reconstruction:
-            raise ValueError(
-                "adaptive BDF2 restart spatial reconstruction differs"
-            )
         restart = CausalFiveFieldAdaptiveBDF2Restart(
             state_vector=np.asarray(data["state_vector"], dtype=float),
             history=CausalFiveFieldBDFHistory(

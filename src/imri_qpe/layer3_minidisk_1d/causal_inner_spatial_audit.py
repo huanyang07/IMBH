@@ -11,7 +11,9 @@ from .causal_inner_dae_system import (
     causal_five_field_cell_states,
     causal_five_field_dae_jacobian_sparsity,
     causal_five_field_dae_scaling,
+    causal_five_field_state_from_primitives,
     evaluate_causal_five_field_dae,
+    pack_causal_five_field_state,
     unpack_causal_five_field_state,
 )
 from .causal_inner_evolution import causal_five_field_h_over_r_profile
@@ -322,7 +324,9 @@ def causal_five_field_residual_terms(
             dtype=float,
         ),
         "temporal_vertical_storage": vertical,
-        "central_face_transport": central[1:] - central[:-1],
+        "central_face_transport": (
+            central[1:] - central[:-1]
+        ),
         "rusanov_face_transport": (
             dissipation[1:] - dissipation[:-1]
         ),
@@ -365,6 +369,91 @@ def causal_five_field_term_reconstruction_defect(
     }
 
 
+def causal_five_field_constraint_manifold_jvp(
+    context: CausalFiveFieldDAEContext,
+    vector: np.ndarray,
+    primitive_direction: np.ndarray,
+    *,
+    finite_difference_step: float = 2.0e-6,
+) -> dict:
+    """Differentiate spatial residual terms along one primitive direction."""
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    state = unpack_causal_five_field_state(vector, n_cells)
+    direction = np.asarray(primitive_direction, dtype=float)
+    step = float(finite_difference_step)
+    if (
+        direction.shape != (n_cells, 5)
+        or np.any(~np.isfinite(direction))
+        or not np.isfinite(step)
+        or step <= 0.0
+    ):
+        raise ValueError("constraint-manifold JVP inputs are invalid")
+
+    evaluations = []
+    terms = []
+    for sign in (1.0, -1.0):
+        trial_state = causal_five_field_state_from_primitives(
+            context,
+            state.primitives + sign * step * direction,
+        )
+        trial_vector = pack_causal_five_field_state(trial_state)
+        trial_evaluation = evaluate_causal_five_field_dae(
+            trial_vector,
+            context,
+        )
+        evaluations.append(trial_evaluation)
+        terms.append(
+            causal_five_field_residual_terms(
+                context,
+                trial_vector,
+                trial_evaluation,
+            )
+        )
+    denominator = 2.0 * step
+    term_names = tuple(terms[0])
+    if tuple(terms[1]) != term_names:
+        raise RuntimeError("constraint-manifold JVP term schemas differ")
+    term_jvps = {
+        name: (
+            np.asarray(terms[0][name], dtype=float)
+            - np.asarray(terms[1][name], dtype=float)
+        )
+        / denominator
+        for name in term_names
+    }
+    conservation_jvp = (
+        np.asarray(evaluations[0].conservation_rows, dtype=float)
+        - np.asarray(evaluations[1].conservation_rows, dtype=float)
+    ) / denominator
+    reconstructed = np.sum(
+        np.asarray(list(term_jvps.values()), dtype=float),
+        axis=0,
+    )
+    scale = np.maximum(
+        np.abs(conservation_jvp),
+        np.sum(np.abs(np.asarray(list(term_jvps.values()))), axis=0),
+    )
+    scale = np.maximum(scale, 1.0)
+    absolute_defect = np.abs(reconstructed - conservation_jvp)
+    global_scale = max(float(np.max(scale)), 1.0)
+    return {
+        "conservation_jvp": conservation_jvp,
+        "term_jvps": term_jvps,
+        "maximum_reconstruction_relative_defect": float(
+            np.max(absolute_defect) / global_scale
+        ),
+        "maximum_entrywise_reconstruction_relative_defect": float(
+            np.max(absolute_defect / scale)
+        ),
+        "maximum_reconstruction_absolute_defect": float(
+            np.max(absolute_defect)
+        ),
+        "finite_difference_step": step,
+    }
+
+
 def causal_five_field_consistent_tangent_decomposition(
     context: CausalFiveFieldDAEContext,
     vector: np.ndarray,
@@ -383,6 +472,12 @@ def causal_five_field_consistent_tangent_decomposition(
     pattern = causal_five_field_dae_jacobian_sparsity(
         n_cells,
         spatial_reconstruction=context.spatial_reconstruction,
+        boundary_trace_reconstruction=(
+            context.boundary_trace_reconstruction
+        ),
+        cell_rate_scheme=context.cell_rate_scheme,
+        cell_source_quadrature=context.cell_source_quadrature,
+        cell_storage_quadrature=context.cell_storage_quadrature,
     )
 
     def scaled_residual(

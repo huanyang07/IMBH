@@ -180,6 +180,20 @@ def test_causal_adaptive_restart_round_trips_bitwise(tmp_path) -> None:
             path,
             replace(context, spatial_reconstruction="plm_smooth"),
         )
+    for name, value in (
+        ("boundary_trace_reconstruction", "plm_one_sided"),
+        ("cell_rate_scheme", "quadratic_log_radius"),
+        ("cell_source_quadrature", "gauss_legendre_4"),
+        ("cell_storage_quadrature", "gauss_legendre_4"),
+    ):
+        with pytest.raises(ValueError, match=name.replace("_", " ")):
+            load_causal_five_field_adaptive_restart(
+                path,
+                replace(
+                    context,
+                    **{name: value},
+                ),
+            )
 
     np.testing.assert_array_equal(
         restored.state_vector,

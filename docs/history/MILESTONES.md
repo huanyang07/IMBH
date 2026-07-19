@@ -261,6 +261,38 @@ rejected sequence.
     thermodynamic peak persists at `19.220 rg`. N128 and longer evolution
     remain closed; only a nonzero-baseline-preserving balance audit is
     authorized.
+46. **Full-domain spatial-balance certification:** boundary, rate, source,
+    storage, and reconstruction ablations show that the WP10c7h error requires
+    a state-dependent repair rather than a constant baseline correction.
+    Admissibility-preserving quadratic face traces plus four-point source
+    quadrature with locally reconstructed shear/height rates reduce the
+    N32/N64 full and `15-60 rg` tangent discrepancy by `23.87x/13.50x`.
+    Both converge at order `2.36087` and project to `0.00152799`, below the
+    locked `0.0025` pre-trajectory budget. N16/N32 rank remains full, exact
+    stream moments are unchanged, and the colored Jacobian has no omitted
+    N4 entries. One fresh bounded N32/N64 trajectory is authorized; N128,
+    longer evolution, and new physics remain closed.
+47. **Bounded spatial-balance trajectory certification:** fresh N32/N64
+    selected-operator histories complete all 192 S32/S64 fixed BDF steps.
+    Exact common-time restriction gives a monotone `Delta log(H/R)`
+    difference from `1.90980e-4` at `T/8` to `1.52769e-3` at the endpoint.
+    Adding both meshes' temporal uncertainties gives at most
+    `1.81679e-3 < 0.005`. The endpoint is `0.999803` of the WP10c7i tangent
+    projection and `29.21x` below the prior smooth-PLM trajectory mismatch.
+    Source restriction is `1.73e-16`, physical ledgers remain below
+    `2.02e-4`, no stored snapshot activates limiting, and all restarts are
+    bitwise. One matched adaptive-BDF2 confirmation is authorized before
+    longer no-tide evolution.
+48. **Matched adaptive spatial-balance certification:** the unchanged
+    adaptive-BDF2 controller advances both selected-operator meshes through
+    the WP10c7j horizon in 13 accepted steps with four independent audits
+    and no retries. Adaptive-to-fixed S64 `Delta log(H/R)` errors remain
+    near `2e-5`; the raw N32/N64 endpoint difference is `1.52763e-3`, and
+    the strict spatial total including both adaptive errors and both fixed
+    reference uncertainties is `1.85230e-3 < 0.005`. Physical ledgers stay
+    below `7.60e-5`, T/2-to-T replays are bitwise, and each mesh uses
+    `0.328125` of fixed-S64 Jacobian work. One matched no-tide extension
+    toward the `~0.05 s` characteristic-crossing horizon is authorized.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

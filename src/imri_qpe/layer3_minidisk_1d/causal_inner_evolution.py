@@ -25,6 +25,15 @@ from .causal_inner_dae_system import (
 )
 
 
+_SPATIAL_CONTEXT_DEFAULTS = {
+    "spatial_reconstruction": "piecewise_constant",
+    "boundary_trace_reconstruction": "cell_centered",
+    "cell_rate_scheme": "arithmetic_face",
+    "cell_source_quadrature": "midpoint",
+    "cell_storage_quadrature": "midpoint",
+}
+
+
 @dataclass(frozen=True)
 class CausalFiveFieldAdaptiveStepConfig:
     """Deterministic reject/halve/grow policy for short causal startup."""
@@ -338,6 +347,12 @@ def advance_causal_five_field_increment_backward_euler(
     pattern = causal_five_field_dae_jacobian_sparsity(
         n_cells,
         spatial_reconstruction=context.spatial_reconstruction,
+        boundary_trace_reconstruction=(
+            context.boundary_trace_reconstruction
+        ),
+        cell_rate_scheme=context.cell_rate_scheme,
+        cell_source_quadrature=context.cell_source_quadrature,
+        cell_storage_quadrature=context.cell_storage_quadrature,
     )
     color_count = len(
         causal_five_field_dae_jacobian_color_groups(pattern)
@@ -748,9 +763,10 @@ def save_causal_five_field_adaptive_restart(
         destination,
         schema_version=np.asarray(restart.schema_version, dtype=np.int64),
         grid_edges=context.grid.edges,
-        spatial_reconstruction=np.asarray(
-            context.spatial_reconstruction
-        ),
+        **{
+            name: np.asarray(getattr(context, name))
+            for name in _SPATIAL_CONTEXT_DEFAULTS
+        },
         state_vector=state,
         previous_physical_increment=increment,
         state_controller_sha256=np.asarray(checksum),
@@ -786,20 +802,17 @@ def load_causal_five_field_adaptive_restart(
         if checksum != _restart_hash(context, state, increment):
             raise ValueError("causal restart checksum mismatch")
         provenance = json.loads(str(data["provenance_json"].item()))
-        stored_reconstruction = (
-            str(data["spatial_reconstruction"].item())
-            if "spatial_reconstruction" in data.files
-            else str(
-                provenance.get(
-                    "spatial_reconstruction",
-                    "piecewise_constant",
+        for name, default in _SPATIAL_CONTEXT_DEFAULTS.items():
+            stored = (
+                str(data[name].item())
+                if name in data.files
+                else str(provenance.get(name, default))
+            )
+            if stored != getattr(context, name):
+                raise ValueError(
+                    "causal restart "
+                    f"{name.replace('_', ' ')} does not match"
                 )
-            )
-        )
-        if stored_reconstruction != context.spatial_reconstruction:
-            raise ValueError(
-                "causal restart spatial reconstruction does not match"
-            )
         restart = CausalFiveFieldAdaptiveRestart(
             state_vector=state,
             previous_physical_increment=increment,

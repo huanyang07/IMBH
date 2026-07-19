@@ -102,6 +102,30 @@ def test_spatial_reconstruction_mode_is_validated() -> None:
             context,
             spatial_reconstruction="unsupported",
         ).validated()
+    for name in (
+        "boundary_trace_reconstruction",
+        "cell_rate_scheme",
+        "cell_source_quadrature",
+        "cell_storage_quadrature",
+    ):
+        with pytest.raises(ValueError):
+            replace(context, **{name: "unsupported"}).validated()
+    with pytest.raises(
+        ValueError,
+        match="second-order causal spatial stencils require three cells",
+    ):
+        replace(
+            _context(2),
+            spatial_reconstruction="quadratic_admissible",
+        ).validated()
+    with pytest.raises(
+        ValueError,
+        match="second-order causal spatial stencils require three cells",
+    ):
+        causal_five_field_dae_jacobian_sparsity(
+            2,
+            spatial_reconstruction="quadratic_admissible",
+        )
 
 
 def test_explicit_piecewise_constant_backend_is_bitwise_frozen() -> None:
@@ -134,7 +158,14 @@ def test_explicit_piecewise_constant_backend_is_bitwise_frozen() -> None:
     )
 
 
-@pytest.mark.parametrize("mode", ("plm_unlimited", "plm_smooth"))
+@pytest.mark.parametrize(
+    "mode",
+    (
+        "plm_unlimited",
+        "plm_smooth",
+        "quadratic_admissible",
+    ),
+)
 def test_plm_reconstruction_preserves_constant_charts(mode: str) -> None:
     context = replace(
         _context(8),
@@ -213,7 +244,219 @@ def test_unlimited_plm_is_exact_for_linear_log_radius_chart() -> None:
     )
 
 
-@pytest.mark.parametrize("mode", ("plm_unlimited", "plm_smooth"))
+def test_one_sided_plm_is_exact_on_every_face_for_linear_log_chart() -> None:
+    context = replace(
+        _context(8),
+        spatial_reconstruction="plm_unlimited",
+        boundary_trace_reconstruction="plm_one_sided",
+    ).validated()
+    log_centers = np.log(context.grid.centers)
+    log_edges = np.log(context.grid.edges)
+    origin = float(np.mean(log_centers))
+    intercept = np.asarray(
+        [np.log(120.0), 0.02, 0.12, np.log(4.0e6), 1.0e12],
+        dtype=float,
+    )
+    slope = np.asarray([0.04, 0.002, -0.003, -0.02, 2.0e10])
+    charts = intercept + (log_centers - origin)[:, None] * slope
+    exact = intercept + (log_edges - origin)[:, None] * slope
+    reconstruction = causal_five_field_reconstruct_face_charts(
+        context,
+        charts,
+    )
+
+    np.testing.assert_allclose(
+        reconstruction.left_face_charts,
+        exact,
+        rtol=2.0e-13,
+        atol=2.0e-13,
+    )
+    np.testing.assert_allclose(
+        reconstruction.right_face_charts,
+        exact,
+        rtol=2.0e-13,
+        atol=2.0e-13,
+    )
+
+
+def test_quadratic_reconstruction_is_exact_for_quadratic_log_chart() -> None:
+    context = replace(
+        _context(8),
+        spatial_reconstruction="quadratic_admissible",
+        boundary_trace_reconstruction="plm_one_sided",
+    ).validated()
+    log_centers = np.log(context.grid.centers)
+    log_edges = np.log(context.grid.edges)
+    origin = float(np.mean(log_centers))
+    intercept = np.asarray(
+        [np.log(120.0), 0.02, 0.12, np.log(4.0e6), 0.0],
+        dtype=float,
+    )
+    slope = np.asarray([0.04, 0.002, -0.003, -0.02, 0.0])
+    curvature = np.asarray(
+        [0.002, -0.0001, 0.0002, 0.001, 0.0],
+    )
+    center_offset = log_centers - origin
+    edge_offset = log_edges - origin
+    charts = (
+        intercept
+        + center_offset[:, None] * slope
+        + center_offset[:, None] ** 2 * curvature
+    )
+    exact = (
+        intercept
+        + edge_offset[:, None] * slope
+        + edge_offset[:, None] ** 2 * curvature
+    )
+    reconstruction = causal_five_field_reconstruct_face_charts(
+        context,
+        charts,
+    )
+
+    np.testing.assert_allclose(
+        reconstruction.left_face_charts,
+        exact,
+        rtol=3.0e-13,
+        atol=3.0e-13,
+    )
+    np.testing.assert_allclose(
+        reconstruction.right_face_charts,
+        exact,
+        rtol=3.0e-13,
+        atol=3.0e-13,
+    )
+    np.testing.assert_array_equal(
+        reconstruction.admissibility_factors,
+        np.ones(8),
+    )
+
+
+def test_quadratic_reconstruction_couples_active_admissibility() -> None:
+    context = replace(
+        _context(8),
+        spatial_reconstruction="quadratic_admissible",
+    ).validated()
+    chart = np.asarray(
+        [np.log(120.0), 0.0, 0.02, np.log(4.0e6), 0.0],
+    )
+    charts = np.repeat(chart[None, :], 8, axis=0)
+    charts[:, 1] = np.asarray(
+        [
+            0.5163577636618574,
+            0.7707262643831303,
+            0.4275776096593312,
+            -0.15600738289988691,
+            -0.8132799375132267,
+            -0.8028076837709259,
+            0.7624065872330135,
+            -0.6231457513536676,
+        ]
+    )
+    reconstruction = causal_five_field_reconstruct_face_charts(
+        context,
+        charts,
+    )
+
+    assert np.min(reconstruction.admissibility_factors) < 0.99
+    assert np.min(reconstruction.admissibility_factors) > 0.98
+    for faces in (
+        reconstruction.left_face_charts,
+        reconstruction.right_face_charts,
+    ):
+        velocity_squared = faces[:, 1] ** 2 + faces[:, 2] ** 2
+        assert np.max(velocity_squared) < 1.0
+
+
+def test_high_order_endogenous_quadrature_leaves_exact_stream_unchanged() -> None:
+    context = _context(16, cooling=True)
+    mass = FiducialParams().M2_g
+    gravitational_radius = context.grid.gravitational_radius
+    radius = 240.0 * gravitational_radius
+    geometry = kerr_schild_column_geometry(radius, gravitational_radius)
+    primitive = ValenciaPerfectFluidPrimitive(
+        surface_density=1.0e5,
+        radial_velocity_over_c=2.0 * gravitational_radius / radius,
+        azimuthal_velocity_over_c=0.05,
+        specific_internal_energy=1.0e18,
+        integrated_pressure=1.0e20,
+    )
+    injection = kerr_schild_stream_injection(
+        geometry,
+        primitive,
+        rest_mass_rate=5.0 * eddington_mdot(mass),
+    )
+    stream = exact_kerr_schild_compact_stream_sources(
+        context.grid,
+        injection,
+        center=radius,
+        log_width=0.08,
+        shape="compact_c2",
+    )
+    midpoint = replace(
+        context,
+        stream_sources=stream,
+        spatial_reconstruction="plm_smooth",
+    ).validated()
+    high_order = replace(
+        midpoint,
+        spatial_reconstruction="quadratic_admissible",
+        boundary_trace_reconstruction="plm_one_sided",
+        cell_source_quadrature="gauss_legendre_4_local_rates",
+        cell_storage_quadrature="gauss_legendre_4",
+    ).validated()
+    state = make_causal_five_field_seed(midpoint)
+    midpoint_vector = pack_causal_five_field_state(
+        causal_five_field_state_from_primitives(
+            midpoint,
+            state.primitives,
+        )
+    )
+    high_order_vector = pack_causal_five_field_state(
+        causal_five_field_state_from_primitives(
+            high_order,
+            state.primitives,
+        )
+    )
+    midpoint_evaluation = evaluate_causal_five_field_dae(
+        midpoint_vector,
+        midpoint,
+    )
+    high_order_evaluation = evaluate_causal_five_field_dae(
+        high_order_vector,
+        high_order,
+    )
+
+    np.testing.assert_array_equal(
+        high_order_evaluation.integrated_source_components_per_ct[
+            "stream"
+        ],
+        midpoint_evaluation.integrated_source_components_per_ct["stream"],
+    )
+    reconstructed = np.sum(
+        np.asarray(
+            list(
+                high_order_evaluation
+                .integrated_source_components_per_ct.values()
+            )
+        ),
+        axis=0,
+    )
+    np.testing.assert_allclose(
+        reconstructed,
+        high_order_evaluation.integrated_sources_per_ct,
+        rtol=2.0e-15,
+        atol=0.0,
+    )
+
+
+@pytest.mark.parametrize(
+    "mode",
+    (
+        "plm_unlimited",
+        "plm_smooth",
+        "quadratic_admissible",
+    ),
+)
 def test_plm_seed_closes_all_algebraic_maps(mode: str) -> None:
     context = replace(
         _context(8),
@@ -759,15 +1002,31 @@ def test_small_assembled_scaled_jacobian_is_numerically_full_rank() -> None:
 
 
 @pytest.mark.parametrize(
-    "spatial_reconstruction",
-    ("piecewise_constant", "plm_smooth"),
+    "spatial_options",
+    (
+        {"spatial_reconstruction": "piecewise_constant"},
+        {"spatial_reconstruction": "plm_smooth"},
+        {
+            "spatial_reconstruction": "plm_smooth",
+            "boundary_trace_reconstruction": "plm_one_sided",
+            "cell_rate_scheme": "quadratic_log_radius",
+            "cell_source_quadrature": "gauss_legendre_4",
+            "cell_storage_quadrature": "gauss_legendre_4",
+        },
+        {
+            "spatial_reconstruction": "quadratic_admissible",
+            "boundary_trace_reconstruction": "plm_one_sided",
+            "cell_source_quadrature": "gauss_legendre_4_local_rates",
+            "cell_storage_quadrature": "gauss_legendre_4",
+        },
+    ),
 )
 def test_colored_increment_jacobian_matches_every_dense_column(
-    spatial_reconstruction: str,
+    spatial_options: dict[str, str],
 ) -> None:
     context = replace(
         _context(4, cooling=True),
-        spatial_reconstruction=spatial_reconstruction,
+        **spatial_options,
     ).validated()
     state = make_causal_five_field_seed(context)
     old_vector = pack_causal_five_field_state(state)
@@ -801,7 +1060,13 @@ def test_colored_increment_jacobian_matches_every_dense_column(
         ) / (2.0 * step)
     pattern = causal_five_field_dae_jacobian_sparsity(
         4,
-        spatial_reconstruction=spatial_reconstruction,
+        spatial_reconstruction=context.spatial_reconstruction,
+        boundary_trace_reconstruction=(
+            context.boundary_trace_reconstruction
+        ),
+        cell_rate_scheme=context.cell_rate_scheme,
+        cell_source_quadrature=context.cell_source_quadrature,
+        cell_storage_quadrature=context.cell_storage_quadrature,
     )
     groups = causal_five_field_dae_jacobian_color_groups(pattern)
     colored = causal_five_field_colored_central_jacobian(

@@ -457,6 +457,12 @@ def _jacobian_audit(seed_parameters: dict) -> dict:
     pattern = causal_five_field_dae_jacobian_sparsity(
         n_cells,
         spatial_reconstruction=context.spatial_reconstruction,
+        boundary_trace_reconstruction=(
+            context.boundary_trace_reconstruction
+        ),
+        cell_rate_scheme=context.cell_rate_scheme,
+        cell_source_quadrature=context.cell_source_quadrature,
+        cell_storage_quadrature=context.cell_storage_quadrature,
     )
     groups = causal_five_field_dae_jacobian_color_groups(pattern)
 

@@ -42,6 +42,10 @@ def make_causal_five_field_regression_context(
     n_cells: int,
     *,
     spatial_reconstruction: str = "piecewise_constant",
+    boundary_trace_reconstruction: str = "cell_centered",
+    cell_rate_scheme: str = "arithmetic_face",
+    cell_source_quadrature: str = "midpoint",
+    cell_storage_quadrature: str = "midpoint",
 ) -> CausalFiveFieldDAEContext:
     """Return the exact circularized C2 context used since WP10c5q."""
 
@@ -70,6 +74,10 @@ def make_causal_five_field_regression_context(
         ),
         include_radiative_cooling=True,
         spatial_reconstruction=spatial_reconstruction,
+        boundary_trace_reconstruction=boundary_trace_reconstruction,
+        cell_rate_scheme=cell_rate_scheme,
+        cell_source_quadrature=cell_source_quadrature,
+        cell_storage_quadrature=cell_storage_quadrature,
     ).validated()
     radius = CAUSAL_REGRESSION_STREAM_CENTER_RG * gravitational_radius
     geometry = kerr_schild_column_geometry(

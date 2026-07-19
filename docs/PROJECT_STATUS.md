@@ -100,6 +100,9 @@ This is the canonical project handoff. Status labels mean:
 | N64 BDF2 contraction WP10c7f | **CERTIFIED** for N64 temporal accuracy and contraction measurement; **REJECTED** for the spatial gate; **DIAGNOSTIC ONLY** physically | N64 raw S32/S64 `Delta log(H/R)` uncertainty is `1.536e-4 < 2.5e-4`; all state/ledger gates pass; exact N32/N64 response contracts `0.613215 -> 0.134682` at order `2.187` | The error remains `26.9x` the gate; measured-order N64/N128 projection is `0.0296 > 0.005`, so N128 and uniform refinement are closed; only WP10c7g operator-level reconstruction work is authorized |
 | Causal PLM reconstruction WP10c7g | **CERTIFIED** for method-level interior reconstruction; **DIAGNOSTIC ONLY** physically | Smooth-PLM finest-pair manufactured order is at least `1.910`; diagnosed-band total/full tangent orders are `2.116/2.172`; the full tangent discrepancy falls by `5.235x`; N8 colored/dense Jacobians agree to `1.27e-10`; N16/N32 consistency rank is full | Full-domain order remains boundary limited because the physical boundary traces are unchanged and first order; certification authorizes only the bounded WP10c7h trajectory |
 | Reconstructed-flux trajectory WP10c7h | **CERTIFIED** as a bounded negative result; **REJECTED** for spatial adequacy; **DIAGNOSTIC ONLY** physically | All 192 N32/N64 S32/S64 fixed steps pass; temporal thickness uncertainty is below `1.48e-4`; source restriction is `1.73e-16`; physical ledgers are below `1.58e-4`; restart is bitwise | N32/N64 `Delta log(H/R)` still differs by `0.04462` over the full domain and `0.02141` over `15-60 rg`, versus `0.005`; N128 and longer evolution remain closed; only WP10c7i method-level balance work is authorized |
+| Causal spatial balance WP10c7i | **CERTIFIED** for method-level full-domain consistency; **DIAGNOSTIC ONLY** physically | Quadratic admissible faces plus reconstructed local-rate source quadrature reduce the N32/N64 full tangent by `23.87x` and the `15-60 rg` tangent by `13.50x`; both have order `2.361`; projected error is `1.528e-3 < 2.5e-3`; N16/N32 rank is full | No trajectory was run; exactly one fresh N32/N64 fixed-BDF2 bounded confirmation is authorized before N128, longer evolution, or new physics |
+| Spatial-balance trajectory WP10c7j | **CERTIFIED** for bounded N32/N64 spatial evolution; **DIAGNOSTIC ONLY** physically | All 192 fixed steps pass; endpoint `Delta log(H/R)` difference is `1.52769e-3`; adding both temporal uncertainties gives `1.81679e-3 < 0.005`; the measured response is `0.999803` of the WP10c7i projection; ledgers remain below `2.02e-4`; restart and snapshots are bitwise | Exactly one matched adaptive-BDF2 confirmation is authorized; no longer physical horizon, N128, tide, wind, stability, hot-state, or cycle work yet |
+| Matched adaptive spatial balance WP10c7k | **CERTIFIED** for bounded N32/N64 adaptive evolution; **DIAGNOSTIC ONLY** physically | Both meshes take 13 accepted/0 rejected steps with four audits; endpoint `Delta log(H/R)` is `1.52763e-3`; adding adaptive and fixed-reference uncertainty gives at most `1.85230e-3 < 0.005`; ledgers are below `7.60e-5`; replay is bitwise; Jacobian work is `0.3281` of fixed S64 | Exactly one matched no-tide extension toward the `~0.05 s` characteristic-crossing rung is authorized; N128, later physical clocks, tide, wind, stability, hot-state, and cycle work remain closed |
 
 ## Frozen Target Under Review
 
@@ -640,6 +643,40 @@ N                    = 164
     `1.953 rg`; the interior thermodynamic peak persists at `19.220 rg`.
     N128, longer evolution, and new physics remain closed. Only a
     method-level, nonzero-baseline-preserving balance audit is authorized.
+75. WP10c7i separates boundary traces, cell rates, source quadrature, storage,
+    and face reconstruction on N16/N32/N64, with N128 residual/JVP oracles.
+    One-sided traces remove the boundary peak, but the remaining error requires
+    both admissibility-preserving quadratic face traces and shear/height rates
+    evaluated along the same reconstructed path as the four-point source
+    quadrature. The selected N32/N64 full and `15-60 rg` tangent difference is
+    `0.0993839 s^-1`, observed order `2.36087`, projecting to `0.00152799`
+    over the bounded horizon. Reductions are `23.87x/13.50x`, above the
+    locked `20x/10x` gates. N16/N32 systems remain `245/245` and `485/485`;
+    stream recovery and algebraic-map defects are zero. No baseline-specific
+    residual correction is retained. Exactly one fresh N32/N64 fixed-BDF2
+    trajectory is authorized; no N128, longer duration, or new physics is
+    unlocked.
+76. WP10c7j independently rebuilds selected-operator N32/N64 states and
+    completes all 192 fixed S32/S64 BDF steps over `1.53746e-2 s`.
+    The raw N32/N64 thickness-response difference grows monotonically from
+    `1.90980e-4` at `T/8` to `1.52769e-3` at `T`; adding both meshes'
+    temporal uncertainties gives at most `1.81679e-3 < 0.005`. The endpoint
+    is `0.999803` of the WP10c7i tangent projection and improves on WP10c7h
+    by `29.21x`. Exact source restriction is `1.73e-16`, physical ledgers
+    remain below `2.02e-4`, no snapshot activates admissibility limiting,
+    and every checkpoint/sidecar reloads bitwise. Only matched adaptive-BDF2
+    confirmation is authorized before any duration extension.
+77. WP10c7k advances the same fresh N32/N64 states with the unchanged
+    adaptive-BDF2 controller. Both meshes take 13 accepted steps, 12 at
+    BDF2 order, with four independent audits and no retries. Adaptive
+    endpoints differ from fixed S64 in `Delta log(H/R)` by at most
+    `2.10e-5`; the raw N32/N64 endpoint difference is `1.52763e-3`, and
+    adding both adaptive-to-reference errors plus both S32/S64 reference
+    uncertainties gives `1.85230e-3 < 0.005`. Physical ledgers remain below
+    `7.60e-5`, all restarts and T/2 replays are bitwise, and Jacobian work is
+    `0.328125` of fixed S64 on each mesh. Exactly one matched no-tide
+    extension toward an absolute `~0.05 s` characteristic-crossing horizon
+    is authorized.
 
 ## Claims That Are Not Allowed Yet
 
@@ -719,12 +756,21 @@ N                    = 164
    prior `Delta log(H/R)` mismatch `0.134682 -> 0.044619`, but still misses
    `0.005` by `8.92x`; the `15-60 rg` mismatch is `0.021412`. The
    full-domain peak is now the first-cell boundary trace, while an interior
-   thermodynamic balance error persists near `19.22 rg`. Stop N128 and
-   longer evolution. Continue only to WP10c7i method-level conservative
-   perturbation/baseline balance work that preserves the datum's nonzero
-   physical tangent. Do not relax `0.005`, extend to a physical
-   loading/thermal time, or begin distributed tide, wind, stability, or a
-   hot/cycle search.
+   thermodynamic balance error persists near `19.22 rg`. WP10c7i resolves
+   the method-level blocker with quadratic admissible face traces,
+   measure-weighted storage, and source quadrature whose shear/height rates
+   follow the same reconstructed path. Its N32/N64 tangent projection is
+   `0.001528 < 0.0025`, with order `2.361` and reductions `23.87x/13.50x`;
+   no baseline-specific correction is needed. WP10c7j then completes the
+   fresh N32/N64 fixed-BDF2 trajectory: raw endpoint mismatch is
+   `0.00152769`, and the spatial result plus both temporal uncertainties is
+   `0.00181679 < 0.005` at its worst common time. WP10c7k then closes the
+   matched adaptive confirmation with a raw endpoint mismatch of
+   `0.00152763`, a stricter all-times conservative maximum of `0.00185230`,
+   bitwise replay, and `0.3281` of fixed-S64 Jacobian work. Continue only
+   to one matched no-tide extension toward `~0.05 s`. Do not extend to N128
+   or the stress/cooling/thermal clocks, or begin distributed tide, wind,
+   stability, or a hot/cycle search.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -736,7 +782,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_SPATIAL_RECONSTRUCTION_WP10C7G_H_RESULTS_2026-07-19.md`
+  `reports/current/CODEX_CAUSAL_SPATIAL_BALANCE_ADAPTIVE_WP10C7K_RESULTS_2026-07-19.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -811,6 +857,9 @@ N                    = 164
 - Localized spatial response WP10c7e: `reports/current/CODEX_CAUSAL_SPATIAL_RESPONSE_WP10C7E_RESULTS_2026-07-19.md`
 - N64 BDF2 contraction WP10c7f: `reports/current/CODEX_CAUSAL_N64_CONTRACTION_WP10C7F_RESULTS_2026-07-19.md`
 - Causal PLM reconstruction and bounded trajectory WP10c7g-h: `reports/current/CODEX_CAUSAL_SPATIAL_RECONSTRUCTION_WP10C7G_H_RESULTS_2026-07-19.md`
+- Causal spatial balance WP10c7i: `reports/current/CODEX_CAUSAL_SPATIAL_BALANCE_WP10C7I_RESULTS_2026-07-19.md`
+- Causal spatial-balance trajectory WP10c7j: `reports/current/CODEX_CAUSAL_SPATIAL_BALANCE_TRAJECTORY_WP10C7J_RESULTS_2026-07-19.md`
+- Matched adaptive spatial balance WP10c7k: `reports/current/CODEX_CAUSAL_SPATIAL_BALANCE_ADAPTIVE_WP10C7K_RESULTS_2026-07-19.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
 - Horizon-penetrating Valencia core WP10b: `reports/current/CODEX_HORIZON_PENETRATING_VALENCIA_WP10B_RESULTS_2026-07-17.md`
 - Valencia gas+radiation primitive recovery WP10c1: `reports/current/CODEX_VALENCIA_GAS_RADIATION_PRIMITIVE_RECOVERY_WP10C1_RESULTS_2026-07-17.md`

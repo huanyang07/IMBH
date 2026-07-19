@@ -221,3 +221,74 @@ def test_adaptive_bdf2_campaign_lands_exactly_and_updates_history() -> None:
     assert result.restart.accepted_bdf2_steps > 0
     assert result.restart.audit_count > 0
     assert result.steps
+
+
+def test_adaptive_bdf2_accepts_wp10c7i_spatial_operator() -> None:
+    context = make_causal_five_field_regression_context(
+        4,
+        spatial_reconstruction="quadratic_admissible",
+        boundary_trace_reconstruction="plm_one_sided",
+        cell_rate_scheme="arithmetic_face",
+        cell_source_quadrature="gauss_legendre_4_local_rates",
+        cell_storage_quadrature="gauss_legendre_4",
+    )
+    initial = pack_causal_five_field_state(
+        make_causal_five_field_seed(context)
+    )
+    timestep = 1.0e-8
+    startup = advance_causal_five_field_increment_bdf(
+        context,
+        initial,
+        timestep,
+        np.zeros_like(initial),
+        _step_config(),
+        order=1,
+    )
+    assert startup.accepted
+    assert startup.history is not None
+    ledger = causal_five_field_bdf_zero_physical_ledger()
+    restart = CausalFiveFieldAdaptiveBDF2Restart(
+        state_vector=startup.state_vector,
+        history=startup.history,
+        older_physical_increment=np.zeros_like(initial),
+        older_timestep_seconds=timestep,
+        cumulative_actual_conserved_storage=(
+            ledger.actual_conserved_storage
+        ),
+        cumulative_actual_vertical_storage=(
+            ledger.actual_vertical_storage
+        ),
+        cumulative_boundary_transport=(
+            ledger.trapezoidal_boundary_transport
+        ),
+        cumulative_endogenous_source=(
+            ledger.trapezoidal_endogenous_source
+        ),
+        cumulative_stream_source=(
+            ledger.exact_prescribed_stream_source
+        ),
+        cumulative_closure_defect=ledger.closure_defect,
+        elapsed_time=timestep,
+        dt_next=timestep,
+        next_order=2,
+        accepted_steps=1,
+        accepted_bdf2_steps=0,
+        rejected_attempts=0,
+        audit_count=0,
+        provenance={
+            "work_package": "test",
+            "case": "wp10c7i_adaptive",
+        },
+    )
+
+    result = evolve_causal_five_field_adaptive_bdf2_campaign(
+        context,
+        restart,
+        3.0 * timestep,
+        _controller_config(context),
+    )
+
+    assert result.passed
+    assert result.restart.elapsed_time == 3.0 * timestep
+    assert result.restart.accepted_bdf2_steps > 0
+    assert result.restart.audit_count > 0

@@ -54,7 +54,29 @@ CAUSAL_FIVE_FIELD_SPATIAL_RECONSTRUCTIONS = (
     "piecewise_constant",
     "plm_unlimited",
     "plm_smooth",
+    "quadratic_admissible",
 )
+CAUSAL_FIVE_FIELD_BOUNDARY_TRACES = (
+    "cell_centered",
+    "plm_one_sided",
+)
+CAUSAL_FIVE_FIELD_CELL_RATE_SCHEMES = (
+    "arithmetic_face",
+    "quadratic_log_radius",
+)
+CAUSAL_FIVE_FIELD_SOURCE_QUADRATURES = (
+    "midpoint",
+    "gauss_legendre_4",
+    "gauss_legendre_4_local_rates",
+)
+CAUSAL_FIVE_FIELD_STORAGE_QUADRATURES = (
+    "midpoint",
+    "gauss_legendre_4",
+)
+_GAUSS_LEGENDRE_4_NODES, _GAUSS_LEGENDRE_4_WEIGHTS = (
+    np.polynomial.legendre.leggauss(4)
+)
+_LOCAL_RECONSTRUCTED_RATE_DIRECTIONAL_STEP = 2.0e-5
 
 
 @dataclass(frozen=True)
@@ -70,6 +92,10 @@ class CausalFiveFieldDAEContext:
     kappa: float = DEFAULT_KAPPA_ES
     include_radiative_cooling: bool = True
     spatial_reconstruction: str = "piecewise_constant"
+    boundary_trace_reconstruction: str = "cell_centered"
+    cell_rate_scheme: str = "arithmetic_face"
+    cell_source_quadrature: str = "midpoint"
+    cell_storage_quadrature: str = "midpoint"
 
     def validated(self) -> CausalFiveFieldDAEContext:
         n_cells = int(np.asarray(self.grid.centers).size)
@@ -108,6 +134,35 @@ class CausalFiveFieldDAEContext:
         ):
             raise ValueError(
                 "unsupported causal five-field spatial reconstruction"
+            )
+        if (
+            self.boundary_trace_reconstruction
+            not in CAUSAL_FIVE_FIELD_BOUNDARY_TRACES
+        ):
+            raise ValueError("unsupported causal five-field boundary trace")
+        if self.cell_rate_scheme not in CAUSAL_FIVE_FIELD_CELL_RATE_SCHEMES:
+            raise ValueError("unsupported causal five-field cell-rate scheme")
+        if (
+            self.cell_source_quadrature
+            not in CAUSAL_FIVE_FIELD_SOURCE_QUADRATURES
+        ):
+            raise ValueError(
+                "unsupported causal five-field source quadrature"
+            )
+        if (
+            self.cell_storage_quadrature
+            not in CAUSAL_FIVE_FIELD_STORAGE_QUADRATURES
+        ):
+            raise ValueError(
+                "unsupported causal five-field storage quadrature"
+            )
+        if (
+            self.spatial_reconstruction == "quadratic_admissible"
+            or self.boundary_trace_reconstruction == "plm_one_sided"
+            or self.cell_rate_scheme == "quadratic_log_radius"
+        ) and n_cells < 3:
+            raise ValueError(
+                "second-order causal spatial stencils require three cells"
             )
         return self
 
@@ -396,6 +451,10 @@ def causal_five_field_dae_jacobian_sparsity(
     n_cells: int,
     *,
     spatial_reconstruction: str = "piecewise_constant",
+    boundary_trace_reconstruction: str = "cell_centered",
+    cell_rate_scheme: str = "arithmetic_face",
+    cell_source_quadrature: str = "midpoint",
+    cell_storage_quadrature: str = "midpoint",
 ) -> csr_matrix:
     """Return the declared block-local full-DAE Jacobian pattern.
 
@@ -417,6 +476,34 @@ def causal_five_field_dae_jacobian_sparsity(
         raise ValueError(
             "unsupported causal five-field spatial reconstruction"
         )
+    if boundary_trace_reconstruction not in CAUSAL_FIVE_FIELD_BOUNDARY_TRACES:
+        raise ValueError("unsupported causal five-field boundary trace")
+    if cell_rate_scheme not in CAUSAL_FIVE_FIELD_CELL_RATE_SCHEMES:
+        raise ValueError("unsupported causal five-field cell-rate scheme")
+    if cell_source_quadrature not in CAUSAL_FIVE_FIELD_SOURCE_QUADRATURES:
+        raise ValueError("unsupported causal five-field source quadrature")
+    if cell_storage_quadrature not in CAUSAL_FIVE_FIELD_STORAGE_QUADRATURES:
+        raise ValueError("unsupported causal five-field storage quadrature")
+    if (
+        spatial_reconstruction == "quadratic_admissible"
+        or boundary_trace_reconstruction == "plm_one_sided"
+        or cell_rate_scheme == "quadratic_log_radius"
+    ) and n_cells < 3:
+        raise ValueError(
+            "second-order causal spatial stencils require three cells"
+        )
+    widened_boundary_sources = bool(
+        cell_rate_scheme == "quadratic_log_radius"
+        or (
+            cell_source_quadrature != "midpoint"
+            and boundary_trace_reconstruction == "plm_one_sided"
+        )
+    )
+    boundary_stencil = (
+        4
+        if spatial_reconstruction == "quadratic_admissible"
+        else 3
+    )
     conserved_start = 0
     primitive_start = count.conserved_unknowns
     face_start = primitive_start + count.primitive_unknowns
@@ -439,6 +526,13 @@ def causal_five_field_dae_jacobian_sparsity(
             max(0, cell - 1),
             min(n_cells, cell + 2),
         )
+        if widened_boundary_sources and cell == 0:
+            neighbors = range(0, min(n_cells, boundary_stencil))
+        elif widened_boundary_sources and cell == n_cells - 1:
+            neighbors = range(
+                max(0, n_cells - boundary_stencil),
+                n_cells,
+            )
         for component in range(_N_FIELDS):
             conservation_row = (
                 conservation_start + _N_FIELDS * cell + component
@@ -469,11 +563,38 @@ def causal_five_field_dae_jacobian_sparsity(
                 primitive_map_row,
                 conserved_start + _N_FIELDS * cell + component,
             ] = 1
-            primitive_slice = slice(
-                primitive_start + _N_FIELDS * cell,
-                primitive_start + _N_FIELDS * (cell + 1),
-            )
-            pattern[primitive_map_row, primitive_slice] = 1
+            if (
+                cell_storage_quadrature == "gauss_legendre_4"
+                and spatial_reconstruction != "piecewise_constant"
+            ):
+                map_cells = range(
+                    max(0, cell - 1),
+                    min(n_cells, cell + 2),
+                )
+                if (
+                    boundary_trace_reconstruction == "plm_one_sided"
+                    and cell == 0
+                ):
+                    map_cells = range(
+                        0,
+                        min(n_cells, boundary_stencil),
+                    )
+                elif (
+                    boundary_trace_reconstruction == "plm_one_sided"
+                    and cell == n_cells - 1
+                ):
+                    map_cells = range(
+                        max(0, n_cells - boundary_stencil),
+                        n_cells,
+                    )
+            else:
+                map_cells = (cell,)
+            for map_cell in map_cells:
+                primitive_slice = slice(
+                    primitive_start + _N_FIELDS * map_cell,
+                    primitive_start + _N_FIELDS * (map_cell + 1),
+                )
+                pattern[primitive_map_row, primitive_slice] = 1
 
     for face in range(1, n_cells):
         if spatial_reconstruction == "piecewise_constant":
@@ -483,6 +604,21 @@ def causal_five_field_dae_jacobian_sparsity(
                 max(0, face - 2),
                 min(n_cells, face + 2),
             )
+            if (
+                spatial_reconstruction == "quadratic_admissible"
+                and boundary_trace_reconstruction == "plm_one_sided"
+                and face == 1
+            ):
+                face_cells = range(0, min(n_cells, boundary_stencil))
+            elif (
+                spatial_reconstruction == "quadratic_admissible"
+                and boundary_trace_reconstruction == "plm_one_sided"
+                and face == n_cells - 1
+            ):
+                face_cells = range(
+                    max(0, n_cells - boundary_stencil),
+                    n_cells,
+                )
         for component in range(_N_FIELDS):
             row = (
                 interior_flux_start
@@ -503,9 +639,21 @@ def causal_five_field_dae_jacobian_sparsity(
     for component in range(_N_FIELDS):
         inner_row = inner_flux_start + component
         outer_row = outer_flux_start + component
+        inner_primitive_stop = (
+            min(n_cells, boundary_stencil)
+            if boundary_trace_reconstruction == "plm_one_sided"
+            else 1
+        )
+        outer_primitive_start = (
+            max(0, n_cells - boundary_stencil)
+            if boundary_trace_reconstruction == "plm_one_sided"
+            else n_cells - 1
+        )
         pattern[
             inner_row,
-            primitive_start : primitive_start + _N_FIELDS,
+            primitive_start : (
+                primitive_start + _N_FIELDS * inner_primitive_stop
+            ),
         ] = 1
         pattern[
             inner_row,
@@ -514,7 +662,7 @@ def causal_five_field_dae_jacobian_sparsity(
         pattern[
             outer_row,
             primitive_start
-            + _N_FIELDS * (n_cells - 1) : primitive_start
+            + _N_FIELDS * outer_primitive_start : primitive_start
             + _N_FIELDS * n_cells,
         ] = 1
         pattern[
@@ -848,24 +996,44 @@ def _coupled_admissibility_factor(
     """Scale one complete chart slope until both interior faces are valid."""
 
     n_cells = int(log_centers.size)
-    face_indices = tuple(
-        face
-        for face in (cell, cell + 1)
-        if 0 < face < n_cells
-    )
+    if context.boundary_trace_reconstruction == "plm_one_sided":
+        face_indices = tuple(
+            face
+            for face in (cell, cell + 1)
+            if 0 <= face <= n_cells
+        )
+    else:
+        face_indices = tuple(
+            face
+            for face in (cell, cell + 1)
+            if 0 < face < n_cells
+        )
     if not face_indices or np.all(slope == 0.0):
         return 1.0
 
+    def face_is_admissible(face: int, factor: float) -> bool:
+        trial = (
+            chart
+            + factor
+            * slope
+            * (log_edges[face] - log_centers[cell])
+        )
+        if not _reconstructed_chart_is_admissible(
+            context,
+            float(context.grid.edges[face]),
+            trial,
+        ):
+            return False
+        if face == n_cells:
+            try:
+                _outer_face_flux(context, trial)
+            except ValueError:
+                return False
+        return True
+
     def admissible(factor: float) -> bool:
         return all(
-            _reconstructed_chart_is_admissible(
-                context,
-                float(context.grid.edges[face]),
-                chart
-                + factor
-                * slope
-                * (log_edges[face] - log_centers[cell]),
-            )
+            face_is_admissible(face, factor)
             for face in face_indices
         )
 
@@ -884,17 +1052,185 @@ def _coupled_admissibility_factor(
     return float(lower)
 
 
+def _coupled_face_admissibility_factor(
+    context: CausalFiveFieldDAEContext,
+    chart: np.ndarray,
+    face_candidates: tuple[tuple[int, np.ndarray], ...],
+) -> float:
+    """Scale complete reconstructed face charts toward one cell state."""
+
+    n_cells = int(context.grid.centers.size)
+    if not face_candidates:
+        return 1.0
+
+    def face_is_admissible(
+        face: int,
+        candidate: np.ndarray,
+        factor: float,
+    ) -> bool:
+        trial = chart + factor * (candidate - chart)
+        if not _reconstructed_chart_is_admissible(
+            context,
+            float(context.grid.edges[face]),
+            trial,
+        ):
+            return False
+        if face == n_cells:
+            try:
+                _outer_face_flux(context, trial)
+            except ValueError:
+                return False
+        return True
+
+    def admissible(factor: float) -> bool:
+        return all(
+            face_is_admissible(face, candidate, factor)
+            for face, candidate in face_candidates
+        )
+
+    if admissible(1.0):
+        return 1.0
+    if not admissible(0.0):
+        raise ValueError("cell-centered causal primitive is inadmissible")
+    lower = 0.0
+    upper = 1.0
+    for _iteration in range(52):
+        middle = 0.5 * (lower + upper)
+        if admissible(middle):
+            lower = middle
+        else:
+            upper = middle
+    return float(lower)
+
+
+def _three_point_interpolate(
+    coordinates: np.ndarray,
+    values: np.ndarray,
+    evaluation_coordinate: float,
+) -> np.ndarray:
+    """Evaluate the quadratic through three nonuniform samples."""
+
+    points = np.asarray(coordinates, dtype=float)
+    samples = np.asarray(values, dtype=float)
+    location = float(evaluation_coordinate)
+    if (
+        points.shape != (3,)
+        or samples.shape[0] != 3
+        or np.any(~np.isfinite(points))
+        or np.any(~np.isfinite(samples))
+        or not np.isfinite(location)
+        or np.unique(points).size != 3
+    ):
+        raise ValueError("three-point interpolation inputs are invalid")
+    if np.array_equal(samples[0], samples[1]) and np.array_equal(
+        samples[1],
+        samples[2],
+    ):
+        return np.array(samples[0], copy=True)
+    offsets = points - location
+    moment_matrix = np.vstack(
+        (
+            np.ones(3, dtype=float),
+            offsets,
+            offsets**2,
+        )
+    )
+    weights = np.linalg.solve(
+        moment_matrix,
+        np.asarray([1.0, 0.0, 0.0], dtype=float),
+    )
+    return np.asarray(
+        np.tensordot(weights, samples, axes=(0, 0)),
+        dtype=float,
+    )
+
+
+def _four_point_interpolate(
+    coordinates: np.ndarray,
+    values: np.ndarray,
+    evaluation_coordinate: float,
+) -> np.ndarray:
+    """Evaluate the cubic through four nonuniform samples."""
+
+    points = np.asarray(coordinates, dtype=float)
+    samples = np.asarray(values, dtype=float)
+    location = float(evaluation_coordinate)
+    if (
+        points.shape != (4,)
+        or samples.shape[0] != 4
+        or np.any(~np.isfinite(points))
+        or np.any(~np.isfinite(samples))
+        or not np.isfinite(location)
+        or np.unique(points).size != 4
+    ):
+        raise ValueError("four-point interpolation inputs are invalid")
+    if all(
+        np.array_equal(samples[0], samples[index])
+        for index in range(1, 4)
+    ):
+        return np.array(samples[0], copy=True)
+    offsets = points - location
+    moment_matrix = np.vstack(
+        tuple(offsets**power for power in range(4))
+    )
+    weights = np.linalg.solve(
+        moment_matrix,
+        np.asarray([1.0, 0.0, 0.0, 0.0], dtype=float),
+    )
+    return np.asarray(
+        np.tensordot(weights, samples, axes=(0, 0)),
+        dtype=float,
+    )
+
+
+def _three_point_first_derivative(
+    coordinates: np.ndarray,
+    values: np.ndarray,
+    evaluation_coordinate: float,
+) -> np.ndarray:
+    """Differentiate the quadratic through three nonuniform samples."""
+
+    points = np.asarray(coordinates, dtype=float)
+    samples = np.asarray(values, dtype=float)
+    location = float(evaluation_coordinate)
+    if (
+        points.shape != (3,)
+        or samples.shape[0] != 3
+        or np.any(~np.isfinite(points))
+        or np.any(~np.isfinite(samples))
+        or not np.isfinite(location)
+        or np.unique(points).size != 3
+    ):
+        raise ValueError("three-point derivative inputs are invalid")
+    offsets = points - location
+    moment_matrix = np.vstack(
+        (
+            np.ones(3, dtype=float),
+            offsets,
+            offsets**2,
+        )
+    )
+    weights = np.linalg.solve(
+        moment_matrix,
+        np.asarray([0.0, 1.0, 0.0], dtype=float),
+    )
+    return np.asarray(
+        np.tensordot(weights, samples, axes=(0, 0)),
+        dtype=float,
+    )
+
+
 def causal_five_field_reconstruct_face_charts(
     context: CausalFiveFieldDAEContext,
     primitive_charts: np.ndarray,
 ) -> CausalFiveFieldFaceReconstruction:
     """Reconstruct both primitive charts at every radial face.
 
-    The outermost physical faces retain the existing one-sided
-    piecewise-constant maps. Interior PLM slopes use the spacing-aware
-    quadratic derivative in ``ln(R)``. The smooth production mode applies
-    one differentiable component limiter followed by one coupled
-    admissibility factor per cell.
+    Interior PLM slopes use the spacing-aware quadratic derivative in
+    ``ln(R)``. The smooth production mode applies one differentiable
+    component limiter followed by one coupled admissibility factor per cell.
+    The optional one-sided boundary mode uses quadratic endpoint slopes while
+    preserving the existing physical characteristic maps.
     """
 
     context = context.validated()
@@ -947,6 +1283,8 @@ def causal_five_field_reconstruct_face_charts(
         ) / (left_spacing + right_spacing)[:, None]
         if mode == "plm_unlimited":
             limited[1:-1] = unlimited[1:-1]
+        elif mode == "quadratic_admissible":
+            limited[1:-1] = unlimited[1:-1]
         else:
             limited[1:-1] = _smooth_van_albada_slope(
                 left_derivative,
@@ -962,6 +1300,128 @@ def causal_five_field_reconstruct_face_charts(
                     log_edges,
                 )
             limited *= admissibility[:, None]
+        if context.boundary_trace_reconstruction == "plm_one_sided":
+            unlimited[0] = _three_point_first_derivative(
+                log_centers[:3],
+                charts[:3],
+                float(log_centers[0]),
+            )
+            unlimited[-1] = _three_point_first_derivative(
+                log_centers[-3:],
+                charts[-3:],
+                float(log_centers[-1]),
+            )
+            limited[0] = unlimited[0]
+            limited[-1] = unlimited[-1]
+            if mode == "plm_smooth":
+                for cell in (0, n_cells - 1):
+                    admissibility[cell] = _coupled_admissibility_factor(
+                        context,
+                        cell,
+                        charts[cell],
+                        limited[cell],
+                        log_centers,
+                        log_edges,
+                    )
+                limited[[0, -1]] *= admissibility[[0, -1], None]
+
+    if mode == "quadratic_admissible" and n_cells >= 3:
+        for cell in range(n_cells):
+            stencil_start = min(
+                max(cell - 1, 0),
+                n_cells - 3,
+            )
+            stencil = slice(stencil_start, stencil_start + 3)
+            left_face = cell
+            right_face = cell + 1
+            left_candidate = _three_point_interpolate(
+                log_centers[stencil],
+                charts[stencil],
+                float(log_edges[left_face]),
+            )
+            right_candidate = _three_point_interpolate(
+                log_centers[stencil],
+                charts[stencil],
+                float(log_edges[right_face]),
+            )
+            if (
+                context.boundary_trace_reconstruction
+                == "plm_one_sided"
+                and n_cells >= 4
+                and cell == 0
+            ):
+                left_candidate = _four_point_interpolate(
+                    log_centers[:4],
+                    charts[:4],
+                    float(log_edges[0]),
+                )
+            if (
+                context.boundary_trace_reconstruction
+                == "plm_one_sided"
+                and n_cells >= 4
+                and cell == n_cells - 1
+            ):
+                right_candidate = _four_point_interpolate(
+                    log_centers[-4:],
+                    charts[-4:],
+                    float(log_edges[-1]),
+                )
+            candidates = []
+            if left_face > 0 or (
+                context.boundary_trace_reconstruction
+                == "plm_one_sided"
+            ):
+                candidates.append((left_face, left_candidate))
+            if right_face < n_cells or (
+                context.boundary_trace_reconstruction
+                == "plm_one_sided"
+            ):
+                candidates.append((right_face, right_candidate))
+            factor = _coupled_face_admissibility_factor(
+                context,
+                charts[cell],
+                tuple(candidates),
+            )
+            admissibility[cell] = factor
+            limited[cell] *= factor
+            if left_face > 0:
+                right_faces[left_face] = (
+                    charts[cell]
+                    + factor * (left_candidate - charts[cell])
+                )
+            elif (
+                context.boundary_trace_reconstruction
+                == "plm_one_sided"
+            ):
+                boundary_chart = (
+                    charts[cell]
+                    + factor * (left_candidate - charts[cell])
+                )
+                left_faces[0] = boundary_chart
+                right_faces[0] = boundary_chart
+            if right_face < n_cells:
+                left_faces[right_face] = (
+                    charts[cell]
+                    + factor * (right_candidate - charts[cell])
+                )
+            elif (
+                context.boundary_trace_reconstruction
+                == "plm_one_sided"
+            ):
+                boundary_chart = (
+                    charts[cell]
+                    + factor * (right_candidate - charts[cell])
+                )
+                left_faces[-1] = boundary_chart
+                right_faces[-1] = boundary_chart
+        return CausalFiveFieldFaceReconstruction(
+            mode=mode,
+            left_face_charts=left_faces,
+            right_face_charts=right_faces,
+            unlimited_slopes=unlimited,
+            limited_slopes=limited,
+            admissibility_factors=admissibility,
+        )
 
     for face in range(1, n_cells):
         left_cell = face - 1
@@ -976,6 +1436,22 @@ def causal_five_field_reconstruct_face_charts(
             + limited[right_cell]
             * (log_edges[face] - log_centers[right_cell])
         )
+    if (
+        mode != "piecewise_constant"
+        and context.boundary_trace_reconstruction == "plm_one_sided"
+    ):
+        inner_chart = (
+            charts[0]
+            + limited[0] * (log_edges[0] - log_centers[0])
+        )
+        outer_chart = (
+            charts[-1]
+            + limited[-1] * (log_edges[-1] - log_centers[-1])
+        )
+        left_faces[0] = inner_chart
+        right_faces[0] = inner_chart
+        left_faces[-1] = outer_chart
+        right_faces[-1] = outer_chart
     return CausalFiveFieldFaceReconstruction(
         mode=mode,
         left_face_charts=left_faces,
@@ -1114,6 +1590,51 @@ def _straight_path_cell_rates(
         ],
         dtype=float,
     )
+    log_height = np.log(
+        [
+            state.thermodynamics.proper_half_thickness
+            for state in cell_states
+        ]
+    )
+    if context.cell_rate_scheme == "quadratic_log_radius":
+        radii = np.asarray(context.grid.centers, dtype=float)
+        log_radii = np.log(radii)
+        lower_velocity_derivative = (
+            np.gradient(
+                lower_velocity,
+                log_radii,
+                axis=0,
+                edge_order=2,
+            )
+            / radii[:, None]
+        )
+        log_height_derivative = (
+            np.gradient(
+                log_height,
+                log_radii,
+                edge_order=2,
+            )
+            / radii
+        )
+        shear = np.empty(n_cells, dtype=float)
+        height_rate = np.empty(n_cells, dtype=float)
+        for index, state in enumerate(cell_states):
+            shear[index] = causal_rest_frame_shear_rate(
+                state.geometry,
+                state.primitive,
+                radial_lower_four_velocity_derivative=(
+                    lower_velocity_derivative[index]
+                ),
+            )
+            four_velocity = kerr_schild_column_four_velocity(
+                state.geometry,
+                state.primitive,
+            )
+            height_rate[index] = (
+                C * four_velocity[1] * log_height_derivative[index]
+            )
+        return shear, height_rate
+
     face_lower_velocity = np.empty((n_cells + 1, 3), dtype=float)
     face_lower_velocity[0] = lower_velocity[0]
     face_lower_velocity[-1] = lower_velocity[-1]
@@ -1122,12 +1643,6 @@ def _straight_path_cell_rates(
             lower_velocity[:-1] + lower_velocity[1:]
         )
 
-    log_height = np.log(
-        [
-            state.thermodynamics.proper_half_thickness
-            for state in cell_states
-        ]
-    )
     face_log_height = np.empty(n_cells + 1, dtype=float)
     face_log_height[0] = log_height[0]
     face_log_height[-1] = log_height[-1]
@@ -1162,13 +1677,281 @@ def _straight_path_cell_rates(
     return shear, height_rate
 
 
+def _local_cell_source_density(
+    context: CausalFiveFieldDAEContext,
+    state: CausalFiveFieldCellState,
+    *,
+    shear_rate: float,
+    height_rate: float,
+) -> tuple[np.ndarray, float, dict[str, np.ndarray]]:
+    """Return local five-field sources before radial integration."""
+
+    components = {
+        name: np.zeros(_N_FIELDS, dtype=float)
+        for name in (
+            "perfect_fluid_geometry",
+            "stress_geometry",
+            "radiative_cooling",
+            "vertical_work",
+            "stress_relaxation",
+        )
+    }
+    perfect = audit_kerr_schild_column_sources(
+        state.geometry,
+        state.primitive,
+    )
+    components["perfect_fluid_geometry"][1] = (
+        perfect.radial_momentum_source
+    )
+    components["stress_geometry"][1] = (
+        state.stress.radial_geometric_source_increment
+    )
+    total = np.zeros(_N_FIELDS, dtype=float)
+    total[1] = (
+        perfect.radial_momentum_source
+        + state.stress.radial_geometric_source_increment
+    )
+    if context.include_radiative_cooling:
+        thermal = causal_thermal_column_source(
+            state.geometry,
+            context.vertical_frequency.eos(state.geometry.radius),
+            surface_density=state.primitive.surface_density,
+            radial_velocity_over_c=state.primitive.radial_velocity_over_c,
+            azimuthal_velocity_over_c=(
+                state.primitive.azimuthal_velocity_over_c
+            ),
+            temperature=state.thermodynamics.temperature,
+            proper_log_height_rate=float(height_rate),
+            kappa=context.kappa,
+        )
+        total[:4] += thermal.total_killing_source_per_ct
+        components["radiative_cooling"][:4] = (
+            thermal.cooling_source.killing_source_per_ct
+        )
+        components["vertical_work"][:4] = (
+            thermal.vertical_work_source.killing_source_per_ct
+        )
+        optical_depth = thermal.scattering_optical_depth
+    else:
+        vertical_work = (
+            -state.thermodynamics.integrated_pressure * height_rate
+        )
+        vertical_source = causal_comoving_energy_source(
+            state.geometry,
+            state.primitive,
+            comoving_energy_rate=float(vertical_work),
+        )
+        total[:4] += vertical_source.killing_source_per_ct
+        components["vertical_work"][:4] = (
+            vertical_source.killing_source_per_ct
+        )
+        optical_depth = (
+            0.5
+            * context.kappa
+            * state.thermodynamics.surface_density
+        )
+    stress_relaxation = causal_stress_relaxation_source(
+        state.geometry,
+        state.stress,
+        state.closure,
+        positive_shear_rate=float(shear_rate),
+    )
+    total[4] = stress_relaxation
+    components["stress_relaxation"][4] = stress_relaxation
+    return total, float(optical_depth), components
+
+
+def _gauss_legendre_cell_nodes_and_measures(
+    context: CausalFiveFieldDAEContext,
+    cell: int,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Return four log-radius nodes with an exact constant-state measure."""
+
+    lower = float(np.log(context.grid.edges[cell]))
+    upper = float(np.log(context.grid.edges[cell + 1]))
+    midpoint = 0.5 * (lower + upper)
+    half_width = 0.5 * (upper - lower)
+    log_nodes = midpoint + half_width * _GAUSS_LEGENDRE_4_NODES
+    radii = np.exp(log_nodes)
+    raw_weights = np.asarray(
+        [
+            half_width
+            * weight
+            * radius
+            * kerr_schild_column_geometry(
+                float(radius),
+                context.grid.gravitational_radius,
+            ).face_measure
+            for radius, weight in zip(
+                radii,
+                _GAUSS_LEGENDRE_4_WEIGHTS,
+                strict=True,
+            )
+        ],
+        dtype=float,
+    )
+    exact_measure = float(context.grid.cell_measures[cell])
+    weights = raw_weights * exact_measure / float(np.sum(raw_weights))
+    return np.asarray(radii, dtype=float), weights
+
+
+def _local_reconstructed_rates(
+    context: CausalFiveFieldDAEContext,
+    radius: float,
+    chart: np.ndarray,
+    log_radius_slope: np.ndarray,
+) -> tuple[float, float]:
+    """Evaluate shear and height rates from the local reconstructed path."""
+
+    log_radius = float(np.log(radius))
+    directional_step = _LOCAL_RECONSTRUCTED_RATE_DIRECTIONAL_STEP
+
+    def path_state(offset: float) -> CausalFiveFieldCellState:
+        trial_log_radius = log_radius + offset
+        return _cell_state(
+            context,
+            float(np.exp(trial_log_radius)),
+            chart + offset * log_radius_slope,
+        )
+
+    center = path_state(0.0)
+    minus = path_state(-directional_step)
+    plus = path_state(directional_step)
+    radial_width = plus.geometry.radius - minus.geometry.radius
+    if not np.isfinite(radial_width) or radial_width <= 0.0:
+        raise ValueError("local reconstructed radial width is invalid")
+    lower_velocity_minus = (
+        minus.geometry.spacetime_metric
+        @ kerr_schild_column_four_velocity(
+            minus.geometry,
+            minus.primitive,
+        )
+    )
+    lower_velocity_plus = (
+        plus.geometry.spacetime_metric
+        @ kerr_schild_column_four_velocity(
+            plus.geometry,
+            plus.primitive,
+        )
+    )
+    lower_velocity_derivative = (
+        lower_velocity_plus - lower_velocity_minus
+    ) / radial_width
+    shear_rate = causal_rest_frame_shear_rate(
+        center.geometry,
+        center.primitive,
+        radial_lower_four_velocity_derivative=(
+            lower_velocity_derivative
+        ),
+    )
+    log_height_derivative = (
+        np.log(plus.thermodynamics.proper_half_thickness)
+        - np.log(minus.thermodynamics.proper_half_thickness)
+    ) / radial_width
+    four_velocity = kerr_schild_column_four_velocity(
+        center.geometry,
+        center.primitive,
+    )
+    height_rate = C * four_velocity[1] * log_height_derivative
+    return float(shear_rate), float(height_rate)
+
+
+def _integrated_cell_sources_gauss_legendre(
+    context: CausalFiveFieldDAEContext,
+    primitive_charts: np.ndarray,
+    shear_rates: np.ndarray,
+    height_rates: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray, dict[str, np.ndarray]]:
+    """Integrate endogenous sources with reconstructed four-point quadrature."""
+
+    charts = np.asarray(primitive_charts, dtype=float)
+    n_cells = int(context.grid.centers.size)
+    reconstruction = causal_five_field_reconstruct_face_charts(
+        context,
+        charts,
+    )
+    log_centers = np.log(np.asarray(context.grid.centers, dtype=float))
+    sources = np.zeros((n_cells, _N_FIELDS), dtype=float)
+    components = {
+        name: np.zeros((n_cells, _N_FIELDS), dtype=float)
+        for name in (
+            "perfect_fluid_geometry",
+            "stress_geometry",
+            "radiative_cooling",
+            "vertical_work",
+            "stress_relaxation",
+            "stream",
+        )
+    }
+    optical_depths = np.zeros(n_cells, dtype=float)
+    for index in range(n_cells):
+        radii, weights = _gauss_legendre_cell_nodes_and_measures(
+            context,
+            index,
+        )
+        for radius, weight in zip(radii, weights, strict=True):
+            chart = (
+                charts[index]
+                + reconstruction.limited_slopes[index]
+                * (np.log(radius) - log_centers[index])
+            )
+            state = _cell_state(context, float(radius), chart)
+            local_shear_rate = float(shear_rates[index])
+            local_height_rate = float(height_rates[index])
+            if (
+                context.cell_source_quadrature
+                == "gauss_legendre_4_local_rates"
+            ):
+                local_shear_rate, local_height_rate = (
+                    _local_reconstructed_rates(
+                        context,
+                        float(radius),
+                        chart,
+                        reconstruction.limited_slopes[index],
+                    )
+                )
+            local, optical_depth, local_components = (
+                _local_cell_source_density(
+                    context,
+                    state,
+                    shear_rate=local_shear_rate,
+                    height_rate=local_height_rate,
+                )
+            )
+            sources[index] += weight * local
+            optical_depths[index] += weight * optical_depth
+            for name, values in local_components.items():
+                components[name][index] += weight * values
+        optical_depths[index] /= float(context.grid.cell_measures[index])
+    if context.stream_sources is not None:
+        stream = np.asarray(
+            context.stream_sources.weighted_killing_source_per_ct,
+            dtype=float,
+        )
+        sources[:, :4] += stream
+        components["stream"][:, :4] = stream
+    return sources, optical_depths, components
+
+
 def _integrated_cell_sources(
     context: CausalFiveFieldDAEContext,
     cell_states: list[CausalFiveFieldCellState],
     shear_rates: np.ndarray,
     height_rates: np.ndarray,
+    primitive_charts: np.ndarray,
 ) -> tuple[np.ndarray, np.ndarray, dict[str, np.ndarray]]:
     """Return cell-integrated five-field sources per coordinate ``ct``."""
+
+    if context.cell_source_quadrature in (
+        "gauss_legendre_4",
+        "gauss_legendre_4_local_rates",
+    ):
+        return _integrated_cell_sources_gauss_legendre(
+            context,
+            primitive_charts,
+            shear_rates,
+            height_rates,
+        )
 
     n_cells = len(cell_states)
     sources = np.zeros((n_cells, _N_FIELDS), dtype=float)
@@ -1296,19 +2079,44 @@ def _mapped_state_and_fluxes(
             strict=True,
         )
     ]
-    mapped = np.asarray(
-        [state.conserved for state in cell_states],
-        dtype=float,
-    )
     n_cells = len(cell_states)
-    faces = np.empty((n_cells + 1, _N_FIELDS), dtype=float)
-    central_faces = np.empty_like(faces)
-    dissipative_faces = np.zeros_like(faces)
     reconstruction = causal_five_field_reconstruct_face_charts(
         context,
         primitive_charts,
     )
-    faces[0] = _inner_face_flux(context, primitive_charts[0])
+    if context.cell_storage_quadrature == "midpoint":
+        mapped = np.asarray(
+            [state.conserved for state in cell_states],
+            dtype=float,
+        )
+    else:
+        log_centers = np.log(
+            np.asarray(context.grid.centers, dtype=float)
+        )
+        mapped = np.zeros((n_cells, _N_FIELDS), dtype=float)
+        for index in range(n_cells):
+            radii, weights = _gauss_legendre_cell_nodes_and_measures(
+                context,
+                index,
+            )
+            for radius, weight in zip(radii, weights, strict=True):
+                chart = (
+                    primitive_charts[index]
+                    + reconstruction.limited_slopes[index]
+                    * (np.log(radius) - log_centers[index])
+                )
+                mapped[index] += (
+                    weight
+                    * _cell_state(context, float(radius), chart).conserved
+                )
+            mapped[index] /= float(context.grid.cell_measures[index])
+    faces = np.empty((n_cells + 1, _N_FIELDS), dtype=float)
+    central_faces = np.empty_like(faces)
+    dissipative_faces = np.zeros_like(faces)
+    faces[0] = _inner_face_flux(
+        context,
+        reconstruction.right_face_charts[0],
+    )
     central_faces[0] = faces[0]
     for face in range(1, n_cells):
         central_faces[face], dissipative_faces[face] = (
@@ -1324,7 +2132,7 @@ def _mapped_state_and_fluxes(
         )
     faces[-1], choked, incoming = _outer_face_flux(
         context,
-        primitive_charts[-1],
+        reconstruction.left_face_charts[-1],
     )
     central_faces[-1] = faces[-1]
     return (
@@ -1378,6 +2186,7 @@ def evaluate_causal_five_field_dae(
         cell_states,
         shear_rates,
         height_rates,
+        state.primitives,
     )
 
     conservation = (
@@ -1417,21 +2226,27 @@ def evaluate_causal_five_field_dae(
                     storage.killing_storage_increment
                 )
         else:
-            old_mapped = np.asarray(
-                [
-                    _cell_state(
-                        context,
-                        float(radius),
-                        chart,
-                    ).conserved
-                    for radius, chart in zip(
-                        context.grid.centers,
-                        old.primitives,
-                        strict=True,
-                    )
-                ],
-                dtype=float,
-            )
+            if context.cell_storage_quadrature == "midpoint":
+                old_mapped = np.asarray(
+                    [
+                        _cell_state(
+                            context,
+                            float(radius),
+                            chart,
+                        ).conserved
+                        for radius, chart in zip(
+                            context.grid.centers,
+                            old.primitives,
+                            strict=True,
+                        )
+                    ],
+                    dtype=float,
+                )
+            else:
+                old_mapped = _mapped_state_and_fluxes(
+                    context,
+                    old.primitives,
+                )[1]
             old_scale = np.maximum(np.abs(old_mapped), 1.0)
             new_scale = np.maximum(np.abs(mapped), 1.0)
             if (
@@ -1452,7 +2267,11 @@ def evaluate_causal_five_field_dae(
                 old.primitives,
                 state.primitives,
             )
-            conserved_increment = path.conserved_increment
+            conserved_increment = (
+                path.conserved_increment
+                if context.cell_storage_quadrature == "midpoint"
+                else state.conserved - old.conserved
+            )
             vertical_increment = path.vertical_killing_increment
         temporal_conserved_storage = (
             context.grid.cell_measures[:, None]

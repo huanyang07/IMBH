@@ -5,8 +5,10 @@ import pytest
 
 from imri_qpe.layer3_minidisk_1d import (
     causal_coincident_fine_faces,
+    causal_five_field_constraint_manifold_jvp,
     causal_five_field_consistent_tangent_decomposition,
     causal_five_field_residual_terms,
+    causal_five_field_state_from_primitives,
     causal_five_field_term_reconstruction_defect,
     causal_nested_refinement_ratio,
     causal_restrict_cell_averages,
@@ -14,6 +16,7 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_spatial_contraction_order,
     causal_spatial_difference_metrics,
     evaluate_causal_five_field_dae,
+    causal_five_field_regression_seed_parameters,
     make_causal_five_field_regression_context,
     make_causal_five_field_seed,
     pack_causal_five_field_state,
@@ -177,3 +180,42 @@ def test_consistent_tangent_decomposition_closes_component_sum() -> None:
         rtol=1.0e-8,
         atol=1.0e-12,
     )
+
+
+def test_constraint_manifold_jvp_reconstructs_term_derivative() -> None:
+    context = make_causal_five_field_regression_context(
+        4,
+        spatial_reconstruction="plm_smooth",
+        boundary_trace_reconstruction="plm_one_sided",
+        cell_rate_scheme="quadratic_log_radius",
+        cell_source_quadrature="gauss_legendre_4",
+        cell_storage_quadrature="gauss_legendre_4",
+    )
+    vector = pack_causal_five_field_state(
+        make_causal_five_field_seed(context)
+    )
+    radius = context.grid.centers / context.grid.gravitational_radius
+    direction = np.zeros((4, 5), dtype=float)
+    direction[:, 3] = np.exp(
+        -0.5 * (np.log(radius / 20.0) / 0.35) ** 2
+    )
+    audit = causal_five_field_constraint_manifold_jvp(
+        context,
+        vector,
+        direction,
+    )
+
+    assert audit["maximum_reconstruction_relative_defect"] < 1.0e-7
+    assert set(audit["term_jvps"]) == {
+        "temporal_conserved_storage",
+        "temporal_vertical_storage",
+        "central_face_transport",
+        "rusanov_face_transport",
+        "flux_primary_closure",
+        "perfect_fluid_geometry",
+        "stress_geometry",
+        "radiative_cooling",
+        "vertical_work",
+        "stress_relaxation",
+        "stream",
+    }
