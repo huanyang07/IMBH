@@ -7,6 +7,10 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_coincident_fine_faces,
     causal_five_field_constraint_manifold_jvp,
     causal_five_field_consistent_tangent_decomposition,
+    causal_five_field_dae_scaling,
+    causal_five_field_reduced_backward_euler_residual,
+    causal_five_field_reduced_descriptor_matrices,
+    causal_five_field_reduced_stationary_residual,
     causal_five_field_residual_terms,
     causal_five_field_state_from_primitives,
     causal_five_field_term_reconstruction_defect,
@@ -219,6 +223,79 @@ def test_sparse_consistent_tangent_matches_dense_solver() -> None:
             rtol=1.0e-6,
             atol=1.0e-10,
         )
+
+
+def test_reduced_descriptor_matches_direct_primitive_differences() -> None:
+    context = make_causal_five_field_regression_context(2)
+    state = make_causal_five_field_seed(context)
+    vector = pack_causal_five_field_state(state)
+    evaluation = evaluate_causal_five_field_dae(vector, context)
+    scaling = causal_five_field_dae_scaling(state, evaluation)
+    reduced = causal_five_field_reduced_descriptor_matrices(
+        context,
+        vector,
+    )
+    n_reduced = 10
+    step = 2.0e-6
+    primitive_scale = scaling.column_scales[
+        n_reduced : 2 * n_reduced
+    ]
+    row_scale = scaling.row_scales[:n_reduced]
+    base = state.primitives.ravel()
+    direct_stationary = np.empty((n_reduced, n_reduced))
+    direct_be = np.empty((n_reduced, n_reduced))
+    for index in range(n_reduced):
+        plus = np.array(base, copy=True)
+        minus = np.array(base, copy=True)
+        plus[index] += step * primitive_scale[index]
+        minus[index] -= step * primitive_scale[index]
+        direct_stationary[:, index] = (
+            causal_five_field_reduced_stationary_residual(
+                plus,
+                context,
+            )
+            - causal_five_field_reduced_stationary_residual(
+                minus,
+                context,
+            )
+        ) / (2.0 * step * row_scale)
+        direct_be[:, index] = (
+            causal_five_field_reduced_backward_euler_residual(
+                plus,
+                context,
+                old_vector=vector,
+                timestep_seconds=1.0,
+            )
+            - causal_five_field_reduced_backward_euler_residual(
+                minus,
+                context,
+                old_vector=vector,
+                timestep_seconds=1.0,
+            )
+        ) / (2.0 * step * row_scale)
+
+    assert reduced["dimensions"] == (n_reduced, n_reduced)
+    assert reduced["algebraic_solve_relative_defect"] < 1.0e-10
+    assert (
+        reduced["maximum_scaled_algebraic_reconstruction_defect"]
+        < 1.0e-10
+    )
+    assert reduced["maximum_scaled_descriptor_algebraic_row"] < 1.0e-9
+    assert np.allclose(
+        reduced["stationary_reduced_scaled_jacobian"],
+        direct_stationary,
+        rtol=3.0e-6,
+        atol=3.0e-8,
+    )
+    assert np.allclose(
+        reduced["descriptor_reduced_scaled_matrix"],
+        direct_be - direct_stationary,
+        rtol=3.0e-6,
+        atol=3.0e-8,
+    )
+    assert np.linalg.matrix_rank(
+        reduced["descriptor_reduced_scaled_matrix"]
+    ) == n_reduced
 
 
 def test_constraint_manifold_jvp_reconstructs_term_derivative() -> None:

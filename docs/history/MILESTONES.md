@@ -325,6 +325,18 @@ rejected sequence.
     `1.52e-4`, and production replay is bitwise after excluding wall-clock
     telemetry. Selected-state finite descriptor spectra are authorized before
     any slow-manifold reduction claim.
+52. **Selected-state descriptor-spectrum stop:** exact algebraic Schur
+    elimination produces full-rank finite N64/N128 primitive descriptors at
+    `0`, `0.0375`, and `0.05 s`. All finite modes and all isolated
+    `P_R/chi` blocks are stable, the largest eigenpair defect is `2.14e-8`,
+    and the 32 lowest modes pass the median cross-mesh gate. The proposed
+    global fieldwise reduction nevertheless fails: eliminated-field damping
+    spans `0.013-1438 s`, retained high-wavenumber damping reaches
+    `0.014-0.029 s`, and the nominal fast/slow gap is only about `1e-5`.
+    Large positive numerical abscissae and eigenvector condition estimates up
+    to `1e20` also expose strong non-normality. Global algebraic elimination
+    of radial momentum and stress is rejected; only a trajectory-conditioned,
+    region-aware reduction-feasibility audit is authorized.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

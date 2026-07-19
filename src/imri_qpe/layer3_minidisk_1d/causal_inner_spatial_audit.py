@@ -456,21 +456,23 @@ def causal_five_field_constraint_manifold_jvp(
     }
 
 
-def causal_five_field_consistent_tangent_decomposition(
+def _causal_five_field_scaled_stationary_and_be_jacobians(
     context: CausalFiveFieldDAEContext,
     vector: np.ndarray,
     *,
-    finite_difference_step: float = 2.0e-6,
-    rank_relative_threshold: float | None = None,
-    linear_solver: str = "auto",
-) -> dict:
-    """Solve the DAE-consistent tangent for each signed stationary forcing."""
+    finite_difference_step: float,
+    descriptor_timestep_seconds: float,
+):
+    """Build consistently scaled stationary and backward-Euler Jacobians."""
 
     context = context.validated()
     n_cells = int(context.grid.centers.size)
     state = unpack_causal_five_field_state(vector, n_cells)
     evaluation = evaluate_causal_five_field_dae(vector, context)
     scaling = causal_five_field_dae_scaling(state, evaluation)
+    timestep = float(descriptor_timestep_seconds)
+    if not np.isfinite(timestep) or timestep <= 0.0:
+        raise ValueError("descriptor timestep must be positive and finite")
     zero = np.zeros_like(np.asarray(vector, dtype=float))
     pattern = causal_five_field_dae_jacobian_sparsity(
         n_cells,
@@ -498,7 +500,7 @@ def causal_five_field_consistent_tangent_decomposition(
                 trial,
                 context,
                 old_vector=np.asarray(vector, dtype=float),
-                timestep_seconds=1.0,
+                timestep_seconds=timestep,
             )
         else:
             trial_evaluation = evaluate_causal_five_field_dae(
@@ -510,13 +512,7 @@ def causal_five_field_consistent_tangent_decomposition(
             / np.asarray(scaling.row_scales, dtype=float)
         )
 
-    solver = str(linear_solver)
-    if solver not in ("auto", "dense", "sparse"):
-        raise ValueError("consistent tangent linear solver is unsupported")
-    if solver == "auto":
-        solver = "sparse" if n_cells > 64 else "dense"
-
-    stationary_sparse = causal_five_field_colored_central_jacobian(
+    stationary = causal_five_field_colored_central_jacobian(
         lambda increment: scaled_residual(
             increment,
             backward_euler=False,
@@ -525,7 +521,7 @@ def causal_five_field_consistent_tangent_decomposition(
         pattern,
         finite_difference_step=finite_difference_step,
     )
-    backward_euler_sparse = causal_five_field_colored_central_jacobian(
+    backward_euler = causal_five_field_colored_central_jacobian(
         lambda increment: scaled_residual(
             increment,
             backward_euler=True,
@@ -534,6 +530,221 @@ def causal_five_field_consistent_tangent_decomposition(
         pattern,
         finite_difference_step=finite_difference_step,
     )
+    return state, evaluation, scaling, stationary, backward_euler
+
+
+def _equilibrated_sparse_multiple_solve(
+    matrix,
+    right_hand_sides: np.ndarray,
+) -> tuple[np.ndarray, float]:
+    """Solve a sparse square system for one or more dense right-hand sides."""
+
+    sparse = matrix.tocsr().astype(float)
+    right = np.asarray(right_hand_sides, dtype=float)
+    if right.ndim == 1:
+        right = right[:, None]
+    if (
+        sparse.shape[0] != sparse.shape[1]
+        or right.ndim != 2
+        or right.shape[0] != sparse.shape[0]
+        or np.any(~np.isfinite(sparse.data))
+        or np.any(~np.isfinite(right))
+    ):
+        raise ValueError("sparse multiple-right-hand-side system is invalid")
+    tiny = np.finfo(float).tiny
+    row_maximum = np.asarray(
+        np.abs(sparse).max(axis=1).toarray(),
+        dtype=float,
+    ).ravel()
+    if np.any(row_maximum <= tiny):
+        raise np.linalg.LinAlgError("sparse matrix has a zero row")
+    row_scale = 1.0 / row_maximum
+    row_scaled = diags(row_scale) @ sparse
+    column_maximum = np.asarray(
+        np.abs(row_scaled).max(axis=0).toarray(),
+        dtype=float,
+    ).ravel()
+    if np.any(column_maximum <= tiny):
+        raise np.linalg.LinAlgError("sparse matrix has a zero column")
+    column_scale = 1.0 / column_maximum
+    balanced = (
+        diags(row_scale)
+        @ sparse
+        @ diags(column_scale)
+    ).tocsc()
+    factorization = splu(balanced)
+    balanced_solution = factorization.solve(
+        row_scale[:, None] * right
+    )
+    solution = column_scale[:, None] * balanced_solution
+    residual = sparse @ solution - right
+    relative = float(
+        np.max(np.abs(residual))
+        / max(float(np.max(np.abs(right))), tiny)
+    )
+    return np.asarray(solution, dtype=float), relative
+
+
+def causal_five_field_reduced_descriptor_matrices(
+    context: CausalFiveFieldDAEContext,
+    vector: np.ndarray,
+    *,
+    finite_difference_step: float = 2.0e-6,
+    descriptor_timestep_seconds: float = 1.0,
+) -> dict:
+    """Eliminate algebraic variables from the finite causal descriptor.
+
+    The returned dense matrices act on scaled primitive perturbations.  They
+    satisfy ``M dp/dt + K dp = 0`` for the frozen-coefficient linearized DAE;
+    infinite algebraic modes have already been removed by the exact Schur
+    response.
+    """
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    timestep = float(descriptor_timestep_seconds)
+    (
+        _state,
+        _evaluation,
+        scaling,
+        stationary,
+        backward_euler,
+    ) = _causal_five_field_scaled_stationary_and_be_jacobians(
+        context,
+        vector,
+        finite_difference_step=finite_difference_step,
+        descriptor_timestep_seconds=timestep,
+    )
+    n_reduced = 5 * n_cells
+    total = int(stationary.shape[0])
+    conservation_rows = np.arange(n_reduced)
+    algebraic_rows = np.arange(n_reduced, total)
+    conserved_columns = np.arange(n_reduced)
+    primitive_columns = np.arange(n_reduced, 2 * n_reduced)
+    face_columns = np.arange(2 * n_reduced, total)
+    algebraic_columns = np.concatenate(
+        (conserved_columns, face_columns)
+    )
+
+    algebraic_block = stationary[algebraic_rows][:, algebraic_columns]
+    algebraic_from_primitive = stationary[algebraic_rows][
+        :,
+        primitive_columns,
+    ]
+    solved, solve_defect = _equilibrated_sparse_multiple_solve(
+        algebraic_block,
+        algebraic_from_primitive.toarray(),
+    )
+    algebraic_response = -solved
+
+    stationary_reduced = (
+        stationary[conservation_rows][:, primitive_columns].toarray()
+        + stationary[conservation_rows][:, algebraic_columns]
+        @ algebraic_response
+    )
+    descriptor = timestep * (backward_euler - stationary)
+    descriptor_reduced = (
+        descriptor[conservation_rows][:, primitive_columns].toarray()
+        + descriptor[conservation_rows][:, algebraic_columns]
+        @ algebraic_response
+    )
+    algebraic_reconstruction = (
+        algebraic_block @ algebraic_response
+        + algebraic_from_primitive
+    )
+    algebraic_scale = max(
+        float(np.max(np.abs(algebraic_from_primitive.data)))
+        if algebraic_from_primitive.nnz
+        else 0.0,
+        1.0,
+    )
+    descriptor_algebraic = descriptor[algebraic_rows]
+    descriptor_scale = max(
+        float(np.max(np.abs(descriptor.data)))
+        if descriptor.nnz
+        else 0.0,
+        1.0,
+    )
+    return {
+        "stationary_reduced_scaled_jacobian": np.asarray(
+            stationary_reduced,
+            dtype=float,
+        ),
+        "descriptor_reduced_scaled_matrix": np.asarray(
+            descriptor_reduced,
+            dtype=float,
+        ),
+        "algebraic_response_scaled": np.asarray(
+            algebraic_response,
+            dtype=float,
+        ),
+        "primitive_column_scales": np.asarray(
+            scaling.column_scales[primitive_columns],
+            dtype=float,
+        ),
+        "algebraic_column_scales": np.asarray(
+            scaling.column_scales[algebraic_columns],
+            dtype=float,
+        ),
+        "conservation_row_scales": np.asarray(
+            scaling.row_scales[conservation_rows],
+            dtype=float,
+        ),
+        "algebraic_columns": algebraic_columns,
+        "conserved_algebraic_rows": np.arange(n_reduced),
+        "face_algebraic_rows": np.arange(n_reduced, algebraic_columns.size),
+        "dimensions": (n_reduced, n_reduced),
+        "full_dimensions": stationary.shape,
+        "stationary_nonzeros": int(stationary.nnz),
+        "descriptor_nonzeros": int(descriptor.nnz),
+        "algebraic_solve_relative_defect": solve_defect,
+        "maximum_scaled_algebraic_reconstruction_defect": float(
+            np.max(np.abs(algebraic_reconstruction)) / algebraic_scale
+        ),
+        "maximum_scaled_descriptor_algebraic_row": float(
+            (
+                np.max(np.abs(descriptor_algebraic.data))
+                if descriptor_algebraic.nnz
+                else 0.0
+            )
+            / descriptor_scale
+        ),
+        "finite_difference_step": float(finite_difference_step),
+        "descriptor_timestep_seconds": timestep,
+    }
+
+
+def causal_five_field_consistent_tangent_decomposition(
+    context: CausalFiveFieldDAEContext,
+    vector: np.ndarray,
+    *,
+    finite_difference_step: float = 2.0e-6,
+    rank_relative_threshold: float | None = None,
+    linear_solver: str = "auto",
+) -> dict:
+    """Solve the DAE-consistent tangent for each signed stationary forcing."""
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    (
+        state,
+        evaluation,
+        scaling,
+        stationary_sparse,
+        backward_euler_sparse,
+    ) = _causal_five_field_scaled_stationary_and_be_jacobians(
+        context,
+        vector,
+        finite_difference_step=finite_difference_step,
+        descriptor_timestep_seconds=1.0,
+    )
+
+    solver = str(linear_solver)
+    if solver not in ("auto", "dense", "sparse"):
+        raise ValueError("consistent tangent linear solver is unsupported")
+    if solver == "auto":
+        solver = "sparse" if n_cells > 64 else "dense"
+
     n_differential = 5 * n_cells
     consistency_sparse = vstack(
         (
