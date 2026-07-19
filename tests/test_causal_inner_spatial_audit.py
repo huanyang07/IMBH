@@ -11,6 +11,7 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_nested_refinement_ratio,
     causal_restrict_cell_averages,
     causal_restrict_cell_integrals,
+    causal_spatial_contraction_order,
     causal_spatial_difference_metrics,
     evaluate_causal_five_field_dae,
     make_causal_five_field_regression_context,
@@ -96,6 +97,13 @@ def test_spatial_metrics_are_weighted_and_can_exclude_boundaries() -> None:
     assert interior["maximum_absolute_difference"] == 2.0
     assert interior["maximum_difference_radius"] == 3.0
     assert interior["measure_weighted_l1_difference"] == pytest.approx(1.6)
+
+
+def test_spatial_contraction_order_uses_successive_pair_differences() -> None:
+    assert causal_spatial_contraction_order(0.8, 0.4) == pytest.approx(1.0)
+    assert causal_spatial_contraction_order(0.8, 0.2) == pytest.approx(2.0)
+    with pytest.raises(ValueError, match="positive and finite"):
+        causal_spatial_contraction_order(0.8, 0.0)
 
 
 def test_residual_term_decomposition_reconstructs_conservation_rows() -> None:

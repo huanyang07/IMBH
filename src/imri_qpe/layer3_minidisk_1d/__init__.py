@@ -218,6 +218,7 @@ from .causal_inner_spatial_audit import (
     causal_nested_refinement_ratio,
     causal_restrict_cell_averages,
     causal_restrict_cell_integrals,
+    causal_spatial_contraction_order,
     causal_spatial_difference_metrics,
 )
 from .causal_inner_regression import (
@@ -1211,6 +1212,7 @@ __all__ = [
     "causal_nested_refinement_ratio",
     "causal_restrict_cell_averages",
     "causal_restrict_cell_integrals",
+    "causal_spatial_contraction_order",
     "causal_spatial_difference_metrics",
     "causal_five_field_endpoint_temporal_storage_increment",
     "causal_five_field_path_temporal_storage_increment",

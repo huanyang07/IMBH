@@ -232,6 +232,15 @@ rejected sequence.
     Combined with the prior manufactured first-order Rusanov result, this
     confirms inherited coarse-grid truncation and authorizes exactly one N64
     fixed S32/S64 contraction diagnostic.
+43. **Longer-horizon N64 contraction stop:** fixed N64 BDF2 S32/S64 reaches
+    the exact WP10c7d horizon with all state and ledger gates passing. Raw
+    temporal thickness uncertainty is `1.53598e-4`, below the preferred
+    `2.5e-4`. Exact N32/N64 restriction contracts the response difference
+    `0.613215 -> 0.134682` at order `2.18684`, but remains `26.9x` above the
+    spatial gate. At the measured order, N64/N128 is projected to differ by
+    `0.02958`, still `5.92x` above the gate. N128 and uniform refinement are
+    closed; only a separate operator-level second-order reconstruction audit
+    is authorized.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

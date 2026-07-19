@@ -196,6 +196,24 @@ def causal_spatial_difference_metrics(
     }
 
 
+def causal_spatial_contraction_order(
+    coarse_pair_difference: float,
+    fine_pair_difference: float,
+) -> float:
+    """Return the observed order from two successive mesh-pair differences."""
+
+    coarse = float(coarse_pair_difference)
+    fine = float(fine_pair_difference)
+    if (
+        not np.isfinite(coarse)
+        or not np.isfinite(fine)
+        or coarse <= 0.0
+        or fine <= 0.0
+    ):
+        raise ValueError("spatial pair differences must be positive and finite")
+    return float(np.log2(coarse / fine))
+
+
 def causal_five_field_log_h_over_r_tangent(
     context: CausalFiveFieldDAEContext,
     vector: np.ndarray,
