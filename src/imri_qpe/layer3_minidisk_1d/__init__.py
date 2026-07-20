@@ -240,6 +240,8 @@ from .causal_inner_mixed_reduction import (
     causal_linear_transfer_response,
     causal_log_time_quadrature,
     causal_lyapunov_metric_audit,
+    causal_projective_ab2_prediction,
+    causal_projective_euler_prediction,
     causal_rom_initial_response,
     causal_rom_memory_kernel_actions,
     causal_stable_rational_krylov_rom,
@@ -247,6 +249,7 @@ from .causal_inner_mixed_reduction import (
     causal_stable_rom_transfer_response,
     causal_stream_descriptor_inputs,
     causal_truncate_mixed_mode_rom,
+    causal_weighted_constraint_null_projection,
 )
 from .causal_inner_regression import (
     CAUSAL_REGRESSION_STREAM_CENTER_RG,
@@ -1259,6 +1262,8 @@ __all__ = [
     "causal_linear_transfer_response",
     "causal_log_time_quadrature",
     "causal_lyapunov_metric_audit",
+    "causal_projective_ab2_prediction",
+    "causal_projective_euler_prediction",
     "causal_rom_initial_response",
     "causal_rom_memory_kernel_actions",
     "causal_stable_rational_krylov_rom",
@@ -1266,6 +1271,7 @@ __all__ = [
     "causal_stable_rom_transfer_response",
     "causal_stream_descriptor_inputs",
     "causal_truncate_mixed_mode_rom",
+    "causal_weighted_constraint_null_projection",
     "causal_five_field_endpoint_temporal_storage_increment",
     "causal_five_field_path_temporal_storage_increment",
     "causal_five_field_reduced_backward_euler_residual",

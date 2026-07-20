@@ -14,6 +14,8 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_linear_transfer_response,
     causal_log_time_quadrature,
     causal_lyapunov_metric_audit,
+    causal_projective_ab2_prediction,
+    causal_projective_euler_prediction,
     causal_rom_initial_response,
     causal_rom_memory_kernel_actions,
     causal_stable_rational_krylov_rom,
@@ -21,6 +23,7 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_stable_rom_transfer_response,
     causal_stream_descriptor_inputs,
     causal_truncate_mixed_mode_rom,
+    causal_weighted_constraint_null_projection,
     make_causal_five_field_regression_context,
     make_causal_five_field_seed,
     pack_causal_five_field_state,
@@ -152,6 +155,49 @@ def test_log_time_quadrature_is_positive_and_integrates_constant() -> None:
     assert np.all(np.diff(times) > 0.0)
     assert np.all(weights > 0.0)
     assert np.sum(weights) == pytest.approx(12.0)
+
+
+def test_weighted_constraint_projection_preserves_null_directions() -> None:
+    constraints = np.asarray(((1.0, 1.0, 0.0), (0.0, 1.0, 1.0)))
+    directions = np.column_stack(
+        (
+            np.asarray((2.0, -1.0, 3.0)),
+            np.asarray((1.0, -1.0, 1.0)),
+        )
+    )
+    projected, defects = causal_weighted_constraint_null_projection(
+        directions,
+        constraints,
+        state_weights=np.asarray((1.0, 2.0, 4.0)),
+    )
+
+    assert np.max(np.abs(constraints @ projected)) < 1.0e-14
+    assert np.max(defects) < 1.0e-14
+    assert np.allclose(projected[:, 1], directions[:, 1])
+
+    vector, defect = causal_weighted_constraint_null_projection(
+        directions[:, 0],
+        constraints,
+    )
+    assert vector.shape == (3,)
+    assert defect < 1.0e-14
+    assert np.max(np.abs(constraints @ vector)) < 1.0e-14
+
+
+def test_equal_window_projective_predictions_use_declared_secants() -> None:
+    linear = np.asarray((0.0, 2.0, 4.0))
+    assert causal_projective_euler_prediction(
+        linear[:1],
+        linear[1:2],
+    )[0] == pytest.approx(linear[2])
+
+    quadratic = np.asarray((0.0, 1.0, 4.0, 9.0))
+    predicted = causal_projective_ab2_prediction(
+        quadratic[:1],
+        quadratic[1:2],
+        quadratic[2:3],
+    )
+    assert predicted[0] == pytest.approx(8.0)
 
 
 def test_balanced_rom_preserves_protected_values_and_dynamics() -> None:

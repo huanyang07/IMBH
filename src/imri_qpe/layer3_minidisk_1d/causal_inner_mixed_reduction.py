@@ -123,6 +123,100 @@ def causal_stream_descriptor_inputs(
     return np.column_stack(columns), tuple(names)
 
 
+def causal_weighted_constraint_null_projection(
+    directions: np.ndarray,
+    constraints: np.ndarray,
+    *,
+    state_weights: np.ndarray | None = None,
+) -> tuple[np.ndarray, np.ndarray | float]:
+    """Project columns into a constraint null space with minimum weighted change."""
+
+    constraint_matrix = _finite_matrix(constraints, name="constraints")
+    values = np.asarray(directions, dtype=float)
+    vector_input = values.ndim == 1
+    if vector_input:
+        values = values[:, None]
+    if (
+        values.ndim != 2
+        or values.shape[0] != constraint_matrix.shape[1]
+        or np.any(~np.isfinite(values))
+    ):
+        raise ValueError("directions are incompatible with constraints")
+    if state_weights is None:
+        weights = np.ones(values.shape[0], dtype=float)
+    else:
+        weights = np.asarray(state_weights, dtype=float)
+        if (
+            weights.shape != (values.shape[0],)
+            or np.any(~np.isfinite(weights))
+            or np.any(weights <= 0.0)
+        ):
+            raise ValueError("state weights must be positive and finite")
+
+    inverse_weights = 1.0 / weights
+    weighted_adjoint = inverse_weights[:, None] * constraint_matrix.T
+    gram = constraint_matrix @ weighted_adjoint
+    rank = int(np.linalg.matrix_rank(gram))
+    if rank != constraint_matrix.shape[0]:
+        raise ValueError("constraints are not linearly independent")
+    multipliers = np.linalg.solve(gram, constraint_matrix @ values)
+    projected = values - weighted_adjoint @ multipliers
+    defects = np.max(np.abs(constraint_matrix @ projected), axis=0)
+    if vector_input:
+        return projected[:, 0], defects[0]
+    return projected, defects
+
+
+def causal_projective_euler_prediction(
+    previous: np.ndarray,
+    current: np.ndarray,
+    *,
+    projection_ratio: float = 1.0,
+) -> np.ndarray:
+    """Project one coarse secant forward by a multiple of its sample window."""
+
+    left = np.asarray(previous, dtype=float)
+    right = np.asarray(current, dtype=float)
+    ratio = float(projection_ratio)
+    if (
+        left.shape != right.shape
+        or np.any(~np.isfinite(left))
+        or np.any(~np.isfinite(right))
+        or not np.isfinite(ratio)
+        or ratio <= 0.0
+    ):
+        raise ValueError("projective Euler inputs are invalid")
+    return right + ratio * (right - left)
+
+
+def causal_projective_ab2_prediction(
+    oldest: np.ndarray,
+    previous: np.ndarray,
+    current: np.ndarray,
+    *,
+    projection_ratio: float = 1.0,
+) -> np.ndarray:
+    """Project two equal-window coarse secants with an AB2 derivative estimate."""
+
+    first = np.asarray(oldest, dtype=float)
+    second = np.asarray(previous, dtype=float)
+    third = np.asarray(current, dtype=float)
+    ratio = float(projection_ratio)
+    if (
+        first.shape != second.shape
+        or second.shape != third.shape
+        or np.any(~np.isfinite(first))
+        or np.any(~np.isfinite(second))
+        or np.any(~np.isfinite(third))
+        or not np.isfinite(ratio)
+        or ratio <= 0.0
+    ):
+        raise ValueError("projective AB2 inputs are invalid")
+    latest_secant = third - second
+    earlier_secant = second - first
+    return third + ratio * (1.5 * latest_secant - 0.5 * earlier_secant)
+
+
 def causal_log_time_quadrature(
     horizon_seconds: float,
     *,

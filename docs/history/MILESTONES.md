@@ -360,6 +360,36 @@ rejected sequence.
     joint closure shows transient gain `4.72/8.43` and invariance defect near
     `11`. Nonlinear fieldwise reduction is rejected in favor of a future
     dynamic observable-balanced or quasi-static branch formulation.
+55. **Compact observable-reduction stop:** conservation-constrained BPOD and
+    stable rational Krylov models are tested on the certified N64/N128
+    descriptors. Exact global M/J/E coordinates and derivatives are
+    preserved, and ledger-null LQR corrections stabilize every tested
+    order-`8` through order-`96` model. The scientific transfer map does not
+    survive compression: the best trained error is `1.0002 > 0.1`,
+    cross-mesh transfer excess remains `0.320-0.323 > 0.25`, and the
+    unresolved N128 complement grows by `18.6x` at `0.1 s`. A stationary
+    preflight also finds no physical Newton descent from the tested seeds.
+    Compact projection ROMs and continuation from those seeds are closed.
+56. **Global equation-free identifiability stop:** global M/J/E checkpoint
+    secants extrapolate smoothly, with factor-two errors below `6.7e-7` of a
+    gate and exact-rate/secant mismatch below `9.6e-3`. That apparent success
+    is not closure: exactly ledger-null thermal directions change held
+    observables by `19.73-19.75` gates, and ledger-null radial directions
+    change projected responses by `13.05-13.23` gates on N64/N128. Adding
+    exterior cooling, inner accretion, and three thickness moments also
+    fails. Nonlinear lifting is skipped, and only a conservative radial-shell
+    preflight is authorized.
+57. **Conservative shell-closure stop:** exact mesh-coincident five-shell and
+    eight-shell M/J/E states retain `15/24` finite-volume coordinates, but
+    factor-two AB2 errors remain `0.569/1.752 > 0.25`. Within-shell
+    constraint-null thermal redistributions change observables by
+    `17.5-17.8` gates, while radial redistributions change projected
+    observables by about `10` gates. Refining the shell layout worsens the
+    checkpoint projection and does not restore identifiability. Compact
+    global and shell-only equation-free macrosteps are closed; the full DAE
+    remains the short-time truth model pending a physically derived dynamic
+    moment/continuum closure or an independent ledger-compatible
+    stationary/bifurcation anchor.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

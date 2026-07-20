@@ -112,6 +112,8 @@ This is the canonical project handoff. Status labels mean:
 | Conservation-constrained mixed modes WP10c8d | **CERTIFIED** as a negative BPOD reduction result; **REJECTED** for a nonlinear ROM; **DIAGNOSTIC ONLY** physically | All six N64/N128 descriptors are full rank with explicit solve defects below `2.66e-16`; exact M/J/E coordinates are protected; the finite-horizon Hankel maps resolve only total orders `39-41`; low orders have some cross-mesh alignment | Every available order `8/16/32` reduced operator is unstable; held-out responses fail; the order-32 unresolved complement grows by `18.6x` at N128 by `0.1 s`; no nonlinear operator compression or loading-time speedup is authorized |
 | Stationary-branch preflight WP10c8e | **CERTIFIED** as a bounded negative preflight; **REJECTED** for root continuation from the tested seeds; **DIAGNOSTIC ONLY** physically | Valid `0.1-1.0` source seeds have exact mass throughput and full `80/80` reduced stationary rank | Zero/weak seeds violate surface-density or optically thick cooling validity; valid seeds retain `0.896-0.898` angular-ledger defects, condition estimates `2.34e10-5.25e10`, scaled Newton corrections `69-202`, and no physical damped trial |
 | Stable observable reduction WP10c8f | **CERTIFIED** as a negative rational-reduction result; **REJECTED** for a nonlinear ROM; **DIAGNOSTIC ONLY** physically | Exact N64/N128 global ledgers identify angular/energy clocks `9.36e5/1.44e6 s`; ledger-safe LQR stabilization keeps protected defects below `7.4e-17` and stabilizes every order `8-96` model | No dense Lyapunov metric is numerically positive definite; best trained response error is `1.0002 > 0.1`, cross-mesh transfer excess is `0.320-0.323 > 0.25`, and no compact nonlinear or memory model is authorized |
+| Ledger equation-free preflight WP10c8g | **CERTIFIED** as a negative global-closure result; **REJECTED** for nonlinear lifting or macrosteps; **DIAGNOSTIC ONLY** physically | Global `M/J/E` factor-two projections are below `6.7e-7` of a gate and exact-rate/secant defects stay below `9.6e-3`; production/control and N64/N128 paths agree | Equal-ledger thermal directions change held observables by `19.73-19.75` gates and radial directions change projected responses by `13.05-13.23` gates; the eight-variable augmented state also fails |
+| Conservative shell preflight WP10c8h | **CERTIFIED** as a negative shell-closure result; **REJECTED** for nonlinear shell microbursts or macrosteps; **DIAGNOSTIC ONLY** physically | Exact mesh-coincident five/eight-shell operators retain `15/24` finite-volume `M/J/E` coordinates with constraint-null defects below `1e-10` | Five/eight-shell AB2 errors are `0.569/1.752 > 0.25`; ledger-null thermal and radial redistributions change observables by `17.5-17.8` and `9.94-10.01` gates; compact global and shell-only equation-free routes are closed |
 
 ## Frozen Target Under Review
 
@@ -851,10 +853,20 @@ N                    = 164
    operator and preserve the exact ledger derivatives, but the best trained
    response error remains `1.0002` and cross-mesh transfer error remains
    about `0.32`. Stable compact BPOD and rational realizations are both
-   closed. Only a ledger-driven equation-free closure preflight within the
-   existing `0.125 s` truth interval is authorized; no nonlinear slow
-   manifold, loading-time macrostep, distributed tide, wind, stability, or
-   hot/cycle claim is yet authorized.
+   closed. WP10c8g then tests global ledger-driven equation-free closure on
+   the existing `0.05-0.125 s` checkpoints. Global `M/J/E` extrapolate
+   smoothly, but exactly ledger-null thermal and velocity directions change
+   scientific observables by `13-20` gates. The tested observable-augmented
+   state also fails, so nonlinear lifting is skipped. WP10c8h retains radial
+   conservation explicitly with mesh-coincident five-shell and eight-shell
+   `M/J/E` states. Their AB2 errors remain `0.569/1.752` against the `0.25`
+   reserve, while within-shell thermal and radial redistributions change
+   observables by about `18/10` gates. Compact global and shell-only
+   equation-free macrosteps are therefore closed. The full DAE remains the
+   short-time truth model; the next work must reassess a physically derived
+   dynamic moment/continuum closure or an independent ledger-compatible
+   stationary/bifurcation anchor. No loading-time macrostep, distributed
+   tide, wind, stability, or hot/cycle claim is yet authorized.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
