@@ -230,6 +230,17 @@ from .causal_inner_spatial_audit import (
     causal_spatial_contraction_order,
     causal_spatial_difference_metrics,
 )
+from .causal_inner_mixed_reduction import (
+    CausalMixedModeROM,
+    causal_conservation_constrained_balanced_rom,
+    causal_descriptor_explicit_matrices,
+    causal_linear_initial_response,
+    causal_log_time_quadrature,
+    causal_rom_initial_response,
+    causal_rom_memory_kernel_actions,
+    causal_stream_descriptor_inputs,
+    causal_truncate_mixed_mode_rom,
+)
 from .causal_inner_regression import (
     CAUSAL_REGRESSION_STREAM_CENTER_RG,
     CAUSAL_REGRESSION_STREAM_LOG_WIDTH,
@@ -1232,6 +1243,15 @@ __all__ = [
     "causal_restrict_cell_integrals",
     "causal_spatial_contraction_order",
     "causal_spatial_difference_metrics",
+    "CausalMixedModeROM",
+    "causal_conservation_constrained_balanced_rom",
+    "causal_descriptor_explicit_matrices",
+    "causal_linear_initial_response",
+    "causal_log_time_quadrature",
+    "causal_rom_initial_response",
+    "causal_rom_memory_kernel_actions",
+    "causal_stream_descriptor_inputs",
+    "causal_truncate_mixed_mode_rom",
     "causal_five_field_endpoint_temporal_storage_increment",
     "causal_five_field_path_temporal_storage_increment",
     "causal_five_field_reduced_backward_euler_residual",

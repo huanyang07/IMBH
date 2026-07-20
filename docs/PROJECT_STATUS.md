@@ -1,6 +1,6 @@
 # Project Status
 
-- Updated: 2026-07-19
+- Updated: 2026-07-20
 - Pre-cleanup scientific tag: `pre-cleanup-p0-2026-07-11`
 - Legacy phase classification tag: `legacy-steady-positive-flux-dae-2026-07-10`
 
@@ -109,6 +109,8 @@ This is the canonical project handoff. Status labels mean:
 | Selected-state slow modes WP10c8a | **CERTIFIED** as a negative global-reduction result; **DIAGNOSTIC ONLY** physically | All finite N64/N128 modes and every isolated `P_R/chi` block are stable at `0/0.0375/0.05 s`; descriptor rank is full, maximum eigenpair defect is `2.14e-8`, and low-mode median mesh mismatch is `0.172-0.186` | The candidate fast block spans `0.013-1438 s` while retained high-wavenumber modes reach `0.014-0.029 s`, giving gaps near `1e-5`; extreme non-normality rejects global algebraic elimination and authorizes only trajectory-conditioned, region-aware feasibility work |
 | Causal stress-time audit WP10c8b | **CERTIFIED** through `0.125 s`; **REJECTED** at the stronger `0.15 s` spatial gate; **DIAGNOSTIC ONLY** physically | Six matched N32/N64/N128 production/control campaigns pass with zero retries; conservative N64/N128 response at `0.15 s` is `0.0038168 < 0.005`, order is `1.9618`, and both final replays are bitwise | N128 Richardson remainder is `0.0012533 > 0.00125`; stress-target and radial-balance departures do not decay, so only an operator-level WP10c8c closure audit is authorized at the certified `0.125 s` state |
 | Region-selective closure WP10c8c | **CERTIFIED** as a negative reduction result; **REJECTED** for nonlinear closure; **DIAGNOSTIC ONLY** physically | All 54 N64/N128 regional Schur audits have full descriptor rank and dynamic-solve defects below `2.55e-16`; every isolated fast block is stable; three `60-200 rg` charts preserve the tested short-time responses | No chart passes physical slaving or the fast/retained gap on either mesh; several effective operators become unstable, and the global joint closure has transient gain `4.72/8.43`; fieldwise algebraic reduction remains closed |
+| Conservation-constrained mixed modes WP10c8d | **CERTIFIED** as a negative BPOD reduction result; **REJECTED** for a nonlinear ROM; **DIAGNOSTIC ONLY** physically | All six N64/N128 descriptors are full rank with explicit solve defects below `2.66e-16`; exact M/J/E coordinates are protected; the finite-horizon Hankel maps resolve only total orders `39-41`; low orders have some cross-mesh alignment | Every available order `8/16/32` reduced operator is unstable; held-out responses fail; the order-32 unresolved complement grows by `18.6x` at N128 by `0.1 s`; no nonlinear operator compression or loading-time speedup is authorized |
+| Stationary-branch preflight WP10c8e | **CERTIFIED** as a bounded negative preflight; **REJECTED** for root continuation from the tested seeds; **DIAGNOSTIC ONLY** physically | Valid `0.1-1.0` source seeds have exact mass throughput and full `80/80` reduced stationary rank | Zero/weak seeds violate surface-density or optically thick cooling validity; valid seeds retain `0.896-0.898` angular-ledger defects, condition estimates `2.34e10-5.25e10`, scaled Newton corrections `69-202`, and no physical damped trial |
 
 ## Frozen Target Under Review
 
@@ -830,10 +832,20 @@ N                    = 164
    as fast as `0.014-0.026 s`, and some effective operators become unstable.
    The global joint closure retains the prior `~1e-5` gap and shows transient
    gains `4.72/8.43`. Instantaneous global or region-selective field
-   elimination is rejected. Only a dynamic observable-balanced reduction or
-   full-solution quasi-static branch audit is authorized; no nonlinear slow
-   manifold, distributed tide, wind, stability, or hot/cycle claim is yet
-   authorized.
+   elimination is rejected. WP10c8d then tests conservation-constrained
+   mixed balanced modes at N64/N128 and `0/0.05/0.125 s`. The descriptor and
+   exact ledger coordinates pass, but the Hankel maps resolve only orders
+   `39-41`; every tested order `8/16/32` realization is unstable, held-out
+   responses fail, and the projected unresolved dynamics grow. No nonlinear
+   ROM or hyper-reduction is authorized. WP10c8e separately tests the
+   stationary-branch preflight. Source amplitudes below `0.1` leave the
+   optically thick model domain; amplitudes `0.1-1.0` have full reduced rank
+   but large angular/energy imbalance and no physically admissible damped
+   Newton trial. Root continuation from these anchors is closed. Only a
+   stability-preserving observable-specific realization or a bounded
+   equation-free microburst pilot is authorized; no nonlinear slow manifold,
+   loading-time macrostep, distributed tide, wind, stability, or hot/cycle
+   claim is yet authorized.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -845,7 +857,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_REGION_SELECTIVE_CLOSURE_WP10C8C_RESULTS_2026-07-19.md`
+  `reports/current/CODEX_CAUSAL_STATIONARY_BRANCH_PREFLIGHT_WP10C8E_RESULTS_2026-07-20.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -929,6 +941,8 @@ N                    = 164
 - Selected-state slow modes WP10c8a: `reports/current/CODEX_CAUSAL_SLOW_MODE_AUDIT_WP10C8A_RESULTS_2026-07-19.md`
 - Causal stress-time audit WP10c8b: `reports/current/CODEX_CAUSAL_STRESS_TIME_AUDIT_WP10C8B_RESULTS_2026-07-19.md`
 - Region-selective closure WP10c8c: `reports/current/CODEX_CAUSAL_REGION_SELECTIVE_CLOSURE_WP10C8C_RESULTS_2026-07-19.md`
+- Conservation-constrained mixed modes WP10c8d: `reports/current/CODEX_CAUSAL_MIXED_MODE_REDUCTION_WP10C8D_RESULTS_2026-07-20.md`
+- Stationary-branch preflight WP10c8e: `reports/current/CODEX_CAUSAL_STATIONARY_BRANCH_PREFLIGHT_WP10C8E_RESULTS_2026-07-20.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
 - Horizon-penetrating Valencia core WP10b: `reports/current/CODEX_HORIZON_PENETRATING_VALENCIA_WP10B_RESULTS_2026-07-17.md`
 - Valencia gas+radiation primitive recovery WP10c1: `reports/current/CODEX_VALENCIA_GAS_RADIATION_PRIMITIVE_RECOVERY_WP10C1_RESULTS_2026-07-17.md`
