@@ -111,6 +111,7 @@ This is the canonical project handoff. Status labels mean:
 | Region-selective closure WP10c8c | **CERTIFIED** as a negative reduction result; **REJECTED** for nonlinear closure; **DIAGNOSTIC ONLY** physically | All 54 N64/N128 regional Schur audits have full descriptor rank and dynamic-solve defects below `2.55e-16`; every isolated fast block is stable; three `60-200 rg` charts preserve the tested short-time responses | No chart passes physical slaving or the fast/retained gap on either mesh; several effective operators become unstable, and the global joint closure has transient gain `4.72/8.43`; fieldwise algebraic reduction remains closed |
 | Conservation-constrained mixed modes WP10c8d | **CERTIFIED** as a negative BPOD reduction result; **REJECTED** for a nonlinear ROM; **DIAGNOSTIC ONLY** physically | All six N64/N128 descriptors are full rank with explicit solve defects below `2.66e-16`; exact M/J/E coordinates are protected; the finite-horizon Hankel maps resolve only total orders `39-41`; low orders have some cross-mesh alignment | Every available order `8/16/32` reduced operator is unstable; held-out responses fail; the order-32 unresolved complement grows by `18.6x` at N128 by `0.1 s`; no nonlinear operator compression or loading-time speedup is authorized |
 | Stationary-branch preflight WP10c8e | **CERTIFIED** as a bounded negative preflight; **REJECTED** for root continuation from the tested seeds; **DIAGNOSTIC ONLY** physically | Valid `0.1-1.0` source seeds have exact mass throughput and full `80/80` reduced stationary rank | Zero/weak seeds violate surface-density or optically thick cooling validity; valid seeds retain `0.896-0.898` angular-ledger defects, condition estimates `2.34e10-5.25e10`, scaled Newton corrections `69-202`, and no physical damped trial |
+| Stable observable reduction WP10c8f | **CERTIFIED** as a negative rational-reduction result; **REJECTED** for a nonlinear ROM; **DIAGNOSTIC ONLY** physically | Exact N64/N128 global ledgers identify angular/energy clocks `9.36e5/1.44e6 s`; ledger-safe LQR stabilization keeps protected defects below `7.4e-17` and stabilizes every order `8-96` model | No dense Lyapunov metric is numerically positive definite; best trained response error is `1.0002 > 0.1`, cross-mesh transfer excess is `0.320-0.323 > 0.25`, and no compact nonlinear or memory model is authorized |
 
 ## Frozen Target Under Review
 
@@ -841,11 +842,19 @@ N                    = 164
    stationary-branch preflight. Source amplitudes below `0.1` leave the
    optically thick model domain; amplitudes `0.1-1.0` have full reduced rank
    but large angular/energy imbalance and no physically admissible damped
-   Newton trial. Root continuation from these anchors is closed. Only a
-   stability-preserving observable-specific realization or a bounded
-   equation-free microburst pilot is authorized; no nonlinear slow manifold,
-   loading-time macrostep, distributed tide, wind, stability, or hot/cycle
-   claim is yet authorized.
+   Newton trial. Root continuation from these anchors is closed. WP10c8f
+   then tests a stability-preserving observable-specific rational ladder.
+   Its exact global ledgers reveal spatially converged angular-momentum and
+   Killing-energy clocks of `9.36e5 s` and `1.44e6 s`, close to the
+   `8.50e5 s` loading time. The dense Lyapunov metric is not numerically
+   positive definite; ledger-null LQR corrections stabilize every reduced
+   operator and preserve the exact ledger derivatives, but the best trained
+   response error remains `1.0002` and cross-mesh transfer error remains
+   about `0.32`. Stable compact BPOD and rational realizations are both
+   closed. Only a ledger-driven equation-free closure preflight within the
+   existing `0.125 s` truth interval is authorized; no nonlinear slow
+   manifold, loading-time macrostep, distributed tide, wind, stability, or
+   hot/cycle claim is yet authorized.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -857,7 +866,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_STATIONARY_BRANCH_PREFLIGHT_WP10C8E_RESULTS_2026-07-20.md`
+  `reports/current/CODEX_CAUSAL_STABLE_OBSERVABLE_REDUCTION_WP10C8F_RESULTS_2026-07-20.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -941,8 +950,8 @@ N                    = 164
 - Selected-state slow modes WP10c8a: `reports/current/CODEX_CAUSAL_SLOW_MODE_AUDIT_WP10C8A_RESULTS_2026-07-19.md`
 - Causal stress-time audit WP10c8b: `reports/current/CODEX_CAUSAL_STRESS_TIME_AUDIT_WP10C8B_RESULTS_2026-07-19.md`
 - Region-selective closure WP10c8c: `reports/current/CODEX_CAUSAL_REGION_SELECTIVE_CLOSURE_WP10C8C_RESULTS_2026-07-19.md`
-- Conservation-constrained mixed modes WP10c8d: `reports/current/CODEX_CAUSAL_MIXED_MODE_REDUCTION_WP10C8D_RESULTS_2026-07-20.md`
-- Stationary-branch preflight WP10c8e: `reports/current/CODEX_CAUSAL_STATIONARY_BRANCH_PREFLIGHT_WP10C8E_RESULTS_2026-07-20.md`
+- Mixed-mode, stationary-preflight, and stable-observable reduction
+  WP10c8d-f: `reports/current/CODEX_CAUSAL_STABLE_OBSERVABLE_REDUCTION_WP10C8F_RESULTS_2026-07-20.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
 - Horizon-penetrating Valencia core WP10b: `reports/current/CODEX_HORIZON_PENETRATING_VALENCIA_WP10B_RESULTS_2026-07-17.md`
 - Valencia gas+radiation primitive recovery WP10c1: `reports/current/CODEX_VALENCIA_GAS_RADIATION_PRIMITIVE_RECOVERY_WP10C1_RESULTS_2026-07-17.md`

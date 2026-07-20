@@ -174,6 +174,462 @@ class CausalMixedModeROM:
         return int(self.dynamic_matrix.shape[0])
 
 
+@dataclass(frozen=True)
+class CausalLyapunovMetricAudit:
+    """Numerical certificate for one full-system Lyapunov energy metric."""
+
+    metric: np.ndarray
+    forcing: np.ndarray
+    minimum_eigenvalue: float
+    maximum_eigenvalue: float
+    normalized_minimum_eigenvalue: float
+    relative_residual: float
+    positive_definite: bool
+    residual_passed: bool
+    accepted: bool
+
+
+@dataclass(frozen=True)
+class CausalStableRationalKrylovROM:
+    """Observable-targeted rational model with ledger-safe stabilization."""
+
+    trial_basis: np.ndarray
+    test_basis: np.ndarray
+    raw_dynamic_matrix: np.ndarray
+    dynamic_matrix: np.ndarray
+    input_matrix: np.ndarray
+    output_matrix: np.ndarray
+    protected_operators: np.ndarray
+    rational_timescales_seconds: np.ndarray
+    protected_coordinate_count: int
+    raw_maximum_real_eigenvalue: float
+    maximum_real_eigenvalue: float
+    stabilization_succeeded: bool
+    stabilization_penalty: float | None
+    stabilization_correction_fraction: float
+    biorthogonality_defect: float
+    protected_value_defect: float
+    protected_dynamics_defect: float
+    candidate_singular_values: np.ndarray
+
+    @property
+    def order(self) -> int:
+        return int(self.dynamic_matrix.shape[0])
+
+
+def causal_lyapunov_metric_audit(
+    dynamic: np.ndarray,
+    *,
+    state_weights: np.ndarray | None = None,
+    positivity_tolerance: float = 1.0e-12,
+    residual_tolerance: float = 1.0e-8,
+) -> CausalLyapunovMetricAudit:
+    """Audit a balanced dense Lyapunov metric without repairing its spectrum.
+
+    A Hurwitz matrix has a positive-definite solution of
+    ``A.T H + H A = -Q`` for every positive-definite ``Q``.  Strong
+    non-normality can nevertheless make the dense numerical solve unusable.
+    This routine reports that failure directly rather than clipping negative
+    metric eigenvalues and calling the result a certificate.
+    """
+
+    system = _finite_matrix(dynamic, name="dynamic")
+    if system.shape[0] != system.shape[1]:
+        raise ValueError("dynamic matrix must be square")
+    n_state = system.shape[0]
+    if state_weights is None:
+        weights = np.ones(n_state, dtype=float)
+    else:
+        weights = np.asarray(state_weights, dtype=float)
+        if (
+            weights.shape != (n_state,)
+            or np.any(~np.isfinite(weights))
+            or np.any(weights <= 0.0)
+        ):
+            raise ValueError("state weights must be positive and finite")
+    positivity = float(positivity_tolerance)
+    residual_gate = float(residual_tolerance)
+    if (
+        not np.isfinite(positivity)
+        or positivity <= 0.0
+        or not np.isfinite(residual_gate)
+        or residual_gate <= 0.0
+    ):
+        raise ValueError("Lyapunov tolerances must be positive and finite")
+
+    try:
+        from scipy.linalg import (
+            eigvalsh,
+            matrix_balance,
+            solve_continuous_lyapunov,
+        )
+    except ImportError as exc:  # pragma: no cover - solver extra missing
+        raise RuntimeError(
+            "scipy is required for the Lyapunov metric audit"
+        ) from exc
+
+    square_root = np.sqrt(weights)
+    weighted = (
+        square_root[:, None]
+        * system
+        / square_root[None, :]
+    )
+    balanced, transform = matrix_balance(
+        weighted,
+        permute=True,
+        scale=True,
+        separate=False,
+    )
+    balanced_metric = solve_continuous_lyapunov(
+        balanced.T,
+        -np.eye(n_state),
+    )
+    balanced_metric = 0.5 * (
+        balanced_metric + balanced_metric.T
+    )
+    inverse_transform = np.linalg.inv(transform)
+    metric = (
+        inverse_transform.T
+        @ balanced_metric
+        @ inverse_transform
+    )
+    metric = 0.5 * (metric + metric.T)
+    forcing = inverse_transform.T @ inverse_transform
+    eigenvalues = eigvalsh(metric, driver="evr")
+    minimum = float(eigenvalues[0])
+    maximum = float(eigenvalues[-1])
+    normalized_minimum = minimum / max(
+        abs(maximum),
+        np.finfo(float).tiny,
+    )
+    left = weighted.T @ metric
+    right = metric @ weighted
+    residual = left + right + forcing
+    relative_residual = float(
+        np.linalg.norm(residual)
+        / max(
+            np.linalg.norm(left)
+            + np.linalg.norm(right)
+            + np.linalg.norm(forcing),
+            np.finfo(float).tiny,
+        )
+    )
+    positive_definite = bool(
+        minimum > positivity * max(abs(maximum), np.finfo(float).tiny)
+    )
+    residual_passed = bool(relative_residual <= residual_gate)
+    return CausalLyapunovMetricAudit(
+        metric=np.asarray(metric, dtype=float),
+        forcing=np.asarray(forcing, dtype=float),
+        minimum_eigenvalue=minimum,
+        maximum_eigenvalue=maximum,
+        normalized_minimum_eigenvalue=normalized_minimum,
+        relative_residual=relative_residual,
+        positive_definite=positive_definite,
+        residual_passed=residual_passed,
+        accepted=bool(positive_definite and residual_passed),
+    )
+
+
+def _weighted_rational_candidates(
+    dynamic: np.ndarray,
+    directions: np.ndarray,
+    outputs: np.ndarray,
+    timescales_seconds: np.ndarray,
+) -> np.ndarray:
+    try:
+        from scipy.linalg import solve
+    except ImportError as exc:  # pragma: no cover - solver extra missing
+        raise RuntimeError(
+            "scipy is required for rational Krylov reduction"
+        ) from exc
+    identity = np.eye(dynamic.shape[0])
+    blocks = [directions, outputs.T]
+    for timescale in timescales_seconds:
+        shift = 1.0 / float(timescale)
+        blocks.append(
+            solve(
+                shift * identity - dynamic,
+                directions,
+                assume_a="gen",
+                check_finite=True,
+            )
+        )
+        blocks.append(
+            solve(
+                shift * identity - dynamic.T,
+                outputs.T,
+                assume_a="gen",
+                check_finite=True,
+            )
+        )
+    candidates = np.column_stack(blocks)
+    norms = np.linalg.norm(candidates, axis=0)
+    active = norms > np.finfo(float).eps * max(
+        float(np.max(norms)),
+        1.0,
+    )
+    if not np.any(active):
+        raise ValueError("rational Krylov candidates have zero rank")
+    return candidates[:, active] / norms[active][None, :]
+
+
+def _ledger_safe_lqr_stabilization(
+    dynamic: np.ndarray,
+    protected_coordinates: np.ndarray,
+    *,
+    stability_tolerance: float,
+    penalties: tuple[float, ...],
+) -> tuple[np.ndarray, bool, float | None, float]:
+    try:
+        from scipy.linalg import eigvals, null_space, solve_continuous_are
+    except ImportError as exc:  # pragma: no cover - solver extra missing
+        raise RuntimeError(
+            "scipy is required for ledger-safe ROM stabilization"
+        ) from exc
+
+    raw = np.asarray(dynamic, dtype=float)
+    maximum_real = float(np.max(np.real(eigvals(raw))))
+    if maximum_real <= stability_tolerance:
+        return raw.copy(), True, None, 0.0
+    control = null_space(protected_coordinates)
+    if control.shape[1] == 0:
+        return raw.copy(), False, None, float("inf")
+
+    candidates = []
+    for penalty in penalties:
+        rho = float(penalty)
+        if not np.isfinite(rho) or rho <= 0.0:
+            raise ValueError(
+                "stabilization penalties must be positive and finite"
+            )
+        try:
+            riccati = solve_continuous_are(
+                raw,
+                control,
+                np.eye(raw.shape[0]),
+                rho * np.eye(control.shape[1]),
+            )
+            correction = (
+                control @ control.T @ riccati / rho
+            )
+            stabilized = raw - correction
+            stabilized_maximum = float(
+                np.max(np.real(eigvals(stabilized)))
+            )
+            fraction = float(
+                np.linalg.norm(correction)
+                / max(np.linalg.norm(raw), np.finfo(float).tiny)
+            )
+            if (
+                np.all(np.isfinite(stabilized))
+                and stabilized_maximum <= stability_tolerance
+            ):
+                candidates.append(
+                    (fraction, rho, np.asarray(stabilized, dtype=float))
+                )
+        except (ValueError, np.linalg.LinAlgError):
+            continue
+    if not candidates:
+        return raw.copy(), False, None, float("inf")
+    fraction, penalty, stabilized = min(
+        candidates,
+        key=lambda row: row[0],
+    )
+    return stabilized, True, penalty, fraction
+
+
+def causal_stable_rational_krylov_rom(
+    dynamic: np.ndarray,
+    inputs: np.ndarray,
+    outputs: np.ndarray,
+    protected_operators: np.ndarray,
+    *,
+    order: int,
+    timescales_seconds: np.ndarray,
+    state_weights: np.ndarray | None = None,
+    initial_directions: np.ndarray | None = None,
+    stability_tolerance: float = 1.0e-8,
+    stabilization_penalties: tuple[float, ...] = (
+        1.0e12,
+        1.0e10,
+        1.0e8,
+        1.0e6,
+        1.0e4,
+        1.0e2,
+        1.0,
+    ),
+) -> CausalStableRationalKrylovROM:
+    """Build a rational Krylov model and stabilize only ledger-null rows.
+
+    The basis is an orthogonal Galerkin basis in a cell-measure-weighted
+    coordinate chart.  Exact ledger representers are inserted first.  If
+    projection creates unstable poles, an LQR correction may act only in the
+    null space of the reduced ledger coordinates.  The correction magnitude
+    is returned as an authorization diagnostic; stability alone is not a
+    fidelity claim.
+    """
+
+    system = _finite_matrix(dynamic, name="dynamic")
+    if system.shape[0] != system.shape[1]:
+        raise ValueError("dynamic matrix must be square")
+    n_state = system.shape[0]
+    input_matrix = _finite_matrix(inputs, name="inputs", rows=n_state)
+    output_matrix = _finite_matrix(outputs, name="outputs")
+    protected = _finite_matrix(
+        protected_operators,
+        name="protected_operators",
+    )
+    if (
+        output_matrix.shape[1] != n_state
+        or protected.shape[1] != n_state
+    ):
+        raise ValueError("output operators have incompatible dimensions")
+    if initial_directions is None:
+        directions = input_matrix
+    else:
+        initial = _finite_matrix(
+            initial_directions,
+            name="initial_directions",
+            rows=n_state,
+        )
+        directions = np.column_stack((input_matrix, initial))
+    timescales = np.asarray(timescales_seconds, dtype=float)
+    if (
+        timescales.ndim != 1
+        or timescales.size == 0
+        or np.any(~np.isfinite(timescales))
+        or np.any(timescales <= 0.0)
+    ):
+        raise ValueError("rational timescales must be positive and finite")
+    if state_weights is None:
+        weights = np.ones(n_state, dtype=float)
+    else:
+        weights = np.asarray(state_weights, dtype=float)
+        if (
+            weights.shape != (n_state,)
+            or np.any(~np.isfinite(weights))
+            or np.any(weights <= 0.0)
+        ):
+            raise ValueError("state weights must be positive and finite")
+    target_order = int(order)
+    protected_count = int(protected.shape[0])
+    if not protected_count <= target_order <= n_state:
+        raise ValueError("order cannot represent protected coordinates")
+
+    try:
+        from scipy.linalg import eigvals, qr, svd
+    except ImportError as exc:  # pragma: no cover - solver extra missing
+        raise RuntimeError(
+            "scipy is required for rational Krylov reduction"
+        ) from exc
+    square_root = np.sqrt(weights)
+    inverse_square_root = 1.0 / square_root
+    weighted_dynamic = (
+        square_root[:, None]
+        * system
+        * inverse_square_root[None, :]
+    )
+    weighted_directions = square_root[:, None] * directions
+    weighted_outputs = output_matrix * inverse_square_root[None, :]
+    weighted_protected = protected * inverse_square_root[None, :]
+    protected_trial, _ = qr(
+        weighted_protected.T,
+        mode="economic",
+    )
+    if protected_trial.shape[1] != protected_count:
+        raise ValueError("protected operators are linearly dependent")
+    projector = np.eye(n_state) - protected_trial @ protected_trial.T
+    candidates = projector @ _weighted_rational_candidates(
+        weighted_dynamic,
+        weighted_directions,
+        weighted_outputs,
+        timescales,
+    )
+    candidate_norms = np.linalg.norm(candidates, axis=0)
+    active = candidate_norms > np.finfo(float).eps * max(
+        float(np.max(candidate_norms)),
+        1.0,
+    )
+    candidates = (
+        candidates[:, active] / candidate_norms[active][None, :]
+    )
+    left, singular, _right = svd(candidates, full_matrices=False)
+    dynamic_count = target_order - protected_count
+    threshold = (
+        np.finfo(float).eps
+        * max(candidates.shape)
+        * max(float(singular[0]), 1.0)
+    )
+    available = int(np.count_nonzero(singular > threshold))
+    if available < dynamic_count:
+        raise ValueError(
+            "rational Krylov candidates have insufficient numerical rank "
+            f"({available} available, {dynamic_count} requested)"
+        )
+    weighted_trial = np.column_stack(
+        (protected_trial, left[:, :dynamic_count])
+    )
+    weighted_trial, _ = qr(weighted_trial, mode="economic")
+    trial = inverse_square_root[:, None] * weighted_trial
+    test = square_root[:, None] * weighted_trial
+    raw_dynamic = test.T @ system @ trial
+    reduced_protected = protected @ trial
+    stabilized, succeeded, penalty, correction = (
+        _ledger_safe_lqr_stabilization(
+            raw_dynamic,
+            reduced_protected,
+            stability_tolerance=float(stability_tolerance),
+            penalties=stabilization_penalties,
+        )
+    )
+    raw_maximum = float(np.max(np.real(eigvals(raw_dynamic))))
+    maximum = float(np.max(np.real(eigvals(stabilized))))
+    projection = trial @ test.T
+    protected_scale = max(
+        float(np.linalg.norm(protected)),
+        np.finfo(float).tiny,
+    )
+    protected_dynamics_scale = max(
+        float(np.linalg.norm(reduced_protected @ raw_dynamic)),
+        np.finfo(float).tiny,
+    )
+    return CausalStableRationalKrylovROM(
+        trial_basis=np.asarray(trial, dtype=float),
+        test_basis=np.asarray(test, dtype=float),
+        raw_dynamic_matrix=np.asarray(raw_dynamic, dtype=float),
+        dynamic_matrix=np.asarray(stabilized, dtype=float),
+        input_matrix=np.asarray(test.T @ input_matrix, dtype=float),
+        output_matrix=np.asarray(output_matrix @ trial, dtype=float),
+        protected_operators=np.asarray(protected, dtype=float),
+        rational_timescales_seconds=timescales.copy(),
+        protected_coordinate_count=protected_count,
+        raw_maximum_real_eigenvalue=raw_maximum,
+        maximum_real_eigenvalue=maximum,
+        stabilization_succeeded=succeeded,
+        stabilization_penalty=penalty,
+        stabilization_correction_fraction=correction,
+        biorthogonality_defect=float(
+            np.max(
+                np.abs(
+                    test.T @ trial - np.eye(target_order)
+                )
+            )
+        ),
+        protected_value_defect=float(
+            np.linalg.norm(protected @ projection - protected)
+            / protected_scale
+        ),
+        protected_dynamics_defect=float(
+            np.linalg.norm(
+                reduced_protected @ (stabilized - raw_dynamic)
+            )
+            / protected_dynamics_scale
+        ),
+        candidate_singular_values=np.asarray(singular, dtype=float),
+    )
+
+
 def causal_truncate_mixed_mode_rom(
     rom: CausalMixedModeROM,
     dynamic: np.ndarray,
@@ -473,6 +929,104 @@ def causal_rom_initial_response(
         rom.trial_basis,
         reduced,
         optimize=True,
+    )
+
+
+def causal_stable_rom_initial_response(
+    rom: CausalStableRationalKrylovROM,
+    initial_state: np.ndarray,
+    times_seconds: np.ndarray,
+) -> np.ndarray:
+    """Return reconstructed stable-ROM responses to full-state directions."""
+
+    initial = _finite_matrix(
+        initial_state,
+        name="initial_state",
+        rows=rom.trial_basis.shape[0],
+    )
+    reduced = causal_linear_initial_response(
+        rom.dynamic_matrix,
+        rom.test_basis.T @ initial,
+        times_seconds,
+    )
+    return np.einsum(
+        "nr,trd->tnd",
+        rom.trial_basis,
+        reduced,
+        optimize=True,
+    )
+
+
+def causal_linear_transfer_response(
+    dynamic: np.ndarray,
+    directions: np.ndarray,
+    outputs: np.ndarray,
+    timescales_seconds: np.ndarray,
+) -> np.ndarray:
+    """Return ``C (s I - A)^-1 D`` at ``s=1/timescale``."""
+
+    system = _finite_matrix(dynamic, name="dynamic")
+    if system.shape[0] != system.shape[1]:
+        raise ValueError("dynamic matrix must be square")
+    direction_matrix = _finite_matrix(
+        directions,
+        name="directions",
+        rows=system.shape[0],
+    )
+    output_matrix = _finite_matrix(outputs, name="outputs")
+    if output_matrix.shape[1] != system.shape[0]:
+        raise ValueError("outputs have an incompatible column count")
+    timescales = np.asarray(timescales_seconds, dtype=float)
+    if (
+        timescales.ndim != 1
+        or timescales.size == 0
+        or np.any(~np.isfinite(timescales))
+        or np.any(timescales <= 0.0)
+    ):
+        raise ValueError("transfer timescales must be positive and finite")
+    solve, _expm_multiply = _scipy_linalg()
+    identity = np.eye(system.shape[0])
+    return np.stack(
+        [
+            output_matrix
+            @ solve(
+                identity / float(timescale) - system,
+                direction_matrix,
+                assume_a="gen",
+                check_finite=True,
+            )
+            for timescale in timescales
+        ],
+        axis=0,
+    )
+
+
+def causal_stable_rom_transfer_response(
+    rom: CausalStableRationalKrylovROM,
+    directions: np.ndarray,
+    timescales_seconds: np.ndarray,
+    *,
+    outputs: np.ndarray | None = None,
+) -> np.ndarray:
+    """Return stable-ROM transfer responses for full-state directions."""
+
+    direction_matrix = _finite_matrix(
+        directions,
+        name="directions",
+        rows=rom.trial_basis.shape[0],
+    )
+    if outputs is None:
+        reduced_outputs = rom.output_matrix
+    else:
+        full_outputs = _finite_matrix(outputs, name="outputs")
+        if full_outputs.shape[1] != rom.trial_basis.shape[0]:
+            raise ValueError("outputs have an incompatible column count")
+        reduced_outputs = full_outputs @ rom.trial_basis
+    return causal_linear_transfer_response(
+        rom.dynamic_matrix,
+        rom.test_basis.T @ direction_matrix,
+        reduced_outputs,
+        timescales_seconds,
     )
 
 

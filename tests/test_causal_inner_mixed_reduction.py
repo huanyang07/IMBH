@@ -11,9 +11,14 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_five_field_reduced_descriptor_matrices,
     causal_five_field_reduced_stationary_residual,
     causal_linear_initial_response,
+    causal_linear_transfer_response,
     causal_log_time_quadrature,
+    causal_lyapunov_metric_audit,
     causal_rom_initial_response,
     causal_rom_memory_kernel_actions,
+    causal_stable_rational_krylov_rom,
+    causal_stable_rom_initial_response,
+    causal_stable_rom_transfer_response,
     causal_stream_descriptor_inputs,
     causal_truncate_mixed_mode_rom,
     make_causal_five_field_regression_context,
@@ -267,3 +272,105 @@ def test_balanced_rom_can_report_numerically_resolved_rank() -> None:
     )
 
     assert 2 <= rom.order < 6
+
+
+def test_lyapunov_metric_certifies_a_well_conditioned_stable_system() -> None:
+    dynamic, _inputs, _outputs, _protected = _stable_system()
+
+    audit = causal_lyapunov_metric_audit(
+        dynamic,
+        state_weights=np.arange(1.0, 7.0),
+    )
+
+    assert audit.accepted
+    assert audit.positive_definite
+    assert audit.residual_passed
+    assert audit.minimum_eigenvalue > 0.0
+    assert audit.relative_residual < 1.0e-10
+
+
+def test_full_order_stable_rational_rom_reproduces_responses() -> None:
+    dynamic, inputs, outputs, protected = _stable_system()
+    timescales = np.asarray((0.05, 0.2, 1.0, 5.0))
+    rom = causal_stable_rational_krylov_rom(
+        dynamic,
+        inputs,
+        outputs,
+        protected,
+        order=6,
+        timescales_seconds=timescales,
+        state_weights=np.arange(1.0, 7.0),
+        initial_directions=np.eye(6),
+    )
+
+    assert rom.stabilization_succeeded
+    assert rom.maximum_real_eigenvalue < 0.0
+    assert rom.stabilization_correction_fraction == 0.0
+    assert rom.biorthogonality_defect < 1.0e-12
+    assert rom.protected_value_defect < 1.0e-12
+    assert rom.protected_dynamics_defect == 0.0
+
+    directions = np.column_stack((inputs, np.eye(6)[:, -1]))
+    times = np.asarray((0.0, 0.1, 1.0, 3.0))
+    full_initial = causal_linear_initial_response(
+        dynamic,
+        directions,
+        times,
+    )
+    reduced_initial = causal_stable_rom_initial_response(
+        rom,
+        directions,
+        times,
+    )
+    assert np.allclose(
+        reduced_initial,
+        full_initial,
+        rtol=2.0e-10,
+        atol=2.0e-11,
+    )
+
+    full_transfer = causal_linear_transfer_response(
+        dynamic,
+        directions,
+        outputs,
+        timescales,
+    )
+    reduced_transfer = causal_stable_rom_transfer_response(
+        rom,
+        directions,
+        timescales,
+    )
+    assert np.allclose(
+        reduced_transfer,
+        full_transfer,
+        rtol=2.0e-10,
+        atol=2.0e-11,
+    )
+
+
+def test_stabilization_preserves_protected_reduced_dynamics() -> None:
+    dynamic = np.asarray(
+        (
+            (-1.0, 40.0, 0.0, 0.0),
+            (0.0, -2.0, 40.0, 0.0),
+            (0.0, 0.0, -3.0, 40.0),
+            (0.0, 0.0, 0.0, -4.0),
+        )
+    )
+    inputs = np.eye(4)[:, :2]
+    outputs = np.asarray(((1.0, 0.0, 0.0, 1.0),))
+    protected = np.asarray(((1.0, 0.0, 0.0, 0.0),))
+    rom = causal_stable_rational_krylov_rom(
+        dynamic,
+        inputs,
+        outputs,
+        protected,
+        order=3,
+        timescales_seconds=np.asarray((0.01, 0.1, 1.0)),
+        initial_directions=np.eye(4)[:, 2:],
+    )
+
+    assert rom.stabilization_succeeded
+    assert rom.maximum_real_eigenvalue <= 1.0e-8
+    assert rom.protected_value_defect < 1.0e-11
+    assert rom.protected_dynamics_defect < 1.0e-11
