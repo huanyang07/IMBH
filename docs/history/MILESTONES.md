@@ -337,6 +337,18 @@ rejected sequence.
     to `1e20` also expose strong non-normality. Global algebraic elimination
     of radial momentum and stress is rejected; only a trajectory-conditioned,
     region-aware reduction-feasibility audit is authorized.
+53. **Stress-time spatial and reduction stop:** matched N32/N64/N128
+    production and half-ceiling controls reach exact `0.075`, `0.10`,
+    `0.125`, and `0.15 s` with no rejected attempts. A BDF1 bridge after
+    highly uneven exact-landing history restores full BDF2 timesteps and
+    gives bitwise N64/N128 final replay. Spatial order remains
+    `1.962-2.008`; the conservative N64/N128 total passes `0.005` at every
+    output. The `0.15 s` N128 Richardson remainder is nevertheless
+    `0.0012533 > 0.00125`, so only `0.125 s` is fully certified. Stress-target
+    departure outside `6 rg` stays near `0.59`, and radial stationary defects
+    do not decay. A nonlinear global or inner quasi-steady reduction remains
+    rejected; only a region-selective operator audit at the certified state
+    is authorized.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

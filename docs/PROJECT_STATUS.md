@@ -107,6 +107,7 @@ This is the canonical project handoff. Status labels mean:
 | Evolved-state spatial order WP10c7m | **CERTIFIED** for one N128 reference campaign; **DIAGNOSTIC ONLY** physically | Two independent common-state N32/N64/N128 oracles give full-domain thickness-tangent order `1.989/1.996`, interior temperature order `2.127-2.131`, and scaled-energy order `1.875-1.876`; projected spatial plus temporal/oracle reserve is `0.001751 < 0.0025` | Full-domain raw temperature/energy maxima remain boundary limited; no duration extension or reduction calibration is authorized before measured N64/N128 `0.05 s` certification |
 | Fresh N128 reference WP10c7n | **CERTIFIED** for N64/N128 evolution through `0.05 s`; **DIAGNOSTIC ONLY** physically | Fresh N128 production/control take 30/60 accepted steps with zero retries; raw N64/N128 `Delta log(H/R)=0.0012235`, conservative total `0.0014873`, observed order `2.0147`, Richardson remainder `0.0004023`; replay is bitwise | Only one third of a stress-relaxation time is covered; selected-state descriptor spectra and full/reduced validation are required before any slow-manifold or long-duration claim |
 | Selected-state slow modes WP10c8a | **CERTIFIED** as a negative global-reduction result; **DIAGNOSTIC ONLY** physically | All finite N64/N128 modes and every isolated `P_R/chi` block are stable at `0/0.0375/0.05 s`; descriptor rank is full, maximum eigenpair defect is `2.14e-8`, and low-mode median mesh mismatch is `0.172-0.186` | The candidate fast block spans `0.013-1438 s` while retained high-wavenumber modes reach `0.014-0.029 s`, giving gaps near `1e-5`; extreme non-normality rejects global algebraic elimination and authorizes only trajectory-conditioned, region-aware feasibility work |
+| Causal stress-time audit WP10c8b | **CERTIFIED** through `0.125 s`; **REJECTED** at the stronger `0.15 s` spatial gate; **DIAGNOSTIC ONLY** physically | Six matched N32/N64/N128 production/control campaigns pass with zero retries; conservative N64/N128 response at `0.15 s` is `0.0038168 < 0.005`, order is `1.9618`, and both final replays are bitwise | N128 Richardson remainder is `0.0012533 > 0.00125`; stress-target and radial-balance departures do not decay, so only an operator-level WP10c8c closure audit is authorized at the certified `0.125 s` state |
 
 ## Frozen Target Under Review
 
@@ -813,9 +814,15 @@ N                    = 164
    resulting gap is only about `1e-5`. Dynamic and fast-block numerical
    abscissae are positive and right-eigenvector condition estimates reach
    `1e20`, so transient behavior cannot be inferred from eigenvalues alone.
-   Only a trajectory-conditioned, region-aware feasibility audit is
-   authorized; no physical slow-manifold, stress/cooling/thermal extension,
-   distributed tide, wind, stability, or hot/cycle claim is yet authorized.
+   WP10c8b then advances all N32/N64/N128 production and temporal-control
+   paths through `0.15 s`. The common contract passes through `0.125 s`.
+   At `0.15 s`, the conservative N64/N128 total is still only `0.0038168`
+   and the order is `1.9618`, but the stronger Richardson remainder is
+   `0.0012533`, narrowly above `0.00125`. More decisively, weighted
+   stress-target and radial-stationarity departures do not decay over the
+   certified interval. Only a certified-state, region-aware operator audit
+   is authorized; no nonlinear slow manifold, distributed tide, wind,
+   stability, or hot/cycle claim is yet authorized.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -827,7 +834,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_SLOW_MODE_AUDIT_WP10C8A_RESULTS_2026-07-19.md`
+  `reports/current/CODEX_CAUSAL_STRESS_TIME_AUDIT_WP10C8B_RESULTS_2026-07-19.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -906,6 +913,10 @@ N                    = 164
 - Causal spatial-balance trajectory WP10c7j: `reports/current/CODEX_CAUSAL_SPATIAL_BALANCE_TRAJECTORY_WP10C7J_RESULTS_2026-07-19.md`
 - Matched adaptive spatial balance WP10c7k: `reports/current/CODEX_CAUSAL_SPATIAL_BALANCE_ADAPTIVE_WP10C7K_RESULTS_2026-07-19.md`
 - Characteristic-crossing extension WP10c7l: `reports/current/CODEX_CAUSAL_CHARACTERISTIC_EXTENSION_WP10C7L_RESULTS_2026-07-19.md`
+- Evolved-state spatial order WP10c7m: `reports/current/CODEX_CAUSAL_EVOLVED_SPATIAL_ORDER_WP10C7M_RESULTS_2026-07-19.md`
+- Fresh N128 reference WP10c7n: `reports/current/CODEX_CAUSAL_N128_REFERENCE_WP10C7N_RESULTS_2026-07-19.md`
+- Selected-state slow modes WP10c8a: `reports/current/CODEX_CAUSAL_SLOW_MODE_AUDIT_WP10C8A_RESULTS_2026-07-19.md`
+- Causal stress-time audit WP10c8b: `reports/current/CODEX_CAUSAL_STRESS_TIME_AUDIT_WP10C8B_RESULTS_2026-07-19.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
 - Horizon-penetrating Valencia core WP10b: `reports/current/CODEX_HORIZON_PENETRATING_VALENCIA_WP10B_RESULTS_2026-07-17.md`
 - Valencia gas+radiation primitive recovery WP10c1: `reports/current/CODEX_VALENCIA_GAS_RADIATION_PRIMITIVE_RECOVERY_WP10C1_RESULTS_2026-07-17.md`
