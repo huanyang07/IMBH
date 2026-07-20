@@ -349,6 +349,17 @@ rejected sequence.
     do not decay. A nonlinear global or inner quasi-steady reduction remains
     rejected; only a region-selective operator audit at the certified state
     is authorized.
+54. **Region-selective algebraic-closure no-go:** 27 radial/component Schur
+    charts are tested independently at N64 and N128 on the certified
+    `0.125 s` state. Both descriptors remain full rank, all isolated fast
+    blocks are stable, and all Schur solves close below `1.1e-16`. No chart
+    passes physical slaving or the required fast/retained gap. Three
+    `60-200 rg` charts preserve the tested instantaneous responses, but their
+    eliminated modes decay over `3-98 s` while retained modes remain as fast
+    as `0.014-0.026 s`; several effective operators are unstable. The global
+    joint closure shows transient gain `4.72/8.43` and invariance defect near
+    `11`. Nonlinear fieldwise reduction is rejected in favor of a future
+    dynamic observable-balanced or quasi-static branch formulation.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed
