@@ -1506,6 +1506,207 @@ def _interior_rusanov_flux_components(
     )
 
 
+def causal_five_field_rusanov_control_diagnostics(
+    context: CausalFiveFieldDAEContext,
+    primitive_charts: np.ndarray,
+) -> dict:
+    """Return branch and jump diagnostics at every interior Rusanov face.
+
+    The interior flux uses the largest absolute characteristic speed from the
+    reconstructed left and right states.  A tie in that ``max(abs(.))`` is
+    harmless when the conserved jump multiplying the selected speed vanishes;
+    a nearly tied branch can likewise be numerically suppressed when that jump
+    is tiny.  Expose both the selected branches and the production conserved
+    jump so tangent audits do not reject a zero-jump tie or silently accept a
+    finite-jump kink.
+    """
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    charts = np.asarray(primitive_charts, dtype=float)
+    if (
+        charts.shape != (n_cells, _N_FIELDS)
+        or np.any(~np.isfinite(charts))
+    ):
+        raise ValueError("primitive charts have the wrong shape or value")
+    reconstruction = causal_five_field_reconstruct_face_charts(
+        context,
+        charts,
+    )
+    family_labels = (
+        "inward_acoustic",
+        "inward_shear",
+        "material",
+        "outward_shear",
+        "outward_acoustic",
+    )
+    control_codes = np.empty(max(n_cells - 1, 0), dtype=int)
+    second_control_codes = np.empty(max(n_cells - 1, 0), dtype=int)
+    control_labels = []
+    second_control_labels = []
+    maximum_speeds = np.empty(max(n_cells - 1, 0), dtype=float)
+    relative_margins = np.empty(max(n_cells - 1, 0), dtype=float)
+    signed_speeds = np.empty(max(n_cells - 1, 0), dtype=float)
+    conserved_jumps = np.empty((max(n_cells - 1, 0), _N_FIELDS))
+    left_conserved_states = np.empty_like(conserved_jumps)
+    right_conserved_states = np.empty_like(conserved_jumps)
+    relative_jump_l2 = np.empty(max(n_cells - 1, 0), dtype=float)
+    relative_jump_maximum = np.empty(max(n_cells - 1, 0), dtype=float)
+    candidate_absolute_speeds = np.empty(
+        (max(n_cells - 1, 0), 2 * len(family_labels)),
+        dtype=float,
+    )
+    for output_index, face_index in enumerate(range(1, n_cells)):
+        radius = float(context.grid.edges[face_index])
+        candidates = []
+        face_states = []
+        for side_index, (side, chart) in enumerate(
+            (
+                ("left", reconstruction.left_face_charts[face_index]),
+                ("right", reconstruction.right_face_charts[face_index]),
+            )
+        ):
+            state = _cell_state(context, radius, chart)
+            face_states.append(state)
+            audit = audit_causal_five_field_principal(
+                state.geometry,
+                context.vertical_frequency.eos(radius),
+                state.closure,
+                surface_density=state.primitive.surface_density,
+                radial_velocity_over_c=(
+                    state.primitive.radial_velocity_over_c
+                ),
+                azimuthal_velocity_over_c=(
+                    state.primitive.azimuthal_velocity_over_c
+                ),
+                temperature=state.thermodynamics.temperature,
+            )
+            for family_index, speed in enumerate(
+                audit.coordinate_speeds_over_c
+            ):
+                candidates.append(
+                    (
+                        abs(float(speed)),
+                        side_index,
+                        family_index,
+                        side,
+                        family_labels[family_index],
+                        float(speed),
+                    )
+                )
+                candidate_absolute_speeds[
+                    output_index,
+                    len(family_labels) * side_index + family_index,
+                ] = abs(float(speed))
+        candidates.sort(key=lambda row: row[0], reverse=True)
+        controlling = candidates[0]
+        second = candidates[1]
+        maximum = controlling[0]
+        control_codes[output_index] = (
+            len(family_labels) * controlling[1] + controlling[2]
+        )
+        second_control_codes[output_index] = (
+            len(family_labels) * second[1] + second[2]
+        )
+        control_labels.append(f"{controlling[3]}:{controlling[4]}")
+        second_control_labels.append(f"{second[3]}:{second[4]}")
+        maximum_speeds[output_index] = maximum
+        signed_speeds[output_index] = controlling[5]
+        relative_margins[output_index] = (
+            (maximum - second[0])
+            / max(maximum, np.finfo(float).tiny)
+        )
+        left_conserved = np.asarray(
+            face_states[0].conserved,
+            dtype=float,
+        )
+        right_conserved = np.asarray(
+            face_states[1].conserved,
+            dtype=float,
+        )
+        jump = right_conserved - left_conserved
+        left_conserved_states[output_index] = left_conserved
+        right_conserved_states[output_index] = right_conserved
+        conserved_jumps[output_index] = jump
+        relative_jump_l2[output_index] = (
+            float(np.linalg.norm(jump))
+            / max(
+                float(np.linalg.norm(left_conserved)),
+                float(np.linalg.norm(right_conserved)),
+                np.finfo(float).tiny,
+            )
+        )
+        relative_jump_maximum[output_index] = (
+            float(np.max(np.abs(jump)))
+            / max(
+                float(np.max(np.abs(left_conserved))),
+                float(np.max(np.abs(right_conserved))),
+                np.finfo(float).tiny,
+            )
+        )
+    component_scales = np.maximum(
+        np.max(np.abs(left_conserved_states), axis=0, initial=0.0),
+        np.max(np.abs(right_conserved_states), axis=0, initial=0.0),
+    )
+    component_scales = np.maximum(
+        component_scales,
+        np.finfo(float).tiny,
+    )
+    scaled_jumps = conserved_jumps / component_scales[None, :]
+    scaled_left = left_conserved_states / component_scales[None, :]
+    scaled_right = right_conserved_states / component_scales[None, :]
+    relative_scaled_jump_l2 = np.linalg.norm(scaled_jumps, axis=1) / (
+        np.maximum(
+            np.linalg.norm(scaled_left, axis=1),
+            np.linalg.norm(scaled_right, axis=1),
+        )
+    )
+    relative_scaled_jump_maximum = np.max(
+        np.abs(scaled_jumps),
+        axis=1,
+        initial=0.0,
+    )
+    return {
+        "face_indices": np.arange(1, n_cells, dtype=int),
+        "control_codes": control_codes,
+        "control_labels": tuple(control_labels),
+        "second_control_codes": second_control_codes,
+        "second_control_labels": tuple(second_control_labels),
+        "maximum_absolute_speeds_over_c": maximum_speeds,
+        "controlling_signed_speeds_over_c": signed_speeds,
+        "relative_control_margins": relative_margins,
+        "candidate_absolute_speeds_over_c": (
+            candidate_absolute_speeds
+        ),
+        "conserved_jumps": conserved_jumps,
+        "left_conserved_states": left_conserved_states,
+        "right_conserved_states": right_conserved_states,
+        "conserved_component_scales": component_scales,
+        "relative_conserved_jump_l2": relative_jump_l2,
+        "relative_conserved_jump_maximum": relative_jump_maximum,
+        "relative_scaled_conserved_jump_l2": (
+            relative_scaled_jump_l2
+        ),
+        "relative_scaled_conserved_jump_maximum": (
+            relative_scaled_jump_maximum
+        ),
+        "exact_zero_conserved_jump": np.all(
+            conserved_jumps == 0.0,
+            axis=1,
+        ),
+        "minimum_relative_control_margin": (
+            float(np.min(relative_margins))
+            if relative_margins.size
+            else float("inf")
+        ),
+        "maximum_relative_conserved_jump_l2": (
+            float(np.max(relative_jump_l2))
+            if relative_jump_l2.size
+            else 0.0
+        ),
+    }
+
+
 def _interior_rusanov_flux(
     context: CausalFiveFieldDAEContext,
     face_index: int,
@@ -2057,6 +2258,77 @@ def _integrated_cell_sources(
     return sources, optical_depths, components
 
 
+def _mapped_conserved_from_reconstruction(
+    context: CausalFiveFieldDAEContext,
+    primitive_charts: np.ndarray,
+    cell_states: list[CausalFiveFieldCellState],
+    reconstruction: CausalFiveFieldFaceReconstruction,
+) -> np.ndarray:
+    """Map cell storage without evaluating any physical face boundary."""
+
+    n_cells = len(cell_states)
+    if context.cell_storage_quadrature == "midpoint":
+        return np.asarray(
+            [state.conserved for state in cell_states],
+            dtype=float,
+        )
+    log_centers = np.log(
+        np.asarray(context.grid.centers, dtype=float)
+    )
+    mapped = np.zeros((n_cells, _N_FIELDS), dtype=float)
+    for index in range(n_cells):
+        radii, weights = _gauss_legendre_cell_nodes_and_measures(
+            context,
+            index,
+        )
+        for radius, weight in zip(radii, weights, strict=True):
+            chart = (
+                primitive_charts[index]
+                + reconstruction.limited_slopes[index]
+                * (np.log(radius) - log_centers[index])
+            )
+            mapped[index] += (
+                weight
+                * _cell_state(context, float(radius), chart).conserved
+            )
+        mapped[index] /= float(context.grid.cell_measures[index])
+    return mapped
+
+
+def causal_five_field_mapped_conserved_from_primitives(
+    context: CausalFiveFieldDAEContext,
+    primitive_charts: np.ndarray,
+) -> np.ndarray:
+    """Return midpoint/Gauss cell storage without evaluating face fluxes."""
+
+    context = context.validated()
+    charts = np.asarray(primitive_charts, dtype=float)
+    n_cells = int(context.grid.centers.size)
+    if (
+        charts.shape != (n_cells, _N_FIELDS)
+        or np.any(~np.isfinite(charts))
+    ):
+        raise ValueError("primitive storage charts are invalid")
+    cell_states = [
+        _cell_state(context, float(radius), chart)
+        for radius, chart in zip(
+            context.grid.centers,
+            charts,
+            strict=True,
+        )
+    ]
+    reconstruction = causal_five_field_reconstruct_face_charts(
+        context,
+        charts,
+    )
+    return _mapped_conserved_from_reconstruction(
+        context,
+        charts,
+        cell_states,
+        reconstruction,
+    )
+
+
 def _mapped_state_and_fluxes(
     context: CausalFiveFieldDAEContext,
     primitive_charts: np.ndarray,
@@ -2084,32 +2356,12 @@ def _mapped_state_and_fluxes(
         context,
         primitive_charts,
     )
-    if context.cell_storage_quadrature == "midpoint":
-        mapped = np.asarray(
-            [state.conserved for state in cell_states],
-            dtype=float,
-        )
-    else:
-        log_centers = np.log(
-            np.asarray(context.grid.centers, dtype=float)
-        )
-        mapped = np.zeros((n_cells, _N_FIELDS), dtype=float)
-        for index in range(n_cells):
-            radii, weights = _gauss_legendre_cell_nodes_and_measures(
-                context,
-                index,
-            )
-            for radius, weight in zip(radii, weights, strict=True):
-                chart = (
-                    primitive_charts[index]
-                    + reconstruction.limited_slopes[index]
-                    * (np.log(radius) - log_centers[index])
-                )
-                mapped[index] += (
-                    weight
-                    * _cell_state(context, float(radius), chart).conserved
-                )
-            mapped[index] /= float(context.grid.cell_measures[index])
+    mapped = _mapped_conserved_from_reconstruction(
+        context,
+        primitive_charts,
+        cell_states,
+        reconstruction,
+    )
     faces = np.empty((n_cells + 1, _N_FIELDS), dtype=float)
     central_faces = np.empty_like(faces)
     dissipative_faces = np.zeros_like(faces)

@@ -1,6 +1,6 @@
 # Project Status
 
-- Updated: 2026-07-20
+- Updated: 2026-07-21
 - Pre-cleanup scientific tag: `pre-cleanup-p0-2026-07-11`
 - Legacy phase classification tag: `legacy-steady-positive-flux-dae-2026-07-10`
 
@@ -11,6 +11,8 @@ This is the canonical project handoff. Status labels mean:
   identified unresolved robustness or closure condition.
 - **DIAGNOSTIC ONLY:** useful mathematical or numerical evidence that must not
   be promoted to a physical branch claim.
+- **IMPLEMENTED AND METHOD-TESTED:** the software and local identities pass
+  their tests, but the scientific campaign contract is not certified.
 - **REJECTED:** tested formulation or composite fails its acceptance gates.
 - **PLANNED:** not implemented or not yet evaluated.
 
@@ -114,6 +116,7 @@ This is the canonical project handoff. Status labels mean:
 | Stable observable reduction WP10c8f | **CERTIFIED** as a negative rational-reduction result; **REJECTED** for a nonlinear ROM; **DIAGNOSTIC ONLY** physically | Exact N64/N128 global ledgers identify angular/energy clocks `9.36e5/1.44e6 s`; ledger-safe LQR stabilization keeps protected defects below `7.4e-17` and stabilizes every order `8-96` model | No dense Lyapunov metric is numerically positive definite; best trained response error is `1.0002 > 0.1`, cross-mesh transfer excess is `0.320-0.323 > 0.25`, and no compact nonlinear or memory model is authorized |
 | Ledger equation-free preflight WP10c8g | **CERTIFIED** as a negative global-closure result; **REJECTED** for nonlinear lifting or macrosteps; **DIAGNOSTIC ONLY** physically | Global `M/J/E` factor-two projections are below `6.7e-7` of a gate and exact-rate/secant defects stay below `9.6e-3`; production/control and N64/N128 paths agree | Equal-ledger thermal directions change held observables by `19.73-19.75` gates and radial directions change projected responses by `13.05-13.23` gates; the eight-variable augmented state also fails |
 | Conservative shell preflight WP10c8h | **CERTIFIED** as a negative shell-closure result; **REJECTED** for nonlinear shell microbursts or macrosteps; **DIAGNOSTIC ONLY** physically | Exact mesh-coincident five/eight-shell operators retain `15/24` finite-volume `M/J/E` coordinates with constraint-null defects below `1e-10` | Five/eight-shell AB2 errors are `0.569/1.752 > 0.25`; ledger-null thermal and radial redistributions change observables by `17.5-17.8` and `9.94-10.01` gates; compact global and shell-only equation-free routes are closed |
+| Storage-consistent moment sufficiency WP10c8i | **IMPLEMENTED AND METHOD-TESTED** for the complete vector-storage and incremental moment-audit machinery; **INCONCLUSIVE** for moment sufficiency; nonlinear lifting and macrosteps **NOT AUTHORIZED** | Complete responsive-height storage is pulled back as a vector one-form in radial momentum, angular momentum, and Killing energy; its maximum action defect is `2.98e-7`; five cumulative five-shell levels retain `15/20/25/30/34` full-rank coordinates | Full generator FD-consistency scans fail at `t=0/0.10 s` on both meshes and consequential Rusanov branches remain at three anchors; conditional richest-level lower gains are `>340` gates, but are nonbinding; online cost is unevaluated and only a bounded tangent-certification package is authorized within this reduction branch |
 
 ## Frozen Target Under Review
 
@@ -865,7 +868,23 @@ N                    = 164
    equation-free macrosteps are therefore closed. The full DAE remains the
    short-time truth model; the next work must reassess a physically derived
    dynamic moment/continuum closure or an independent ledger-compatible
-   stationary/bifurcation anchor. No loading-time macrostep, distributed
+   stationary/bifurcation anchor. WP10c8i then implements the complete
+   vector responsive-height storage one-form, an evolving-anchor descriptor,
+   and an incremental five-shell moment/null-space audit at six N64/N128
+   anchors. The storage and coordinate machinery passes its method tests, but
+   generator FD-consistency and exact finite-branch contracts do not both pass at
+   every anchor. All 12 vector-storage audits pass with a maximum action
+   defect of `2.98e-7`; all local tangent-differentiability checks also pass.
+   The four declared full generator FD-consistency scans fail with physical JVP
+   step-ladder defects `0.210-0.655`, and the exact branch audit finds
+   `12/1/27/1` consequential branches at N64 `0/0.025 s` and N128
+   `0/0.075 s`. Conditional lower bounds for even the richest 34-coordinate
+   set exceed `340` gates and are controlled by interface-4 angular-momentum
+   response, but these gains cannot bind the decision. No moment set is
+   proven sufficient or insufficient, online cost remains unevaluated, and
+   nonlinear lifting is skipped. The next package must certify the evolving
+   tangent and consequential Rusanov branches before repeating the same
+   moment audit. No loading-time macrostep, distributed
    tide, wind, stability, or hot/cycle claim is yet authorized.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
@@ -878,7 +897,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_STABLE_OBSERVABLE_REDUCTION_WP10C8F_RESULTS_2026-07-20.md`
+  `reports/current/CODEX_CAUSAL_MOMENT_SUFFICIENCY_WP10C8I_RESULTS_2026-07-21.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)

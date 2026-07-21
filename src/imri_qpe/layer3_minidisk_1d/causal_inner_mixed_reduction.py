@@ -123,6 +123,234 @@ def causal_stream_descriptor_inputs(
     return np.column_stack(columns), tuple(names)
 
 
+@dataclass(frozen=True)
+class CausalWeightedConstraintNullBasis:
+    """Weighted-orthonormal basis and rank certificate for ``ker(C)``.
+
+    ``state_weights`` defines the physical state norm
+    ``||x||_W**2 = x.T @ diag(state_weights) @ x``.  The returned physical
+    basis therefore obeys ``basis.T @ W @ basis = I``.  Constraint rows are
+    first expressed in this weighted chart and then normalized to unit
+    Euclidean norm before the SVD rank decision, making that decision
+    insensitive to arbitrary nonzero row scaling.
+    """
+
+    basis: np.ndarray
+    weighted_basis: np.ndarray
+    state_weights: np.ndarray
+    row_norms: np.ndarray
+    constraint_singular_values: np.ndarray
+    constraint_rank: int
+    active_row_count: int
+    nullity: int
+    relative_rank_tolerance: float
+    absolute_rank_tolerance: float
+    rank_threshold: float
+    condition_estimate: float
+    raw_constraint_defect: float
+    whitened_constraint_defect: float
+    weighted_orthogonality_defect: float
+
+
+@dataclass(frozen=True)
+class CausalFiniteTimeNullGainAudit:
+    """Worst gate-normalized finite-time response on a constraint fiber.
+
+    The supplied response operator is expected to be either an endpoint
+    operator ``O exp(L h)`` or an increment operator
+    ``O (exp(L h) - I)``.  Those are deliberately constructed separately by
+    :func:`causal_finite_time_output_operator`; this audit never silently
+    substitutes one contract for the other.
+    """
+
+    null_basis_audit: CausalWeightedConstraintNullBasis
+    output_gates: np.ndarray
+    gate_normalized_null_operator: np.ndarray
+    amplitude_constraint_applied: bool
+    state_amplitudes_scaled: np.ndarray
+    per_output_maximum_gains: np.ndarray
+    maximum_per_output_gain: float
+    controlling_output_index: int
+    controlling_null_coordinates: np.ndarray
+    controlling_state_direction: np.ndarray
+    controlling_raw_output_response: np.ndarray
+    controlling_gate_normalized_output_response: np.ndarray
+    per_output_l2_maximum_pointwise_ratios: np.ndarray
+    per_output_admissible_lower_gains: np.ndarray
+    per_output_admissible_upper_gains: np.ndarray
+    maximum_admissible_lower_gain: float
+    maximum_admissible_upper_gain: float
+    controlling_admissible_output_index: int
+    controlling_admissible_state_direction: np.ndarray
+    controlling_admissible_gate_normalized_output_response: np.ndarray
+    admissible_leading_output_indices: np.ndarray
+    admissible_leading_state_subspace: np.ndarray
+    admissible_leading_subspace_dimension: int
+    singular_values: np.ndarray
+    maximum_gain: float
+    leading_null_coordinates: np.ndarray
+    leading_state_direction: np.ndarray
+    leading_raw_output_response: np.ndarray
+    leading_gate_normalized_output_response: np.ndarray
+    leading_state_subspace: np.ndarray
+    leading_output_subspace: np.ndarray
+    leading_subspace_dimension: int
+    leading_subspace_ratio: float
+
+
+def _positive_state_weights(
+    state_weights: np.ndarray | None,
+    *,
+    state_count: int,
+) -> np.ndarray:
+    if state_weights is None:
+        return np.ones(state_count, dtype=float)
+    weights = np.asarray(state_weights, dtype=float)
+    if (
+        weights.shape != (state_count,)
+        or np.any(~np.isfinite(weights))
+        or np.any(weights <= 0.0)
+    ):
+        raise ValueError("state weights must be positive and finite")
+    return weights
+
+
+def _stable_row_norms(matrix: np.ndarray) -> np.ndarray:
+    """Return row two-norms without avoidable overflow or underflow."""
+
+    if matrix.shape[0] == 0:
+        return np.empty(0, dtype=float)
+    row_maxima = np.max(np.abs(matrix), axis=1)
+    norms = np.zeros(matrix.shape[0], dtype=float)
+    active = row_maxima > 0.0
+    if np.any(active):
+        scaled = matrix[active] / row_maxima[active, None]
+        norms[active] = row_maxima[active] * np.linalg.norm(
+            scaled,
+            axis=1,
+        )
+    return norms
+
+
+def causal_weighted_constraint_null_basis(
+    constraints: np.ndarray,
+    *,
+    state_weights: np.ndarray | None = None,
+    relative_rank_tolerance: float | None = None,
+    absolute_rank_tolerance: float = 0.0,
+) -> CausalWeightedConstraintNullBasis:
+    """Return a robust weighted basis for the complete constraint null space.
+
+    Linearly dependent and zero constraint rows are retained in the
+    diagnostics but do not cause failure.  Callers that require independent
+    rows can compare ``constraint_rank`` with ``constraints.shape[0]``.
+    """
+
+    constraint_matrix = _finite_matrix(constraints, name="constraints")
+    state_count = int(constraint_matrix.shape[1])
+    if state_count == 0:
+        raise ValueError("constraints must act on at least one state")
+    weights = _positive_state_weights(
+        state_weights,
+        state_count=state_count,
+    )
+    if relative_rank_tolerance is None:
+        relative_tolerance = (
+            np.finfo(float).eps * max(constraint_matrix.shape)
+        )
+    else:
+        relative_tolerance = float(relative_rank_tolerance)
+    absolute_tolerance = float(absolute_rank_tolerance)
+    if (
+        not np.isfinite(relative_tolerance)
+        or relative_tolerance < 0.0
+        or not np.isfinite(absolute_tolerance)
+        or absolute_tolerance < 0.0
+    ):
+        raise ValueError("rank tolerances must be finite and nonnegative")
+
+    inverse_square_root = 1.0 / np.sqrt(weights)
+    weighted_constraints = (
+        constraint_matrix * inverse_square_root[None, :]
+    )
+    if np.any(~np.isfinite(weighted_constraints)):
+        raise ValueError(
+            "constraints are not finite in the weighted state chart"
+        )
+    row_norms = _stable_row_norms(weighted_constraints)
+    active_rows = row_norms > 0.0
+    active_count = int(np.count_nonzero(active_rows))
+    if active_count:
+        whitened = (
+            weighted_constraints[active_rows]
+            / row_norms[active_rows, None]
+        )
+        _left, singular_values, right_h = np.linalg.svd(
+            whitened,
+            full_matrices=True,
+        )
+        largest = (
+            float(singular_values[0]) if singular_values.size else 0.0
+        )
+        threshold = max(
+            absolute_tolerance,
+            relative_tolerance * largest,
+        )
+        rank = int(np.count_nonzero(singular_values > threshold))
+        weighted_basis = right_h[rank:].T
+    else:
+        whitened = np.empty((0, state_count), dtype=float)
+        singular_values = np.empty(0, dtype=float)
+        weighted_basis = np.eye(state_count)
+        threshold = absolute_tolerance
+        rank = 0
+    basis = inverse_square_root[:, None] * weighted_basis
+    nullity = int(state_count - rank)
+    if rank:
+        condition = float(singular_values[0] / singular_values[rank - 1])
+    else:
+        condition = 1.0
+    if nullity:
+        raw_defect = float(
+            np.max(np.abs(constraint_matrix @ basis))
+        )
+        whitened_defect = float(
+            np.max(np.abs(whitened @ weighted_basis))
+        ) if active_count else 0.0
+        orthogonality_defect = float(
+            np.max(
+                np.abs(
+                    weighted_basis.T @ weighted_basis
+                    - np.eye(nullity)
+                )
+            )
+        )
+    else:
+        raw_defect = 0.0
+        whitened_defect = 0.0
+        orthogonality_defect = 0.0
+    return CausalWeightedConstraintNullBasis(
+        basis=np.asarray(basis, dtype=float),
+        weighted_basis=np.asarray(weighted_basis, dtype=float),
+        state_weights=weights.copy(),
+        row_norms=np.asarray(row_norms, dtype=float),
+        constraint_singular_values=np.asarray(
+            singular_values,
+            dtype=float,
+        ),
+        constraint_rank=rank,
+        active_row_count=active_count,
+        nullity=nullity,
+        relative_rank_tolerance=relative_tolerance,
+        absolute_rank_tolerance=absolute_tolerance,
+        rank_threshold=float(threshold),
+        condition_estimate=condition,
+        raw_constraint_defect=raw_defect,
+        whitened_constraint_defect=whitened_defect,
+        weighted_orthogonality_defect=orthogonality_defect,
+    )
+
+
 def causal_weighted_constraint_null_projection(
     directions: np.ndarray,
     constraints: np.ndarray,
@@ -142,29 +370,468 @@ def causal_weighted_constraint_null_projection(
         or np.any(~np.isfinite(values))
     ):
         raise ValueError("directions are incompatible with constraints")
-    if state_weights is None:
-        weights = np.ones(values.shape[0], dtype=float)
-    else:
-        weights = np.asarray(state_weights, dtype=float)
-        if (
-            weights.shape != (values.shape[0],)
-            or np.any(~np.isfinite(weights))
-            or np.any(weights <= 0.0)
-        ):
-            raise ValueError("state weights must be positive and finite")
-
-    inverse_weights = 1.0 / weights
-    weighted_adjoint = inverse_weights[:, None] * constraint_matrix.T
-    gram = constraint_matrix @ weighted_adjoint
-    rank = int(np.linalg.matrix_rank(gram))
-    if rank != constraint_matrix.shape[0]:
+    null_basis = causal_weighted_constraint_null_basis(
+        constraint_matrix,
+        state_weights=state_weights,
+    )
+    if null_basis.constraint_rank != constraint_matrix.shape[0]:
         raise ValueError("constraints are not linearly independent")
-    multipliers = np.linalg.solve(gram, constraint_matrix @ values)
-    projected = values - weighted_adjoint @ multipliers
+    weighted_values = null_basis.state_weights[:, None] * values
+    coordinates = null_basis.basis.T @ weighted_values
+    projected = null_basis.basis @ coordinates
     defects = np.max(np.abs(constraint_matrix @ projected), axis=0)
     if vector_input:
         return projected[:, 0], defects[0]
     return projected, defects
+
+
+def causal_finite_time_output_operator(
+    dynamic: np.ndarray,
+    outputs: np.ndarray,
+    horizon_seconds: float,
+    *,
+    response_kind: str = "endpoint",
+) -> np.ndarray:
+    """Return an endpoint or endpoint-increment linear output operator.
+
+    ``response_kind="endpoint"`` returns ``O exp(L h)``.  The distinct
+    ``response_kind="increment"`` contract returns
+    ``O (exp(L h) - I)``.
+    """
+
+    system = _finite_matrix(dynamic, name="dynamic")
+    if system.shape[0] != system.shape[1]:
+        raise ValueError("dynamic matrix must be square")
+    output_matrix = _finite_matrix(outputs, name="outputs")
+    if (
+        output_matrix.shape[0] == 0
+        or output_matrix.shape[1] != system.shape[0]
+    ):
+        raise ValueError("outputs have incompatible dimensions")
+    horizon = float(horizon_seconds)
+    if not np.isfinite(horizon) or horizon < 0.0:
+        raise ValueError("time horizon must be finite and nonnegative")
+    kind = str(response_kind)
+    if kind not in {"endpoint", "increment"}:
+        raise ValueError(
+            "response kind must be 'endpoint' or 'increment'"
+        )
+    _solve, expm_multiply = _scipy_linalg()
+    endpoint = expm_multiply(
+        horizon * system.T,
+        output_matrix.T,
+        traceA=horizon * float(np.trace(system)),
+    ).T
+    if kind == "increment":
+        endpoint = endpoint - output_matrix
+    return np.asarray(endpoint, dtype=float)
+
+
+def _orient_state_subspace(
+    state_subspace: np.ndarray,
+    coordinate_subspace: np.ndarray,
+    output_subspace: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Choose deterministic signs without changing singular subspaces."""
+
+    states = np.asarray(state_subspace, dtype=float).copy()
+    coordinates = np.asarray(coordinate_subspace, dtype=float).copy()
+    outputs = np.asarray(output_subspace, dtype=float).copy()
+    for column in range(states.shape[1]):
+        pivot = int(np.argmax(np.abs(states[:, column])))
+        if states[pivot, column] < 0.0:
+            states[:, column] *= -1.0
+            coordinates[:, column] *= -1.0
+            outputs[:, column] *= -1.0
+    return states, coordinates, outputs
+
+
+def causal_gate_normalized_finite_time_null_gain(
+    response_operator: np.ndarray,
+    constraints: np.ndarray,
+    output_gates: np.ndarray,
+    *,
+    state_weights: np.ndarray | None = None,
+    state_amplitudes_scaled: np.ndarray | None = None,
+    relative_constraint_rank_tolerance: float | None = None,
+    absolute_constraint_rank_tolerance: float = 0.0,
+    leading_subspace_ratio: float = 0.95,
+) -> CausalFiniteTimeNullGainAudit:
+    """Audit the worst finite-time two-norm gain on a constraint null space.
+
+    Each output row is divided by its positive scientific gate.  Input
+    directions have unit norm in the explicitly supplied diagonal state
+    metric.  The singular values therefore depend only on those declared
+    physical normalizations, not on the coordinate units used by the caller.
+    """
+
+    response = _finite_matrix(
+        response_operator,
+        name="response_operator",
+    )
+    constraint_matrix = _finite_matrix(
+        constraints,
+        name="constraints",
+    )
+    if (
+        response.shape[0] == 0
+        or response.shape[1] != constraint_matrix.shape[1]
+    ):
+        raise ValueError(
+            "response operator and constraints have incompatible dimensions"
+        )
+    gates = np.asarray(output_gates, dtype=float)
+    if (
+        gates.shape != (response.shape[0],)
+        or np.any(~np.isfinite(gates))
+        or np.any(gates <= 0.0)
+    ):
+        raise ValueError("output gates must be positive and finite")
+    subspace_ratio = float(leading_subspace_ratio)
+    if (
+        not np.isfinite(subspace_ratio)
+        or not 0.0 < subspace_ratio <= 1.0
+    ):
+        raise ValueError(
+            "leading subspace ratio must lie in (0, 1]"
+        )
+    null_basis = causal_weighted_constraint_null_basis(
+        constraint_matrix,
+        state_weights=state_weights,
+        relative_rank_tolerance=relative_constraint_rank_tolerance,
+        absolute_rank_tolerance=absolute_constraint_rank_tolerance,
+    )
+    normalized_null_operator = (
+        response / gates[:, None]
+    ) @ null_basis.basis
+    state_count = response.shape[1]
+    output_count = response.shape[0]
+    if state_amplitudes_scaled is None:
+        amplitude_constraint_applied = False
+        amplitudes = np.empty(0, dtype=float)
+    else:
+        amplitude_constraint_applied = True
+        amplitudes = np.asarray(state_amplitudes_scaled, dtype=float)
+        if (
+            amplitudes.shape != (state_count,)
+            or np.any(~np.isfinite(amplitudes))
+            or np.any(amplitudes <= 0.0)
+        ):
+            raise ValueError(
+                "scaled state amplitudes must be positive and finite"
+            )
+    if null_basis.nullity == 0:
+        per_output_gains = np.zeros(output_count, dtype=float)
+        maximum_per_output_gain = 0.0
+        controlling_output_index = 0
+        controlling_coordinates = np.empty(0, dtype=float)
+        controlling_state = np.zeros(state_count, dtype=float)
+        controlling_raw_response = np.zeros(output_count, dtype=float)
+        controlling_normalized_response = np.zeros(
+            output_count,
+            dtype=float,
+        )
+        pointwise_ratios = np.zeros(output_count, dtype=float)
+        admissible_lower_gains = np.zeros(output_count, dtype=float)
+        admissible_upper_gains = np.zeros(output_count, dtype=float)
+        maximum_admissible_lower_gain = 0.0
+        maximum_admissible_upper_gain = 0.0
+        controlling_admissible_output_index = 0
+        controlling_admissible_state = np.zeros(
+            state_count,
+            dtype=float,
+        )
+        controlling_admissible_response = np.zeros(
+            output_count,
+            dtype=float,
+        )
+        admissible_leading_indices = np.empty(0, dtype=int)
+        admissible_state_subspace = np.empty(
+            (state_count, 0),
+            dtype=float,
+        )
+        admissible_leading_dimension = 0
+        singular_values = np.empty(0, dtype=float)
+        maximum_gain = 0.0
+        leading_coordinates = np.empty(0, dtype=float)
+        leading_state = np.zeros(state_count, dtype=float)
+        leading_raw_response = np.zeros(output_count, dtype=float)
+        leading_normalized_response = np.zeros(output_count, dtype=float)
+        state_subspace = np.empty((state_count, 0), dtype=float)
+        output_subspace = np.empty((output_count, 0), dtype=float)
+        leading_count = 0
+    else:
+        per_output_gains = np.linalg.norm(
+            normalized_null_operator,
+            axis=1,
+        )
+        row_coordinates = np.zeros_like(normalized_null_operator)
+        active_output_rows = per_output_gains > 0.0
+        row_coordinates[active_output_rows] = (
+            normalized_null_operator[active_output_rows]
+            / per_output_gains[active_output_rows, None]
+        )
+        row_states = null_basis.basis @ row_coordinates.T
+        if amplitude_constraint_applied:
+            pointwise_ratios = np.max(
+                np.abs(row_states) / amplitudes[:, None],
+                axis=0,
+            )
+            admissible_factors = 1.0 / np.maximum(
+                1.0,
+                pointwise_ratios,
+            )
+            admissible_lower_gains = (
+                per_output_gains * admissible_factors
+            )
+            unconstrained_box_upper = np.sum(
+                np.abs(response / gates[:, None])
+                * amplitudes[None, :],
+                axis=1,
+            )
+            admissible_upper_gains = np.minimum(
+                per_output_gains,
+                unconstrained_box_upper,
+            )
+        else:
+            pointwise_ratios = np.ones(output_count, dtype=float)
+            admissible_factors = np.ones(output_count, dtype=float)
+            admissible_lower_gains = per_output_gains.copy()
+            admissible_upper_gains = per_output_gains.copy()
+        controlling_admissible_output_index = int(
+            np.argmax(admissible_lower_gains)
+        )
+        maximum_admissible_lower_gain = float(
+            admissible_lower_gains[
+                controlling_admissible_output_index
+            ]
+        )
+        maximum_admissible_upper_gain = float(
+            np.max(admissible_upper_gains)
+        )
+        controlling_admissible_state = (
+            row_states[:, controlling_admissible_output_index]
+            * admissible_factors[
+                controlling_admissible_output_index
+            ]
+        )
+        controlling_admissible_response = (
+            response @ controlling_admissible_state / gates
+        )
+        if maximum_admissible_lower_gain > 0.0:
+            admissible_leading_indices = np.flatnonzero(
+                admissible_lower_gains
+                >= subspace_ratio * maximum_admissible_lower_gain
+            )
+            weighted_candidates = (
+                np.sqrt(null_basis.state_weights)[:, None]
+                * row_states[:, admissible_leading_indices]
+            )
+            left_candidates, candidate_singular, _right_candidates = (
+                np.linalg.svd(
+                    weighted_candidates,
+                    full_matrices=False,
+                )
+            )
+            candidate_threshold = (
+                np.finfo(float).eps
+                * max(weighted_candidates.shape)
+                * float(candidate_singular[0])
+            )
+            admissible_leading_dimension = int(
+                np.count_nonzero(
+                    candidate_singular > candidate_threshold
+                )
+            )
+            admissible_state_subspace = (
+                left_candidates[:, :admissible_leading_dimension]
+                / np.sqrt(null_basis.state_weights)[:, None]
+            )
+        else:
+            admissible_leading_indices = np.empty(0, dtype=int)
+            admissible_state_subspace = np.empty(
+                (state_count, 0),
+                dtype=float,
+            )
+            admissible_leading_dimension = 0
+        controlling_output_index = int(np.argmax(per_output_gains))
+        maximum_per_output_gain = float(
+            per_output_gains[controlling_output_index]
+        )
+        if maximum_per_output_gain > 0.0:
+            controlling_coordinates = (
+                normalized_null_operator[controlling_output_index]
+                / maximum_per_output_gain
+            )
+            controlling_state = (
+                null_basis.basis @ controlling_coordinates
+            )
+            pivot = int(np.argmax(np.abs(controlling_state)))
+            if controlling_state[pivot] < 0.0:
+                controlling_coordinates *= -1.0
+                controlling_state *= -1.0
+            controlling_raw_response = response @ controlling_state
+            controlling_normalized_response = (
+                controlling_raw_response / gates
+            )
+        else:
+            controlling_coordinates = np.zeros(
+                null_basis.nullity,
+                dtype=float,
+            )
+            controlling_state = np.zeros(state_count, dtype=float)
+            controlling_raw_response = np.zeros(
+                output_count,
+                dtype=float,
+            )
+            controlling_normalized_response = np.zeros(
+                output_count,
+                dtype=float,
+            )
+        left, singular_values, right_h = np.linalg.svd(
+            normalized_null_operator,
+            full_matrices=False,
+        )
+        maximum_gain = (
+            float(singular_values[0]) if singular_values.size else 0.0
+        )
+        if maximum_gain > 0.0:
+            leading_count = int(
+                np.count_nonzero(
+                    singular_values
+                    >= subspace_ratio * maximum_gain
+                )
+            )
+            coordinate_subspace = right_h[:leading_count].T
+            state_subspace = (
+                null_basis.basis @ coordinate_subspace
+            )
+            output_subspace = left[:, :leading_count]
+            (
+                state_subspace,
+                coordinate_subspace,
+                output_subspace,
+            ) = _orient_state_subspace(
+                state_subspace,
+                coordinate_subspace,
+                output_subspace,
+            )
+            leading_coordinates = coordinate_subspace[:, 0]
+            leading_state = state_subspace[:, 0]
+            leading_raw_response = response @ leading_state
+            leading_normalized_response = (
+                leading_raw_response / gates
+            )
+        else:
+            leading_count = 0
+            leading_coordinates = np.zeros(
+                null_basis.nullity,
+                dtype=float,
+            )
+            leading_state = np.zeros(state_count, dtype=float)
+            leading_raw_response = np.zeros(output_count, dtype=float)
+            leading_normalized_response = np.zeros(
+                output_count,
+                dtype=float,
+            )
+            state_subspace = np.empty((state_count, 0), dtype=float)
+            output_subspace = np.empty((output_count, 0), dtype=float)
+    return CausalFiniteTimeNullGainAudit(
+        null_basis_audit=null_basis,
+        output_gates=gates.copy(),
+        gate_normalized_null_operator=np.asarray(
+            normalized_null_operator,
+            dtype=float,
+        ),
+        amplitude_constraint_applied=amplitude_constraint_applied,
+        state_amplitudes_scaled=np.asarray(amplitudes, dtype=float),
+        per_output_maximum_gains=np.asarray(
+            per_output_gains,
+            dtype=float,
+        ),
+        maximum_per_output_gain=maximum_per_output_gain,
+        controlling_output_index=controlling_output_index,
+        controlling_null_coordinates=np.asarray(
+            controlling_coordinates,
+            dtype=float,
+        ),
+        controlling_state_direction=np.asarray(
+            controlling_state,
+            dtype=float,
+        ),
+        controlling_raw_output_response=np.asarray(
+            controlling_raw_response,
+            dtype=float,
+        ),
+        controlling_gate_normalized_output_response=np.asarray(
+            controlling_normalized_response,
+            dtype=float,
+        ),
+        per_output_l2_maximum_pointwise_ratios=np.asarray(
+            pointwise_ratios,
+            dtype=float,
+        ),
+        per_output_admissible_lower_gains=np.asarray(
+            admissible_lower_gains,
+            dtype=float,
+        ),
+        per_output_admissible_upper_gains=np.asarray(
+            admissible_upper_gains,
+            dtype=float,
+        ),
+        maximum_admissible_lower_gain=maximum_admissible_lower_gain,
+        maximum_admissible_upper_gain=maximum_admissible_upper_gain,
+        controlling_admissible_output_index=(
+            controlling_admissible_output_index
+        ),
+        controlling_admissible_state_direction=np.asarray(
+            controlling_admissible_state,
+            dtype=float,
+        ),
+        controlling_admissible_gate_normalized_output_response=np.asarray(
+            controlling_admissible_response,
+            dtype=float,
+        ),
+        admissible_leading_output_indices=np.asarray(
+            admissible_leading_indices,
+            dtype=int,
+        ),
+        admissible_leading_state_subspace=np.asarray(
+            admissible_state_subspace,
+            dtype=float,
+        ),
+        admissible_leading_subspace_dimension=(
+            admissible_leading_dimension
+        ),
+        singular_values=np.asarray(singular_values, dtype=float),
+        maximum_gain=maximum_gain,
+        leading_null_coordinates=np.asarray(
+            leading_coordinates,
+            dtype=float,
+        ),
+        leading_state_direction=np.asarray(
+            leading_state,
+            dtype=float,
+        ),
+        leading_raw_output_response=np.asarray(
+            leading_raw_response,
+            dtype=float,
+        ),
+        leading_gate_normalized_output_response=np.asarray(
+            leading_normalized_response,
+            dtype=float,
+        ),
+        leading_state_subspace=np.asarray(
+            state_subspace,
+            dtype=float,
+        ),
+        leading_output_subspace=np.asarray(
+            output_subspace,
+            dtype=float,
+        ),
+        leading_subspace_dimension=leading_count,
+        leading_subspace_ratio=subspace_ratio,
+    )
 
 
 def causal_projective_euler_prediction(

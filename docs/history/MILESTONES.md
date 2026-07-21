@@ -390,6 +390,22 @@ rejected sequence.
     remains the short-time truth model pending a physically derived dynamic
     moment/continuum closure or an independent ledger-compatible
     stationary/bifurcation anchor.
+58. **Storage-consistent moment audit is numerically inconclusive:** the
+    complete responsive-height correction is retained as a vector storage
+    one-form in radial momentum, angular momentum, and Killing energy, while
+    cumulative height work remains a path ledger. Five cumulative
+    five-shell coordinate levels contain `15/20/25/30/34` instantaneous
+    conserved, thermal, radial-momentum, stress, and targeted-shape moments.
+    Exponential/Krylov actions of the selected frozen-linear generator are
+    computed conditionally at six N64/N128 anchors. All vector-storage and
+    local tangent checks pass, but all four declared full generator
+    FD-consistency scans fail and consequential Rusanov branches remain at
+    three anchors. The
+    richest-level conditional lower gain exceeds `340` gates, controlled by
+    interface angular-momentum response, but raw gain bounds are nonbinding
+    and no candidate is proven sufficient or insufficient. Online cost is
+    unevaluated, nonlinear lifting remains closed, and only a bounded
+    tangent/finite-branch certification package is authorized.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

@@ -6,13 +6,19 @@ import numpy as np
 from scipy.sparse import diags, vstack
 from scipy.sparse.linalg import splu
 
+from imri_qpe.constants import C
+
 from .causal_inner_dae_system import (
     CausalFiveFieldDAEContext,
     CausalFiveFieldDAEEvaluation,
     causal_five_field_colored_central_jacobian,
     causal_five_field_cell_states,
+    causal_five_field_dae_jacobian_color_groups,
     causal_five_field_dae_jacobian_sparsity,
     causal_five_field_dae_scaling,
+    causal_five_field_mapped_conserved_from_primitives,
+    causal_five_field_path_temporal_storage_increment,
+    causal_five_field_reduced_stationary_residual,
     causal_five_field_state_from_primitives,
     evaluate_causal_five_field_dae,
     pack_causal_five_field_state,
@@ -711,6 +717,866 @@ def causal_five_field_reduced_descriptor_matrices(
         ),
         "finite_difference_step": float(finite_difference_step),
         "descriptor_timestep_seconds": timestep,
+    }
+
+
+def _causal_five_field_reduced_storage_action_with_scale(
+    context: CausalFiveFieldDAEContext,
+    primitive_vector: np.ndarray,
+    primitive_rate_per_s: np.ndarray,
+    primitive_scales: np.ndarray,
+    *,
+    storage_difference_step: float,
+    storage_quadrature_order: int,
+    storage_directional_step: float,
+    include_conserved: bool = True,
+) -> dict:
+    """Apply the nonlinear primitive storage one-form to one rate.
+
+    The centered path construction differentiates the complete temporal
+    storage, including all four implemented responsive-height components.
+    It therefore avoids treating height work as an energy-only state
+    function.
+    """
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    primitives = np.asarray(primitive_vector, dtype=float)
+    rate = np.asarray(primitive_rate_per_s, dtype=float)
+    scales = np.asarray(primitive_scales, dtype=float)
+    expected = (5 * n_cells,)
+    if (
+        primitives.shape != expected
+        or rate.shape != expected
+        or scales.shape != expected
+        or np.any(~np.isfinite(primitives))
+        or np.any(~np.isfinite(rate))
+        or np.any(~np.isfinite(scales))
+        or np.any(scales <= 0.0)
+    ):
+        raise ValueError("reduced storage-action inputs are invalid")
+    difference_step = float(storage_difference_step)
+    if not np.isfinite(difference_step) or difference_step <= 0.0:
+        raise ValueError(
+            "storage_difference_step must be positive and finite"
+        )
+    scaled_rate = rate / scales
+    maximum_scaled_rate = float(np.max(np.abs(scaled_rate)))
+    zeros = np.zeros((n_cells, 5), dtype=float)
+    if maximum_scaled_rate == 0.0:
+        return {
+            "total_conservation_storage_per_ct": zeros,
+            "conserved_storage_per_ct": np.array(zeros, copy=True),
+            "vertical_storage_per_ct": np.array(zeros, copy=True),
+            "storage_timestep_seconds": 0.0,
+            "maximum_scaled_primitive_increment": 0.0,
+        }
+
+    storage_timestep = difference_step / maximum_scaled_rate
+    old = primitives.reshape(n_cells, 5)
+    primitive_increment = (
+        storage_timestep * rate.reshape(n_cells, 5)
+    )
+    if include_conserved:
+        plus_conserved = (
+            causal_five_field_mapped_conserved_from_primitives(
+                context,
+                old + primitive_increment,
+            )
+        )
+        minus_conserved = (
+            causal_five_field_mapped_conserved_from_primitives(
+                context,
+                old - primitive_increment,
+            )
+        )
+    plus = causal_five_field_path_temporal_storage_increment(
+        context,
+        old,
+        old + primitive_increment,
+        quadrature_order=storage_quadrature_order,
+        directional_step=storage_directional_step,
+    )
+    minus = causal_five_field_path_temporal_storage_increment(
+        context,
+        old,
+        old - primitive_increment,
+        quadrature_order=storage_quadrature_order,
+        directional_step=storage_directional_step,
+    )
+    denominator = 2.0 * C * storage_timestep
+    measures = np.asarray(context.grid.cell_measures, dtype=float)[:, None]
+    if include_conserved:
+        conserved = measures * (
+            np.asarray(plus_conserved, dtype=float)
+            - np.asarray(minus_conserved, dtype=float)
+        ) / denominator
+    else:
+        conserved = np.zeros((n_cells, 5), dtype=float)
+    vertical = np.zeros((n_cells, 5), dtype=float)
+    vertical[:, :4] = measures * (
+        np.asarray(plus.vertical_killing_increment, dtype=float)
+        - np.asarray(minus.vertical_killing_increment, dtype=float)
+    ) / denominator
+    return {
+        "total_conservation_storage_per_ct": conserved + vertical,
+        "conserved_storage_per_ct": conserved,
+        "vertical_storage_per_ct": vertical,
+        "storage_timestep_seconds": float(storage_timestep),
+        "maximum_scaled_primitive_increment": difference_step,
+    }
+
+
+def causal_five_field_reduced_storage_action(
+    context: CausalFiveFieldDAEContext,
+    primitive_vector: np.ndarray,
+    primitive_rate_per_s: np.ndarray,
+    *,
+    storage_difference_step: float = 1.0e-4,
+    storage_quadrature_order: int = 4,
+    storage_directional_step: float = 1.0e-3,
+) -> dict:
+    """Apply the complete reduced temporal storage to a primitive rate.
+
+    Inputs and the returned rate use physical primitive coordinates and
+    coordinate seconds.  Responsive-height storage is returned separately
+    as the vector ``(0, P_R, J, E_K, 0)`` contribution as well as in the
+    total action.
+    """
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    primitives = np.asarray(primitive_vector, dtype=float)
+    if primitives.shape != (5 * n_cells,):
+        raise ValueError("reduced primitive vector has the wrong shape")
+    charts = primitives.reshape(n_cells, 5)
+    primitive_scales = np.ones_like(charts)
+    stress_magnitude = np.abs(charts[:, 4])
+    primitive_scales[:, 4] = np.maximum(
+        stress_magnitude,
+        max(float(np.median(stress_magnitude)), 1.0e-14),
+    )
+    return _causal_five_field_reduced_storage_action_with_scale(
+        context,
+        primitives,
+        primitive_rate_per_s,
+        primitive_scales.ravel(),
+        storage_difference_step=storage_difference_step,
+        storage_quadrature_order=storage_quadrature_order,
+        storage_directional_step=storage_directional_step,
+    )
+
+
+def _causal_five_field_reduced_storage_pattern(
+    context: CausalFiveFieldDAEContext,
+):
+    """Return primitive storage dependencies after exact map elimination."""
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    n_reduced = 5 * n_cells
+    full_pattern = causal_five_field_dae_jacobian_sparsity(
+        n_cells,
+        spatial_reconstruction=context.spatial_reconstruction,
+        boundary_trace_reconstruction=(
+            context.boundary_trace_reconstruction
+        ),
+        cell_rate_scheme=context.cell_rate_scheme,
+        cell_source_quadrature=context.cell_source_quadrature,
+        cell_storage_quadrature=context.cell_storage_quadrature,
+    )
+    return full_pattern[
+        n_reduced : 2 * n_reduced,
+        n_reduced : 2 * n_reduced,
+    ].tocsr()
+
+
+def _causal_five_field_colored_component_jacobians(
+    residual_components,
+    values: np.ndarray,
+    pattern,
+    *,
+    finite_difference_step: float | np.ndarray,
+) -> tuple[dict[str, np.ndarray], int]:
+    """Differentiate several residual blocks with shared colored evaluations."""
+
+    base = np.asarray(values, dtype=float)
+    declared = pattern.tocsc()
+    if (
+        declared.shape != (base.size, base.size)
+        or np.any(~np.isfinite(base))
+    ):
+        raise ValueError("colored component values or pattern are invalid")
+    raw_step = np.asarray(finite_difference_step, dtype=float)
+    if raw_step.ndim == 0:
+        steps = np.full(base.size, float(raw_step), dtype=float)
+    elif raw_step.shape == (base.size,):
+        steps = np.array(raw_step, copy=True)
+    else:
+        raise ValueError("component finite-difference steps have wrong shape")
+    if np.any(~np.isfinite(steps)) or np.any(steps <= 0.0):
+        raise ValueError("component finite-difference step is invalid")
+    groups = causal_five_field_dae_jacobian_color_groups(declared)
+    jacobians: dict[str, np.ndarray] | None = None
+    component_names: tuple[str, ...] | None = None
+    for group in groups:
+        plus = np.array(base, copy=True)
+        minus = np.array(base, copy=True)
+        plus[group] += steps[group]
+        minus[group] -= steps[group]
+        plus_components = {
+            name: np.asarray(component, dtype=float)
+            for name, component in residual_components(plus).items()
+        }
+        minus_components = {
+            name: np.asarray(component, dtype=float)
+            for name, component in residual_components(minus).items()
+        }
+        if component_names is None:
+            component_names = tuple(plus_components)
+            if tuple(minus_components) != component_names:
+                raise ValueError("colored component schemas differ")
+            if any(
+                plus_components[name].shape != (base.size,)
+                or minus_components[name].shape != (base.size,)
+                for name in component_names
+            ):
+                raise ValueError("colored component residual shape is invalid")
+            jacobians = {
+                name: np.zeros(declared.shape, dtype=float)
+                for name in component_names
+            }
+        elif (
+            tuple(plus_components) != component_names
+            or tuple(minus_components) != component_names
+        ):
+            raise ValueError("colored component schemas changed")
+        assert jacobians is not None
+        assert component_names is not None
+        for column in group:
+            start = declared.indptr[column]
+            stop = declared.indptr[column + 1]
+            rows = declared.indices[start:stop]
+            for name in component_names:
+                jacobians[name][rows, column] = (
+                    plus_components[name][rows]
+                    - minus_components[name][rows]
+                ) / (2.0 * steps[column])
+    if jacobians is None:
+        raise ValueError("storage pattern has no color groups")
+    return jacobians, len(groups)
+
+
+def _causal_five_field_reduced_storage_matrix_with_scale(
+    context: CausalFiveFieldDAEContext,
+    primitive_vector: np.ndarray,
+    primitive_scales: np.ndarray,
+    conservation_scales: np.ndarray,
+    *,
+    finite_difference_step: float,
+    storage_quadrature_order: int,
+    storage_directional_step: float,
+    include_vertical: bool = True,
+) -> tuple[dict[str, np.ndarray], int]:
+    """Build the reduced storage matrix on its declared mapped stencil."""
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    n_reduced = 5 * n_cells
+    primitives = np.asarray(primitive_vector, dtype=float)
+    primitive_scale = np.asarray(primitive_scales, dtype=float)
+    row_scale = np.asarray(conservation_scales, dtype=float)
+    if (
+        primitives.shape != (n_reduced,)
+        or primitive_scale.shape != (n_reduced,)
+        or row_scale.shape != (n_reduced,)
+    ):
+        raise ValueError("reduced storage-matrix inputs have wrong shapes")
+    storage_pattern = _causal_five_field_reduced_storage_pattern(context)
+    base = primitives.reshape(n_cells, 5)
+    base_mapped = causal_five_field_mapped_conserved_from_primitives(
+        context,
+        base,
+    )
+    measures = np.asarray(context.grid.cell_measures, dtype=float)[:, None]
+
+    def scaled_storage_increment_components(
+        scaled_increment: np.ndarray,
+    ) -> dict[str, np.ndarray]:
+        new = (
+            primitives
+            + primitive_scale * np.asarray(scaled_increment, dtype=float)
+        ).reshape(n_cells, 5)
+        new_mapped = causal_five_field_mapped_conserved_from_primitives(
+            context,
+            new,
+        )
+        conserved = (
+            measures
+            * np.asarray(new_mapped - base_mapped, dtype=float)
+            / C
+            / row_scale.reshape(n_cells, 5)
+        )
+        vertical = np.zeros((n_cells, 5), dtype=float)
+        if include_vertical:
+            path = causal_five_field_path_temporal_storage_increment(
+                context,
+                base,
+                new,
+                quadrature_order=storage_quadrature_order,
+                directional_step=storage_directional_step,
+            )
+            vertical[:, :4] = (
+                measures
+                * np.asarray(
+                    path.vertical_killing_increment,
+                    dtype=float,
+                )
+                / C
+                / row_scale.reshape(n_cells, 5)[:, :4]
+            )
+        return {
+            "conserved": conserved.ravel(),
+            "vertical": vertical.ravel(),
+            "total": (conserved + vertical).ravel(),
+        }
+
+    matrices, color_count = (
+        _causal_five_field_colored_component_jacobians(
+            scaled_storage_increment_components,
+            np.zeros(n_reduced, dtype=float),
+            storage_pattern,
+            finite_difference_step=finite_difference_step,
+        )
+    )
+    matrices["total"] = matrices["conserved"] + matrices["vertical"]
+    return matrices, color_count
+
+
+def causal_five_field_scaled_primitive_vector_field(
+    context: CausalFiveFieldDAEContext,
+    primitive_vector: np.ndarray,
+    *,
+    primitive_column_scales: np.ndarray,
+    conservation_row_scales: np.ndarray,
+    finite_difference_step: float = 2.0e-6,
+    storage_quadrature_order: int = 4,
+    storage_directional_step: float = 1.0e-3,
+) -> dict:
+    """Evaluate the implemented nonlinear scaled primitive vector field.
+
+    The supplied scales remain fixed, so centered evaluations at neighboring
+    primitive states define an independent JVP of the same scaled vector
+    field.  This helper builds the coordinatewise mapped-storage matrix and
+    stationary residual directly; it does not construct ``DM`` or an evolving
+    tangent.
+    """
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    n_reduced = 5 * n_cells
+    primitives = np.asarray(primitive_vector, dtype=float)
+    primitive_scales = np.asarray(
+        primitive_column_scales,
+        dtype=float,
+    )
+    conservation_scales = np.asarray(
+        conservation_row_scales,
+        dtype=float,
+    )
+    step = float(finite_difference_step)
+    if (
+        primitives.shape != (n_reduced,)
+        or primitive_scales.shape != (n_reduced,)
+        or conservation_scales.shape != (n_reduced,)
+        or np.any(~np.isfinite(primitives))
+        or np.any(~np.isfinite(primitive_scales))
+        or np.any(~np.isfinite(conservation_scales))
+        or np.any(primitive_scales <= 0.0)
+        or np.any(conservation_scales <= 0.0)
+        or not np.isfinite(step)
+        or step <= 0.0
+    ):
+        raise ValueError("scaled primitive vector-field inputs are invalid")
+    component_matrices, color_count = (
+        _causal_five_field_reduced_storage_matrix_with_scale(
+            context,
+            primitives,
+            primitive_scales,
+            conservation_scales,
+            finite_difference_step=step,
+            storage_quadrature_order=storage_quadrature_order,
+            storage_directional_step=storage_directional_step,
+        )
+    )
+    stationary_residual = np.asarray(
+        causal_five_field_reduced_stationary_residual(
+            primitives,
+            context,
+        ),
+        dtype=float,
+    )
+    scaled_stationary_residual = (
+        stationary_residual / conservation_scales
+    )
+    mass = component_matrices["total"]
+    scaled_rate = np.linalg.solve(
+        mass,
+        -scaled_stationary_residual,
+    )
+    return {
+        "scaled_primitive_rate_per_s": scaled_rate.reshape(
+            n_cells,
+            5,
+        ),
+        "primitive_rate_per_s": (
+            primitive_scales * scaled_rate
+        ).reshape(n_cells, 5),
+        "scaled_stationary_residual": (
+            scaled_stationary_residual.reshape(n_cells, 5)
+        ),
+        "descriptor_reduced_scaled_matrix": mass,
+        "conserved_descriptor_reduced_scaled_matrix": (
+            component_matrices["conserved"]
+        ),
+        "vertical_descriptor_reduced_scaled_matrix": (
+            component_matrices["vertical"]
+        ),
+        "primitive_column_scales": primitive_scales,
+        "conservation_row_scales": conservation_scales,
+        "finite_difference_step": step,
+        "storage_component_colors": color_count,
+        "storage_component_paired_evaluations": 2 * color_count,
+        "mass_matrix_source": (
+            "direct_gauss_mapped_vector_storage_one_form"
+        ),
+    }
+
+
+def causal_five_field_evolving_tangent_matrices(
+    context: CausalFiveFieldDAEContext,
+    vector: np.ndarray,
+    *,
+    primitive_rate_per_s: np.ndarray | None = None,
+    reduced_descriptor: dict | None = None,
+    finite_difference_step: float = 2.0e-6,
+    descriptor_timestep_seconds: float = 1.0,
+    storage_difference_step: float = 1.0e-4,
+    storage_rate_derivative_step: float | None = None,
+    storage_quadrature_order: int = 4,
+    storage_directional_step: float = 1.0e-3,
+) -> dict:
+    """Return the primitive tangent at one evolving descriptor anchor.
+
+    For the reduced nonlinear descriptor ``M(p) p_dot + S(p) = 0``, the
+    evolving-anchor tangent is
+
+    ``M delta_p_dot + (DS + DM[., p_dot]) delta_p = 0``.
+
+    The historical frozen descriptor is preserved.  This helper adds the
+    state-dependent storage term by differentiating the same coordinatewise
+    colored storage matrix used by the nonlinear vector field.  The nested
+    colored contraction avoids replacing the implemented mapped conserved
+    Jacobian by one finite displacement along the full primitive rate.  The
+    local responsive-height one-form retains its cheaper direct rate action.
+    Both derivative components share each outer colored evaluation.  Returned
+    matrices act on the fixed scaled primitive coordinates at the supplied
+    anchor.  ``storage_rate_derivative_step`` controls that outer derivative
+    independently of the inner mass-matrix finite difference and the
+    directional height-storage action.
+    """
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    n_reduced = 5 * n_cells
+    step = float(finite_difference_step)
+    if not np.isfinite(step) or step <= 0.0:
+        raise ValueError(
+            "finite_difference_step must be positive and finite"
+        )
+    if storage_rate_derivative_step is None:
+        raise ValueError(
+            "storage_rate_derivative_step must be supplied explicitly"
+        )
+    rate_derivative_step = float(storage_rate_derivative_step)
+    if (
+        not np.isfinite(rate_derivative_step)
+        or rate_derivative_step <= 0.0
+    ):
+        raise ValueError(
+            "storage_rate_derivative_step must be positive and finite"
+        )
+    state = unpack_causal_five_field_state(vector, n_cells)
+    base_primitives = np.asarray(state.primitives, dtype=float).ravel()
+    evaluation = evaluate_causal_five_field_dae(vector, context)
+    scaling = causal_five_field_dae_scaling(state, evaluation)
+    primitive_scales = np.asarray(
+        scaling.column_scales[n_reduced : 2 * n_reduced],
+        dtype=float,
+    )
+    conservation_scales = np.asarray(
+        scaling.row_scales[:n_reduced],
+        dtype=float,
+    )
+    if reduced_descriptor is None:
+        frozen = causal_five_field_reduced_descriptor_matrices(
+            context,
+            vector,
+            finite_difference_step=step,
+            descriptor_timestep_seconds=descriptor_timestep_seconds,
+        )
+    else:
+        frozen = reduced_descriptor
+        if (
+            tuple(frozen.get("dimensions", ())) != (
+                n_reduced,
+                n_reduced,
+            )
+            or not np.isclose(
+                float(frozen.get("finite_difference_step", np.nan)),
+                step,
+                rtol=0.0,
+                atol=0.0,
+            )
+            or not np.isclose(
+                float(
+                    frozen.get(
+                        "descriptor_timestep_seconds",
+                        np.nan,
+                    )
+                ),
+                float(descriptor_timestep_seconds),
+                rtol=0.0,
+                atol=0.0,
+            )
+        ):
+            raise ValueError(
+                "precomputed reduced descriptor is incompatible"
+            )
+    frozen_mass = np.asarray(
+        frozen["descriptor_reduced_scaled_matrix"],
+        dtype=float,
+    )
+    stationary_jacobian = np.asarray(
+        frozen["stationary_reduced_scaled_jacobian"],
+        dtype=float,
+    )
+    if (
+        frozen_mass.shape != (n_reduced, n_reduced)
+        or stationary_jacobian.shape != (n_reduced, n_reduced)
+        or np.any(~np.isfinite(frozen_mass))
+        or np.any(~np.isfinite(stationary_jacobian))
+        or not np.allclose(
+            np.asarray(frozen["primitive_column_scales"], dtype=float),
+            primitive_scales,
+            rtol=2.0e-14,
+            atol=0.0,
+        )
+        or not np.allclose(
+            np.asarray(frozen["conservation_row_scales"], dtype=float),
+            conservation_scales,
+            rtol=2.0e-14,
+            atol=0.0,
+        )
+    ):
+        raise ValueError(
+            "precomputed reduced descriptor scaling or matrices differ"
+        )
+    storage_matrices, storage_color_count = (
+        _causal_five_field_reduced_storage_matrix_with_scale(
+            context,
+            base_primitives,
+            primitive_scales,
+            conservation_scales,
+            finite_difference_step=step,
+            storage_quadrature_order=storage_quadrature_order,
+            storage_directional_step=storage_directional_step,
+        )
+    )
+    mass = storage_matrices["total"]
+    conserved_mass = storage_matrices["conserved"]
+    vertical_mass = storage_matrices["vertical"]
+    stationary_residual = causal_five_field_reduced_stationary_residual(
+        base_primitives,
+        context,
+    )
+    scaled_stationary_residual = (
+        np.asarray(stationary_residual, dtype=float)
+        / conservation_scales
+    )
+
+    if primitive_rate_per_s is None:
+        scaled_rate = np.linalg.solve(
+            mass,
+            -scaled_stationary_residual,
+        )
+        physical_rate = primitive_scales * scaled_rate
+        rate_source = "descriptor_balance"
+    else:
+        supplied = np.asarray(primitive_rate_per_s, dtype=float)
+        if supplied.shape == (n_cells, 5):
+            supplied = supplied.ravel()
+        if (
+            supplied.shape != (n_reduced,)
+            or np.any(~np.isfinite(supplied))
+        ):
+            raise ValueError(
+                "primitive_rate_per_s has the wrong shape or value"
+            )
+        physical_rate = supplied
+        scaled_rate = physical_rate / primitive_scales
+        rate_source = "supplied"
+
+    storage_pattern = _causal_five_field_reduced_storage_pattern(context)
+
+    nested_storage_color_counts: list[int] = []
+
+    def scaled_storage_rate_components_at_increment(
+        scaled_increment: np.ndarray,
+    ) -> dict[str, np.ndarray]:
+        primitives = (
+            base_primitives
+            + primitive_scales
+            * np.asarray(scaled_increment, dtype=float)
+        )
+        component_matrices, nested_color_count = (
+            _causal_five_field_reduced_storage_matrix_with_scale(
+                context,
+                primitives,
+                primitive_scales,
+                conservation_scales,
+                finite_difference_step=step,
+                storage_quadrature_order=storage_quadrature_order,
+                storage_directional_step=storage_directional_step,
+                include_vertical=False,
+            )
+        )
+        nested_storage_color_counts.append(nested_color_count)
+        conserved = (
+            component_matrices["conserved"] @ scaled_rate
+        )
+        vertical_action = (
+            _causal_five_field_reduced_storage_action_with_scale(
+                context,
+                primitives,
+                physical_rate,
+                primitive_scales,
+                storage_difference_step=storage_difference_step,
+                storage_quadrature_order=storage_quadrature_order,
+                storage_directional_step=storage_directional_step,
+                include_conserved=False,
+            )
+        )
+        vertical = (
+            np.asarray(
+                vertical_action["vertical_storage_per_ct"],
+                dtype=float,
+            ).ravel()
+            / conservation_scales
+        )
+        return {
+            "conserved": conserved,
+            "vertical": vertical,
+            "total": conserved + vertical,
+        }
+
+    storage_rate_derivatives, derivative_color_count = (
+        _causal_five_field_colored_component_jacobians(
+            scaled_storage_rate_components_at_increment,
+            np.zeros(n_reduced, dtype=float),
+            storage_pattern,
+            finite_difference_step=rate_derivative_step,
+        )
+    )
+    if (
+        not nested_storage_color_counts
+        or any(
+            count != storage_color_count
+            for count in nested_storage_color_counts
+        )
+    ):
+        raise RuntimeError(
+            "nested storage coloring changed across tangent evaluations"
+        )
+    conserved_storage_rate_derivative = storage_rate_derivatives[
+        "conserved"
+    ]
+    vertical_storage_rate_derivative = storage_rate_derivatives[
+        "vertical"
+    ]
+    storage_rate_derivative = (
+        conserved_storage_rate_derivative
+        + vertical_storage_rate_derivative
+    )
+
+    evolving_jacobian = stationary_jacobian + storage_rate_derivative
+    generator = -np.linalg.solve(mass, evolving_jacobian)
+    base_storage_action = (
+        _causal_five_field_reduced_storage_action_with_scale(
+            context,
+            base_primitives,
+            physical_rate,
+            primitive_scales,
+            storage_difference_step=storage_difference_step,
+            storage_quadrature_order=storage_quadrature_order,
+            storage_directional_step=storage_directional_step,
+        )
+    )
+    scaled_direct_storage = (
+        np.asarray(
+            base_storage_action[
+                "total_conservation_storage_per_ct"
+            ],
+            dtype=float,
+        ).ravel()
+        / conservation_scales
+    )
+    scaled_matrix_storage = mass @ scaled_rate
+    scaled_frozen_matrix_storage = frozen_mass @ scaled_rate
+    storage_scale = max(
+        float(np.max(np.abs(scaled_direct_storage))),
+        float(np.max(np.abs(scaled_matrix_storage))),
+        np.finfo(float).tiny,
+    )
+    frozen_storage_scale = max(
+        storage_scale,
+        float(np.max(np.abs(scaled_frozen_matrix_storage))),
+    )
+    direct_off_cell = np.array(mass, copy=True)
+    frozen_off_cell = np.array(frozen_mass, copy=True)
+    for cell in range(n_cells):
+        local = slice(5 * cell, 5 * (cell + 1))
+        direct_off_cell[local, local] = 0.0
+        frozen_off_cell[local, local] = 0.0
+    mass_difference = frozen_mass - mass
+    mass_difference_index = np.unravel_index(
+        int(np.argmax(np.abs(mass_difference))),
+        mass_difference.shape,
+    )
+    generator_defect = mass @ generator + evolving_jacobian
+    descriptor_component_defect = mass - (
+        conserved_mass + vertical_mass
+    )
+    storage_rate_component_defect = storage_rate_derivative - (
+        conserved_storage_rate_derivative
+        + vertical_storage_rate_derivative
+    )
+    return {
+        "descriptor_reduced_scaled_matrix": mass,
+        "conserved_descriptor_reduced_scaled_matrix": conserved_mass,
+        "vertical_descriptor_reduced_scaled_matrix": vertical_mass,
+        "frozen_descriptor_reduced_scaled_matrix": frozen_mass,
+        "stationary_reduced_scaled_jacobian": stationary_jacobian,
+        "storage_rate_derivative_scaled_matrix": (
+            storage_rate_derivative
+        ),
+        "conserved_storage_rate_derivative_scaled_matrix": (
+            conserved_storage_rate_derivative
+        ),
+        "vertical_storage_rate_derivative_scaled_matrix": (
+            vertical_storage_rate_derivative
+        ),
+        "evolving_reduced_scaled_jacobian": evolving_jacobian,
+        "evolving_scaled_generator_per_s": generator,
+        "primitive_rate_per_s": physical_rate.reshape(n_cells, 5),
+        "scaled_primitive_rate_per_s": scaled_rate.reshape(n_cells, 5),
+        "rate_source": rate_source,
+        "primitive_column_scales": primitive_scales,
+        "conservation_row_scales": conservation_scales,
+        "base_storage_action": base_storage_action,
+        "maximum_relative_storage_action_defect": float(
+            np.max(
+                np.abs(
+                    scaled_direct_storage - scaled_matrix_storage
+                )
+            )
+            / storage_scale
+        ),
+        "maximum_relative_frozen_storage_action_defect": float(
+            np.max(
+                np.abs(
+                    scaled_direct_storage
+                    - scaled_frozen_matrix_storage
+                )
+            )
+            / frozen_storage_scale
+        ),
+        "maximum_relative_storage_matrix_change": float(
+            np.max(np.abs(mass - frozen_mass))
+            / max(
+                float(np.max(np.abs(mass))),
+                float(np.max(np.abs(frozen_mass))),
+                np.finfo(float).tiny,
+            )
+        ),
+        "maximum_absolute_storage_matrix_difference": float(
+            np.max(np.abs(mass_difference))
+        ),
+        "maximum_storage_matrix_difference_row": int(
+            mass_difference_index[0]
+        ),
+        "maximum_storage_matrix_difference_column": int(
+            mass_difference_index[1]
+        ),
+        "maximum_absolute_direct_off_cell_storage_entry": float(
+            np.max(np.abs(direct_off_cell))
+        ),
+        "maximum_absolute_frozen_off_cell_storage_entry": float(
+            np.max(np.abs(frozen_off_cell))
+        ),
+        "direct_off_cell_storage_nonzero_count": int(
+            np.count_nonzero(direct_off_cell)
+        ),
+        "maximum_scaled_generator_factorization_defect": float(
+            np.max(np.abs(generator_defect))
+        ),
+        "maximum_scaled_descriptor_component_reconstruction_defect": float(
+            np.max(np.abs(descriptor_component_defect))
+        ),
+        "maximum_scaled_storage_rate_component_reconstruction_defect": float(
+            np.max(np.abs(storage_rate_component_defect))
+        ),
+        "dimensions": (n_reduced, n_reduced),
+        "finite_difference_step": step,
+        "storage_difference_step": float(storage_difference_step),
+        "storage_rate_derivative_step": rate_derivative_step,
+        "storage_quadrature_order": int(storage_quadrature_order),
+        "storage_directional_step": float(storage_directional_step),
+        "storage_component_colors": storage_color_count,
+        "storage_rate_derivative_component_colors": (
+            derivative_color_count
+        ),
+        "storage_rate_derivative_inner_component_colors": (
+            storage_color_count
+        ),
+        "storage_rate_derivative_outer_component_evaluations": (
+            2 * derivative_color_count
+        ),
+        "storage_rate_derivative_nested_component_evaluations": (
+            4 * derivative_color_count * storage_color_count
+        ),
+        "storage_rate_derivative_nested_base_mapped_evaluations": (
+            2 * derivative_color_count
+        ),
+        "storage_rate_derivative_nested_mapped_evaluations": (
+            2
+            * derivative_color_count
+            * (1 + 2 * storage_color_count)
+        ),
+        "vertical_storage_rate_derivative_outer_action_evaluations": (
+            2 * derivative_color_count
+        ),
+        "vertical_storage_rate_derivative_path_evaluations": (
+            4 * derivative_color_count
+        ),
+        "storage_rate_derivative_source": (
+            "nested_colored_conserved_matrix_plus_vertical_rate_action"
+        ),
+        "storage_local_block_size": None,
+        "mass_matrix_source": (
+            "direct_gauss_mapped_vector_storage_one_form"
+        ),
+        "frozen_descriptor": frozen,
     }
 
 

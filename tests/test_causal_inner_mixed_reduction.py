@@ -8,8 +8,10 @@ import pytest
 from imri_qpe.layer3_minidisk_1d import (
     causal_conservation_constrained_balanced_rom,
     causal_descriptor_explicit_matrices,
+    causal_finite_time_output_operator,
     causal_five_field_reduced_descriptor_matrices,
     causal_five_field_reduced_stationary_residual,
+    causal_gate_normalized_finite_time_null_gain,
     causal_linear_initial_response,
     causal_linear_transfer_response,
     causal_log_time_quadrature,
@@ -23,6 +25,7 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_stable_rom_transfer_response,
     causal_stream_descriptor_inputs,
     causal_truncate_mixed_mode_rom,
+    causal_weighted_constraint_null_basis,
     causal_weighted_constraint_null_projection,
     make_causal_five_field_regression_context,
     make_causal_five_field_seed,
@@ -182,6 +185,181 @@ def test_weighted_constraint_projection_preserves_null_directions() -> None:
     assert vector.shape == (3,)
     assert defect < 1.0e-14
     assert np.max(np.abs(constraints @ vector)) < 1.0e-14
+
+
+def test_weighted_constraint_null_basis_whitens_dependent_rows() -> None:
+    constraints = np.asarray(
+        (
+            (1.0, 1.0, 0.0, 0.0),
+            (1.0e12, 1.0e12, 0.0, 0.0),
+            (0.0, 0.0, 2.0, 0.0),
+            (0.0, 0.0, 0.0, 0.0),
+        )
+    )
+    weights = np.asarray((1.0, 4.0, 9.0, 16.0))
+
+    audit = causal_weighted_constraint_null_basis(
+        constraints,
+        state_weights=weights,
+        relative_rank_tolerance=1.0e-12,
+    )
+
+    assert audit.constraint_rank == 2
+    assert audit.active_row_count == 3
+    assert audit.nullity == 2
+    assert audit.rank_threshold > 0.0
+    assert np.isfinite(audit.condition_estimate)
+    assert audit.whitened_constraint_defect < 1.0e-14
+    assert audit.weighted_orthogonality_defect < 1.0e-14
+    assert np.max(np.abs(constraints @ audit.basis)) < 1.0e-3
+    assert np.allclose(
+        audit.basis.T @ np.diag(weights) @ audit.basis,
+        np.eye(2),
+        atol=1.0e-14,
+    )
+
+
+def test_weighted_projection_preserves_dependent_row_rejection() -> None:
+    constraints = np.asarray(
+        (
+            (1.0, 1.0, 0.0),
+            (2.0, 2.0, 0.0),
+        )
+    )
+    with pytest.raises(ValueError, match="linearly independent"):
+        causal_weighted_constraint_null_projection(
+            np.ones(3),
+            constraints,
+        )
+
+
+def test_finite_time_output_operator_distinguishes_endpoint_increment() -> None:
+    dynamic = np.diag((-1.0, -2.0))
+    outputs = np.asarray(((1.0, 2.0), (3.0, 4.0)))
+    horizon = np.log(2.0)
+
+    endpoint = causal_finite_time_output_operator(
+        dynamic,
+        outputs,
+        horizon,
+        response_kind="endpoint",
+    )
+    increment = causal_finite_time_output_operator(
+        dynamic,
+        outputs,
+        horizon,
+        response_kind="increment",
+    )
+
+    expected_endpoint = outputs @ np.diag((0.5, 0.25))
+    assert np.allclose(endpoint, expected_endpoint, atol=2.0e-14)
+    assert np.allclose(increment, expected_endpoint - outputs, atol=2.0e-14)
+    assert np.allclose(
+        causal_finite_time_output_operator(
+            dynamic,
+            outputs,
+            0.0,
+            response_kind="increment",
+        ),
+        0.0,
+    )
+
+
+def test_gate_normalized_null_gain_reports_near_degenerate_subspace() -> None:
+    constraints = np.asarray(((1.0, 0.0, 0.0),))
+    weights = np.asarray((4.0, 9.0, 16.0))
+    response = np.asarray(
+        (
+            (0.0, 6.0, 0.0),
+            (0.0, 0.0, 11.64),
+        )
+    )
+    gates = np.asarray((2.0, 3.0))
+
+    audit = causal_gate_normalized_finite_time_null_gain(
+        response,
+        constraints,
+        gates,
+        state_weights=weights,
+        leading_subspace_ratio=0.95,
+    )
+
+    assert np.allclose(audit.singular_values, (1.0, 0.97))
+    assert audit.maximum_gain == pytest.approx(1.0)
+    assert np.allclose(audit.per_output_maximum_gains, (1.0, 0.97))
+    assert audit.maximum_per_output_gain == pytest.approx(1.0)
+    assert audit.maximum_admissible_lower_gain == pytest.approx(1.0)
+    assert audit.maximum_admissible_upper_gain == pytest.approx(1.0)
+    assert audit.controlling_output_index == 0
+    assert np.max(
+        np.abs(constraints @ audit.controlling_state_direction)
+    ) < 1.0e-14
+    assert np.max(
+        np.abs(audit.controlling_gate_normalized_output_response)
+    ) == pytest.approx(audit.maximum_per_output_gain)
+    assert audit.leading_subspace_dimension == 2
+    assert audit.admissible_leading_subspace_dimension == 2
+    assert np.max(
+        np.abs(constraints @ audit.leading_state_subspace)
+    ) < 1.0e-14
+    assert np.allclose(
+        audit.leading_state_subspace.T
+        @ np.diag(weights)
+        @ audit.leading_state_subspace,
+        np.eye(2),
+        atol=1.0e-14,
+    )
+    assert np.linalg.norm(
+        audit.leading_gate_normalized_output_response
+    ) == pytest.approx(audit.maximum_gain)
+    assert np.allclose(
+        audit.leading_raw_output_response / gates,
+        audit.leading_gate_normalized_output_response,
+    )
+
+
+def test_per_output_null_gain_is_invariant_to_duplicate_output_rows() -> None:
+    constraints = np.asarray(((1.0, 0.0),))
+    response = np.asarray(((0.0, 2.0),))
+    duplicated = np.vstack((response, response))
+
+    single = causal_gate_normalized_finite_time_null_gain(
+        response,
+        constraints,
+        np.ones(1),
+    )
+    repeated = causal_gate_normalized_finite_time_null_gain(
+        duplicated,
+        constraints,
+        np.ones(2),
+    )
+
+    assert single.maximum_per_output_gain == pytest.approx(2.0)
+    assert repeated.maximum_per_output_gain == pytest.approx(2.0)
+    assert repeated.maximum_gain == pytest.approx(np.sqrt(2.0) * 2.0)
+
+
+def test_pointwise_amplitude_contract_bounds_continuum_l2_gain() -> None:
+    audit = causal_gate_normalized_finite_time_null_gain(
+        np.asarray(((0.0, 10.0),)),
+        np.asarray(((1.0, 0.0),)),
+        np.ones(1),
+        state_weights=np.ones(2),
+        state_amplitudes_scaled=np.asarray((1.0, 0.1)),
+    )
+
+    assert audit.maximum_per_output_gain == pytest.approx(10.0)
+    assert audit.per_output_l2_maximum_pointwise_ratios[0] == pytest.approx(
+        10.0
+    )
+    assert audit.maximum_admissible_lower_gain == pytest.approx(1.0)
+    assert audit.maximum_admissible_upper_gain == pytest.approx(1.0)
+    assert np.max(
+        np.abs(
+            audit.controlling_admissible_state_direction
+            / np.asarray((1.0, 0.1))
+        )
+    ) == pytest.approx(1.0)
 
 
 def test_equal_window_projective_predictions_use_declared_secants() -> None:
