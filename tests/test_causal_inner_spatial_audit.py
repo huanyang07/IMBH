@@ -20,6 +20,7 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_five_field_reduced_storage_action,
     causal_five_field_reduced_storage_matrices,
     causal_five_field_reduced_storage_rate_derivatives,
+    causal_five_field_reduced_storage_rate_directional_derivative,
     causal_five_field_reduced_stationary_residual,
     causal_five_field_residual_terms,
     causal_five_field_scaled_primitive_vector_field,
@@ -648,6 +649,20 @@ def test_direct_action_storage_rate_derivative_matches_dense_columns(
             backend="direct_action",
         )
     )
+    direction = np.zeros(5 * n_cells, dtype=float)
+    direction[3] = 1.0
+    directional = (
+        causal_five_field_reduced_storage_rate_directional_derivative(
+            context,
+            base,
+            physical_rate,
+            direction,
+            primitive_column_scales=primitive_scales,
+            conservation_row_scales=row_scales,
+            storage_rate_derivative_step=outer_step,
+            storage_difference_step=difference_step,
+        )
+    )
 
     n_reduced = 5 * n_cells
     dense_conserved = np.empty((n_reduced, n_reduced), dtype=float)
@@ -694,6 +709,25 @@ def test_direct_action_storage_rate_derivative_matches_dense_columns(
     assert direct["storage_rate_derivative_source"] == (
         "independent_outer_colored_complete_storage_rate_action"
     )
+    assert directional["storage_action_evaluations"] == 2
+    assert np.allclose(
+        directional[
+            "conserved_storage_rate_directional_derivative_scaled"
+        ],
+        direct["conserved_storage_rate_derivative_scaled_matrix"]
+        @ direction,
+        rtol=2.0e-6,
+        atol=2.0e-8,
+    )
+    assert np.allclose(
+        directional[
+            "vertical_storage_rate_directional_derivative_scaled"
+        ],
+        direct["vertical_storage_rate_derivative_scaled_matrix"]
+        @ direction,
+        rtol=2.0e-6,
+        atol=2.0e-8,
+    )
     assert np.array_equal(
         direct["storage_rate_derivative_scaled_matrix"],
         direct_with_unused_inner_step[
@@ -718,6 +752,64 @@ def test_direct_action_storage_rate_derivative_matches_dense_columns(
         rtol=2.0e-6,
         atol=2.0e-8,
     )
+
+
+def test_fourth_order_mapped_storage_action_reduces_coarse_step_error() -> None:
+    context = make_causal_five_field_regression_context(2)
+    state = make_causal_five_field_seed(context)
+    base = state.primitives.ravel()
+    rate = np.zeros_like(base)
+    rate[0::5] = 0.03
+    rate[1::5] = -0.02
+    rate[3::5] = 0.05
+
+    reference = causal_five_field_reduced_storage_action(
+        context,
+        base,
+        rate,
+        storage_difference_step=1.0e-3,
+        conserved_difference_order=4,
+    )
+    second_order = causal_five_field_reduced_storage_action(
+        context,
+        base,
+        rate,
+        storage_difference_step=2.0e-2,
+        conserved_difference_order=2,
+    )
+    fourth_order = causal_five_field_reduced_storage_action(
+        context,
+        base,
+        rate,
+        storage_difference_step=2.0e-2,
+        conserved_difference_order=4,
+    )
+    target = np.asarray(reference["conserved_storage_per_ct"], dtype=float)
+    second_error = np.linalg.norm(
+        np.asarray(second_order["conserved_storage_per_ct"], dtype=float)
+        - target
+    )
+    fourth_error = np.linalg.norm(
+        np.asarray(fourth_order["conserved_storage_per_ct"], dtype=float)
+        - target
+    )
+
+    assert reference["conserved_difference_order"] == 4
+    assert second_order["conserved_difference_order"] == 2
+    assert fourth_order["conserved_difference_order"] == 4
+    assert fourth_error < 0.1 * second_error
+
+
+def test_mapped_storage_action_rejects_unsupported_difference_order() -> None:
+    context = make_causal_five_field_regression_context(2)
+    state = make_causal_five_field_seed(context)
+    with pytest.raises(ValueError, match="must be two, four, or six"):
+        causal_five_field_reduced_storage_action(
+            context,
+            state.primitives.ravel(),
+            np.ones(10),
+            conserved_difference_order=3,
+        )
 
 
 def test_direct_action_tangent_matches_nonlinear_vector_field_jvp_n4() -> None:

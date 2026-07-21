@@ -901,6 +901,23 @@ N                    = 164
    certify the finite-neighborhood Rusanov contract without changing the
    moment ladder. No loading-time macrostep, distributed
    tide, wind, stability, or hot/cycle claim is yet authorized.
+   WP10c8k now localizes that smooth failure. The exact centered product
+   identity closes near `1e-13`, the independently summed stationary
+   derivative agrees near `5e-9`, and more than `99.98%` of the primitive
+   mismatch is mapped-conserved storage-rate differentiation. A direct-action
+   candidate at scaled displacement `1.28e-2` lowers all controlling L2
+   defects below `0.01`, but strict infinity defects remain `0.01028` for the
+   smallest outer-density secant and `0.01050-0.01186` for two outer-thermal
+   secants. Fourth- and sixth-order mapped-action trials do not close the
+   contract, so tangent-only step/order tuning is stopped. Independently, the
+   existing aggregate Rusanov enclosure is infeasible even with perfect
+   candidate coverage and zero nonlinear remainder: N64 `t=0` consumes
+   `2.464/28.58` gates at `0.01/0.025 s`, and N64 `t=0.025 s` consumes
+   `0.0193/0.1079`. The next package must make the nonlinear descriptor and
+   tangent share one converged mapped-storage construction and replace the
+   logarithmic-norm/triangle branch enclosure with a structured low-rank
+   finite-time input-output bound. WP10c8i remains blocked and no reduced
+   evolution is authorized.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -912,7 +929,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_TANGENT_CERTIFICATION_WP10C8J_RESULTS_2026-07-21.md`
+  `reports/current/CODEX_CAUSAL_TANGENT_LOCALIZATION_WP10C8K_RESULTS_2026-07-21.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)

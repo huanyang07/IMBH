@@ -839,6 +839,7 @@ def _causal_five_field_reduced_storage_action_with_scale(
     storage_difference_step: float,
     storage_quadrature_order: int,
     storage_directional_step: float,
+    conserved_difference_order: int = 2,
     include_conserved: bool = True,
 ) -> dict:
     """Apply the nonlinear primitive storage one-form to one rate.
@@ -870,6 +871,11 @@ def _causal_five_field_reduced_storage_action_with_scale(
         raise ValueError(
             "storage_difference_step must be positive and finite"
         )
+    difference_order = int(conserved_difference_order)
+    if difference_order not in (2, 4, 6):
+        raise ValueError(
+            "conserved_difference_order must be two, four, or six"
+        )
     scaled_rate = rate / scales
     maximum_scaled_rate = float(np.max(np.abs(scaled_rate)))
     zeros = np.zeros((n_cells, 5), dtype=float)
@@ -880,6 +886,7 @@ def _causal_five_field_reduced_storage_action_with_scale(
             "vertical_storage_per_ct": np.array(zeros, copy=True),
             "storage_timestep_seconds": 0.0,
             "maximum_scaled_primitive_increment": 0.0,
+            "conserved_difference_order": difference_order,
         }
 
     storage_timestep = difference_step / maximum_scaled_rate
@@ -900,6 +907,44 @@ def _causal_five_field_reduced_storage_action_with_scale(
                 old - primitive_increment,
             )
         )
+        if difference_order == 4:
+            plus_two_conserved = (
+                causal_five_field_mapped_conserved_from_primitives(
+                    context,
+                    old + 2.0 * primitive_increment,
+                )
+            )
+            minus_two_conserved = (
+                causal_five_field_mapped_conserved_from_primitives(
+                    context,
+                    old - 2.0 * primitive_increment,
+                )
+            )
+        elif difference_order == 6:
+            plus_two_conserved = (
+                causal_five_field_mapped_conserved_from_primitives(
+                    context,
+                    old + 2.0 * primitive_increment,
+                )
+            )
+            minus_two_conserved = (
+                causal_five_field_mapped_conserved_from_primitives(
+                    context,
+                    old - 2.0 * primitive_increment,
+                )
+            )
+            plus_three_conserved = (
+                causal_five_field_mapped_conserved_from_primitives(
+                    context,
+                    old + 3.0 * primitive_increment,
+                )
+            )
+            minus_three_conserved = (
+                causal_five_field_mapped_conserved_from_primitives(
+                    context,
+                    old - 3.0 * primitive_increment,
+                )
+            )
     plus = causal_five_field_path_temporal_storage_increment(
         context,
         old,
@@ -917,10 +962,27 @@ def _causal_five_field_reduced_storage_action_with_scale(
     denominator = 2.0 * C * storage_timestep
     measures = np.asarray(context.grid.cell_measures, dtype=float)[:, None]
     if include_conserved:
-        conserved = measures * (
-            np.asarray(plus_conserved, dtype=float)
-            - np.asarray(minus_conserved, dtype=float)
-        ) / denominator
+        if difference_order == 2:
+            conserved = measures * (
+                np.asarray(plus_conserved, dtype=float)
+                - np.asarray(minus_conserved, dtype=float)
+            ) / denominator
+        elif difference_order == 4:
+            conserved = measures * (
+                -np.asarray(plus_two_conserved, dtype=float)
+                + 8.0 * np.asarray(plus_conserved, dtype=float)
+                - 8.0 * np.asarray(minus_conserved, dtype=float)
+                + np.asarray(minus_two_conserved, dtype=float)
+            ) / (12.0 * C * storage_timestep)
+        else:
+            conserved = measures * (
+                -np.asarray(minus_three_conserved, dtype=float)
+                + 9.0 * np.asarray(minus_two_conserved, dtype=float)
+                - 45.0 * np.asarray(minus_conserved, dtype=float)
+                + 45.0 * np.asarray(plus_conserved, dtype=float)
+                - 9.0 * np.asarray(plus_two_conserved, dtype=float)
+                + np.asarray(plus_three_conserved, dtype=float)
+            ) / (60.0 * C * storage_timestep)
     else:
         conserved = np.zeros((n_cells, 5), dtype=float)
     vertical = np.zeros((n_cells, 5), dtype=float)
@@ -934,6 +996,7 @@ def _causal_five_field_reduced_storage_action_with_scale(
         "vertical_storage_per_ct": vertical,
         "storage_timestep_seconds": float(storage_timestep),
         "maximum_scaled_primitive_increment": difference_step,
+        "conserved_difference_order": difference_order,
     }
 
 
@@ -945,6 +1008,7 @@ def causal_five_field_reduced_storage_action(
     storage_difference_step: float = 1.0e-4,
     storage_quadrature_order: int = 4,
     storage_directional_step: float = 1.0e-3,
+    conserved_difference_order: int = 2,
 ) -> dict:
     """Apply the complete reduced temporal storage to a primitive rate.
 
@@ -974,6 +1038,7 @@ def causal_five_field_reduced_storage_action(
         storage_difference_step=storage_difference_step,
         storage_quadrature_order=storage_quadrature_order,
         storage_directional_step=storage_directional_step,
+        conserved_difference_order=conserved_difference_order,
     )
 
 
@@ -1257,6 +1322,7 @@ def causal_five_field_reduced_storage_rate_derivatives(
     storage_difference_step: float = 1.0e-4,
     storage_quadrature_order: int = 4,
     storage_directional_step: float = 1.0e-3,
+    conserved_difference_order: int = 2,
     backend: str = "nested_matrix",
 ) -> dict:
     """Build only ``DM[., p_dot]`` in fixed scaled coordinates.
@@ -1381,6 +1447,7 @@ def causal_five_field_reduced_storage_rate_derivatives(
             storage_difference_step=storage_difference_step,
             storage_quadrature_order=storage_quadrature_order,
             storage_directional_step=storage_directional_step,
+            conserved_difference_order=conserved_difference_order,
             include_conserved=True,
         )
         conserved = (
@@ -1450,6 +1517,7 @@ def causal_five_field_reduced_storage_rate_derivatives(
         "storage_difference_step": float(storage_difference_step),
         "storage_quadrature_order": int(storage_quadrature_order),
         "storage_directional_step": float(storage_directional_step),
+        "conserved_difference_order": int(conserved_difference_order),
         "storage_component_colors": storage_color_count,
         "storage_rate_derivative_component_colors": (
             derivative_color_count
@@ -1487,7 +1555,9 @@ def causal_five_field_reduced_storage_rate_derivatives(
             else 0
         ),
         "storage_rate_derivative_direct_mapped_evaluations": (
-            4 * derivative_color_count
+            2
+            * int(conserved_difference_order)
+            * derivative_color_count
             if derivative_backend == "direct_action"
             else 0
         ),
@@ -1500,8 +1570,109 @@ def causal_five_field_reduced_storage_rate_derivatives(
         "storage_rate_derivative_source": (
             "independent_nested_colored_mapped_plus_vertical_rate_action"
             if derivative_backend == "nested_matrix"
-            else "independent_outer_colored_complete_storage_rate_action"
+            else (
+                "independent_outer_colored_complete_storage_rate_action"
+                if int(conserved_difference_order) == 2
+                else (
+                    "independent_outer_colored_complete_storage_rate_action_"
+                    f"mapped_order_{int(conserved_difference_order)}"
+                )
+            )
         ),
+    }
+
+
+def causal_five_field_reduced_storage_rate_directional_derivative(
+    context: CausalFiveFieldDAEContext,
+    primitive_vector: np.ndarray,
+    primitive_rate_per_s: np.ndarray,
+    scaled_primitive_direction: np.ndarray,
+    *,
+    primitive_column_scales: np.ndarray,
+    conservation_row_scales: np.ndarray,
+    storage_rate_derivative_step: float,
+    storage_difference_step: float,
+    storage_quadrature_order: int = 4,
+    storage_directional_step: float = 1.0e-3,
+    conserved_difference_order: int = 2,
+) -> dict:
+    """Apply ``DM[direction, p_dot]`` without assembling its full matrix.
+
+    This is the directional analogue of the ``direct_action`` backend above.
+    It is primarily useful for step-convergence audits: changing the inner
+    storage-action path can be tested in physically relevant directions
+    without rebuilding every colored column.
+    """
+
+    context = context.validated()
+    n_reduced = 5 * int(context.grid.centers.size)
+    primitives = np.asarray(primitive_vector, dtype=float)
+    physical_rate = np.asarray(primitive_rate_per_s, dtype=float).ravel()
+    direction = np.asarray(scaled_primitive_direction, dtype=float).ravel()
+    primitive_scales = np.asarray(primitive_column_scales, dtype=float)
+    conservation_scales = np.asarray(conservation_row_scales, dtype=float)
+    outer_step = float(storage_rate_derivative_step)
+    if (
+        primitives.shape != (n_reduced,)
+        or physical_rate.shape != (n_reduced,)
+        or direction.shape != (n_reduced,)
+        or primitive_scales.shape != (n_reduced,)
+        or conservation_scales.shape != (n_reduced,)
+        or np.any(~np.isfinite(primitives))
+        or np.any(~np.isfinite(physical_rate))
+        or np.any(~np.isfinite(direction))
+        or np.any(~np.isfinite(primitive_scales))
+        or np.any(~np.isfinite(conservation_scales))
+        or np.any(primitive_scales <= 0.0)
+        or np.any(conservation_scales <= 0.0)
+        or not np.isfinite(outer_step)
+        or outer_step <= 0.0
+    ):
+        raise ValueError("storage-rate directional inputs are invalid")
+
+    def action(sign: float) -> dict[str, np.ndarray]:
+        perturbed = (
+            primitives + sign * outer_step * primitive_scales * direction
+        )
+        result = _causal_five_field_reduced_storage_action_with_scale(
+            context,
+            perturbed,
+            physical_rate,
+            primitive_scales,
+            storage_difference_step=storage_difference_step,
+            storage_quadrature_order=storage_quadrature_order,
+            storage_directional_step=storage_directional_step,
+            conserved_difference_order=conserved_difference_order,
+            include_conserved=True,
+        )
+        conserved = np.asarray(
+            result["conserved_storage_per_ct"], dtype=float
+        ).ravel() / conservation_scales
+        vertical = np.asarray(
+            result["vertical_storage_per_ct"], dtype=float
+        ).ravel() / conservation_scales
+        return {
+            "conserved": conserved,
+            "vertical": vertical,
+            "total": conserved + vertical,
+        }
+
+    plus = action(1.0)
+    minus = action(-1.0)
+    denominator = 2.0 * outer_step
+    conserved = (plus["conserved"] - minus["conserved"]) / denominator
+    vertical = (plus["vertical"] - minus["vertical"]) / denominator
+    return {
+        "storage_rate_directional_derivative_scaled": conserved + vertical,
+        "conserved_storage_rate_directional_derivative_scaled": conserved,
+        "vertical_storage_rate_directional_derivative_scaled": vertical,
+        "storage_rate_derivative_step": outer_step,
+        "storage_difference_step": float(storage_difference_step),
+        "storage_quadrature_order": int(storage_quadrature_order),
+        "storage_directional_step": float(storage_directional_step),
+        "conserved_difference_order": int(conserved_difference_order),
+        "storage_action_evaluations": 2,
+        "source": "centered_outer_complete_storage_rate_directional_action",
     }
 
 
