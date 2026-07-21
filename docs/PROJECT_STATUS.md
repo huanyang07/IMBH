@@ -117,6 +117,7 @@ This is the canonical project handoff. Status labels mean:
 | Ledger equation-free preflight WP10c8g | **CERTIFIED** as a negative global-closure result; **REJECTED** for nonlinear lifting or macrosteps; **DIAGNOSTIC ONLY** physically | Global `M/J/E` factor-two projections are below `6.7e-7` of a gate and exact-rate/secant defects stay below `9.6e-3`; production/control and N64/N128 paths agree | Equal-ledger thermal directions change held observables by `19.73-19.75` gates and radial directions change projected responses by `13.05-13.23` gates; the eight-variable augmented state also fails |
 | Conservative shell preflight WP10c8h | **CERTIFIED** as a negative shell-closure result; **REJECTED** for nonlinear shell microbursts or macrosteps; **DIAGNOSTIC ONLY** physically | Exact mesh-coincident five/eight-shell operators retain `15/24` finite-volume `M/J/E` coordinates with constraint-null defects below `1e-10` | Five/eight-shell AB2 errors are `0.569/1.752 > 0.25`; ledger-null thermal and radial redistributions change observables by `17.5-17.8` and `9.94-10.01` gates; compact global and shell-only equation-free routes are closed |
 | Storage-consistent moment sufficiency WP10c8i | **IMPLEMENTED AND METHOD-TESTED** for the complete vector-storage and incremental moment-audit machinery; **INCONCLUSIVE** for moment sufficiency; nonlinear lifting and macrosteps **NOT AUTHORIZED** | Complete responsive-height storage is pulled back as a vector one-form in radial momentum, angular momentum, and Killing energy; its maximum action defect is `2.98e-7`; five cumulative five-shell levels retain `15/20/25/30/34` full-rank coordinates | Full generator FD-consistency scans fail at `t=0/0.10 s` on both meshes and consequential Rusanov branches remain at three anchors; conditional richest-level lower gains are `>340` gates, but are nonbinding; online cost is unevaluated and only a bounded tangent-certification package is authorized within this reduction branch |
+| Evolving-tangent certification WP10c8j | **IMPLEMENTED AND METHOD-TESTED**; **REJECTED** for unchanged WP10c8i repetition or reduced evolution | Direct differentiation of the complete storage-rate action removes the nested mass-matrix derivative; assembled-generator step stability is below `1.64e-3`, factorization below `3.64e-12`, and selected storage reconstruction below `2.61e-11` in the matched N64/N128 `0.10 s` scans | N64 `0.05 s` outer thermal/density JVP defects remain `1.87e-2/1.06e-2` at the selected step, N128 `0.10 s` density reaches `1.0209e-2`, and all-face Rusanov coverage/nonlinear remainder data are absent; moment changes, lifting, healing, and macrosteps remain closed |
 
 ## Frozen Target Under Review
 
@@ -882,9 +883,23 @@ N                    = 164
    set exceed `340` gates and are controlled by interface-4 angular-momentum
    response, but these gains cannot bind the decision. No moment set is
    proven sufficient or insufficient, online cost remains unevaluated, and
-   nonlinear lifting is skipped. The next package must certify the evolving
-   tangent and consequential Rusanov branches before repeating the same
-   moment audit. No loading-time macrostep, distributed
+   nonlinear lifting is skipped. WP10c8j then replaces the nested
+   mass-matrix derivative by differentiating the complete storage-rate action
+   directly and separates stationary, storage, storage-rate, factorization,
+   and nonlinear-vector-field contracts. The assembled matrices pass: matched
+   N64/N128 `0.10 s` generator step stability stays below `1.64e-3`, selected
+   storage reconstruction below `2.61e-11`, and factorization below
+   `3.64e-12`. The independent nonlinear response does not pass everywhere.
+   At N64 `0.05 s`, the selected-step outer thermal/density defects are
+   `1.87e-2/1.06e-2`, and the thermal failure persists at every locked secant;
+   N128 `0.10 s` independently gives a `1.0209e-2` density defect. At N64
+   `0/0.025 s`, every declared direction is reserved by the strict Rusanov
+   screen. No all-face candidate coverage, finite neighborhood, or uniform
+   nonlinear remainder is supplied, so every branch certificate remains
+   nonbinding. WP10c8j therefore rejects an unchanged WP10c8i repeat. The next
+   package must repair the outer thermodynamic/vector-field tangent and
+   certify the finite-neighborhood Rusanov contract without changing the
+   moment ladder. No loading-time macrostep, distributed
    tide, wind, stability, or hot/cycle claim is yet authorized.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
@@ -897,7 +912,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_MOMENT_SUFFICIENCY_WP10C8I_RESULTS_2026-07-21.md`
+  `reports/current/CODEX_CAUSAL_TANGENT_CERTIFICATION_WP10C8J_RESULTS_2026-07-21.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)

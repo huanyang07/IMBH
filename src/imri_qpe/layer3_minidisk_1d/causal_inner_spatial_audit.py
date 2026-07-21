@@ -591,6 +591,167 @@ def _equilibrated_sparse_multiple_solve(
     return np.asarray(solution, dtype=float), relative
 
 
+def _causal_five_field_reduce_stationary_sparse_jacobian(
+    stationary,
+    scaling,
+    n_cells: int,
+) -> dict:
+    """Eliminate conserved and face variables from one stationary Jacobian."""
+
+    n_reduced = 5 * int(n_cells)
+    total = int(stationary.shape[0])
+    if stationary.shape[1] != total or total <= 2 * n_reduced:
+        raise ValueError("stationary Jacobian dimensions are invalid")
+    conservation_rows = np.arange(n_reduced)
+    algebraic_rows = np.arange(n_reduced, total)
+    conserved_columns = np.arange(n_reduced)
+    primitive_columns = np.arange(n_reduced, 2 * n_reduced)
+    face_columns = np.arange(2 * n_reduced, total)
+    algebraic_columns = np.concatenate(
+        (conserved_columns, face_columns)
+    )
+
+    algebraic_block = stationary[algebraic_rows][:, algebraic_columns]
+    algebraic_from_primitive = stationary[algebraic_rows][
+        :,
+        primitive_columns,
+    ]
+    solved, solve_defect = _equilibrated_sparse_multiple_solve(
+        algebraic_block,
+        algebraic_from_primitive.toarray(),
+    )
+    algebraic_response = -solved
+    reduced = (
+        stationary[conservation_rows][:, primitive_columns].toarray()
+        + stationary[conservation_rows][:, algebraic_columns]
+        @ algebraic_response
+    )
+    algebraic_reconstruction = (
+        algebraic_block @ algebraic_response
+        + algebraic_from_primitive
+    )
+    algebraic_scale = max(
+        float(np.max(np.abs(algebraic_from_primitive.data)))
+        if algebraic_from_primitive.nnz
+        else 0.0,
+        1.0,
+    )
+    return {
+        "stationary_reduced_scaled_jacobian": np.asarray(
+            reduced,
+            dtype=float,
+        ),
+        "algebraic_response_scaled": np.asarray(
+            algebraic_response,
+            dtype=float,
+        ),
+        "primitive_column_scales": np.asarray(
+            scaling.column_scales[primitive_columns],
+            dtype=float,
+        ),
+        "algebraic_column_scales": np.asarray(
+            scaling.column_scales[algebraic_columns],
+            dtype=float,
+        ),
+        "conservation_row_scales": np.asarray(
+            scaling.row_scales[conservation_rows],
+            dtype=float,
+        ),
+        "algebraic_columns": algebraic_columns,
+        "conserved_algebraic_rows": np.arange(n_reduced),
+        "face_algebraic_rows": np.arange(
+            n_reduced,
+            algebraic_columns.size,
+        ),
+        "dimensions": (n_reduced, n_reduced),
+        "full_dimensions": stationary.shape,
+        "stationary_nonzeros": int(stationary.nnz),
+        "algebraic_solve_relative_defect": solve_defect,
+        "maximum_scaled_algebraic_reconstruction_defect": float(
+            np.max(np.abs(algebraic_reconstruction)) / algebraic_scale
+        ),
+    }
+
+
+def causal_five_field_reduced_stationary_jacobian(
+    context: CausalFiveFieldDAEContext,
+    vector: np.ndarray,
+    *,
+    finite_difference_step: float = 2.0e-6,
+) -> dict:
+    """Build only the Schur-reduced stationary primitive Jacobian.
+
+    Unlike :func:`causal_five_field_reduced_descriptor_matrices`, this
+    diagnostic does not construct a backward-Euler Jacobian or a storage
+    matrix.  It therefore permits the stationary finite-difference step to be
+    scanned while independently computed storage blocks remain fixed.
+    """
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    values = np.asarray(vector, dtype=float)
+    step = float(finite_difference_step)
+    if (
+        values.shape != (15 * n_cells + 5,)
+        or np.any(~np.isfinite(values))
+        or not np.isfinite(step)
+        or step <= 0.0
+    ):
+        raise ValueError("stationary-Jacobian inputs are invalid")
+    state = unpack_causal_five_field_state(values, n_cells)
+    evaluation = evaluate_causal_five_field_dae(values, context)
+    scaling = causal_five_field_dae_scaling(state, evaluation)
+    zero = np.zeros_like(values)
+    pattern = causal_five_field_dae_jacobian_sparsity(
+        n_cells,
+        spatial_reconstruction=context.spatial_reconstruction,
+        boundary_trace_reconstruction=(
+            context.boundary_trace_reconstruction
+        ),
+        cell_rate_scheme=context.cell_rate_scheme,
+        cell_source_quadrature=context.cell_source_quadrature,
+        cell_storage_quadrature=context.cell_storage_quadrature,
+    )
+
+    def scaled_stationary_residual(
+        scaled_increment: np.ndarray,
+    ) -> np.ndarray:
+        trial = (
+            values
+            + np.asarray(scaling.column_scales, dtype=float)
+            * np.asarray(scaled_increment, dtype=float)
+        )
+        trial_evaluation = evaluate_causal_five_field_dae(
+            trial,
+            context,
+        )
+        return (
+            np.asarray(trial_evaluation.residual, dtype=float)
+            / np.asarray(scaling.row_scales, dtype=float)
+        )
+
+    stationary = causal_five_field_colored_central_jacobian(
+        scaled_stationary_residual,
+        zero,
+        pattern,
+        finite_difference_step=step,
+    )
+    result = _causal_five_field_reduce_stationary_sparse_jacobian(
+        stationary,
+        scaling,
+        n_cells,
+    )
+    result.update(
+        {
+            "finite_difference_step": step,
+            "stationary_jacobian_source": (
+                "independent_full_dae_colored_schur"
+            ),
+        }
+    )
+    return result
+
+
 def causal_five_field_reduced_descriptor_matrices(
     context: CausalFiveFieldDAEContext,
     vector: np.ndarray,
@@ -622,47 +783,25 @@ def causal_five_field_reduced_descriptor_matrices(
         descriptor_timestep_seconds=timestep,
     )
     n_reduced = 5 * n_cells
-    total = int(stationary.shape[0])
-    conservation_rows = np.arange(n_reduced)
-    algebraic_rows = np.arange(n_reduced, total)
-    conserved_columns = np.arange(n_reduced)
-    primitive_columns = np.arange(n_reduced, 2 * n_reduced)
-    face_columns = np.arange(2 * n_reduced, total)
-    algebraic_columns = np.concatenate(
-        (conserved_columns, face_columns)
+    stationary_reduction = (
+        _causal_five_field_reduce_stationary_sparse_jacobian(
+            stationary,
+            scaling,
+            n_cells,
+        )
     )
-
-    algebraic_block = stationary[algebraic_rows][:, algebraic_columns]
-    algebraic_from_primitive = stationary[algebraic_rows][
-        :,
-        primitive_columns,
+    algebraic_response = stationary_reduction[
+        "algebraic_response_scaled"
     ]
-    solved, solve_defect = _equilibrated_sparse_multiple_solve(
-        algebraic_block,
-        algebraic_from_primitive.toarray(),
-    )
-    algebraic_response = -solved
-
-    stationary_reduced = (
-        stationary[conservation_rows][:, primitive_columns].toarray()
-        + stationary[conservation_rows][:, algebraic_columns]
-        @ algebraic_response
-    )
+    algebraic_columns = stationary_reduction["algebraic_columns"]
+    conservation_rows = np.arange(n_reduced)
+    algebraic_rows = np.arange(n_reduced, stationary.shape[0])
+    primitive_columns = np.arange(n_reduced, 2 * n_reduced)
     descriptor = timestep * (backward_euler - stationary)
     descriptor_reduced = (
         descriptor[conservation_rows][:, primitive_columns].toarray()
         + descriptor[conservation_rows][:, algebraic_columns]
         @ algebraic_response
-    )
-    algebraic_reconstruction = (
-        algebraic_block @ algebraic_response
-        + algebraic_from_primitive
-    )
-    algebraic_scale = max(
-        float(np.max(np.abs(algebraic_from_primitive.data)))
-        if algebraic_from_primitive.nnz
-        else 0.0,
-        1.0,
     )
     descriptor_algebraic = descriptor[algebraic_rows]
     descriptor_scale = max(
@@ -672,41 +811,12 @@ def causal_five_field_reduced_descriptor_matrices(
         1.0,
     )
     return {
-        "stationary_reduced_scaled_jacobian": np.asarray(
-            stationary_reduced,
-            dtype=float,
-        ),
+        **stationary_reduction,
         "descriptor_reduced_scaled_matrix": np.asarray(
             descriptor_reduced,
             dtype=float,
         ),
-        "algebraic_response_scaled": np.asarray(
-            algebraic_response,
-            dtype=float,
-        ),
-        "primitive_column_scales": np.asarray(
-            scaling.column_scales[primitive_columns],
-            dtype=float,
-        ),
-        "algebraic_column_scales": np.asarray(
-            scaling.column_scales[algebraic_columns],
-            dtype=float,
-        ),
-        "conservation_row_scales": np.asarray(
-            scaling.row_scales[conservation_rows],
-            dtype=float,
-        ),
-        "algebraic_columns": algebraic_columns,
-        "conserved_algebraic_rows": np.arange(n_reduced),
-        "face_algebraic_rows": np.arange(n_reduced, algebraic_columns.size),
-        "dimensions": (n_reduced, n_reduced),
-        "full_dimensions": stationary.shape,
-        "stationary_nonzeros": int(stationary.nnz),
         "descriptor_nonzeros": int(descriptor.nnz),
-        "algebraic_solve_relative_defect": solve_defect,
-        "maximum_scaled_algebraic_reconstruction_defect": float(
-            np.max(np.abs(algebraic_reconstruction)) / algebraic_scale
-        ),
         "maximum_scaled_descriptor_algebraic_row": float(
             (
                 np.max(np.abs(descriptor_algebraic.data))
@@ -1053,6 +1163,390 @@ def _causal_five_field_reduced_storage_matrix_with_scale(
     return matrices, color_count
 
 
+def causal_five_field_reduced_storage_matrices(
+    context: CausalFiveFieldDAEContext,
+    primitive_vector: np.ndarray,
+    *,
+    primitive_column_scales: np.ndarray,
+    conservation_row_scales: np.ndarray,
+    finite_difference_step: float = 2.0e-6,
+    storage_quadrature_order: int = 4,
+    storage_directional_step: float = 1.0e-3,
+) -> dict:
+    """Build independent mapped and responsive-height storage matrices.
+
+    The matrices act from fixed scaled primitive coordinates to fixed scaled
+    conservation rows.  The mapped-conserved and responsive-height pieces are
+    returned separately so their inner finite-difference convergence can be
+    audited without rebuilding a stationary Jacobian.
+    """
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    n_reduced = 5 * n_cells
+    primitives = np.asarray(primitive_vector, dtype=float)
+    primitive_scales = np.asarray(
+        primitive_column_scales,
+        dtype=float,
+    )
+    conservation_scales = np.asarray(
+        conservation_row_scales,
+        dtype=float,
+    )
+    step = float(finite_difference_step)
+    if (
+        primitives.shape != (n_reduced,)
+        or primitive_scales.shape != (n_reduced,)
+        or conservation_scales.shape != (n_reduced,)
+        or np.any(~np.isfinite(primitives))
+        or np.any(~np.isfinite(primitive_scales))
+        or np.any(~np.isfinite(conservation_scales))
+        or np.any(primitive_scales <= 0.0)
+        or np.any(conservation_scales <= 0.0)
+        or not np.isfinite(step)
+        or step <= 0.0
+    ):
+        raise ValueError("reduced storage-matrix inputs are invalid")
+    matrices, color_count = (
+        _causal_five_field_reduced_storage_matrix_with_scale(
+            context,
+            primitives,
+            primitive_scales,
+            conservation_scales,
+            finite_difference_step=step,
+            storage_quadrature_order=storage_quadrature_order,
+            storage_directional_step=storage_directional_step,
+        )
+    )
+    component_defect = matrices["total"] - (
+        matrices["conserved"] + matrices["vertical"]
+    )
+    return {
+        "descriptor_reduced_scaled_matrix": matrices["total"],
+        "conserved_descriptor_reduced_scaled_matrix": (
+            matrices["conserved"]
+        ),
+        "vertical_descriptor_reduced_scaled_matrix": (
+            matrices["vertical"]
+        ),
+        "primitive_column_scales": primitive_scales,
+        "conservation_row_scales": conservation_scales,
+        "finite_difference_step": step,
+        "storage_quadrature_order": int(storage_quadrature_order),
+        "storage_directional_step": float(storage_directional_step),
+        "storage_component_colors": color_count,
+        "storage_component_paired_evaluations": 2 * color_count,
+        "maximum_scaled_component_reconstruction_defect": float(
+            np.max(np.abs(component_defect))
+        ),
+        "mass_matrix_source": (
+            "independent_gauss_mapped_vector_storage_one_form"
+        ),
+    }
+
+
+def causal_five_field_reduced_storage_rate_derivatives(
+    context: CausalFiveFieldDAEContext,
+    primitive_vector: np.ndarray,
+    primitive_rate_per_s: np.ndarray,
+    *,
+    primitive_column_scales: np.ndarray,
+    conservation_row_scales: np.ndarray,
+    storage_matrix_difference_step: float = 2.0e-6,
+    storage_rate_derivative_step: float,
+    storage_difference_step: float = 1.0e-4,
+    storage_quadrature_order: int = 4,
+    storage_directional_step: float = 1.0e-3,
+    backend: str = "nested_matrix",
+) -> dict:
+    """Build only ``DM[., p_dot]`` in fixed scaled coordinates.
+
+    ``backend="nested_matrix"`` preserves the production construction: it
+    builds the mapped-conserved storage matrix at every outer state and then
+    contracts that matrix with ``p_dot``.  Its inner mapped-storage step and
+    outer state-derivative step are independent inputs.
+
+    ``backend="direct_action"`` is an independent diagnostic construction.
+    It applies the complete nonlinear conserved-plus-responsive-height
+    storage one-form directly to ``p_dot`` and differentiates that action only
+    once in the outer state coordinate.  It therefore avoids differentiating
+    a numerically differentiated mass matrix.  The production default and
+    its numerical path remain unchanged.
+    """
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    n_reduced = 5 * n_cells
+    primitives = np.asarray(primitive_vector, dtype=float)
+    physical_rate = np.asarray(primitive_rate_per_s, dtype=float)
+    if physical_rate.shape == (n_cells, 5):
+        physical_rate = physical_rate.ravel()
+    primitive_scales = np.asarray(
+        primitive_column_scales,
+        dtype=float,
+    )
+    conservation_scales = np.asarray(
+        conservation_row_scales,
+        dtype=float,
+    )
+    inner_step = float(storage_matrix_difference_step)
+    outer_step = float(storage_rate_derivative_step)
+    derivative_backend = str(backend)
+    if (
+        primitives.shape != (n_reduced,)
+        or physical_rate.shape != (n_reduced,)
+        or primitive_scales.shape != (n_reduced,)
+        or conservation_scales.shape != (n_reduced,)
+        or np.any(~np.isfinite(primitives))
+        or np.any(~np.isfinite(physical_rate))
+        or np.any(~np.isfinite(primitive_scales))
+        or np.any(~np.isfinite(conservation_scales))
+        or np.any(primitive_scales <= 0.0)
+        or np.any(conservation_scales <= 0.0)
+        or not np.isfinite(inner_step)
+        or inner_step <= 0.0
+        or not np.isfinite(outer_step)
+        or outer_step <= 0.0
+    ):
+        raise ValueError("storage-rate derivative inputs are invalid")
+    if derivative_backend not in ("nested_matrix", "direct_action"):
+        raise ValueError("storage-rate derivative backend is unsupported")
+    scaled_rate = physical_rate / primitive_scales
+    storage_pattern = _causal_five_field_reduced_storage_pattern(context)
+    storage_color_count = len(
+        causal_five_field_dae_jacobian_color_groups(storage_pattern)
+    )
+    nested_storage_color_counts: list[int] = []
+
+    def nested_storage_rate_components_at_increment(
+        scaled_increment: np.ndarray,
+    ) -> dict[str, np.ndarray]:
+        perturbed_primitives = (
+            primitives
+            + primitive_scales
+            * np.asarray(scaled_increment, dtype=float)
+        )
+        component_matrices, nested_color_count = (
+            _causal_five_field_reduced_storage_matrix_with_scale(
+                context,
+                perturbed_primitives,
+                primitive_scales,
+                conservation_scales,
+                finite_difference_step=inner_step,
+                storage_quadrature_order=storage_quadrature_order,
+                storage_directional_step=storage_directional_step,
+                include_vertical=False,
+            )
+        )
+        nested_storage_color_counts.append(nested_color_count)
+        conserved = component_matrices["conserved"] @ scaled_rate
+        vertical_action = (
+            _causal_five_field_reduced_storage_action_with_scale(
+                context,
+                perturbed_primitives,
+                physical_rate,
+                primitive_scales,
+                storage_difference_step=storage_difference_step,
+                storage_quadrature_order=storage_quadrature_order,
+                storage_directional_step=storage_directional_step,
+                include_conserved=False,
+            )
+        )
+        vertical = (
+            np.asarray(
+                vertical_action["vertical_storage_per_ct"],
+                dtype=float,
+            ).ravel()
+            / conservation_scales
+        )
+        return {
+            "conserved": conserved,
+            "vertical": vertical,
+            "total": conserved + vertical,
+        }
+
+    def direct_storage_rate_components_at_increment(
+        scaled_increment: np.ndarray,
+    ) -> dict[str, np.ndarray]:
+        perturbed_primitives = (
+            primitives
+            + primitive_scales
+            * np.asarray(scaled_increment, dtype=float)
+        )
+        action = _causal_five_field_reduced_storage_action_with_scale(
+            context,
+            perturbed_primitives,
+            physical_rate,
+            primitive_scales,
+            storage_difference_step=storage_difference_step,
+            storage_quadrature_order=storage_quadrature_order,
+            storage_directional_step=storage_directional_step,
+            include_conserved=True,
+        )
+        conserved = (
+            np.asarray(
+                action["conserved_storage_per_ct"],
+                dtype=float,
+            ).ravel()
+            / conservation_scales
+        )
+        vertical = (
+            np.asarray(
+                action["vertical_storage_per_ct"],
+                dtype=float,
+            ).ravel()
+            / conservation_scales
+        )
+        total = (
+            np.asarray(
+                action["total_conservation_storage_per_ct"],
+                dtype=float,
+            ).ravel()
+            / conservation_scales
+        )
+        return {
+            "conserved": conserved,
+            "vertical": vertical,
+            "total": total,
+        }
+
+    if derivative_backend == "nested_matrix":
+        component_action = nested_storage_rate_components_at_increment
+    else:
+        component_action = direct_storage_rate_components_at_increment
+
+    derivatives, derivative_color_count = (
+        _causal_five_field_colored_component_jacobians(
+            component_action,
+            np.zeros(n_reduced, dtype=float),
+            storage_pattern,
+            finite_difference_step=outer_step,
+        )
+    )
+    if derivative_backend == "nested_matrix" and (
+        not nested_storage_color_counts
+        or any(
+            count != storage_color_count
+            for count in nested_storage_color_counts
+        )
+    ):
+        raise RuntimeError(
+            "nested storage coloring changed across tangent evaluations"
+        )
+    total = derivatives["conserved"] + derivatives["vertical"]
+    component_defect = derivatives["total"] - total
+    return {
+        "storage_rate_derivative_scaled_matrix": total,
+        "conserved_storage_rate_derivative_scaled_matrix": (
+            derivatives["conserved"]
+        ),
+        "vertical_storage_rate_derivative_scaled_matrix": (
+            derivatives["vertical"]
+        ),
+        "primitive_column_scales": primitive_scales,
+        "conservation_row_scales": conservation_scales,
+        "storage_matrix_difference_step": inner_step,
+        "storage_rate_derivative_step": outer_step,
+        "storage_difference_step": float(storage_difference_step),
+        "storage_quadrature_order": int(storage_quadrature_order),
+        "storage_directional_step": float(storage_directional_step),
+        "storage_component_colors": storage_color_count,
+        "storage_rate_derivative_component_colors": (
+            derivative_color_count
+        ),
+        "storage_rate_derivative_backend": derivative_backend,
+        "storage_rate_derivative_uses_inner_storage_matrix": (
+            derivative_backend == "nested_matrix"
+        ),
+        "storage_matrix_difference_step_applied": (
+            inner_step if derivative_backend == "nested_matrix" else None
+        ),
+        "storage_rate_derivative_outer_component_evaluations": (
+            2 * derivative_color_count
+        ),
+        "storage_rate_derivative_direct_action_evaluations": (
+            2 * derivative_color_count
+            if derivative_backend == "direct_action"
+            else 0
+        ),
+        "storage_rate_derivative_nested_component_evaluations": (
+            4 * derivative_color_count * storage_color_count
+            if derivative_backend == "nested_matrix"
+            else 0
+        ),
+        "storage_rate_derivative_nested_base_mapped_evaluations": (
+            2 * derivative_color_count
+            if derivative_backend == "nested_matrix"
+            else 0
+        ),
+        "storage_rate_derivative_nested_mapped_evaluations": (
+            2
+            * derivative_color_count
+            * (1 + 2 * storage_color_count)
+            if derivative_backend == "nested_matrix"
+            else 0
+        ),
+        "storage_rate_derivative_direct_mapped_evaluations": (
+            4 * derivative_color_count
+            if derivative_backend == "direct_action"
+            else 0
+        ),
+        "vertical_storage_rate_derivative_path_evaluations": (
+            4 * derivative_color_count
+        ),
+        "maximum_scaled_component_reconstruction_defect": float(
+            np.max(np.abs(component_defect))
+        ),
+        "storage_rate_derivative_source": (
+            "independent_nested_colored_mapped_plus_vertical_rate_action"
+            if derivative_backend == "nested_matrix"
+            else "independent_outer_colored_complete_storage_rate_action"
+        ),
+    }
+
+
+def causal_five_field_assemble_evolving_tangent(
+    descriptor_reduced_scaled_matrix: np.ndarray,
+    stationary_reduced_scaled_jacobian: np.ndarray,
+    storage_rate_derivative_scaled_matrix: np.ndarray,
+) -> dict:
+    """Assemble one evolving generator from independently audited blocks."""
+
+    mass = np.asarray(descriptor_reduced_scaled_matrix, dtype=float)
+    stationary = np.asarray(
+        stationary_reduced_scaled_jacobian,
+        dtype=float,
+    )
+    storage_rate = np.asarray(
+        storage_rate_derivative_scaled_matrix,
+        dtype=float,
+    )
+    if (
+        mass.ndim != 2
+        or mass.shape[0] != mass.shape[1]
+        or stationary.shape != mass.shape
+        or storage_rate.shape != mass.shape
+        or np.any(~np.isfinite(mass))
+        or np.any(~np.isfinite(stationary))
+        or np.any(~np.isfinite(storage_rate))
+    ):
+        raise ValueError("evolving-tangent blocks are invalid")
+    evolving = stationary + storage_rate
+    generator = -np.linalg.solve(mass, evolving)
+    factorization_defect = mass @ generator + evolving
+    return {
+        "descriptor_reduced_scaled_matrix": mass,
+        "stationary_reduced_scaled_jacobian": stationary,
+        "storage_rate_derivative_scaled_matrix": storage_rate,
+        "evolving_reduced_scaled_jacobian": evolving,
+        "evolving_scaled_generator_per_s": generator,
+        "maximum_scaled_generator_factorization_defect": float(
+            np.max(np.abs(factorization_defect))
+        ),
+        "dimensions": mass.shape,
+    }
+
+
 def causal_five_field_scaled_primitive_vector_field(
     context: CausalFiveFieldDAEContext,
     primitive_vector: np.ndarray,
@@ -1282,20 +1776,23 @@ def causal_five_field_evolving_tangent_matrices(
         raise ValueError(
             "precomputed reduced descriptor scaling or matrices differ"
         )
-    storage_matrices, storage_color_count = (
-        _causal_five_field_reduced_storage_matrix_with_scale(
-            context,
-            base_primitives,
-            primitive_scales,
-            conservation_scales,
-            finite_difference_step=step,
-            storage_quadrature_order=storage_quadrature_order,
-            storage_directional_step=storage_directional_step,
-        )
+    storage_blocks = causal_five_field_reduced_storage_matrices(
+        context,
+        base_primitives,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=conservation_scales,
+        finite_difference_step=step,
+        storage_quadrature_order=storage_quadrature_order,
+        storage_directional_step=storage_directional_step,
     )
-    mass = storage_matrices["total"]
-    conserved_mass = storage_matrices["conserved"]
-    vertical_mass = storage_matrices["vertical"]
+    mass = storage_blocks["descriptor_reduced_scaled_matrix"]
+    conserved_mass = storage_blocks[
+        "conserved_descriptor_reduced_scaled_matrix"
+    ]
+    vertical_mass = storage_blocks[
+        "vertical_descriptor_reduced_scaled_matrix"
+    ]
+    storage_color_count = int(storage_blocks["storage_component_colors"])
     stationary_residual = causal_five_field_reduced_stationary_residual(
         base_primitives,
         context,
@@ -1327,90 +1824,41 @@ def causal_five_field_evolving_tangent_matrices(
         scaled_rate = physical_rate / primitive_scales
         rate_source = "supplied"
 
-    storage_pattern = _causal_five_field_reduced_storage_pattern(context)
-
-    nested_storage_color_counts: list[int] = []
-
-    def scaled_storage_rate_components_at_increment(
-        scaled_increment: np.ndarray,
-    ) -> dict[str, np.ndarray]:
-        primitives = (
-            base_primitives
-            + primitive_scales
-            * np.asarray(scaled_increment, dtype=float)
-        )
-        component_matrices, nested_color_count = (
-            _causal_five_field_reduced_storage_matrix_with_scale(
-                context,
-                primitives,
-                primitive_scales,
-                conservation_scales,
-                finite_difference_step=step,
-                storage_quadrature_order=storage_quadrature_order,
-                storage_directional_step=storage_directional_step,
-                include_vertical=False,
-            )
-        )
-        nested_storage_color_counts.append(nested_color_count)
-        conserved = (
-            component_matrices["conserved"] @ scaled_rate
-        )
-        vertical_action = (
-            _causal_five_field_reduced_storage_action_with_scale(
-                context,
-                primitives,
-                physical_rate,
-                primitive_scales,
-                storage_difference_step=storage_difference_step,
-                storage_quadrature_order=storage_quadrature_order,
-                storage_directional_step=storage_directional_step,
-                include_conserved=False,
-            )
-        )
-        vertical = (
-            np.asarray(
-                vertical_action["vertical_storage_per_ct"],
-                dtype=float,
-            ).ravel()
-            / conservation_scales
-        )
-        return {
-            "conserved": conserved,
-            "vertical": vertical,
-            "total": conserved + vertical,
-        }
-
-    storage_rate_derivatives, derivative_color_count = (
-        _causal_five_field_colored_component_jacobians(
-            scaled_storage_rate_components_at_increment,
-            np.zeros(n_reduced, dtype=float),
-            storage_pattern,
-            finite_difference_step=rate_derivative_step,
+    storage_rate_blocks = (
+        causal_five_field_reduced_storage_rate_derivatives(
+            context,
+            base_primitives,
+            physical_rate,
+            primitive_column_scales=primitive_scales,
+            conservation_row_scales=conservation_scales,
+            storage_matrix_difference_step=step,
+            storage_rate_derivative_step=rate_derivative_step,
+            storage_difference_step=storage_difference_step,
+            storage_quadrature_order=storage_quadrature_order,
+            storage_directional_step=storage_directional_step,
         )
     )
-    if (
-        not nested_storage_color_counts
-        or any(
-            count != storage_color_count
-            for count in nested_storage_color_counts
-        )
-    ):
-        raise RuntimeError(
-            "nested storage coloring changed across tangent evaluations"
-        )
-    conserved_storage_rate_derivative = storage_rate_derivatives[
-        "conserved"
+    conserved_storage_rate_derivative = storage_rate_blocks[
+        "conserved_storage_rate_derivative_scaled_matrix"
     ]
-    vertical_storage_rate_derivative = storage_rate_derivatives[
-        "vertical"
+    vertical_storage_rate_derivative = storage_rate_blocks[
+        "vertical_storage_rate_derivative_scaled_matrix"
     ]
-    storage_rate_derivative = (
-        conserved_storage_rate_derivative
-        + vertical_storage_rate_derivative
+    storage_rate_derivative = storage_rate_blocks[
+        "storage_rate_derivative_scaled_matrix"
+    ]
+    derivative_color_count = int(
+        storage_rate_blocks[
+            "storage_rate_derivative_component_colors"
+        ]
     )
-
-    evolving_jacobian = stationary_jacobian + storage_rate_derivative
-    generator = -np.linalg.solve(mass, evolving_jacobian)
+    assembled = causal_five_field_assemble_evolving_tangent(
+        mass,
+        stationary_jacobian,
+        storage_rate_derivative,
+    )
+    evolving_jacobian = assembled["evolving_reduced_scaled_jacobian"]
+    generator = assembled["evolving_scaled_generator_per_s"]
     base_storage_action = (
         _causal_five_field_reduced_storage_action_with_scale(
             context,

@@ -26,11 +26,12 @@ archive.
 
 ## File Gates
 
-- Maximum tracked tree: fewer than `700` files. The causal one-domain
-  implementation has taken the reviewed source tree past the former
-  `600`-file cap without adding generated outputs. This bounded increase
-  leaves room for its remaining source, tests, and current reports; further
-  growth must remain within the explicit cap.
+- Maximum tracked tree: fewer than `800` files. The reviewed WP10c8i source,
+  tests, runner, and current report took the committed tree to `704` files,
+  past the former `700`-file cap without adding generated outputs. WP10c8j
+  adds the corresponding bounded tangent-certification source, tests, runner,
+  and report. This explicit increment leaves room for remaining reviewed code
+  and evidence; further growth must stay within the revised cap.
 - Default maximum tracked file size: `5 MiB`.
 - Files above the limit require an allow-list entry and scientific rationale.
 - Every canonical case must have provenance and valid checksums.

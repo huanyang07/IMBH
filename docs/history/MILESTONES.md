@@ -406,6 +406,22 @@ rejected sequence.
     and no candidate is proven sufficient or insufficient. Online cost is
     unevaluated, nonlinear lifting remains closed, and only a bounded
     tangent/finite-branch certification package is authorized.
+59. **Direct-action tangent repair remains uncertified:** WP10c8j replaces
+    the nested finite-difference mass-matrix derivative with a direct
+    derivative of the complete storage-rate action and adds separate
+    stationary, storage, storage-rate, factorization, nonlinear-secant, and
+    strict finite-neighborhood Rusanov contracts. The matrix construction
+    passes its binding gates: matched N64/N128 `0.10 s` assembled-generator
+    step stability is below `1.64e-3`, selected storage reconstruction is
+    below `2.61e-11`, and factorization is below `3.64e-12`. The independent
+    production-vector-field response does not pass. At N64 `0.05 s`, outer
+    thermal/density defects remain `1.87e-2/1.06e-2` at the selected secant,
+    and N128 `0.10 s` gives a `1.0209e-2` outer-density defect. At N64
+    `0/0.025 s`, every declared direction is Rusanov-reserved. No all-face
+    candidate coverage, finite neighborhood, or uniform nonlinear remainder
+    is supplied. An unchanged WP10c8i repeat, nonlinear lifting, healing, and
+    reduced macrosteps remain closed pending a direct smooth-vector-field and
+    finite-branch repair.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

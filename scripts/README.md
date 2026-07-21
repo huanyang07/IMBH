@@ -25,6 +25,19 @@ logic has moved into `src/` and numerical parity is tested.
 - `run_standard_slim_high_mdot_no_wind_ladder.py`
 - `run_standard_slim_stream_anchor_regression.py`
 
+## Current Causal Reduction Audits
+
+- `run_causal_moment_sufficiency_audit_wp10c8i.py` constructs the locked
+  storage-consistent five-shell moment ladder and performs the offline
+  finite-time constraint-null audit. Its moment decision remains conditional
+  on tangent certification.
+- `run_causal_tangent_certification_wp10c8j.py` independently attempts the
+  evolving-anchor smooth-tangent repair and certifies it only when every
+  declared gate passes. It also applies the strict
+  finite-neighborhood Rusanov contract, and may authorize—but never launches—
+  a separate unchanged WP10c8i repeat. It runs no new truth trajectory,
+  nonlinear lift, healing burst, closure, or reduced evolution.
+
 ## Repository Maintenance
 
 - `build_repository_cleanup_inventory.py`

@@ -6,6 +6,7 @@ import pytest
 from imri_qpe.constants import C
 from imri_qpe.layer3_minidisk_1d import (
     causal_coincident_fine_faces,
+    causal_five_field_assemble_evolving_tangent,
     causal_five_field_constraint_manifold_jvp,
     causal_five_field_consistent_tangent_decomposition,
     causal_five_field_dae_scaling,
@@ -15,7 +16,10 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_five_field_reconstruct_face_charts,
     causal_five_field_reduced_backward_euler_residual,
     causal_five_field_reduced_descriptor_matrices,
+    causal_five_field_reduced_stationary_jacobian,
     causal_five_field_reduced_storage_action,
+    causal_five_field_reduced_storage_matrices,
+    causal_five_field_reduced_storage_rate_derivatives,
     causal_five_field_reduced_stationary_residual,
     causal_five_field_residual_terms,
     causal_five_field_scaled_primitive_vector_field,
@@ -101,6 +105,71 @@ def _independent_storage_component_matrices(
             / (2.0 * C * difference_step)
         ).ravel() / rows
     return conserved, vertical
+
+
+def _independent_complete_storage_rate_action(
+    context,
+    primitives: np.ndarray,
+    primitive_rate_per_s: np.ndarray,
+    primitive_scales: np.ndarray,
+    row_scales: np.ndarray,
+    difference_step: float,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Apply the complete storage to one rate without a mass matrix."""
+
+    n_cells = int(context.grid.centers.size)
+    charts = np.asarray(primitives, dtype=float).reshape(n_cells, 5)
+    rate = np.asarray(primitive_rate_per_s, dtype=float).reshape(
+        n_cells,
+        5,
+    )
+    scales = np.asarray(primitive_scales, dtype=float).reshape(
+        n_cells,
+        5,
+    )
+    rows = np.asarray(row_scales, dtype=float).reshape(n_cells, 5)
+    maximum_scaled_rate = float(np.max(np.abs(rate / scales)))
+    if maximum_scaled_rate == 0.0:
+        zeros = np.zeros(5 * n_cells, dtype=float)
+        return zeros, np.array(zeros, copy=True)
+    timestep = float(difference_step) / maximum_scaled_rate
+    increment = timestep * rate
+    plus_conserved = causal_five_field_mapped_conserved_from_primitives(
+        context,
+        charts + increment,
+    )
+    minus_conserved = causal_five_field_mapped_conserved_from_primitives(
+        context,
+        charts - increment,
+    )
+    plus_path = causal_five_field_path_temporal_storage_increment(
+        context,
+        charts,
+        charts + increment,
+    )
+    minus_path = causal_five_field_path_temporal_storage_increment(
+        context,
+        charts,
+        charts - increment,
+    )
+    denominator = 2.0 * C * timestep
+    measures = np.asarray(
+        context.grid.cell_measures,
+        dtype=float,
+    )[:, None]
+    conserved = (
+        measures * (plus_conserved - minus_conserved) / denominator
+    ) / rows
+    vertical = np.zeros((n_cells, 5), dtype=float)
+    vertical[:, :4] = (
+        measures
+        * (
+            plus_path.vertical_killing_increment
+            - minus_path.vertical_killing_increment
+        )
+        / denominator
+    )[:, :4] / rows[:, :4]
+    return conserved.ravel(), vertical.ravel()
 
 
 def test_nested_restriction_preserves_integrals_and_averages() -> None:
@@ -404,6 +473,450 @@ def test_reduced_storage_action_matches_descriptor_and_is_vector_valued() -> Non
     assert np.array_equal(vertical[:, 0], np.zeros(2))
     assert np.array_equal(vertical[:, 4], np.zeros(2))
     assert np.all(np.max(np.abs(vertical[:, 1:4]), axis=0) > 0.0)
+
+
+def test_independent_smooth_tangent_blocks_match_dense_small_n() -> None:
+    context = make_causal_five_field_regression_context(2)
+    state = make_causal_five_field_seed(context)
+    vector = pack_causal_five_field_state(state)
+    frozen = causal_five_field_reduced_descriptor_matrices(
+        context,
+        vector,
+    )
+    stationary = causal_five_field_reduced_stationary_jacobian(
+        context,
+        vector,
+        finite_difference_step=2.0e-6,
+    )
+    storage = causal_five_field_reduced_storage_matrices(
+        context,
+        state.primitives.ravel(),
+        primitive_column_scales=frozen["primitive_column_scales"],
+        conservation_row_scales=frozen["conservation_row_scales"],
+        finite_difference_step=2.0e-6,
+    )
+    scaled_residual = (
+        causal_five_field_reduced_stationary_residual(
+            state.primitives.ravel(),
+            context,
+        )
+        / frozen["conservation_row_scales"]
+    )
+    scaled_rate = np.linalg.solve(
+        storage["descriptor_reduced_scaled_matrix"],
+        -scaled_residual,
+    )
+    physical_rate = frozen["primitive_column_scales"] * scaled_rate
+    rate_derivative = (
+        causal_five_field_reduced_storage_rate_derivatives(
+            context,
+            state.primitives.ravel(),
+            physical_rate,
+            primitive_column_scales=frozen["primitive_column_scales"],
+            conservation_row_scales=frozen["conservation_row_scales"],
+            storage_matrix_difference_step=2.0e-6,
+            storage_rate_derivative_step=1.0e-3,
+        )
+    )
+    assembled = causal_five_field_assemble_evolving_tangent(
+        storage["descriptor_reduced_scaled_matrix"],
+        stationary["stationary_reduced_scaled_jacobian"],
+        rate_derivative["storage_rate_derivative_scaled_matrix"],
+    )
+    monolithic = causal_five_field_evolving_tangent_matrices(
+        context,
+        vector,
+        reduced_descriptor=frozen,
+        storage_rate_derivative_step=1.0e-3,
+    )
+
+    assert stationary["stationary_jacobian_source"] == (
+        "independent_full_dae_colored_schur"
+    )
+    assert storage["mass_matrix_source"] == (
+        "independent_gauss_mapped_vector_storage_one_form"
+    )
+    assert rate_derivative["storage_rate_derivative_source"] == (
+        "independent_nested_colored_mapped_plus_vertical_rate_action"
+    )
+    assert np.array_equal(
+        stationary["stationary_reduced_scaled_jacobian"],
+        frozen["stationary_reduced_scaled_jacobian"],
+    )
+    assert np.array_equal(
+        storage["descriptor_reduced_scaled_matrix"],
+        monolithic["descriptor_reduced_scaled_matrix"],
+    )
+    assert np.array_equal(
+        storage["conserved_descriptor_reduced_scaled_matrix"],
+        monolithic["conserved_descriptor_reduced_scaled_matrix"],
+    )
+    assert np.array_equal(
+        storage["vertical_descriptor_reduced_scaled_matrix"],
+        monolithic["vertical_descriptor_reduced_scaled_matrix"],
+    )
+    assert np.array_equal(
+        rate_derivative["storage_rate_derivative_scaled_matrix"],
+        monolithic["storage_rate_derivative_scaled_matrix"],
+    )
+    assert np.array_equal(
+        assembled["evolving_reduced_scaled_jacobian"],
+        monolithic["evolving_reduced_scaled_jacobian"],
+    )
+    assert np.array_equal(
+        assembled["evolving_scaled_generator_per_s"],
+        monolithic["evolving_scaled_generator_per_s"],
+    )
+    assert assembled["maximum_scaled_generator_factorization_defect"] < 1.0e-10
+
+    dense_conserved, dense_vertical = (
+        _independent_storage_component_matrices(
+            context,
+            state.primitives.ravel(),
+            frozen["primitive_column_scales"],
+            frozen["conservation_row_scales"],
+            2.0e-6,
+        )
+    )
+    assert np.allclose(
+        storage["conserved_descriptor_reduced_scaled_matrix"],
+        dense_conserved,
+        rtol=3.0e-6,
+        atol=3.0e-8,
+    )
+    assert np.allclose(
+        storage["vertical_descriptor_reduced_scaled_matrix"],
+        dense_vertical,
+        rtol=3.0e-6,
+        atol=3.0e-8,
+    )
+
+
+@pytest.mark.parametrize("n_cells", (2, 4))
+def test_direct_action_storage_rate_derivative_matches_dense_columns(
+    n_cells: int,
+) -> None:
+    context = make_causal_five_field_regression_context(n_cells)
+    state = make_causal_five_field_seed(context)
+    vector = pack_causal_five_field_state(state)
+    frozen = causal_five_field_reduced_descriptor_matrices(
+        context,
+        vector,
+    )
+    primitive_scales = frozen["primitive_column_scales"]
+    row_scales = frozen["conservation_row_scales"]
+    base = state.primitives.ravel()
+    storage = causal_five_field_reduced_storage_matrices(
+        context,
+        base,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        finite_difference_step=2.0e-6,
+    )
+    scaled_residual = (
+        causal_five_field_reduced_stationary_residual(base, context)
+        / row_scales
+    )
+    scaled_rate = np.linalg.solve(
+        storage["descriptor_reduced_scaled_matrix"],
+        -scaled_residual,
+    )
+    physical_rate = primitive_scales * scaled_rate
+    outer_step = 1.0e-3
+    difference_step = 1.0e-4
+    direct = causal_five_field_reduced_storage_rate_derivatives(
+        context,
+        base,
+        physical_rate,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        storage_matrix_difference_step=2.0e-6,
+        storage_rate_derivative_step=outer_step,
+        storage_difference_step=difference_step,
+        backend="direct_action",
+    )
+    direct_with_unused_inner_step = (
+        causal_five_field_reduced_storage_rate_derivatives(
+            context,
+            base,
+            physical_rate,
+            primitive_column_scales=primitive_scales,
+            conservation_row_scales=row_scales,
+            storage_matrix_difference_step=7.0e-5,
+            storage_rate_derivative_step=outer_step,
+            storage_difference_step=difference_step,
+            backend="direct_action",
+        )
+    )
+
+    n_reduced = 5 * n_cells
+    dense_conserved = np.empty((n_reduced, n_reduced), dtype=float)
+    dense_vertical = np.empty_like(dense_conserved)
+    for column in range(n_reduced):
+        plus = np.array(base, copy=True)
+        minus = np.array(base, copy=True)
+        plus[column] += outer_step * primitive_scales[column]
+        minus[column] -= outer_step * primitive_scales[column]
+        plus_conserved, plus_vertical = (
+            _independent_complete_storage_rate_action(
+                context,
+                plus,
+                physical_rate,
+                primitive_scales,
+                row_scales,
+                difference_step,
+            )
+        )
+        minus_conserved, minus_vertical = (
+            _independent_complete_storage_rate_action(
+                context,
+                minus,
+                physical_rate,
+                primitive_scales,
+                row_scales,
+                difference_step,
+            )
+        )
+        dense_conserved[:, column] = (
+            plus_conserved - minus_conserved
+        ) / (2.0 * outer_step)
+        dense_vertical[:, column] = (
+            plus_vertical - minus_vertical
+        ) / (2.0 * outer_step)
+
+    assert direct["storage_rate_derivative_backend"] == "direct_action"
+    assert not direct["storage_rate_derivative_uses_inner_storage_matrix"]
+    assert direct["storage_matrix_difference_step_applied"] is None
+    assert direct["storage_rate_derivative_nested_component_evaluations"] == 0
+    assert direct["storage_rate_derivative_nested_mapped_evaluations"] == 0
+    assert direct["storage_rate_derivative_direct_action_evaluations"] == 10
+    assert direct["storage_rate_derivative_direct_mapped_evaluations"] == 20
+    assert direct["storage_rate_derivative_source"] == (
+        "independent_outer_colored_complete_storage_rate_action"
+    )
+    assert np.array_equal(
+        direct["storage_rate_derivative_scaled_matrix"],
+        direct_with_unused_inner_step[
+            "storage_rate_derivative_scaled_matrix"
+        ],
+    )
+    assert np.allclose(
+        direct["conserved_storage_rate_derivative_scaled_matrix"],
+        dense_conserved,
+        rtol=2.0e-6,
+        atol=2.0e-8,
+    )
+    assert np.allclose(
+        direct["vertical_storage_rate_derivative_scaled_matrix"],
+        dense_vertical,
+        rtol=2.0e-6,
+        atol=2.0e-8,
+    )
+    assert np.allclose(
+        direct["storage_rate_derivative_scaled_matrix"],
+        dense_conserved + dense_vertical,
+        rtol=2.0e-6,
+        atol=2.0e-8,
+    )
+
+
+def test_direct_action_tangent_matches_nonlinear_vector_field_jvp_n4() -> None:
+    context = make_causal_five_field_regression_context(
+        4,
+        spatial_reconstruction="quadratic_admissible",
+        boundary_trace_reconstruction="cell_centered",
+        cell_rate_scheme="arithmetic_face",
+        cell_source_quadrature="gauss_legendre_4_local_rates",
+        cell_storage_quadrature="gauss_legendre_4",
+    )
+    state = make_causal_five_field_seed(context)
+    vector = pack_causal_five_field_state(state)
+    frozen = causal_five_field_reduced_descriptor_matrices(
+        context,
+        vector,
+    )
+    primitive_scales = frozen["primitive_column_scales"]
+    row_scales = frozen["conservation_row_scales"]
+    base = state.primitives.ravel()
+    storage = causal_five_field_reduced_storage_matrices(
+        context,
+        base,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        finite_difference_step=2.0e-6,
+    )
+    scaled_residual = (
+        causal_five_field_reduced_stationary_residual(base, context)
+        / row_scales
+    )
+    scaled_rate = np.linalg.solve(
+        storage["descriptor_reduced_scaled_matrix"],
+        -scaled_residual,
+    )
+    physical_rate = primitive_scales * scaled_rate
+    rate_derivative = causal_five_field_reduced_storage_rate_derivatives(
+        context,
+        base,
+        physical_rate,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        storage_matrix_difference_step=2.0e-6,
+        storage_rate_derivative_step=1.0e-3,
+        backend="direct_action",
+    )
+    stationary = causal_five_field_reduced_stationary_jacobian(
+        context,
+        vector,
+        finite_difference_step=2.0e-6,
+    )
+    assembled = causal_five_field_assemble_evolving_tangent(
+        storage["descriptor_reduced_scaled_matrix"],
+        stationary["stationary_reduced_scaled_jacobian"],
+        rate_derivative["storage_rate_derivative_scaled_matrix"],
+    )
+
+    direction = np.zeros((4, 5), dtype=float)
+    direction[1, (0, 3)] = (0.2, 0.5)
+    direction[2, (0, 3)] = (-0.4, 0.3)
+    direction = direction.ravel()
+    direction /= np.linalg.norm(direction)
+    outer_step = 1.0e-3
+    plus = causal_five_field_scaled_primitive_vector_field(
+        context,
+        base + outer_step * primitive_scales * direction,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        finite_difference_step=2.0e-6,
+    )["scaled_primitive_rate_per_s"].ravel()
+    minus = causal_five_field_scaled_primitive_vector_field(
+        context,
+        base - outer_step * primitive_scales * direction,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        finite_difference_step=2.0e-6,
+    )["scaled_primitive_rate_per_s"].ravel()
+    direct_jvp = (plus - minus) / (2.0 * outer_step)
+    predicted_jvp = (
+        assembled["evolving_scaled_generator_per_s"] @ direction
+    )
+    comparison_scale = max(
+        float(np.max(np.abs(direct_jvp))),
+        float(np.max(np.abs(predicted_jvp))),
+        1.0,
+    )
+
+    assert (
+        np.max(np.abs(direct_jvp - predicted_jvp)) / comparison_scale
+        < 5.0e-3
+    )
+
+
+def test_independent_tangent_blocks_support_one_step_at_a_time_scans() -> None:
+    context = make_causal_five_field_regression_context(2)
+    state = make_causal_five_field_seed(context)
+    vector = pack_causal_five_field_state(state)
+    frozen = causal_five_field_reduced_descriptor_matrices(
+        context,
+        vector,
+    )
+    primitive_scales = frozen["primitive_column_scales"]
+    row_scales = frozen["conservation_row_scales"]
+    base = state.primitives.ravel()
+    storage_reference = causal_five_field_reduced_storage_matrices(
+        context,
+        base,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        finite_difference_step=2.0e-6,
+    )
+    scaled_residual = (
+        causal_five_field_reduced_stationary_residual(base, context)
+        / row_scales
+    )
+    scaled_rate = np.linalg.solve(
+        storage_reference["descriptor_reduced_scaled_matrix"],
+        -scaled_residual,
+    )
+    physical_rate = primitive_scales * scaled_rate
+    stationary_reference = causal_five_field_reduced_stationary_jacobian(
+        context,
+        vector,
+        finite_difference_step=2.0e-6,
+    )
+    rate_reference = causal_five_field_reduced_storage_rate_derivatives(
+        context,
+        base,
+        physical_rate,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        storage_matrix_difference_step=2.0e-6,
+        storage_rate_derivative_step=1.0e-3,
+    )
+
+    stationary_half_step = causal_five_field_reduced_stationary_jacobian(
+        context,
+        vector,
+        finite_difference_step=1.0e-6,
+    )
+    storage_half_step = causal_five_field_reduced_storage_matrices(
+        context,
+        base,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        finite_difference_step=1.0e-6,
+    )
+    outer_half_step = causal_five_field_reduced_storage_rate_derivatives(
+        context,
+        base,
+        physical_rate,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        storage_matrix_difference_step=2.0e-6,
+        storage_rate_derivative_step=5.0e-4,
+    )
+    inner_half_step = causal_five_field_reduced_storage_rate_derivatives(
+        context,
+        base,
+        physical_rate,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        storage_matrix_difference_step=1.0e-6,
+        storage_rate_derivative_step=1.0e-3,
+    )
+
+    assert stationary_half_step["finite_difference_step"] == 1.0e-6
+    assert storage_half_step["finite_difference_step"] == 1.0e-6
+    assert outer_half_step["storage_matrix_difference_step"] == 2.0e-6
+    assert outer_half_step["storage_rate_derivative_step"] == 5.0e-4
+    assert inner_half_step["storage_matrix_difference_step"] == 1.0e-6
+    assert inner_half_step["storage_rate_derivative_step"] == 1.0e-3
+
+    stationary_scan = causal_five_field_assemble_evolving_tangent(
+        storage_reference["descriptor_reduced_scaled_matrix"],
+        stationary_half_step["stationary_reduced_scaled_jacobian"],
+        rate_reference["storage_rate_derivative_scaled_matrix"],
+    )
+    outer_scan = causal_five_field_assemble_evolving_tangent(
+        storage_reference["descriptor_reduced_scaled_matrix"],
+        stationary_reference["stationary_reduced_scaled_jacobian"],
+        outer_half_step["storage_rate_derivative_scaled_matrix"],
+    )
+    assert np.array_equal(
+        stationary_scan["descriptor_reduced_scaled_matrix"],
+        storage_reference["descriptor_reduced_scaled_matrix"],
+    )
+    assert np.array_equal(
+        stationary_scan["storage_rate_derivative_scaled_matrix"],
+        rate_reference["storage_rate_derivative_scaled_matrix"],
+    )
+    assert np.array_equal(
+        outer_scan["descriptor_reduced_scaled_matrix"],
+        storage_reference["descriptor_reduced_scaled_matrix"],
+    )
+    assert np.array_equal(
+        outer_scan["stationary_reduced_scaled_jacobian"],
+        stationary_reference["stationary_reduced_scaled_jacobian"],
+    )
 
 
 def test_evolving_tangent_uses_five_color_local_storage_derivative() -> None:
