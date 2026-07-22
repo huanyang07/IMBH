@@ -123,6 +123,7 @@ This is the canonical project handoff. Status labels mean:
 | Branch-frozen tangent and structured Rusanov WP10c8m | Track A **CERTIFIED** at locked N64/N128; cached Track B **FEASIBLE BUT NONBINDING**; all-candidate Track B **REJECTED** | Branch-frozen assembled mapped-storage derivatives give worst centered infinity defects `1.29e-5/4.37e-5` and step defects below `1.86e-9`; regenerated cached-branch fractions remain below `3.64e-4`; all 567 face/candidate factors close below `6.03e-16` | The pessimistic all-noncontroller superset consumes `0.06695 > 0.01`, controlled by interface-3 rest-mass flux; finite-neighborhood remainder work, WP10c8i repetition, moment changes, lifting, healing, and reduced evolution remain closed pending a sharper possible-winner certificate |
 | Rusanov candidate-screen WP10c8n | **CERTIFIED** as a stop decision for the uniform exact-max generalized-tangent certificate; **DIAGNOSTIC ONLY** for nonlinear closure | The all-candidate result is reproduced within `4.2e-17`; direct branch-output change supplies `99.75%` of the `0.06695` fraction; the null-tube closure retains 449 alternatives and a nonlinear admissible face-58 switch occurs between weighted radii `0.0058177/0.0058294` | A containing common radius must exceed `2.05`, where the bound remains `0.06695 > 0.005/0.01`; this rejects candidate-gap rescue and the uniform tangent certificate, not the production flux or nonlinear fiber closure; WP10c8i and reduced evolution remain closed pending paired finite-amplitude lifting/healing |
 | Exact nonlinear coordinate fiber WP10c8o | **CERTIFIED** as an N64/N128 truth-discretization counterexample; 34-coordinate instantaneous Markov closure **REJECTED on those certified meshes** | Exact equal-coordinate pairs close below `1.78e-15`; all state/fresh-rate/DAE-storage gates pass; descriptor ranks are `320/320` and `640/640`, maximum full-Schur parity defect is `8.72e-11`, and the same interface-4 angular-momentum flux controls both meshes at `0.32453/0.26609 > 0.25` with cross-mesh disagreement `0.05844 < 0.10` | The result is one-sided and is not a continuum no-go: it rejects raw deterministic algebraic closure on the certified truth discretizations but not healed closure, memory, or a coarse effective PDE; only matched BDF1-start natural-healing microbursts of the frozen decisive pair are authorized next |
+| Natural coordinate-fiber healing WP10c8p | **CERTIFIED** as a matched N64/N128 rapid-healing rejection through `0.025 s`; **DIAGNOSTIC ONLY** for longer memory | Synchronized coarse/fine BDF1-start/BDF2 pairs, fresh rates, physical ledgers, exact flux splits, and bitwise replays all pass; interface-4 angular-momentum spread changes only `0.32452995 -> 0.32452655` at N64 and `0.26608550 -> 0.26608444` at N128, with temporal uncertainty below `2.81e-7` and coordinate drift below `9.09e-8` | The unresolved `M/J/E_K` transport is more than `99.9%` central perfect-fluid response and does not rapidly heal; this does not establish permanent memory or authorize an auxiliary/PDE, so only an N64 geometric extension to `0.05/0.10/0.125 s` is authorized before selecting a closure architecture |
 
 ## Frozen Target Under Review
 
@@ -987,6 +988,21 @@ N                    = 164
    conservative coarse PDE remains open; only matched BDF1-start natural
    microbursts of the frozen pair are authorized before selecting one measured
    transport coordinate or auxiliary.
+   WP10c8p performs that matched natural-healing screen. Both N64 and N128 use
+   synchronized fixed steps, discard the parent history and predictor, take
+   one fresh BDF1 startup followed by BDF2, and pass complete coarse/fine,
+   fresh-rate, state, physical-ledger, flux-decomposition, and bitwise replay
+   contracts. The controlling interface-4 angular-momentum half-spread changes
+   only from `0.32452995` to `0.32452655` at N64 and from `0.26608550` to
+   `0.26608444` at N128. The fractional decays are `1.05e-5/3.99e-6`, temporal
+   uncertainties are below `2.81e-7`, coordinate drift is below `9.09e-8`,
+   and final cross-mesh disagreement remains `0.05844 < 0.10`. More than
+   `99.9%` of each `M/J/E_K` transport difference is the central perfect-fluid
+   flux; causal stress and Rusanov dissipation are negligible. Rapid healing
+   through `0.025 s` is therefore rejected on both certified meshes. This is
+   not a permanent-memory result: extend N64 only to `0.05/0.10/0.125 s`
+   before choosing between healed closure, a measured dynamic interface state,
+   or a conservative coarse PDE.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -998,7 +1014,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_NONLINEAR_FIBER_AUDIT_WP10C8O_RESULTS_2026-07-22.md`
+  `reports/current/CODEX_CAUSAL_NATURAL_HEALING_WP10C8P_RESULTS_2026-07-22.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)

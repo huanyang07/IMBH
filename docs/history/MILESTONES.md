@@ -495,6 +495,21 @@ rejected sequence.
     Natural BDF1-start healing microbursts of the frozen
     pair are the only next reduction experiment; memory, one measured
     transport auxiliary, or a conservative coarse PDE remain conditional.
+65. **Matched N64/N128 natural microbursts reject only rapid healing through
+    `0.025 s`:** WP10c8p discards the lifted states' parent history and
+    predictor, runs synchronized coarse/fine BDF1-start/BDF2 trajectories,
+    and certifies all state, fresh-rate, physical-ledger, exact flux-split,
+    and bitwise replay contracts. The controlling interface-4 angular-
+    momentum half-spread changes only `0.32452995 -> 0.32452655` at N64 and
+    `0.26608550 -> 0.26608444` at N128; the fractional decays are
+    `1.05e-5/3.99e-6`, while temporal uncertainty remains below `2.81e-7`
+    gate units and coordinate drift below `9.09e-8`. The complete `M/J/E_K`
+    ambiguity is more than `99.9%` central perfect-fluid flux, not causal
+    stress or Rusanov dissipation. Rapid healing is rejected on both certified
+    meshes, but no permanent-memory or model-architecture claim follows from
+    this short horizon. The only next reduction experiment is an N64 geometric
+    extension to `0.05`, `0.10`, and at most `0.125 s` before any auxiliary,
+    coarse PDE, macrostep, tide, or wind work.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

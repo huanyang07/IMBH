@@ -24,6 +24,7 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_five_field_dae_scaling,
     causal_five_field_equilibrated_sparse_solve,
     causal_five_field_endpoint_temporal_storage_increment,
+    causal_five_field_face_flux_decomposition,
     causal_five_field_path_temporal_storage_increment,
     causal_five_field_reduced_backward_euler_residual,
     causal_five_field_reduced_stationary_residual,
@@ -549,6 +550,39 @@ def test_rusanov_flux_components_reconstruct_production_flux() -> None:
             1:-1
         ]
         != 0.0
+    )
+
+
+def test_physical_face_flux_decomposition_reconstructs_production() -> None:
+    context = _context(8)
+    state = make_causal_five_field_seed(context)
+    vector = pack_causal_five_field_state(state)
+    split = causal_five_field_face_flux_decomposition(context, vector)
+    reconstructed = (
+        split.central_perfect_weighted_face_fluxes_over_c
+        + split.central_stress_weighted_face_fluxes_over_c
+        + split.rusanov_weighted_face_fluxes_over_c
+    )
+
+    np.testing.assert_array_equal(split.face_indices, np.arange(1, 8))
+    np.testing.assert_allclose(
+        reconstructed,
+        split.numerical_weighted_face_fluxes_over_c,
+        rtol=2.0e-15,
+        atol=0.0,
+    )
+    np.testing.assert_allclose(
+        split.numerical_weighted_face_fluxes_over_c,
+        split.production_weighted_face_fluxes_over_c,
+        rtol=2.0e-15,
+        atol=0.0,
+    )
+    assert split.maximum_production_reconstruction_defect < 2.0e-15
+    assert np.all(
+        split.central_stress_weighted_face_fluxes_over_c[:, 0] == 0.0
+    )
+    assert np.all(
+        split.central_stress_weighted_face_fluxes_over_c[:, 4] == 0.0
     )
 
 

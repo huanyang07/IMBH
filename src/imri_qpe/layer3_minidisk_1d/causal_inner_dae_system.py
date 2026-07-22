@@ -210,6 +210,47 @@ class CausalFiveFieldFaceReconstruction:
 
 
 @dataclass(frozen=True)
+class CausalFiveFieldFaceFluxDecomposition:
+    """Non-overlapping production-flux pieces at interior faces.
+
+    The perfect-fluid piece contains the complete central perfect-fluid
+    transport, including pressure and enthalpy transport.  The stress piece
+    contains only the central Killing-flux increment carried by the causal
+    shear stress.  The fifth relaxing-stress transport component is retained
+    in ``central_perfect_weighted_face_fluxes_over_c`` so that the four
+    returned pieces reconstruct the complete five-field production flux.
+    """
+
+    face_indices: np.ndarray
+    production_weighted_face_fluxes_over_c: np.ndarray
+    numerical_weighted_face_fluxes_over_c: np.ndarray
+    central_perfect_weighted_face_fluxes_over_c: np.ndarray
+    central_stress_weighted_face_fluxes_over_c: np.ndarray
+    rusanov_weighted_face_fluxes_over_c: np.ndarray
+
+    @property
+    def maximum_production_reconstruction_defect(self) -> float:
+        reconstructed = (
+            self.central_perfect_weighted_face_fluxes_over_c
+            + self.central_stress_weighted_face_fluxes_over_c
+            + self.rusanov_weighted_face_fluxes_over_c
+        )
+        scale = np.maximum(
+            np.abs(self.production_weighted_face_fluxes_over_c),
+            1.0,
+        )
+        return float(
+            np.max(
+                np.abs(
+                    reconstructed
+                    - self.production_weighted_face_fluxes_over_c
+                )
+                / scale
+            )
+        )
+
+
+@dataclass(frozen=True)
 class CausalFiveFieldCellState:
     """Recovered physical state and closure in one finite-volume cell."""
 
@@ -1503,6 +1544,67 @@ def _interior_rusanov_flux_components(
     return (
         np.asarray(central, dtype=float),
         np.asarray(dissipation, dtype=float),
+    )
+
+
+def causal_five_field_face_flux_decomposition(
+    context: CausalFiveFieldDAEContext,
+    vector: np.ndarray,
+) -> CausalFiveFieldFaceFluxDecomposition:
+    """Split every interior production face flux into exact physical pieces.
+
+    This is an audit operation: it evaluates the same reconstructed traces,
+    cell states, characteristic envelope, and Rusanov formula used by the
+    production DAE.  Boundary faces are excluded because their characteristic
+    maps are not Rusanov two-state interfaces.
+    """
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    state = unpack_causal_five_field_state(vector, n_cells)
+    reconstruction = causal_five_field_reconstruct_face_charts(
+        context,
+        state.primitives,
+    )
+    face_indices = np.arange(1, n_cells, dtype=int)
+    numerical = np.empty((n_cells - 1, _N_FIELDS), dtype=float)
+    central_perfect = np.empty_like(numerical)
+    central_stress = np.zeros_like(numerical)
+    rusanov = np.empty_like(numerical)
+
+    for output_index, face_index in enumerate(face_indices):
+        left_chart = reconstruction.left_face_charts[face_index]
+        right_chart = reconstruction.right_face_charts[face_index]
+        central, dissipative = _interior_rusanov_flux_components(
+            context,
+            int(face_index),
+            left_chart,
+            right_chart,
+        )
+        radius = float(context.grid.edges[face_index])
+        measure = float(context.grid.face_measures[face_index])
+        left = _cell_state(context, radius, left_chart)
+        right = _cell_state(context, radius, right_chart)
+        stress = np.zeros(_N_FIELDS, dtype=float)
+        stress[:4] = measure * 0.5 * (
+            left.stress.stress_killing_flux_increment_over_c
+            + right.stress.stress_killing_flux_increment_over_c
+        )
+        numerical[output_index] = central + dissipative
+        central_stress[output_index] = stress
+        central_perfect[output_index] = central - stress
+        rusanov[output_index] = dissipative
+
+    return CausalFiveFieldFaceFluxDecomposition(
+        face_indices=face_indices,
+        production_weighted_face_fluxes_over_c=np.asarray(
+            state.weighted_face_fluxes_over_c[1:-1],
+            dtype=float,
+        ),
+        numerical_weighted_face_fluxes_over_c=numerical,
+        central_perfect_weighted_face_fluxes_over_c=central_perfect,
+        central_stress_weighted_face_fluxes_over_c=central_stress,
+        rusanov_weighted_face_fluxes_over_c=rusanov,
     )
 
 

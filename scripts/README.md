@@ -43,6 +43,13 @@ logic has moved into `src/` and numerical parity is tested.
   full-DAE/Schur and path-storage checks, and confirms only that N64
   counterexample at N128. It changes no production operator and launches no
   healing trajectory.
+- `run_causal_natural_healing_wp10c8p.py` evolves the frozen decisive
+  WP10c8o pairs with synchronized fixed-step BDF1-start/BDF2 trajectories.
+  It compares complete coarse/fine histories, decomposes the full interface-4
+  mass/angular-momentum/Killing-energy flux, reconciles interface impulses
+  with adjacent-shell ledgers, and classifies only whether the unresolved
+  transport heals within `0.025 s`. It changes no production operator or
+  reduced coordinate.
 
 ## Repository Maintenance
 

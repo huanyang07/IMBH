@@ -117,6 +117,7 @@ from .causal_inner_dae_system import (
     CausalFiveFieldDAEContext,
     CausalFiveFieldDAEEvaluation,
     CausalFiveFieldFaceReconstruction,
+    CausalFiveFieldFaceFluxDecomposition,
     CausalFiveFieldReducedJacobianAudit,
     CausalFiveFieldDAEScaling,
     CausalFiveFieldDAEState,
@@ -140,6 +141,7 @@ from .causal_inner_dae_system import (
     causal_five_field_reduced_backward_euler_residual,
     causal_five_field_reduced_stationary_residual,
     causal_five_field_reconstruct_face_charts,
+    causal_five_field_face_flux_decomposition,
     causal_five_field_state_from_primitives,
     evaluate_causal_five_field_dae,
     evaluate_causal_five_field_increment_bdf,
@@ -264,6 +266,12 @@ from .causal_inner_nonlinear_fiber import (
     causal_rescale_descriptor_matrix,
     causal_weighted_constraint_normal_basis,
     causal_weighted_constraint_fiber_null_projection,
+)
+from .causal_inner_healing import (
+    CausalTransportRankAudit,
+    causal_cumulative_trapezoid,
+    causal_refined_spread_upper_bound,
+    causal_transport_rank_audit,
 )
 from .causal_inner_mixed_reduction import (
     CausalFiniteTimeNullGainAudit,
@@ -1163,6 +1171,8 @@ __all__ = [
     "CausalFiveFieldDAECount",
     "CausalFiveFieldDAEEvaluation",
     "CausalFiveFieldFaceReconstruction",
+    "CausalFiveFieldFaceFluxDecomposition",
+    "CausalTransportRankAudit",
     "CausalFiveFieldAdaptiveAttempt",
     "CausalFiveFieldAdaptiveBDF2Attempt",
     "CausalFiveFieldAdaptiveBDF2CampaignResult",
@@ -1354,6 +1364,10 @@ __all__ = [
     "causal_five_field_reduced_stationary_residual",
     "causal_five_field_regression_seed_parameters",
     "causal_five_field_reconstruct_face_charts",
+    "causal_five_field_face_flux_decomposition",
+    "causal_cumulative_trapezoid",
+    "causal_refined_spread_upper_bound",
+    "causal_transport_rank_audit",
     "causal_five_field_state_from_primitives",
     "causal_rest_frame_shear_rate",
     "causal_stress_column_state",
