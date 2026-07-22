@@ -11,6 +11,8 @@ from imri_qpe.constants import C
 from .causal_inner_dae_system import (
     CausalFiveFieldDAEContext,
     CausalFiveFieldDAEEvaluation,
+    _cell_state,
+    _gauss_legendre_cell_nodes_and_measures,
     causal_five_field_colored_central_jacobian,
     causal_five_field_cell_states,
     causal_five_field_dae_jacobian_color_groups,
@@ -18,6 +20,7 @@ from .causal_inner_dae_system import (
     causal_five_field_dae_scaling,
     causal_five_field_mapped_conserved_from_primitives,
     causal_five_field_path_temporal_storage_increment,
+    causal_five_field_reconstruct_face_charts,
     causal_five_field_reduced_stationary_residual,
     causal_five_field_state_from_primitives,
     evaluate_causal_five_field_dae,
@@ -1072,6 +1075,7 @@ def _causal_five_field_colored_component_jacobians(
     pattern,
     *,
     finite_difference_step: float | np.ndarray,
+    finite_difference_order: int = 2,
 ) -> tuple[dict[str, np.ndarray], int]:
     """Differentiate several residual blocks with shared colored evaluations."""
 
@@ -1091,22 +1095,41 @@ def _causal_five_field_colored_component_jacobians(
         raise ValueError("component finite-difference steps have wrong shape")
     if np.any(~np.isfinite(steps)) or np.any(steps <= 0.0):
         raise ValueError("component finite-difference step is invalid")
+    difference_order = int(finite_difference_order)
+    centered_coefficients = {
+        2: ((1, 0.5),),
+        4: ((1, 2.0 / 3.0), (2, -1.0 / 12.0)),
+        6: (
+            (1, 3.0 / 4.0),
+            (2, -3.0 / 20.0),
+            (3, 1.0 / 60.0),
+        ),
+    }
+    if difference_order not in centered_coefficients:
+        raise ValueError(
+            "component finite-difference order must be two, four, or six"
+        )
     groups = causal_five_field_dae_jacobian_color_groups(declared)
     jacobians: dict[str, np.ndarray] | None = None
     component_names: tuple[str, ...] | None = None
     for group in groups:
-        plus = np.array(base, copy=True)
-        minus = np.array(base, copy=True)
-        plus[group] += steps[group]
-        minus[group] -= steps[group]
-        plus_components = {
-            name: np.asarray(component, dtype=float)
-            for name, component in residual_components(plus).items()
-        }
-        minus_components = {
-            name: np.asarray(component, dtype=float)
-            for name, component in residual_components(minus).items()
-        }
+        sampled_components = []
+        for offset, coefficient in centered_coefficients[difference_order]:
+            plus = np.array(base, copy=True)
+            minus = np.array(base, copy=True)
+            plus[group] += offset * steps[group]
+            minus[group] -= offset * steps[group]
+            plus_components = {
+                name: np.asarray(component, dtype=float)
+                for name, component in residual_components(plus).items()
+            }
+            minus_components = {
+                name: np.asarray(component, dtype=float)
+                for name, component in residual_components(minus).items()
+            }
+            sampled_components.append(
+                (coefficient, plus_components, minus_components)
+            )
         if component_names is None:
             component_names = tuple(plus_components)
             if tuple(minus_components) != component_names:
@@ -1133,13 +1156,700 @@ def _causal_five_field_colored_component_jacobians(
             stop = declared.indptr[column + 1]
             rows = declared.indices[start:stop]
             for name in component_names:
-                jacobians[name][rows, column] = (
-                    plus_components[name][rows]
-                    - minus_components[name][rows]
-                ) / (2.0 * steps[column])
+                jacobians[name][rows, column] = sum(
+                    coefficient
+                    * (
+                        sampled_plus[name][rows]
+                        - sampled_minus[name][rows]
+                    )
+                    / steps[column]
+                    for (
+                        coefficient,
+                        sampled_plus,
+                        sampled_minus,
+                    ) in sampled_components
+                )
     if jacobians is None:
         raise ValueError("storage pattern has no color groups")
     return jacobians, len(groups)
+
+
+def _causal_five_field_scaled_mapped_storage_vector(
+    context: CausalFiveFieldDAEContext,
+    primitive_vector: np.ndarray,
+    conservation_scales: np.ndarray,
+) -> np.ndarray:
+    """Return the instantaneous mapped storage in fixed scaled rows."""
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    primitives = np.asarray(primitive_vector, dtype=float)
+    row_scales = np.asarray(conservation_scales, dtype=float)
+    if (
+        primitives.shape != (5 * n_cells,)
+        or row_scales.shape != (5 * n_cells,)
+        or np.any(~np.isfinite(primitives))
+        or np.any(~np.isfinite(row_scales))
+        or np.any(row_scales <= 0.0)
+    ):
+        raise ValueError("scaled mapped-storage inputs are invalid")
+    mapped = causal_five_field_mapped_conserved_from_primitives(
+        context,
+        primitives.reshape(n_cells, 5),
+    )
+    measures = np.asarray(context.grid.cell_measures, dtype=float)[:, None]
+    return (
+        measures
+        * np.asarray(mapped, dtype=float)
+        / C
+        / row_scales.reshape(n_cells, 5)
+    ).ravel()
+
+
+def causal_five_field_unified_mapped_storage_matrix(
+    context: CausalFiveFieldDAEContext,
+    primitive_vector: np.ndarray,
+    *,
+    primitive_column_scales: np.ndarray,
+    conservation_row_scales: np.ndarray,
+    mapped_storage_difference_step: float,
+    mapped_storage_difference_order: int = 4,
+    mapped_storage_column_steps: np.ndarray | None = None,
+) -> dict:
+    """Return ``S_map`` and ``DS_map`` from one declared audit backend."""
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    n_reduced = 5 * n_cells
+    primitives = np.asarray(primitive_vector, dtype=float)
+    primitive_scales = np.asarray(primitive_column_scales, dtype=float)
+    conservation_scales = np.asarray(conservation_row_scales, dtype=float)
+    mapped_step = float(mapped_storage_difference_step)
+    if (
+        primitives.shape != (n_reduced,)
+        or primitive_scales.shape != (n_reduced,)
+        or conservation_scales.shape != (n_reduced,)
+        or np.any(~np.isfinite(primitives))
+        or np.any(~np.isfinite(primitive_scales))
+        or np.any(~np.isfinite(conservation_scales))
+        or np.any(primitive_scales <= 0.0)
+        or np.any(conservation_scales <= 0.0)
+        or not np.isfinite(mapped_step)
+        or mapped_step <= 0.0
+    ):
+        raise ValueError("unified mapped-storage matrix inputs are invalid")
+    pattern = _causal_five_field_reduced_storage_pattern(context)
+    difference_order = int(mapped_storage_difference_order)
+    if mapped_storage_column_steps is None:
+        column_steps = _causal_five_field_admissible_mapped_storage_steps(
+            context,
+            primitives,
+            primitive_scales,
+            pattern,
+            maximum_step=mapped_step,
+            finite_difference_order=difference_order,
+        )
+        step_source = "deterministic_base_admissibility_preflight"
+    else:
+        column_steps = np.asarray(
+            mapped_storage_column_steps,
+            dtype=float,
+        )
+        if (
+            column_steps.shape != (n_reduced,)
+            or np.any(~np.isfinite(column_steps))
+            or np.any(column_steps <= 0.0)
+            or np.any(column_steps > mapped_step)
+        ):
+            raise ValueError("mapped-storage column steps are invalid")
+        step_source = "fixed_supplied_base_column_steps"
+
+    def mapped_components(scaled_increment: np.ndarray) -> dict[str, np.ndarray]:
+        perturbed = primitives + primitive_scales * np.asarray(
+            scaled_increment,
+            dtype=float,
+        )
+        return {
+            "conserved": _causal_five_field_scaled_mapped_storage_vector(
+                context,
+                perturbed,
+                conservation_scales,
+            )
+        }
+
+    matrices, color_count = _causal_five_field_colored_component_jacobians(
+        mapped_components,
+        np.zeros(n_reduced, dtype=float),
+        pattern,
+        finite_difference_step=column_steps,
+        finite_difference_order=difference_order,
+    )
+    reconstruction = causal_five_field_reconstruct_face_charts(
+        context,
+        primitives.reshape(n_cells, 5),
+    )
+    return {
+        "mapped_storage_scaled_vector": (
+            _causal_five_field_scaled_mapped_storage_vector(
+                context,
+                primitives,
+                conservation_scales,
+            )
+        ),
+        "conserved_descriptor_reduced_scaled_matrix": matrices["conserved"],
+        "primitive_column_scales": primitive_scales,
+        "conservation_row_scales": conservation_scales,
+        "mapped_storage_difference_step": mapped_step,
+        "mapped_storage_difference_order": difference_order,
+        "mapped_storage_column_steps": column_steps,
+        "mapped_storage_column_step_source": step_source,
+        "minimum_mapped_storage_column_step": float(np.min(column_steps)),
+        "maximum_mapped_storage_column_step": float(np.max(column_steps)),
+        "reduced_mapped_storage_column_count": int(
+            np.count_nonzero(column_steps < mapped_step)
+        ),
+        "mapped_storage_component_colors": color_count,
+        "mapped_storage_evaluations": difference_order * color_count,
+        "base_reconstruction_admissibility_factors": np.asarray(
+            reconstruction.admissibility_factors,
+            dtype=float,
+        ),
+        "source": (
+            "audit_only_shared_discrete_mapped_storage_"
+            f"order_{difference_order}"
+        ),
+    }
+
+
+def _causal_five_field_admissible_mapped_storage_steps(
+    context: CausalFiveFieldDAEContext,
+    primitive_vector: np.ndarray,
+    primitive_scales: np.ndarray,
+    pattern,
+    *,
+    maximum_step: float,
+    finite_difference_order: int,
+    minimum_step: float = 2.0e-6,
+) -> np.ndarray:
+    """Choose fixed column steps from admissibility, never tangent scores."""
+
+    primitives = np.asarray(primitive_vector, dtype=float)
+    scales = np.asarray(primitive_scales, dtype=float)
+    n_reduced = primitives.size
+    difference_order = int(finite_difference_order)
+    maximum_offset = {2: 1, 4: 2, 6: 3}.get(difference_order)
+    if maximum_offset is None:
+        raise ValueError(
+            "component finite-difference order must be two, four, or six"
+        )
+    floor = float(minimum_step)
+    if not np.isfinite(floor) or floor <= 0.0 or floor > maximum_step:
+        raise ValueError("mapped-storage admissibility step floor is invalid")
+    steps = np.full(n_reduced, float(maximum_step), dtype=float)
+    groups = causal_five_field_dae_jacobian_color_groups(pattern.tocsc())
+    for group in groups:
+        trial = float(maximum_step)
+        while True:
+            valid = True
+            for offset in range(1, maximum_offset + 1):
+                for sign in (-1.0, 1.0):
+                    perturbed = np.array(primitives, copy=True)
+                    perturbed[group] += (
+                        sign * offset * trial * scales[group]
+                    )
+                    try:
+                        causal_five_field_mapped_conserved_from_primitives(
+                            context,
+                            perturbed.reshape(-1, 5),
+                        )
+                    except ValueError:
+                        valid = False
+                        break
+                if not valid:
+                    break
+            if valid:
+                # Preserve a factor-eight neighborhood for simultaneous
+                # outer-color and inner-stencil perturbations.  This reserve
+                # is selected solely from admissibility, before tangent
+                # scores are evaluated.
+                steps[group] = max(0.125 * trial, floor)
+                break
+            trial *= 0.5
+            if trial < floor:
+                raise ValueError(
+                    "no admissible mapped-storage column stencil exists"
+                )
+    return steps
+
+
+def causal_five_field_unified_mapped_storage_derivatives(
+    context: CausalFiveFieldDAEContext,
+    primitive_vector: np.ndarray,
+    primitive_rate_per_s: np.ndarray,
+    *,
+    primitive_column_scales: np.ndarray,
+    conservation_row_scales: np.ndarray,
+    mapped_storage_difference_step: float,
+    mapped_storage_difference_order: int = 4,
+    mapped_storage_column_steps: np.ndarray | None = None,
+    storage_rate_derivative_step: float,
+    storage_rate_derivative_order: int = 2,
+) -> dict:
+    """Differentiate one shared discrete instantaneous storage map.
+
+    ``S_map``, ``DS_map`` and ``D2S_map[., fixed_rate]`` are all generated
+    from :func:`causal_five_field_mapped_conserved_from_primitives` with the
+    same fixed primitive/conservation scales and the same mapped-storage
+    difference formula.  Responsive-height storage is deliberately excluded:
+    it remains the separately certified path-dependent vector one-form.
+
+    This is an audit backend.  It does not change the production BDF storage
+    operator or the stationary residual.
+    """
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    n_reduced = 5 * n_cells
+    primitives = np.asarray(primitive_vector, dtype=float)
+    physical_rate = np.asarray(primitive_rate_per_s, dtype=float).ravel()
+    primitive_scales = np.asarray(primitive_column_scales, dtype=float)
+    conservation_scales = np.asarray(conservation_row_scales, dtype=float)
+    mapped_step = float(mapped_storage_difference_step)
+    outer_step = float(storage_rate_derivative_step)
+    if (
+        primitives.shape != (n_reduced,)
+        or physical_rate.shape != (n_reduced,)
+        or primitive_scales.shape != (n_reduced,)
+        or conservation_scales.shape != (n_reduced,)
+        or np.any(~np.isfinite(primitives))
+        or np.any(~np.isfinite(physical_rate))
+        or np.any(~np.isfinite(primitive_scales))
+        or np.any(~np.isfinite(conservation_scales))
+        or np.any(primitive_scales <= 0.0)
+        or np.any(conservation_scales <= 0.0)
+        or not np.isfinite(mapped_step)
+        or mapped_step <= 0.0
+        or not np.isfinite(outer_step)
+        or outer_step <= 0.0
+    ):
+        raise ValueError("unified mapped-storage derivative inputs are invalid")
+
+    scaled_rate = physical_rate / primitive_scales
+    nested_color_counts: list[int] = []
+    base_mapped = causal_five_field_unified_mapped_storage_matrix(
+        context,
+        primitives,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=conservation_scales,
+        mapped_storage_difference_step=mapped_step,
+        mapped_storage_difference_order=mapped_storage_difference_order,
+        mapped_storage_column_steps=mapped_storage_column_steps,
+    )
+    mapped_color_count = int(base_mapped["mapped_storage_component_colors"])
+    fixed_column_steps = np.asarray(
+        base_mapped["mapped_storage_column_steps"],
+        dtype=float,
+    )
+    pattern = _causal_five_field_reduced_storage_pattern(context)
+
+    def mapped_rate_components(
+        scaled_increment: np.ndarray,
+    ) -> dict[str, np.ndarray]:
+        perturbed = primitives + primitive_scales * np.asarray(
+            scaled_increment,
+            dtype=float,
+        )
+
+        matrix_result = causal_five_field_unified_mapped_storage_matrix(
+            context,
+            perturbed,
+            primitive_column_scales=primitive_scales,
+            conservation_row_scales=conservation_scales,
+            mapped_storage_difference_step=mapped_step,
+            mapped_storage_difference_order=mapped_storage_difference_order,
+            mapped_storage_column_steps=fixed_column_steps,
+        )
+        color_count = int(matrix_result["mapped_storage_component_colors"])
+        nested_color_counts.append(color_count)
+        return {
+            "conserved": (
+                matrix_result["conserved_descriptor_reduced_scaled_matrix"]
+                @ scaled_rate
+            )
+        }
+
+    rate_derivatives, outer_color_count = (
+        _causal_five_field_colored_component_jacobians(
+            mapped_rate_components,
+            np.zeros(n_reduced, dtype=float),
+            pattern,
+            finite_difference_step=outer_step,
+            finite_difference_order=storage_rate_derivative_order,
+        )
+    )
+    if (
+        not nested_color_counts
+        or any(count != mapped_color_count for count in nested_color_counts)
+    ):
+        raise RuntimeError("unified mapped-storage coloring changed")
+
+    mapped_order = int(mapped_storage_difference_order)
+    rate_order = int(storage_rate_derivative_order)
+    mapped_evaluations_per_color = mapped_order
+    outer_evaluations_per_color = rate_order
+    return {
+        "mapped_storage_scaled_vector": base_mapped[
+            "mapped_storage_scaled_vector"
+        ],
+        "conserved_descriptor_reduced_scaled_matrix": (
+            base_mapped["conserved_descriptor_reduced_scaled_matrix"]
+        ),
+        "conserved_storage_rate_derivative_scaled_matrix": (
+            rate_derivatives["conserved"]
+        ),
+        "primitive_column_scales": primitive_scales,
+        "conservation_row_scales": conservation_scales,
+        "mapped_storage_difference_step": mapped_step,
+        "mapped_storage_difference_order": mapped_order,
+        "mapped_storage_column_steps": fixed_column_steps,
+        "minimum_mapped_storage_column_step": base_mapped[
+            "minimum_mapped_storage_column_step"
+        ],
+        "maximum_mapped_storage_column_step": base_mapped[
+            "maximum_mapped_storage_column_step"
+        ],
+        "reduced_mapped_storage_column_count": base_mapped[
+            "reduced_mapped_storage_column_count"
+        ],
+        "storage_rate_derivative_step": outer_step,
+        "storage_rate_derivative_order": rate_order,
+        "mapped_storage_component_colors": mapped_color_count,
+        "storage_rate_derivative_component_colors": outer_color_count,
+        "mapped_storage_evaluations": (
+            mapped_evaluations_per_color * mapped_color_count
+        ),
+        "nested_mapped_storage_evaluations": (
+            outer_evaluations_per_color
+            * outer_color_count
+            * mapped_evaluations_per_color
+            * mapped_color_count
+        ),
+        "base_reconstruction_admissibility_factors": base_mapped[
+            "base_reconstruction_admissibility_factors"
+        ],
+        "source": (
+            "audit_only_shared_discrete_mapped_storage_"
+            f"order_{mapped_order}_outer_order_{rate_order}"
+        ),
+    }
+
+
+def _causal_five_field_branch_frozen_storage_nodes(
+    context: CausalFiveFieldDAEContext,
+    primitive_vector: np.ndarray,
+) -> tuple[tuple[tuple[int, float, float, np.ndarray], ...], np.ndarray]:
+    """Return quadrature charts and their fixed-branch linear pullbacks."""
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    primitives = np.asarray(primitive_vector, dtype=float)
+    if primitives.shape != (5 * n_cells,) or np.any(~np.isfinite(primitives)):
+        raise ValueError("branch-frozen storage primitives are invalid")
+    if context.spatial_reconstruction != "quadratic_admissible":
+        raise ValueError(
+            "branch-frozen storage currently requires quadratic_admissible"
+        )
+    charts = primitives.reshape(n_cells, 5)
+    reconstruction = causal_five_field_reconstruct_face_charts(
+        context,
+        charts,
+    )
+    factors = np.asarray(reconstruction.admissibility_factors, dtype=float)
+    log_centers = np.log(np.asarray(context.grid.centers, dtype=float))
+    slope_pullback = np.zeros((n_cells, n_cells), dtype=float)
+    if n_cells > 2:
+        for cell in range(1, n_cells - 1):
+            left = log_centers[cell] - log_centers[cell - 1]
+            right = log_centers[cell + 1] - log_centers[cell]
+            denominator = left + right
+            slope_pullback[cell, cell - 1] = -right / left / denominator
+            slope_pullback[cell, cell] = (
+                right / left - left / right
+            ) / denominator
+            slope_pullback[cell, cell + 1] = left / right / denominator
+        if context.boundary_trace_reconstruction == "plm_one_sided":
+            for cell, indices in (
+                (0, np.arange(3, dtype=int)),
+                (n_cells - 1, np.arange(n_cells - 3, n_cells, dtype=int)),
+            ):
+                offsets = log_centers[indices] - log_centers[cell]
+                moment = np.vstack(
+                    (np.ones(3, dtype=float), offsets, offsets**2)
+                )
+                slope_pullback[cell, indices] = np.linalg.solve(
+                    moment,
+                    np.asarray([0.0, 1.0, 0.0], dtype=float),
+                )
+
+    nodes: list[tuple[int, float, float, np.ndarray]] = []
+    for cell in range(n_cells):
+        if context.cell_storage_quadrature == "midpoint":
+            radii = np.asarray([context.grid.centers[cell]], dtype=float)
+            weights = np.asarray([context.grid.cell_measures[cell]], dtype=float)
+        else:
+            radii, weights = _gauss_legendre_cell_nodes_and_measures(
+                context,
+                cell,
+            )
+        for radius, weight in zip(radii, weights, strict=True):
+            offset = np.log(float(radius)) - log_centers[cell]
+            coefficients = np.zeros(n_cells, dtype=float)
+            coefficients[cell] = 1.0
+            coefficients += offset * factors[cell] * slope_pullback[cell]
+            chart = np.asarray(coefficients @ charts, dtype=float)
+            expected = (
+                charts[cell]
+                + reconstruction.limited_slopes[cell] * offset
+            )
+            if not np.allclose(chart, expected, rtol=2.0e-13, atol=2.0e-13):
+                raise RuntimeError(
+                    "branch-frozen reconstruction pullback is inconsistent"
+                )
+            nodes.append(
+                (
+                    cell,
+                    float(radius),
+                    float(weight),
+                    np.asarray(coefficients, dtype=float),
+                )
+            )
+    return tuple(nodes), factors
+
+
+def _causal_five_field_local_conserved_derivatives(
+    context: CausalFiveFieldDAEContext,
+    radius: float,
+    chart: np.ndarray,
+    chart_scales: np.ndarray,
+    *,
+    local_difference_step: float,
+    rate_direction: np.ndarray | None,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray | None]:
+    """Differentiate one five-variable node map on one fixed branch."""
+
+    values = np.asarray(chart, dtype=float)
+    scales = np.asarray(chart_scales, dtype=float)
+    step = float(local_difference_step)
+    if (
+        values.shape != (5,)
+        or scales.shape != (5,)
+        or np.any(~np.isfinite(values))
+        or np.any(~np.isfinite(scales))
+        or np.any(scales <= 0.0)
+        or not np.isfinite(step)
+        or step <= 0.0
+    ):
+        raise ValueError("local mapped-storage derivative inputs are invalid")
+
+    def mapped(local_chart: np.ndarray) -> np.ndarray:
+        return np.asarray(
+            _cell_state(context, float(radius), local_chart).conserved,
+            dtype=float,
+        )
+
+    base = mapped(values)
+    jacobian = np.empty((5, 5), dtype=float)
+    for component in range(5):
+        increment = np.zeros(5, dtype=float)
+        increment[component] = step * scales[component]
+        plus = mapped(values + increment)
+        minus = mapped(values - increment)
+        plus_two = mapped(values + 2.0 * increment)
+        minus_two = mapped(values - 2.0 * increment)
+        jacobian[:, component] = (
+            -plus_two + 8.0 * plus - 8.0 * minus + minus_two
+        ) / (12.0 * step * scales[component])
+
+    if rate_direction is None:
+        return base, jacobian, None
+    rate = np.asarray(rate_direction, dtype=float)
+    if rate.shape != (5,) or np.any(~np.isfinite(rate)):
+        raise ValueError("local mapped-storage rate direction is invalid")
+    rate_norm = float(np.max(np.abs(rate) / scales))
+    contracted = np.zeros((5, 5), dtype=float)
+    if rate_norm == 0.0:
+        return base, jacobian, contracted
+    normalized_rate = rate / rate_norm
+
+    def mixed_at(local_step: float, component: int) -> np.ndarray:
+        coordinate = np.zeros(5, dtype=float)
+        coordinate[component] = scales[component]
+        a = local_step * coordinate
+        b = local_step * normalized_rate
+        return (
+            mapped(values + a + b)
+            - mapped(values + a - b)
+            - mapped(values - a + b)
+            + mapped(values - a - b)
+        ) / (4.0 * local_step**2)
+
+    for component in range(5):
+        coarse = mixed_at(step, component)
+        fine = mixed_at(0.5 * step, component)
+        contracted[:, component] = (
+            (4.0 * fine - coarse)
+            / 3.0
+            * rate_norm
+            / scales[component]
+        )
+    return base, jacobian, contracted
+
+
+def _causal_five_field_branch_frozen_mapped_storage_assembly(
+    context: CausalFiveFieldDAEContext,
+    primitive_vector: np.ndarray,
+    *,
+    primitive_column_scales: np.ndarray,
+    conservation_row_scales: np.ndarray,
+    local_difference_step: float,
+    primitive_rate_per_s: np.ndarray | None,
+) -> dict:
+    """Assemble the mapped descriptor and optional fixed-rate Hessian action."""
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    n_reduced = 5 * n_cells
+    primitives = np.asarray(primitive_vector, dtype=float)
+    primitive_scales = np.asarray(primitive_column_scales, dtype=float)
+    row_scales = np.asarray(conservation_row_scales, dtype=float)
+    rate = (
+        None
+        if primitive_rate_per_s is None
+        else np.asarray(primitive_rate_per_s, dtype=float)
+    )
+    if (
+        primitives.shape != (n_reduced,)
+        or primitive_scales.shape != (n_reduced,)
+        or row_scales.shape != (n_reduced,)
+        or np.any(~np.isfinite(primitives))
+        or np.any(~np.isfinite(primitive_scales))
+        or np.any(~np.isfinite(row_scales))
+        or np.any(primitive_scales <= 0.0)
+        or np.any(row_scales <= 0.0)
+        or (
+            rate is not None
+            and (
+                rate.shape != (n_reduced,)
+                or np.any(~np.isfinite(rate))
+            )
+        )
+    ):
+        raise ValueError("branch-frozen mapped-storage assembly inputs are invalid")
+    charts = primitives.reshape(n_cells, 5)
+    scale_charts = primitive_scales.reshape(n_cells, 5)
+    rate_charts = None if rate is None else rate.reshape(n_cells, 5)
+    nodes, factors = _causal_five_field_branch_frozen_storage_nodes(
+        context,
+        primitives,
+    )
+    mapped_vector = np.zeros((n_cells, 5), dtype=float)
+    descriptor = np.zeros((n_reduced, n_reduced), dtype=float)
+    rate_derivative = (
+        None if rate is None else np.zeros_like(descriptor)
+    )
+    for cell, radius, weight, coefficients in nodes:
+        node_chart = np.asarray(coefficients @ charts, dtype=float)
+        node_scales = np.asarray(np.abs(coefficients) @ scale_charts, dtype=float)
+        node_scales = np.maximum(node_scales, np.finfo(float).tiny)
+        node_rate = (
+            None
+            if rate_charts is None
+            else np.asarray(coefficients @ rate_charts, dtype=float)
+        )
+        conserved, jacobian, contracted = (
+            _causal_five_field_local_conserved_derivatives(
+                context,
+                radius,
+                node_chart,
+                node_scales,
+                local_difference_step=local_difference_step,
+                rate_direction=node_rate,
+            )
+        )
+        row_slice = slice(5 * cell, 5 * cell + 5)
+        row_factor = weight / C / row_scales[row_slice]
+        mapped_vector[cell] += row_factor * conserved
+        for source_cell in np.flatnonzero(coefficients != 0.0):
+            coefficient = float(coefficients[source_cell])
+            for component in range(5):
+                column = 5 * int(source_cell) + component
+                column_factor = (
+                    coefficient * scale_charts[source_cell, component]
+                )
+                descriptor[row_slice, column] += (
+                    row_factor
+                    * jacobian[:, component]
+                    * column_factor
+                )
+                if rate_derivative is not None:
+                    assert contracted is not None
+                    rate_derivative[row_slice, column] += (
+                        row_factor
+                        * contracted[:, component]
+                        * column_factor
+                    )
+    return {
+        "mapped_storage_scaled_vector": mapped_vector.ravel(),
+        "conserved_descriptor_reduced_scaled_matrix": descriptor,
+        "conserved_storage_rate_derivative_scaled_matrix": rate_derivative,
+        "primitive_column_scales": primitive_scales,
+        "conservation_row_scales": row_scales,
+        "local_difference_step": float(local_difference_step),
+        "base_reconstruction_admissibility_factors": factors,
+        "branch_frozen_reconstruction": True,
+        "source": "audit_only_branch_frozen_local_chain_rule",
+    }
+
+
+def causal_five_field_branch_frozen_mapped_storage_matrix(
+    context: CausalFiveFieldDAEContext,
+    primitive_vector: np.ndarray,
+    *,
+    primitive_column_scales: np.ndarray,
+    conservation_row_scales: np.ndarray,
+    local_difference_step: float = 1.0e-3,
+) -> dict:
+    """Return a fixed-reconstruction mapped descriptor from local node JVPs."""
+
+    return _causal_five_field_branch_frozen_mapped_storage_assembly(
+        context,
+        primitive_vector,
+        primitive_column_scales=primitive_column_scales,
+        conservation_row_scales=conservation_row_scales,
+        local_difference_step=local_difference_step,
+        primitive_rate_per_s=None,
+    )
+
+
+def causal_five_field_branch_frozen_mapped_storage_derivatives(
+    context: CausalFiveFieldDAEContext,
+    primitive_vector: np.ndarray,
+    primitive_rate_per_s: np.ndarray,
+    *,
+    primitive_column_scales: np.ndarray,
+    conservation_row_scales: np.ndarray,
+    local_difference_step: float = 1.0e-3,
+) -> dict:
+    """Return mapped descriptor and fixed-rate Hessian action node by node."""
+
+    return _causal_five_field_branch_frozen_mapped_storage_assembly(
+        context,
+        primitive_vector,
+        primitive_column_scales=primitive_column_scales,
+        conservation_row_scales=conservation_row_scales,
+        local_difference_step=local_difference_step,
+        primitive_rate_per_s=primitive_rate_per_s,
+    )
 
 
 def _causal_five_field_reduced_storage_matrix_with_scale(
@@ -1727,6 +2437,11 @@ def causal_five_field_scaled_primitive_vector_field(
     finite_difference_step: float = 2.0e-6,
     storage_quadrature_order: int = 4,
     storage_directional_step: float = 1.0e-3,
+    mapped_storage_backend: str = "legacy_coordinatewise",
+    mapped_storage_difference_step: float | None = None,
+    mapped_storage_difference_order: int = 4,
+    mapped_storage_column_steps: np.ndarray | None = None,
+    branch_frozen_local_difference_step: float = 1.0e-3,
 ) -> dict:
     """Evaluate the implemented nonlinear scaled primitive vector field.
 
@@ -1763,6 +2478,13 @@ def causal_five_field_scaled_primitive_vector_field(
         or step <= 0.0
     ):
         raise ValueError("scaled primitive vector-field inputs are invalid")
+    backend = str(mapped_storage_backend)
+    if backend not in (
+        "legacy_coordinatewise",
+        "unified_audit",
+        "branch_frozen_local",
+    ):
+        raise ValueError("mapped-storage vector-field backend is unsupported")
     component_matrices, color_count = (
         _causal_five_field_reduced_storage_matrix_with_scale(
             context,
@@ -1774,6 +2496,46 @@ def causal_five_field_scaled_primitive_vector_field(
             storage_directional_step=storage_directional_step,
         )
     )
+    unified_mapped = None
+    if backend == "unified_audit":
+        unified_step = (
+            step
+            if mapped_storage_difference_step is None
+            else float(mapped_storage_difference_step)
+        )
+        unified_mapped = causal_five_field_unified_mapped_storage_matrix(
+            context,
+            primitives,
+            primitive_column_scales=primitive_scales,
+            conservation_row_scales=conservation_scales,
+            mapped_storage_difference_step=unified_step,
+            mapped_storage_difference_order=mapped_storage_difference_order,
+            mapped_storage_column_steps=mapped_storage_column_steps,
+        )
+        component_matrices["conserved"] = np.asarray(
+            unified_mapped["conserved_descriptor_reduced_scaled_matrix"],
+            dtype=float,
+        )
+        component_matrices["total"] = (
+            component_matrices["conserved"]
+            + component_matrices["vertical"]
+        )
+    elif backend == "branch_frozen_local":
+        unified_mapped = causal_five_field_branch_frozen_mapped_storage_matrix(
+            context,
+            primitives,
+            primitive_column_scales=primitive_scales,
+            conservation_row_scales=conservation_scales,
+            local_difference_step=branch_frozen_local_difference_step,
+        )
+        component_matrices["conserved"] = np.asarray(
+            unified_mapped["conserved_descriptor_reduced_scaled_matrix"],
+            dtype=float,
+        )
+        component_matrices["total"] = (
+            component_matrices["conserved"]
+            + component_matrices["vertical"]
+        )
     stationary_residual = np.asarray(
         causal_five_field_reduced_stationary_residual(
             primitives,
@@ -1814,6 +2576,45 @@ def causal_five_field_scaled_primitive_vector_field(
         "storage_component_paired_evaluations": 2 * color_count,
         "mass_matrix_source": (
             "direct_gauss_mapped_vector_storage_one_form"
+            if backend == "legacy_coordinatewise"
+            else (
+                "unified_audit_mapped_plus_legacy_vertical_one_form"
+                if backend == "unified_audit"
+                else "branch_frozen_local_mapped_plus_legacy_vertical_one_form"
+            )
+        ),
+        "mapped_storage_backend": backend,
+        "mapped_storage_difference_step": (
+            None
+            if unified_mapped is None
+            else unified_mapped.get("mapped_storage_difference_step")
+        ),
+        "mapped_storage_difference_order": (
+            None
+            if unified_mapped is None
+            else unified_mapped.get("mapped_storage_difference_order")
+        ),
+        "mapped_storage_component_colors": (
+            None
+            if unified_mapped is None
+            else unified_mapped.get("mapped_storage_component_colors")
+        ),
+        "mapped_storage_column_steps": (
+            None
+            if unified_mapped is None
+            else unified_mapped.get("mapped_storage_column_steps")
+        ),
+        "base_reconstruction_admissibility_factors": (
+            None
+            if unified_mapped is None
+            else unified_mapped[
+                "base_reconstruction_admissibility_factors"
+            ]
+        ),
+        "branch_frozen_local_difference_step": (
+            None
+            if backend != "branch_frozen_local"
+            else float(branch_frozen_local_difference_step)
         ),
     }
 

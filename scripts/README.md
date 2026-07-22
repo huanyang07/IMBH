@@ -37,6 +37,12 @@ logic has moved into `src/` and numerical parity is tested.
   finite-neighborhood Rusanov contract, and may authorize—but never launches—
   a separate unchanged WP10c8i repeat. It runs no new truth trajectory,
   nonlinear lift, healing burst, closure, or reduced evolution.
+- `run_causal_nonlinear_fiber_audit_wp10c8o.py` constructs exact finite-state
+  pairs on the richest 34-coordinate fiber, evaluates production observables
+  and fresh coarse rates, certifies the decisive pair against independent
+  full-DAE/Schur and path-storage checks, and confirms only that N64
+  counterexample at N128. It changes no production operator and launches no
+  healing trajectory.
 
 ## Repository Maintenance
 

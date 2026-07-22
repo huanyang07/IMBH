@@ -84,6 +84,47 @@ class CausalMomentCoordinateLevel:
 
 
 @dataclass(frozen=True)
+class CausalMomentCoordinateValueLevel:
+    """One cumulative candidate coordinate set without tangent rows."""
+
+    name: str
+    coordinate_names: tuple[str, ...]
+    coordinate_families: tuple[str, ...]
+    coordinate_values: np.ndarray
+    coordinate_scales: np.ndarray
+
+    @property
+    def coordinate_count(self) -> int:
+        return len(self.coordinate_names)
+
+
+@dataclass(frozen=True)
+class CausalFiveFieldMomentCoordinateValues:
+    """Value-only WP10c8i coordinates and macro-interface fluxes.
+
+    Unlike :class:`CausalFiveFieldMomentCoordinateLadder`, this object does
+    not require a reduced descriptor.  It is therefore suitable for exact
+    nonlinear equal-coordinate lifting, where only the finite-state
+    coordinate map and interface observables are needed.
+    """
+
+    geometry: CausalMomentShellGeometry
+    levels: tuple[CausalMomentCoordinateValueLevel, ...]
+    storage_semantics: str
+    interface_flux_names: tuple[str, ...]
+    interface_flux_values: np.ndarray
+    interface_flux_scales: np.ndarray
+
+    def level(self, name: str) -> CausalMomentCoordinateValueLevel:
+        """Return a named cumulative value-only level."""
+
+        for level in self.levels:
+            if level.name == name:
+                return level
+        raise KeyError(name)
+
+
+@dataclass(frozen=True)
 class CausalFiveFieldMomentCoordinateLadder:
     """Incremental WP10c8i candidate coordinates and interface outputs."""
 
@@ -356,6 +397,218 @@ def _find_shape_shell(
             "each targeted shape band must resolve to one declared shell"
         )
     return lower_edge
+
+
+def _value_only_level(
+    *,
+    name: str,
+    coordinate_names: list[str],
+    coordinate_families: list[str],
+    coordinate_values: list[float],
+    coordinate_scales: list[float],
+) -> CausalMomentCoordinateValueLevel:
+    values = np.asarray(coordinate_values, dtype=float)
+    scales = np.asarray(coordinate_scales, dtype=float)
+    count = len(coordinate_names)
+    if (
+        len(coordinate_families) != count
+        or values.shape != (count,)
+        or scales.shape != (count,)
+        or np.any(~np.isfinite(values))
+        or np.any(~np.isfinite(scales))
+        or np.any(scales <= 0.0)
+    ):
+        raise ValueError("candidate moment values are inconsistent")
+    return CausalMomentCoordinateValueLevel(
+        name=name,
+        coordinate_names=tuple(coordinate_names),
+        coordinate_families=tuple(coordinate_families),
+        coordinate_values=values,
+        coordinate_scales=scales,
+    )
+
+
+def causal_five_field_moment_coordinate_values(
+    context: CausalFiveFieldDAEContext,
+    state_vector: np.ndarray,
+    shell_edges_rg: np.ndarray,
+    *,
+    shape_bands_rg: tuple[
+        tuple[str, float, float], ...
+    ] = CAUSAL_WP10C8I_DEFAULT_SHAPE_BANDS_RG,
+    edge_tolerance_rg: float = 1.0e-10,
+    nominal_shape_edge_relative_tolerance: float = 0.1,
+) -> CausalFiveFieldMomentCoordinateValues:
+    """Evaluate the exact finite-state WP10c8i coordinate ladder.
+
+    This value-only evaluator preserves the cumulative 15/20/25/30/34
+    ordering and natural scales used by
+    :func:`causal_five_field_moment_coordinate_ladder`, but deliberately
+    performs no tangent or Schur-response construction.
+    """
+
+    context = context.validated()
+    nominal_tolerance = float(nominal_shape_edge_relative_tolerance)
+    if not np.isfinite(nominal_tolerance) or nominal_tolerance < 0.0:
+        raise ValueError(
+            "nominal shape-edge relative tolerance must be nonnegative"
+        )
+    n_cells = int(context.grid.centers.size)
+    state = unpack_causal_five_field_state(state_vector, n_cells)
+    geometry = causal_mesh_coincident_moment_shells(
+        context,
+        shell_edges_rg,
+        edge_tolerance_rg=edge_tolerance_rg,
+    )
+    measures = _finite_vector(
+        context.grid.cell_measures,
+        name="cell measures",
+        shape=(n_cells,),
+    )
+    if np.any(measures <= 0.0):
+        raise ValueError("cell measures must be positive")
+    radius_rg = _finite_vector(
+        context.grid.centers / context.grid.gravitational_radius,
+        name="cell radii",
+        shape=(n_cells,),
+    )
+    log_radius = np.log(radius_rg)
+
+    names: list[str] = []
+    families: list[str] = []
+    values: list[float] = []
+    scales: list[float] = []
+    levels = []
+
+    def add_conserved_shell_family(
+        components: tuple[tuple[int, str], ...],
+        family_name: str,
+    ) -> None:
+        for shell_index, mask in enumerate(geometry.cell_masks):
+            for component, component_name in components:
+                contributions = (
+                    measures[mask] * state.conserved[mask, component]
+                )
+                value = float(np.sum(contributions))
+                names.append(f"shell_{shell_index}_{component_name}")
+                families.append(family_name)
+                values.append(value)
+                scales.append(_coordinate_scale(value, contributions))
+
+    def append_level(name: str) -> None:
+        levels.append(
+            _value_only_level(
+                name=name,
+                coordinate_names=names,
+                coordinate_families=families,
+                coordinate_values=values,
+                coordinate_scales=scales,
+            )
+        )
+
+    add_conserved_shell_family(
+        _INSTANTANEOUS_SHELL_COMPONENTS,
+        "instantaneous_shell_mje",
+    )
+    append_level("instantaneous_shell_mje")
+
+    for shell_index, mask in enumerate(geometry.cell_masks):
+        shell_weights = measures[mask] / float(np.sum(measures[mask]))
+        names.append(f"shell_{shell_index}_mean_log_temperature")
+        families.append("shell_mean_log_temperature")
+        values.append(float(shell_weights @ state.primitives[mask, 3]))
+        scales.append(1.0)
+    append_level("plus_shell_mean_log_temperature")
+
+    add_conserved_shell_family(
+        (_RADIAL_MOMENTUM_COMPONENT,),
+        "shell_radial_momentum",
+    )
+    append_level("plus_shell_radial_momentum")
+
+    add_conserved_shell_family(
+        (_STRESS_STORAGE_COMPONENT,),
+        "shell_stress_storage",
+    )
+    append_level("plus_shell_stress_storage")
+
+    seen_shape_names = set()
+    for band_name, lower_rg, upper_rg in shape_bands_rg:
+        label = str(band_name)
+        lower = float(lower_rg)
+        upper = float(upper_rg)
+        if (
+            not label
+            or label in seen_shape_names
+            or not np.isfinite(lower)
+            or not np.isfinite(upper)
+            or lower <= 0.0
+            or upper <= lower
+        ):
+            raise ValueError("targeted shape band is invalid")
+        seen_shape_names.add(label)
+        shell_index = _find_shape_shell(
+            geometry,
+            lower,
+            upper,
+            absolute_tolerance=edge_tolerance_rg,
+            nominal_relative_tolerance=nominal_tolerance,
+        )
+        mask = geometry.cell_masks[shell_index]
+        shell_weights = measures[mask] / float(np.sum(measures[mask]))
+        centered = log_radius[mask] - float(
+            shell_weights @ log_radius[mask]
+        )
+        radial_rms = float(
+            np.sqrt(shell_weights @ np.square(centered))
+        )
+        if not np.isfinite(radial_rms) or radial_rms <= 0.0:
+            raise ValueError(
+                "targeted shape shell needs multiple distinct cell radii"
+            )
+        signed_weights = shell_weights * centered / radial_rms
+        for component, field_name in (
+            (3, "log_temperature"),
+            (0, "log_surface_density"),
+        ):
+            names.append(f"shape_{label}_{field_name}_first")
+            families.append("targeted_first_shape_moment")
+            values.append(
+                float(signed_weights @ state.primitives[mask, component])
+            )
+            scales.append(1.0)
+    append_level("plus_targeted_shape_moments")
+
+    physical_faces = C * state.weighted_face_fluxes_over_c
+    component_flux_scales = {
+        component: max(
+            float(np.max(np.abs(physical_faces[:, component]))),
+            np.finfo(float).tiny,
+        )
+        for component, _name in _INTERFACE_FLUX_COMPONENTS
+    }
+    interface_names = []
+    interface_values = []
+    interface_scales = []
+    for boundary_index, face in enumerate(
+        geometry.edge_indices[1:-1],
+        start=1,
+    ):
+        for component, component_name in _INTERFACE_FLUX_COMPONENTS:
+            interface_names.append(
+                f"interface_{boundary_index}_{component_name}"
+            )
+            interface_values.append(float(physical_faces[face, component]))
+            interface_scales.append(component_flux_scales[component])
+
+    return CausalFiveFieldMomentCoordinateValues(
+        geometry=geometry,
+        levels=tuple(levels),
+        storage_semantics=CAUSAL_WP10C8I_STORAGE_SEMANTICS,
+        interface_flux_names=tuple(interface_names),
+        interface_flux_values=np.asarray(interface_values, dtype=float),
+        interface_flux_scales=np.asarray(interface_scales, dtype=float),
+    )
 
 
 def causal_five_field_moment_coordinate_ladder(

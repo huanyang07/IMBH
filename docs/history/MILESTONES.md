@@ -422,6 +422,79 @@ rejected sequence.
     is supplied. An unchanged WP10c8i repeat, nonlinear lifting, healing, and
     reduced macrosteps remain closed pending a direct smooth-vector-field and
     finite-branch repair.
+60. **Smooth defect localized and aggregate branch bound rejected:** WP10c8k
+    closes the exact centered descriptor-product identity near `1e-13` and
+    matches the independently assembled stationary derivative near `5e-9`.
+    More than `99.98%` of the remaining primitive mismatch is assigned to the
+    mapped-storage-rate derivative. A direct-action candidate improves every
+    controlling L2 score but retains strict infinity defects
+    `0.01028-0.01186`, so finite-difference step/order tuning is closed. The
+    existing logarithmic-norm/triangle Rusanov enclosure is independently
+    infeasible even with zero nonlinear remainder, consuming `2.464/28.58`
+    gates at N64 `t=0` over `0.01/0.025 s`.
+61. **Shared finite-difference descriptor fails; structured branch propagation
+    is promising but nonbinding:** WP10c8l makes the audit-only mapped
+    descriptor and rate derivative share one discrete `S_map/DS_map/D2S_map`
+    path. Base reconstruction is exact, factorization is `5.46e-12`, and
+    nonlinear secants are stable, but locked N64 centered infinity defects
+    remain `0.0184-0.0207 > 0.01`, controlled by outer `log(T)` rates near
+    `121-131 rg`. N128 is not run. A face-aware nominal-semigroup preflight on
+    the richest weighted constraint-null space reduces cached-branch gate
+    fractions below `3.63e-4`, with 64/128-panel changes below `0.63%`.
+    Because Track A has no certified final generator and the all-face and
+    nonlinear-neighborhood contracts are absent, WP10c8i repetition and
+    reduced evolution remain closed.
+62. **Branch-frozen mapped tangent passes; pessimistic all-candidate branch
+    bound fails:** WP10c8m replaces the audit-only outer descriptor difference
+    with an assembled fixed-branch derivative of the complete reconstruction
+    and Gauss-quadrature storage chain. Locked N64/N128 descriptor and mixed-
+    rate step defects are below `1.86e-9`, generator factorization is below
+    `9.10e-13`, and the worst centered primitive-generator infinity defect is
+    `4.37e-5 < 0.01`. The smooth tangent blocker is resolved without changing
+    production evolution. Regenerated cached Rusanov factors close below
+    `5.01e-16` and consume at most `3.64e-4` of a gate. A complete
+    anchor-level superset of 567 alternatives—nine noncontrollers on each of
+    63 faces—also factorizes below `6.03e-16`, but its converged structured
+    bound reaches `0.06695 > 0.01`, controlled by interface-3 rest-mass flux.
+    That all-candidate enclosure is rejected; the production exact-max flux
+    is unchanged. Finite-neighborhood certification, WP10c8i repetition,
+    lifting, healing, and reduced evolution remain closed pending a sharper
+    possible-winner or localized branch bound.
+63. **Possible-winner screening closes the uniform exact-max tangent
+    certificate:** WP10c8n reproduces the 567-branch parent bound within
+    `4.2e-17` and assigns `99.75%` of the `0.06695` controlling fraction to
+    direct branch-output response. The additive contribution is concentrated
+    at face 58. The nominal richest-coordinate null tube needs a common
+    weighted radius above `2.05`, while an admissible nonlinear production-map
+    witness switches that face between radii `0.0058177/0.0058294`. A
+    structured null-tube closure retains 449 possible alternatives and
+    reproduces the failure exactly at displayed precision. Candidate-gap
+    screening cannot create the required `0.005` headroom, so uniform
+    generalized-Jacobian exact-max certification is closed. This does not
+    reject the production flux or nonlinear closure; the next authorized
+    reduction diagnostic is paired finite-amplitude equal-coordinate
+    lifting/healing with the exact nonsmooth flux left unchanged.
+64. **Exact nonlinear fiber counterexample rejects the 34-coordinate
+    instantaneous closure on the certified N64/N128 truth discretizations:**
+    WP10c8o corrects eight N64 signed pairs to the
+    exact richest coordinate fiber and prolongs only the decisive physical
+    perturbation to N128. Every pair passes the coordinate, amplitude,
+    reconstruction, and physical-state gates. The smallest predeclared N64
+    counterexample has maximum pairwise coordinate defect `1.17e-15` but
+    interface-4 angular-momentum half-spread `0.32452995 > 0.25`. Its N128
+    prolongation, with no new output optimization, closes coordinates to
+    `1.78e-15` and reproduces the same controller at `0.26608550 > 0.25`.
+    The cross-mesh spread disagreement is `0.05844445 < 0.10`. The decisive
+    descriptor ranks are `320/320` and `640/640`; full-Schur parity stays
+    below `8.73e-11` and independent storage-action defects below `1.67e-7`.
+    Fresh nonlinear rate step defects remain below `2.66e-7` and exact
+    coordinate-rate directional defects below `4.16e-9`. Four independent
+    face-58 witness pairs also fail at `0.27183-0.30045`, with smooth response
+    through the exact Rusanov switch. Raw instantaneous 34-moment Markov
+    closure is closed on those meshes, but this is not a continuum no-go.
+    Natural BDF1-start healing microbursts of the frozen
+    pair are the only next reduction experiment; memory, one measured
+    transport auxiliary, or a conservative coarse PDE remain conditional.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

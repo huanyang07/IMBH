@@ -1,6 +1,6 @@
 # Project Status
 
-- Updated: 2026-07-21
+- Updated: 2026-07-22
 - Pre-cleanup scientific tag: `pre-cleanup-p0-2026-07-11`
 - Legacy phase classification tag: `legacy-steady-positive-flux-dae-2026-07-10`
 
@@ -118,6 +118,11 @@ This is the canonical project handoff. Status labels mean:
 | Conservative shell preflight WP10c8h | **CERTIFIED** as a negative shell-closure result; **REJECTED** for nonlinear shell microbursts or macrosteps; **DIAGNOSTIC ONLY** physically | Exact mesh-coincident five/eight-shell operators retain `15/24` finite-volume `M/J/E` coordinates with constraint-null defects below `1e-10` | Five/eight-shell AB2 errors are `0.569/1.752 > 0.25`; ledger-null thermal and radial redistributions change observables by `17.5-17.8` and `9.94-10.01` gates; compact global and shell-only equation-free routes are closed |
 | Storage-consistent moment sufficiency WP10c8i | **IMPLEMENTED AND METHOD-TESTED** for the complete vector-storage and incremental moment-audit machinery; **INCONCLUSIVE** for moment sufficiency; nonlinear lifting and macrosteps **NOT AUTHORIZED** | Complete responsive-height storage is pulled back as a vector one-form in radial momentum, angular momentum, and Killing energy; its maximum action defect is `2.98e-7`; five cumulative five-shell levels retain `15/20/25/30/34` full-rank coordinates | Full generator FD-consistency scans fail at `t=0/0.10 s` on both meshes and consequential Rusanov branches remain at three anchors; conditional richest-level lower gains are `>340` gates, but are nonbinding; online cost is unevaluated and only a bounded tangent-certification package is authorized within this reduction branch |
 | Evolving-tangent certification WP10c8j | **IMPLEMENTED AND METHOD-TESTED**; **REJECTED** for unchanged WP10c8i repetition or reduced evolution | Direct differentiation of the complete storage-rate action removes the nested mass-matrix derivative; assembled-generator step stability is below `1.64e-3`, factorization below `3.64e-12`, and selected storage reconstruction below `2.61e-11` in the matched N64/N128 `0.10 s` scans | N64 `0.05 s` outer thermal/density JVP defects remain `1.87e-2/1.06e-2` at the selected step, N128 `0.10 s` density reaches `1.0209e-2`, and all-face Rusanov coverage/nonlinear remainder data are absent; moment changes, lifting, healing, and macrosteps remain closed |
+| Tangent localization WP10c8k | **CERTIFIED** as a bounded negative localization result; **REJECTED** for unchanged WP10c8i repetition or reduced evolution | The exact centered descriptor product closes near `1e-13`, the stationary derivative agrees near `5e-9`, and more than `99.98%` of the smooth primitive mismatch is mapped-storage-rate differentiation | The best tangent-only action retains strict infinity defects `0.01028-0.01186`; the aggregate Rusanov enclosure consumes `2.464/28.58` gates at N64 `t=0`, so both finite-difference tuning and the aggregate certificate architecture are closed |
+| Unified descriptor and structured Rusanov WP10c8l | **IMPLEMENTED AND METHOD-TESTED**; Track A **REJECTED** at locked N64; Track B **FEASIBLE BUT NONBINDING** for cached branches | One audit-only discrete `S_map/DS_map/D2S_map` path gives factorization `5.46e-12` and stable secants; a face-aware nominal-semigroup preflight reduces cached-branch gate fractions to at most `3.63e-4`, with 64/128-panel change below `0.63%` | Track-A centered infinity defects remain `0.0184-0.0207 > 0.01`, so N128, all-face Track B, finite-neighborhood certification, WP10c8i repetition, moment changes, lifting, healing, and reduced evolution remain closed |
+| Branch-frozen tangent and structured Rusanov WP10c8m | Track A **CERTIFIED** at locked N64/N128; cached Track B **FEASIBLE BUT NONBINDING**; all-candidate Track B **REJECTED** | Branch-frozen assembled mapped-storage derivatives give worst centered infinity defects `1.29e-5/4.37e-5` and step defects below `1.86e-9`; regenerated cached-branch fractions remain below `3.64e-4`; all 567 face/candidate factors close below `6.03e-16` | The pessimistic all-noncontroller superset consumes `0.06695 > 0.01`, controlled by interface-3 rest-mass flux; finite-neighborhood remainder work, WP10c8i repetition, moment changes, lifting, healing, and reduced evolution remain closed pending a sharper possible-winner certificate |
+| Rusanov candidate-screen WP10c8n | **CERTIFIED** as a stop decision for the uniform exact-max generalized-tangent certificate; **DIAGNOSTIC ONLY** for nonlinear closure | The all-candidate result is reproduced within `4.2e-17`; direct branch-output change supplies `99.75%` of the `0.06695` fraction; the null-tube closure retains 449 alternatives and a nonlinear admissible face-58 switch occurs between weighted radii `0.0058177/0.0058294` | A containing common radius must exceed `2.05`, where the bound remains `0.06695 > 0.005/0.01`; this rejects candidate-gap rescue and the uniform tangent certificate, not the production flux or nonlinear fiber closure; WP10c8i and reduced evolution remain closed pending paired finite-amplitude lifting/healing |
+| Exact nonlinear coordinate fiber WP10c8o | **CERTIFIED** as an N64/N128 truth-discretization counterexample; 34-coordinate instantaneous Markov closure **REJECTED on those certified meshes** | Exact equal-coordinate pairs close below `1.78e-15`; all state/fresh-rate/DAE-storage gates pass; descriptor ranks are `320/320` and `640/640`, maximum full-Schur parity defect is `8.72e-11`, and the same interface-4 angular-momentum flux controls both meshes at `0.32453/0.26609 > 0.25` with cross-mesh disagreement `0.05844 < 0.10` | The result is one-sided and is not a continuum no-go: it rejects raw deterministic algebraic closure on the certified truth discretizations but not healed closure, memory, or a coarse effective PDE; only matched BDF1-start natural-healing microbursts of the frozen decisive pair are authorized next |
 
 ## Frozen Target Under Review
 
@@ -918,6 +923,70 @@ N                    = 164
    logarithmic-norm/triangle branch enclosure with a structured low-rank
    finite-time input-output bound. WP10c8i remains blocked and no reduced
    evolution is authorized.
+   WP10c8l then makes the mapped descriptor and its rate derivative share one
+   audit-only finite-difference implementation of the complete discrete
+   instantaneous storage map. The base descriptor reconstructs exactly and
+   factorizes at `5.46e-12`, but the locked N64 `0.05 s` fresh-vector-field
+   comparison still fails: centered infinity defects are `0.02068-0.02072`
+   for the outer-density direction and `0.01840-0.01844` for the outer-thermal
+   direction. Both are controlled by `log(T)` rates near `121-131 rg`.
+   N128 is therefore not run and further finite-difference tuning is closed.
+   In parallel, a structured nominal-semigroup/Volterra preflight using the
+   richest WP10c8i weighted null space, direct output changes, and face-aware
+   switching gives cached-branch gate fractions no larger than `3.63e-4`,
+   with 64/128-panel changes below `0.63%`. This makes the structured
+   architecture promising but nonbinding: Track A has no certified final
+   generator, the candidate set is incomplete, and no nonlinear neighborhood
+   reserve or containment proof exists. The next package must implement an
+   exact branch-frozen discrete mapped-storage JVP/Hessian action, then rebuild
+   and complete the structured branch certificate serially. WP10c8i remains
+   blocked and no reduced evolution is authorized.
+   WP10c8m implements that branch-frozen assembled derivative without changing
+   the production BDF operator. The locked N64 `0.05 s` and held-out N128
+   `0.10 s` cases both pass: descriptor/rate step defects are below `1.86e-9`,
+   factorization is below `9.10e-13`, and worst centered infinity defects are
+   only `1.29e-5/4.37e-5` against `0.01`. The smooth tangent blocker is
+   resolved. Regenerated cached Rusanov identities close below `5.01e-16` and
+   their structured zero-remainder fraction remains below `3.64e-4`.
+   Expanding pessimistically to all nine noncontrollers on every one of 63
+   interior faces gives 567 exact factors but a converged fraction
+   `0.06695 > 0.01`, controlled by interface-3 rest-mass flux. This rejects
+   the all-candidate enclosure, not the production flux. A sharper certified
+   possible-winner/localized branch bound is required before nonlinear
+   remainder and containment work. WP10c8i and reduced evolution remain
+   blocked.
+   WP10c8n performs that possible-winner localization. The failing fraction is
+   `99.75%` direct branch-output response and is concentrated at face 58. The
+   nominal unit null tube requires a common weighted radius above `2.05`,
+   while the unmodified nonlinear production map switches the controlling
+   face-58 candidate at radius `0.00582-0.00583` with full reconstruction
+   admissibility. The structured null-tube closure retains 449 alternatives
+   and reproduces `0.06695`; no containing radius reaches the `0.005`
+   headroom target. Candidate-gap screening and the uniform exact-max
+   generalized-tangent certificate are therefore closed. The production flux
+   remains unchanged. The next admissible reduction experiment is a paired
+   finite-amplitude equal-coordinate lifting/healing audit that preserves the
+   correlation between state direction and selected flux branch.
+   WP10c8o performs that exact nonlinear fiber test. Eight N64 pairs are
+   corrected independently onto the exact richest 34-coordinate fiber; all
+   coordinate, amplitude, reconstruction, DAE-state, fresh-rate, descriptor,
+   and independent storage-action gates pass. The smallest predeclared
+   leading-direction counterexample has
+   interface-4 angular-momentum half-spread `0.32452995 > 0.25` with maximum
+   pairwise coordinate defect `1.17e-15`. Piecewise-constant prolongation of
+   its physical perturbation to N128, without N128 output optimization,
+   reproduces the same controller at `0.26608550 > 0.25`, cross-mesh spread
+   disagreement `0.05844445 < 0.10`, and coordinate defect `1.78e-15`.
+   The decisive descriptor ranks are `320/320` and `640/640`, maximum
+   full-Schur parity defect is `8.72e-11`, and maximum independent
+   path-storage action defect is `1.66e-7`. The face-58 witness ladder gives
+   `0.27183-0.30045`, varying smoothly through the exact controller switch.
+   The existing 34-coordinate instantaneous deterministic Markov closure is
+   therefore rejected on the certified N64/N128 truth discretizations, not as
+   a continuum-limit theorem. A healed/equation-free closure, memory variable, or
+   conservative coarse PDE remains open; only matched BDF1-start natural
+   microbursts of the frozen pair are authorized before selecting one measured
+   transport coordinate or auxiliary.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -929,7 +998,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_TANGENT_LOCALIZATION_WP10C8K_RESULTS_2026-07-21.md`
+  `reports/current/CODEX_CAUSAL_NONLINEAR_FIBER_AUDIT_WP10C8O_RESULTS_2026-07-22.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)

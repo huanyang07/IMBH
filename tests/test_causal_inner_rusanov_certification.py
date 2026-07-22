@@ -9,6 +9,10 @@ from imri_qpe.layer3_minidisk_1d.causal_inner_rusanov_certification import (
     certify_rusanov_finite_neighborhood,
     quadratic_taylor_remainder_bound,
     rusanov_gap_variation_bounds,
+    rusanov_structured_possible_winner_closure,
+    rusanov_structured_zero_remainder_decomposition,
+    rusanov_structured_zero_remainder_preflight,
+    rusanov_weighted_anchor_gap_radius_screen,
 )
 
 
@@ -344,6 +348,319 @@ def test_direct_output_switches_are_summed_for_simultaneous_branches() -> None:
     assert result.switched_state_radius_bound == 1.0
     assert result.per_output_direct_bounds[0] == 1.75
     assert result.per_output_gate_fractions[0] == 0.875
+
+
+def test_structured_preflight_preserves_per_face_mutual_exclusivity() -> None:
+    common = {
+        "base_generator_per_s": np.asarray([[0.0]]),
+        "output_operator": np.asarray([[0.0]]),
+        "generator_left_factors": np.asarray([[0.0, 0.0]]),
+        "generator_right_factors": np.asarray([[1.0, 1.0]]),
+        "direct_output_deltas": np.asarray([[[2.0]], [[-3.0]]]),
+        "initial_basis": np.asarray([[1.0]]),
+        "horizon_seconds": 0.0,
+        "output_gates": np.asarray([10.0]),
+    }
+    same_face = rusanov_structured_zero_remainder_preflight(
+        branch_face_indices=np.asarray([1, 1]),
+        **common,
+    )
+    different_faces = rusanov_structured_zero_remainder_preflight(
+        branch_face_indices=np.asarray([1, 2]),
+        **common,
+    )
+
+    assert same_face.per_output_direct_bounds[0] == 3.0
+    assert different_faces.per_output_direct_bounds[0] == 5.0
+    assert same_face.face_count == 1
+    assert different_faces.face_count == 2
+
+
+def test_face_compressed_direct_left_factors_match_dense_operators() -> None:
+    right = np.asarray([[1.0, 2.0]])
+    direct_left = np.asarray([[2.0], [-3.0]])
+    dense_direct = direct_left[:, :, None] * right.T[:, None, :]
+    common = {
+        "base_generator_per_s": np.asarray([[-1.0]]),
+        "output_operator": np.asarray([[0.5]]),
+        "generator_left_factors": np.asarray([[0.2, 0.2]]),
+        "generator_right_factors": right,
+        "branch_face_indices": np.asarray([1, 1]),
+        "initial_basis": np.asarray([[1.0]]),
+        "horizon_seconds": 0.1,
+        "output_gates": np.asarray([10.0]),
+        "time_steps": 32,
+    }
+    dense = rusanov_structured_zero_remainder_preflight(
+        direct_output_deltas=dense_direct,
+        **common,
+    )
+    factored = rusanov_structured_zero_remainder_preflight(
+        direct_output_left_factors=direct_left,
+        **common,
+    )
+
+    assert dense.used_face_compression
+    assert factored.used_face_compression
+    assert dense.left_compression_relative_defect == 0.0
+    assert dense.direct_factor_relative_defect == 0.0
+    np.testing.assert_allclose(
+        factored.per_output_total_bounds, dense.per_output_total_bounds
+    )
+
+
+def test_structured_preflight_converges_for_scalar_switch() -> None:
+    common = {
+        "base_generator_per_s": np.asarray([[-2.0]]),
+        "output_operator": np.asarray([[3.0]]),
+        "generator_left_factors": np.asarray([[0.5]]),
+        "generator_right_factors": np.asarray([[1.0]]),
+        "branch_face_indices": np.asarray([1]),
+        "initial_basis": np.asarray([[1.0]]),
+        "horizon_seconds": 0.2,
+        "output_gates": np.asarray([1.0]),
+    }
+    coarse = rusanov_structured_zero_remainder_preflight(
+        time_steps=64,
+        **common,
+    )
+    fine = rusanov_structured_zero_remainder_preflight(
+        time_steps=256,
+        **common,
+    )
+    exact = 3.0 * (np.exp(-1.5 * 0.2) - np.exp(-2.0 * 0.2))
+
+    assert abs(fine.per_output_dynamic_bounds[0] - exact) < (
+        abs(coarse.per_output_dynamic_bounds[0] - exact)
+    )
+    assert np.isclose(
+        fine.per_output_dynamic_bounds[0],
+        exact,
+        rtol=6.0e-3,
+    )
+    assert "nonbinding" in fine.semantics
+
+
+def test_structured_preflight_uses_declared_initial_subspace() -> None:
+    result = rusanov_structured_zero_remainder_preflight(
+        base_generator_per_s=np.asarray([[-1.0]]),
+        output_operator=np.asarray([[1.0]]),
+        generator_left_factors=np.asarray([[1.0]]),
+        generator_right_factors=np.asarray([[1.0]]),
+        branch_face_indices=np.asarray([1]),
+        initial_basis=np.empty((1, 0)),
+        horizon_seconds=0.1,
+        output_gates=np.asarray([1.0]),
+    )
+
+    assert result.maximum_branch_coordinate_bound == 0.0
+    assert result.per_output_total_bounds[0] == 0.0
+
+
+def test_structured_preflight_decomposition_sums_to_aggregate_bound() -> None:
+    result = rusanov_structured_zero_remainder_decomposition(
+        base_generator_per_s=np.asarray([[-1.0, 0.2], [0.0, -0.5]]),
+        output_operator=np.asarray([[1.0, -0.3], [0.2, 0.7]]),
+        generator_left_factors=np.asarray(
+            [[0.2, -0.1, 0.3], [0.1, 0.4, -0.2]]
+        ),
+        generator_right_factors=np.asarray(
+            [[0.5, -0.2, 0.1], [0.3, 0.6, -0.4]]
+        ),
+        branch_face_indices=np.asarray([1, 1, 2]),
+        initial_basis=np.eye(2),
+        direct_output_deltas=np.asarray(
+            [
+                [[0.2, 0.0], [0.0, 0.1]],
+                [[-0.3, 0.0], [0.0, 0.2]],
+                [[0.1, -0.1], [0.2, 0.0]],
+            ]
+        ),
+        horizon_seconds=0.1,
+        time_steps=32,
+    )
+
+    np.testing.assert_allclose(
+        np.sum(result.per_branch_dynamic_bounds, axis=0),
+        result.bound.per_output_dynamic_bounds,
+    )
+    np.testing.assert_allclose(
+        np.sum(result.per_branch_direct_bounds, axis=0),
+        result.bound.per_output_direct_bounds,
+    )
+    np.testing.assert_allclose(
+        np.sum(result.per_face_total_bounds, axis=0),
+        result.bound.per_output_total_bounds,
+    )
+    assert np.array_equal(result.face_indices, np.asarray([1, 2]))
+    assert np.all(result.direct_winning_branch_indices >= 0)
+
+
+def test_structured_decomposition_is_invariant_to_candidate_order() -> None:
+    common = {
+        "base_generator_per_s": np.asarray([[-1.0]]),
+        "output_operator": np.asarray([[1.0]]),
+        "generator_left_factors": np.asarray([[0.2, 0.2]]),
+        "generator_right_factors": np.asarray([[0.3, 0.3]]),
+        "branch_face_indices": np.asarray([1, 1]),
+        "initial_basis": np.asarray([[1.0]]),
+        "direct_output_deltas": np.asarray([[[0.4]], [[0.4]]]),
+        "horizon_seconds": 0.1,
+        "time_steps": 16,
+    }
+    forward = rusanov_structured_zero_remainder_decomposition(**common)
+    reverse = rusanov_structured_zero_remainder_decomposition(
+        **{
+            **common,
+            "generator_left_factors": common["generator_left_factors"][:, ::-1],
+            "generator_right_factors": common[
+                "generator_right_factors"
+            ][:, ::-1],
+            "direct_output_deltas": common["direct_output_deltas"][::-1],
+        }
+    )
+
+    np.testing.assert_allclose(
+        forward.per_face_total_bounds, reverse.per_face_total_bounds
+    )
+    np.testing.assert_allclose(
+        forward.per_branch_dynamic_bounds,
+        reverse.per_branch_dynamic_bounds[::-1],
+    )
+    np.testing.assert_allclose(
+        forward.per_branch_direct_bounds,
+        reverse.per_branch_direct_bounds[::-1],
+    )
+
+
+def test_zero_horizon_has_no_dynamic_winner_counts() -> None:
+    result = rusanov_structured_zero_remainder_decomposition(
+        base_generator_per_s=np.asarray([[0.0]]),
+        output_operator=np.asarray([[1.0]]),
+        generator_left_factors=np.asarray([[1.0, 1.0]]),
+        generator_right_factors=np.asarray([[1.0, 1.0]]),
+        branch_face_indices=np.asarray([1, 1]),
+        initial_basis=np.asarray([[1.0]]),
+        horizon_seconds=0.0,
+    )
+
+    assert not np.any(result.per_branch_dynamic_winner_counts)
+
+
+def test_weighted_anchor_gap_screen_uses_dual_state_norm() -> None:
+    result = rusanov_weighted_anchor_gap_radius_screen(
+        base_speed_gaps=np.asarray([0.5, 1.5]),
+        gap_gradient_vectors=np.asarray([[2.0, 0.0], [0.0, 0.5]]),
+        state_weights=np.asarray([4.0, 0.25]),
+        neighborhood_radii=np.asarray([0.4, 0.5, 2.0]),
+        branch_face_indices=np.asarray([1, 2]),
+    )
+
+    np.testing.assert_allclose(
+        result.weighted_dual_gradient_norms, np.ones(2)
+    )
+    np.testing.assert_allclose(
+        result.candidate_threshold_radii, np.asarray([0.5, 1.5])
+    )
+    assert np.array_equal(
+        result.possible_candidate_masks,
+        np.asarray([[False, False], [True, False], [True, True]]),
+    )
+    assert np.array_equal(result.possible_face_counts, np.asarray([0, 1, 2]))
+    assert "nonbinding" in result.semantics
+
+
+def test_weighted_gap_screen_is_nested_forced_and_metric_invariant() -> None:
+    original = rusanov_weighted_anchor_gap_radius_screen(
+        base_speed_gaps=np.asarray([0.5, 1.5]),
+        gap_gradient_vectors=np.asarray([[2.0, 0.0], [0.0, 0.5]]),
+        state_weights=np.asarray([4.0, 0.25]),
+        neighborhood_radii=np.asarray([0.0, 0.5, 2.0]),
+        branch_face_indices=np.asarray([1, 2]),
+        forced_candidate_mask=np.asarray([False, True]),
+    )
+    transformed = rusanov_weighted_anchor_gap_radius_screen(
+        base_speed_gaps=np.asarray([0.5, 1.5]),
+        gap_gradient_vectors=np.asarray([[1.0, 0.0], [0.0, 1.0]]),
+        state_weights=np.ones(2),
+        neighborhood_radii=np.asarray([0.0, 0.5, 2.0]),
+        branch_face_indices=np.asarray([1, 2]),
+        forced_candidate_mask=np.asarray([False, True]),
+    )
+
+    np.testing.assert_allclose(
+        original.weighted_dual_gradient_norms,
+        transformed.weighted_dual_gradient_norms,
+    )
+    assert np.all(
+        original.possible_candidate_masks[:-1]
+        <= original.possible_candidate_masks[1:]
+    )
+    assert np.all(original.possible_candidate_masks[:, 1])
+    assert original.possible_candidate_masks[1, 0]
+
+
+def test_structured_possible_winner_closure_adds_reachable_candidate() -> None:
+    result = rusanov_structured_possible_winner_closure(
+        base_generator_per_s=np.asarray([[0.0]]),
+        generator_left_factors=np.asarray([[1.0, 1.0]]),
+        generator_right_factors=np.asarray([[1.0, 1.0]]),
+        branch_face_indices=np.asarray([1, 1]),
+        base_speed_gaps=np.asarray([0.0, 1.1]),
+        initial_basis=np.asarray([[1.0]]),
+        horizon_seconds=0.2,
+        seed_candidate_mask=np.asarray([True, False]),
+        time_steps=256,
+    )
+
+    assert result.converged
+    assert result.iteration_count == 2
+    assert np.array_equal(
+        result.possible_candidate_mask, np.asarray([True, True])
+    )
+    assert result.closed_maximum_gap_variations[1] > 1.1
+    assert "nonbinding" in result.semantics
+
+
+def test_possible_winner_closure_reports_incomplete_monotone_set() -> None:
+    result = rusanov_structured_possible_winner_closure(
+        base_generator_per_s=np.asarray([[0.0]]),
+        generator_left_factors=np.asarray([[1.0, 1.0]]),
+        generator_right_factors=np.asarray([[1.0, 1.0]]),
+        branch_face_indices=np.asarray([1, 1]),
+        base_speed_gaps=np.asarray([0.0, 1.1]),
+        initial_basis=np.asarray([[1.0]]),
+        horizon_seconds=0.2,
+        seed_candidate_mask=np.asarray([True, False]),
+        time_steps=256,
+        maximum_iterations=1,
+    )
+
+    assert not result.converged
+    assert np.array_equal(
+        result.possible_candidate_mask, np.asarray([True, True])
+    )
+    assert result.closed_maximum_gap_variations[1] > 1.1
+
+
+def test_possible_winner_closure_handles_zero_branches_and_weighted_radius() -> None:
+    result = rusanov_structured_possible_winner_closure(
+        base_generator_per_s=np.asarray([[-1.0]]),
+        generator_left_factors=np.empty((1, 0)),
+        generator_right_factors=np.empty((1, 0)),
+        branch_face_indices=np.empty(0, dtype=int),
+        base_speed_gaps=np.empty(0),
+        initial_basis=np.asarray([[0.5]]),
+        state_metric_diagonal=np.asarray([4.0]),
+        horizon_seconds=0.2,
+        time_steps=16,
+    )
+
+    assert result.converged
+    assert result.possible_candidate_count == 0
+    assert result.maximum_nominal_state_radius == 1.0
+    assert result.maximum_branch_state_deviation == 0.0
+    assert result.maximum_total_state_radius == 1.0
 
 
 def test_cached_wrapper_refuses_incomplete_coverage_or_remainder() -> None:

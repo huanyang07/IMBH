@@ -7,6 +7,8 @@ from imri_qpe.constants import C
 from imri_qpe.layer3_minidisk_1d import (
     causal_coincident_fine_faces,
     causal_five_field_assemble_evolving_tangent,
+    causal_five_field_branch_frozen_mapped_storage_derivatives,
+    causal_five_field_branch_frozen_mapped_storage_matrix,
     causal_five_field_constraint_manifold_jvp,
     causal_five_field_consistent_tangent_decomposition,
     causal_five_field_dae_scaling,
@@ -26,6 +28,8 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_five_field_scaled_primitive_vector_field,
     causal_five_field_state_from_primitives,
     causal_five_field_term_reconstruction_defect,
+    causal_five_field_unified_mapped_storage_derivatives,
+    causal_five_field_unified_mapped_storage_matrix,
     causal_nested_refinement_ratio,
     causal_restrict_cell_averages,
     causal_restrict_cell_integrals,
@@ -751,6 +755,304 @@ def test_direct_action_storage_rate_derivative_matches_dense_columns(
         dense_conserved + dense_vertical,
         rtol=2.0e-6,
         atol=2.0e-8,
+    )
+
+
+def test_unified_mapped_storage_matrix_matches_dense_fourth_order() -> None:
+    context = make_causal_five_field_regression_context(
+        4,
+        spatial_reconstruction="quadratic_admissible",
+        cell_storage_quadrature="gauss_legendre_4",
+    )
+    state = make_causal_five_field_seed(context)
+    vector = pack_causal_five_field_state(state)
+    frozen = causal_five_field_reduced_descriptor_matrices(context, vector)
+    primitives = state.primitives.ravel()
+    primitive_scales = frozen["primitive_column_scales"]
+    row_scales = frozen["conservation_row_scales"]
+    step = 2.0e-3
+    unified = causal_five_field_unified_mapped_storage_matrix(
+        context,
+        primitives,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        mapped_storage_difference_step=step,
+        mapped_storage_difference_order=4,
+        mapped_storage_column_steps=np.full(primitives.size, step),
+    )
+
+    n_reduced = primitives.size
+    dense = np.empty((n_reduced, n_reduced), dtype=float)
+    measures = np.asarray(context.grid.cell_measures)[:, None]
+    for column in range(n_reduced):
+        values = []
+        for multiple in (-2.0, -1.0, 1.0, 2.0):
+            perturbed = np.array(primitives, copy=True)
+            perturbed[column] += (
+                multiple * step * primitive_scales[column]
+            )
+            mapped = causal_five_field_mapped_conserved_from_primitives(
+                context,
+                perturbed.reshape(4, 5),
+            )
+            values.append(
+                (
+                    measures
+                    * np.asarray(mapped)
+                    / C
+                    / row_scales.reshape(4, 5)
+                ).ravel()
+            )
+        minus_two, minus_one, plus_one, plus_two = values
+        dense[:, column] = (
+            minus_two
+            - 8.0 * minus_one
+            + 8.0 * plus_one
+            - plus_two
+        ) / (12.0 * step)
+
+    np.testing.assert_allclose(
+        unified["conserved_descriptor_reduced_scaled_matrix"],
+        dense,
+        rtol=3.0e-9,
+        atol=3.0e-11,
+    )
+    assert unified["mapped_storage_difference_order"] == 4
+    assert unified["mapped_storage_evaluations"] == (
+        4 * unified["mapped_storage_component_colors"]
+    )
+    assert unified["base_reconstruction_admissibility_factors"].shape == (4,)
+
+
+def test_unified_mapped_storage_mixed_derivative_is_symmetric() -> None:
+    context = make_causal_five_field_regression_context(
+        3,
+        spatial_reconstruction="quadratic_admissible",
+        cell_storage_quadrature="gauss_legendre_4",
+    )
+    state = make_causal_five_field_seed(context)
+    vector = pack_causal_five_field_state(state)
+    frozen = causal_five_field_reduced_descriptor_matrices(context, vector)
+    primitives = state.primitives.ravel()
+    primitive_scales = frozen["primitive_column_scales"]
+    row_scales = frozen["conservation_row_scales"]
+    scaled_rate = np.linspace(-0.2, 0.3, primitives.size)
+    scaled_direction = np.linspace(0.25, -0.15, primitives.size)
+    common = {
+        "context": context,
+        "primitive_vector": primitives,
+        "primitive_column_scales": primitive_scales,
+        "conservation_row_scales": row_scales,
+        "mapped_storage_difference_step": 3.0e-3,
+        "mapped_storage_difference_order": 4,
+        "storage_rate_derivative_step": 2.0e-3,
+        "storage_rate_derivative_order": 4,
+    }
+    rate_first = causal_five_field_unified_mapped_storage_derivatives(
+        primitive_rate_per_s=primitive_scales * scaled_rate,
+        **common,
+    )
+    direction_first = causal_five_field_unified_mapped_storage_derivatives(
+        primitive_rate_per_s=primitive_scales * scaled_direction,
+        **common,
+    )
+    left = (
+        rate_first["conserved_storage_rate_derivative_scaled_matrix"]
+        @ scaled_direction
+    )
+    right = (
+        direction_first["conserved_storage_rate_derivative_scaled_matrix"]
+        @ scaled_rate
+    )
+    scale = max(
+        float(np.max(np.abs(left))),
+        float(np.max(np.abs(right))),
+        1.0,
+    )
+    assert np.max(np.abs(left - right)) / scale < 2.0e-5
+
+
+def test_unified_vector_field_uses_shared_mapped_descriptor() -> None:
+    context = make_causal_five_field_regression_context(
+        4,
+        spatial_reconstruction="quadratic_admissible",
+        boundary_trace_reconstruction="cell_centered",
+        cell_rate_scheme="arithmetic_face",
+        cell_source_quadrature="gauss_legendre_4_local_rates",
+        cell_storage_quadrature="gauss_legendre_4",
+    )
+    state = make_causal_five_field_seed(context)
+    vector = pack_causal_five_field_state(state)
+    frozen = causal_five_field_reduced_descriptor_matrices(context, vector)
+    primitives = state.primitives.ravel()
+    primitive_scales = frozen["primitive_column_scales"]
+    row_scales = frozen["conservation_row_scales"]
+    mapped_step = 3.0e-3
+    vector_field = causal_five_field_scaled_primitive_vector_field(
+        context,
+        primitives,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        mapped_storage_backend="unified_audit",
+        mapped_storage_difference_step=mapped_step,
+        mapped_storage_difference_order=4,
+    )
+    mapped = causal_five_field_unified_mapped_storage_matrix(
+        context,
+        primitives,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        mapped_storage_difference_step=mapped_step,
+        mapped_storage_difference_order=4,
+    )
+
+    assert vector_field["mapped_storage_backend"] == "unified_audit"
+    assert vector_field["mass_matrix_source"] == (
+        "unified_audit_mapped_plus_legacy_vertical_one_form"
+    )
+    assert np.array_equal(
+        vector_field["conserved_descriptor_reduced_scaled_matrix"],
+        mapped["conserved_descriptor_reduced_scaled_matrix"],
+    )
+    residual = vector_field["scaled_stationary_residual"].ravel()
+    rate = vector_field["scaled_primitive_rate_per_s"].ravel()
+    assert np.max(
+        np.abs(
+            vector_field["descriptor_reduced_scaled_matrix"] @ rate
+            + residual
+        )
+    ) < 1.0e-10
+
+
+def test_branch_frozen_mapped_storage_matches_dense_discrete_map() -> None:
+    context = make_causal_five_field_regression_context(
+        4,
+        spatial_reconstruction="quadratic_admissible",
+        boundary_trace_reconstruction="cell_centered",
+        cell_storage_quadrature="gauss_legendre_4",
+    )
+    state = make_causal_five_field_seed(context)
+    vector = pack_causal_five_field_state(state)
+    frozen = causal_five_field_reduced_descriptor_matrices(context, vector)
+    primitives = state.primitives.ravel()
+    primitive_scales = frozen["primitive_column_scales"]
+    row_scales = frozen["conservation_row_scales"]
+    branch_frozen = causal_five_field_branch_frozen_mapped_storage_matrix(
+        context,
+        primitives,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        local_difference_step=1.0e-3,
+    )
+    dense = causal_five_field_unified_mapped_storage_matrix(
+        context,
+        primitives,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        mapped_storage_difference_step=2.0e-6,
+        mapped_storage_difference_order=4,
+        mapped_storage_column_steps=np.full(primitives.size, 2.0e-6),
+    )
+
+    np.testing.assert_allclose(
+        branch_frozen["mapped_storage_scaled_vector"],
+        dense["mapped_storage_scaled_vector"],
+        rtol=2.0e-13,
+        atol=2.0e-13,
+    )
+    np.testing.assert_allclose(
+        branch_frozen["conserved_descriptor_reduced_scaled_matrix"],
+        dense["conserved_descriptor_reduced_scaled_matrix"],
+        rtol=3.0e-7,
+        atol=3.0e-8,
+    )
+    assert np.all(
+        branch_frozen["base_reconstruction_admissibility_factors"] == 1.0
+    )
+
+
+def test_branch_frozen_mapped_storage_mixed_action_is_symmetric() -> None:
+    context = make_causal_five_field_regression_context(
+        3,
+        spatial_reconstruction="quadratic_admissible",
+        boundary_trace_reconstruction="plm_one_sided",
+        cell_storage_quadrature="gauss_legendre_4",
+    )
+    state = make_causal_five_field_seed(context)
+    vector = pack_causal_five_field_state(state)
+    frozen = causal_five_field_reduced_descriptor_matrices(context, vector)
+    primitives = state.primitives.ravel()
+    primitive_scales = frozen["primitive_column_scales"]
+    row_scales = frozen["conservation_row_scales"]
+    scaled_rate = np.linspace(-0.2, 0.3, primitives.size)
+    scaled_direction = np.linspace(0.25, -0.15, primitives.size)
+    common = {
+        "context": context,
+        "primitive_vector": primitives,
+        "primitive_column_scales": primitive_scales,
+        "conservation_row_scales": row_scales,
+        "local_difference_step": 1.0e-3,
+    }
+    rate_first = causal_five_field_branch_frozen_mapped_storage_derivatives(
+        primitive_rate_per_s=primitive_scales * scaled_rate,
+        **common,
+    )
+    direction_first = (
+        causal_five_field_branch_frozen_mapped_storage_derivatives(
+            primitive_rate_per_s=primitive_scales * scaled_direction,
+            **common,
+        )
+    )
+    left = (
+        rate_first["conserved_storage_rate_derivative_scaled_matrix"]
+        @ scaled_direction
+    )
+    right = (
+        direction_first["conserved_storage_rate_derivative_scaled_matrix"]
+        @ scaled_rate
+    )
+    scale = max(np.max(np.abs(left)), np.max(np.abs(right)), 1.0)
+    assert np.max(np.abs(left - right)) / scale < 3.0e-7
+
+
+def test_branch_frozen_vector_field_uses_local_mapped_descriptor() -> None:
+    context = make_causal_five_field_regression_context(
+        4,
+        spatial_reconstruction="quadratic_admissible",
+        boundary_trace_reconstruction="plm_one_sided",
+        cell_rate_scheme="arithmetic_face",
+        cell_source_quadrature="gauss_legendre_4_local_rates",
+        cell_storage_quadrature="gauss_legendre_4",
+    )
+    state = make_causal_five_field_seed(context)
+    vector = pack_causal_five_field_state(state)
+    frozen = causal_five_field_reduced_descriptor_matrices(context, vector)
+    primitives = state.primitives.ravel()
+    primitive_scales = frozen["primitive_column_scales"]
+    row_scales = frozen["conservation_row_scales"]
+    vector_field = causal_five_field_scaled_primitive_vector_field(
+        context,
+        primitives,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        mapped_storage_backend="branch_frozen_local",
+        branch_frozen_local_difference_step=1.0e-3,
+    )
+    mapped = causal_five_field_branch_frozen_mapped_storage_matrix(
+        context,
+        primitives,
+        primitive_column_scales=primitive_scales,
+        conservation_row_scales=row_scales,
+        local_difference_step=1.0e-3,
+    )
+
+    assert vector_field["mapped_storage_backend"] == "branch_frozen_local"
+    assert vector_field["mass_matrix_source"] == (
+        "branch_frozen_local_mapped_plus_legacy_vertical_one_form"
+    )
+    assert np.array_equal(
+        vector_field["conserved_descriptor_reduced_scaled_matrix"],
+        mapped["conserved_descriptor_reduced_scaled_matrix"],
     )
 
 

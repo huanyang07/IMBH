@@ -11,6 +11,7 @@ from imri_qpe.layer3_minidisk_1d import (
 )
 from imri_qpe.layer3_minidisk_1d.causal_inner_moment_audit import (
     causal_five_field_moment_coordinate_ladder,
+    causal_five_field_moment_coordinate_values,
     causal_mesh_coincident_moment_shells,
 )
 
@@ -158,6 +159,74 @@ def test_moment_ladder_is_incremental_and_uses_schur_storage_rows() -> None:
     )
     assert np.all(base.coordinate_scales > 0.0)
     assert np.all(np.isfinite(base.conditioned_constraint_matrix))
+
+
+def test_value_only_ladder_exactly_matches_descriptor_ladder() -> None:
+    (
+        context,
+        _state,
+        vector,
+        shell_edges_rg,
+        shape_bands,
+        reduced,
+    ) = _five_shell_fixture()
+
+    value_only = causal_five_field_moment_coordinate_values(
+        context,
+        vector,
+        shell_edges_rg,
+        shape_bands_rg=shape_bands,
+    )
+    ladder = causal_five_field_moment_coordinate_ladder(
+        context,
+        vector,
+        reduced,
+        shell_edges_rg,
+        shape_bands_rg=shape_bands,
+    )
+
+    assert tuple(level.coordinate_count for level in value_only.levels) == (
+        15,
+        20,
+        25,
+        30,
+        34,
+    )
+    assert value_only.storage_semantics == ladder.storage_semantics
+    assert np.array_equal(
+        value_only.geometry.edge_indices,
+        ladder.geometry.edge_indices,
+    )
+    for expected, actual in zip(
+        ladder.levels,
+        value_only.levels,
+        strict=True,
+    ):
+        assert actual.name == expected.name
+        assert actual.coordinate_names == expected.coordinate_names
+        assert actual.coordinate_families == expected.coordinate_families
+        assert np.array_equal(
+            actual.coordinate_values,
+            expected.coordinate_values,
+        )
+        assert np.array_equal(
+            actual.coordinate_scales,
+            expected.coordinate_scales,
+        )
+    assert value_only.interface_flux_names == ladder.interface_flux_names
+    assert np.array_equal(
+        value_only.interface_flux_values,
+        ladder.interface_flux_values,
+    )
+    assert np.array_equal(
+        value_only.interface_flux_scales,
+        ladder.interface_flux_scales,
+    )
+    assert value_only.level("plus_targeted_shape_moments") is (
+        value_only.levels[-1]
+    )
+    with pytest.raises(KeyError):
+        value_only.level("not_a_level")
 
 
 def test_primitive_moments_act_on_scaled_tangents_and_shapes_remove_means() -> None:
