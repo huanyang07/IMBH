@@ -542,6 +542,23 @@ rejected sequence.
     before adding coordinates or dynamics. The next package must localize and
     naturally heal the complete-rate modes before choosing between one
     measured interface state and a distributed conservative coarse model.
+68. **An independent nonlinear inner-shell mode rejects the single-interface
+    reduced-state route:** WP10c8s constructs six exact finite-amplitude
+    equal-`q_34` pairs from the significant complete-rate modes. Their
+    loading-time-normalized rate half-spreads are `26.95-431.04` gate units,
+    and their tangent directions pass the matched N64/N128 cosine and
+    amplitude gates. Modes 0-3 place more than `92%` of the state difference
+    and `98%` of the primitive-rate difference in the innermost retained
+    shell. The binding independent mode-0 N64 `h/h/2` experiment passes every
+    nonlinear, state, and ledger contract. Its strict temporal curve gate is
+    not met, but the uncertainty-inclusive final lower spread is
+    `16.563 > 0.10`, so nonhealing through `0.025 s` is separated from the
+    gate by about `166x`; retained-coordinate drift stays below `2.23e-7`.
+    This fail-fast result rejects `q_34` plus only the original interface-4
+    state. It does not yet select a PDE or prove permanent memory. The next
+    package must preserve exact terminal BDF history, extend and confirm the
+    binding inner mode, and then choose between measured localized states and
+    a conservative staggered coarse finite-volume/PDE architecture.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

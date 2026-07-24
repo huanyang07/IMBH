@@ -14,6 +14,12 @@ Moment ladder changed: no
 
 New truth evolution run: no
 
+Superseded next-step note: WP10c8s executed the nonlinear localization and
+healing gate below. An independent inner-shell complete-rate mode remains
+above the healing threshold at `0.025 s`, so the route consisting of
+`q_34` plus only one interface-4 state is rejected. See
+`CODEX_CAUSAL_COMPLETE_RATE_HEALING_WP10C8S_RESULTS_2026-07-24.md`.
+
 ## Decision
 
 WP10c8r applies the missing absolute-significance gate to the WP10c8q
