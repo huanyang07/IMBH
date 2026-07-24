@@ -124,7 +124,8 @@ This is the canonical project handoff. Status labels mean:
 | Rusanov candidate-screen WP10c8n | **CERTIFIED** as a stop decision for the uniform exact-max generalized-tangent certificate; **DIAGNOSTIC ONLY** for nonlinear closure | The all-candidate result is reproduced within `4.2e-17`; direct branch-output change supplies `99.75%` of the `0.06695` fraction; the null-tube closure retains 449 alternatives and a nonlinear admissible face-58 switch occurs between weighted radii `0.0058177/0.0058294` | A containing common radius must exceed `2.05`, where the bound remains `0.06695 > 0.005/0.01`; this rejects candidate-gap rescue and the uniform tangent certificate, not the production flux or nonlinear fiber closure; WP10c8i and reduced evolution remain closed pending paired finite-amplitude lifting/healing |
 | Exact nonlinear coordinate fiber WP10c8o | **CERTIFIED** as an N64/N128 truth-discretization counterexample; 34-coordinate instantaneous Markov closure **REJECTED on those certified meshes** | Exact equal-coordinate pairs close below `1.78e-15`; all state/fresh-rate/DAE-storage gates pass; descriptor ranks are `320/320` and `640/640`, maximum full-Schur parity defect is `8.72e-11`, and the same interface-4 angular-momentum flux controls both meshes at `0.32453/0.26609 > 0.25` with cross-mesh disagreement `0.05844 < 0.10` | The result is one-sided and is not a continuum no-go: it rejects raw deterministic algebraic closure on the certified truth discretizations but not healed closure, memory, or a coarse effective PDE; only matched BDF1-start natural-healing microbursts of the frozen decisive pair are authorized next |
 | Natural coordinate-fiber healing WP10c8p | **CERTIFIED** as a matched N64/N128 rapid-healing rejection through `0.025 s`; **DIAGNOSTIC ONLY** for longer memory | Synchronized coarse/fine BDF1-start/BDF2 pairs, fresh rates, physical ledgers, exact flux splits, and bitwise replays all pass; interface-4 angular-momentum spread changes only `0.32452995 -> 0.32452655` at N64 and `0.26608550 -> 0.26608444` at N128, with temporal uncertainty below `2.81e-7` and coordinate drift below `9.09e-8` | The unresolved `M/J/E_K` transport is more than `99.9%` central perfect-fluid response and does not rapidly heal; this does not establish permanent memory or authorize an auxiliary/PDE, so only an N64 geometric extension to `0.05/0.10/0.125 s` is authorized before selecting a closure architecture |
-| Extended healing and slow-rate fiber WP10c8q | **CERTIFIED** as an N64 persistent localized rank-two interface-state diagnosis; one-scalar closure **REJECTED** | The shell-incidence audit proves real conservative redistribution rather than a flux gauge; exact-history `h/h/2` continuations pass through `0.125 s`, while interface-4 angular-momentum spread changes only `0.32452995 -> 0.32451281` (`5.28e-5` e-folds). Independent equal-coordinate directions give same-anchor `sigma_2/sigma_1=0.57838` with `sigma_3/sigma_1=7.17e-5` | The two physical interface coordinates and their evolution law are not yet identified, and this remains a mesh-bounded diagnosis rather than a continuum or production closure result. Only a conservative two-component interface-4 prototype followed by a new worst-case augmented-fiber audit is authorized |
+| Extended healing and slow-rate fiber WP10c8q | **CERTIFIED** for persistent healing rejection and complete slow-rate nonclosure; the rank-two interface-4 interpretation is **SUPERSEDED by WP10c8r** | The shell-incidence audit proves real conservative redistribution for the original pair; exact-history `h/h/2` continuations pass through `0.125 s`, while interface-4 angular-momentum spread changes only `0.32452995 -> 0.32451281` (`5.28e-5` e-folds) | The later independent slow-rate cases have negligible absolute interface-4 responses; their unit-normalized SVD cannot authorize two face coordinates |
+| Interface-state sufficiency WP10c8r | **CERTIFIED** as a significance-corrected stop decision; two-component interface-4 state **NOT AUTHORIZED** | All six independent slow-rate cases have interface-4 half-spreads only `2.65e-11-1.18e-8` gate units and all-interface maxima below `9.65e-5`; only the original healing family is significant and it remains rank one. The complete slow-rate tangent has `4-5` directions above `0.1` of the leading singular value with strong N64/N128 agreement | Large rate ambiguities occupy stress, thermal, momentum, and sub-shell structure rather than significant macro-interface-4 transport. Do not add two face coordinates; next audit nonlinear healing and localization of the complete-rate modes |
 
 ## Frozen Target Under Review
 
@@ -1018,13 +1019,21 @@ N                    = 164
    `0.32451281`, corresponding to `5.28e-5` e-folds, so healing is rejected
    throughout the certified horizon. Multiple amplitudes, a held-out
    equal-coordinate direction, a second anchor, and N128 show that the
-   localized `M/J/E_K` response occupies a robust rank-two plane:
-   same-anchor `sigma_2/sigma_1=0.57838` while
-   `sigma_3/sigma_1=7.17e-5`. One scalar transport or relaxation variable is
-   therefore rejected. The only authorized next reduction step is a
-   conservative two-component interface-4 state prototype with a newly
-   derived evolution law and a fresh worst-case augmented-fiber audit; no
-   macrostep, tide, or wind work is authorized.
+   unit-normalized interface-4 `M/J/E_K` vectors appear to occupy a rank-two
+   plane. WP10c8r adds the missing absolute-significance gate and supersedes
+   that final inference: the six independent slow-rate cases have
+   interface-4 half-spreads only `2.65e-11-1.18e-8` gate units and
+   all-interface maxima below `9.65e-5`. Only the original healing family is
+   significant, and it remains approximately rank one. The complete
+   slow-rate tangent instead has `4-5` singular directions above `0.1` of the
+   leading value across N64/N128; their controlling coordinates span stress
+   storage, temperature, radial momentum, angular momentum, and energy, while
+   no tested macro-interface response reaches `0.1` gate units. A
+   two-component interface-4 state is therefore not authorized. The next
+   reduction package must construct exact nonlinear pairs for the significant
+   complete-rate modes, localize their fine-grid storage/flux/source origin,
+   and measure their healing before selecting an interface state or a
+   distributed coarse PDE. No macrostep, tide, or wind work is authorized.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -1036,7 +1045,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_EXTENDED_HEALING_WP10C8Q_RESULTS_2026-07-24.md`
+  `reports/current/CODEX_CAUSAL_INTERFACE_STATE_SUFFICIENCY_WP10C8R_RESULTS_2026-07-24.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)

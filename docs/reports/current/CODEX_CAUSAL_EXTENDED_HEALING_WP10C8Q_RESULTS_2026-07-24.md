@@ -7,6 +7,14 @@ Production exact-max Rusanov flux changed: no
 Production descriptor or BDF integrator changed: no
 Moment ladder changed: no
 
+> **Superseded rank interpretation:** WP10c8r subsequently established that
+> the independent slow-rate cases used in the rank-two interface-4 SVD have
+> absolute interface-4 half-spreads of only `2.65e-11` to `1.18e-8` gate
+> units. Unit normalization removed that scientific amplitude information.
+> The persistent original interface-4 direction remains certified, but the
+> two-component interface-4 authorization below is withdrawn. See
+> `CODEX_CAUSAL_INTERFACE_STATE_SUFFICIENCY_WP10C8R_RESULTS_2026-07-24.md`.
+
 ## Decision
 
 WP10c8q closes three questions left by WP10c8p:

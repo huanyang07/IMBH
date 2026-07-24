@@ -510,8 +510,9 @@ rejected sequence.
     this short horizon. The only next reduction experiment is an N64 geometric
     extension to `0.05`, `0.10`, and at most `0.125 s` before any auxiliary,
     coarse PDE, macrostep, tide, or wind work.
-66. **Extended healing rejects a scalar transport closure and identifies a
-    localized rank-two interface state:** WP10c8q first applies the exact
+66. **Extended healing rejects rapid healing and exposes a complete slow-rate
+    fiber; its later rank-two interface interpretation is superseded:**
+    WP10c8q first applies the exact
     five-shell incidence operator to the committed WP10c8p evidence and
     reconciles the complete shell ledgers, proving that the decisive mode
     produces real conservative redistribution rather than a divergence-null
@@ -522,14 +523,25 @@ rejected sequence.
     numerical, ledger, and replay contract passes, while the controlling
     interface-4 angular-momentum spread changes only
     `0.32452995 -> 0.32451281`, or `5.28e-5` e-folds. Multiple amplitudes, a
-    held-out equal-coordinate direction, a second anchor, and N128 establish
-    a localized rank-two `M/J/E_K` response: the same-anchor singular-value
-    ratios are `sigma_2/sigma_1=0.57838` and
-    `sigma_3/sigma_1=7.17e-5`. One scalar interface or relaxation variable is
-    rejected. The next authorized reduction package is a conservative
-    two-component interface-4 state prototype with a derived evolution law
-    and a new worst-case augmented-fiber audit; macrosteps, tide, and wind
-    remain blocked.
+    held-out equal-coordinate direction, a second anchor, and N128 produce
+    unit-normalized interface-4 vectors with same-anchor ratios
+    `sigma_2/sigma_1=0.57838` and `sigma_3/sigma_1=7.17e-5`. WP10c8r later
+    shows that these independent vectors have negligible absolute
+    interface-4 amplitudes, so this rank-two interpretation is withdrawn.
+67. **Absolute significance rejects the proposed two-component interface-4
+    state:** WP10c8r reproduces the parent unit-normalized rank result, then
+    restores the declared physical gate. The six independent slow-rate cases
+    have interface-4 half-spreads only `2.65e-11-1.18e-8` gate units and
+    all-interface maxima below `9.65e-5`; only the original N64/N128 healing
+    family is significant and its significance-filtered response remains
+    rank one. The full `t_load D(C_34 f) N_34` spectra nevertheless contain
+    `4-5` directions above `0.1` of the leader and agree closely across
+    N64/N128. At a `1e-3` admissible seed these modes generate `8.38-871.85`
+    slow-rate gate units in stress, thermal, momentum, and energy coordinates
+    without significant macro-interface transport. WP10c8r therefore stops
+    before adding coordinates or dynamics. The next package must localize and
+    naturally heal the complete-rate modes before choosing between one
+    measured interface state and a distributed conservative coarse model.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed
