@@ -1547,6 +1547,63 @@ def _interior_rusanov_flux_components(
     )
 
 
+def _central_perfect_flux_from_validated_face_charts(
+    context: CausalFiveFieldDAEContext,
+    face_index: int,
+    left_chart: np.ndarray,
+    right_chart: np.ndarray,
+) -> np.ndarray:
+    face = int(face_index)
+    radius = float(context.grid.edges[face])
+    measure = float(context.grid.face_measures[face])
+    left = _cell_state(context, radius, left_chart)
+    right = _cell_state(context, radius, right_chart)
+    central = measure * 0.5 * (left.flux_over_c + right.flux_over_c)
+    stress = np.zeros(_N_FIELDS, dtype=float)
+    stress[:4] = measure * 0.5 * (
+        left.stress.stress_killing_flux_increment_over_c
+        + right.stress.stress_killing_flux_increment_over_c
+    )
+    return np.asarray(central - stress, dtype=float)
+
+
+def causal_five_field_central_perfect_flux_from_face_charts(
+    context: CausalFiveFieldDAEContext,
+    face_index: int,
+    left_chart: np.ndarray,
+    right_chart: np.ndarray,
+) -> np.ndarray:
+    """Return the production central perfect-fluid flux for two face traces.
+
+    This audit helper uses the same primitive map and face geometry as the
+    production Rusanov flux.  It excludes both causal-stress transport and
+    Rusanov dissipation so finite trace differences can be attributed without
+    double counting either contribution.
+    """
+
+    context = context.validated()
+    n_cells = int(context.grid.centers.size)
+    face = int(face_index)
+    left_values = np.asarray(left_chart, dtype=float)
+    right_values = np.asarray(right_chart, dtype=float)
+    if (
+        face != face_index
+        or face <= 0
+        or face >= n_cells
+        or left_values.shape != (_N_FIELDS,)
+        or right_values.shape != (_N_FIELDS,)
+        or np.any(~np.isfinite(left_values))
+        or np.any(~np.isfinite(right_values))
+    ):
+        raise ValueError("central perfect-fluid face inputs are invalid")
+    return _central_perfect_flux_from_validated_face_charts(
+        context,
+        face,
+        left_values,
+        right_values,
+    )
+
+
 def causal_five_field_face_flux_decomposition(
     context: CausalFiveFieldDAEContext,
     vector: np.ndarray,

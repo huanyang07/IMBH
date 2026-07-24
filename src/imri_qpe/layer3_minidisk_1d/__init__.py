@@ -141,6 +141,7 @@ from .causal_inner_dae_system import (
     causal_five_field_reduced_backward_euler_residual,
     causal_five_field_reduced_stationary_residual,
     causal_five_field_reconstruct_face_charts,
+    causal_five_field_central_perfect_flux_from_face_charts,
     causal_five_field_face_flux_decomposition,
     causal_five_field_state_from_primitives,
     evaluate_causal_five_field_dae,
@@ -268,8 +269,11 @@ from .causal_inner_nonlinear_fiber import (
     causal_weighted_constraint_fiber_null_projection,
 )
 from .causal_inner_healing import (
+    CausalPathComponentDecomposition,
     CausalTransportRankAudit,
     causal_cumulative_trapezoid,
+    causal_internal_face_boundary_rates,
+    causal_path_integrated_component_decomposition,
     causal_refined_spread_upper_bound,
     causal_transport_rank_audit,
 )
@@ -1172,6 +1176,7 @@ __all__ = [
     "CausalFiveFieldDAEEvaluation",
     "CausalFiveFieldFaceReconstruction",
     "CausalFiveFieldFaceFluxDecomposition",
+    "CausalPathComponentDecomposition",
     "CausalTransportRankAudit",
     "CausalFiveFieldAdaptiveAttempt",
     "CausalFiveFieldAdaptiveBDF2Attempt",
@@ -1366,6 +1371,9 @@ __all__ = [
     "causal_five_field_reconstruct_face_charts",
     "causal_five_field_face_flux_decomposition",
     "causal_cumulative_trapezoid",
+    "causal_five_field_central_perfect_flux_from_face_charts",
+    "causal_internal_face_boundary_rates",
+    "causal_path_integrated_component_decomposition",
     "causal_refined_spread_upper_bound",
     "causal_transport_rank_audit",
     "causal_five_field_state_from_primitives",

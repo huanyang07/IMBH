@@ -510,6 +510,26 @@ rejected sequence.
     this short horizon. The only next reduction experiment is an N64 geometric
     extension to `0.05`, `0.10`, and at most `0.125 s` before any auxiliary,
     coarse PDE, macrostep, tide, or wind work.
+66. **Extended healing rejects a scalar transport closure and identifies a
+    localized rank-two interface state:** WP10c8q first applies the exact
+    five-shell incidence operator to the committed WP10c8p evidence and
+    reconciles the complete shell ledgers, proving that the decisive mode
+    produces real conservative redistribution rather than a divergence-null
+    flux gauge. A path-integrated perfect-fluid trace decomposition closes
+    below `4.80e-14` relative defect and identifies the left radial-velocity
+    trace as the controlling primitive contribution. Exact-history N64
+    `h/h/2` continuations reach `0.125 s` without another BDF1 startup; every
+    numerical, ledger, and replay contract passes, while the controlling
+    interface-4 angular-momentum spread changes only
+    `0.32452995 -> 0.32451281`, or `5.28e-5` e-folds. Multiple amplitudes, a
+    held-out equal-coordinate direction, a second anchor, and N128 establish
+    a localized rank-two `M/J/E_K` response: the same-anchor singular-value
+    ratios are `sigma_2/sigma_1=0.57838` and
+    `sigma_3/sigma_1=7.17e-5`. One scalar interface or relaxation variable is
+    rejected. The next authorized reduction package is a conservative
+    two-component interface-4 state prototype with a derived evolution law
+    and a new worst-case augmented-fiber audit; macrosteps, tide, and wind
+    remain blocked.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

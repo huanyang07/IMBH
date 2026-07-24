@@ -442,9 +442,12 @@ def _split_replay(
     return {**result, "cached": False, "path": _relative(path)}
 
 
-def _output_indices(times: np.ndarray) -> np.ndarray:
+def _output_indices(
+    times: np.ndarray,
+    output_offsets_seconds: tuple[float, ...] = OUTPUT_OFFSETS_SECONDS,
+) -> np.ndarray:
     indices = []
-    for target in OUTPUT_OFFSETS_SECONDS:
+    for target in output_offsets_seconds:
         index = int(np.argmin(np.abs(times - target)))
         if not np.isclose(times[index], target, rtol=0.0, atol=1.0e-14):
             raise RuntimeError("healing output is not on a fixed-step boundary")
@@ -533,11 +536,13 @@ def _trajectory_diagnostics(
     common_interpolation: np.ndarray,
     compute_fresh_rates: bool,
     rate_cache: dict[str, tuple[np.ndarray, dict]],
+    duration_seconds: float = TARGET_DURATION_SECONDS,
+    output_offsets_seconds: tuple[float, ...] = OUTPUT_OFFSETS_SECONDS,
 ) -> tuple[dict, dict[str, np.ndarray]]:
     n_cells = int(context.grid.centers.size)
-    timestep = TARGET_DURATION_SECONDS / subdivisions
+    timestep = float(duration_seconds) / subdivisions
     times = timestep * np.arange(states.shape[0], dtype=float)
-    output_indices = _output_indices(times)
+    output_indices = _output_indices(times, output_offsets_seconds)
     geometry = causal_mesh_coincident_moment_shells(
         context,
         shell_edges_rg,

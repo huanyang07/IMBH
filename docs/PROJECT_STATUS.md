@@ -1,6 +1,6 @@
 # Project Status
 
-- Updated: 2026-07-22
+- Updated: 2026-07-24
 - Pre-cleanup scientific tag: `pre-cleanup-p0-2026-07-11`
 - Legacy phase classification tag: `legacy-steady-positive-flux-dae-2026-07-10`
 
@@ -124,6 +124,7 @@ This is the canonical project handoff. Status labels mean:
 | Rusanov candidate-screen WP10c8n | **CERTIFIED** as a stop decision for the uniform exact-max generalized-tangent certificate; **DIAGNOSTIC ONLY** for nonlinear closure | The all-candidate result is reproduced within `4.2e-17`; direct branch-output change supplies `99.75%` of the `0.06695` fraction; the null-tube closure retains 449 alternatives and a nonlinear admissible face-58 switch occurs between weighted radii `0.0058177/0.0058294` | A containing common radius must exceed `2.05`, where the bound remains `0.06695 > 0.005/0.01`; this rejects candidate-gap rescue and the uniform tangent certificate, not the production flux or nonlinear fiber closure; WP10c8i and reduced evolution remain closed pending paired finite-amplitude lifting/healing |
 | Exact nonlinear coordinate fiber WP10c8o | **CERTIFIED** as an N64/N128 truth-discretization counterexample; 34-coordinate instantaneous Markov closure **REJECTED on those certified meshes** | Exact equal-coordinate pairs close below `1.78e-15`; all state/fresh-rate/DAE-storage gates pass; descriptor ranks are `320/320` and `640/640`, maximum full-Schur parity defect is `8.72e-11`, and the same interface-4 angular-momentum flux controls both meshes at `0.32453/0.26609 > 0.25` with cross-mesh disagreement `0.05844 < 0.10` | The result is one-sided and is not a continuum no-go: it rejects raw deterministic algebraic closure on the certified truth discretizations but not healed closure, memory, or a coarse effective PDE; only matched BDF1-start natural-healing microbursts of the frozen decisive pair are authorized next |
 | Natural coordinate-fiber healing WP10c8p | **CERTIFIED** as a matched N64/N128 rapid-healing rejection through `0.025 s`; **DIAGNOSTIC ONLY** for longer memory | Synchronized coarse/fine BDF1-start/BDF2 pairs, fresh rates, physical ledgers, exact flux splits, and bitwise replays all pass; interface-4 angular-momentum spread changes only `0.32452995 -> 0.32452655` at N64 and `0.26608550 -> 0.26608444` at N128, with temporal uncertainty below `2.81e-7` and coordinate drift below `9.09e-8` | The unresolved `M/J/E_K` transport is more than `99.9%` central perfect-fluid response and does not rapidly heal; this does not establish permanent memory or authorize an auxiliary/PDE, so only an N64 geometric extension to `0.05/0.10/0.125 s` is authorized before selecting a closure architecture |
+| Extended healing and slow-rate fiber WP10c8q | **CERTIFIED** as an N64 persistent localized rank-two interface-state diagnosis; one-scalar closure **REJECTED** | The shell-incidence audit proves real conservative redistribution rather than a flux gauge; exact-history `h/h/2` continuations pass through `0.125 s`, while interface-4 angular-momentum spread changes only `0.32452995 -> 0.32451281` (`5.28e-5` e-folds). Independent equal-coordinate directions give same-anchor `sigma_2/sigma_1=0.57838` with `sigma_3/sigma_1=7.17e-5` | The two physical interface coordinates and their evolution law are not yet identified, and this remains a mesh-bounded diagnosis rather than a continuum or production closure result. Only a conservative two-component interface-4 prototype followed by a new worst-case augmented-fiber audit is authorized |
 
 ## Frozen Target Under Review
 
@@ -1003,6 +1004,27 @@ N                    = 164
    not a permanent-memory result: extend N64 only to `0.05/0.10/0.125 s`
    before choosing between healed closure, a measured dynamic interface state,
    or a conservative coarse PDE.
+   WP10c8q performs that geometric extension and the direct slow-rate
+   sufficiency audit. Applying the five-shell incidence operator to the saved
+   interface differences reconciles the complete shell ledgers and rejects the
+   flux-gauge interpretation: the decisive pair produces real conservative
+   redistribution, with order-unity ambiguity in the leading slow-time vector
+   field. A path-integrated perfect-fluid trace decomposition closes below
+   `4.80e-14` relative defect and identifies the left radial-velocity trace as
+   the controlling primitive contribution. Exact-history N64 `h/h/2`
+   continuations reach `0.05/0.10/0.125 s` without another BDF1 startup and
+   pass all numerical, physical-ledger, and bitwise-replay contracts. The
+   interface-4 angular-momentum spread changes only from `0.32452995` to
+   `0.32451281`, corresponding to `5.28e-5` e-folds, so healing is rejected
+   throughout the certified horizon. Multiple amplitudes, a held-out
+   equal-coordinate direction, a second anchor, and N128 show that the
+   localized `M/J/E_K` response occupies a robust rank-two plane:
+   same-anchor `sigma_2/sigma_1=0.57838` while
+   `sigma_3/sigma_1=7.17e-5`. One scalar transport or relaxation variable is
+   therefore rejected. The only authorized next reduction step is a
+   conservative two-component interface-4 state prototype with a newly
+   derived evolution law and a fresh worst-case augmented-fiber audit; no
+   macrostep, tide, or wind work is authorized.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -1014,7 +1036,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_NATURAL_HEALING_WP10C8P_RESULTS_2026-07-22.md`
+  `reports/current/CODEX_CAUSAL_EXTENDED_HEALING_WP10C8Q_RESULTS_2026-07-24.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
