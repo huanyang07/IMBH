@@ -559,6 +559,41 @@ rejected sequence.
     package must preserve exact terminal BDF history, extend and confirm the
     binding inner mode, and then choose between measured localized states and
     a conservative staggered coarse finite-volume/PDE architecture.
+69. **Exact-history N64 continuation resolves bounded inner-mode persistence
+    through `0.125 s`:** WP10c8t replays the binding WP10c8s coarse pair
+    bitwise to `0.025 s`, persists the complete increment-primary BDF history,
+    and continues matched `h/h/2` plus/minus trajectories through exact
+    outputs at `0.05/0.075/0.10/0.125 s` without another BDF1 startup. All
+    `600` accepted steps, state gates, fresh-rate audits, restart round trips,
+    flux reconstructions, and ledgers pass. The controlling
+    uncertainty-inclusive complete slow-rate spread falls from `178.610` to
+    `3.116`, while the final uncertainty-exclusive lower bound remains
+    `3.057 > 0.10`. The response regrows at `0.10 s`, the strict temporal
+    curve gate fails, and no relaxation law is fitted. The accumulated
+    coordinate-slip upper bound is only `1.90e-7`, but the endpoint state and
+    primitive-rate differences retain shell-0 L1 fractions `0.882/0.945`,
+    controlled by causal stress near `1.88-2.03 rg`. This certifies N64
+    persistence only through the tested horizon, not permanent memory. The
+    next binding gate is the exact nonlinear N128 mode-0 confirmation before
+    any measured inner coordinate, localized state vector, embedded fine
+    patch, or reduced evolution is authorized.
+70. **Exact N128 mode-0 evolution confirms persistence and localization but
+    rejects the cross-mesh architecture gate:** a directly constructed
+    finite-amplitude N128 pair closes equal `q_34` below `6.67e-16`, starts
+    with slow-rate spread `187.501`, and matches N64 initially with direction
+    cosine `0.99982` and amplitude ratio `1.0498`. All `600` N128 accepted
+    coarse/fine plus/minus steps, state gates, fresh-rate audits, restarts,
+    flux reconstructions, and ledgers pass. At `0.125 s`, N128 still has an
+    uncertainty-exclusive rate lower bound `0.68557 > 0.25`, temporal
+    uncertainty `0.03529 < 0.10`, and state/rate shell-0 fractions
+    `0.908/0.900`. The final N64/N128 rate-vector absolute cosine is only
+    `0.76088 < 0.90`, however, and the N128/N64 maximum-amplitude ratio is
+    `0.23357`, giving defect `0.76643 > 0.50`; shell-0 stress rates have
+    opposite signs. WP10c8t therefore certifies persistence separately on
+    N64/N128 but leaves the architecture confirmation inconclusive. The next
+    work is an existing-cache cross-mesh phase/onset and inner-term audit,
+    not coordinate selection, another truth evolution, or reduced
+    macrostepping.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

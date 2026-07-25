@@ -50,6 +50,18 @@ logic has moved into `src/` and numerical parity is tested.
   with adjacent-shell ledgers, and classifies only whether the unresolved
   transport heals within `0.025 s`. It changes no production operator or
   reduced coordinate.
+- `run_causal_inner_mode_healing_wp10c8t.py` replays and serializes the exact
+  increment-primary BDF history of the binding WP10c8s inner-shell mode,
+  continues a refined N64 `h/h/2` pair to `0.125 s` without another BDF1
+  startup, and bounds both its complete slow-rate decay and all 34
+  accumulated initial-slip components. It changes no production operator,
+  reduced coordinate, or physical model.
+- `run_causal_inner_mode_n128_confirmation_wp10c8t.py` constructs an exact
+  finite-amplitude equal-`q_34` N128 mode-0 pair from the matched complete-rate
+  direction and runs only its nested fixed-BDF2 `h/h/2` confirmation through
+  `0.125 s`. It compares endpoint temporal control, N64/N128 rate direction,
+  and shell-0 localization without changing the production operator or
+  authorizing reduced evolution.
 
 ## Repository Maintenance
 

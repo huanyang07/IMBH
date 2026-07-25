@@ -127,6 +127,7 @@ This is the canonical project handoff. Status labels mean:
 | Extended healing and slow-rate fiber WP10c8q | **CERTIFIED** for persistent healing rejection and complete slow-rate nonclosure; the rank-two interface-4 interpretation is **SUPERSEDED by WP10c8r** | The shell-incidence audit proves real conservative redistribution for the original pair; exact-history `h/h/2` continuations pass through `0.125 s`, while interface-4 angular-momentum spread changes only `0.32452995 -> 0.32451281` (`5.28e-5` e-folds) | The later independent slow-rate cases have negligible absolute interface-4 responses; their unit-normalized SVD cannot authorize two face coordinates |
 | Interface-state sufficiency WP10c8r | **CERTIFIED** as a significance-corrected stop decision; two-component interface-4 state **NOT AUTHORIZED** | All six independent slow-rate cases have interface-4 half-spreads only `2.65e-11-1.18e-8` gate units and all-interface maxima below `9.65e-5`; only the original healing family is significant and it remains rank one. The complete slow-rate tangent has `4-5` directions above `0.1` of the leading singular value with strong N64/N128 agreement | Large rate ambiguities occupy stress, thermal, momentum, and sub-shell structure rather than significant macro-interface-4 transport. Do not add two face coordinates; next audit nonlinear healing and localization of the complete-rate modes |
 | Complete-rate healing WP10c8s | **CERTIFIED** as a nonlinear fail-fast architecture rejection; `q_34` plus only one interface-4 state **INSUFFICIENT** | Six exact equal-`q_34` nonlinear pairs have slow-rate half-spreads `26.95-431.04` and matched N64/N128 tangent support. An independent inner-shell mode remains above the healing gate at `0.025 s`, with uncertainty-inclusive lower bound `16.563 > 0.10`, while coordinate drift stays below `2.23e-7` | The strict decay-curve temporal gate does not pass, so no relaxation time is certified. The other five healing cases were deliberately stopped after the binding fail-fast result. Extend and confirm the inner mode before choosing localized extra states or a staggered coarse finite-volume/PDE architecture |
+| Exact-history inner-mode healing WP10c8t | N64 persistence **CERTIFIED** through `0.125 s`; exact N128 architecture confirmation **INCONCLUSIVE**; **NO RELAXATION LAW OR REDUCED STATE AUTHORIZED** | All eight N64/N128 trajectories and fresh-rate/ledger contracts pass. N128 remains persistent (`0.68557 > 0.25` lower bound), temporally controlled (`0.03529 < 0.10`), and shell-0 localized (`0.908/0.900`). Initial N64/N128 rate alignment is excellent (`0.99982` cosine; `1.0498` amplitude ratio) | The final rate gate fails: absolute cosine `0.76088 < 0.90` and N128/N64 amplitude ratio `0.23357` (defect `0.76643 > 0.50`), dominated by opposite-sign shell-0 stress rates. Diagnose the cached cross-mesh phase/onset before selecting an inner coordinate, state vector, or embedded patch |
 
 ## Frozen Target Under Review
 
@@ -1045,6 +1046,34 @@ N                    = 164
    extend and confirm the binding inner mode, and then choose between
    localized additional states and a conservative staggered coarse
    finite-volume/PDE model. No macrostep, tide, or wind work is authorized.
+   WP10c8t performs that exact-history extension on a nested N64 `h/h/2`
+   pair through `0.125 s`. All `600` steps and all state, fresh-rate,
+   restart, flux-reconstruction, and ledger contracts pass. The controlling
+   uncertainty-inclusive slow-rate spread falls from `178.610` to `3.116`,
+   but its final uncertainty-exclusive lower bound remains
+   `3.057 > 0.10`. The stress-storage response also regrows from `3.137` at
+   `0.075 s` to `4.737` at `0.10 s`, so the strict decay-curve and
+   no-regrowth gates fail and no scalar relaxation law is authorized. The
+   accumulated coordinate-slip upper bound is only `1.90e-7`, but the
+   surviving rate ambiguity remains architecture-relevant. At the endpoint,
+   `88.2%` of the state difference and `94.5%` of the primitive-rate
+   difference remain in shell 0 near `1.88-2.03 rg`, controlled by causal
+   stress. The exact nonlinear N128 pair then closes `q_34` below
+   `6.67e-16` and starts with a loading-time slow-rate spread `187.50`, an
+   N64/N128 direction cosine `0.99982`, and amplitude ratio `1.0498`. All
+   four N128 `h/h/2` trajectories and endpoint fresh-rate/ledger contracts
+   pass. N128 independently remains persistent at `0.125 s`: its final
+   uncertainty-exclusive lower spread is `0.68557 > 0.25`, temporal
+   uncertainty is `0.03529 < 0.10`, and state/rate shell-0 fractions are
+   `0.908/0.900`. The binding architecture confirmation nevertheless fails
+   because the final absolute rate-vector cosine is only
+   `0.76088 < 0.90` and the N128/N64 maximum-amplitude ratio is
+   `0.23357`, controlled by an opposite-sign shell-0 stress rate. This
+   certifies bounded persistence separately on both meshes but not a
+   spatially certified late rate law or permanent memory. The next work must
+   use the existing fixed-step caches to localize the first N64/N128
+   phase/amplitude departure before selecting a measured inner coordinate,
+   localized state vector, or embedded fine inner patch.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -1056,7 +1085,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_COMPLETE_RATE_HEALING_WP10C8S_RESULTS_2026-07-24.md`
+  `reports/current/CODEX_CAUSAL_INNER_MODE_HEALING_WP10C8T_RESULTS_2026-07-24.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -1142,6 +1171,7 @@ N                    = 164
 - Region-selective closure WP10c8c: `reports/current/CODEX_CAUSAL_REGION_SELECTIVE_CLOSURE_WP10C8C_RESULTS_2026-07-19.md`
 - Interface-state sufficiency WP10c8r: `reports/current/CODEX_CAUSAL_INTERFACE_STATE_SUFFICIENCY_WP10C8R_RESULTS_2026-07-24.md`
 - Complete-rate healing WP10c8s: `reports/current/CODEX_CAUSAL_COMPLETE_RATE_HEALING_WP10C8S_RESULTS_2026-07-24.md`
+- Exact-history inner-mode healing WP10c8t: `reports/current/CODEX_CAUSAL_INNER_MODE_HEALING_WP10C8T_RESULTS_2026-07-24.md`
 - Mixed-mode, stationary-preflight, and stable-observable reduction
   WP10c8d-f: `reports/current/CODEX_CAUSAL_STABLE_OBSERVABLE_REDUCTION_WP10C8F_RESULTS_2026-07-20.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
