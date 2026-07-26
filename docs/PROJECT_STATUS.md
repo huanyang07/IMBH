@@ -1,6 +1,6 @@
 # Project Status
 
-- Updated: 2026-07-24
+- Updated: 2026-07-26
 - Pre-cleanup scientific tag: `pre-cleanup-p0-2026-07-11`
 - Legacy phase classification tag: `legacy-steady-positive-flux-dae-2026-07-10`
 
@@ -128,6 +128,8 @@ This is the canonical project handoff. Status labels mean:
 | Interface-state sufficiency WP10c8r | **CERTIFIED** as a significance-corrected stop decision; two-component interface-4 state **NOT AUTHORIZED** | All six independent slow-rate cases have interface-4 half-spreads only `2.65e-11-1.18e-8` gate units and all-interface maxima below `9.65e-5`; only the original healing family is significant and it remains rank one. The complete slow-rate tangent has `4-5` directions above `0.1` of the leading singular value with strong N64/N128 agreement | Large rate ambiguities occupy stress, thermal, momentum, and sub-shell structure rather than significant macro-interface-4 transport. Do not add two face coordinates; next audit nonlinear healing and localization of the complete-rate modes |
 | Complete-rate healing WP10c8s | **CERTIFIED** as a nonlinear fail-fast architecture rejection; `q_34` plus only one interface-4 state **INSUFFICIENT** | Six exact equal-`q_34` nonlinear pairs have slow-rate half-spreads `26.95-431.04` and matched N64/N128 tangent support. An independent inner-shell mode remains above the healing gate at `0.025 s`, with uncertainty-inclusive lower bound `16.563 > 0.10`, while coordinate drift stays below `2.23e-7` | The strict decay-curve temporal gate does not pass, so no relaxation time is certified. The other five healing cases were deliberately stopped after the binding fail-fast result. Extend and confirm the inner mode before choosing localized extra states or a staggered coarse finite-volume/PDE architecture |
 | Exact-history inner-mode healing WP10c8t | N64 persistence **CERTIFIED** through `0.125 s`; exact N128 architecture confirmation **INCONCLUSIVE**; **NO RELAXATION LAW OR REDUCED STATE AUTHORIZED** | All eight N64/N128 trajectories and fresh-rate/ledger contracts pass. N128 remains persistent (`0.68557 > 0.25` lower bound), temporally controlled (`0.03529 < 0.10`), and shell-0 localized (`0.908/0.900`). Initial N64/N128 rate alignment is excellent (`0.99982` cosine; `1.0498` amplitude ratio) | The final rate gate fails: absolute cosine `0.76088 < 0.90` and N128/N64 amplitude ratio `0.23357` (defect `0.76643 > 0.50`), dominated by opposite-sign shell-0 stress rates. Diagnose the cached cross-mesh phase/onset before selecting an inner coordinate, state vector, or embedded patch |
+| Dense inner-mode phase/activity WP10c8u | **CERTIFIED** as a cache-only diagnosis; `localized_inner_phase_spatially_unresolved`; **NO FORMAL AVERAGE OR ARCHITECTURE CHANGE AUTHORIZED** | Fresh rates at all `1208` cached N64/N128 states reproduce committed sparse samples bitwise. The same-time gate first fails at `0.0025 s`; signed rate cosine reaches `-0.9830`. Final signed slips are only `1.97e-7/1.06e-7`, but absolute impulses are about `12.6/12.2x` larger and every `0.01-0.10 s` window family fails mesh/phase stability | Longest-window mean norms remain as large as `5.524/2.830`; the first departure is boundary-adjacent characteristic/perfect-fluid transport near `1.8-2.2 rg`. The free transient does not define a fixed-`Q` fast average or bound quadratic even drift. Perform a local inner spatial-phase preflight before selecting a coordinate or patch |
+| Local inner-phase spatial preflight WP10c8v | **CERTIFIED** as a negative buffered linear spatial preflight; `inner_fast_phase_spatially_unresolved_local_preflight`; **NO AVERAGING OR ARCHITECTURE CHANGE AUTHORIZED** | Buffered N64/N128 local generators reproduce full active blocks below `3.83e-5` and full `0.125 s` histories below `1.20e-3`, with signed cosines above `0.999999`. Temporal sampling is exact. One N256-equivalent refinement gives only `0.227/0.355` state/rate order; N128/N256 rate cosine reaches `-0.650`, frequency differs by `0.343`, and damping by `0.515` | Inner excision transport controls every mesh and the N128/N256 defect; the response centroid moves from about `2.1` to `4.9 rg`. N256 is a shape-preserving N128 prolongation, not independent truth. Build an independently consistent finer local anchor and audit excision sensitivity before selecting a fixed-`Q` average or embedded-patch architecture |
 
 ## Frozen Target Under Review
 
@@ -1074,6 +1076,26 @@ N                    = 164
    use the existing fixed-step caches to localize the first N64/N128
    phase/amplitude departure before selecting a measured inner coordinate,
    localized state vector, or embedded fine inner patch.
+   WP10c8u performs that cache-only diagnosis. Fresh rates at all `1208`
+   stored N64/N128 states reproduce the sparse parent evidence bitwise. The
+   common-normalization same-time gate first fails at `0.0025 s`, the signed
+   rate cosine reaches `-0.98303`, and all `0.01-0.10 s` window families
+   remain placement or mesh sensitive. Signed slips are small, but absolute
+   impulses are about twelve times larger. The first departure is localized
+   to boundary-adjacent characteristic and perfect-fluid transport near
+   `1.8-2.2 rg`; no formal average or architecture change is authorized.
+   WP10c8v then builds buffered local evolving descriptors with
+   N64/N128/N256-equivalent active grids. The accepted local boundary at
+   `12.777 rg` reproduces full N64/N128 active histories below `1.20e-3`,
+   while the common active domain extends through `6.648 rg`; temporal
+   sampling passes exactly. The factor-two refinement does not converge:
+   state/rate orders are only `0.2269/0.3546`, the N128/N256 rate cosine
+   reaches `-0.6498`, and diagnostic frequency/damping defects are
+   `0.3426/0.5154`. Inner excision transport dominates the initial response
+   and refinement defect, while cooling and stream terms are negligible.
+   Because N256 is a prolongated linear preflight rather than independently
+   equilibrated truth, the result blocks fixed-`Q` averaging but does not
+   prove continuum nonconvergence or yet select an embedded patch.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -1085,7 +1107,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_INNER_MODE_HEALING_WP10C8T_RESULTS_2026-07-24.md`
+  `reports/current/CODEX_CAUSAL_INNER_PHASE_SPATIAL_PREFLIGHT_WP10C8V_RESULTS_2026-07-26.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -1172,6 +1194,8 @@ N                    = 164
 - Interface-state sufficiency WP10c8r: `reports/current/CODEX_CAUSAL_INTERFACE_STATE_SUFFICIENCY_WP10C8R_RESULTS_2026-07-24.md`
 - Complete-rate healing WP10c8s: `reports/current/CODEX_CAUSAL_COMPLETE_RATE_HEALING_WP10C8S_RESULTS_2026-07-24.md`
 - Exact-history inner-mode healing WP10c8t: `reports/current/CODEX_CAUSAL_INNER_MODE_HEALING_WP10C8T_RESULTS_2026-07-24.md`
+- Dense inner-mode phase/activity WP10c8u: `reports/current/CODEX_CAUSAL_INNER_MODE_PHASE_AVERAGE_WP10C8U_RESULTS_2026-07-26.md`
+- Local inner-phase spatial preflight WP10c8v: `reports/current/CODEX_CAUSAL_INNER_PHASE_SPATIAL_PREFLIGHT_WP10C8V_RESULTS_2026-07-26.md`
 - Mixed-mode, stationary-preflight, and stable-observable reduction
   WP10c8d-f: `reports/current/CODEX_CAUSAL_STABLE_OBSERVABLE_REDUCTION_WP10C8F_RESULTS_2026-07-20.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`

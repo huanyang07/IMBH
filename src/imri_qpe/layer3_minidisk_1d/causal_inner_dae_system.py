@@ -73,6 +73,10 @@ CAUSAL_FIVE_FIELD_STORAGE_QUADRATURES = (
     "midpoint",
     "gauss_legendre_4",
 )
+CAUSAL_FIVE_FIELD_OUTER_BOUNDARY_FLUX_MODES = (
+    "roche",
+    "frozen_exterior_rusanov",
+)
 _GAUSS_LEGENDRE_4_NODES, _GAUSS_LEGENDRE_4_WEIGHTS = (
     np.polynomial.legendre.leggauss(4)
 )
@@ -96,6 +100,8 @@ class CausalFiveFieldDAEContext:
     cell_rate_scheme: str = "arithmetic_face"
     cell_source_quadrature: str = "midpoint"
     cell_storage_quadrature: str = "midpoint"
+    outer_boundary_flux_mode: str = "roche"
+    outer_boundary_frozen_exterior_chart: np.ndarray | None = None
 
     def validated(self) -> CausalFiveFieldDAEContext:
         n_cells = int(np.asarray(self.grid.centers).size)
@@ -156,6 +162,31 @@ class CausalFiveFieldDAEContext:
             raise ValueError(
                 "unsupported causal five-field storage quadrature"
             )
+        if (
+            self.outer_boundary_flux_mode
+            not in CAUSAL_FIVE_FIELD_OUTER_BOUNDARY_FLUX_MODES
+        ):
+            raise ValueError(
+                "unsupported causal five-field outer boundary flux mode"
+            )
+        frozen_exterior = self.outer_boundary_frozen_exterior_chart
+        if self.outer_boundary_flux_mode == "roche":
+            if frozen_exterior is not None:
+                raise ValueError(
+                    "the physical Roche boundary cannot carry a frozen "
+                    "exterior chart"
+                )
+        else:
+            frozen_values = np.asarray(frozen_exterior, dtype=float)
+            if (
+                frozen_exterior is None
+                or frozen_values.shape != (_N_FIELDS,)
+                or np.any(~np.isfinite(frozen_values))
+            ):
+                raise ValueError(
+                    "the frozen exterior boundary requires one finite "
+                    "five-field primitive chart"
+                )
         if (
             self.spatial_reconstruction == "quadratic_admissible"
             or self.boundary_trace_reconstruction == "plm_one_sided"
@@ -1904,9 +1935,24 @@ def _outer_face_flux(
     context: CausalFiveFieldDAEContext,
     chart: np.ndarray,
 ) -> tuple[np.ndarray, bool, int]:
-    """Return the physical Roche acoustic flux plus zero shear stress."""
+    """Return the declared outer flux for production or buffered audits."""
 
     radius = float(context.grid.edges[-1])
+    if context.outer_boundary_flux_mode == "frozen_exterior_rusanov":
+        frozen_exterior = np.asarray(
+            context.outer_boundary_frozen_exterior_chart,
+            dtype=float,
+        )
+        return (
+            _interior_rusanov_flux(
+                context,
+                int(context.grid.centers.size),
+                chart,
+                frozen_exterior,
+            ),
+            False,
+            _N_FIELDS,
+        )
     geometry, thermodynamics, primitive = _primitive_from_chart(
         context,
         radius,

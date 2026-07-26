@@ -594,6 +594,41 @@ rejected sequence.
     work is an existing-cache cross-mesh phase/onset and inner-term audit,
     not coordinate selection, another truth evolution, or reduced
     macrostepping.
+71. **Dense cache-only phase/activity evidence localizes the architecture
+    blocker to the boundary-adjacent inner fast response:** WP10c8u
+    recomputes fresh rates at all `1208` cached N64/N128 states and reproduces
+    every committed sparse diagnostic bitwise. The common-normalization
+    same-time gate first fails at `0.0025 s`; the signed rate cosine falls
+    from `0.99982` to a minimum of `-0.98303`, while shell-0 stress zero
+    crossings occur substantially earlier and more frequently at N128.
+    Final signed slips are small (`1.97e-7/1.06e-7`), but absolute impulses
+    are about `12.6/12.2` times larger, and all tested `0.01-0.10 s`
+    sliding-window families fail phase-placement or cross-mesh control.
+    Longest-window mean norms remain as large as `5.524/2.830`, so no formal
+    fast-time average is certified. Exact event decompositions close below
+    `7.04e-11` and identify inner characteristic and perfect-fluid transport
+    near `1.8-2.2 rg` as the first departure, rather than stream or cooling.
+    The next work is a conservative local inner spatial-phase preflight,
+    followed only conditionally by fixed-`Q` odd/even averaging; no reduced
+    coordinate, patch architecture, or macrostep is authorized.
+72. **A buffered local factor-two refinement rejects the present inner fast
+    phase as spatially resolved:** WP10c8v introduces an audit-only frozen
+    exterior Rusanov trace while leaving the physical Roche default and
+    production inner boundary unchanged. After rejecting an insufficient
+    first buffer, the binding `24/48/96`-cell local grids place the frozen
+    edge at `12.777 rg` and compare an active `16/32/64`-cell core through
+    `6.648 rg`. Local N64/N128 active generators reproduce their committed
+    full operators below `3.83e-5`; complete `0.125 s` history defects are
+    below `1.20e-3` with signed cosines above `0.999999`, and temporal
+    sampling passes. The N128/N256-equivalent phase still fails: state/rate
+    contraction orders are `0.2269/0.3546`, the rate cosine reaches
+    `-0.6498`, zero-crossing/frequency/damping defects are
+    `0.333/0.343/0.515`, and inner excision transport controls the response
+    and restricted defect. This is a prolongation-based linear N256
+    preflight, not
+    independent truth or a continuum theorem. Fixed-`Q` averaging and
+    reduced architecture selection remain closed pending an independently
+    consistent finer local anchor and inner-excision sensitivity audit.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

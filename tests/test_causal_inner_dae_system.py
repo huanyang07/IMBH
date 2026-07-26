@@ -7,6 +7,7 @@ import pytest
 
 from imri_qpe.constants import C, G
 from imri_qpe.layer3_minidisk_1d import (
+    CAUSAL_FIVE_FIELD_OUTER_BOUNDARY_FLUX_MODES,
     CAUSAL_FIVE_FIELD_SPATIAL_RECONSTRUCTIONS,
     KERR_SCHILD_HILL_ENERGY_ZERO,
     CausalFiveFieldDAEContext,
@@ -127,6 +128,66 @@ def test_spatial_reconstruction_mode_is_validated() -> None:
             2,
             spatial_reconstruction="quadratic_admissible",
         )
+
+
+def test_frozen_exterior_rusanov_boundary_is_explicit_and_audit_only() -> None:
+    context = _context(4)
+    seed = make_causal_five_field_seed(context)
+    assert CAUSAL_FIVE_FIELD_OUTER_BOUNDARY_FLUX_MODES == (
+        "roche",
+        "frozen_exterior_rusanov",
+    )
+    with pytest.raises(
+        ValueError,
+        match="unsupported causal five-field outer boundary flux mode",
+    ):
+        replace(
+            context,
+            outer_boundary_flux_mode="unsupported",
+        ).validated()
+    with pytest.raises(
+        ValueError,
+        match="requires one finite five-field primitive chart",
+    ):
+        replace(
+            context,
+            outer_boundary_flux_mode="frozen_exterior_rusanov",
+        ).validated()
+    with pytest.raises(
+        ValueError,
+        match="physical Roche boundary cannot carry",
+    ):
+        replace(
+            context,
+            outer_boundary_frozen_exterior_chart=np.array(
+                seed.primitives[-1],
+                copy=True,
+            ),
+        ).validated()
+
+    audit_context = replace(
+        context,
+        outer_boundary_flux_mode="frozen_exterior_rusanov",
+        outer_boundary_frozen_exterior_chart=np.array(
+            seed.primitives[-1],
+            copy=True,
+        ),
+    ).validated()
+    audit_state = causal_five_field_state_from_primitives(
+        audit_context,
+        seed.primitives,
+    )
+    evaluation = evaluate_causal_five_field_dae(
+        pack_causal_five_field_state(audit_state),
+        audit_context,
+    )
+
+    assert evaluation.outer_boundary_choked is False
+    assert evaluation.outer_incoming_characteristics == 5
+    assert np.array_equal(evaluation.primitive_map_rows, np.zeros((4, 5)))
+    assert np.array_equal(evaluation.interior_flux_rows, np.zeros((3, 5)))
+    assert np.array_equal(evaluation.inner_flux_rows, np.zeros(5))
+    assert np.array_equal(evaluation.outer_flux_rows, np.zeros(5))
 
 
 def test_explicit_piecewise_constant_backend_is_bitwise_frozen() -> None:
