@@ -79,6 +79,29 @@ class CausalExactCoordinateLiftPair:
         )
 
 
+@dataclass(frozen=True)
+class CausalExactCoordinateProjection:
+    """Minimum-weight correction of one state onto a coordinate fiber."""
+
+    primitive_vector: np.ndarray
+    scaled_increment: np.ndarray
+    coordinate_values: np.ndarray
+    normalized_coordinate_residual: np.ndarray
+    correction_coordinates: np.ndarray
+    normal_basis: CausalWeightedConstraintNormalBasis
+    weighted_radius: float
+    maximum_pointwise_amplitude_ratio: float
+    function_evaluations: int
+    jacobian_evaluations: int | None
+    optimizer_status: int
+    optimizer_message: str
+    optimizer_success: bool
+
+    @property
+    def maximum_coordinate_defect(self) -> float:
+        return float(np.max(np.abs(self.normalized_coordinate_residual)))
+
+
 def causal_rescale_descriptor_matrix(
     matrix: np.ndarray,
     *,
@@ -246,6 +269,126 @@ def causal_weighted_constraint_fiber_null_projection(
 
 def _weighted_norm(values: np.ndarray, weights: np.ndarray) -> float:
     return float(np.sqrt(np.sum(weights * np.square(values))))
+
+
+def causal_exact_coordinate_projection(
+    *,
+    base_primitive_vector: np.ndarray,
+    primitive_column_scales: np.ndarray,
+    state_weights: np.ndarray,
+    physical_input_amplitudes: np.ndarray,
+    target_coordinate_values: np.ndarray,
+    target_coordinate_scales: np.ndarray,
+    constraint_matrix: np.ndarray,
+    coordinate_evaluator: CoordinateEvaluator,
+    maximum_function_evaluations: int = 256,
+    optimizer_tolerance: float = 1.0e-13,
+) -> CausalExactCoordinateProjection:
+    """Project one primitive state onto an exact nonlinear coordinate fiber.
+
+    The correction is restricted to the weighted normal space of the supplied
+    anchor constraint matrix.  Among corrections represented in that space,
+    the zero initial guess selects the local minimum-weight displacement.  As
+    with :func:`causal_exact_equal_coordinate_lift_pair`, the finite nonlinear
+    coordinate residual—not the frozen correction Jacobian—is the binding
+    consistency check.
+    """
+
+    base = _finite_vector(base_primitive_vector, name="base primitive vector")
+    scales = _finite_vector(
+        primitive_column_scales,
+        name="primitive column scales",
+        shape=base.shape,
+    )
+    weights = _finite_vector(
+        state_weights,
+        name="state weights",
+        shape=base.shape,
+    )
+    amplitudes = _finite_vector(
+        physical_input_amplitudes,
+        name="physical input amplitudes",
+        shape=base.shape,
+    )
+    target = _finite_vector(
+        target_coordinate_values,
+        name="target coordinate values",
+    )
+    coordinate_scales = _finite_vector(
+        target_coordinate_scales,
+        name="target coordinate scales",
+        shape=target.shape,
+    )
+    constraints = np.asarray(constraint_matrix, dtype=float)
+    if (
+        constraints.shape != (target.size, base.size)
+        or np.any(~np.isfinite(constraints))
+        or np.any(scales <= 0.0)
+        or np.any(weights <= 0.0)
+        or np.any(amplitudes <= 0.0)
+        or np.any(coordinate_scales <= 0.0)
+    ):
+        raise ValueError("exact-coordinate projection inputs are invalid")
+    normal = causal_weighted_constraint_normal_basis(
+        constraints,
+        weights,
+    )
+    correction_jacobian = constraints @ normal.basis
+    if (
+        correction_jacobian.shape != (target.size, target.size)
+        or np.linalg.matrix_rank(correction_jacobian) != target.size
+    ):
+        raise ValueError("normal correction Jacobian is rank deficient")
+
+    def trial(correction: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        increment = normal.basis @ np.asarray(correction, dtype=float)
+        primitives = base + scales * increment
+        coordinates = _finite_vector(
+            coordinate_evaluator(primitives),
+            name="evaluated nonlinear coordinates",
+            shape=target.shape,
+        )
+        return increment, coordinates
+
+    def residual(correction: np.ndarray) -> np.ndarray:
+        _increment, coordinates = trial(correction)
+        return (coordinates - target) / coordinate_scales
+
+    solution = least_squares(
+        residual,
+        np.zeros(target.size, dtype=float),
+        jac=lambda _correction: correction_jacobian,
+        method="trf",
+        ftol=float(optimizer_tolerance),
+        xtol=float(optimizer_tolerance),
+        gtol=float(optimizer_tolerance),
+        max_nfev=int(maximum_function_evaluations),
+        x_scale="jac",
+    )
+    increment, coordinates = trial(solution.x)
+    physical_increment = scales * increment
+    return CausalExactCoordinateProjection(
+        primitive_vector=base + physical_increment,
+        scaled_increment=increment,
+        coordinate_values=coordinates,
+        normalized_coordinate_residual=(
+            coordinates - target
+        )
+        / coordinate_scales,
+        correction_coordinates=np.asarray(solution.x, dtype=float),
+        normal_basis=normal,
+        weighted_radius=_weighted_norm(increment, weights),
+        maximum_pointwise_amplitude_ratio=float(
+            np.max(np.abs(physical_increment) / amplitudes)
+        ),
+        function_evaluations=int(solution.nfev),
+        jacobian_evaluations=(
+            None if solution.njev is None else int(solution.njev)
+        ),
+        optimizer_status=int(solution.status),
+        optimizer_message=str(solution.message),
+        optimizer_success=bool(solution.success),
+    )
 
 
 def _exact_coordinate_lift(

@@ -1287,6 +1287,7 @@ def causal_five_field_unified_mapped_storage_matrix(
     reconstruction = causal_five_field_reconstruct_face_charts(
         context,
         primitives.reshape(n_cells, 5),
+        purpose="storage",
     )
     return {
         "mapped_storage_scaled_vector": (
@@ -1563,6 +1564,7 @@ def _causal_five_field_branch_frozen_storage_nodes(
     reconstruction = causal_five_field_reconstruct_face_charts(
         context,
         charts,
+        purpose="storage",
     )
     factors = np.asarray(reconstruction.admissibility_factors, dtype=float)
     log_centers = np.log(np.asarray(context.grid.centers, dtype=float))

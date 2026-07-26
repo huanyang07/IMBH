@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 from imri_qpe.layer3_minidisk_1d import (
+    causal_exact_coordinate_projection,
     causal_exact_equal_coordinate_lift_pair,
     causal_gate_normalized_pair_half_spread,
     causal_rescale_descriptor_matrix,
@@ -175,6 +176,53 @@ def test_exact_equal_coordinate_pair_preserves_seed_projection():
     assert pair.plus.weighted_direction_cosine > 0.99
     assert not np.array_equal(
         pair.minus.primitive_vector, pair.plus.primitive_vector
+    )
+
+
+def test_exact_coordinate_projection_reaches_target_minimally():
+    (
+        base,
+        scales,
+        weights,
+        amplitudes,
+        coordinates,
+        target,
+        coordinate_scales,
+        constraint,
+        _seed,
+    ) = _nonlinear_coordinate_fixture()
+    displaced = base + scales * np.asarray(
+        (0.05, -0.03, 0.2, -0.1, 0.15),
+        dtype=float,
+    )
+    result = causal_exact_coordinate_projection(
+        base_primitive_vector=displaced,
+        primitive_column_scales=scales,
+        state_weights=weights,
+        physical_input_amplitudes=amplitudes,
+        target_coordinate_values=target,
+        target_coordinate_scales=coordinate_scales,
+        constraint_matrix=constraint,
+        coordinate_evaluator=coordinates,
+    )
+    assert result.optimizer_success
+    assert result.maximum_coordinate_defect < 1.0e-11
+    assert result.normal_basis.numerical_rank == 2
+    assert result.weighted_radius > 0.0
+    np.testing.assert_allclose(
+        coordinates(result.primitive_vector),
+        target,
+        rtol=0.0,
+        atol=5.0e-11,
+    )
+    expected_component = np.asarray(
+        (-0.2 * 0.2**2, 0.15 * 0.1**2, 0.2, -0.1, 0.15)
+    )
+    np.testing.assert_allclose(
+        (result.primitive_vector - base) / scales,
+        expected_component,
+        rtol=0.0,
+        atol=5.0e-10,
     )
 
 

@@ -232,6 +232,39 @@ def make_kerr_schild_column_grid(
         float(outer_radius),
         int(n_cells) + 1,
     )
+    return make_kerr_schild_column_grid_from_edges(
+        edges,
+        gravitational_radius,
+    )
+
+
+def make_kerr_schild_column_grid_from_edges(
+    edges: np.ndarray,
+    gravitational_radius: float,
+) -> KerrSchildColumnGrid:
+    """Return an exact column grid for arbitrary increasing radial edges.
+
+    Cell centers remain logarithmic midpoints, matching the primitive
+    reconstruction coordinate used by the causal DAE.  The cell and face
+    measures are evaluated from the exact Kerr--Schild geometry, so a
+    nonuniform fine/coarse grid retains exact finite-volume telescoping.
+    """
+
+    edges = np.asarray(edges, dtype=float)
+    gravitational_radius = float(gravitational_radius)
+    if (
+        edges.ndim != 1
+        or edges.size < 2
+        or np.any(~np.isfinite(edges))
+        or edges[0] <= 0.0
+        or np.any(np.diff(edges) <= 0.0)
+    ):
+        raise ValueError("column grid edges must be finite and increasing")
+    if (
+        not np.isfinite(gravitational_radius)
+        or gravitational_radius < 0.0
+    ):
+        raise ValueError("gravitational radius cannot be negative")
     centers = np.sqrt(edges[:-1] * edges[1:])
     primitive = np.asarray(
         [

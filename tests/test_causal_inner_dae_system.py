@@ -7,7 +7,9 @@ import pytest
 
 from imri_qpe.constants import C, G
 from imri_qpe.layer3_minidisk_1d import (
+    CAUSAL_FIVE_FIELD_INNER_TRACE_OVERRIDES,
     CAUSAL_FIVE_FIELD_OUTER_BOUNDARY_FLUX_MODES,
+    CAUSAL_FIVE_FIELD_RECONSTRUCTION_PURPOSES,
     CAUSAL_FIVE_FIELD_SPATIAL_RECONSTRUCTIONS,
     KERR_SCHILD_HILL_ENERGY_ZERO,
     CausalFiveFieldDAEContext,
@@ -106,6 +108,9 @@ def test_spatial_reconstruction_mode_is_validated() -> None:
         ).validated()
     for name in (
         "boundary_trace_reconstruction",
+        "inner_boundary_trace_override",
+        "inner_flux_trace_override",
+        "inner_storage_trace_override",
         "cell_rate_scheme",
         "cell_source_quadrature",
         "cell_storage_quadrature",
@@ -127,6 +132,148 @@ def test_spatial_reconstruction_mode_is_validated() -> None:
         causal_five_field_dae_jacobian_sparsity(
             2,
             spatial_reconstruction="quadratic_admissible",
+        )
+
+
+def test_inner_trace_overrides_change_only_the_inner_face() -> None:
+    context = replace(
+        _context(8),
+        spatial_reconstruction="quadratic_admissible",
+        boundary_trace_reconstruction="plm_one_sided",
+    ).validated()
+    seed = make_causal_five_field_seed(context)
+    inherited = causal_five_field_reconstruct_face_charts(
+        context,
+        seed.primitives,
+    )
+    assert CAUSAL_FIVE_FIELD_INNER_TRACE_OVERRIDES == (
+        "inherit",
+        "cell_centered",
+        "linear_outgoing",
+    )
+    for mode in ("cell_centered", "linear_outgoing"):
+        candidate = causal_five_field_reconstruct_face_charts(
+            replace(
+                context,
+                inner_boundary_trace_override=mode,
+            ).validated(),
+            seed.primitives,
+        )
+        assert np.array_equal(
+            candidate.left_face_charts[1:],
+            inherited.left_face_charts[1:],
+        )
+        assert np.array_equal(
+            candidate.right_face_charts[1:],
+            inherited.right_face_charts[1:],
+        )
+    centered = causal_five_field_reconstruct_face_charts(
+        replace(
+            context,
+            inner_boundary_trace_override="cell_centered",
+        ).validated(),
+        seed.primitives,
+    )
+    assert np.array_equal(
+        centered.right_face_charts[0],
+        seed.primitives[0],
+    )
+
+
+def test_flux_and_storage_inner_trace_overrides_are_independent() -> None:
+    context = replace(
+        _context(8),
+        spatial_reconstruction="quadratic_admissible",
+        boundary_trace_reconstruction="plm_one_sided",
+        cell_storage_quadrature="gauss_legendre_4",
+    ).validated()
+    seed = make_causal_five_field_seed(context)
+    assert CAUSAL_FIVE_FIELD_RECONSTRUCTION_PURPOSES == (
+        "flux",
+        "storage",
+    )
+    inherited = causal_five_field_state_from_primitives(
+        context,
+        seed.primitives,
+    )
+    flux_only = causal_five_field_state_from_primitives(
+        replace(
+            context,
+            inner_flux_trace_override="cell_centered",
+        ).validated(),
+        seed.primitives,
+    )
+    storage_only = causal_five_field_state_from_primitives(
+        replace(
+            context,
+            inner_storage_trace_override="cell_centered",
+        ).validated(),
+        seed.primitives,
+    )
+
+    np.testing.assert_array_equal(flux_only.conserved, inherited.conserved)
+    assert not np.array_equal(
+        flux_only.weighted_face_fluxes_over_c[0],
+        inherited.weighted_face_fluxes_over_c[0],
+    )
+    np.testing.assert_array_equal(
+        storage_only.weighted_face_fluxes_over_c,
+        inherited.weighted_face_fluxes_over_c,
+    )
+    assert not np.array_equal(storage_only.conserved[0], inherited.conserved[0])
+
+    combined = causal_five_field_state_from_primitives(
+        replace(
+            context,
+            inner_boundary_trace_override="linear_outgoing",
+        ).validated(),
+        seed.primitives,
+    )
+    separated = causal_five_field_state_from_primitives(
+        replace(
+            context,
+            inner_flux_trace_override="linear_outgoing",
+            inner_storage_trace_override="linear_outgoing",
+        ).validated(),
+        seed.primitives,
+    )
+    np.testing.assert_array_equal(combined.conserved, separated.conserved)
+    np.testing.assert_array_equal(
+        combined.weighted_face_fluxes_over_c,
+        separated.weighted_face_fluxes_over_c,
+    )
+
+    updated = np.array(seed.primitives, copy=True)
+    updated[:, 3] += 1.0e-5
+    inherited_path = causal_five_field_path_temporal_storage_increment(
+        context,
+        seed.primitives,
+        updated,
+    )
+    for candidate_context in (
+        replace(
+            context,
+            inner_flux_trace_override="cell_centered",
+        ).validated(),
+        replace(
+            context,
+            inner_storage_trace_override="cell_centered",
+        ).validated(),
+    ):
+        candidate_path = (
+            causal_five_field_path_temporal_storage_increment(
+                candidate_context,
+                seed.primitives,
+                updated,
+            )
+        )
+        np.testing.assert_array_equal(
+            candidate_path.vertical_killing_increment,
+            inherited_path.vertical_killing_increment,
+        )
+        np.testing.assert_array_equal(
+            candidate_path.vertical_work_per_area,
+            inherited_path.vertical_work_per_area,
         )
 
 

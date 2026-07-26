@@ -629,6 +629,106 @@ rejected sequence.
     independent truth or a continuum theorem. Fixed-`Q` averaging and
     reduced architecture selection remain closed pending an independently
     consistent finer local anchor and inner-excision sensitivity audit.
+73. **An independent N256 local anchor confirms that the unresolved inner
+    phase is not a prolongation artifact:** WP10c8w projects the N256 local
+    state onto the exact 12-coordinate target with defect `1.59e-14`,
+    maximum active primitive-scale correction `6.91e-3`, and buffer
+    correction `2.62e-13`; its exact pair and independently
+    descriptor-balanced operator pass. A cell-centered excision trace makes
+    the storage/generator singular and is rejected before propagation. A
+    causal outgoing-linear audit trace is stable and slightly improves the
+    N64/N128 exterior comparison, but independent N128/N256 state/rate
+    orders remain `0.494/-0.033`, the rate cosine is `0.4497`, and
+    zero-crossing/frequency defects are `0.276/0.411`. Excision-position
+    sensitivity falls sharply at N256 but remains large at N128, so edge
+    placement alone does not explain the nonconvergent phase. N512, fixed-`Q`
+    averaging, a production boundary change, and architecture selection
+    remain closed pending a static boundary flux-versus-storage consistency
+    audit.
+74. **Static boundary consistency passes but exposes a non-common initial
+    mode:** WP10c8x separates audit-only physical-flux and mapped-storage
+    traces while retaining the production default and the independent
+    responsive-height one-form. Production and outgoing-linear fluxes pass
+    smooth N64-N512 first-cell balance at fine complete-row orders
+    `2.93/2.04`; cell-centered flux/storage controls remain first order.
+    Every accepted N64/N128/N256 operator closes factorization below
+    `3.56e-15` and storage action below `2.92e-9`. Storage-linear is bitwise
+    identical to production and combined-linear is bitwise identical to
+    flux-linear, proving that trace/storage conflation does not control the
+    phase failure. Neither history passes, but the stronger stop is at
+    `t=0`: the inherited N128/N256 state/rate profiles have cosines only
+    `0.938/0.933`, amplitude ratios `0.804/0.654`, and relative differences
+    `0.371/0.455`. N512, averaging, a boundary change, and architecture
+    selection therefore remain closed pending a jointly continuum-matched
+    equal-coordinate fiber.
+75. **A jointly continuum-matched inner perturbation passes at `t=0` but
+    confirms boundary-insensitive spatial underresolution:** WP10c8y defines
+    one analytic compact stress/radial-transport profile in `ln R`, uses one
+    continuum primitive metric, and constructs exact nonlinear
+    equal-coordinate N64/N128/N256 pairs. N128/N256 full-active
+    state/production-rate cosines are `0.999996/0.997412`, amplitude defects
+    are `0.00161/0.00739`, relative differences are `0.00331/0.07206`, and
+    pair coordinate defects remain below `3.56e-15`. The matched
+    `0.125 s` histories nevertheless fail: production and outgoing-linear
+    traces both give state/rate order near `0.424/-0.665`, maximum fine rate
+    difference `0.529`, and fine rate cosine `0.89292`. At N256 the two
+    boundary families differ from each other by only `1.42e-7` in state and
+    `9.07e-7` in rate, so the remaining failure is not controlled by that
+    excision-trace choice. A bounded conservative embedded-inner-patch
+    preflight is authorized, but no production patch, boundary replacement,
+    standalone N512 confirmation, fixed-`Q` average, reduced coordinate, or
+    macrostep is.
+76. **A conservative embedded inner patch passes its coupling contracts but
+    rejects uniform local refinement as the phase cure:** WP10c8z represents
+    the fine inner and N128 exterior cells on one nonoverlapping grid, so the
+    live coupling uses one production Rusanov flux with exact
+    equal-and-opposite residual contributions. Shared-flux/telescoping
+    defects are zero, storage-action defects are below `2.16e-9`, and hybrid
+    BDF2 split replay is bitwise. A matched N512 coupling-location change
+    from `12.777` to `17.713 rg` changes the active history by only
+    `1.64e-4`; coupling signal fractions remain below `6.83e-11`. The
+    refinement ladder still diverges: active state/rate differences change
+    `0.1375 -> 0.1431` and `0.5352 -> 0.8599`, for orders
+    `-0.057/-0.684`, and the fine rate cosine is `0.783`. No nonlinear or
+    production patch, N1024 brute-force refinement, averaging, initial-slip
+    model, or reduced coordinate is authorized. The next work must isolate
+    and redesign the bulk near-horizon characteristic phase operator.
+77. **Pure characteristic packets localize the remaining inner phase defect
+    to scalar Rusanov damping of the causal-shear family:** WP10c9a reuses
+    the certified live-coupled N128/N256/N512-equivalent generators and
+    launches compact inward/outward acoustic, material, and inward/outward
+    shear packets on the exact Schur-reduced primitive DAE manifold.
+    N256/N512 same-time state/rate cosines stay above `0.99849`; inward
+    acoustic, material, outward shear, and outward acoustic phase/damping
+    orders pass. Inward-shear damping alone fails with order `-0.0716`
+    despite phase order `1.523` and rate cosine `0.99861`. The complete
+    tangent balance identifies Rusanov transport as the largest forcing-side
+    fine-pair defect (`8.32e-4` scaled L2), while mapped storage supplies the
+    largest balancing action (`1.16e-3`). Rapidity and characteristic
+    reconstruction both pass isolated smooth order but improve the finest
+    rate-error coefficient by less than `0.1%`; neither is promoted. The next
+    work is a complete coordinate principal-basis certification and an
+    audit-only family-resolved matrix dissipation. Common-mode reruns,
+    nonlinear/production patches, averaging, reduced coordinates, and
+    brute-force N1024 refinement remain blocked.
+78. **A complete coordinate eigensystem passes, but full characteristic
+    matrix dissipation does not cure the inward-shear error:** WP10c9b
+    constructs the full primitive-coordinate pencil including mapped and
+    responsive-height storage, physical transport, vertical work, and the
+    causal-shear principal source. All active-face eigenvalues are real,
+    eigenpair defects stay below `5.84e-15`, biorthogonality defects below
+    `1.29e-13`, family continuity above `0.999978`, and excision has zero
+    incoming characteristics. The audit-only descriptor-jump penalty
+    `R|Lambda|L` passes constant-state, shared-flux, non-negative
+    dissipation, storage, dense/colored Jacobian, and smooth-order checks;
+    acoustic, material, and outward-shear packets pass. Inward-shear damping
+    remains nonconvergent at order `-0.0265`, only slightly better than the
+    scalar-Rusanov `-0.0716`, and a nonlinear BDF step stalls at
+    `7.65e-9 > 1e-10` despite a `4.24e-11` ledger defect. The candidate is
+    not promoted. The next work must combine the conservative shear flux and
+    nonconservative shear-gradient principal product in one smooth
+    path-consistent interface coupling before any common-mode or nonlinear
+    patch rerun.
 
 Decisive negative results are retained in the canonical
 `global_composite_failure` case and current reports. “Not found in the surveyed

@@ -130,6 +130,12 @@ This is the canonical project handoff. Status labels mean:
 | Exact-history inner-mode healing WP10c8t | N64 persistence **CERTIFIED** through `0.125 s`; exact N128 architecture confirmation **INCONCLUSIVE**; **NO RELAXATION LAW OR REDUCED STATE AUTHORIZED** | All eight N64/N128 trajectories and fresh-rate/ledger contracts pass. N128 remains persistent (`0.68557 > 0.25` lower bound), temporally controlled (`0.03529 < 0.10`), and shell-0 localized (`0.908/0.900`). Initial N64/N128 rate alignment is excellent (`0.99982` cosine; `1.0498` amplitude ratio) | The final rate gate fails: absolute cosine `0.76088 < 0.90` and N128/N64 amplitude ratio `0.23357` (defect `0.76643 > 0.50`), dominated by opposite-sign shell-0 stress rates. Diagnose the cached cross-mesh phase/onset before selecting an inner coordinate, state vector, or embedded patch |
 | Dense inner-mode phase/activity WP10c8u | **CERTIFIED** as a cache-only diagnosis; `localized_inner_phase_spatially_unresolved`; **NO FORMAL AVERAGE OR ARCHITECTURE CHANGE AUTHORIZED** | Fresh rates at all `1208` cached N64/N128 states reproduce committed sparse samples bitwise. The same-time gate first fails at `0.0025 s`; signed rate cosine reaches `-0.9830`. Final signed slips are only `1.97e-7/1.06e-7`, but absolute impulses are about `12.6/12.2x` larger and every `0.01-0.10 s` window family fails mesh/phase stability | Longest-window mean norms remain as large as `5.524/2.830`; the first departure is boundary-adjacent characteristic/perfect-fluid transport near `1.8-2.2 rg`. The free transient does not define a fixed-`Q` fast average or bound quadratic even drift. Perform a local inner spatial-phase preflight before selecting a coordinate or patch |
 | Local inner-phase spatial preflight WP10c8v | **CERTIFIED** as a negative buffered linear spatial preflight; `inner_fast_phase_spatially_unresolved_local_preflight`; **NO AVERAGING OR ARCHITECTURE CHANGE AUTHORIZED** | Buffered N64/N128 local generators reproduce full active blocks below `3.83e-5` and full `0.125 s` histories below `1.20e-3`, with signed cosines above `0.999999`. Temporal sampling is exact. One N256-equivalent refinement gives only `0.227/0.355` state/rate order; N128/N256 rate cosine reaches `-0.650`, frequency differs by `0.343`, and damping by `0.515` | Inner excision transport controls every mesh and the N128/N256 defect; the response centroid moves from about `2.1` to `4.9 rg`. N256 is a shape-preserving N128 prolongation, not independent truth. Build an independently consistent finer local anchor and audit excision sensitivity before selecting a fixed-`Q` average or embedded-patch architecture |
+| Independent anchor and excision audit WP10c8w | **CERTIFIED** as an independent-anchor stop result; `independent_anchor_passed_excision_or_phase_unresolved`; **NO N512, BOUNDARY CHANGE, AVERAGING, OR ARCHITECTURE AUTHORIZED** | The exact N256 local projection closes 12 coordinates to `1.59e-14`, with maximum primitive-scale correction `6.91e-3` and buffer correction `2.62e-13`; all N64/N128/N256 exact pairs and local physical/operator gates pass. A cell-centered trace is rejected as singular/explosive; the outgoing-linear trace is stable and slightly improves N64/N128 | Independent N128/N256 state/rate orders remain only `0.494/-0.033`, rate cosine is `0.450`, and frequency defect is `0.411`. N256 edge-position sensitivity is small but N128 remains sensitive. Separate boundary flux and storage traces and certify static boundary consistency before another fine history |
+| Inner boundary consistency WP10c8x | **CERTIFIED** as a static consistency and initial-mode stop result; `static_pass_but_common_initial_mode_unresolved`; **NO N512, BOUNDARY CHANGE, AVERAGING, OR ARCHITECTURE AUTHORIZED** | Production and outgoing-linear flux traces pass smooth N64-N512 first-cell balance with fine complete-row orders `2.93/2.04`; descriptor factorization is `3.55e-15`, storage-action defects are below `2.92e-9`, and all inner characteristics remain outgoing. Storage-linear is bitwise identical to production, while combined-linear is bitwise identical to flux-linear at N64/N128/N256 | Neither history family passes (`state/rate` order `0.497/0.041` or `0.494/-0.033`, fine cosine `0.450`). More importantly, the inherited N128/N256 initial state/rate profiles already differ by `0.371/0.455` with cosines `0.938/0.933`; construct a jointly continuum-matched equal-coordinate fiber before another phase or boundary decision |
+| Continuum-matched inner mode WP10c8y | **CERTIFIED** as a common-profile, boundary-insensitive underresolution result; `common_mode_passed_boundary_insensitive_underresolution`; **CONSERVATIVE EMBEDDED-PATCH PREFLIGHT AUTHORIZED, PRODUCTION PATCH/BOUNDARY CHANGE/AVERAGING NOT AUTHORIZED** | One analytic compact stress/radial-transport profile is lifted exactly at N64/N128/N256. Fine state and production-rate cosines are `0.999996/0.997412`, amplitude defects `0.00161/0.00739`, and relative differences `0.00331/0.07206`; coordinate defects remain below `3.56e-15` | Production and outgoing-linear histories both fail with state/rate order about `0.424/-0.665`, maximum fine rate difference `0.529`, and cosine `0.89292`. Their N256 mutual state/rate defects are only `1.42e-7/9.07e-7`, so the tested excision trace is not controlling; build a nonoverlapping conservative fine inner patch with one shared coarse/fine flux |
+| Conservative embedded-patch preflight WP10c8z | **CERTIFIED** for the conservative nonoverlapping coupling kernel; **REJECTED** as a local-refinement cure; `embedded_patch_inner_phase_not_converged`; **NO NONLINEAR/PRODUCTION PATCH OR REDUCTION AUTHORIZED** | Uniform/N256-patch/N512-patch layouts use one live production Rusanov coupling flux with zero state-flux and telescoping defects; storage-action defect is at most `2.16e-9`; BDF2 hybrid replay is bitwise. Moving the matched N512 coupling `12.777 -> 17.713 rg` changes active state/rate histories by only `8.47e-5/1.64e-4`, while coupling signal is below `6.83e-11` | N128/N256-patch versus N256/N512-patch active differences are `0.1375 -> 0.1431` in state and `0.5352 -> 0.8599` in rate, giving orders `-0.057/-0.684`; fine rate cosine is `0.783`. Stop patch refinement and diagnose/redesign the bulk near-horizon characteristic phase operator before nonlinear truth, averaging, or reduced-state work |
+| Characteristic-family phase audit WP10c9a | **CERTIFIED** as a pure-family localization and method-screen result; `characteristic_rate_phase_unresolved_operator_redesign_required`; **NO CANDIDATE, COMMON-MODE RERUN, NONLINEAR PATCH, OR REDUCTION AUTHORIZED** | Five exact reduced-descriptor acoustic/contact/shear packets retain N256/N512 same-time cosines above `0.99849`. Acoustic/material/outward-shear phase and damping contract; shared-flux defect is zero, storage-action defect is `2.16e-9`, and split/restart defect is `4.32e-15`. Smooth primitive, rapidity, and characteristic reconstructions all show at least `1.973` rate order | Inward-shear damping order is `-0.0716`; its rate-history order is `1.011`. Rusanov transport is the largest forcing-side fine-pair defect (`8.32e-4` scaled L2), balanced by mapped storage (`1.16e-3`). Alternative reconstruction error coefficients differ from production by less than `0.1%`, so none is promoted. Certify a complete coordinate eigensystem and audit a family-resolved matrix dissipation before any common-mode rerun |
+| Characteristic-matrix dissipation WP10c9b | **CERTIFIED** as a bounded negative operator result; `characteristic_matrix_rejected_bdf_noise_and_inward_shear_damping_unresolved`; **NO PRODUCTION PROMOTION, COMMON-MODE RERUN, NONLINEAR PATCH, OR REDUCTION AUTHORIZED** | The complete five-field coordinate pencil is real, complete, continuous, and outgoing at excision, with eigenpair defects below `5.84e-15` and biorthogonality defects below `1.29e-13`. The audit-only `R|Lambda|L` descriptor-jump penalty has zero shared-flux defect, storage defect `2.15e-9`, smooth order above `2.694`, and four of five pure packets pass | Inward-shear damping remains nonconvergent (`p=-0.0265`, versus `-0.0716` for scalar Rusanov), while a nonlinear BDF step stalls at residual `7.65e-9 > 1e-10` despite ledger defect `4.24e-11`. Scalar max-speed viscosity is not the sole cause. Derive a smooth path-conservative causal-shear interface coupling before any common-mode rerun |
 
 ## Frozen Target Under Review
 
@@ -1096,6 +1102,47 @@ N                    = 164
    Because N256 is a prolongated linear preflight rather than independently
    equilibrated truth, the result blocks fixed-`Q` averaging but does not
    prove continuum nonconvergence or yet select an embedded patch.
+   WP10c8w removes that prolongation caveat. Its independently corrected
+   N256 local anchor closes the 12 declared coordinates to `1.59e-14`,
+   changes the active primitive chart by at most `6.91e-3` of its physical
+   scale, leaves the buffer unchanged at `2.62e-13`, and supports an exact
+   equal-coordinate pair and independently descriptor-balanced rate. The
+   phase stop nevertheless remains: the least-bad outgoing-linear audit
+   trace gives only `0.494/-0.033` state/rate order from N64/N128/N256,
+   N128/N256 rate cosine `0.4497`, zero-crossing defect `0.2765`, and
+   frequency defect `0.4110`. A cell-centered trace makes the local
+   storage/generator singular and explosive. Moving the edge by up to two
+   N128 cells changes the N256 exterior rate history by at most `0.0203`,
+   but changes N128 by as much as `0.5083`; exact edge placement is therefore
+   not the sole blocker. N512, a production boundary change, fixed-`Q`
+   averaging, and reduced architecture selection remain closed pending a
+   flux-versus-storage boundary-operator consistency audit.
+   WP10c8x separates the audit-only physical-flux and mapped-storage traces.
+   The production and outgoing-linear fluxes are both high-order consistent,
+   but the inherited N128/N256 initial mode itself fails state/rate matching.
+   WP10c8y removes that caveat by defining one analytic compact continuum
+   stress/radial-transport profile and constructing exact nonlinear
+   equal-coordinate pairs at N64/N128/N256. The N128/N256 initial
+   state/production-rate profiles pass with cosines `0.999996/0.997412` and
+   relative differences `0.00331/0.07206`. Their later histories still fail:
+   state/rate order is about `0.424/-0.665`, maximum fine rate difference is
+   `0.529`, and the fine rate cosine reaches `0.89292`. Production and
+   outgoing-linear histories differ from each other by only
+   `1.42e-7/9.07e-7` in N256 state/rate weighted norm, so the remaining
+   underresolution is insensitive to the tested excision trace. A bounded
+   conservative embedded-inner-patch preflight is authorized next; no
+   production patch, boundary replacement, averaging, or reduced state is.
+   WP10c8z implements that preflight as one nonoverlapping grid with a live
+   fine/coarse Rusanov face. The coupling kernel passes with zero shared-flux
+   and telescoping defects, and shifting a matched N512 coupling from
+   `12.777` to `17.713 rg` changes the active history by only `1.64e-4`.
+   Nevertheless the N128/N256-patch and N256/N512-patch state/rate
+   differences change `0.1375 -> 0.1431` and `0.5352 -> 0.8599`, giving
+   negative orders `-0.057/-0.684`; the fine rate cosine falls to `0.783`.
+   The patch coupling is therefore exonerated, but uniform local refinement
+   of the existing bulk near-horizon operator is rejected. Diagnose the
+   characteristic phase error before another refinement, nonlinear patch,
+   average, or reduced model.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -1107,7 +1154,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_INNER_PHASE_SPATIAL_PREFLIGHT_WP10C8V_RESULTS_2026-07-26.md`
+  `reports/current/CODEX_CAUSAL_INNER_CHARACTERISTIC_DISSIPATION_WP10C9B_RESULTS_2026-07-26.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -1196,6 +1243,9 @@ N                    = 164
 - Exact-history inner-mode healing WP10c8t: `reports/current/CODEX_CAUSAL_INNER_MODE_HEALING_WP10C8T_RESULTS_2026-07-24.md`
 - Dense inner-mode phase/activity WP10c8u: `reports/current/CODEX_CAUSAL_INNER_MODE_PHASE_AVERAGE_WP10C8U_RESULTS_2026-07-26.md`
 - Local inner-phase spatial preflight WP10c8v: `reports/current/CODEX_CAUSAL_INNER_PHASE_SPATIAL_PREFLIGHT_WP10C8V_RESULTS_2026-07-26.md`
+- Independent anchor and excision audit WP10c8w: `reports/current/CODEX_CAUSAL_INNER_ANCHOR_EXCISION_AUDIT_WP10C8W_RESULTS_2026-07-26.md`
+- Inner boundary consistency WP10c8x: `reports/current/CODEX_CAUSAL_INNER_BOUNDARY_CONSISTENCY_WP10C8X_RESULTS_2026-07-26.md`
+- Continuum-matched inner mode WP10c8y: `reports/current/CODEX_CAUSAL_INNER_COMMON_MODE_AUDIT_WP10C8Y_RESULTS_2026-07-26.md`
 - Mixed-mode, stationary-preflight, and stable-observable reduction
   WP10c8d-f: `reports/current/CODEX_CAUSAL_STABLE_OBSERVABLE_REDUCTION_WP10C8F_RESULTS_2026-07-20.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`

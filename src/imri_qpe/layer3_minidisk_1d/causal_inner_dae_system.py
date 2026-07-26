@@ -60,6 +60,15 @@ CAUSAL_FIVE_FIELD_BOUNDARY_TRACES = (
     "cell_centered",
     "plm_one_sided",
 )
+CAUSAL_FIVE_FIELD_INNER_TRACE_OVERRIDES = (
+    "inherit",
+    "cell_centered",
+    "linear_outgoing",
+)
+CAUSAL_FIVE_FIELD_RECONSTRUCTION_PURPOSES = (
+    "flux",
+    "storage",
+)
 CAUSAL_FIVE_FIELD_CELL_RATE_SCHEMES = (
     "arithmetic_face",
     "quadratic_log_radius",
@@ -76,6 +85,10 @@ CAUSAL_FIVE_FIELD_STORAGE_QUADRATURES = (
 CAUSAL_FIVE_FIELD_OUTER_BOUNDARY_FLUX_MODES = (
     "roche",
     "frozen_exterior_rusanov",
+)
+CAUSAL_FIVE_FIELD_INTERIOR_DISSIPATION_MODES = (
+    "scalar_rusanov",
+    "characteristic_matrix_audit",
 )
 _GAUSS_LEGENDRE_4_NODES, _GAUSS_LEGENDRE_4_WEIGHTS = (
     np.polynomial.legendre.leggauss(4)
@@ -100,8 +113,12 @@ class CausalFiveFieldDAEContext:
     cell_rate_scheme: str = "arithmetic_face"
     cell_source_quadrature: str = "midpoint"
     cell_storage_quadrature: str = "midpoint"
+    inner_boundary_trace_override: str = "inherit"
+    inner_flux_trace_override: str = "inherit"
+    inner_storage_trace_override: str = "inherit"
     outer_boundary_flux_mode: str = "roche"
     outer_boundary_frozen_exterior_chart: np.ndarray | None = None
+    interior_dissipation_mode: str = "scalar_rusanov"
 
     def validated(self) -> CausalFiveFieldDAEContext:
         n_cells = int(np.asarray(self.grid.centers).size)
@@ -146,6 +163,27 @@ class CausalFiveFieldDAEContext:
             not in CAUSAL_FIVE_FIELD_BOUNDARY_TRACES
         ):
             raise ValueError("unsupported causal five-field boundary trace")
+        if (
+            self.inner_boundary_trace_override
+            not in CAUSAL_FIVE_FIELD_INNER_TRACE_OVERRIDES
+        ):
+            raise ValueError(
+                "unsupported causal five-field inner trace override"
+            )
+        if (
+            self.inner_flux_trace_override
+            not in CAUSAL_FIVE_FIELD_INNER_TRACE_OVERRIDES
+        ):
+            raise ValueError(
+                "unsupported causal five-field inner flux trace override"
+            )
+        if (
+            self.inner_storage_trace_override
+            not in CAUSAL_FIVE_FIELD_INNER_TRACE_OVERRIDES
+        ):
+            raise ValueError(
+                "unsupported causal five-field inner storage trace override"
+            )
         if self.cell_rate_scheme not in CAUSAL_FIVE_FIELD_CELL_RATE_SCHEMES:
             raise ValueError("unsupported causal five-field cell-rate scheme")
         if (
@@ -187,6 +225,13 @@ class CausalFiveFieldDAEContext:
                     "the frozen exterior boundary requires one finite "
                     "five-field primitive chart"
                 )
+        if (
+            self.interior_dissipation_mode
+            not in CAUSAL_FIVE_FIELD_INTERIOR_DISSIPATION_MODES
+        ):
+            raise ValueError(
+                "unsupported causal five-field interior dissipation"
+            )
         if (
             self.spatial_reconstruction == "quadratic_admissible"
             or self.boundary_trace_reconstruction == "plm_one_sided"
@@ -1292,9 +1337,116 @@ def _three_point_first_derivative(
     )
 
 
+def _maximum_inner_trace_speed_over_c(
+    context: CausalFiveFieldDAEContext,
+    chart: np.ndarray,
+) -> float:
+    """Return the largest signed physical speed at the excision trace."""
+
+    radius = float(context.grid.edges[0])
+    state = _cell_state(context, radius, chart)
+    audit = audit_causal_five_field_principal(
+        state.geometry,
+        context.vertical_frequency.eos(radius),
+        state.closure,
+        surface_density=state.primitive.surface_density,
+        radial_velocity_over_c=state.primitive.radial_velocity_over_c,
+        azimuthal_velocity_over_c=state.primitive.azimuthal_velocity_over_c,
+        temperature=state.thermodynamics.temperature,
+    )
+    return float(np.max(audit.coordinate_speeds_over_c))
+
+
+def _apply_inner_trace_override(
+    context: CausalFiveFieldDAEContext,
+    charts: np.ndarray,
+    reconstruction: CausalFiveFieldFaceReconstruction,
+    *,
+    purpose: str,
+) -> CausalFiveFieldFaceReconstruction:
+    """Apply one audit-only inner trace without changing the outer trace."""
+
+    if purpose not in CAUSAL_FIVE_FIELD_RECONSTRUCTION_PURPOSES:
+        raise ValueError("unsupported causal five-field reconstruction purpose")
+    specific = (
+        context.inner_flux_trace_override
+        if purpose == "flux"
+        else context.inner_storage_trace_override
+    )
+    override = (
+        context.inner_boundary_trace_override
+        if specific == "inherit"
+        else specific
+    )
+    if override == "inherit":
+        return reconstruction
+    left_faces = np.array(reconstruction.left_face_charts, copy=True)
+    right_faces = np.array(reconstruction.right_face_charts, copy=True)
+    unlimited = np.array(reconstruction.unlimited_slopes, copy=True)
+    limited = np.array(reconstruction.limited_slopes, copy=True)
+    admissibility = np.array(
+        reconstruction.admissibility_factors,
+        copy=True,
+    )
+    if override == "cell_centered":
+        trace = np.asarray(charts[0], dtype=float)
+        limited[0] = 0.0
+    else:
+        if charts.shape[0] < 3:
+            raise ValueError(
+                "linear outgoing inner trace requires three cells"
+            )
+        log_centers = np.log(np.asarray(context.grid.centers, dtype=float))
+        log_edge = float(np.log(context.grid.edges[0]))
+        slope = _three_point_first_derivative(
+            log_centers[:3],
+            charts[:3],
+            float(log_centers[0]),
+        )
+        candidate = charts[0] + slope * (log_edge - log_centers[0])
+        factor = _coupled_face_admissibility_factor(
+            context,
+            charts[0],
+            ((0, candidate),),
+        )
+        center = np.asarray(charts[0], dtype=float)
+        if _maximum_inner_trace_speed_over_c(context, center) > 0.0:
+            raise ValueError(
+                "cell-centered excision state has an incoming characteristic"
+            )
+        trace = center + factor * (candidate - center)
+        if _maximum_inner_trace_speed_over_c(context, trace) > 0.0:
+            lower = 0.0
+            upper = float(factor)
+            for _iteration in range(64):
+                midpoint = 0.5 * (lower + upper)
+                trial = center + midpoint * (candidate - center)
+                if _maximum_inner_trace_speed_over_c(context, trial) <= 0.0:
+                    lower = midpoint
+                else:
+                    upper = midpoint
+            factor = lower
+            trace = center + factor * (candidate - center)
+        unlimited[0] = slope
+        limited[0] = factor * slope
+        admissibility[0] = factor
+    left_faces[0] = trace
+    right_faces[0] = trace
+    return CausalFiveFieldFaceReconstruction(
+        mode=reconstruction.mode,
+        left_face_charts=left_faces,
+        right_face_charts=right_faces,
+        unlimited_slopes=unlimited,
+        limited_slopes=limited,
+        admissibility_factors=admissibility,
+    )
+
+
 def causal_five_field_reconstruct_face_charts(
     context: CausalFiveFieldDAEContext,
     primitive_charts: np.ndarray,
+    *,
+    purpose: str = "flux",
 ) -> CausalFiveFieldFaceReconstruction:
     """Reconstruct both primitive charts at every radial face.
 
@@ -1306,6 +1458,8 @@ def causal_five_field_reconstruct_face_charts(
     """
 
     context = context.validated()
+    if purpose not in CAUSAL_FIVE_FIELD_RECONSTRUCTION_PURPOSES:
+        raise ValueError("unsupported causal five-field reconstruction purpose")
     charts = np.asarray(primitive_charts, dtype=float)
     n_cells = int(context.grid.centers.size)
     if (
@@ -1325,18 +1479,26 @@ def causal_five_field_reconstruct_face_charts(
     admissibility = np.ones(n_cells, dtype=float)
     mode = context.spatial_reconstruction
 
+    def finish() -> CausalFiveFieldFaceReconstruction:
+        return _apply_inner_trace_override(
+            context,
+            charts,
+            CausalFiveFieldFaceReconstruction(
+                mode=mode,
+                left_face_charts=left_faces,
+                right_face_charts=right_faces,
+                unlimited_slopes=unlimited,
+                limited_slopes=limited,
+                admissibility_factors=admissibility,
+            ),
+            purpose=purpose,
+        )
+
     if mode == "piecewise_constant":
         for face in range(1, n_cells):
             left_faces[face] = charts[face - 1]
             right_faces[face] = charts[face]
-        return CausalFiveFieldFaceReconstruction(
-            mode=mode,
-            left_face_charts=left_faces,
-            right_face_charts=right_faces,
-            unlimited_slopes=unlimited,
-            limited_slopes=limited,
-            admissibility_factors=admissibility,
-        )
+        return finish()
 
     log_centers = np.log(np.asarray(context.grid.centers, dtype=float))
     log_edges = np.log(np.asarray(context.grid.edges, dtype=float))
@@ -1486,14 +1648,7 @@ def causal_five_field_reconstruct_face_charts(
                 )
                 left_faces[-1] = boundary_chart
                 right_faces[-1] = boundary_chart
-        return CausalFiveFieldFaceReconstruction(
-            mode=mode,
-            left_face_charts=left_faces,
-            right_face_charts=right_faces,
-            unlimited_slopes=unlimited,
-            limited_slopes=limited,
-            admissibility_factors=admissibility,
-        )
+        return finish()
 
     for face in range(1, n_cells):
         left_cell = face - 1
@@ -1524,14 +1679,7 @@ def causal_five_field_reconstruct_face_charts(
         right_faces[0] = inner_chart
         left_faces[-1] = outer_chart
         right_faces[-1] = outer_chart
-    return CausalFiveFieldFaceReconstruction(
-        mode=mode,
-        left_face_charts=left_faces,
-        right_face_charts=right_faces,
-        unlimited_slopes=unlimited,
-        limited_slopes=limited,
-        admissibility_factors=admissibility,
-    )
+    return finish()
 
 
 def _interior_rusanov_flux_components(
@@ -1545,33 +1693,49 @@ def _interior_rusanov_flux_components(
     radius = float(context.grid.edges[face_index])
     left = _cell_state(context, radius, left_chart)
     right = _cell_state(context, radius, right_chart)
-    speeds = []
-    for state in (left, right):
-        audit = audit_causal_five_field_principal(
-            state.geometry,
-            context.vertical_frequency.eos(radius),
-            state.closure,
-            surface_density=state.primitive.surface_density,
-            radial_velocity_over_c=(
-                state.primitive.radial_velocity_over_c
-            ),
-            azimuthal_velocity_over_c=(
-                state.primitive.azimuthal_velocity_over_c
-            ),
-            temperature=state.thermodynamics.temperature,
-        )
-        speeds.extend(audit.coordinate_speeds_over_c)
-    maximum_speed = float(np.max(np.abs(speeds)))
     measure = float(context.grid.face_measures[face_index])
     central = (
         measure * 0.5 * (left.flux_over_c + right.flux_over_c)
     )
-    dissipation = (
-        -measure
-        * 0.5
-        * maximum_speed
-        * (right.conserved - left.conserved)
-    )
+    if context.interior_dissipation_mode == "scalar_rusanov":
+        speeds = []
+        for state in (left, right):
+            audit = audit_causal_five_field_principal(
+                state.geometry,
+                context.vertical_frequency.eos(radius),
+                state.closure,
+                surface_density=state.primitive.surface_density,
+                radial_velocity_over_c=(
+                    state.primitive.radial_velocity_over_c
+                ),
+                azimuthal_velocity_over_c=(
+                    state.primitive.azimuthal_velocity_over_c
+                ),
+                temperature=state.thermodynamics.temperature,
+            )
+            speeds.extend(audit.coordinate_speeds_over_c)
+        maximum_speed = float(np.max(np.abs(speeds)))
+        dissipation = (
+            -measure
+            * 0.5
+            * maximum_speed
+            * (right.conserved - left.conserved)
+        )
+    else:
+        # The production default never imports the audit-only characteristic
+        # module.  The local import also avoids a module initialization cycle.
+        from .causal_inner_characteristic_dissipation import (
+            causal_five_field_characteristic_dissipation,
+        )
+
+        candidate = causal_five_field_characteristic_dissipation(
+            context,
+            radius,
+            left_chart,
+            right_chart,
+            face_measure=measure,
+        )
+        dissipation = candidate.dissipative_flux_over_c
     return (
         np.asarray(central, dtype=float),
         np.asarray(dissipation, dtype=float),
@@ -1722,6 +1886,7 @@ def causal_five_field_rusanov_control_diagnostics(
     reconstruction = causal_five_field_reconstruct_face_charts(
         context,
         charts,
+        purpose="flux",
     )
     family_labels = (
         "inward_acoustic",
@@ -2275,6 +2440,7 @@ def _integrated_cell_sources_gauss_legendre(
     reconstruction = causal_five_field_reconstruct_face_charts(
         context,
         charts,
+        purpose="storage",
     )
     log_centers = np.log(np.asarray(context.grid.centers, dtype=float))
     sources = np.zeros((n_cells, _N_FIELDS), dtype=float)
@@ -2525,6 +2691,7 @@ def causal_five_field_mapped_conserved_from_primitives(
     reconstruction = causal_five_field_reconstruct_face_charts(
         context,
         charts,
+        purpose="storage",
     )
     return _mapped_conserved_from_reconstruction(
         context,
@@ -2557,22 +2724,28 @@ def _mapped_state_and_fluxes(
         )
     ]
     n_cells = len(cell_states)
-    reconstruction = causal_five_field_reconstruct_face_charts(
+    storage_reconstruction = causal_five_field_reconstruct_face_charts(
         context,
         primitive_charts,
+        purpose="storage",
+    )
+    flux_reconstruction = causal_five_field_reconstruct_face_charts(
+        context,
+        primitive_charts,
+        purpose="flux",
     )
     mapped = _mapped_conserved_from_reconstruction(
         context,
         primitive_charts,
         cell_states,
-        reconstruction,
+        storage_reconstruction,
     )
     faces = np.empty((n_cells + 1, _N_FIELDS), dtype=float)
     central_faces = np.empty_like(faces)
     dissipative_faces = np.zeros_like(faces)
     faces[0] = _inner_face_flux(
         context,
-        reconstruction.right_face_charts[0],
+        flux_reconstruction.right_face_charts[0],
     )
     central_faces[0] = faces[0]
     for face in range(1, n_cells):
@@ -2580,8 +2753,8 @@ def _mapped_state_and_fluxes(
             _interior_rusanov_flux_components(
                 context,
                 face,
-                reconstruction.left_face_charts[face],
-                reconstruction.right_face_charts[face],
+                flux_reconstruction.left_face_charts[face],
+                flux_reconstruction.right_face_charts[face],
             )
         )
         faces[face] = (
@@ -2589,7 +2762,7 @@ def _mapped_state_and_fluxes(
         )
     faces[-1], choked, incoming = _outer_face_flux(
         context,
-        reconstruction.left_face_charts[-1],
+        flux_reconstruction.left_face_charts[-1],
     )
     central_faces[-1] = faces[-1]
     return (

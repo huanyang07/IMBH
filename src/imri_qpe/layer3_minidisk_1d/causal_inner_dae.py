@@ -46,6 +46,7 @@ class CausalFiveFieldPrincipalAudit:
 
     local_rest_mass_matrix: np.ndarray
     local_rest_flux_matrix: np.ndarray
+    local_rest_right_eigenvectors: np.ndarray
     analytic_local_rest_speeds_over_c: tuple[float, ...]
     numerical_local_rest_speeds_over_c: tuple[float, ...]
     coordinate_speeds_over_c: tuple[float, ...]
@@ -299,6 +300,10 @@ def audit_causal_five_field_principal(
     return CausalFiveFieldPrincipalAudit(
         local_rest_mass_matrix=mass,
         local_rest_flux_matrix=flux,
+        local_rest_right_eigenvectors=np.asarray(
+            np.real(numerical_vectors),
+            dtype=float,
+        ),
         analytic_local_rest_speeds_over_c=tuple(
             float(value) for value in analytic_local
         ),
