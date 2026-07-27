@@ -1,6 +1,6 @@
 # Project Status
 
-- Updated: 2026-07-26
+- Updated: 2026-07-27
 - Pre-cleanup scientific tag: `pre-cleanup-p0-2026-07-11`
 - Legacy phase classification tag: `legacy-steady-positive-flux-dae-2026-07-10`
 
@@ -135,7 +135,15 @@ This is the canonical project handoff. Status labels mean:
 | Continuum-matched inner mode WP10c8y | **CERTIFIED** as a common-profile, boundary-insensitive underresolution result; `common_mode_passed_boundary_insensitive_underresolution`; **CONSERVATIVE EMBEDDED-PATCH PREFLIGHT AUTHORIZED, PRODUCTION PATCH/BOUNDARY CHANGE/AVERAGING NOT AUTHORIZED** | One analytic compact stress/radial-transport profile is lifted exactly at N64/N128/N256. Fine state and production-rate cosines are `0.999996/0.997412`, amplitude defects `0.00161/0.00739`, and relative differences `0.00331/0.07206`; coordinate defects remain below `3.56e-15` | Production and outgoing-linear histories both fail with state/rate order about `0.424/-0.665`, maximum fine rate difference `0.529`, and cosine `0.89292`. Their N256 mutual state/rate defects are only `1.42e-7/9.07e-7`, so the tested excision trace is not controlling; build a nonoverlapping conservative fine inner patch with one shared coarse/fine flux |
 | Conservative embedded-patch preflight WP10c8z | **CERTIFIED** for the conservative nonoverlapping coupling kernel; **REJECTED** as a local-refinement cure; `embedded_patch_inner_phase_not_converged`; **NO NONLINEAR/PRODUCTION PATCH OR REDUCTION AUTHORIZED** | Uniform/N256-patch/N512-patch layouts use one live production Rusanov coupling flux with zero state-flux and telescoping defects; storage-action defect is at most `2.16e-9`; BDF2 hybrid replay is bitwise. Moving the matched N512 coupling `12.777 -> 17.713 rg` changes active state/rate histories by only `8.47e-5/1.64e-4`, while coupling signal is below `6.83e-11` | N128/N256-patch versus N256/N512-patch active differences are `0.1375 -> 0.1431` in state and `0.5352 -> 0.8599` in rate, giving orders `-0.057/-0.684`; fine rate cosine is `0.783`. Stop patch refinement and diagnose/redesign the bulk near-horizon characteristic phase operator before nonlinear truth, averaging, or reduced-state work |
 | Characteristic-family phase audit WP10c9a | **CERTIFIED** as a pure-family localization and method-screen result; `characteristic_rate_phase_unresolved_operator_redesign_required`; **NO CANDIDATE, COMMON-MODE RERUN, NONLINEAR PATCH, OR REDUCTION AUTHORIZED** | Five exact reduced-descriptor acoustic/contact/shear packets retain N256/N512 same-time cosines above `0.99849`. Acoustic/material/outward-shear phase and damping contract; shared-flux defect is zero, storage-action defect is `2.16e-9`, and split/restart defect is `4.32e-15`. Smooth primitive, rapidity, and characteristic reconstructions all show at least `1.973` rate order | Inward-shear damping order is `-0.0716`; its rate-history order is `1.011`. Rusanov transport is the largest forcing-side fine-pair defect (`8.32e-4` scaled L2), balanced by mapped storage (`1.16e-3`). Alternative reconstruction error coefficients differ from production by less than `0.1%`, so none is promoted. Certify a complete coordinate eigensystem and audit a family-resolved matrix dissipation before any common-mode rerun |
-| Characteristic-matrix dissipation WP10c9b | **CERTIFIED** as a bounded negative operator result; `characteristic_matrix_rejected_bdf_noise_and_inward_shear_damping_unresolved`; **NO PRODUCTION PROMOTION, COMMON-MODE RERUN, NONLINEAR PATCH, OR REDUCTION AUTHORIZED** | The complete five-field coordinate pencil is real, complete, continuous, and outgoing at excision, with eigenpair defects below `5.84e-15` and biorthogonality defects below `1.29e-13`. The audit-only `R|Lambda|L` descriptor-jump penalty has zero shared-flux defect, storage defect `2.15e-9`, smooth order above `2.694`, and four of five pure packets pass | Inward-shear damping remains nonconvergent (`p=-0.0265`, versus `-0.0716` for scalar Rusanov), while a nonlinear BDF step stalls at residual `7.65e-9 > 1e-10` despite ledger defect `4.24e-11`. Scalar max-speed viscosity is not the sole cause. Derive a smooth path-conservative causal-shear interface coupling before any common-mode rerun |
+| Characteristic-matrix dissipation WP10c9b | **CERTIFIED** as a bounded negative operator result; `characteristic_matrix_rejected_bdf_noise_and_inward_shear_damping_unresolved`; **NO PRODUCTION PROMOTION, COMMON-MODE RERUN, NONLINEAR PATCH, OR REDUCTION AUTHORIZED** | The complete five-field coordinate pencil is real, complete, continuous, and outgoing at excision, with eigenpair defects below `5.84e-15` and biorthogonality defects below `1.29e-13`. The audit-only `R|Lambda|L` descriptor-jump penalty has zero shared-flux defect, storage defect `2.15e-9`, smooth order above `2.694`, and four of five pure packets pass | Inward-shear selected-family damping remains nonconvergent (`p=-0.0265`, versus `-0.0716` for scalar Rusanov), while a nonlinear BDF step stalls at residual `7.65e-9 > 1e-10` despite ledger defect `4.24e-11`. Scalar max-speed viscosity is not the sole cause; WP10c9c0 supersedes the provisional path-flux recommendation |
+| Causal-shear root-cause proof WP10c9c0 | **CERTIFIED** as a binding negative root-cause result; `path_inconsistency_not_proved_selected_shear_damping_persists`; **WP10c9c1 PATH CANDIDATE NOT AUTHORIZED** | The sign-explicit `B=F_p-C_pr` jump closes at `1.26e-9`, the derivative plateau at `3.84e-6`, and the analytic local-rest/complete-coordinate shear projector and positive-energy contracts pass. Current-split and monolithic Fourier phase/relaxing orders are at least `2.000`, damping order at least `2.971`, and the manufactured wave gives fine orders `2.024/2.025`. Adding only `G_monolithic-G_split` to the unchanged full generator leaves inward selected-family damping at `-0.0895`, while the outward packet passes | Total inward symmetrizer-based shear-subspace energy converges at order `1.55` (`1.49/1.45` for the parent scalar/matrix operators), but selected-branch self-energy remains negative-order and descriptor order is only `0.57`. The branch cross term reaches `4.27x` the net total and `21-24%` leaves the original window, so the branch split is not yet a physical orthogonal energy ledger. Derive that ledger and ablate lower-order/non-normal blocks before any path flux, nonlinear truth, averaging, or reduction |
+| Full shear-energy ledger WP10c9c0b | **CERTIFIED** for its exact ledger and attribution scope; `selected_shear_energy_defect_is_transport_window_or_family_transfer_sensitive`; **NO UNIQUE OPERATOR CHANGE, PATH CANDIDATE, OR REDUCTION AUTHORIZED** | The positive energy-orthogonal selected/complement partition closes to `3.23e-15`; all exact generator blocks close with stationary-Jacobian defects below `8.94e-12`, final generator defect zero, and unattributed fraction below `1.35e-9`. Instantaneous ledgers close below `5.63e-15`; refined integrated defect is `2.65e-7` at order `1.9996`. Inward total energy converges at `1.4878`, outward total/selected at `2.344/2.355` | Inward selected/complement orders remain `0.4878/-0.1171`; preserving cumulative work is only order `0.5608` and transfer rate/work orders are `-0.795/-0.601`. Three different significant block removals pass, while removing boundaries or Rusanov dissipation worsens the result. No single block is causal. Build a face-resolved local energy balance and exact common-mode family-pair decomposition before changing the operator |
+| Common-mode family-transfer audit WP10c9c0c | **CERTIFIED** for exact decomposition and local-work attribution; `common_mode_failure_remains_multifamily_or_nonlocal`; **NO OPERATOR CHANGE, PATH CANDIDATE, NEW TRAJECTORY, OR REDUCTION AUTHORIZED** | Five family projectors close below `3.56e-15`; separately propagated common-mode components reproduce state/rate histories below `5.23e-15/1.83e-13`, and pairwise Gram/cross-work ledgers below `5.64e-15`. Fine initial inward/outward shear fractions agree across N128/N256, and their large cumulative cross-work agrees to about `0.1%`. Pure inward local block work closes instantaneously below `9.92e-16` | Common state/rate order remains `0.480/-0.632`; the controlling rate component changes from inward shear on N64/N128 to outward shear on N128/N256. Pure inward refinement work is split among central perfect transport (`38.3%`), mapped descriptor (`32.0%`), and geometry (`14.3%`); no block reaches `50%`. Its radial profile has cosine only `0.174` with the common-mode error. Apply the exact block-by-family work ledger directly to the common trajectory before any candidate |
+| Direct common-mode block/family audit WP10c9c0d | **CERTIFIED** for exact common-trajectory attribution; `common_mode_defect_remains_multiblock_after_direct_ledger`; **NO SINGLE OPERATOR CHANGE OR REDUCTION AUTHORIZED** | Native generator blocks close after exact similarity rescaling with final defect `2.12e-16`; receiver-action and cross-work ledgers close below `6.59e-14/7.89e-15`. Inner-boundary transport mediates `56.7-59.3%` of the large inward/outward-shear exchange | The fine interaction defect is split almost equally between central perfect transport (`45.67%`) and the inner boundary (`45.57%`); the full common-rate error has no term above `6.60%`. A one-term or shear-only repair is not selected |
+| Conservative inner-micro export preflight WP10c9d0 | **CERTIFIED** as a method-valid negative reduction gate; `conservative_micro_exports_fail_spatial_gate`; **FIXED-Q AND REDUCED SLOW EVOLUTION NOT AUTHORIZED** | The nonlinear physical observable map passes its step/sampling gates; direct M/J/E drive agrees with the stationary matrix below `2.37e-5`; the instantaneous responsive-height descriptor ledger closes below `5.22e-15`; all embedded shared-flux/telescoping defects are zero. Uniform N64/N128/N256 instantaneous/cumulative exports pass with fine maximum `0.0384/0.0474` | The N128-exterior N128/N256/N512 inner-patch ladder has cumulative exported-vector orders `-1.434/-1.022`; inner-flux/net-drive orders are about `-1.60/-1.44`, and cooling/height order is `-1.36/-1.02`. The coupling response is insignificant, so the present refined inner bulk operator cannot be used as a conservative microclosure. Audit a complete coupled near-horizon operator before any constrained averaging |
+| Conservative export family audit WP10c9d1 | **CERTIFIED** for exact five-family export attribution; `conservative_export_defect_is_multifamily_full_coupled_operator_required`; **NO SINGLE-FAMILY REPAIR, FIXED-Q AVERAGING, OR REDUCED EVOLUTION AUTHORIZED** | Five projectors close below `3.56e-15`; family histories reconstruct instantaneous and cumulative physical exports below `1.52e-5/2.75e-6`. The fine cumulative cooling/height defect is material-dominated, but the complete instantaneous and cumulative exports fail the declared dominance, persistence, and cross-grid profile gates | The fine controlling cumulative cooling-angular-momentum error is distributed across material (`48.80%`), outward shear (`20.87%`), inward shear (`16.12%`), outward acoustic (`7.50%`), and inward acoustic (`6.71%`). The complete near-horizon five-field fluctuation operator, including boundary transport and within-cell coupling, must be designed and certified as one well-balanced object |
+| Complete five-field path/fluctuation contract WP10c9d2 | **CERTIFIED** for its production-neutral sign/path/split scope; `full_principal_path_contract_passed_cell_assembly_is_next_gate`; **NO PRODUCTION OPERATOR, NEW TRAJECTORY, FIXED-Q AVERAGING, OR REDUCTION AUTHORIZED** | On all three cached inner-grid levels, constant-state defect is zero; reversal, source partition, path additivity, and quadrature defects are below `1.32e-13`; the signed five-family split closes below `3.08e-14`. Worst-direction small-jump envelopes converge at order `1.886-1.946` and end below `3.38e-10`; excision has zero incoming modes | The straight primitive path is only an audit path, and no interface/within-cell residual has been assembled. The next gate is a well-balanced local fluctuation ledger with one shared conservative flux, separately ledgered derivative-source paths, background preservation, no source double counting, and complete-generator linear closure |
+| Fixed-geometry cell-fluctuation ledger WP10c9d3 | **CERTIFIED** for constant-geometry interface/within-cell assembly; `fixed_geometry_full_fluctuation_assembly_passed_radial_well_balance_is_next_gate`; **NO RADIAL PRODUCTION OPERATOR, NEW TRAJECTORY, FIXED-Q AVERAGING, OR REDUCTION AUTHORIZED** | Constants are preserved bitwise; discontinuous interface and smooth within-cell ledgers close below `9.26e-14`. At `2.20/5.00 rg`, three mixed manufactured waves converge at minimum order `1.9979` with N64 relative L2 error `4.02e-4` | Geometry, face/cell measures, lower-order sources, responsive-height work, excision, and coupling have not yet been assembled with the nonuniform disk background. The next gate is direct radial background and frozen-generator closure without hidden residual subtraction or source double counting |
 
 ## Frozen Target Under Review
 
@@ -1143,6 +1151,119 @@ N                    = 164
    of the existing bulk near-horizon operator is rejected. Diagnose the
    characteristic phase error before another refinement, nonlinear patch,
    average, or reduced model.
+   WP10c9a localizes the remaining packet failure to inward causal shear:
+   four other characteristic families pass, same-time direction remains
+   convergent, and alternative reconstruction charts do not change the
+   error coefficient. WP10c9b then rejects a full five-family
+   characteristic-matrix penalty; it changes inward selected-family damping
+   order only from `-0.0716` to `-0.0265` and also introduces a nonlinear
+   residual floor. WP10c9c0 now completes the required root-cause stop test.
+   The exact implemented sign is `B=F_p-C_pr`; its path linearization,
+   derivative plateau, shear projector, and positive symmetrizer pass.
+   Current-split and monolithic symbols and manufactured waves both converge
+   at second order, while adding only the monolithic-minus-split correction
+   to the unchanged full generator leaves inward selected-family damping at
+   `-0.0895`. Path inconsistency is therefore not proved and WP10c9c1 is not
+   authorized. Total symmetrizer-based shear-subspace energy does converge at
+   order `1.45-1.55`; the unresolved quantity is the
+   selected-family/descriptor partition. Its naive branch self-energy split
+   has a cross term up to `4.27x` the net total, and the packet also has
+   substantial measurement-window loss. Assemble the exact full-generator
+   shear-energy and transfer ledger, then ablate lower-order/non-normal blocks
+   before any path flux, nonlinear patch, fixed-`Q` average, or reduced model.
+   WP10c9c0b completes that ledger. Its positive energy-orthogonal partition,
+   exact generator decomposition, instantaneous block/source ledgers, and
+   refined integrated quadrature all pass. Total inward shear energy converges
+   at order `1.4878`, but selected/complement energies remain at
+   `0.4878/-0.1171`. Preserving-rate order is `1.078`, while accumulated
+   preserving work reaches only `0.561` and selected/complement transfer
+   rate/work remain negative-order. No unique block controls the result:
+   geometry/cooling, conservative transport, and mapped-descriptor removals
+   each pass, while boundary or Rusanov removal worsens it. The next package
+   must derive a face-resolved local shear-energy balance and decompose the
+   frozen WP10c8y common perturbation into absolutely significant pairwise
+   characteristic-family transfers. Run no new truth trajectory and change no
+   operator until that coupled localization identifies one binding defect.
+   WP10c9c0c completes both audits without identifying one binding defect.
+   Its exact five-family decomposition reconstructs the common state/rate
+   histories below `5.23e-15/1.83e-13`, but common state/rate convergence
+   remains only `0.480/-0.632`. The controlling rate error changes from
+   inward shear on N64/N128 to outward shear on N128/N256. The fine common
+   lift contains comparable inward/outward shear energy (`0.318/0.375`) and
+   their cumulative cross-work is the largest interaction, but it agrees
+   closely between N128/N256. On the separate pure inward packet, exact local
+   work is distributed across central perfect transport (`38.3%`), mapped
+   descriptor dependence (`32.0%`), and geometry (`14.3%`), with no block
+   reaching the predeclared `50%` dominance gate. Its controlling radial
+   profile has cosine only `0.174` with the common outward-shear error.
+   Therefore the pure inward defect cannot select a common-mode operator
+   change. Apply the exact four-index block-by-receiver/source-family work
+   ledger directly to the common trajectory next; keep WP10c9c1, new truth,
+   fixed-`Q`, and reduction work closed.
+   WP10c9c0d now completes that direct common-trajectory ledger. The native
+   WP10c8x generators are decomposed before exact similarity rescaling, which
+   keeps stationary reconstruction below `1.03e-11`, the unattributed
+   generator below `1.64e-9`, receiver-action closure below `6.59e-14`, and
+   block/family cross-work closure below `7.89e-15`. Inner-boundary transport
+   stably mediates `56.7-59.3%` of the large inward/outward-shear exchange,
+   but its N128/N256 defect is split between central perfect transport
+   (`45.67%`) and the inner boundary (`45.57%`). The outward-shear-source rate
+   error is led by central perfect transport at only `26.82%`, while the
+   largest individual term in the full common rate error contributes only
+   `6.60%`. The mediator, refinement defect, and rate error therefore do not
+   select one dominant block. Close WP10c9c as a negative one-term
+   localization result: no path flux or production operator change is
+   authorized. Before WP10c9d fixed-`Q` work, use existing common/patch caches
+   to test whether the conservative flux and integrated-ledger observables
+   needed by a localized inner micro-solver are themselves mesh convergent.
+   WP10c9d0 completes that cache-first physical export gate. The uniform
+   N64/N128/N256 common-mode ladder passes instantaneous and cumulative M/J/E
+   flux, net-drive, cooling, and responsive-height export gates; its fine
+   complete-vector differences are `0.03844/0.04740`, with orders above
+   `4.39`. The physical directional map is independently checked against the
+   stationary matrix below `2.37e-5`, and the complete instantaneous
+   descriptor ledger closes below `5.22e-15`. The conservative embedded
+   N128-exterior ladder fails, however: refining its inner patch from
+   N128-equivalent through N512-equivalent gives cumulative complete-export
+   orders `-1.434/-1.022`, inner-flux/net-drive orders near
+   `-1.60/-1.44`, and cooling/height order `-1.36/-1.02`. All coupling fluxes
+   telescope exactly and the coupling response is below absolute
+   significance, so the failed conservative response originates in the
+   refined inner bulk operator. Fixed-`Q` averaging is not authorized.
+   WP10c9d1 then projects the same failed exports onto the exact five
+   characteristic families. The family sums reproduce the physical
+   instantaneous and cumulative exports below `1.52e-5/2.75e-6`, but no
+   family satisfies the combined dominance, persistence, and cross-grid
+   profile gates for the complete export vector. In the fine controlling
+   cumulative cooling-angular-momentum error, material contributes `48.80%`,
+   outward shear `20.87%`, inward shear `16.12%`, outward acoustic `7.50%`,
+   and inward acoustic `6.71%`. The defect is therefore genuinely
+   multifamily. Proceed only with a production-neutral, sign-explicit,
+   well-balanced complete five-field path/fluctuation operator contract that
+   treats conservative flux, derivative-source paths, within-cell transport,
+   and inner-boundary transport together. Do not tune one family, launch
+   another truth trajectory, or authorize fixed-`Q` averaging.
+   WP10c9d2 completes the first part of that contract. The implemented
+   `Delta F - integral(C_pr dPsi)` sign is explicit, conservative/shear/height
+   pieces remain separate, and the negative/stationary/positive fluctuations
+   reconstruct the complete jump below `3.08e-14` on all three cached
+   inner-grid levels. Reversal, additivity, and 4/8-point quadrature defects
+   remain below `1.32e-13`; the worst-direction small-jump envelope is order
+   `1.886-1.946` with fine defect below `3.38e-10`, and excision remains fully
+   outgoing. This authorizes only a production-neutral well-balanced local
+   assembly ledger. The straight primitive path is not yet a selected
+   physical finite-amplitude path, and no new operator or reduction is
+   authorized.
+   WP10c9d3 then assembles the complete jump into positive-left,
+   within-cell, and negative-right fluctuations under frozen geometry.
+   Constant states remain bitwise zero, periodic conservative cycles and
+   fluctuation ledgers close below `9.26e-14`, and three independent mixed
+   waves at `2.20/5.00 rg` converge at order `1.9979` with N64 error
+   `4.02e-4`. The remaining gate is specifically radial well balance:
+   production face reconstruction, varying measures, geometry,
+   responsive-height and relaxation sources, excision, and live coupling must
+   reproduce the unchanged background residual and complete frozen generator
+   without hidden subtraction or double counting.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -1154,7 +1275,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_INNER_CHARACTERISTIC_DISSIPATION_WP10C9B_RESULTS_2026-07-26.md`
+  `reports/current/CODEX_CAUSAL_INNER_CELL_FLUCTUATION_WP10C9D3_RESULTS_2026-07-27.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -1246,6 +1367,22 @@ N                    = 164
 - Independent anchor and excision audit WP10c8w: `reports/current/CODEX_CAUSAL_INNER_ANCHOR_EXCISION_AUDIT_WP10C8W_RESULTS_2026-07-26.md`
 - Inner boundary consistency WP10c8x: `reports/current/CODEX_CAUSAL_INNER_BOUNDARY_CONSISTENCY_WP10C8X_RESULTS_2026-07-26.md`
 - Continuum-matched inner mode WP10c8y: `reports/current/CODEX_CAUSAL_INNER_COMMON_MODE_AUDIT_WP10C8Y_RESULTS_2026-07-26.md`
+- Causal-shear root-cause proof WP10c9c0:
+  `reports/current/CODEX_CAUSAL_INNER_SHEAR_ROOT_CAUSE_WP10C9C0_RESULTS_2026-07-26.md`
+- Full shear-energy ledger WP10c9c0b:
+  `reports/current/CODEX_CAUSAL_INNER_SHEAR_ENERGY_LEDGER_WP10C9C0B_RESULTS_2026-07-26.md`
+- Common-mode family transfer WP10c9c0c:
+  `reports/current/CODEX_CAUSAL_INNER_FAMILY_TRANSFER_WP10C9C0C_RESULTS_2026-07-26.md`
+- Direct common-mode block-by-family attribution WP10c9c0d:
+  `reports/current/CODEX_CAUSAL_INNER_COMMON_BLOCK_FAMILY_WP10C9C0D_RESULTS_2026-07-27.md`
+- Conservative inner-micro export preflight WP10c9d0:
+  `reports/current/CODEX_CAUSAL_INNER_MICRO_EXPORT_PREFLIGHT_WP10C9D0_RESULTS_2026-07-27.md`
+- Conservative export family audit WP10c9d1:
+  `reports/current/CODEX_CAUSAL_INNER_MICRO_EXPORT_FAMILY_WP10C9D1_RESULTS_2026-07-27.md`
+- Complete five-field path/fluctuation contract WP10c9d2:
+  `reports/current/CODEX_CAUSAL_INNER_FULL_FLUCTUATION_WP10C9D2_RESULTS_2026-07-27.md`
+- Fixed-geometry cell-fluctuation ledger WP10c9d3:
+  `reports/current/CODEX_CAUSAL_INNER_CELL_FLUCTUATION_WP10C9D3_RESULTS_2026-07-27.md`
 - Mixed-mode, stationary-preflight, and stable-observable reduction
   WP10c8d-f: `reports/current/CODEX_CAUSAL_STABLE_OBSERVABLE_REDUCTION_WP10C8F_RESULTS_2026-07-20.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`

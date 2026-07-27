@@ -52,6 +52,31 @@ _FIVE_POINT_WEIGHTS = np.asarray(
     [1.0, -8.0, 8.0, -1.0],
     dtype=float,
 ) / 12.0
+DEFAULT_COORDINATE_PRINCIPAL_RELATIVE_STEP = 2.0e-4
+
+
+@dataclass(frozen=True)
+class CausalFiveFieldCoordinatePrincipalComponents:
+    """Sign-explicit components of the complete coordinate pencil.
+
+    The implemented smooth principal equation is
+    ``A p_ct + B p_R = lower-order terms``, with
+    ``A = U_p + A_height`` and
+    ``B = F_p - C_shear - C_height``.  The two ``C`` matrices are
+    coefficients of derivative-dependent sources on the right-hand side.
+    """
+
+    primitive_chart: np.ndarray
+    primitive_column_scales: np.ndarray
+    relative_step: float
+    mapped_storage_matrix: np.ndarray
+    vertical_storage_matrix: np.ndarray
+    temporal_storage_matrix: np.ndarray
+    physical_flux_matrix: np.ndarray
+    shear_principal_source_matrix: np.ndarray
+    vertical_principal_source_matrix: np.ndarray
+    principal_source_matrix: np.ndarray
+    spatial_principal_matrix: np.ndarray
 
 
 @dataclass(frozen=True)
@@ -114,11 +139,17 @@ def _primitive_column_scales(
     return np.asarray([1.0, 0.1, 0.1, 1.0, stress_scale], dtype=float)
 
 
-def _column_steps(scales: np.ndarray) -> np.ndarray:
+def _column_steps(
+    scales: np.ndarray,
+    relative_step: float = DEFAULT_COORDINATE_PRINCIPAL_RELATIVE_STEP,
+) -> np.ndarray:
     # A five-point derivative at these relative displacements is below the
     # eigensystem gate on the certified inner anchors while remaining clear
     # of roundoff in the very small causal-stress chart.
-    return 2.0e-4 * np.asarray(scales, dtype=float)
+    value = float(relative_step)
+    if not np.isfinite(value) or value <= 0.0:
+        raise ValueError("coordinate-principal relative step must be positive")
+    return value * np.asarray(scales, dtype=float)
 
 
 def _differentiate_state_maps(
@@ -266,6 +297,79 @@ def _principal_source_matrix(
     return result
 
 
+def causal_five_field_coordinate_principal_components(
+    context: CausalFiveFieldDAEContext,
+    radius: float,
+    primitive_chart: np.ndarray,
+    *,
+    relative_step: float = DEFAULT_COORDINATE_PRINCIPAL_RELATIVE_STEP,
+) -> CausalFiveFieldCoordinatePrincipalComponents:
+    """Return the sign-explicit matrices in the coordinate principal pencil."""
+
+    context = context.validated()
+    radius = float(radius)
+    chart = np.asarray(primitive_chart, dtype=float)
+    relative_step = float(relative_step)
+    if (
+        not np.isfinite(radius)
+        or radius <= 0.0
+        or chart.shape != (5,)
+        or np.any(~np.isfinite(chart))
+        or not np.isfinite(relative_step)
+        or relative_step <= 0.0
+    ):
+        raise ValueError("coordinate-principal component inputs are invalid")
+    scales = _primitive_column_scales(context, radius, chart)
+    steps = _column_steps(scales, relative_step)
+    conserved, flux, lower, log_height = _differentiate_state_maps(
+        context,
+        radius,
+        chart,
+        steps,
+    )
+    vertical_storage = _vertical_temporal_storage_matrix(
+        context,
+        radius,
+        chart,
+        steps,
+    )
+    principal_source = _principal_source_matrix(
+        context,
+        radius,
+        chart,
+        lower,
+        log_height,
+    )
+    shear_source = np.zeros_like(principal_source)
+    shear_source[4] = principal_source[4]
+    vertical_source = np.zeros_like(principal_source)
+    vertical_source[:4] = principal_source[:4]
+    temporal = conserved + vertical_storage
+    spatial = flux - shear_source - vertical_source
+    return CausalFiveFieldCoordinatePrincipalComponents(
+        primitive_chart=np.array(chart, copy=True),
+        primitive_column_scales=np.asarray(scales, dtype=float),
+        relative_step=relative_step,
+        mapped_storage_matrix=np.asarray(conserved, dtype=float),
+        vertical_storage_matrix=np.asarray(vertical_storage, dtype=float),
+        temporal_storage_matrix=np.asarray(temporal, dtype=float),
+        physical_flux_matrix=np.asarray(flux, dtype=float),
+        shear_principal_source_matrix=np.asarray(
+            shear_source,
+            dtype=float,
+        ),
+        vertical_principal_source_matrix=np.asarray(
+            vertical_source,
+            dtype=float,
+        ),
+        principal_source_matrix=np.asarray(
+            principal_source,
+            dtype=float,
+        ),
+        spatial_principal_matrix=np.asarray(spatial, dtype=float),
+    )
+
+
 def _ordered_real_generalized_basis(
     temporal: np.ndarray,
     spatial: np.ndarray,
@@ -301,8 +405,16 @@ def _ordered_real_generalized_basis(
     values = values[np.asarray(order, dtype=int)]
     vectors = vectors[:, np.asarray(order, dtype=int)]
     primitive = column_scales[:, None] * vectors
-    if np.max(np.abs(np.imag(primitive))) <= 1.0e-9:
-        primitive = np.real(primitive)
+    maximum_imaginary = max(
+        float(np.max(np.abs(np.imag(values)))),
+        float(np.max(np.abs(np.imag(primitive)))),
+    )
+    if maximum_imaginary > 1.0e-10:
+        raise RuntimeError(
+            "coordinate characteristic eigensystem is not real within "
+            "the declared tolerance"
+        )
+    primitive = np.real(primitive)
     for column in range(5):
         norm = float(np.linalg.norm(primitive[:, column]))
         if not np.isfinite(norm) or norm <= np.finfo(float).tiny:
@@ -318,6 +430,8 @@ def causal_five_field_coordinate_principal_basis(
     context: CausalFiveFieldDAEContext,
     radius: float,
     primitive_chart: np.ndarray,
+    *,
+    relative_step: float = DEFAULT_COORDINATE_PRINCIPAL_RELATIVE_STEP,
 ) -> CausalFiveFieldCoordinatePrincipalBasis:
     """Build the complete five-family coordinate principal eigensystem."""
 
@@ -332,29 +446,15 @@ def causal_five_field_coordinate_principal_basis(
     ):
         raise ValueError("coordinate-principal inputs are invalid")
     state = _cell_state(context, radius, chart)
-    scales = _primitive_column_scales(context, radius, chart)
-    steps = _column_steps(scales)
-    conserved, flux, lower, log_height = _differentiate_state_maps(
+    components = causal_five_field_coordinate_principal_components(
         context,
         radius,
         chart,
-        steps,
+        relative_step=relative_step,
     )
-    vertical = _vertical_temporal_storage_matrix(
-        context,
-        radius,
-        chart,
-        steps,
-    )
-    source = _principal_source_matrix(
-        context,
-        radius,
-        chart,
-        lower,
-        log_height,
-    )
-    temporal = conserved + vertical
-    spatial = flux - source
+    scales = components.primitive_column_scales
+    temporal = components.temporal_storage_matrix
+    spatial = components.spatial_principal_matrix
     local = audit_causal_five_field_principal(
         state.geometry,
         context.vertical_frequency.eos(radius),
