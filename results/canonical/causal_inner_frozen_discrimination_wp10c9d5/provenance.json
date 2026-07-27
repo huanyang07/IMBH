@@ -1,0 +1,26 @@
+{
+  "analyzed_base_commit": "42dd7f16446eaac33f4e2f5c0e90d6e81866733b",
+  "does_not_establish": "A nonlinear path solver, production promotion, fixed-Q averaging, or reduced slow evolution.",
+  "establishes": "The frozen-background production/candidate A/B comparison, common-mode physical-export refinement, and conditional packet gates stated by the summary.",
+  "generation_command": "PYTHONPATH=src python3 scripts/run_causal_inner_frozen_discrimination_wp10c9d5.py",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_frozen_discrimination_wp10c9d5.py": "879c83e9e07ce31beb41258e5ad8e72c5c9a56a3a59fbe2b9219ee27b2e9f663",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "da674024f97a5fe47c87192476bfe30cc69c9731048117b9702eda7297f914a1",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_fluctuation.py": "57be77e57cc4b446b82ab54141166e15b34b908194a525a369560bf6b5b2fc7b",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_frozen.py": "4e50f57e7d5feec579915a6f9e5b12fd8ec244ce8ed17191dc9ab8df62d75cfb",
+    "tests/test_causal_inner_frozen_discrimination_wp10c9d5.py": "ca59e7760f917e91fd5c183602bec28add9262423fedf3c6e649a2b1a9a35cff",
+    "tests/test_causal_inner_radial_frozen.py": "d271812b2055ab362af942275553891f184a58f7be44765ea89df2179f00656e"
+  },
+  "implementation_source_manifest_sha256": "9400ddcc6a8cb79110a2af95b016d28c77101e14e1d96663f11efc5b11ec2fae",
+  "input_hashes": {
+    "outputs/tables/causal_inner_common_mode_audit_wp10c8y_arrays.npz": "0e5b6d97694e8e9ace1f9c7d6822afd1f6ba3f255c5d0ce05088cab66e55681c",
+    "outputs/tables/causal_inner_embedded_patch_preflight_wp10c8z.json": "41c614abafb3450338a0225d8505e8fffde61db8b3df918c0371604a21d05887",
+    "outputs/tables/causal_inner_embedded_patch_preflight_wp10c8z_arrays.npz": "a042c31ff371c824d99a44fe953eeb8c7028a897b9a6ea4792d2f40a59456140",
+    "outputs/tables/causal_inner_micro_export_preflight_wp10c9d0.json": "738019da83be0b0601777307c004a30351ba3631eb5fc48913584aef0bc300de",
+    "outputs/tables/causal_inner_micro_export_preflight_wp10c9d0_arrays.npz": "d85a4b8709f68c4874da4f6613879b41f1dacca4ba2f3f2ff758ff5d0382199f",
+    "results/canonical/causal_inner_radial_fluctuation_wp10c9d4b/summary.json": "0fe4cde0d1603395359a4de2e775b3f6632b2fc62f83a6674f62fb8e0299ea10"
+  },
+  "scientific_status": "REJECTED",
+  "source_parent_commit": "42dd7f16446eaac33f4e2f5c0e90d6e81866733b",
+  "work_package": "WP10c9d5"
+}

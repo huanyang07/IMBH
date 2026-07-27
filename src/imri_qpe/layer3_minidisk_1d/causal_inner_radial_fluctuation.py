@@ -115,6 +115,155 @@ class CausalFiveFieldRadialCandidateLedger:
     source_double_count_defect: float
 
 
+def causal_five_field_radial_candidate_face_flux(
+    context: CausalFiveFieldDAEContext,
+    primitive_charts: np.ndarray,
+    face: int,
+    *,
+    quadrature_order: int = 6,
+    relative_step: float = DEFAULT_COORDINATE_PRINCIPAL_RELATIVE_STEP,
+    stationary_speed_tolerance: float = 1.0e-12,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Return production and candidate shared fluxes at one selected face.
+
+    This is the face-local observable counterpart of the complete radial
+    ledger.  It uses the identical production reconstruction and complete
+    fluctuation split without assembling unrelated cell paths.  The helper is
+    intended for frozen-linear export audits, not nonlinear time stepping.
+    """
+
+    context = context.validated()
+    charts = np.asarray(primitive_charts, dtype=float)
+    n_cells = int(context.grid.centers.size)
+    selected = int(face)
+    if (
+        charts.shape != (n_cells, _N_FIELDS)
+        or np.any(~np.isfinite(charts))
+        or selected < 0
+        or selected > n_cells
+    ):
+        raise ValueError("radial candidate face-flux inputs are invalid")
+    reconstruction = causal_five_field_reconstruct_face_charts(
+        context,
+        charts,
+        purpose="flux",
+    )
+    left = np.asarray(reconstruction.left_face_charts, dtype=float)
+    right = np.asarray(reconstruction.right_face_charts, dtype=float)
+    if selected == 0:
+        production = _inner_face_flux(context, right[0])
+        return np.asarray(production, dtype=float), np.asarray(
+            production,
+            dtype=float,
+        )
+    if selected < n_cells:
+        production = _interior_rusanov_flux(
+            context,
+            selected,
+            left[selected],
+            right[selected],
+        )
+        candidate, *_unused = _interface_components(
+            context,
+            selected,
+            left[selected],
+            right[selected],
+            production,
+            quadrature_order=quadrature_order,
+            relative_step=relative_step,
+            stationary_speed_tolerance=stationary_speed_tolerance,
+        )
+        return np.asarray(production, dtype=float), np.asarray(
+            candidate,
+            dtype=float,
+        )
+    production, _choked, _incoming = _outer_face_flux(context, left[-1])
+    if context.outer_boundary_flux_mode != "frozen_exterior_rusanov":
+        return np.asarray(production, dtype=float), np.asarray(
+            production,
+            dtype=float,
+        )
+    candidate, *_unused = _interface_components(
+        context,
+        n_cells,
+        left[-1],
+        np.asarray(
+            context.outer_boundary_frozen_exterior_chart,
+            dtype=float,
+        ),
+        production,
+        quadrature_order=quadrature_order,
+        relative_step=relative_step,
+        stationary_speed_tolerance=stationary_speed_tolerance,
+    )
+    return np.asarray(production, dtype=float), np.asarray(
+        candidate,
+        dtype=float,
+    )
+
+
+def causal_five_field_radial_candidate_lower_source_totals(
+    context: CausalFiveFieldDAEContext,
+    primitive_charts: np.ndarray,
+    *,
+    active_cells: int | None = None,
+) -> dict[str, np.ndarray]:
+    """Integrate candidate lower-order sources without principal face work.
+
+    The candidate evaluates geometry, cooling, stream injection, local stress
+    relaxation, and lower responsive-height work along each reconstructed
+    cell path.  Export audits need the identical quadrature even when they do
+    not need the complete characteristic interface ledger.
+    """
+
+    context = context.validated()
+    charts = np.asarray(primitive_charts, dtype=float)
+    n_cells = int(context.grid.centers.size)
+    count = n_cells if active_cells is None else int(active_cells)
+    if (
+        charts.shape != (n_cells, _N_FIELDS)
+        or np.any(~np.isfinite(charts))
+        or count < 0
+        or count > n_cells
+    ):
+        raise ValueError("radial lower-source inputs are invalid")
+    reconstruction = causal_five_field_reconstruct_face_charts(
+        context,
+        charts,
+        purpose="flux",
+    )
+    left = np.asarray(reconstruction.left_face_charts, dtype=float)
+    right = np.asarray(reconstruction.right_face_charts, dtype=float)
+    totals: dict[str, np.ndarray] = {}
+    for cell in range(count):
+        components = _integrated_lower_sources(
+            context,
+            cell,
+            right[cell],
+            left[cell + 1],
+        )
+        if not totals:
+            totals = {
+                name: np.zeros(_N_FIELDS, dtype=float)
+                for name in components
+            }
+        for name, values in components.items():
+            totals[name] += np.asarray(values, dtype=float)
+    if not totals:
+        totals = {
+            name: np.zeros(_N_FIELDS, dtype=float)
+            for name in (
+                "perfect_fluid_geometry",
+                "stress_geometry",
+                "radiative_cooling",
+                "vertical_work",
+                "stress_relaxation",
+                "stream",
+            )
+        }
+    return totals
+
+
 def _validate_chart(chart: np.ndarray) -> np.ndarray:
     values = np.asarray(chart, dtype=float)
     if values.shape != (_N_FIELDS,) or np.any(~np.isfinite(values)):

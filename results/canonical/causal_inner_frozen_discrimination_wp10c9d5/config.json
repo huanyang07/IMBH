@@ -1,0 +1,42 @@
+{
+  "directional_step": 0.0002,
+  "gates": {
+    "maximum_descriptor_solve_defect": 1e-10,
+    "maximum_export_map_parity_defect": 5e-06,
+    "maximum_fine_normalized_export_difference": 0.05,
+    "maximum_generator_jvp_defect": 2e-05,
+    "maximum_mass_off_pattern_entry": 0.02,
+    "minimum_fine_signed_cosine": 0.9,
+    "minimum_material_improvement": 0.25,
+    "minimum_positive_export_order": 0.0,
+    "packet_order_gate": 0.75,
+    "preferred_export_order": 0.75
+  },
+  "generator_jvp_steps": [
+    2e-05,
+    4e-05,
+    8e-05
+  ],
+  "generator_relative_step": 4e-05,
+  "held_out_coefficients": {
+    "heldout_five_family": {
+      "inward_acoustic": 0.3,
+      "inward_shear": -0.2,
+      "material": 0.4,
+      "outward_acoustic": 0.5,
+      "outward_shear": 0.25
+    },
+    "heldout_material_shear": {
+      "material": 1.0,
+      "outward_shear": -0.4
+    },
+    "heldout_shear_acoustic": {
+      "inward_shear": 1.0,
+      "outward_acoustic": 0.35
+    }
+  },
+  "path_quadrature_order": 6,
+  "sample_stride": 2,
+  "target_seconds": 0.125,
+  "time_samples": 201
+}

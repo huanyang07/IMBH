@@ -146,6 +146,7 @@ This is the canonical project handoff. Status labels mean:
 | Fixed-geometry cell-fluctuation ledger WP10c9d3 | **CERTIFIED** for constant-geometry path/split, discontinuous-interface, and smooth within-cell assembly; `fixed_geometry_full_fluctuation_assembly_passed_radial_well_balance_is_next_gate`; **NO RADIAL PRODUCTION OPERATOR, NEW TRAJECTORY, FIXED-Q AVERAGING, OR REDUCTION AUTHORIZED** | Constants are preserved bitwise; discontinuous interface and smooth within-cell ledgers close below `9.26e-14`. At `2.20/5.00 rg`, three mixed within-cell waves converge at minimum order `1.9979` with N64 relative L2 error `4.02e-4` | The smooth waves supplied exact continuous edge traces, so their interface jumps were zero; d3 did not test smooth reconstructed interface accuracy. WP10c9d4a supplies and passes that superseding gate |
 | Interface-inclusive fixed-geometry audit WP10c9d4a | **CERTIFIED** for its production-neutral reconstructed-interface scope; `interface_inclusive_fixed_geometry_gate_passed_radial_well_balance_authorized`; **NO PRODUCTION OPERATOR, NONLINEAR TRAJECTORY, FIXED-Q AVERAGING, OR REDUCTION AUTHORIZED** | Exact cell averages and the inactive-limiter production quadratic stencil give nonzero interface activity `1.20382e-3`, reconstruction parity `3.55e-15`, manufactured order at least `2.06418`, and N64 error `4.08016e-4`. All-family Fourier phase/damping/relaxation orders are `2.00149/2.97110/2.00450`; symbol/ledger mismatch is below `4.27e-9`; compact canonical evidence is committed | Geometry and measures remain frozen. The next gate is WP10c9d4b: one radial well-balanced candidate with exact one-time source placement, unchanged excision/coupling contracts, and candidate FD/assembled generator closure without requiring equality to the old production truncation error |
 | Radial complete-fluctuation audit WP10c9d4b | **CERTIFIED** for its production-neutral radial method scope; `radial_five_field_candidate_gate_passed_frozen_linear_discrimination_authorized`; **NO PRODUCTION OPERATOR, NONLINEAR TRAJECTORY, FIXED-Q AVERAGING, OR REDUCTION AUTHORIZED** | Actual nonuniform measures, one shared conservative flux, eight separate physical blocks, and outgoing excision pass. The N12/N24/N48 independent radial manufactured residual converges at minimum order `2.7111` to fine error `1.5164e-5`; shared/ledger/path defects are at most `5.64e-14`; physical source partition is `4.62e-9`. Candidate FD/assembled Jacobians close at `5.07e-10` after a committed step sweep | The candidate differs from production by `0.5051` in the normalized stationary Jacobian and was not forced to reproduce old truncation error. The manufactured family is nonequilibrium, and the straight path/midpoint eigensplit remain audit-only. WP10c9d5 must now determine whether the candidate repairs embedded physical-export convergence |
+| Frozen radial-candidate discrimination WP10c9d5 | **REJECTED** by the binding physical-export gate; `radial_candidate_frozen_linear_discrimination_failed_candidate_rejected`; **NO NONLINEAR CANDIDATE, PRODUCTION CHANGE, FIXED-Q AVERAGING, OR REDUCTION AUTHORIZED** | Same-descriptor A/B generators pass embedded descriptor solves below `3.45e-16`, JVP defects decrease `1.05e-5 -> 6.62e-6 -> 3.38e-6`, and direct/accelerated export maps agree below `3.04e-9`. The candidate improves embedded cumulative aggregate orders from `-1.434/-1.022` to `0.545/0.966`; cooling/height component orders are `0.853-1.605` | Fine normalized export difference is still `0.0662 > 0.05`; inner and net M/J/E orders remain `-1.56` to `-1.72`. Uniform N64 also misses the `2e-5` JVP gate. Pure-family/held-out packets were correctly stopped. Localize the dynamic near-excision export boundary layer before another operator or microclosure |
 
 ## Frozen Target Under Review
 
@@ -1287,6 +1288,19 @@ N                    = 164
    `5.07e-10`, while the candidate remains distinctly different from
    production (`0.5051`). This authorizes only WP10c9d5 frozen-linear
    discrimination against the embedded physical-export gates.
+   WP10c9d5 keeps the exact descriptor and production-anchor storage-rate
+   derivative fixed while replacing only the stationary radial Jacobian.
+   Embedded descriptor solves close below `3.45e-16`, candidate JVP defects
+   decrease to `3.38e-6`, and accelerated physical exports reproduce direct
+   complete-ledger differences below `3.04e-9`. The candidate materially
+   improves aggregate cumulative embedded orders from `-1.434/-1.022` to
+   `0.545/0.966`, and distributed cooling/height exports reach orders
+   `0.853-1.605`. It nevertheless fails: the fine normalized export
+   difference is `0.0662 > 0.05`, while inner and net M/J/E orders remain
+   `-1.56` to `-1.72`. The candidate is rejected; its conditional packet
+   suite and WP10c9d6 are blocked. Next localize the evolving near-excision
+   export boundary layer with cached histories and nested common-radius flux
+   ledgers before changing another operator.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -1298,7 +1312,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_INNER_RADIAL_FLUCTUATION_WP10C9D4B_RESULTS_2026-07-27.md`
+  `reports/current/CODEX_CAUSAL_INNER_FROZEN_DISCRIMINATION_WP10C9D5_RESULTS_2026-07-27.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -1408,6 +1422,8 @@ N                    = 164
   `reports/current/CODEX_CAUSAL_INNER_CELL_FLUCTUATION_WP10C9D3_RESULTS_2026-07-27.md`
 - Interface-inclusive fixed-geometry audit WP10c9d4a:
   `reports/current/CODEX_CAUSAL_INNER_INTERFACE_FLUCTUATION_WP10C9D4A_RESULTS_2026-07-27.md`
+- Frozen radial-candidate discrimination WP10c9d5:
+  `reports/current/CODEX_CAUSAL_INNER_FROZEN_DISCRIMINATION_WP10C9D5_RESULTS_2026-07-27.md`
 - Mixed-mode, stationary-preflight, and stable-observable reduction
   WP10c8d-f: `reports/current/CODEX_CAUSAL_STABLE_OBSERVABLE_REDUCTION_WP10C8F_RESULTS_2026-07-20.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`

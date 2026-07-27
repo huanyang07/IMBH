@@ -28,6 +28,7 @@ the default branch.
 | `coupled_open_overflow_eigenvalue` | **SUPPORTED BUT NOT FULLY CERTIFIED** numerically; **DIAGNOSTIC ONLY** physically | Full-rank open roots at `96/64` and `144/96`, plus retained `168/112` endpoint-refinement failure |
 | `causal_inner_interface_fluctuation_wp10c9d4a` | **CERTIFIED** for its production-neutral fixed-geometry method scope; **DIAGNOSTIC ONLY** physically | Interface-inclusive quadratic-reconstruction, independent manufactured-wave, and all-family Fourier-symbol gate before radial well balance |
 | `causal_inner_radial_fluctuation_wp10c9d4b` | **CERTIFIED** for its production-neutral radial method scope; **DIAGNOSTIC ONLY** physically | Nonuniform-measure radial five-field candidate, complete source ledger, independent manufactured balance, outgoing excision, and candidate FD/assembled stationary-Jacobian gate before frozen-linear export discrimination |
+| `causal_inner_frozen_discrimination_wp10c9d5` | **REJECTED** | Same-descriptor production/candidate A/B generators and parity-certified physical-export ladders; aggregate embedded exports improve, but inner and net M/J/E remain nonconvergent |
 
 Each case contains `provenance.json` and `SHA256SUMS.txt`. The global file list
 and hashes are recorded in `manifests/canonical_artifacts.csv`.

@@ -131,7 +131,14 @@ from .causal_inner_radial_fluctuation import (
     CausalFiveFieldRadialInterfaceLedger,
     CausalFiveFieldRadialPathJump,
     causal_five_field_radial_candidate_ledger,
+    causal_five_field_radial_candidate_face_flux,
+    causal_five_field_radial_candidate_lower_source_totals,
     causal_five_field_radial_extended_path_jump,
+)
+from .causal_inner_radial_frozen import (
+    CausalFiveFieldRadialFrozenCandidate,
+    causal_five_field_radial_frozen_candidate,
+    causal_five_field_radial_reduced_jacobian_pattern,
 )
 from .causal_inner_shear_root_cause import (
     CausalPrincipalManufacturedWaveAudit,
@@ -1416,6 +1423,11 @@ __all__ = [
     "causal_five_field_reconstructed_fluctuation_symbol",
     "causal_five_field_signed_principal_fluctuations",
     "causal_five_field_radial_candidate_ledger",
+    "causal_five_field_radial_candidate_face_flux",
+    "causal_five_field_radial_candidate_lower_source_totals",
+    "CausalFiveFieldRadialFrozenCandidate",
+    "causal_five_field_radial_frozen_candidate",
+    "causal_five_field_radial_reduced_jacobian_pattern",
     "causal_five_field_radial_extended_path_jump",
     "causal_five_field_frozen_principal_generator",
     "causal_five_field_generator_block_decomposition",
