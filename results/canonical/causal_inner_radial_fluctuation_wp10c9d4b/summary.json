@@ -1,0 +1,192 @@
+{
+  "actual_nonuniform_radial_measures": true,
+  "analyzed_base_commit": "10546da78561ccb4a5f60a203b8b80a47fa26be3",
+  "arrays_path": "outputs/tables/causal_inner_radial_fluctuation_audit_wp10c9d4b_arrays.npz",
+  "arrays_sha256": "4e182402d76f6daf26c5968640e20d25eba5d57a6c57ee4117f46137befb91c0",
+  "classification": "radial_five_field_candidate_gate_passed_frozen_linear_discrimination_authorized",
+  "decisive_array_hashes": {
+    "candidate_assembled_stationary_jacobian": "3f6466517e5e6aa818a13de57e841b1c8628fd7788b5e2ce7fb96ef8eb67b45e",
+    "candidate_block_jacobian_conservative_transport_rows": "da40a3845a1725d89eaca7d5596410d9eb849c60fcd132c55cb4f832c8e6ae50",
+    "candidate_block_jacobian_cooling_rows": "c6db68b32d6c404c5c81e33155138947475008d4d6f5b8aeeeb54fffd2de6c96",
+    "candidate_block_jacobian_geometry_rows": "138e373f328ad729415f77e856f49f14f878b7df047ab83bd57bda553281806c",
+    "candidate_block_jacobian_height_principal_rows": "551c5efcf8ee6e681ebc261e446634f71711cf89c33a10f2e6650ad675f64af8",
+    "candidate_block_jacobian_local_stress_relaxation_rows": "4f71df147bdbdb356ca070a6bd52a70a25b80a130e269a2225c64959b04429ad",
+    "candidate_block_jacobian_lower_height_work_rows": "9b80ccc4105f0576ac326e07bd9c72a90611d80bb607c071f97b1a6f1ea58b3c",
+    "candidate_block_jacobian_shear_principal_rows": "6c4ce09da1e3d1af5c11844b2029dba1c41bc74bc1ea6e3ba7ba4fe1ce1a32c1",
+    "candidate_block_jacobian_stream_rows": "5b84060d9b19fc651d571f8f069d7ad9c64e670b15cc66bad5320212be97ff90",
+    "candidate_fd_stationary_jacobian": "a285bf0e779198379925066ae33485452073ffe86e60d6d487eb1d6dd982b0a0",
+    "fine_candidate_residual": "88aa3c55f376e178ce17ce104c07aa2ec22195600cf1dff978e0f541695b8c40",
+    "fine_candidate_shared_fluxes": "455cfb8d59a56c4c74afea0cf81bb45f6251230ef21a857841e3d84e1d570bb7",
+    "fine_grid_centers": "374e1ee6cfb32a946803bb0703cb99e90bfc27405d98b8c52b104501aa43d17e",
+    "fine_grid_edges": "c4f5bf12525fd644b8400ebf81d9c1f910eb2c5aef9f302fa3447870ab756fd6",
+    "fine_independent_reference": "08516241404b45c586aa3243ddbee2786ec9ecd87bc14022dbd1391eac5fe6c7",
+    "fine_primitive_charts": "76711002f7bb3c06fc5369aac9e116e0dae2b646d87db3598de4698e46c1f84e",
+    "fine_production_shared_fluxes": "52dd2d10a8208c1acb2040d5b3b00ee25747ac1d9466b33130a84fedda7e0cf2",
+    "fine_residual_error": "4d01ce2534c5c7db108f247618c4c37719e7835e9df7db354cae26663f4e6253",
+    "manufactured_direction": "b2811bb3b00d8da22c10dab0ec3b903477a9967eeae6543a015f0232006be679",
+    "manufactured_inner_chart": "3c2f874244f811a38517104c9666b6a93d739582484226bcfad543ffc34d3d84",
+    "manufactured_outer_chart": "7ec582529d9264e089672e297dd75e070f9a7e5986abe7a5529cc1632c504039",
+    "production_stationary_jacobian": "23aa57850fdd0d5a0f7456518f36645863942f96c43f2ab4fc8f5449ee6f38ec"
+  },
+  "decisive_arrays_sha256": "4e182402d76f6daf26c5968640e20d25eba5d57a6c57ee4117f46137befb91c0",
+  "environment": {
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13"
+  },
+  "fine_relative_l2_error": 1.5164033974766088e-05,
+  "fixed_q_micro_solver_authorized": false,
+  "gates": {
+    "incoming_excision_characteristics": 0,
+    "maximum_candidate_jacobian_action_defect": 1e-09,
+    "maximum_fine_radial_relative_error": 0.002,
+    "maximum_local_block_ledger_defect": 1e-12,
+    "maximum_path_partition_defect": 1e-12,
+    "maximum_physical_source_partition_defect": 1e-07,
+    "maximum_shared_conservative_face_defect": 1e-12,
+    "maximum_source_double_count_defect": 1e-12,
+    "minimum_production_candidate_difference": 1e-08,
+    "minimum_smooth_radial_order": 1.8
+  },
+  "geometry_cooling_stream_and_lower_height_separate": true,
+  "implementation_parent_commit": "10546da78561ccb4a5f60a203b8b80a47fa26be3",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_radial_fluctuation_audit_wp10c9d4b.py": "0f41760d785a3ca878a34dab39a8789526e1a4eb8227440ee3ff033c4aa4c955",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "e0a00cacc2ae67034553ae600f2ff542b29e123ea85f4de1376cbbc479f5c412",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_full_fluctuation.py": "fa0b8665846353dec3742b6cfcb875c06235a70e51c76bc141475cea5cf3fdcb",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_fluctuation.py": "fe1ef9c8e1bc0a731c1ba9be1af5b268ab101756de92986365728b02661ab1cd",
+    "tests/test_causal_inner_radial_fluctuation.py": "c4405c72e2c05d63b0c30ef3f75a4f93664b87aadfe5a0bba075d08863dc260f",
+    "tests/test_causal_inner_radial_fluctuation_wp10c9d4b.py": "34ea3efa290f287c9ec1a160fb0cc531348641c5a34812c66fb55fa6f9cd0000"
+  },
+  "implementation_source_manifest_sha256": "20a004c0171fe3b77bb159355d1f87923384abaca1d90a2b9f84f50be13c5084",
+  "input_hashes": {
+    "outputs/tables/causal_inner_embedded_patch_preflight_wp10c8z.json": "41c614abafb3450338a0225d8505e8fffde61db8b3df918c0371604a21d05887",
+    "outputs/tables/causal_inner_embedded_patch_preflight_wp10c8z_arrays.npz": "a042c31ff371c824d99a44fe953eeb8c7028a897b9a6ea4792d2f40a59456140",
+    "results/canonical/causal_inner_interface_fluctuation_wp10c9d4a/summary.json": "0bad5a5812daaa7cd9b2430aab34b2ca4f8282b20baa392fe388398c4dc8b9ca"
+  },
+  "jacobian_audit": {
+    "assembled_from_explicit_physical_blocks": [
+      "conservative_transport_rows",
+      "shear_principal_rows",
+      "height_principal_rows",
+      "local_stress_relaxation_rows",
+      "geometry_rows",
+      "cooling_rows",
+      "stream_rows",
+      "lower_height_work_rows"
+    ],
+    "candidate_fd_assembled_defect": 5.067553052582991e-10,
+    "candidate_internal_closure_passed": true,
+    "n_cells": 6,
+    "production_candidate_relative_difference": 0.5051036298454885,
+    "production_equality_required": false,
+    "production_is_distinct_baseline": true,
+    "relative_step_sweep": [
+      {
+        "candidate_change_from_previous_step": null,
+        "candidate_fd_assembled_defect": 2.311855401928338e-09,
+        "relative_step": 5e-06
+      },
+      {
+        "candidate_change_from_previous_step": 6.129178172413946e-08,
+        "candidate_fd_assembled_defect": 1.393529350150481e-09,
+        "relative_step": 1e-05
+      },
+      {
+        "candidate_change_from_previous_step": 2.4752450327448075e-08,
+        "candidate_fd_assembled_defect": 1.0482462941467182e-09,
+        "relative_step": 2e-05
+      },
+      {
+        "candidate_change_from_previous_step": 7.072128650747058e-09,
+        "candidate_fd_assembled_defect": 5.067553052582991e-10,
+        "relative_step": 4e-05
+      }
+    ],
+    "selected_relative_step": 4e-05
+  },
+  "local_stress_relaxation_separate": true,
+  "manufactured_family": {
+    "active_guard_cells": 2,
+    "amplitude": 0.002,
+    "exact_equilibrium_claimed": false,
+    "inner_radius_rg": 1.8,
+    "outer_radius_rg": 6.648,
+    "raw_direction": [
+      0.15,
+      -0.1,
+      0.08,
+      0.12,
+      -0.15
+    ],
+    "reference_quadrature_order": 12,
+    "residual_subtraction_used": false,
+    "type": "explicit C2 nonequilibrium primitive-chart profile; independent high-order physical residual"
+  },
+  "maximum_incoming_excision_characteristics": 0,
+  "maximum_local_block_ledger_defect": 0.0,
+  "maximum_path_or_interface_partition_defect": 5.639771671956578e-14,
+  "maximum_shared_conservative_or_telescope_defect": 2.1707003741102427e-16,
+  "maximum_source_double_count_defect": 0.0,
+  "minimum_observed_order": 2.7111122620136854,
+  "nonlinear_candidate_authorized": false,
+  "observed_orders": [
+    2.7111122620136854,
+    2.8392747095655984
+  ],
+  "one_shared_conservative_face_flux": true,
+  "physical_source_partition_defect": 4.616208843730504e-09,
+  "production_default_changed": false,
+  "production_operator_authorized": false,
+  "radial_candidate_gate_passed": true,
+  "radial_ladder": [
+    {
+      "conservative_telescope_defect": 0.0,
+      "incoming_excision_characteristics": 0,
+      "local_block_ledger_defect": 0.0,
+      "maximum_absolute_error_active_cells": 4.5177195438979154e+18,
+      "maximum_interface_split_defect": 3.304874244214704e-14,
+      "maximum_within_path_partition_defect": 9.520000055509423e-17,
+      "minimum_reconstruction_admissibility_factor": 1.0,
+      "n_cells": 12,
+      "outer_candidate_adjustment_relative_norm": 0.00014091423401448608,
+      "relative_l2_error_active_cells": 0.0007106368348487275,
+      "shared_conservative_face_defect": 1.6337219373261585e-16,
+      "source_double_count_defect": 0.0
+    },
+    {
+      "conservative_telescope_defect": 0.0,
+      "incoming_excision_characteristics": 0,
+      "local_block_ledger_defect": 0.0,
+      "maximum_absolute_error_active_cells": 5.068318192256942e+17,
+      "maximum_interface_split_defect": 3.220223589719607e-14,
+      "maximum_within_path_partition_defect": 7.325296497628613e-17,
+      "minimum_reconstruction_admissibility_factor": 1.0,
+      "n_cells": 24,
+      "outer_candidate_adjustment_relative_norm": 1.0397566556513652e-05,
+      "relative_l2_error_active_cells": 0.00010852295288237453,
+      "shared_conservative_face_defect": 2.1707003741102427e-16,
+      "source_double_count_defect": 0.0
+    },
+    {
+      "conservative_telescope_defect": 0.0,
+      "incoming_excision_characteristics": 0,
+      "local_block_ledger_defect": 0.0,
+      "maximum_absolute_error_active_cells": 4.301546465683046e+16,
+      "maximum_interface_split_defect": 5.639771671956578e-14,
+      "maximum_within_path_partition_defect": 8.62756170626056e-17,
+      "minimum_reconstruction_admissibility_factor": 1.0,
+      "n_cells": 48,
+      "outer_candidate_adjustment_relative_norm": 6.998796008445631e-07,
+      "relative_l2_error_active_cells": 1.5164033974766088e-05,
+      "shared_conservative_face_defect": 2.07721935669327e-16,
+      "source_double_count_defect": 0.0
+    }
+  ],
+  "reduced_slow_evolution_authorized": false,
+  "runner": "scripts/run_causal_inner_radial_fluctuation_audit_wp10c9d4b.py",
+  "schema_version": 1,
+  "shear_and_height_principal_terms_separate": true,
+  "work_package": "WP10c9d4b",
+  "wp10c9d5_frozen_linear_discrimination_authorized": true
+}

@@ -145,6 +145,7 @@ This is the canonical project handoff. Status labels mean:
 | Complete five-field path/fluctuation contract WP10c9d2 | **CERTIFIED** for its production-neutral sign/path/split scope; `full_principal_path_contract_passed_cell_assembly_is_next_gate`; **NO PRODUCTION OPERATOR, NEW TRAJECTORY, FIXED-Q AVERAGING, OR REDUCTION AUTHORIZED** | On all three cached inner-grid levels, constant-state defect is zero; reversal, source partition, path additivity, and quadrature defects are below `1.32e-13`; the signed five-family split closes below `3.08e-14`. Worst-direction small-jump envelopes converge at order `1.886-1.946` and end below `3.38e-10`; excision has zero incoming modes | The straight primitive path is only an audit path, and no interface/within-cell residual has been assembled. The next gate is a well-balanced local fluctuation ledger with one shared conservative flux, separately ledgered derivative-source paths, background preservation, no source double counting, and complete-generator linear closure |
 | Fixed-geometry cell-fluctuation ledger WP10c9d3 | **CERTIFIED** for constant-geometry path/split, discontinuous-interface, and smooth within-cell assembly; `fixed_geometry_full_fluctuation_assembly_passed_radial_well_balance_is_next_gate`; **NO RADIAL PRODUCTION OPERATOR, NEW TRAJECTORY, FIXED-Q AVERAGING, OR REDUCTION AUTHORIZED** | Constants are preserved bitwise; discontinuous interface and smooth within-cell ledgers close below `9.26e-14`. At `2.20/5.00 rg`, three mixed within-cell waves converge at minimum order `1.9979` with N64 relative L2 error `4.02e-4` | The smooth waves supplied exact continuous edge traces, so their interface jumps were zero; d3 did not test smooth reconstructed interface accuracy. WP10c9d4a supplies and passes that superseding gate |
 | Interface-inclusive fixed-geometry audit WP10c9d4a | **CERTIFIED** for its production-neutral reconstructed-interface scope; `interface_inclusive_fixed_geometry_gate_passed_radial_well_balance_authorized`; **NO PRODUCTION OPERATOR, NONLINEAR TRAJECTORY, FIXED-Q AVERAGING, OR REDUCTION AUTHORIZED** | Exact cell averages and the inactive-limiter production quadratic stencil give nonzero interface activity `1.20382e-3`, reconstruction parity `3.55e-15`, manufactured order at least `2.06418`, and N64 error `4.08016e-4`. All-family Fourier phase/damping/relaxation orders are `2.00149/2.97110/2.00450`; symbol/ledger mismatch is below `4.27e-9`; compact canonical evidence is committed | Geometry and measures remain frozen. The next gate is WP10c9d4b: one radial well-balanced candidate with exact one-time source placement, unchanged excision/coupling contracts, and candidate FD/assembled generator closure without requiring equality to the old production truncation error |
+| Radial complete-fluctuation audit WP10c9d4b | **CERTIFIED** for its production-neutral radial method scope; `radial_five_field_candidate_gate_passed_frozen_linear_discrimination_authorized`; **NO PRODUCTION OPERATOR, NONLINEAR TRAJECTORY, FIXED-Q AVERAGING, OR REDUCTION AUTHORIZED** | Actual nonuniform measures, one shared conservative flux, eight separate physical blocks, and outgoing excision pass. The N12/N24/N48 independent radial manufactured residual converges at minimum order `2.7111` to fine error `1.5164e-5`; shared/ledger/path defects are at most `5.64e-14`; physical source partition is `4.62e-9`. Candidate FD/assembled Jacobians close at `5.07e-10` after a committed step sweep | The candidate differs from production by `0.5051` in the normalized stationary Jacobian and was not forced to reproduce old truncation error. The manufactured family is nonequilibrium, and the straight path/midpoint eigensplit remain audit-only. WP10c9d5 must now determine whether the candidate repairs embedded physical-export convergence |
 
 ## Frozen Target Under Review
 
@@ -1274,6 +1275,18 @@ N                    = 164
    not a production operator. Candidate finite-difference and independently
    assembled generators must close against one another; equality to the old
    production discrete generator is not a binding target.
+   WP10c9d4b constructs that production-neutral radial candidate with the
+   actual nonuniform Kerr--Schild measures, one shared conservative flux, and
+   separate shear-principal, height-principal, local stress-relaxation,
+   geometry, cooling, stream, and lower-height blocks. Its N12/N24/N48
+   independent radial manufactured residual converges at order
+   `2.711-2.839` to fine relative error `1.516e-5`; shared-face, telescoping,
+   block, and path defects remain below `5.64e-14`, physical source
+   partition closes at `4.62e-9`, and excision has no incoming modes. A
+   committed step sweep brings candidate FD/assembled Jacobian closure to
+   `5.07e-10`, while the candidate remains distinctly different from
+   production (`0.5051`). This authorizes only WP10c9d5 frozen-linear
+   discrimination against the embedded physical-export gates.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -1285,7 +1298,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_INNER_INTERFACE_FLUCTUATION_WP10C9D4A_RESULTS_2026-07-27.md`
+  `reports/current/CODEX_CAUSAL_INNER_RADIAL_FLUCTUATION_WP10C9D4B_RESULTS_2026-07-27.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)

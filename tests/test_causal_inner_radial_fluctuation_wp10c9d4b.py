@@ -12,17 +12,17 @@ ROOT = Path(__file__).resolve().parents[1]
 RUNNER = (
     ROOT
     / "scripts/"
-    "run_causal_inner_interface_fluctuation_audit_wp10c9d4a.py"
+    "run_causal_inner_radial_fluctuation_audit_wp10c9d4b.py"
 )
 CANONICAL = (
     ROOT
     / "results/canonical/"
-    "causal_inner_interface_fluctuation_wp10c9d4a"
+    "causal_inner_radial_fluctuation_wp10c9d4b"
 )
 
 
 def _module():
-    spec = importlib.util.spec_from_file_location("wp10c9d4a_runner", RUNNER)
+    spec = importlib.util.spec_from_file_location("wp10c9d4b_runner", RUNNER)
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -37,26 +37,35 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def test_cell_average_wave_is_exact_for_constant_and_sine_mean() -> None:
+def test_manufactured_profile_is_common_and_has_exact_derivative() -> None:
     module = _module()
-    base = np.asarray([1.0, 2.0, 3.0, 4.0, 5.0])
-    direction = np.asarray([0.2, -0.1, 0.3, 0.1, -0.2])
-    averages, edges, centers, spacing = module._cell_average_wave(
-        base,
-        direction,
-        16,
+    inner = np.asarray([4.7, -0.33, 0.67, 15.2, 3.0e-4])
+    outer = np.asarray([4.6, -0.37, 0.62, 14.7, 1.5e-4])
+    profile = module._ManufacturedProfile(1.8, 6.648, inner, outer)
+    radius = 3.1
+    step = 1.0e-6
+    numerical = (
+        profile.chart(radius * np.exp(step))
+        - profile.chart(radius * np.exp(-step))
+    ) / (radius * (np.exp(step) - np.exp(-step)))
+    np.testing.assert_allclose(
+        profile.derivative(radius),
+        numerical,
+        rtol=2.0e-8,
+        atol=1.0e-12,
     )
-    expected_factor = np.sin(0.5 * spacing) / (0.5 * spacing)
-    expected = (
-        base[None, :]
-        + module.AMPLITUDE
-        * expected_factor
-        * np.sin(centers)[:, None]
-        * direction[None, :]
+    np.testing.assert_allclose(
+        profile.chart(profile.inner_radius),
+        inner,
+        rtol=0.0,
+        atol=1.0e-15,
     )
-    np.testing.assert_allclose(averages, expected, rtol=0.0, atol=0.0)
-    assert edges.shape == (17,)
-    assert centers.shape == (16,)
+    np.testing.assert_allclose(
+        profile.chart(profile.outer_radius),
+        outer,
+        rtol=0.0,
+        atol=1.0e-15,
+    )
 
 
 def test_canonical_evidence_is_present_and_self_consistent() -> None:
@@ -81,32 +90,31 @@ def test_canonical_evidence_is_present_and_self_consistent() -> None:
     provenance = json.loads(
         (CANONICAL / "provenance.json").read_text(encoding="utf-8")
     )
-    assert summary["work_package"] == "WP10c9d4a"
+    assert summary["work_package"] == "WP10c9d4b"
     assert summary["analyzed_base_commit"] == (
-        "f0b4dcc1715647fb7300c3840546cc61ef4482b7"
+        "10546da78561ccb4a5f60a203b8b80a47fa26be3"
     )
     assert provenance["source_parent_commit"] == (
-        "f0b4dcc1715647fb7300c3840546cc61ef4482b7"
+        "10546da78561ccb4a5f60a203b8b80a47fa26be3"
+    )
+    assert summary["radial_candidate_gate_passed"] is True
+    assert summary[
+        "wp10c9d5_frozen_linear_discrimination_authorized"
+    ] is True
+    assert summary["production_operator_authorized"] is False
+    assert summary["nonlinear_candidate_authorized"] is False
+    assert summary["fixed_q_micro_solver_authorized"] is False
+    assert summary["reduced_slow_evolution_authorized"] is False
+    assert summary["classification"] == (
+        "radial_five_field_candidate_gate_passed_"
+        "frozen_linear_discrimination_authorized"
     )
     assert summary["decisive_arrays_sha256"] == _sha256(
         CANONICAL / "decisive_arrays.npz"
     )
-    assert summary["production_operator_authorized"] is False
-    assert summary["nonlinear_candidate_authorized"] is False
-    assert summary["fixed_q_micro_solver_authorized"] is False
-    assert summary["classification"] == (
-        "interface_inclusive_fixed_geometry_gate_passed_"
-        "radial_well_balance_authorized"
-    )
-    assert summary["interface_inclusive_gate_passed"] is True
-    assert summary["radial_well_balance_audit_authorized"] is True
-    expected_pass = all(
-        case["passed"] for case in summary["cases"].values()
-    )
-    assert summary["interface_inclusive_gate_passed"] is expected_pass
+    assert summary["manufactured_family"]["residual_subtraction_used"] is False
     assert (
-        summary["radial_well_balance_audit_authorized"]
-        is expected_pass
+        summary["jacobian_audit"]["production_equality_required"] is False
     )
     assert (
         provenance["implementation_source_manifest_sha256"]

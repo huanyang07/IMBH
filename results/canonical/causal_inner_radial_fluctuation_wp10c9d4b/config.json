@@ -1,0 +1,40 @@
+{
+  "active_guard_cells": 2,
+  "gates": {
+    "incoming_excision_characteristics": 0,
+    "maximum_candidate_jacobian_action_defect": 1e-09,
+    "maximum_fine_radial_relative_error": 0.002,
+    "maximum_local_block_ledger_defect": 1e-12,
+    "maximum_path_partition_defect": 1e-12,
+    "maximum_physical_source_partition_defect": 1e-07,
+    "maximum_shared_conservative_face_defect": 1e-12,
+    "maximum_source_double_count_defect": 1e-12,
+    "minimum_production_candidate_difference": 1e-08,
+    "minimum_smooth_radial_order": 1.8
+  },
+  "grid_sizes": [
+    12,
+    24,
+    48
+  ],
+  "inner_radius_rg": 1.8,
+  "jacobian_n_cells": 6,
+  "jacobian_relative_step": 4e-05,
+  "jacobian_relative_step_sweep": [
+    5e-06,
+    1e-05,
+    2e-05,
+    4e-05
+  ],
+  "manufactured_amplitude": 0.002,
+  "manufactured_raw_direction": [
+    0.15,
+    -0.1,
+    0.08,
+    0.12,
+    -0.15
+  ],
+  "outer_radius_rg": 6.648,
+  "path_quadrature_order": 6,
+  "reference_quadrature_order": 12
+}
