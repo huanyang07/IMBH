@@ -76,6 +76,33 @@ class CausalFiveFieldCellFluctuationLedger:
     global_conservative_cycle_defect: float
     global_fluctuation_assembly_defect: float
     maximum_interface_split_defect: float
+    global_interface_split_defect: float
+    maximum_absolute_interface_split_defect: float
+
+
+@dataclass(frozen=True)
+class CausalFiveFieldPeriodicQuadraticReconstruction:
+    """Periodic form of the production unlimited quadratic face stencil."""
+
+    cell_left_charts: np.ndarray
+    cell_right_charts: np.ndarray
+    interface_jumps: np.ndarray
+    maximum_absolute_interface_jump: float
+    relative_interface_jump_activity: float
+
+
+@dataclass(frozen=True)
+class CausalFiveFieldReconstructedFluctuationSymbol:
+    """Frozen symbol of the reconstructed complete-fluctuation residual."""
+
+    theta: float
+    spacing: float
+    continuum_spatial_symbol: np.ndarray
+    reconstructed_spatial_symbol: np.ndarray
+    negative_fluctuation_matrix: np.ndarray
+    stationary_fluctuation_matrix: np.ndarray
+    positive_fluctuation_matrix: np.ndarray
+    principal_split_closure_defect: float
 
 
 def _validated_path_inputs(
@@ -218,6 +245,161 @@ def causal_five_field_complete_principal_path_jump(
         total_principal_jump_over_c=np.asarray(total, dtype=float),
         source_partition_defect=source_partition_defect,
         principal_closure_defect=principal_closure_defect,
+    )
+
+
+def causal_five_field_periodic_quadratic_reconstruction(
+    cell_average_charts: np.ndarray,
+) -> CausalFiveFieldPeriodicQuadraticReconstruction:
+    """Reconstruct periodic traces with the production quadratic stencil.
+
+    The production ``quadratic_admissible`` reconstruction first evaluates
+    the unlimited three-cell quadratic stencil and then scales complete face
+    charts only when an admissibility gate binds.  WP10c9d4a uses small
+    admissible perturbations for which that factor is exactly one.  This
+    helper is the periodic form of that same interior stencil; it is not a
+    new production reconstruction or a radial boundary treatment.
+
+    The supplied values are finite-volume cell averages.  ``cell_left`` and
+    ``cell_right`` are the traces belonging to each cell at its left and
+    right faces, respectively.
+    """
+
+    charts = np.asarray(cell_average_charts, dtype=float)
+    if (
+        charts.ndim != 2
+        or charts.shape[0] < 4
+        or charts.shape[1:] != (5,)
+        or np.any(~np.isfinite(charts))
+    ):
+        raise ValueError(
+            "periodic quadratic reconstruction requires finite (N, 5) "
+            "cell averages with N >= 4"
+        )
+    if np.all(charts == charts[0]):
+        constant = np.array(charts, copy=True)
+        return CausalFiveFieldPeriodicQuadraticReconstruction(
+            cell_left_charts=constant,
+            cell_right_charts=np.array(constant, copy=True),
+            interface_jumps=np.zeros_like(constant),
+            maximum_absolute_interface_jump=0.0,
+            relative_interface_jump_activity=0.0,
+        )
+    previous = np.roll(charts, 1, axis=0)
+    following = np.roll(charts, -1, axis=0)
+    cell_left = 0.375 * previous + 0.75 * charts - 0.125 * following
+    cell_right = -0.125 * previous + 0.75 * charts + 0.375 * following
+    interface_jumps = np.roll(cell_left, -1, axis=0) - cell_right
+    total_variation = np.roll(charts, -1, axis=0) - charts
+    jump_norm = float(np.linalg.norm(interface_jumps))
+    activity_scale = max(
+        float(np.linalg.norm(total_variation)),
+        np.finfo(float).tiny,
+    )
+    return CausalFiveFieldPeriodicQuadraticReconstruction(
+        cell_left_charts=np.asarray(cell_left, dtype=float),
+        cell_right_charts=np.asarray(cell_right, dtype=float),
+        interface_jumps=np.asarray(interface_jumps, dtype=float),
+        maximum_absolute_interface_jump=float(
+            np.max(np.abs(interface_jumps))
+        ),
+        relative_interface_jump_activity=jump_norm / activity_scale,
+    )
+
+
+def causal_five_field_reconstructed_fluctuation_symbol(
+    components,
+    basis: CausalFiveFieldCoordinatePrincipalBasis,
+    *,
+    theta: float,
+    spacing: float,
+    stationary_speed_tolerance: float = 1.0e-12,
+) -> CausalFiveFieldReconstructedFluctuationSymbol:
+    """Return the actual quadratic-reconstruction wave-propagation symbol.
+
+    This is the exact linearization at a constant state of
+    :func:`causal_five_field_periodic_cell_fluctuation_ledger` when its traces
+    come from :func:`causal_five_field_periodic_quadratic_reconstruction`.
+    It includes the negative/stationary/positive interface split and the
+    complete within-cell principal jump.
+    """
+
+    theta = float(theta)
+    spacing = float(spacing)
+    tolerance = float(stationary_speed_tolerance)
+    if (
+        not np.isfinite(theta)
+        or not 0.0 < abs(theta) < np.pi
+        or not np.isfinite(spacing)
+        or spacing <= 0.0
+        or not np.isfinite(tolerance)
+        or tolerance < 0.0
+    ):
+        raise ValueError("reconstructed fluctuation symbol inputs are invalid")
+    spatial = np.asarray(components.spatial_principal_matrix, dtype=float)
+    if spatial.shape != (5, 5):
+        raise ValueError("principal spatial matrix must be five by five")
+    row_scales = np.asarray(basis.descriptor_row_scales, dtype=float)
+    right = np.asarray(basis.descriptor_right_eigenvectors, dtype=float)
+    left = np.asarray(basis.descriptor_left_eigenvectors, dtype=float)
+    speeds = np.asarray(basis.numerical_speeds_over_c, dtype=float)
+    if (
+        row_scales.shape != (5,)
+        or right.shape != (5, 5)
+        or left.shape != (5, 5)
+        or speeds.shape != (5,)
+        or np.any(row_scales <= 0.0)
+    ):
+        raise ValueError("coordinate principal basis has invalid dimensions")
+
+    def fluctuation_matrix(mask: np.ndarray) -> np.ndarray:
+        return (
+            row_scales[:, None]
+            * right
+            @ np.diag(np.asarray(mask, dtype=float))
+            @ left
+            @ (spatial / row_scales[:, None])
+        )
+
+    negative = fluctuation_matrix(speeds < -tolerance)
+    stationary = fluctuation_matrix(np.abs(speeds) <= tolerance)
+    positive = fluctuation_matrix(speeds > tolerance)
+    split_scale = max(
+        float(np.max(np.abs(spatial))),
+        np.finfo(float).tiny,
+    )
+    split_defect = float(
+        np.max(np.abs(negative + stationary + positive - spatial))
+        / split_scale
+    )
+
+    mode = np.exp(1.0j * theta)
+    inverse = 1.0 / mode
+    cell_left = 0.375 * inverse + 0.75 - 0.125 * mode
+    cell_right = -0.125 * inverse + 0.75 + 0.375 * mode
+    left_interface_jump = cell_left - cell_right * inverse
+    right_interface_jump = cell_left * mode - cell_right
+    within_cell_jump = cell_right - cell_left
+    reconstructed = (
+        (positive + 0.5 * stationary) * left_interface_jump
+        + spatial * within_cell_jump
+        + (negative + 0.5 * stationary) * right_interface_jump
+    ) / spacing
+    continuum = (
+        1.0j * theta / spacing * np.asarray(spatial, dtype=complex)
+    )
+    return CausalFiveFieldReconstructedFluctuationSymbol(
+        theta=theta,
+        spacing=spacing,
+        continuum_spatial_symbol=np.asarray(continuum, dtype=complex),
+        reconstructed_spatial_symbol=np.asarray(
+            reconstructed,
+            dtype=complex,
+        ),
+        negative_fluctuation_matrix=np.asarray(negative, dtype=float),
+        stationary_fluctuation_matrix=np.asarray(stationary, dtype=float),
+        positive_fluctuation_matrix=np.asarray(positive, dtype=float),
+        principal_split_closure_defect=split_defect,
     )
 
 
@@ -452,6 +634,21 @@ def causal_five_field_periodic_cell_fluctuation_ledger(
     assembly_defect = float(
         np.max(np.abs(assembled_global - path_global)) / assembly_scale
     )
+    interface_reconstructed = (
+        interface_negative
+        + interface_stationary
+        + interface_positive
+    )
+    maximum_absolute_interface_split_defect = float(
+        np.max(np.abs(interface_reconstructed - interface_total))
+    )
+    interface_scale = max(
+        float(np.max(np.abs(interface_total))),
+        np.finfo(float).tiny,
+    )
+    global_interface_split_defect = (
+        maximum_absolute_interface_split_defect / interface_scale
+    )
     return CausalFiveFieldCellFluctuationLedger(
         interface_total_jumps_over_c=interface_total,
         interface_negative_fluctuations_over_c=interface_negative,
@@ -465,5 +662,9 @@ def causal_five_field_periodic_cell_fluctuation_ledger(
         global_fluctuation_assembly_defect=assembly_defect,
         maximum_interface_split_defect=float(
             np.max(interface_split_defects)
+        ),
+        global_interface_split_defect=global_interface_split_defect,
+        maximum_absolute_interface_split_defect=(
+            maximum_absolute_interface_split_defect
         ),
     )

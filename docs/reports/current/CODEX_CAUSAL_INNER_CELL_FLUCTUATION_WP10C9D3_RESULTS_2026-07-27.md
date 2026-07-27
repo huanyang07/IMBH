@@ -25,6 +25,19 @@ A zero-speed fluctuation, if present, is shared equally. The audit uses
 periodic fixed geometry. It is production neutral and does not change the
 radial DAE, face flux, cell sources, or boundary treatment.
 
+## Retrospective scope correction from WP10c9d4a
+
+The smooth d3 runner supplied exact continuous edge values as cell traces.
+Neighboring traces therefore agreed and all smooth interface jumps were zero.
+The common N64 error `4.01547e-4` is exactly the sinusoidal cell-integral
+versus center-value discrepancy
+`1 - 2 sin(Delta x/2) / Delta x`.
+
+Accordingly, d3 certifies interface split/telescoping algebra for
+piecewise-constant states and second-order **within-cell** smooth behavior. It
+does not certify reconstructed smooth interface accuracy. WP10c9d4a supplies
+that strengthened gate and passes it before radial work.
+
 ## Method contracts
 
 For a closed sequence of cell traces, the implementation records:
@@ -62,9 +75,10 @@ defect `<=1e-10` gates.
 
 ## Interpretation and hard stop
 
-WP10c9d2 established the complete sign/path/split algebra. WP10c9d3 now
+WP10c9d2 established the complete sign/path/split algebra. WP10c9d3
 establishes that its interface and within-cell pieces can be assembled
-consistently and with second-order smooth behavior when geometry is frozen.
+consistently, with second-order smooth behavior demonstrated for the
+within-cell path under frozen geometry.
 
 This is not yet a radial disk operator. The real near-horizon grid has:
 
@@ -80,21 +94,15 @@ subtraction that hides an inconsistent physical ledger. Therefore production
 promotion, a nonlinear trajectory, fixed-`Q` averaging, and reduced evolution
 remain blocked.
 
-## Next gate
+## Superseding next gate
 
-WP10c9d4 should be a radial well-balance preflight:
-
-1. reconstruct the exact cached background with the production face states;
-2. record conservative face fluxes and nonconservative path fluctuations
-   separately;
-3. add geometry, responsive-height, and lower-order sources exactly once;
-4. compare the assembled background residual with the unchanged production
-   residual and stored stationary generator;
-5. require conservative telescoping and complete local ledgers;
-6. apply small perturbations and require linear closure against the complete
-   frozen generator;
-7. retain the existing excision and live coupling treatments;
-8. do not select a nonlinear path or run a history unless these gates pass.
+WP10c9d4a first strengthened the frozen-geometry test with exact cell
+averages, production-stencil reconstruction, nonzero interface jumps, an
+independent cell-integrated reference, and the actual reconstructed Fourier
+symbol. It passes. WP10c9d4b is now authorized to construct the radial
+well-balanced candidate. Candidate finite-difference and independently
+assembled generators must close against one another; the candidate must not
+be forced to duplicate the old production truncation error.
 
 ## Artifacts
 

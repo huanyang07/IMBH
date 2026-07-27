@@ -1,0 +1,842 @@
+{
+  "analyzed_base_commit": "f0b4dcc1715647fb7300c3840546cc61ef4482b7",
+  "arrays_path": "outputs/tables/causal_inner_interface_fluctuation_audit_wp10c9d4a_arrays.npz",
+  "arrays_sha256": "ecf60eb7e72a195eeb8f75aa320324da0b130eb841c26bbb444d1dc4855cfc8e",
+  "audit_configuration": "N128_exterior_N256_inner_c48",
+  "cases": {
+    "2.20rg": {
+      "directions": {
+        "mixed_transport": {
+          "fine_relative_l2_error": 0.00040801631834562203,
+          "maximum_ledger_defect": 3.330395368827009e-14,
+          "maximum_production_reconstruction_parity_defect": 3.552713678800501e-15,
+          "minimum_interface_jump_activity": 0.0012038182849626942,
+          "minimum_interface_residual_fraction": 0.0012038210533958564,
+          "minimum_observed_order": 2.064179112142747,
+          "minimum_production_admissibility_factor": 1.0,
+          "observed_orders": [
+            2.2067675831847877,
+            2.064179112142747
+          ],
+          "passed": true,
+          "smooth_ladder": [
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 9.990205366191604e-16,
+              "global_interface_split_defect": 1.8507061987208324e-14,
+              "interface_residual_fraction": 0.01904046286522917,
+              "maximum_absolute_interface_jump": 4.6659817343197574e-08,
+              "maximum_absolute_interface_split_defect": 4.18367562815547e-10,
+              "maximum_interface_split_defect": 2.880618043432774e-14,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 16,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.019030116980492087,
+              "relative_l2_error": 0.007876995510381218,
+              "spacing": 0.39269908169872414
+            },
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 7.802238024957052e-16,
+              "global_interface_split_defect": 2.3993744062100637e-14,
+              "interface_residual_fraction": 0.004803846227543357,
+              "maximum_absolute_interface_jump": 5.946182213278917e-09,
+              "maximum_absolute_interface_split_defect": 6.912159733474255e-11,
+              "maximum_interface_split_defect": 2.5799901351248484e-14,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 32,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.0048036799748661825,
+              "relative_l2_error": 0.0017063077445187002,
+              "spacing": 0.19634954084936207
+            },
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 4.653242697512159e-15,
+              "global_interface_split_defect": 3.330395368827009e-14,
+              "interface_residual_fraction": 0.0012038210533958564,
+              "maximum_absolute_interface_jump": 7.468674567689959e-10,
+              "maximum_absolute_interface_split_defect": 1.2050804798491299e-11,
+              "maximum_interface_split_defect": 3.6030504480306964e-14,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 64,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.0012038182849626942,
+              "relative_l2_error": 0.00040801631834562203,
+              "spacing": 0.09817477042468103
+            }
+          ]
+        },
+        "stress_acoustic": {
+          "fine_relative_l2_error": 0.00040801634254769873,
+          "maximum_ledger_defect": 3.5278649684090533e-14,
+          "maximum_production_reconstruction_parity_defect": 3.552713678800501e-15,
+          "minimum_interface_jump_activity": 0.0012038189757375753,
+          "minimum_interface_residual_fraction": 0.0012038224575327142,
+          "minimum_observed_order": 2.0641789768375847,
+          "minimum_production_admissibility_factor": 1.0,
+          "observed_orders": [
+            2.2067676352250554,
+            2.0641789768375847
+          ],
+          "passed": true,
+          "smooth_ladder": [
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 2.5936593977067296e-16,
+              "global_interface_split_defect": 2.92466044310415e-14,
+              "interface_residual_fraction": 0.019040462179026156,
+              "maximum_absolute_interface_jump": 1.4331448028315208e-08,
+              "maximum_absolute_interface_split_defect": 1.2732925824820995e-10,
+              "maximum_interface_split_defect": 4.35351065114624e-14,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 16,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.01903011647337691,
+              "relative_l2_error": 0.007876995522997128,
+              "spacing": 0.39269908169872414
+            },
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 1.1394096341157682e-15,
+              "global_interface_split_defect": 3.5142024602775387e-14,
+              "interface_residual_fraction": 0.004803845855647837,
+              "maximum_absolute_interface_jump": 1.82635417900201e-09,
+              "maximum_absolute_interface_split_defect": 1.949729266925715e-11,
+              "maximum_interface_split_defect": 6.32537577469808e-14,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 32,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.0048036795667650515,
+              "relative_l2_error": 0.0017063076857023584,
+              "spacing": 0.19634954084936207
+            },
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 1.0067286411849238e-15,
+              "global_interface_split_defect": 3.5278649684090533e-14,
+              "interface_residual_fraction": 0.0012038224575327142,
+              "maximum_absolute_interface_jump": 2.2939872224014835e-10,
+              "maximum_absolute_interface_split_defect": 2.4584778657299466e-12,
+              "maximum_interface_split_defect": 4.8345021367062846e-14,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 64,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.0012038189757375753,
+              "relative_l2_error": 0.00040801634254769873,
+              "spacing": 0.09817477042468103
+            }
+          ]
+        },
+        "thermal_material": {
+          "fine_relative_l2_error": 0.00040801632797380076,
+          "maximum_ledger_defect": 4.096524212740679e-14,
+          "maximum_production_reconstruction_parity_defect": 3.552713678800501e-15,
+          "minimum_interface_jump_activity": 0.0012038179941864919,
+          "minimum_interface_residual_fraction": 0.0012038209498937652,
+          "minimum_observed_order": 2.06417898968831,
+          "minimum_production_admissibility_factor": 1.0,
+          "observed_orders": [
+            2.206767690732268,
+            2.06417898968831
+          ],
+          "passed": true,
+          "smooth_ladder": [
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 4.4154766421339156e-16,
+              "global_interface_split_defect": 2.7858607820919076e-14,
+              "interface_residual_fraction": 0.019040462914902693,
+              "maximum_absolute_interface_jump": 5.1903118247764723e-08,
+              "maximum_absolute_interface_split_defect": 4.2746250983327627e-10,
+              "maximum_interface_split_defect": 8.559447647903464e-14,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 16,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.019030116970865055,
+              "relative_l2_error": 0.007876995614868133,
+              "spacing": 0.39269908169872414
+            },
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 1.0057942789526433e-15,
+              "global_interface_split_defect": 3.2674778740579544e-14,
+              "interface_residual_fraction": 0.0048038462324819595,
+              "maximum_absolute_interface_jump": 6.614371272917197e-09,
+              "maximum_absolute_interface_split_defect": 6.389200279954821e-11,
+              "maximum_interface_split_defect": 4.5121988044543375e-14,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 32,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.0048036798949580095,
+              "relative_l2_error": 0.0017063076399537519,
+              "spacing": 0.19634954084936207
+            },
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 7.141120801714877e-16,
+              "global_interface_split_defect": 4.096524212740679e-14,
+              "interface_residual_fraction": 0.0012038209498937652,
+              "maximum_absolute_interface_jump": 8.307932120033001e-10,
+              "maximum_absolute_interface_split_defect": 1.0061285138363019e-11,
+              "maximum_interface_split_defect": 3.4769853832738296e-05,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 64,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.0012038179941864919,
+              "relative_l2_error": 0.00040801632797380076,
+              "spacing": 0.09817477042468103
+            }
+          ]
+        }
+      },
+      "fourier_symbol": {
+        "all_five_families_included": true,
+        "directional_ledger_symbol_defects": {
+          "mixed_transport": 6.333953076592894e-10,
+          "stress_acoustic": 2.694799255828265e-09,
+          "thermal_material": 6.021576953817783e-10
+        },
+        "maximum_directional_ledger_symbol_defect": 2.694799255828265e-09,
+        "maximum_principal_split_defect": 7.15260897769338e-15,
+        "minimum_observed_orders": {
+          "physical_relaxation": 2.0045049169899003,
+          "principal_damping": 2.9710978807109094,
+          "principal_phase": 2.001485909889875
+        },
+        "passed": true,
+        "principal_only_and_physical_relaxation_separated": true,
+        "rows": [
+          {
+            "by_refinement_ratio": {
+              "1": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.013060849247971629,
+                "principal_damping_error_per_s": 0.0019252028142297591,
+                "principal_phase_error_per_s": 0.012926714476165557,
+                "spacing": 65879645.72161102,
+                "theta": 0.1
+              },
+              "2": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.0032253643492564945,
+                "principal_damping_error_per_s": 0.00024095138404813844,
+                "principal_phase_error_per_s": 0.003218441920541437,
+                "spacing": 32939822.86080551,
+                "theta": 0.05
+              },
+              "4": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.0008038271574180495,
+                "principal_damping_error_per_s": 3.012833684354517e-05,
+                "principal_phase_error_per_s": 0.0008037821947723955,
+                "spacing": 16469911.430402756,
+                "theta": 0.025
+              }
+            },
+            "observed_orders": {
+              "physical_relaxation": {
+                "minimum_order": 2.0045049169899003,
+                "pair_orders": [
+                  2.0177146603530844,
+                  2.0045049169899003
+                ]
+              },
+              "principal_damping": {
+                "minimum_order": 2.9981964441301154,
+                "pair_orders": [
+                  2.9981964441301154,
+                  2.9995491480654346
+                ]
+              },
+              "principal_phase": {
+                "minimum_order": 2.001485909889875,
+                "pair_orders": [
+                  2.00592129898163,
+                  2.001485909889875
+                ]
+              }
+            },
+            "theta_on_coarse_grid": 0.1
+          },
+          {
+            "by_refinement_ratio": {
+              "1": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.10942105826804062,
+                "principal_damping_error_per_s": 0.03064954930633979,
+                "principal_phase_error_per_s": 0.10509991150279063,
+                "spacing": 65879645.72161102,
+                "theta": 0.2
+              },
+              "2": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.026125042575032027,
+                "principal_damping_error_per_s": 0.0038504056284595183,
+                "principal_phase_error_per_s": 0.025853428952331114,
+                "spacing": 32939822.86080551,
+                "theta": 0.1
+              },
+              "4": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.0064515547389698506,
+                "principal_damping_error_per_s": 0.00048190276812674557,
+                "principal_phase_error_per_s": 0.006436883841132612,
+                "spacing": 16469911.430402756,
+                "theta": 0.05
+              }
+            },
+            "observed_orders": {
+              "physical_relaxation": {
+                "minimum_order": 2.0177146104201955,
+                "pair_orders": [
+                  2.0663851205399673,
+                  2.0177146104201955
+                ]
+              },
+              "principal_damping": {
+                "minimum_order": 2.9927835171788018,
+                "pair_orders": [
+                  2.9927835171788018,
+                  2.9981964440388995
+                ]
+              },
+              "principal_phase": {
+                "minimum_order": 2.0059212989704824,
+                "pair_orders": [
+                  2.0233339108503166,
+                  2.0059212989704824
+                ]
+              }
+            },
+            "theta_on_coarse_grid": 0.2
+          },
+          {
+            "by_refinement_ratio": {
+              "1": {
+                "physical_relaxation_eigenvalue_error_per_s": 1.0145785444513897,
+                "principal_damping_error_per_s": 0.48066629574387837,
+                "principal_phase_error_per_s": 2.5521236585996547,
+                "spacing": 65879645.72161102,
+                "theta": 0.4
+              },
+              "2": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.21891080356093154,
+                "principal_damping_error_per_s": 0.06129909861267958,
+                "principal_phase_error_per_s": 0.21019982300558127,
+                "spacing": 32939822.86080551,
+                "theta": 0.2
+              },
+              "4": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.052266489310059,
+                "principal_damping_error_per_s": 0.0077008112569190365,
+                "principal_phase_error_per_s": 0.05170685790466223,
+                "spacing": 16469911.430402756,
+                "theta": 0.1
+              }
+            },
+            "observed_orders": {
+              "physical_relaxation": {
+                "minimum_order": 2.0663849921143163,
+                "pair_orders": [
+                  2.2124654964180315,
+                  2.0663849921143163
+                ]
+              },
+              "principal_damping": {
+                "minimum_order": 2.9710978807109094,
+                "pair_orders": [
+                  2.9710978807109094,
+                  2.9927835171788018
+                ]
+              },
+              "principal_phase": {
+                "minimum_order": 2.0233339108503166,
+                "pair_orders": [
+                  3.601864874389542,
+                  2.0233339108503166
+                ]
+              }
+            },
+            "theta_on_coarse_grid": 0.4
+          }
+        ]
+      },
+      "passed": true,
+      "radius_rg": 2.1852560768833196
+    },
+    "5.00rg": {
+      "directions": {
+        "mixed_transport": {
+          "fine_relative_l2_error": 0.00040801634241027015,
+          "maximum_ledger_defect": 5.27470743349109e-14,
+          "maximum_production_reconstruction_parity_defect": 3.552713678800501e-15,
+          "minimum_interface_jump_activity": 0.0012038184232857731,
+          "minimum_interface_residual_fraction": 0.001203820768934011,
+          "minimum_observed_order": 2.064179010116535,
+          "minimum_production_admissibility_factor": 1.0,
+          "observed_orders": [
+            2.2067675979122705,
+            2.064179010116535
+          ],
+          "passed": true,
+          "smooth_ladder": [
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 1.8308485020989495e-15,
+              "global_interface_split_defect": 4.187991696782589e-14,
+              "interface_residual_fraction": 0.019040462802731774,
+              "maximum_absolute_interface_jump": 4.6659815566840734e-08,
+              "maximum_absolute_interface_split_defect": 1.5497789718210697e-09,
+              "maximum_interface_split_defect": 6.653656436144608e-14,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 16,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.01903011688494143,
+              "relative_l2_error": 0.007876995498319586,
+              "spacing": 0.39269908169872414
+            },
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 9.532478827480045e-16,
+              "global_interface_split_defect": 5.27470743349109e-14,
+              "interface_residual_fraction": 0.004803846007763142,
+              "maximum_absolute_interface_jump": 5.946183989635756e-09,
+              "maximum_absolute_interface_split_defect": 2.4874680093489587e-10,
+              "maximum_interface_split_defect": 1.244015920401931e-13,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 32,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.004803680070928512,
+              "relative_l2_error": 0.001706307724487397,
+              "spacing": 0.19634954084936207
+            },
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 9.47525844907975e-16,
+              "global_interface_split_defect": 4.9902283946006516e-14,
+              "interface_residual_fraction": 0.001203820768934011,
+              "maximum_absolute_interface_jump": 7.468674567689959e-10,
+              "maximum_absolute_interface_split_defect": 2.955857780762017e-11,
+              "maximum_interface_split_defect": 8.383217385647606e-14,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 64,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.0012038184232857731,
+              "relative_l2_error": 0.00040801634241027015,
+              "spacing": 0.09817477042468103
+            }
+          ]
+        },
+        "stress_acoustic": {
+          "fine_relative_l2_error": 0.0004080163325623023,
+          "maximum_ledger_defect": 8.875325863790123e-14,
+          "maximum_production_reconstruction_parity_defect": 3.552713678800501e-15,
+          "minimum_interface_jump_activity": 0.0012038182414698248,
+          "minimum_interface_residual_fraction": 0.001203821051433671,
+          "minimum_observed_order": 2.0641790841738152,
+          "minimum_production_admissibility_factor": 1.0,
+          "observed_orders": [
+            2.206767563726585,
+            2.0641790841738152
+          ],
+          "passed": true,
+          "smooth_ladder": [
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 1.4967959598507167e-15,
+              "global_interface_split_defect": 6.901961724594775e-14,
+              "interface_residual_fraction": 0.019040463092265005,
+              "maximum_absolute_interface_jump": 1.4331448916493628e-08,
+              "maximum_absolute_interface_split_defect": 6.248228601180017e-10,
+              "maximum_interface_split_defect": 9.760829592762526e-14,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 16,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.019030117791006843,
+              "relative_l2_error": 0.007876995525894378,
+              "spacing": 0.39269908169872414
+            },
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 7.306123769850446e-16,
+              "global_interface_split_defect": 5.843665043777573e-14,
+              "interface_residual_fraction": 0.004803846396651759,
+              "maximum_absolute_interface_jump": 1.8263550671804296e-09,
+              "maximum_absolute_interface_split_defect": 6.74162947689183e-11,
+              "maximum_interface_split_defect": 1.0518337009369476e-13,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 32,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.004803679664206771,
+              "relative_l2_error": 0.0017063077708927995,
+              "spacing": 0.19634954084936207
+            },
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 7.625378100222928e-15,
+              "global_interface_split_defect": 8.875325863790123e-14,
+              "interface_residual_fraction": 0.001203821051433671,
+              "maximum_absolute_interface_jump": 2.2939783406172864e-10,
+              "maximum_absolute_interface_split_defect": 1.2860823517257813e-11,
+              "maximum_interface_split_defect": 1.0776419009845492e-13,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 64,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.0012038182414698248,
+              "relative_l2_error": 0.0004080163325623023,
+              "spacing": 0.09817477042468103
+            }
+          ]
+        },
+        "thermal_material": {
+          "fine_relative_l2_error": 0.0004080163354281298,
+          "maximum_ledger_defect": 6.340108984711529e-14,
+          "maximum_production_reconstruction_parity_defect": 3.552713678800501e-15,
+          "minimum_interface_jump_activity": 0.0012038179057675478,
+          "minimum_interface_residual_fraction": 0.0012038208939467933,
+          "minimum_observed_order": 2.064178985887693,
+          "minimum_production_admissibility_factor": 1.0,
+          "observed_orders": [
+            2.206767665412168,
+            2.064178985887693
+          ],
+          "passed": true,
+          "smooth_ladder": [
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 9.483828550813546e-16,
+              "global_interface_split_defect": 6.340108984711529e-14,
+              "interface_residual_fraction": 0.01904046262499895,
+              "maximum_absolute_interface_jump": 5.1903116471407884e-08,
+              "maximum_absolute_interface_split_defect": 1.5097612049430609e-09,
+              "maximum_interface_split_defect": 6.340108984711529e-14,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 16,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.019030116874593345,
+              "relative_l2_error": 0.007876995599781639,
+              "spacing": 0.39269908169872414
+            },
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 2.4071973108336377e-15,
+              "global_interface_split_defect": 5.859226158028502e-14,
+              "interface_residual_fraction": 0.004803846127139972,
+              "maximum_absolute_interface_jump": 6.6143748256308754e-09,
+              "maximum_absolute_interface_split_defect": 1.7780621419660747e-10,
+              "maximum_interface_split_defect": 5.859226174064707e-14,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 32,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.004803679804029244,
+              "relative_l2_error": 0.0017063076666323767,
+              "spacing": 0.19634954084936207
+            },
+            {
+              "global_conservative_cycle_defect": 0.0,
+              "global_fluctuation_assembly_defect": 4.0492649940849534e-15,
+              "global_interface_split_defect": 5.6371792920504804e-14,
+              "interface_residual_fraction": 0.0012038208939467933,
+              "maximum_absolute_interface_jump": 8.307932120033001e-10,
+              "maximum_absolute_interface_split_defect": 2.148681232938543e-11,
+              "maximum_interface_split_defect": 7.359301288860115e-14,
+              "minimum_production_admissibility_factor": 1.0,
+              "n_cells": 64,
+              "production_reconstruction_parity_defect": 3.552713678800501e-15,
+              "relative_interface_jump_activity": 0.0012038179057675478,
+              "relative_l2_error": 0.0004080163354281298,
+              "spacing": 0.09817477042468103
+            }
+          ]
+        }
+      },
+      "fourier_symbol": {
+        "all_five_families_included": true,
+        "directional_ledger_symbol_defects": {
+          "mixed_transport": 1.0435639526623016e-10,
+          "stress_acoustic": 4.268216252073436e-09,
+          "thermal_material": 8.766360814501577e-10
+        },
+        "maximum_directional_ledger_symbol_defect": 4.268216252073436e-09,
+        "maximum_principal_split_defect": 6.1617510670621575e-15,
+        "minimum_observed_orders": {
+          "physical_relaxation": 2.004504903956318,
+          "principal_damping": 2.9710978807254733,
+          "principal_phase": 2.001485908344207
+        },
+        "passed": true,
+        "principal_only_and_physical_relaxation_separated": true,
+        "rows": [
+          {
+            "by_refinement_ratio": {
+              "1": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.0047687847020523675,
+                "principal_damping_error_per_s": 0.0007033228608305546,
+                "principal_phase_error_per_s": 0.004722439495445485,
+                "spacing": 152149130.65651417,
+                "theta": 0.1
+              },
+              "2": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.0011776469065918071,
+                "principal_damping_error_per_s": 8.802533193828484e-05,
+                "principal_phase_error_per_s": 0.0011757741898783536,
+                "spacing": 76074565.32825708,
+                "theta": 0.05
+              },
+              "4": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.0002934938417540495,
+                "principal_damping_error_per_s": 1.1006605630067834e-05,
+                "principal_phase_error_per_s": 0.0002936409552329877,
+                "spacing": 38037282.66412854,
+                "theta": 0.025
+              }
+            },
+            "observed_orders": {
+              "physical_relaxation": {
+                "minimum_order": 2.004504903956318,
+                "pair_orders": [
+                  2.0177146090409566,
+                  2.004504903956318
+                ]
+              },
+              "principal_damping": {
+                "minimum_order": 2.998196443948987,
+                "pair_orders": [
+                  2.998196443948987,
+                  2.99954914325908
+                ]
+              },
+              "principal_phase": {
+                "minimum_order": 2.001485908344207,
+                "pair_orders": [
+                  2.005921298825956,
+                  2.001485908344207
+                ]
+              }
+            },
+            "theta_on_coarse_grid": 0.1
+          },
+          {
+            "by_refinement_ratio": {
+              "1": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.03996104416735753,
+                "principal_damping_error_per_s": 0.01119701703276741,
+                "principal_phase_error_per_s": 0.03839552378074984,
+                "spacing": 152149130.65651417,
+                "theta": 0.2
+              },
+              "2": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.009540982059124443,
+                "principal_damping_error_per_s": 0.0014066457216611091,
+                "principal_phase_error_per_s": 0.00944487899089097,
+                "spacing": 76074565.32825708,
+                "theta": 0.1
+              },
+              "4": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.002356136760255411,
+                "principal_damping_error_per_s": 0.00017605066387659483,
+                "principal_phase_error_per_s": 0.002351548379756707,
+                "spacing": 38037282.66412854,
+                "theta": 0.05
+              }
+            },
+            "observed_orders": {
+              "physical_relaxation": {
+                "minimum_order": 2.0177144895678083,
+                "pair_orders": [
+                  2.066384604242387,
+                  2.0177144895678083
+                ]
+              },
+              "principal_damping": {
+                "minimum_order": 2.992783517256458,
+                "pair_orders": [
+                  2.992783517256458,
+                  2.998196443948781
+                ]
+              },
+              "principal_phase": {
+                "minimum_order": 2.005921298825956,
+                "pair_orders": [
+                  2.0233339109316297,
+                  2.005921298825956
+                ]
+              }
+            },
+            "theta_on_coarse_grid": 0.2
+          },
+          {
+            "by_refinement_ratio": {
+              "1": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.3706720600997926,
+                "principal_damping_error_per_s": 0.17559895079639865,
+                "principal_phase_error_per_s": 0.9102270183686443,
+                "spacing": 152149130.65651417,
+                "theta": 0.4
+              },
+              "2": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.07997818813681598,
+                "principal_damping_error_per_s": 0.02239403406553482,
+                "principal_phase_error_per_s": 0.07679104756149968,
+                "spacing": 76074565.32825708,
+                "theta": 0.2
+              },
+              "4": {
+                "physical_relaxation_eigenvalue_error_per_s": 0.01909535660406667,
+                "principal_damping_error_per_s": 0.0028132914433222182,
+                "principal_phase_error_per_s": 0.01888975798178194,
+                "spacing": 38037282.66412854,
+                "theta": 0.1
+              }
+            },
+            "observed_orders": {
+              "physical_relaxation": {
+                "minimum_order": 2.0663847356196756,
+                "pair_orders": [
+                  2.212464871050701,
+                  2.0663847356196756
+                ]
+              },
+              "principal_damping": {
+                "minimum_order": 2.9710978807254733,
+                "pair_orders": [
+                  2.9710978807254733,
+                  2.992783517256458
+                ]
+              },
+              "principal_phase": {
+                "minimum_order": 2.0233339109316297,
+                "pair_orders": [
+                  3.5672163767386156,
+                  2.0233339109316297
+                ]
+              }
+            },
+            "theta_on_coarse_grid": 0.4
+          }
+        ]
+      },
+      "passed": true,
+      "radius_rg": 5.04685185716669
+    }
+  },
+  "classification": "interface_inclusive_fixed_geometry_gate_passed_radial_well_balance_authorized",
+  "decisive_array_hashes": {
+    "r2.20_mixed_transport_N16_independent_integrated_reference": "563a3663d736104976258d70f63f6d7b0769457507445c27f62f95d1f0bf249c",
+    "r2.20_mixed_transport_N16_interface_jumps": "4201b292e234375f3d918ac25b5145c1c4ec1126a74591f377d21a30654912d9",
+    "r2.20_mixed_transport_N16_numerical_integrated_residual": "5eb6cd5f175f1170dec4f22375ffa35c24b177a980f84023a11bd8083d70f7c3",
+    "r2.20_mixed_transport_N32_independent_integrated_reference": "9d4f6d65f1b99665eee1cf6be2ece1cc4053be3fd0840a7452fe43a660a678e2",
+    "r2.20_mixed_transport_N32_interface_jumps": "96966c3906a1d94bf7c104aff36a731c6b24d9275abc0e4d5257aa1af48fc558",
+    "r2.20_mixed_transport_N32_numerical_integrated_residual": "b3eb51d9128d4076e2282d6c0da119700782afa234a782224184e393b346da62",
+    "r2.20_mixed_transport_N64_independent_integrated_reference": "f67f6933bc69cbeecbd970400f2668e1c0724805517eb859a3df47bda39793b3",
+    "r2.20_mixed_transport_N64_interface_jumps": "44344fb3c2043d29ca90880305a39cfe153b16c78b5effc7bd896abac8ed5d64",
+    "r2.20_mixed_transport_N64_numerical_integrated_residual": "3caf8603ad056e7e9d8800aae6059974d5bd1efa526872761d9066a95e8fb34f",
+    "r2.20_stress_acoustic_N16_independent_integrated_reference": "d8c8054f8e6bdc9d801488a1c3079fab71582cca7a1bdc1fcc190c7d0d127c0e",
+    "r2.20_stress_acoustic_N16_interface_jumps": "a158fe46953e51aec5c90fb25471399e11ccd485f106c280961835ee942d4762",
+    "r2.20_stress_acoustic_N16_numerical_integrated_residual": "ab3aff1645ae2e279aaf1e05f8fdaa93efced2c081d85727d37a53a1cd9ea6d5",
+    "r2.20_stress_acoustic_N32_independent_integrated_reference": "036845b61a3119c4294d126ad25ae06df00049e4fe4ac8d561153c3dba007512",
+    "r2.20_stress_acoustic_N32_interface_jumps": "654014759f1e013ba4a711a77b4217231ca39697b796fef75fcfcca2bf40b580",
+    "r2.20_stress_acoustic_N32_numerical_integrated_residual": "831d669372e661f9dd423c133296517905763ef4ae8877c4239b9ea215f1d16d",
+    "r2.20_stress_acoustic_N64_independent_integrated_reference": "0d7d0bf377e058e4b804f3d78634e96f26ac6a8e209fbf787fe20c16c4cc09fc",
+    "r2.20_stress_acoustic_N64_interface_jumps": "c4d8b1c5ebc8648ba7cca9edd749060cf4880a271b235ade4e8a423cf621005a",
+    "r2.20_stress_acoustic_N64_numerical_integrated_residual": "8969b28bcc8fd616e5e74d2a623606d90c46315e0dda19deb73c4a54332fc414",
+    "r2.20_symbol_theta_0.10_continuum_principal": "e32b9a65724779b1784798ff9f90c40b164ee4670691891ca3686122e1d74b18",
+    "r2.20_symbol_theta_0.10_continuum_relaxing": "863bee85b9013294731b64bbe031ed9bb901de205fa1b2ebc9825954e9aa470e",
+    "r2.20_symbol_theta_0.10_reconstructed_principal": "6298e78324b55d580ed78decbda24904dc3767f22408d09fbdbfefe2f940031a",
+    "r2.20_symbol_theta_0.10_reconstructed_relaxing": "0b16f4cf8b99ba821ad1119c7a10a407c0b0e1f4edcd1290d2925a2c3a41136c",
+    "r2.20_symbol_theta_0.20_continuum_principal": "60d1def9881c72e584c09b4513e3516ce33e6d471670a63ebea6303eace9c1ff",
+    "r2.20_symbol_theta_0.20_continuum_relaxing": "004ed6a8bbf4cd9bd9d2c76238af9f3a00bbec5ade28b189dcbdcebbdb84a9be",
+    "r2.20_symbol_theta_0.20_reconstructed_principal": "b36680289d3e834951fc72ec26408893d9587a4c8dde658571fbfc9abac9f495",
+    "r2.20_symbol_theta_0.20_reconstructed_relaxing": "a071f9a7eb2d6edf518598aef0038ca1ae0054938585f994242b8683b6aca2ae",
+    "r2.20_symbol_theta_0.40_continuum_principal": "23cf386ba79b958547211756696704542471f6ed7e4829346a17546919690b32",
+    "r2.20_symbol_theta_0.40_continuum_relaxing": "409870396b89fa1c6c1e889871a12ce13bf1f92525257a3e9965c7296c22d079",
+    "r2.20_symbol_theta_0.40_reconstructed_principal": "8eac5c6a8c851d17097126f01c21b5545b0725e8a8b6b616feaf688d1e511ba5",
+    "r2.20_symbol_theta_0.40_reconstructed_relaxing": "852b31879cf6f2c3ef86fb02219bed47a357224da6c945fb67257b47dee1785b",
+    "r2.20_thermal_material_N16_independent_integrated_reference": "aef3b0586a2b39a11416f5c2b28ac34be2aaf454ab49190c5cde3c6bba3765c5",
+    "r2.20_thermal_material_N16_interface_jumps": "7b80e28dbf45d479fda544b8b48f1a29a1acf48d93d5b4c739b2f4727039239f",
+    "r2.20_thermal_material_N16_numerical_integrated_residual": "f7dcb00aa114b4c12cdf89037d97d38140ffc45d6cb42cb1c4d2b282b70fdb4f",
+    "r2.20_thermal_material_N32_independent_integrated_reference": "ae991205d2b9c728cfb2e3149c2a82e63dc94437398171121d7f8179b7470291",
+    "r2.20_thermal_material_N32_interface_jumps": "93a734633929f0a15e601c1b7d363567f1c948cb7b182113b84d92dd7b7f9545",
+    "r2.20_thermal_material_N32_numerical_integrated_residual": "7bc167ec4e419f1147eeefcc68b2f652d5bcd1d9661f6058c971b066be1d8e37",
+    "r2.20_thermal_material_N64_independent_integrated_reference": "28957397d23de0501273d753b421179f565c03afb7cf5b3682f3e59d274df172",
+    "r2.20_thermal_material_N64_interface_jumps": "f6c4476814f7eb594836ed9b8392c49b784071b0f7dc72b8735b58226363a667",
+    "r2.20_thermal_material_N64_numerical_integrated_residual": "47d9f9b1cd292645e6e030db83fae949dbe508dbf3a9e429bc5d952a4055ef09",
+    "r5.00_mixed_transport_N16_independent_integrated_reference": "378ddb45210c5425fcb811f634bfb31b02ade74af4697c92dbe6cff3f1b6797e",
+    "r5.00_mixed_transport_N16_interface_jumps": "f4cb4e4b6982d35308d2342ac8ca07a0f3eac0cf06e2244a6000c597b0c6501b",
+    "r5.00_mixed_transport_N16_numerical_integrated_residual": "2e6ce8d6d4dc2058d6fe4e179cd22f5ee8812ccb4f6220392edd86ba74f86d56",
+    "r5.00_mixed_transport_N32_independent_integrated_reference": "ffbb2f010e9f32f5471f539cb2663c43ac0618f95becf195acb7c61a5c9426e9",
+    "r5.00_mixed_transport_N32_interface_jumps": "3e84e2573de9597e8b4a6a27efeaa504574f5377d1d0cddf7ae19368365746c8",
+    "r5.00_mixed_transport_N32_numerical_integrated_residual": "05b62a85bf5bcb6293ba50f56269e77ef6611678a339ad63b52c37dffabe8af6",
+    "r5.00_mixed_transport_N64_independent_integrated_reference": "8881b7be5d162d732e96a48b81291ce5beb81d0ff5aa6c45990de878c8a610aa",
+    "r5.00_mixed_transport_N64_interface_jumps": "0622295ebbb428ad94bb141a62a21c3f1c5b06b13b9c9350629615791daa68ad",
+    "r5.00_mixed_transport_N64_numerical_integrated_residual": "73ef36530f8b75ee5b68e0398d973b500b1fdab06fff7f62a230a8fe8adb0afb",
+    "r5.00_stress_acoustic_N16_independent_integrated_reference": "2a6c845588051e4284687a6abd0e7f23f2cd7cd58d3b291dce6c92880e83229e",
+    "r5.00_stress_acoustic_N16_interface_jumps": "1e03e51ce87dc5b46e7c18a375ea0437b4dd7a79031ce0dd284a074039268eaf",
+    "r5.00_stress_acoustic_N16_numerical_integrated_residual": "96557b5c35983637118234c0507da52b707fc6fd5861fbda59ce8a88678effea",
+    "r5.00_stress_acoustic_N32_independent_integrated_reference": "eef2b9a9d92554a56e239b6fdd757546e9b95fd7e3a096c7471e59b997208804",
+    "r5.00_stress_acoustic_N32_interface_jumps": "4fb3aa3ffa23f8823aebf534235472389cd760deccfa985059668a5455ba267c",
+    "r5.00_stress_acoustic_N32_numerical_integrated_residual": "aad73f59d74fb9256164080ce85ce17971f511646aac8b83ac07fae289349f4e",
+    "r5.00_stress_acoustic_N64_independent_integrated_reference": "1ab001c6926d15eee8265f8a4ab2a0aa8ea7b41c862ac5ad96a214633cbbc95e",
+    "r5.00_stress_acoustic_N64_interface_jumps": "a44ea18025418fef097162ae19121fecc7ef78288b645fab38c8b3e145081457",
+    "r5.00_stress_acoustic_N64_numerical_integrated_residual": "67746d87684b8bdfca3e2ad01ba335ba03ebbd960715e09332b3a408ca237ab1",
+    "r5.00_symbol_theta_0.10_continuum_principal": "836941ad4b1e54ec8bf4ee677dcdca21dc3ae9c347fb32d84af217fcfbcb883c",
+    "r5.00_symbol_theta_0.10_continuum_relaxing": "46700de4eee4cd9369618d5817741449d8ebe14745d0b306e8181c6291d9d3e5",
+    "r5.00_symbol_theta_0.10_reconstructed_principal": "71cfc84c82569465c9f3eee4842d599e7cbb588dc265a7667e9a3f94faac2529",
+    "r5.00_symbol_theta_0.10_reconstructed_relaxing": "cff966b6110c7711e9b14fe156fe7fcccd3fca7a1a19ab19607d8cbf7fbd4cb1",
+    "r5.00_symbol_theta_0.20_continuum_principal": "0ae2937735888607e336e41284701bdc9e0a2a42f756bfeca5692a43ee6e2400",
+    "r5.00_symbol_theta_0.20_continuum_relaxing": "34c5f727cc5cdfd7784027454783c8b8c816b10ff641fc7dd39844ea980dc63b",
+    "r5.00_symbol_theta_0.20_reconstructed_principal": "fdd66ef4891143445cde73f26b02fba3b15760f09835b43a91eeeae4a622c2a0",
+    "r5.00_symbol_theta_0.20_reconstructed_relaxing": "60122f2358166ac136e85a1f0801341aae081d01607970dea6059c1c13564244",
+    "r5.00_symbol_theta_0.40_continuum_principal": "7f4882edfa010c910ba0d3b4d45d5eec4a0e419b84646ce16b4cc54b5508d520",
+    "r5.00_symbol_theta_0.40_continuum_relaxing": "42589de32534e2f6059f24a5ef218bb0b04f378c42e25df62c40a6196a7b382f",
+    "r5.00_symbol_theta_0.40_reconstructed_principal": "4c4f25f0d2011d61319d6503690c5319c514d3f848ff392283fff44d8291f50e",
+    "r5.00_symbol_theta_0.40_reconstructed_relaxing": "4376a8b9906275f5ee741c8229ec8f624d237d0553252bf89f6034d61dee699d",
+    "r5.00_thermal_material_N16_independent_integrated_reference": "3324ed4e68422e35a17a3123ab3c1a6484910d4f61d902cd438531967d00a894",
+    "r5.00_thermal_material_N16_interface_jumps": "d1ae16f2df2bfb3f8ff2d928f940edf1f3a6b6732a602eead37c226c52343b24",
+    "r5.00_thermal_material_N16_numerical_integrated_residual": "74e3f89604ac0d2c299a038330a02e06820457494d63b6f749743f97c5d9cbf0",
+    "r5.00_thermal_material_N32_independent_integrated_reference": "0cd05024fc0335627661c8187a8e6af432add09209431b4aa74e746774cb36b1",
+    "r5.00_thermal_material_N32_interface_jumps": "5bff241d12b95180c2c3516802e6a375ddd744fa425c547f35df4126d017b17d",
+    "r5.00_thermal_material_N32_numerical_integrated_residual": "fdc963dce6c5ac3697445d968fc1f287f6c7b4226872c37490bc6f0f9093bd08",
+    "r5.00_thermal_material_N64_independent_integrated_reference": "aac656b71723f33f3e216aca3b9985387475b71f06ef0dbe651fd29765eb074e",
+    "r5.00_thermal_material_N64_interface_jumps": "01135c5855784bce6a94789b738b5e9b5235a19f407c6b1e53ecf2b916c3b6cf",
+    "r5.00_thermal_material_N64_numerical_integrated_residual": "b53fb3c185261e33ce94766faebedeb64ee7dd41b30156845e1fde3dfbe4f7c6"
+  },
+  "decisive_arrays_sha256": "e787753c7ef22954742254e7162e8e792cfa52695bc68220ba8fa55b0f1e48d4",
+  "environment": {
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13"
+  },
+  "fixed_q_micro_solver_authorized": false,
+  "gates": {
+    "maximum_fine_manufactured_error": 0.002,
+    "maximum_ledger_defect": 1e-10,
+    "maximum_principal_split_defect": 1e-10,
+    "maximum_reconstruction_parity_defect": 1e-11,
+    "maximum_symbol_directional_defect": 2e-05,
+    "minimum_admissibility_factor": 0.99999999999999,
+    "minimum_interface_jump_activity": 1e-05,
+    "minimum_manufactured_order": 1.8,
+    "minimum_symbol_order": 1.8
+  },
+  "implementation_parent_commit": "f0b4dcc1715647fb7300c3840546cc61ef4482b7",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_interface_fluctuation_audit_wp10c9d4a.py": "b61f3363a2bb595552c81c971137f5975bd9b6749b8cca6bd307e28c213b0f11",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "2ec49aab4ac9bc2141ef2919f87cb655889fdd9c087d38147e79c43a0d1e72fe",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_full_fluctuation.py": "fa0b8665846353dec3742b6cfcb875c06235a70e51c76bc141475cea5cf3fdcb",
+    "tests/test_causal_inner_full_fluctuation.py": "dac68168a0a721911ace3d8691a7d557b9e3f9f582db99909b544bf75c792ee5",
+    "tests/test_causal_inner_interface_fluctuation_wp10c9d4a.py": "3bb44171f0f8146956000644d8b8bf8efce161419708c420d9e710b39804b0ab"
+  },
+  "implementation_source_manifest_sha256": "1b28430d9bf47991ce74383d0b32360061e0b22892fcb27ba18cffd4e8beeba2",
+  "input_hashes": {
+    "outputs/tables/causal_inner_embedded_patch_preflight_wp10c8z.json": "41c614abafb3450338a0225d8505e8fffde61db8b3df918c0371604a21d05887",
+    "outputs/tables/causal_inner_embedded_patch_preflight_wp10c8z_arrays.npz": "a042c31ff371c824d99a44fe953eeb8c7028a897b9a6ea4792d2f40a59456140",
+    "outputs/tables/causal_inner_full_fluctuation_contract_wp10c9d2.json": "6a6fd356ad867d0fadc69d5ddb8376c1f09f78911adb5652fd4112037281a3e9",
+    "outputs/tables/causal_inner_full_fluctuation_contract_wp10c9d2_arrays.npz": "9b61263e1fc82c62cfcb198c413a5d1f4e3498fe9f59ab396b7d189f623597f4"
+  },
+  "interface_inclusive_gate_passed": true,
+  "nonlinear_candidate_authorized": false,
+  "periodic_boundary_treatment": "wrapped production unlimited quadratic interior stencil; not a radial boundary condition",
+  "production_operator_authorized": false,
+  "production_reconstruction_mode": "quadratic_admissible",
+  "radial_well_balance_audit_authorized": true,
+  "reference_contract": "independent Gauss integration of B(p(x)) p_x; does not call the complete path-jump routine",
+  "runner": "scripts/run_causal_inner_interface_fluctuation_audit_wp10c9d4a.py",
+  "schema_version": 1,
+  "work_package": "WP10c9d4a"
+}

@@ -143,7 +143,8 @@ This is the canonical project handoff. Status labels mean:
 | Conservative inner-micro export preflight WP10c9d0 | **CERTIFIED** as a method-valid negative reduction gate; `conservative_micro_exports_fail_spatial_gate`; **FIXED-Q AND REDUCED SLOW EVOLUTION NOT AUTHORIZED** | The nonlinear physical observable map passes its step/sampling gates; direct M/J/E drive agrees with the stationary matrix below `2.37e-5`; the instantaneous responsive-height descriptor ledger closes below `5.22e-15`; all embedded shared-flux/telescoping defects are zero. Uniform N64/N128/N256 instantaneous/cumulative exports pass with fine maximum `0.0384/0.0474` | The N128-exterior N128/N256/N512 inner-patch ladder has cumulative exported-vector orders `-1.434/-1.022`; inner-flux/net-drive orders are about `-1.60/-1.44`, and cooling/height order is `-1.36/-1.02`. The coupling response is insignificant, so the present refined inner bulk operator cannot be used as a conservative microclosure. Audit a complete coupled near-horizon operator before any constrained averaging |
 | Conservative export family audit WP10c9d1 | **CERTIFIED** for exact five-family export attribution; `conservative_export_defect_is_multifamily_full_coupled_operator_required`; **NO SINGLE-FAMILY REPAIR, FIXED-Q AVERAGING, OR REDUCED EVOLUTION AUTHORIZED** | Five projectors close below `3.56e-15`; family histories reconstruct instantaneous and cumulative physical exports below `1.52e-5/2.75e-6`. The fine cumulative cooling/height defect is material-dominated, but the complete instantaneous and cumulative exports fail the declared dominance, persistence, and cross-grid profile gates | The fine controlling cumulative cooling-angular-momentum error is distributed across material (`48.80%`), outward shear (`20.87%`), inward shear (`16.12%`), outward acoustic (`7.50%`), and inward acoustic (`6.71%`). The complete near-horizon five-field fluctuation operator, including boundary transport and within-cell coupling, must be designed and certified as one well-balanced object |
 | Complete five-field path/fluctuation contract WP10c9d2 | **CERTIFIED** for its production-neutral sign/path/split scope; `full_principal_path_contract_passed_cell_assembly_is_next_gate`; **NO PRODUCTION OPERATOR, NEW TRAJECTORY, FIXED-Q AVERAGING, OR REDUCTION AUTHORIZED** | On all three cached inner-grid levels, constant-state defect is zero; reversal, source partition, path additivity, and quadrature defects are below `1.32e-13`; the signed five-family split closes below `3.08e-14`. Worst-direction small-jump envelopes converge at order `1.886-1.946` and end below `3.38e-10`; excision has zero incoming modes | The straight primitive path is only an audit path, and no interface/within-cell residual has been assembled. The next gate is a well-balanced local fluctuation ledger with one shared conservative flux, separately ledgered derivative-source paths, background preservation, no source double counting, and complete-generator linear closure |
-| Fixed-geometry cell-fluctuation ledger WP10c9d3 | **CERTIFIED** for constant-geometry interface/within-cell assembly; `fixed_geometry_full_fluctuation_assembly_passed_radial_well_balance_is_next_gate`; **NO RADIAL PRODUCTION OPERATOR, NEW TRAJECTORY, FIXED-Q AVERAGING, OR REDUCTION AUTHORIZED** | Constants are preserved bitwise; discontinuous interface and smooth within-cell ledgers close below `9.26e-14`. At `2.20/5.00 rg`, three mixed manufactured waves converge at minimum order `1.9979` with N64 relative L2 error `4.02e-4` | Geometry, face/cell measures, lower-order sources, responsive-height work, excision, and coupling have not yet been assembled with the nonuniform disk background. The next gate is direct radial background and frozen-generator closure without hidden residual subtraction or source double counting |
+| Fixed-geometry cell-fluctuation ledger WP10c9d3 | **CERTIFIED** for constant-geometry path/split, discontinuous-interface, and smooth within-cell assembly; `fixed_geometry_full_fluctuation_assembly_passed_radial_well_balance_is_next_gate`; **NO RADIAL PRODUCTION OPERATOR, NEW TRAJECTORY, FIXED-Q AVERAGING, OR REDUCTION AUTHORIZED** | Constants are preserved bitwise; discontinuous interface and smooth within-cell ledgers close below `9.26e-14`. At `2.20/5.00 rg`, three mixed within-cell waves converge at minimum order `1.9979` with N64 relative L2 error `4.02e-4` | The smooth waves supplied exact continuous edge traces, so their interface jumps were zero; d3 did not test smooth reconstructed interface accuracy. WP10c9d4a supplies and passes that superseding gate |
+| Interface-inclusive fixed-geometry audit WP10c9d4a | **CERTIFIED** for its production-neutral reconstructed-interface scope; `interface_inclusive_fixed_geometry_gate_passed_radial_well_balance_authorized`; **NO PRODUCTION OPERATOR, NONLINEAR TRAJECTORY, FIXED-Q AVERAGING, OR REDUCTION AUTHORIZED** | Exact cell averages and the inactive-limiter production quadratic stencil give nonzero interface activity `1.20382e-3`, reconstruction parity `3.55e-15`, manufactured order at least `2.06418`, and N64 error `4.08016e-4`. All-family Fourier phase/damping/relaxation orders are `2.00149/2.97110/2.00450`; symbol/ledger mismatch is below `4.27e-9`; compact canonical evidence is committed | Geometry and measures remain frozen. The next gate is WP10c9d4b: one radial well-balanced candidate with exact one-time source placement, unchanged excision/coupling contracts, and candidate FD/assembled generator closure without requiring equality to the old production truncation error |
 
 ## Frozen Target Under Review
 
@@ -1258,12 +1259,21 @@ N                    = 164
    within-cell, and negative-right fluctuations under frozen geometry.
    Constant states remain bitwise zero, periodic conservative cycles and
    fluctuation ledgers close below `9.26e-14`, and three independent mixed
-   waves at `2.20/5.00 rg` converge at order `1.9979` with N64 error
-   `4.02e-4`. The remaining gate is specifically radial well balance:
-   production face reconstruction, varying measures, geometry,
-   responsive-height and relaxation sources, excision, and live coupling must
-   reproduce the unchanged background residual and complete frozen generator
-   without hidden subtraction or double counting.
+   within-cell waves converge at order `1.9979` with N64 error `4.02e-4`.
+   A retrospective audit found that those smooth waves supplied exact
+   continuous edge values, so their interface jumps were identically zero.
+   The d3 result remains a valid path/split, discontinuous-interface, and
+   smooth within-cell contract, but not a smooth reconstructed-interface gate.
+   WP10c9d4a closes that gap using exact cell averages and the wrapped
+   production unlimited quadratic stencil. Interface activity is
+   `1.20382e-3`, production reconstruction parity is `3.55e-15`, the
+   interface-plus-within-cell manufactured order is at least `2.06418`, and
+   the actual all-family symbol has phase/damping/physical-relaxation orders
+   `2.00149/2.97110/2.00450`. Its directional closure against the nonlinear
+   ledger is below `4.27e-9`. This authorizes WP10c9d4b radial well balance,
+   not a production operator. Candidate finite-difference and independently
+   assembled generators must close against one another; equality to the old
+   production discrete generator is not a binding target.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -1275,7 +1285,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_INNER_CELL_FLUCTUATION_WP10C9D3_RESULTS_2026-07-27.md`
+  `reports/current/CODEX_CAUSAL_INNER_INTERFACE_FLUCTUATION_WP10C9D4A_RESULTS_2026-07-27.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
@@ -1383,6 +1393,8 @@ N                    = 164
   `reports/current/CODEX_CAUSAL_INNER_FULL_FLUCTUATION_WP10C9D2_RESULTS_2026-07-27.md`
 - Fixed-geometry cell-fluctuation ledger WP10c9d3:
   `reports/current/CODEX_CAUSAL_INNER_CELL_FLUCTUATION_WP10C9D3_RESULTS_2026-07-27.md`
+- Interface-inclusive fixed-geometry audit WP10c9d4a:
+  `reports/current/CODEX_CAUSAL_INNER_INTERFACE_FLUCTUATION_WP10C9D4A_RESULTS_2026-07-27.md`
 - Mixed-mode, stationary-preflight, and stable-observable reduction
   WP10c8d-f: `reports/current/CODEX_CAUSAL_STABLE_OBSERVABLE_REDUCTION_WP10C8F_RESULTS_2026-07-20.md`
 - Causal inner thermodynamics WP10a: `reports/current/CODEX_CAUSAL_INNER_THERMODYNAMICS_WP10A_RESULTS_2026-07-17.md`
