@@ -31,6 +31,7 @@ the default branch.
 | `causal_inner_frozen_discrimination_wp10c9d5` | **REJECTED** | Same-descriptor production/candidate A/B generators and parity-certified physical-export ladders; aggregate embedded exports improve, but inner and net M/J/E remain nonconvergent |
 | `causal_inner_frozen_hardening_wp10c9d5a` | **REJECTED METHOD GATE / DIAGNOSTIC ONLY** | Corrected exact WP10c9d5 lineage, self-contained replay contexts, exact dense/colored and sparsity checks, and seven-step JVP evidence; one embedded random direction excludes the stored `4e-5` step from its certified plateau |
 | `causal_inner_frozen_domain_hardening_wp10c9d5a1` | **CERTIFIED FOR INNER LOCALIZATION ONLY / DIAGNOSTIC** | Preserves the global d5a rejection while proving exact dense/colored parity, stable branches, and held-out JVP plateaus through `5 rg` plus the three-cell halo; cache-first d5b localization is authorized, but global and nonlinear promotion remain blocked |
+| `causal_inner_dynamic_localization_wp10c9d5b` | **DIAGNOSTIC ONLY / BRANCH D STOP** | Exact nested M/J/E control-volume replay on the embedded N128/N256/N512-equivalent inner ladders; no common face through `5 rg` recovers componentwise instantaneous and cumulative contraction, and no block is stably dominant, so the current embedded microclosure discretization is rejected |
 
 Each case contains `provenance.json` and `SHA256SUMS.txt`. The global file list
 and hashes are recorded in `manifests/canonical_artifacts.csv`.

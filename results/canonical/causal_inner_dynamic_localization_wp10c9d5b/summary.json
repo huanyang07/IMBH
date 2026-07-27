@@ -1,0 +1,3811 @@
+{
+  "analyzed_base_commit": "cb10412aef66ff5e1e2724f8bd702b2c17a5f734",
+  "analyzed_base_parent_commit": "155e18339076fd2b27d419173b92e1d5d608963b",
+  "analyzed_base_tree_sha": "6e41143fd363ecb204dce1f78343535f90ff6898",
+  "authorized_next_work": "reject_current_embedded_microclosure_discretization",
+  "binding_branch": "D_no_compact_recovery_or_stable_dominant_term",
+  "cache_reports": {
+    "N128_exterior_N128_inner_c48": {
+      "arrays_path": "outputs/checkpoints/causal_inner_dynamic_localization_wp10c9d5b/N128_exterior_N128_inner_c48_arrays.npz",
+      "arrays_sha256": "b5ab94e89566011bfbd5e9b5e5b626e1899752e0870ed345c88ef540c3ed0e4a",
+      "base_primitives_sha256": "79fa8951a7afb41fdb5c35a2ab1ad3e7752a2876723f37e6adb9f0e667a1847a",
+      "block_names": [
+        "conservative_transport",
+        "shear_principal",
+        "height_principal",
+        "local_stress_relaxation",
+        "geometry",
+        "cooling",
+        "stream",
+        "lower_height_work"
+      ],
+      "candidate_generator_sha256": "b0e1d2c4e32cc1dac503ded3671a87e564b7c731403e1abacbeb136e45bf4274",
+      "finite_difference_step": 4e-05,
+      "grid_edges_sha256": "01bbfa7ba9a318660afb8d55e5f7ef0a74fed2d82cd3135dbc39a3e556e88763",
+      "label": "N128_exterior_N128_inner_c48",
+      "maximum_descriptor_component_closure_defect": 0.0,
+      "maximum_stationary_block_closure_defect": 7.837814327569766e-14,
+      "n_cells": 64,
+      "passed": true,
+      "path_quadrature_order": 6,
+      "schema_version": 1,
+      "stationary_delta_sha256": "43c2febd15e94e559e96f57fae277b04337e309e16a890e0daa9af8e9a29ec7d",
+      "wall_seconds": 293.07429987494834,
+      "work_package": "WP10c9d5b"
+    },
+    "N128_exterior_N256_inner_c48": {
+      "arrays_path": "outputs/checkpoints/causal_inner_dynamic_localization_wp10c9d5b/N128_exterior_N256_inner_c48_arrays.npz",
+      "arrays_sha256": "06eaa1d23ef1f00cec2888fbda28ce059bb22a699aa5b4f3c918ae649904a228",
+      "base_primitives_sha256": "0fdadc579e6da46efbf6c2e8559ea4860a5c9370ea8018603e378c1ff03a7b8e",
+      "block_names": [
+        "conservative_transport",
+        "shear_principal",
+        "height_principal",
+        "local_stress_relaxation",
+        "geometry",
+        "cooling",
+        "stream",
+        "lower_height_work"
+      ],
+      "candidate_generator_sha256": "7753e782de14c8399b4e42c1ab9bd93be2a886e1136e0f66d1161906f62ce2ac",
+      "finite_difference_step": 4e-05,
+      "grid_edges_sha256": "c67efc308bb334c515d767397b9690468cc3f90093cc96642b334dcc07da0c71",
+      "label": "N128_exterior_N256_inner_c48",
+      "maximum_descriptor_component_closure_defect": 0.0,
+      "maximum_stationary_block_closure_defect": 7.823133867292777e-14,
+      "n_cells": 112,
+      "passed": true,
+      "path_quadrature_order": 6,
+      "schema_version": 1,
+      "stationary_delta_sha256": "d24b2ee19de64b2b8ca99e7f61a2117cf0c8ef6f6ca13d1baa31d1c08462d71d",
+      "wall_seconds": 513.9046972910874,
+      "work_package": "WP10c9d5b"
+    },
+    "N128_exterior_N512_inner_c48": {
+      "arrays_path": "outputs/checkpoints/causal_inner_dynamic_localization_wp10c9d5b/N128_exterior_N512_inner_c48_arrays.npz",
+      "arrays_sha256": "33ec4f98e28c4bb8c9513793906455d89c3ddbebee13acd0728bfef4cec8954c",
+      "base_primitives_sha256": "4312edac1e5a1c26d781ad9766593c9fbe93b50d2b3905fb1fcd113c8bef3d15",
+      "block_names": [
+        "conservative_transport",
+        "shear_principal",
+        "height_principal",
+        "local_stress_relaxation",
+        "geometry",
+        "cooling",
+        "stream",
+        "lower_height_work"
+      ],
+      "candidate_generator_sha256": "bd9f2811fad1a90eed3201d2b0557b2c2d5359470a54f6669eace2e2e72e6a55",
+      "finite_difference_step": 4e-05,
+      "grid_edges_sha256": "a52781d67c9fe297c8d25f2621a8d7bcb371465959c7ed095139c162e7d67418",
+      "label": "N128_exterior_N512_inner_c48",
+      "maximum_descriptor_component_closure_defect": 0.0,
+      "maximum_stationary_block_closure_defect": 7.58772093903453e-14,
+      "n_cells": 208,
+      "passed": true,
+      "path_quadrature_order": 6,
+      "schema_version": 1,
+      "stationary_delta_sha256": "556a1143cea83775bb061bdea81acf96991d705d7667490c9a9e17da02c30006",
+      "wall_seconds": 943.4443287919275,
+      "work_package": "WP10c9d5b"
+    }
+  },
+  "coupling_export_replay_applicable": {
+    "N128_exterior_N128_inner_c48": false,
+    "N128_exterior_N256_inner_c48": false,
+    "N128_exterior_N512_inner_c48": false
+  },
+  "decisive_array_hashes": {
+    "N128_exterior_N128_inner_c48_anchor_storage_derivative": "c3585ba8edb85edb6abe5a77111058f58c6b28778aa27a1858084f6b8a1ffa7f",
+    "N128_exterior_N128_inner_c48_face_fluxes": "79a4b720a015a11982b338baed86c1c24d9fc23ac3fca92c6502f33dd5870ab5",
+    "N128_exterior_N128_inner_c48_mapped_storage_rate": "a74c3f52b0f65eb192a2c405936cc0c5dae42061ceed9422df2232902ac675c7",
+    "N128_exterior_N128_inner_c48_prefix_cooling": "d004fa1061682df0b3feb8c6cbedc8b70341380510af5352db007455a515f8bd",
+    "N128_exterior_N128_inner_c48_prefix_geometry": "b65e17665f64d1bc9ab6555c92ef2dd9f1fa7d941b90a9f443d0e470b40eb951",
+    "N128_exterior_N128_inner_c48_prefix_height_principal": "dd5682708fbffec36153480707956198cb377ffc897874f16d1f5859d0886c46",
+    "N128_exterior_N128_inner_c48_prefix_inner_shared_face": "835f3d9e5dbdc09b83e4172a80af4f929dda0e36d5a29f70d82c855fcecae427",
+    "N128_exterior_N128_inner_c48_prefix_local_stress_relaxation": "b65e17665f64d1bc9ab6555c92ef2dd9f1fa7d941b90a9f443d0e470b40eb951",
+    "N128_exterior_N128_inner_c48_prefix_lower_height_work": "4460a543be41065c56fabb005836c1e6c8540975630c5ba558e6117f473e860e",
+    "N128_exterior_N128_inner_c48_prefix_mapped_storage_rate": "78d9fbb87768be4fd8e977fd9d20b51dcb4bc24c6b9d1e935b495d2436c80490",
+    "N128_exterior_N128_inner_c48_prefix_outer_shared_face": "20b745c8c6af57cf138e3843e56c850accdbe4c3de76eaffc47593fe37f82a66",
+    "N128_exterior_N128_inner_c48_prefix_production_anchor_storage_derivative": "54b4ef2559ead349cab22c9f640e65d8e21542a3037af244e50529a9251e327d",
+    "N128_exterior_N128_inner_c48_prefix_responsive_height_storage_rate": "4907d355cdaf5958e0c1ea5cb7f554807cd926372c7d52f755a0a4ba9867fe87",
+    "N128_exterior_N128_inner_c48_prefix_shear_principal": "6c13a79a2a94d0d5ceaa3311f20ca5a417cf937d95a9ffc4076fef1d1cc9be6c",
+    "N128_exterior_N128_inner_c48_prefix_stream": "b65e17665f64d1bc9ab6555c92ef2dd9f1fa7d941b90a9f443d0e470b40eb951",
+    "N128_exterior_N128_inner_c48_times": "e3d2e2946055b088ddbfcfd5700e2d6e6712475d7c333d1b1a493a07b87b28be",
+    "N128_exterior_N128_inner_c48_vertical_storage_rate": "eb25003c8919a88f2fca6ee5951dafab44eb6249f8f02c49596eeee74508b796",
+    "N128_exterior_N256_inner_c48_anchor_storage_derivative": "adbf3c111596c609b28c7fa37d12cab4c8365e3eb1297549e98d21738c5c2865",
+    "N128_exterior_N256_inner_c48_face_fluxes": "20f28d09d4d7160279979cf6c3327384dd40e76d1695bc96152b5c1d6ffc25b1",
+    "N128_exterior_N256_inner_c48_mapped_storage_rate": "aef89ac43b915111d26473942f185b9cf9d0c481905b44581571e744633c3b64",
+    "N128_exterior_N256_inner_c48_prefix_cooling": "e11af3748f35ac72528185f4de5034aeed6e5cddc52ca7d858524145cbcc44c0",
+    "N128_exterior_N256_inner_c48_prefix_geometry": "b65e17665f64d1bc9ab6555c92ef2dd9f1fa7d941b90a9f443d0e470b40eb951",
+    "N128_exterior_N256_inner_c48_prefix_height_principal": "646ddd9787a54f26c9f850f16fc0310d1f3e566cb7b2f8a6574c2efd40f6af5d",
+    "N128_exterior_N256_inner_c48_prefix_inner_shared_face": "4fe9d7ce2df551bf6231228cd1166c1146ffc4e8888439f93ddc30d526d0e499",
+    "N128_exterior_N256_inner_c48_prefix_local_stress_relaxation": "b65e17665f64d1bc9ab6555c92ef2dd9f1fa7d941b90a9f443d0e470b40eb951",
+    "N128_exterior_N256_inner_c48_prefix_lower_height_work": "3c42ce2371ab7d4a3a0ce22cd8b6b9368297b05ef33a161fa4406cab6ec9146f",
+    "N128_exterior_N256_inner_c48_prefix_mapped_storage_rate": "3fb351f4ac24af669970a6945900eef18f325080b923029e43c03949a94b77e0",
+    "N128_exterior_N256_inner_c48_prefix_outer_shared_face": "a586114c22cd8f1ecd19de15b0f31a168e94d3581985d3d7806524ccc1bb0114",
+    "N128_exterior_N256_inner_c48_prefix_production_anchor_storage_derivative": "6ac50868ad7e26a82b32e1cc98aed52f24a62883bdea0bc9e7826ddcadd40601",
+    "N128_exterior_N256_inner_c48_prefix_responsive_height_storage_rate": "d580ebd750635dec03f8b72b18a264a2043c68700e220caf28415228587d16b5",
+    "N128_exterior_N256_inner_c48_prefix_shear_principal": "b6ed7cad9fe17eca1bd2de9c9fe6eb0a407af5e0ea10e3b419de4fc015fcf106",
+    "N128_exterior_N256_inner_c48_prefix_stream": "b65e17665f64d1bc9ab6555c92ef2dd9f1fa7d941b90a9f443d0e470b40eb951",
+    "N128_exterior_N256_inner_c48_times": "e3d2e2946055b088ddbfcfd5700e2d6e6712475d7c333d1b1a493a07b87b28be",
+    "N128_exterior_N256_inner_c48_vertical_storage_rate": "69c910aa27c5a4bd7ad0ab1be6f89c99d3e055f2bbcc2a44acbe5eb748343417",
+    "N128_exterior_N512_inner_c48_anchor_storage_derivative": "5b7c62a0df668738a6e825fe21a2d8ced9e99177c3f06b874f4364318e591544",
+    "N128_exterior_N512_inner_c48_face_fluxes": "ad98cf5afc907dad1b9474425929ae643dbbbb6708821aa2e23794a7f409e086",
+    "N128_exterior_N512_inner_c48_mapped_storage_rate": "1d9a6f57f1453edddb3ea90ea55a1da0ef7a05c98a2115599faa31a8e3961ff7",
+    "N128_exterior_N512_inner_c48_prefix_cooling": "105064de536e085dd1e8514652298f53e68a9979509f9e322a1a335b34984f09",
+    "N128_exterior_N512_inner_c48_prefix_geometry": "b65e17665f64d1bc9ab6555c92ef2dd9f1fa7d941b90a9f443d0e470b40eb951",
+    "N128_exterior_N512_inner_c48_prefix_height_principal": "841c2b6af764d62048af862045404aaf854a4770a6397d6bc705446c4dd3d4f3",
+    "N128_exterior_N512_inner_c48_prefix_inner_shared_face": "45d1111e84c56a6cf19897626ba431061762e4339d246c6e057514146c059f81",
+    "N128_exterior_N512_inner_c48_prefix_local_stress_relaxation": "b65e17665f64d1bc9ab6555c92ef2dd9f1fa7d941b90a9f443d0e470b40eb951",
+    "N128_exterior_N512_inner_c48_prefix_lower_height_work": "ffd0d91012edda469447f9f425189f4a1d50f654a0b4f8424d68592bab329010",
+    "N128_exterior_N512_inner_c48_prefix_mapped_storage_rate": "acfd8735ff639662daf44092c236977d92077998bc6f40c39734db68a4f7d52d",
+    "N128_exterior_N512_inner_c48_prefix_outer_shared_face": "e664a06df4bff0b065aef2f88a428398ecc501d048c2a121da4c2b69ab31903b",
+    "N128_exterior_N512_inner_c48_prefix_production_anchor_storage_derivative": "8077e9ddc6433ef2eb922a6c0c80e772ac62b24f0f02adb3caeb7db3897b833b",
+    "N128_exterior_N512_inner_c48_prefix_responsive_height_storage_rate": "6f9020a40da30eb21f91b5eeb5544911f9bd5b293378125e06b27b2c7ab4b1a4",
+    "N128_exterior_N512_inner_c48_prefix_shear_principal": "b3cb2b6acbbdbe81c6d0477a87230dad350fad7800c8f5af95db2e08ca509151",
+    "N128_exterior_N512_inner_c48_prefix_stream": "b65e17665f64d1bc9ab6555c92ef2dd9f1fa7d941b90a9f443d0e470b40eb951",
+    "N128_exterior_N512_inner_c48_times": "e3d2e2946055b088ddbfcfd5700e2d6e6712475d7c333d1b1a493a07b87b28be",
+    "N128_exterior_N512_inner_c48_vertical_storage_rate": "33f8579664472213a678f1f70ec218b244ef48c4fa0bafd8e3c70154c911961f",
+    "common_face_radii_over_rg": "690c20f1b24ab0fc07eb1e5b8d68363a8d8added900a5c437277c30fedf7f38a"
+  },
+  "decisive_arrays_path": "results/canonical/causal_inner_dynamic_localization_wp10c9d5b/decisive_arrays.npz",
+  "decisive_arrays_sha256": "3f85884fecdc5eb998331135f9dbe6823342a6d81345052afd2f0cd87e91cde9",
+  "dominance_reports": [
+    {
+      "cross_pair_signed_cosine": 0.8268553446377448,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 0.0,
+          "geometry": 0.0,
+          "height_principal": 0.0,
+          "inner_shared_face": 0.5,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 0.0,
+          "mapped_storage_rate": 0.0,
+          "outer_shared_face": 0.5,
+          "production_anchor_storage_derivative": 0.0,
+          "responsive_height_storage_rate": 0.0,
+          "shear_principal": 0.0,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 0.0,
+          "geometry": 0.0,
+          "height_principal": 0.0,
+          "inner_shared_face": 0.5,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 0.0,
+          "mapped_storage_rate": 0.0,
+          "outer_shared_face": 0.5,
+          "production_anchor_storage_derivative": 0.0,
+          "responsive_height_storage_rate": 0.0,
+          "shear_principal": 0.0,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 1.8,
+      "selected_blocks": {
+        "coarse_medium": "inner_shared_face",
+        "medium_fine": "inner_shared_face"
+      },
+      "stable_selected_block": null,
+      "surface": 0
+    },
+    {
+      "cross_pair_signed_cosine": 0.8268553446377448,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 1.761966154580827e-08,
+          "geometry": 0.0,
+          "height_principal": 3.1809411360635305e-06,
+          "inner_shared_face": 0.5157182284801738,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 5.415864316882369e-06,
+          "mapped_storage_rate": 0.2690178336587162,
+          "outer_shared_face": 0.21413344092399356,
+          "production_anchor_storage_derivative": 0.0011200380499469332,
+          "responsive_height_storage_rate": 1.8444620550439536e-06,
+          "shear_principal": 7.129960942496368e-33,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 1.9643989759444875e-10,
+          "geometry": 0.0,
+          "height_principal": 8.144040946522597e-08,
+          "inner_shared_face": 0.5387315774306478,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 4.236122603133624e-08,
+          "mapped_storage_rate": 0.0217601332917151,
+          "outer_shared_face": 0.43747696515990897,
+          "production_anchor_storage_derivative": 0.002031101969032994,
+          "responsive_height_storage_rate": 9.815061965378169e-08,
+          "shear_principal": 2.116101372621232e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 1.8750165318355323,
+      "selected_blocks": {
+        "coarse_medium": "inner_shared_face",
+        "medium_fine": "inner_shared_face"
+      },
+      "stable_selected_block": null,
+      "surface": 1
+    },
+    {
+      "cross_pair_signed_cosine": 0.8268553446377448,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 7.141440069738594e-08,
+          "geometry": 0.0,
+          "height_principal": 1.1662260652638322e-05,
+          "inner_shared_face": 0.5078339473721546,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 2.1590037367226482e-05,
+          "mapped_storage_rate": 0.27034483183206326,
+          "outer_shared_face": 0.2189183458985052,
+          "production_anchor_storage_derivative": 0.00286406551706795,
+          "responsive_height_storage_rate": 5.4856677884498205e-06,
+          "shear_principal": 7.391907635920517e-33,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 8.696676334916172e-10,
+          "geometry": 0.0,
+          "height_principal": 2.9924350556558913e-07,
+          "inner_shared_face": 0.5544980693196486,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.8670200121631218e-07,
+          "mapped_storage_rate": 0.07060423806262021,
+          "outer_shared_face": 0.3670488647071271,
+          "production_anchor_storage_derivative": 0.007847949015212425,
+          "responsive_height_storage_rate": 3.9208021708391507e-07,
+          "shear_principal": 9.198127432039291e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 1.9531594414758637,
+      "selected_blocks": {
+        "coarse_medium": "inner_shared_face",
+        "medium_fine": "inner_shared_face"
+      },
+      "stable_selected_block": null,
+      "surface": 2
+    },
+    {
+      "cross_pair_signed_cosine": 0.8268553446377448,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 1.690223304268442e-07,
+          "geometry": 0.0,
+          "height_principal": 2.645105673824631e-05,
+          "inner_shared_face": 0.5282731751200205,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 4.9998860801838885e-05,
+          "mapped_storage_rate": 0.3151547538764782,
+          "outer_shared_face": 0.14960560202006173,
+          "production_anchor_storage_derivative": 0.006879198446176128,
+          "responsive_height_storage_rate": 1.0651597392953428e-05,
+          "shear_principal": 8.614671359812089e-33,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 2.070439270971505e-09,
+          "geometry": 0.0,
+          "height_principal": 6.395623497199887e-07,
+          "inner_shared_face": 0.5426304755963591,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 4.3219295605610665e-07,
+          "mapped_storage_rate": 0.14731061028363157,
+          "outer_shared_face": 0.29404139454157285,
+          "production_anchor_storage_derivative": 0.016015588790118516,
+          "responsive_height_storage_rate": 8.569625727847647e-07,
+          "shear_principal": 9.180721625113184e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 2.0345590233766067,
+      "selected_blocks": {
+        "coarse_medium": "inner_shared_face",
+        "medium_fine": "inner_shared_face"
+      },
+      "stable_selected_block": null,
+      "surface": 3
+    },
+    {
+      "cross_pair_signed_cosine": 0.8268553446377448,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 2.8291632591606455e-07,
+          "geometry": 0.0,
+          "height_principal": 5.0559769594028094e-05,
+          "inner_shared_face": 0.495382473049971,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 8.17992640255291e-05,
+          "mapped_storage_rate": 0.3868648367246281,
+          "outer_shared_face": 0.10787669304496343,
+          "production_anchor_storage_derivative": 0.009726270620537927,
+          "responsive_height_storage_rate": 1.7084609953969888e-05,
+          "shear_principal": 6.303799406510389e-32,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 3.7069580871627777e-09,
+          "geometry": 0.0,
+          "height_principal": 1.251664846895513e-06,
+          "inner_shared_face": 0.5067861780091083,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 7.328598992563434e-07,
+          "mapped_storage_rate": 0.2386185368712147,
+          "outer_shared_face": 0.22988135880303173,
+          "production_anchor_storage_derivative": 0.0247105310661249,
+          "responsive_height_storage_rate": 1.4070188161134333e-06,
+          "shear_principal": 3.2021425915465454e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 2.119351002125714,
+      "selected_blocks": {
+        "coarse_medium": "inner_shared_face",
+        "medium_fine": "inner_shared_face"
+      },
+      "stable_selected_block": null,
+      "surface": 4
+    },
+    {
+      "cross_pair_signed_cosine": 0.8268553446377448,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 3.935008205218647e-07,
+          "geometry": 0.0,
+          "height_principal": 7.769001012074009e-05,
+          "inner_shared_face": 0.452013569876635,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 0.00011140124716645913,
+          "mapped_storage_rate": 0.4393338001619264,
+          "outer_shared_face": 0.09558252183172308,
+          "production_anchor_storage_derivative": 0.012856651240688083,
+          "responsive_height_storage_rate": 2.39721309196426e-05,
+          "shear_principal": 1.981709961599403e-31,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 5.450502077339798e-09,
+          "geometry": 0.0,
+          "height_principal": 1.8408066778985755e-06,
+          "inner_shared_face": 0.45574355281210993,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.0384981339177704e-06,
+          "mapped_storage_rate": 0.3285659472388284,
+          "outer_shared_face": 0.18333468848154794,
+          "production_anchor_storage_derivative": 0.03235092907729696,
+          "responsive_height_storage_rate": 1.997634902924331e-06,
+          "shear_principal": 3.975887033289247e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 2.2076767587488377,
+      "selected_blocks": {
+        "coarse_medium": "inner_shared_face",
+        "medium_fine": "inner_shared_face"
+      },
+      "stable_selected_block": null,
+      "surface": 5
+    },
+    {
+      "cross_pair_signed_cosine": 0.7648731299325962,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 4.888826566333056e-07,
+          "geometry": 0.0,
+          "height_principal": 0.00011781465100443194,
+          "inner_shared_face": 0.4102449969000295,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 0.0001357722506689948,
+          "mapped_storage_rate": 0.47539239235199243,
+          "outer_shared_face": 0.09859756518294227,
+          "production_anchor_storage_derivative": 0.0154791107000769,
+          "responsive_height_storage_rate": 3.1859080628839835e-05,
+          "shear_principal": 2.261099561863125e-31,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 7.003265110762543e-09,
+          "geometry": 0.0,
+          "height_principal": 2.781690783353227e-06,
+          "inner_shared_face": 0.3993121387568525,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.2871394162197773e-06,
+          "mapped_storage_rate": 0.4055996618293985,
+          "outer_shared_face": 0.15678228621223275,
+          "production_anchor_storage_derivative": 0.03829927075764351,
+          "responsive_height_storage_rate": 2.5666104080412795e-06,
+          "shear_principal": 2.0722819859229187e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 2.299683566446202,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 6
+    },
+    {
+      "cross_pair_signed_cosine": 0.7795636448279037,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 5.478434751664819e-07,
+          "geometry": 0.0,
+          "height_principal": 0.00013929555785689187,
+          "inner_shared_face": 0.3667594305108202,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 0.00014966332343285018,
+          "mapped_storage_rate": 0.4971479885778331,
+          "outer_shared_face": 0.11777134373958624,
+          "production_anchor_storage_derivative": 0.01799093027139446,
+          "responsive_height_storage_rate": 4.0800175601032713e-05,
+          "shear_principal": 1.4114644784434193e-31,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 8.125626972289085e-09,
+          "geometry": 0.0,
+          "height_principal": 3.172868227093207e-06,
+          "inner_shared_face": 0.3450330523284614,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.4473300503975994e-06,
+          "mapped_storage_rate": 0.4651766753630719,
+          "outer_shared_face": 0.14715066374203042,
+          "production_anchor_storage_derivative": 0.042631891307902924,
+          "responsive_height_storage_rate": 3.0889346289090455e-06,
+          "shear_principal": 1.341747055903508e-33,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 2.3955248361539536,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 7
+    },
+    {
+      "cross_pair_signed_cosine": 0.7895924171235409,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 5.823945842091684e-07,
+          "geometry": 0.0,
+          "height_principal": 0.00016320016908978,
+          "inner_shared_face": 0.32550262226189236,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 0.00015661508410322734,
+          "mapped_storage_rate": 0.5071152711006726,
+          "outer_shared_face": 0.14636318753525754,
+          "production_anchor_storage_derivative": 0.020646509352333812,
+          "responsive_height_storage_rate": 5.201210206657202e-05,
+          "shear_principal": 1.7976001910477922e-31,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 9.053185704261558e-09,
+          "geometry": 0.0,
+          "height_principal": 3.60822737437502e-06,
+          "inner_shared_face": 0.29681174891014434,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.509201251795664e-06,
+          "mapped_storage_rate": 0.5077140801264686,
+          "outer_shared_face": 0.14960648589938302,
+          "production_anchor_storage_derivative": 0.045859032070951246,
+          "responsive_height_storage_rate": 3.5265112408953703e-06,
+          "shear_principal": 4.113197523542287e-34,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 2.495360372339588,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 8
+    },
+    {
+      "cross_pair_signed_cosine": 0.7964537357664655,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 5.843575534069789e-07,
+          "geometry": 0.0,
+          "height_principal": 0.00019496753378643432,
+          "inner_shared_face": 0.2881751929648012,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 0.00015518266599215698,
+          "mapped_storage_rate": 0.5092325972826002,
+          "outer_shared_face": 0.17837534215764528,
+          "production_anchor_storage_derivative": 0.02380144921127257,
+          "responsive_height_storage_rate": 6.46838263487575e-05,
+          "shear_principal": 1.0181729398052719e-31,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 1.005978691037557e-08,
+          "geometry": 0.0,
+          "height_principal": 3.961950814584256e-06,
+          "inner_shared_face": 0.2560236648345863,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.4944891461930643e-06,
+          "mapped_storage_rate": 0.536099914564404,
+          "outer_shared_face": 0.15929204342761544,
+          "production_anchor_storage_derivative": 0.04857504072610569,
+          "responsive_height_storage_rate": 3.869947540835294e-06,
+          "shear_principal": 6.87851239877596e-33,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 2.599356639457781,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 9
+    },
+    {
+      "cross_pair_signed_cosine": 0.801762038572816,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 5.452276481322031e-07,
+          "geometry": 0.0,
+          "height_principal": 0.00021628281524364897,
+          "inner_shared_face": 0.2549843652262377,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 0.00014382752025292653,
+          "mapped_storage_rate": 0.504968102436186,
+          "outer_shared_face": 0.2120071483925906,
+          "production_anchor_storage_derivative": 0.02760247773400074,
+          "responsive_height_storage_rate": 7.725064784028582e-05,
+          "shear_principal": 1.2538271871740594e-31,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 1.094582553231128e-08,
+          "geometry": 0.0,
+          "height_principal": 4.1102153312439835e-06,
+          "inner_shared_face": 0.22259486588060456,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.4223431352424136e-06,
+          "mapped_storage_rate": 0.5535857385068348,
+          "outer_shared_face": 0.17252179644927948,
+          "production_anchor_storage_derivative": 0.05128788183061973,
+          "responsive_height_storage_rate": 4.17382836933033e-06,
+          "shear_principal": 1.640385704332862e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 2.7076870395109904,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 10
+    },
+    {
+      "cross_pair_signed_cosine": 0.8069441947150364,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 4.869521483576627e-07,
+          "geometry": 0.0,
+          "height_principal": 0.00021630087344012082,
+          "inner_shared_face": 0.2265372957050683,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 0.00012808199797115585,
+          "mapped_storage_rate": 0.49620524733990995,
+          "outer_shared_face": 0.24451263220387304,
+          "production_anchor_storage_derivative": 0.032310066706010394,
+          "responsive_height_storage_rate": 8.988822157876501e-05,
+          "shear_principal": 1.0253376784962568e-31,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 1.1932112476822457e-08,
+          "geometry": 0.0,
+          "height_principal": 4.221121302522653e-06,
+          "inner_shared_face": 0.1956976751601604,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.321533225304828e-06,
+          "mapped_storage_rate": 0.5628970669495403,
+          "outer_shared_face": 0.1869602806026471,
+          "production_anchor_storage_derivative": 0.05443498540642098,
+          "responsive_height_storage_rate": 4.43729459082963e-06,
+          "shear_principal": 5.849867134122704e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 2.820532201177726,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 11
+    },
+    {
+      "cross_pair_signed_cosine": 0.8128107292660719,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 4.279744308264108e-07,
+          "geometry": 0.0,
+          "height_principal": 0.00021195112687586508,
+          "inner_shared_face": 0.20337107367626467,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 0.00011235591517358419,
+          "mapped_storage_rate": 0.4847513817507019,
+          "outer_shared_face": 0.273284117469682,
+          "production_anchor_storage_derivative": 0.03816575516818524,
+          "responsive_height_storage_rate": 0.00010293691868579517,
+          "shear_principal": 1.3725911784070173e-31,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 1.3257445343173142e-08,
+          "geometry": 0.0,
+          "height_principal": 4.230600595401987e-06,
+          "inner_shared_face": 0.1744618727385568,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.230089547237686e-06,
+          "mapped_storage_rate": 0.5663538357300076,
+          "outer_shared_face": 0.20079306169760966,
+          "production_anchor_storage_derivative": 0.058381071254255644,
+          "responsive_height_storage_rate": 4.684631982313073e-06,
+          "shear_principal": 1.1251752245486195e-31,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 2.9380802809903948,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 12
+    },
+    {
+      "cross_pair_signed_cosine": 0.8195559491985078,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 3.723420845402957e-07,
+          "geometry": 0.0,
+          "height_principal": 0.0002032503414294382,
+          "inner_shared_face": 0.1858836182448924,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 9.756597235401415e-05,
+          "mapped_storage_rate": 0.4724120935296656,
+          "outer_shared_face": 0.29596880590768554,
+          "production_anchor_storage_derivative": 0.045319346239804784,
+          "responsive_height_storage_rate": 0.00011494742208369693,
+          "shear_principal": 1.377013143229778e-31,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 1.4864783311013413e-08,
+          "geometry": 0.0,
+          "height_principal": 4.391803514355378e-06,
+          "inner_shared_face": 0.1582292046724563,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.1551001338156935e-06,
+          "mapped_storage_rate": 0.5663094943299994,
+          "outer_shared_face": 0.21200174196378313,
+          "production_anchor_storage_derivative": 0.0634490421300313,
+          "responsive_height_storage_rate": 4.955135298460737e-06,
+          "shear_principal": 1.1408898221432052e-31,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 3.0605272770649803,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 13
+    },
+    {
+      "cross_pair_signed_cosine": 0.826995946961398,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 3.2467442729191124e-07,
+          "geometry": 0.0,
+          "height_principal": 0.00019228996109131068,
+          "inner_shared_face": 0.17357192653778275,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 8.460029598049715e-05,
+          "mapped_storage_rate": 0.45938934101493,
+          "outer_shared_face": 0.3124854248102446,
+          "production_anchor_storage_derivative": 0.05415164245522116,
+          "responsive_height_storage_rate": 0.00012445025032230004,
+          "shear_principal": 9.745149544155384e-32,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 1.691902211250641e-08,
+          "geometry": 0.0,
+          "height_principal": 4.207911172740788e-06,
+          "inner_shared_face": 0.14626593975332852,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.1190433598690556e-06,
+          "mapped_storage_rate": 0.5635091590553121,
+          "outer_shared_face": 0.22026224976850195,
+          "production_anchor_storage_derivative": 0.06995207871710768,
+          "responsive_height_storage_rate": 5.228832195035231e-06,
+          "shear_principal": 6.200332450724254e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 3.1880773559057856,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 14
+    },
+    {
+      "cross_pair_signed_cosine": 0.8358669344037973,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 2.8554969864680286e-07,
+          "geometry": 0.0,
+          "height_principal": 0.00017137008352821796,
+          "inner_shared_face": 0.16598210445719652,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 7.348008321307085e-05,
+          "mapped_storage_rate": 0.4468844497639231,
+          "outer_shared_face": 0.3217587996804989,
+          "production_anchor_storage_derivative": 0.0650011913676481,
+          "responsive_height_storage_rate": 0.00012831901429333786,
+          "shear_principal": 6.609523771025838e-32,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 1.970836139877904e-08,
+          "geometry": 0.0,
+          "height_principal": 4.015217476999934e-06,
+          "inner_shared_face": 0.1381617777599821,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.1582265798603535e-06,
+          "mapped_storage_rate": 0.5591092090851052,
+          "outer_shared_face": 0.22446875129958244,
+          "production_anchor_storage_derivative": 0.07824958095768264,
+          "responsive_height_storage_rate": 5.487745229439672e-06,
+          "shear_principal": 7.228174989414195e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 3.320943192829915,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 15
+    },
+    {
+      "cross_pair_signed_cosine": 0.8442687570017572,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 2.5560709016509443e-07,
+          "geometry": 0.0,
+          "height_principal": 0.00014967004528542674,
+          "inner_shared_face": 0.16271768154439412,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 6.443391067323308e-05,
+          "mapped_storage_rate": 0.43453329654766754,
+          "outer_shared_face": 0.3239812611131565,
+          "production_anchor_storage_derivative": 0.07842823792737201,
+          "responsive_height_storage_rate": 0.000125163304360947,
+          "shear_principal": 1.9431781640637568e-31,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 2.346653251670303e-08,
+          "geometry": 0.0,
+          "height_principal": 3.7726764445157185e-06,
+          "inner_shared_face": 0.13351379058729926,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.3031965040752935e-06,
+          "mapped_storage_rate": 0.5540990812873748,
+          "outer_shared_face": 0.22368053874674226,
+          "production_anchor_storage_derivative": 0.08869577918284918,
+          "responsive_height_storage_rate": 5.710856253300032e-06,
+          "shear_principal": 6.943997745805445e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 3.459346326579322,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 16
+    },
+    {
+      "cross_pair_signed_cosine": 0.8531424380274749,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 2.22937750021189e-07,
+          "geometry": 0.0,
+          "height_principal": 0.00012372370286201269,
+          "inner_shared_face": 0.1634022658897038,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 5.538750634000502e-05,
+          "mapped_storage_rate": 0.4239222085256485,
+          "outer_shared_face": 0.31765821019590634,
+          "production_anchor_storage_derivative": 0.0947274861768946,
+          "responsive_height_storage_rate": 0.00011049506489475217,
+          "shear_principal": 2.0700555239711596e-31,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 2.810953180586283e-08,
+          "geometry": 0.0,
+          "height_principal": 3.612257293101095e-06,
+          "inner_shared_face": 0.1319837704277198,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.554259556914845e-06,
+          "mapped_storage_rate": 0.5495355917109919,
+          "outer_shared_face": 0.21694023677856605,
+          "production_anchor_storage_derivative": 0.10152932846794487,
+          "responsive_height_storage_rate": 5.877988395572898e-06,
+          "shear_principal": 5.405198330220952e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 3.60351752871152,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 17
+    },
+    {
+      "cross_pair_signed_cosine": 0.8649755420966927,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 1.8216566545033655e-07,
+          "geometry": 0.0,
+          "height_principal": 9.737118531590117e-05,
+          "inner_shared_face": 0.16621527489847937,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 4.588993322845236e-05,
+          "mapped_storage_rate": 0.424030806750362,
+          "outer_shared_face": 0.29697403798090266,
+          "production_anchor_storage_derivative": 0.11254692784876025,
+          "responsive_height_storage_rate": 8.950923728602786e-05,
+          "shear_principal": 2.095663987572598e-31,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 3.329720845275379e-08,
+          "geometry": 0.0,
+          "height_principal": 3.951009477066761e-06,
+          "inner_shared_face": 0.13333005416548024,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.8819330585856386e-06,
+          "mapped_storage_rate": 0.5463504381914986,
+          "outer_shared_face": 0.2034491205756896,
+          "production_anchor_storage_derivative": 0.11685854435965738,
+          "responsive_height_storage_rate": 5.976467929992593e-06,
+          "shear_principal": 8.725378530393737e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 3.753697188385116,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 18
+    },
+    {
+      "cross_pair_signed_cosine": 0.8631093346921778,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 1.2185154825365095e-07,
+          "geometry": 0.0,
+          "height_principal": 6.224998136243659e-05,
+          "inner_shared_face": 0.154399204698097,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 3.319443097555257e-05,
+          "mapped_storage_rate": 0.4568277529748853,
+          "outer_shared_face": 0.2727613924674864,
+          "production_anchor_storage_derivative": 0.11585295525940827,
+          "responsive_height_storage_rate": 6.312833623678589e-05,
+          "shear_principal": 2.1862075156129848e-31,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 3.858115671576864e-08,
+          "geometry": 0.0,
+          "height_principal": 4.233445831710808e-06,
+          "inner_shared_face": 0.13733339659043306,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 2.2541509235144123e-06,
+          "mapped_storage_rate": 0.545230970099467,
+          "outer_shared_face": 0.18286832801922087,
+          "production_anchor_storage_derivative": 0.13455482482729217,
+          "responsive_height_storage_rate": 5.954285675008889e-06,
+          "shear_principal": 1.4303834630894312e-31,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 3.9101357131814796,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 19
+    },
+    {
+      "cross_pair_signed_cosine": 0.817596380642318,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 5.789418751827267e-08,
+          "geometry": 0.0,
+          "height_principal": 2.7919186719319644e-05,
+          "inner_shared_face": 0.10066317069688852,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.786834120317359e-05,
+          "mapped_storage_rate": 0.5081794576433363,
+          "outer_shared_face": 0.31404120374403593,
+          "production_anchor_storage_derivative": 0.07703159843745155,
+          "responsive_height_storage_rate": 3.872405617779974e-05,
+          "shear_principal": 9.62097160580057e-32,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 4.3139362266554455e-08,
+          "geometry": 0.0,
+          "height_principal": 4.602659097641685e-06,
+          "inner_shared_face": 0.14264738062689278,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 2.6556239715602274e-06,
+          "mapped_storage_rate": 0.5483174671009151,
+          "outer_shared_face": 0.1563757894065432,
+          "production_anchor_storage_derivative": 0.15264618358959323,
+          "responsive_height_storage_rate": 5.877853624222292e-06,
+          "shear_principal": 1.543910753677681e-31,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 4.073093946630988,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 20
+    },
+    {
+      "cross_pair_signed_cosine": 0.8491403769190998,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 3.6781960757091904e-08,
+          "geometry": 0.0,
+          "height_principal": 2.5580205715735664e-05,
+          "inner_shared_face": 0.06236443047576842,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.1214433417686941e-05,
+          "mapped_storage_rate": 0.5210672136869867,
+          "outer_shared_face": 0.3716330325620553,
+          "production_anchor_storage_derivative": 0.04485717983891401,
+          "responsive_height_storage_rate": 4.1312015181374516e-05,
+          "shear_principal": 3.4890037265049266e-32,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 4.3865284814922716e-08,
+          "geometry": 0.0,
+          "height_principal": 4.998456733278457e-06,
+          "inner_shared_face": 0.1404176011524542,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 2.9323235280552957e-06,
+          "mapped_storage_rate": 0.5623847657434823,
+          "outer_shared_face": 0.13844680313751945,
+          "production_anchor_storage_derivative": 0.15873713058617614,
+          "responsive_height_storage_rate": 5.7247348217819245e-06,
+          "shear_principal": 1.4787447531113383e-31,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 4.2428436031401775,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 21
+    },
+    {
+      "cross_pair_signed_cosine": 0.7642156298812609,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 5.305018821629986e-08,
+          "geometry": 0.0,
+          "height_principal": 4.2440875351505074e-05,
+          "inner_shared_face": 0.0593311246790472,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.2784762078937451e-05,
+          "mapped_storage_rate": 0.5281233107706949,
+          "outer_shared_face": 0.37429836374725656,
+          "production_anchor_storage_derivative": 0.0381295933114682,
+          "responsive_height_storage_rate": 6.232880391448644e-05,
+          "shear_principal": 3.331272497683766e-32,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 3.59257687748006e-08,
+          "geometry": 0.0,
+          "height_principal": 7.987088778749458e-06,
+          "inner_shared_face": 0.11528035570432783,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 2.617996543571415e-06,
+          "mapped_storage_rate": 0.5801323242751777,
+          "outer_shared_face": 0.1735486642519357,
+          "production_anchor_storage_derivative": 0.13101988418299454,
+          "responsive_height_storage_rate": 8.130574473139548e-06,
+          "shear_principal": 1.3023374041708092e-31,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 4.419667721044714,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 22
+    },
+    {
+      "cross_pair_signed_cosine": 0.47194819714071234,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 6.095425394613428e-08,
+          "geometry": 0.0,
+          "height_principal": 3.456774819523228e-05,
+          "inner_shared_face": 0.04078929864261036,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.0008785774067614e-05,
+          "mapped_storage_rate": 0.5163741628050931,
+          "outer_shared_face": 0.4164003072180987,
+          "production_anchor_storage_derivative": 0.026348535885690926,
+          "responsive_height_storage_rate": 4.305796028368437e-05,
+          "shear_principal": 5.811982650924616e-33,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 3.264646322214248e-08,
+          "geometry": 0.0,
+          "height_principal": 1.714397548048236e-05,
+          "inner_shared_face": 0.10591317675282556,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 2.5210960524671327e-06,
+          "mapped_storage_rate": 0.5582013717236337,
+          "outer_shared_face": 0.2207782244844527,
+          "production_anchor_storage_derivative": 0.11506792867607651,
+          "responsive_height_storage_rate": 1.9600645015231055e-05,
+          "shear_principal": 7.757243885247599e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 4.6038611345437195,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 23
+    },
+    {
+      "cross_pair_signed_cosine": 0.5370420787394284,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 1.7093329915003032e-08,
+          "geometry": 0.0,
+          "height_principal": 8.264749328652834e-06,
+          "inner_shared_face": 0.008837585302459745,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.8570335272919608e-06,
+          "mapped_storage_rate": 0.5239953262833146,
+          "outer_shared_face": 0.45927390648274274,
+          "production_anchor_storage_derivative": 0.007874570073055842,
+          "responsive_height_storage_rate": 8.472982241196527e-06,
+          "shear_principal": 1.3891675186708557e-33,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 2.5319786256269817e-08,
+          "geometry": 0.0,
+          "height_principal": 1.1247685057653551e-05,
+          "inner_shared_face": 0.0659193715162445,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 1.8709194887394243e-06,
+          "mapped_storage_rate": 0.5255003389653167,
+          "outer_shared_face": 0.33897665536065164,
+          "production_anchor_storage_derivative": 0.06957652067907269,
+          "responsive_height_storage_rate": 1.3969554381784124e-05,
+          "shear_principal": 7.73959253582114e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 4.795730965302525,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 24
+    },
+    {
+      "cross_pair_signed_cosine": 0.8626134869027068,
+      "fractions": {
+        "coarse_medium": {
+          "cooling": 2.297328152390126e-09,
+          "geometry": 0.0,
+          "height_principal": 1.533797755104239e-06,
+          "inner_shared_face": 0.0016803330393912463,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 2.3335324281465163e-07,
+          "mapped_storage_rate": 0.5005857370032187,
+          "outer_shared_face": 0.49597054920317996,
+          "production_anchor_storage_derivative": 0.0017599811793561335,
+          "responsive_height_storage_rate": 1.6301265278100266e-06,
+          "shear_principal": 5.769777007766512e-34,
+          "stream": 0.0
+        },
+        "medium_fine": {
+          "cooling": 6.1806281569463e-09,
+          "geometry": 0.0,
+          "height_principal": 3.6391347808222996e-06,
+          "inner_shared_face": 0.01662654943217727,
+          "local_stress_relaxation": 0.0,
+          "lower_height_work": 4.3133977332170043e-07,
+          "mapped_storage_rate": 0.5175170582688792,
+          "outer_shared_face": 0.4502096589863627,
+          "production_anchor_storage_derivative": 0.01563876100750756,
+          "responsive_height_storage_rate": 3.895649891000168e-06,
+          "shear_principal": 1.2539657205665013e-32,
+          "stream": 0.0
+        }
+      },
+      "passed": false,
+      "radius_over_rg": 4.9955971345432175,
+      "selected_blocks": {
+        "coarse_medium": "mapped_storage_rate",
+        "medium_fine": "mapped_storage_rate"
+      },
+      "stable_selected_block": null,
+      "surface": 25
+    }
+  ],
+  "environment": {
+    "blas_lapack": {
+      "Build Dependencies": {
+        "blas": {
+          "detection method": "system",
+          "found": true,
+          "include directory": "unknown",
+          "lib directory": "unknown",
+          "name": "accelerate",
+          "openblas configuration": "unknown",
+          "pc file directory": "unknown",
+          "version": "unknown"
+        },
+        "lapack": {
+          "detection method": "system",
+          "found": true,
+          "include directory": "unknown",
+          "lib directory": "unknown",
+          "name": "accelerate",
+          "openblas configuration": "unknown",
+          "pc file directory": "unknown",
+          "version": "unknown"
+        }
+      },
+      "Compilers": {
+        "c": {
+          "commands": "cc",
+          "linker": "ld64",
+          "name": "clang",
+          "version": "15.0.0"
+        },
+        "c++": {
+          "commands": "c++",
+          "linker": "ld64",
+          "name": "clang",
+          "version": "15.0.0"
+        },
+        "cython": {
+          "commands": "cython",
+          "linker": "cython",
+          "name": "cython",
+          "version": "3.2.1"
+        }
+      },
+      "Machine Information": {
+        "build": {
+          "cpu": "aarch64",
+          "endian": "little",
+          "family": "aarch64",
+          "system": "darwin"
+        },
+        "host": {
+          "cpu": "aarch64",
+          "endian": "little",
+          "family": "aarch64",
+          "system": "darwin"
+        }
+      },
+      "Python Information": {
+        "path": "/private/var/folders/8s/1jkm89h96qjdtjr7q3bll2vh0000gn/T/build-env-zbmksv9_/bin/python",
+        "version": "3.12"
+      },
+      "SIMD Extensions": {
+        "baseline": [
+          "NEON",
+          "NEON_FP16",
+          "NEON_VFPV4",
+          "ASIMD"
+        ],
+        "found": [
+          "ASIMDHP"
+        ],
+        "not found": [
+          "ASIMDFHM"
+        ]
+      }
+    },
+    "float64_epsilon": 2.220446049250313e-16,
+    "machine": "arm64",
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13 (main, Mar  3 2026, 15:35:03) [Clang 21.1.4 ]",
+    "scipy": "1.18.0"
+  },
+  "fixed_q_micro_solver_authorized": false,
+  "frozen_candidate_recertification_authorized": false,
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_dynamic_localization_wp10c9d5b.py": "b15b7b912e0b225a5feca4b61322736dbb135b912023a4fd8b48f279fcf45ecf",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "d15d0303060a0105417fc9f3bec1c3df83846f88ba7588f9eeb1e456e599cd7a",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_fluctuation.py": "57be77e57cc4b446b82ab54141166e15b34b908194a525a369560bf6b5b2fc7b",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_frozen.py": "4e50f57e7d5feec579915a6f9e5b12fd8ec244ce8ed17191dc9ab8df62d75cfb",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_localization.py": "c43017811e900968265d566c8d30587fd9c9766629099964f5e6c36b084c6392",
+    "tests/test_causal_inner_dynamic_localization_wp10c9d5b.py": "de843fc99c1bd23889a8c2b39704e71795b90390accc20e59e45ffa2c84d343d",
+    "tests/test_causal_inner_radial_localization.py": "4df97337eaf726af85087c808817b69a6ff0d557adc26aa640dc0c54b09b9d07"
+  },
+  "implementation_source_manifest_sha256": "685e01c19003f3a5c09f530a2f66fdbeb3503662b9aef6c25f666dd02be139e6",
+  "maximum_control_volume_closure_defect": 1.5543131284518682e-15,
+  "maximum_descriptor_component_closure_defect": 0.0,
+  "maximum_export_replay_defect": 4.655105265484046e-08,
+  "maximum_stationary_block_closure_defect": 7.837814327569766e-14,
+  "method_passed": true,
+  "method_scope": "CACHE-FIRST FROZEN NESTED CONTROL-VOLUME LOCALIZATION / PRODUCTION NEUTRAL",
+  "nonlinear_candidate_authorized": false,
+  "parent_wp10c9d5_candidate_remains_rejected": true,
+  "parent_wp10c9d5a1_inner_authorization_preserved": true,
+  "parent_wp10c9d5a_global_hardening_remains_rejected": true,
+  "production_operator_authorized": false,
+  "recovery_radius_over_rg": null,
+  "recovery_surface_index": null,
+  "reduced_slow_evolution_authorized": false,
+  "runtime_seconds": 14.229097709059715,
+  "schema_version": 1,
+  "stable_dominance_start_surface": null,
+  "stable_dominant_block": null,
+  "surface_passes": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+  "surface_reports": [
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.005809422127254618,
+        "component_coarse_medium_differences": [
+          0.0065585393115493,
+          0.005048321569640917,
+          0.005722601487633697
+        ],
+        "component_fine_signed_cosines": [
+          0.9998439550755496,
+          0.9999654602767591,
+          0.9997873157918805
+        ],
+        "component_medium_fine_differences": [
+          0.0216549403121845,
+          0.014889409085129843,
+          0.01745609013937146
+        ],
+        "component_observed_orders": [
+          -1.7232497507261721,
+          -1.5604107833040903,
+          -1.6089874079146624
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          4065842746.4492793,
+          2.3363991078890697e+19,
+          8893588822.417448
+        ],
+        "fine_signed_cosine": 0.9998646976908198,
+        "medium_fine_difference": 0.018214884259697087,
+        "observed_order": -1.648651259355647,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 0,
+        "N128_exterior_N256_inner_c48": 0,
+        "N128_exterior_N512_inner_c48": 0
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.00220651091236033,
+        "component_coarse_medium_differences": [
+          0.0022550515932114536,
+          0.0022680921552686536,
+          0.002092025694454761
+        ],
+        "component_fine_signed_cosines": [
+          0.9999425546064429,
+          0.9999827834646242,
+          0.9999658349176669
+        ],
+        "component_medium_fine_differences": [
+          0.0058551163101432544,
+          0.005172713525118239,
+          0.00504689194802745
+        ],
+        "component_observed_orders": [
+          -1.3765373885136518,
+          -1.1894420346337355,
+          -1.2704946284245504
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          218060807600.09766,
+          1.1472866209798554e+21,
+          499505057011.71875
+        ],
+        "fine_signed_cosine": 0.9999637979177117,
+        "medium_fine_difference": 0.005369992878744846,
+        "observed_order": -1.283153292805658,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 1.8,
+      "surface": 0
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.005231637672143531,
+        "component_coarse_medium_differences": [
+          0.00639565866412728,
+          0.004003138083809949,
+          0.005018020917821908
+        ],
+        "component_fine_signed_cosines": [
+          0.999633804398572,
+          0.9999206050446532,
+          0.9996489064827355
+        ],
+        "component_medium_fine_differences": [
+          0.02355320658275595,
+          0.015154834282547422,
+          0.018631742303090035
+        ],
+        "component_observed_orders": [
+          -1.8807586352782588,
+          -1.920574790538764,
+          -1.8925722009804877
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          3285697764.390546,
+          1.950237325912678e+19,
+          6958939595.499997
+        ],
+        "fine_signed_cosine": 0.999713167153856,
+        "medium_fine_difference": 0.019421331603078504,
+        "observed_order": -1.89230758842124,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 1,
+        "N128_exterior_N256_inner_c48": 2,
+        "N128_exterior_N512_inner_c48": 4
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.0017354065694911867,
+        "component_coarse_medium_differences": [
+          0.0019307901167579498,
+          0.0015620709065844232,
+          0.001693189857083915
+        ],
+        "component_fine_signed_cosines": [
+          0.9999339018233524,
+          0.9999823624846805,
+          0.9999647372363286
+        ],
+        "component_medium_fine_differences": [
+          0.005641794221166715,
+          0.0049821161334917315,
+          0.004825719529847553
+        ],
+        "component_observed_orders": [
+          -1.5469626989050584,
+          -1.6732987085374549,
+          -1.5110003173061528
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          201630534163.8012,
+          1.0734155653685625e+21,
+          455120236056.9087
+        ],
+        "fine_signed_cosine": 0.999960997235054,
+        "medium_fine_difference": 0.005162005171841036,
+        "observed_order": -1.572657891177128,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 1.8750165318355323,
+      "surface": 1
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.005700753468252946,
+        "component_coarse_medium_differences": [
+          0.0076925835053447715,
+          0.005142042525785119,
+          0.0034466401021442552
+        ],
+        "component_fine_signed_cosines": [
+          0.999245103763122,
+          0.9998331011242846,
+          0.9997633159968963
+        ],
+        "component_medium_fine_differences": [
+          0.02613452089783671,
+          0.015287305089498883,
+          0.011130587148013198
+        ],
+        "component_observed_orders": [
+          -1.7644166071749474,
+          -1.5719206580288623,
+          -1.6912671324938278
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          2538630010.9019504,
+          1.5605828096393576e+19,
+          9275273737.50989
+        ],
+        "fine_signed_cosine": 0.999571356548834,
+        "medium_fine_difference": 0.018624400211536107,
+        "observed_order": -1.7079694472189004,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 2,
+        "N128_exterior_N256_inner_c48": 4,
+        "N128_exterior_N512_inner_c48": 8
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.0018370503353435535,
+        "component_coarse_medium_differences": [
+          0.0019812769912069656,
+          0.0017289071898658674,
+          0.001791558878937996
+        ],
+        "component_fine_signed_cosines": [
+          0.9999242307703323,
+          0.9999812547386915,
+          0.9999647474911995
+        ],
+        "component_medium_fine_differences": [
+          0.005517777708725995,
+          0.0048860861465581905,
+          0.004719433069093433
+        ],
+        "component_observed_orders": [
+          -1.4776567474878717,
+          -1.498818874788277,
+          -1.3973981055186022
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          181111249447.24344,
+          9.881916042341865e+20,
+          399922217477.7609
+        ],
+        "fine_signed_cosine": 0.9999581990707709,
+        "medium_fine_difference": 0.005052812984472247,
+        "observed_order": -1.4596956267188321,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 1.9531594414758637,
+      "surface": 2
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.004088134496176047,
+        "component_coarse_medium_differences": [
+          0.006154444759651876,
+          0.003018005191336826,
+          0.0017756647605703234
+        ],
+        "component_fine_signed_cosines": [
+          0.9993413091667857,
+          0.9998353682508501,
+          0.9999262823852332
+        ],
+        "component_medium_fine_differences": [
+          0.022144864799038134,
+          0.010005304816680478,
+          0.006627320210192894
+        ],
+        "component_observed_orders": [
+          -1.8472715782210551,
+          -1.7290979277578495,
+          -1.9000663958406625
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          2500802827.5544214,
+          1.8165573128966765e+19,
+          11726842387.053213
+        ],
+        "fine_signed_cosine": 0.9996455854717666,
+        "medium_fine_difference": 0.01454215177350311,
+        "observed_order": -1.8307261921724003,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 3,
+        "N128_exterior_N256_inner_c48": 6,
+        "N128_exterior_N512_inner_c48": 12
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.0017274644906497584,
+        "component_coarse_medium_differences": [
+          0.0018921890311211023,
+          0.0015902594694674787,
+          0.0016861483296677917
+        ],
+        "component_fine_signed_cosines": [
+          0.9999165376697907,
+          0.9999806937992084,
+          0.9999673815781378
+        ],
+        "component_medium_fine_differences": [
+          0.005581716026635167,
+          0.005016874283654321,
+          0.004864719251263469
+        ],
+        "component_observed_orders": [
+          -1.560652506033047,
+          -1.6575266091764866,
+          -1.5286250927011593
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          154806209969.47867,
+          8.707816810955056e+20,
+          329226171814.80804
+        ],
+        "fine_signed_cosine": 0.9999575470497373,
+        "medium_fine_difference": 0.005163657449702402,
+        "observed_order": -1.579737242091587,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 2.0345590233766067,
+      "surface": 3
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.0023690868853476084,
+        "component_coarse_medium_differences": [
+          0.003715032818404522,
+          0.0014820620295184679,
+          0.0009163740010580003
+        ],
+        "component_fine_signed_cosines": [
+          0.9997892056703627,
+          0.9999411920007825,
+          0.9999796842694674
+        ],
+        "component_medium_fine_differences": [
+          0.013757312652000302,
+          0.005243298654801923,
+          0.0038853148435199977
+        ],
+        "component_observed_orders": [
+          -1.8887518214590082,
+          -1.8228688923654266,
+          -2.084023078205225
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          3236201589.933688,
+          2.4521954716660494e+19,
+          13840529381.176676
+        ],
+        "fine_signed_cosine": 0.99987834510596,
+        "medium_fine_difference": 0.008791122484673805,
+        "observed_order": -1.8917162762053812,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 4,
+        "N128_exterior_N256_inner_c48": 8,
+        "N128_exterior_N512_inner_c48": 16
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.001868348149726013,
+        "component_coarse_medium_differences": [
+          0.0020330793886847516,
+          0.0016754176287706688,
+          0.001879291992816325
+        ],
+        "component_fine_signed_cosines": [
+          0.9999166539935482,
+          0.9999812012084142,
+          0.999973020661557
+        ],
+        "component_medium_fine_differences": [
+          0.005899840822505864,
+          0.005514762508498613,
+          0.0054386540270860125
+        ],
+        "component_observed_orders": [
+          -1.5370094797903104,
+          -1.7187779991808374,
+          -1.5330604123059186
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          124259636048.0056,
+          7.247747231416831e+20,
+          248078628958.65903
+        ],
+        "fine_signed_cosine": 0.9999609985041703,
+        "medium_fine_difference": 0.005621378386196381,
+        "observed_order": -1.5891606156342062,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 2.119351002125714,
+      "surface": 4
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.0014418632867582853,
+        "component_coarse_medium_differences": [
+          0.002327535985978374,
+          0.0007714414301460315,
+          0.00047367031460092624
+        ],
+        "component_fine_signed_cosines": [
+          0.9999463040814174,
+          0.9999836668225605,
+          0.9999934219583081
+        ],
+        "component_medium_fine_differences": [
+          0.00875943153693345,
+          0.003090119968597745,
+          0.0021727086309372514
+        ],
+        "component_observed_orders": [
+          -1.9120337724855698,
+          -2.002034316492586,
+          -2.1975395515155127
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          3874430905.435342,
+          3.0477924381203407e+19,
+          15541802727.577702
+        ],
+        "fine_signed_cosine": 0.9999585169127915,
+        "medium_fine_difference": 0.005507484152360315,
+        "observed_order": -1.9334590596581462,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 5,
+        "N128_exterior_N256_inner_c48": 10,
+        "N128_exterior_N512_inner_c48": 20
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.0022516597616486717,
+        "component_coarse_medium_differences": [
+          0.0025445835411423345,
+          0.0021267694976763447,
+          0.0020522819378887263
+        ],
+        "component_fine_signed_cosines": [
+          0.9999290475102747,
+          0.9999825590402752,
+          0.999979897010312
+        ],
+        "component_medium_fine_differences": [
+          0.006614508436288843,
+          0.006690009020008547,
+          0.005375090139292514
+        ],
+        "component_observed_orders": [
+          -1.3782043880160981,
+          -1.6533444756087434,
+          -1.3890600098724224
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          92229498281.5193,
+          5.6263365721761015e+20,
+          214048017072.1388
+        ],
+        "fine_signed_cosine": 0.9999654424137048,
+        "medium_fine_difference": 0.006255651752536838,
+        "observed_order": -1.474171356506855,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 2.2076767587488377,
+      "surface": 5
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.0009578744509336723,
+        "component_coarse_medium_differences": [
+          0.001441587464286523,
+          0.0006782064744294577,
+          0.0004630679778481456
+        ],
+        "component_fine_signed_cosines": [
+          0.9999841316979436,
+          0.9999944725791823,
+          0.9999973432270403
+        ],
+        "component_medium_fine_differences": [
+          0.0054181459487780735,
+          0.002949364373823716,
+          0.00151851865400757
+        ],
+        "component_observed_orders": [
+          -1.910140885013842,
+          -2.1206076064449726,
+          -1.7133687310560528
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          4401512871.146519,
+          3.570130031663508e+19,
+          16759989783.105806
+        ],
+        "fine_signed_cosine": 0.999981698861347,
+        "medium_fine_difference": 0.0036679219654735377,
+        "observed_order": -1.9370544673939132,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 6,
+        "N128_exterior_N256_inner_c48": 12,
+        "N128_exterior_N512_inner_c48": 24
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.0026230922580856926,
+        "component_coarse_medium_differences": [
+          0.0031866392377506323,
+          0.0024873929765056504,
+          0.0020736551140789357
+        ],
+        "component_fine_signed_cosines": [
+          0.9999495904064878,
+          0.9999839079222975,
+          0.9999856720574716
+        ],
+        "component_medium_fine_differences": [
+          0.006746541219230509,
+          0.007250749911531401,
+          0.004644942499647006
+        ],
+        "component_observed_orders": [
+          -1.082112358917858,
+          -1.5434957610615643,
+          -1.1634847692843207
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          73993630432.55656,
+          5.128609947649013e+20,
+          220710311850.74194
+        ],
+        "fine_signed_cosine": 0.9999694031504238,
+        "medium_fine_difference": 0.006315712773904353,
+        "observed_order": -1.2676770115379428,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 2.299683566446202,
+      "surface": 6
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.0008886627822338709,
+        "component_coarse_medium_differences": [
+          0.0009491826656436757,
+          0.0009765082335699644,
+          0.000717390102102452
+        ],
+        "component_fine_signed_cosines": [
+          0.9999941149683877,
+          0.9999974088642867,
+          0.9999986307325197
+        ],
+        "component_medium_fine_differences": [
+          0.003061866982930831,
+          0.003857841586373654,
+          0.002003232519625857
+        ],
+        "component_observed_orders": [
+          -1.6896539502116033,
+          -1.9820897899946495,
+          -1.4815001421232206
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          4809414009.580304,
+          3.997109918828268e+19,
+          17552194420.56673
+        ],
+        "fine_signed_cosine": 0.9999896701565422,
+        "medium_fine_difference": 0.003069794328311616,
+        "observed_order": -1.7884340268382637,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 7,
+        "N128_exterior_N256_inner_c48": 14,
+        "N128_exterior_N512_inner_c48": 28
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.0027918981367844515,
+        "component_coarse_medium_differences": [
+          0.003304528711744585,
+          0.0027092933055423278,
+          0.002263604514119169
+        ],
+        "component_fine_signed_cosines": [
+          0.9999684870630996,
+          0.9999840627262063,
+          0.9999892358629561
+        ],
+        "component_medium_fine_differences": [
+          0.005295392396203829,
+          0.007120907539160544,
+          0.004334580357509801
+        ],
+        "component_observed_orders": [
+          -0.680293063137564,
+          -1.3941445334364273,
+          -0.9372704094011642
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          76871185446.2396,
+          5.442591912518149e+20,
+          227521686828.64865
+        ],
+        "fine_signed_cosine": 0.9999757241809321,
+        "medium_fine_difference": 0.005701961407760099,
+        "observed_order": -1.0302119694438752,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 2.3955248361539536,
+      "surface": 7
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.00114681386821323,
+        "component_coarse_medium_differences": [
+          0.0009611689913548632,
+          0.0013878910096533376,
+          0.0010466417058190873
+        ],
+        "component_fine_signed_cosines": [
+          0.999997101974266,
+          0.9999982659899231,
+          0.999999069151227
+        ],
+        "component_medium_fine_differences": [
+          0.0016877405777820647,
+          0.005015977223554384,
+          0.002898798320113077
+        ],
+        "component_observed_orders": [
+          -0.8122311537742272,
+          -1.8536365189088628,
+          -1.4696873107015858
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          5098922020.441723,
+          4.333742169744413e+19,
+          17966972209.614223
+        ],
+        "fine_signed_cosine": 0.9999929501522122,
+        "medium_fine_difference": 0.003483844976736617,
+        "observed_order": -1.6030491726341094,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 8,
+        "N128_exterior_N256_inner_c48": 16,
+        "N128_exterior_N512_inner_c48": 32
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.003042026985253892,
+        "component_coarse_medium_differences": [
+          0.003506509877493832,
+          0.0030214992978067476,
+          0.0025172832596730478
+        ],
+        "component_fine_signed_cosines": [
+          0.9999805843040546,
+          0.9999825670853026,
+          0.9999907133789367
+        ],
+        "component_medium_fine_differences": [
+          0.004285918503591125,
+          0.007295855291182606,
+          0.004369349844435514
+        ],
+        "component_observed_orders": [
+          -0.2895686255937906,
+          -1.2718125080578404,
+          -0.7955510576393202
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          79880928294.67628,
+          5.774957755733562e+20,
+          234501814982.53055
+        ],
+        "fine_signed_cosine": 0.9999792345859622,
+        "medium_fine_difference": 0.005498176058547983,
+        "observed_order": -0.8539201535117894,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 2.495360372339588,
+      "surface": 8
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.0015555336247664276,
+        "component_coarse_medium_differences": [
+          0.001379558084502668,
+          0.0018217756978908303,
+          0.0014272376716562138
+        ],
+        "component_fine_signed_cosines": [
+          0.9999979035723985,
+          0.9999983900765278,
+          0.9999991495961419
+        ],
+        "component_medium_fine_differences": [
+          0.0020180550639110665,
+          0.006204073777348899,
+          0.0038711100458494745
+        ],
+        "component_observed_orders": [
+          -0.5487593390573717,
+          -1.7678705012238454,
+          -1.439521719853657
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          5272981873.012219,
+          4.59163584965942e+19,
+          18014792766.992226
+        ],
+        "fine_signed_cosine": 0.9999944242368435,
+        "medium_fine_difference": 0.004379823842075617,
+        "observed_order": -1.4934632645030588,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 9,
+        "N128_exterior_N256_inner_c48": 18,
+        "N128_exterior_N512_inner_c48": 36
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.0032651153177699066,
+        "component_coarse_medium_differences": [
+          0.0036211179699460207,
+          0.0033405977466255013,
+          0.002776840913336892
+        ],
+        "component_fine_signed_cosines": [
+          0.9999864354756499,
+          0.9999793367968123,
+          0.9999905513563905
+        ],
+        "component_medium_fine_differences": [
+          0.003689728212449531,
+          0.007638354104598628,
+          0.004614329097334865
+        ],
+        "component_observed_orders": [
+          -0.027079372271286914,
+          -1.1931555300200045,
+          -0.7326763749850327
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          85198513706.92006,
+          6.128406365994155e+20,
+          241685944352.85043
+        ],
+        "fine_signed_cosine": 0.9999801692918985,
+        "medium_fine_difference": 0.0055752602548370155,
+        "observed_order": -0.7719052060825452,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 2.599356639457781,
+      "surface": 9
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.0020599175004101656,
+        "component_coarse_medium_differences": [
+          0.0019739351834716294,
+          0.002313622900426936,
+          0.0018656123100904618
+        ],
+        "component_fine_signed_cosines": [
+          0.9999976362249078,
+          0.9999980869964121,
+          0.9999989832107206
+        ],
+        "component_medium_fine_differences": [
+          0.003261517973194613,
+          0.007402389763431954,
+          0.004876832463522167
+        ],
+        "component_observed_orders": [
+          -0.7244689608287707,
+          -1.677837363528479,
+          -1.3862951983498817
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          5318981442.798458,
+          4.7610487819425276e+19,
+          17703425475.604042
+        ],
+        "fine_signed_cosine": 0.9999949221631785,
+        "medium_fine_difference": 0.005453328297975386,
+        "observed_order": -1.4045504516234102,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 10,
+        "N128_exterior_N256_inner_c48": 20,
+        "N128_exterior_N512_inner_c48": 40
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.003384587483984318,
+        "component_coarse_medium_differences": [
+          0.0034632206379003726,
+          0.003647416512319759,
+          0.00301143701729058
+        ],
+        "component_fine_signed_cosines": [
+          0.9999882369240785,
+          0.9999745000648778,
+          0.9999890806178467
+        ],
+        "component_medium_fine_differences": [
+          0.003347329858887486,
+          0.00803135879827655,
+          0.004945708088685489
+        ],
+        "component_observed_orders": [
+          0.049103576141608624,
+          -1.1387691371619215,
+          -0.7157250038358121
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          97096031374.47218,
+          6.505276224163157e+20,
+          249077264323.67096
+        ],
+        "fine_signed_cosine": 0.9999789219645125,
+        "medium_fine_difference": 0.005778332222747984,
+        "observed_order": -0.7716731456428509,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 2.7076870395109904,
+      "surface": 10
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.0026476299108633733,
+        "component_coarse_medium_differences": [
+          0.002677433872382554,
+          0.0028760102041128516,
+          0.002364264282932958
+        ],
+        "component_fine_signed_cosines": [
+          0.9999962242437672,
+          0.9999973200422162,
+          0.9999985061301456
+        ],
+        "component_medium_fine_differences": [
+          0.00466392076859954,
+          0.008650330338226467,
+          0.0059312561002575655
+        ],
+        "component_observed_orders": [
+          -0.8006923364804527,
+          -1.58868643285875,
+          -1.326946353616857
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          5234781749.89212,
+          4.831538047892456e+19,
+          17036643682.121773
+        ],
+        "fine_signed_cosine": 0.9999945273626134,
+        "medium_fine_difference": 0.006627220906309018,
+        "observed_order": -1.3237025353634593,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 11,
+        "N128_exterior_N256_inner_c48": 22,
+        "N128_exterior_N512_inner_c48": 44
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.003513769017081895,
+        "component_coarse_medium_differences": [
+          0.0033957497698655277,
+          0.003912364249389391,
+          0.0031940581705366617
+        ],
+        "component_fine_signed_cosines": [
+          0.9999878208723832,
+          0.9999683180528602,
+          0.9999865564798768
+        ],
+        "component_medium_fine_differences": [
+          0.0034112473221298793,
+          0.008394562368885363,
+          0.00526956594063325
+        ],
+        "component_observed_orders": [
+          -0.006569205224051586,
+          -1.1014144210459806,
+          -0.722293543028602
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          106413133201.5642,
+          6.909937805243864e+20,
+          256762474241.39655
+        ],
+        "fine_signed_cosine": 0.9999760919354463,
+        "medium_fine_difference": 0.006051820961785703,
+        "observed_order": -0.7843499504995498,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 2.820532201177726,
+      "surface": 11
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.0033343671537507417,
+        "component_coarse_medium_differences": [
+          0.0034906167168852384,
+          0.003521194549069325,
+          0.002961553111365937
+        ],
+        "component_fine_signed_cosines": [
+          0.9999925607462913,
+          0.9999957855078324,
+          0.9999974458158725
+        ],
+        "component_medium_fine_differences": [
+          0.006144413462485678,
+          0.009994456361869648,
+          0.0070676104514939
+        ],
+        "component_observed_orders": [
+          -0.8157933472924696,
+          -1.50506315563532,
+          -1.2548685653331548
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          5018515038.217758,
+          4.79075895457851e+19,
+          16015814377.077011
+        ],
+        "fine_signed_cosine": 0.999992778726076,
+        "medium_fine_difference": 0.007907677540663835,
+        "observed_order": -1.245841070966502,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 12,
+        "N128_exterior_N256_inner_c48": 24,
+        "N128_exterior_N512_inner_c48": 48
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.0036239147084339025,
+        "component_coarse_medium_differences": [
+          0.003397576246134904,
+          0.004105798403575277,
+          0.0033161979076812196
+        ],
+        "component_fine_signed_cosines": [
+          0.99998623536169,
+          0.999961019276128,
+          0.9999831530131592
+        ],
+        "component_medium_fine_differences": [
+          0.0036820930925344814,
+          0.00866596304084046,
+          0.0055238878289785775
+        ],
+        "component_observed_orders": [
+          -0.11602017473885826,
+          -1.0776972914702567,
+          -0.7361539156225921
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          112282093513.34631,
+          7.34678971867141e+20,
+          264824455295.9969
+        ],
+        "fine_signed_cosine": 0.9999723118898498,
+        "medium_fine_difference": 0.0063026465793992875,
+        "observed_order": -0.7984087650781736,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 2.9380802809903948,
+      "surface": 12
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.004134931888265984,
+        "component_coarse_medium_differences": [
+          0.004437899523424967,
+          0.0042583644928939355,
+          0.003669382077058931
+        ],
+        "component_fine_signed_cosines": [
+          0.9999832795793578,
+          0.9999927097240575,
+          0.9999950323126343
+        ],
+        "component_medium_fine_differences": [
+          0.007756937508244072,
+          0.011474936982912872,
+          0.008341589608471544
+        ],
+        "component_observed_orders": [
+          -0.8056101745270137,
+          -1.4301148837351674,
+          -1.1847852018449858
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          4671438151.757395,
+          4.628520506041517e+19,
+          14650093097.568087
+        ],
+        "fine_signed_cosine": 0.9999881846351529,
+        "medium_fine_difference": 0.009334994652110335,
+        "observed_order": -1.1747856308284033,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 13,
+        "N128_exterior_N256_inner_c48": 26,
+        "N128_exterior_N512_inner_c48": 52
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.0036906549144984555,
+        "component_coarse_medium_differences": [
+          0.0034634898851878086,
+          0.004197745346040969,
+          0.003353501590685167
+        ],
+        "component_fine_signed_cosines": [
+          0.9999840545757003,
+          0.9999530311438111,
+          0.9999790672920185
+        ],
+        "component_medium_fine_differences": [
+          0.0040798586806276675,
+          0.008782088312636072,
+          0.005668660184077117
+        ],
+        "component_observed_orders": [
+          -0.236292719979791,
+          -1.0649493933039675,
+          -0.7573395009623123
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          113898778272.99487,
+          7.822020471043276e+20,
+          273389639454.58276
+        ],
+        "fine_signed_cosine": 0.999968211042355,
+        "medium_fine_difference": 0.006478272153060908,
+        "observed_order": -0.8117322289328539,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 3.0605272770649803,
+      "surface": 13
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.005099910261603365,
+        "component_coarse_medium_differences": [
+          0.0055708099409478755,
+          0.0051442880448193855,
+          0.0045309635998302365
+        ],
+        "component_fine_signed_cosines": [
+          0.9999585280393558,
+          0.9999860224584624,
+          0.999988894307512
+        ],
+        "component_medium_fine_differences": [
+          0.009617460934503752,
+          0.013201037500641827,
+          0.009853649623570097
+        ],
+        "component_observed_orders": [
+          -0.7877689679235794,
+          -1.3596079877825338,
+          -1.1208402723669157
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          4200588635.4946914,
+          4.338507554040427e+19,
+          12964473829.052391
+        ],
+        "fine_signed_cosine": 0.9999761326371153,
+        "medium_fine_difference": 0.01101298259365041,
+        "observed_order": -1.1106614733983342,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 14,
+        "N128_exterior_N256_inner_c48": 28,
+        "N128_exterior_N512_inner_c48": 56
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.0037034792294146587,
+        "component_coarse_medium_differences": [
+          0.003574277221087548,
+          0.004182482179448225,
+          0.003298281427278467
+        ],
+        "component_fine_signed_cosines": [
+          0.9999814253875767,
+          0.9999443497418519,
+          0.9999743520586244
+        ],
+        "component_medium_fine_differences": [
+          0.004566755269309914,
+          0.008723989243922597,
+          0.005686623535442182
+        ],
+        "component_observed_orders": [
+          -0.3535179441000848,
+          -1.0606285979364736,
+          -0.7858577958815004
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          111633508853.41696,
+          8.347831362781215e+20,
+          282632088458.7202
+        ],
+        "fine_signed_cosine": 0.9999640312694619,
+        "medium_fine_difference": 0.006565082615669356,
+        "observed_order": -0.8259319202373413,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 3.1880773559057856,
+      "surface": 14
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.006307744864483407,
+        "component_coarse_medium_differences": [
+          0.006992058509434124,
+          0.006237743144802884,
+          0.005618239411627531
+        ],
+        "component_fine_signed_cosines": [
+          0.9998932422938173,
+          0.999969436794203,
+          0.9999704454145463
+        ],
+        "component_medium_fine_differences": [
+          0.01193445424907596,
+          0.015307823192904978,
+          0.011746527737591453
+        ],
+        "component_observed_orders": [
+          -0.7713434324436829,
+          -1.2951730905733985,
+          -1.064044351669349
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          3620509805.8442855,
+          3.921016356246466e+19,
+          11007646236.515444
+        ],
+        "fine_signed_cosine": 0.9999419377210573,
+        "medium_fine_difference": 0.013098874799240481,
+        "observed_order": -1.0542466764386202,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 15,
+        "N128_exterior_N256_inner_c48": 30,
+        "N128_exterior_N512_inner_c48": 60
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.0036179405379270675,
+        "component_coarse_medium_differences": [
+          0.003581758303606525,
+          0.004055693989346507,
+          0.0031608282027424895
+        ],
+        "component_fine_signed_cosines": [
+          0.9999784348533785,
+          0.9999352362343353,
+          0.999969285063546
+        ],
+        "component_medium_fine_differences": [
+          0.004930746588235105,
+          0.008467833603095951,
+          0.005573240861522111
+        ],
+        "component_observed_orders": [
+          -0.461138120778561,
+          -1.0620441179211741,
+          -0.8182138803848878
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          110338016080.29749,
+          8.933096586784759e+20,
+          291836397402.62976
+        ],
+        "fine_signed_cosine": 0.9999597311797268,
+        "medium_fine_difference": 0.006508391545987708,
+        "observed_order": -0.8471323494359272,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 3.320943192829915,
+      "surface": 15
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.007670966252139041,
+        "component_coarse_medium_differences": [
+          0.008223478397218334,
+          0.007654072498718892,
+          0.007093711789973341
+        ],
+        "component_fine_signed_cosines": [
+          0.999776238640171,
+          0.9999201885162494,
+          0.9999037837618219
+        ],
+        "component_medium_fine_differences": [
+          0.01394190340522225,
+          0.018037661654059664,
+          0.01430185496687424
+        ],
+        "component_observed_orders": [
+          -0.7616068726486662,
+          -1.2367128529826532,
+          -1.011589656930177
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          3199446751.746189,
+          3.386723607629094e+19,
+          8861402010.481274
+        ],
+        "fine_signed_cosine": 0.9998488742080567,
+        "medium_fine_difference": 0.015537878061910381,
+        "observed_order": -1.0183092754328504,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 16,
+        "N128_exterior_N256_inner_c48": 32,
+        "N128_exterior_N512_inner_c48": 64
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.003464888904371143,
+        "component_coarse_medium_differences": [
+          0.0034156729141824912,
+          0.0038620124917489217,
+          0.003071547397615434
+        ],
+        "component_fine_signed_cosines": [
+          0.9999751795057265,
+          0.9999261113206295,
+          0.9999643575086049
+        ],
+        "component_medium_fine_differences": [
+          0.0050091403726304756,
+          0.00807941413366641,
+          0.005526667077548782
+        ],
+        "component_observed_orders": [
+          -0.5523932125524825,
+          -1.0648978512308387,
+          -0.8474440622902196
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          112636514329.82501,
+          9.507394685571668e+20,
+          290138286660.5454
+        ],
+        "fine_signed_cosine": 0.9999551605739022,
+        "medium_fine_difference": 0.006348555452543691,
+        "observed_order": -0.8736192634448032,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 3.459346326579322,
+      "surface": 16
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.008513102738524547,
+        "component_coarse_medium_differences": [
+          0.00621237382732559,
+          0.009645715423618589,
+          0.009262037578532542
+        ],
+        "component_fine_signed_cosines": [
+          0.9997657463678715,
+          0.9997439268112441,
+          0.9996921148818635
+        ],
+        "component_medium_fine_differences": [
+          0.010503458834368411,
+          0.02180637749133826,
+          0.01806553814293354
+        ],
+        "component_observed_orders": [
+          -0.7576479407447814,
+          -1.1767899750020419,
+          -0.9638387153831447
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          4247410837.54352,
+          2.7613602872392466e+19,
+          6642921848.295832
+        ],
+        "fine_signed_cosine": 0.9996708576829004,
+        "medium_fine_difference": 0.017437549667062385,
+        "observed_order": -1.034440379649054,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 17,
+        "N128_exterior_N256_inner_c48": 34,
+        "N128_exterior_N512_inner_c48": 68
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.0034273648889816366,
+        "component_coarse_medium_differences": [
+          0.003404980032496425,
+          0.0037647236923005092,
+          0.0030778981051367165
+        ],
+        "component_fine_signed_cosines": [
+          0.9999718333158818,
+          0.9999177128202614,
+          0.9999604702415646
+        ],
+        "component_medium_fine_differences": [
+          0.005252740324618392,
+          0.00789495433128305,
+          0.005631223126997897
+        ],
+        "component_observed_orders": [
+          -0.6254239269317043,
+          -1.068386936987493,
+          -0.8715028446487251
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          108282411351.98181,
+          9.637192266618432e+20,
+          272783628744.38904
+        ],
+        "fine_signed_cosine": 0.9999511987587753,
+        "medium_fine_difference": 0.006367423830638602,
+        "observed_order": -0.8936100022983622,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 3.60351752871152,
+      "surface": 17
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.008712236991607213,
+        "component_coarse_medium_differences": [
+          0.005091224763848994,
+          0.012647447787017579,
+          0.006467666895598612
+        ],
+        "component_fine_signed_cosines": [
+          0.999890869995095,
+          0.9992428513424026,
+          0.9996742073017773
+        ],
+        "component_medium_fine_differences": [
+          0.008594448886750207,
+          0.02743685453109942,
+          0.012192405711989332
+        ],
+        "component_observed_orders": [
+          -0.75539237271627,
+          -1.1172688115380633,
+          -0.9146655328859268
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          5039787671.227159,
+          2.0831266105987404e+19,
+          8964923103.249672
+        ],
+        "fine_signed_cosine": 0.9994432287109705,
+        "medium_fine_difference": 0.01803053239437134,
+        "observed_order": -1.0493268922899965,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 18,
+        "N128_exterior_N256_inner_c48": 36,
+        "N128_exterior_N512_inner_c48": 72
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.00354895164514155,
+        "component_coarse_medium_differences": [
+          0.0036086269494283825,
+          0.0037895737963860696,
+          0.0032252310491284212
+        ],
+        "component_fine_signed_cosines": [
+          0.9999689075532643,
+          0.9999114388747339,
+          0.999959031053423
+        ],
+        "component_medium_fine_differences": [
+          0.005762493010612139,
+          0.007987083118179087,
+          0.00596734670878429
+        ],
+        "component_observed_orders": [
+          -0.6752430868419055,
+          -1.0756331259554892,
+          -0.8876870853088304
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          96844602309.40948,
+          9.178379970404732e+20,
+          238850978379.57092
+        ],
+        "fine_signed_cosine": 0.9999488601824077,
+        "medium_fine_difference": 0.006648534905698994,
+        "observed_order": -0.9056435406815406,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 3.753697188385116,
+      "surface": 18
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.005918651061705369,
+        "component_coarse_medium_differences": [
+          0.004445947077082646,
+          0.008094781533042945,
+          0.004449646917539126
+        ],
+        "component_fine_signed_cosines": [
+          0.9999645480155133,
+          0.9993930975737985,
+          0.9999156953811684
+        ],
+        "component_medium_fine_differences": [
+          0.007478299874498924,
+          0.01703606351150445,
+          0.008112696802949381
+        ],
+        "component_observed_orders": [
+          -0.7502195482432222,
+          -1.0735279636455264,
+          -0.8664907095447287
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          5472413626.276029,
+          3.0367589334053155e+19,
+          11723353524.445395
+        ],
+        "fine_signed_cosine": 0.9997722608260012,
+        "medium_fine_difference": 0.011718479400751746,
+        "observed_order": -0.9854450673567537,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 19,
+        "N128_exterior_N256_inner_c48": 38,
+        "N128_exterior_N512_inner_c48": 76
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.0037941343701622496,
+        "component_coarse_medium_differences": [
+          0.0035826139509248164,
+          0.004281458384459454,
+          0.003467038828354853
+        ],
+        "component_fine_signed_cosines": [
+          0.9999675623829415,
+          0.9999098773572093,
+          0.9999617257564688
+        ],
+        "component_medium_fine_differences": [
+          0.005801401329852848,
+          0.008477381036491486,
+          0.0064201373000627865
+        ],
+        "component_observed_orders": [
+          -0.6953888331567643,
+          -0.9855163313633696,
+          -0.8889001571466848
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          92232605909.7984,
+          8.078111037946845e+20,
+          198721349963.7522
+        ],
+        "fine_signed_cosine": 0.9999477163175081,
+        "medium_fine_difference": 0.006993816544623337,
+        "observed_order": -0.8823091800409686,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 3.9101357131814796,
+      "surface": 19
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.004228590036394413,
+        "component_coarse_medium_differences": [
+          0.004070083455303422,
+          0.005180808534240031,
+          0.0031994631871758326
+        ],
+        "component_fine_signed_cosines": [
+          0.9999893707280894,
+          0.9998656504250606,
+          0.9999820304810558
+        ],
+        "component_medium_fine_differences": [
+          0.006862256619917251,
+          0.011012718745558373,
+          0.005729581759147054
+        ],
+        "component_observed_orders": [
+          -0.7536247010777561,
+          -1.0879215032824143,
+          -0.8405999638392105
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          5498278748.72999,
+          3.984478486280137e+19,
+          13619613984.395147
+        ],
+        "fine_signed_cosine": 0.9999498333163411,
+        "medium_fine_difference": 0.008189396543114387,
+        "observed_order": -0.9535804498162253,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 20,
+        "N128_exterior_N256_inner_c48": 40,
+        "N128_exterior_N512_inner_c48": 80
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.00491148106045753,
+        "component_coarse_medium_differences": [
+          0.0034065804411656467,
+          0.007024509736232375,
+          0.003379261943848585
+        ],
+        "component_fine_signed_cosines": [
+          0.9999689254852088,
+          0.9999157174155087,
+          0.9999691813857696
+        ],
+        "component_medium_fine_differences": [
+          0.005770164462790428,
+          0.009496609766137342,
+          0.005612636319685772
+        ],
+        "component_observed_orders": [
+          -0.760288165345568,
+          -0.4350150333160593,
+          -0.7319703949544196
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          87521570546.09528,
+          6.542965353744358e+20,
+          195093422313.6272
+        ],
+        "fine_signed_cosine": 0.9999478881568862,
+        "medium_fine_difference": 0.007187537395496934,
+        "observed_order": -0.549339421234175,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 4.073093946630988,
+      "surface": 20
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.0031230325582111956,
+        "component_coarse_medium_differences": [
+          0.0036249706226112654,
+          0.0033415514666779614,
+          0.002225672675774486
+        ],
+        "component_fine_signed_cosines": [
+          0.9999968288525762,
+          0.999969466132826,
+          0.999995163704308
+        ],
+        "component_medium_fine_differences": [
+          0.006394489417891813,
+          0.007152341847393169,
+          0.004051480808015361
+        ],
+        "component_observed_orders": [
+          -0.8188598652139438,
+          -1.0978975972322131,
+          -0.8642078718385496
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          5324273966.515644,
+          4.6720269920364536e+19,
+          14462617277.495375
+        ],
+        "fine_signed_cosine": 0.9999870927236264,
+        "medium_fine_difference": 0.006012763800317309,
+        "observed_order": -0.9450806763817028,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 21,
+        "N128_exterior_N256_inner_c48": 42,
+        "N128_exterior_N512_inner_c48": 84
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.006455453905950501,
+        "component_coarse_medium_differences": [
+          0.0038188977526296326,
+          0.00961588612578473,
+          0.004239034013363872
+        ],
+        "component_fine_signed_cosines": [
+          0.9999681429600372,
+          0.9999186417818349,
+          0.9999787285541518
+        ],
+        "component_medium_fine_differences": [
+          0.005878522896042787,
+          0.008920497156583903,
+          0.004692538714766391
+        ],
+        "component_observed_orders": [
+          -0.6222973990879129,
+          0.10829569474665776,
+          -0.1466331053408523
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          82909265114.48723,
+          6.605899896494148e+20,
+          191574819142.18274
+        ],
+        "fine_signed_cosine": 0.9999526774207791,
+        "medium_fine_difference": 0.006736770258551254,
+        "observed_order": -0.06153856037337305,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 4.2428436031401775,
+      "surface": 21
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.0025391495978305243,
+        "component_coarse_medium_differences": [
+          0.0030071886282815458,
+          0.002801295647775586,
+          0.0015656951453512434
+        ],
+        "component_fine_signed_cosines": [
+          0.9999984519386258,
+          0.9999859514531284,
+          0.9999979428489105
+        ],
+        "component_medium_fine_differences": [
+          0.005996155268750573,
+          0.004192556074182254,
+          0.0025847638170409313
+        ],
+        "component_observed_orders": [
+          -0.9956223770149492,
+          -0.5817358265485336,
+          -0.7232291256822466
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          4972360928.522452,
+          5.087598956491198e+19,
+          14308424250.356998
+        ],
+        "fine_signed_cosine": 0.9999921566147902,
+        "medium_fine_difference": 0.0044800449563224915,
+        "observed_order": -0.8191678134561948,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 22,
+        "N128_exterior_N256_inner_c48": 44,
+        "N128_exterior_N512_inner_c48": 88
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.008837158166061683,
+        "component_coarse_medium_differences": [
+          0.010475776734211044,
+          0.009771008265828928,
+          0.005391807919430881
+        ],
+        "component_fine_signed_cosines": [
+          0.9999723294706395,
+          0.9998753617303259,
+          0.9999833711785306
+        ],
+        "component_medium_fine_differences": [
+          0.0055615822290498,
+          0.010885851890052745,
+          0.0041318238608799305
+        ],
+        "component_observed_orders": [
+          0.9134899350463207,
+          -0.15587496636931897,
+          0.38399034850716235
+        ],
+        "component_passed": [
+          true,
+          false,
+          false
+        ],
+        "component_scales": [
+          78683164203.37209,
+          6.688995730750715e+20,
+          188459070568.7301
+        ],
+        "fine_signed_cosine": 0.999941648312553,
+        "medium_fine_difference": 0.0074499426548124996,
+        "observed_order": 0.2463531848733429,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 4.419667721044714,
+      "surface": 22
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.0030958605974695436,
+        "component_coarse_medium_differences": [
+          0.004334775329531509,
+          0.002669049173783929,
+          0.0016849207302724234
+        ],
+        "component_fine_signed_cosines": [
+          0.9999984809703136,
+          0.9999884159391925,
+          0.9999983018144608
+        ],
+        "component_medium_fine_differences": [
+          0.005356077318449133,
+          0.0034076451672060493,
+          0.0014230560169577735
+        ],
+        "component_observed_orders": [
+          -0.30521956623830054,
+          -0.3524492322750942,
+          0.24368826615458558
+        ],
+        "component_passed": [
+          false,
+          false,
+          false
+        ],
+        "component_scales": [
+          4441245972.624306,
+          5.210587261435679e+19,
+          13523049292.425425
+        ],
+        "fine_signed_cosine": 0.9999887078332392,
+        "medium_fine_difference": 0.0037560927506380764,
+        "observed_order": -0.2788921781683254,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 23,
+        "N128_exterior_N256_inner_c48": 46,
+        "N128_exterior_N512_inner_c48": 92
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.01626866977156422,
+        "component_coarse_medium_differences": [
+          0.02361809235206406,
+          0.012193213897448032,
+          0.009355217630235856
+        ],
+        "component_fine_signed_cosines": [
+          0.9999557668039969,
+          0.9998394938910902,
+          0.9999835406257213
+        ],
+        "component_medium_fine_differences": [
+          0.0069861108482661945,
+          0.012565988045153227,
+          0.003961514603419904
+        ],
+        "component_observed_orders": [
+          1.757331002873507,
+          -0.04344566982732661,
+          1.2397190947666132
+        ],
+        "component_passed": [
+          true,
+          false,
+          true
+        ],
+        "component_scales": [
+          88285921991.75119,
+          6.818625446427402e+20,
+          186106327187.0418
+        ],
+        "fine_signed_cosine": 0.9999174327367388,
+        "medium_fine_difference": 0.00861013740285844,
+        "observed_order": 0.9179881262125698,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 4.6038611345437195,
+      "surface": 23
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.008511410783848603,
+        "component_coarse_medium_differences": [
+          0.013781334130184075,
+          0.003074313974324186,
+          0.004237424190913794
+        ],
+        "component_fine_signed_cosines": [
+          0.9999935772085519,
+          0.9999924362623079,
+          0.9999979694266471
+        ],
+        "component_medium_fine_differences": [
+          0.00463429729791374,
+          0.004493263393752156,
+          0.0020295758175594733
+        ],
+        "component_observed_orders": [
+          1.5722930542602094,
+          -0.5474991222094228,
+          1.0620093232581818
+        ],
+        "component_passed": [
+          true,
+          false,
+          true
+        ],
+        "component_scales": [
+          3752587282.7063637,
+          5.114231251419059e+19,
+          12140889878.782942
+        ],
+        "fine_signed_cosine": 0.9999859543307216,
+        "medium_fine_difference": 0.003906631343852225,
+        "observed_order": 1.1234731619165463,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 24,
+        "N128_exterior_N256_inner_c48": 48,
+        "N128_exterior_N512_inner_c48": 96
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.031492268997156944,
+        "component_coarse_medium_differences": [
+          0.04128826216099268,
+          0.026701662032652576,
+          0.023613336744031255
+        ],
+        "component_fine_signed_cosines": [
+          0.9997922265034528,
+          0.9996240539916839,
+          0.9999052835666338
+        ],
+        "component_medium_fine_differences": [
+          0.016244979575483154,
+          0.019156021453026778,
+          0.009311550872058377
+        ],
+        "component_observed_orders": [
+          1.3457377664024532,
+          0.4791315882193646,
+          1.3425085408292903
+        ],
+        "component_passed": [
+          true,
+          false,
+          true
+        ],
+        "component_scales": [
+          87604931694.8103,
+          7.025276267582605e+20,
+          185027526066.99625
+        ],
+        "fine_signed_cosine": 0.9997423654913967,
+        "medium_fine_difference": 0.015465633934195502,
+        "observed_order": 1.025931735932462,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 4.795730965302525,
+      "surface": 24
+    },
+    {
+      "cumulative": {
+        "coarse_medium_difference": 0.020948924763998435,
+        "component_coarse_medium_differences": [
+          0.032357372541513586,
+          0.010800587920124411,
+          0.012366086247975383
+        ],
+        "component_fine_signed_cosines": [
+          0.9999617903011252,
+          0.9999579090535871,
+          0.99998638612376
+        ],
+        "component_medium_fine_differences": [
+          0.006391108308541841,
+          0.011129974302750834,
+          0.006029342884281195
+        ],
+        "component_observed_orders": [
+          2.3399564222126283,
+          -0.04334041543098152,
+          1.0363162910812438
+        ],
+        "component_passed": [
+          true,
+          false,
+          true
+        ],
+        "component_scales": [
+          2955447862.677495,
+          4.806228811035792e+19,
+          10290279915.550184
+        ],
+        "fine_signed_cosine": 0.9999514246923701,
+        "medium_fine_difference": 0.008186891331220471,
+        "observed_order": 1.3554885463213315,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "face_indices": {
+        "N128_exterior_N128_inner_c48": 25,
+        "N128_exterior_N256_inner_c48": 50,
+        "N128_exterior_N512_inner_c48": 100
+      },
+      "instantaneous": {
+        "coarse_medium_difference": 0.049909901730373456,
+        "component_coarse_medium_differences": [
+          0.04954942074333168,
+          0.06088322804610883,
+          0.03620887072103194
+        ],
+        "component_fine_signed_cosines": [
+          0.9989341678177858,
+          0.9981192127848905,
+          0.9996732115212462
+        ],
+        "component_medium_fine_differences": [
+          0.031641853693059496,
+          0.0420563405306127,
+          0.016270872905092444
+        ],
+        "component_observed_orders": [
+          0.647034071181795,
+          0.5337215313857367,
+          1.1540515316135522
+        ],
+        "component_passed": [
+          false,
+          false,
+          true
+        ],
+        "component_scales": [
+          80815234824.35675,
+          7.34285945652789e+20,
+          185695031426.5219
+        ],
+        "fine_signed_cosine": 0.9988714822316982,
+        "medium_fine_difference": 0.031805051952237144,
+        "observed_order": 0.6500701201557366,
+        "passed": false,
+        "significant_components": [
+          true,
+          true,
+          true
+        ]
+      },
+      "passed": false,
+      "radius_over_rg": 4.9955971345432175,
+      "surface": 25
+    }
+  ],
+  "work_package": "WP10c9d5b"
+}

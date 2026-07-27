@@ -156,6 +156,13 @@ from .causal_inner_radial_domain_hardening import (
     causal_radial_project_jvp_actions,
     causal_radial_volume_weighted_scaled_direction,
 )
+from .causal_inner_radial_localization import (
+    CausalRadialHistoryConvergence,
+    causal_radial_colored_block_jacobians,
+    causal_radial_first_consecutive_recovery,
+    causal_radial_history_convergence,
+    causal_radial_prefix_face_fluxes,
+)
 from .causal_inner_shear_root_cause import (
     CausalPrincipalManufacturedWaveAudit,
     CausalShearFourierSymbols,
@@ -1449,12 +1456,17 @@ __all__ = [
     "CausalRadialJVPStepSweep",
     "CausalRadialOneSidedJVPSweep",
     "CausalRadialProjectedJVPAudit",
+    "CausalRadialHistoryConvergence",
+    "causal_radial_colored_block_jacobians",
     "causal_radial_dense_colored_audit",
+    "causal_radial_first_consecutive_recovery",
+    "causal_radial_history_convergence",
     "causal_radial_jvp_spatial_attribution",
     "causal_radial_jvp_step_sweep",
     "causal_radial_one_sided_jvp_sweep",
     "causal_radial_partial_dense_central_jacobian",
     "causal_radial_project_jvp_actions",
+    "causal_radial_prefix_face_fluxes",
     "causal_radial_volume_weighted_scaled_direction",
     "causal_five_field_radial_extended_path_jump",
     "causal_five_field_frozen_principal_generator",
