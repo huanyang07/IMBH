@@ -1,0 +1,30 @@
+{
+  "analyzed_base_commit": "155e18339076fd2b27d419173b92e1d5d608963b",
+  "analyzed_base_parent_commit": "038ba35659e76aff0605fffa5fb457e99362063d",
+  "analyzed_base_tree_sha": "ec9432404f3e28e8505628b3e770923c254b56cf",
+  "authorization_status": "CERTIFIED FOR INNER LOCALIZATION ONLY",
+  "does_not_establish": "Global Jacobian hardening, a repaired physical operator, nonlinear convergence, fixed-Q closure, or reduced evolution.",
+  "establishes": "Whether the stored frozen derivative is stable on residual rows through 5 rg and the declared three-cell stencil halo, including held-out continuum directions and branch fingerprints.",
+  "generation_command": "PYTHONPATH=src python3 scripts/run_causal_inner_frozen_domain_hardening_wp10c9d5a1.py",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_frozen_domain_hardening_wp10c9d5a1.py": "d2e955cbf6cca9117913700c0f5573d82fa9e9bc269ced3be3ebd05c2bcde1c8",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "5f2de2a686e18d119760bf666e4b4c30fc6f7170b8b618f433709e0032fee4d1",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_characteristic_dissipation.py": "9f8333899627c42ae688b9894f9f52fd2d96bf7e17b114b8ff4c74e3076f3b71",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_domain_hardening.py": "a75b7035d4284c6b6e59644f39d24ff9f4e1bf730c0e3cc979b0faf100b1cc01",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_fluctuation.py": "57be77e57cc4b446b82ab54141166e15b34b908194a525a369560bf6b5b2fc7b",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_hardening.py": "07f8a16742c84fd1a4d1c7ad7d13c3f4dc8605379973fed9cd1e423efd6dd9e0",
+    "tests/test_causal_inner_frozen_domain_hardening_wp10c9d5a1.py": "64423414859ef09b5726c7e9127fc057454df9217b997a7a1e31659bb150b5df",
+    "tests/test_causal_inner_radial_hardening.py": "d30c45dfa890327bb2c61093d7873115a87eb202f30ad629fd4cfbf1b3e01fdd"
+  },
+  "implementation_source_manifest_sha256": "ffc7ad7642ecae5a2e7fd5808475888b0b48ec83be424accf4c84b7eb0f22b48",
+  "method_scope": "DOMAIN-SCOPED FROZEN DERIVATIVE HARDENING / PRODUCTION NEUTRAL",
+  "schema_version": 1,
+  "scientific_status": "DIAGNOSTIC ONLY",
+  "source_input_hashes": {
+    "results/canonical/causal_inner_frozen_hardening_wp10c9d5a/decisive_arrays.npz": "38c09dba10262c101dd2a19792f7e0b9c9f989da8eeba3439f2fab58251bde1d",
+    "results/canonical/causal_inner_frozen_hardening_wp10c9d5a/replay_contexts.json": "cb9493a5af430f73aeeb4a52b0ec9778052afa1ab102605d5b039e15ec711af5",
+    "results/canonical/causal_inner_frozen_hardening_wp10c9d5a/replay_inputs.npz": "219c1baeb38dd79b7423e80fddb05742acc1bd35a3fc3757ebca98db4a9331ab"
+  },
+  "source_parent_commit": "155e18339076fd2b27d419173b92e1d5d608963b",
+  "work_package": "WP10c9d5a1"
+}

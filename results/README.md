@@ -30,6 +30,7 @@ the default branch.
 | `causal_inner_radial_fluctuation_wp10c9d4b` | **CERTIFIED** for its production-neutral radial method scope; **DIAGNOSTIC ONLY** physically | Nonuniform-measure radial five-field candidate, complete source ledger, independent manufactured balance, outgoing excision, and candidate FD/assembled stationary-Jacobian gate before frozen-linear export discrimination |
 | `causal_inner_frozen_discrimination_wp10c9d5` | **REJECTED** | Same-descriptor production/candidate A/B generators and parity-certified physical-export ladders; aggregate embedded exports improve, but inner and net M/J/E remain nonconvergent |
 | `causal_inner_frozen_hardening_wp10c9d5a` | **REJECTED METHOD GATE / DIAGNOSTIC ONLY** | Corrected exact WP10c9d5 lineage, self-contained replay contexts, exact dense/colored and sparsity checks, and seven-step JVP evidence; one embedded random direction excludes the stored `4e-5` step from its certified plateau |
+| `causal_inner_frozen_domain_hardening_wp10c9d5a1` | **CERTIFIED FOR INNER LOCALIZATION ONLY / DIAGNOSTIC** | Preserves the global d5a rejection while proving exact dense/colored parity, stable branches, and held-out JVP plateaus through `5 rg` plus the three-cell halo; cache-first d5b localization is authorized, but global and nonlinear promotion remain blocked |
 
 Each case contains `provenance.json` and `SHA256SUMS.txt`. The global file list
 and hashes are recorded in `manifests/canonical_artifacts.csv`.

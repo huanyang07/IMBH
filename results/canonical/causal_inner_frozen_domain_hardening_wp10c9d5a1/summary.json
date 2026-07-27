@@ -1,0 +1,393 @@
+{
+  "analyzed_base_commit": "155e18339076fd2b27d419173b92e1d5d608963b",
+  "analyzed_base_parent_commit": "038ba35659e76aff0605fffa5fb457e99362063d",
+  "analyzed_base_tree_sha": "ec9432404f3e28e8505628b3e770923c254b56cf",
+  "branch_comparison": {
+    "maximum_admissibility_change": 0.0,
+    "maximum_outer_branch_changes": 0,
+    "maximum_sign_changes": 0,
+    "passed": true
+  },
+  "branch_summaries": {
+    "m2.0em05": {
+      "incoming_excision_characteristics": 0,
+      "maximum_analytic_speed_defect_over_c": 0.0024954525953000406,
+      "maximum_condition_face": 64,
+      "maximum_descriptor_condition_number": 18910.15692576797,
+      "minimum_absolute_speed_over_c": 0.3244388337679904,
+      "minimum_admissibility_factor": 1.0,
+      "minimum_pairwise_speed_gap_over_c": 0.002699421862556839,
+      "outer_boundary_choked": false,
+      "outer_incoming_characteristics": 5
+    },
+    "m4.0em05": {
+      "incoming_excision_characteristics": 0,
+      "maximum_analytic_speed_defect_over_c": 0.0024951427886525934,
+      "maximum_condition_face": 64,
+      "maximum_descriptor_condition_number": 18911.396532968567,
+      "minimum_absolute_speed_over_c": 0.3244547095910769,
+      "minimum_admissibility_factor": 1.0,
+      "minimum_pairwise_speed_gap_over_c": 0.002699314463035507,
+      "outer_boundary_choked": false,
+      "outer_incoming_characteristics": 5
+    },
+    "p0.0ep00": {
+      "incoming_excision_characteristics": 0,
+      "maximum_analytic_speed_defect_over_c": 0.0024957621430601318,
+      "maximum_condition_face": 64,
+      "maximum_descriptor_condition_number": 18908.91745621334,
+      "minimum_absolute_speed_over_c": 0.3244229600573813,
+      "minimum_admissibility_factor": 1.0,
+      "minimum_pairwise_speed_gap_over_c": 0.0026995339001644747,
+      "outer_boundary_choked": false,
+      "outer_incoming_characteristics": 5
+    },
+    "p2.0em05": {
+      "incoming_excision_characteristics": 0,
+      "maximum_analytic_speed_defect_over_c": 0.0024960717313649017,
+      "maximum_condition_face": 64,
+      "maximum_descriptor_condition_number": 18907.677141472905,
+      "minimum_absolute_speed_over_c": 0.3244070833438247,
+      "minimum_admissibility_factor": 1.0,
+      "minimum_pairwise_speed_gap_over_c": 0.002699638758185907,
+      "outer_boundary_choked": false,
+      "outer_incoming_characteristics": 5
+    },
+    "p4.0em05": {
+      "incoming_excision_characteristics": 0,
+      "maximum_analytic_speed_defect_over_c": 0.0024963812225984316,
+      "maximum_condition_face": 64,
+      "maximum_descriptor_condition_number": 18906.438159328347,
+      "minimum_absolute_speed_over_c": 0.32439120935992377,
+      "minimum_admissibility_factor": 1.0,
+      "minimum_pairwise_speed_gap_over_c": 0.0026997519174212226,
+      "outer_boundary_choked": false,
+      "outer_incoming_characteristics": 5
+    }
+  },
+  "classification": "inner_domain_derivative_certified_cache_first_localization_authorized_global_hardening_still_failed",
+  "decisive_array_hashes": {
+    "branch_m2.0em05__admissibility_factors": "d6c4115ed3a698068975b58fbda91e2c8c2f1b8143df0abb6b4ee10e0e64d9ed",
+    "branch_m2.0em05__analytic_speeds": "d8c66f8e7d02fcd6049870e9ced502987dc875df3328a026705087667ffc22ea",
+    "branch_m2.0em05__descriptor_conditions": "0b90ecc091c91e313f38e4cd14ceb916736b5706a0b550fa6e8bff6e8f67f9e5",
+    "branch_m2.0em05__speeds": "83bf869b6afa0b0e2d6b2e1e88baf08fd084ab72d728c38fb50dc3ae7f3bf5e2",
+    "branch_m4.0em05__admissibility_factors": "d6c4115ed3a698068975b58fbda91e2c8c2f1b8143df0abb6b4ee10e0e64d9ed",
+    "branch_m4.0em05__analytic_speeds": "758a0a8d4062b20094859a07a72c2db18c0ad195af1dd72a31f327b5b85ebe8b",
+    "branch_m4.0em05__descriptor_conditions": "9b0a3422f650af45aa7b55323a838820ddd439062979d3259e7938748d139387",
+    "branch_m4.0em05__speeds": "a413ac82c417c78b38f080201807324fb03cc33e2ac5096751686a1a86e6eed0",
+    "branch_p0.0ep00__admissibility_factors": "d6c4115ed3a698068975b58fbda91e2c8c2f1b8143df0abb6b4ee10e0e64d9ed",
+    "branch_p0.0ep00__analytic_speeds": "9516c19187f6451b1a1026b64ae6a9ff64577bbbe4772d9978ea4ba73bcd4d50",
+    "branch_p0.0ep00__descriptor_conditions": "80fdd4b0765c1d48fbbc4c10299f4d5b0ae80cba195073464bf70ce9d1b64b3a",
+    "branch_p0.0ep00__speeds": "7fbfdd4e46d6fa097645364edb2e73c5b9b705f1547a7f4e608bc6385285e967",
+    "branch_p2.0em05__admissibility_factors": "d6c4115ed3a698068975b58fbda91e2c8c2f1b8143df0abb6b4ee10e0e64d9ed",
+    "branch_p2.0em05__analytic_speeds": "ce9080e2853ea09e7b5617f548d9939ba4fd4b01b06f24624100494d607dda77",
+    "branch_p2.0em05__descriptor_conditions": "e6e012fbbabe58a279f517c84a8e190a110e2c9bc2dcf0d5091c6e5b3c064c29",
+    "branch_p2.0em05__speeds": "52d95f9c8de9635f9cd162bad7a52d14007dfd37e76bfcad2266096634436a5a",
+    "branch_p4.0em05__admissibility_factors": "d6c4115ed3a698068975b58fbda91e2c8c2f1b8143df0abb6b4ee10e0e64d9ed",
+    "branch_p4.0em05__analytic_speeds": "9a1e1fd09f27946ff58561f445488b97a77e635d5dbf66c3f89b004aa4ac1ad6",
+    "branch_p4.0em05__descriptor_conditions": "bf6f45dee9c9232a638a177a1e23655408e82413410840da8f87f2613efc59ec",
+    "branch_p4.0em05__speeds": "0c522ec80e2317cc3e12da036ce996b86f13a5d9e851ab328c01840ba6a45557",
+    "colored_columns": "4d6374a0f3fa54399b9837ce610ab4185202bf65c02fcf74f12e9de246f5d9c8",
+    "dense_columns": "4d6374a0f3fa54399b9837ce610ab4185202bf65c02fcf74f12e9de246f5d9c8",
+    "dense_per_column_defects": "f980dd78d0adfda28de17a38468067390088c6d2e1a945451edbb5a6ccfb7dc7",
+    "dense_selected_columns": "dcacf9b4403ea695d8287952e91c47716788be1f9de592f7853d7f13fbb93f85",
+    "grid_centers_over_rg": "10b916a4f667399acdd745be808ca2ed603368632f4b0b8c49735f26e67430ff",
+    "inner_smooth_0__direct_actions": "509b7b12320a77fcb92a12d73dfb46f6e7514e2daae373c53d476d46c14e4f1c",
+    "inner_smooth_0__direction": "faf5f16e2b7372b81166b72499177a2bbdcad01a0dfbd43c647fbfcc83621e32",
+    "inner_smooth_0__halo_adjacent_changes": "931290464a79259cd5ffbbf03c0a4da3a56f4bb92bf8ce36118331b56ebc439a",
+    "inner_smooth_0__halo_matrix_defects": "bda389f04fef2db38ca881921cf99704ee8f835c134b76a55d674cae2c5d4ec4",
+    "inner_smooth_0__inner_adjacent_changes": "0051f8f4e2c6f1e06a9ed84c6dfcd2162e24add9debf1a33788efaf609245cfe",
+    "inner_smooth_0__inner_matrix_defects": "60f523a876b4e7857497c046f60fde8c3221155c75b7565a810dd69ab23b6cfe",
+    "inner_smooth_0__matrix_action": "09cd5d8d2169972d75a7f3004c5ed63fcf29ae3faa9fc11c6d920a737069ea5c",
+    "inner_smooth_1__direct_actions": "0d3a7d5ac511b7c6edd31106508e06c2df1f6789b7ec4ba36e6b3e513039c8e3",
+    "inner_smooth_1__direction": "dabee438be3f0fdc1cbae4b7887a14c7f345b2b373ff10d8a46ebc8bfacb2005",
+    "inner_smooth_1__halo_adjacent_changes": "3c646009493aa5f254e42f4a8c16990eb5193fe980958d503c030b9ac01d4d94",
+    "inner_smooth_1__halo_matrix_defects": "966b96bf769ca9ccac1ac372c5f8e09e03d441456cb3ecbcf73c2053524efdb4",
+    "inner_smooth_1__inner_adjacent_changes": "5681202d16af2bbfade7077b57f5d89c934f2ada9b2c81bc9721e2e01cecdd79",
+    "inner_smooth_1__inner_matrix_defects": "af6cef2047df09fe97e485f56cf9b9557e2c10fa0179241f36a81bf7e46c793d",
+    "inner_smooth_1__matrix_action": "63525e2b47b9517e5772fdafb8f2491d30a2f9263dc9624dcc0822786c6915c3",
+    "jvp_steps": "e5a27b1e732c5f66b423d131832396bdb06c7df6ff3d1a5547771893cbd162f3",
+    "near_excision_0__direct_actions": "2cba49d5888de09fa1cda0392672d2d5ee4baadb2e46bff6854a715955095280",
+    "near_excision_0__direction": "48d8a794a956538369132a70da66e7e5fdb16edc74c8022aae3119fb9bbc09f4",
+    "near_excision_0__halo_adjacent_changes": "a7a84ed1df75b7460f196ffb7c75df3264fa2096e4cefd040e0be0fe9d11c44c",
+    "near_excision_0__halo_matrix_defects": "074c0ee2b942cac2cfff55b717103672e66a68807f5eb14922ab03b84a00229d",
+    "near_excision_0__inner_adjacent_changes": "a7a84ed1df75b7460f196ffb7c75df3264fa2096e4cefd040e0be0fe9d11c44c",
+    "near_excision_0__inner_matrix_defects": "074c0ee2b942cac2cfff55b717103672e66a68807f5eb14922ab03b84a00229d",
+    "near_excision_0__matrix_action": "e247b5e2f553b2ab69f668ee5ee982a6c738a2723f44c2e71d78fef6a3104121",
+    "near_excision_1__direct_actions": "5fde4354eac6e9f0cf61b47c4ac16abd1525d00d91a3f0f167088ee41e56832c",
+    "near_excision_1__direction": "31195e6c0328ace4a094f22ab4d374c1e58460bfbc80dd40709e3beab5ec115f",
+    "near_excision_1__halo_adjacent_changes": "7aa20e16ddaa5e5fcad00907b77a2d38b0b03faae5165aaa43e563f787b25fbf",
+    "near_excision_1__halo_matrix_defects": "867f320b44329d5fbee00fcfeb2a4d1de08e65dba1d00ee0ff46a1710b7a5e4f",
+    "near_excision_1__inner_adjacent_changes": "7aa20e16ddaa5e5fcad00907b77a2d38b0b03faae5165aaa43e563f787b25fbf",
+    "near_excision_1__inner_matrix_defects": "867f320b44329d5fbee00fcfeb2a4d1de08e65dba1d00ee0ff46a1710b7a5e4f",
+    "near_excision_1__matrix_action": "43435b180fe7b1b712454dfb94d60b025438334ea68a9e845c32a1629d9f8b74",
+    "original_random_0__backward_actions": "bf0b577cd8476e38171bec2dbb5a4fc34c8aa5cbb8240fbbb0abef574d75f8fa",
+    "original_random_0__cell_squared_fractions": "d1da1b26dac30f46dd477fa8de4b9afcf286d693643e6a2262e0c1d16bb6ae95",
+    "original_random_0__complete_grid__adjacent_changes": "b89121945c261fec1c2eac20354e207f931d9ad8120db8185f660a0976282352",
+    "original_random_0__complete_grid__matrix_defects": "450336c6c7eac68e8115573fea1f542a304a8dca64f9c357c3bb699f1b917a59",
+    "original_random_0__forward_actions": "e7344dccc82116ad8ce6d595377ae035bae6b0882b29d55ef2b99977d9107c05",
+    "original_random_0__inner_plus_stencil_halo__adjacent_changes": "4521e2b2fbcd1492d1604811b0fde2d59e37f67ea1958ee0ed5337bcd98084d0",
+    "original_random_0__inner_plus_stencil_halo__matrix_defects": "aa3665caabaf89e30f39b19f00e1bc58cd091d2b84ff796b2fb8e715996b0ce6",
+    "original_random_0__inner_through_5rg__adjacent_changes": "3bc6ee921e2b292bb9461e2e27eda961a72077e9094be0c8c10187dc48db3819",
+    "original_random_0__inner_through_5rg__matrix_defects": "6005b1ff3fde68c7f1b4e419e073b4cd2aaa691809bbbecb2759bb28e9be7e5f",
+    "original_random_0__one_sided_mismatches": "0b7ccb32887b3c918762cb8db76f868a4190f7a043ad80a81b417f89947ea950",
+    "original_random_0__outer_three_cells__adjacent_changes": "f82645512377b2f68f8c6af53be541656a141f2a2495886a98ffb01562a6824c",
+    "original_random_0__outer_three_cells__matrix_defects": "5767e4c662df230735901c3a194a308d16536a4385d4a5e379719d6c47ae591a",
+    "original_random_0__outermost_cell__adjacent_changes": "725981ef891be73326254638db97b834bebc677e4e55949caa533dee569a4537",
+    "original_random_0__outermost_cell__matrix_defects": "9ba28e54cb734672f6edcebb9d427f6b6a1c3924f05b27db3416377c03a90263",
+    "original_random_0_direct_actions": "52b26a54c6b5e2dc8c790cf7ea0c740574e8bc5770c9f3b7be0890f5dc172776",
+    "original_random_0_direction": "562409a54f5068d30176e8321d3377a9b64e08ffdeb9c29027fe12abb62f4904",
+    "original_random_0_matrix_action": "0677446a0484ff6d64bc15966417148be01ad67f4d56f9076c3825396267e7cc"
+  },
+  "decisive_arrays_path": "results/canonical/causal_inner_frozen_domain_hardening_wp10c9d5a1/decisive_arrays.npz",
+  "decisive_arrays_sha256": "813a5812de729e9a0e10fe6f0ad31a7fd703340d68cbf204b19c40ca2f7d1f82",
+  "dense_report": {
+    "maximum_dense_colored_relative_defect": 0.0,
+    "maximum_off_pattern_relative_entry": 0.0,
+    "maximum_per_column_relative_defect": 0.0,
+    "passed": true,
+    "selected_column_count": 140,
+    "skipped": false
+  },
+  "domain_scoped_derivative_passed": true,
+  "embedded_label": "N128_exterior_N128_inner_c48",
+  "environment": {
+    "blas_lapack": {
+      "Build Dependencies": {
+        "blas": {
+          "detection method": "system",
+          "found": true,
+          "include directory": "unknown",
+          "lib directory": "unknown",
+          "name": "accelerate",
+          "openblas configuration": "unknown",
+          "pc file directory": "unknown",
+          "version": "unknown"
+        },
+        "lapack": {
+          "detection method": "system",
+          "found": true,
+          "include directory": "unknown",
+          "lib directory": "unknown",
+          "name": "accelerate",
+          "openblas configuration": "unknown",
+          "pc file directory": "unknown",
+          "version": "unknown"
+        }
+      },
+      "Compilers": {
+        "c": {
+          "commands": "cc",
+          "linker": "ld64",
+          "name": "clang",
+          "version": "15.0.0"
+        },
+        "c++": {
+          "commands": "c++",
+          "linker": "ld64",
+          "name": "clang",
+          "version": "15.0.0"
+        },
+        "cython": {
+          "commands": "cython",
+          "linker": "cython",
+          "name": "cython",
+          "version": "3.2.1"
+        }
+      },
+      "Machine Information": {
+        "build": {
+          "cpu": "aarch64",
+          "endian": "little",
+          "family": "aarch64",
+          "system": "darwin"
+        },
+        "host": {
+          "cpu": "aarch64",
+          "endian": "little",
+          "family": "aarch64",
+          "system": "darwin"
+        }
+      },
+      "Python Information": {
+        "path": "/private/var/folders/8s/1jkm89h96qjdtjr7q3bll2vh0000gn/T/build-env-zbmksv9_/bin/python",
+        "version": "3.12"
+      },
+      "SIMD Extensions": {
+        "baseline": [
+          "NEON",
+          "NEON_FP16",
+          "NEON_VFPV4",
+          "ASIMD"
+        ],
+        "found": [
+          "ASIMDHP"
+        ],
+        "not found": [
+          "ASIMDFHM"
+        ]
+      }
+    },
+    "float64_epsilon": 2.220446049250313e-16,
+    "machine": "arm64",
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13 (main, Mar  3 2026, 15:35:03) [Clang 21.1.4 ]",
+    "scipy": "1.18.0"
+  },
+  "fixed_q_micro_solver_authorized": false,
+  "global_frozen_candidate_recertification_authorized": false,
+  "halo_cell_count": 28,
+  "halo_last_center_over_rg": 5.532467840325352,
+  "held_out_reports": {
+    "inner_smooth_0": {
+      "inner_plus_stencil_halo": {
+        "lower_selected_adjacent_change": 8.148336744104484e-07,
+        "passed": true,
+        "selected_matrix_relative_defect": 1.2926880310411646e-05,
+        "upper_selected_adjacent_change": 4.2878148455666845e-07
+      },
+      "inner_through_5rg": {
+        "lower_selected_adjacent_change": 8.135113528050846e-07,
+        "passed": true,
+        "selected_matrix_relative_defect": 1.2926878362364708e-05,
+        "upper_selected_adjacent_change": 4.2843453820879005e-07
+      },
+      "kind": "inner_smooth",
+      "maximum_absolute_scaled_component": 1.5226211737254052,
+      "passed": true,
+      "seed": 91051
+    },
+    "inner_smooth_1": {
+      "inner_plus_stencil_halo": {
+        "lower_selected_adjacent_change": 1.022659199399383e-06,
+        "passed": true,
+        "selected_matrix_relative_defect": 3.117292755989977e-05,
+        "upper_selected_adjacent_change": 7.428428206074167e-07
+      },
+      "inner_through_5rg": {
+        "lower_selected_adjacent_change": 1.016188078491815e-06,
+        "passed": true,
+        "selected_matrix_relative_defect": 3.117278591272334e-05,
+        "upper_selected_adjacent_change": 7.364893019931593e-07
+      },
+      "kind": "inner_smooth",
+      "maximum_absolute_scaled_component": 1.9000127141859873,
+      "passed": true,
+      "seed": 91052
+    },
+    "near_excision_0": {
+      "inner_plus_stencil_halo": {
+        "lower_selected_adjacent_change": 1.608683355583108e-06,
+        "passed": true,
+        "selected_matrix_relative_defect": 2.181434626443921e-05,
+        "upper_selected_adjacent_change": 7.245120691721329e-07
+      },
+      "inner_through_5rg": {
+        "lower_selected_adjacent_change": 1.608683355583108e-06,
+        "passed": true,
+        "selected_matrix_relative_defect": 2.181434626443921e-05,
+        "upper_selected_adjacent_change": 7.245120691721329e-07
+      },
+      "kind": "near_excision",
+      "maximum_absolute_scaled_component": 2.151045196560341,
+      "passed": true,
+      "seed": 91053
+    },
+    "near_excision_1": {
+      "inner_plus_stencil_halo": {
+        "lower_selected_adjacent_change": 3.7322617346137027e-07,
+        "passed": true,
+        "selected_matrix_relative_defect": 1.5547298050332203e-05,
+        "upper_selected_adjacent_change": 4.8244638683164e-07
+      },
+      "inner_through_5rg": {
+        "lower_selected_adjacent_change": 3.7322617346137027e-07,
+        "passed": true,
+        "selected_matrix_relative_defect": 1.5547298050332203e-05,
+        "upper_selected_adjacent_change": 4.8244638683164e-07
+      },
+      "kind": "near_excision",
+      "maximum_absolute_scaled_component": 1.583963344041054,
+      "passed": true,
+      "seed": 91054
+    }
+  },
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_frozen_domain_hardening_wp10c9d5a1.py": "d2e955cbf6cca9117913700c0f5573d82fa9e9bc269ced3be3ebd05c2bcde1c8",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "5f2de2a686e18d119760bf666e4b4c30fc6f7170b8b618f433709e0032fee4d1",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_characteristic_dissipation.py": "9f8333899627c42ae688b9894f9f52fd2d96bf7e17b114b8ff4c74e3076f3b71",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_domain_hardening.py": "a75b7035d4284c6b6e59644f39d24ff9f4e1bf730c0e3cc979b0faf100b1cc01",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_fluctuation.py": "57be77e57cc4b446b82ab54141166e15b34b908194a525a369560bf6b5b2fc7b",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_hardening.py": "07f8a16742c84fd1a4d1c7ad7d13c3f4dc8605379973fed9cd1e423efd6dd9e0",
+    "tests/test_causal_inner_frozen_domain_hardening_wp10c9d5a1.py": "64423414859ef09b5726c7e9127fc057454df9217b997a7a1e31659bb150b5df",
+    "tests/test_causal_inner_radial_hardening.py": "d30c45dfa890327bb2c61093d7873115a87eb202f30ad629fd4cfbf1b3e01fdd"
+  },
+  "implementation_source_manifest_sha256": "ffc7ad7642ecae5a2e7fd5808475888b0b48ec83be424accf4c84b7eb0f22b48",
+  "inner_cell_count": 25,
+  "inner_last_center_over_rg": 4.894643998117275,
+  "n_cells": 64,
+  "nonlinear_candidate_authorized": false,
+  "one_sided_relative_mismatches": [
+    2.552853069708142e-05,
+    4.038360697837194e-05,
+    7.23367431996752e-05,
+    0.00013893723432566895,
+    0.0002740161248475115,
+    0.0005452845670527529,
+    0.0010883864555993016
+  ],
+  "original_random_0_region_audits": {
+    "complete_grid": {
+      "lower_selected_adjacent_change": 2.098558829523185e-05,
+      "passed": false,
+      "selected_matrix_relative_defect": 3.011280425933267e-05,
+      "upper_selected_adjacent_change": 4.182556540814964e-05
+    },
+    "inner_plus_stencil_halo": {
+      "lower_selected_adjacent_change": 3.8545981994685645e-06,
+      "passed": true,
+      "selected_matrix_relative_defect": 5.223519129723464e-06,
+      "upper_selected_adjacent_change": 7.717438873236705e-06
+    },
+    "inner_through_5rg": {
+      "lower_selected_adjacent_change": 4.134011639903802e-06,
+      "passed": true,
+      "selected_matrix_relative_defect": 4.622618824533051e-06,
+      "upper_selected_adjacent_change": 8.272601790937313e-06
+    },
+    "outer_three_cells": {
+      "lower_selected_adjacent_change": 3.4425976202679385e-05,
+      "passed": false,
+      "selected_matrix_relative_defect": 4.924715988310582e-05,
+      "upper_selected_adjacent_change": 6.868923700238948e-05
+    },
+    "outermost_cell": {
+      "lower_selected_adjacent_change": 3.6565761994498525e-05,
+      "passed": false,
+      "selected_matrix_relative_defect": 5.217162055629422e-05,
+      "upper_selected_adjacent_change": 7.291782574470149e-05
+    }
+  },
+  "parent_decisive_arrays_path": "results/canonical/causal_inner_frozen_hardening_wp10c9d5a/decisive_arrays.npz",
+  "parent_decisive_arrays_sha256": "38c09dba10262c101dd2a19792f7e0b9c9f989da8eeba3439f2fab58251bde1d",
+  "parent_wp10c9d5a_classification_preserved": true,
+  "parent_wp10c9d5a_remains_globally_rejected": true,
+  "production_operator_authorized": false,
+  "reduced_slow_evolution_authorized": false,
+  "replay_base_relative_defect": 0.0,
+  "runtime_seconds": 1444.117675791029,
+  "schema_version": 1,
+  "spatial_localization": {
+    "dominant_cell": 63,
+    "dominant_cell_radius_over_rg": 24.05981911969061,
+    "first_three_cells_squared_fraction": 0.0003596046743221565,
+    "inner_through_5rg_squared_fraction": 0.006582211153394084,
+    "outer_three_cells_squared_fraction": 0.972285211412071,
+    "outermost_cell_squared_fraction": 0.970818832459416,
+    "selected_interval_lower_step": 2e-05,
+    "selected_interval_upper_step": 4e-05
+  },
+  "work_package": "WP10c9d5a1",
+  "wp10c9d5b_inner_localization_authorized": true
+}
