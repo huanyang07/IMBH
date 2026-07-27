@@ -1,0 +1,27 @@
+{
+  "gates": {
+    "maximum_dense_colored_defect": 1e-10,
+    "maximum_off_pattern_entry": 1e-10,
+    "maximum_plateau_adjacent_change": 2e-05,
+    "maximum_replay_base_defect": 1e-13,
+    "maximum_selected_jvp_defect": 5e-05,
+    "minimum_consecutive_plateau_changes": 2
+  },
+  "generator_relative_step": 4e-05,
+  "jvp_steps": [
+    5e-06,
+    1e-05,
+    2e-05,
+    4e-05,
+    8e-05,
+    0.00016,
+    0.00032
+  ],
+  "random_seed": 9105,
+  "replay_labels": [
+    "uniform_N64",
+    "N128_exterior_N128_inner_c48"
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d5a"
+}

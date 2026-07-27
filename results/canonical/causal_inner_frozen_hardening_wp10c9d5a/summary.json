@@ -1,0 +1,404 @@
+{
+  "classification": "frozen_jacobian_hardening_failed_dynamic_localization_blocked",
+  "configuration_reports": {
+    "N128_exterior_N128_inner_c48": {
+      "dense_colored_passed": true,
+      "jvp_plateau_passed": false,
+      "jvp_sweeps": {
+        "common": {
+          "minimum_adjacent_relative_change": 2.8694239280197407e-07,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_matrix_relative_defect": 7.385205608617939e-06,
+          "selected_step_on_plateau": true
+        },
+        "first_cell_field_0": {
+          "minimum_adjacent_relative_change": 2.2674280262777713e-08,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_matrix_relative_defect": 0.0,
+          "selected_step_on_plateau": true
+        },
+        "first_cell_field_1": {
+          "minimum_adjacent_relative_change": 3.05121321642927e-07,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_matrix_relative_defect": 0.0,
+          "selected_step_on_plateau": true
+        },
+        "first_cell_field_2": {
+          "minimum_adjacent_relative_change": 8.019055331680206e-08,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_matrix_relative_defect": 0.0,
+          "selected_step_on_plateau": true
+        },
+        "first_cell_field_3": {
+          "minimum_adjacent_relative_change": 7.49693345063914e-07,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_matrix_relative_defect": 0.0,
+          "selected_step_on_plateau": true
+        },
+        "first_cell_field_4": {
+          "minimum_adjacent_relative_change": 1.0264080927522141e-10,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_matrix_relative_defect": 0.0,
+          "selected_step_on_plateau": true
+        },
+        "inner_three_cell_common": {
+          "minimum_adjacent_relative_change": 8.145945149444013e-08,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_matrix_relative_defect": 1.6065054819602023e-06,
+          "selected_step_on_plateau": true
+        },
+        "random_0": {
+          "minimum_adjacent_relative_change": 6.221962950191029e-06,
+          "passed": false,
+          "plateau_interval_starts": [
+            0
+          ],
+          "selected_matrix_relative_defect": 3.0112804259332674e-05,
+          "selected_step_on_plateau": false
+        },
+        "random_1": {
+          "minimum_adjacent_relative_change": 2.323375590146779e-06,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1,
+            2
+          ],
+          "selected_matrix_relative_defect": 9.449174363304825e-06,
+          "selected_step_on_plateau": true
+        }
+      },
+      "label": "N128_exterior_N128_inner_c48",
+      "maximum_dense_colored_relative_defect": 0.0,
+      "maximum_off_pattern_relative_entry": 0.0,
+      "maximum_per_column_relative_defect": 0.0,
+      "n_cells": 64,
+      "passed": false,
+      "replay_base_relative_defect": 0.0,
+      "selected_dense_column_count": 15,
+      "wall_seconds": 615.2484331671149
+    },
+    "uniform_N64": {
+      "dense_colored_passed": true,
+      "jvp_plateau_passed": true,
+      "jvp_sweeps": {
+        "common": {
+          "minimum_adjacent_relative_change": 9.440098012224065e-07,
+          "passed": true,
+          "plateau_interval_starts": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_matrix_relative_defect": 3.165554753846681e-05,
+          "selected_step_on_plateau": true
+        },
+        "first_cell_field_0": {
+          "minimum_adjacent_relative_change": 1.2972812284371833e-08,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_matrix_relative_defect": 0.0,
+          "selected_step_on_plateau": true
+        },
+        "first_cell_field_1": {
+          "minimum_adjacent_relative_change": 1.262236921824168e-07,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_matrix_relative_defect": 0.0,
+          "selected_step_on_plateau": true
+        },
+        "first_cell_field_2": {
+          "minimum_adjacent_relative_change": 1.1615630248735822e-07,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_matrix_relative_defect": 0.0,
+          "selected_step_on_plateau": true
+        },
+        "first_cell_field_3": {
+          "minimum_adjacent_relative_change": 1.4278334849764912e-07,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_matrix_relative_defect": 0.0,
+          "selected_step_on_plateau": true
+        },
+        "first_cell_field_4": {
+          "minimum_adjacent_relative_change": 1.2913369634918503e-10,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_matrix_relative_defect": 0.0,
+          "selected_step_on_plateau": true
+        },
+        "inner_three_cell_common": {
+          "minimum_adjacent_relative_change": 4.50381878969374e-07,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_matrix_relative_defect": 9.492950643899571e-06,
+          "selected_step_on_plateau": true
+        },
+        "random_0": {
+          "minimum_adjacent_relative_change": 4.823112902864611e-07,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1,
+            2
+          ],
+          "selected_matrix_relative_defect": 1.0024998059182852e-05,
+          "selected_step_on_plateau": true
+        },
+        "random_1": {
+          "minimum_adjacent_relative_change": 8.519415631943099e-06,
+          "passed": true,
+          "plateau_interval_starts": [
+            0,
+            1
+          ],
+          "selected_matrix_relative_defect": 3.930387576705463e-05,
+          "selected_step_on_plateau": true
+        }
+      },
+      "label": "uniform_N64",
+      "maximum_dense_colored_relative_defect": 0.0,
+      "maximum_off_pattern_relative_entry": 0.0,
+      "maximum_per_column_relative_defect": 0.0,
+      "n_cells": 24,
+      "passed": true,
+      "replay_base_relative_defect": 0.0,
+      "selected_dense_column_count": 120,
+      "wall_seconds": 559.7898290408775
+    }
+  },
+  "decisive_array_hashes": {
+    "N128_exterior_N128_inner_c48__colored_columns": "b5aa3e1f6c8592db0fe4213e66155d27107919256c23b9050cae3decd5796b57",
+    "N128_exterior_N128_inner_c48__common__adjacent_changes": "9395023da26632a00ce9211d0785ec9c46c7776f2d5a35354706b466438dcfe8",
+    "N128_exterior_N128_inner_c48__common__direct_actions": "0f822c0cf1ff78af4f4a8ea20e0c664becf4702466137aa1f815121db4ee2dca",
+    "N128_exterior_N128_inner_c48__common__direction": "45630847adea6e15011df683f5b0b2d52f059f9ceb332bb292bfb15e6159d995",
+    "N128_exterior_N128_inner_c48__common__matrix_action": "5607a5e66b7b23c870c9f3dfa876afe822dcc13a3b0d041eed4d24cd79d16b0f",
+    "N128_exterior_N128_inner_c48__common__matrix_defects": "972523ca5107795655257440719dce04c68cc8b7c01e2fee63233b553a6d55f0",
+    "N128_exterior_N128_inner_c48__dense_columns": "b5aa3e1f6c8592db0fe4213e66155d27107919256c23b9050cae3decd5796b57",
+    "N128_exterior_N128_inner_c48__dense_per_column_defects": "64839423c6d88c5577af700f2265eb99742d426a51a6f7cc2ee0ad491448c7a9",
+    "N128_exterior_N128_inner_c48__dense_selected_columns": "63e489ba5971334a8fe5b9953c3367988c307e926685e6305afcf0c601c891d9",
+    "N128_exterior_N128_inner_c48__first_cell_field_0__adjacent_changes": "7155dc8a19027e5d74060072ba5c62bca91018b693369ace4f0f1f0488dd22e0",
+    "N128_exterior_N128_inner_c48__first_cell_field_0__direct_actions": "c48a4f310989e332102920128e861aa7e5fb1f49387b1219c19d272d0e9bb4f7",
+    "N128_exterior_N128_inner_c48__first_cell_field_0__direction": "149a381771f52b804001241c2628d123f3a3ab482785a6f67020f93b8ddfc2dd",
+    "N128_exterior_N128_inner_c48__first_cell_field_0__matrix_action": "8543d0b3b5bd839a9d8d71806832f3b4a4ac9854a54a98f7359f793efc2d67f6",
+    "N128_exterior_N128_inner_c48__first_cell_field_0__matrix_defects": "5c951fb0b29a8606ad0dd71e91599ce3ab456b58ca33a7f5ac4c4cfff2ebe995",
+    "N128_exterior_N128_inner_c48__first_cell_field_1__adjacent_changes": "b4f694d270c7c16fee863e5ca3c8835dd73e5185895c8f4dffc6e17c2dafa40c",
+    "N128_exterior_N128_inner_c48__first_cell_field_1__direct_actions": "5d4c7de1bfca1d1f50660feed8f6b6f6dee045acb08030fdee2a461c5154e61c",
+    "N128_exterior_N128_inner_c48__first_cell_field_1__direction": "76c31e12623a91d00c6e921508e556b6ff0714193a3672244a3ca44ba269631c",
+    "N128_exterior_N128_inner_c48__first_cell_field_1__matrix_action": "e9902839397377c92602316b313b99a2d94163aae81a7107c0d20936350a894d",
+    "N128_exterior_N128_inner_c48__first_cell_field_1__matrix_defects": "b351f23a5e02a281562cf6901e6a4fc15e74327e6452bc99839e8ee3f7377ead",
+    "N128_exterior_N128_inner_c48__first_cell_field_2__adjacent_changes": "c4a33f93f8ab8da53838a412f5c78b4286ca73d0c7a8fae222d3925fa4490788",
+    "N128_exterior_N128_inner_c48__first_cell_field_2__direct_actions": "60dd2a2b1a47c580743eb6de4c63f7f53bbd2b809f8169fcc01f535be335845e",
+    "N128_exterior_N128_inner_c48__first_cell_field_2__direction": "fd7e4b08a60cc71a4eede87bf89373060cd9be403b8fe0beb04a112a8da935ab",
+    "N128_exterior_N128_inner_c48__first_cell_field_2__matrix_action": "6eae5ffa28d4a839005492476d4e0514d44cdee0920db7d0ced4cb0ed9f12569",
+    "N128_exterior_N128_inner_c48__first_cell_field_2__matrix_defects": "e5e96857535ff713582d4086f4bd88e4ca0f72374c042ec50de3444ac3703593",
+    "N128_exterior_N128_inner_c48__first_cell_field_3__adjacent_changes": "0d969bb9c20a277925a4dc26614bf7601b7e80cd9596243102899669d64b9adc",
+    "N128_exterior_N128_inner_c48__first_cell_field_3__direct_actions": "b6c824e5af5bce4a71fe47c1c4b7f7f4db36cdf8b64f403523a5e1fdaa2922bb",
+    "N128_exterior_N128_inner_c48__first_cell_field_3__direction": "7a482be3664271202a178e675cd9b948764b901e7c1b9f5e4c4a9bc3d8bf9d33",
+    "N128_exterior_N128_inner_c48__first_cell_field_3__matrix_action": "bf4d255527bf66d3465b8bb05269a091d955120498d42132c51c0e84e68e2c30",
+    "N128_exterior_N128_inner_c48__first_cell_field_3__matrix_defects": "e2a3633be0416978722fff941bde986c3448a3becb40cabce5720739c8d1778e",
+    "N128_exterior_N128_inner_c48__first_cell_field_4__adjacent_changes": "3bb3fef6d52e1bef2e988975fef3aca61613e9c7f110161de27bab375ba42a91",
+    "N128_exterior_N128_inner_c48__first_cell_field_4__direct_actions": "d5d823c771a42b07ccee914745031b2f11773dcf30ab69a73f754cd4c24725b3",
+    "N128_exterior_N128_inner_c48__first_cell_field_4__direction": "103e5d08c4cd053eab55eb614bdb3d037cfa48c6bf0c8873e225327c14b124b0",
+    "N128_exterior_N128_inner_c48__first_cell_field_4__matrix_action": "f0fdd7334a023ea4bc86c125be2a6384f8102e01c6cea3f0c1fed228ea55c477",
+    "N128_exterior_N128_inner_c48__first_cell_field_4__matrix_defects": "3ad0b1d6f322a428772a18d222cf0f824cffb776998021d4ee720415afa3704a",
+    "N128_exterior_N128_inner_c48__inner_three_cell_common__adjacent_changes": "597cdf6a5a7887d1e4f2e2341044e1852ad62aedbf3c0228b37abb91c3333f44",
+    "N128_exterior_N128_inner_c48__inner_three_cell_common__direct_actions": "564d6ae3dd718970d8be2f356af944b7e24342fdec35e79888ad656e7ae1d3af",
+    "N128_exterior_N128_inner_c48__inner_three_cell_common__direction": "51158f809c25ea8e50ac807c0543964ee5bf0c5f255924a7eece972aaa1b2558",
+    "N128_exterior_N128_inner_c48__inner_three_cell_common__matrix_action": "5882b7954163a1ca8e5c7be58262b160fcb94e7ee1685d8c32a2b4b9690ebab0",
+    "N128_exterior_N128_inner_c48__inner_three_cell_common__matrix_defects": "0ad38227ce6de30a2c9fe7cf9261a8aa939861c2f29f2898ca06b47aee12adbd",
+    "N128_exterior_N128_inner_c48__random_0__adjacent_changes": "4fb90a28156c11a4d837bfef10e192110a67974df7ed4c1a0f6f871eaaf76ba4",
+    "N128_exterior_N128_inner_c48__random_0__direct_actions": "6a1c1fb602ba0863e83d88b73b3882fd315bfd61d7f651285219f99367ba5761",
+    "N128_exterior_N128_inner_c48__random_0__direction": "7514b175e2237bbb28ead877aacd062699140c71c62c772d41c027a0f932d38c",
+    "N128_exterior_N128_inner_c48__random_0__matrix_action": "4f43879b85aa8490b5e526f65c0fa6342177e5c86f399becf94498a0f714632d",
+    "N128_exterior_N128_inner_c48__random_0__matrix_defects": "d6e732e70ebf76ba59c45843d260261344c635e1b79d1ca11057f36e0996081e",
+    "N128_exterior_N128_inner_c48__random_1__adjacent_changes": "1652f84fe6feefe4e8afcc7ae6a1ce4315b207ff64e529db9efc4fc35dfaabb2",
+    "N128_exterior_N128_inner_c48__random_1__direct_actions": "fb71b703e35627aa629c6e8fa462ad46d5a9239da0402d6881bc18746e99f561",
+    "N128_exterior_N128_inner_c48__random_1__direction": "d239dcbd4e6ed74f5da8fea548c37b31547ade07e005ac97026ba5d9de0bc217",
+    "N128_exterior_N128_inner_c48__random_1__matrix_action": "f2ebb546dad84ad53a299027d4dfd3479bc16d2433cb9ae922a3d6ce33ac6058",
+    "N128_exterior_N128_inner_c48__random_1__matrix_defects": "4a00a66e8c635bdaabafabd04f6e0f4e1b7291c03c79cab076a05d0761144254",
+    "jvp_steps": "42285df698f3fcddcfcb07b49ec8df5183d40ae56abf52030ae27f52900175b2",
+    "uniform_N64__colored_columns": "2027dbcc2c65f878570fb8f0435772d6f6b7c1b500da6ac80f2e4f7d1ba94865",
+    "uniform_N64__common__adjacent_changes": "862bae97d87ed1775247384e371f41eb5fb78c830eb939fa587165b896209a3f",
+    "uniform_N64__common__direct_actions": "2d5e745c524c4b34981c529553754a48436f5e78cadc9d3ab30bc75ae5c8788f",
+    "uniform_N64__common__direction": "eba190eb2c38d1b5c39f0990ebd6d929ae0a227c93b5a12d5db1b4c79f9117ef",
+    "uniform_N64__common__matrix_action": "5ea3fef06574c0dc4f0bead6c027cb21ca628beefdefcd5a076398998feecba6",
+    "uniform_N64__common__matrix_defects": "65601762e117b27b3377564755dd1c541d97c8b519466b083f2a3b128daafa76",
+    "uniform_N64__dense_columns": "2027dbcc2c65f878570fb8f0435772d6f6b7c1b500da6ac80f2e4f7d1ba94865",
+    "uniform_N64__dense_per_column_defects": "7f2aaadb6476da755666733713a68a875f3099c66498be6ed48d738cc297c726",
+    "uniform_N64__dense_selected_columns": "a260ea378589e60d57d93c457c9adbc52708fac8405b1ef48a9282080ba25f21",
+    "uniform_N64__first_cell_field_0__adjacent_changes": "1596cda0e865008f04c3054f54fd241c4cbb3f3ad29f9809f1f34f1d7637fa3b",
+    "uniform_N64__first_cell_field_0__direct_actions": "ea276435f224676b0eafa1e523432d1d775d55e8d923f747d2884d2ac7fe1070",
+    "uniform_N64__first_cell_field_0__direction": "ed7d6e3ae36d2a7f1d4b6ff60baf1045606ac0bdf8dda70566ca500cf69d7fbc",
+    "uniform_N64__first_cell_field_0__matrix_action": "4535557a6f2bb6fa72cc71ee2c824825975958da515e40b398132fb9e853e45e",
+    "uniform_N64__first_cell_field_0__matrix_defects": "34d7ad9b1f3689abf5d6e46bf4a100c042c0eb7b4eb5ec282ae5bf45190315b9",
+    "uniform_N64__first_cell_field_1__adjacent_changes": "5a7d80e734681bbb4a90e5b3731176bf7035929b48c8729a6fa9249e57daae10",
+    "uniform_N64__first_cell_field_1__direct_actions": "4bd9275f9dc8f640f641484fa913213677daa907cff7cba2a6b1e6b0ffa58411",
+    "uniform_N64__first_cell_field_1__direction": "4a94f42159a8105afe1e8b2c2b1fe69c514cf7b82bb6a5f5cc011de303bdb5d2",
+    "uniform_N64__first_cell_field_1__matrix_action": "d5a64591cb59d3ef4619e08f5f4dd033e7e03e9717cb39aa1f3c5ae8506b496a",
+    "uniform_N64__first_cell_field_1__matrix_defects": "1448d4a2d59017ef2524009c69cc7e6062d009d3c35f371e951627dec421caf0",
+    "uniform_N64__first_cell_field_2__adjacent_changes": "756abb4d9c3d6ff1df4b2efb4f8f866a598759b3c5f3cecbc86a64aede3c7dcb",
+    "uniform_N64__first_cell_field_2__direct_actions": "8c2ab1cc059099faf9fc6e9cd0abd9f60bd1d977c27ffd5c86a7168e2ef9624b",
+    "uniform_N64__first_cell_field_2__direction": "57b7ed8c5db6a61e7922504c0c27d689331b0871eff8c2e67849227cc80de7a7",
+    "uniform_N64__first_cell_field_2__matrix_action": "212460bb427b59d7ef009614498e590e5136844193bcfc3e39f98e854573294c",
+    "uniform_N64__first_cell_field_2__matrix_defects": "2fac8036989d9212a1dab31a1fe899ef89a91b508dc0e88a21145277bc506f80",
+    "uniform_N64__first_cell_field_3__adjacent_changes": "ae8d40e0e7612b2a296c43071f4193aba337896767f3120f919adafb5b95929d",
+    "uniform_N64__first_cell_field_3__direct_actions": "b86aa70dcd82a2eca4c754c38f9998fab9ac8fd0b0d65af161546875cf71d3e1",
+    "uniform_N64__first_cell_field_3__direction": "48b4b366a90e704ca7fa15c09e5233dcf51797bdc2e756e22d7adb8ea464e6ba",
+    "uniform_N64__first_cell_field_3__matrix_action": "191249887da1cf67cd1a21c09dc51fb0f0dceed640eb2c16e7d5cfbd034eacae",
+    "uniform_N64__first_cell_field_3__matrix_defects": "16b5a022004f790a180e9a88633ffbbe9eaf079554a447673220d32becced0b3",
+    "uniform_N64__first_cell_field_4__adjacent_changes": "19ac4c2f646eb2dc2c95a2f6a7e48cdf87fbecb14da37938f99d4cfe68bda01b",
+    "uniform_N64__first_cell_field_4__direct_actions": "acf2c1830c0bbfd346b6ae9b327bbcd05ce70e9223b7420ac06da43035dd2df4",
+    "uniform_N64__first_cell_field_4__direction": "5763a4ac7c901cb662dbb54d82443304ac3a610ea4fb209b1aea15318f35bae3",
+    "uniform_N64__first_cell_field_4__matrix_action": "338e3b67c7834d4bbd34cdd016a9df60bf582a360e7936afe5dfa6b1998313d3",
+    "uniform_N64__first_cell_field_4__matrix_defects": "394c467c1567d8d9f411910b93c30516c7878c7e2bd35eb90a71188dbfd0cf0e",
+    "uniform_N64__inner_three_cell_common__adjacent_changes": "8d645512afcc672f989bed50e17a05ae03d6f359261dc8b97eedd29fd81b961d",
+    "uniform_N64__inner_three_cell_common__direct_actions": "2dedd38692ff07dde7d89ec6dbb6d95084ee02707a8c866f036522dc61b3290a",
+    "uniform_N64__inner_three_cell_common__direction": "12cec5f159dcd0581c489c16fde6a07605050e93001d42f253204d42c49f9340",
+    "uniform_N64__inner_three_cell_common__matrix_action": "fead7384e3a563b66dbf81b7806f37cde9014e4641a056b3dde68f08a7c3b6ce",
+    "uniform_N64__inner_three_cell_common__matrix_defects": "05e15487576bd86aae7ec3b17186f5f2012d66bcf4fb28ca4a1c9561560a1ad2",
+    "uniform_N64__random_0__adjacent_changes": "74a7a516d40faff78a0b2f18d7069c186ba9732113b806ff91c74e27c4e2a7cd",
+    "uniform_N64__random_0__direct_actions": "78de5f3a392ec33d4f065404946b577f5064980ad1598d259ac5fb70082bf50e",
+    "uniform_N64__random_0__direction": "1d67821d29856de8bce96784fa81b54bcb81447d21c36fc68460d5cafa09dad7",
+    "uniform_N64__random_0__matrix_action": "d03d227d14de5d0cf8ef5e149e7fb772d7f2d256fedf6ca671720507370c03e8",
+    "uniform_N64__random_0__matrix_defects": "bf97ecdbaaab89cbc0c97e0da2dce14e82f5edd8265deebfe967b209b9c6411c",
+    "uniform_N64__random_1__adjacent_changes": "7ac35026474f704caf8c4f40168466f6f0474be11d658e69e57b4fd9b5c3e329",
+    "uniform_N64__random_1__direct_actions": "80d24126e0f93b61bbc140d59559c4e4b04ac41c50e6a590babde228118d1eb1",
+    "uniform_N64__random_1__direction": "0e73dbaebec6e5294234b509c040ff3dfaed61930e1dacf93cf434dfa9dfa956",
+    "uniform_N64__random_1__matrix_action": "d7890624e71fb70fe8d24b095eb6046640d9a212ce4008f2f1708819496ea0be",
+    "uniform_N64__random_1__matrix_defects": "5931ea2e808bc10e9d3197b76e7746ba5dfe7847e86323a3115cc97fcc24efac"
+  },
+  "decisive_arrays_path": "results/canonical/causal_inner_frozen_hardening_wp10c9d5a/decisive_arrays.npz",
+  "decisive_arrays_sha256": "38c09dba10262c101dd2a19792f7e0b9c9f989da8eeba3439f2fab58251bde1d",
+  "environment": {
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13 (main, Mar  3 2026, 15:35:03) [Clang 21.1.4 ]"
+  },
+  "fixed_q_micro_solver_authorized": false,
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_frozen_discrimination_wp10c9d5.py": "ef60e376f81260e9e4a0ee7b6dde6af0c6cfdf7130e02c3f9ccf7bbfb50cd81c",
+    "scripts/run_causal_inner_frozen_hardening_wp10c9d5a.py": "4869f2c49cba8ac278456bdf5533b8abe3e8445244288548861de5e0feefd8f4",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "fb9a38b40bbb30b483e755b8004c5debb7fce37417968ba9368c1e83aa30d0b7",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_fluctuation.py": "57be77e57cc4b446b82ab54141166e15b34b908194a525a369560bf6b5b2fc7b",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_frozen.py": "4e50f57e7d5feec579915a6f9e5b12fd8ec244ce8ed17191dc9ab8df62d75cfb",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_hardening.py": "07f8a16742c84fd1a4d1c7ad7d13c3f4dc8605379973fed9cd1e423efd6dd9e0",
+    "tests/test_causal_inner_frozen_discrimination_wp10c9d5.py": "1b48cce3666cd5076bfdbfb08d31e177dcbe61f64dc002372223a45092d8ac8f",
+    "tests/test_causal_inner_frozen_hardening_wp10c9d5a.py": "b57bf7168d47c7562280ef9cb6b291f71a634975965c771421c327bd644311d2",
+    "tests/test_causal_inner_radial_hardening.py": "edf3c77ca7f2ad41455738f107eb36dffb84a8ff429eb2e86df90101cb9da6ba"
+  },
+  "implementation_source_manifest_sha256": "87ee52c73eb31f262b7eca34453e40583966b98150d0d598d04f3603ea0d5afd",
+  "metadata_correction": {
+    "metadata_correction_kind": "provenance_only",
+    "metadata_correction_work_package": "WP10c9d5a",
+    "scientific_arrays_unchanged": true,
+    "scientific_decisive_arrays_sha256": "384c17dc99c3a739015d5298b8a06c416b134d0b1591a9e4c1c2360aa9dbee8b",
+    "scientific_implementation_commit": "038ba35659e76aff0605fffa5fb457e99362063d",
+    "scientific_implementation_parent_commit": "42dd7f1d4ca048fcbd2faa02e71e0a66db300891",
+    "scientific_implementation_tree_sha": "a1e4e33378154d91d17afe001479b063b74ca27f"
+  },
+  "nonlinear_candidate_authorized": false,
+  "numerical_hardening_passed": false,
+  "production_operator_authorized": false,
+  "reduced_slow_evolution_authorized": false,
+  "replay_contexts_path": "results/canonical/causal_inner_frozen_hardening_wp10c9d5a/replay_contexts.json",
+  "replay_contexts_sha256": "cb9493a5af430f73aeeb4a52b0ec9778052afa1ab102605d5b039e15ec711af5",
+  "replay_inputs_path": "results/canonical/causal_inner_frozen_hardening_wp10c9d5a/replay_inputs.npz",
+  "replay_inputs_sha256": "219c1baeb38dd79b7423e80fddb05742acc1bd35a3fc3757ebca98db4a9331ab",
+  "runtime_seconds": 1194.0830280829687,
+  "schema_version": 1,
+  "scientific_implementation_commit": "038ba35659e76aff0605fffa5fb457e99362063d",
+  "scientific_implementation_parent_commit": "42dd7f1d4ca048fcbd2faa02e71e0a66db300891",
+  "scientific_implementation_tree_sha": "a1e4e33378154d91d17afe001479b063b74ca27f",
+  "work_package": "WP10c9d5a",
+  "wp10c9d5_decisive_arrays_sha256": "384c17dc99c3a739015d5298b8a06c416b134d0b1591a9e4c1c2360aa9dbee8b",
+  "wp10c9d5_decisive_arrays_unchanged": true,
+  "wp10c9d5b_dynamic_localization_authorized": false
+}

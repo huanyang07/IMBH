@@ -1,0 +1,33 @@
+{
+  "does_not_establish": "A repaired boundary operator, nonlinear candidate, fixed-Q closure, or reduced slow evolution.",
+  "establishes": "Exact WP10c9d5 Git lineage, compact replay inputs, dense/colored parity, actual sparsity, and JVP step sensitivity.",
+  "generation_command": "PYTHONPATH=src python3 scripts/run_causal_inner_frozen_hardening_wp10c9d5a.py",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_frozen_discrimination_wp10c9d5.py": "ef60e376f81260e9e4a0ee7b6dde6af0c6cfdf7130e02c3f9ccf7bbfb50cd81c",
+    "scripts/run_causal_inner_frozen_hardening_wp10c9d5a.py": "4869f2c49cba8ac278456bdf5533b8abe3e8445244288548861de5e0feefd8f4",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "fb9a38b40bbb30b483e755b8004c5debb7fce37417968ba9368c1e83aa30d0b7",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_fluctuation.py": "57be77e57cc4b446b82ab54141166e15b34b908194a525a369560bf6b5b2fc7b",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_frozen.py": "4e50f57e7d5feec579915a6f9e5b12fd8ec244ce8ed17191dc9ab8df62d75cfb",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_hardening.py": "07f8a16742c84fd1a4d1c7ad7d13c3f4dc8605379973fed9cd1e423efd6dd9e0",
+    "tests/test_causal_inner_frozen_discrimination_wp10c9d5.py": "1b48cce3666cd5076bfdbfb08d31e177dcbe61f64dc002372223a45092d8ac8f",
+    "tests/test_causal_inner_frozen_hardening_wp10c9d5a.py": "b57bf7168d47c7562280ef9cb6b291f71a634975965c771421c327bd644311d2",
+    "tests/test_causal_inner_radial_hardening.py": "edf3c77ca7f2ad41455738f107eb36dffb84a8ff429eb2e86df90101cb9da6ba"
+  },
+  "implementation_source_manifest_sha256": "87ee52c73eb31f262b7eca34453e40583966b98150d0d598d04f3603ea0d5afd",
+  "replay_inputs_sha256": "219c1baeb38dd79b7423e80fddb05742acc1bd35a3fc3757ebca98db4a9331ab",
+  "schema_version": 1,
+  "scientific_implementation_commit": "038ba35659e76aff0605fffa5fb457e99362063d",
+  "scientific_implementation_parent_commit": "42dd7f1d4ca048fcbd2faa02e71e0a66db300891",
+  "scientific_implementation_tree_sha": "a1e4e33378154d91d17afe001479b063b74ca27f",
+  "method_scope": "NUMERICAL HARDENING / PRODUCTION NEUTRAL",
+  "scientific_status": "REJECTED",
+  "source_parent_commit": "42dd7f1d4ca048fcbd2faa02e71e0a66db300891",
+  "source_input_hashes": {
+    "outputs/tables/causal_inner_common_mode_audit_wp10c8y_arrays.npz": "0e5b6d97694e8e9ace1f9c7d6822afd1f6ba3f255c5d0ce05088cab66e55681c",
+    "outputs/tables/causal_inner_embedded_patch_preflight_wp10c8z.json": "41c614abafb3450338a0225d8505e8fffde61db8b3df918c0371604a21d05887",
+    "outputs/tables/causal_inner_embedded_patch_preflight_wp10c8z_arrays.npz": "a042c31ff371c824d99a44fe953eeb8c7028a897b9a6ea4792d2f40a59456140",
+    "outputs/tables/causal_inner_micro_export_preflight_wp10c9d0.json": "738019da83be0b0601777307c004a30351ba3631eb5fc48913584aef0bc300de",
+    "outputs/tables/causal_inner_micro_export_preflight_wp10c9d0_arrays.npz": "d85a4b8709f68c4874da4f6613879b41f1dacca4ba2f3f2ff758ff5d0382199f"
+  },
+  "work_package": "WP10c9d5a"
+}

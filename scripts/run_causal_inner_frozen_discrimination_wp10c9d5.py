@@ -46,7 +46,7 @@ from imri_qpe.layer3_minidisk_1d import (  # noqa: E402
 )
 
 
-ANALYZED_BASE_COMMIT = "42dd7f16446eaac33f4e2f5c0e90d6e81866733b"
+ANALYZED_BASE_COMMIT = "42dd7f1d4ca048fcbd2faa02e71e0a66db300891"
 WORK_PACKAGE = "WP10c9d5"
 SCHEMA_VERSION = 1
 THIS_RUNNER = (

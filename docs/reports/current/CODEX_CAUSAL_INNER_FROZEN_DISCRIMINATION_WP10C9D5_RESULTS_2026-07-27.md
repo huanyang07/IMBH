@@ -1,8 +1,15 @@
 # Causal Inner Frozen Discrimination WP10c9d5 Results
 
 Date: 2026-07-27
-Analyzed parent: `42dd7f16446eaac33f4e2f5c0e90d6e81866733b`
+Scientific implementation: `038ba35659e76aff0605fffa5fb457e99362063d`
+Exact parent: `42dd7f1d4ca048fcbd2faa02e71e0a66db300891`
+Scientific tree: `a1e4e33378154d91d17afe001479b063b74ca27f`
 Work package: WP10c9d5
+
+WP10c9d5a corrected the previously recorded full parent SHA as provenance
+metadata only. The decisive WP10c9d5 arrays retain SHA-256
+`384c17dc99c3a739015d5298b8a06c416b134d0b1591a9e4c1c2360aa9dbee8b`;
+no scientific value or classification in this report changed.
 
 ## Classification
 

@@ -74,8 +74,15 @@ def test_canonical_evidence_is_present_and_self_consistent() -> None:
     )
     assert summary["work_package"] == "WP10c9d5"
     assert summary["analyzed_base_commit"] == (
-        "42dd7f16446eaac33f4e2f5c0e90d6e81866733b"
+        "42dd7f1d4ca048fcbd2faa02e71e0a66db300891"
     )
+    assert summary["scientific_implementation_commit"] == (
+        "038ba35659e76aff0605fffa5fb457e99362063d"
+    )
+    assert summary["scientific_implementation_tree_sha"] == (
+        "a1e4e33378154d91d17afe001479b063b74ca27f"
+    )
+    assert summary["scientific_arrays_unchanged"] is True
     assert summary["production_operator_authorized"] is False
     assert summary["fixed_q_micro_solver_authorized"] is False
     assert summary["reduced_slow_evolution_authorized"] is False

@@ -140,6 +140,13 @@ from .causal_inner_radial_frozen import (
     causal_five_field_radial_frozen_candidate,
     causal_five_field_radial_reduced_jacobian_pattern,
 )
+from .causal_inner_radial_hardening import (
+    CausalRadialDenseColoredAudit,
+    CausalRadialJVPStepSweep,
+    causal_radial_dense_colored_audit,
+    causal_radial_jvp_step_sweep,
+    causal_radial_partial_dense_central_jacobian,
+)
 from .causal_inner_shear_root_cause import (
     CausalPrincipalManufacturedWaveAudit,
     CausalShearFourierSymbols,
@@ -1428,6 +1435,11 @@ __all__ = [
     "CausalFiveFieldRadialFrozenCandidate",
     "causal_five_field_radial_frozen_candidate",
     "causal_five_field_radial_reduced_jacobian_pattern",
+    "CausalRadialDenseColoredAudit",
+    "CausalRadialJVPStepSweep",
+    "causal_radial_dense_colored_audit",
+    "causal_radial_jvp_step_sweep",
+    "causal_radial_partial_dense_central_jacobian",
     "causal_five_field_radial_extended_path_jump",
     "causal_five_field_frozen_principal_generator",
     "causal_five_field_generator_block_decomposition",
