@@ -17,15 +17,23 @@ class CausalRadialHistoryConvergence:
     """Three-grid convergence of one multicomponent time history."""
 
     component_scales: np.ndarray
+    component_normalization_scales: np.ndarray
+    component_activity_thresholds: np.ndarray
     significant_components: np.ndarray
     component_coarse_medium_differences: np.ndarray
     component_medium_fine_differences: np.ndarray
     component_observed_orders: np.ndarray
+    component_history_cosines: np.ndarray
+    component_error_cosines: np.ndarray
+    # Backward-compatible name used by the immutable WP10c9d5b evidence.
     component_fine_signed_cosines: np.ndarray
     component_passed: np.ndarray
     coarse_medium_difference: float
     medium_fine_difference: float
     observed_order: float | None
+    history_cosine: float
+    error_cosine: float
+    # Backward-compatible name used by the immutable WP10c9d5b evidence.
     fine_signed_cosine: float
     passed: bool
 
@@ -35,6 +43,21 @@ def _finite_vector(values: np.ndarray, *, name: str) -> np.ndarray:
     if array.size < 1 or np.any(~np.isfinite(array)):
         raise ValueError(f"{name} must be a nonempty finite vector")
     return array
+
+
+def _cosine(first: np.ndarray, second: np.ndarray) -> float:
+    """Return a signed cosine with an explicit zero-vector convention."""
+
+    left = np.asarray(first, dtype=float).ravel()
+    right = np.asarray(second, dtype=float).ravel()
+    left_norm = float(np.linalg.norm(left))
+    right_norm = float(np.linalg.norm(right))
+    tiny = np.finfo(float).tiny
+    if left_norm <= tiny and right_norm <= tiny:
+        return 1.0
+    if left_norm <= tiny or right_norm <= tiny:
+        return 0.0
+    return float(np.dot(left, right) / (left_norm * right_norm))
 
 
 def causal_radial_colored_block_jacobians(
@@ -148,8 +171,18 @@ def causal_radial_history_convergence(
     maximum_fine_normalized_difference: float,
     minimum_fine_signed_cosine: float,
     minimum_relative_activity: float = 1.0e-8,
+    component_reference_scales: np.ndarray | None = None,
+    minimum_error_cosine: float | None = None,
 ) -> CausalRadialHistoryConvergence:
-    """Return response-normalized three-grid history metrics."""
+    """Return three-grid history metrics with explicit physical scaling.
+
+    If ``component_reference_scales`` is omitted, each nonzero component is
+    response-normalized, preserving the conservative WP10c9d5b convention.
+    If fixed positive reference scales are supplied, they control both
+    normalization and the relative-activity threshold.  The history cosine
+    compares the medium and fine trajectories; the error cosine compares the
+    coarse-medium and medium-fine refinement-error trajectories.
+    """
 
     histories = [
         np.asarray(values, dtype=float)
@@ -163,14 +196,28 @@ def causal_radial_history_convergence(
     ):
         raise ValueError("history convergence inputs are invalid")
     scales = np.max(np.abs(np.stack(histories, axis=0)), axis=(0, 1))
-    activity_floor = max(
-        float(minimum_relative_activity) * np.finfo(float).tiny,
-        np.finfo(float).tiny,
-    )
-    significant = scales > activity_floor
+    relative_activity = float(minimum_relative_activity)
+    if not np.isfinite(relative_activity) or relative_activity < 0.0:
+        raise ValueError("minimum relative activity is invalid")
+    if component_reference_scales is None:
+        normalization_scales = np.maximum(scales, np.finfo(float).tiny)
+        activity_thresholds = np.full_like(scales, np.finfo(float).tiny)
+    else:
+        normalization_scales = np.asarray(
+            component_reference_scales,
+            dtype=float,
+        ).ravel()
+        if (
+            normalization_scales.shape != scales.shape
+            or np.any(~np.isfinite(normalization_scales))
+            or np.any(normalization_scales <= 0.0)
+        ):
+            raise ValueError("component reference scales are invalid")
+        activity_thresholds = relative_activity * normalization_scales
+    significant = scales > activity_thresholds
     if not np.any(significant):
         raise ValueError("history convergence has no significant component")
-    safe_scales = np.maximum(scales[significant], np.finfo(float).tiny)
+    safe_scales = normalization_scales[significant]
     normalized = [
         values[:, significant] / safe_scales[None, :]
         for values in histories
@@ -182,7 +229,8 @@ def causal_radial_history_convergence(
         np.mean((normalized[2] - normalized[1]) ** 2, axis=0)
     )
     component_orders = np.full(scales.size, np.nan, dtype=float)
-    component_cosines = np.full(scales.size, np.nan, dtype=float)
+    component_history_cosines = np.full(scales.size, np.nan, dtype=float)
+    component_error_cosines = np.full(scales.size, np.nan, dtype=float)
     component_passes = np.zeros(scales.size, dtype=bool)
     component_coarse_medium_full = np.full(
         scales.size,
@@ -208,19 +256,22 @@ def causal_radial_history_convergence(
         component_orders[component] = component_order
         medium_component = normalized[1][:, local]
         fine_component = normalized[2][:, local]
-        component_denominator = float(
-            np.linalg.norm(medium_component)
-            * np.linalg.norm(fine_component)
+        coarse_medium_error = (
+            normalized[1][:, local] - normalized[0][:, local]
         )
-        component_cosine = (
-            1.0
-            if component_denominator <= np.finfo(float).tiny
-            else float(
-                np.dot(medium_component, fine_component)
-                / component_denominator
-            )
+        medium_fine_error = (
+            normalized[2][:, local] - normalized[1][:, local]
         )
-        component_cosines[component] = component_cosine
+        component_history_cosine = _cosine(
+            medium_component,
+            fine_component,
+        )
+        component_error_cosine = _cosine(
+            coarse_medium_error,
+            medium_fine_error,
+        )
+        component_history_cosines[component] = component_history_cosine
+        component_error_cosines[component] = component_error_cosine
         component_passes[component] = bool(
             (
                 second <= np.finfo(float).tiny
@@ -230,7 +281,12 @@ def causal_radial_history_convergence(
                 )
             )
             and second <= float(maximum_fine_normalized_difference)
-            and component_cosine >= float(minimum_fine_signed_cosine)
+            and component_history_cosine
+            >= float(minimum_fine_signed_cosine)
+            and (
+                minimum_error_cosine is None
+                or component_error_cosine >= float(minimum_error_cosine)
+            )
         )
     coarse_medium = float(
         np.sqrt(np.mean((normalized[1] - normalized[0]) ** 2))
@@ -244,15 +300,13 @@ def causal_radial_history_convergence(
         order = None
     else:
         order = float(np.log2(coarse_medium / medium_fine))
-    medium_vector = normalized[1].ravel()
-    fine_vector = normalized[2].ravel()
-    denominator = float(
-        np.linalg.norm(medium_vector) * np.linalg.norm(fine_vector)
+    history_cosine = _cosine(
+        normalized[1].ravel(),
+        normalized[2].ravel(),
     )
-    cosine = (
-        1.0
-        if denominator <= np.finfo(float).tiny
-        else float(np.dot(medium_vector, fine_vector) / denominator)
+    error_cosine = _cosine(
+        (normalized[1] - normalized[0]).ravel(),
+        (normalized[2] - normalized[1]).ravel(),
     )
     order_passed = bool(
         medium_fine <= np.finfo(float).tiny
@@ -261,11 +315,23 @@ def causal_radial_history_convergence(
     passed = bool(
         order_passed
         and medium_fine <= float(maximum_fine_normalized_difference)
-        and cosine >= float(minimum_fine_signed_cosine)
+        and history_cosine >= float(minimum_fine_signed_cosine)
+        and (
+            minimum_error_cosine is None
+            or error_cosine >= float(minimum_error_cosine)
+        )
         and np.all(component_passes[significant])
     )
     return CausalRadialHistoryConvergence(
         component_scales=np.asarray(scales, dtype=float),
+        component_normalization_scales=np.asarray(
+            normalization_scales,
+            dtype=float,
+        ),
+        component_activity_thresholds=np.asarray(
+            activity_thresholds,
+            dtype=float,
+        ),
         significant_components=np.asarray(significant, dtype=bool),
         component_coarse_medium_differences=np.asarray(
             component_coarse_medium_full,
@@ -276,12 +342,16 @@ def causal_radial_history_convergence(
             dtype=float,
         ),
         component_observed_orders=component_orders,
-        component_fine_signed_cosines=component_cosines,
+        component_history_cosines=component_history_cosines,
+        component_error_cosines=component_error_cosines,
+        component_fine_signed_cosines=component_history_cosines,
         component_passed=component_passes,
         coarse_medium_difference=coarse_medium,
         medium_fine_difference=medium_fine,
         observed_order=order,
-        fine_signed_cosine=cosine,
+        history_cosine=history_cosine,
+        error_cosine=error_cosine,
+        fine_signed_cosine=history_cosine,
         passed=passed,
     )
 
