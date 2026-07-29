@@ -1,0 +1,87 @@
+{
+  "explanatory_terms": [
+    "outer_face",
+    "mapped_descriptor_rate",
+    "responsive_height_descriptor_rate",
+    "mapped_storage_rate_derivative",
+    "responsive_height_storage_rate_derivative",
+    "shear_principal",
+    "height_principal",
+    "local_stress_relaxation",
+    "geometry",
+    "cooling",
+    "stream",
+    "lower_height_work"
+  ],
+  "gates": {
+    "inherited_uniform_export_gates": {
+      "maximum_balance_defect": 1e-12,
+      "maximum_centered_storage_action_defect": 2e-07,
+      "maximum_component_defect": 1e-12,
+      "maximum_directional_export_defect": 2e-06,
+      "maximum_directional_stationary_defect": 2e-06,
+      "maximum_directional_storage_rate_defect": 2e-06,
+      "maximum_factorization_defect": 1e-12,
+      "maximum_fine_physical_difference": 0.05,
+      "maximum_partition_defect": 1e-12,
+      "maximum_reconstruction_defect": 1e-12,
+      "maximum_restart_defect": 1e-12,
+      "minimum_export_order": 0.75,
+      "minimum_history_cosine": 0.9,
+      "minimum_refinement_error_cosine": 0.9,
+      "minimum_relative_activity": 1e-08
+    },
+    "maximum_conservative_transport_defect": 1e-12,
+    "maximum_first_cell_ledger_defect": 1e-10,
+    "maximum_group_fixed_coefficient_residual": 0.45,
+    "maximum_parent_replay_defect": 1e-12,
+    "maximum_profile_fine_difference": 0.05,
+    "maximum_reference_anchor_defect": 1e-14,
+    "maximum_stride_defect": 0.005,
+    "minimum_error_cosine_improvement": 0.5,
+    "minimum_group_target_aligned_fraction": 0.8,
+    "minimum_group_target_cosine": 0.9,
+    "minimum_profile_error_cosine": 0.9,
+    "minimum_profile_order": 0.75
+  },
+  "groups": {
+    "height_space_storage": [
+      "responsive_height_descriptor_rate",
+      "responsive_height_storage_rate_derivative",
+      "height_principal",
+      "lower_height_work"
+    ],
+    "lower_sources": [
+      "geometry",
+      "cooling",
+      "stream"
+    ],
+    "mapped_storage": [
+      "mapped_descriptor_rate",
+      "mapped_storage_rate_derivative"
+    ],
+    "outer_first_cell_transport": [
+      "outer_face"
+    ],
+    "stress_principal_relaxation": [
+      "shear_principal",
+      "local_stress_relaxation"
+    ]
+  },
+  "labels": [
+    "uniform_N64",
+    "uniform_N128",
+    "uniform_N256"
+  ],
+  "primary_stride": 2,
+  "reference_label": "uniform_N128",
+  "schema_version": 1,
+  "stride_audits": [
+    1,
+    2,
+    4
+  ],
+  "target_definition": "direct monolithic inner-face M/J/E refinement difference",
+  "target_excluded_from_explanatory_groups": true,
+  "work_package": "WP10c9d6c1"
+}
