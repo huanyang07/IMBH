@@ -1,0 +1,37 @@
+{
+  "analyzed_base_commit": "d57bcc3e63bcd778823736a795a9311592173bd9",
+  "analyzed_base_parent_commit": "e492299df5668b49412f033e33df3d42e92f512e",
+  "analyzed_base_tree_sha": "1048352852cb195abb6a99f7b822e6c8a2cab419",
+  "authorization_status": "DERIVATIVE-CHOICE PHYSICAL SENSITIVITY ONLY",
+  "does_not_establish": "Physical export convergence, a recovery radius, a repaired operator, nonlinear convergence, fixed-Q closure, or reduced evolution.",
+  "establishes": "Whether the explicitly linear frozen-subspace analytic tangent passes the unchanged method, moving-projector reference, spectral-conditioning, and geometry-step gates on all three embedded grids.",
+  "generation_command": "PYTHONPATH=src python3 scripts/run_causal_inner_cross_grid_analytic_tangent_wp10c9d5c0e.py",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_cross_grid_analytic_tangent_wp10c9d5c0e.py": "8ad89085ac31f625130fedc2cd18e7c21df4902582191bbd6a15a9d530280196",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "394c6b205cca876e3cb7946c17f16a4f6f370c9bdd00afae6a59e7e654fb85e2",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_linear_tangent.py": "2be3692f697683df00af7beaa61e04d4b7aa85d4f080271f0549330097cc59df",
+    "tests/test_causal_inner_cross_grid_analytic_tangent_wp10c9d5c0e.py": "0cf763e164534ac9362f31baf82228a95d09cd0d1800d530b1d39b25e259dd3d",
+    "tests/test_causal_inner_radial_linear_tangent.py": "08352e0943b1a4754f23aefe6db91eb2f6655f2d43f42c964f018f65debb4811"
+  },
+  "implementation_source_manifest_sha256": "d5315670527b1077b636e5529648522aa1990f7029cdc30df09f809787846c29",
+  "method_scope": "THREE-GRID ANALYTIC/AD-COMPATIBLE FROZEN-SUBSPACE TANGENT CERTIFICATION; PRODUCTION NEUTRAL",
+  "replay_inputs_sha256": "836644d1a656bb44700c55119d51b8cd8abd84247be542fc7f8eb619f7689074",
+  "schema_version": 1,
+  "scientific_status": "CERTIFIED",
+  "source_input_hashes": {
+    "outputs/checkpoints/causal_inner_derivative_repair_wp10c9d5c0a/N128_exterior_N128_inner_c48.json": "74acc252a6788a10e48d9260faf1351f8f1559bbb7063f5e233403426964d5f5",
+    "outputs/checkpoints/causal_inner_derivative_repair_wp10c9d5c0a/N128_exterior_N128_inner_c48_arrays.npz": "9044a0df8c06fb6247616ba57b701eb09728b0e00bb86035c77a3fb314e09b0a",
+    "outputs/checkpoints/causal_inner_derivative_repair_wp10c9d5c0a/N128_exterior_N256_inner_c48.json": "44e5a4bae0a21b3ccc7742a5d73ea953f1cd9446b0b81ce1051a7ec3de4a2085",
+    "outputs/checkpoints/causal_inner_derivative_repair_wp10c9d5c0a/N128_exterior_N256_inner_c48_arrays.npz": "59c00f648fe5a1ea765bc9d644b80286689c8fe4b39df267e2c0619298742380",
+    "outputs/checkpoints/causal_inner_derivative_repair_wp10c9d5c0a/N128_exterior_N512_inner_c48.json": "d6b3d6ad8f0b5d043f4be5327ccada28b81b0b6edabeb4639948c6f22f6bb48c",
+    "outputs/checkpoints/causal_inner_derivative_repair_wp10c9d5c0a/N128_exterior_N512_inner_c48_arrays.npz": "608bc431d3dd3255190874e06d5d46958dd62f7556e6032b416425568d6747bd",
+    "outputs/checkpoints/causal_inner_dynamic_localization_wp10c9d5b/N128_exterior_N128_inner_c48.json": "4d9d29e30a0fe6603180447982db058c34ec91f92038bab198521d7a4aa9e9e2",
+    "outputs/checkpoints/causal_inner_dynamic_localization_wp10c9d5b/N128_exterior_N128_inner_c48_arrays.npz": "b5ab94e89566011bfbd5e9b5e5b626e1899752e0870ed345c88ef540c3ed0e4a",
+    "outputs/checkpoints/causal_inner_dynamic_localization_wp10c9d5b/N128_exterior_N256_inner_c48.json": "7dfc43ef2642b15eef9dece52543a87a54bb7bb97c5de3f2cb1ac41198134341",
+    "outputs/checkpoints/causal_inner_dynamic_localization_wp10c9d5b/N128_exterior_N256_inner_c48_arrays.npz": "06eaa1d23ef1f00cec2888fbda28ce059bb22a699aa5b4f3c918ae649904a228",
+    "outputs/checkpoints/causal_inner_dynamic_localization_wp10c9d5b/N128_exterior_N512_inner_c48.json": "2b5ea9585f3f57c8afa0772f14f369fa16183dfae8f2e61c2442bb7cc2554801",
+    "outputs/checkpoints/causal_inner_dynamic_localization_wp10c9d5b/N128_exterior_N512_inner_c48_arrays.npz": "33ec4f98e28c4bb8c9513793906455d89c3ddbebee13acd0728bfef4cec8954c"
+  },
+  "source_parent_commit": "d57bcc3e63bcd778823736a795a9311592173bd9",
+  "work_package": "WP10c9d5c0e"
+}

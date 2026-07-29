@@ -146,6 +146,37 @@ def test_radial_analytic_tangent_is_additive_and_homogeneous() -> None:
     assert tangent.maximum_block_ledger_relative_defect == 0.0
     assert tangent.characteristic_subspaces_frozen is True
     assert tangent.principal_matrix_derivatives_included is True
+    assert tangent.characteristic_face_speeds_over_c.shape == (6, 5)
+    assert tangent.characteristic_face_radii.shape == (6,)
+    assert tangent.minimum_characteristic_spectral_gap > 0.0
+    assert np.isfinite(
+        tangent.maximum_characteristic_descriptor_condition_number
+    )
+
+
+def test_internal_geometry_step_has_a_declared_stable_tangent() -> None:
+    context, primitives = _context_and_primitives()
+    dimensions = int(primitives.size)
+    tangents = [
+        causal_five_field_radial_analytic_tangent(
+            context,
+            primitives,
+            primitive_column_scales=np.ones(dimensions, dtype=float),
+            conservation_row_scales=np.ones(dimensions, dtype=float),
+            explicit_geometry_log_radius_step=step,
+        )
+        for step in (1.0e-5, 2.0e-5, 4.0e-5)
+    ]
+    direction = np.random.default_rng(1219).normal(size=dimensions)
+    reference = tangents[1].apply(direction)
+    for tangent in tangents:
+        relative = np.linalg.norm(
+            tangent.apply(direction) - reference
+        ) / max(
+            np.linalg.norm(reference),
+            np.finfo(float).tiny,
+        )
+        assert relative <= 2.0e-9
 
 
 def test_frozen_analytic_tangent_uses_one_dae_identity() -> None:

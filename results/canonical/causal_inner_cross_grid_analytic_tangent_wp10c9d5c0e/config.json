@@ -1,0 +1,54 @@
+{
+  "derivative_orders": [
+    4,
+    6
+  ],
+  "direction_names": [
+    "common_mode",
+    "global_inner_0",
+    "global_inner_1",
+    "near_excision_0",
+    "near_excision_1",
+    "first_cell_field_0",
+    "first_cell_field_1",
+    "first_cell_field_2",
+    "first_cell_field_3",
+    "first_cell_field_4"
+  ],
+  "gates": {
+    "maximum_block_ledger_defect": 1e-12,
+    "maximum_characteristic_biorthogonality_defect": 1e-10,
+    "maximum_characteristic_descriptor_condition": 10000000000.0,
+    "maximum_characteristic_eigenpair_defect": 1e-10,
+    "maximum_characteristic_imaginary_part": 1e-10,
+    "maximum_descriptor_solve_defect": 1e-12,
+    "maximum_geometry_step_tangent_defect": 1e-06,
+    "maximum_independent_block_defect": 2e-08,
+    "maximum_linearity_defect": 1e-10,
+    "maximum_production_identity_defect": 1e-12,
+    "maximum_production_jvp_defect": 2e-06,
+    "maximum_projector_closure_defect": 1e-10,
+    "maximum_reconstruction_defect": 1e-12,
+    "minimum_absolute_characteristic_speed": 1e-06,
+    "minimum_characteristic_spectral_gap": 1e-06,
+    "minimum_neighboring_subspace_cosine": 0.9
+  },
+  "geometry_log_radius_steps": [
+    1e-05,
+    2e-05,
+    4e-05
+  ],
+  "labels": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "path_quadrature_order": 6,
+  "schema_version": 1,
+  "target_radii_over_rg": [
+    5.0,
+    8.0,
+    12.0
+  ],
+  "work_package": "WP10c9d5c0e"
+}

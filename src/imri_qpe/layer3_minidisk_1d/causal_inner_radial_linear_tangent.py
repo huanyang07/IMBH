@@ -603,6 +603,10 @@ def _jet_lower_sources(
     context: CausalFiveFieldDAEContext,
     radius: float,
     chart: np.ndarray,
+    *,
+    explicit_geometry_log_radius_step: float = (
+        _EXPLICIT_GEOMETRY_LOG_RADIUS_STEP
+    ),
 ) -> dict[str, tuple[_Jet2, ...]]:
     """Return all local non-principal source components as jets."""
 
@@ -611,7 +615,11 @@ def _jet_lower_sources(
         context.grid.gravitational_radius,
     )
     center = _jet_physical_state(context, radius, chart)
-    step = _EXPLICIT_GEOMETRY_LOG_RADIUS_STEP
+    step = float(explicit_geometry_log_radius_step)
+    if not np.isfinite(step) or step <= 0.0:
+        raise ValueError(
+            "explicit_geometry_log_radius_step must be positive"
+        )
     minus_radius = float(radius) * np.exp(-step)
     plus_radius = float(radius) * np.exp(step)
     minus = _jet_physical_state(context, minus_radius, chart)
@@ -700,6 +708,10 @@ def causal_five_field_analytic_local_maps(
     context: CausalFiveFieldDAEContext,
     radius: float,
     primitive_chart: np.ndarray,
+    *,
+    explicit_geometry_log_radius_step: float = (
+        _EXPLICIT_GEOMETRY_LOG_RADIUS_STEP
+    ),
 ) -> CausalFiveFieldAnalyticLocalMaps:
     """Return exact forward-AD derivatives of all local radial maps."""
 
@@ -759,7 +771,14 @@ def causal_five_field_analytic_local_maps(
             ],
             dtype=float,
         )
-    lower_jets = _jet_lower_sources(context, radius, chart)
+    lower_jets = _jet_lower_sources(
+        context,
+        radius,
+        chart,
+        explicit_geometry_log_radius_step=(
+            explicit_geometry_log_radius_step
+        ),
+    )
     lower_values: dict[str, np.ndarray] = {}
     lower_jacobians: dict[str, np.ndarray] = {}
     for name, vector in lower_jets.items():
@@ -1126,6 +1145,26 @@ class CausalFiveFieldRadialAnalyticTangent:
     path_quadrature_order: int
     characteristic_subspaces_frozen: bool
     principal_matrix_derivatives_included: bool
+    explicit_geometry_log_radius_step: float
+    characteristic_face_radii: np.ndarray
+    characteristic_face_speeds_over_c: np.ndarray
+    characteristic_face_analytic_speeds_over_c: np.ndarray
+    characteristic_face_descriptor_condition_numbers: np.ndarray
+    characteristic_face_eigenpair_defects: np.ndarray
+    characteristic_face_biorthogonality_defects: np.ndarray
+    characteristic_face_imaginary_parts: np.ndarray
+    incoming_inner_characteristics: int
+    minimum_absolute_characteristic_speed: float
+    minimum_characteristic_spectral_gap: float
+    minimum_neighboring_negative_subspace_cosine: float
+    minimum_neighboring_positive_subspace_cosine: float
+    neighboring_negative_subspace_rank_changes: int
+    neighboring_positive_subspace_rank_changes: int
+    maximum_characteristic_analytic_speed_defect: float
+    maximum_characteristic_eigenpair_defect: float
+    maximum_characteristic_biorthogonality_defect: float
+    maximum_characteristic_imaginary_part: float
+    maximum_characteristic_descriptor_condition_number: float
     maximum_base_reconstruction_relative_defect: float
     maximum_projector_closure_defect: float
     maximum_block_ledger_relative_defect: float
@@ -1421,6 +1460,27 @@ def _signed_projector_matrices(
     return left_projector, right_projector, defect
 
 
+def _neighboring_subspace_cosine(
+    previous: np.ndarray,
+    current: np.ndarray,
+) -> float:
+    """Return the smallest principal-angle cosine for two equal-rank spaces."""
+
+    left = np.asarray(previous, dtype=float)
+    right = np.asarray(current, dtype=float)
+    if left.ndim != 2 or right.ndim != 2 or left.shape != right.shape:
+        raise ValueError("neighboring characteristic subspaces are invalid")
+    if left.shape[1] == 0:
+        return 1.0
+    left_q = np.linalg.qr(left, mode="reduced")[0]
+    right_q = np.linalg.qr(right, mode="reduced")[0]
+    singular_values = np.linalg.svd(
+        left_q.T @ right_q,
+        compute_uv=False,
+    )
+    return float(np.clip(np.min(singular_values), 0.0, 1.0))
+
+
 def _analytic_flux_jacobian(
     context: CausalFiveFieldDAEContext,
     radius: float,
@@ -1673,6 +1733,8 @@ def _lower_source_endpoint_tangents(
     cell: int,
     left_chart: np.ndarray,
     right_chart: np.ndarray,
+    *,
+    explicit_geometry_log_radius_step: float,
 ) -> tuple[dict[str, np.ndarray], dict[str, np.ndarray]]:
     """Linearize every lower-source cell integral at its two traces."""
 
@@ -1701,7 +1763,14 @@ def _lower_source_endpoint_tangents(
             float(np.log(radius)) - lower_log
         ) / (upper_log - lower_log)
         chart = left + fraction * (right - left)
-        sources = _jet_lower_sources(context, float(radius), chart)
+        sources = _jet_lower_sources(
+            context,
+            float(radius),
+            chart,
+            explicit_geometry_log_radius_step=(
+                explicit_geometry_log_radius_step
+            ),
+        )
         for name in names:
             _values, jacobian, _hessian = _extract_vector(sources[name])
             left_result[name] += (
@@ -1748,6 +1817,9 @@ def causal_five_field_radial_analytic_tangent(
     conservation_row_scales: np.ndarray,
     path_quadrature_order: int = 6,
     stationary_speed_tolerance: float = 1.0e-12,
+    explicit_geometry_log_radius_step: float = (
+        _EXPLICIT_GEOMETRY_LOG_RADIUS_STEP
+    ),
 ) -> CausalFiveFieldRadialAnalyticTangent:
     """Assemble the frozen-subspace forward-AD candidate tangent."""
 
@@ -1758,6 +1830,7 @@ def causal_five_field_radial_analytic_tangent(
     columns = np.asarray(primitive_column_scales, dtype=float).ravel()
     rows = np.asarray(conservation_row_scales, dtype=float).ravel()
     order = int(path_quadrature_order)
+    geometry_step = float(explicit_geometry_log_radius_step)
     if (
         base.shape != (n_cells, _N_FIELDS)
         or columns.shape != (dimensions,)
@@ -1768,6 +1841,8 @@ def causal_five_field_radial_analytic_tangent(
         or np.any(columns <= 0.0)
         or np.any(rows <= 0.0)
         or order < 2
+        or not np.isfinite(geometry_step)
+        or geometry_step <= 0.0
     ):
         raise ValueError("analytic radial tangent inputs are invalid")
     left_weights, right_weights, reconstruction_defect = (
@@ -1796,6 +1871,72 @@ def causal_five_field_radial_analytic_tangent(
         for _face in range(n_cells + 1)
     ]
     projector_defects = []
+    characteristic_bases: list[
+        CausalFiveFieldCoordinatePrincipalBasis
+    ] = []
+    negative_subspace_cosines: list[float] = []
+    positive_subspace_cosines: list[float] = []
+    negative_subspace_rank_changes = 0
+    positive_subspace_rank_changes = 0
+
+    def record_basis(
+        basis: CausalFiveFieldCoordinatePrincipalBasis,
+    ) -> None:
+        nonlocal negative_subspace_rank_changes
+        nonlocal positive_subspace_rank_changes
+        if characteristic_bases:
+            previous = characteristic_bases[-1]
+            previous_speeds = np.asarray(
+                previous.numerical_speeds_over_c,
+                dtype=float,
+            )
+            current_speeds = np.asarray(
+                basis.numerical_speeds_over_c,
+                dtype=float,
+            )
+            previous_negative = (
+                previous_speeds < -stationary_speed_tolerance
+            )
+            current_negative = (
+                current_speeds < -stationary_speed_tolerance
+            )
+            previous_positive = (
+                previous_speeds > stationary_speed_tolerance
+            )
+            current_positive = (
+                current_speeds > stationary_speed_tolerance
+            )
+            if np.sum(previous_negative) == np.sum(current_negative):
+                negative_subspace_cosines.append(
+                    _neighboring_subspace_cosine(
+                        previous.primitive_right_eigenvectors[
+                            :,
+                            previous_negative,
+                        ],
+                        basis.primitive_right_eigenvectors[
+                            :,
+                            current_negative,
+                        ],
+                    )
+                )
+            else:
+                negative_subspace_rank_changes += 1
+            if np.sum(previous_positive) == np.sum(current_positive):
+                positive_subspace_cosines.append(
+                    _neighboring_subspace_cosine(
+                        previous.primitive_right_eigenvectors[
+                            :,
+                            previous_positive,
+                        ],
+                        basis.primitive_right_eigenvectors[
+                            :,
+                            current_positive,
+                        ],
+                    )
+                )
+            else:
+                positive_subspace_rank_changes += 1
+        characteristic_bases.append(basis)
 
     inner_radius = float(context.grid.edges[0])
     inner_measure = float(context.grid.face_measures[0])
@@ -1813,6 +1954,19 @@ def causal_five_field_radial_analytic_tangent(
         None,
         None,
     )
+    inner_basis = _analytic_coordinate_principal_basis(
+        context,
+        inner_radius,
+        right_faces[0],
+    )
+    record_basis(inner_basis)
+    _inner_negative, _inner_positive, inner_projector_defect = (
+        _signed_projector_matrices(
+            inner_basis,
+            stationary_speed_tolerance=stationary_speed_tolerance,
+        )
+    )
+    projector_defects.append(inner_projector_defect)
 
     for face in range(1, n_cells + 1):
         radius = float(context.grid.edges[face])
@@ -1848,6 +2002,7 @@ def causal_five_field_radial_analytic_tangent(
             )
         )
         projector_defects.append(projector_defect)
+        record_basis(basis)
         candidate_left = (
             np.eye(_N_FIELDS) - negative
         ) @ left_flux_jacobian
@@ -1951,6 +2106,7 @@ def causal_five_field_radial_analytic_tangent(
             cell,
             right_faces[cell],
             left_faces[cell + 1],
+            explicit_geometry_log_radius_step=geometry_step,
         )
 
         def lower_operator(name: str) -> np.ndarray:
@@ -2001,6 +2157,50 @@ def causal_five_field_radial_analytic_tangent(
     ledger_defect = float(
         np.max(np.abs(candidate - reconstructed)) / scale
     )
+    characteristic_speeds = np.asarray(
+        [
+            basis.numerical_speeds_over_c
+            for basis in characteristic_bases
+        ],
+        dtype=float,
+    )
+    characteristic_analytic_speeds = np.asarray(
+        [
+            basis.analytic_speeds_over_c
+            for basis in characteristic_bases
+        ],
+        dtype=float,
+    )
+    sorted_speeds = np.sort(characteristic_speeds, axis=1)
+    spectral_gaps = np.diff(sorted_speeds, axis=1)
+    descriptor_conditions = np.asarray(
+        [
+            basis.descriptor_condition_number
+            for basis in characteristic_bases
+        ],
+        dtype=float,
+    )
+    eigenpair_defects = np.asarray(
+        [
+            basis.maximum_eigenpair_defect
+            for basis in characteristic_bases
+        ],
+        dtype=float,
+    )
+    biorthogonality_defects = np.asarray(
+        [
+            basis.maximum_biorthogonality_defect
+            for basis in characteristic_bases
+        ],
+        dtype=float,
+    )
+    imaginary_parts = np.asarray(
+        [
+            basis.maximum_imaginary_part
+            for basis in characteristic_bases
+        ],
+        dtype=float,
+    )
     return CausalFiveFieldRadialAnalyticTangent(
         base_primitives=np.array(base, copy=True),
         primitive_column_scales=np.array(columns, copy=True),
@@ -2012,6 +2212,66 @@ def causal_five_field_radial_analytic_tangent(
         path_quadrature_order=order,
         characteristic_subspaces_frozen=True,
         principal_matrix_derivatives_included=True,
+        explicit_geometry_log_radius_step=geometry_step,
+        characteristic_face_radii=np.asarray(
+            context.grid.edges,
+            dtype=float,
+        ),
+        characteristic_face_speeds_over_c=characteristic_speeds,
+        characteristic_face_analytic_speeds_over_c=(
+            characteristic_analytic_speeds
+        ),
+        characteristic_face_descriptor_condition_numbers=(
+            descriptor_conditions
+        ),
+        characteristic_face_eigenpair_defects=eigenpair_defects,
+        characteristic_face_biorthogonality_defects=(
+            biorthogonality_defects
+        ),
+        characteristic_face_imaginary_parts=imaginary_parts,
+        incoming_inner_characteristics=(
+            inner_basis.incoming_inner_characteristics
+        ),
+        minimum_absolute_characteristic_speed=float(
+            np.min(np.abs(characteristic_speeds))
+        ),
+        minimum_characteristic_spectral_gap=float(
+            np.min(spectral_gaps)
+        ),
+        minimum_neighboring_negative_subspace_cosine=(
+            min(negative_subspace_cosines)
+            if negative_subspace_cosines
+            else 1.0
+        ),
+        minimum_neighboring_positive_subspace_cosine=(
+            min(positive_subspace_cosines)
+            if positive_subspace_cosines
+            else 1.0
+        ),
+        neighboring_negative_subspace_rank_changes=(
+            negative_subspace_rank_changes
+        ),
+        neighboring_positive_subspace_rank_changes=(
+            positive_subspace_rank_changes
+        ),
+        maximum_characteristic_analytic_speed_defect=float(
+            max(
+                basis.maximum_analytic_speed_defect
+                for basis in characteristic_bases
+            )
+        ),
+        maximum_characteristic_eigenpair_defect=float(
+            np.max(eigenpair_defects)
+        ),
+        maximum_characteristic_biorthogonality_defect=float(
+            np.max(biorthogonality_defects)
+        ),
+        maximum_characteristic_imaginary_part=float(
+            np.max(imaginary_parts)
+        ),
+        maximum_characteristic_descriptor_condition_number=float(
+            np.max(descriptor_conditions)
+        ),
         maximum_base_reconstruction_relative_defect=(
             reconstruction_defect
         ),
