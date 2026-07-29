@@ -140,6 +140,14 @@ from .causal_inner_radial_frozen import (
     causal_five_field_radial_frozen_candidate,
     causal_five_field_radial_reduced_jacobian_pattern,
 )
+from .causal_inner_radial_linear_tangent import (
+    CausalFiveFieldAnalyticLocalMaps,
+    CausalFiveFieldFrozenAnalyticTangent,
+    CausalFiveFieldRadialAnalyticTangent,
+    causal_five_field_analytic_local_maps,
+    causal_five_field_frozen_analytic_tangent,
+    causal_five_field_radial_analytic_tangent,
+)
 from .causal_inner_radial_hardening import (
     CausalRadialDenseColoredAudit,
     CausalRadialJVPStepSweep,
@@ -1451,6 +1459,12 @@ __all__ = [
     "causal_five_field_radial_candidate_face_flux",
     "causal_five_field_radial_candidate_lower_source_totals",
     "CausalFiveFieldRadialFrozenCandidate",
+    "CausalFiveFieldAnalyticLocalMaps",
+    "CausalFiveFieldFrozenAnalyticTangent",
+    "CausalFiveFieldRadialAnalyticTangent",
+    "causal_five_field_analytic_local_maps",
+    "causal_five_field_frozen_analytic_tangent",
+    "causal_five_field_radial_analytic_tangent",
     "causal_five_field_radial_frozen_candidate",
     "causal_five_field_radial_reduced_jacobian_pattern",
     "CausalRadialDenseColoredAudit",

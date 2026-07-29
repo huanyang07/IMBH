@@ -1,0 +1,29 @@
+{
+  "analyzed_base_commit": "e492299df5668b49412f033e33df3d42e92f512e",
+  "analyzed_base_parent_commit": "508e5c284c2eaf7305efb45ae30a437b29dabb33",
+  "analyzed_base_tree_sha": "8ee7f16a299ef0f1d0a22093cff2a9b4c4d983ec",
+  "authorization_status": "CROSS-GRID TANGENT CERTIFICATION ONLY",
+  "does_not_establish": "Cross-grid tangent certification, derivative-choice physical sensitivity, a recovery radius, repaired physical operator, nonlinear convergence, fixed-Q closure, or reduced evolution.",
+  "establishes": "Whether one explicitly linear forward-AD candidate tangent, with frozen characteristic subspaces and an algebraically recovered production stationary tangent, passes the N128 linearity and independent derivative gates.",
+  "generation_command": "PYTHONPATH=src python3 scripts/run_causal_inner_analytic_tangent_wp10c9d5c0d.py",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_analytic_tangent_wp10c9d5c0d.py": "cc8ae18d24e3fe5a1fc34fbe75262ba4b78f1a6156a5390144200378bd00c7b6",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "394c6b205cca876e3cb7946c17f16a4f6f370c9bdd00afae6a59e7e654fb85e2",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_linear_tangent.py": "687295e3318fe9249699df5a621064dfcab86926cadf2a9352f3adde89013a20",
+    "tests/test_causal_inner_analytic_tangent_wp10c9d5c0d.py": "b3b6f4cfcb1275b3fa13af506a4fc34b10f77a7ce80378669db15af15d0b9f61",
+    "tests/test_causal_inner_radial_linear_tangent.py": "0dc7f58040d4a34df01ef302676d346dc3d4f8de244b616000d6b80be534ae96"
+  },
+  "implementation_source_manifest_sha256": "9e5e469dbb897d3d8d7e8a6a412a1b8b26523f6d3bfa1e52a011a4b4fb7de17e",
+  "method_scope": "N128 ANALYTIC/AD-COMPATIBLE FROZEN LINEAR TANGENT; PRODUCTION NEUTRAL",
+  "schema_version": 1,
+  "scientific_status": "CERTIFIED",
+  "source_input_hashes": {
+    "outputs/checkpoints/causal_inner_derivative_repair_wp10c9d5c0a/N128_exterior_N128_inner_c48_arrays.npz": "9044a0df8c06fb6247616ba57b701eb09728b0e00bb86035c77a3fb314e09b0a",
+    "outputs/checkpoints/causal_inner_dynamic_localization_wp10c9d5b/N128_exterior_N128_inner_c48_arrays.npz": "b5ab94e89566011bfbd5e9b5e5b626e1899752e0870ed345c88ef540c3ed0e4a",
+    "results/canonical/causal_inner_derivative_repair_wp10c9d5c0a/decisive_arrays.npz": "96372f219d43f232745d189135836e90a579f73a6628ae8b6139d09d25bef10f",
+    "results/canonical/causal_inner_derivative_repair_wp10c9d5c0a/summary.json": "c5a2c946bb9c9c6103b9682129df4bfdd61a76c0787dd81ae76414415b7621f6",
+    "results/canonical/causal_inner_uncolored_additivity_wp10c9d5c0c/summary.json": "58d847598f753de3eaba9d37c8dae29ef4a32bda82e5da2cc8e097cc4f9766d6"
+  },
+  "source_parent_commit": "e492299df5668b49412f033e33df3d42e92f512e",
+  "work_package": "WP10c9d5c0d"
+}
