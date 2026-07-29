@@ -1,0 +1,117 @@
+{
+  "attribution_groups": {
+    "boundary": [
+      "inner_shared_face",
+      "conservative_transport_remainder"
+    ],
+    "local_stress_relaxation": [
+      "candidate_local_stress_relaxation"
+    ],
+    "lower_sources": [
+      "candidate_geometry",
+      "candidate_cooling",
+      "candidate_stream",
+      "candidate_lower_height_work"
+    ],
+    "mapped_storage": [
+      "mapped_temporal",
+      "mapped_storage_rate"
+    ],
+    "principal_path": [
+      "candidate_shear_principal",
+      "candidate_height_principal"
+    ],
+    "responsive_height_storage": [
+      "responsive_height_temporal",
+      "responsive_height_storage_rate"
+    ]
+  },
+  "boundary_band_coarse_edge_indices": [
+    1,
+    2,
+    3
+  ],
+  "boundary_profile_definitions": {
+    "boundary_band_outgoing_original": {
+      "amplitude": 0.015,
+      "center_over_rg": 1.84,
+      "log_width": 0.065,
+      "role": "frozen_c4_binding_profile"
+    },
+    "boundary_band_outgoing_shifted": {
+      "amplitude": 0.015,
+      "center_over_rg": 1.98,
+      "log_width": 0.065,
+      "role": "same_width_support_control"
+    },
+    "boundary_band_outgoing_shifted_wider": {
+      "amplitude": 0.015,
+      "center_over_rg": 1.98,
+      "log_width": 0.13,
+      "role": "width_and_support_control"
+    },
+    "boundary_band_outgoing_wider": {
+      "amplitude": 0.015,
+      "center_over_rg": 1.84,
+      "log_width": 0.13,
+      "role": "same_center_width_control"
+    }
+  },
+  "gates": {
+    "maximum_continuum_ledger_defect": 2e-09,
+    "maximum_continuum_reference_relative_difference": 0.0002,
+    "maximum_discrete_ledger_defect": 2e-10,
+    "maximum_group_residual_ratio": 0.6,
+    "maximum_historical_representation_to_fine_ratio": 0.1,
+    "minimum_clean_truncation_order": 0.75,
+    "minimum_group_direction_cosine": 0.9,
+    "minimum_group_target_fraction": 0.7,
+    "minimum_phase_explained_fraction": 0.8,
+    "minimum_phase_shift_order": 0.75
+  },
+  "historical_representations": [
+    "historical_common_quintic",
+    "historical_common_septic",
+    "historical_common_one_sided_trace"
+  ],
+  "labels": [
+    "uniform_N64",
+    "uniform_N128",
+    "uniform_N256",
+    "uniform_N512"
+  ],
+  "meshes": [
+    64,
+    128,
+    256,
+    512
+  ],
+  "operator_change": false,
+  "passing_c4_controls": [
+    "heldout_mid_inner",
+    "heldout_broad_outer_inner",
+    "heldout_two_lobe_mixed"
+  ],
+  "primary_continuum_nodes": 769,
+  "production_defaults_changed": false,
+  "profile_definition_sha256": "82093a5d1cf66b98c44aba3e277a4e712a95f6ff30250591c29bf57f3746f691",
+  "projection_order": 24,
+  "schema_version": 1,
+  "secondary_continuum_nodes": 513,
+  "truncation_block_names": [
+    "mapped_temporal",
+    "responsive_height_temporal",
+    "mapped_storage_rate",
+    "responsive_height_storage_rate",
+    "inner_shared_face",
+    "conservative_transport_remainder",
+    "candidate_shear_principal",
+    "candidate_height_principal",
+    "candidate_local_stress_relaxation",
+    "candidate_geometry",
+    "candidate_cooling",
+    "candidate_stream",
+    "candidate_lower_height_work"
+  ],
+  "work_package": "WP10c9d6c5"
+}

@@ -1,0 +1,30 @@
+{
+  "analyzed_base_commit": "c082f62f62f9c5c9f28e61c7f25f4d353a5f7a09",
+  "analyzed_base_parent_commit": "3d973aa28c68d242bd33c88efe2226e2e48eb281",
+  "analyzed_base_tree_sha": "aaa11a689a57fb63e27f45effec610032a9aa224",
+  "does_not_establish": "causality of an associated block, embedded convergence, nonlinear convergence, production eligibility, fixed-Q closure, or reduced slow-time evolution",
+  "establishes": "the initial continuum-versus-discrete linearized DAE truncation ledger, fixed-band block attribution, boundary packet phase/amplitude split, and prospective width/support controls for the unchanged c4 uniform operator",
+  "generation_command": "PYTHONPATH=src:scripts python3 scripts/run_causal_inner_local_truncation_wp10c9d6c5.py",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_continuum_lift_wp10c9d6c3.py": "61526246e0a9206bb987df0c554496d6a75ad5a0553af1751d36a14cdfa7bbe5",
+    "scripts/run_causal_inner_local_truncation_wp10c9d6c5.py": "caaee09a5ac8503a2acd6c13b6c41ed8aa6d44e17db8f1f7ddfadd672b8a7a3c",
+    "scripts/run_causal_inner_prospective_uniform_validation_wp10c9d6c4.py": "be35ab060827602bfdd70b66ddf2b002baaa7aa624efbec23f4419c0d94e587c",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_continuum_truncation.py": "a7ca35a9e30e99b346489e37cbfb50087f04354d8ef681e4c16f87c200880286",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_tangent.py": "23a958a894fc40188a0cda1e640f943bd00dc8070a64af4b2b2a56cd609ba0c4",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_linear_tangent.py": "6c37568dbebef73b8de17defad3ce9a1d6afd78a661d8befa4155317c33eb969",
+    "tests/test_causal_inner_local_truncation_wp10c9d6c5.py": "19ff0c4e4d69a597ca24468b3bc145f2ecad09bdeebf151f1764ddbb18358dda"
+  },
+  "implementation_source_manifest_sha256": "2a6441239f88a899df7adb74c1af14906774b55e6e26f8d5b0306fc89851caaf",
+  "metadata_refresh_command": "PYTHONPATH=src:scripts python3 scripts/run_causal_inner_local_truncation_wp10c9d6c5.py --refresh-metadata-only",
+  "parent_canonical_hashes": {
+    "results/canonical/causal_inner_prospective_uniform_validation_wp10c9d6c4/config.json": "6161daefc7b287742f359375c7efb4dbedccd63627e74f5fe113ead40d1673c0",
+    "results/canonical/causal_inner_prospective_uniform_validation_wp10c9d6c4/decisive_arrays.npz": "b79bfb174801cd170165b03a8bd415720e732d9076a036fdb197e86005207d7b",
+    "results/canonical/causal_inner_prospective_uniform_validation_wp10c9d6c4/provenance.json": "179b1586ff1b22cc943551c0d1198a4d8a28e967a22f4bcca859565757702566",
+    "results/canonical/causal_inner_prospective_uniform_validation_wp10c9d6c4/summary.json": "61fc33d7a93363c42f516c6d85bc2b9afa188082e4df3744410e8d51d2f14647"
+  },
+  "profile_definition_sha256": "82093a5d1cf66b98c44aba3e277a4e712a95f6ff30250591c29bf57f3746f691",
+  "schema_version": 1,
+  "scientific_status": "DIAGNOSTIC ONLY",
+  "source_parent_commit": "c082f62f62f9c5c9f28e61c7f25f4d353a5f7a09",
+  "work_package": "WP10c9d6c5"
+}

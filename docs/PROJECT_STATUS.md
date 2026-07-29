@@ -165,6 +165,7 @@ This is the canonical project handoff. Status labels mean:
 | Monolithic four-level asymptotic audit WP10c9d6c2 | **METHOD CERTIFIED; FOUR-LEVEL PHYSICAL EXPORT REJECTED**; `four_level_uniform_asymptotic_direction_rejected`; **UNIFORM NEAR-EXCISION REDESIGN ONLY AUTHORIZED; HELD-OUT, EMBEDDED, NONLINEAR, PRODUCTION, FIXED-Q, AND REDUCTION WORK BLOCKED** | The exactly nested 192-cell N512-equivalent grid has zero reference-background and clipping defects. Its stationary/storage/export JVP defects are `5.74e-9/7.49e-12/7.77e-11`, zero incoming modes, and restart passes. Two N512 perturbation continuations have export-history cosines above `0.999997` and agree on rejection | For the natural N256 continuation, N128/N256/N512 instantaneous/cumulative error cosines are only `0.418/0.832 < 0.90`; instantaneous maximum order is `0.052`. Every component still contracts near second order, and cooling/height error directions are stable, but inner M/J/E are not. N1024 is not authorized. Redesign the uniform near-excision space/storage discretization over a fixed physical band before any further physical ladder |
 | Smooth continuum-lift audit WP10c9d6c3 | **CERTIFIED FOR TWO SMOOTH UNIFORM PROFILES**; `smooth_continuum_four_level_export_direction_certified`; **PROSPECTIVE HELD-OUT UNIFORM VALIDATION ONLY AUTHORIZED; DIRECT REDESIGN, EMBEDDED, NONLINEAR, PRODUCTION, FIXED-Q, AND REDUCTION WORK BLOCKED** | A boundary-exact C4 proper-measure background has quintic/septic representation difference `1.13e-5` and zero clipping. Projection-order history uncertainty is at most `1.36e-11` of the fine spatial difference. Calibration instantaneous/cumulative orders and error cosines are `2.218/2.065` and `0.978/0.990`; held-out near-excision values are `2.385/2.403` and `0.971/0.973`. All inherited method, causality, restart, maximum, and component gates pass on N64/N128/N256/N512 | WP10c9d6c2 remains historically rejected for its exact discrete continuations, but that failure does not reproduce for grid-independent finite-volume lifts. C3 changes both the smooth background representation and perturbation definition, so it does not uniquely identify which old continuation element caused the rotation or certify arbitrary profiles. Freeze this prospective contract and run several additional analytic held-outs, including a smooth fit to the historical common mode, before reconsidering embedded discrimination |
 | Prospective held-out uniform validation WP10c9d6c4 | **METHOD/LIFT CERTIFIED; PROSPECTIVE PHYSICAL GATE REJECTED**; `prospective_heldout_uniform_validation_failed`; **SMOOTH-PROFILE LOCAL-TRUNCATION AUDIT ONLY AUTHORIZED; DIRECT REDESIGN, EMBEDDED, NONLINEAR, PRODUCTION, FIXED-Q, AND REDUCTION WORK BLOCKED** | The c3 background/scales reproduce bitwise, all tangent and lift gates pass, sign/amplitude defects are zero, and the conservative restart bound is `3.55e-15`. Three of four new held-outs pass: mid-inner fine instantaneous/cumulative error cosines are `0.968/0.984`, broad outer-inner `0.999/1.000`, and two-lobe mixed `0.957/0.961`, with all orders above `1.25` | The smooth first-cell outgoing profile has strong instantaneous contraction (`p_RMS=1.980`, `p_max=1.424`, minimum component order `1.720`) but error cosine `0.8596 < 0.90`; its cumulative history passes. The historical smooth calibration also retains direction sensitivity (`0.4586/0.8923`) despite orders above `2.10`. Freeze the failed and passing controls and localize initial/short-time truncation by radius and physical block before any boundary or space-storage candidate |
+| Local DAE truncation and packet-width audit WP10c9d6c5 | **DIAGNOSTIC CERTIFIED; NARROW-PROFILE PRE-ASYMPTOTIC CROSSOVER; NO OPERATOR REDESIGN**; `narrow_profile_preasymptotic_width_crossover_no_redesign`; **RESOLUTION-AWARE PROSPECTIVE UNIFORM TRANSPORT-PACKET VALIDATION ONLY AUTHORIZED; EMBEDDED, NONLINEAR, PRODUCTION, FIXED-Q, AND REDUCTION WORK BLOCKED** | Independent 769/513-node continuum references agree in rate to `6.58e-7` and in fixed-scale exports to `1.22e-11`; discrete, continuum, and truncation ledgers close below `2.65e-11`. The original boundary-overlapping packet has fixed-band DAE truncation orders `1.266-1.887` with fine-pair cosines above `0.9999989`. Both width-`0.130` controls pass instantaneous error-direction gates (`0.9680/0.9359`), while both width-`0.065` packets fail (`0.8596/0.6984`) despite strong norm contraction | The narrow packet spans only about `1.6/3.2/6.4` active cells across N128/N256/N512; widening doubles those counts and removes the failure at both the boundary and shifted center. A fitted exit-time shift explains only `22.8%/32.2%` of the two refinement errors, so phase alone is rejected. The historical calibration is representation-sensitive and nonbinding. Preserve the c4 rejection, declare a minimum packet-resolution contract prospectively, and do not infer a boundary half-cell or space-storage defect |
 
 ## Frozen Target Under Review
 
@@ -1319,6 +1320,19 @@ N                    = 164
    suite and WP10c9d6 are blocked. Next localize the evolving near-excision
    export boundary layer with cached histories and nested common-radius flux
    ledgers before changing another operator.
+   The later monolithic line reaches a sharper uniform result in
+   WP10c9d6c5. An independent high-order continuum DAE audit finds that the
+   original boundary-overlapping profile's fixed-band truncation contracts
+   at orders `1.266-1.887`, with fine-pair directions above `0.9999989`.
+   Moving the same narrow packet outward does not cure the strict
+   instantaneous direction failure, whereas doubling its log-width makes
+   both the boundary and shifted packets pass (`0.9680/0.9359`). The narrow
+   profile spans only about `1.6` active cells on N128, so the evidence
+   selects a pre-asymptotic packet-width crossover, not an inner-face,
+   storage, principal-path, or lower-source intervention. Preserve the c4
+   rejection and next run a prospectively declared resolution-aware uniform
+   transport-packet validation; embedded, nonlinear, fixed-`Q`, and reduced
+   evolution remain blocked.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -1330,7 +1344,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_INNER_MONOLITHIC_FOUR_LEVEL_WP10C9D6C2_RESULTS_2026-07-29.md`
+  `reports/current/CODEX_CAUSAL_INNER_LOCAL_TRUNCATION_WP10C9D6C5_RESULTS_2026-07-29.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
