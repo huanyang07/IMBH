@@ -1,0 +1,379 @@
+{
+  "all_three_grid_matrix_gate_executed": false,
+  "analyzed_base_commit": "5c88fa02f8f25fa62e9e0fdb648e66974bca38d3",
+  "analyzed_base_parent_commit": "f9d21e7bd8ede7c0548c93fc0b18021c30fde7fa",
+  "analyzed_base_tree_sha": "ddcc241bc0a6bac03ba00c42fbcbb5b2056b3787",
+  "attempted_labels": [
+    "N128_exterior_N128_inner_c48"
+  ],
+  "block_cache_reports": {},
+  "cache_reports": {
+    "N128_exterior_N128_inner_c48": {
+      "arrays_path": "outputs/checkpoints/causal_inner_direct_delta_repair_wp10c9d5c0b/N128_exterior_N128_inner_c48_arrays.npz",
+      "arrays_sha256": "e4b7b5d717ba541119d1808841b9e3c59c89689db14c7e1a3094da7c9b3750ea",
+      "assembly": "differentiate_samplewise_stationary_delta_directly",
+      "base_primitives_sha256": "79fa8951a7afb41fdb5c35a2ab1ad3e7752a2876723f37e6adb9f0e667a1847a",
+      "derivative_orders": [
+        4,
+        6
+      ],
+      "finite_difference_step": 0.0002,
+      "grid_edges_sha256": "01bbfa7ba9a318660afb8d55e5f7ef0a74fed2d82cd3135dbc39a3e556e88763",
+      "label": "N128_exterior_N128_inner_c48",
+      "n_cells": 64,
+      "path_quadrature_order": 6,
+      "schema_version": 1,
+      "stored_stationary_delta_sha256": "43c2febd15e94e559e96f57fae277b04337e309e16a890e0daa9af8e9a29ec7d",
+      "wall_seconds": 869.1950610829517,
+      "work_package": "WP10c9d5c0b"
+    }
+  },
+  "classification": "direct_stationary_delta_derivative_failed_extended_localization_blocked",
+  "decisive_array_hashes": {
+    "N128_exterior_N128_inner_c48__calibration_global_inner_0__order4__matrix_action": "9557093e22949be7897d5ed34d8b6e7cab405b48c46017ef5dc0f59576a038b1",
+    "N128_exterior_N128_inner_c48__calibration_global_inner_0__order6__matrix_action": "12f64365a7553f65c8aec29185be76b69b104a3a45dbe7728cf45dd83faf22ab",
+    "N128_exterior_N128_inner_c48__common_mode__order4__matrix_action": "ebadcfa2b4aedb22c8025a9967355b21464a84761d9f5487b15db8e27443627a",
+    "N128_exterior_N128_inner_c48__common_mode__order6__matrix_action": "da681f313491626a44412d9580f7b8a1d0831f5c7a6ab20e6aeb80aedcaf3abb",
+    "N128_exterior_N128_inner_c48__heldout_global_0__order4__matrix_action": "1c98218c196802b8a1451ece0e1d61930ed8e235e85aca38abf7b1d9038e0271",
+    "N128_exterior_N128_inner_c48__heldout_global_0__order6__matrix_action": "fb623da862d436605c3e2c0914125581e7f0c183cafdd56715d00601ccd01a7c",
+    "N128_exterior_N128_inner_c48__heldout_near_excision_0__order4__matrix_action": "4483eb18b9c5b450f740d5b1c9d283567e905312164a78d326e238da031f0d0e",
+    "N128_exterior_N128_inner_c48__heldout_near_excision_0__order6__matrix_action": "51e856fd766d026188d4ae89cde45dffe822402ebbcbdf391d6df24aa83840d9",
+    "linearity_equivalence__order4__difference_data": "93e554513e27fbfa82792b57ee39b624ff9e98b4d17c9fa5c0983918d0caeb33",
+    "linearity_equivalence__order4__difference_indices": "aa3650c6186709082c65a36968cb4c8bba70d424da6e9026ffa65dd3765d0ecb",
+    "linearity_equivalence__order4__difference_indptr": "d4d477ec74fb141e4f82f8f48093dbf8d6d13c6029199a11c13f654bfc125bbb",
+    "linearity_equivalence__order4__difference_shape": "74909160ff6e3156da028d2918441b5e5a304e4e2787a941ca23598840a6d4f5",
+    "linearity_equivalence__order4__samplewise_delta_data": "f28aa4fc7fba7c039927bd35e31ed482bbc84110d6498074e29bcbdf0cb48a8f",
+    "linearity_equivalence__order4__samplewise_delta_indices": "acb78d67d44b250d70413788daa304c919ee33a7162e028165c797b485e554c2",
+    "linearity_equivalence__order4__samplewise_delta_indptr": "9bf0b0da56fe6371cc5837a51c1fd197e8803d35a6d3623836130482f4061362",
+    "linearity_equivalence__order4__samplewise_delta_shape": "74909160ff6e3156da028d2918441b5e5a304e4e2787a941ca23598840a6d4f5",
+    "linearity_equivalence__order4__separately_differentiated_data": "1dea40374b9de61a4eb0e786ef227e018b0f1be610bed0fc0ba2e19f633aaad5",
+    "linearity_equivalence__order4__separately_differentiated_indices": "9355fdf977458f11592c9da20bce2924e6a95cb3b326c9454921afffb9cc5f17",
+    "linearity_equivalence__order4__separately_differentiated_indptr": "4e0bda56130ed90304601c031ecee6b563054a80857c3e135430a5ecc646db43",
+    "linearity_equivalence__order4__separately_differentiated_shape": "74909160ff6e3156da028d2918441b5e5a304e4e2787a941ca23598840a6d4f5",
+    "linearity_equivalence__order6__difference_data": "4e68cacad864ed5e661654daf93d701d0db940430fbff88b5dad4d4232ea9fb5",
+    "linearity_equivalence__order6__difference_indices": "97ab0fa3059380ef80017d04560137bfc35824ab0e46e9fae5133fa6a11a904d",
+    "linearity_equivalence__order6__difference_indptr": "2791b1dcce741c1c2477d0c600cfe3ba580b9cc223856a6040b92d996745409b",
+    "linearity_equivalence__order6__difference_shape": "74909160ff6e3156da028d2918441b5e5a304e4e2787a941ca23598840a6d4f5",
+    "linearity_equivalence__order6__samplewise_delta_data": "6079f0687aac9a8b4eb02dcfcbf92ab094b648e044f93ad088868b94b7d8961e",
+    "linearity_equivalence__order6__samplewise_delta_indices": "f0a6ffa28bdc5b7490c5e28f0ea88ba9d4bb25fa5c5d336c5dacf836572eb6cb",
+    "linearity_equivalence__order6__samplewise_delta_indptr": "74fb256a7bf384c72fd51f33cebc6f2a930b4b128c49dc12515fd051534e7672",
+    "linearity_equivalence__order6__samplewise_delta_shape": "74909160ff6e3156da028d2918441b5e5a304e4e2787a941ca23598840a6d4f5",
+    "linearity_equivalence__order6__separately_differentiated_data": "2f0d485bc9f6be87286c58b62f4a7a85dd422268c44b84889cd5d1eca93eed4a",
+    "linearity_equivalence__order6__separately_differentiated_indices": "1bc4ba5450547f05a1ac76ff80c2c9121761731a071843735356e391bc653aa5",
+    "linearity_equivalence__order6__separately_differentiated_indptr": "f3ae5f128475e11ad4f8dc6c5abdf59412ab09220f0eb0aa3c330eaba7549240",
+    "linearity_equivalence__order6__separately_differentiated_shape": "74909160ff6e3156da028d2918441b5e5a304e4e2787a941ca23598840a6d4f5",
+    "parent_direct__N128_exterior_N128_inner_c48__calibration_global_inner_0__direct__coarse_fourth_order_action": "594de50314eeba0c827ea65b3c629084e9a6c37817c44ef72fa4446887d084a5",
+    "parent_direct__N128_exterior_N128_inner_c48__calibration_global_inner_0__direct__direction": "1f25a5cb036c4f856b3b851304c874b7af27203f382b0f708a13e69972ec6129",
+    "parent_direct__N128_exterior_N128_inner_c48__calibration_global_inner_0__direct__fourth_order_action": "26070c2c147b55be5143831198e6c8297b62d171402c94b678776b1c84e54792",
+    "parent_direct__N128_exterior_N128_inner_c48__calibration_global_inner_0__direct__sixth_order_action": "0b5dc3a4d39fd5c8aab98c9a65571de1494ca51fc716f4e73608df14bd45a4ac",
+    "parent_direct__N128_exterior_N128_inner_c48__common_mode__direct__coarse_fourth_order_action": "8e193ce90b455106423bddf6f14d2758a588f35ffafc4ce8697635ce19d60cce",
+    "parent_direct__N128_exterior_N128_inner_c48__common_mode__direct__direction": "b5b0ee0ef3d75d280200d451ab2d7b10f1722d4cc6164066aa8ee0d29943337a",
+    "parent_direct__N128_exterior_N128_inner_c48__common_mode__direct__fourth_order_action": "1e37581700674ff7c261c2f2da22026fdfede3a7a652667c267db0a094956a9d",
+    "parent_direct__N128_exterior_N128_inner_c48__common_mode__direct__sixth_order_action": "a955a7e9f678d24e2df3da86af15f2a59cbed2dca073c0687ce9af3d8c0e20e0",
+    "parent_direct__N128_exterior_N128_inner_c48__heldout_global_0__direct__coarse_fourth_order_action": "54e941d56cede2c722e5f0d4d06104829953ce8baf955d195e360057fddef551",
+    "parent_direct__N128_exterior_N128_inner_c48__heldout_global_0__direct__direction": "35eb714b3c97f1343502bd8c90799a0d26cbc75a6ed8fa7ea5ebaebfafc2904e",
+    "parent_direct__N128_exterior_N128_inner_c48__heldout_global_0__direct__fourth_order_action": "7d43541f5810f17812353b7c91f03c1d5236c3dc4c9df8bb8e34badb06f90891",
+    "parent_direct__N128_exterior_N128_inner_c48__heldout_global_0__direct__sixth_order_action": "90ab88f92f5cefa00ecc43bc61367fe52f57cb8d0c97448192f1ddca1d6eb8f3",
+    "parent_direct__N128_exterior_N128_inner_c48__heldout_near_excision_0__direct__coarse_fourth_order_action": "fdd5c7b35ecceb3e6fffeeb1e1303020c6bae27577c6a7ca1abf6c6280dd12b6",
+    "parent_direct__N128_exterior_N128_inner_c48__heldout_near_excision_0__direct__direction": "1a01b36961098b64dca9df4be6478ca882e70018b2ee8d4a69962689ab152bf0",
+    "parent_direct__N128_exterior_N128_inner_c48__heldout_near_excision_0__direct__fourth_order_action": "814ec3b5e13f347ba4af913843bf9159201bddad467db0d3f03dc7b7ebc57dcf",
+    "parent_direct__N128_exterior_N128_inner_c48__heldout_near_excision_0__direct__sixth_order_action": "fc3dd0abb12c24e91fc628c0758e4408a067296c651646856db03b2d12ef6c18",
+    "parent_direct__N128_exterior_N256_inner_c48__calibration_global_inner_0__direct__coarse_fourth_order_action": "a4f98b195f42af7d3d86d0636e6a467178d8763f30c54de255dd3193e36057bd",
+    "parent_direct__N128_exterior_N256_inner_c48__calibration_global_inner_0__direct__direction": "afde98e421dfd3b1fa6cbb435a4ede659bee58d252c3a1114cfb7548406b15e4",
+    "parent_direct__N128_exterior_N256_inner_c48__calibration_global_inner_0__direct__fourth_order_action": "f3e32a433e99a9202c97c22a35dfe054e8b191dbac0d1dca581b799fe35e5e29",
+    "parent_direct__N128_exterior_N256_inner_c48__calibration_global_inner_0__direct__sixth_order_action": "db9cbfbbd7f4bfd8ccdbe6f48cd79c3c155864c3732a88aea0276093f40b0650",
+    "parent_direct__N128_exterior_N256_inner_c48__common_mode__direct__coarse_fourth_order_action": "82dd3a81b1a5f02dd10b05f303f0c5e9d93b9f87d31c0bfc6aee049fbbcd70ff",
+    "parent_direct__N128_exterior_N256_inner_c48__common_mode__direct__direction": "0dd132850e84df27428fd9231319731bb9c58983a1c5ee445341ff3014bc587c",
+    "parent_direct__N128_exterior_N256_inner_c48__common_mode__direct__fourth_order_action": "b48b9baff0e923d9a9ab8758dd238ed165fc1b62854ed075b3adc57684d940df",
+    "parent_direct__N128_exterior_N256_inner_c48__common_mode__direct__sixth_order_action": "e8201734999534fbb7c1e2f86bb43486912fdd683c9d9176ae87ae975374bf7a",
+    "parent_direct__N128_exterior_N256_inner_c48__heldout_global_0__direct__coarse_fourth_order_action": "97626e3e83be4ace6e15da0831689a6f712ba2a587ca62c649103cb8c0c0a2b3",
+    "parent_direct__N128_exterior_N256_inner_c48__heldout_global_0__direct__direction": "ddf9f35c7d85740454fcf8f21a21832932cb77035654544682a02b28f389e6f1",
+    "parent_direct__N128_exterior_N256_inner_c48__heldout_global_0__direct__fourth_order_action": "b5be58484c1b6fb7812e7d5a67219e24ab2a7b1aa3aedb3f7da292baba5ba250",
+    "parent_direct__N128_exterior_N256_inner_c48__heldout_global_0__direct__sixth_order_action": "2f5b62495ae636a2952eef9687b57b04cc8e0eb6b8dc1544dfb4ac026bc6ca6b",
+    "parent_direct__N128_exterior_N256_inner_c48__heldout_near_excision_0__direct__coarse_fourth_order_action": "d7fef1a5e026953a8a1639ef8e17de197babcbc74533515aa69d6d20a1fdd57e",
+    "parent_direct__N128_exterior_N256_inner_c48__heldout_near_excision_0__direct__direction": "712f92b5dbbe243509a56d2af5020cc88e2843a9894553636d0ede649a6ce72e",
+    "parent_direct__N128_exterior_N256_inner_c48__heldout_near_excision_0__direct__fourth_order_action": "7dbcaf79bf8b8d6d4d2147134f82e67eb12e3d059b432732d9eff3187d60dedb",
+    "parent_direct__N128_exterior_N256_inner_c48__heldout_near_excision_0__direct__sixth_order_action": "aac9a02aa320439e7d60e02315a0b250c83b41d8aad4f9d237b929c82e0ed5f5",
+    "parent_direct__N128_exterior_N512_inner_c48__calibration_global_inner_0__direct__coarse_fourth_order_action": "589a16282329b948f83cfbc8dd1f523fce462d0a2f7736ae9ea24cce46440363",
+    "parent_direct__N128_exterior_N512_inner_c48__calibration_global_inner_0__direct__direction": "e4a5cb0cface0e8f9593a449a18a7594c6050d6d79d628f3872a874b825193f4",
+    "parent_direct__N128_exterior_N512_inner_c48__calibration_global_inner_0__direct__fourth_order_action": "863cee016a1b6fda9a0f2a0187a51d9d345c713f2e3bcb6ac8a801ce189020c0",
+    "parent_direct__N128_exterior_N512_inner_c48__calibration_global_inner_0__direct__sixth_order_action": "1a292c94a1cb3cb988de033ff852f541604804ae5f44c62851e6169c35470f5a",
+    "parent_direct__N128_exterior_N512_inner_c48__common_mode__direct__coarse_fourth_order_action": "eda96a3635bc1601746c6e13165ef0e4973078668a0e195e0e53c4054faaeaea",
+    "parent_direct__N128_exterior_N512_inner_c48__common_mode__direct__direction": "ee28c0135dcab92b48b21a3eb7d4764d4dad72c89523caaf057465721596031c",
+    "parent_direct__N128_exterior_N512_inner_c48__common_mode__direct__fourth_order_action": "3a9c2b90682cb0aef0d3c694c908271f57280849fc6ef3eca28c3a0ae2eac085",
+    "parent_direct__N128_exterior_N512_inner_c48__common_mode__direct__sixth_order_action": "6b524d465a999698964ae1a97260e8cd5cb777a3e8b45875e121be04a7ce8fda",
+    "parent_direct__N128_exterior_N512_inner_c48__heldout_global_0__direct__coarse_fourth_order_action": "076fbed08b3a44dd96de2379167b1437ec27b577e89a0848c1771698134e5077",
+    "parent_direct__N128_exterior_N512_inner_c48__heldout_global_0__direct__direction": "d41a0478bd77c901504bb60c0c764284993dc36e76ae86f8a7ad99e3792550db",
+    "parent_direct__N128_exterior_N512_inner_c48__heldout_global_0__direct__fourth_order_action": "e05634f3e9dd27c5b7d14c1d9ce4e67ddc0f2805ae2457b03d38afbfe7405355",
+    "parent_direct__N128_exterior_N512_inner_c48__heldout_global_0__direct__sixth_order_action": "9d2ed531dc3f1e1c97e7e708e4c0cf86df3b13c190ed8bf408a1d4972b897ee1",
+    "parent_direct__N128_exterior_N512_inner_c48__heldout_near_excision_0__direct__coarse_fourth_order_action": "feebcd02fe1b9023bf5761f25f6d212a9f8790263c181b04446f389f65c4520f",
+    "parent_direct__N128_exterior_N512_inner_c48__heldout_near_excision_0__direct__direction": "922b7f99051779eb4128033aac5cb7a3b0663b9abfe0871a8208e8a8cd88f6c1",
+    "parent_direct__N128_exterior_N512_inner_c48__heldout_near_excision_0__direct__fourth_order_action": "b1e9e987a5484c6b4c427085e550d21b396a40bb21a394ed92268fc845b08e69",
+    "parent_direct__N128_exterior_N512_inner_c48__heldout_near_excision_0__direct__sixth_order_action": "00fe884c8a51cc68cb6700b187737ad2a5d6544e2e6744330509ec7a0699ef02"
+  },
+  "decisive_arrays_path": "results/canonical/causal_inner_direct_delta_repair_wp10c9d5c0b/decisive_arrays.npz",
+  "decisive_arrays_sha256": "2692f2bdfa81f62a7189e6c5bc1b91cff083c8896eaf6a4a4d6db0fdd38c0626",
+  "direct_delta_matrix_passed": false,
+  "direct_delta_repair_passed": false,
+  "direct_high_order_evidence_inherited_and_verified": true,
+  "environment": {
+    "blas": {
+      "detection method": "system",
+      "found": true,
+      "include directory": "unknown",
+      "lib directory": "unknown",
+      "name": "accelerate",
+      "openblas configuration": "unknown",
+      "pc file directory": "unknown",
+      "version": "unknown"
+    },
+    "lapack": {
+      "detection method": "system",
+      "found": true,
+      "include directory": "unknown",
+      "lib directory": "unknown",
+      "name": "accelerate",
+      "openblas configuration": "unknown",
+      "pc file directory": "unknown",
+      "version": "unknown"
+    },
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13 (main, Mar  3 2026, 15:35:03) [Clang 21.1.4 ]",
+    "scipy": "1.18.0"
+  },
+  "fail_fast_trigger": {
+    "label": "N128_exterior_N128_inner_c48",
+    "reason": "direct_delta_matrix_action_gate_failed",
+    "worst_matrix_action_defect": {
+      "direction": "calibration_global_inner_0",
+      "region": "through_8rg",
+      "value": 0.00016729229095902717
+    },
+    "worst_matrix_order_difference": {
+      "direction": "calibration_global_inner_0",
+      "region": "through_8rg",
+      "value": 1.6604933237178466e-05
+    }
+  },
+  "fixed_q_micro_solver_authorized": false,
+  "frozen_candidate_recertification_authorized": false,
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_derivative_repair_wp10c9d5c0a.py": "1eb4d9bf953e639183ad9b1af94eb16016a8841308ab1940c4b415b9f2db961d",
+    "scripts/run_causal_inner_direct_delta_repair_wp10c9d5c0b.py": "cd5994f956a921b0efaef6bd1d5370a1fa0bcf34d35683e0177f768b2884b088",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "e4e70591886d6badc8851262332168020a6a3839405af0132520e1bc5c323ced",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_fluctuation.py": "57be77e57cc4b446b82ab54141166e15b34b908194a525a369560bf6b5b2fc7b",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_frozen.py": "4e50f57e7d5feec579915a6f9e5b12fd8ec244ce8ed17191dc9ab8df62d75cfb",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_localization.py": "f5633ebadb5347153705423d6ab4dc847020daf2d08912d59da135700017fe94",
+    "tests/test_causal_inner_direct_delta_repair_wp10c9d5c0b.py": "ed2af7f2cd051d67570cbfda796b52df03d3b18838d172b35df3f64c19a479e1"
+  },
+  "implementation_source_manifest_sha256": "bbb33de52f95080359d7a26499cffa45df1ea3475d5e50818579e271f81c6265",
+  "linearity_equivalence": {
+    "executed": true,
+    "interpretation": "Finite-difference differentiation is linear to roundoff; samplewise candidate-minus-production subtraction reproduces the separately differentiated matrix subtraction.",
+    "label": "N128_exterior_N128_inner_c48",
+    "maximum_relative_difference": 1.0568548665309257e-13,
+    "old_high_order_cache_path": "outputs/checkpoints/causal_inner_derivative_repair_wp10c9d5c0a/N128_exterior_N128_inner_c48_arrays.npz",
+    "old_high_order_cache_sha256": "9044a0df8c06fb6247616ba57b701eb09728b0e00bb86035c77a3fb314e09b0a",
+    "orders": {
+      "4": {
+        "difference_nnz": 10814,
+        "difference_norm": 2.2856237532766783e-12,
+        "maximum_absolute_entry_difference": 1.834877735862328e-13,
+        "relative_difference": 8.974577608749521e-14,
+        "samplewise_delta_matrix_norm": 25.467758516549807,
+        "separately_differentiated_matrix_norm": 25.467758516549793
+      },
+      "6": {
+        "difference_nnz": 10858,
+        "difference_norm": 2.691583258582019e-12,
+        "maximum_absolute_entry_difference": 2.690989792109022e-13,
+        "relative_difference": 1.0568548665309257e-13,
+        "samplewise_delta_matrix_norm": 25.467860761402424,
+        "separately_differentiated_matrix_norm": 25.467860761402452
+      }
+    }
+  },
+  "matrix_reports": {
+    "N128_exterior_N128_inner_c48": {
+      "directions": {
+        "calibration_global_inner_0": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 0.00016603370093584894,
+            "matrix_order_difference": 1.648065206025599e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00014958626650039692
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.00016603367273924216,
+            "matrix_order_difference": 1.6480648289676006e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.0001495862469302408
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 0.00013551854745360716,
+            "matrix_order_difference": 1.3558302112466032e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00012196532175885631
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.000161024486103575,
+            "matrix_order_difference": 1.6096230294600236e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00014493884155709956
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 0.00016729229095902717,
+            "matrix_order_difference": 1.6604933237178466e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.0001507201625757251
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.0001668747141492137,
+            "matrix_order_difference": 1.6562673254563666e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00015034504307989227
+          }
+        },
+        "common_mode": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 1.8644464259189204e-05,
+            "matrix_order_difference": 1.7575714265465728e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 1.690482283370721e-05
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 1.8644464259189204e-05,
+            "matrix_order_difference": 1.7575714265465728e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 1.690482283370721e-05
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 9.182294407455722e-05,
+            "matrix_order_difference": 9.18729541119912e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 8.264107615095392e-05
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.00010456793727704476,
+            "matrix_order_difference": 1.0447672602864684e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 9.41254561810712e-05
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 1.8644464259189204e-05,
+            "matrix_order_difference": 1.7575714265465728e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 1.690482283370721e-05
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 1.8644464259189204e-05,
+            "matrix_order_difference": 1.7575714265465728e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 1.690482283370721e-05
+          }
+        },
+        "heldout_global_0": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 4.74236773769342e-05,
+            "matrix_order_difference": 4.240289611735895e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.348428665778326e-05
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 4.742364862736534e-05,
+            "matrix_order_difference": 4.240286702849025e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.348425930474754e-05
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 3.9643392393199564e-05,
+            "matrix_order_difference": 3.964664418801286e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 3.5676629065004875e-05
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 4.50396616465799e-05,
+            "matrix_order_difference": 4.453071092617983e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.0587674642022615e-05
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 4.812841287065919e-05,
+            "matrix_order_difference": 4.293239261464774e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.414018664070951e-05
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 4.736130587843379e-05,
+            "matrix_order_difference": 4.232632187120863e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.343035365857224e-05
+          }
+        },
+        "heldout_near_excision_0": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 6.382327620412586e-05,
+            "matrix_order_difference": 6.7988443658630596e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 5.7437632110774516e-05
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 6.382327620412586e-05,
+            "matrix_order_difference": 6.7988443658630596e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 5.7437632110774516e-05
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 6.382327620412586e-05,
+            "matrix_order_difference": 6.7988443658630596e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 5.7437632110774516e-05
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 6.382327620412586e-05,
+            "matrix_order_difference": 6.7988443658630596e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 5.7437632110774516e-05
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 6.382327620412586e-05,
+            "matrix_order_difference": 6.7988443658630596e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 5.7437632110774516e-05
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 6.382327620412586e-05,
+            "matrix_order_difference": 6.7988443658630596e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 5.7437632110774516e-05
+          }
+        }
+      },
+      "passed": false
+    }
+  },
+  "nonlinear_candidate_authorized": false,
+  "parent_wp10c9d5_candidate_remains_rejected": true,
+  "parent_wp10c9d5b_branch_d_preserved": true,
+  "parent_wp10c9d5c0a_arrays_path": "results/canonical/causal_inner_derivative_repair_wp10c9d5c0a/decisive_arrays.npz",
+  "parent_wp10c9d5c0a_arrays_sha256": "96372f219d43f232745d189135836e90a579f73a6628ae8b6139d09d25bef10f",
+  "parent_wp10c9d5c0a_remains_rejected": true,
+  "parent_wp10c9d5c0a_summary_path": "results/canonical/causal_inner_derivative_repair_wp10c9d5c0a/summary.json",
+  "parent_wp10c9d5c0a_summary_sha256": "c5a2c946bb9c9c6103b9682129df4bfdd61a76c0787dd81ae76414415b7621f6",
+  "physical_sensitivity": {
+    "executed": false,
+    "passed": false
+  },
+  "production_operator_authorized": false,
+  "reduced_slow_evolution_authorized": false,
+  "runtime_seconds": 13.734156958991662,
+  "schema_version": 1,
+  "self_consistent_tangent_authorized": false,
+  "unattempted_labels": [
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "work_package": "WP10c9d5c0b",
+  "wp10c9d5c1_extended_localization_authorized": false
+}

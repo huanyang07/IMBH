@@ -1,0 +1,29 @@
+{
+  "assembly": "differentiate_samplewise_stationary_delta_directly",
+  "derivative_orders": [
+    4,
+    6
+  ],
+  "fail_fast_on_first_failed_grid": true,
+  "gates": {
+    "maximum_derivative_export_difference": 0.005,
+    "maximum_derivative_to_spatial_ratio": 0.1,
+    "maximum_direct_face_parity_defect": 5e-05,
+    "maximum_matrix_action_defect": 5e-05,
+    "maximum_matrix_order_difference": 2e-05,
+    "maximum_stride_defect": 0.005
+  },
+  "high_order_step": 0.0002,
+  "inherited_direct_evidence_path": "results/canonical/causal_inner_derivative_repair_wp10c9d5c0a/decisive_arrays.npz",
+  "labels": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "method_names": [
+    "fourth_order_h2e4",
+    "sixth_order_h2e4"
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d5c0b"
+}
