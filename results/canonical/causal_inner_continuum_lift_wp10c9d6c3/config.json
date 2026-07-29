@@ -1,0 +1,57 @@
+{
+  "active_cells": {
+    "uniform_N128": 48,
+    "uniform_N256": 96,
+    "uniform_N512": 192,
+    "uniform_N64": 24
+  },
+  "background_coefficient_count": 24,
+  "background_degrees": [
+    5,
+    7
+  ],
+  "gates": {
+    "maximum_background_boundary_defect": 1e-12,
+    "maximum_background_constraint_defect": 0.0001,
+    "maximum_background_representation_difference": 0.001,
+    "maximum_continuum_model_disagreement": 0.05,
+    "maximum_fine_physical_difference": 0.05,
+    "maximum_lift_rate_relative_difference": 1e-08,
+    "maximum_lift_state_relative_difference": 1e-09,
+    "maximum_lift_to_fine_export_ratio": 0.1,
+    "minimum_error_cosine": 0.9,
+    "minimum_export_order": 0.75,
+    "minimum_history_cosine": 0.9,
+    "minimum_second_mode_fraction": 0.05,
+    "minimum_two_mode_explained_fraction": 0.95
+  },
+  "labels": [
+    "uniform_N64",
+    "uniform_N128",
+    "uniform_N256",
+    "uniform_N512"
+  ],
+  "meshes": [
+    64,
+    128,
+    256,
+    512
+  ],
+  "operator_change": false,
+  "perturbations": [
+    "calibration_mixed",
+    "heldout_near_excision"
+  ],
+  "primary_projection_order": 24,
+  "primary_stride": 2,
+  "production_defaults_changed": false,
+  "reference_label": "uniform_N128",
+  "schema_version": 1,
+  "secondary_projection_order": 12,
+  "stride_audits": [
+    1,
+    2,
+    4
+  ],
+  "work_package": "WP10c9d6c3"
+}
