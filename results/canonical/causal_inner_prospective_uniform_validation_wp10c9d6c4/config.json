@@ -1,0 +1,158 @@
+{
+  "active_cells": {
+    "uniform_N128": 48,
+    "uniform_N256": 96,
+    "uniform_N512": 192,
+    "uniform_N64": 24
+  },
+  "amplitude_sign_factors": [
+    -1.0,
+    0.5
+  ],
+  "amplitude_sign_labels": [
+    "uniform_N128",
+    "uniform_N512"
+  ],
+  "analytic_profile_definitions": {
+    "heldout_broad_outer_inner": {
+      "components": [
+        {
+          "center_over_rg": 5.8,
+          "coefficients": [
+            0.004,
+            0.006,
+            -0.003,
+            0.0008,
+            0.018
+          ],
+          "log_width": 0.48
+        },
+        {
+          "center_over_rg": 9.2,
+          "coefficients": [
+            -0.002,
+            0.004,
+            0.006,
+            -0.0006,
+            -0.014
+          ],
+          "log_width": 0.28
+        }
+      ],
+      "description": "two-component broad profile extending toward the outer inner domain",
+      "role": "heldout"
+    },
+    "heldout_first_cell_outgoing": {
+      "amplitude": 0.015,
+      "center_over_rg": 1.84,
+      "characteristic_family": "inward_acoustic",
+      "description": "smooth first-cell-dominated inward-acoustic characteristic that exits through the excision boundary",
+      "log_width": 0.065,
+      "role": "heldout"
+    },
+    "heldout_mid_inner": {
+      "components": [
+        {
+          "center_over_rg": 4.6,
+          "coefficients": [
+            -0.01,
+            0.006,
+            -0.009,
+            0.0018,
+            -0.028
+          ],
+          "log_width": 0.17
+        }
+      ],
+      "description": "moderately narrow mixed profile in the middle inner domain",
+      "role": "heldout"
+    },
+    "heldout_two_lobe_mixed": {
+      "components": [
+        {
+          "center_over_rg": 2.75,
+          "coefficients": [
+            0.007,
+            -0.01,
+            0.004,
+            0.0012,
+            0.024
+          ],
+          "log_width": 0.11
+        },
+        {
+          "center_over_rg": 3.75,
+          "coefficients": [
+            -0.005,
+            0.008,
+            0.007,
+            -0.001,
+            -0.02
+          ],
+          "log_width": 0.16
+        }
+      ],
+      "description": "oppositely signed two-lobe mixed profile",
+      "role": "heldout"
+    }
+  },
+  "calibration_profiles": [
+    "historical_common_smooth_fit"
+  ],
+  "gates": {
+    "maximum_fine_physical_difference": 0.05,
+    "maximum_historical_fit_relative_l2_defect": 0.08,
+    "maximum_historical_representation_difference": 0.02,
+    "maximum_lift_rate_relative_difference": 1e-08,
+    "maximum_lift_state_relative_difference": 1e-09,
+    "maximum_lift_to_fine_export_ratio": 0.1,
+    "maximum_sign_amplitude_export_defect": 1e-11,
+    "maximum_sign_amplitude_state_defect": 1e-11,
+    "minimum_error_cosine": 0.9,
+    "minimum_export_order": 0.75,
+    "minimum_historical_fit_cosine": 0.995,
+    "minimum_history_cosine": 0.9,
+    "restart_defect_normalization": "conservative split/restart upper bound normalized by the maximum initial/final state norm"
+  },
+  "heldout_profiles": [
+    "heldout_mid_inner",
+    "heldout_broad_outer_inner",
+    "heldout_first_cell_outgoing",
+    "heldout_two_lobe_mixed"
+  ],
+  "historical_profile_definition": {
+    "coefficient_count": 24,
+    "independent_degree": 7,
+    "inner_anchor": "first N128 target cell average",
+    "outer_anchor": "zero perturbation",
+    "primary_degree": 5,
+    "role": "calibration_only",
+    "source": "N128 historical common physical perturbation from the committed WP10c9d6c replay inputs"
+  },
+  "labels": [
+    "uniform_N64",
+    "uniform_N128",
+    "uniform_N256",
+    "uniform_N512"
+  ],
+  "meshes": [
+    64,
+    128,
+    256,
+    512
+  ],
+  "operator_change": false,
+  "primary_projection_order": 24,
+  "primary_stride": 2,
+  "production_defaults_changed": false,
+  "profile_definition_sha256": "ea204dd405ddd5331feb269d93def2239f2643671919379abfc83fa9c4bb178a",
+  "reference_label": "uniform_N128",
+  "schema_version": 1,
+  "secondary_projection_order": 12,
+  "stride_audits": [
+    1,
+    2,
+    4
+  ],
+  "work_package": "WP10c9d6c4"
+}
