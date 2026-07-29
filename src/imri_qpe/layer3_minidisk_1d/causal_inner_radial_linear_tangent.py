@@ -1140,6 +1140,7 @@ class CausalFiveFieldRadialAnalyticTangent:
     conservation_row_scales: np.ndarray
     left_reconstruction_weights: np.ndarray
     right_reconstruction_weights: np.ndarray
+    shared_face_flux_scaled_jacobians: np.ndarray
     block_scaled_jacobians: dict[str, np.ndarray]
     candidate_stationary_scaled_jacobian: np.ndarray
     path_quadrature_order: int
@@ -2207,6 +2208,9 @@ def causal_five_field_radial_analytic_tangent(
         conservation_row_scales=np.array(rows, copy=True),
         left_reconstruction_weights=left_weights,
         right_reconstruction_weights=right_weights,
+        shared_face_flux_scaled_jacobians=(
+            np.asarray(face_flux, dtype=float) * columns[None, None, :]
+        ),
         block_scaled_jacobians=scaled_blocks,
         candidate_stationary_scaled_jacobian=candidate,
         path_quadrature_order=order,

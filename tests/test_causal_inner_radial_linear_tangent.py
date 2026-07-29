@@ -148,6 +148,27 @@ def test_radial_analytic_tangent_is_additive_and_homogeneous() -> None:
     assert tangent.principal_matrix_derivatives_included is True
     assert tangent.characteristic_face_speeds_over_c.shape == (6, 5)
     assert tangent.characteristic_face_radii.shape == (6,)
+    assert tangent.shared_face_flux_scaled_jacobians.shape == (
+        6,
+        5,
+        dimensions,
+    )
+    conservative_physical = (
+        tangent.block_scaled_jacobians[
+            "candidate_conservative_transport"
+        ]
+        * tangent.conservation_row_scales[:, None]
+    )
+    direct_conservative = (
+        tangent.shared_face_flux_scaled_jacobians[1:]
+        - tangent.shared_face_flux_scaled_jacobians[:-1]
+    ).reshape(conservative_physical.shape)
+    np.testing.assert_allclose(
+        direct_conservative,
+        conservative_physical,
+        rtol=2.0e-13,
+        atol=1.0e-12,
+    )
     assert tangent.minimum_characteristic_spectral_gap > 0.0
     assert np.isfinite(
         tangent.maximum_characteristic_descriptor_condition_number
