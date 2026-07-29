@@ -143,6 +143,11 @@ from .causal_inner_monolithic_dae import (
     causal_five_field_temporal_storage_integrability_audit,
     evaluate_causal_five_field_monolithic_backward_euler,
 )
+from .causal_inner_monolithic_tangent import (
+    CausalFiveFieldMonolithicFrozenTangent,
+    causal_five_field_monolithic_frozen_tangent,
+    causal_five_field_monolithic_storage_rate_action,
+)
 from .causal_inner_radial_frozen import (
     CausalFiveFieldRadialFrozenCandidate,
     causal_five_field_radial_frozen_candidate,
@@ -1472,6 +1477,9 @@ __all__ = [
     "causal_five_field_monolithic_storage_increment",
     "causal_five_field_temporal_storage_integrability_audit",
     "evaluate_causal_five_field_monolithic_backward_euler",
+    "CausalFiveFieldMonolithicFrozenTangent",
+    "causal_five_field_monolithic_frozen_tangent",
+    "causal_five_field_monolithic_storage_rate_action",
     "CausalFiveFieldRadialFrozenCandidate",
     "CausalFiveFieldAnalyticLocalMaps",
     "CausalFiveFieldFrozenAnalyticTangent",

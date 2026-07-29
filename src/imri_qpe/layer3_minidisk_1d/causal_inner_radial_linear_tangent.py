@@ -516,8 +516,11 @@ class CausalFiveFieldAnalyticLocalMaps:
     primitive_chart: np.ndarray
     mapped_conserved: np.ndarray
     mapped_conserved_jacobian: np.ndarray
+    mapped_conserved_hessian: np.ndarray
     vertical_storage_matrix: np.ndarray
+    vertical_storage_derivative: np.ndarray
     temporal_storage_matrix: np.ndarray
+    temporal_storage_derivative: np.ndarray
     physical_flux_over_c: np.ndarray
     physical_flux_jacobian: np.ndarray
     shear_principal_source_matrix: np.ndarray
@@ -726,7 +729,7 @@ def causal_five_field_analytic_local_maps(
     ):
         raise ValueError("analytic local-map inputs are invalid")
     state = _jet_physical_state(context, radius, chart)
-    conserved, conserved_jacobian, _conserved_hessian = _extract_vector(
+    conserved, conserved_jacobian, conserved_hessian = _extract_vector(
         state.killing_conserved
     )
     flux, flux_jacobian, _flux_hessian = _extract_vector(
@@ -743,34 +746,32 @@ def causal_five_field_analytic_local_maps(
         radius,
         context.grid.gravitational_radius,
     )
-    four_velocity = np.asarray(
-        [value.value for value in state.four_velocity],
-        dtype=float,
-    )
-    lower_velocity = np.asarray(
-        [value.value for value in state.lower_four_velocity],
-        dtype=float,
-    )
-    pressure = float(state.pressure.value)
-    log_height_gradient = _jlog(state.height).gradient
-    vertical_storage = np.zeros((_N_FIELDS, _N_FIELDS), dtype=float)
+    zero = _jconstant(0.0)
+    log_height = _jlog(state.height)
+    vertical_storage_jets = [
+        [zero for _column in range(_N_FIELDS)]
+        for _row in range(_N_FIELDS)
+    ]
     for column in range(_N_FIELDS):
         coefficient = (
             geometry.base.lapse
-            * pressure
-            * log_height_gradient[column]
-            * four_velocity[0]
+            * state.pressure
+            * _lift_first_derivative(log_height, column)
+            * state.four_velocity[0]
             / C**2
         )
-        vertical_storage[:4, column] = np.asarray(
-            [
-                0.0,
-                coefficient * lower_velocity[1],
-                coefficient * lower_velocity[2],
-                -coefficient * lower_velocity[0],
-            ],
-            dtype=float,
+        vertical_storage_jets[1][column] = (
+            coefficient * state.lower_four_velocity[1]
         )
+        vertical_storage_jets[2][column] = (
+            coefficient * state.lower_four_velocity[2]
+        )
+        vertical_storage_jets[3][column] = (
+            -coefficient * state.lower_four_velocity[0]
+        )
+    vertical_storage, vertical_storage_derivative = _extract_matrix(
+        tuple(tuple(row) for row in vertical_storage_jets)
+    )
     lower_jets = _jet_lower_sources(
         context,
         radius,
@@ -790,8 +791,13 @@ def causal_five_field_analytic_local_maps(
         primitive_chart=np.array(chart, copy=True),
         mapped_conserved=conserved,
         mapped_conserved_jacobian=conserved_jacobian,
+        mapped_conserved_hessian=conserved_hessian,
         vertical_storage_matrix=vertical_storage,
+        vertical_storage_derivative=vertical_storage_derivative,
         temporal_storage_matrix=conserved_jacobian + vertical_storage,
+        temporal_storage_derivative=(
+            conserved_hessian + vertical_storage_derivative
+        ),
         physical_flux_over_c=flux,
         physical_flux_jacobian=flux_jacobian,
         shear_principal_source_matrix=shear,
@@ -1144,6 +1150,7 @@ class CausalFiveFieldRadialAnalyticTangent:
     block_scaled_jacobians: dict[str, np.ndarray]
     candidate_stationary_scaled_jacobian: np.ndarray
     path_quadrature_order: int
+    center_broken_within_cell_paths: bool
     characteristic_subspaces_frozen: bool
     principal_matrix_derivatives_included: bool
     explicit_geometry_log_radius_step: float
@@ -1817,6 +1824,7 @@ def causal_five_field_radial_analytic_tangent(
     primitive_column_scales: np.ndarray,
     conservation_row_scales: np.ndarray,
     path_quadrature_order: int = 6,
+    center_broken_within_cell_paths: bool = False,
     stationary_speed_tolerance: float = 1.0e-12,
     explicit_geometry_log_radius_step: float = (
         _EXPLICIT_GEOMETRY_LOG_RADIUS_STEP
@@ -2080,18 +2088,72 @@ def causal_five_field_radial_analytic_tangent(
             quadrature_order=order,
             fixed_radius=False,
         )
-        shear_within = _trace_operator(
-            shear_path_left,
-            right_weights[cell],
-            shear_path_right,
-            left_weights[cell + 1],
-        )
-        height_within = _trace_operator(
-            height_path_left,
-            right_weights[cell],
-            height_path_right,
-            left_weights[cell + 1],
-        )
+        if center_broken_within_cell_paths:
+            center_weights = np.zeros(n_cells, dtype=float)
+            center_weights[cell] = 1.0
+            (
+                shear_left_half_left,
+                shear_left_half_right,
+                height_left_half_left,
+                height_left_half_right,
+            ) = _path_source_endpoint_tangents(
+                context,
+                float(context.grid.edges[cell]),
+                float(context.grid.centers[cell]),
+                right_faces[cell],
+                base[cell],
+                quadrature_order=order,
+                fixed_radius=False,
+            )
+            (
+                shear_right_half_left,
+                shear_right_half_right,
+                height_right_half_left,
+                height_right_half_right,
+            ) = _path_source_endpoint_tangents(
+                context,
+                float(context.grid.centers[cell]),
+                float(context.grid.edges[cell + 1]),
+                base[cell],
+                left_faces[cell + 1],
+                quadrature_order=order,
+                fixed_radius=False,
+            )
+            shear_within = _trace_operator(
+                shear_left_half_left,
+                right_weights[cell],
+                shear_left_half_right,
+                center_weights,
+            ) + _trace_operator(
+                shear_right_half_left,
+                center_weights,
+                shear_right_half_right,
+                left_weights[cell + 1],
+            )
+            height_within = _trace_operator(
+                height_left_half_left,
+                right_weights[cell],
+                height_left_half_right,
+                center_weights,
+            ) + _trace_operator(
+                height_right_half_left,
+                center_weights,
+                height_right_half_right,
+                left_weights[cell + 1],
+            )
+        else:
+            shear_within = _trace_operator(
+                shear_path_left,
+                right_weights[cell],
+                shear_path_right,
+                left_weights[cell + 1],
+            )
+            height_within = _trace_operator(
+                height_path_left,
+                right_weights[cell],
+                height_path_right,
+                left_weights[cell + 1],
+            )
         physical_blocks["candidate_shear_principal"][row_slice] = (
             -shear_within
             + shear_right_face[cell]
@@ -2214,6 +2276,9 @@ def causal_five_field_radial_analytic_tangent(
         block_scaled_jacobians=scaled_blocks,
         candidate_stationary_scaled_jacobian=candidate,
         path_quadrature_order=order,
+        center_broken_within_cell_paths=bool(
+            center_broken_within_cell_paths
+        ),
         characteristic_subspaces_frozen=True,
         principal_matrix_derivatives_included=True,
         explicit_geometry_log_radius_step=geometry_step,

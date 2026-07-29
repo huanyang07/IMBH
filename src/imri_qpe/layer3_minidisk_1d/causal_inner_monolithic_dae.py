@@ -458,6 +458,36 @@ def causal_five_field_monolithic_storage_increment(
         raise ValueError("monolithic storage path controls are invalid")
 
     nodes = _spatial_nodes(context)
+    if np.array_equal(old, new):
+        _node_values, factors = _node_charts(context, old, nodes)
+        zeros = np.zeros_like(old)
+        exact_affine = bool(
+            context.spatial_reconstruction
+            in {
+                "piecewise_constant",
+                "plm_unlimited",
+                "quadratic_admissible",
+            }
+            and np.array_equal(factors, np.ones_like(factors))
+        )
+        return CausalFiveFieldMonolithicStorageIncrement(
+            old_primitive_charts=np.array(old, copy=True),
+            new_primitive_charts=np.array(new, copy=True),
+            mapped_endpoint_increment=np.array(zeros, copy=True),
+            mapped_path_increment=np.array(zeros, copy=True),
+            responsive_height_path_increment=np.array(zeros, copy=True),
+            total_storage_increment=np.array(zeros, copy=True),
+            temporal_quadrature_order=order,
+            reconstruction_directional_step=step,
+            maximum_mapped_path_closure_defect=0.0,
+            maximum_affine_reconstruction_path_defect=0.0,
+            maximum_path_reconstruction_factor_change=0.0,
+            minimum_path_reconstruction_factor=float(np.min(factors)),
+            one_flux_reconstruction_for_space_and_storage=True,
+            uses_exact_affine_reconstruction_path_derivative=exact_affine,
+            mapped_storage_is_exact_endpoint_increment=True,
+            responsive_height_is_nonconservative_temporal_product=True,
+        )
     old_mapped, old_factors, old_nodes = _integrated_mapped_storage(
         context,
         old,

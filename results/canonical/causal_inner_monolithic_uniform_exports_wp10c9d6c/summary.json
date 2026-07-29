@@ -1,0 +1,367 @@
+{
+  "analyzed_base_commit": "5884b307a3245e6f1c948d5147b5c2a1c70a509a",
+  "analyzed_base_parent_commit": "4140ffeb58ce791425219b88209a8f20e0e2a70d",
+  "analyzed_base_tree_sha": "642ce35037d49da876f80a842d22aa5b7527f2cc",
+  "candidate_base_rate_is_self_consistent": true,
+  "center_broken_within_cell_paths": true,
+  "classification": "monolithic_uniform_physical_exports_rejected",
+  "common_mode_passed": false,
+  "decisive_array_hashes": {
+    "common_mode__uniform_N128__cumulative": "73e827d9121e6778660b2bd27ee02627ff9b70b71b82e49779595bca62a821ca",
+    "common_mode__uniform_N128__final_scaled_state": "1dca4d9727c93d71983b8e3f8be6138e000d92986a86bd2f21dc101501f8be24",
+    "common_mode__uniform_N128__signals": "c728c42879ef24fac06fea0bf112c84c5250dd2ad0c1274170ba512f109210c4",
+    "common_mode__uniform_N128__times": "e3d2e2946055b088ddbfcfd5700e2d6e6712475d7c333d1b1a493a07b87b28be",
+    "common_mode__uniform_N256__cumulative": "031fef0493c8c21015781f17595ae153800d96c45f4e15cfafd1cc32cfbd2cb2",
+    "common_mode__uniform_N256__final_scaled_state": "d1b27acfe3a9f53a0541a2c32428e6e1dba48bcc4e502702794529a7376237dc",
+    "common_mode__uniform_N256__signals": "a187580b02cbff281e1af3a1dec5d840fbb5cea019a6e9cff7db5b9993470d47",
+    "common_mode__uniform_N256__times": "e3d2e2946055b088ddbfcfd5700e2d6e6712475d7c333d1b1a493a07b87b28be",
+    "common_mode__uniform_N64__cumulative": "308400447edcc2a0dce7e6615db3461f236b892c2875e5e9031e183308089855",
+    "common_mode__uniform_N64__final_scaled_state": "b6fc68135d9e6ee8ba19506b44b802d28780c579f323332a0bfa79759a7b85e1",
+    "common_mode__uniform_N64__signals": "64fb7279359425bb5884f377b39b7d1f2c9943378520b97fd3496bcc3614e54f",
+    "common_mode__uniform_N64__times": "e3d2e2946055b088ddbfcfd5700e2d6e6712475d7c333d1b1a493a07b87b28be",
+    "fixed_physical_observable_scales": "fd7dcc9ca75f3e9c7b1333846986e9aaeb19c45442f0dd8c7f6c6901f8430a99",
+    "uniform_N128__baseline_observables": "cce09be760486fb6b511b1f7cee9b7e75315e0c02c1cec256f7c5f6d954e6ea6",
+    "uniform_N128__descriptor": "dc2471ca3534b1fde264ecdf04a03525538b90825c5b55ac423a0fc58fa02ce2",
+    "uniform_N128__generator": "ca31e29de2bd0a3470d2b513371bf10f0973037c9378fb0d03c96eaefa8be792",
+    "uniform_N128__observable_map": "0f95a9c211468372dc5d01eaa8cabe28a4ba6bd3ef20fda312343c0b88982754",
+    "uniform_N128__scaled_base_rate": "19aac39202457676d148a373771a417d06f7d1f826764fb38816c6c77ffa1472",
+    "uniform_N128__stationary_jacobian": "0cd13a89ef405a45c7b480253eaa41db5e34b261720e376512d49b626816341b",
+    "uniform_N128__storage_rate_derivative": "de4d6ccd4dfadb4b9f708a2f6c3772794d6fccbbe210ecee748639ec8f9daf74",
+    "uniform_N256__baseline_observables": "75f53d3745fdf0bfa954a8f9bf3f093e5269d4dde9bead66ecd9e199024b43ee",
+    "uniform_N256__descriptor": "4f2cb0cdfe6bd7e27944c857b681067899e86237bb9fd4a9f9241456b213a0ff",
+    "uniform_N256__generator": "89439231435437a954c25ddaabe1bfb6a716d2ab8c8b8c0c6b22b200328a97c8",
+    "uniform_N256__observable_map": "439bbe4ec6f66aace7ed4114a2a4457a1e191a4fc9e42d62c74f6e8d4c7323b2",
+    "uniform_N256__scaled_base_rate": "f54287e596d680d3967b1285423f23890a386649773822e717dfa007189b5f2e",
+    "uniform_N256__stationary_jacobian": "87d742601f4d8e689a24278b4d3b872c925e3bccb98820d269cb7f5d9db7461f",
+    "uniform_N256__storage_rate_derivative": "883525f9b3971863a0b335655470c78cd804e5855e988d8aada9aa0d241cbca1",
+    "uniform_N64__baseline_observables": "ddc91dd42a755e2d750d67696d5eab5bde66c90690cf478852c4c70b357a5e70",
+    "uniform_N64__descriptor": "e65c9b3b0e8ab565cf64814679dd419ee560ba95843f63142d9ce1c16f97f9f8",
+    "uniform_N64__generator": "224bd5fd573a1256104e8d04dab03a0ff915b52e8d00e3f878e3a54dedcffa41",
+    "uniform_N64__observable_map": "8208dad976b675e3a6cadfd795d8fd83a6cece449ac897cddd888b15f3c6371e",
+    "uniform_N64__scaled_base_rate": "88d0b47c31325fbac7cc180369dc9b399b508884f065cd57479d0474fd3f29d2",
+    "uniform_N64__stationary_jacobian": "2cf821bf0ab554c6bebf92c215b71abcde3c789d07107fa1c05775299098e6a9",
+    "uniform_N64__storage_rate_derivative": "f4f00eedad19f9d466c06e8df8507dc3dc63fef3b6e284493878b07e12469328"
+  },
+  "decisive_arrays_path": "results/canonical/causal_inner_monolithic_uniform_exports_wp10c9d6c/decisive_arrays.npz",
+  "decisive_arrays_sha256": "bc290ada1766ca59e774e471c1234a1c786a82cf60bb785f8c716d0cc94a0782",
+  "embedded_export_discrimination_authorized": false,
+  "environment": {
+    "machine": "arm64",
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "fixed_physical_observable_scales": [
+    13373440146275.834,
+    1.9720131919816006e+23,
+    17916328069576.35,
+    13373440146275.834,
+    1.9720131919816006e+23,
+    17916328069576.35,
+    13373440146275.834,
+    1.9720131919816006e+23,
+    17916328069576.35,
+    1.9720131919816006e+23,
+    17916328069576.35,
+    1.9720131919816006e+23,
+    17916328069576.35
+  ],
+  "fixed_q_micro_solver_authorized": false,
+  "held_out_ladders_passed": false,
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_monolithic_uniform_exports_wp10c9d6c.py": "4ee532571bb4ee5b847d2ed47720282014fa3fbfbee87b431a9fc4d8ba657f78",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "8927c09cd332c350b1788a242272bc5c29ceba17c85d8163163aa4ff6985e8e3",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_dae.py": "accc91099db9a29002f7dc28f2d7e5b82acfef4347eb5c6034d7e4f5c87ee3b3",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_tangent.py": "23a958a894fc40188a0cda1e640f943bd00dc8070a64af4b2b2a56cd609ba0c4",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_linear_tangent.py": "6c37568dbebef73b8de17defad3ce9a1d6afd78a661d8befa4155317c33eb969",
+    "tests/test_causal_inner_monolithic_tangent.py": "4bbd79bf5154e6fcb05588cee445ea0a720534befe711d491fa1ebd30614c4e8",
+    "tests/test_causal_inner_monolithic_uniform_exports_wp10c9d6c.py": "4028e3173aeca5dfa86c0e0316c60c0f53fa7ffba31efdd86264152ca4f99a12"
+  },
+  "implementation_source_manifest_sha256": "4a37d86ea0c191cc28d6cea8548250dd721f3f7f4a720d3143f382922d317bca",
+  "ladders": {
+    "common_mode": {
+      "cumulative": {
+        "component_orders": {
+          "cooling_angular_momentum": 1.5568515248853871,
+          "cooling_killing_energy": 1.2858319841125232,
+          "inner_flux_angular_momentum": 7.265601284217978,
+          "inner_flux_killing_energy": 7.068624005021446,
+          "inner_flux_mass": 6.235654189127707,
+          "net_drive_angular_momentum": 7.232410437937721,
+          "net_drive_killing_energy": 7.051033815148757,
+          "net_drive_mass": 6.235654189127913,
+          "vertical_work_angular_momentum": 1.4522284658318336,
+          "vertical_work_killing_energy": 1.3880627579670366
+        },
+        "fine_maximum_physical_difference": 2.8360865508844993e-06,
+        "fine_rms_physical_difference": 8.578367271490459e-07,
+        "history_cosine": 0.9999992334340735,
+        "minimum_component_order": 1.2858319841125232,
+        "observed_maximum_order": 6.4392998354353,
+        "observed_rms_order": 6.810030697835592,
+        "passed": false,
+        "refinement_error_cosine": 0.038215667984193194,
+        "significant_components": [
+          "inner_flux_mass",
+          "inner_flux_angular_momentum",
+          "inner_flux_killing_energy",
+          "net_drive_mass",
+          "net_drive_angular_momentum",
+          "net_drive_killing_energy",
+          "cooling_angular_momentum",
+          "cooling_killing_energy",
+          "vertical_work_angular_momentum",
+          "vertical_work_killing_energy"
+        ]
+      },
+      "executed": true,
+      "instantaneous": {
+        "component_orders": {
+          "cooling_angular_momentum": 1.6846106358374653,
+          "cooling_killing_energy": 1.4810078012210228,
+          "inner_flux_angular_momentum": 4.245380228267443,
+          "inner_flux_killing_energy": 4.253603493828027,
+          "inner_flux_mass": 3.907267543521474,
+          "net_drive_angular_momentum": 4.236307129365991,
+          "net_drive_killing_energy": 4.240479985893308,
+          "net_drive_mass": 3.9072675435214808,
+          "vertical_work_angular_momentum": 1.604523717237077,
+          "vertical_work_killing_energy": 1.5993595801625253
+        },
+        "fine_maximum_physical_difference": 4.0247378303421774e-05,
+        "fine_rms_physical_difference": 9.193134682904754e-06,
+        "history_cosine": 0.9999952259008825,
+        "minimum_component_order": 1.4810078012210228,
+        "observed_maximum_order": 4.117108775080708,
+        "observed_rms_order": 4.171905585769787,
+        "passed": false,
+        "refinement_error_cosine": 0.13043210597820834,
+        "significant_components": [
+          "inner_flux_mass",
+          "inner_flux_angular_momentum",
+          "inner_flux_killing_energy",
+          "net_drive_mass",
+          "net_drive_angular_momentum",
+          "net_drive_killing_energy",
+          "cooling_angular_momentum",
+          "cooling_killing_energy",
+          "vertical_work_angular_momentum",
+          "vertical_work_killing_energy"
+        ]
+      },
+      "passed": false,
+      "restart_defects": {
+        "uniform_N128": 9.438421299783412e-16,
+        "uniform_N256": 1.7129415632221238e-15,
+        "uniform_N64": 2.959944595690903e-16
+      },
+      "restart_passed": true,
+      "state_norms": {
+        "uniform_N128": {
+          "final": 0.12359660798919997,
+          "initial": 0.29077797915271675,
+          "maximum": 0.29077797915271675
+        },
+        "uniform_N256": {
+          "final": 0.17831510144417365,
+          "initial": 0.41127913408510886,
+          "maximum": 0.41127913408510886
+        },
+        "uniform_N64": {
+          "final": 0.0937371536445778,
+          "initial": 0.20605467909878103,
+          "maximum": 0.206054679098781
+        }
+      }
+    },
+    "heldout_mid_inner": {
+      "executed": false,
+      "passed": false,
+      "reason": "binding common-mode uniform physical-export gate did not pass"
+    },
+    "heldout_near_excision": {
+      "executed": false,
+      "passed": false,
+      "reason": "binding common-mode uniform physical-export gate did not pass"
+    }
+  },
+  "method_passed": true,
+  "method_reports": {
+    "uniform_N128": {
+      "descriptor_condition_number": 1949.2024815251327,
+      "directional_audits": {
+        "common_mode": {
+          "export_relative_defect": 9.008059928166737e-11,
+          "scaled_direction_normalization": 0.08622493928377382,
+          "stationary_relative_defect": 6.378017532857621e-09,
+          "storage_rate_relative_defect": 8.122699375326313e-12
+        },
+        "heldout_near_excision": {
+          "export_relative_defect": 1.4846906878892225e-11,
+          "scaled_direction_normalization": 0.000497352206172202,
+          "stationary_relative_defect": 1.935707122077192e-09,
+          "storage_rate_relative_defect": 2.1956072795701598e-12
+        }
+      },
+      "gates": {
+        "base_rate_balance": true,
+        "center_broken_paths": true,
+        "centered_storage_action": true,
+        "characteristics": true,
+        "descriptor_components": true,
+        "descriptor_condition": true,
+        "directional_export": true,
+        "directional_stationary": true,
+        "directional_storage_rate": true,
+        "generator_factorization": true,
+        "node_partition": true,
+        "node_reconstruction": true,
+        "production_neutral": true,
+        "storage_rate_components": true
+      },
+      "incoming_excision_characteristics": 0,
+      "maximum_base_rate_balance_defect": 3.413358188370072e-16,
+      "maximum_centered_storage_action_defect": 2.2876736044063451e-10,
+      "maximum_characteristic_descriptor_condition": 5680.2266072494085,
+      "maximum_descriptor_component_defect": 1.035457084368621e-17,
+      "maximum_directional_export_defect": 9.008059928166737e-11,
+      "maximum_directional_stationary_defect": 6.378017532857621e-09,
+      "maximum_directional_storage_rate_defect": 8.122699375326313e-12,
+      "maximum_generator_factorization_defect": 2.5896485386316415e-16,
+      "maximum_node_partition_defect": 2.220446049250313e-16,
+      "maximum_node_reconstruction_defect": 3.48015181841207e-16,
+      "maximum_storage_rate_component_defect": 4.240887207761913e-17,
+      "minimum_absolute_characteristic_speed": 0.43187803128181307,
+      "minimum_characteristic_spectral_gap": 0.005035583948776456,
+      "passed": true
+    },
+    "uniform_N256": {
+      "descriptor_condition_number": 1986.4053079883206,
+      "directional_audits": {
+        "common_mode": {
+          "export_relative_defect": 1.1907815430202228e-10,
+          "scaled_direction_normalization": 0.08652597980079701,
+          "stationary_relative_defect": 5.23893625671263e-09,
+          "storage_rate_relative_defect": 8.531300320402715e-12
+        },
+        "heldout_near_excision": {
+          "export_relative_defect": 1.055648368732123e-10,
+          "scaled_direction_normalization": 0.0004994634249775413,
+          "stationary_relative_defect": 1.5514464774246839e-09,
+          "storage_rate_relative_defect": 2.2487445022941003e-12
+        }
+      },
+      "gates": {
+        "base_rate_balance": true,
+        "center_broken_paths": true,
+        "centered_storage_action": true,
+        "characteristics": true,
+        "descriptor_components": true,
+        "descriptor_condition": true,
+        "directional_export": true,
+        "directional_stationary": true,
+        "directional_storage_rate": true,
+        "generator_factorization": true,
+        "node_partition": true,
+        "node_reconstruction": true,
+        "production_neutral": true,
+        "storage_rate_components": true
+      },
+      "incoming_excision_characteristics": 0,
+      "maximum_base_rate_balance_defect": 3.3002358888446813e-16,
+      "maximum_centered_storage_action_defect": 2.1082218964958953e-10,
+      "maximum_characteristic_descriptor_condition": 5679.8581985138235,
+      "maximum_descriptor_component_defect": 9.832796211741973e-18,
+      "maximum_directional_export_defect": 1.1907815430202228e-10,
+      "maximum_directional_stationary_defect": 5.23893625671263e-09,
+      "maximum_directional_storage_rate_defect": 8.531300320402715e-12,
+      "maximum_generator_factorization_defect": 2.5599917524824774e-16,
+      "maximum_node_partition_defect": 2.220446049250313e-16,
+      "maximum_node_reconstruction_defect": 3.479972793763328e-16,
+      "maximum_storage_rate_component_defect": 4.3844571833275425e-17,
+      "minimum_absolute_characteristic_speed": 0.4318792874436386,
+      "minimum_characteristic_spectral_gap": 0.005035756420593229,
+      "passed": true
+    },
+    "uniform_N64": {
+      "descriptor_condition_number": 1876.4556579957143,
+      "directional_audits": {
+        "common_mode": {
+          "export_relative_defect": 2.484757220718687e-11,
+          "scaled_direction_normalization": 0.08687361176800895,
+          "stationary_relative_defect": 7.017977917539792e-09,
+          "storage_rate_relative_defect": 8.137314942669209e-12
+        },
+        "heldout_near_excision": {
+          "export_relative_defect": 2.0722290846346496e-10,
+          "scaled_direction_normalization": 0.0004999731224820405,
+          "stationary_relative_defect": 1.3827223053404748e-09,
+          "storage_rate_relative_defect": 2.420230884615186e-12
+        }
+      },
+      "gates": {
+        "base_rate_balance": true,
+        "center_broken_paths": true,
+        "centered_storage_action": true,
+        "characteristics": true,
+        "descriptor_components": true,
+        "descriptor_condition": true,
+        "directional_export": true,
+        "directional_stationary": true,
+        "directional_storage_rate": true,
+        "generator_factorization": true,
+        "node_partition": true,
+        "node_reconstruction": true,
+        "production_neutral": true,
+        "storage_rate_components": true
+      },
+      "incoming_excision_characteristics": 0,
+      "maximum_base_rate_balance_defect": 3.697577148126078e-16,
+      "maximum_centered_storage_action_defect": 2.191616594484514e-10,
+      "maximum_characteristic_descriptor_condition": 5686.687696648409,
+      "maximum_descriptor_component_defect": 1.1296514484292044e-17,
+      "maximum_directional_export_defect": 2.0722290846346496e-10,
+      "maximum_directional_stationary_defect": 7.017977917539792e-09,
+      "maximum_directional_storage_rate_defect": 8.137314942669209e-12,
+      "maximum_generator_factorization_defect": 2.577387133379555e-16,
+      "maximum_node_partition_defect": 2.220446049250313e-16,
+      "maximum_node_reconstruction_defect": 2.32031387364013e-16,
+      "maximum_storage_rate_component_defect": 4.310446407555604e-17,
+      "minimum_absolute_characteristic_speed": 0.43188027585778255,
+      "minimum_characteristic_spectral_gap": 0.005032549292314226,
+      "passed": true
+    }
+  },
+  "nonlinear_physical_trajectory_authorized": false,
+  "observable_names": [
+    "inner_flux_mass",
+    "inner_flux_angular_momentum",
+    "inner_flux_killing_energy",
+    "interface_flux_mass",
+    "interface_flux_angular_momentum",
+    "interface_flux_killing_energy",
+    "net_drive_mass",
+    "net_drive_angular_momentum",
+    "net_drive_killing_energy",
+    "cooling_angular_momentum",
+    "cooling_killing_energy",
+    "vertical_work_angular_momentum",
+    "vertical_work_killing_energy"
+  ],
+  "parent_manufactured_preflight_remains_passed": true,
+  "parent_wp10c9d6b_summary_path": "results/canonical/causal_inner_monolithic_manufactured_wp10c9d6b/summary.json",
+  "parent_wp10c9d6b_summary_sha256": "c92ca7770bd1a91dbf88e46d2cde4ed1b095503ecb5959e34874524cdad9024e",
+  "passed": false,
+  "production_operator_authorized": false,
+  "reduced_slow_evolution_authorized": false,
+  "replay_contexts_path": "results/canonical/causal_inner_monolithic_uniform_exports_wp10c9d6c/replay_contexts.json",
+  "replay_contexts_sha256": "d1df1db5e68f5b6b4efe7d544a460ef1550a7abcb28f3091ba3e8f42b7984c3c",
+  "replay_inputs_path": "results/canonical/causal_inner_monolithic_uniform_exports_wp10c9d6c/replay_inputs.npz",
+  "replay_inputs_sha256": "8ca946e9209ae475877c14aee80e3a870d201b3bc4250519e7d4cdbe9b253fc2",
+  "runtime_seconds": 438.7554031671025,
+  "schema_version": 1,
+  "uses_production_anchor_storage_derivative": false,
+  "uses_production_generator": false,
+  "work_package": "WP10c9d6c"
+}

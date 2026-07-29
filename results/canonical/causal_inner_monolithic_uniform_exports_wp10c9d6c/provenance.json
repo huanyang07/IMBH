@@ -1,0 +1,30 @@
+{
+  "analyzed_base_commit": "5884b307a3245e6f1c948d5147b5c2a1c70a509a",
+  "analyzed_base_parent_commit": "4140ffeb58ce791425219b88209a8f20e0e2a70d",
+  "analyzed_base_tree_sha": "642ce35037d49da876f80a842d22aa5b7527f2cc",
+  "authorization_status": "none",
+  "does_not_establish": "Embedded coupling convergence, a nonlinear physical trajectory, production readiness, fixed-Q closure, or reduced slow evolution.",
+  "establishes": "A self-consistent production-neutral monolithic frozen tangent and, conditionally, uniform-grid instantaneous and cumulative physical-export convergence.",
+  "generation_command": "PYTHONPATH=src:scripts python3 scripts/run_causal_inner_monolithic_uniform_exports_wp10c9d6c.py",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_monolithic_uniform_exports_wp10c9d6c.py": "4ee532571bb4ee5b847d2ed47720282014fa3fbfbee87b431a9fc4d8ba657f78",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "8927c09cd332c350b1788a242272bc5c29ceba17c85d8163163aa4ff6985e8e3",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_dae.py": "accc91099db9a29002f7dc28f2d7e5b82acfef4347eb5c6034d7e4f5c87ee3b3",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_tangent.py": "23a958a894fc40188a0cda1e640f943bd00dc8070a64af4b2b2a56cd609ba0c4",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_linear_tangent.py": "6c37568dbebef73b8de17defad3ce9a1d6afd78a661d8befa4155317c33eb969",
+    "tests/test_causal_inner_monolithic_tangent.py": "4bbd79bf5154e6fcb05588cee445ea0a720534befe711d491fa1ebd30614c4e8",
+    "tests/test_causal_inner_monolithic_uniform_exports_wp10c9d6c.py": "4028e3173aeca5dfa86c0e0316c60c0f53fa7ffba31efdd86264152ca4f99a12"
+  },
+  "implementation_source_manifest_sha256": "4a37d86ea0c191cc28d6cea8548250dd721f3f7f4a720d3143f382922d317bca",
+  "parent_canonical_hashes": {
+    "results/canonical/causal_inner_monolithic_manufactured_wp10c9d6b/decisive_arrays.npz": "4f6b31edf6f6799796eb752792445599c58bbef99884e76f870ad05570d79945",
+    "results/canonical/causal_inner_monolithic_manufactured_wp10c9d6b/summary.json": "c92ca7770bd1a91dbf88e46d2cde4ed1b095503ecb5959e34874524cdad9024e"
+  },
+  "replay_source_hashes": {
+    "outputs/tables/causal_inner_common_mode_audit_wp10c8y_arrays.npz": "0e5b6d97694e8e9ace1f9c7d6822afd1f6ba3f255c5d0ce05088cab66e55681c"
+  },
+  "schema_version": 1,
+  "scientific_status": "REJECTED",
+  "source_parent_commit": "5884b307a3245e6f1c948d5147b5c2a1c70a509a",
+  "work_package": "WP10c9d6c"
+}
