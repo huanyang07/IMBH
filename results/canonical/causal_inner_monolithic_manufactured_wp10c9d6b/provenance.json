@@ -1,0 +1,29 @@
+{
+  "analyzed_base_commit": "4140ffeb58ce791425219b88209a8f20e0e2a70d",
+  "analyzed_base_parent_commit": "e836df2e2c0e1d180f3a8c56383498578434762e",
+  "analyzed_base_tree_sha": "21b77ef20f847f65bfebc7fca05c3ac445b30daa",
+  "authorization_status": "uniform_grid_physical_export_preflight",
+  "does_not_establish": "Uniform or embedded physical-export convergence, a nonlinear physical trajectory, production readiness, fixed-Q closure, or reduced slow evolution.",
+  "establishes": "Spatial convergence of an independent manufactured balance, boundary-inclusive convergence of a negative-speed near-horizon wave, first-order temporal consistency, and complete method ledgers for the monolithic descriptor-path residual.",
+  "generation_command": "PYTHONPATH=src:scripts python3 scripts/run_causal_inner_monolithic_manufactured_wp10c9d6b.py",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_monolithic_manufactured_wp10c9d6b.py": "ebe1c948236143bf383af29cd89d6ef9e2c83e97342787a6d1758eb9d6b25223",
+    "scripts/run_causal_inner_radial_fluctuation_audit_wp10c9d4b.py": "0f41760d785a3ca878a34dab39a8789526e1a4eb8227440ee3ff033c4aa4c955",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "cd34855c0299e392c2eaffa51c31d264336060a10b6ca4c4d71feac28bb08c4c",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_dae.py": "626fc08404a52e2f01503e7ae18e45d8f79d21fc83f2ff54a2caead55d44a54f",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_fluctuation.py": "57be77e57cc4b446b82ab54141166e15b34b908194a525a369560bf6b5b2fc7b",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_linear_tangent.py": "f496dbeeeab038d54353fa069c6cd4beb766d74f6869d1f745ec5419ca61efda",
+    "tests/test_causal_inner_monolithic_manufactured_wp10c9d6b.py": "22685b3e266db406a7ad3c63e8c0546b9ef0a4ceafda077d92a0cc00f5259322"
+  },
+  "implementation_source_manifest_sha256": "93b1994aca615bce2da414bf5dea15d4df271046d1affe20bc43f4ba4cb3fe5c",
+  "parent_canonical_hashes": {
+    "results/canonical/causal_inner_monolithic_dae_preflight_wp10c9d6a/decisive_arrays.npz": "d27c1291433aa1363f76a6b12faac7bae84d98b5b9e46b5ca8d6c21816ac781c",
+    "results/canonical/causal_inner_monolithic_dae_preflight_wp10c9d6a/summary.json": "e91f688ce165ce746cde20c68d702f3a77ebd591babc68ebf45d6c07e2c6e06e",
+    "results/canonical/causal_inner_radial_fluctuation_wp10c9d4b/decisive_arrays.npz": "4e182402d76f6daf26c5968640e20d25eba5d57a6c57ee4117f46137befb91c0",
+    "results/canonical/causal_inner_radial_fluctuation_wp10c9d4b/summary.json": "0fe4cde0d1603395359a4de2e775b3f6632b2fc62f83a6674f62fb8e0299ea10"
+  },
+  "schema_version": 1,
+  "scientific_status": "CERTIFIED",
+  "source_parent_commit": "4140ffeb58ce791425219b88209a8f20e0e2a70d",
+  "work_package": "WP10c9d6b"
+}

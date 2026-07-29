@@ -62,9 +62,11 @@ class CausalFiveFieldMonolithicStorageIncrement:
     temporal_quadrature_order: int
     reconstruction_directional_step: float
     maximum_mapped_path_closure_defect: float
+    maximum_affine_reconstruction_path_defect: float
     maximum_path_reconstruction_factor_change: float
     minimum_path_reconstruction_factor: float
     one_flux_reconstruction_for_space_and_storage: bool
+    uses_exact_affine_reconstruction_path_derivative: bool
     mapped_storage_is_exact_endpoint_increment: bool
     responsive_height_is_nonconservative_temporal_product: bool
 
@@ -190,7 +192,7 @@ def _integrated_mapped_storage(
     context: CausalFiveFieldDAEContext,
     primitive_charts: np.ndarray,
     nodes: tuple[tuple[tuple[float, float], ...], ...],
-) -> tuple[np.ndarray, np.ndarray]:
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Return cell-integrated mapped storage from the shared reconstruction."""
 
     node_values, factors = _node_charts(context, primitive_charts, nodes)
@@ -208,7 +210,7 @@ def _integrated_mapped_storage(
             )
             integrated[cell] += weight * local.mapped_conserved
             flat += 1
-    return integrated, factors
+    return integrated, factors, node_values
 
 
 def _relative_norm(difference: np.ndarray, *references: np.ndarray) -> float:
@@ -430,12 +432,16 @@ def causal_five_field_monolithic_storage_increment(
 
     The global primitive path is straight from ``old`` to ``new``.  At each
     temporal quadrature node the same reconstruction used by the spatial
-    residual is evaluated.  ``reconstruction_directional_step`` is a
-    dimensionless fraction of that complete old-to-new path, not an absolute
-    primitive perturbation.  A centered reconstruction derivative supplies
-    the nodewise chart rate.  The analytic local temporal descriptor then
-    supplies both a mapped-path cross-check and the responsive-height
-    nonconservative one-form.
+    residual is evaluated.  Piecewise-constant, unlimited-PLM, and inactive
+    quadratic-admissible reconstructions are affine in the primitive charts;
+    after verifying that branch at the endpoints and every path node, their
+    exact reconstructed-node secant supplies the path derivative.  Other
+    branches retain a centered reconstruction derivative.
+    ``reconstruction_directional_step`` is a dimensionless fraction of the
+    complete old-to-new path used only by that fallback, not an absolute
+    primitive perturbation.  The analytic local temporal descriptor supplies
+    both a mapped-path cross-check and the responsive-height nonconservative
+    one-form.
     """
 
     context = context.validated()
@@ -452,12 +458,12 @@ def causal_five_field_monolithic_storage_increment(
         raise ValueError("monolithic storage path controls are invalid")
 
     nodes = _spatial_nodes(context)
-    old_mapped, old_factors = _integrated_mapped_storage(
+    old_mapped, old_factors, old_nodes = _integrated_mapped_storage(
         context,
         old,
         nodes,
     )
-    new_mapped, new_factors = _integrated_mapped_storage(
+    new_mapped, new_factors, new_nodes = _integrated_mapped_storage(
         context,
         new,
         nodes,
@@ -468,6 +474,19 @@ def causal_five_field_monolithic_storage_increment(
     direction = new - old
     temporal_nodes, temporal_weights = np.polynomial.legendre.leggauss(order)
     path_factors = [old_factors, new_factors]
+    affine_defects = []
+    endpoint_affine_branch = bool(
+        context.spatial_reconstruction
+        in {
+            "piecewise_constant",
+            "plm_unlimited",
+            "quadratic_admissible",
+        }
+        and np.array_equal(old_factors, np.ones_like(old_factors))
+        and np.array_equal(new_factors, np.ones_like(new_factors))
+    )
+    exact_node_direction = new_nodes - old_nodes
+    uses_exact_affine_derivative = endpoint_affine_branch
 
     for node, temporal_weight in zip(
         temporal_nodes,
@@ -477,27 +496,50 @@ def causal_five_field_monolithic_storage_increment(
         fraction = 0.5 * (float(node) + 1.0)
         weight_t = 0.5 * float(temporal_weight)
         center = old + fraction * direction
-        plus = center + step * direction
-        minus = center - step * direction
-        center_nodes, center_factors = _node_charts(
+        sampled_center_nodes, center_factors = _node_charts(
             context,
             center,
             nodes,
         )
-        plus_nodes, plus_factors = _node_charts(
-            context,
-            plus,
-            nodes,
+        path_factors.append(center_factors)
+        exact_center_nodes = (
+            old_nodes + fraction * exact_node_direction
         )
-        minus_nodes, minus_factors = _node_charts(
-            context,
-            minus,
-            nodes,
+        if endpoint_affine_branch:
+            affine_defects.append(
+                _relative_norm(
+                    sampled_center_nodes - exact_center_nodes,
+                    sampled_center_nodes,
+                    exact_center_nodes,
+                )
+            )
+        use_exact_at_node = bool(
+            endpoint_affine_branch
+            and np.array_equal(
+                center_factors,
+                np.ones_like(center_factors),
+            )
         )
-        path_factors.extend(
-            (center_factors, plus_factors, minus_factors)
-        )
-        node_direction = (plus_nodes - minus_nodes) / (2.0 * step)
+        if use_exact_at_node:
+            center_nodes = exact_center_nodes
+            node_direction = exact_node_direction
+        else:
+            uses_exact_affine_derivative = False
+            plus = center + step * direction
+            minus = center - step * direction
+            plus_nodes, plus_factors = _node_charts(
+                context,
+                plus,
+                nodes,
+            )
+            minus_nodes, minus_factors = _node_charts(
+                context,
+                minus,
+                nodes,
+            )
+            path_factors.extend((plus_factors, minus_factors))
+            center_nodes = sampled_center_nodes
+            node_direction = (plus_nodes - minus_nodes) / (2.0 * step)
 
         flat = 0
         for cell, cell_nodes in enumerate(nodes):
@@ -553,11 +595,17 @@ def causal_five_field_monolithic_storage_increment(
             np.linalg.norm(endpoint_increment - mapped_path)
             / mapped_scale
         ),
+        maximum_affine_reconstruction_path_defect=float(
+            max(affine_defects, default=0.0)
+        ),
         maximum_path_reconstruction_factor_change=float(
             np.max(np.ptp(factors, axis=0))
         ),
         minimum_path_reconstruction_factor=float(np.min(factors)),
         one_flux_reconstruction_for_space_and_storage=True,
+        uses_exact_affine_reconstruction_path_derivative=(
+            uses_exact_affine_derivative
+        ),
         mapped_storage_is_exact_endpoint_increment=True,
         responsive_height_is_nonconservative_temporal_product=True,
     )

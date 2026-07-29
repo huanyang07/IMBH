@@ -78,8 +78,10 @@ def test_monolithic_storage_is_zero_and_reversible() -> None:
         + backward.total_storage_increment
     ) / scale
     assert forward.maximum_mapped_path_closure_defect <= 2.0e-8
+    assert forward.maximum_affine_reconstruction_path_defect <= 1.0e-12
     assert reversal <= 2.0e-10
     assert forward.one_flux_reconstruction_for_space_and_storage
+    assert forward.uses_exact_affine_reconstruction_path_derivative
     assert forward.mapped_storage_is_exact_endpoint_increment
     assert forward.responsive_height_is_nonconservative_temporal_product
     assert forward.minimum_path_reconstruction_factor == 1.0
