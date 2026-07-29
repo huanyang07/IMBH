@@ -1,0 +1,39 @@
+{
+  "gates": {
+    "maximum_derivative_export_difference": 0.005,
+    "maximum_derivative_to_spatial_ratio": 0.1,
+    "maximum_restart_defect": 1e-10
+  },
+  "labels": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "methods": [
+    "historical_finite_difference",
+    "analytic_frozen_subspace"
+  ],
+  "observable_names": [
+    "inner_flux_mass",
+    "inner_flux_angular_momentum",
+    "inner_flux_killing_energy",
+    "interface_flux_mass",
+    "interface_flux_angular_momentum",
+    "interface_flux_killing_energy",
+    "net_drive_mass",
+    "net_drive_angular_momentum",
+    "net_drive_killing_energy",
+    "cooling_angular_momentum",
+    "cooling_killing_energy",
+    "vertical_work_angular_momentum",
+    "vertical_work_killing_energy"
+  ],
+  "output_reference_method": "sixth_order_h2e4",
+  "output_reference_order": 6,
+  "perturbations": [
+    "common_mode",
+    "heldout_near_excision"
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d5c0f"
+}
