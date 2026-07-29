@@ -1,0 +1,28 @@
+{
+  "analyzed_base_commit": "c28dd65708ee817fd23d0c619dbb0afd5f991178",
+  "analyzed_base_parent_commit": "db6625f397141083d359505d84d072d4381ce92a",
+  "analyzed_base_tree_sha": "84ea835a99157616030ee6504864578f85acd0f5",
+  "does_not_establish": "embedded, nonlinear, production, fixed-Q, or reduced slow-time certification",
+  "establishes": "whether the N128/N256/N512 common-mode physical-export errors reach the unchanged asymptotic-direction gate",
+  "generation_command": "PYTHONPATH=src:scripts python3 scripts/run_causal_inner_monolithic_four_level_wp10c9d6c2.py",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_monolithic_anchor_audit_wp10c9d6c1.py": "e39c96eb13b6902b9bb426c976c59993238f779f930b6a8a9cccb051a41819f7",
+    "scripts/run_causal_inner_monolithic_four_level_wp10c9d6c2.py": "7034c0862a30aad3af7ff54dda885be7d515b95af901ad23d83e63c50c38345b",
+    "scripts/run_causal_inner_monolithic_uniform_exports_wp10c9d6c.py": "4ee532571bb4ee5b847d2ed47720282014fa3fbfbee87b431a9fc4d8ba657f78",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_dae.py": "accc91099db9a29002f7dc28f2d7e5b82acfef4347eb5c6034d7e4f5c87ee3b3",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_tangent.py": "23a958a894fc40188a0cda1e640f943bd00dc8070a64af4b2b2a56cd609ba0c4",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_linear_tangent.py": "6c37568dbebef73b8de17defad3ce9a1d6afd78a661d8befa4155317c33eb969",
+    "tests/test_causal_inner_monolithic_four_level_wp10c9d6c2.py": "909c3dc92431e86c63407133bff6b9cc60b9c0cfc40dacf53bbb0e12ddc7ad9b"
+  },
+  "implementation_source_manifest_sha256": "894b9d590efe91f7d9c917b682d6456a552811fad0d3ff129cd55c78c4525872",
+  "parent_canonical_hashes": {
+    "results/canonical/causal_inner_monolithic_anchor_audit_wp10c9d6c1/decisive_arrays.npz": "b7b3554e00691bfe0db834698f0e331ddc5bcdc50d873a942d68772fbcb3118b",
+    "results/canonical/causal_inner_monolithic_anchor_audit_wp10c9d6c1/summary.json": "39a41541e4f033d64d526f18bb805d12619c0a7664002a9098e23a49e8c0dcf1",
+    "results/canonical/causal_inner_monolithic_uniform_exports_wp10c9d6c/replay_contexts.json": "d1df1db5e68f5b6b4efe7d544a460ef1550a7abcb28f3091ba3e8f42b7984c3c",
+    "results/canonical/causal_inner_monolithic_uniform_exports_wp10c9d6c/replay_inputs.npz": "8ca946e9209ae475877c14aee80e3a870d201b3bc4250519e7d4cdbe9b253fc2"
+  },
+  "schema_version": 1,
+  "scientific_status": "REJECTED",
+  "source_parent_commit": "c28dd65708ee817fd23d0c619dbb0afd5f991178",
+  "work_package": "WP10c9d6c2"
+}
