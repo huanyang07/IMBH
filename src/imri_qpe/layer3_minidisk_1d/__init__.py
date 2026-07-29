@@ -135,6 +135,14 @@ from .causal_inner_radial_fluctuation import (
     causal_five_field_radial_candidate_lower_source_totals,
     causal_five_field_radial_extended_path_jump,
 )
+from .causal_inner_monolithic_dae import (
+    CausalFiveFieldMonolithicDAEEvaluation,
+    CausalFiveFieldMonolithicStorageIncrement,
+    CausalFiveFieldTemporalIntegrabilityAudit,
+    causal_five_field_monolithic_storage_increment,
+    causal_five_field_temporal_storage_integrability_audit,
+    evaluate_causal_five_field_monolithic_backward_euler,
+)
 from .causal_inner_radial_frozen import (
     CausalFiveFieldRadialFrozenCandidate,
     causal_five_field_radial_frozen_candidate,
@@ -1458,6 +1466,12 @@ __all__ = [
     "causal_five_field_radial_candidate_ledger",
     "causal_five_field_radial_candidate_face_flux",
     "causal_five_field_radial_candidate_lower_source_totals",
+    "CausalFiveFieldMonolithicDAEEvaluation",
+    "CausalFiveFieldMonolithicStorageIncrement",
+    "CausalFiveFieldTemporalIntegrabilityAudit",
+    "causal_five_field_monolithic_storage_increment",
+    "causal_five_field_temporal_storage_integrability_audit",
+    "evaluate_causal_five_field_monolithic_backward_euler",
     "CausalFiveFieldRadialFrozenCandidate",
     "CausalFiveFieldAnalyticLocalMaps",
     "CausalFiveFieldFrozenAnalyticTangent",

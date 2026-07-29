@@ -1,0 +1,35 @@
+{
+  "boundary_trace": "plm_one_sided",
+  "cell_storage_quadrature": "gauss_legendre_4",
+  "gates": {
+    "maximum_block_ledger_defect": 1e-12,
+    "maximum_center_broken_path_adjustment": 2e-08,
+    "maximum_collinear_path_additivity_defect": 2e-10,
+    "maximum_jvp_additivity_defect": 1e-08,
+    "maximum_jvp_homogeneity_defect": 1e-08,
+    "maximum_jvp_order_difference": 1e-08,
+    "maximum_mapped_path_closure_defect": 2e-08,
+    "maximum_reconstruction_factor_change": 1e-14,
+    "maximum_shared_flux_telescope_defect": 1e-12,
+    "maximum_temporal_reversal_defect": 2e-10,
+    "minimum_complete_exterior_derivative": 1e-07,
+    "minimum_temporal_loop_defect": 1e-05,
+    "minimum_vertical_exterior_derivative": 0.01
+  },
+  "homogeneity_factor": -0.371,
+  "jvp_orders": [
+    4,
+    6
+  ],
+  "jvp_step": 0.0001,
+  "n_cells": 5,
+  "outer_boundary": "frozen_exterior_rusanov",
+  "path_quadrature_order": 6,
+  "path_subdivision_fraction": 0.37,
+  "reconstruction": "quadratic_admissible",
+  "schema_version": 1,
+  "temporal_quadrature_order": 6,
+  "temporal_reconstruction_directional_step": 0.01,
+  "timestep_seconds": 0.0001,
+  "work_package": "WP10c9d6a"
+}
