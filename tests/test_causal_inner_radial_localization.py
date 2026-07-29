@@ -4,8 +4,10 @@ import numpy as np
 from scipy.sparse import csc_matrix
 
 from imri_qpe.layer3_minidisk_1d.causal_inner_radial_localization import (
+    causal_radial_colored_block_jacobian_family,
     causal_radial_colored_block_jacobians,
     causal_radial_first_consecutive_recovery,
+    causal_radial_high_order_directional_derivatives,
     causal_radial_history_convergence,
     causal_radial_prefix_face_fluxes,
 )
@@ -134,3 +136,67 @@ def test_history_metrics_use_fixed_physical_activity_and_error_cosine() -> None:
     )
     assert metrics.error_cosine > 0.99
     assert metrics.passed
+
+
+def test_shared_high_order_stencils_recover_polynomial_derivatives() -> None:
+    base = np.asarray([0.3, -0.2])
+    direction = np.asarray([0.5, 1.25])
+
+    def residual(values: np.ndarray) -> np.ndarray:
+        x, y = np.asarray(values, dtype=float)
+        return np.asarray([x**5 + 2.0 * y, x * y + y**3])
+
+    exact_jacobian = np.asarray(
+        [
+            [5.0 * base[0] ** 4, 2.0],
+            [base[1], base[0] + 3.0 * base[1] ** 2],
+        ]
+    )
+    actions = causal_radial_high_order_directional_derivatives(
+        residual,
+        base,
+        direction,
+        finite_difference_step=1.0e-2,
+        derivative_orders=(4, 6),
+    )
+    np.testing.assert_allclose(
+        actions[6],
+        exact_jacobian @ direction,
+        rtol=0.0,
+        atol=2.0e-13,
+    )
+    assert np.linalg.norm(actions[6] - exact_jacobian @ direction) < (
+        np.linalg.norm(actions[4] - exact_jacobian @ direction)
+    )
+
+
+def test_colored_high_order_family_reuses_one_sparse_contract() -> None:
+    base = np.asarray([0.2, -0.3, 0.4, -0.1])
+    pattern = csc_matrix(np.eye(4, dtype=bool))
+
+    def blocks(values: np.ndarray) -> dict[str, np.ndarray]:
+        vector = np.asarray(values, dtype=float)
+        return {
+            "cubic": vector**3,
+            "quintic": 0.5 * vector**5,
+        }
+
+    family = causal_radial_colored_block_jacobian_family(
+        blocks,
+        base,
+        pattern,
+        finite_difference_step=1.0e-2,
+        derivative_orders=(4, 6),
+    )
+    np.testing.assert_allclose(
+        family[4]["cubic"].toarray(),
+        np.diag(3.0 * base**2),
+        rtol=0.0,
+        atol=2.0e-13,
+    )
+    np.testing.assert_allclose(
+        family[6]["quintic"].toarray(),
+        np.diag(2.5 * base**4),
+        rtol=0.0,
+        atol=2.0e-13,
+    )

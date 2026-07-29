@@ -1,0 +1,999 @@
+{
+  "analyzed_base_commit": "f9d21e7bd8ede7c0548c93fc0b18021c30fde7fa",
+  "analyzed_base_parent_commit": "9c2a4ac6fa464a43fbaed3318cf5e1233a70fe55",
+  "analyzed_base_tree_sha": "947a085c5476c8859765f54711ad1c86c9a22156",
+  "cache_reports": {
+    "N128_exterior_N128_inner_c48": {
+      "arrays_path": "outputs/checkpoints/causal_inner_derivative_repair_wp10c9d5c0a/N128_exterior_N128_inner_c48_arrays.npz",
+      "arrays_sha256": "9044a0df8c06fb6247616ba57b701eb09728b0e00bb86035c77a3fb314e09b0a",
+      "base_primitives_sha256": "79fa8951a7afb41fdb5c35a2ab1ad3e7752a2876723f37e6adb9f0e667a1847a",
+      "derivative_orders": [
+        4,
+        6
+      ],
+      "finite_difference_step": 0.0002,
+      "grid_edges_sha256": "01bbfa7ba9a318660afb8d55e5f7ef0a74fed2d82cd3135dbc39a3e556e88763",
+      "label": "N128_exterior_N128_inner_c48",
+      "n_cells": 64,
+      "path_quadrature_order": 6,
+      "schema_version": 1,
+      "stored_stationary_delta_sha256": "43c2febd15e94e559e96f57fae277b04337e309e16a890e0daa9af8e9a29ec7d",
+      "wall_seconds": 848.2611742080189,
+      "work_package": "WP10c9d5c0a"
+    },
+    "N128_exterior_N256_inner_c48": {
+      "arrays_path": "outputs/checkpoints/causal_inner_derivative_repair_wp10c9d5c0a/N128_exterior_N256_inner_c48_arrays.npz",
+      "arrays_sha256": "59c00f648fe5a1ea765bc9d644b80286689c8fe4b39df267e2c0619298742380",
+      "base_primitives_sha256": "0fdadc579e6da46efbf6c2e8559ea4860a5c9370ea8018603e378c1ff03a7b8e",
+      "derivative_orders": [
+        4,
+        6
+      ],
+      "finite_difference_step": 0.0002,
+      "grid_edges_sha256": "c67efc308bb334c515d767397b9690468cc3f90093cc96642b334dcc07da0c71",
+      "label": "N128_exterior_N256_inner_c48",
+      "n_cells": 112,
+      "path_quadrature_order": 6,
+      "schema_version": 1,
+      "stored_stationary_delta_sha256": "d24b2ee19de64b2b8ca99e7f61a2117cf0c8ef6f6ca13d1baa31d1c08462d71d",
+      "wall_seconds": 1480.77235708409,
+      "work_package": "WP10c9d5c0a"
+    },
+    "N128_exterior_N512_inner_c48": {
+      "arrays_path": "outputs/checkpoints/causal_inner_derivative_repair_wp10c9d5c0a/N128_exterior_N512_inner_c48_arrays.npz",
+      "arrays_sha256": "608bc431d3dd3255190874e06d5d46958dd62f7556e6032b416425568d6747bd",
+      "base_primitives_sha256": "4312edac1e5a1c26d781ad9766593c9fbe93b50d2b3905fb1fcd113c8bef3d15",
+      "derivative_orders": [
+        4,
+        6
+      ],
+      "finite_difference_step": 0.0002,
+      "grid_edges_sha256": "a52781d67c9fe297c8d25f2621a8d7bcb371465959c7ed095139c162e7d67418",
+      "label": "N128_exterior_N512_inner_c48",
+      "n_cells": 208,
+      "path_quadrature_order": 6,
+      "schema_version": 1,
+      "stored_stationary_delta_sha256": "556a1143cea83775bb061bdea81acf96991d705d7667490c9a9e17da02c30006",
+      "wall_seconds": 2752.6173582919873,
+      "work_package": "WP10c9d5c0a"
+    }
+  },
+  "cancellation_attribution": {
+    "block_reports": {
+      "conservative_transport": {
+        "order4": {
+          "absolute_matrix_action_defect": 7.572338012704762e-11,
+          "direct_action_norm": 4.771641740573062,
+          "relative_matrix_action_defect": 1.5869460501013207e-11
+        },
+        "order6": {
+          "absolute_matrix_action_defect": 8.886576411367328e-11,
+          "direct_action_norm": 4.771641740574285,
+          "relative_matrix_action_defect": 1.8623729304317938e-11
+        }
+      },
+      "cooling": {
+        "order4": {
+          "absolute_matrix_action_defect": 3.7059992605409125e-15,
+          "direct_action_norm": 0.000317162162364482,
+          "relative_matrix_action_defect": 1.1684871968687068e-11
+        },
+        "order6": {
+          "absolute_matrix_action_defect": 4.249440786780337e-15,
+          "direct_action_norm": 0.0003171621623643435,
+          "relative_matrix_action_defect": 1.3398322029027995e-11
+        }
+      },
+      "geometry": {
+        "order4": {
+          "absolute_matrix_action_defect": 2.935472955160203e-13,
+          "direct_action_norm": 0.17573214956723512,
+          "relative_matrix_action_defect": 1.6704245423428733e-12
+        },
+        "order6": {
+          "absolute_matrix_action_defect": 3.2216701350301124e-13,
+          "direct_action_norm": 0.17573214956726743,
+          "relative_matrix_action_defect": 1.8332844291501927e-12
+        }
+      },
+      "height_principal": {
+        "order4": {
+          "absolute_matrix_action_defect": 7.635677842751193e-12,
+          "direct_action_norm": 0.00992382379186315,
+          "relative_matrix_action_defect": 7.694290026604385e-10
+        },
+        "order6": {
+          "absolute_matrix_action_defect": 8.517081029904395e-12,
+          "direct_action_norm": 0.009923823791851643,
+          "relative_matrix_action_defect": 8.582458947695045e-10
+        }
+      },
+      "local_stress_relaxation": {
+        "order4": {
+          "absolute_matrix_action_defect": 3.0590193855574375e-09,
+          "direct_action_norm": 0.1284119382707643,
+          "relative_matrix_action_defect": 2.3821923621363857e-08
+        },
+        "order6": {
+          "absolute_matrix_action_defect": 3.496250487919169e-09,
+          "direct_action_norm": 0.12841193833934175,
+          "relative_matrix_action_defect": 2.7226833681771607e-08
+        }
+      },
+      "lower_height_work": {
+        "order4": {
+          "absolute_matrix_action_defect": 9.745409767106856e-11,
+          "direct_action_norm": 0.005089227904719615,
+          "relative_matrix_action_defect": 1.914909284779568e-08
+        },
+        "order6": {
+          "absolute_matrix_action_defect": 1.1171687246200063e-10,
+          "direct_action_norm": 0.005089227903042846,
+          "relative_matrix_action_defect": 2.1951634823664545e-08
+        }
+      },
+      "production": {
+        "order4": {
+          "absolute_matrix_action_defect": 1.487252903696474e-06,
+          "direct_action_norm": 4.745126473606375,
+          "relative_matrix_action_defect": 3.1342745277053427e-07
+        },
+        "order6": {
+          "absolute_matrix_action_defect": 1.3385544632875904e-06,
+          "direct_action_norm": 4.745126473608766,
+          "relative_matrix_action_defect": 2.820903659222369e-07
+        }
+      },
+      "shear_principal": {
+        "order4": {
+          "absolute_matrix_action_defect": 3.7905722904712024e-10,
+          "direct_action_norm": 0.9579489344012743,
+          "relative_matrix_action_defect": 3.9569669677924564e-10
+        },
+        "order6": {
+          "absolute_matrix_action_defect": 4.313492476738753e-10,
+          "direct_action_norm": 0.9579489343943488,
+          "relative_matrix_action_defect": 4.5028417711944043e-10
+        }
+      },
+      "stationary_delta": {
+        "order4": {
+          "absolute_matrix_action_defect": 1.4872133862145467e-06,
+          "direct_action_norm": 0.005433981900860895,
+          "relative_matrix_action_defect": 0.0002736875855215731
+        },
+        "order6": {
+          "absolute_matrix_action_defect": 1.3385124212619727e-06,
+          "direct_action_norm": 0.005433981861548119,
+          "relative_matrix_action_defect": 0.00024632257805892564
+        }
+      },
+      "stream": {
+        "order4": {
+          "absolute_matrix_action_defect": 0.0,
+          "direct_action_norm": 0.0,
+          "relative_matrix_action_defect": 0.0
+        },
+        "order6": {
+          "absolute_matrix_action_defect": 0.0,
+          "direct_action_norm": 0.0,
+          "relative_matrix_action_defect": 0.0
+        }
+      }
+    },
+    "cancellation_amplification": 873.208722153463,
+    "direct_stationary_delta_assembly_selected": true,
+    "direction": "heldout_near_excision_0",
+    "executed": true,
+    "label": "N128_exterior_N512_inner_c48",
+    "maximum_individual_block_relative_defect": 3.1342745277053427e-07,
+    "maximum_stationary_delta_relative_defect": 0.0002736875855215731,
+    "region": "through_5rg_plus_halo"
+  },
+  "classification": "high_order_frozen_derivative_repair_failed_extended_localization_blocked",
+  "decisive_array_hashes": {
+    "N128_exterior_N128_inner_c48__calibration_global_inner_0__direct__coarse_fourth_order_action": "594de50314eeba0c827ea65b3c629084e9a6c37817c44ef72fa4446887d084a5",
+    "N128_exterior_N128_inner_c48__calibration_global_inner_0__direct__direction": "1f25a5cb036c4f856b3b851304c874b7af27203f382b0f708a13e69972ec6129",
+    "N128_exterior_N128_inner_c48__calibration_global_inner_0__direct__fourth_order_action": "26070c2c147b55be5143831198e6c8297b62d171402c94b678776b1c84e54792",
+    "N128_exterior_N128_inner_c48__calibration_global_inner_0__direct__sixth_order_action": "0b5dc3a4d39fd5c8aab98c9a65571de1494ca51fc716f4e73608df14bd45a4ac",
+    "N128_exterior_N128_inner_c48__common_mode__direct__coarse_fourth_order_action": "8e193ce90b455106423bddf6f14d2758a588f35ffafc4ce8697635ce19d60cce",
+    "N128_exterior_N128_inner_c48__common_mode__direct__direction": "b5b0ee0ef3d75d280200d451ab2d7b10f1722d4cc6164066aa8ee0d29943337a",
+    "N128_exterior_N128_inner_c48__common_mode__direct__fourth_order_action": "1e37581700674ff7c261c2f2da22026fdfede3a7a652667c267db0a094956a9d",
+    "N128_exterior_N128_inner_c48__common_mode__direct__sixth_order_action": "a955a7e9f678d24e2df3da86af15f2a59cbed2dca073c0687ce9af3d8c0e20e0",
+    "N128_exterior_N128_inner_c48__heldout_global_0__direct__coarse_fourth_order_action": "54e941d56cede2c722e5f0d4d06104829953ce8baf955d195e360057fddef551",
+    "N128_exterior_N128_inner_c48__heldout_global_0__direct__direction": "35eb714b3c97f1343502bd8c90799a0d26cbc75a6ed8fa7ea5ebaebfafc2904e",
+    "N128_exterior_N128_inner_c48__heldout_global_0__direct__fourth_order_action": "7d43541f5810f17812353b7c91f03c1d5236c3dc4c9df8bb8e34badb06f90891",
+    "N128_exterior_N128_inner_c48__heldout_global_0__direct__sixth_order_action": "90ab88f92f5cefa00ecc43bc61367fe52f57cb8d0c97448192f1ddca1d6eb8f3",
+    "N128_exterior_N128_inner_c48__heldout_near_excision_0__direct__coarse_fourth_order_action": "fdd5c7b35ecceb3e6fffeeb1e1303020c6bae27577c6a7ca1abf6c6280dd12b6",
+    "N128_exterior_N128_inner_c48__heldout_near_excision_0__direct__direction": "1a01b36961098b64dca9df4be6478ca882e70018b2ee8d4a69962689ab152bf0",
+    "N128_exterior_N128_inner_c48__heldout_near_excision_0__direct__fourth_order_action": "814ec3b5e13f347ba4af913843bf9159201bddad467db0d3f03dc7b7ebc57dcf",
+    "N128_exterior_N128_inner_c48__heldout_near_excision_0__direct__sixth_order_action": "fc3dd0abb12c24e91fc628c0758e4408a067296c651646856db03b2d12ef6c18",
+    "N128_exterior_N256_inner_c48__calibration_global_inner_0__direct__coarse_fourth_order_action": "a4f98b195f42af7d3d86d0636e6a467178d8763f30c54de255dd3193e36057bd",
+    "N128_exterior_N256_inner_c48__calibration_global_inner_0__direct__direction": "afde98e421dfd3b1fa6cbb435a4ede659bee58d252c3a1114cfb7548406b15e4",
+    "N128_exterior_N256_inner_c48__calibration_global_inner_0__direct__fourth_order_action": "f3e32a433e99a9202c97c22a35dfe054e8b191dbac0d1dca581b799fe35e5e29",
+    "N128_exterior_N256_inner_c48__calibration_global_inner_0__direct__sixth_order_action": "db9cbfbbd7f4bfd8ccdbe6f48cd79c3c155864c3732a88aea0276093f40b0650",
+    "N128_exterior_N256_inner_c48__common_mode__direct__coarse_fourth_order_action": "82dd3a81b1a5f02dd10b05f303f0c5e9d93b9f87d31c0bfc6aee049fbbcd70ff",
+    "N128_exterior_N256_inner_c48__common_mode__direct__direction": "0dd132850e84df27428fd9231319731bb9c58983a1c5ee445341ff3014bc587c",
+    "N128_exterior_N256_inner_c48__common_mode__direct__fourth_order_action": "b48b9baff0e923d9a9ab8758dd238ed165fc1b62854ed075b3adc57684d940df",
+    "N128_exterior_N256_inner_c48__common_mode__direct__sixth_order_action": "e8201734999534fbb7c1e2f86bb43486912fdd683c9d9176ae87ae975374bf7a",
+    "N128_exterior_N256_inner_c48__heldout_global_0__direct__coarse_fourth_order_action": "97626e3e83be4ace6e15da0831689a6f712ba2a587ca62c649103cb8c0c0a2b3",
+    "N128_exterior_N256_inner_c48__heldout_global_0__direct__direction": "ddf9f35c7d85740454fcf8f21a21832932cb77035654544682a02b28f389e6f1",
+    "N128_exterior_N256_inner_c48__heldout_global_0__direct__fourth_order_action": "b5be58484c1b6fb7812e7d5a67219e24ab2a7b1aa3aedb3f7da292baba5ba250",
+    "N128_exterior_N256_inner_c48__heldout_global_0__direct__sixth_order_action": "2f5b62495ae636a2952eef9687b57b04cc8e0eb6b8dc1544dfb4ac026bc6ca6b",
+    "N128_exterior_N256_inner_c48__heldout_near_excision_0__direct__coarse_fourth_order_action": "d7fef1a5e026953a8a1639ef8e17de197babcbc74533515aa69d6d20a1fdd57e",
+    "N128_exterior_N256_inner_c48__heldout_near_excision_0__direct__direction": "712f92b5dbbe243509a56d2af5020cc88e2843a9894553636d0ede649a6ce72e",
+    "N128_exterior_N256_inner_c48__heldout_near_excision_0__direct__fourth_order_action": "7dbcaf79bf8b8d6d4d2147134f82e67eb12e3d059b432732d9eff3187d60dedb",
+    "N128_exterior_N256_inner_c48__heldout_near_excision_0__direct__sixth_order_action": "aac9a02aa320439e7d60e02315a0b250c83b41d8aad4f9d237b929c82e0ed5f5",
+    "N128_exterior_N512_inner_c48__calibration_global_inner_0__direct__coarse_fourth_order_action": "589a16282329b948f83cfbc8dd1f523fce462d0a2f7736ae9ea24cce46440363",
+    "N128_exterior_N512_inner_c48__calibration_global_inner_0__direct__direction": "e4a5cb0cface0e8f9593a449a18a7594c6050d6d79d628f3872a874b825193f4",
+    "N128_exterior_N512_inner_c48__calibration_global_inner_0__direct__fourth_order_action": "863cee016a1b6fda9a0f2a0187a51d9d345c713f2e3bcb6ac8a801ce189020c0",
+    "N128_exterior_N512_inner_c48__calibration_global_inner_0__direct__sixth_order_action": "1a292c94a1cb3cb988de033ff852f541604804ae5f44c62851e6169c35470f5a",
+    "N128_exterior_N512_inner_c48__common_mode__direct__coarse_fourth_order_action": "eda96a3635bc1601746c6e13165ef0e4973078668a0e195e0e53c4054faaeaea",
+    "N128_exterior_N512_inner_c48__common_mode__direct__direction": "ee28c0135dcab92b48b21a3eb7d4764d4dad72c89523caaf057465721596031c",
+    "N128_exterior_N512_inner_c48__common_mode__direct__fourth_order_action": "3a9c2b90682cb0aef0d3c694c908271f57280849fc6ef3eca28c3a0ae2eac085",
+    "N128_exterior_N512_inner_c48__common_mode__direct__sixth_order_action": "6b524d465a999698964ae1a97260e8cd5cb777a3e8b45875e121be04a7ce8fda",
+    "N128_exterior_N512_inner_c48__heldout_global_0__direct__coarse_fourth_order_action": "076fbed08b3a44dd96de2379167b1437ec27b577e89a0848c1771698134e5077",
+    "N128_exterior_N512_inner_c48__heldout_global_0__direct__direction": "d41a0478bd77c901504bb60c0c764284993dc36e76ae86f8a7ad99e3792550db",
+    "N128_exterior_N512_inner_c48__heldout_global_0__direct__fourth_order_action": "e05634f3e9dd27c5b7d14c1d9ce4e67ddc0f2805ae2457b03d38afbfe7405355",
+    "N128_exterior_N512_inner_c48__heldout_global_0__direct__sixth_order_action": "9d2ed531dc3f1e1c97e7e708e4c0cf86df3b13c190ed8bf408a1d4972b897ee1",
+    "N128_exterior_N512_inner_c48__heldout_near_excision_0__direct__coarse_fourth_order_action": "feebcd02fe1b9023bf5761f25f6d212a9f8790263c181b04446f389f65c4520f",
+    "N128_exterior_N512_inner_c48__heldout_near_excision_0__direct__direction": "922b7f99051779eb4128033aac5cb7a3b0663b9abfe0871a8208e8a8cd88f6c1",
+    "N128_exterior_N512_inner_c48__heldout_near_excision_0__direct__fourth_order_action": "b1e9e987a5484c6b4c427085e550d21b396a40bb21a394ed92268fc845b08e69",
+    "N128_exterior_N512_inner_c48__heldout_near_excision_0__direct__sixth_order_action": "00fe884c8a51cc68cb6700b187737ad2a5d6544e2e6744330509ec7a0699ef02",
+    "cancellation_attribution__conservative_transport__order4__difference": "4eafbdd7a2f45314a24e7b37bbe59aa430a3904143aa5686eca987d4c2a75f89",
+    "cancellation_attribution__conservative_transport__order4__direct": "94e412b8cb264d03ada501e20dc3eb2e2d3e266d611c345704f4548867fb1cd5",
+    "cancellation_attribution__conservative_transport__order4__matrix": "cf86b384570e986089cae670bb8983421133bad62729078a33a19133f73a85c5",
+    "cancellation_attribution__conservative_transport__order6__difference": "0cff340f9488ab00f2dd05a73fc93f204406272d43ac1f75878ad04b78905346",
+    "cancellation_attribution__conservative_transport__order6__direct": "12eb609af374acf8927b1d1862d358fcaafad70dc1d0727e8e37fa36f1861b0e",
+    "cancellation_attribution__conservative_transport__order6__matrix": "c46083929265c1f193c32aadb312938c8d301c5f34e5b7abad877b52a88c5a80",
+    "cancellation_attribution__cooling__order4__difference": "b2d95d78df30932faf9a60d465c4e02f5c028c8aaa11ac2689e1a5e0ff358f34",
+    "cancellation_attribution__cooling__order4__direct": "a851a3dab2acbda3333691b152464549ccedefc159263e69dc870ff287f8f506",
+    "cancellation_attribution__cooling__order4__matrix": "fd4d6bbd38e15436e791c9ec03a31ff4362cb95cf2aadc2a8228ab44c972a79d",
+    "cancellation_attribution__cooling__order6__difference": "f1249d1804f3aedb27df2f7d2a28694ef42ebb95e0c1c91bda1d271578db8d4e",
+    "cancellation_attribution__cooling__order6__direct": "9f1a92c5562fe05051b213dbed855c1ffedce5f3987da2383147a78faacaac7d",
+    "cancellation_attribution__cooling__order6__matrix": "20b5ce364920d9e8965229eca25187e101a8a240f2d8888c175b557dc52d02d7",
+    "cancellation_attribution__direction": "922b7f99051779eb4128033aac5cb7a3b0663b9abfe0871a8208e8a8cd88f6c1",
+    "cancellation_attribution__geometry__order4__difference": "7219e310f66fa0e09ea9d4c00c3342c07552e118b959ec4397ee33c785ec0b1b",
+    "cancellation_attribution__geometry__order4__direct": "0d0b0c82592d47780c14d89bcf1472814ce08a2442d4d4a87fb83a9a23ac00d0",
+    "cancellation_attribution__geometry__order4__matrix": "4012d16fbb0c90b9e9fcd7fc4382f72c8fc63a59b265cc8bf7d972ca6c14964e",
+    "cancellation_attribution__geometry__order6__difference": "b57dd2f9a2c5df2c4678ec386deafccdceb383dea5870bf9050ad45e7673cbb7",
+    "cancellation_attribution__geometry__order6__direct": "9e76917cc6a7765577850ee212b1752d19da5584291edee458b9a2f8a9cb2c86",
+    "cancellation_attribution__geometry__order6__matrix": "865d663de261e26b7c5d1d12276ba3c664708bb8d377b0693639f48161b5291f",
+    "cancellation_attribution__height_principal__order4__difference": "ef206766389296820c51aa3c7a26ec679b3c42b640801337bc29ad88c31078ad",
+    "cancellation_attribution__height_principal__order4__direct": "eb409d5d1090b4216e5286b378d88030e98ea2a218afccacc2122d9e2999c0ce",
+    "cancellation_attribution__height_principal__order4__matrix": "ce201dd234809f8f6f4d56be85f44af0e5fd2a60bb99782b39abfb75c8b4de7b",
+    "cancellation_attribution__height_principal__order6__difference": "577be9d53f8f933b75fe88cb5629bdbeb362723c9d72f5d6d138d375987dfdcb",
+    "cancellation_attribution__height_principal__order6__direct": "ac9f23095be15ff7e048562c8a75601c7fff0ddeed5bd104435183ad718fa9fe",
+    "cancellation_attribution__height_principal__order6__matrix": "32fc29a369649b25af39a89ae45c40e48ea7fd4091a41d681689ed53a59336cc",
+    "cancellation_attribution__local_stress_relaxation__order4__difference": "f52f1cb6ed1bd0840fe892d2ca0f6e45394f0c319e1b8657dfa23c3cbb09832a",
+    "cancellation_attribution__local_stress_relaxation__order4__direct": "fb67f1c11410e1d0b8a5830ba55ea454debac05a9a884844223296b66d77c368",
+    "cancellation_attribution__local_stress_relaxation__order4__matrix": "974a6edb8ecb380a7b3a050cd8d6bee41f00fb8907c50c0f2e720582577f2de5",
+    "cancellation_attribution__local_stress_relaxation__order6__difference": "94fe7a056fbf7c944f55c7fdb6c00a8d35896c3e6720bae394469ba453f76444",
+    "cancellation_attribution__local_stress_relaxation__order6__direct": "2fa5ce09a732eb3a65bd9493175a24839c6b872d3c61a644c9a22a79a8224d9e",
+    "cancellation_attribution__local_stress_relaxation__order6__matrix": "73894717879084919fdfacefda6967d2117fd91e96aea929e18ac94c2c3c70e7",
+    "cancellation_attribution__lower_height_work__order4__difference": "074ce85de66475df8a6f4c8fd12a05d19dc9c82c61183b71d29f5c2cc91622d1",
+    "cancellation_attribution__lower_height_work__order4__direct": "e0dd8dfa7c1dadd437428a6196b7d24bf2c49b27fbd824bbfa20e9ff2f703490",
+    "cancellation_attribution__lower_height_work__order4__matrix": "5fa1a54009defd04d2bbff0fd274ed80ac762fe4094c3d000438953edf60ffbc",
+    "cancellation_attribution__lower_height_work__order6__difference": "b48281d829590749f54163d4c4df39d1b62767a8bf2fde4d5dadfd202adc3cf8",
+    "cancellation_attribution__lower_height_work__order6__direct": "051805862eaadade41379511a4d4911523498eeb9c11aaa6b234b09b0faa48d4",
+    "cancellation_attribution__lower_height_work__order6__matrix": "d06c860fcab5fc0e24aefb560eac0ca6ecaa192d8a33b6464046767a08711e87",
+    "cancellation_attribution__production__order4__difference": "78f6321099ce239ab65a45f40d1e75d7d2a754a9b014ffbe8cff39afe42571df",
+    "cancellation_attribution__production__order4__direct": "a3411fa9f02c383ee68a268265469916c8d414242d0a81c750a733851d164b2f",
+    "cancellation_attribution__production__order4__matrix": "cbbe42ea9c462b418f044ba71b74d81e8fce9e752c2a56f24e07514948fe252c",
+    "cancellation_attribution__production__order6__difference": "4a89e2b9b99f63718a6e84c5b0bae2025c7846c85c569f064d2b15db0e7b513c",
+    "cancellation_attribution__production__order6__direct": "3a88fcf5bf834d71256e6d2c16ef7ca2ecf61785c694a832974b722e9a6a62ec",
+    "cancellation_attribution__production__order6__matrix": "231d2061372b14f27bb81fe8f86453e8d34923081ddf2fa850c17a106471bcb2",
+    "cancellation_attribution__region_rows": "5f764fa28f2fdb4f4d9de6081f5da561b3611eef2c29f9631526291982bd3225",
+    "cancellation_attribution__shear_principal__order4__difference": "6a52dff2314b3a15e0ed79ae03234f8dc9222c3624baa4f029a05272dd677fb4",
+    "cancellation_attribution__shear_principal__order4__direct": "73c7ed6ebf3bdb366e605aab505e6066732c6ce6618037b9906531237c4bb9b5",
+    "cancellation_attribution__shear_principal__order4__matrix": "5fdf7feeb3fba8030d2af8e98736200cb8d4a8824a080edb304535fd5812a50b",
+    "cancellation_attribution__shear_principal__order6__difference": "61464072bb943ef4bcde5e8df56a9e7db0a57b89fc2ef38a9b64b7b39d2eba06",
+    "cancellation_attribution__shear_principal__order6__direct": "65e34a31d7c9e474c30a4a435134b26759466f2f71e44cec5426b4de62b6f31d",
+    "cancellation_attribution__shear_principal__order6__matrix": "77fd0b2a991f4263ec2fbb70f7a1f8014aabcddbe8f9e26eaaa070d71cd2037e",
+    "cancellation_attribution__stationary_delta__order4__difference": "470be75728cc391ee554058a762a5ec5f3b0f3367a6889a0e689cccbd4f975c8",
+    "cancellation_attribution__stationary_delta__order4__direct": "694a0ecf9fc902bde9921b4c4a4811f8e91ccb1389f486decba39dd01f5b69c0",
+    "cancellation_attribution__stationary_delta__order4__matrix": "932f15c4c2fddff35e160aca89c0c4ddbc1e786766ee1a208b58fcc65e2bf5f5",
+    "cancellation_attribution__stationary_delta__order6__difference": "cf4a0cc0109ca124d4bf171b5d335f63110e8c88cce227eded259525f156d196",
+    "cancellation_attribution__stationary_delta__order6__direct": "93b122b8bf41b1a9ec86e5fe3924a04f004a5201ad3eaaca5ffa4e8042edb9b9",
+    "cancellation_attribution__stationary_delta__order6__matrix": "dd7e3da7c870e7942d6c359c9e784c97436de12933242007e98c73686536449e",
+    "cancellation_attribution__stream__order4__difference": "3bd086b0ed51732921d6146cf94f1218b96385ef054f8633400e26c017a241f5",
+    "cancellation_attribution__stream__order4__direct": "3bd086b0ed51732921d6146cf94f1218b96385ef054f8633400e26c017a241f5",
+    "cancellation_attribution__stream__order4__matrix": "3bd086b0ed51732921d6146cf94f1218b96385ef054f8633400e26c017a241f5",
+    "cancellation_attribution__stream__order6__difference": "3bd086b0ed51732921d6146cf94f1218b96385ef054f8633400e26c017a241f5",
+    "cancellation_attribution__stream__order6__direct": "3bd086b0ed51732921d6146cf94f1218b96385ef054f8633400e26c017a241f5",
+    "cancellation_attribution__stream__order6__matrix": "3bd086b0ed51732921d6146cf94f1218b96385ef054f8633400e26c017a241f5",
+    "mechanism__cell_squared_fraction": "2f47bebfe804361801985cc56a3b04eb6071977bd0aeebf4ae05383c98d9b3a0",
+    "mechanism__conservative_transport__actions": "b219066593fd7f75f08829c2ac7a4b2b2a716012517a47b7fe782bd52e38d7c9",
+    "mechanism__conservative_transport__signed_change": "1b71df0cca2ef78a7c24b2d684772b4c1c55597160b75c53af423f8e11066f67",
+    "mechanism__cooling__actions": "8a8d634f2cacaa3235bad38f4b28d729d5df99bd8c884b7ff46d3225e93e07c6",
+    "mechanism__cooling__signed_change": "0e29f52f867d0ecbefaf8e504fb9cb9d3ecf7a08e9ba628590bae31d1f3f9640",
+    "mechanism__geometry__actions": "c3b2217cc9ac1230f14118ee5821653b76fe2fd5e28e76ec34159b3d50a149e7",
+    "mechanism__geometry__signed_change": "188e4f0f7ba3c166cc63c5cfdf1f11d6a68d51a1cc814fc8d8f13334a19896f1",
+    "mechanism__height_principal__actions": "b6545322be6bb6e623285a7a89d9d67ddc0f649e2fa221591e17963e16c5e8d0",
+    "mechanism__height_principal__signed_change": "fada2ef33b6f3c08e46af393aca551c5eaff3f3d982cb8c0e06d75ceb0d38e3f",
+    "mechanism__local_stress_relaxation__actions": "1240c838e27bb2365417b311fdfc75bd4d0e6fd9809d452b13603332202aab5d",
+    "mechanism__local_stress_relaxation__signed_change": "3991f38621a5b3f719f7de29525e8166d85b853538f9148114d43885fcfad648",
+    "mechanism__lower_height_work__actions": "f227f2f51fb7bf100f2b085f3701b204ca22de2a1edd01f6f2d62b965fe89624",
+    "mechanism__lower_height_work__signed_change": "a2f3a17898a8c7425a76d21f03a33c4c0601bcd12ef2f3facee798b496be6cd2",
+    "mechanism__production__actions": "162b2de95d3051eaaa351d2e46a522003bb7cb2ea2ca663a7f92e8e0b0ef3074",
+    "mechanism__production__signed_change": "f88940c32a18f445730def69074e1de78ff37afe972c10752e264a23f00474ed",
+    "mechanism__shear_principal__actions": "7386835906dd5fa9e7b8d46f2a1d19183d9e78a9d182c0c61a315edd2a151524",
+    "mechanism__shear_principal__signed_change": "59a3bac34906fcdd39a38462697cf514e366bc369ee8e779f4ad21902a2ecf3d",
+    "mechanism__stream__actions": "215db7b0e4ef994f904cf6a70bc02b661b52783ce6a6457183e99189ece8f1c2",
+    "mechanism__stream__signed_change": "fb061ad3e25bf79ae9f51c89c53154153d9013e65566f4b0cd011b6c933a0590",
+    "mechanism__total_signed_change": "78ef8f6918d2c081da455b931257abb4be846c4279592555bbe3d5c9423c4773"
+  },
+  "decisive_arrays_path": "results/canonical/causal_inner_derivative_repair_wp10c9d5c0a/decisive_arrays.npz",
+  "decisive_arrays_sha256": "96372f219d43f232745d189135836e90a579f73a6628ae8b6139d09d25bef10f",
+  "derivative_repair_passed": false,
+  "direct_high_order_passed": true,
+  "direct_reports": {
+    "N128_exterior_N128_inner_c48": {
+      "calibration_global_inner_0": {
+        "fourth_order_scale_difference": 5.824693801296318e-07,
+        "fourth_sixth_order_difference": 6.921158038816135e-08,
+        "passed": true
+      },
+      "common_mode": {
+        "fourth_order_scale_difference": 6.609763258880301e-07,
+        "fourth_sixth_order_difference": 6.401560037817375e-08,
+        "passed": true
+      },
+      "heldout_global_0": {
+        "fourth_order_scale_difference": 3.6444008492737925e-07,
+        "fourth_sixth_order_difference": 5.116738607113744e-08,
+        "passed": true
+      },
+      "heldout_near_excision_0": {
+        "fourth_order_scale_difference": 5.344788963993496e-06,
+        "fourth_sixth_order_difference": 5.343924865978458e-07,
+        "passed": true
+      }
+    },
+    "N128_exterior_N256_inner_c48": {
+      "calibration_global_inner_0": {
+        "fourth_order_scale_difference": 4.989035672418151e-07,
+        "fourth_sixth_order_difference": 6.868018456458357e-08,
+        "passed": true
+      },
+      "common_mode": {
+        "fourth_order_scale_difference": 6.39262698457155e-08,
+        "fourth_sixth_order_difference": 8.38816594121728e-09,
+        "passed": true
+      },
+      "heldout_global_0": {
+        "fourth_order_scale_difference": 6.845550176266175e-08,
+        "fourth_sixth_order_difference": 9.72809349376046e-09,
+        "passed": true
+      },
+      "heldout_near_excision_0": {
+        "fourth_order_scale_difference": 5.760421626169869e-07,
+        "fourth_sixth_order_difference": 6.37467426169479e-08,
+        "passed": true
+      }
+    },
+    "N128_exterior_N512_inner_c48": {
+      "calibration_global_inner_0": {
+        "fourth_order_scale_difference": 5.583195400010357e-07,
+        "fourth_sixth_order_difference": 7.713329081970756e-08,
+        "passed": true
+      },
+      "common_mode": {
+        "fourth_order_scale_difference": 5.405753810690118e-08,
+        "fourth_sixth_order_difference": 7.636268539862735e-09,
+        "passed": true
+      },
+      "heldout_global_0": {
+        "fourth_order_scale_difference": 9.224011379437246e-08,
+        "fourth_sixth_order_difference": 1.2551117659810784e-08,
+        "passed": true
+      },
+      "heldout_near_excision_0": {
+        "fourth_order_scale_difference": 1.1085732487249268e-06,
+        "fourth_sixth_order_difference": 1.506387402956357e-07,
+        "passed": true
+      }
+    }
+  },
+  "environment": {
+    "blas": {
+      "detection method": "system",
+      "found": true,
+      "include directory": "unknown",
+      "lib directory": "unknown",
+      "name": "accelerate",
+      "openblas configuration": "unknown",
+      "pc file directory": "unknown",
+      "version": "unknown"
+    },
+    "lapack": {
+      "detection method": "system",
+      "found": true,
+      "include directory": "unknown",
+      "lib directory": "unknown",
+      "name": "accelerate",
+      "openblas configuration": "unknown",
+      "pc file directory": "unknown",
+      "version": "unknown"
+    },
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13 (main, Mar  3 2026, 15:35:03) [Clang 21.1.4 ]",
+    "scipy": "1.18.0"
+  },
+  "fixed_q_micro_solver_authorized": false,
+  "frozen_candidate_recertification_authorized": false,
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_derivative_repair_wp10c9d5c0a.py": "1eb4d9bf953e639183ad9b1af94eb16016a8841308ab1940c4b415b9f2db961d",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "e4e70591886d6badc8851262332168020a6a3839405af0132520e1bc5c323ced",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_fluctuation.py": "57be77e57cc4b446b82ab54141166e15b34b908194a525a369560bf6b5b2fc7b",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_frozen.py": "4e50f57e7d5feec579915a6f9e5b12fd8ec244ce8ed17191dc9ab8df62d75cfb",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_localization.py": "f5633ebadb5347153705423d6ab4dc847020daf2d08912d59da135700017fe94",
+    "tests/test_causal_inner_derivative_repair_wp10c9d5c0a.py": "d4b7f90af8aade4850b3f642e8d622e90629185a074b8264a83a9719f0042707",
+    "tests/test_causal_inner_radial_localization.py": "427d934d7a6b101ef01e7c633c354b0240aca589c27520a888a3083dd0d7a76e"
+  },
+  "implementation_source_manifest_sha256": "42a5b1612e5e0d1f28e4c43db93abe421d4dc842d1c76c8783d1e610802424ec",
+  "matrix_high_order_passed": false,
+  "matrix_reports": {
+    "N128_exterior_N128_inner_c48": {
+      "directions": {
+        "calibration_global_inner_0": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 0.00016603369960308412,
+            "matrix_order_difference": 1.6480648941101357e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00014958626853785596
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.00016603367140647778,
+            "matrix_order_difference": 1.6480645170522128e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00014958624896769913
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 0.0001355185470228616,
+            "matrix_order_difference": 1.3558301516786105e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.000121965321911573
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.00016102448441710217,
+            "matrix_order_difference": 1.609622672684736e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00014493884342132204
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 0.0001672922895942299,
+            "matrix_order_difference": 1.6604930057987004e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.000150720164641013
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.00016687471280450684,
+            "matrix_order_difference": 1.6562670108811504e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00015034504513105842
+          }
+        },
+        "common_mode": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 1.8644464184814595e-05,
+            "matrix_order_difference": 1.7575714236281165e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 1.690482279182004e-05
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 1.8644464184814595e-05,
+            "matrix_order_difference": 1.7575714236281165e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 1.690482279182004e-05
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 9.182294310506562e-05,
+            "matrix_order_difference": 9.18730430207017e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 8.264106670706828e-05
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.00010456793736505635,
+            "matrix_order_difference": 1.0447678655712299e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 9.412545061371584e-05
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 1.8644464184814595e-05,
+            "matrix_order_difference": 1.7575714236281165e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 1.690482279182004e-05
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 1.8644464184814595e-05,
+            "matrix_order_difference": 1.7575714236281165e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 1.690482279182004e-05
+          }
+        },
+        "heldout_global_0": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 4.742367548226713e-05,
+            "matrix_order_difference": 4.240286422151206e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.348428822071746e-05
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 4.7423646732700755e-05,
+            "matrix_order_difference": 4.2402835132682135e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.348426086767985e-05
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 3.964338917727091e-05,
+            "matrix_order_difference": 3.964663410445184e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 3.5676626827192414e-05
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 4.5039658895439396e-05,
+            "matrix_order_difference": 4.453067011243007e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.058767597549772e-05
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 4.812841091274964e-05,
+            "matrix_order_difference": 4.293235984610046e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.4140188239725444e-05
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 4.736130397477068e-05,
+            "matrix_order_difference": 4.232628985647191e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.343035522532029e-05
+          }
+        },
+        "heldout_near_excision_0": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 6.382327595196232e-05,
+            "matrix_order_difference": 6.798844068997794e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 5.743763216712841e-05
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 6.382327595196232e-05,
+            "matrix_order_difference": 6.798844068997794e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 5.743763216712841e-05
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 6.382327595196232e-05,
+            "matrix_order_difference": 6.798844068997794e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 5.743763216712841e-05
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 6.382327595196232e-05,
+            "matrix_order_difference": 6.798844068997794e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 5.743763216712841e-05
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 6.382327595196232e-05,
+            "matrix_order_difference": 6.798844068997794e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 5.743763216712841e-05
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 6.382327595196232e-05,
+            "matrix_order_difference": 6.798844068997794e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 5.743763216712841e-05
+          }
+        }
+      },
+      "passed": false
+    },
+    "N128_exterior_N256_inner_c48": {
+      "directions": {
+        "calibration_global_inner_0": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 0.00014695745896546838,
+            "matrix_order_difference": 2.2806134572104282e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.0001280246475035432
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.0001469574624424976,
+            "matrix_order_difference": 2.2806134534817665e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00012802465278940046
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 0.0002781862882871048,
+            "matrix_order_difference": 2.7818310959724794e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00025037287447337734
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.0003139364064298563,
+            "matrix_order_difference": 3.140158953830643e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.0002825370838106168
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 0.00014700053156389226,
+            "matrix_order_difference": 2.2814090697626122e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00012805780045978667
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.0001469969289308189,
+            "matrix_order_difference": 2.281310960746793e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00012805763747697854
+          }
+        },
+        "common_mode": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 5.148106978713524e-06,
+            "matrix_order_difference": 7.117676841456271e-07,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.551586249981691e-06
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 5.148106978713524e-06,
+            "matrix_order_difference": 7.117676841456271e-07,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.551586249981691e-06
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 5.5528594819098735e-05,
+            "matrix_order_difference": 5.54956191483658e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 4.998652991473603e-05
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 6.183294412328549e-05,
+            "matrix_order_difference": 6.181409763717621e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 5.565760450617916e-05
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 5.148106978713524e-06,
+            "matrix_order_difference": 7.117676841456271e-07,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.551586249981691e-06
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 5.148106978713524e-06,
+            "matrix_order_difference": 7.117676841456271e-07,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.551586249981691e-06
+          }
+        },
+        "heldout_global_0": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 9.529212040032988e-06,
+            "matrix_order_difference": 1.4158704247419303e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 8.30587999367982e-06
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 9.52921506467899e-06,
+            "matrix_order_difference": 1.4158704249249775e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 8.305884041211952e-06
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 7.907370724237525e-05,
+            "matrix_order_difference": 7.906912954113309e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 7.11750711328722e-05
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 9.299415610727658e-05,
+            "matrix_order_difference": 9.307888115857834e-06,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 8.36926048186383e-05
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 9.512053509957482e-06,
+            "matrix_order_difference": 1.4141260806519173e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 8.28943235386769e-06
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 9.516717624826566e-06,
+            "matrix_order_difference": 1.414321224131096e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 8.294786773579055e-06
+          }
+        },
+        "heldout_near_excision_0": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 0.0001308164064940558,
+            "matrix_order_difference": 1.3117941279682028e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00011773605644022372
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.0001308164064940558,
+            "matrix_order_difference": 1.3117941279682028e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00011773605644022372
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 0.0001308164064940558,
+            "matrix_order_difference": 1.3117941279682028e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00011773605644022372
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.0001308164064940558,
+            "matrix_order_difference": 1.3117941279682028e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00011773605644022372
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 0.0001308164064940558,
+            "matrix_order_difference": 1.3117941279682028e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00011773605644022372
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.0001308164064940558,
+            "matrix_order_difference": 1.3117941279682028e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00011773605644022372
+          }
+        }
+      },
+      "passed": false
+    },
+    "N128_exterior_N512_inner_c48": {
+      "directions": {
+        "calibration_global_inner_0": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 0.00032823233039913494,
+            "matrix_order_difference": 8.874856574355096e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.0003412926690080832
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.00032823233039914367,
+            "matrix_order_difference": 8.874856574355096e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00034129266900809316
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 0.0005661951061083835,
+            "matrix_order_difference": 5.663210095237157e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.0005095957844860415
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.0006059478088325634,
+            "matrix_order_difference": 6.062429333360405e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.0005453584414188567
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 0.00032823874521534214,
+            "matrix_order_difference": 8.875243081478755e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00034130034543871805
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.00032824086379640895,
+            "matrix_order_difference": 8.87518071461048e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.0003413020091106254
+          }
+        },
+        "common_mode": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 4.561588149793148e-06,
+            "matrix_order_difference": 1.1436351296586077e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.8373359954638095e-06
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 4.561588149793148e-06,
+            "matrix_order_difference": 1.1436351296586077e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.8373359954638095e-06
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 4.2400157811700814e-05,
+            "matrix_order_difference": 4.23988534958444e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 3.817705168622154e-05
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 4.501090513939508e-05,
+            "matrix_order_difference": 4.500690654701219e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.0527487112839634e-05
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 4.561588149793146e-06,
+            "matrix_order_difference": 1.1436351296586077e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.8373359954638095e-06
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 4.561588149793146e-06,
+            "matrix_order_difference": 1.1436351296586077e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 4.8373359954638095e-06
+          }
+        },
+        "heldout_global_0": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 1.992205597427344e-05,
+            "matrix_order_difference": 5.612781123725989e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 2.119584264455522e-05
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 1.992205597427635e-05,
+            "matrix_order_difference": 5.612781123725989e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 2.1195842644559072e-05
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 0.00015868668945424384,
+            "matrix_order_difference": 1.5884930395434912e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00014289133260087653
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.0001776116391092732,
+            "matrix_order_difference": 1.7812520536990453e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.0001598868305535844
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 1.9915962186303443e-05,
+            "matrix_order_difference": 5.612695788916592e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 2.1190442796074935e-05
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 1.9918015929115104e-05,
+            "matrix_order_difference": 5.612690068256136e-06,
+            "passed": true,
+            "sixth_order_matrix_action_defect": 2.119237139950007e-05
+          }
+        },
+        "heldout_near_excision_0": {
+          "through_12rg": {
+            "fourth_order_matrix_action_defect": 0.00027368758552157317,
+            "matrix_order_difference": 2.7371980055294436e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.0002463225780589257
+          },
+          "through_12rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.00027368758552157317,
+            "matrix_order_difference": 2.7371980055294436e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.0002463225780589257
+          },
+          "through_5rg": {
+            "fourth_order_matrix_action_defect": 0.0002736875855215731,
+            "matrix_order_difference": 2.7371980055294436e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00024632257805892564
+          },
+          "through_5rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.0002736875855215731,
+            "matrix_order_difference": 2.7371980055294436e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00024632257805892564
+          },
+          "through_8rg": {
+            "fourth_order_matrix_action_defect": 0.0002736875855215731,
+            "matrix_order_difference": 2.7371980055294436e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00024632257805892564
+          },
+          "through_8rg_plus_halo": {
+            "fourth_order_matrix_action_defect": 0.0002736875855215731,
+            "matrix_order_difference": 2.7371980055294436e-05,
+            "passed": false,
+            "sixth_order_matrix_action_defect": 0.00024632257805892564
+          }
+        }
+      },
+      "passed": false
+    }
+  },
+  "mechanism_report": {
+    "block_reports": {
+      "conservative_transport": {
+        "cosine_with_total": -0.015782371790950312,
+        "individual_squared_norm_fraction": 0.13954504244461377,
+        "projection_onto_total": -0.007330513608473853,
+        "signed_change_norm": 2.783149812984168e-08
+      },
+      "cooling": {
+        "cosine_with_total": -0.00027610076973646406,
+        "individual_squared_norm_fraction": 1.5083047237221587e-09,
+        "projection_onto_total": -1.3332668813005335e-08,
+        "signed_change_norm": 2.893502913191118e-12
+      },
+      "geometry": {
+        "cosine_with_total": -0.00032391145039876757,
+        "individual_squared_norm_fraction": 0.0034835658950784433,
+        "projection_onto_total": -2.3770769678118133e-05,
+        "signed_change_norm": 4.397353639254765e-09
+      },
+      "height_principal": {
+        "cosine_with_total": -0.0003253706241597489,
+        "individual_squared_norm_fraction": 4.2670569697494016e-07,
+        "projection_onto_total": -2.6426977155337143e-07,
+        "signed_change_norm": 4.866801115868756e-11
+      },
+      "local_stress_relaxation": {
+        "cosine_with_total": 0.609570638558103,
+        "individual_squared_norm_fraction": 0.22275459407626982,
+        "projection_onto_total": 0.3577192430447974,
+        "signed_change_norm": 3.516354996676309e-08
+      },
+      "lower_height_work": {
+        "cosine_with_total": 0.009653605450028283,
+        "individual_squared_norm_fraction": 4.842100490054078e-05,
+        "projection_onto_total": 8.352401684985523e-05,
+        "signed_change_norm": 5.184373445740889e-10
+      },
+      "production": {
+        "cosine_with_total": 0.6479233403242959,
+        "individual_squared_norm_fraction": 0.6096093797092722,
+        "projection_onto_total": 0.62900539948308,
+        "signed_change_norm": 5.8170821719241256e-08
+      },
+      "shear_principal": {
+        "cosine_with_total": 0.10544577627951054,
+        "individual_squared_norm_fraction": 0.024558568655863474,
+        "projection_onto_total": 0.020546395435865082,
+        "signed_change_norm": 1.1675645598961851e-08
+      },
+      "stream": {
+        "cosine_with_total": 0.0,
+        "individual_squared_norm_fraction": 0.0,
+        "projection_onto_total": 0.0,
+        "signed_change_norm": 0.0
+      }
+    },
+    "direction": "global_inner_0",
+    "dominant_cell": 20,
+    "dominant_cell_center_over_rg": 2.2189732161346174,
+    "label": "N128_exterior_N512_inner_c48",
+    "squared_fraction_through_radius": {
+      "12.0": 0.9999999550476252,
+      "5.0": 0.6152886255507439,
+      "8.0": 0.861036944541172
+    },
+    "steps": [
+      1e-05,
+      2e-05,
+      4e-05
+    ],
+    "total_change_norm": 5.992036499005244e-08
+  },
+  "nonlinear_candidate_authorized": false,
+  "parent_wp10c9d5_candidate_remains_rejected": true,
+  "parent_wp10c9d5b_branch_d_preserved": true,
+  "parent_wp10c9d5c0_summary_path": "results/canonical/causal_inner_cross_grid_hardening_wp10c9d5c0/summary.json",
+  "parent_wp10c9d5c0_summary_sha256": "a373829d1c47dad01aeb9e34ad39e90ba41a9a8e6ac04c335a03a93f11ee7378",
+  "physical_sensitivity": {
+    "executed": false,
+    "passed": false
+  },
+  "production_operator_authorized": false,
+  "reduced_slow_evolution_authorized": false,
+  "runtime_seconds": 1130.10582316597,
+  "schema_version": 1,
+  "self_consistent_tangent_authorized": false,
+  "work_package": "WP10c9d5c0a",
+  "wp10c9d5c1_extended_localization_authorized": false
+}

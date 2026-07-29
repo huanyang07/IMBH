@@ -158,8 +158,10 @@ from .causal_inner_radial_domain_hardening import (
 )
 from .causal_inner_radial_localization import (
     CausalRadialHistoryConvergence,
+    causal_radial_colored_block_jacobian_family,
     causal_radial_colored_block_jacobians,
     causal_radial_first_consecutive_recovery,
+    causal_radial_high_order_directional_derivatives,
     causal_radial_history_convergence,
     causal_radial_prefix_face_fluxes,
 )
@@ -1457,9 +1459,11 @@ __all__ = [
     "CausalRadialOneSidedJVPSweep",
     "CausalRadialProjectedJVPAudit",
     "CausalRadialHistoryConvergence",
+    "causal_radial_colored_block_jacobian_family",
     "causal_radial_colored_block_jacobians",
     "causal_radial_dense_colored_audit",
     "causal_radial_first_consecutive_recovery",
+    "causal_radial_high_order_directional_derivatives",
     "causal_radial_history_convergence",
     "causal_radial_jvp_spatial_attribution",
     "causal_radial_jvp_step_sweep",

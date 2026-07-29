@@ -12,6 +12,28 @@ from .causal_inner_dae_system import (
 )
 
 
+_CENTRAL_DERIVATIVE_STENCILS = {
+    2: {
+        -1: -0.5,
+        1: 0.5,
+    },
+    4: {
+        -2: 1.0 / 12.0,
+        -1: -2.0 / 3.0,
+        1: 2.0 / 3.0,
+        2: -1.0 / 12.0,
+    },
+    6: {
+        -3: -1.0 / 60.0,
+        -2: 3.0 / 20.0,
+        -1: -3.0 / 4.0,
+        1: 3.0 / 4.0,
+        2: -3.0 / 20.0,
+        3: 1.0 / 60.0,
+    },
+}
+
+
 @dataclass(frozen=True)
 class CausalRadialHistoryConvergence:
     """Three-grid convergence of one multicomponent time history."""
@@ -58,6 +80,183 @@ def _cosine(first: np.ndarray, second: np.ndarray) -> float:
     if left_norm <= tiny or right_norm <= tiny:
         return 0.0
     return float(np.dot(left, right) / (left_norm * right_norm))
+
+
+def _validated_derivative_orders(orders) -> tuple[int, ...]:
+    values = tuple(int(order) for order in orders)
+    if (
+        not values
+        or len(set(values)) != len(values)
+        or any(order not in _CENTRAL_DERIVATIVE_STENCILS for order in values)
+    ):
+        raise ValueError("central derivative orders must be unique 2, 4, or 6")
+    return values
+
+
+def causal_radial_high_order_directional_derivatives(
+    function,
+    base: np.ndarray,
+    direction: np.ndarray,
+    *,
+    finite_difference_step: float,
+    derivative_orders=(4, 6),
+) -> dict[int, np.ndarray]:
+    """Evaluate several centered high-order JVPs from one shared stencil.
+
+    The returned actions use the same residual samples for every requested
+    order. This is intended for frozen audit derivatives whose residual
+    evaluation contains cancellation-amplified roundoff; it does not change
+    the nonlinear residual itself.
+    """
+
+    point = _finite_vector(base, name="base")
+    vector = _finite_vector(direction, name="direction")
+    step = float(finite_difference_step)
+    orders = _validated_derivative_orders(derivative_orders)
+    if (
+        vector.shape != point.shape
+        or not np.isfinite(step)
+        or step <= 0.0
+    ):
+        raise ValueError("high-order directional derivative inputs are invalid")
+    multipliers = sorted(
+        {
+            multiplier
+            for order in orders
+            for multiplier in _CENTRAL_DERIVATIVE_STENCILS[order]
+        }
+    )
+    samples = {
+        multiplier: _finite_vector(
+            function(point + multiplier * step * vector),
+            name=f"function(base + {multiplier} * step * direction)",
+        )
+        for multiplier in multipliers
+    }
+    if len({values.shape for values in samples.values()}) != 1:
+        raise ValueError("high-order directional residual shape changed")
+    reference = next(iter(samples.values()))
+    return {
+        order: np.asarray(
+            sum(
+                (
+                    weight * samples[multiplier]
+                    for multiplier, weight
+                    in _CENTRAL_DERIVATIVE_STENCILS[order].items()
+                ),
+                start=np.zeros_like(reference),
+            )
+            / step,
+            dtype=float,
+        )
+        for order in orders
+    }
+
+
+def causal_radial_colored_block_jacobian_family(
+    function,
+    base: np.ndarray,
+    pattern: np.ndarray | csc_matrix | csr_matrix,
+    *,
+    finite_difference_step: float,
+    derivative_orders=(4, 6),
+) -> dict[int, dict[str, csr_matrix]]:
+    """Assemble block Jacobians at several orders from one colored sweep."""
+
+    point = _finite_vector(base, name="base")
+    declared = (
+        pattern.tocsc()
+        if hasattr(pattern, "tocsc")
+        else csc_matrix(np.asarray(pattern, dtype=bool))
+    )
+    step = float(finite_difference_step)
+    orders = _validated_derivative_orders(derivative_orders)
+    if (
+        declared.shape != (point.size, point.size)
+        or not np.isfinite(step)
+        or step <= 0.0
+    ):
+        raise ValueError("colored high-order Jacobian inputs are invalid")
+    reference = {
+        str(name): _finite_vector(values, name=f"block {name}")
+        for name, values in function(point).items()
+    }
+    if (
+        not reference
+        or any(values.shape != point.shape for values in reference.values())
+    ):
+        raise ValueError("colored high-order block dimensions are invalid")
+    matrices = {
+        order: {
+            name: lil_matrix(declared.shape, dtype=float)
+            for name in reference
+        }
+        for order in orders
+    }
+    multipliers = sorted(
+        {
+            multiplier
+            for order in orders
+            for multiplier in _CENTRAL_DERIVATIVE_STENCILS[order]
+        }
+    )
+    for group in causal_five_field_dae_jacobian_color_groups(declared):
+        samples = {}
+        for multiplier in multipliers:
+            candidate = np.array(point, copy=True)
+            candidate[group] += multiplier * step
+            values = function(candidate)
+            if set(values) != set(reference):
+                raise ValueError("colored high-order residual keys changed")
+            samples[multiplier] = {
+                name: _finite_vector(
+                    values[name],
+                    name=f"{multiplier} step block {name}",
+                )
+                for name in reference
+            }
+            if any(
+                values.shape != point.shape
+                for values in samples[multiplier].values()
+            ):
+                raise ValueError(
+                    "colored high-order residual shape changed"
+                )
+        differences = {
+            order: {
+                name: (
+                    sum(
+                        (
+                            weight * samples[multiplier][name]
+                            for multiplier, weight
+                            in _CENTRAL_DERIVATIVE_STENCILS[
+                                order
+                            ].items()
+                        ),
+                        start=np.zeros_like(reference[name]),
+                    )
+                    / step
+                )
+                for name in reference
+            }
+            for order in orders
+        }
+        for column in group:
+            start = declared.indptr[column]
+            stop = declared.indptr[column + 1]
+            rows = declared.indices[start:stop]
+            for order in orders:
+                for name in reference:
+                    matrices[order][name][rows, column] = (
+                        differences[order][name][rows, None]
+                    )
+    return {
+        order: {
+            name: matrix.tocsr()
+            for name, matrix in order_matrices.items()
+        }
+        for order, order_matrices in matrices.items()
+    }
 
 
 def causal_radial_colored_block_jacobians(
