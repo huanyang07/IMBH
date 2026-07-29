@@ -1,0 +1,147 @@
+{
+  "analytic_or_ad_linear_tangent_work_authorized": true,
+  "analyzed_base_commit": "508e5c284c2eaf7305efb45ae30a437b29dabb33",
+  "analyzed_base_parent_commit": "5c88fa02f8f25fa62e9e0fdb648e66974bca38d3",
+  "analyzed_base_tree_sha": "6fd889e2f6acc27304f1b243011c8bf255ae5d0b",
+  "cell_additivity_report": {
+    "assembly": "sum_of_independent_one_cell_jvps",
+    "cell_count": 46,
+    "orders": {
+      "4": {
+        "through_12rg_plus_halo": {
+          "cell_sum_to_colored_relative_defect": 0.00028016523200188843,
+          "colored_to_direct_relative_defect": 0.00016603367273924216,
+          "passed": false,
+          "relative_defect": 0.00030559961074090553
+        },
+        "through_5rg_plus_halo": {
+          "cell_sum_to_colored_relative_defect": 0.0002747176246933441,
+          "colored_to_direct_relative_defect": 0.000161024486103575,
+          "passed": false,
+          "relative_defect": 0.00030320565374357844
+        },
+        "through_8rg_plus_halo": {
+          "cell_sum_to_colored_relative_defect": 0.00028161228529424747,
+          "colored_to_direct_relative_defect": 0.0001668747141492137,
+          "passed": false,
+          "relative_defect": 0.00030719482039239047
+        }
+      },
+      "6": {
+        "through_12rg_plus_halo": {
+          "cell_sum_to_colored_relative_defect": 0.00025231980209185044,
+          "colored_to_direct_relative_defect": 0.0001495862469302408,
+          "passed": false,
+          "relative_defect": 0.0002750575529549042
+        },
+        "through_5rg_plus_halo": {
+          "cell_sum_to_colored_relative_defect": 0.00024724220308467663,
+          "colored_to_direct_relative_defect": 0.00014493884155709956,
+          "passed": false,
+          "relative_defect": 0.0002728844862232557
+        },
+        "through_8rg_plus_halo": {
+          "cell_sum_to_colored_relative_defect": 0.00025362398038315304,
+          "colored_to_direct_relative_defect": 0.00015034504307989227,
+          "passed": false,
+          "relative_defect": 0.00027649322668399156
+        }
+      }
+    },
+    "passed": false
+  },
+  "cell_partition_cache": {
+    "arrays_path": "outputs/checkpoints/causal_inner_uncolored_additivity_wp10c9d5c0c/cell_partitions_arrays.npz",
+    "arrays_sha256": "f332a60b4692a743e03accdeebbb7a7fba8fe0c9ffd1ec5ba9c5d385f84f7ad8",
+    "assembly": "independent_one_cell_directional_derivatives",
+    "base_primitives_sha256": "79fa8951a7afb41fdb5c35a2ab1ad3e7752a2876723f37e6adb9f0e667a1847a",
+    "cell_count": 46,
+    "derivative_orders": [
+      4,
+      6
+    ],
+    "direction_name": "calibration_global_inner_0",
+    "direction_sha256": "1f25a5cb036c4f856b3b851304c874b7af27203f382b0f708a13e69972ec6129",
+    "finite_difference_step": 0.0002,
+    "grid_edges_sha256": "01bbfa7ba9a318660afb8d55e5f7ef0a74fed2d82cd3135dbc39a3e556e88763",
+    "label": "N128_exterior_N128_inner_c48",
+    "schema_version": 1,
+    "wall_seconds": 1122.7022129159886,
+    "work_package": "WP10c9d5c0c"
+  },
+  "classification": "independent_cell_additivity_failed_finite_difference_linear_tangent_blocked",
+  "decisive_array_hashes": {
+    "cells": "7f5344d2d32cdf958879e8f3b2edf255c654e4cf071018fce9b96564ab0382e2",
+    "direction": "1f25a5cb036c4f856b3b851304c874b7af27203f382b0f708a13e69972ec6129",
+    "order4_cell_actions": "c11b02eef7232e1c5371513e3b975aa2246db4671bbdfe632343624bd5dcb9a5",
+    "order4_colored_action": "9557093e22949be7897d5ed34d8b6e7cab405b48c46017ef5dc0f59576a038b1",
+    "order4_summed_action": "393f34c7a79c2d9ee701ed21eed6ca02c2125fe5e336c0c752220e43b0652446",
+    "order6_cell_actions": "487d86735b23723d3ece2c5833a5f3e08408edb13ec1ad5dec1485cabb648b66",
+    "order6_colored_action": "12f64365a7553f65c8aec29185be76b69b104a3a45dbe7728cf45dd83faf22ab",
+    "order6_summed_action": "8af7b231a944fae4d1e621f02d7eff4365183dda127caf981c69eeeda9060b0a",
+    "parent_fourth_order_action": "26070c2c147b55be5143831198e6c8297b62d171402c94b678776b1c84e54792",
+    "parent_sixth_order_action": "0b5dc3a4d39fd5c8aab98c9a65571de1494ca51fc716f4e73608df14bd45a4ac"
+  },
+  "decisive_arrays_path": "results/canonical/causal_inner_uncolored_additivity_wp10c9d5c0c/decisive_arrays.npz",
+  "decisive_arrays_sha256": "fedeb575e0115ab4d98f9bd9ce8f7bb53007bafb887ac5bf6a62b8b2204373e1",
+  "environment": {
+    "blas": {
+      "detection method": "system",
+      "found": true,
+      "include directory": "unknown",
+      "lib directory": "unknown",
+      "name": "accelerate",
+      "openblas configuration": "unknown",
+      "pc file directory": "unknown",
+      "version": "unknown"
+    },
+    "lapack": {
+      "detection method": "system",
+      "found": true,
+      "include directory": "unknown",
+      "lib directory": "unknown",
+      "name": "accelerate",
+      "openblas configuration": "unknown",
+      "pc file directory": "unknown",
+      "version": "unknown"
+    },
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13 (main, Mar  3 2026, 15:35:03) [Clang 21.1.4 ]",
+    "scipy": "1.18.0"
+  },
+  "explicit_finite_difference_matrix_authorized": false,
+  "fixed_q_micro_solver_authorized": false,
+  "frozen_candidate_recertification_authorized": false,
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_derivative_repair_wp10c9d5c0a.py": "1eb4d9bf953e639183ad9b1af94eb16016a8841308ab1940c4b415b9f2db961d",
+    "scripts/run_causal_inner_direct_delta_repair_wp10c9d5c0b.py": "cd5994f956a921b0efaef6bd1d5370a1fa0bcf34d35683e0177f768b2884b088",
+    "scripts/run_causal_inner_uncolored_additivity_wp10c9d5c0c.py": "21f7154ea77e154ccc856a329b385f420c2298fcdbfbcb2b7468b4104ce3a04b",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_localization.py": "f5633ebadb5347153705423d6ab4dc847020daf2d08912d59da135700017fe94",
+    "tests/test_causal_inner_uncolored_additivity_wp10c9d5c0c.py": "76a02cb89d0c4b6ba937419adff69c6a03f0489a53496af4619fd4a484b856b3"
+  },
+  "implementation_source_manifest_sha256": "6f3a6e5e6a7a3ea8dd9d4cbd4b371d507e1d0d9cc106527a264adcb11a11310d",
+  "matrix_free_finite_difference_jvp_authorized": false,
+  "nonlinear_candidate_authorized": false,
+  "parent_arrays_path": "results/canonical/causal_inner_direct_delta_repair_wp10c9d5c0b/decisive_arrays.npz",
+  "parent_arrays_sha256": "2692f2bdfa81f62a7189e6c5bc1b91cff083c8896eaf6a4a4d6db0fdd38c0626",
+  "parent_summary_path": "results/canonical/causal_inner_direct_delta_repair_wp10c9d5c0b/summary.json",
+  "parent_summary_sha256": "0eb3102aa5a618c630bab3ff930c927ae51bfd93a009c8dd88e873850bc746c7",
+  "parent_wp10c9d5_candidate_remains_rejected": true,
+  "parent_wp10c9d5b_branch_d_preserved": true,
+  "parent_wp10c9d5c0b_remains_rejected": true,
+  "production_operator_authorized": false,
+  "reduced_slow_evolution_authorized": false,
+  "runtime_seconds": 13.444976957980543,
+  "schema_version": 1,
+  "selected_column_cache": {},
+  "selected_column_report": {
+    "executed": false,
+    "passed": false
+  },
+  "selected_next_route": "analytic_or_ad_compatible_linear_tangent",
+  "self_consistent_tangent_authorized": false,
+  "uncolored_full_matrix_followup_authorized": false,
+  "work_package": "WP10c9d5c0c",
+  "wp10c9d5c1_extended_localization_authorized": false
+}
