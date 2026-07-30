@@ -1,0 +1,35 @@
+{
+  "analyzed_base_commit": "76e34e8ef0b4688b0c371c27cb2288c880419961",
+  "analyzed_base_parent": "14bc3e753c2530ef8799d5ad092854156a6c6551",
+  "analyzed_base_tree": "5b4b37e5e2c2d0affaeed90bf547892f5a7808ed",
+  "command": "PYTHONPATH=src:scripts python scripts/run_causal_inner_full_symbol_limiter_wp10c9d6c6a1.py",
+  "environment": {
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "implementation_base_tree": "5b4b37e5e2c2d0affaeed90bf547892f5a7808ed",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_full_symbol_limiter_wp10c9d6c6a1.py": "5ffb3286edce10517a978113151309c3b394ba95d75f2ce3710f97f8c6381e12",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_continuum_truncation.py": "a7ca35a9e30e99b346489e37cbfb50087f04354d8ef681e4c16f87c200880286",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_full_symbol_limiter.py": "d53b7a4450dc3de157358f31e49194de1e2097a4eb3f0db9e07e452352ef4618",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_tangent.py": "23a958a894fc40188a0cda1e640f943bd00dc8070a64af4b2b2a56cd609ba0c4",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_packet_resolution.py": "989e96180b4fe8ddb48d7513e85e1af6969173bdbaaab7a1e9a7e42d4b931b64",
+    "tests/test_causal_inner_full_symbol_limiter.py": "5e5c07535b9340c498946eeb798a906b4b3eb7cbc886fac718311e987584dbb9",
+    "tests/test_causal_inner_full_symbol_limiter_wp10c9d6c6a1.py": "6d4e09be655959509dcb065d6830f33500848cc13d707f5258dac9846dcbb6b4"
+  },
+  "implementation_source_manifest_sha256": "56b66a9f2e220e615a5bb2ff687218aec81c6a61c5af6ec622a89ead38915129",
+  "parent_canonical_hashes": {
+    "results/canonical/causal_inner_packet_resolution_wp10c9d6c6a/config.json": "63b5b3323bd7f735074314b8c4301bb08f89752b54baa290564101ca83f52168",
+    "results/canonical/causal_inner_packet_resolution_wp10c9d6c6a/decisive_arrays.npz": "8705892e3d38a74630e45d839d20ad0045a39976f2bc00762dbab18d84f36256",
+    "results/canonical/causal_inner_packet_resolution_wp10c9d6c6a/provenance.json": "1a76c92df0f5b998224be735be4134689da364e5ab00ddc8662828424db8141f",
+    "results/canonical/causal_inner_packet_resolution_wp10c9d6c6a/summary.json": "4c83315311c6bfff2bf938e108333365ccd50c2b544c0d000fe518b8a9a34d68"
+  },
+  "ray_method_correction_command": "PYTHONPATH=src:scripts python scripts/run_causal_inner_full_symbol_limiter_wp10c9d6c6a1.py --rerun-ray-rk4",
+  "schema_version": 1,
+  "scientific_status": "DIAGNOSTIC ONLY",
+  "source_parent_commit": "76e34e8ef0b4688b0c371c27cb2288c880419961",
+  "work_package": "WP10c9d6c6a1",
+  "working_tree_status": "M results/manifests/canonical_artifacts.csv\n M results/manifests/canonical_summary.json\n?? docs/reports/gpt/CODEX_IMBH_119A998_REVIEW_AND_NEXT_PLAN.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_119A998_PROVISIONAL_REVIEW_AND_NEXT_PLAN_2026-07-17.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_1CF430F_REVIEW_AND_PHYSICAL_OUTER_BOUNDARY_PLAN_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_272E891_REVIEW_AND_LOCKED_NEXT_PLAN_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_8D0691B_REVIEW_AND_CHARACTERISTIC_RESPONSE_PLAN_2026-07-16.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_B9B1BC1_REVIEW_AND_LOCKED_TIME_EVOLUTION_PLAN_2026-07-11.md\n?? docs/reports/gpt/CODEX_IMBH_DAE_BOUNDARY_CONSTRAINT_INDEX_AND_REVISED_COUNTS_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_LATEST_UPDATE_REVIEW_AND_LOCKED_NEXT_PLAN_2026-07-14.md\n?? docs/reports/gpt/CODEX_IMBH_PHYSICS_DISCUSSION_AND_STAGED_TIME_DEPENDENT_PLAN_2026-07-11.md\n?? docs/reports/gpt/CODEX_IMBH_PRODUCTION_FACE_TORQUE_AND_FINAL_DAE_ARCHITECTURE_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_TIME_DAE_EXACT_UNKNOWN_RESIDUAL_COUNT_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_TIME_DEPENDENT_DAE_DERIVATION_AND_REVISED_LOCKED_PLAN_2026-07-12.md\n?? docs/reports/gpt/IMBH_long_timescale_evolution_plan_for_codex.md\n?? results/canonical/causal_inner_full_symbol_limiter_wp10c9d6c6a1/\n?? scripts/run_causal_inner_full_symbol_limiter_wp10c9d6c6a1.py\n?? src/imri_qpe/layer3_minidisk_1d/causal_inner_full_symbol_limiter.py\n?? tests/test_causal_inner_full_symbol_limiter.py\n?? tests/test_causal_inner_full_symbol_limiter_wp10c9d6c6a1.py"
+}

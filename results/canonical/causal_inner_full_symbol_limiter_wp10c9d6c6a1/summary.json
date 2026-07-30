@@ -1,0 +1,2447 @@
+{
+  "analyzed_base_commit": "76e34e8ef0b4688b0c371c27cb2288c880419961",
+  "analyzed_base_parent": "14bc3e753c2530ef8799d5ad092854156a6c6551",
+  "analyzed_base_tree": "5b4b37e5e2c2d0affaeed90bf547892f5a7808ed",
+  "authorized_next": "WP10c9d6c6a2_variable_coefficient_windowed_contract",
+  "classification": "full_symbol_limiter_convergent_accumulation_windowed_contract_audit_authorized",
+  "configuration": {
+    "audit_radii_over_rg": [
+      2.2,
+      3.0,
+      5.0,
+      8.0,
+      11.0
+    ],
+    "audit_theta_values": [
+      0.1,
+      0.17,
+      0.18,
+      0.2,
+      0.3
+    ],
+    "audit_times_s": [
+      0.015625,
+      0.03125,
+      0.0625,
+      0.125
+    ],
+    "cross_grid_reference_thetas": [
+      0.18,
+      0.2
+    ],
+    "gates": {
+      "maximum_component_closure_defect": 1e-11,
+      "maximum_generator_parity_defect": 1e-11,
+      "maximum_propagator_norm_ratio": 1.25,
+      "maximum_ray_integrator_to_error_ratio": 0.1,
+      "maximum_ray_preflight_error": 0.05,
+      "maximum_ray_reference_to_error_ratio": 0.1,
+      "maximum_shapley_closure_defect": 1e-11,
+      "maximum_time_accumulation_exponent": 1.25,
+      "minimum_ray_branch_overlap": 0.9,
+      "minimum_significant_component_order": 1.25,
+      "minimum_time_accumulation_exponent": 0.75,
+      "significant_propagator_contribution": 0.00025,
+      "unchanged_minimum_usable_theta": 0.2,
+      "unchanged_packet_contract_error": 0.025
+    },
+    "labels": [
+      "uniform_N128",
+      "uniform_N256",
+      "uniform_N512"
+    ],
+    "limiter_radius_over_rg": 8.0,
+    "limiter_theta": 0.18,
+    "operator_change": false,
+    "parent_contract_preserved": true,
+    "production_defaults_changed": false,
+    "ray_branch_table_base_nodes": 257,
+    "ray_horizon_s": 0.125,
+    "ray_integrator": "overlap_tracked_coupled_classical_rk4",
+    "ray_primary_step_s": 0.00125,
+    "ray_secondary_step_s": 0.0025,
+    "ray_start_radii_over_rg": [
+      5.0,
+      8.0,
+      11.0
+    ],
+    "ray_theta_values": [
+      0.18,
+      0.2
+    ],
+    "schema_version": 1,
+    "work_package": "WP10c9d6c6a1"
+  },
+  "cross_grid_attribution_report": {
+    "maximum_shapley_closure_defect": 9.585355954860632e-18,
+    "minimum_significant_component_order": 1.9576782805390747,
+    "passed": true,
+    "player_names": [
+      "descriptor",
+      "principal",
+      "mapped_storage_rate",
+      "height_storage_rate",
+      "stress_relaxation",
+      "lower_sources"
+    ],
+    "radius_reports": {
+      "r11.00": {
+        "theta0.18": {
+          "contribution_errors": [
+            [
+              0.022675447016662117,
+              0.030644296390162987,
+              0.010207861542231227,
+              0.00025245294899936153,
+              0.00036988334669791197,
+              0.02684707966386354
+            ],
+            [
+              0.005682410779206717,
+              0.00743457633202521,
+              0.0025508760872308502,
+              6.499209909715952e-05,
+              9.461624442610214e-05,
+              0.0067340568928114216
+            ],
+            [
+              0.0014239505579380298,
+              0.001845935665032731,
+              0.0006411198105742017,
+              1.6493909288969677e-05,
+              2.3478010327723673e-05,
+              0.001683684433199731
+            ]
+          ],
+          "contribution_orders": [
+            [
+              1.996555959613983,
+              2.0432961440251343,
+              2.0006159412659006,
+              1.9576782805390747,
+              1.966910544651076,
+              1.9952173502046164
+            ],
+            [
+              1.996604072875164,
+              2.009898258240092,
+              1.992326925755242,
+              1.9783309661455037,
+              2.0107777468306374,
+              1.9998541451552647
+            ]
+          ],
+          "significant_players": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "total_errors": [
+            0.023850444087869682,
+            0.006077452724521288,
+            0.0015289424595089083
+          ],
+          "total_orders": [
+            1.9724774580858315,
+            1.9909326527366118
+          ]
+        },
+        "theta0.20": {
+          "contribution_errors": [
+            [
+              0.027311189197692536,
+              0.03820075396268757,
+              0.010873251497898228,
+              0.0002483217577934495,
+              0.0004243090396911198,
+              0.03428585234586806
+            ],
+            [
+              0.006849185814598141,
+              0.009260658996412104,
+              0.0027188176172393166,
+              6.392988218073726e-05,
+              0.00010859687862349155,
+              0.008602632558507099
+            ],
+            [
+              0.0017169653544694186,
+              0.002297907257960666,
+              0.0006835605160757846,
+              1.6228208689773837e-05,
+              2.6952937110531246e-05,
+              0.0021515176219382057
+            ]
+          ],
+          "contribution_orders": [
+            [
+              1.995487728591578,
+              2.044414347139052,
+              1.9997321418395808,
+              1.9576483349197709,
+              1.9661327781819657,
+              1.9947632652056286
+            ],
+            [
+              1.9960715719020072,
+              2.0107942876237486,
+              1.991838404882887,
+              1.9779866746457393,
+              2.0104682369108513,
+              1.9994235610288136
+            ]
+          ],
+          "significant_players": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "total_errors": [
+            0.028937714946873576,
+            0.007378625508222219,
+            0.0018568207778888609
+          ],
+          "total_orders": [
+            1.9715270037114503,
+            1.9905175241111863
+          ]
+        }
+      },
+      "r2.20": {
+        "theta0.18": {
+          "contribution_errors": [
+            [
+              0.011789125268053586,
+              0.0166960765979557,
+              0.0038527493003532175,
+              4.5982325616547954e-05,
+              0.001690287757922357,
+              0.015662597800305707
+            ],
+            [
+              0.0029658752434087183,
+              0.0040799610566280365,
+              0.000972321873227276,
+              1.1616297654958807e-05,
+              0.0004181822905441156,
+              0.003950130922460483
+            ],
+            [
+              0.0007431124274081047,
+              0.001010930595211597,
+              0.00024383778565761812,
+              2.862804523887293e-06,
+              0.00010397054348458383,
+              0.0009911695431152408
+            ]
+          ],
+          "contribution_orders": [
+            [
+              1.990926858254813,
+              2.032881837595406,
+              1.9863824308814062,
+              1.984929107692045,
+              2.0150650025209935,
+              1.9873511424122576
+            ],
+            [
+              1.99680551207024,
+              2.0128714283448548,
+              1.9955122698379837,
+              2.0206492567364203,
+              2.0079571193212438,
+              1.9946967087101126
+            ]
+          ],
+          "significant_players": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "total_errors": [
+            0.015801586403589852,
+            0.004078442632091159,
+            0.0010348132920819676
+          ],
+          "total_orders": [
+            1.9539791411439065,
+            1.978647868548949
+          ]
+        },
+        "theta0.20": {
+          "contribution_errors": [
+            [
+              0.013615565951428902,
+              0.020058032085947055,
+              0.0038711526281840604,
+              4.211753435248002e-05,
+              0.001988234341382527,
+              0.018405714402026402
+            ],
+            [
+              0.0034266044611805206,
+              0.004871075996724497,
+              0.0009773813099967705,
+              1.0650293661929795e-05,
+              0.0004919079589537645,
+              0.0046451718869388505
+            ],
+            [
+              0.0008585229757733174,
+              0.0012040687963309957,
+              0.00024513699957564466,
+              2.6258940688828766e-06,
+              0.00012230029629698732,
+              0.001165821701274566
+            ]
+          ],
+          "contribution_orders": [
+            [
+              1.9904053775901773,
+              2.0418676717458766,
+              1.9857697679998219,
+              1.9835277698686966,
+              2.0150275059993117,
+              1.9863498605166807
+            ],
+            [
+              1.9968510194792068,
+              2.0163226666851424,
+              1.9953332640978745,
+              2.020012587819042,
+              2.0079604986251542,
+              1.994384819989803
+            ]
+          ],
+          "significant_players": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "total_errors": [
+            0.018227038571213272,
+            0.004725542731237834,
+            0.001201888417160471
+          ],
+          "total_orders": [
+            1.9475282409786563,
+            1.9751770701494735
+          ]
+        }
+      },
+      "r3.00": {
+        "theta0.18": {
+          "contribution_errors": [
+            [
+              0.013563328076207718,
+              0.018079962595323597,
+              0.004739120660019467,
+              3.9994558368240076e-05,
+              0.0012186275252405122,
+              0.019351482383517925
+            ],
+            [
+              0.003421087099560012,
+              0.004457658035840364,
+              0.0011963827421801081,
+              1.0092191067458763e-05,
+              0.0003020968169469034,
+              0.004880815387391651
+            ],
+            [
+              0.000853428290113711,
+              0.001103741449756203,
+              0.00029821935421597476,
+              2.5257991228196175e-06,
+              7.584939546241024e-05,
+              0.0012165829618938245
+            ]
+          ],
+          "contribution_orders": [
+            [
+              1.9871844803579874,
+              2.020033841792706,
+              1.9859403882195426,
+              1.9865642961821233,
+              2.012174343853273,
+              1.9872499963259174
+            ],
+            [
+              2.0031129949967106,
+              2.013883684200279,
+              2.004233209229751,
+              1.9984276140387904,
+              1.9938013961312788,
+              2.004287479391186
+            ]
+          ],
+          "significant_players": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "total_errors": [
+            0.01890118641293658,
+            0.004840500024127098,
+            0.0012162102070124214
+          ],
+          "total_orders": [
+            1.965248803297227,
+            1.992763483267121
+          ]
+        },
+        "theta0.20": {
+          "contribution_errors": [
+            [
+              0.015492388001743795,
+              0.021418395665591734,
+              0.004732766176129032,
+              3.6922260662939885e-05,
+              0.0014081551925046055,
+              0.022902984040210368
+            ],
+            [
+              0.003910771932595481,
+              0.005264155438624257,
+              0.0011957668951173253,
+              9.325510334980348e-06,
+              0.0003488780305822246,
+              0.005781731826165262
+            ],
+            [
+              0.0009758002883775115,
+              0.0013020355489408908,
+              0.00029811506924401135,
+              2.3339344723241226e-06,
+              8.76306143559888e-05,
+              0.0014410659549268334
+            ]
+          ],
+          "contribution_orders": [
+            [
+              1.9860342298388385,
+              2.024576425429864,
+              1.9847474715539943,
+              1.9852363049285175,
+              2.013011685223005,
+              1.985961980948436
+            ],
+            [
+              2.0027955890657787,
+              2.0154332508788215,
+              2.003994967228042,
+              1.9984186220351017,
+              1.9932158731313037,
+              2.0043653273899347
+            ]
+          ],
+          "significant_players": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "total_errors": [
+            0.021574595751211536,
+            0.0055389953841671535,
+            0.0013933694097390966
+          ],
+          "total_orders": [
+            1.9616372861392088,
+            1.9910465406667188
+          ]
+        }
+      },
+      "r5.00": {
+        "theta0.18": {
+          "contribution_errors": [
+            [
+              0.01796330171956054,
+              0.024012601063879795,
+              0.00655613551492223,
+              3.3881806203068615e-05,
+              0.0008616737448713679,
+              0.02574788145326355
+            ],
+            [
+              0.004487990177154661,
+              0.005853525702134517,
+              0.0016312073735439748,
+              8.871427046568908e-06,
+              0.00021712964776596992,
+              0.0064264455881946035
+            ],
+            [
+              0.0011205979776990442,
+              0.0014493135120959271,
+              0.0004070255558686174,
+              2.27854178693523e-06,
+              5.447144458332963e-05,
+              0.0016043994187028992
+            ]
+          ],
+          "contribution_orders": [
+            [
+              2.000911123554844,
+              2.0364139285977627,
+              2.0069054732704155,
+              1.9332726868475845,
+              1.9885849948926895,
+              2.0023608105839794
+            ],
+            [
+              2.001800724223858,
+              2.013936143128969,
+              2.0027489171117314,
+              1.9610553644311242,
+              1.9949846977696917,
+              2.0019876673595163
+            ]
+          ],
+          "significant_players": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "total_errors": [
+            0.02431666400220823,
+            0.006149435663053151,
+            0.0015439504843260496
+          ],
+          "total_orders": [
+            1.983419394584974,
+            1.993827534629931
+          ]
+        },
+        "theta0.20": {
+          "contribution_errors": [
+            [
+              0.020883274691296323,
+              0.02893377013461063,
+              0.006667226407323612,
+              3.212323656296703e-05,
+              0.0009740389786853328,
+              0.031372231154022295
+            ],
+            [
+              0.005219382185589039,
+              0.007042440093417163,
+              0.0016600617350778506,
+              8.408652547476964e-06,
+              0.00024550072029200557,
+              0.00782946624818141
+            ],
+            [
+              0.0013031348816039542,
+              0.001742758616276638,
+              0.0004142211814642965,
+              2.159061726994061e-06,
+              6.158966061592711e-05,
+              0.001954277111420321
+            ]
+          ],
+          "contribution_orders": [
+            [
+              2.0003970063510232,
+              2.0386070304230293,
+              2.005849825218735,
+              1.9336707202248071,
+              1.9882522492591965,
+              2.002502271196837
+            ],
+            [
+              2.0018926276757103,
+              2.0147026259641967,
+              2.002763660434751,
+              1.9614701427498835,
+              1.9949671739057344,
+              2.0022789069734666
+            ]
+          ],
+          "significant_players": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "total_errors": [
+            0.02820969908753937,
+            0.0071416943970152354,
+            0.0017934105891061404
+          ],
+          "total_orders": [
+            1.9818529713575208,
+            1.9935605791297486
+          ]
+        }
+      },
+      "r8.00": {
+        "theta0.18": {
+          "contribution_errors": [
+            [
+              0.020870071873718688,
+              0.027380376908659392,
+              0.008281553322007019,
+              0.00016866329871517404,
+              0.0005920956710613098,
+              0.02737988254750081
+            ],
+            [
+              0.0052552509129433125,
+              0.006705158821316347,
+              0.002092473686204403,
+              4.196321716868914e-05,
+              0.00014669979496017435,
+              0.006863385271849548
+            ],
+            [
+              0.0013131661959318757,
+              0.001655766002405072,
+              0.0005219125479022402,
+              1.0213345550929888e-05,
+              3.692583585566667e-05,
+              0.001716739155366748
+            ]
+          ],
+          "contribution_orders": [
+            [
+              1.9896040162632387,
+              2.0297988964150395,
+              1.9846919105343541,
+              2.0069488825442665,
+              2.0129634513634014,
+              1.9961240109734535
+            ],
+            [
+              2.000710130529741,
+              2.01777270339194,
+              2.0033294873666914,
+              2.0386697660367967,
+              1.99016437116938,
+              1.9992494915948058
+            ]
+          ],
+          "significant_players": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "total_errors": [
+            0.025223826837280743,
+            0.006404348632843199,
+            0.001612314162536606
+          ],
+          "total_orders": [
+            1.977663420060246,
+            1.9899189626485325
+          ]
+        },
+        "theta0.20": {
+          "contribution_errors": [
+            [
+              0.02484945266398613,
+              0.03394768812792384,
+              0.008706837082969475,
+              0.00016371713939847035,
+              0.0006756807849371356,
+              0.034458426783837315
+            ],
+            [
+              0.006266258905815545,
+              0.008310922186152208,
+              0.002203073374085973,
+              4.0771314149228624e-05,
+              0.00016755703232239995,
+              0.00864738449486328
+            ],
+            [
+              0.0015657952415583172,
+              0.00205218452541148,
+              0.0005494652670413016,
+              9.921825804246005e-06,
+              4.217571750726915e-05,
+              0.002162626967686208
+            ]
+          ],
+          "contribution_orders": [
+            [
+              1.9875377906943186,
+              2.0302328553032716,
+              1.9826311834893564,
+              2.0055790002242206,
+              2.011689590903307,
+              1.9945210927011021
+            ],
+            [
+              2.0007088151275996,
+              2.0178481094206453,
+              2.0034173521638183,
+              2.0388769253917167,
+              1.9901677198858025,
+              1.9994790025456421
+            ]
+          ],
+          "significant_players": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "total_errors": [
+            0.030136438833771362,
+            0.0076645705177259965,
+            0.0019293482649242178
+          ],
+          "total_orders": [
+            1.9752320882421495,
+            1.9900913666152322
+          ]
+        }
+      }
+    },
+    "significant_player_instances": 51
+  },
+  "decisive_array_hashes": {
+    "continuum_background_coefficients": "4e23bbd7ee809c4fddb3692836b6ca747ee190075e09e09e201dc456569cb663",
+    "continuum_background_knots": "6b13eb8d125c08524f9c648e563d958e6e5bb44489c202b617bea62e3b544096",
+    "cross_grid__r11.00__theta0.18__contribution_errors": "d92df7c067c0a8d5c7174864b748865c035ee590835cd77d57e7b4d83c6185d4",
+    "cross_grid__r11.00__theta0.18__contribution_orders": "0d1a9442c1f98588fafb6ba84c63dfc86adc0ee2db9d1d6efacf9c58a1198ff4",
+    "cross_grid__r11.00__theta0.18__significant_players": "9b78c995c0b9dd5565dfc68911daf6425a8144a31a1e8ce49164f3d41c8eb3a7",
+    "cross_grid__r11.00__theta0.18__total_errors": "0f514c592bfa8db78e83631c8e104cf39ba017bc5c6dc9c6896a2cc161d8e692",
+    "cross_grid__r11.00__theta0.18__total_orders": "27e399ef81442b054577cdeee9c8eb03a9f0d21c1b11c3a400728bbc47dbdb03",
+    "cross_grid__r11.00__theta0.20__contribution_errors": "901c7f7e2dd63aea579f9a2f7e8851476a4b33a6be976565e10afa7e3970f6ff",
+    "cross_grid__r11.00__theta0.20__contribution_orders": "66281447161919d4d8f2d97da9cca47debe94d3a93bf2db12f0bcc9d518a42e3",
+    "cross_grid__r11.00__theta0.20__significant_players": "5c83911c6c6eb671b5c18d6d7b176e049fe9960fe2d7fe39e18108dac682eb35",
+    "cross_grid__r11.00__theta0.20__total_errors": "2984976405bc33f4cd2a8e22efb36f0602fb41fdc6c857b6bc85922fc8d1cd3b",
+    "cross_grid__r11.00__theta0.20__total_orders": "6953b63330688b550ef1db399557530b0113f4e6491c1d0af796fad475dd2b55",
+    "cross_grid__r2.20__theta0.18__contribution_errors": "c745c380c109fae05bad7db418f370676956beba6debc91a48318b8b7bb926df",
+    "cross_grid__r2.20__theta0.18__contribution_orders": "ca0f831846f9817f932abca6cb7c60ecdbcaeebd8fb7328d0f204e739d840a1f",
+    "cross_grid__r2.20__theta0.18__significant_players": "5c83911c6c6eb671b5c18d6d7b176e049fe9960fe2d7fe39e18108dac682eb35",
+    "cross_grid__r2.20__theta0.18__total_errors": "8154b923e08784c03ca9e95fe796018aeeb70cb3d3761cb172115b414bbd78a1",
+    "cross_grid__r2.20__theta0.18__total_orders": "2af8e10bb0e865c358fd3e54987a46d0dd1cfe79b14366573260c1d08a48749b",
+    "cross_grid__r2.20__theta0.20__contribution_errors": "d8fd828aa90b6929ad04ec63ec7a2333d04d5d397ab76c3affa87dcbce166e5d",
+    "cross_grid__r2.20__theta0.20__contribution_orders": "c860534a86e9d79a7fd2b81cb1ba5187852348c897bdd1e41a94aab93622e92f",
+    "cross_grid__r2.20__theta0.20__significant_players": "5c83911c6c6eb671b5c18d6d7b176e049fe9960fe2d7fe39e18108dac682eb35",
+    "cross_grid__r2.20__theta0.20__total_errors": "7679849a2a9cf27f3671a2bf2227db1910db9912b6e4bb95341e5a112f60fbe7",
+    "cross_grid__r2.20__theta0.20__total_orders": "4fbf9fa0ac030f936bbb3a5bf8fe905581b4dbf6d09e031e4af3ee5160ee78fd",
+    "cross_grid__r3.00__theta0.18__contribution_errors": "41377f51d4f86a7a1b4ca03ea8871b857c422ef92f11aef37a28567e8bdc594f",
+    "cross_grid__r3.00__theta0.18__contribution_orders": "a4998e015d5fdd5801b63666987aeb18aa808793e19cad47876bd279e602760c",
+    "cross_grid__r3.00__theta0.18__significant_players": "5c83911c6c6eb671b5c18d6d7b176e049fe9960fe2d7fe39e18108dac682eb35",
+    "cross_grid__r3.00__theta0.18__total_errors": "7d3778e7d70e949322b76ca0a1853430a13df1aefd08f5a67f17f0e2d5b55869",
+    "cross_grid__r3.00__theta0.18__total_orders": "779caa21e82142a02f670878caa048d81c6633d104c1d4edcbcd6d2ef84a2ff9",
+    "cross_grid__r3.00__theta0.20__contribution_errors": "7ffe8fda35c3501fde8ca2b984e709c77547368a1e7c23579f088862df1bd256",
+    "cross_grid__r3.00__theta0.20__contribution_orders": "90e6d71648bffd4ce305a9a7f8c97bd46534ab92466844f4808530e15a79f219",
+    "cross_grid__r3.00__theta0.20__significant_players": "5c83911c6c6eb671b5c18d6d7b176e049fe9960fe2d7fe39e18108dac682eb35",
+    "cross_grid__r3.00__theta0.20__total_errors": "c3969bcb19b8c54315d6547156e2e5caa67c1a015bf420aa1cf8271962a45594",
+    "cross_grid__r3.00__theta0.20__total_orders": "07aca81d638453f0cbc6ffb51b05fa4a2cd747028a3a061dd8eb39ca9c85be36",
+    "cross_grid__r5.00__theta0.18__contribution_errors": "84c22ab21fd59f0277fe0c672e97084e286c6532c6ae1684007c078c81aa3ebc",
+    "cross_grid__r5.00__theta0.18__contribution_orders": "2b4169d56844f887a62c59c0c9d9ff29bcc68fc27b9b385f94b4f928be339091",
+    "cross_grid__r5.00__theta0.18__significant_players": "5c83911c6c6eb671b5c18d6d7b176e049fe9960fe2d7fe39e18108dac682eb35",
+    "cross_grid__r5.00__theta0.18__total_errors": "aa9bda46cf0af64a1c9d9101ea6eb2cf06908fc64c1a2843ee7fdbb5825ddc12",
+    "cross_grid__r5.00__theta0.18__total_orders": "cbfdf41ce8df732be7624bdf9183c6f00e02d3806cb44add754870e5fbbc7de8",
+    "cross_grid__r5.00__theta0.20__contribution_errors": "616c0bf1a012ef06f86ae3bcaa08b195633f6225a4ab7df1071bdfee4340aeec",
+    "cross_grid__r5.00__theta0.20__contribution_orders": "cee6ff5a62b3377ab4bbf157b637c5374e09878f8d15b186554ce65895d5cf4c",
+    "cross_grid__r5.00__theta0.20__significant_players": "5c83911c6c6eb671b5c18d6d7b176e049fe9960fe2d7fe39e18108dac682eb35",
+    "cross_grid__r5.00__theta0.20__total_errors": "d11e355e0f32a1c0b3d70b92c1b9b324aff4ec83d9fca2ee5f04e6f0ccb5b6d1",
+    "cross_grid__r5.00__theta0.20__total_orders": "e6bb6270efffe7e2fd55bdde8235ff4eb235f05ceb86210f249c63047f6213b9",
+    "cross_grid__r8.00__theta0.18__contribution_errors": "2f6713a6867ef6485a7756fd65a8b27e0cc0c256f034c2c51b4bcb632561a3ee",
+    "cross_grid__r8.00__theta0.18__contribution_orders": "f2364f6300432f8a6757f884cea5a0c784ac54e2a2c867b3c8aed5eab149a330",
+    "cross_grid__r8.00__theta0.18__significant_players": "5c83911c6c6eb671b5c18d6d7b176e049fe9960fe2d7fe39e18108dac682eb35",
+    "cross_grid__r8.00__theta0.18__total_errors": "e31b401a496a5fb5707f1c0b176a48405491fe7dcb8b06e8d0b35c2cb1154374",
+    "cross_grid__r8.00__theta0.18__total_orders": "fba3a1a759da137bc4936f52a93e570cff55fe603593a724bd033ecb997cff73",
+    "cross_grid__r8.00__theta0.20__contribution_errors": "838d2a47667ee1e3fc6a9143a817eda5a0388cbfeb7762ed3609a9473c6b12f8",
+    "cross_grid__r8.00__theta0.20__contribution_orders": "9ed3ddb2a7c27ec50407a0dbe2c982eafd28d4bfea262f15c7d7b08d7245b205",
+    "cross_grid__r8.00__theta0.20__significant_players": "5c83911c6c6eb671b5c18d6d7b176e049fe9960fe2d7fe39e18108dac682eb35",
+    "cross_grid__r8.00__theta0.20__total_errors": "042c72aae2c7174118b58a43efe9ff3b9b32610b87dae366644aa0e0afbeed93",
+    "cross_grid__r8.00__theta0.20__total_orders": "308ec98dfb69e69c49f445f4638392220f502e21eb40d7ed3f3176c3d38807d3",
+    "field_scales": "ee02d751758ffa54e25e4b298f1f0778ea7ea7586c78325e3ee106034321fac6",
+    "limiter_time_accumulation_exponents": "f8d889282903b75034d36495196b4e5e9ac8c04e2eda36b88da21a17407a8e0a",
+    "r11.00__contribution_cosines_with_total": "e7aaee4404eff8aee396c13efa328c54ff1455c94374a7eeb86b0a86df56992a",
+    "r11.00__contribution_gram_matrices": "a09c301820b0d77209aafbe292a1da9058e60718de8476185f7e26c8a285ff79",
+    "r11.00__contribution_norms_relative_to_propagator": "7c980568b9ff345401ec1ff240c6f21fa2cbeba66e6776d40483e48ef9c827f6",
+    "r11.00__contribution_norms_relative_to_total": "64916df147dba05ebdef59eadb7c79097cca202e2bfa11f9d054d6903f0e5bbe",
+    "r11.00__leave_one_out_errors_relative_to_propagator": "fc73b429f89b3fad560a981367669013b41701e5269a13982e09ee7411e625dd",
+    "r11.00__only_player_errors_relative_to_propagator": "c2a442af844b50d5d6ef15a2ee164335eb6e6e934efb8bace58efa949be33b5e",
+    "r11.00__propagator_norm_ratios": "2043ccd0f1463e048d03bf86c1bc08dada9df9b9bb89382cf643681f1f3fc435",
+    "r11.00__shapley_closure_defects": "81968d79468dd069870ede8e4cd400d00a2fec3127a7e6e139a174fa9d6ad335",
+    "r11.00__shapley_contributions": "1481f0d196a3ef9398f1ccbc8cc589efe1850dea74202924748fd996d724fbbb",
+    "r11.00__theta_values": "f77264c495b573df6665a1343707918d896b21bc832c424df05e3f98a9ffa820",
+    "r11.00__times_s": "c8f240682bc7a6a5d3aafbae2ed5cc6fcfcf5b0ea5e92955d96a373c90327595",
+    "r11.00__total_semigroup_errors": "a47d5a2bb896c76484a85d419e3fd983d8599d8d8a0f972cd5be07deb9ef7e64",
+    "r2.20__contribution_cosines_with_total": "577281fa2e76a096a2ac485f304630b907a420b9e6afc7f26f2dd493c55916e4",
+    "r2.20__contribution_gram_matrices": "a9a604170501b43addee086da92908f6f320722aa51885c8549d1d192c791920",
+    "r2.20__contribution_norms_relative_to_propagator": "6b3cdbcef6c0039f1c89665b504e13b889111fc9576b01c4e2bab74fd164be5a",
+    "r2.20__contribution_norms_relative_to_total": "7eb84522b625c8244feec4cd1137f3eefd2f17996e9d29a880399ba46bb5b916",
+    "r2.20__leave_one_out_errors_relative_to_propagator": "51d85e60135cdb8164f09e6cd77895b28975e313c4be048bddcb4358f13f89ae",
+    "r2.20__only_player_errors_relative_to_propagator": "a298282e82c86ccf89e0323186abf94b8667248a7acbdb578f7345b5142640d1",
+    "r2.20__propagator_norm_ratios": "bb92997c71ef43cad78e45f1af5a40f7289ee36a7a2ac4bc6e75d3f9ed1c82ba",
+    "r2.20__shapley_closure_defects": "c48ad55c3abe157cb57ce26a9e0adce5fd47de04806093509e8fe0d98ce00093",
+    "r2.20__shapley_contributions": "9d78d295a06dab82a193749509110858c1c4fb22c1deae1cbdbe1dea1f7ee67c",
+    "r2.20__theta_values": "f77264c495b573df6665a1343707918d896b21bc832c424df05e3f98a9ffa820",
+    "r2.20__times_s": "c8f240682bc7a6a5d3aafbae2ed5cc6fcfcf5b0ea5e92955d96a373c90327595",
+    "r2.20__total_semigroup_errors": "63a37d0b6ab9db8cf41d438a47b5a699421984b244a160a318d37ef6de048fb1",
+    "r3.00__contribution_cosines_with_total": "2129526c73dc8e00368712c4516509c22c8f7a9a5f4f4a455f82a069f6bebbdc",
+    "r3.00__contribution_gram_matrices": "f8bf68bf117aa97207193a1e4e429b0d218fc2955ef6f429ca3085c31fcde9d8",
+    "r3.00__contribution_norms_relative_to_propagator": "f36336bef40c189573467d0fd9534e09a7f391d23deb88acb1c29f42abd5b63b",
+    "r3.00__contribution_norms_relative_to_total": "452aa03b1f3d49c93be80bbc15649d097cf07c1eb102d96c02ce911a542a0e68",
+    "r3.00__leave_one_out_errors_relative_to_propagator": "49163b88e18a1fbd48c859caaeca375bb74cb47636c8d95bbaef3c159d33871e",
+    "r3.00__only_player_errors_relative_to_propagator": "138eaf6a49928f2c56d81e7dc03fbc27562ee5d18b0d784bb4a193d9b02b9f94",
+    "r3.00__propagator_norm_ratios": "c5c34f313f0d7f129ce388b9f390fa7720c34f533e130acc9b169bc1aea6e628",
+    "r3.00__shapley_closure_defects": "32a35365afef40cd022baaf91b170e0cbde7aea64d95b6ac95d3f89c64da7ba4",
+    "r3.00__shapley_contributions": "33686c06ed7b0478434eccd244ebdaaf53cc6b45b71d8c9aa9a5af158e606a48",
+    "r3.00__theta_values": "f77264c495b573df6665a1343707918d896b21bc832c424df05e3f98a9ffa820",
+    "r3.00__times_s": "c8f240682bc7a6a5d3aafbae2ed5cc6fcfcf5b0ea5e92955d96a373c90327595",
+    "r3.00__total_semigroup_errors": "d2b472313a2e5d5bf29c0b0167afe9d90c386184d814a0a0f2aca39d64961bc1",
+    "r5.00__contribution_cosines_with_total": "a7b20a2a03750b8b4e7f02d3796edf9380197de1efde728a0998c4f8699e5698",
+    "r5.00__contribution_gram_matrices": "1089c463889d28ec7fb3f8b5b2670f2819df18fd741dc707d14f24149aadd828",
+    "r5.00__contribution_norms_relative_to_propagator": "5f44cc339e7c54630a1ad4cb2b13b50957b375855d07dbc1596a811c24040664",
+    "r5.00__contribution_norms_relative_to_total": "a2a180efe9e2f64d224dbefb95ea8b2364096005de5ed4a55a7164fb62f74096",
+    "r5.00__leave_one_out_errors_relative_to_propagator": "b2194b48fec1cc3aa460d0a3ff921bcc6ff6b5bac8656ed6401ed20cb7620475",
+    "r5.00__only_player_errors_relative_to_propagator": "cba459cfb56dd1af452ab186b13f6fbd373425797c6c0c9aa865092fc9e1882b",
+    "r5.00__propagator_norm_ratios": "28e1299f21221a9fef318274ab818309d8a2058c302eadb0b0236ca53e27f82d",
+    "r5.00__shapley_closure_defects": "a1b1000fba9a8a8ce26f354e9c9b1e3010ec045bcabca5fd75b7e71dc0f932ed",
+    "r5.00__shapley_contributions": "07afb9cdb68777c6ae68eefd404ca521c727153cfc7dc1573b95b20cd7f1dc38",
+    "r5.00__theta_values": "f77264c495b573df6665a1343707918d896b21bc832c424df05e3f98a9ffa820",
+    "r5.00__times_s": "c8f240682bc7a6a5d3aafbae2ed5cc6fcfcf5b0ea5e92955d96a373c90327595",
+    "r5.00__total_semigroup_errors": "c48f01a397f0b641f3a9163c80eec1b0043ad39c79f56192469bcc11d8fbe31c",
+    "r8.00__contribution_cosines_with_total": "67933135fd894516e230b4fb816be0b468221cf6d029a2be2ba6a6ed39db4f38",
+    "r8.00__contribution_gram_matrices": "f4c72ab5545afc208064e8ab81aaf67d66f84aaaaacfc28250282398399eaea7",
+    "r8.00__contribution_norms_relative_to_propagator": "b517cb186963af5d1a78941c55838cb3c33949c46e03d75797a23638766de6a6",
+    "r8.00__contribution_norms_relative_to_total": "11ef71485478dd20212e29571e3f0853492ee528ea46389ca91dff6400a3ede0",
+    "r8.00__leave_one_out_errors_relative_to_propagator": "5a6bfe980c5aa7fc778c8026a112f4a97e60a18f6ed1151f5ffa381c4bf450ff",
+    "r8.00__only_player_errors_relative_to_propagator": "cb2062a1145f2b5a27cbc06967096cbf71fb5878e9c21ddbccb623837dbde5c3",
+    "r8.00__propagator_norm_ratios": "feb0c65c4e4676173ffbf275f5ac30f2331bcda6cab23b7fdf55e39ff93a40b8",
+    "r8.00__shapley_closure_defects": "3ead1cee9b3285187659777e538e0203dbc9e56fa91adbd9e751c2f0e4964a66",
+    "r8.00__shapley_contributions": "99fadc10f033631ffe21ae790ffe7a66163888b89fd0b9b4d08b87849999dc1e",
+    "r8.00__theta_values": "f77264c495b573df6665a1343707918d896b21bc832c424df05e3f98a9ffa820",
+    "r8.00__times_s": "c8f240682bc7a6a5d3aafbae2ed5cc6fcfcf5b0ea5e92955d96a373c90327595",
+    "r8.00__total_semigroup_errors": "52b4520bd71121668899d7105e0e379c77b8a94919691039770cbd2e78c16f9a",
+    "ray__midpoint__r11.00__theta0.18__primary_final_states": "7e6570fc711e486ae95a9ca356d70ee2fa3b67659073d076149157d813a0c0a2",
+    "ray__midpoint__r11.00__theta0.18__secondary_final_states": "09b7570e30c5be056d93d35555531e92a8cf88c787435a6108437e570ce240bc",
+    "ray__midpoint__r11.00__theta0.20__primary_final_states": "1ac9b06798f550d2f9081bd36a05a5c8f69a7c1554624aaefcf8b86542c7a598",
+    "ray__midpoint__r11.00__theta0.20__secondary_final_states": "cc79afe84c2099a3af85090c2a0913a3a5af422ce0b3dea05c0f2ee30c74e751",
+    "ray__midpoint__r5.00__theta0.18__primary_final_states": "7bf9504b38c9d22d8f4273f7aa4a4b20fc56bb310e47c84e4a5440537f020e35",
+    "ray__midpoint__r5.00__theta0.18__secondary_final_states": "d9eee43592f509bc9197f6856a0263325f7b8dda91c3de94240209224ddedb7c",
+    "ray__midpoint__r5.00__theta0.20__primary_final_states": "fa25160c1e7c6f6d6e6ee59830f193c4a8c9fa80f2b30edde2a2fb2622e9a095",
+    "ray__midpoint__r5.00__theta0.20__secondary_final_states": "04063012e17ab0f0956ef6c8c3cb72a9fa3cb61488a8fd582001a5cbab5c368f",
+    "ray__midpoint__r8.00__theta0.18__primary_final_states": "219fe81ade3ed0cfcf127cc362edce7293d3af0ae80a115eb790513484a62090",
+    "ray__midpoint__r8.00__theta0.18__secondary_final_states": "871dd1a2b96d0d17a04b019813ea5122f03f925198b92d86714f352b42c83f3f",
+    "ray__midpoint__r8.00__theta0.20__primary_final_states": "00b653f7d18364b337feb876fb7c02aa5e64d8ce30a8ad34464c46c3d69a1597",
+    "ray__midpoint__r8.00__theta0.20__secondary_final_states": "b9cd0cd59421244dade9d3ae317c6f13bb7735a64dfe653a711236c2e0b0cd2c",
+    "ray__r11.00__theta0.18__primary_final_states": "ffe8237377fd05146eb85055d6cb1f523872c15a26260ec7e7e7326523785813",
+    "ray__r11.00__theta0.18__secondary_final_states": "e9bfbc3818c4260be9336d4405033ed2315c6b789dba8b20141aff31fec4f83d",
+    "ray__r11.00__theta0.20__primary_final_states": "337942c37c21c0cf6eb4e8d16ac87a4f6fb613e5e7fe4cdb2ded61c86eae4732",
+    "ray__r11.00__theta0.20__secondary_final_states": "65880fbf145baae8ea5f7d2f253046ff3b2e53860c36869dfe18622344d7fb3d",
+    "ray__r5.00__theta0.18__primary_final_states": "0dc66e4b10632702f634286882872c6b764a4f26fbfc8e19bfc623df1cc7f3be",
+    "ray__r5.00__theta0.18__secondary_final_states": "650735dca692db23b67547e4288e654a44cd382434cc317003b5aafe7039b3da",
+    "ray__r5.00__theta0.20__primary_final_states": "411df0ed767ca73f1ab52d78965024330e921b2ed6217c61ebb2db681c42e1f6",
+    "ray__r5.00__theta0.20__secondary_final_states": "8ddc8fe52f18c9106bffe486a852a2b8d6df644b285f4142f7f6b5eaa2a59d46",
+    "ray__r8.00__theta0.18__primary_final_states": "ea16be0c5644c6ee6386f26d8cee99a51c108c5439c23bdb34aa0ae0f9982526",
+    "ray__r8.00__theta0.18__secondary_final_states": "b408bf5bc00d47de5034c09fffbfba56fb7a807f5bcf8357dc852b9e8782f7ea",
+    "ray__r8.00__theta0.20__primary_final_states": "728455a752c737474211659ca9224c1dbfa2fdc1e73f38594907660d32854002",
+    "ray__r8.00__theta0.20__secondary_final_states": "548f59b04fa3488a58235ff1a58d8f64bd2bd0812007f77ab9f09346983c4aa3",
+    "ray__speed_sorted_rk4__r11.00__theta0.18__primary_final_states": "6a1d88020e10b5fdf2cc07fa30816addfc30669eb7bdaaf98cb9c38a3ee39029",
+    "ray__speed_sorted_rk4__r11.00__theta0.18__secondary_final_states": "be9c3c5c35cb5bc44bdaa2aa9dc7e82af50db9f9cafdcf57480275b05354c0a4",
+    "ray__speed_sorted_rk4__r11.00__theta0.20__primary_final_states": "1f87cb52c956082cd11d306d98bb06b3f84e221cb96a690f95b093238ff6476d",
+    "ray__speed_sorted_rk4__r11.00__theta0.20__secondary_final_states": "239d6f5921a4cf5bf45b30a6ed6cdcc9d6fce72d3064bf8fa2f962325565c1b3",
+    "ray__speed_sorted_rk4__r5.00__theta0.18__primary_final_states": "41bcd1dace33aa6501d561c021e7628be2858f0d3eb2fc2e09443d2fa3ab765d",
+    "ray__speed_sorted_rk4__r5.00__theta0.18__secondary_final_states": "60121a26c5ac44714975b2bd3192b9b1d08c3c3e555c6296466534831db919c0",
+    "ray__speed_sorted_rk4__r5.00__theta0.20__primary_final_states": "be6ecb5df79892a4b6fb565f4373ed795e9ac6d96dfa9423cc0e2e5da53c5ff1",
+    "ray__speed_sorted_rk4__r5.00__theta0.20__secondary_final_states": "1d5b5fd76ffcfe6d5398f86700f751c55b1a3efa3937a03a572a420fab4f2f35",
+    "ray__speed_sorted_rk4__r8.00__theta0.18__primary_final_states": "97c84b8b46fc157ece422642ce0f5dfbf224f54dc1d79126ebc65caddfe6ba20",
+    "ray__speed_sorted_rk4__r8.00__theta0.18__secondary_final_states": "2c9934c0d9c126f20588477b94c98e4895cea7c368c7ea24b85a41369757f326",
+    "ray__speed_sorted_rk4__r8.00__theta0.20__primary_final_states": "ca5c18eab986883ac0edc9a318469ed44b663df03a842af4dbcaa195534003df",
+    "ray__speed_sorted_rk4__r8.00__theta0.20__secondary_final_states": "18202efd9d0d5d3d0a16abbe44bd0ed06d3f2d50450fe055bd9d6b052c559edb",
+    "ray__theta0.18__branch_overlaps": "601e26785207e0bfbb60e75b5480d3d69d4597b75f5d85a006d417f35c61c42b",
+    "ray__theta0.18__group_velocities": "e706f3fbeeb0cc3c322ce0055d66473a4ae2458e00b07ff09b1a5ae91ee01c17",
+    "ray__theta0.18__log_radii": "6cacc460a4bbaa3bed239aba636c2d822594e6f46e79e2441a86894219254265",
+    "ray__theta0.18__tracked_eigenvalues": "126163047b86405754066df86220d51c360a4806f4f9918ca7a68296bb7b4065",
+    "ray__theta0.20__branch_overlaps": "596c51826439abaf735d268a5d4f1a4e2d99871b5225334f90e73ea8798d0a98",
+    "ray__theta0.20__group_velocities": "c061f7a5224fd71af793bb5ce10bda283248f1f77fc177f9f17860a176b37fce",
+    "ray__theta0.20__log_radii": "6cacc460a4bbaa3bed239aba636c2d822594e6f46e79e2441a86894219254265",
+    "ray__theta0.20__tracked_eigenvalues": "0ae966e92b3b9803836e82f7cda3960ba20796bd6baab7a01ee2bbbbe02fbce4"
+  },
+  "decisive_arrays_sha256": "1ea79b5d37606b2668e93bc2e8bb8979772977f02c4fc12f4c7e86a53e50edd1",
+  "embedded_export_discrimination_authorized": false,
+  "fixed_q_micro_solver_authorized": false,
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_full_symbol_limiter_wp10c9d6c6a1.py": "5ffb3286edce10517a978113151309c3b394ba95d75f2ce3710f97f8c6381e12",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_continuum_truncation.py": "a7ca35a9e30e99b346489e37cbfb50087f04354d8ef681e4c16f87c200880286",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_full_symbol_limiter.py": "d53b7a4450dc3de157358f31e49194de1e2097a4eb3f0db9e07e452352ef4618",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_tangent.py": "23a958a894fc40188a0cda1e640f943bd00dc8070a64af4b2b2a56cd609ba0c4",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_packet_resolution.py": "989e96180b4fe8ddb48d7513e85e1af6969173bdbaaab7a1e9a7e42d4b931b64",
+    "tests/test_causal_inner_full_symbol_limiter.py": "5e5c07535b9340c498946eeb798a906b4b3eb7cbc886fac718311e987584dbb9",
+    "tests/test_causal_inner_full_symbol_limiter_wp10c9d6c6a1.py": "6d4e09be655959509dcb065d6830f33500848cc13d707f5258dac9846dcbb6b4"
+  },
+  "implementation_source_manifest_sha256": "56b66a9f2e220e615a5bb2ff687218aec81c6a61c5af6ec622a89ead38915129",
+  "initial_midpoint_ray_preflight_report": {
+    "maximum_continuum_reference_to_error_ratio": 1.8401177493513865e-09,
+    "maximum_integrator_to_error_ratio": 1.2247263275966502,
+    "maximum_theta20_error": 0.005036260851817768,
+    "method_passed": false,
+    "reports": {
+      "r11.00__theta0.18": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 1.1043703547538813e-09,
+            "family_index": 0,
+            "final_error": 0.002554886792354712,
+            "final_radius_over_rg": 9.838306072648798,
+            "initial_group_velocity_log_radius_per_s": -0.8315137654951019,
+            "integrator_difference": 5.924114001405811e-07,
+            "integrator_to_error_ratio": 0.0002318738356287736,
+            "maximum_continuum_reference_error": 2.821541233228779e-12,
+            "maximum_error": 0.002554886792354712,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.838306072648798
+          },
+          {
+            "continuum_reference_to_error_ratio": 8.085232413796624e-10,
+            "family_index": 1,
+            "final_error": 0.0025538531428410728,
+            "final_radius_over_rg": 9.751843035651444,
+            "initial_group_velocity_log_radius_per_s": -0.8876860737065987,
+            "integrator_difference": 6.383382762660379e-07,
+            "integrator_to_error_ratio": 0.00024995105065278296,
+            "maximum_continuum_reference_error": 2.064849621057502e-12,
+            "maximum_error": 0.0025538531428410728,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.751843035651444
+          },
+          {
+            "continuum_reference_to_error_ratio": 1.5228786736606178e-09,
+            "family_index": 2,
+            "final_error": 0.0006749421283156124,
+            "final_radius_over_rg": 9.79693422005061,
+            "initial_group_velocity_log_radius_per_s": -0.8630544404806075,
+            "integrator_difference": 6.857812138576094e-07,
+            "integrator_to_error_ratio": 0.0010160592813624587,
+            "maximum_continuum_reference_error": 1.0278549731669542e-12,
+            "maximum_error": 0.0006749421283156124,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.79693422005061
+          },
+          {
+            "continuum_reference_to_error_ratio": 7.320779398463466e-10,
+            "family_index": 3,
+            "final_error": 0.004758250552467073,
+            "final_radius_over_rg": 9.830968232550202,
+            "initial_group_velocity_log_radius_per_s": -0.8744814348480054,
+            "integrator_difference": 1.8244247576257128e-07,
+            "integrator_to_error_ratio": 3.834234321014851e-05,
+            "maximum_continuum_reference_error": 3.4834102617228357e-12,
+            "maximum_error": 0.004758250552467073,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.830968232550202
+          },
+          {
+            "continuum_reference_to_error_ratio": 7.304365621348929e-10,
+            "family_index": 4,
+            "final_error": 0.004657988732749708,
+            "final_radius_over_rg": 9.755735800743512,
+            "initial_group_velocity_log_radius_per_s": -0.8599073993099087,
+            "integrator_difference": 2.195139386713042e-06,
+            "integrator_to_error_ratio": 0.00047126335263099816,
+            "maximum_continuum_reference_error": 3.402365276412763e-12,
+            "maximum_error": 0.004657988732749708,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.755735800743512
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 1.5228786736606178e-09,
+        "maximum_error": 0.004758250552467073,
+        "maximum_integrator_to_error_ratio": 0.0010160592813624587,
+        "start_radius_over_rg": 11.0,
+        "theta": 0.18
+      },
+      "r11.00__theta0.20": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 1.188324231904046e-09,
+            "family_index": 0,
+            "final_error": 0.002355715203140398,
+            "final_radius_over_rg": 9.833470647859226,
+            "initial_group_velocity_log_radius_per_s": -0.8351495386569334,
+            "integrator_difference": 6.312491955074041e-07,
+            "integrator_to_error_ratio": 0.00026796498773106673,
+            "maximum_continuum_reference_error": 2.7993534593564973e-12,
+            "maximum_error": 0.002355715203140398,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.833470647859226
+          },
+          {
+            "continuum_reference_to_error_ratio": 8.464586215322823e-10,
+            "family_index": 1,
+            "final_error": 0.0026600058562962466,
+            "final_radius_over_rg": 9.736185299462738,
+            "initial_group_velocity_log_radius_per_s": -0.8987723542469092,
+            "integrator_difference": 1.0117288357984299e-06,
+            "integrator_to_error_ratio": 0.00038034834900970723,
+            "maximum_continuum_reference_error": 2.251584890388319e-12,
+            "maximum_error": 0.0026600058562962466,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.736185299462738
+          },
+          {
+            "continuum_reference_to_error_ratio": 6.527078206595109e-10,
+            "family_index": 2,
+            "final_error": 0.0008867386365322313,
+            "final_radius_over_rg": 10.455171525428364,
+            "initial_group_velocity_log_radius_per_s": -0.8630861275737225,
+            "integrator_difference": 0.00044967815663808023,
+            "integrator_to_error_ratio": 0.5071146537570942,
+            "maximum_continuum_reference_error": 5.787812429455389e-13,
+            "maximum_error": 0.0008867386365322313,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 10.455171525428364
+          },
+          {
+            "continuum_reference_to_error_ratio": 2.3730072110617845e-10,
+            "family_index": 3,
+            "final_error": 0.005036260851817768,
+            "final_radius_over_rg": 10.733184999057315,
+            "initial_group_velocity_log_radius_per_s": -0.2187684816676359,
+            "integrator_difference": 3.666267674253269e-08,
+            "integrator_to_error_ratio": 7.279741423500693e-06,
+            "maximum_continuum_reference_error": 1.195108331815173e-12,
+            "maximum_error": 0.005036260851817768,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 10.733184999057315
+          },
+          {
+            "continuum_reference_to_error_ratio": 4.3131848458653846e-10,
+            "family_index": 4,
+            "final_error": 0.004766133917729159,
+            "final_radius_over_rg": 9.003544783415306,
+            "initial_group_velocity_log_radius_per_s": -1.500866611693389,
+            "integrator_difference": 1.3993797732209573e-07,
+            "integrator_to_error_ratio": 2.936089915592839e-05,
+            "maximum_continuum_reference_error": 2.0557216587314425e-12,
+            "maximum_error": 0.004766133917729159,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.003544783415306
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 1.188324231904046e-09,
+        "maximum_error": 0.005036260851817768,
+        "maximum_integrator_to_error_ratio": 0.5071146537570942,
+        "start_radius_over_rg": 11.0,
+        "theta": 0.2
+      },
+      "r5.00__theta0.18": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 4.5552877701983635e-10,
+            "family_index": 0,
+            "final_error": 0.0034626754579230347,
+            "final_radius_over_rg": 3.5459692104635465,
+            "initial_group_velocity_log_radius_per_s": -2.1784698140995222,
+            "integrator_difference": 0.0002601850605237836,
+            "integrator_to_error_ratio": 0.07513989216877014,
+            "maximum_continuum_reference_error": 1.5773483165642818e-12,
+            "maximum_error": 0.0034626754579230347,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.5459692104635465
+          },
+          {
+            "continuum_reference_to_error_ratio": 6.215305663308895e-10,
+            "family_index": 1,
+            "final_error": 0.003262713155614629,
+            "final_radius_over_rg": 3.784692146706463,
+            "initial_group_velocity_log_radius_per_s": -1.0396248286868632,
+            "integrator_difference": 0.002569757561653141,
+            "integrator_to_error_ratio": 0.7876136942136585,
+            "maximum_continuum_reference_error": 2.027875955384404e-12,
+            "maximum_error": 0.003262713155614629,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.784692146706463
+          },
+          {
+            "continuum_reference_to_error_ratio": 2.625350877276435e-10,
+            "family_index": 2,
+            "final_error": 0.001922979140220751,
+            "final_radius_over_rg": 4.349256243993052,
+            "initial_group_velocity_log_radius_per_s": -2.355951457183235,
+            "integrator_difference": 0.0023551231804475243,
+            "integrator_to_error_ratio": 1.2247263275966502,
+            "maximum_continuum_reference_error": 5.048494972762834e-13,
+            "maximum_error": 0.001922979140220751,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 4.349256243993052
+          },
+          {
+            "continuum_reference_to_error_ratio": 2.0330664231462935e-10,
+            "family_index": 3,
+            "final_error": 0.00215196901370902,
+            "final_radius_over_rg": 4.045683813538491,
+            "initial_group_velocity_log_radius_per_s": -2.229325737690351,
+            "integrator_difference": 1.33806334253235e-05,
+            "integrator_to_error_ratio": 0.006217855991458421,
+            "maximum_continuum_reference_error": 4.375095945423055e-13,
+            "maximum_error": 0.00215196901370902,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 4.045683813538491
+          },
+          {
+            "continuum_reference_to_error_ratio": 3.471574856179669e-10,
+            "family_index": 4,
+            "final_error": 0.004026266874999275,
+            "final_radius_over_rg": 3.0511811555139348,
+            "initial_group_velocity_log_radius_per_s": -3.3578308759686837,
+            "integrator_difference": 0.0006954873241616918,
+            "integrator_to_error_ratio": 0.17273751237908616,
+            "maximum_continuum_reference_error": 1.3977486847516575e-12,
+            "maximum_error": 0.004026266874999275,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.0511811555139348
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 6.215305663308895e-10,
+        "maximum_error": 0.004026266874999275,
+        "maximum_integrator_to_error_ratio": 1.2247263275966502,
+        "start_radius_over_rg": 5.0,
+        "theta": 0.18
+      },
+      "r5.00__theta0.20": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 8.494334737635903e-10,
+            "family_index": 0,
+            "final_error": 0.0034900860896065486,
+            "final_radius_over_rg": 4.170058420499156,
+            "initial_group_velocity_log_radius_per_s": -1.3807740750269202,
+            "integrator_difference": 1.6359142877332607e-06,
+            "integrator_to_error_ratio": 0.000468731786475125,
+            "maximum_continuum_reference_error": 2.9645959508284757e-12,
+            "maximum_error": 0.0034900860896065486,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 4.170058420499156
+          },
+          {
+            "continuum_reference_to_error_ratio": 3.615672913872509e-10,
+            "family_index": 1,
+            "final_error": 0.004482556289138801,
+            "final_radius_over_rg": 3.6465967851431804,
+            "initial_group_velocity_log_radius_per_s": -2.184482679231141,
+            "integrator_difference": 0.001273611480646048,
+            "integrator_to_error_ratio": 0.2841261544739547,
+            "maximum_continuum_reference_error": 1.6207457359548029e-12,
+            "maximum_error": 0.004482556289138801,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.6465967851431804
+          },
+          {
+            "continuum_reference_to_error_ratio": 1.5502457313901424e-10,
+            "family_index": 2,
+            "final_error": 0.0027143139167219664,
+            "final_radius_over_rg": 3.7433728599925793,
+            "initial_group_velocity_log_radius_per_s": -2.317763200026578,
+            "integrator_difference": 0.0013597611610658717,
+            "integrator_to_error_ratio": 0.5009594331329346,
+            "maximum_continuum_reference_error": 4.207853563051087e-13,
+            "maximum_error": 0.0027143139167219664,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.7433728599925793
+          },
+          {
+            "continuum_reference_to_error_ratio": 1.3675608853456588e-10,
+            "family_index": 3,
+            "final_error": 0.002918670488386379,
+            "final_radius_over_rg": 3.5624212221432825,
+            "initial_group_velocity_log_radius_per_s": -2.242537666383223,
+            "integrator_difference": 2.1252556268729815e-05,
+            "integrator_to_error_ratio": 0.007281588090637644,
+            "maximum_continuum_reference_error": 3.991459597129923e-13,
+            "maximum_error": 0.002918670488386379,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.5624212221432825
+          },
+          {
+            "continuum_reference_to_error_ratio": 9.451136562372518e-10,
+            "family_index": 4,
+            "final_error": 0.004887908019215804,
+            "final_radius_over_rg": 2.9274084006236363,
+            "initial_group_velocity_log_radius_per_s": -3.035645092978562,
+            "integrator_difference": 5.289915189274609e-05,
+            "integrator_to_error_ratio": 0.010822452403929036,
+            "maximum_continuum_reference_error": 4.619628619392432e-12,
+            "maximum_error": 0.004887908019215804,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 2.9274084006236363
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 9.451136562372518e-10,
+        "maximum_error": 0.004887908019215804,
+        "maximum_integrator_to_error_ratio": 0.5009594331329346,
+        "start_radius_over_rg": 5.0,
+        "theta": 0.2
+      },
+      "r8.00__theta0.18": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 1.8401177493513865e-09,
+            "family_index": 0,
+            "final_error": 0.001243726922263773,
+            "final_radius_over_rg": 7.263873149182236,
+            "initial_group_velocity_log_radius_per_s": -1.2397290541404435,
+            "integrator_difference": 1.3132006224605076e-05,
+            "integrator_to_error_ratio": 0.010558592878815245,
+            "maximum_continuum_reference_error": 2.288603985003741e-12,
+            "maximum_error": 0.001243726922263773,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 7.263873149182236
+          },
+          {
+            "continuum_reference_to_error_ratio": 4.945105761966081e-10,
+            "family_index": 1,
+            "final_error": 0.003970113020626327,
+            "final_radius_over_rg": 7.081132369729175,
+            "initial_group_velocity_log_radius_per_s": -0.5044027945157217,
+            "integrator_difference": 0.00044514027279182663,
+            "integrator_to_error_ratio": 0.11212282130990847,
+            "maximum_continuum_reference_error": 1.963262877395581e-12,
+            "maximum_error": 0.003970113020626327,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 7.081132369729175
+          },
+          {
+            "continuum_reference_to_error_ratio": 3.354862154099172e-10,
+            "family_index": 2,
+            "final_error": 0.001595371778453673,
+            "final_radius_over_rg": 6.6374735888730845,
+            "initial_group_velocity_log_radius_per_s": -1.350225540608759,
+            "integrator_difference": 2.7953538636613112e-06,
+            "integrator_to_error_ratio": 0.0017521645433459594,
+            "maximum_continuum_reference_error": 5.352252401252117e-13,
+            "maximum_error": 0.001595371778453673,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.6374735888730845
+          },
+          {
+            "continuum_reference_to_error_ratio": 1.1110333472574053e-10,
+            "family_index": 3,
+            "final_error": 0.0010894446871271028,
+            "final_radius_over_rg": 6.705840762224571,
+            "initial_group_velocity_log_radius_per_s": -1.271456549651965,
+            "integrator_difference": 2.2825066270639833e-06,
+            "integrator_to_error_ratio": 0.0020951101547734556,
+            "maximum_continuum_reference_error": 1.2104093773906216e-13,
+            "maximum_error": 0.0010894446871271028,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.705840762224571
+          },
+          {
+            "continuum_reference_to_error_ratio": 3.2816890557010487e-10,
+            "family_index": 4,
+            "final_error": 0.0033393191178675455,
+            "final_radius_over_rg": 6.078128895415545,
+            "initial_group_velocity_log_radius_per_s": -2.0090753281117006,
+            "integrator_difference": 6.221716568060271e-06,
+            "integrator_to_error_ratio": 0.0018631692115826876,
+            "maximum_continuum_reference_error": 1.0958607002599204e-12,
+            "maximum_error": 0.0033393191178675455,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.078128895415545
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 1.8401177493513865e-09,
+        "maximum_error": 0.003970113020626327,
+        "maximum_integrator_to_error_ratio": 0.11212282130990847,
+        "start_radius_over_rg": 8.0,
+        "theta": 0.18
+      },
+      "r8.00__theta0.20": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 5.57488864781292e-10,
+            "family_index": 0,
+            "final_error": 0.004187376077388539,
+            "final_radius_over_rg": 7.233968731410089,
+            "initial_group_velocity_log_radius_per_s": -0.7248374041100059,
+            "integrator_difference": 1.1264955071305443e-06,
+            "integrator_to_error_ratio": 0.0002690218137352221,
+            "maximum_continuum_reference_error": 2.3344155357956762e-12,
+            "maximum_error": 0.004187376077388539,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 7.233968731410089
+          },
+          {
+            "continuum_reference_to_error_ratio": 9.733574637161882e-10,
+            "family_index": 1,
+            "final_error": 0.001563542015152844,
+            "final_radius_over_rg": 6.734477608204364,
+            "initial_group_velocity_log_radius_per_s": -1.2438306701988144,
+            "integrator_difference": 2.6146444944754885e-06,
+            "integrator_to_error_ratio": 0.0016722572653219644,
+            "maximum_continuum_reference_error": 1.5218852902828702e-12,
+            "maximum_error": 0.001563542015152844,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.734477608204364
+          },
+          {
+            "continuum_reference_to_error_ratio": 2.331739102533543e-10,
+            "family_index": 2,
+            "final_error": 0.0017863381369891366,
+            "final_radius_over_rg": 6.655345624231244,
+            "initial_group_velocity_log_radius_per_s": -1.339090568491193,
+            "integrator_difference": 2.4745089283669355e-06,
+            "integrator_to_error_ratio": 0.0013852410566219603,
+            "maximum_continuum_reference_error": 4.16527448436449e-13,
+            "maximum_error": 0.0017863381369891366,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.655345624231244
+          },
+          {
+            "continuum_reference_to_error_ratio": 9.136122244972484e-11,
+            "family_index": 3,
+            "final_error": 0.0014354514069258402,
+            "final_radius_over_rg": 6.701772442145163,
+            "initial_group_velocity_log_radius_per_s": -1.2717297811581756,
+            "integrator_difference": 2.664895154147658e-06,
+            "integrator_to_error_ratio": 0.0018564858004178574,
+            "maximum_continuum_reference_error": 1.3114459530392218e-13,
+            "maximum_error": 0.0014354514069258402,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.701772442145163
+          },
+          {
+            "continuum_reference_to_error_ratio": 3.242215257195758e-10,
+            "family_index": 4,
+            "final_error": 0.0036834368151725224,
+            "final_radius_over_rg": 6.218305998862919,
+            "initial_group_velocity_log_radius_per_s": -1.795400843067681,
+            "integrator_difference": 4.473431407341336e-06,
+            "integrator_to_error_ratio": 0.0012144721443068415,
+            "maximum_continuum_reference_error": 1.1942495041068903e-12,
+            "maximum_error": 0.0036834368151725224,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.218305998862919
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 9.733574637161882e-10,
+        "maximum_error": 0.004187376077388539,
+        "maximum_integrator_to_error_ratio": 0.0018564858004178574,
+        "start_radius_over_rg": 8.0,
+        "theta": 0.2
+      }
+    },
+    "theta20_passes_original_packet_budget": true,
+    "theta20_passes_preflight_ceiling": true
+  },
+  "local_attribution_reports": {
+    "r11.00": {
+      "cell_index": 44,
+      "maximum_component_closure_defect": 1.3171670131085717e-16,
+      "maximum_continuum_generator_parity_defect": 7.481634652232701e-15,
+      "maximum_generator_parity_defect": 1.231208892601004e-13,
+      "maximum_omitted_fraction": 1.709186622058026e-15,
+      "maximum_propagator_norm_ratio": 1.002205226498037,
+      "maximum_shapley_closure_defect": 1.737280894087438e-17,
+      "offsets": [
+        -1,
+        0,
+        1,
+        2
+      ],
+      "player_names": [
+        "descriptor",
+        "principal",
+        "mapped_storage_rate",
+        "height_storage_rate",
+        "stress_relaxation",
+        "lower_sources"
+      ],
+      "radius_over_rg": 11.075747133136186,
+      "target_radius_over_rg": 11.0,
+      "touches_boundary": false
+    },
+    "r2.20": {
+      "cell_index": 4,
+      "maximum_component_closure_defect": 8.817443810370248e-17,
+      "maximum_continuum_generator_parity_defect": 1.9881431712408114e-15,
+      "maximum_generator_parity_defect": 3.659316224968793e-14,
+      "maximum_omitted_fraction": 1.960718841569824e-15,
+      "maximum_propagator_norm_ratio": 1.00305565155373,
+      "maximum_shapley_closure_defect": 7.061396229151487e-18,
+      "offsets": [
+        -1,
+        0,
+        1,
+        2
+      ],
+      "player_names": [
+        "descriptor",
+        "principal",
+        "mapped_storage_rate",
+        "height_storage_rate",
+        "stress_relaxation",
+        "lower_sources"
+      ],
+      "radius_over_rg": 2.1630630945545706,
+      "target_radius_over_rg": 2.2,
+      "touches_boundary": false
+    },
+    "r3.00": {
+      "cell_index": 12,
+      "maximum_component_closure_defect": 7.598556726328966e-17,
+      "maximum_continuum_generator_parity_defect": 1.1774305948446133e-15,
+      "maximum_generator_parity_defect": 3.944866684546035e-14,
+      "maximum_omitted_fraction": 1.389664712190651e-15,
+      "maximum_propagator_norm_ratio": 1.0031456494510858,
+      "maximum_shapley_closure_defect": 1.0585642646078172e-17,
+      "offsets": [
+        -1,
+        0,
+        1,
+        2
+      ],
+      "player_names": [
+        "descriptor",
+        "principal",
+        "mapped_storage_rate",
+        "height_storage_rate",
+        "stress_relaxation",
+        "lower_sources"
+      ],
+      "radius_over_rg": 2.9986788494565086,
+      "target_radius_over_rg": 3.0,
+      "touches_boundary": false
+    },
+    "r5.00": {
+      "cell_index": 25,
+      "maximum_component_closure_defect": 5.168105644303959e-17,
+      "maximum_continuum_generator_parity_defect": 2.4702490304718415e-14,
+      "maximum_generator_parity_defect": 7.186300879089957e-14,
+      "maximum_omitted_fraction": 1.069863806931859e-15,
+      "maximum_propagator_norm_ratio": 1.0039500637100625,
+      "maximum_shapley_closure_defect": 2.8857249106770176e-17,
+      "offsets": [
+        -1,
+        0,
+        1,
+        2
+      ],
+      "player_names": [
+        "descriptor",
+        "principal",
+        "mapped_storage_rate",
+        "height_storage_rate",
+        "stress_relaxation",
+        "lower_sources"
+      ],
+      "radius_over_rg": 5.098632452177477,
+      "target_radius_over_rg": 5.0,
+      "touches_boundary": false
+    },
+    "r8.00": {
+      "cell_index": 36,
+      "maximum_component_closure_defect": 1.9776211330499286e-16,
+      "maximum_continuum_generator_parity_defect": 4.441134492664643e-15,
+      "maximum_generator_parity_defect": 8.388372847307755e-14,
+      "maximum_omitted_fraction": 2.0496221987138194e-15,
+      "maximum_propagator_norm_ratio": 1.003091547327056,
+      "maximum_shapley_closure_defect": 1.3106111082450793e-17,
+      "offsets": [
+        -1,
+        0,
+        1,
+        2
+      ],
+      "player_names": [
+        "descriptor",
+        "principal",
+        "mapped_storage_rate",
+        "height_storage_rate",
+        "stress_relaxation",
+        "lower_sources"
+      ],
+      "radius_over_rg": 7.989365007409072,
+      "target_radius_over_rg": 8.0,
+      "touches_boundary": false
+    }
+  },
+  "method_report": {
+    "limiter_time_accumulation_exponents": [
+      0.99469366517255,
+      0.9626021052597874,
+      0.8511588928803223
+    ],
+    "maximum_component_closure_defect": 1.9776211330499286e-16,
+    "maximum_generator_parity_defect": 1.231208892601004e-13,
+    "maximum_propagator_norm_ratio": 1.0039500637100625,
+    "maximum_shapley_closure_defect": 2.8857249106770176e-17,
+    "passed": true,
+    "time_accumulation_passed": true
+  },
+  "nonlinear_physical_trajectory_authorized": false,
+  "operator_changed": false,
+  "packet_resolution_contract_certified": false,
+  "parent_classification": "symbol_derived_packet_resolution_contract_failed",
+  "parent_classification_preserved": true,
+  "parent_failed_certified_theta": 0.16999999999999996,
+  "parent_minimum_usable_theta_preserved": true,
+  "parent_packet_contract_error_preserved": true,
+  "passed": true,
+  "production_defaults_changed": false,
+  "production_operator_authorized": false,
+  "prospective_packet_manifest_authorized": false,
+  "ray_method_correction": {
+    "branch_association_changed": true,
+    "corrected_integrator": "overlap_tracked_coupled_classical_rk4",
+    "initial_classification": "full_symbol_ray_preflight_unresolved",
+    "initial_integrator": "midpoint_exponential_with_midpoint_ray_step",
+    "initial_summary_path": "results/canonical/causal_inner_full_symbol_limiter_wp10c9d6c6a1/midpoint_preflight_summary.json",
+    "initial_summary_sha256": "61221e5f99a400a6dbfec5583036074e01b41ae1a5c7b3ecd3280c46e696f66d",
+    "physical_rays_changed": false,
+    "scientific_gates_changed": false,
+    "speed_sorted_rk4_classification": "full_symbol_ray_preflight_unresolved",
+    "step_sizes_changed": false
+  },
+  "ray_preflight_report": {
+    "maximum_continuum_reference_to_error_ratio": 1.1251715568729237e-08,
+    "maximum_integrator_to_error_ratio": 0.001065821928835676,
+    "maximum_theta20_error": 0.005037221335572025,
+    "method_passed": true,
+    "minimum_branch_overlap": 0.9982781373593241,
+    "reports": {
+      "r11.00__theta0.18": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 5.036571171629224e-09,
+            "family_index": 0,
+            "final_error": 0.0025539395696863518,
+            "final_radius_over_rg": 9.7518332943517,
+            "initial_group_velocity_log_radius_per_s": -0.8876881189631125,
+            "integrator_difference": 3.839205844227317e-08,
+            "integrator_to_error_ratio": 1.5032485066586003e-05,
+            "maximum_continuum_reference_error": 1.2863098410765426e-11,
+            "maximum_error": 0.0025539395696863518,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.7518332943517
+          },
+          {
+            "continuum_reference_to_error_ratio": 3.951900385116154e-09,
+            "family_index": 1,
+            "final_error": 0.002554612802975505,
+            "final_radius_over_rg": 9.838300032652976,
+            "initial_group_velocity_log_radius_per_s": -0.8315148521389928,
+            "integrator_difference": 1.5775642807067207e-08,
+            "integrator_to_error_ratio": 6.175355728544226e-06,
+            "maximum_continuum_reference_error": 1.0095575319901556e-11,
+            "maximum_error": 0.002554612802975505,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.838300032652976
+          },
+          {
+            "continuum_reference_to_error_ratio": 1.1251715568729237e-08,
+            "family_index": 2,
+            "final_error": 0.0006774490147357234,
+            "final_radius_over_rg": 9.796927976048707,
+            "initial_group_velocity_log_radius_per_s": -0.86305556179468,
+            "integrator_difference": 4.140833187098502e-09,
+            "integrator_to_error_ratio": 6.11239089145899e-06,
+            "maximum_continuum_reference_error": 7.62246362612222e-12,
+            "maximum_error": 0.0006774490147357234,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.796927976048707
+          },
+          {
+            "continuum_reference_to_error_ratio": 3.890105774383785e-09,
+            "family_index": 3,
+            "final_error": 0.0046588276262324825,
+            "final_radius_over_rg": 9.755380271130402,
+            "initial_group_velocity_log_radius_per_s": -0.8599142343428727,
+            "integrator_difference": 1.1658827822955235e-07,
+            "integrator_to_error_ratio": 2.502523973479469e-05,
+            "maximum_continuum_reference_error": 1.812333225066568e-11,
+            "maximum_error": 0.0046588276262324825,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.755380271130402
+          },
+          {
+            "continuum_reference_to_error_ratio": 3.6265522760401543e-09,
+            "family_index": 4,
+            "final_error": 0.004758552641051917,
+            "final_radius_over_rg": 9.83120188380288,
+            "initial_group_velocity_log_radius_per_s": -0.8744761324558208,
+            "integrator_difference": 2.3439830881666333e-08,
+            "integrator_to_error_ratio": 4.925832001825825e-06,
+            "maximum_continuum_reference_error": 1.725713991106372e-11,
+            "maximum_error": 0.004758552641051917,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.83120188380288
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 1.1251715568729237e-08,
+        "maximum_error": 0.004758552641051917,
+        "maximum_integrator_to_error_ratio": 2.502523973479469e-05,
+        "minimum_branch_overlap": 0.9983951550024801,
+        "start_radius_over_rg": 11.0,
+        "theta": 0.18
+      },
+      "r11.00__theta0.20": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 5.226686462274458e-09,
+            "family_index": 0,
+            "final_error": 0.0026602402509267784,
+            "final_radius_over_rg": 9.736178585091082,
+            "initial_group_velocity_log_radius_per_s": -0.8987741238613925,
+            "integrator_difference": 3.86691820986848e-08,
+            "integrator_to_error_ratio": 1.4535973615621061e-05,
+            "maximum_continuum_reference_error": 1.3904241705916601e-11,
+            "maximum_error": 0.0026602402509267784,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.736178585091082
+          },
+          {
+            "continuum_reference_to_error_ratio": 4.357052359622534e-09,
+            "family_index": 1,
+            "final_error": 0.0023555756763368606,
+            "final_radius_over_rg": 9.833464532122491,
+            "initial_group_velocity_log_radius_per_s": -0.8351506419830512,
+            "integrator_difference": 2.7472659975034595e-08,
+            "integrator_to_error_ratio": 1.1662822065541591e-05,
+            "maximum_continuum_reference_error": 1.0263366558852965e-11,
+            "maximum_error": 0.0023555756763368606,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.833464532122491
+          },
+          {
+            "continuum_reference_to_error_ratio": 8.445430723918112e-09,
+            "family_index": 2,
+            "final_error": 0.0009031042645267359,
+            "final_radius_over_rg": 9.796915605678272,
+            "initial_group_velocity_log_radius_per_s": -0.8630872547350774,
+            "integrator_difference": 4.483262156675671e-09,
+            "integrator_to_error_ratio": 4.964279688154376e-06,
+            "maximum_continuum_reference_error": 7.627104502535565e-12,
+            "maximum_error": 0.0009031042645267359,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.796915605678272
+          },
+          {
+            "continuum_reference_to_error_ratio": 2.1624124159187655e-09,
+            "family_index": 3,
+            "final_error": 0.004766468779599539,
+            "final_radius_over_rg": 9.00365869268249,
+            "initial_group_velocity_log_radius_per_s": -1.5006532784231268,
+            "integrator_difference": 9.098872549037817e-08,
+            "integrator_to_error_ratio": 1.9089336298563297e-05,
+            "maximum_continuum_reference_error": 1.0307071269095208e-11,
+            "maximum_error": 0.004766468779599539,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.00365869268249
+          },
+          {
+            "continuum_reference_to_error_ratio": 2.1327620027287437e-09,
+            "family_index": 4,
+            "final_error": 0.005037221335572025,
+            "final_radius_over_rg": 10.732363407258037,
+            "initial_group_velocity_log_radius_per_s": -0.21898360069498324,
+            "integrator_difference": 7.198191434492165e-09,
+            "integrator_to_error_ratio": 1.4290004260205376e-06,
+            "maximum_continuum_reference_error": 1.0743194263842548e-11,
+            "maximum_error": 0.005037221335572025,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 10.732363407258037
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 8.445430723918112e-09,
+        "maximum_error": 0.005037221335572025,
+        "maximum_integrator_to_error_ratio": 1.9089336298563297e-05,
+        "minimum_branch_overlap": 0.9982781373593241,
+        "start_radius_over_rg": 11.0,
+        "theta": 0.2
+      },
+      "r5.00__theta0.18": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 5.819029718040621e-10,
+            "family_index": 0,
+            "final_error": 0.002120815573118085,
+            "final_radius_over_rg": 3.471973506143733,
+            "initial_group_velocity_log_radius_per_s": -2.3559569459848047,
+            "integrator_difference": 8.1175791258973e-07,
+            "integrator_to_error_ratio": 0.0003827574273213487,
+            "maximum_continuum_reference_error": 1.234108884645749e-12,
+            "maximum_error": 0.002120815573118085,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.471973506143733
+          },
+          {
+            "continuum_reference_to_error_ratio": 7.735794381711008e-10,
+            "family_index": 1,
+            "final_error": 0.0034674393616089703,
+            "final_radius_over_rg": 3.5941516316382947,
+            "initial_group_velocity_log_radius_per_s": -2.178475580679108,
+            "integrator_difference": 1.1444295696491813e-06,
+            "integrator_to_error_ratio": 0.00033005034848486583,
+            "maximum_continuum_reference_error": 2.6823397932458275e-12,
+            "maximum_error": 0.0034674393616089703,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.5941516316382947
+          },
+          {
+            "continuum_reference_to_error_ratio": 6.130544915294814e-10,
+            "family_index": 2,
+            "final_error": 0.002265345564243628,
+            "final_radius_over_rg": 3.564886627269147,
+            "initial_group_velocity_log_radius_per_s": -2.229332029368367,
+            "integrator_difference": 4.224884934003097e-07,
+            "integrator_to_error_ratio": 0.00018650068231041542,
+            "maximum_continuum_reference_error": 1.3887802730259436e-12,
+            "maximum_error": 0.002265345564243628,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.564886627269147
+          },
+          {
+            "continuum_reference_to_error_ratio": 5.46414394634419e-10,
+            "family_index": 3,
+            "final_error": 0.0040362095151506615,
+            "final_radius_over_rg": 2.980033138876789,
+            "initial_group_velocity_log_radius_per_s": -3.35786237216132,
+            "integrator_difference": 1.4573334453056255e-06,
+            "integrator_to_error_ratio": 0.0003610648653979071,
+            "maximum_continuum_reference_error": 2.2054429788387304e-12,
+            "maximum_error": 0.0040362095151506615,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 2.980033138876789
+          },
+          {
+            "continuum_reference_to_error_ratio": 2.465706749905609e-09,
+            "family_index": 4,
+            "final_error": 0.0031305784321263323,
+            "final_radius_over_rg": 4.431617826755472,
+            "initial_group_velocity_log_radius_per_s": -1.0396050758487347,
+            "integrator_difference": 2.0662470473523328e-08,
+            "integrator_to_error_ratio": 6.600208530628984e-06,
+            "maximum_continuum_reference_error": 7.719088371202816e-12,
+            "maximum_error": 0.0031305784321263323,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 4.431617826755472
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 2.465706749905609e-09,
+        "maximum_error": 0.0040362095151506615,
+        "maximum_integrator_to_error_ratio": 0.0003827574273213487,
+        "minimum_branch_overlap": 0.9983951550024801,
+        "start_radius_over_rg": 5.0,
+        "theta": 0.18
+      },
+      "r5.00__theta0.20": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 4.4251900507893945e-10,
+            "family_index": 0,
+            "final_error": 0.0027677340581671647,
+            "final_radius_over_rg": 3.4681340026653777,
+            "initial_group_velocity_log_radius_per_s": -2.317770100167745,
+            "integrator_difference": 1.5676221806734768e-06,
+            "integrator_to_error_ratio": 0.0005663919103960371,
+            "maximum_continuum_reference_error": 1.2247749217432292e-12,
+            "maximum_error": 0.0027677340581671647,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.4681340026653777
+          },
+          {
+            "continuum_reference_to_error_ratio": 5.977930991933683e-10,
+            "family_index": 1,
+            "final_error": 0.004486797279737595,
+            "final_radius_over_rg": 3.590313012871589,
+            "initial_group_velocity_log_radius_per_s": -2.184488451117289,
+            "integrator_difference": 1.0958770557853226e-06,
+            "integrator_to_error_ratio": 0.00024424483377805155,
+            "maximum_continuum_reference_error": 2.6821764513067113e-12,
+            "maximum_error": 0.004486797279737595,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.590313012871589
+          },
+          {
+            "continuum_reference_to_error_ratio": 4.70203951343476e-10,
+            "family_index": 2,
+            "final_error": 0.0029269559476751846,
+            "final_radius_over_rg": 3.5624072384252394,
+            "initial_group_velocity_log_radius_per_s": -2.2425441598674984,
+            "integrator_difference": 3.0306926399693756e-07,
+            "integrator_to_error_ratio": 0.00010354418358693054,
+            "maximum_continuum_reference_error": 1.3762662520051603e-12,
+            "maximum_error": 0.0029269559476751846,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.5624072384252394
+          },
+          {
+            "continuum_reference_to_error_ratio": 4.790337422771607e-10,
+            "family_index": 3,
+            "final_error": 0.004895862314249048,
+            "final_radius_over_rg": 2.9273946377158206,
+            "initial_group_velocity_log_radius_per_s": -3.0356580583238024,
+            "integrator_difference": 5.218117415086816e-06,
+            "integrator_to_error_ratio": 0.001065821928835676,
+            "maximum_continuum_reference_error": 2.3452832460684418e-12,
+            "maximum_error": 0.004895862314249048,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 2.9273946377158206
+          },
+          {
+            "continuum_reference_to_error_ratio": 1.4321916641945621e-09,
+            "family_index": 4,
+            "final_error": 0.0034931776699240863,
+            "final_radius_over_rg": 4.170069562836707,
+            "initial_group_velocity_log_radius_per_s": -1.3807712345602268,
+            "integrator_difference": 1.2990749323345696e-07,
+            "integrator_to_error_ratio": 3.718891665658681e-05,
+            "maximum_continuum_reference_error": 5.00289994041586e-12,
+            "maximum_error": 0.0034931776699240863,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 4.170069562836707
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 1.4321916641945621e-09,
+        "maximum_error": 0.004895862314249048,
+        "maximum_integrator_to_error_ratio": 0.001065821928835676,
+        "minimum_branch_overlap": 0.9982781373593241,
+        "start_radius_over_rg": 5.0,
+        "theta": 0.2
+      },
+      "r8.00__theta0.18": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 5.044343711698985e-10,
+            "family_index": 0,
+            "final_error": 0.0015907767740040025,
+            "final_radius_over_rg": 6.637468724152013,
+            "initial_group_velocity_log_radius_per_s": -1.3502259229674844,
+            "integrator_difference": 1.108092599748218e-07,
+            "integrator_to_error_ratio": 6.965732828491938e-05,
+            "maximum_continuum_reference_error": 8.024424816663888e-13,
+            "maximum_error": 0.0015907767740040025,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.637468724152013
+          },
+          {
+            "continuum_reference_to_error_ratio": 2.034975978581407e-09,
+            "family_index": 1,
+            "final_error": 0.0012229453461914828,
+            "final_radius_over_rg": 6.738526051870747,
+            "initial_group_velocity_log_radius_per_s": -1.239731954365411,
+            "integrator_difference": 5.542910049294264e-08,
+            "integrator_to_error_ratio": 4.532426626059855e-05,
+            "maximum_continuum_reference_error": 2.48866440261759e-12,
+            "maximum_error": 0.0012229453461914828,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.738526051870747
+          },
+          {
+            "continuum_reference_to_error_ratio": 5.228746277361673e-10,
+            "family_index": 2,
+            "final_error": 0.0010928663423577499,
+            "final_radius_over_rg": 6.705831257953675,
+            "initial_group_velocity_log_radius_per_s": -1.271459798866263,
+            "integrator_difference": 6.39392198414254e-08,
+            "integrator_to_error_ratio": 5.8505983177671055e-05,
+            "maximum_continuum_reference_error": 5.714320819256952e-13,
+            "maximum_error": 0.0010928663423577499,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.705831257953675
+          },
+          {
+            "continuum_reference_to_error_ratio": 5.466209551332553e-10,
+            "family_index": 3,
+            "final_error": 0.003340554177559338,
+            "final_radius_over_rg": 6.078096118997452,
+            "initial_group_velocity_log_radius_per_s": -2.009102701258471,
+            "integrator_difference": 2.6629682115733717e-07,
+            "integrator_to_error_ratio": 7.97163605207259e-05,
+            "maximum_continuum_reference_error": 1.8260169152118714e-12,
+            "maximum_error": 0.003340554177559338,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.078096118997452
+          },
+          {
+            "continuum_reference_to_error_ratio": 1.0622981293340868e-09,
+            "family_index": 4,
+            "final_error": 0.004018920641861753,
+            "final_radius_over_rg": 7.433613630610377,
+            "initial_group_velocity_log_radius_per_s": -0.5043838547055082,
+            "integrator_difference": 1.2137503750002586e-08,
+            "integrator_to_error_ratio": 3.0200904251694616e-06,
+            "maximum_continuum_reference_error": 4.269291879791887e-12,
+            "maximum_error": 0.004018920641861753,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 7.433613630610377
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 2.034975978581407e-09,
+        "maximum_error": 0.004018920641861753,
+        "maximum_integrator_to_error_ratio": 7.97163605207259e-05,
+        "minimum_branch_overlap": 0.9983951550024801,
+        "start_radius_over_rg": 8.0,
+        "theta": 0.18
+      },
+      "r8.00__theta0.20": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 3.5548293989252547e-10,
+            "family_index": 0,
+            "final_error": 0.0017836129372397758,
+            "final_radius_over_rg": 6.65534152830574,
+            "initial_group_velocity_log_radius_per_s": -1.3390921698121392,
+            "integrator_difference": 7.486318399165223e-08,
+            "integrator_to_error_ratio": 4.197277471395027e-05,
+            "maximum_continuum_reference_error": 6.34043970560338e-13,
+            "maximum_error": 0.0017836129372397758,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.65534152830574
+          },
+          {
+            "continuum_reference_to_error_ratio": 1.5959676424311778e-09,
+            "family_index": 1,
+            "final_error": 0.0015670739910874213,
+            "final_radius_over_rg": 6.734470608493033,
+            "initial_group_velocity_log_radius_per_s": -1.2438335786253822,
+            "integrator_difference": 5.2434455302074793e-08,
+            "integrator_to_error_ratio": 3.346010182052065e-05,
+            "maximum_continuum_reference_error": 2.5009993830710084e-12,
+            "maximum_error": 0.0015670739910874213,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.734470608493033
+          },
+          {
+            "continuum_reference_to_error_ratio": 3.943813629199339e-10,
+            "family_index": 2,
+            "final_error": 0.0014393024527687565,
+            "final_radius_over_rg": 6.701760409920798,
+            "initial_group_velocity_log_radius_per_s": -1.2717334411986274,
+            "integrator_difference": 1.081713586800892e-07,
+            "integrator_to_error_ratio": 7.515540494772463e-05,
+            "maximum_continuum_reference_error": 5.67634062976946e-13,
+            "maximum_error": 0.0014393024527687565,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.701760409920798
+          },
+          {
+            "continuum_reference_to_error_ratio": 5.385124756248207e-10,
+            "family_index": 3,
+            "final_error": 0.0036850824993161246,
+            "final_radius_over_rg": 6.21828956577267,
+            "initial_group_velocity_log_radius_per_s": -1.7954077803432886,
+            "integrator_difference": 3.804678165866049e-07,
+            "integrator_to_error_ratio": 0.00010324539997604177,
+            "maximum_continuum_reference_error": 1.984462899588428e-12,
+            "maximum_error": 0.0036850824993161246,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.21828956577267
+          },
+          {
+            "continuum_reference_to_error_ratio": 7.516207282933646e-10,
+            "family_index": 4,
+            "final_error": 0.0041865722443026904,
+            "final_radius_over_rg": 7.2339696304778185,
+            "initial_group_velocity_log_radius_per_s": -0.7248372621848448,
+            "integrator_difference": 6.9210415169337e-08,
+            "integrator_to_error_ratio": 1.6531522957360215e-05,
+            "maximum_continuum_reference_error": 3.146714479315574e-12,
+            "maximum_error": 0.0041865722443026904,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 7.2339696304778185
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 1.5959676424311778e-09,
+        "maximum_error": 0.0041865722443026904,
+        "maximum_integrator_to_error_ratio": 0.00010324539997604177,
+        "minimum_branch_overlap": 0.9982781373593241,
+        "start_radius_over_rg": 8.0,
+        "theta": 0.2
+      }
+    },
+    "theta20_passes_original_packet_budget": true,
+    "theta20_passes_preflight_ceiling": true
+  },
+  "reduced_slow_evolution_authorized": false,
+  "runtime_seconds": 1933.6584146260284,
+  "schema_version": 1,
+  "speed_sorted_rk4_ray_preflight_report": {
+    "maximum_continuum_reference_to_error_ratio": 1.8620385481592498e-09,
+    "maximum_integrator_to_error_ratio": 0.615651441134156,
+    "maximum_theta20_error": 0.005036261361733713,
+    "method_passed": false,
+    "reports": {
+      "r11.00__theta0.18": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 1.0821977997822087e-09,
+            "family_index": 0,
+            "final_error": 0.0025548869043613945,
+            "final_radius_over_rg": 9.838305591277399,
+            "initial_group_velocity_log_radius_per_s": -0.8315137654951019,
+            "integrator_difference": 1.6303574139645357e-08,
+            "integrator_to_error_ratio": 6.381329095943098e-06,
+            "maximum_continuum_reference_error": 2.764892986592279e-12,
+            "maximum_error": 0.0025548869043613945,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.838305591277399
+          },
+          {
+            "continuum_reference_to_error_ratio": 7.876238164320877e-10,
+            "family_index": 1,
+            "final_error": 0.002553849280800749,
+            "final_radius_over_rg": 9.751842299833168,
+            "initial_group_velocity_log_radius_per_s": -0.8876860737065987,
+            "integrator_difference": 3.4719599944422106e-08,
+            "integrator_to_error_ratio": 1.3595007428760995e-05,
+            "maximum_continuum_reference_error": 2.0114725171366284e-12,
+            "maximum_error": 0.002553849280800749,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.751842299833168
+          },
+          {
+            "continuum_reference_to_error_ratio": 1.4787192645539486e-09,
+            "family_index": 2,
+            "final_error": 0.0006749509082079275,
+            "final_radius_over_rg": 9.796933716213303,
+            "initial_group_velocity_log_radius_per_s": -0.8630544404806075,
+            "integrator_difference": 3.5140351499904424e-09,
+            "integrator_to_error_ratio": 5.2063566509164514e-06,
+            "maximum_continuum_reference_error": 9.980629105952462e-13,
+            "maximum_error": 0.0006749509082079275,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.796933716213303
+          },
+          {
+            "continuum_reference_to_error_ratio": 7.145207616871667e-10,
+            "family_index": 3,
+            "final_error": 0.004758246030380774,
+            "final_radius_over_rg": 9.830970974489423,
+            "initial_group_velocity_log_radius_per_s": -0.8744814348480054,
+            "integrator_difference": 3.31773832440464e-08,
+            "integrator_to_error_ratio": 6.972607770218937e-06,
+            "maximum_continuum_reference_error": 3.399865577922608e-12,
+            "maximum_error": 0.004758246030380774,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.830970974489423
+          },
+          {
+            "continuum_reference_to_error_ratio": 7.112214975475533e-10,
+            "family_index": 4,
+            "final_error": 0.004657989569676354,
+            "final_radius_over_rg": 9.75572423190262,
+            "initial_group_velocity_log_radius_per_s": -0.8599073993099087,
+            "integrator_difference": 7.081686611007056e-08,
+            "integrator_to_error_ratio": 1.5203311439572641e-05,
+            "maximum_continuum_reference_error": 3.3128623173061e-12,
+            "maximum_error": 0.004657989569676354,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.75572423190262
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 1.4787192645539486e-09,
+        "maximum_error": 0.004758246030380774,
+        "maximum_integrator_to_error_ratio": 1.5203311439572641e-05,
+        "start_radius_over_rg": 11.0,
+        "theta": 0.18
+      },
+      "r11.00__theta0.20": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 1.1644144566450166e-09,
+            "family_index": 0,
+            "final_error": 0.0023557157478148183,
+            "final_radius_over_rg": 9.833470162654638,
+            "initial_group_velocity_log_radius_per_s": -0.8351495386569334,
+            "integrator_difference": 2.9252001263889945e-08,
+            "integrator_to_error_ratio": 1.2417457959868183e-05,
+            "maximum_continuum_reference_error": 2.7430294725019004e-12,
+            "maximum_error": 0.0023557157478148183,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.833470162654638
+          },
+          {
+            "continuum_reference_to_error_ratio": 8.242352439059699e-10,
+            "family_index": 1,
+            "final_error": 0.002660004564370642,
+            "final_radius_over_rg": 9.736184605776893,
+            "initial_group_velocity_log_radius_per_s": -0.8987723542469092,
+            "integrator_difference": 4.074061410032846e-08,
+            "integrator_to_error_ratio": 1.5315994057313848e-05,
+            "maximum_continuum_reference_error": 2.1924695109050293e-12,
+            "maximum_error": 0.002660004564370642,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.736184605776893
+          },
+          {
+            "continuum_reference_to_error_ratio": 6.48864462484661e-10,
+            "family_index": 2,
+            "final_error": 0.0008873190322616436,
+            "final_radius_over_rg": 10.45693308048978,
+            "initial_group_velocity_log_radius_per_s": -0.8630861275737225,
+            "integrator_difference": 7.783099666245067e-05,
+            "integrator_to_error_ratio": 0.08771478333342078,
+            "maximum_continuum_reference_error": 5.757497869208609e-13,
+            "maximum_error": 0.0008873190322616436,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 10.45693308048978
+          },
+          {
+            "continuum_reference_to_error_ratio": 2.3740248011860934e-10,
+            "family_index": 3,
+            "final_error": 0.005036261361733713,
+            "final_radius_over_rg": 10.733184289016375,
+            "initial_group_velocity_log_radius_per_s": -0.2187684816676359,
+            "integrator_difference": 1.1856131031962517e-10,
+            "integrator_to_error_ratio": 2.3541532459072164e-08,
+            "maximum_continuum_reference_error": 1.1956209378011081e-12,
+            "maximum_error": 0.005036261361733713,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 10.733184289016375
+          },
+          {
+            "continuum_reference_to_error_ratio": 4.010269707397522e-10,
+            "family_index": 4,
+            "final_error": 0.0047661163263155925,
+            "final_radius_over_rg": 9.003548356357497,
+            "initial_group_velocity_log_radius_per_s": -1.500866611693389,
+            "integrator_difference": 1.487011424092445e-07,
+            "integrator_to_error_ratio": 3.1199646048965976e-05,
+            "maximum_continuum_reference_error": 1.9113411925356184e-12,
+            "maximum_error": 0.0047661163263155925,
+            "maximum_radius_over_rg": 11.0,
+            "minimum_radius_over_rg": 9.003548356357497
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 1.1644144566450166e-09,
+        "maximum_error": 0.005036261361733713,
+        "maximum_integrator_to_error_ratio": 0.08771478333342078,
+        "start_radius_over_rg": 11.0,
+        "theta": 0.2
+      },
+      "r5.00__theta0.18": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 4.388525198420329e-10,
+            "family_index": 0,
+            "final_error": 0.0034625050908749684,
+            "final_radius_over_rg": 3.5457518985664827,
+            "initial_group_velocity_log_radius_per_s": -2.1784698140995222,
+            "integrator_difference": 0.00014675236867777727,
+            "integrator_to_error_ratio": 0.04238329325912795,
+            "maximum_continuum_reference_error": 1.519529084096347e-12,
+            "maximum_error": 0.0034625050908749684,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.5457518985664827
+          },
+          {
+            "continuum_reference_to_error_ratio": 6.198024037797855e-10,
+            "family_index": 1,
+            "final_error": 0.0032620357749310424,
+            "final_radius_over_rg": 3.786015607668752,
+            "initial_group_velocity_log_radius_per_s": -1.0396248286868632,
+            "integrator_difference": 0.0012672832651540427,
+            "integrator_to_error_ratio": 0.38849459435521744,
+            "maximum_continuum_reference_error": 2.0218176145179154e-12,
+            "maximum_error": 0.0032620357749310424,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.786015607668752
+          },
+          {
+            "continuum_reference_to_error_ratio": 2.2309260218187343e-10,
+            "family_index": 2,
+            "final_error": 0.0019239338477989355,
+            "final_radius_over_rg": 4.348138689585374,
+            "initial_group_velocity_log_radius_per_s": -2.355951457183235,
+            "integrator_difference": 0.0011844726460441967,
+            "integrator_to_error_ratio": 0.615651441134156,
+            "maximum_continuum_reference_error": 4.2921540853124895e-13,
+            "maximum_error": 0.0019239338477989355,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 4.348138689585374
+          },
+          {
+            "continuum_reference_to_error_ratio": 1.9247642450398227e-10,
+            "family_index": 3,
+            "final_error": 0.0021514556434459437,
+            "final_radius_over_rg": 4.047910878853232,
+            "initial_group_velocity_log_radius_per_s": -2.229325737690351,
+            "integrator_difference": 0.0004109560479113127,
+            "integrator_to_error_ratio": 0.19101302374660747,
+            "maximum_continuum_reference_error": 4.1410448972938977e-13,
+            "maximum_error": 0.0021514556434459437,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 4.047910878853232
+          },
+          {
+            "continuum_reference_to_error_ratio": 3.545010649015961e-10,
+            "family_index": 4,
+            "final_error": 0.004026124594479949,
+            "final_radius_over_rg": 3.051969224777057,
+            "initial_group_velocity_log_radius_per_s": -3.3578308759686837,
+            "integrator_difference": 0.00036672313529827395,
+            "integrator_to_error_ratio": 0.09108588835056737,
+            "maximum_continuum_reference_error": 1.4272654561696486e-12,
+            "maximum_error": 0.004026124594479949,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.051969224777057
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 6.198024037797855e-10,
+        "maximum_error": 0.004026124594479949,
+        "maximum_integrator_to_error_ratio": 0.615651441134156,
+        "start_radius_over_rg": 5.0,
+        "theta": 0.18
+      },
+      "r5.00__theta0.20": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 8.370714303753251e-10,
+            "family_index": 0,
+            "final_error": 0.003490093765250633,
+            "final_radius_over_rg": 4.170058721536401,
+            "initial_group_velocity_log_radius_per_s": -1.3807740750269202,
+            "integrator_difference": 1.4203532541153242e-07,
+            "integrator_to_error_ratio": 4.069670758582971e-05,
+            "maximum_continuum_reference_error": 2.9214577802223514e-12,
+            "maximum_error": 0.003490093765250633,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 4.170058721536401
+          },
+          {
+            "continuum_reference_to_error_ratio": 3.4836404754056495e-10,
+            "family_index": 1,
+            "final_error": 0.004482654333704174,
+            "final_radius_over_rg": 3.6454097661930565,
+            "initial_group_velocity_log_radius_per_s": -2.184482679231141,
+            "integrator_difference": 0.000146977129575753,
+            "integrator_to_error_ratio": 0.03278796860838937,
+            "maximum_continuum_reference_error": 1.5615956074144403e-12,
+            "maximum_error": 0.004482654333704174,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.6454097661930565
+          },
+          {
+            "continuum_reference_to_error_ratio": 1.1340370246209712e-10,
+            "family_index": 2,
+            "final_error": 0.0027148489318960835,
+            "final_radius_over_rg": 3.7395644825350147,
+            "initial_group_velocity_log_radius_per_s": -2.317763200026578,
+            "integrator_difference": 0.00023654624477687343,
+            "integrator_to_error_ratio": 0.08713053680363227,
+            "maximum_continuum_reference_error": 3.078739205022856e-13,
+            "maximum_error": 0.0027148489318960835,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.7395644825350147
+          },
+          {
+            "continuum_reference_to_error_ratio": 1.0791483317178959e-10,
+            "family_index": 3,
+            "final_error": 0.002918572268200178,
+            "final_radius_over_rg": 3.5624160897981625,
+            "initial_group_velocity_log_radius_per_s": -2.242537666383223,
+            "integrator_difference": 2.653839093498042e-07,
+            "integrator_to_error_ratio": 9.09293603044686e-05,
+            "maximum_continuum_reference_error": 3.149572394226338e-13,
+            "maximum_error": 0.002918572268200178,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 3.5624160897981625
+          },
+          {
+            "continuum_reference_to_error_ratio": 5.482325817769621e-10,
+            "family_index": 4,
+            "final_error": 0.0048878171560461136,
+            "final_radius_over_rg": 2.9273958846123413,
+            "initial_group_velocity_log_radius_per_s": -3.035645092978562,
+            "integrator_difference": 1.5178928934663868e-06,
+            "integrator_to_error_ratio": 0.00031054616918081506,
+            "maximum_continuum_reference_error": 2.6796606187128892e-12,
+            "maximum_error": 0.0048878171560461136,
+            "maximum_radius_over_rg": 5.0,
+            "minimum_radius_over_rg": 2.9273958846123413
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 8.370714303753251e-10,
+        "maximum_error": 0.0048878171560461136,
+        "maximum_integrator_to_error_ratio": 0.08713053680363227,
+        "start_radius_over_rg": 5.0,
+        "theta": 0.2
+      },
+      "r8.00__theta0.18": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 1.8620385481592498e-09,
+            "family_index": 0,
+            "final_error": 0.0012431602883407745,
+            "final_radius_over_rg": 7.259924610619855,
+            "initial_group_velocity_log_radius_per_s": -1.2397290541404435,
+            "integrator_difference": 0.00011902086212112634,
+            "integrator_to_error_ratio": 0.09574055995625594,
+            "maximum_continuum_reference_error": 2.3148123784312902e-12,
+            "maximum_error": 0.0012431602883407745,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 7.259924610619855
+          },
+          {
+            "continuum_reference_to_error_ratio": 4.912571500238137e-10,
+            "family_index": 1,
+            "final_error": 0.003970400390504923,
+            "final_radius_over_rg": 7.082287023022099,
+            "initial_group_velocity_log_radius_per_s": -0.5044027945157217,
+            "integrator_difference": 0.00022470756709889434,
+            "integrator_to_error_ratio": 0.05659569438797024,
+            "maximum_continuum_reference_error": 1.950487580292886e-12,
+            "maximum_error": 0.003970400390504923,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 7.082287023022099
+          },
+          {
+            "continuum_reference_to_error_ratio": 3.268840739178952e-10,
+            "family_index": 2,
+            "final_error": 0.001595367631492156,
+            "final_radius_over_rg": 6.6374724781332,
+            "initial_group_velocity_log_radius_per_s": -1.350225540608759,
+            "integrator_difference": 1.1382261788879711e-07,
+            "integrator_to_error_ratio": 7.134569840954979e-05,
+            "maximum_continuum_reference_error": 5.215002707788994e-13,
+            "maximum_error": 0.001595367631492156,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.6374724781332
+          },
+          {
+            "continuum_reference_to_error_ratio": 1.0130905849541902e-10,
+            "family_index": 3,
+            "final_error": 0.0010894555812598196,
+            "final_radius_over_rg": 6.705839421665429,
+            "initial_group_velocity_log_radius_per_s": -1.271456549651965,
+            "integrator_difference": 6.261344304116916e-08,
+            "integrator_to_error_ratio": 5.7472231193459506e-05,
+            "maximum_continuum_reference_error": 1.1037171921001179e-13,
+            "maximum_error": 0.0010894555812598196,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.705839421665429
+          },
+          {
+            "continuum_reference_to_error_ratio": 3.2664786183414597e-10,
+            "family_index": 4,
+            "final_error": 0.0033393425997232692,
+            "final_radius_over_rg": 6.078124503779707,
+            "initial_group_velocity_log_radius_per_s": -2.0090753281117006,
+            "integrator_difference": 3.023837979103373e-07,
+            "integrator_to_error_ratio": 9.055189423672665e-05,
+            "maximum_continuum_reference_error": 1.0907891201312843e-12,
+            "maximum_error": 0.0033393425997232692,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.078124503779707
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 1.8620385481592498e-09,
+        "maximum_error": 0.003970400390504923,
+        "maximum_integrator_to_error_ratio": 0.09574055995625594,
+        "start_radius_over_rg": 8.0,
+        "theta": 0.18
+      },
+      "r8.00__theta0.20": {
+        "families": [
+          {
+            "continuum_reference_to_error_ratio": 5.563452333416206e-10,
+            "family_index": 0,
+            "final_error": 0.0041873701043313805,
+            "final_radius_over_rg": 7.233968182572075,
+            "initial_group_velocity_log_radius_per_s": -0.7248374041100059,
+            "integrator_difference": 6.950655383053422e-08,
+            "integrator_to_error_ratio": 1.6599094920851928e-05,
+            "maximum_continuum_reference_error": 2.329623397781968e-12,
+            "maximum_error": 0.0041873701043313805,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 7.233968182572075
+          },
+          {
+            "continuum_reference_to_error_ratio": 9.69792067538396e-10,
+            "family_index": 1,
+            "final_error": 0.0015635733529381626,
+            "final_radius_over_rg": 6.734476469368421,
+            "initial_group_velocity_log_radius_per_s": -1.2438306701988144,
+            "integrator_difference": 5.011594629436193e-08,
+            "integrator_to_error_ratio": 3.205218751022291e-05,
+            "maximum_continuum_reference_error": 1.5163410346938429e-12,
+            "maximum_error": 0.0015635733529381626,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.734476469368421
+          },
+          {
+            "continuum_reference_to_error_ratio": 2.2572608486647786e-10,
+            "family_index": 2,
+            "final_error": 0.0017863009303184267,
+            "final_radius_over_rg": 6.655344681684527,
+            "initial_group_velocity_log_radius_per_s": -1.339090568491193,
+            "integrator_difference": 6.985232255152746e-08,
+            "integrator_to_error_ratio": 3.910445399537219e-05,
+            "maximum_continuum_reference_error": 4.0321471539412553e-13,
+            "maximum_error": 0.0017863009303184267,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.655344681684527
+          },
+          {
+            "continuum_reference_to_error_ratio": 8.53331539246022e-11,
+            "family_index": 3,
+            "final_error": 0.001435432081379315,
+            "final_radius_over_rg": 6.701770907039039,
+            "initial_group_velocity_log_radius_per_s": -1.2717297811581756,
+            "integrator_difference": 1.0418056387271746e-07,
+            "integrator_to_error_ratio": 7.257784274447159e-05,
+            "maximum_continuum_reference_error": 1.224899467486532e-13,
+            "maximum_error": 0.001435432081379315,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.701770907039039
+          },
+          {
+            "continuum_reference_to_error_ratio": 3.2104482022447534e-10,
+            "family_index": 4,
+            "final_error": 0.003683381098218786,
+            "final_radius_over_rg": 6.2183030374110695,
+            "initial_group_velocity_log_radius_per_s": -1.795400843067681,
+            "integrator_difference": 3.8366825554479096e-07,
+            "integrator_to_error_ratio": 0.00010416197654115284,
+            "maximum_continuum_reference_error": 1.1825304224958806e-12,
+            "maximum_error": 0.003683381098218786,
+            "maximum_radius_over_rg": 8.0,
+            "minimum_radius_over_rg": 6.2183030374110695
+          }
+        ],
+        "maximum_continuum_reference_to_error_ratio": 9.69792067538396e-10,
+        "maximum_error": 0.0041873701043313805,
+        "maximum_integrator_to_error_ratio": 0.00010416197654115284,
+        "start_radius_over_rg": 8.0,
+        "theta": 0.2
+      }
+    },
+    "theta20_passes_original_packet_budget": true,
+    "theta20_passes_preflight_ceiling": true
+  },
+  "uniform_packet_propagation_authorized": false,
+  "work_package": "WP10c9d6c6a1"
+}

@@ -1,0 +1,68 @@
+{
+  "audit_radii_over_rg": [
+    2.2,
+    3.0,
+    5.0,
+    8.0,
+    11.0
+  ],
+  "audit_theta_values": [
+    0.1,
+    0.17,
+    0.18,
+    0.2,
+    0.3
+  ],
+  "audit_times_s": [
+    0.015625,
+    0.03125,
+    0.0625,
+    0.125
+  ],
+  "cross_grid_reference_thetas": [
+    0.18,
+    0.2
+  ],
+  "gates": {
+    "maximum_component_closure_defect": 1e-11,
+    "maximum_generator_parity_defect": 1e-11,
+    "maximum_propagator_norm_ratio": 1.25,
+    "maximum_ray_integrator_to_error_ratio": 0.1,
+    "maximum_ray_preflight_error": 0.05,
+    "maximum_ray_reference_to_error_ratio": 0.1,
+    "maximum_shapley_closure_defect": 1e-11,
+    "maximum_time_accumulation_exponent": 1.25,
+    "minimum_ray_branch_overlap": 0.9,
+    "minimum_significant_component_order": 1.25,
+    "minimum_time_accumulation_exponent": 0.75,
+    "significant_propagator_contribution": 0.00025,
+    "unchanged_minimum_usable_theta": 0.2,
+    "unchanged_packet_contract_error": 0.025
+  },
+  "labels": [
+    "uniform_N128",
+    "uniform_N256",
+    "uniform_N512"
+  ],
+  "limiter_radius_over_rg": 8.0,
+  "limiter_theta": 0.18,
+  "operator_change": false,
+  "parent_contract_preserved": true,
+  "production_defaults_changed": false,
+  "ray_branch_table_base_nodes": 257,
+  "ray_horizon_s": 0.125,
+  "ray_integrator": "overlap_tracked_coupled_classical_rk4",
+  "ray_primary_step_s": 0.00125,
+  "ray_secondary_step_s": 0.0025,
+  "ray_start_radii_over_rg": [
+    5.0,
+    8.0,
+    11.0
+  ],
+  "ray_theta_values": [
+    0.18,
+    0.2
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d6c6a1"
+}
