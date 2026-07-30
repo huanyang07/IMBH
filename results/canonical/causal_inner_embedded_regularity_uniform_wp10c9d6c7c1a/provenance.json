@@ -1,0 +1,37 @@
+{
+  "analyzed_base_commit": "406ab7e18d6094d07647efb91dccce06808087b4",
+  "analyzed_base_parent": "fad76852220d7c304fff9016ff99ada64d404eff",
+  "analyzed_base_tree": "c14275ee307e90911d76298575fb633d0bd205ba",
+  "command": "PYTHONPATH=src:scripts python scripts/run_causal_inner_embedded_regularity_uniform_wp10c9d6c7c1a.py",
+  "environment": {
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "implementation_base_tree": "c14275ee307e90911d76298575fb633d0bd205ba",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_continuum_lift_wp10c9d6c3.py": "61526246e0a9206bb987df0c554496d6a75ad5a0553af1751d36a14cdfa7bbe5",
+    "scripts/run_causal_inner_embedded_regularity_manifest_wp10c9d6c7c0.py": "078cfa8c7f4ef26fa7bbdd6549b7e0df72d7a7e44ebebde76e89e5af30461c7f",
+    "scripts/run_causal_inner_embedded_regularity_uniform_wp10c9d6c7c1a.py": "1e4fcb2521edfd7eb3bdb19fd9a9ed3d8e209634bb81480db262bf39926a1307",
+    "scripts/run_causal_inner_integral_conditioning_validation_wp10c9d6c6e1.py": "80e80883b4568cdaf19fc07095e6861ee5123726125fd00d65d3679b6213debd",
+    "scripts/run_causal_inner_packet_validation_wp10c9d6c6c.py": "9e485c91b4aaa52ca6e30bf5afd2afa17402b65b1632171678ac6caa7842ee3d",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_tangent.py": "23a958a894fc40188a0cda1e640f943bd00dc8070a64af4b2b2a56cd609ba0c4",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_packet_validation.py": "31d384bc008f0ea1e94ba1ef4569037d63930b74f4f98425a4c643c8698f99d1",
+    "tests/test_causal_inner_embedded_regularity_uniform_wp10c9d6c7c1a.py": "b4b8ce0b893b58efb6fc18198097cb991bef0e2dd4bf3545f793384f25bbd003"
+  },
+  "implementation_source_manifest_sha256": "87712432f8a27632cd7c7b40a9f7fe0f4f91d8cdf239be6b8b4faf912dd3661f",
+  "parent_canonical_hashes": {
+    "results/canonical/causal_inner_band_envelope_manifest_wp10c9d6c6f0/band_envelope_manifest.json": "da251089d316fb59282a6d0e451e51fc8f8359cabf4433aba72694e4318acaea",
+    "results/canonical/causal_inner_continuum_lift_wp10c9d6c3/decisive_arrays.npz": "28ac85f2d7a94f6d4334c27119c4585ddf7971d47df1d6ad6c07c593a1b3e6c7",
+    "results/canonical/causal_inner_embedded_regularity_manifest_wp10c9d6c7c0/decisive_arrays.npz": "899385f8dff9396632dc2c26b23459187589662934af9496de74e0f779e139f8",
+    "results/canonical/causal_inner_embedded_regularity_manifest_wp10c9d6c7c0/provenance.json": "778731cc06779c9ccb7a01aeed9582599015ea689ed979bbdd4d809df9b3a6f2",
+    "results/canonical/causal_inner_embedded_regularity_manifest_wp10c9d6c7c0/regularity_manifest.json": "b8f4128d0e17c15a044071e9f19c396054768253dc2b9e3a7b5f245242a1dcac",
+    "results/canonical/causal_inner_embedded_regularity_manifest_wp10c9d6c7c0/summary.json": "647b48c6e29486def957931fee5d585132b255c00321f5439bfcf27451fbea07"
+  },
+  "schema_version": 1,
+  "scientific_status": "UNIFORM CONTROLS CERTIFIED",
+  "source_parent_commit": "406ab7e18d6094d07647efb91dccce06808087b4",
+  "work_package": "WP10c9d6c7c1a",
+  "working_tree_status": "M results/manifests/canonical_artifacts.csv\n M results/manifests/canonical_summary.json\n?? docs/reports/gpt/CODEX_IMBH_119A998_REVIEW_AND_NEXT_PLAN.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_119A998_PROVISIONAL_REVIEW_AND_NEXT_PLAN_2026-07-17.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_1CF430F_REVIEW_AND_PHYSICAL_OUTER_BOUNDARY_PLAN_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_272E891_REVIEW_AND_LOCKED_NEXT_PLAN_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_8D0691B_REVIEW_AND_CHARACTERISTIC_RESPONSE_PLAN_2026-07-16.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_B9B1BC1_REVIEW_AND_LOCKED_TIME_EVOLUTION_PLAN_2026-07-11.md\n?? docs/reports/gpt/CODEX_IMBH_DAE_BOUNDARY_CONSTRAINT_INDEX_AND_REVISED_COUNTS_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_LATEST_UPDATE_REVIEW_AND_LOCKED_NEXT_PLAN_2026-07-14.md\n?? docs/reports/gpt/CODEX_IMBH_PHYSICS_DISCUSSION_AND_STAGED_TIME_DEPENDENT_PLAN_2026-07-11.md\n?? docs/reports/gpt/CODEX_IMBH_PRODUCTION_FACE_TORQUE_AND_FINAL_DAE_ARCHITECTURE_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_TIME_DAE_EXACT_UNKNOWN_RESIDUAL_COUNT_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_TIME_DEPENDENT_DAE_DERIVATION_AND_REVISED_LOCKED_PLAN_2026-07-12.md\n?? docs/reports/gpt/IMBH_long_timescale_evolution_plan_for_codex.md\n?? results/canonical/causal_inner_embedded_regularity_uniform_wp10c9d6c7c1a/\n?? scripts/run_causal_inner_embedded_regularity_uniform_wp10c9d6c7c1a.py\n?? tests/test_causal_inner_embedded_regularity_uniform_wp10c9d6c7c1a.py"
+}

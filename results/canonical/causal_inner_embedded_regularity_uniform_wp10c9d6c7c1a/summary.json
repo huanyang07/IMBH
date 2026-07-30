@@ -1,0 +1,2016 @@
+{
+  "analyzed_base_commit": "406ab7e18d6094d07647efb91dccce06808087b4",
+  "analyzed_base_parent": "fad76852220d7c304fff9016ff99ada64d404eff",
+  "analyzed_base_tree": "c14275ee307e90911d76298575fb633d0bd205ba",
+  "authorized_next": "WP10c9d6c7c1b_embedded_regularity_discrimination",
+  "bounded_nonlinear_common_mode_authorized": false,
+  "c7b_rejection_preserved": true,
+  "classification": "endpoint_interface_regularity_uniform_controls_certified_embedded_discrimination_authorized",
+  "decisive_array_hashes": {
+    "cumulative_metric_matrix": "043f87128eab1bb8f902ff3994fed4dbf580f0f56c3a133e1ad101f553f6b940",
+    "field_scales": "ee02d751758ffa54e25e4b298f1f0778ea7ea7586c78325e3ee106034321fac6",
+    "fixed_physical_observable_scales": "fd7dcc9ca75f3e9c7b1333846986e9aaeb19c45442f0dd8c7f6c6901f8430a99",
+    "instantaneous_metric_matrix": "86abbe1f19524a4287733d82a54f0d6708abbff2368be4edc437e8e869ab6b20",
+    "packet_pass_flags": "8054f66c30097b079f49a584742c291ca4a83ed9a91acb1076e8d67e81cf7457",
+    "state_metric_matrix": "b8571db65497a01b51f9a0b14fbf3c90b62a1105f3dff14eef074c8d1123462a",
+    "times": "7077e9d7397ed03593b5bd1f7790c7bb3cfa484ea8ee96d89222eda943495d73",
+    "uniform_N128__base_cumulative_exports": "fa8a46e93c576a43685aa6c9cef1c67731eb91767e420532115c38f57069d249",
+    "uniform_N128__base_instantaneous_exports": "9a6d5eafe99ae6b6cd857edda7dbfd5275044dcec23c5372c034c2daf3d55b9f",
+    "uniform_N128__base_integral_solve_residuals": "546cda2d692927703f6b4e3fc350b26a3a1b3dbb50c5bbd73618aeb3abcba90e",
+    "uniform_N256__base_cumulative_exports": "17203450aa3d4acad6df582db6f74fedd5dddee9d1fc070e428c40f7bafed551",
+    "uniform_N256__base_instantaneous_exports": "db7c96bde0e69897f80c4a3526bc0c60a9315509cb1c29bffd19b33e98a9d7a5",
+    "uniform_N256__base_integral_solve_residuals": "da731a02bf8661a8222ce35624bb5f1039a7d1589421d80a975e3b1f70f59599",
+    "uniform_N512__base_cumulative_exports": "5e58746afc1c3c0fa1896147b10ba2290bd1652a3d9cee9ac0b338a617c9fa88",
+    "uniform_N512__base_instantaneous_exports": "a473355670d23bc0276a4d33327c133fa5d56f6ea5ab9a28334737675a88fd61",
+    "uniform_N512__base_integral_solve_residuals": "fe30bf5a53ab65eb3cb75466193e84a0ddfedd4281060a44f0498ec04030d60b"
+  },
+  "decisive_arrays_path": "results/canonical/causal_inner_embedded_regularity_uniform_wp10c9d6c7c1a/decisive_arrays.npz",
+  "decisive_arrays_sha256": "5ef685170a090216d5666e6d3d2855770ee6bfd0d1c1b2ac331311b30116db5c",
+  "embedded_regularity_discrimination_authorized": true,
+  "fixed_q_micro_solver_authorized": false,
+  "historical_direct_contract_report": {
+    "all_packets_passed": true,
+    "failed_packets": [],
+    "maximum_propagation_scaling_defect": 0.0,
+    "packet_count": 16,
+    "packet_reports": {
+      "p3_buffer45__inward_shear::a0.50::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 6.153670700653943e-10,
+          "component_orders": {
+            "inner_flux_angular_momentum": 2.0822526836697137,
+            "inner_flux_killing_energy": 2.0065936954453334,
+            "inner_flux_mass": 1.9582823933577211,
+            "net_drive_angular_momentum": 2.073061956081498,
+            "net_drive_killing_energy": 2.01065186460881,
+            "net_drive_mass": 1.9582823933635487,
+            "vertical_work_angular_momentum": 2.0605172413084545,
+            "vertical_work_killing_energy": 2.0895343873441785
+          },
+          "history_cosine": 0.9999990242104371,
+          "maximum_fine_normalized_difference": 6.05769598390007e-10,
+          "medium_fine_rms_difference": 1.5209659786396212e-10,
+          "minimum_significant_component_order": 1.9582823933577211,
+          "observed_maximum_order": 2.021543812880107,
+          "observed_rms_order": 2.016459360426688,
+          "passed": true,
+          "refinement_error_cosine": 0.9994637646439133,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 1.0068916107171593e-08,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0175079060615673,
+            "cooling_killing_energy": 2.0326936660543238,
+            "inner_flux_angular_momentum": 2.1542335600906837,
+            "inner_flux_killing_energy": 2.046533038306455,
+            "inner_flux_mass": 2.040648995217245,
+            "net_drive_angular_momentum": 2.134775289539615,
+            "net_drive_killing_energy": 2.038602419295429,
+            "net_drive_mass": 2.040648995222181,
+            "vertical_work_angular_momentum": 2.0274367011222942,
+            "vertical_work_killing_energy": 2.045129277303035
+          },
+          "history_cosine": 0.9999996470011754,
+          "maximum_fine_normalized_difference": 7.387654809282835e-09,
+          "medium_fine_rms_difference": 2.43245592189735e-09,
+          "minimum_significant_component_order": 2.0175079060615673,
+          "observed_maximum_order": 2.023711910654742,
+          "observed_rms_order": 2.0494228217711306,
+          "passed": true,
+          "refinement_error_cosine": 0.9982672346113913,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p3_buffer45__inward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__inward_shear::a0.50::minus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 8.077180783150703e-10,
+          "maximum_N128_Richardson_error": 0.0007081490491967354,
+          "minimum_significant_component_order": 1.9429490274234522,
+          "observed_order": 1.9673427612370917,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.6311579440112425e-11,
+          "reference_uncertainty_to_fine_difference": 0.01025354633739785,
+          "refinement_error_cosine": 0.989744911410133,
+          "restart_uncertainty_to_fine_difference": 3.330519020727473e-11
+        }
+      },
+      "p3_buffer45__inward_shear::a0.50::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 6.153670700653943e-10,
+          "component_orders": {
+            "inner_flux_angular_momentum": 2.0822526836697137,
+            "inner_flux_killing_energy": 2.0065936954453334,
+            "inner_flux_mass": 1.9582823933577211,
+            "net_drive_angular_momentum": 2.073061956081498,
+            "net_drive_killing_energy": 2.01065186460881,
+            "net_drive_mass": 1.9582823933635487,
+            "vertical_work_angular_momentum": 2.0605172413084545,
+            "vertical_work_killing_energy": 2.0895343873441785
+          },
+          "history_cosine": 0.9999990242104371,
+          "maximum_fine_normalized_difference": 6.05769598390007e-10,
+          "medium_fine_rms_difference": 1.5209659786396212e-10,
+          "minimum_significant_component_order": 1.9582823933577211,
+          "observed_maximum_order": 2.021543812880107,
+          "observed_rms_order": 2.016459360426688,
+          "passed": true,
+          "refinement_error_cosine": 0.9994637646439133,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 1.0068916107171593e-08,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0175079060615673,
+            "cooling_killing_energy": 2.0326936660543238,
+            "inner_flux_angular_momentum": 2.1542335600906837,
+            "inner_flux_killing_energy": 2.046533038306455,
+            "inner_flux_mass": 2.040648995217245,
+            "net_drive_angular_momentum": 2.134775289539615,
+            "net_drive_killing_energy": 2.038602419295429,
+            "net_drive_mass": 2.040648995222181,
+            "vertical_work_angular_momentum": 2.0274367011222942,
+            "vertical_work_killing_energy": 2.045129277303035
+          },
+          "history_cosine": 0.9999996470011754,
+          "maximum_fine_normalized_difference": 7.387654809282835e-09,
+          "medium_fine_rms_difference": 2.43245592189735e-09,
+          "minimum_significant_component_order": 2.0175079060615673,
+          "observed_maximum_order": 2.023711910654742,
+          "observed_rms_order": 2.0494228217711306,
+          "passed": true,
+          "refinement_error_cosine": 0.9982672346113913,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p3_buffer45__inward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__inward_shear::a0.50::plus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 8.077180783150703e-10,
+          "maximum_N128_Richardson_error": 0.0007081490491967354,
+          "minimum_significant_component_order": 1.9429490274234522,
+          "observed_order": 1.9673427612370917,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.6311579440112425e-11,
+          "reference_uncertainty_to_fine_difference": 0.01025354633739785,
+          "refinement_error_cosine": 0.989744911410133,
+          "restart_uncertainty_to_fine_difference": 3.330519020727473e-11
+        }
+      },
+      "p3_buffer45__inward_shear::a1.00::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 1.1008949918203065e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0638097036207608,
+            "cooling_killing_energy": 2.063468577790771,
+            "inner_flux_angular_momentum": 2.0822526836697137,
+            "inner_flux_killing_energy": 2.0065936954453334,
+            "inner_flux_mass": 1.9582823933577211,
+            "net_drive_angular_momentum": 2.073061956081498,
+            "net_drive_killing_energy": 2.01065186460881,
+            "net_drive_mass": 1.9582823933635487,
+            "vertical_work_angular_momentum": 2.0605172413084545,
+            "vertical_work_killing_energy": 2.0895343873441785
+          },
+          "history_cosine": 0.9999990238721406,
+          "maximum_fine_normalized_difference": 1.211539196780014e-09,
+          "medium_fine_rms_difference": 2.7210018118109583e-10,
+          "minimum_significant_component_order": 1.9582823933577211,
+          "observed_maximum_order": 2.021543812880107,
+          "observed_rms_order": 2.016467042565431,
+          "passed": true,
+          "refinement_error_cosine": 0.9994637527541069,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 2.0137832214343187e-08,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0175079060615673,
+            "cooling_killing_energy": 2.0326936660543238,
+            "inner_flux_angular_momentum": 2.1542335600906837,
+            "inner_flux_killing_energy": 2.046533038306455,
+            "inner_flux_mass": 2.040648995217245,
+            "net_drive_angular_momentum": 2.134775289539615,
+            "net_drive_killing_energy": 2.038602419295429,
+            "net_drive_mass": 2.040648995222181,
+            "vertical_work_angular_momentum": 2.0274367011222942,
+            "vertical_work_killing_energy": 2.045129277303035
+          },
+          "history_cosine": 0.9999996470011754,
+          "maximum_fine_normalized_difference": 1.477530961856567e-08,
+          "medium_fine_rms_difference": 4.8649118437947e-09,
+          "minimum_significant_component_order": 2.0175079060615673,
+          "observed_maximum_order": 2.023711910654742,
+          "observed_rms_order": 2.0494228217711306,
+          "passed": true,
+          "refinement_error_cosine": 0.9982672346113913,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p3_buffer45__inward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__inward_shear::a1.00::minus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 8.077180783150703e-10,
+          "maximum_N128_Richardson_error": 0.0007081490491967354,
+          "minimum_significant_component_order": 1.9429490274234522,
+          "observed_order": 1.9673427612370917,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.6311579440112425e-11,
+          "reference_uncertainty_to_fine_difference": 0.01025354633739785,
+          "refinement_error_cosine": 0.989744911410133,
+          "restart_uncertainty_to_fine_difference": 3.330519020727473e-11
+        }
+      },
+      "p3_buffer45__inward_shear::a1.00::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 1.1008949918203065e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0638097036207608,
+            "cooling_killing_energy": 2.063468577790771,
+            "inner_flux_angular_momentum": 2.0822526836697137,
+            "inner_flux_killing_energy": 2.0065936954453334,
+            "inner_flux_mass": 1.9582823933577211,
+            "net_drive_angular_momentum": 2.073061956081498,
+            "net_drive_killing_energy": 2.01065186460881,
+            "net_drive_mass": 1.9582823933635487,
+            "vertical_work_angular_momentum": 2.0605172413084545,
+            "vertical_work_killing_energy": 2.0895343873441785
+          },
+          "history_cosine": 0.9999990238721406,
+          "maximum_fine_normalized_difference": 1.211539196780014e-09,
+          "medium_fine_rms_difference": 2.7210018118109583e-10,
+          "minimum_significant_component_order": 1.9582823933577211,
+          "observed_maximum_order": 2.021543812880107,
+          "observed_rms_order": 2.016467042565431,
+          "passed": true,
+          "refinement_error_cosine": 0.9994637527541069,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 2.0137832214343187e-08,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0175079060615673,
+            "cooling_killing_energy": 2.0326936660543238,
+            "inner_flux_angular_momentum": 2.1542335600906837,
+            "inner_flux_killing_energy": 2.046533038306455,
+            "inner_flux_mass": 2.040648995217245,
+            "net_drive_angular_momentum": 2.134775289539615,
+            "net_drive_killing_energy": 2.038602419295429,
+            "net_drive_mass": 2.040648995222181,
+            "vertical_work_angular_momentum": 2.0274367011222942,
+            "vertical_work_killing_energy": 2.045129277303035
+          },
+          "history_cosine": 0.9999996470011754,
+          "maximum_fine_normalized_difference": 1.477530961856567e-08,
+          "medium_fine_rms_difference": 4.8649118437947e-09,
+          "minimum_significant_component_order": 2.0175079060615673,
+          "observed_maximum_order": 2.023711910654742,
+          "observed_rms_order": 2.0494228217711306,
+          "passed": true,
+          "refinement_error_cosine": 0.9982672346113913,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p3_buffer45__inward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__inward_shear::a1.00::plus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 8.077180783150703e-10,
+          "maximum_N128_Richardson_error": 0.0007081490491967354,
+          "minimum_significant_component_order": 1.9429490274234522,
+          "observed_order": 1.9673427612370917,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.6311579440112425e-11,
+          "reference_uncertainty_to_fine_difference": 0.01025354633739785,
+          "refinement_error_cosine": 0.989744911410133,
+          "restart_uncertainty_to_fine_difference": 3.330519020727473e-11
+        }
+      },
+      "p3_buffer45__outward_shear::a0.50::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 6.039020066999729e-10,
+          "component_orders": {
+            "inner_flux_angular_momentum": 2.080372090599471,
+            "inner_flux_killing_energy": 2.0064364196642623,
+            "inner_flux_mass": 1.956326283485168,
+            "net_drive_angular_momentum": 2.071399377790944,
+            "net_drive_killing_energy": 2.010733072206066,
+            "net_drive_mass": 1.9563262834910025,
+            "vertical_work_angular_momentum": 2.0603224091866124,
+            "vertical_work_killing_energy": 2.089482653749504
+          },
+          "history_cosine": 0.9999991888778782,
+          "maximum_fine_normalized_difference": 5.935822231459903e-10,
+          "medium_fine_rms_difference": 1.4927650010674776e-10,
+          "minimum_significant_component_order": 1.956326283485168,
+          "observed_maximum_order": 2.021006905264816,
+          "observed_rms_order": 2.0163274002134,
+          "passed": true,
+          "refinement_error_cosine": 0.99947025529063,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 9.817932279482063e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.018125288084236,
+            "cooling_killing_energy": 2.033051178699064,
+            "inner_flux_angular_momentum": 2.152488389392559,
+            "inner_flux_killing_energy": 2.045276945488287,
+            "inner_flux_mass": 2.0350253510687946,
+            "net_drive_angular_momentum": 2.133189463025799,
+            "net_drive_killing_energy": 2.0378567982663904,
+            "net_drive_mass": 2.0350253510742378,
+            "vertical_work_angular_momentum": 2.0277275658782745,
+            "vertical_work_killing_energy": 2.04533797108432
+          },
+          "history_cosine": 0.9999996015962408,
+          "maximum_fine_normalized_difference": 7.200930939491143e-09,
+          "medium_fine_rms_difference": 2.374136838260963e-09,
+          "minimum_significant_component_order": 2.018125288084236,
+          "observed_maximum_order": 2.0197104464017888,
+          "observed_rms_order": 2.0480161254808187,
+          "passed": true,
+          "refinement_error_cosine": 0.9982164973355432,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p3_buffer45__outward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__outward_shear::a0.50::minus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 7.215050787367623e-10,
+          "maximum_N128_Richardson_error": 0.0006689805417236707,
+          "minimum_significant_component_order": 1.9468582435611852,
+          "observed_order": 2.0026368864130943,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.9142936904332213e-11,
+          "reference_uncertainty_to_fine_difference": 0.0008110978739043821,
+          "refinement_error_cosine": 0.9897215685085522,
+          "restart_uncertainty_to_fine_difference": 3.3348851176584154e-11
+        }
+      },
+      "p3_buffer45__outward_shear::a0.50::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 6.039020066999729e-10,
+          "component_orders": {
+            "inner_flux_angular_momentum": 2.080372090599471,
+            "inner_flux_killing_energy": 2.0064364196642623,
+            "inner_flux_mass": 1.956326283485168,
+            "net_drive_angular_momentum": 2.071399377790944,
+            "net_drive_killing_energy": 2.010733072206066,
+            "net_drive_mass": 1.9563262834910025,
+            "vertical_work_angular_momentum": 2.0603224091866124,
+            "vertical_work_killing_energy": 2.089482653749504
+          },
+          "history_cosine": 0.9999991888778782,
+          "maximum_fine_normalized_difference": 5.935822231459903e-10,
+          "medium_fine_rms_difference": 1.4927650010674776e-10,
+          "minimum_significant_component_order": 1.956326283485168,
+          "observed_maximum_order": 2.021006905264816,
+          "observed_rms_order": 2.0163274002134,
+          "passed": true,
+          "refinement_error_cosine": 0.99947025529063,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 9.817932279482063e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.018125288084236,
+            "cooling_killing_energy": 2.033051178699064,
+            "inner_flux_angular_momentum": 2.152488389392559,
+            "inner_flux_killing_energy": 2.045276945488287,
+            "inner_flux_mass": 2.0350253510687946,
+            "net_drive_angular_momentum": 2.133189463025799,
+            "net_drive_killing_energy": 2.0378567982663904,
+            "net_drive_mass": 2.0350253510742378,
+            "vertical_work_angular_momentum": 2.0277275658782745,
+            "vertical_work_killing_energy": 2.04533797108432
+          },
+          "history_cosine": 0.9999996015962408,
+          "maximum_fine_normalized_difference": 7.200930939491143e-09,
+          "medium_fine_rms_difference": 2.374136838260963e-09,
+          "minimum_significant_component_order": 2.018125288084236,
+          "observed_maximum_order": 2.0197104464017888,
+          "observed_rms_order": 2.0480161254808187,
+          "passed": true,
+          "refinement_error_cosine": 0.9982164973355432,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p3_buffer45__outward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__outward_shear::a0.50::plus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 7.215050787367623e-10,
+          "maximum_N128_Richardson_error": 0.0006689805417236707,
+          "minimum_significant_component_order": 1.9468582435611852,
+          "observed_order": 2.0026368864130943,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.9142936904332213e-11,
+          "reference_uncertainty_to_fine_difference": 0.0008110978739043821,
+          "refinement_error_cosine": 0.9897215685085522,
+          "restart_uncertainty_to_fine_difference": 3.3348851176584154e-11
+        }
+      },
+      "p3_buffer45__outward_shear::a1.00::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 1.0803852842936149e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.064110278282151,
+            "cooling_killing_energy": 2.06372751226049,
+            "inner_flux_angular_momentum": 2.080372090599471,
+            "inner_flux_killing_energy": 2.0064364196642623,
+            "inner_flux_mass": 1.956326283485168,
+            "net_drive_angular_momentum": 2.071399377790944,
+            "net_drive_killing_energy": 2.010733072206066,
+            "net_drive_mass": 1.9563262834910025,
+            "vertical_work_angular_momentum": 2.0603224091866124,
+            "vertical_work_killing_energy": 2.089482653749504
+          },
+          "history_cosine": 0.9999991883833561,
+          "maximum_fine_normalized_difference": 1.1871644462919805e-09,
+          "medium_fine_rms_difference": 2.6705533959519045e-10,
+          "minimum_significant_component_order": 1.956326283485168,
+          "observed_maximum_order": 2.021006905264816,
+          "observed_rms_order": 2.01633525907421,
+          "passed": true,
+          "refinement_error_cosine": 0.9994702407408605,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 1.9635864558964127e-08,
+          "component_orders": {
+            "cooling_angular_momentum": 2.018125288084236,
+            "cooling_killing_energy": 2.033051178699064,
+            "inner_flux_angular_momentum": 2.152488389392559,
+            "inner_flux_killing_energy": 2.045276945488287,
+            "inner_flux_mass": 2.0350253510687946,
+            "net_drive_angular_momentum": 2.133189463025799,
+            "net_drive_killing_energy": 2.0378567982663904,
+            "net_drive_mass": 2.0350253510742378,
+            "vertical_work_angular_momentum": 2.0277275658782745,
+            "vertical_work_killing_energy": 2.04533797108432
+          },
+          "history_cosine": 0.9999996015962408,
+          "maximum_fine_normalized_difference": 1.4401861878982286e-08,
+          "medium_fine_rms_difference": 4.748273676521926e-09,
+          "minimum_significant_component_order": 2.018125288084236,
+          "observed_maximum_order": 2.0197104464017888,
+          "observed_rms_order": 2.0480161254808187,
+          "passed": true,
+          "refinement_error_cosine": 0.9982164973355432,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p3_buffer45__outward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__outward_shear::a1.00::minus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 7.215050787367623e-10,
+          "maximum_N128_Richardson_error": 0.0006689805417236707,
+          "minimum_significant_component_order": 1.9468582435611852,
+          "observed_order": 2.0026368864130943,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.9142936904332213e-11,
+          "reference_uncertainty_to_fine_difference": 0.0008110978739043821,
+          "refinement_error_cosine": 0.9897215685085522,
+          "restart_uncertainty_to_fine_difference": 3.3348851176584154e-11
+        }
+      },
+      "p3_buffer45__outward_shear::a1.00::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 1.0803852842936149e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.064110278282151,
+            "cooling_killing_energy": 2.06372751226049,
+            "inner_flux_angular_momentum": 2.080372090599471,
+            "inner_flux_killing_energy": 2.0064364196642623,
+            "inner_flux_mass": 1.956326283485168,
+            "net_drive_angular_momentum": 2.071399377790944,
+            "net_drive_killing_energy": 2.010733072206066,
+            "net_drive_mass": 1.9563262834910025,
+            "vertical_work_angular_momentum": 2.0603224091866124,
+            "vertical_work_killing_energy": 2.089482653749504
+          },
+          "history_cosine": 0.9999991883833561,
+          "maximum_fine_normalized_difference": 1.1871644462919805e-09,
+          "medium_fine_rms_difference": 2.6705533959519045e-10,
+          "minimum_significant_component_order": 1.956326283485168,
+          "observed_maximum_order": 2.021006905264816,
+          "observed_rms_order": 2.01633525907421,
+          "passed": true,
+          "refinement_error_cosine": 0.9994702407408605,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 1.9635864558964127e-08,
+          "component_orders": {
+            "cooling_angular_momentum": 2.018125288084236,
+            "cooling_killing_energy": 2.033051178699064,
+            "inner_flux_angular_momentum": 2.152488389392559,
+            "inner_flux_killing_energy": 2.045276945488287,
+            "inner_flux_mass": 2.0350253510687946,
+            "net_drive_angular_momentum": 2.133189463025799,
+            "net_drive_killing_energy": 2.0378567982663904,
+            "net_drive_mass": 2.0350253510742378,
+            "vertical_work_angular_momentum": 2.0277275658782745,
+            "vertical_work_killing_energy": 2.04533797108432
+          },
+          "history_cosine": 0.9999996015962408,
+          "maximum_fine_normalized_difference": 1.4401861878982286e-08,
+          "medium_fine_rms_difference": 4.748273676521926e-09,
+          "minimum_significant_component_order": 2.018125288084236,
+          "observed_maximum_order": 2.0197104464017888,
+          "observed_rms_order": 2.0480161254808187,
+          "passed": true,
+          "refinement_error_cosine": 0.9982164973355432,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p3_buffer45__outward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__outward_shear::a1.00::plus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 7.215050787367623e-10,
+          "maximum_N128_Richardson_error": 0.0006689805417236707,
+          "minimum_significant_component_order": 1.9468582435611852,
+          "observed_order": 2.0026368864130943,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.9142936904332213e-11,
+          "reference_uncertainty_to_fine_difference": 0.0008110978739043821,
+          "refinement_error_cosine": 0.9897215685085522,
+          "restart_uncertainty_to_fine_difference": 3.3348851176584154e-11
+        }
+      },
+      "p4__inward_shear::a0.50::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 4.212983405551191e-10,
+          "component_orders": {
+            "inner_flux_angular_momentum": 1.9961273391742567,
+            "inner_flux_killing_energy": 1.8635063600310262,
+            "inner_flux_mass": 2.5434839823074884,
+            "net_drive_angular_momentum": 2.001158833164646,
+            "net_drive_killing_energy": 1.9137456322406745,
+            "net_drive_mass": 2.5434839822836417,
+            "vertical_work_angular_momentum": 2.141425522417153,
+            "vertical_work_killing_energy": 2.1708328287339267
+          },
+          "history_cosine": 0.9999981493033697,
+          "maximum_fine_normalized_difference": 5.063935822891741e-10,
+          "medium_fine_rms_difference": 1.1065683075322091e-10,
+          "minimum_significant_component_order": 1.8635063600310262,
+          "observed_maximum_order": 1.939427240107322,
+          "observed_rms_order": 1.9287497230634876,
+          "passed": true,
+          "refinement_error_cosine": 0.996011311304157,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 8.383952904163439e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0860412201268916,
+            "cooling_killing_energy": 2.0607595523888382,
+            "inner_flux_angular_momentum": 2.1196374107571976,
+            "inner_flux_killing_energy": 1.9539846684450752,
+            "inner_flux_mass": 2.0128795551534835,
+            "net_drive_angular_momentum": 2.1043668672706173,
+            "net_drive_killing_energy": 1.976653772451703,
+            "net_drive_mass": 2.0128795551551866,
+            "vertical_work_angular_momentum": 2.0701484544012874,
+            "vertical_work_killing_energy": 2.0793885123389093
+          },
+          "history_cosine": 0.9999996569792556,
+          "maximum_fine_normalized_difference": 8.768322343483606e-09,
+          "medium_fine_rms_difference": 2.102103322112336e-09,
+          "minimum_significant_component_order": 1.9539846684450752,
+          "observed_maximum_order": 1.9641864472067918,
+          "observed_rms_order": 1.9957970306672306,
+          "passed": true,
+          "refinement_error_cosine": 0.9962856484974171,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p4__inward_shear",
+          "binding": true,
+          "profile_id": "p4__inward_shear::a0.50::minus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.2467083177859798e-09,
+          "maximum_N128_Richardson_error": 0.0007825622924628434,
+          "minimum_significant_component_order": 1.9356151239971244,
+          "observed_order": 1.9655581200613887,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.640948972773856e-11,
+          "reference_uncertainty_to_fine_difference": 0.010825198798235196,
+          "refinement_error_cosine": 0.9895707912459499,
+          "restart_uncertainty_to_fine_difference": 2.9993948154179095e-11
+        }
+      },
+      "p4__inward_shear::a0.50::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 4.212983405551191e-10,
+          "component_orders": {
+            "inner_flux_angular_momentum": 1.9961273391742567,
+            "inner_flux_killing_energy": 1.8635063600310262,
+            "inner_flux_mass": 2.5434839823074884,
+            "net_drive_angular_momentum": 2.001158833164646,
+            "net_drive_killing_energy": 1.9137456322406745,
+            "net_drive_mass": 2.5434839822836417,
+            "vertical_work_angular_momentum": 2.141425522417153,
+            "vertical_work_killing_energy": 2.1708328287339267
+          },
+          "history_cosine": 0.9999981493033697,
+          "maximum_fine_normalized_difference": 5.063935822891741e-10,
+          "medium_fine_rms_difference": 1.1065683075322091e-10,
+          "minimum_significant_component_order": 1.8635063600310262,
+          "observed_maximum_order": 1.939427240107322,
+          "observed_rms_order": 1.9287497230634876,
+          "passed": true,
+          "refinement_error_cosine": 0.996011311304157,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 8.383952904163439e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0860412201268916,
+            "cooling_killing_energy": 2.0607595523888382,
+            "inner_flux_angular_momentum": 2.1196374107571976,
+            "inner_flux_killing_energy": 1.9539846684450752,
+            "inner_flux_mass": 2.0128795551534835,
+            "net_drive_angular_momentum": 2.1043668672706173,
+            "net_drive_killing_energy": 1.976653772451703,
+            "net_drive_mass": 2.0128795551551866,
+            "vertical_work_angular_momentum": 2.0701484544012874,
+            "vertical_work_killing_energy": 2.0793885123389093
+          },
+          "history_cosine": 0.9999996569792556,
+          "maximum_fine_normalized_difference": 8.768322343483606e-09,
+          "medium_fine_rms_difference": 2.102103322112336e-09,
+          "minimum_significant_component_order": 1.9539846684450752,
+          "observed_maximum_order": 1.9641864472067918,
+          "observed_rms_order": 1.9957970306672306,
+          "passed": true,
+          "refinement_error_cosine": 0.9962856484974171,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p4__inward_shear",
+          "binding": true,
+          "profile_id": "p4__inward_shear::a0.50::plus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.2467083177859798e-09,
+          "maximum_N128_Richardson_error": 0.0007825622924628434,
+          "minimum_significant_component_order": 1.9356151239971244,
+          "observed_order": 1.9655581200613887,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.640948972773856e-11,
+          "reference_uncertainty_to_fine_difference": 0.010825198798235196,
+          "refinement_error_cosine": 0.9895707912459499,
+          "restart_uncertainty_to_fine_difference": 2.9993948154179095e-11
+        }
+      },
+      "p4__inward_shear::a1.00::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 7.53706184031265e-10,
+          "component_orders": {
+            "cooling_angular_momentum": 2.2143387457650903,
+            "cooling_killing_energy": 2.1118928841503424,
+            "inner_flux_angular_momentum": 1.9961273391742567,
+            "inner_flux_killing_energy": 1.8635063600310262,
+            "inner_flux_mass": 2.5434839823074884,
+            "net_drive_angular_momentum": 2.001158833164646,
+            "net_drive_killing_energy": 1.9137456322406745,
+            "net_drive_mass": 2.5434839822836417,
+            "vertical_work_angular_momentum": 2.141425522417153,
+            "vertical_work_killing_energy": 2.1708328287339267
+          },
+          "history_cosine": 0.9999981503988188,
+          "maximum_fine_normalized_difference": 1.0127871645783483e-09,
+          "medium_fine_rms_difference": 1.9796214167478196e-10,
+          "minimum_significant_component_order": 1.8635063600310262,
+          "observed_maximum_order": 1.939427240107322,
+          "observed_rms_order": 1.9287776744373577,
+          "passed": true,
+          "refinement_error_cosine": 0.9960106394919387,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 1.6767905808326878e-08,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0860412201268916,
+            "cooling_killing_energy": 2.0607595523888382,
+            "inner_flux_angular_momentum": 2.1196374107571976,
+            "inner_flux_killing_energy": 1.9539846684450752,
+            "inner_flux_mass": 2.0128795551534835,
+            "net_drive_angular_momentum": 2.1043668672706173,
+            "net_drive_killing_energy": 1.976653772451703,
+            "net_drive_mass": 2.0128795551551866,
+            "vertical_work_angular_momentum": 2.0701484544012874,
+            "vertical_work_killing_energy": 2.0793885123389093
+          },
+          "history_cosine": 0.9999996569792556,
+          "maximum_fine_normalized_difference": 1.753664468696721e-08,
+          "medium_fine_rms_difference": 4.204206644224672e-09,
+          "minimum_significant_component_order": 1.9539846684450752,
+          "observed_maximum_order": 1.9641864472067918,
+          "observed_rms_order": 1.9957970306672306,
+          "passed": true,
+          "refinement_error_cosine": 0.9962856484974171,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p4__inward_shear",
+          "binding": true,
+          "profile_id": "p4__inward_shear::a1.00::minus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.2467083177859798e-09,
+          "maximum_N128_Richardson_error": 0.0007825622924628434,
+          "minimum_significant_component_order": 1.9356151239971244,
+          "observed_order": 1.9655581200613887,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.640948972773856e-11,
+          "reference_uncertainty_to_fine_difference": 0.010825198798235196,
+          "refinement_error_cosine": 0.9895707912459499,
+          "restart_uncertainty_to_fine_difference": 2.9993948154179095e-11
+        }
+      },
+      "p4__inward_shear::a1.00::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 7.53706184031265e-10,
+          "component_orders": {
+            "cooling_angular_momentum": 2.2143387457650903,
+            "cooling_killing_energy": 2.1118928841503424,
+            "inner_flux_angular_momentum": 1.9961273391742567,
+            "inner_flux_killing_energy": 1.8635063600310262,
+            "inner_flux_mass": 2.5434839823074884,
+            "net_drive_angular_momentum": 2.001158833164646,
+            "net_drive_killing_energy": 1.9137456322406745,
+            "net_drive_mass": 2.5434839822836417,
+            "vertical_work_angular_momentum": 2.141425522417153,
+            "vertical_work_killing_energy": 2.1708328287339267
+          },
+          "history_cosine": 0.9999981503988188,
+          "maximum_fine_normalized_difference": 1.0127871645783483e-09,
+          "medium_fine_rms_difference": 1.9796214167478196e-10,
+          "minimum_significant_component_order": 1.8635063600310262,
+          "observed_maximum_order": 1.939427240107322,
+          "observed_rms_order": 1.9287776744373577,
+          "passed": true,
+          "refinement_error_cosine": 0.9960106394919387,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 1.6767905808326878e-08,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0860412201268916,
+            "cooling_killing_energy": 2.0607595523888382,
+            "inner_flux_angular_momentum": 2.1196374107571976,
+            "inner_flux_killing_energy": 1.9539846684450752,
+            "inner_flux_mass": 2.0128795551534835,
+            "net_drive_angular_momentum": 2.1043668672706173,
+            "net_drive_killing_energy": 1.976653772451703,
+            "net_drive_mass": 2.0128795551551866,
+            "vertical_work_angular_momentum": 2.0701484544012874,
+            "vertical_work_killing_energy": 2.0793885123389093
+          },
+          "history_cosine": 0.9999996569792556,
+          "maximum_fine_normalized_difference": 1.753664468696721e-08,
+          "medium_fine_rms_difference": 4.204206644224672e-09,
+          "minimum_significant_component_order": 1.9539846684450752,
+          "observed_maximum_order": 1.9641864472067918,
+          "observed_rms_order": 1.9957970306672306,
+          "passed": true,
+          "refinement_error_cosine": 0.9962856484974171,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p4__inward_shear",
+          "binding": true,
+          "profile_id": "p4__inward_shear::a1.00::plus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.2467083177859798e-09,
+          "maximum_N128_Richardson_error": 0.0007825622924628434,
+          "minimum_significant_component_order": 1.9356151239971244,
+          "observed_order": 1.9655581200613887,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.640948972773856e-11,
+          "reference_uncertainty_to_fine_difference": 0.010825198798235196,
+          "refinement_error_cosine": 0.9895707912459499,
+          "restart_uncertainty_to_fine_difference": 2.9993948154179095e-11
+        }
+      },
+      "p4__outward_shear::a0.50::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 4.1345225768583505e-10,
+          "component_orders": {
+            "inner_flux_angular_momentum": 1.9936266481059013,
+            "inner_flux_killing_energy": 1.8652938555565064,
+            "inner_flux_mass": 2.5261548387851076,
+            "net_drive_angular_momentum": 1.9991578630241094,
+            "net_drive_killing_energy": 1.9156959258865232,
+            "net_drive_mass": 2.526154838763458,
+            "vertical_work_angular_momentum": 2.1408200547654332,
+            "vertical_work_killing_energy": 2.1706880197910716
+          },
+          "history_cosine": 0.9999980701612889,
+          "maximum_fine_normalized_difference": 4.941485778646687e-10,
+          "medium_fine_rms_difference": 1.0850575992549411e-10,
+          "minimum_significant_component_order": 1.8652938555565064,
+          "observed_maximum_order": 1.9401589475846517,
+          "observed_rms_order": 1.9299491187890017,
+          "passed": true,
+          "refinement_error_cosine": 0.9961313449402528,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 8.130791285328231e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0870249548801594,
+            "cooling_killing_energy": 2.0611370394322033,
+            "inner_flux_angular_momentum": 2.117402110824239,
+            "inner_flux_killing_energy": 1.952899792049274,
+            "inner_flux_mass": 2.0078133806047367,
+            "net_drive_angular_momentum": 2.1024428074351076,
+            "net_drive_killing_energy": 1.9767224921643662,
+            "net_drive_mass": 2.0078133806063696,
+            "vertical_work_angular_momentum": 2.07049202104386,
+            "vertical_work_killing_energy": 2.079575950239669
+          },
+          "history_cosine": 0.999999592491169,
+          "maximum_fine_normalized_difference": 8.468193347961272e-09,
+          "medium_fine_rms_difference": 2.03904262985301e-09,
+          "minimum_significant_component_order": 1.952899792049274,
+          "observed_maximum_order": 1.959383051465434,
+          "observed_rms_order": 1.9955038238280989,
+          "passed": true,
+          "refinement_error_cosine": 0.9961694372639527,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p4__outward_shear",
+          "binding": true,
+          "profile_id": "p4__outward_shear::a0.50::minus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 9.858933430263488e-10,
+          "maximum_N128_Richardson_error": 0.000739630527991538,
+          "minimum_significant_component_order": 1.9484596058523191,
+          "observed_order": 2.004841950190428,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.7442928765070105e-11,
+          "reference_uncertainty_to_fine_difference": 0.001487475789535533,
+          "refinement_error_cosine": 0.9893308817697007,
+          "restart_uncertainty_to_fine_difference": 3.186195356615842e-11
+        }
+      },
+      "p4__outward_shear::a0.50::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 4.1345225768583505e-10,
+          "component_orders": {
+            "inner_flux_angular_momentum": 1.9936266481059013,
+            "inner_flux_killing_energy": 1.8652938555565064,
+            "inner_flux_mass": 2.5261548387851076,
+            "net_drive_angular_momentum": 1.9991578630241094,
+            "net_drive_killing_energy": 1.9156959258865232,
+            "net_drive_mass": 2.526154838763458,
+            "vertical_work_angular_momentum": 2.1408200547654332,
+            "vertical_work_killing_energy": 2.1706880197910716
+          },
+          "history_cosine": 0.9999980701612889,
+          "maximum_fine_normalized_difference": 4.941485778646687e-10,
+          "medium_fine_rms_difference": 1.0850575992549411e-10,
+          "minimum_significant_component_order": 1.8652938555565064,
+          "observed_maximum_order": 1.9401589475846517,
+          "observed_rms_order": 1.9299491187890017,
+          "passed": true,
+          "refinement_error_cosine": 0.9961313449402528,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 8.130791285328231e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0870249548801594,
+            "cooling_killing_energy": 2.0611370394322033,
+            "inner_flux_angular_momentum": 2.117402110824239,
+            "inner_flux_killing_energy": 1.952899792049274,
+            "inner_flux_mass": 2.0078133806047367,
+            "net_drive_angular_momentum": 2.1024428074351076,
+            "net_drive_killing_energy": 1.9767224921643662,
+            "net_drive_mass": 2.0078133806063696,
+            "vertical_work_angular_momentum": 2.07049202104386,
+            "vertical_work_killing_energy": 2.079575950239669
+          },
+          "history_cosine": 0.999999592491169,
+          "maximum_fine_normalized_difference": 8.468193347961272e-09,
+          "medium_fine_rms_difference": 2.03904262985301e-09,
+          "minimum_significant_component_order": 1.952899792049274,
+          "observed_maximum_order": 1.959383051465434,
+          "observed_rms_order": 1.9955038238280989,
+          "passed": true,
+          "refinement_error_cosine": 0.9961694372639527,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p4__outward_shear",
+          "binding": true,
+          "profile_id": "p4__outward_shear::a0.50::plus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 9.858933430263488e-10,
+          "maximum_N128_Richardson_error": 0.000739630527991538,
+          "minimum_significant_component_order": 1.9484596058523191,
+          "observed_order": 2.004841950190428,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.7442928765070105e-11,
+          "reference_uncertainty_to_fine_difference": 0.001487475789535533,
+          "refinement_error_cosine": 0.9893308817697007,
+          "restart_uncertainty_to_fine_difference": 3.186195356615842e-11
+        }
+      },
+      "p4__outward_shear::a1.00::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 7.396702025930984e-10,
+          "component_orders": {
+            "cooling_angular_momentum": 2.2157086906720713,
+            "cooling_killing_energy": 2.112320875017038,
+            "inner_flux_angular_momentum": 1.9936266481059013,
+            "inner_flux_killing_energy": 1.8652938555565064,
+            "inner_flux_mass": 2.5261548387851076,
+            "net_drive_angular_momentum": 1.9991578630241094,
+            "net_drive_killing_energy": 1.9156959258865232,
+            "net_drive_mass": 2.526154838763458,
+            "vertical_work_angular_momentum": 2.1408200547654332,
+            "vertical_work_killing_energy": 2.1706880197910716
+          },
+          "history_cosine": 0.9999980713666093,
+          "maximum_fine_normalized_difference": 9.882971557293374e-10,
+          "medium_fine_rms_difference": 1.9411409381237082e-10,
+          "minimum_significant_component_order": 1.8652938555565064,
+          "observed_maximum_order": 1.9401589475846517,
+          "observed_rms_order": 1.9299772884840993,
+          "passed": true,
+          "refinement_error_cosine": 0.996130656263714,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 1.6261582570656462e-08,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0870249548801594,
+            "cooling_killing_energy": 2.0611370394322033,
+            "inner_flux_angular_momentum": 2.117402110824239,
+            "inner_flux_killing_energy": 1.952899792049274,
+            "inner_flux_mass": 2.0078133806047367,
+            "net_drive_angular_momentum": 2.1024428074351076,
+            "net_drive_killing_energy": 1.9767224921643662,
+            "net_drive_mass": 2.0078133806063696,
+            "vertical_work_angular_momentum": 2.07049202104386,
+            "vertical_work_killing_energy": 2.079575950239669
+          },
+          "history_cosine": 0.999999592491169,
+          "maximum_fine_normalized_difference": 1.6936386695922545e-08,
+          "medium_fine_rms_difference": 4.07808525970602e-09,
+          "minimum_significant_component_order": 1.952899792049274,
+          "observed_maximum_order": 1.959383051465434,
+          "observed_rms_order": 1.9955038238280989,
+          "passed": true,
+          "refinement_error_cosine": 0.9961694372639527,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p4__outward_shear",
+          "binding": true,
+          "profile_id": "p4__outward_shear::a1.00::minus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 9.858933430263488e-10,
+          "maximum_N128_Richardson_error": 0.000739630527991538,
+          "minimum_significant_component_order": 1.9484596058523191,
+          "observed_order": 2.004841950190428,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.7442928765070105e-11,
+          "reference_uncertainty_to_fine_difference": 0.001487475789535533,
+          "refinement_error_cosine": 0.9893308817697007,
+          "restart_uncertainty_to_fine_difference": 3.186195356615842e-11
+        }
+      },
+      "p4__outward_shear::a1.00::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 7.396702025930984e-10,
+          "component_orders": {
+            "cooling_angular_momentum": 2.2157086906720713,
+            "cooling_killing_energy": 2.112320875017038,
+            "inner_flux_angular_momentum": 1.9936266481059013,
+            "inner_flux_killing_energy": 1.8652938555565064,
+            "inner_flux_mass": 2.5261548387851076,
+            "net_drive_angular_momentum": 1.9991578630241094,
+            "net_drive_killing_energy": 1.9156959258865232,
+            "net_drive_mass": 2.526154838763458,
+            "vertical_work_angular_momentum": 2.1408200547654332,
+            "vertical_work_killing_energy": 2.1706880197910716
+          },
+          "history_cosine": 0.9999980713666093,
+          "maximum_fine_normalized_difference": 9.882971557293374e-10,
+          "medium_fine_rms_difference": 1.9411409381237082e-10,
+          "minimum_significant_component_order": 1.8652938555565064,
+          "observed_maximum_order": 1.9401589475846517,
+          "observed_rms_order": 1.9299772884840993,
+          "passed": true,
+          "refinement_error_cosine": 0.996130656263714,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 1.6261582570656462e-08,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0870249548801594,
+            "cooling_killing_energy": 2.0611370394322033,
+            "inner_flux_angular_momentum": 2.117402110824239,
+            "inner_flux_killing_energy": 1.952899792049274,
+            "inner_flux_mass": 2.0078133806047367,
+            "net_drive_angular_momentum": 2.1024428074351076,
+            "net_drive_killing_energy": 1.9767224921643662,
+            "net_drive_mass": 2.0078133806063696,
+            "vertical_work_angular_momentum": 2.07049202104386,
+            "vertical_work_killing_energy": 2.079575950239669
+          },
+          "history_cosine": 0.999999592491169,
+          "maximum_fine_normalized_difference": 1.6936386695922545e-08,
+          "medium_fine_rms_difference": 4.07808525970602e-09,
+          "minimum_significant_component_order": 1.952899792049274,
+          "observed_maximum_order": 1.959383051465434,
+          "observed_rms_order": 1.9955038238280989,
+          "passed": true,
+          "refinement_error_cosine": 0.9961694372639527,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "cooling_killing_energy",
+            "vertical_work_angular_momentum",
+            "vertical_work_killing_energy"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p4__outward_shear",
+          "binding": true,
+          "profile_id": "p4__outward_shear::a1.00::plus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "uniform_N128::cumulative_signals": 0.0,
+          "uniform_N128::primary_physical": 0.0,
+          "uniform_N128::signals": 0.0,
+          "uniform_N256::cumulative_signals": 0.0,
+          "uniform_N256::primary_physical": 0.0,
+          "uniform_N256::signals": 0.0,
+          "uniform_N512::cumulative_signals": 0.0,
+          "uniform_N512::primary_physical": 0.0,
+          "uniform_N512::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 9.858933430263488e-10,
+          "maximum_N128_Richardson_error": 0.000739630527991538,
+          "minimum_significant_component_order": 1.9484596058523191,
+          "observed_order": 2.004841950190428,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.7442928765070105e-11,
+          "reference_uncertainty_to_fine_difference": 0.001487475789535533,
+          "refinement_error_cosine": 0.9893308817697007,
+          "restart_uncertainty_to_fine_difference": 3.186195356615842e-11
+        }
+      }
+    },
+    "passed": true
+  },
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_continuum_lift_wp10c9d6c3.py": "61526246e0a9206bb987df0c554496d6a75ad5a0553af1751d36a14cdfa7bbe5",
+    "scripts/run_causal_inner_embedded_regularity_manifest_wp10c9d6c7c0.py": "078cfa8c7f4ef26fa7bbdd6549b7e0df72d7a7e44ebebde76e89e5af30461c7f",
+    "scripts/run_causal_inner_embedded_regularity_uniform_wp10c9d6c7c1a.py": "1e4fcb2521edfd7eb3bdb19fd9a9ed3d8e209634bb81480db262bf39926a1307",
+    "scripts/run_causal_inner_integral_conditioning_validation_wp10c9d6c6e1.py": "80e80883b4568cdaf19fc07095e6861ee5123726125fd00d65d3679b6213debd",
+    "scripts/run_causal_inner_packet_validation_wp10c9d6c6c.py": "9e485c91b4aaa52ca6e30bf5afd2afa17402b65b1632171678ac6caa7842ee3d",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_tangent.py": "23a958a894fc40188a0cda1e640f943bd00dc8070a64af4b2b2a56cd609ba0c4",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_packet_validation.py": "31d384bc008f0ea1e94ba1ef4569037d63930b74f4f98425a4c643c8698f99d1",
+    "tests/test_causal_inner_embedded_regularity_uniform_wp10c9d6c7c1a.py": "b4b8ce0b893b58efb6fc18198097cb991bef0e2dd4bf3545f793384f25bbd003"
+  },
+  "implementation_source_manifest_sha256": "87712432f8a27632cd7c7b40a9f7fe0f4f91d8cdf239be6b8b4faf912dd3661f",
+  "manifest_sha256": "b230ce7a3c7e7546d0d706ee8f9bcfa3102c6c69be5f67a29aa451e1b5d9706b",
+  "maximum_exact_integral_relative_solve_residual": 7.3463547797165e-15,
+  "method_passed": true,
+  "method_reports": {
+    "uniform_N128": {
+      "descriptor_condition_number": 1949.3477212343516,
+      "directional_audits": {
+        "common_mode": {
+          "export_relative_defect": 1.0201949731562485e-10,
+          "scaled_direction_normalization": 0.09913283435791695,
+          "stationary_relative_defect": 1.800852289273354e-08,
+          "storage_rate_relative_defect": 7.55223123279217e-12
+        },
+        "heldout_near_excision": {
+          "export_relative_defect": 2.095036820834305e-11,
+          "scaled_direction_normalization": 0.033303680847721076,
+          "stationary_relative_defect": 3.357012107705853e-09,
+          "storage_rate_relative_defect": 3.6047829058886854e-12
+        }
+      },
+      "gates": {
+        "base_rate_balance": true,
+        "center_broken_paths": true,
+        "centered_storage_action": true,
+        "characteristics": true,
+        "descriptor_components": true,
+        "descriptor_condition": true,
+        "directional_export": true,
+        "directional_stationary": true,
+        "directional_storage_rate": true,
+        "generator_factorization": true,
+        "node_partition": true,
+        "node_reconstruction": true,
+        "production_neutral": true,
+        "storage_rate_components": true
+      },
+      "incoming_excision_characteristics": 0,
+      "maximum_base_rate_balance_defect": 3.4473089573348644e-16,
+      "maximum_centered_storage_action_defect": 1.881021711231414e-10,
+      "maximum_characteristic_descriptor_condition": 5681.232006644736,
+      "maximum_descriptor_component_defect": 9.749461415434568e-18,
+      "maximum_directional_export_defect": 1.0201949731562485e-10,
+      "maximum_directional_stationary_defect": 1.800852289273354e-08,
+      "maximum_directional_storage_rate_defect": 7.55223123279217e-12,
+      "maximum_generator_factorization_defect": 2.66948869758298e-16,
+      "maximum_node_partition_defect": 2.220446049250313e-16,
+      "maximum_node_reconstruction_defect": 1.1600515547153783e-16,
+      "maximum_storage_rate_component_defect": 4.1200185648547184e-17,
+      "minimum_absolute_characteristic_speed": 0.43187547705366885,
+      "minimum_characteristic_spectral_gap": 0.005035098930628479,
+      "passed": true
+    },
+    "uniform_N256": {
+      "descriptor_condition_number": 1987.1701821376653,
+      "directional_audits": {
+        "common_mode": {
+          "export_relative_defect": 2.1344610576179324e-10,
+          "scaled_direction_normalization": 0.09920116837736227,
+          "stationary_relative_defect": 1.2628648318920285e-08,
+          "storage_rate_relative_defect": 7.149774504208076e-12
+        },
+        "heldout_near_excision": {
+          "export_relative_defect": 3.731862292072872e-10,
+          "scaled_direction_normalization": 0.03357273209374863,
+          "stationary_relative_defect": 3.3676689124787e-09,
+          "storage_rate_relative_defect": 4.102140183874936e-12
+        }
+      },
+      "gates": {
+        "base_rate_balance": true,
+        "center_broken_paths": true,
+        "centered_storage_action": true,
+        "characteristics": true,
+        "descriptor_components": true,
+        "descriptor_condition": true,
+        "directional_export": true,
+        "directional_stationary": true,
+        "directional_storage_rate": true,
+        "generator_factorization": true,
+        "node_partition": true,
+        "node_reconstruction": true,
+        "production_neutral": true,
+        "storage_rate_components": true
+      },
+      "incoming_excision_characteristics": 0,
+      "maximum_base_rate_balance_defect": 3.2219089413982735e-16,
+      "maximum_centered_storage_action_defect": 1.9817876368258326e-10,
+      "maximum_characteristic_descriptor_condition": 5680.974098696883,
+      "maximum_descriptor_component_defect": 9.639286663804629e-18,
+      "maximum_directional_export_defect": 3.731862292072872e-10,
+      "maximum_directional_stationary_defect": 1.2628648318920285e-08,
+      "maximum_directional_storage_rate_defect": 7.149774504208076e-12,
+      "maximum_generator_factorization_defect": 2.529627362792289e-16,
+      "maximum_node_partition_defect": 2.220446049250313e-16,
+      "maximum_node_reconstruction_defect": 2.319994683115609e-16,
+      "maximum_storage_rate_component_defect": 4.432106231915254e-17,
+      "minimum_absolute_characteristic_speed": 0.4318763583885685,
+      "minimum_characteristic_spectral_gap": 0.005035225311798286,
+      "passed": true
+    },
+    "uniform_N512": {
+      "descriptor_condition_number": 2007.2199993580846,
+      "directional_audits": {
+        "common_mode": {
+          "export_relative_defect": 3.130992010430946e-10,
+          "scaled_direction_normalization": 0.09921742428591923,
+          "stationary_relative_defect": 1.3713304495879825e-08,
+          "storage_rate_relative_defect": 6.9882980319881475e-12
+        },
+        "heldout_near_excision": {
+          "export_relative_defect": 3.40881197013703e-11,
+          "scaled_direction_normalization": 0.03360413630195558,
+          "stationary_relative_defect": 3.3724443376225926e-09,
+          "storage_rate_relative_defect": 4.2087268135803695e-12
+        }
+      },
+      "gates": {
+        "base_rate_balance": true,
+        "center_broken_paths": true,
+        "centered_storage_action": true,
+        "characteristics": true,
+        "descriptor_components": true,
+        "descriptor_condition": true,
+        "directional_export": true,
+        "directional_stationary": true,
+        "directional_storage_rate": true,
+        "generator_factorization": true,
+        "node_partition": true,
+        "node_reconstruction": true,
+        "production_neutral": true,
+        "storage_rate_components": true
+      },
+      "incoming_excision_characteristics": 0,
+      "maximum_base_rate_balance_defect": 3.328848652714499e-16,
+      "maximum_centered_storage_action_defect": 2.1937697991001848e-10,
+      "maximum_characteristic_descriptor_condition": 5680.4955080091195,
+      "maximum_descriptor_component_defect": 9.762730958796875e-18,
+      "maximum_directional_export_defect": 3.130992010430946e-10,
+      "maximum_directional_stationary_defect": 1.3713304495879825e-08,
+      "maximum_directional_storage_rate_defect": 6.9882980319881475e-12,
+      "maximum_generator_factorization_defect": 2.5797412626733687e-16,
+      "maximum_node_partition_defect": 2.220446049250313e-16,
+      "maximum_node_reconstruction_defect": 2.3199430276246345e-16,
+      "maximum_storage_rate_component_defect": 4.315587327405966e-17,
+      "minimum_absolute_characteristic_speed": 0.4318775433924284,
+      "minimum_characteristic_spectral_gap": 0.005035456959753382,
+      "passed": true
+    },
+    "uniform_N64": {
+      "descriptor_condition_number": 1882.3974378953335,
+      "directional_audits": {
+        "common_mode": {
+          "export_relative_defect": 3.677528363029692e-10,
+          "scaled_direction_normalization": 0.09857017222967437,
+          "stationary_relative_defect": 1.061592894271186e-08,
+          "storage_rate_relative_defect": 6.506347493523099e-12
+        },
+        "heldout_near_excision": {
+          "export_relative_defect": 3.863614132342087e-10,
+          "scaled_direction_normalization": 0.03303670048116749,
+          "stationary_relative_defect": 2.7650866635480986e-09,
+          "storage_rate_relative_defect": 4.3955423554435215e-12
+        }
+      },
+      "gates": {
+        "base_rate_balance": true,
+        "center_broken_paths": true,
+        "centered_storage_action": true,
+        "characteristics": true,
+        "descriptor_components": true,
+        "descriptor_condition": true,
+        "directional_export": true,
+        "directional_stationary": true,
+        "directional_storage_rate": true,
+        "generator_factorization": true,
+        "node_partition": true,
+        "node_reconstruction": true,
+        "production_neutral": true,
+        "storage_rate_components": true
+      },
+      "incoming_excision_characteristics": 0,
+      "maximum_base_rate_balance_defect": 3.733334377050687e-16,
+      "maximum_centered_storage_action_defect": 1.9237466990113018e-10,
+      "maximum_characteristic_descriptor_condition": 5690.447022172844,
+      "maximum_descriptor_component_defect": 1.004960017047907e-17,
+      "maximum_directional_export_defect": 3.863614132342087e-10,
+      "maximum_directional_stationary_defect": 1.061592894271186e-08,
+      "maximum_directional_storage_rate_defect": 6.506347493523099e-12,
+      "maximum_generator_factorization_defect": 2.629076663796308e-16,
+      "maximum_node_partition_defect": 2.220446049250313e-16,
+      "maximum_node_reconstruction_defect": 2.3203635031740803e-16,
+      "maximum_storage_rate_component_defect": 4.491001483885867e-17,
+      "minimum_absolute_characteristic_speed": 0.4318514324330806,
+      "minimum_characteristic_spectral_gap": 0.005030628308671736,
+      "passed": true
+    }
+  },
+  "nonlinear_physical_trajectory_authorized": false,
+  "operator_changed": false,
+  "parent_classification": "endpoint_interface_regularity_manifest_frozen_uniform_control_preflight_authorized",
+  "parent_classification_preserved": true,
+  "passed": true,
+  "production_operator_authorized": false,
+  "propagation_executed": true,
+  "propagation_report": {
+    "uniform_N128": {
+      "base_count": 4,
+      "cell_count": 48,
+      "maximum_exact_integral_relative_solve_residual": 2.2126500123028477e-15,
+      "variant_count": 16
+    },
+    "uniform_N256": {
+      "base_count": 4,
+      "cell_count": 96,
+      "maximum_exact_integral_relative_solve_residual": 4.0222138121885885e-15,
+      "variant_count": 16
+    },
+    "uniform_N512": {
+      "base_count": 4,
+      "cell_count": 192,
+      "maximum_exact_integral_relative_solve_residual": 7.3463547797165e-15,
+      "variant_count": 16
+    }
+  },
+  "prospective_decision": {
+    "direct_variant_count": 16,
+    "failed_variants": [],
+    "passed": true,
+    "profile_definitions_preserved": true,
+    "variant_reports": {
+      "p3_buffer45__inward_shear::a0.50::minus": {
+        "base_profile": "p3_buffer45__inward_shear",
+        "multiplier": -0.5,
+        "passed": true,
+        "route": "direct_contract"
+      },
+      "p3_buffer45__inward_shear::a0.50::plus": {
+        "base_profile": "p3_buffer45__inward_shear",
+        "multiplier": 0.5,
+        "passed": true,
+        "route": "direct_contract"
+      },
+      "p3_buffer45__inward_shear::a1.00::minus": {
+        "base_profile": "p3_buffer45__inward_shear",
+        "multiplier": -1.0,
+        "passed": true,
+        "route": "direct_contract"
+      },
+      "p3_buffer45__inward_shear::a1.00::plus": {
+        "base_profile": "p3_buffer45__inward_shear",
+        "multiplier": 1.0,
+        "passed": true,
+        "route": "direct_contract"
+      },
+      "p3_buffer45__outward_shear::a0.50::minus": {
+        "base_profile": "p3_buffer45__outward_shear",
+        "multiplier": -0.5,
+        "passed": true,
+        "route": "direct_contract"
+      },
+      "p3_buffer45__outward_shear::a0.50::plus": {
+        "base_profile": "p3_buffer45__outward_shear",
+        "multiplier": 0.5,
+        "passed": true,
+        "route": "direct_contract"
+      },
+      "p3_buffer45__outward_shear::a1.00::minus": {
+        "base_profile": "p3_buffer45__outward_shear",
+        "multiplier": -1.0,
+        "passed": true,
+        "route": "direct_contract"
+      },
+      "p3_buffer45__outward_shear::a1.00::plus": {
+        "base_profile": "p3_buffer45__outward_shear",
+        "multiplier": 1.0,
+        "passed": true,
+        "route": "direct_contract"
+      },
+      "p4__inward_shear::a0.50::minus": {
+        "base_profile": "p4__inward_shear",
+        "multiplier": -0.5,
+        "passed": true,
+        "route": "direct_contract"
+      },
+      "p4__inward_shear::a0.50::plus": {
+        "base_profile": "p4__inward_shear",
+        "multiplier": 0.5,
+        "passed": true,
+        "route": "direct_contract"
+      },
+      "p4__inward_shear::a1.00::minus": {
+        "base_profile": "p4__inward_shear",
+        "multiplier": -1.0,
+        "passed": true,
+        "route": "direct_contract"
+      },
+      "p4__inward_shear::a1.00::plus": {
+        "base_profile": "p4__inward_shear",
+        "multiplier": 1.0,
+        "passed": true,
+        "route": "direct_contract"
+      },
+      "p4__outward_shear::a0.50::minus": {
+        "base_profile": "p4__outward_shear",
+        "multiplier": -0.5,
+        "passed": true,
+        "route": "direct_contract"
+      },
+      "p4__outward_shear::a0.50::plus": {
+        "base_profile": "p4__outward_shear",
+        "multiplier": 0.5,
+        "passed": true,
+        "route": "direct_contract"
+      },
+      "p4__outward_shear::a1.00::minus": {
+        "base_profile": "p4__outward_shear",
+        "multiplier": -1.0,
+        "passed": true,
+        "route": "direct_contract"
+      },
+      "p4__outward_shear::a1.00::plus": {
+        "base_profile": "p4__outward_shear",
+        "multiplier": 1.0,
+        "passed": true,
+        "route": "direct_contract"
+      }
+    }
+  },
+  "reduced_slow_evolution_authorized": false,
+  "runtime_seconds": 1238.5596330421977,
+  "schema_version": 1,
+  "uniform_controls_certified": true,
+  "work_package": "WP10c9d6c7c1a"
+}

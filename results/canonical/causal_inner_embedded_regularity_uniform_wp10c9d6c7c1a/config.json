@@ -1,0 +1,199 @@
+{
+  "labels": [
+    "uniform_N128",
+    "uniform_N256",
+    "uniform_N512"
+  ],
+  "manifest_sha256": "b230ce7a3c7e7546d0d706ee8f9bcfa3102c6c69be5f67a29aa451e1b5d9706b",
+  "operator_change": false,
+  "phase_contract": "new_profiles_must_pass_the_unchanged_uniform_state_and_13_export_contract_before_embedded_propagation",
+  "profile_definitions": {
+    "p3_buffer45__inward_shear": {
+      "coupling_trace_expectation": "inactive",
+      "family": "inward_shear",
+      "role": "prospective_C2_exact_zero_buffer",
+      "support_upper_parent_face": 45,
+      "window_power": 3,
+      "zero_extension_regularity": "C2"
+    },
+    "p3_buffer45__outward_shear": {
+      "coupling_trace_expectation": "inactive",
+      "family": "outward_shear",
+      "role": "prospective_C2_exact_zero_buffer",
+      "support_upper_parent_face": 45,
+      "window_power": 3,
+      "zero_extension_regularity": "C2"
+    },
+    "p4__inward_shear": {
+      "coupling_trace_expectation": "active",
+      "family": "inward_shear",
+      "role": "prospective_active_C3_endpoint",
+      "support_upper_parent_face": 48,
+      "window_power": 4,
+      "zero_extension_regularity": "C3"
+    },
+    "p4__outward_shear": {
+      "coupling_trace_expectation": "active",
+      "family": "outward_shear",
+      "role": "prospective_active_C3_endpoint",
+      "support_upper_parent_face": 48,
+      "window_power": 4,
+      "zero_extension_regularity": "C3"
+    }
+  },
+  "profile_variants": [
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p4__inward_shear",
+      "binding": true,
+      "profile_id": "p4__inward_shear::a0.50::minus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p4__inward_shear",
+      "binding": true,
+      "profile_id": "p4__inward_shear::a0.50::plus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p4__inward_shear",
+      "binding": true,
+      "profile_id": "p4__inward_shear::a1.00::minus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p4__inward_shear",
+      "binding": true,
+      "profile_id": "p4__inward_shear::a1.00::plus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p4__outward_shear",
+      "binding": true,
+      "profile_id": "p4__outward_shear::a0.50::minus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p4__outward_shear",
+      "binding": true,
+      "profile_id": "p4__outward_shear::a0.50::plus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p4__outward_shear",
+      "binding": true,
+      "profile_id": "p4__outward_shear::a1.00::minus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p4__outward_shear",
+      "binding": true,
+      "profile_id": "p4__outward_shear::a1.00::plus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3_buffer45__inward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__inward_shear::a0.50::minus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3_buffer45__inward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__inward_shear::a0.50::plus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3_buffer45__inward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__inward_shear::a1.00::minus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3_buffer45__inward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__inward_shear::a1.00::plus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3_buffer45__outward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__outward_shear::a0.50::minus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3_buffer45__outward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__outward_shear::a0.50::plus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3_buffer45__outward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__outward_shear::a1.00::minus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3_buffer45__outward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__outward_shear::a1.00::plus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": 1
+    }
+  ],
+  "prospective_propagation_contract": {
+    "all_profile_variants_binding": true,
+    "binding_grids": [
+      "uniform_N128",
+      "uniform_N256",
+      "uniform_N512"
+    ],
+    "classification_if_all_variants_pass": "uniform_operator_certified_for_declared_resolved_profile_class",
+    "classification_if_any_variant_fails": "prospective_band_envelope_validation_failed",
+    "exact_boundary_semigroup_integral_required": true,
+    "exact_profile_projections_inherited_from_wp10c9d6c6e1": true,
+    "maximum_fine_normalized_difference": 0.05,
+    "maximum_state_reference_uncertainty_to_fine_difference": 0.1,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_rms_order": 0.75,
+    "no_definition_or_threshold_changes_after_this_manifest": true,
+    "sign_and_amplitude_scaling_must_replay": true,
+    "state_and_aggregate_export_gates_unchanged_from_wp10c9d6c6c": true,
+    "time_horizon_s": 0.125,
+    "time_sample_count": 65
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c1a"
+}
