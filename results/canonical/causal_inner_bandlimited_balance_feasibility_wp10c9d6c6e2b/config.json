@@ -1,0 +1,40 @@
+{
+  "propagation_executed": false,
+  "schema_version": 1,
+  "search_contract": {
+    "amplitude": 0.01,
+    "balance_functional": "primary_769_node_continuum_global_candidate_lower_height_work_angular_action",
+    "coefficient_rule": "alpha=-L[sin(pi*x)^p]/L[sin(pi*x)^p*cos(m*pi*x)]",
+    "coordinate": "x=(lnR-lnR_inner)/(lnR_outer-lnR_inner)",
+    "families": [
+      "inward_shear",
+      "outward_shear"
+    ],
+    "maximum_absolute_coefficient": 50.0,
+    "maximum_coefficient_relative_769_513_difference": 1e-06,
+    "maximum_endpoint_cell_fraction": 0.005,
+    "maximum_inward_outward_coefficient_difference": 1e-10,
+    "maximum_nyquist_alias_fraction": 0.001,
+    "maximum_projection_defect": 2e-12,
+    "maximum_secondary_initial_cancellation_ratio": 1e-06,
+    "maximum_theta_99": 0.3,
+    "minimum_active_cell_family_purity": 0.98,
+    "minimum_global_family_purity": 0.995,
+    "operator_changed": false,
+    "pair_must_pass_both_shear_families": true,
+    "primary_continuum_nodes": 769,
+    "propagated_history_objective_forbidden": true,
+    "propagation_executed": false,
+    "secondary_continuum_nodes": 513,
+    "selection_is_lexicographic_ascending": true,
+    "selection_key": [
+      "maximum_theta_99_across_families",
+      "maximum_alias_fraction_across_families",
+      "base_power",
+      "modulation_harmonic"
+    ],
+    "spectral_energy_quantile": 0.99
+  },
+  "search_manifest_sha256": "7dba2fd9db6cc093eff8a3307dfe851036fee3fbb243a5100b1f0819d4b44c02",
+  "work_package": "WP10c9d6c6e2b"
+}
