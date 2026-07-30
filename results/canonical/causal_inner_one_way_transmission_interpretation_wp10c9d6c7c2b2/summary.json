@@ -1,0 +1,649 @@
+{
+  "analyzed_base_commit": "51a32ff686cea3b91d7f5056c464004399318172",
+  "authorized_next": "WP10c9d6c7c2b3_definitions_only_semidiscrete_energy_transfer_contract",
+  "binding_decision": {
+    "all_numerical_incident_signs_stable_and_positive": false,
+    "all_numerical_transmission_channels_passed": false,
+    "c2b1_rejection_preserved": true,
+    "continuum_shear_transmission_failed": true,
+    "embedded_c2c1_authorized": false,
+    "fixed_Q_or_reduction_authorized": false,
+    "genuine_uniform_transport_error_selected": false,
+    "local_face_transmission_contract_certified": false,
+    "nonlinear_authorized": false,
+    "operator_or_interface_redesign_authorized": false,
+    "semidiscrete_energy_identity_passed": true,
+    "semidiscrete_shear_transmission_passed": false
+  },
+  "classification": "exact_semidiscrete_energy_identity_certified_local_face_transmission_not_certifiable",
+  "config_sha256": "6804f66c61a491acf3d3f5cdfb8a4d04977fe9e26c3f86b2194331c2c8dcdbef",
+  "decisive_array_hashes": {
+    "N196__acoustic__continuum_incident_power": "9d2daa8c88c50e06e67963cb20e8cccb38847c286e07c3265bfc1c3d23395b89",
+    "N196__acoustic__continuum_transmitted_power": "0b492976f01117d8a5f234886223a32682ce3c1cb1b1447d0ebc3a4e24d233a9",
+    "N196__acoustic__numerical_incident_power": "0a2e820d333cfca00eb97d22bd09383e883e7a38044411c876d862ad3f582c12",
+    "N196__acoustic__numerical_transmitted_power": "9ca467758a1444de3344753def353de748c237d9a5d91d5f57b3b140b872c182",
+    "N196__conservative_face_power": "1c0c6186db9aacc9cfca5e9b41d92394d243553ad02805450d5c4f6c4e220c23",
+    "N196__direct_generator_power": "fd407c422e8c48727ea3f79d1dbf4bcce9eb7caa7391c031d9f96c65f7510190",
+    "N196__integrated_block__candidate_conservative_transport": "1a611c6662cc2412b566b649dda0f1b3512d6374b27b7e2bdd53be494d6b9278",
+    "N196__integrated_block__candidate_cooling": "91b70e710406c8161b58a0437181ce2cb6865b6617e37a0675afd87af9b25639",
+    "N196__integrated_block__candidate_geometry": "97eb64445e911d8ec88faeeae4fbfc70fd4935a32514490b508c24fdd5b4e70c",
+    "N196__integrated_block__candidate_height_principal": "461e235ebea2d89cf2e2d8c371371838abf64c3c07a3138770e2a30e740e59df",
+    "N196__integrated_block__candidate_local_stress_relaxation": "76a6c651dc0d7c390004013b36538c7547d6f09ededc47a355c6e6f9d2f376dc",
+    "N196__integrated_block__candidate_lower_height_work": "c94740a191ed2a71bccc398cbf03227c67c1aa5dd784cfe695c83928bc7d860e",
+    "N196__integrated_block__candidate_shear_principal": "d15f5a408c550a721c9ebea09ba097a0a4962309ebe99e9db7b83908e17e55ee",
+    "N196__integrated_block__candidate_stream": "06814580419e27604a4ede942b5520d3ec6ec3763398edc51d3ac375d720c781",
+    "N196__integrated_block__mapped_storage_rate_derivative": "6489aac4f9a5c546ab8ab2ac71613ecc215a288748e6550815243ef2fe475b47",
+    "N196__integrated_block__responsive_height_storage_rate_derivative": "fb816c6632d862e1378878fcf6d78be979a4c84dfec32ed8814d3a04705b82d7",
+    "N196__integrated_face_power": "82c8d464141a6fff709e3591c417e43e9e14a82f5f183ded9ce4e4619782d236",
+    "N196__mixed_shear_acoustic__continuum_incident_power": "603909074f6eca6c2991fa4bbe409dee5e2abbaa8673c1dcdb77c720403226ee",
+    "N196__mixed_shear_acoustic__continuum_transmitted_power": "46e5b392352b7e0d35107cbba4537e6813079a0ea8b86b446ef1f96b258473f7",
+    "N196__mixed_shear_acoustic__numerical_incident_power": "dcb0e6f89386904137c958869c8c03c49a47b7bafe671f3bf4d2927bb2b5eb04",
+    "N196__mixed_shear_acoustic__numerical_transmitted_power": "0788d90ae78befc5aca42e1f0f4bde963d4dc9c2e303066f9c6957c9cf907959",
+    "N196__shear__continuum_incident_power": "5efeed4166b931f01bfe8d7a5110bfff68d488b0c8ed924bab9b119afcbe4edd",
+    "N196__shear__continuum_transmitted_power": "cd16b51070247e4b5c56557ad5fd47fc7fdc4c0ddcbb887f2f67a695f9bbb8c9",
+    "N196__shear__numerical_incident_power": "c399bd15f8b0c8b1d076e6410572de205cf6db94ad437eec553b00e74004fa6a",
+    "N196__shear__numerical_transmitted_power": "f7722443307589da042fd69ae9ba7554ad195116ad7a8dd25cf7c4ae5a4eed7e",
+    "N196__stored_energy": "a49612a546498f8603f391cf9474ef7ac7676a88e8f784597d136832c582dccf",
+    "N392__acoustic__continuum_incident_power": "a277b149fe10d550c0675de78ef4b3170d7f0f4eeb4020775ba9d1a013e969ea",
+    "N392__acoustic__continuum_transmitted_power": "288695277e78267922dd547c7869a83b681dc14f821155b6de21f3d3ab27e7dc",
+    "N392__acoustic__numerical_incident_power": "863cf46d54d25af647a73f8635ecc1c62e46739d0c5ac682458aace0c9a44700",
+    "N392__acoustic__numerical_transmitted_power": "b05bec08fde6e0cc16b36411d1226de06732fa1b34fcb0a0052a1ec847aa1ccc",
+    "N392__conservative_face_power": "a9a66530ad53142e8f3182b41f922e503bc3f5bd39e873b90500ebca628796a6",
+    "N392__direct_generator_power": "3cccae01136cf359158c094ef508434391fb3448dbe07a150d040aeb06977200",
+    "N392__integrated_block__candidate_conservative_transport": "a30e0f4ed481f5134d3b8a75ed0851c3af1099adfa5588ece6618768ac4a21dc",
+    "N392__integrated_block__candidate_cooling": "4e2b5bbd095d9efaf3792bbed6568da1dac3844ba652ad40d6aef098489573b6",
+    "N392__integrated_block__candidate_geometry": "492983daa3826c3f0ea381589cb93f8e06c2a43c9fcc400a693f22cb36352d4e",
+    "N392__integrated_block__candidate_height_principal": "61d3d9825663287ed05f4f4f24a71b82845d603823095d3b53f256c49ccedb7c",
+    "N392__integrated_block__candidate_local_stress_relaxation": "e8496b415c55d1701ac3205646e9df1e869ec76b2dbab161f269530ea1e0bfc6",
+    "N392__integrated_block__candidate_lower_height_work": "f6e0a28b83c2978aa09a9ab7144c99f4c217a39a71a2d39ccad599e66825eb2f",
+    "N392__integrated_block__candidate_shear_principal": "37a0a78685719ec7b56d4aa8303a3b5a44ad68ca01e19afff03c56b64fe429ea",
+    "N392__integrated_block__candidate_stream": "06814580419e27604a4ede942b5520d3ec6ec3763398edc51d3ac375d720c781",
+    "N392__integrated_block__mapped_storage_rate_derivative": "7eae2e3436e7774f4f42d7500d895fb9b6d966776fc9f22249883c6230c51989",
+    "N392__integrated_block__responsive_height_storage_rate_derivative": "dea71de03eedc461f3187515542ec4df6d3110aaf857817115b487feebae774d",
+    "N392__integrated_face_power": "0f3488d1cb1c3fe0788ce70537bd4d583200887646aaeb9e2b1e2c327b9a5471",
+    "N392__mixed_shear_acoustic__continuum_incident_power": "513b02261ba111c3a048cb0d7676dc38881d59431d8ee346788d2c687ac4b268",
+    "N392__mixed_shear_acoustic__continuum_transmitted_power": "4f3f7287929af2454683fbb5325a889415d69b5f0420362c545d0108331ae577",
+    "N392__mixed_shear_acoustic__numerical_incident_power": "9319c60c4a96901d4190a712f60b2c672659143fa9ebd47d82061f0fecf3e732",
+    "N392__mixed_shear_acoustic__numerical_transmitted_power": "67025d62d77b754503b01a3253bd5e004b51551ac7b243922a97fecab13c20bd",
+    "N392__shear__continuum_incident_power": "d18924053b7a14aa12dcba1eb90dce4ade44726d750644b7f5729feb82620d63",
+    "N392__shear__continuum_transmitted_power": "7fc0d5ab5bd301cddca2ef266a5ea660d89e7fbce872210b758ee54994c288ab",
+    "N392__shear__numerical_incident_power": "1cd4d22be563c847f894786734d7d8f8b71f1a4aeb70d619e8abac7548876f2c",
+    "N392__shear__numerical_transmitted_power": "04f29129a7d3bbd4fa07b8043f2e38629e10f2f7e862b260ae193a4cc0b97dc7",
+    "N392__stored_energy": "4cd49cb2ed1baff5866a9c635e875c2263b7912bf7d8f583b74d0e5515d35c8b",
+    "N98__acoustic__continuum_incident_power": "1a3922d98c883694828885240e42e395884cab081502ed414d336761ca1b453f",
+    "N98__acoustic__continuum_transmitted_power": "ca007e4165f6bb974b9752f084ed9d35b2596f2016000ef39a21fddc6143d63e",
+    "N98__acoustic__numerical_incident_power": "d8e5f1b5f9da1c18c3d738a9dcfd59e345ae647dc2217bf3b57ada02e0a41f11",
+    "N98__acoustic__numerical_transmitted_power": "65002bf67e2002e9a274d8d83eba65be1618dcc271f357315a9fbad476a6c08a",
+    "N98__conservative_face_power": "6f9bedbbce8db40ebd209feca74b73b79628c22238f4e10a6e66da07313da4eb",
+    "N98__direct_generator_power": "9a8c3e59610726432ad9f56eafa91f8ccded6d88c392130a41ce22d8ea2949e9",
+    "N98__integrated_block__candidate_conservative_transport": "58ada629528d7252b51785da7813da2c6d51cb3ebccdf47a735657582d4887f4",
+    "N98__integrated_block__candidate_cooling": "685d7654a5fbf37d8d3b9c5c6710bd3a37fea15e3bf38d04940adc64b622eca4",
+    "N98__integrated_block__candidate_geometry": "6aead675c25151855ceafb0938ed1ef86bad749b216166e6a062771e1839d80e",
+    "N98__integrated_block__candidate_height_principal": "b43abb47118c2d50f6993d9d8aa1df1ca5ba03e557182167220a20d0481d8eb2",
+    "N98__integrated_block__candidate_local_stress_relaxation": "5fb597f27485c6fdbe4308d10987c4ae60cfccfb7294d825de5c343d879e9e38",
+    "N98__integrated_block__candidate_lower_height_work": "7dd409e37ac979f63b7aa84d5220e95a516505fd616d9d7ff3247ef99bbeba41",
+    "N98__integrated_block__candidate_shear_principal": "1d23d2dcfb00d5da529f4b8e5333b92dab4cd3e5cfca35d31ce31a816cffae53",
+    "N98__integrated_block__candidate_stream": "06814580419e27604a4ede942b5520d3ec6ec3763398edc51d3ac375d720c781",
+    "N98__integrated_block__mapped_storage_rate_derivative": "86aefc3199a4bd7b508feb8d813789204abfbb915a5ebad8c5c1a7fa4df4cd5d",
+    "N98__integrated_block__responsive_height_storage_rate_derivative": "bc591181403b6a9299259538751402e86895cd50d9b44cbeae1875e5c1a78a64",
+    "N98__integrated_face_power": "5c4cab4306388112868a2e561aa2cef89c3b8165ad746b6926f1135653bf7250",
+    "N98__mixed_shear_acoustic__continuum_incident_power": "59cbae837f02d6dffb036c2424b54fb0a8cda51b6138663c0292153453192226",
+    "N98__mixed_shear_acoustic__continuum_transmitted_power": "db017e297912e04d5183b2b2129fba98cd9eeb55049f86cb0a2e16440e03dc0a",
+    "N98__mixed_shear_acoustic__numerical_incident_power": "29b79d6ee9a4abe0cfc84534bce51618d536cd8483d33ab4a44498f4f139469d",
+    "N98__mixed_shear_acoustic__numerical_transmitted_power": "ab679edffb52e46cd3cdb3cbd001e84eb00ca25e37a2caf3c1005d96ceced606",
+    "N98__shear__continuum_incident_power": "a013434f8dc04480491bb395b77f82d30466569efe150fcf13b8d07616539140",
+    "N98__shear__continuum_transmitted_power": "af285788978df2a6522540f0b6aff87edecdb4831303af6a1689899f7358cb01",
+    "N98__shear__numerical_incident_power": "0b35958f43d068f2960c038f34fc4e9dfbeb03460fd877e14292e2929bfdcda0",
+    "N98__shear__numerical_transmitted_power": "e8dab36695ae5633a3aff4adb5257471c7ed9fad189aebd997a2f0f0a72a82f4",
+    "N98__stored_energy": "4f065077c6b403874e8f721a2209bd5e3b75c05b5f28b2bdba397640011187aa",
+    "acoustic__continuum_transmission": "f6a0ef1a1febe2751d3d7d1e6a95b4b5d58d383bcb2ed031d7ead185507080ee",
+    "acoustic__numerical_transmission": "66b71423059e2d9f64b1d1b56ee37c4ae14dc799f8b7f401e0a25fcbec37db81",
+    "mixed_shear_acoustic__continuum_transmission": "ba07596f19970bc0992c64033042862c90bbc808a5aee2d7d5933f7421477c1d",
+    "mixed_shear_acoustic__numerical_transmission": "5af20463b7a8c6aeab908ce4104beebd2e74aeb86e8de7b3c4078d7bb5372f1c",
+    "shear__continuum_transmission": "8fd3f402fb49aee95b2cdc1ab6f4645bf55c95f997af2356f7efa27cdb4a66c4",
+    "shear__numerical_transmission": "0ecaeeb8afab61141710f94168efffcd96eb424fc1cf405eea0cff9582692137"
+  },
+  "decisive_arrays_sha256": "b80be0c54bec573d1bd05ba7c242d6bae19612343b272f6440a3b7750f988761",
+  "embedded_or_nonlinear_propagation_executed": false,
+  "historical_classifications_preserved": true,
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_one_way_transmission_interpretation_wp10c9d6c7c2b2.py": "b9081f7197f2f0f8889f27dda2aa60c94f11038e5ae0d0c941d0459647948029",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_semidiscrete_energy.py": "46db916c53de2cebb6c1b5ada250fd84621b8ecf84370c7ebcf0c2f24ed4e9a9",
+    "tests/test_causal_inner_one_way_transmission_interpretation_wp10c9d6c7c2b2.py": "415facede1ca8044b083895c291da09d01131b231953dfa649a191efe78d2f77",
+    "tests/test_causal_inner_semidiscrete_energy.py": "f97b118b6a59b803ed15cfcc9c24693c915538bf3c69d9ad8ef3deb2983d365e"
+  },
+  "implementation_source_manifest_sha256": "eaed070ef4f039e232bce1f2d3937b264e7b87a9eb6b7236a9fb30eb46e23e71",
+  "method": {
+    "maximum_algebraic_defect_gate": 1e-10,
+    "maximum_time_integration_defect_gate": 5e-05,
+    "passed": true
+  },
+  "operator_changed": false,
+  "parent_classification": "one_way_uniform_scattering_validation_failed_embedded_discrimination_blocked",
+  "passed": true,
+  "per_level": {
+    "N196": {
+      "families": {
+        "acoustic": {
+          "cancellation_relative_time_integration_defect": 5.0926628997497296e-05,
+          "continuum_incident_energy": 1.0852228040445109,
+          "continuum_transmission": 477.2155917448854,
+          "continuum_transmitted_energy": 517.8852426071451,
+          "incident_flux_comparison": {
+            "direct_relative_difference": 1.5955381595506746,
+            "history_cosine": -0.7443190920765472,
+            "least_squares_scale": -0.9068725155172827,
+            "scaled_shape_relative_defect": 0.5159047217203823
+          },
+          "integrated_absolute_generator_power": 2247.900987644247,
+          "integrated_block_powers": {
+            "candidate_conservative_transport": 93080.78988511066,
+            "candidate_cooling": 1.2944542032934505,
+            "candidate_geometry": -52914.039578638854,
+            "candidate_height_principal": -719.1450586095351,
+            "candidate_local_stress_relaxation": 575.9017807392323,
+            "candidate_lower_height_work": 1148.935403586163,
+            "candidate_shear_principal": -282.7070439595662,
+            "candidate_stream": 0.0,
+            "mapped_storage_rate_derivative": -40953.78369139726,
+            "responsive_height_storage_rate_derivative": 62.753849584117546
+          },
+          "integrated_total_power": 6.18667861411615e-07,
+          "numerical_incident_energy": -0.8663451630228072,
+          "numerical_transmission": 1281.272348867819,
+          "numerical_transmitted_energy": 1110.0241019565055,
+          "selected_boundary_face_absolute_fraction": 0.010322301138380837,
+          "stored_energy_change": 6.186993696848759e-07,
+          "time_integrated_energy_defect": 1.4016753155105426e-14,
+          "transmitted_flux_comparison": {
+            "direct_relative_difference": 0.538353420149454,
+            "history_cosine": 0.9996505347378952,
+            "least_squares_scale": 2.1607176682157285,
+            "scaled_shape_relative_defect": 0.026422471933688574
+          },
+          "window_time_stability_defect": 2.5284323919667373e-08
+        },
+        "mixed_shear_acoustic": {
+          "cancellation_relative_time_integration_defect": 0.0015277944968698342,
+          "continuum_incident_energy": 4.226848988537929,
+          "continuum_transmission": 81.97287937867704,
+          "continuum_transmitted_energy": 346.4869822893027,
+          "incident_flux_comparison": {
+            "direct_relative_difference": 0.3829539420761833,
+            "history_cosine": 0.993386906146048,
+            "least_squares_scale": 1.529394309141282,
+            "scaled_shape_relative_defect": 0.09973037831070908
+          },
+          "integrated_absolute_generator_power": 2644.055680043415,
+          "integrated_block_powers": {
+            "candidate_conservative_transport": 107180.05123378364,
+            "candidate_cooling": -23.994108745559473,
+            "candidate_geometry": -53281.19163478421,
+            "candidate_height_principal": -796.502853837838,
+            "candidate_local_stress_relaxation": 127.59154558978335,
+            "candidate_lower_height_work": 1996.3807859225967,
+            "candidate_shear_principal": -87.13898756010757,
+            "candidate_stream": 0.0,
+            "mapped_storage_rate_derivative": -54739.32721675361,
+            "responsive_height_storage_rate_derivative": -375.8687632965628
+          },
+          "integrated_total_power": 3.180835347659463e-07,
+          "numerical_incident_energy": 6.104398518350898,
+          "numerical_transmission": 101.42853970298825,
+          "numerical_transmitted_energy": 619.1602274814167,
+          "selected_boundary_face_absolute_fraction": 0.005757851671265351,
+          "stored_energy_change": 3.1759756849198596e-07,
+          "time_integrated_energy_defect": 1.8379577919945233e-13,
+          "transmitted_flux_comparison": {
+            "direct_relative_difference": 0.41252525162618336,
+            "history_cosine": 0.9977527996281259,
+            "least_squares_scale": 1.724830366359029,
+            "scaled_shape_relative_defect": 0.05698311363279322
+          },
+          "window_time_stability_defect": 1.4434210633141973e-09
+        },
+        "shear": {
+          "cancellation_relative_time_integration_defect": 0.0010167890326049482,
+          "continuum_incident_energy": 8.231256422606862,
+          "continuum_transmission": 106.46905747354157,
+          "continuum_transmitted_energy": 876.3741131379882,
+          "incident_flux_comparison": {
+            "direct_relative_difference": 0.5100004186930285,
+            "history_cosine": 0.9999808449096157,
+            "least_squares_scale": 2.0426953649773405,
+            "scaled_shape_relative_defect": 0.007630795297156244
+          },
+          "integrated_absolute_generator_power": 1521.7116981973115,
+          "integrated_block_powers": {
+            "candidate_conservative_transport": 26468.81922887475,
+            "candidate_cooling": -38.2357449365788,
+            "candidate_geometry": -11543.890694356858,
+            "candidate_height_principal": -137.60616899847378,
+            "candidate_local_stress_relaxation": 270.8686785045947,
+            "candidate_lower_height_work": 1495.615153434475,
+            "candidate_shear_principal": -195.071459875158,
+            "candidate_stream": 0.0,
+            "mapped_storage_rate_derivative": -15581.213358663497,
+            "responsive_height_storage_rate_derivative": -739.285633262987
+          },
+          "integrated_total_power": 7.20152896981234e-07,
+          "numerical_incident_energy": 16.837604991137713,
+          "numerical_transmission": 101.8411072769529,
+          "numerical_transmitted_energy": 1714.7603361894135,
+          "selected_boundary_face_absolute_fraction": 0.05787312410148415,
+          "stored_energy_change": 7.194206534137848e-07,
+          "time_integrated_energy_defect": 4.8119730453321e-13,
+          "transmitted_flux_comparison": {
+            "direct_relative_difference": 0.48670378817079707,
+            "history_cosine": 0.9999879876080399,
+            "least_squares_scale": 1.9517301377399308,
+            "scaled_shape_relative_defect": 0.004367960498670357
+          },
+          "window_time_stability_defect": 1.0479813708758499e-09
+        }
+      },
+      "method": {
+        "analyzed_base_commit": "51a32ff686cea3b91d7f5056c464004399318172",
+        "maximum_block_power_defect": 2.016795336549778e-13,
+        "maximum_face_power_defect": 4.217968831640666e-15,
+        "maximum_generator_factorization_defect": 1.9101433913972152e-16,
+        "maximum_generator_power_defect": 2.596972547333255e-15,
+        "maximum_generator_replay_defect": 0.0,
+        "maximum_stationary_block_ledger_defect": 0.0,
+        "maximum_time_integrated_energy_defect": 4.8119730453321e-13,
+        "passed": true,
+        "runtime_seconds": 301.2608484157827
+      }
+    },
+    "N392": {
+      "families": {
+        "acoustic": {
+          "cancellation_relative_time_integration_defect": 0.003831604905259507,
+          "continuum_incident_energy": 1.120353100420283,
+          "continuum_transmission": 499.98020803978915,
+          "continuum_transmitted_energy": 560.1543762261558,
+          "incident_flux_comparison": {
+            "direct_relative_difference": 0.8825948084855461,
+            "history_cosine": 0.718193621824259,
+            "least_squares_scale": 0.44617153833607065,
+            "scaled_shape_relative_defect": 0.5773051432891957
+          },
+          "integrated_absolute_generator_power": 2367.3441188050483,
+          "integrated_block_powers": {
+            "candidate_conservative_transport": 94621.8105853084,
+            "candidate_cooling": 1.4272220662248922,
+            "candidate_geometry": -54137.304930444334,
+            "candidate_height_principal": -740.9233999624073,
+            "candidate_local_stress_relaxation": 611.550914039212,
+            "candidate_lower_height_work": 1175.7005296023856,
+            "candidate_shear_principal": -304.37743846594947,
+            "candidate_stream": 0.0,
+            "mapped_storage_rate_derivative": -41283.17429283733,
+            "responsive_height_storage_rate_derivative": 55.29081072016929
+          },
+          "integrated_total_power": 2.5434764057727267e-08,
+          "numerical_incident_energy": 0.5836232544631631,
+          "numerical_transmission": 1977.4423623058642,
+          "numerical_transmitted_energy": 1154.0813470022738,
+          "selected_boundary_face_absolute_fraction": 0.01044205635441032,
+          "stored_energy_change": 2.533730809099956e-08,
+          "time_integrated_energy_defect": 4.116679360366854e-14,
+          "transmitted_flux_comparison": {
+            "direct_relative_difference": 0.5174165342752786,
+            "history_cosine": 0.9999266264403882,
+            "least_squares_scale": 2.069670344749325,
+            "scaled_shape_relative_defect": 0.011483613518878718
+          },
+          "window_time_stability_defect": 1.999878454747698e-08
+        },
+        "mixed_shear_acoustic": {
+          "cancellation_relative_time_integration_defect": 0.017984208382988427,
+          "continuum_incident_energy": 4.212632156358033,
+          "continuum_transmission": 84.83259689985705,
+          "continuum_transmitted_energy": 357.3685256076966,
+          "incident_flux_comparison": {
+            "direct_relative_difference": 0.4459149366765092,
+            "history_cosine": 0.9985226842354953,
+            "least_squares_scale": 1.7602049804545266,
+            "scaled_shape_relative_defect": 0.04786648729955252
+          },
+          "integrated_absolute_generator_power": 2662.18324454695,
+          "integrated_block_powers": {
+            "candidate_conservative_transport": 106994.77229414576,
+            "candidate_cooling": -24.35289422760837,
+            "candidate_geometry": -53183.95864845995,
+            "candidate_height_principal": -790.5568735305884,
+            "candidate_local_stress_relaxation": 129.4509262037742,
+            "candidate_lower_height_work": 2004.1725156516131,
+            "candidate_shear_principal": -89.6091253287666,
+            "candidate_stream": 0.0,
+            "mapped_storage_rate_derivative": -54648.965107556134,
+            "responsive_height_storage_rate_derivative": -390.9530868937497
+          },
+          "integrated_total_power": 3.991007689313272e-09,
+          "numerical_incident_energy": 7.227306942243544,
+          "numerical_transmission": 93.61930795864798,
+          "numerical_transmitted_energy": 676.6154743375728,
+          "selected_boundary_face_absolute_fraction": 0.006301858891863394,
+          "stored_energy_change": 3.919232575370553e-09,
+          "time_integrated_energy_defect": 2.6960996802056617e-14,
+          "transmitted_flux_comparison": {
+            "direct_relative_difference": 0.4616555222667429,
+            "history_cosine": 0.9996296555611385,
+            "least_squares_scale": 1.865418425354603,
+            "scaled_shape_relative_defect": 0.022767570997090994
+          },
+          "window_time_stability_defect": 2.599625047004719e-12
+        },
+        "shear": {
+          "cancellation_relative_time_integration_defect": 0.0027913200992668694,
+          "continuum_incident_energy": 8.204968234900788,
+          "continuum_transmission": 116.17751018789986,
+          "continuum_transmitted_energy": 953.232780701581,
+          "incident_flux_comparison": {
+            "direct_relative_difference": 0.5048338931967217,
+            "history_cosine": 0.9999972842500461,
+            "least_squares_scale": 2.01980460992998,
+            "scaled_shape_relative_defect": 0.002593644903505793
+          },
+          "integrated_absolute_generator_power": 1595.6805597602893,
+          "integrated_block_powers": {
+            "candidate_conservative_transport": 26667.94291266663,
+            "candidate_cooling": -40.27642951737017,
+            "candidate_geometry": -11744.295193149717,
+            "candidate_height_principal": -119.21175290306668,
+            "candidate_local_stress_relaxation": 307.57949117339194,
+            "candidate_lower_height_work": 1550.562293650724,
+            "candidate_shear_principal": -223.32082389691016,
+            "candidate_stream": 0.0,
+            "mapped_storage_rate_derivative": -15611.362194993839,
+            "responsive_height_storage_rate_derivative": -787.618303011634
+          },
+          "integrated_total_power": 1.8423950728417607e-08,
+          "numerical_incident_energy": 16.583062735699333,
+          "numerical_transmission": 113.5755926048719,
+          "numerical_transmitted_energy": 1883.4311774108198,
+          "selected_boundary_face_absolute_fraction": 0.06239908965272695,
+          "stored_energy_change": 1.8372523584441473e-08,
+          "time_integrated_energy_defect": 3.222897193399422e-14,
+          "transmitted_flux_comparison": {
+            "direct_relative_difference": 0.4927925845319256,
+            "history_cosine": 0.9999962036516897,
+            "least_squares_scale": 1.9734031320567482,
+            "scaled_shape_relative_defect": 0.0023872011749140223
+          },
+          "window_time_stability_defect": 3.6860819137029076e-11
+        }
+      },
+      "method": {
+        "analyzed_base_commit": "51a32ff686cea3b91d7f5056c464004399318172",
+        "maximum_block_power_defect": 4.424033901631104e-13,
+        "maximum_face_power_defect": 6.502748816599682e-15,
+        "maximum_generator_factorization_defect": 1.824186276153313e-16,
+        "maximum_generator_power_defect": 2.367742727038235e-15,
+        "maximum_generator_replay_defect": 0.0,
+        "maximum_stationary_block_ledger_defect": 0.0,
+        "maximum_time_integrated_energy_defect": 4.116679360366854e-14,
+        "passed": true,
+        "runtime_seconds": 618.109699124936
+      }
+    },
+    "N98": {
+      "families": {
+        "acoustic": {
+          "cancellation_relative_time_integration_defect": 0.00028173534629548824,
+          "continuum_incident_energy": 0.9816717901121985,
+          "continuum_transmission": 397.76824327554,
+          "continuum_transmitted_energy": 390.4778634260838,
+          "incident_flux_comparison": {
+            "direct_relative_difference": 1.420983191022532,
+            "history_cosine": -0.9216471195359602,
+            "least_squares_scale": -2.2237758699539216,
+            "scaled_shape_relative_defect": 0.5974524350268405
+          },
+          "integrated_absolute_generator_power": 1781.6814577645605,
+          "integrated_block_powers": {
+            "candidate_conservative_transport": 86727.75167379437,
+            "candidate_cooling": 0.10636856480467408,
+            "candidate_geometry": -48136.95582718319,
+            "candidate_height_principal": -612.0089042929862,
+            "candidate_local_stress_relaxation": 447.75533425746914,
+            "candidate_lower_height_work": 1057.7231542054346,
+            "candidate_shear_principal": -212.71534417110647,
+            "candidate_stream": 0.0,
+            "mapped_storage_rate_derivative": -39335.99833807828,
+            "responsive_height_storage_rate_derivative": 64.3419365521623
+          },
+          "integrated_total_power": 5.364876555333204e-05,
+          "numerical_incident_energy": -2.2547454626232297,
+          "numerical_transmission": 400.66406329076614,
+          "numerical_transmitted_energy": 903.3954787410415,
+          "selected_boundary_face_absolute_fraction": 0.00944751066325075,
+          "stored_energy_change": 5.363365079979055e-05,
+          "time_integrated_energy_defect": 8.483420802087505e-12,
+          "transmitted_flux_comparison": {
+            "direct_relative_difference": 0.5701708647229065,
+            "history_cosine": 0.998019719006082,
+            "least_squares_scale": 2.3192318770155773,
+            "scaled_shape_relative_defect": 0.06916753819743046
+          },
+          "window_time_stability_defect": 2.139055735852064e-07
+        },
+        "mixed_shear_acoustic": {
+          "cancellation_relative_time_integration_defect": 0.00028180470715119895,
+          "continuum_incident_energy": 4.278733438715074,
+          "continuum_transmission": 74.01213629461701,
+          "continuum_transmitted_energy": 316.67820243451536,
+          "incident_flux_comparison": {
+            "direct_relative_difference": 0.22722796242902435,
+            "history_cosine": 0.9625124773846687,
+            "least_squares_scale": 1.0401098272042004,
+            "scaled_shape_relative_defect": 0.23602381610414508
+          },
+          "integrated_absolute_generator_power": 2558.308715177528,
+          "integrated_block_powers": {
+            "candidate_conservative_transport": 107711.1217996046,
+            "candidate_cooling": -23.094018428797366,
+            "candidate_geometry": -53526.74544958595,
+            "candidate_height_principal": -803.3976703728284,
+            "candidate_local_stress_relaxation": 122.1849418080291,
+            "candidate_lower_height_work": 1974.6428416835847,
+            "candidate_shear_principal": -80.78749211687352,
+            "candidate_stream": 0.0,
+            "mapped_storage_rate_derivative": -55047.400502529235,
+            "responsive_height_storage_rate_derivative": -326.5243522366051
+          },
+          "integrated_total_power": 9.782588500991131e-05,
+          "numerical_incident_energy": 3.72608852688263,
+          "numerical_transmission": 132.09717463156198,
+          "numerical_transmitted_energy": 492.20576682827425,
+          "selected_boundary_face_absolute_fraction": 0.0045545291112828274,
+          "stored_energy_change": 9.779831721503428e-05,
+          "time_integrated_energy_defect": 1.0775788986479655e-11,
+          "transmitted_flux_comparison": {
+            "direct_relative_difference": 0.32323001964229126,
+            "history_cosine": 0.9771981270512479,
+            "least_squares_scale": 1.4111914200772064,
+            "scaled_shape_relative_defect": 0.1941030621022301
+          },
+          "window_time_stability_defect": 1.5668968065832993e-07
+        },
+        "shear": {
+          "cancellation_relative_time_integration_defect": 0.0002506856591940215,
+          "continuum_incident_energy": 8.400928272065084,
+          "continuum_transmission": 74.71526620195722,
+          "continuum_transmitted_energy": 627.6775921908912,
+          "incident_flux_comparison": {
+            "direct_relative_difference": 0.5214318083956794,
+            "history_cosine": 0.9996480762727002,
+            "least_squares_scale": 2.0980595618252598,
+            "scaled_shape_relative_defect": 0.035412019639148376
+          },
+          "integrated_absolute_generator_power": 1320.4704673307515,
+          "integrated_block_powers": {
+            "candidate_conservative_transport": 26974.210137151404,
+            "candidate_cooling": -31.38111383333783,
+            "candidate_geometry": -11594.030080209435,
+            "candidate_height_principal": -217.10785795832143,
+            "candidate_local_stress_relaxation": 147.85381986461047,
+            "candidate_lower_height_work": 1331.4759014364322,
+            "candidate_shear_principal": -105.84004426227418,
+            "candidate_stream": 0.0,
+            "mapped_storage_rate_derivative": -15933.028021351582,
+            "responsive_height_storage_rate_derivative": -572.152688787565
+          },
+          "integrated_total_power": 5.204985031098156e-05,
+          "numerical_incident_energy": 17.675017974626808,
+          "numerical_transmission": 67.36274768563125,
+          "numerical_transmitted_energy": 1190.6377761637827,
+          "selected_boundary_face_absolute_fraction": 0.041112770113111305,
+          "stored_energy_change": 5.20368021599454e-05,
+          "time_integrated_energy_defect": 9.88144101589381e-12,
+          "transmitted_flux_comparison": {
+            "direct_relative_difference": 0.46578358930022695,
+            "history_cosine": 0.9999001915997181,
+            "least_squares_scale": 1.8822471798900366,
+            "scaled_shape_relative_defect": 0.012404481386970985
+          },
+          "window_time_stability_defect": 4.060337904662751e-08
+        }
+      },
+      "method": {
+        "analyzed_base_commit": "51a32ff686cea3b91d7f5056c464004399318172",
+        "maximum_block_power_defect": 1.5461071205708564e-13,
+        "maximum_face_power_defect": 3.597753606341748e-15,
+        "maximum_generator_factorization_defect": 2.124782149158175e-16,
+        "maximum_generator_power_defect": 1.9577032218345087e-15,
+        "maximum_generator_replay_defect": 0.0,
+        "maximum_stationary_block_ledger_defect": 0.0,
+        "maximum_time_integrated_energy_defect": 1.0775788986479655e-11,
+        "passed": true,
+        "runtime_seconds": 150.81855324981734
+      }
+    }
+  },
+  "propagation_executed": true,
+  "runtime_seconds": 223.18967995792627,
+  "schema_version": 1,
+  "source_parent_commit": "51a32ff686cea3b91d7f5056c464004399318172",
+  "transmission_comparison": {
+    "acoustic": {
+      "continuum": {
+        "direction_classification": "binding_pass",
+        "error_direction_observable": true,
+        "maximum_fine_normalized_difference": 0.045531034886669194,
+        "observed_order": 1.8032059284144524,
+        "passed": true,
+        "refinement_error_cosine": 1.0,
+        "uncertainty_bound": 9.981981904136033e-06,
+        "values": [
+          397.76824327554,
+          477.2155917448854,
+          499.98020803978915
+        ]
+      },
+      "maximum_selected_boundary_face_absolute_fraction": 0.01044205635441032,
+      "maximum_window_time_stability_defect": 2.139055735852064e-07,
+      "minimum_selected_boundary_face_absolute_fraction": 0.00944751066325075,
+      "numerical": {
+        "direction_classification": "binding_pass",
+        "error_direction_observable": true,
+        "maximum_fine_normalized_difference": 0.35205578008668353,
+        "observed_order": 0.33906074524437757,
+        "passed": false,
+        "refinement_error_cosine": 1.0,
+        "uncertainty_bound": 2.1390601598859657e-07,
+        "values": [
+          400.66406329076614,
+          1281.272348867819,
+          1977.4423623058642
+        ]
+      },
+      "numerical_incident_sign_stable_and_positive": false,
+      "numerical_to_continuum_values": [
+        1.0072801689531061,
+        2.6848920509553973,
+        3.9550412806510464
+      ]
+    },
+    "mixed_shear_acoustic": {
+      "continuum": {
+        "direction_classification": "binding_pass",
+        "error_direction_observable": true,
+        "maximum_fine_normalized_difference": 0.03371012589129916,
+        "observed_order": 1.4770304566562718,
+        "passed": true,
+        "refinement_error_cosine": 1.0,
+        "uncertainty_bound": 2.0918375611018053e-10,
+        "values": [
+          74.01213629461701,
+          81.97287937867704,
+          84.83259689985705
+        ]
+      },
+      "maximum_selected_boundary_face_absolute_fraction": 0.006301858891863394,
+      "maximum_window_time_stability_defect": 1.5668968065832993e-07,
+      "minimum_selected_boundary_face_absolute_fraction": 0.0045545291112828274,
+      "numerical": {
+        "direction_classification": "binding_pass",
+        "error_direction_observable": true,
+        "maximum_fine_normalized_difference": 0.05911732606031383,
+        "observed_order": 1.9735114220026155,
+        "passed": false,
+        "refinement_error_cosine": 1.0,
+        "uncertainty_bound": 1.566901230617201e-07,
+        "values": [
+          132.09717463156198,
+          101.42853970298825,
+          93.61930795864798
+        ]
+      },
+      "numerical_incident_sign_stable_and_positive": true,
+      "numerical_to_continuum_values": [
+        1.7848042394794321,
+        1.2373426488343175,
+        1.1035770609399527
+      ]
+    },
+    "shear": {
+      "continuum": {
+        "direction_classification": "binding_pass",
+        "error_direction_observable": true,
+        "maximum_fine_normalized_difference": 0.08356568064383811,
+        "observed_order": 1.70961556459213,
+        "passed": false,
+        "refinement_error_cosine": 1.0,
+        "uncertainty_bound": 4.060822763844956e-09,
+        "values": [
+          74.71526620195722,
+          106.46905747354157,
+          116.17751018789986
+        ]
+      },
+      "maximum_selected_boundary_face_absolute_fraction": 0.06239908965272695,
+      "maximum_window_time_stability_defect": 4.060337904662751e-08,
+      "minimum_selected_boundary_face_absolute_fraction": 0.041112770113111305,
+      "numerical": {
+        "direction_classification": "binding_pass",
+        "error_direction_observable": true,
+        "maximum_fine_normalized_difference": 0.10331872419757593,
+        "observed_order": 1.5549365686839116,
+        "passed": false,
+        "refinement_error_cosine": 1.0,
+        "uncertainty_bound": 4.0603821450017676e-08,
+        "values": [
+          67.36274768563125,
+          101.8411072769529,
+          113.5755926048719
+        ]
+      },
+      "numerical_incident_sign_stable_and_positive": true,
+      "numerical_to_continuum_values": [
+        0.9015928217875591,
+        0.9565324395048885,
+        0.9776039477966111
+      ]
+    }
+  },
+  "work_package": "WP10c9d6c7c2b2"
+}

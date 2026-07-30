@@ -1,0 +1,46 @@
+{
+  "c2b1_values_and_thresholds_preserved": true,
+  "control_volume_faces_on_N98": [
+    6,
+    49
+  ],
+  "energy_definition": "exact scaled quadratic control metric with descriptor-dual residual and actual shared-face operator decomposition",
+  "maximum_algebraic_defect": 1e-10,
+  "maximum_time_integrated_energy_defect": 5e-05,
+  "operator_changed": false,
+  "propagation_scope": "reuse frozen c2b1 uniform tangents, packets, windows, and histories; no embedded or nonlinear work",
+  "reference_levels": [
+    98,
+    196,
+    392
+  ],
+  "root_sum_square_used": false,
+  "schema_version": 1,
+  "slow_impact_threshold_used": false,
+  "transmission_gates": {
+    "analytic_packet_reprojection_required_at_every_level": true,
+    "energy_amplitude_scaling": "quadratic",
+    "exact_conservative_ledgers": true,
+    "material_family_null_control": true,
+    "maximum_energy_ledger_relative_defect": 1e-10,
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_observable_refinement_error_cosine": 0.9,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75,
+    "packet_cases": "acoustic_shear_mixed_times_two_signs_times_two_amplitudes",
+    "reference_levels": [
+      98,
+      196,
+      392
+    ],
+    "same_C4_coefficient_field_at_every_level": true,
+    "state_and_flux_amplitude_scaling": "linear",
+    "virtual_interface_matches_patch_face_49": true,
+    "window_and_time_quadrature_stability": true,
+    "work_package": "WP10c9d6c7c2b1_one_way_uniform_scattering_validation",
+    "zero_state_null_control": true
+  },
+  "work_package": "WP10c9d6c7c2b2"
+}
