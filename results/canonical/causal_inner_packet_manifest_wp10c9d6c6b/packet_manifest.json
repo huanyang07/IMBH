@@ -1,0 +1,810 @@
+{
+  "base_profiles": [
+    {
+      "base_amplitude": 0.01,
+      "base_id": "base::p2__inward_acoustic",
+      "definition_sha256": "d142fc39b38c0d493f797f703809b88069f593eb364b48e22cd02605e276b016",
+      "eligible_for_prospective_propagation": true,
+      "endpoint_cell_fraction_bound": 0.0014540906941924274,
+      "family": "inward_acoustic",
+      "nyquist_alias_fraction": 0.00046792312591510535,
+      "projection_sha256": "7c33cf207309c04af0f147459a1d6b9e56f5e8b11abe18bc82a8bcdba59b83de",
+      "purity_passed": true,
+      "role": "low_wavenumber_control",
+      "source_probe": "p2__inward_acoustic",
+      "theta_99": 0.18407769454627695,
+      "window": {
+        "kind": "full_domain_sine_power",
+        "power": 2,
+        "support_inner_over_rg": 1.8,
+        "support_outer_over_rg": 12.777241939756346
+      }
+    },
+    {
+      "base_amplitude": 0.01,
+      "base_id": "base::p2__inward_shear",
+      "definition_sha256": "22d2412cef05023e4000187db8cf90c57a193b9da281f6eb91984ee4ce7c20a3",
+      "eligible_for_prospective_propagation": true,
+      "endpoint_cell_fraction_bound": 0.0014540906941924274,
+      "family": "inward_shear",
+      "nyquist_alias_fraction": 0.0004678665853205933,
+      "projection_sha256": "3cb0a08afbb31663bdbd6e8d3a1485f02656ec9308c677c2fbe1399c0bd5b8c8",
+      "purity_passed": true,
+      "role": "low_wavenumber_control",
+      "source_probe": "p2__inward_shear",
+      "theta_99": 0.18407769454627695,
+      "window": {
+        "kind": "full_domain_sine_power",
+        "power": 2,
+        "support_inner_over_rg": 1.8,
+        "support_outer_over_rg": 12.777241939756346
+      }
+    },
+    {
+      "base_amplitude": 0.01,
+      "base_id": "base::p2__material",
+      "definition_sha256": "c5bd7a4d918c50c99bfc888d6e02058e6e1aa0d62804a7c33af8b4cdde39f214",
+      "eligible_for_prospective_propagation": true,
+      "endpoint_cell_fraction_bound": 0.0014540906941924274,
+      "family": "material",
+      "nyquist_alias_fraction": 0.00046784619934117633,
+      "projection_sha256": "db1ec93ff2787a94ba42c94cfb7e41d9bd4f74c3dca93a8c168c9a8564fcfadb",
+      "purity_passed": true,
+      "role": "low_wavenumber_control",
+      "source_probe": "p2__material",
+      "theta_99": 0.18407769454627695,
+      "window": {
+        "kind": "full_domain_sine_power",
+        "power": 2,
+        "support_inner_over_rg": 1.8,
+        "support_outer_over_rg": 12.777241939756346
+      }
+    },
+    {
+      "base_amplitude": 0.01,
+      "base_id": "base::p2__outward_shear",
+      "definition_sha256": "260de11612e2da3225480932728ea68ee6f8548287703b3c3e731d583f852590",
+      "eligible_for_prospective_propagation": true,
+      "endpoint_cell_fraction_bound": 0.0014540906941924274,
+      "family": "outward_shear",
+      "nyquist_alias_fraction": 0.00046786658532059337,
+      "projection_sha256": "01573c6a90cf484e67bf72efb73425a06a959489b1ad10863a39a96af8c96245",
+      "purity_passed": true,
+      "role": "low_wavenumber_control",
+      "source_probe": "p2__outward_shear",
+      "theta_99": 0.18407769454627695,
+      "window": {
+        "kind": "full_domain_sine_power",
+        "power": 2,
+        "support_inner_over_rg": 1.8,
+        "support_outer_over_rg": 12.777241939756346
+      }
+    },
+    {
+      "base_amplitude": 0.01,
+      "base_id": "base::p2__outward_acoustic",
+      "definition_sha256": "4f2c19ce0ee62a3e77fe91742daf895398e56c98d7f7451348c598d6290607db",
+      "eligible_for_prospective_propagation": true,
+      "endpoint_cell_fraction_bound": 0.0014540906941924274,
+      "family": "outward_acoustic",
+      "nyquist_alias_fraction": 0.00046792312591510546,
+      "projection_sha256": "8506c87b4d4dd777404e61841bb4da33c269d4e066424f0343cc46a22ea2142f",
+      "purity_passed": true,
+      "role": "low_wavenumber_control",
+      "source_probe": "p2__outward_acoustic",
+      "theta_99": 0.18407769454627695,
+      "window": {
+        "kind": "full_domain_sine_power",
+        "power": 2,
+        "support_inner_over_rg": 1.8,
+        "support_outer_over_rg": 12.777241939756346
+      }
+    },
+    {
+      "base_amplitude": 0.01,
+      "base_id": "base::p4__inward_acoustic",
+      "definition_sha256": "99af406a0f27c55557d936681b986e3712b1bdcab29668f8d43cd5cb499a3360",
+      "eligible_for_prospective_propagation": true,
+      "endpoint_cell_fraction_bound": 0.0014540906941924274,
+      "family": "inward_acoustic",
+      "nyquist_alias_fraction": 0.0008013953974813485,
+      "projection_sha256": "e0688b7549ed9256290bb9132bce3363a2b43111213b6a18a46eabb1c75375fa",
+      "purity_passed": true,
+      "role": "binding_theta20_window",
+      "source_probe": "p4__inward_acoustic",
+      "theta_99": 0.24543692606170261,
+      "window": {
+        "kind": "full_domain_sine_power",
+        "power": 4,
+        "support_inner_over_rg": 1.8,
+        "support_outer_over_rg": 12.777241939756346
+      }
+    },
+    {
+      "base_amplitude": 0.01,
+      "base_id": "base::p4__inward_shear",
+      "definition_sha256": "2715feb573d952e0a8ea73f6d9b515c7d114c6dab6077d94a514e634a1b6f8eb",
+      "eligible_for_prospective_propagation": true,
+      "endpoint_cell_fraction_bound": 0.0014540906941924274,
+      "family": "inward_shear",
+      "nyquist_alias_fraction": 0.0008013394477087184,
+      "projection_sha256": "a7dce70d8d25266869b9d16130b5d829132c08e0430dd4d3c3b667246726b119",
+      "purity_passed": true,
+      "role": "binding_theta20_window",
+      "source_probe": "p4__inward_shear",
+      "theta_99": 0.24543692606170261,
+      "window": {
+        "kind": "full_domain_sine_power",
+        "power": 4,
+        "support_inner_over_rg": 1.8,
+        "support_outer_over_rg": 12.777241939756346
+      }
+    },
+    {
+      "base_amplitude": 0.01,
+      "base_id": "base::p4__material",
+      "definition_sha256": "226aa3ed2e47541590bd59f5220d9cc1527a35c3b5baa8bf313264252393a796",
+      "eligible_for_prospective_propagation": true,
+      "endpoint_cell_fraction_bound": 0.0014540906941924274,
+      "family": "material",
+      "nyquist_alias_fraction": 0.0008013207485390937,
+      "projection_sha256": "3c15e6176bc7af9082d3d115b056859d141040b8a25f0872bcb7e2795174f903",
+      "purity_passed": true,
+      "role": "binding_theta20_window",
+      "source_probe": "p4__material",
+      "theta_99": 0.24543692606170261,
+      "window": {
+        "kind": "full_domain_sine_power",
+        "power": 4,
+        "support_inner_over_rg": 1.8,
+        "support_outer_over_rg": 12.777241939756346
+      }
+    },
+    {
+      "base_amplitude": 0.01,
+      "base_id": "base::p4__outward_shear",
+      "definition_sha256": "f31969fbafbd85780fb993ec2f10b4d8cc0119b5372eaa3404dcbcd76e38c216",
+      "eligible_for_prospective_propagation": true,
+      "endpoint_cell_fraction_bound": 0.0014540906941924274,
+      "family": "outward_shear",
+      "nyquist_alias_fraction": 0.0008013394477087184,
+      "projection_sha256": "98575f78e4a28ffb606cb5d579c754f6cdf4d36284870ed62a0127f2b7fb811d",
+      "purity_passed": true,
+      "role": "binding_theta20_window",
+      "source_probe": "p4__outward_shear",
+      "theta_99": 0.24543692606170261,
+      "window": {
+        "kind": "full_domain_sine_power",
+        "power": 4,
+        "support_inner_over_rg": 1.8,
+        "support_outer_over_rg": 12.777241939756346
+      }
+    },
+    {
+      "base_amplitude": 0.01,
+      "base_id": "base::p4__outward_acoustic",
+      "definition_sha256": "b95708fa30455434bc799b2be38bcca2ff4756b69bea9b9ec03d83e2393623b0",
+      "eligible_for_prospective_propagation": true,
+      "endpoint_cell_fraction_bound": 0.0014540906941924274,
+      "family": "outward_acoustic",
+      "nyquist_alias_fraction": 0.0008013953974813485,
+      "projection_sha256": "3828504d2c46b13567d06bc3ba03981ea2fd12c0ecd32727d34e02e014fad842",
+      "purity_passed": true,
+      "role": "binding_theta20_window",
+      "source_probe": "p4__outward_acoustic",
+      "theta_99": 0.24543692606170261,
+      "window": {
+        "kind": "full_domain_sine_power",
+        "power": 4,
+        "support_inner_over_rg": 1.8,
+        "support_outer_over_rg": 12.777241939756346
+      }
+    },
+    {
+      "base_amplitude": 0.01,
+      "base_id": "base::p4__mixed",
+      "definition_sha256": "850ac32c350c9d48d5e6829b12d98ee17fac970c6cb82ab83a4e411f58ea2df6",
+      "eligible_for_prospective_propagation": true,
+      "endpoint_cell_fraction_bound": 0.0014540906941924274,
+      "family": "mixed",
+      "nyquist_alias_fraction": 0.0008013208901027171,
+      "projection_sha256": "c71005f5c459333bef74b3da21988d578e89d1c6c964941069f0b09fffcf67da",
+      "purity_passed": true,
+      "role": "binding_theta20_window",
+      "source_probe": "p4__mixed",
+      "theta_99": 0.24543692606170261,
+      "window": {
+        "kind": "full_domain_sine_power",
+        "power": 4,
+        "support_inner_over_rg": 1.8,
+        "support_outer_over_rg": 12.777241939756346
+      }
+    }
+  ],
+  "manifest_sha256": "c908494d0886e126c4c8f4a6ef80e872e7df6161cf8937bc39cfbbe0a65811fc",
+  "nonbinding_stress_controls": [
+    {
+      "binding": false,
+      "definition": {
+        "amplitude": 0.015,
+        "center_over_rg": 1.84,
+        "log_width": 0.065,
+        "role": "frozen_c4_binding_profile"
+      },
+      "nyquist_alias_fraction": 0.015377050145194134,
+      "packet_id": "stress::boundary_band_outgoing_original",
+      "preserved_as_historical_stress_control": true,
+      "propagate_in_prospective_uniform_suite": false,
+      "source_work_package": "WP10c9d6c5",
+      "spectrally_eligible": false,
+      "theta_99": 1.1290098598838318
+    },
+    {
+      "binding": false,
+      "definition": {
+        "amplitude": 0.015,
+        "center_over_rg": 1.84,
+        "log_width": 0.13,
+        "role": "same_center_width_control"
+      },
+      "nyquist_alias_fraction": 0.003993956605620674,
+      "packet_id": "stress::boundary_band_outgoing_wider",
+      "preserved_as_historical_stress_control": true,
+      "propagate_in_prospective_uniform_suite": false,
+      "source_work_package": "WP10c9d6c5",
+      "spectrally_eligible": false,
+      "theta_99": 0.5706408530934586
+    },
+    {
+      "binding": false,
+      "definition": {
+        "amplitude": 0.015,
+        "center_over_rg": 1.98,
+        "log_width": 0.065,
+        "role": "same_width_support_control"
+      },
+      "nyquist_alias_fraction": 0.015377050145194134,
+      "packet_id": "stress::boundary_band_outgoing_shifted",
+      "preserved_as_historical_stress_control": true,
+      "propagate_in_prospective_uniform_suite": false,
+      "source_work_package": "WP10c9d6c5",
+      "spectrally_eligible": false,
+      "theta_99": 1.1290098598838318
+    },
+    {
+      "binding": false,
+      "definition": {
+        "amplitude": 0.015,
+        "center_over_rg": 1.98,
+        "log_width": 0.13,
+        "role": "width_and_support_control"
+      },
+      "nyquist_alias_fraction": 0.003993956605620674,
+      "packet_id": "stress::boundary_band_outgoing_shifted_wider",
+      "preserved_as_historical_stress_control": true,
+      "propagate_in_prospective_uniform_suite": false,
+      "source_work_package": "WP10c9d6c5",
+      "spectrally_eligible": false,
+      "theta_99": 0.5706408530934586
+    }
+  ],
+  "operator_changed": false,
+  "packet_variants": [
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p2__inward_acoustic",
+      "family": "inward_acoustic",
+      "packet_id": "p2__inward_acoustic::a0.50::minus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "c6622779aac7daa89710ece4f8eef04bf02510d137a9f1322e3876e4133e5cf7",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p2__inward_acoustic",
+      "family": "inward_acoustic",
+      "packet_id": "p2__inward_acoustic::a0.50::plus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "501c9bdf24d7bfb6b6afb999069ee4d40b049a312e21f68b6cfc7a58293f9587",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p2__inward_acoustic",
+      "family": "inward_acoustic",
+      "packet_id": "p2__inward_acoustic::a1.00::minus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "ce2e5e7a129c94b6c3f411999367b297ab2bf221ef3fd892f7037429f23d874c",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p2__inward_acoustic",
+      "family": "inward_acoustic",
+      "packet_id": "p2__inward_acoustic::a1.00::plus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "7c33cf207309c04af0f147459a1d6b9e56f5e8b11abe18bc82a8bcdba59b83de",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p2__inward_shear",
+      "family": "inward_shear",
+      "packet_id": "p2__inward_shear::a0.50::minus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "8eb52d30478f560d2fef1c2832578f90ac1af10d436f0ac7a46b691212283d46",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p2__inward_shear",
+      "family": "inward_shear",
+      "packet_id": "p2__inward_shear::a0.50::plus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "7602a07b009df8ce3f81fe36908ceea8f8dcab0f4416d29532db99482444b84d",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p2__inward_shear",
+      "family": "inward_shear",
+      "packet_id": "p2__inward_shear::a1.00::minus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "ef641e70c541cbd3d7e78dcea2c288acb07e9321af5e47f7b80dc61d7c265033",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p2__inward_shear",
+      "family": "inward_shear",
+      "packet_id": "p2__inward_shear::a1.00::plus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "3cb0a08afbb31663bdbd6e8d3a1485f02656ec9308c677c2fbe1399c0bd5b8c8",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p2__material",
+      "family": "material",
+      "packet_id": "p2__material::a0.50::minus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "d951215141f0691e49f702422af881ad8627590d47c9dad5c1ccdad26c42294d",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p2__material",
+      "family": "material",
+      "packet_id": "p2__material::a0.50::plus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "21bb8e87de73c3dc3576eb9dfdae177c573e2761250ee9a46208771ae582c973",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p2__material",
+      "family": "material",
+      "packet_id": "p2__material::a1.00::minus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "bd39471e9bacd88ec6ac7455274c7cc704f3828e475ea4bc81f4daa584faa7e8",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p2__material",
+      "family": "material",
+      "packet_id": "p2__material::a1.00::plus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "db1ec93ff2787a94ba42c94cfb7e41d9bd4f74c3dca93a8c168c9a8564fcfadb",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p2__outward_shear",
+      "family": "outward_shear",
+      "packet_id": "p2__outward_shear::a0.50::minus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "a80fc00149445bf0c42f706ce99144605df69390be7870bc832d75e792f110f6",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p2__outward_shear",
+      "family": "outward_shear",
+      "packet_id": "p2__outward_shear::a0.50::plus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "d664d0e5f9ca0e34389ab90d261b184441534734935073e08b07a2a40a6b529c",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p2__outward_shear",
+      "family": "outward_shear",
+      "packet_id": "p2__outward_shear::a1.00::minus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "f16774383e93764221b461fa1caf1467790c85069f6fb6d040326495687a7090",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p2__outward_shear",
+      "family": "outward_shear",
+      "packet_id": "p2__outward_shear::a1.00::plus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "01573c6a90cf484e67bf72efb73425a06a959489b1ad10863a39a96af8c96245",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p2__outward_acoustic",
+      "family": "outward_acoustic",
+      "packet_id": "p2__outward_acoustic::a0.50::minus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "d6404743bad333636141c4d6399cb7eb1b545ec8ab678be1a783d675f2cb3565",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p2__outward_acoustic",
+      "family": "outward_acoustic",
+      "packet_id": "p2__outward_acoustic::a0.50::plus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "6b8f3b0dbb8b81a2c7040fcb569d1b8cd1d3b49e8177689275dd572fbf04ef2f",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p2__outward_acoustic",
+      "family": "outward_acoustic",
+      "packet_id": "p2__outward_acoustic::a1.00::minus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "43adf35b2ad65f2bead781e09134eb9ba1248766d10b825caf5345d85fc44c72",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p2__outward_acoustic",
+      "family": "outward_acoustic",
+      "packet_id": "p2__outward_acoustic::a1.00::plus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "8506c87b4d4dd777404e61841bb4da33c269d4e066424f0343cc46a22ea2142f",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "low_wavenumber_control",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p4__inward_acoustic",
+      "family": "inward_acoustic",
+      "packet_id": "p4__inward_acoustic::a0.50::minus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "4d88bfad374dcb3f006c373042428c8e65fde0f140319cadf2cb24713fc8fba8",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p4__inward_acoustic",
+      "family": "inward_acoustic",
+      "packet_id": "p4__inward_acoustic::a0.50::plus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "47685c65a22a1e518267d01c1df6400d28dc0917e3d3a07046258012d1613164",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p4__inward_acoustic",
+      "family": "inward_acoustic",
+      "packet_id": "p4__inward_acoustic::a1.00::minus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "e99080aa2de5a24992300281ec370c062e0e92f33e68a52f06cb83bccfc33920",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p4__inward_acoustic",
+      "family": "inward_acoustic",
+      "packet_id": "p4__inward_acoustic::a1.00::plus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "e0688b7549ed9256290bb9132bce3363a2b43111213b6a18a46eabb1c75375fa",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p4__inward_shear",
+      "family": "inward_shear",
+      "packet_id": "p4__inward_shear::a0.50::minus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "523eeda077e63cd5c3eae0c14fb51d0bd2b33ef8bc0bac3e1c87241bf1076f22",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p4__inward_shear",
+      "family": "inward_shear",
+      "packet_id": "p4__inward_shear::a0.50::plus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "778b4ca7258b356caaff2f59462fa369a323d848837aba99491a866547ffea4e",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p4__inward_shear",
+      "family": "inward_shear",
+      "packet_id": "p4__inward_shear::a1.00::minus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "4a2f5e4c2023f88e3cc92e0513b358e7f9fa4411b1468d4731e401bab756ca5a",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p4__inward_shear",
+      "family": "inward_shear",
+      "packet_id": "p4__inward_shear::a1.00::plus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "a7dce70d8d25266869b9d16130b5d829132c08e0430dd4d3c3b667246726b119",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p4__material",
+      "family": "material",
+      "packet_id": "p4__material::a0.50::minus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "1bf812c2eaf25edfd0802e8812bd6c6c315abdd4df331d433d905c89d1cd9d72",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p4__material",
+      "family": "material",
+      "packet_id": "p4__material::a0.50::plus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "e3fa6d0eefe3c8b47b5c8ba02c2d7f703aaf7ab88db9e4f31a836788a90862b2",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p4__material",
+      "family": "material",
+      "packet_id": "p4__material::a1.00::minus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "e911b81a4d674697843248a95659f9917cf85cf97e08cce799c08afb7dcd9111",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p4__material",
+      "family": "material",
+      "packet_id": "p4__material::a1.00::plus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "3c15e6176bc7af9082d3d115b056859d141040b8a25f0872bcb7e2795174f903",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p4__outward_shear",
+      "family": "outward_shear",
+      "packet_id": "p4__outward_shear::a0.50::minus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "3118969bd2302a842ff515dfa7b3e8062bb994c9fe4f5ae7d73c7d54cd2c359f",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p4__outward_shear",
+      "family": "outward_shear",
+      "packet_id": "p4__outward_shear::a0.50::plus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "315cea93a6d57ccb5d58c32fb29c0fb91c5c0d8ab1041cb4f78241b634f2d536",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p4__outward_shear",
+      "family": "outward_shear",
+      "packet_id": "p4__outward_shear::a1.00::minus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "52315ad87b6a9375c3b022724e726933412cb2cb6aa8f67a689c053e3fbdd674",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p4__outward_shear",
+      "family": "outward_shear",
+      "packet_id": "p4__outward_shear::a1.00::plus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "98575f78e4a28ffb606cb5d579c754f6cdf4d36284870ed62a0127f2b7fb811d",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p4__outward_acoustic",
+      "family": "outward_acoustic",
+      "packet_id": "p4__outward_acoustic::a0.50::minus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "c4b6c3090bd3d52ba2c21a1d1966109a0b75fdb45abc22cf3bd92b78f0c8a5b5",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p4__outward_acoustic",
+      "family": "outward_acoustic",
+      "packet_id": "p4__outward_acoustic::a0.50::plus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "ef113376d18a6a55cdbae6d0d9988afd0297f08795676a629f28488037cc39cb",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p4__outward_acoustic",
+      "family": "outward_acoustic",
+      "packet_id": "p4__outward_acoustic::a1.00::minus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "8d04b643168db0b53cfe11c2428204b714566558e39215560e2ab15efcde1c16",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p4__outward_acoustic",
+      "family": "outward_acoustic",
+      "packet_id": "p4__outward_acoustic::a1.00::plus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "3828504d2c46b13567d06bc3ba03981ea2fd12c0ecd32727d34e02e014fad842",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p4__mixed",
+      "family": "mixed",
+      "packet_id": "p4__mixed::a0.50::minus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "06afde2c4c29c88ffa0eead9d0c895cad69141727f07312db936de3a8c4aef06",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_id": "base::p4__mixed",
+      "family": "mixed",
+      "packet_id": "p4__mixed::a0.50::plus",
+      "physical_amplitude": 0.005,
+      "projection_sha256": "5e14700a449a2230ff8c999240e572ae75f9f7158d1750a1c059094f985e4f0a",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p4__mixed",
+      "family": "mixed",
+      "packet_id": "p4__mixed::a1.00::minus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "94ad989f819e4d07cd2fbf322f8283012f2d5a275fd5579a8bf15f91a127d9e4",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_id": "base::p4__mixed",
+      "family": "mixed",
+      "packet_id": "p4__mixed::a1.00::plus",
+      "physical_amplitude": 0.01,
+      "projection_sha256": "c71005f5c459333bef74b3da21988d578e89d1c6c964941069f0b09fffcf67da",
+      "propagate_in_prospective_uniform_suite": true,
+      "role": "binding_theta20_window",
+      "sign": 1
+    }
+  ],
+  "parent_commit": "4fd671c10809fb015476549a7afb5fc56f0e3d0a",
+  "propagation_executed": false,
+  "prospective_propagation_contract": {
+    "all_manifest_variants_binding": true,
+    "binding_grids": [
+      "uniform_N128",
+      "uniform_N256",
+      "uniform_N512"
+    ],
+    "exact_boundary_semigroup_integral_required": true,
+    "instantaneous_and_cumulative_gates": {
+      "maximum_fine_normalized_difference": 0.05,
+      "minimum_history_cosine": 0.9,
+      "minimum_maximum_order": 0.75,
+      "minimum_refinement_error_cosine": 0.9,
+      "minimum_rms_order": 0.75,
+      "minimum_significant_component_order": 0.75
+    },
+    "no_threshold_changes_after_propagation": true,
+    "physical_export_vector_required": true,
+    "state_reference_gates": {
+      "maximum_N128_Richardson_error": 0.025,
+      "maximum_boundary_integral_uncertainty_to_fine_difference": 0.1,
+      "maximum_projection_uncertainty_to_fine_difference": 0.1,
+      "maximum_reference_uncertainty_to_fine_difference": 0.1,
+      "maximum_restart_uncertainty_to_fine_difference": 0.1
+    },
+    "stress_controls_nonbinding_and_not_propagated": true,
+    "time_horizon_s": 0.125
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c6b"
+}

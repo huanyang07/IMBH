@@ -1,0 +1,417 @@
+{
+  "analyzed_base_commit": "4fd671c10809fb015476549a7afb5fc56f0e3d0a",
+  "analyzed_base_parent": "8d7f4ebcf5ab3fe97dfdc54abf2eb82c5ffb0858",
+  "analyzed_base_tree": "09cc420fb3b5780b77417dddd9744ed04fbbdbb2",
+  "audit_executed": true,
+  "authorized_next": "WP10c9d6c6c_prospective_uniform_packet_propagation",
+  "classification": "packet_definition_manifest_frozen_uniform_propagation_authorized",
+  "decisive_array_hashes": {
+    "N128_cell_measures": "f8fd8ab180a06305b584e34e95c62efd22870b722c9754e89249fc6973fd9fc1",
+    "N128_centers": "e8e1a9fd031131f651be286c01146438ce1f6297fceb3b5f09a0c74443ad7f1f",
+    "N128_characteristic_bases": "57e809e3a56019f59d7d8aaa8050e4899113141cfdff61837ed77c349a3c2659",
+    "characteristic_field_physical_vectors": "b239303fb263393a49480ab6ae7f05ed9d8b283dbdf355e4956e2423379912cd",
+    "characteristic_field_radii": "c86d7838abe10f99b842c7fe8151cca99b12cb20d41e8a2cd515172e9d52c14c",
+    "family_purity_matrix": "bde8f1a22317de242777b66500b86289f68621f9eb8ed660d6b3c503cff9df26",
+    "p2__inward_acoustic__N128_physical": "7c33cf207309c04af0f147459a1d6b9e56f5e8b11abe18bc82a8bcdba59b83de",
+    "p2__inward_shear__N128_physical": "3cb0a08afbb31663bdbd6e8d3a1485f02656ec9308c677c2fbe1399c0bd5b8c8",
+    "p2__material__N128_physical": "db1ec93ff2787a94ba42c94cfb7e41d9bd4f74c3dca93a8c168c9a8564fcfadb",
+    "p2__outward_acoustic__N128_physical": "8506c87b4d4dd777404e61841bb4da33c269d4e066424f0343cc46a22ea2142f",
+    "p2__outward_shear__N128_physical": "01573c6a90cf484e67bf72efb73425a06a959489b1ad10863a39a96af8c96245",
+    "p4__inward_acoustic__N128_physical": "e0688b7549ed9256290bb9132bce3363a2b43111213b6a18a46eabb1c75375fa",
+    "p4__inward_shear__N128_physical": "a7dce70d8d25266869b9d16130b5d829132c08e0430dd4d3c3b667246726b119",
+    "p4__material__N128_physical": "3c15e6176bc7af9082d3d115b056859d141040b8a25f0872bcb7e2795174f903",
+    "p4__mixed__N128_physical": "c71005f5c459333bef74b3da21988d578e89d1c6c964941069f0b09fffcf67da",
+    "p4__outward_acoustic__N128_physical": "3828504d2c46b13567d06bc3ba03981ea2fd12c0ecd32727d34e02e014fad842",
+    "p4__outward_shear__N128_physical": "98575f78e4a28ffb606cb5d579c754f6cdf4d36284870ed62a0127f2b7fb811d"
+  },
+  "decisive_arrays_sha256": "68d20e9533426b36806ec028a258864ce9d0a3004e69be67e4deba500f96595e",
+  "embedded_export_discrimination_authorized": false,
+  "fixed_q_micro_solver_authorized": false,
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_packet_manifest_wp10c9d6c6b.py": "f286bb9741310d74794911e981a6eb6c5e96f71d7865950887bf0bab0ab79d45",
+    "scripts/run_causal_inner_windowed_contract_wp10c9d6c6a2.py": "aa95d29d13c3764c2845c7a3eb174f8bb97d50b8348de2db089a92b8d8fc5e4c",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_packet_manifest.py": "a00b9c76ff07df81669c05658394b34c49a59ce43bd8373b14ccc6e538875286",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_windowed_contract.py": "a8d676b195607d2bcd6aafe5b42cd4fb8dd603c4020b73de0799a2d19ab54dc0",
+    "tests/test_causal_inner_packet_manifest.py": "c3c8d7137be71a0a8b0ca64a4abf2b866cd1b0acd05b96ea35541f776d764f57",
+    "tests/test_causal_inner_packet_manifest_wp10c9d6c6b.py": "8031c0d955d70f7a32a5e5da3b0b2552ec7a7178d97384011627fed5566014b7"
+  },
+  "implementation_source_manifest_sha256": "0926a0c80f945febd61b8aa8900f39c6ab60a23fa21202b39dfe84aaa3c6ea55",
+  "manifest_file_sha256": "d2cb2959b2d8598db21abe000382ecdce75d04ec9234e7600b0a115c35152680",
+  "manifest_path": "results/canonical/causal_inner_packet_manifest_wp10c9d6c6b/packet_manifest.json",
+  "manifest_report": {
+    "all_base_profiles_eligible": true,
+    "base_profile_count": 11,
+    "characteristic_report": {
+      "maximum_basis_condition_number": 81.73703371428185,
+      "maximum_dimensionless_norm_defect": 1.1102230246251565e-16,
+      "maximum_eigenpair_defect": 3.9093246476026727e-16,
+      "minimum_adjacent_overlap": 0.9999999822417409,
+      "minimum_coordinate_speed_gap_over_c": 0.00500966624089394,
+      "node_count": 513,
+      "passed": true
+    },
+    "continuum_construction_passed": true,
+    "manifest_sha256": "c908494d0886e126c4c8f4a6ef80e872e7df6161cf8937bc39cfbbe0a65811fc",
+    "maximum_parent_projection_replay_defect": 0.0,
+    "maximum_scaling_defect": 0.0,
+    "packet_variant_count": 44,
+    "passed": true,
+    "probe_replay_report": {
+      "all_spectra_passed": true,
+      "definitions": {
+        "p2__inward_acoustic": {
+          "family": "inward_acoustic",
+          "mixed_coefficients": null,
+          "role": "low_wavenumber_control",
+          "window_power": 2
+        },
+        "p2__inward_shear": {
+          "family": "inward_shear",
+          "mixed_coefficients": null,
+          "role": "low_wavenumber_control",
+          "window_power": 2
+        },
+        "p2__material": {
+          "family": "material",
+          "mixed_coefficients": null,
+          "role": "low_wavenumber_control",
+          "window_power": 2
+        },
+        "p2__outward_acoustic": {
+          "family": "outward_acoustic",
+          "mixed_coefficients": null,
+          "role": "low_wavenumber_control",
+          "window_power": 2
+        },
+        "p2__outward_shear": {
+          "family": "outward_shear",
+          "mixed_coefficients": null,
+          "role": "low_wavenumber_control",
+          "window_power": 2
+        },
+        "p4__inward_acoustic": {
+          "family": "inward_acoustic",
+          "mixed_coefficients": null,
+          "role": "binding_theta20_window",
+          "window_power": 4
+        },
+        "p4__inward_shear": {
+          "family": "inward_shear",
+          "mixed_coefficients": null,
+          "role": "binding_theta20_window",
+          "window_power": 4
+        },
+        "p4__material": {
+          "family": "material",
+          "mixed_coefficients": null,
+          "role": "binding_theta20_window",
+          "window_power": 4
+        },
+        "p4__mixed": {
+          "family": "mixed",
+          "mixed_coefficients": [
+            0.35,
+            -0.4,
+            0.5,
+            -0.45,
+            0.3
+          ],
+          "role": "binding_theta20_window",
+          "window_power": 4
+        },
+        "p4__outward_acoustic": {
+          "family": "outward_acoustic",
+          "mixed_coefficients": null,
+          "role": "binding_theta20_window",
+          "window_power": 4
+        },
+        "p4__outward_shear": {
+          "family": "outward_shear",
+          "mixed_coefficients": null,
+          "role": "binding_theta20_window",
+          "window_power": 4
+        }
+      },
+      "maximum_endpoint_cell_fraction": 0.0014540906941924274,
+      "passed": true,
+      "spectrum_reports": {
+        "p2__inward_acoustic": {
+          "family": "inward_acoustic",
+          "nyquist_alias_fraction": 0.00046792312591510535,
+          "role": "low_wavenumber_control",
+          "secondary_projection_theta_99": 0.18407769454627695,
+          "spectral_passed": true,
+          "theta_99": 0.18407769454627695,
+          "theta_projection_difference": 0.0,
+          "window_power": 2
+        },
+        "p2__inward_shear": {
+          "family": "inward_shear",
+          "nyquist_alias_fraction": 0.0004678665853205933,
+          "role": "low_wavenumber_control",
+          "secondary_projection_theta_99": 0.18407769454627695,
+          "spectral_passed": true,
+          "theta_99": 0.18407769454627695,
+          "theta_projection_difference": 0.0,
+          "window_power": 2
+        },
+        "p2__material": {
+          "family": "material",
+          "nyquist_alias_fraction": 0.00046784619934117633,
+          "role": "low_wavenumber_control",
+          "secondary_projection_theta_99": 0.18407769454627695,
+          "spectral_passed": true,
+          "theta_99": 0.18407769454627695,
+          "theta_projection_difference": 0.0,
+          "window_power": 2
+        },
+        "p2__outward_acoustic": {
+          "family": "outward_acoustic",
+          "nyquist_alias_fraction": 0.00046792312591510546,
+          "role": "low_wavenumber_control",
+          "secondary_projection_theta_99": 0.18407769454627695,
+          "spectral_passed": true,
+          "theta_99": 0.18407769454627695,
+          "theta_projection_difference": 0.0,
+          "window_power": 2
+        },
+        "p2__outward_shear": {
+          "family": "outward_shear",
+          "nyquist_alias_fraction": 0.00046786658532059337,
+          "role": "low_wavenumber_control",
+          "secondary_projection_theta_99": 0.18407769454627695,
+          "spectral_passed": true,
+          "theta_99": 0.18407769454627695,
+          "theta_projection_difference": 0.0,
+          "window_power": 2
+        },
+        "p4__inward_acoustic": {
+          "family": "inward_acoustic",
+          "nyquist_alias_fraction": 0.0008013953974813485,
+          "role": "binding_theta20_window",
+          "secondary_projection_theta_99": 0.24543692606170261,
+          "spectral_passed": true,
+          "theta_99": 0.24543692606170261,
+          "theta_projection_difference": 0.0,
+          "window_power": 4
+        },
+        "p4__inward_shear": {
+          "family": "inward_shear",
+          "nyquist_alias_fraction": 0.0008013394477087184,
+          "role": "binding_theta20_window",
+          "secondary_projection_theta_99": 0.24543692606170261,
+          "spectral_passed": true,
+          "theta_99": 0.24543692606170261,
+          "theta_projection_difference": 0.0,
+          "window_power": 4
+        },
+        "p4__material": {
+          "family": "material",
+          "nyquist_alias_fraction": 0.0008013207485390937,
+          "role": "binding_theta20_window",
+          "secondary_projection_theta_99": 0.24543692606170261,
+          "spectral_passed": true,
+          "theta_99": 0.24543692606170261,
+          "theta_projection_difference": 0.0,
+          "window_power": 4
+        },
+        "p4__mixed": {
+          "family": "mixed",
+          "nyquist_alias_fraction": 0.0008013208901027171,
+          "role": "binding_theta20_window",
+          "secondary_projection_theta_99": 0.24543692606170261,
+          "spectral_passed": true,
+          "theta_99": 0.24543692606170261,
+          "theta_projection_difference": 0.0,
+          "window_power": 4
+        },
+        "p4__outward_acoustic": {
+          "family": "outward_acoustic",
+          "nyquist_alias_fraction": 0.0008013953974813485,
+          "role": "binding_theta20_window",
+          "secondary_projection_theta_99": 0.24543692606170261,
+          "spectral_passed": true,
+          "theta_99": 0.24543692606170261,
+          "theta_projection_difference": 0.0,
+          "window_power": 4
+        },
+        "p4__outward_shear": {
+          "family": "outward_shear",
+          "nyquist_alias_fraction": 0.0008013394477087184,
+          "role": "binding_theta20_window",
+          "secondary_projection_theta_99": 0.24543692606170261,
+          "spectral_passed": true,
+          "theta_99": 0.24543692606170261,
+          "theta_projection_difference": 0.0,
+          "window_power": 4
+        }
+      }
+    },
+    "purity_reports": {
+      "p2__inward_acoustic": {
+        "family_energy_fractions": [
+          0.9999999940794945,
+          0.0,
+          2.2588448921569814e-17,
+          0.0,
+          5.920505560918079e-09
+        ],
+        "maximum_reconstruction_defect": 2.0868043798066445e-16,
+        "minimum_active_cell_selected_fraction": 0.9999742095326918,
+        "passed": true,
+        "selected_family": "inward_acoustic",
+        "selected_global_energy_fraction": 0.9999999940794945
+      },
+      "p2__inward_shear": {
+        "family_energy_fractions": [
+          2.3001535848538722e-38,
+          0.9999999933453838,
+          1.3287818046279824e-37,
+          6.654616215979651e-09,
+          4.61155451558778e-40
+        ],
+        "maximum_reconstruction_defect": 2.007920838263475e-16,
+        "minimum_active_cell_selected_fraction": 0.9999742969315876,
+        "passed": true,
+        "selected_family": "inward_shear",
+        "selected_global_energy_fraction": 0.9999999933453838
+      },
+      "p2__material": {
+        "family_energy_fractions": [
+          2.1655523058180316e-15,
+          0.0,
+          0.9999999999999957,
+          0.0,
+          2.1655523048325318e-15
+        ],
+        "maximum_reconstruction_defect": 6.860439189443118e-17,
+        "minimum_active_cell_selected_fraction": 0.999999999896805,
+        "passed": true,
+        "selected_family": "material",
+        "selected_global_energy_fraction": 0.9999999999999957
+      },
+      "p2__outward_acoustic": {
+        "family_energy_fractions": [
+          5.920505560919305e-09,
+          0.0,
+          2.258845076664063e-17,
+          0.0,
+          0.9999999940794944
+        ],
+        "maximum_reconstruction_defect": 6.203467409697037e-17,
+        "minimum_active_cell_selected_fraction": 0.9999742095326918,
+        "passed": true,
+        "selected_family": "outward_acoustic",
+        "selected_global_energy_fraction": 0.9999999940794944
+      },
+      "p2__outward_shear": {
+        "family_energy_fractions": [
+          4.611554515587821e-40,
+          6.654616215980226e-09,
+          1.3287818046279865e-37,
+          0.9999999933453838,
+          2.3001535848538709e-38
+        ],
+        "maximum_reconstruction_defect": 1.830933653541555e-17,
+        "minimum_active_cell_selected_fraction": 0.9999742969315876,
+        "passed": true,
+        "selected_family": "outward_shear",
+        "selected_global_energy_fraction": 0.9999999933453838
+      },
+      "p4__inward_acoustic": {
+        "family_energy_fractions": [
+          0.9999999925163597,
+          0.0,
+          1.3658329625074475e-17,
+          0.0,
+          7.483640164755499e-09
+        ],
+        "maximum_reconstruction_defect": 2.0707840997686408e-16,
+        "minimum_active_cell_selected_fraction": 0.9999976746238483,
+        "passed": true,
+        "selected_family": "inward_acoustic",
+        "selected_global_energy_fraction": 0.9999999925163597
+      },
+      "p4__inward_shear": {
+        "family_energy_fractions": [
+          2.131855365037968e-38,
+          0.9999999915168227,
+          1.2386530771425812e-37,
+          8.483177355193321e-09,
+          5.475409771295992e-40
+        ],
+        "maximum_reconstruction_defect": 2.2121300334761896e-16,
+        "minimum_active_cell_selected_fraction": 0.9999978011809286,
+        "passed": true,
+        "selected_family": "inward_shear",
+        "selected_global_energy_fraction": 0.9999999915168227
+      },
+      "p4__material": {
+        "family_energy_fractions": [
+          1.3114642930260263e-15,
+          0.0,
+          0.9999999999999974,
+          0.0,
+          1.3114642916225928e-15
+        ],
+        "maximum_reconstruction_defect": 7.448343832209951e-17,
+        "minimum_active_cell_selected_fraction": 0.9999999999948119,
+        "passed": true,
+        "selected_family": "material",
+        "selected_global_energy_fraction": 0.9999999999999974
+      },
+      "p4__mixed": {
+        "energy_fractions": [
+          0.14848387679210093,
+          0.19393738840902058,
+          0.3030302724098128,
+          0.24545669717985102,
+          0.10909176520921472
+        ],
+        "minimum_active_cell_coefficient_cosine": 0.9999997186583787,
+        "passed": true
+      },
+      "p4__outward_acoustic": {
+        "family_energy_fractions": [
+          7.483640164763971e-09,
+          0.0,
+          1.3658329931450355e-17,
+          0.0,
+          0.9999999925163597
+        ],
+        "maximum_reconstruction_defect": 6.263943623521879e-17,
+        "minimum_active_cell_selected_fraction": 0.9999976746238483,
+        "passed": true,
+        "selected_family": "outward_acoustic",
+        "selected_global_energy_fraction": 0.9999999925163597
+      },
+      "p4__outward_shear": {
+        "family_energy_fractions": [
+          5.475409771296016e-40,
+          8.483177355201816e-09,
+          1.2386530771425858e-37,
+          0.9999999915168227,
+          2.131855365037966e-38
+        ],
+        "maximum_reconstruction_defect": 1.3673744395969887e-17,
+        "minimum_active_cell_selected_fraction": 0.9999978011809286,
+        "passed": true,
+        "selected_family": "outward_shear",
+        "selected_global_energy_fraction": 0.9999999915168227
+      }
+    },
+    "stress_control_count": 4
+  },
+  "nonlinear_physical_trajectory_authorized": false,
+  "operator_changed": false,
+  "parent_classification": "variable_coefficient_windowed_contract_certified_packet_manifest_authorized",
+  "parent_classification_preserved": true,
+  "passed": true,
+  "production_operator_authorized": false,
+  "propagation_executed": false,
+  "prospective_uniform_packet_propagation_authorized": true,
+  "reduced_slow_evolution_authorized": false,
+  "runtime_seconds": 6.709772750036791,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c6b"
+}
