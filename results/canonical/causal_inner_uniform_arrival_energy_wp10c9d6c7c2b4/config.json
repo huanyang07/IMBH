@@ -1,0 +1,146 @@
+{
+  "embedded_or_nonlinear_propagation_executed": false,
+  "family_transfer_contract": {
+    "definition": "project the state with normalization-invariant, energy-orthogonal projectors before evaluating the same positive band energy",
+    "opposite_family_leakage": "sum of arrival energies outside the declared target family indices",
+    "partition_identity": "target arrival + opposite-family leakage = total arrival",
+    "target_arrival": "sum of arrival energies in the declared target family indices",
+    "target_indices": {
+      "acoustic": [
+        0
+      ],
+      "mixed_shear_acoustic": [
+        0,
+        1
+      ],
+      "shear": [
+        1
+      ]
+    }
+  },
+  "gates": {
+    "exact_null_and_amplitude_scaling": true,
+    "exact_restart_replay": true,
+    "maximum_energy_ledger_defect": 1e-10,
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_RMS_order": 0.75,
+    "minimum_component_order": 0.75,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_observable_error_cosine": 0.9
+  },
+  "geometry_and_windows": {
+    "arrival_windows": {
+      "acoustic": [
+        0.0,
+        11.141908685984637
+      ],
+      "mixed_shear_acoustic": [
+        0.0,
+        11.82686804912109
+      ],
+      "shear": [
+        0.0,
+        11.82686804912109
+      ]
+    },
+    "bands_scale_by_exact_nested_integer_factor": true,
+    "observed_histories_may_not_move_windows": true,
+    "receiving_band_faces_N98": [
+      6,
+      49
+    ],
+    "receiving_band_nuisance_faces_N98": [
+      [
+        5,
+        48
+      ],
+      [
+        5,
+        49
+      ],
+      [
+        6,
+        48
+      ],
+      [
+        6,
+        49
+      ],
+      [
+        7,
+        48
+      ],
+      [
+        7,
+        49
+      ]
+    ],
+    "reference_levels": [
+      98,
+      196,
+      392
+    ],
+    "source_band_faces_N98": [
+      52,
+      95
+    ],
+    "time_sample_counts": [
+      257,
+      513,
+      1025
+    ],
+    "time_stride_diagnostics": [
+      1,
+      2,
+      4
+    ],
+    "upstream_diagnostic_band_faces_N98": [
+      95,
+      98
+    ],
+    "window_padding_nuisance_factors": [
+      0.5,
+      1.0,
+      1.5
+    ],
+    "windows_derived_from_c2a3_characteristic_travel_times": true
+  },
+  "historical_local_face_ratio_is_nonbinding": true,
+  "operator_changed": false,
+  "positive_transfer_contract": {
+    "definition": "A_total = integral_window E_receiving_total(t) dt / (window_duration * E_initial_source)",
+    "name": "normalized_time_averaged_receiving_band_energy",
+    "need_not_be_bounded_by_one": true,
+    "normalization": "the positive initial source-band energy computed on the same grid from the analytic reprojection",
+    "peak_companion": "maximum receiving-band energy divided by initial source-band energy",
+    "primary_history": "positive receiving-band total-energy history divided by initial source-band energy",
+    "reason_not_bounded": "variable-background, descriptor, relaxation and lower-source work can amplify or attenuate stored packet energy",
+    "receiving_energy": "E_receiving_total(t) = 1/2 sum_cells delta_p.T H delta_p Delta_lnR over fixed faces [6,49]",
+    "strictly_nonnegative": true
+  },
+  "reference_levels": [
+    98,
+    196,
+    392
+  ],
+  "schema_version": 1,
+  "uncertainty_contract": {
+    "combination": "conservative deterministic sum or directly measured nuisance envelope; no root-sum-square without demonstrated independence",
+    "components": [
+      "continuum_reference",
+      "analytic_projection",
+      "invariant_subspace_choice",
+      "receiving_band_placement",
+      "arrival_window_padding",
+      "time_sampling",
+      "restart",
+      "roundoff"
+    ],
+    "direction_cosine_binding_rule": "both refinement-error norms must exceed the frozen uncertainty envelope by the observability factor",
+    "maximum_reference_uncertainty_to_medium_fine_difference": 0.1,
+    "no_slow_impact_threshold": true,
+    "observability_factor": 5.0
+  },
+  "work_package": "WP10c9d6c7c2b4"
+}
