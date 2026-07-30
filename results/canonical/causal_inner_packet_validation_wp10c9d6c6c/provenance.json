@@ -1,0 +1,38 @@
+{
+  "analyzed_base_commit": "2593204ee4b0a7116157b7fda0b619cf5fd0bab7",
+  "analyzed_base_parent": "4fd671c10809fb015476549a7afb5fc56f0e3d0a",
+  "analyzed_base_tree": "5e9c272a93421fbf84bc8aec221830608a9b417e",
+  "command": "PYTHONPATH=src:scripts python scripts/run_causal_inner_packet_validation_wp10c9d6c6c.py",
+  "environment": {
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "implementation_base_tree": "9e44ae766256d87d96c4a83be5a30a8feef2e5f1",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_continuum_lift_wp10c9d6c3.py": "61526246e0a9206bb987df0c554496d6a75ad5a0553af1751d36a14cdfa7bbe5",
+    "scripts/run_causal_inner_packet_manifest_wp10c9d6c6b.py": "f286bb9741310d74794911e981a6eb6c5e96f71d7865950887bf0bab0ab79d45",
+    "scripts/run_causal_inner_packet_validation_wp10c9d6c6c.py": "9e485c91b4aaa52ca6e30bf5afd2afa17402b65b1632171678ac6caa7842ee3d",
+    "scripts/run_causal_inner_windowed_contract_wp10c9d6c6a2.py": "aa95d29d13c3764c2845c7a3eb174f8bb97d50b8348de2db089a92b8d8fc5e4c",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_tangent.py": "23a958a894fc40188a0cda1e640f943bd00dc8070a64af4b2b2a56cd609ba0c4",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_packet_manifest.py": "a00b9c76ff07df81669c05658394b34c49a59ce43bd8373b14ccc6e538875286",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_packet_validation.py": "31d384bc008f0ea1e94ba1ef4569037d63930b74f4f98425a4c643c8698f99d1",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_windowed_contract.py": "a8d676b195607d2bcd6aafe5b42cd4fb8dd603c4020b73de0799a2d19ab54dc0",
+    "tests/test_causal_inner_packet_validation.py": "bba2fc00f219b0b44608beca17f1095e2820431dfb306827a474217a7eb81163",
+    "tests/test_causal_inner_packet_validation_wp10c9d6c6c.py": "8f82ae77b305871367d6255cbe9b8416ebafbfaeb3e5fef522cb4703eab36427"
+  },
+  "implementation_source_manifest_sha256": "58fb64d27a807104af8c33f44266c90d8b2c34d5f3580dd25dd9a98a73abdcae",
+  "parent_canonical_hashes": {
+    "results/canonical/causal_inner_packet_manifest_wp10c9d6c6b/config.json": "778416dc4dd6f9a69df16cc83ba3015a57771f86333cf35562c88f13e7e66431",
+    "results/canonical/causal_inner_packet_manifest_wp10c9d6c6b/decisive_arrays.npz": "68d20e9533426b36806ec028a258864ce9d0a3004e69be67e4deba500f96595e",
+    "results/canonical/causal_inner_packet_manifest_wp10c9d6c6b/packet_manifest.json": "d2cb2959b2d8598db21abe000382ecdce75d04ec9234e7600b0a115c35152680",
+    "results/canonical/causal_inner_packet_manifest_wp10c9d6c6b/provenance.json": "4711e695bbeb9f18d061a0fde7286d288f2d29dae763fe743be82057cf1153d1",
+    "results/canonical/causal_inner_packet_manifest_wp10c9d6c6b/summary.json": "9cd4c8e6a519b4edf0663691d2500011d2be5024b85c4101032ef7f0c423ff46"
+  },
+  "schema_version": 1,
+  "scientific_status": "REJECTED",
+  "source_parent_commit": "2593204ee4b0a7116157b7fda0b619cf5fd0bab7",
+  "work_package": "WP10c9d6c6c",
+  "working_tree_status": "?? docs/reports/gpt/CODEX_IMBH_119A998_REVIEW_AND_NEXT_PLAN.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_119A998_PROVISIONAL_REVIEW_AND_NEXT_PLAN_2026-07-17.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_1CF430F_REVIEW_AND_PHYSICAL_OUTER_BOUNDARY_PLAN_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_272E891_REVIEW_AND_LOCKED_NEXT_PLAN_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_8D0691B_REVIEW_AND_CHARACTERISTIC_RESPONSE_PLAN_2026-07-16.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_B9B1BC1_REVIEW_AND_LOCKED_TIME_EVOLUTION_PLAN_2026-07-11.md\n?? docs/reports/gpt/CODEX_IMBH_DAE_BOUNDARY_CONSTRAINT_INDEX_AND_REVISED_COUNTS_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_LATEST_UPDATE_REVIEW_AND_LOCKED_NEXT_PLAN_2026-07-14.md\n?? docs/reports/gpt/CODEX_IMBH_PHYSICS_DISCUSSION_AND_STAGED_TIME_DEPENDENT_PLAN_2026-07-11.md\n?? docs/reports/gpt/CODEX_IMBH_PRODUCTION_FACE_TORQUE_AND_FINAL_DAE_ARCHITECTURE_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_TIME_DAE_EXACT_UNKNOWN_RESIDUAL_COUNT_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_TIME_DEPENDENT_DAE_DERIVATION_AND_REVISED_LOCKED_PLAN_2026-07-12.md\n?? docs/reports/gpt/IMBH_long_timescale_evolution_plan_for_codex.md"
+}

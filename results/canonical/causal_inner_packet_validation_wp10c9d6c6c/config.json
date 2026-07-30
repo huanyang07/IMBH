@@ -1,0 +1,59 @@
+{
+  "exact_cumulative_method": "G_inverse_expm_tG_minus_identity_with_one_step_iterative_refinement",
+  "frozen_contract": {
+    "all_manifest_variants_binding": true,
+    "binding_grids": [
+      "uniform_N128",
+      "uniform_N256",
+      "uniform_N512"
+    ],
+    "exact_boundary_semigroup_integral_required": true,
+    "instantaneous_and_cumulative_gates": {
+      "maximum_fine_normalized_difference": 0.05,
+      "minimum_history_cosine": 0.9,
+      "minimum_maximum_order": 0.75,
+      "minimum_refinement_error_cosine": 0.9,
+      "minimum_rms_order": 0.75,
+      "minimum_significant_component_order": 0.75
+    },
+    "no_threshold_changes_after_propagation": true,
+    "physical_export_vector_required": true,
+    "state_reference_gates": {
+      "maximum_N128_Richardson_error": 0.025,
+      "maximum_boundary_integral_uncertainty_to_fine_difference": 0.1,
+      "maximum_projection_uncertainty_to_fine_difference": 0.1,
+      "maximum_reference_uncertainty_to_fine_difference": 0.1,
+      "maximum_restart_uncertainty_to_fine_difference": 0.1
+    },
+    "stress_controls_nonbinding_and_not_propagated": true,
+    "time_horizon_s": 0.125
+  },
+  "labels": [
+    "uniform_N128",
+    "uniform_N256",
+    "uniform_N512"
+  ],
+  "manifest_sha256": "c908494d0886e126c4c8f4a6ef80e872e7df6161cf8937bc39cfbbe0a65811fc",
+  "maximum_propagation_scaling_defect": 1e-10,
+  "minimum_relative_activity": 1e-08,
+  "observable_names": [
+    "inner_flux_mass",
+    "inner_flux_angular_momentum",
+    "inner_flux_killing_energy",
+    "interface_flux_mass",
+    "interface_flux_angular_momentum",
+    "interface_flux_killing_energy",
+    "net_drive_mass",
+    "net_drive_angular_momentum",
+    "net_drive_killing_energy",
+    "cooling_angular_momentum",
+    "cooling_killing_energy",
+    "vertical_work_angular_momentum",
+    "vertical_work_killing_energy"
+  ],
+  "operator_change": false,
+  "schema_version": 1,
+  "time_horizon_s": 0.125,
+  "time_sample_count": 65,
+  "work_package": "WP10c9d6c6c"
+}
