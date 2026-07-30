@@ -1,0 +1,88 @@
+{
+  "base_profile_count": 5,
+  "base_profiles": [
+    "p3__inward_shear",
+    "p3__outward_shear",
+    "p5__inward_shear",
+    "p5__outward_shear",
+    "p3__material"
+  ],
+  "component_route_contract": {
+    "active_band_rule": "maximum_absolute_coarse_or_restricted_medium_or_restricted_fine_band_history_over_fixed_physical_scale_at_least_1e-8",
+    "active_cell_rule": "maximum_absolute_coarse_or_restricted_medium_or_restricted_fine_cell_history_over_fixed_physical_scale_at_least_1e-8",
+    "alternate_route_forbidden_for_all_other_components": true,
+    "alternate_route_requires_all_other_parent_gates": true,
+    "alternate_route_requires_direct_order_failure_only": true,
+    "alternate_route_scope": {
+      "conservative_channel": "angular_momentum",
+      "history_types": [
+        "instantaneous",
+        "cumulative"
+      ],
+      "physical_block": "lower_height_work"
+    },
+    "cancellation_ratio_definition": "time_weighted_norm_of_signed_sum_of_band_errors_divided_by_sum_of_time_weighted_band_error_norms",
+    "fine_band_error_envelope_definition": "sum_over_active_bands_of_maximum_over_time_absolute_restricted_N512_minus_restricted_N256_band_error_divided_by_fixed_physical_angular_momentum_scale",
+    "historical_direct_component_route_preserved": true,
+    "maximum_absolute_band_error_envelope": 0.05,
+    "maximum_cancellation_ratio_each_grid_pair": 0.25,
+    "maximum_continuum_uncertainty_to_fine_difference": 0.1,
+    "maximum_direct_sum_defect": 1e-12,
+    "maximum_global_fine_normalized_difference": 0.05,
+    "maximum_signed_gram_closure_defect": 1e-12,
+    "minimum_active_band_refinement_error_cosine": 0.9,
+    "minimum_active_cell_rms_order": 0.75,
+    "minimum_direct_or_band_maximum_order": 0.75,
+    "minimum_direct_or_band_rms_order": 0.75,
+    "minimum_profiles_required_to_use_alternate_route": 0,
+    "minimum_relative_activity": 1e-08,
+    "no_fitted_coefficients": true,
+    "no_retroactive_application_to_wp10c9d6c6c": true,
+    "route_usage_must_be_reported": true,
+    "standard_route_applies_to_every_significant_component": true,
+    "triangle_inequality_is_binding_not_a_fitted_model": true
+  },
+  "operator_change": false,
+  "physical_band_contract": {
+    "always_include_outer_domain_edge": true,
+    "restriction_rule": "exact_sum_of_nested_cell_integrals",
+    "selection_grid": "uniform_N128",
+    "selection_rule": "nearest_grid_edge_to_each_target",
+    "target_edges_over_rg": [
+      1.8,
+      3.0,
+      5.0,
+      8.0,
+      10.5
+    ],
+    "time_horizon_s": 0.125,
+    "time_quadrature": "trapezoid_on_frozen_65_samples"
+  },
+  "propagation_executed": false,
+  "prospective_propagation_contract": {
+    "all_profile_variants_binding": true,
+    "binding_grids": [
+      "uniform_N128",
+      "uniform_N256",
+      "uniform_N512"
+    ],
+    "classification_if_all_variants_pass": "uniform_operator_certified_for_declared_resolved_profile_class",
+    "classification_if_any_variant_fails": "prospective_band_envelope_validation_failed",
+    "exact_boundary_semigroup_integral_required": true,
+    "exact_profile_projections_inherited_from_wp10c9d6c6e1": true,
+    "maximum_fine_normalized_difference": 0.05,
+    "maximum_state_reference_uncertainty_to_fine_difference": 0.1,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_rms_order": 0.75,
+    "no_definition_or_threshold_changes_after_this_manifest": true,
+    "sign_and_amplitude_scaling_must_replay": true,
+    "state_and_aggregate_export_gates_unchanged_from_wp10c9d6c6c": true,
+    "time_horizon_s": 0.125,
+    "time_sample_count": 65
+  },
+  "schema_version": 1,
+  "variant_count": 20,
+  "work_package": "WP10c9d6c6f0"
+}

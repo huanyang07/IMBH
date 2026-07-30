@@ -1,0 +1,425 @@
+{
+  "base_profile_definitions": {
+    "p3__inward_shear": {
+      "envelope": {
+        "kind": "full_domain_sine_power",
+        "power": 3
+      },
+      "family": "inward_shear",
+      "role": "unseen_standard_shear"
+    },
+    "p3__material": {
+      "envelope": {
+        "kind": "full_domain_sine_power",
+        "power": 3
+      },
+      "family": "material",
+      "role": "unseen_standard_control"
+    },
+    "p3__outward_shear": {
+      "envelope": {
+        "kind": "full_domain_sine_power",
+        "power": 3
+      },
+      "family": "outward_shear",
+      "role": "unseen_standard_shear"
+    },
+    "p5__inward_shear": {
+      "envelope": {
+        "kind": "full_domain_sine_power",
+        "power": 5
+      },
+      "family": "inward_shear",
+      "role": "unseen_standard_shear"
+    },
+    "p5__outward_shear": {
+      "envelope": {
+        "kind": "full_domain_sine_power",
+        "power": 5
+      },
+      "family": "outward_shear",
+      "role": "unseen_standard_shear"
+    }
+  },
+  "closed_e2b_selected_profile_manifest_sha256": "4c47cd2b2e26e1a0e5b8e377edbf9ff3ebdc646e333ceca0414bcc366ff048a4",
+  "component_route_contract": {
+    "active_band_rule": "maximum_absolute_coarse_or_restricted_medium_or_restricted_fine_band_history_over_fixed_physical_scale_at_least_1e-8",
+    "active_cell_rule": "maximum_absolute_coarse_or_restricted_medium_or_restricted_fine_cell_history_over_fixed_physical_scale_at_least_1e-8",
+    "alternate_route_forbidden_for_all_other_components": true,
+    "alternate_route_requires_all_other_parent_gates": true,
+    "alternate_route_requires_direct_order_failure_only": true,
+    "alternate_route_scope": {
+      "conservative_channel": "angular_momentum",
+      "history_types": [
+        "instantaneous",
+        "cumulative"
+      ],
+      "physical_block": "lower_height_work"
+    },
+    "cancellation_ratio_definition": "time_weighted_norm_of_signed_sum_of_band_errors_divided_by_sum_of_time_weighted_band_error_norms",
+    "fine_band_error_envelope_definition": "sum_over_active_bands_of_maximum_over_time_absolute_restricted_N512_minus_restricted_N256_band_error_divided_by_fixed_physical_angular_momentum_scale",
+    "historical_direct_component_route_preserved": true,
+    "maximum_absolute_band_error_envelope": 0.05,
+    "maximum_cancellation_ratio_each_grid_pair": 0.25,
+    "maximum_continuum_uncertainty_to_fine_difference": 0.1,
+    "maximum_direct_sum_defect": 1e-12,
+    "maximum_global_fine_normalized_difference": 0.05,
+    "maximum_signed_gram_closure_defect": 1e-12,
+    "minimum_active_band_refinement_error_cosine": 0.9,
+    "minimum_active_cell_rms_order": 0.75,
+    "minimum_direct_or_band_maximum_order": 0.75,
+    "minimum_direct_or_band_rms_order": 0.75,
+    "minimum_profiles_required_to_use_alternate_route": 0,
+    "minimum_relative_activity": 1e-08,
+    "no_fitted_coefficients": true,
+    "no_retroactive_application_to_wp10c9d6c6c": true,
+    "route_usage_must_be_reported": true,
+    "standard_route_applies_to_every_significant_component": true,
+    "triangle_inequality_is_binding_not_a_fitted_model": true
+  },
+  "eligibility_reused_not_reoptimized": true,
+  "fixed_physical_scale_array_sha256": "fd7dcc9ca75f3e9c7b1333846986e9aaeb19c45442f0dd8c7f6c6901f8430a99",
+  "historical_classifications_preserved": [
+    "prospective_uniform_packet_validation_failed",
+    "convergent_bands_noncontracting_cancellation_remainder",
+    "frozen_integral_profiles_ineligible",
+    "no_eligible_bandlimited_balance_profile"
+  ],
+  "inherited_e0_manifest_sha256": "7eee9c710df8ee48418e0e54007d2f5a02360c07f42af2a750df5d15b3cc9f92",
+  "inherited_e1_decisive_arrays_sha256": "a69c9581c4c3424430c383c3bf504755bb22e4e407b35f8f07814260b27193b1",
+  "manifest_sha256": "221a271dd861226bbc09eaf430dfc6bef47ad39a5b5d7e6e53520f9d75fcb643",
+  "operator_changed": false,
+  "parent_commit": "595a200bd2218eb0dfdfc2478f2706f917bc561b",
+  "physical_band_contract": {
+    "always_include_outer_domain_edge": true,
+    "restriction_rule": "exact_sum_of_nested_cell_integrals",
+    "selection_grid": "uniform_N128",
+    "selection_rule": "nearest_grid_edge_to_each_target",
+    "target_edges_over_rg": [
+      1.8,
+      3.0,
+      5.0,
+      8.0,
+      10.5
+    ],
+    "time_horizon_s": 0.125,
+    "time_quadrature": "trapezoid_on_frozen_65_samples"
+  },
+  "profile_eligibility_reports": {
+    "p3__inward_shear": {
+      "balance_passed": true,
+      "endpoint_passed": true,
+      "family": "inward_shear",
+      "maximum_endpoint_cell_fraction": 7.163876008620381e-05,
+      "maximum_projection_defect": 7.700745356255988e-13,
+      "minimum_active_cell_family_fraction": 0.9999918745738331,
+      "nyquist_alias_fraction": 0.00063138814828208,
+      "passed": true,
+      "projection_passed": true,
+      "purity_passed": true,
+      "role": "unseen_standard_shear",
+      "selected_global_family_fraction": 0.9999999926691239,
+      "spectral_passed": true,
+      "theta_99": 0.21475731030398976
+    },
+    "p3__material": {
+      "balance_passed": true,
+      "endpoint_passed": true,
+      "family": "material",
+      "maximum_endpoint_cell_fraction": 7.163875952590739e-05,
+      "maximum_projection_defect": 2.551510919695119e-16,
+      "minimum_active_cell_family_fraction": 0.9999999999727932,
+      "nyquist_alias_fraction": 0.0006313689057539602,
+      "passed": true,
+      "projection_passed": true,
+      "purity_passed": true,
+      "role": "unseen_standard_control",
+      "selected_global_family_fraction": 0.9999999999999971,
+      "spectral_passed": true,
+      "theta_99": 0.21475731030398976
+    },
+    "p3__outward_shear": {
+      "balance_passed": true,
+      "endpoint_passed": true,
+      "family": "outward_shear",
+      "maximum_endpoint_cell_fraction": 7.163876008620381e-05,
+      "maximum_projection_defect": 7.700599050726598e-13,
+      "minimum_active_cell_family_fraction": 0.9999918745738331,
+      "nyquist_alias_fraction": 0.00063138814828208,
+      "passed": true,
+      "projection_passed": true,
+      "purity_passed": true,
+      "role": "unseen_standard_shear",
+      "selected_global_family_fraction": 0.9999999926691239,
+      "spectral_passed": true,
+      "theta_99": 0.21475731030398976
+    },
+    "p5__inward_shear": {
+      "balance_passed": true,
+      "endpoint_passed": true,
+      "family": "inward_shear",
+      "maximum_endpoint_cell_fraction": 2.0544232902548447e-07,
+      "maximum_projection_defect": 7.900022384884572e-13,
+      "minimum_active_cell_family_fraction": 0.9999981604987798,
+      "nyquist_alias_fraction": 0.0009733134956714477,
+      "passed": true,
+      "projection_passed": true,
+      "purity_passed": true,
+      "role": "unseen_standard_shear",
+      "selected_global_family_fraction": 0.9999999902218857,
+      "spectral_passed": true,
+      "theta_99": 0.2699806186678729
+    },
+    "p5__outward_shear": {
+      "balance_passed": true,
+      "endpoint_passed": true,
+      "family": "outward_shear",
+      "maximum_endpoint_cell_fraction": 2.0544232902548447e-07,
+      "maximum_projection_defect": 7.90018301958227e-13,
+      "minimum_active_cell_family_fraction": 0.9999981604987798,
+      "nyquist_alias_fraction": 0.0009733134956714477,
+      "passed": true,
+      "projection_passed": true,
+      "purity_passed": true,
+      "role": "unseen_standard_shear",
+      "selected_global_family_fraction": 0.9999999902218857,
+      "spectral_passed": true,
+      "theta_99": 0.2699806186678729
+    }
+  },
+  "profile_projection_hashes": {
+    "p3__inward_shear__spectrum_cumulative": "e12c2b81996f7343085d2205d350de63251f5e7193404762bb9e203e08f2d3bc",
+    "p3__inward_shear__spectrum_energy": "ec9d2d494b4cc529ee69e318e02e28f1cd8100ccc25f3e1b36679a81a4efbc00",
+    "p3__inward_shear__spectrum_theta": "ad548d9e2bfc40a4b8552a953ad7b0de9eece6803ec56da0b6accec73762c0c5",
+    "p3__inward_shear__uniform_N128__primary_physical": "7c7c90446aa7ceb7330c04614afeb6a4dd96dede8aea68cb234a43e520d876ed",
+    "p3__inward_shear__uniform_N128__secondary_physical": "a08b85d21c8672f080bea5890a59206f33c3fc854d364c7a21511e86ec991a0c",
+    "p3__inward_shear__uniform_N256__primary_physical": "3c8200f346ee17fdd5c752c4aebecb30752a5cd1f66250c3b55bc4d8584f8c34",
+    "p3__inward_shear__uniform_N256__secondary_physical": "c736a2f415d5992346f55716ebbfeea1135e5bdf8628b7735d340a4d200d825c",
+    "p3__inward_shear__uniform_N512__primary_physical": "99475b4736fb4bea0d28ccf12d663e4f862dba6a25147255770cc3193fc399c6",
+    "p3__inward_shear__uniform_N512__secondary_physical": "cf745b8d51e332aa58e5ec6dc990c1eddde0315d09a104f5960ee016d25176c6",
+    "p3__material__spectrum_cumulative": "d39d6293d714ba6c265d06673136d9def227e87765ab51104e61cae2a6f4cf23",
+    "p3__material__spectrum_energy": "eefd1ad9317e658776b43f3a014f1a2c21b924cf6eacb86c949bc09c2dadcf78",
+    "p3__material__spectrum_theta": "ad548d9e2bfc40a4b8552a953ad7b0de9eece6803ec56da0b6accec73762c0c5",
+    "p3__material__uniform_N128__primary_physical": "5f447cbf36c751d1e3db34c51746bcdf084b0adf609be6cc323476505641b048",
+    "p3__material__uniform_N128__secondary_physical": "0283898474c8baaa5f03a1ed0bff9019df76ad9ad0dbe24edfa91e3dd2c78605",
+    "p3__material__uniform_N256__primary_physical": "c675f7c330a0727ee89d089e716665bbab0f26ab46e9b70a990b62dff55c25f5",
+    "p3__material__uniform_N256__secondary_physical": "1effd7d6f41d65c3824e2f3803abbf5761f51d56034a1149deafeae8fd5cdc44",
+    "p3__material__uniform_N512__primary_physical": "fd3748e0a56443b95ed2081080784607dedc95608446dc786373ffe9a3a90d75",
+    "p3__material__uniform_N512__secondary_physical": "7e42a52c751ba20e2f1ad11c27c9a088223a1b593a38af2613fe3b403a75778d",
+    "p3__outward_shear__spectrum_cumulative": "6e16b940c7bdceb677223eb0d206ac6419c032a7bdcda390ab711f0da772114b",
+    "p3__outward_shear__spectrum_energy": "424aaa425057aec71a51014c8ba4cfa6864bd6dcd0a87fe1948d0e4c0e8fe9a5",
+    "p3__outward_shear__spectrum_theta": "ad548d9e2bfc40a4b8552a953ad7b0de9eece6803ec56da0b6accec73762c0c5",
+    "p3__outward_shear__uniform_N128__primary_physical": "bcc0f0c1e5feca0a48aaea0b462fae513f52c3b45851edeecd6687f280dfc8ed",
+    "p3__outward_shear__uniform_N128__secondary_physical": "c92d9420ef3e784c67b97a32950649cc4e47dd5a6f8ff5e7b104472d60eaccbb",
+    "p3__outward_shear__uniform_N256__primary_physical": "a6c2886099c148c423dbdde569fe20373660be73d2cfce673ac97521b818be58",
+    "p3__outward_shear__uniform_N256__secondary_physical": "eb68e4936b1bde9414384bfc5667be32b5251fdca2bcce44a51149306f3ab0e6",
+    "p3__outward_shear__uniform_N512__primary_physical": "4a43e63bf0597482d5e4f00e0a7dbd86ca9893aaf9785356ad8101345dfb2fb6",
+    "p3__outward_shear__uniform_N512__secondary_physical": "a178a2d7b16f6ca311021a56eba21a92a537b489830ab1cc0f14357e1f0debcb",
+    "p5__inward_shear__spectrum_cumulative": "5121b67f06149a9c49570a0e72039ba850cf8a00cc52aa2b0ac6c465ad520cd8",
+    "p5__inward_shear__spectrum_energy": "da6c09db611ac46f9ed3b41d82d0ba525e865e6accce559e5205214491546749",
+    "p5__inward_shear__spectrum_theta": "ad548d9e2bfc40a4b8552a953ad7b0de9eece6803ec56da0b6accec73762c0c5",
+    "p5__inward_shear__uniform_N128__primary_physical": "6676afff5a9a8ba5f51304aa12b8a8e2e502169244cba339742f5984b1fb907e",
+    "p5__inward_shear__uniform_N128__secondary_physical": "d086b477e5443e55bcafd1f668a49af28c24543a35284f7a291d8d718d32be8e",
+    "p5__inward_shear__uniform_N256__primary_physical": "2e66df4982a17c03807519fc8c35947e5793e804b70ff77f590a0c0140ed7592",
+    "p5__inward_shear__uniform_N256__secondary_physical": "7a0936163b0593496bc06710a5a4ccb2b27e59929bcf38c56359e33834f3607b",
+    "p5__inward_shear__uniform_N512__primary_physical": "f0e6125b77959fc4d5b8b2482c5343fa587329047b1b791f47b37cfe856a4cb2",
+    "p5__inward_shear__uniform_N512__secondary_physical": "1b23a8a69d997f44e43ea2c9ef9a8a5049796175162984829a2b400b5feee14b",
+    "p5__outward_shear__spectrum_cumulative": "5121b67f06149a9c49570a0e72039ba850cf8a00cc52aa2b0ac6c465ad520cd8",
+    "p5__outward_shear__spectrum_energy": "d6e7451b6754babfccc9925525e10cdc3b8cb3509a99a6092121bc9fd60fd495",
+    "p5__outward_shear__spectrum_theta": "ad548d9e2bfc40a4b8552a953ad7b0de9eece6803ec56da0b6accec73762c0c5",
+    "p5__outward_shear__uniform_N128__primary_physical": "ec69aab865db157a942c6e01dfc4372f6266a7d028779e6f34bc5a36eade54e0",
+    "p5__outward_shear__uniform_N128__secondary_physical": "700806ade5a554b7715d69686f30ab08f9036f520b7c575f4b3354160d8289f3",
+    "p5__outward_shear__uniform_N256__primary_physical": "bfd0adc3340b99f2baa61668c562e6bd2bfc76936fe1acad484f4355d950f1f1",
+    "p5__outward_shear__uniform_N256__secondary_physical": "af2c2a0c18ea335edebf8e7d9752f5a8e8663d6c3289b335f3ed24406838c0cb",
+    "p5__outward_shear__uniform_N512__primary_physical": "c9da947e7a6071ea20fc769dc502ba6d9cf4859ab0f706cf0683c08980c03d9c",
+    "p5__outward_shear__uniform_N512__secondary_physical": "9275273b6601c149b6a99392f953fb86dbee6d3ed33b9265f9eb8d83b55fdbea"
+  },
+  "profile_variants": [
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3__inward_shear",
+      "binding": true,
+      "profile_id": "p3__inward_shear::a0.50::minus",
+      "role": "unseen_standard_shear",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3__inward_shear",
+      "binding": true,
+      "profile_id": "p3__inward_shear::a0.50::plus",
+      "role": "unseen_standard_shear",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3__inward_shear",
+      "binding": true,
+      "profile_id": "p3__inward_shear::a1.00::minus",
+      "role": "unseen_standard_shear",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3__inward_shear",
+      "binding": true,
+      "profile_id": "p3__inward_shear::a1.00::plus",
+      "role": "unseen_standard_shear",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3__outward_shear",
+      "binding": true,
+      "profile_id": "p3__outward_shear::a0.50::minus",
+      "role": "unseen_standard_shear",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3__outward_shear",
+      "binding": true,
+      "profile_id": "p3__outward_shear::a0.50::plus",
+      "role": "unseen_standard_shear",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3__outward_shear",
+      "binding": true,
+      "profile_id": "p3__outward_shear::a1.00::minus",
+      "role": "unseen_standard_shear",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3__outward_shear",
+      "binding": true,
+      "profile_id": "p3__outward_shear::a1.00::plus",
+      "role": "unseen_standard_shear",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p5__inward_shear",
+      "binding": true,
+      "profile_id": "p5__inward_shear::a0.50::minus",
+      "role": "unseen_standard_shear",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p5__inward_shear",
+      "binding": true,
+      "profile_id": "p5__inward_shear::a0.50::plus",
+      "role": "unseen_standard_shear",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p5__inward_shear",
+      "binding": true,
+      "profile_id": "p5__inward_shear::a1.00::minus",
+      "role": "unseen_standard_shear",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p5__inward_shear",
+      "binding": true,
+      "profile_id": "p5__inward_shear::a1.00::plus",
+      "role": "unseen_standard_shear",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p5__outward_shear",
+      "binding": true,
+      "profile_id": "p5__outward_shear::a0.50::minus",
+      "role": "unseen_standard_shear",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p5__outward_shear",
+      "binding": true,
+      "profile_id": "p5__outward_shear::a0.50::plus",
+      "role": "unseen_standard_shear",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p5__outward_shear",
+      "binding": true,
+      "profile_id": "p5__outward_shear::a1.00::minus",
+      "role": "unseen_standard_shear",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p5__outward_shear",
+      "binding": true,
+      "profile_id": "p5__outward_shear::a1.00::plus",
+      "role": "unseen_standard_shear",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3__material",
+      "binding": true,
+      "profile_id": "p3__material::a0.50::minus",
+      "role": "unseen_standard_control",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3__material",
+      "binding": true,
+      "profile_id": "p3__material::a0.50::plus",
+      "role": "unseen_standard_control",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3__material",
+      "binding": true,
+      "profile_id": "p3__material::a1.00::minus",
+      "role": "unseen_standard_control",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3__material",
+      "binding": true,
+      "profile_id": "p3__material::a1.00::plus",
+      "role": "unseen_standard_control",
+      "sign": 1
+    }
+  ],
+  "propagation_executed": false,
+  "prospective_propagation_contract": {
+    "all_profile_variants_binding": true,
+    "binding_grids": [
+      "uniform_N128",
+      "uniform_N256",
+      "uniform_N512"
+    ],
+    "classification_if_all_variants_pass": "uniform_operator_certified_for_declared_resolved_profile_class",
+    "classification_if_any_variant_fails": "prospective_band_envelope_validation_failed",
+    "exact_boundary_semigroup_integral_required": true,
+    "exact_profile_projections_inherited_from_wp10c9d6c6e1": true,
+    "maximum_fine_normalized_difference": 0.05,
+    "maximum_state_reference_uncertainty_to_fine_difference": 0.1,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_rms_order": 0.75,
+    "no_definition_or_threshold_changes_after_this_manifest": true,
+    "sign_and_amplitude_scaling_must_replay": true,
+    "state_and_aggregate_export_gates_unchanged_from_wp10c9d6c6c": true,
+    "time_horizon_s": 0.125,
+    "time_sample_count": 65
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c6f0"
+}

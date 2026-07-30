@@ -1,0 +1,42 @@
+{
+  "analyzed_base_commit": "595a200bd2218eb0dfdfc2478f2706f917bc561b",
+  "analyzed_base_parent": "9f4f4b3a720a404619663206878ffc475228eb3f",
+  "analyzed_base_tree": "0555e83c0e9464ecf844f659351984d871d40710",
+  "command": "PYTHONPATH=src python scripts/run_causal_inner_band_envelope_manifest_wp10c9d6c6f0.py",
+  "environment": {
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "implementation_base_tree": "0555e83c0e9464ecf844f659351984d871d40710",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_band_envelope_manifest_wp10c9d6c6f0.py": "7825563ed7fa5f4e1984997dcea3c9c5922294cf5a84bd24b4430bddfbc36de5",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_integral_conditioning.py": "22fee812c1abef65ba2ae7d3438f33bb6cb21355371594d2ee2f147b331f468c",
+    "tests/test_causal_inner_band_envelope_manifest_wp10c9d6c6f0.py": "36becd81ab7b53e88e95c330d281539b9520091f74d5d0133406c1f494af119d",
+    "tests/test_causal_inner_integral_conditioning.py": "153cf874decfe5332ce0da25c252a0b4c5b1c7dcceac596eaee9c6f4e9d80e17"
+  },
+  "implementation_source_manifest_sha256": "25d50966d8f78964b34822ad5da9e42db1625f11a9a537e8aebb07e15e347242",
+  "parent_canonical_hashes": {
+    "results/canonical/causal_inner_bandlimited_balance_feasibility_wp10c9d6c6e2b/config.json": "8fbadaaffe15772d45eb3871cbd5a481cf16ffe677cb7ef2e6cbcf2bb7f679dd",
+    "results/canonical/causal_inner_bandlimited_balance_feasibility_wp10c9d6c6e2b/provenance.json": "edddfbfca6fa08525292ebf5d05b3ee6bf2fbe919c8bd66c862d029948f5dabe",
+    "results/canonical/causal_inner_bandlimited_balance_feasibility_wp10c9d6c6e2b/selected_profile_manifest.json": "925b0760fe8929389e2a4840b410a55b36f532cf4256d9bdb2b79201d22d2e93",
+    "results/canonical/causal_inner_bandlimited_balance_feasibility_wp10c9d6c6e2b/summary.json": "e1fa4fb86cb47166282309ca3bbcc349d2560c6e03ec99d0ac7df30a1afda0c1",
+    "results/canonical/causal_inner_height_localization_wp10c9d6c6d/config.json": "3b18ce8a137f026b99e5ebf713f718c140177176d7eb2daf4359c2956eac50fe",
+    "results/canonical/causal_inner_height_localization_wp10c9d6c6d/decisive_arrays.npz": "18c3c60af4c0dbcc78d281f018a8141f5e66ec3dd221679d69d7876546739fb1",
+    "results/canonical/causal_inner_height_localization_wp10c9d6c6d/provenance.json": "32d45444776bdb158296a7cffd848a239b1a23a2591bb5a1b1f1346a013aadbf",
+    "results/canonical/causal_inner_height_localization_wp10c9d6c6d/summary.json": "b647038cfdaa7feb2316b08e1c9b3060e2f02699a4cbd047917b49aee7f33cec",
+    "results/canonical/causal_inner_integral_conditioning_manifest_wp10c9d6c6e0/conditioning_manifest.json": "3627bb952e394775f8cb1cdd4d04ffdd2af683ca92a228f7322c8ad0d24ee5ab",
+    "results/canonical/causal_inner_integral_conditioning_manifest_wp10c9d6c6e0/provenance.json": "9344f1c4c453ea8d5573b299f454c3c88d4f68f9f97a91f98bbc1a09de302b0d",
+    "results/canonical/causal_inner_integral_conditioning_manifest_wp10c9d6c6e0/summary.json": "be710357573e709e19e352570f276e23bed950ac512e0cb98e6dff6a795508cb",
+    "results/canonical/causal_inner_integral_conditioning_validation_wp10c9d6c6e1/config.json": "284dde2941fb8ff958fae86baf8ecf4cf957f2ad73d0170ad994b50d3ffbb573",
+    "results/canonical/causal_inner_integral_conditioning_validation_wp10c9d6c6e1/decisive_arrays.npz": "a69c9581c4c3424430c383c3bf504755bb22e4e407b35f8f07814260b27193b1",
+    "results/canonical/causal_inner_integral_conditioning_validation_wp10c9d6c6e1/provenance.json": "e99fbeb43cecc3ff006442d111fc035420a7c5698484e15587cbb0ce5839cde8",
+    "results/canonical/causal_inner_integral_conditioning_validation_wp10c9d6c6e1/summary.json": "60fe4fc62b22ef5cade638c28543238d3a943e9d424f9e2cd1e65d9cded72005"
+  },
+  "schema_version": 1,
+  "scientific_status": "PROSPECTIVE MANIFEST ONLY",
+  "source_parent_commit": "595a200bd2218eb0dfdfc2478f2706f917bc561b",
+  "work_package": "WP10c9d6c6f0",
+  "working_tree_status": "M results/manifests/canonical_artifacts.csv\n M results/manifests/canonical_summary.json\n?? docs/reports/gpt/CODEX_IMBH_119A998_REVIEW_AND_NEXT_PLAN.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_119A998_PROVISIONAL_REVIEW_AND_NEXT_PLAN_2026-07-17.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_1CF430F_REVIEW_AND_PHYSICAL_OUTER_BOUNDARY_PLAN_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_272E891_REVIEW_AND_LOCKED_NEXT_PLAN_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_8D0691B_REVIEW_AND_CHARACTERISTIC_RESPONSE_PLAN_2026-07-16.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_B9B1BC1_REVIEW_AND_LOCKED_TIME_EVOLUTION_PLAN_2026-07-11.md\n?? docs/reports/gpt/CODEX_IMBH_DAE_BOUNDARY_CONSTRAINT_INDEX_AND_REVISED_COUNTS_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_LATEST_UPDATE_REVIEW_AND_LOCKED_NEXT_PLAN_2026-07-14.md\n?? docs/reports/gpt/CODEX_IMBH_PHYSICS_DISCUSSION_AND_STAGED_TIME_DEPENDENT_PLAN_2026-07-11.md\n?? docs/reports/gpt/CODEX_IMBH_PRODUCTION_FACE_TORQUE_AND_FINAL_DAE_ARCHITECTURE_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_TIME_DAE_EXACT_UNKNOWN_RESIDUAL_COUNT_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_TIME_DEPENDENT_DAE_DERIVATION_AND_REVISED_LOCKED_PLAN_2026-07-12.md\n?? docs/reports/gpt/IMBH_long_timescale_evolution_plan_for_codex.md\n?? results/canonical/causal_inner_band_envelope_manifest_wp10c9d6c6f0/\n?? scripts/run_causal_inner_band_envelope_manifest_wp10c9d6c6f0.py\n?? tests/test_causal_inner_band_envelope_manifest_wp10c9d6c6f0.py"
+}
