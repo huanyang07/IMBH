@@ -1,0 +1,81 @@
+{
+  "amplitude_factors": [
+    0.5,
+    1.0
+  ],
+  "eligibility_contract": {
+    "maximum_balance_coefficient_relative_769_513_difference": 1e-06,
+    "maximum_endpoint_cell_fraction": 0.005,
+    "maximum_nyquist_alias_fraction": 0.001,
+    "maximum_projection_replay_defect": 2e-12,
+    "maximum_secondary_continuum_initial_cancellation_ratio": 1e-06,
+    "maximum_theta_99": 0.3,
+    "minimum_active_cell_family_purity": 0.98,
+    "minimum_global_family_purity": 0.995,
+    "minimum_theta_99": 0.0,
+    "spectral_energy_quantile": 0.99
+  },
+  "integral_conditioning_contract": {
+    "alternate_route_requires_all_other_parent_gates": true,
+    "alternate_route_requires_direct_order_failure": true,
+    "historical_direct_component_route_preserved": true,
+    "historical_minimum_relative_activity": 1e-08,
+    "inactive_band_rule": "same_fixed_physical_1e-8_activity_floor_as_component_gate",
+    "maximum_absolute_band_error_envelope": 0.05,
+    "maximum_cancellation_ratio_each_grid_pair": 0.25,
+    "maximum_continuum_uncertainty_to_fine_difference": 0.1,
+    "maximum_direct_sum_defect": 1e-12,
+    "maximum_global_fine_normalized_difference": 0.05,
+    "maximum_signed_gram_closure_defect": 1e-12,
+    "minimum_active_band_refinement_error_cosine": 0.9,
+    "minimum_active_cell_rms_order": 0.75,
+    "minimum_direct_or_band_maximum_order": 0.75,
+    "minimum_direct_or_band_rms_order": 0.75,
+    "minimum_unseen_cancellation_stress_profiles_using_alternate_route": 2,
+    "no_retroactive_application_to_wp10c9d6c6c": true
+  },
+  "operator_change": false,
+  "physical_band_contract": {
+    "always_include_outer_domain_edge": true,
+    "restriction_rule": "exact_sum_of_nested_cell_integrals",
+    "selection_grid": "uniform_N128",
+    "selection_rule": "nearest_grid_edge_to_each_target",
+    "target_edges_over_rg": [
+      1.8,
+      3.0,
+      5.0,
+      8.0,
+      10.5
+    ]
+  },
+  "profile_count": 7,
+  "propagation_executed": false,
+  "prospective_propagation_contract": {
+    "all_base_profiles_must_pass_spectral_projection_and_purity_gates": true,
+    "all_profile_variants_binding": true,
+    "binding_grids": [
+      "uniform_N128",
+      "uniform_N256",
+      "uniform_N512"
+    ],
+    "exact_boundary_semigroup_integral_required": true,
+    "fail_before_propagation_when_any_base_profile_is_ineligible": true,
+    "maximum_fine_normalized_difference": 0.05,
+    "maximum_state_reference_uncertainty_to_fine_difference": 0.1,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_rms_order": 0.75,
+    "no_definition_or_threshold_changes_after_this_manifest": true,
+    "state_and_aggregate_export_gates_unchanged_from_wp10c9d6c6c": true,
+    "time_horizon_s": 0.125,
+    "time_sample_count": 65
+  },
+  "schema_version": 1,
+  "signs": [
+    -1,
+    1
+  ],
+  "variant_count": 28,
+  "work_package": "WP10c9d6c6e0"
+}
