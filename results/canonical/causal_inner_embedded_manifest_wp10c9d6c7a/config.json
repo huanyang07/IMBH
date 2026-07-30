@@ -1,0 +1,319 @@
+{
+  "common_surface_contract": {
+    "first_postinterface_parent_face_with_outer_halo": 51,
+    "last_preinterface_parent_face_with_inner_halo": 45,
+    "mapping_rule_inside_coupling": "embedded_face=parent_face*ratio",
+    "mapping_rule_outside_coupling": "embedded_face=48*ratio+(parent_face-48)",
+    "parent_face_indices": [
+      0,
+      13,
+      25,
+      37,
+      43,
+      45,
+      48,
+      51
+    ],
+    "radii_over_rg": [
+      1.8,
+      3.0605272770649803,
+      4.9955971345432175,
+      8.154147462651956,
+      10.417754954577587,
+      11.304186915841694,
+      12.777241939756358,
+      14.442251601331813
+    ],
+    "reconstruction_halo_cells": 3,
+    "selection_grid": "N128_exterior_N128_inner_c48"
+  },
+  "coupling_diagnostic_contract": {
+    "absolute_reflection_threshold": null,
+    "coupling_parent_face": 48,
+    "inner_energy_window_parent_faces": [
+      42,
+      48
+    ],
+    "outer_energy_window_parent_faces": [
+      48,
+      54
+    ],
+    "physical_energy": "descriptor_compatible_characteristic_energy_with_fixed_physical_field_scales",
+    "postinterface_parent_face": 51,
+    "preinterface_parent_face": 45,
+    "reason_no_absolute_reflection_threshold": "the unchanged coarse_fine interface is being discriminated; convergence and physical ledger closure are binding",
+    "report_incident_reflected_and_transmitted_history": true,
+    "report_interface_flux_and_state_histories": true,
+    "report_reflection_and_transmission_convergence": true,
+    "report_selected_opposite_and_other_family_energy": true
+  },
+  "layout_contract": {
+    "background_rule": "certified_c3_smooth_uniform_inner_projection_spliced_to_one_common_c0e_N128_exterior_base",
+    "coarse_exterior_cell_count": 16,
+    "coupling_radius_over_rg": 12.777241939756358,
+    "grid_rule": "subdivide_each_parent_cell_inside_parent_face_48_uniformly_in_log_radius_and_retain_parent_exterior_exactly",
+    "layout_labels": [
+      "N128_exterior_N128_inner_c48",
+      "N128_exterior_N256_inner_c48",
+      "N128_exterior_N512_inner_c48"
+    ],
+    "maximum_background_restriction_defect": 2e-12,
+    "maximum_coupling_trace_jump": 0.0001,
+    "maximum_exterior_replay_defect": 2e-12,
+    "maximum_grid_replay_defect": 0.0,
+    "maximum_reconstruction_factor_change": 0.0,
+    "parent_cell_count": 64,
+    "parent_coupling_face_index": 48,
+    "parent_grid": "fixed_N128_exterior_64_cells",
+    "parent_inner_radius_over_rg": 1.8,
+    "parent_outer_radius_over_rg": 24.5560583156174,
+    "refinement_ratios": [
+      1,
+      2,
+      4
+    ],
+    "stream_and_geometry_rule": "replay_the_committed_c0e_context_for_each_exact_layout"
+  },
+  "observable_contract": {
+    "direct_face_jvp_and_prefix_ledger_parity_required": true,
+    "inner_flux_face": 0,
+    "interface_flux_face": "layout.coupling_face_index",
+    "maximum_shared_flux_telescoping_defect": 1e-12,
+    "net_drive_identity": "inner_shared_flux_minus_interface_shared_flux_plus_all_active_stationary_sources",
+    "observable_names": [
+      "inner_flux_mass",
+      "inner_flux_angular_momentum",
+      "inner_flux_killing_energy",
+      "interface_flux_mass",
+      "interface_flux_angular_momentum",
+      "interface_flux_killing_energy",
+      "net_drive_mass",
+      "net_drive_angular_momentum",
+      "net_drive_killing_energy",
+      "cooling_angular_momentum",
+      "cooling_killing_energy",
+      "vertical_work_angular_momentum",
+      "vertical_work_killing_energy"
+    ],
+    "one_shared_interface_flux_required": true,
+    "volume_sum": "cells_strictly_inside_coupling_face"
+  },
+  "operator_change": false,
+  "profile_contract": {
+    "base_profiles": [
+      "p3__inward_shear",
+      "p3__outward_shear",
+      "p5__inward_shear",
+      "p5__outward_shear",
+      "p3__material"
+    ],
+    "continuum_endpoint_behavior": "sin_power_p3_or_p5_vanishes_at_the_coupling_surface; the_zero_extension_is_at_least_C2",
+    "definitions_inherited_from_manifest_sha256": "221a271dd861226bbc09eaf430dfc6bef47ad39a5b5d7e6e53520f9d75fcb643",
+    "extension_outside_coupling": "exact_zero",
+    "maximum_profile_exterior_norm": 0.0,
+    "maximum_profile_restriction_defect": 2e-12,
+    "no_shift_taper_or_reoptimization": true,
+    "profile_variants": [
+      {
+        "amplitude_factor": 0.5,
+        "base_profile": "p3__inward_shear",
+        "binding": true,
+        "profile_id": "p3__inward_shear::a0.50::minus",
+        "role": "unseen_standard_shear",
+        "sign": -1
+      },
+      {
+        "amplitude_factor": 0.5,
+        "base_profile": "p3__inward_shear",
+        "binding": true,
+        "profile_id": "p3__inward_shear::a0.50::plus",
+        "role": "unseen_standard_shear",
+        "sign": 1
+      },
+      {
+        "amplitude_factor": 1.0,
+        "base_profile": "p3__inward_shear",
+        "binding": true,
+        "profile_id": "p3__inward_shear::a1.00::minus",
+        "role": "unseen_standard_shear",
+        "sign": -1
+      },
+      {
+        "amplitude_factor": 1.0,
+        "base_profile": "p3__inward_shear",
+        "binding": true,
+        "profile_id": "p3__inward_shear::a1.00::plus",
+        "role": "unseen_standard_shear",
+        "sign": 1
+      },
+      {
+        "amplitude_factor": 0.5,
+        "base_profile": "p3__outward_shear",
+        "binding": true,
+        "profile_id": "p3__outward_shear::a0.50::minus",
+        "role": "unseen_standard_shear",
+        "sign": -1
+      },
+      {
+        "amplitude_factor": 0.5,
+        "base_profile": "p3__outward_shear",
+        "binding": true,
+        "profile_id": "p3__outward_shear::a0.50::plus",
+        "role": "unseen_standard_shear",
+        "sign": 1
+      },
+      {
+        "amplitude_factor": 1.0,
+        "base_profile": "p3__outward_shear",
+        "binding": true,
+        "profile_id": "p3__outward_shear::a1.00::minus",
+        "role": "unseen_standard_shear",
+        "sign": -1
+      },
+      {
+        "amplitude_factor": 1.0,
+        "base_profile": "p3__outward_shear",
+        "binding": true,
+        "profile_id": "p3__outward_shear::a1.00::plus",
+        "role": "unseen_standard_shear",
+        "sign": 1
+      },
+      {
+        "amplitude_factor": 0.5,
+        "base_profile": "p5__inward_shear",
+        "binding": true,
+        "profile_id": "p5__inward_shear::a0.50::minus",
+        "role": "unseen_standard_shear",
+        "sign": -1
+      },
+      {
+        "amplitude_factor": 0.5,
+        "base_profile": "p5__inward_shear",
+        "binding": true,
+        "profile_id": "p5__inward_shear::a0.50::plus",
+        "role": "unseen_standard_shear",
+        "sign": 1
+      },
+      {
+        "amplitude_factor": 1.0,
+        "base_profile": "p5__inward_shear",
+        "binding": true,
+        "profile_id": "p5__inward_shear::a1.00::minus",
+        "role": "unseen_standard_shear",
+        "sign": -1
+      },
+      {
+        "amplitude_factor": 1.0,
+        "base_profile": "p5__inward_shear",
+        "binding": true,
+        "profile_id": "p5__inward_shear::a1.00::plus",
+        "role": "unseen_standard_shear",
+        "sign": 1
+      },
+      {
+        "amplitude_factor": 0.5,
+        "base_profile": "p5__outward_shear",
+        "binding": true,
+        "profile_id": "p5__outward_shear::a0.50::minus",
+        "role": "unseen_standard_shear",
+        "sign": -1
+      },
+      {
+        "amplitude_factor": 0.5,
+        "base_profile": "p5__outward_shear",
+        "binding": true,
+        "profile_id": "p5__outward_shear::a0.50::plus",
+        "role": "unseen_standard_shear",
+        "sign": 1
+      },
+      {
+        "amplitude_factor": 1.0,
+        "base_profile": "p5__outward_shear",
+        "binding": true,
+        "profile_id": "p5__outward_shear::a1.00::minus",
+        "role": "unseen_standard_shear",
+        "sign": -1
+      },
+      {
+        "amplitude_factor": 1.0,
+        "base_profile": "p5__outward_shear",
+        "binding": true,
+        "profile_id": "p5__outward_shear::a1.00::plus",
+        "role": "unseen_standard_shear",
+        "sign": 1
+      },
+      {
+        "amplitude_factor": 0.5,
+        "base_profile": "p3__material",
+        "binding": true,
+        "profile_id": "p3__material::a0.50::minus",
+        "role": "unseen_standard_control",
+        "sign": -1
+      },
+      {
+        "amplitude_factor": 0.5,
+        "base_profile": "p3__material",
+        "binding": true,
+        "profile_id": "p3__material::a0.50::plus",
+        "role": "unseen_standard_control",
+        "sign": 1
+      },
+      {
+        "amplitude_factor": 1.0,
+        "base_profile": "p3__material",
+        "binding": true,
+        "profile_id": "p3__material::a1.00::minus",
+        "role": "unseen_standard_control",
+        "sign": -1
+      },
+      {
+        "amplitude_factor": 1.0,
+        "base_profile": "p3__material",
+        "binding": true,
+        "profile_id": "p3__material::a1.00::plus",
+        "role": "unseen_standard_control",
+        "sign": 1
+      }
+    ],
+    "uniform_validation_decisive_arrays_sha256": "1be2be01745848312c6e5e242b477e29b7a12e1a923604b1af52ee457f92569f"
+  },
+  "propagation_executed": false,
+  "prospective_propagation_contract": {
+    "all_profile_variants_binding": true,
+    "binding_layouts": [
+      "N128_exterior_N128_inner_c48",
+      "N128_exterior_N256_inner_c48",
+      "N128_exterior_N512_inner_c48"
+    ],
+    "classification_if_all_variants_pass": "embedded_operator_certified_for_declared_resolved_profile_class",
+    "classification_if_any_variant_fails": "prospective_embedded_profile_validation_failed",
+    "component_route_contract_inherited_from_wp10c9d6c6f0": true,
+    "exact_semigroup_boundary_integrals_required": true,
+    "fail_fast_on_first_profile_failure": true,
+    "fixed_parent_exterior_resolution": "N128",
+    "inner_refinement_ratios": [
+      1,
+      2,
+      4
+    ],
+    "maximum_fine_normalized_difference": 0.05,
+    "maximum_reference_uncertainty_to_fine_difference": 0.1,
+    "method_gate_must_pass_on_every_layout_before_propagation": true,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_relative_activity": 1e-08,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75,
+    "no_definition_or_threshold_changes_after_this_manifest": true,
+    "no_shift_taper_or_reoptimization": true,
+    "profile_extension_rule": "the certified full_inner_domain_sine_power continuum profile is extended by exact zero into the coarse exterior",
+    "profile_variants_inherited_without_change": true,
+    "sign_and_amplitude_scaling_must_replay": true,
+    "state_reference_gates_unchanged_from_wp10c9d6c6f1": true,
+    "time_horizon_s": 0.125,
+    "time_sample_count": 65
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7a"
+}
