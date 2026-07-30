@@ -1,0 +1,54 @@
+{
+  "centered_storage_action_scaled_step": 1e-05,
+  "frozen_parent_contract": {
+    "analytic_packet_reprojection_required_at_every_level": true,
+    "energy_amplitude_scaling": "quadratic",
+    "exact_conservative_ledgers": true,
+    "material_family_null_control": true,
+    "maximum_energy_ledger_relative_defect": 1e-10,
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_observable_refinement_error_cosine": 0.9,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75,
+    "packet_cases": "acoustic_shear_mixed_times_two_signs_times_two_amplitudes",
+    "reference_levels": [
+      98,
+      196,
+      392
+    ],
+    "same_C4_coefficient_field_at_every_level": true,
+    "state_and_flux_amplitude_scaling": "linear",
+    "virtual_interface_matches_patch_face_49": true,
+    "window_and_time_quadrature_stability": true,
+    "work_package": "WP10c9d6c7c2b1_one_way_uniform_scattering_validation",
+    "zero_state_null_control": true
+  },
+  "method_gates": {
+    "maximum_amplitude_scaling_defect": 1e-12,
+    "maximum_centered_storage_action_defect": 2e-07,
+    "maximum_component_defect": 1e-12,
+    "maximum_energy_ledger_defect": 1e-10,
+    "maximum_restart_defect": 1e-12,
+    "maximum_time_window_stability_defect": 0.005
+  },
+  "operator_changed": false,
+  "path_quadrature_order": 6,
+  "reference_levels": [
+    98,
+    196,
+    392
+  ],
+  "reflection_coefficient_defined": false,
+  "root_sum_square_used": false,
+  "schema_version": 1,
+  "slow_impact_threshold_used": false,
+  "time_sample_counts": [
+    257,
+    513,
+    1025
+  ],
+  "uncertainty_combination": "conservative_sum_of_deterministic_component_bounds",
+  "work_package": "WP10c9d6c7c2b1"
+}
