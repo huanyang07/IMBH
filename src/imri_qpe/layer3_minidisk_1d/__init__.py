@@ -148,6 +148,17 @@ from .causal_inner_monolithic_tangent import (
     causal_five_field_monolithic_frozen_tangent,
     causal_five_field_monolithic_storage_rate_action,
 )
+from .causal_inner_packet_resolution import (
+    CausalFiveFieldContinuumLocalSymbol,
+    CausalFiveFieldLocalSymbolStencil,
+    CausalFiveFieldSymbolError,
+    CausalPacketSpectrum,
+    causal_five_field_continuum_local_symbol,
+    causal_five_field_local_symbol_stencil,
+    causal_five_field_matched_principal_eigenvalues,
+    causal_five_field_symbol_error,
+    causal_packet_spectrum,
+)
 from .causal_inner_radial_frozen import (
     CausalFiveFieldRadialFrozenCandidate,
     causal_five_field_radial_frozen_candidate,
@@ -1480,6 +1491,15 @@ __all__ = [
     "CausalFiveFieldMonolithicFrozenTangent",
     "causal_five_field_monolithic_frozen_tangent",
     "causal_five_field_monolithic_storage_rate_action",
+    "CausalFiveFieldContinuumLocalSymbol",
+    "CausalFiveFieldLocalSymbolStencil",
+    "CausalFiveFieldSymbolError",
+    "CausalPacketSpectrum",
+    "causal_five_field_continuum_local_symbol",
+    "causal_five_field_local_symbol_stencil",
+    "causal_five_field_matched_principal_eigenvalues",
+    "causal_five_field_symbol_error",
+    "causal_packet_spectrum",
     "CausalFiveFieldRadialFrozenCandidate",
     "CausalFiveFieldAnalyticLocalMaps",
     "CausalFiveFieldFrozenAnalyticTangent",

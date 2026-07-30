@@ -1,0 +1,596 @@
+{
+  "analyzed_base_commit": "14bc3e753c2530ef8799d5ad092854156a6c6551",
+  "analyzed_base_parent": "c082f62f62f9c5c9f28e61c7f25f4d353a5f7a09",
+  "analyzed_base_tree": "43cc19475e8e80a0ec2c7ce649a4561e732670e8",
+  "authorized_next": "none",
+  "boundary_packet_requires_additional_DAE_contract": true,
+  "classification": "symbol_derived_packet_resolution_contract_failed",
+  "configuration": {
+    "eligibility_classes": {
+      "boundary_overlapping": "spectral_contract_plus_one_sided_DAE_truncation",
+      "interior": "spectral_contract"
+    },
+    "fixed_physical_theta_on_N128": [
+      0.1,
+      0.2
+    ],
+    "gates": {
+      "maximum_alias_fraction": 0.001,
+      "maximum_complete_semigroup_error": 0.025,
+      "maximum_continuum_reference_semigroup_error": 0.0025,
+      "maximum_continuum_reference_to_discrete_ratio": 0.1,
+      "maximum_family_leakage": 0.01,
+      "maximum_group_speed_relative_error": 0.025,
+      "maximum_log_amplitude_error": 0.025,
+      "maximum_omitted_stencil_fraction": 1e-11,
+      "maximum_phase_error_radians": 0.025,
+      "maximum_principal_basis_condition": 10000.0,
+      "maximum_principal_semigroup_error": 0.025,
+      "maximum_row_symbol_parity_defect": 1e-11,
+      "minimum_certified_theta": 0.2,
+      "minimum_cross_grid_symbol_order": 1.5
+    },
+    "labels": [
+      "uniform_N128",
+      "uniform_N256",
+      "uniform_N512"
+    ],
+    "operator_change": false,
+    "packet_window_sigmas": 8.0,
+    "primary_continuum_nodes": 769,
+    "production_defaults_changed": false,
+    "schema_version": 1,
+    "secondary_continuum_nodes": 513,
+    "spectral_energy_quantile": 0.99,
+    "symbol_radii_over_rg": [
+      2.2,
+      3.0,
+      5.0,
+      8.0,
+      11.0
+    ],
+    "symbol_times_s": [
+      0.03125,
+      0.0625,
+      0.125
+    ],
+    "theta_values": [
+      0.02,
+      0.03,
+      0.039999999999999994,
+      0.049999999999999996,
+      0.06,
+      0.06999999999999999,
+      0.07999999999999999,
+      0.09,
+      0.09999999999999999,
+      0.10999999999999999,
+      0.11999999999999998,
+      0.12999999999999998,
+      0.13999999999999999,
+      0.14999999999999997,
+      0.15999999999999998,
+      0.16999999999999996,
+      0.17999999999999997,
+      0.18999999999999997,
+      0.19999999999999996,
+      0.20999999999999996,
+      0.21999999999999995,
+      0.22999999999999995,
+      0.23999999999999996,
+      0.24999999999999994,
+      0.25999999999999995,
+      0.26999999999999996,
+      0.27999999999999997,
+      0.29,
+      0.3,
+      0.31,
+      0.31999999999999995,
+      0.32999999999999996,
+      0.33999999999999997,
+      0.35,
+      0.36,
+      0.36999999999999994,
+      0.37999999999999995,
+      0.38999999999999996,
+      0.39999999999999997,
+      0.41,
+      0.41999999999999993,
+      0.42999999999999994,
+      0.43999999999999995,
+      0.44999999999999996,
+      0.45999999999999996,
+      0.47,
+      0.4799999999999999,
+      0.48999999999999994,
+      0.49999999999999994,
+      0.5099999999999999,
+      0.5199999999999999,
+      0.5299999999999999,
+      0.5399999999999999,
+      0.5499999999999999,
+      0.5599999999999999,
+      0.57,
+      0.58,
+      0.59,
+      0.6
+    ],
+    "work_package": "WP10c9d6c6a"
+  },
+  "continuum_construction_passed": true,
+  "cross_grid_symbol_report": {
+    "any_selected_stencil_touches_boundary": false,
+    "maximum_omitted_stencil_fraction": 9.972717349575901e-15,
+    "maximum_row_symbol_parity_defect": 1.4401171484992835e-13,
+    "minimum_observed_order": 1.947528240974943,
+    "passed": true,
+    "radius_reports": {
+      "r11.00": {
+        "theta0.10": {
+          "errors": [
+            0.008023481528988267,
+            0.0020383270063868515,
+            0.0005121961563979517
+          ],
+          "minimum_order": 1.9768428632253452,
+          "orders": [
+            1.9768428632253452,
+            1.9926171880537618
+          ]
+        },
+        "theta0.20": {
+          "errors": [
+            0.028937714946840897,
+            0.007378625508190918,
+            0.0018568207779220349
+          ],
+          "minimum_order": 1.9715270037159411,
+          "orders": [
+            1.9715270037159411,
+            1.990517524079291
+          ]
+        }
+      },
+      "r2.20": {
+        "theta0.10": {
+          "errors": [
+            0.007699570431267512,
+            0.0019567243016020853,
+            0.0004929379935963603
+          ],
+          "minimum_order": 1.9763374607361743,
+          "orders": [
+            1.9763374607361743,
+            1.9889624102433525
+          ]
+        },
+        "theta0.20": {
+          "errors": [
+            0.0182270385712203,
+            0.004725542731251819,
+            0.001201888417163148
+          ],
+          "minimum_order": 1.947528240974943,
+          "orders": [
+            1.947528240974943,
+            1.9751770701505298
+          ]
+        }
+      },
+      "r3.00": {
+        "theta0.10": {
+          "errors": [
+            0.009072970422155465,
+            0.002299870021637081,
+            0.0005763084130318683
+          ],
+          "minimum_order": 1.9800226267700984,
+          "orders": [
+            1.9800226267700984,
+            1.9966393431475629
+          ]
+        },
+        "theta0.20": {
+          "errors": [
+            0.021574595751189165,
+            0.005538995384161317,
+            0.0013933694098885415
+          ],
+          "minimum_order": 1.9616372861392328,
+          "orders": [
+            1.9616372861392328,
+            1.9910465405104634
+          ]
+        }
+      },
+      "r5.00": {
+        "theta0.10": {
+          "errors": [
+            0.01011491881010583,
+            0.002549567301645692,
+            0.0006397976369143483
+          ],
+          "minimum_order": 1.9881604129857486,
+          "orders": [
+            1.9881604129857486,
+            1.9945648526986637
+          ]
+        },
+        "theta0.20": {
+          "errors": [
+            0.02820969908749339,
+            0.007141694396931564,
+            0.001793410589170212
+          ],
+          "minimum_order": 1.9818529713720718,
+          "orders": [
+            1.9818529713720718,
+            1.9935605790613042
+          ]
+        }
+      },
+      "r8.00": {
+        "theta0.10": {
+          "errors": [
+            0.008970654846205007,
+            0.0022632355747758586,
+            0.0005701063235632878
+          ],
+          "minimum_order": 1.9868265447657338,
+          "orders": [
+            1.9868265447657338,
+            1.9890838501916341
+          ]
+        },
+        "theta0.20": {
+          "errors": [
+            0.030136438833838684,
+            0.007664570517711946,
+            0.0019293482649786972
+          ],
+          "minimum_order": 1.9752320882480168,
+          "orders": [
+            1.9752320882480168,
+            1.9900913665718498
+          ]
+        }
+      }
+    }
+  },
+  "decisive_array_hashes": {
+    "boundary_band_outgoing_original__spectral_cumulative_fraction": "dd300e1d9a7d989d06083e3f7d10b8faa7738cc4a62b90846620933b96e92e73",
+    "boundary_band_outgoing_original__spectral_energy": "9a3cc1e999bd216b1520ba0c08fb6f19f120f5f37898502f27b24e1894a1ec31",
+    "boundary_band_outgoing_original__spectral_wavenumbers": "38dec51049222e29dda19f788f2697ab8564eadc9d4dc59cd6c54e0aa0d1c4d8",
+    "boundary_band_outgoing_shifted__spectral_cumulative_fraction": "dd300e1d9a7d989d06083e3f7d10b8faa7738cc4a62b90846620933b96e92e73",
+    "boundary_band_outgoing_shifted__spectral_energy": "9a3cc1e999bd216b1520ba0c08fb6f19f120f5f37898502f27b24e1894a1ec31",
+    "boundary_band_outgoing_shifted__spectral_wavenumbers": "38dec51049222e29dda19f788f2697ab8564eadc9d4dc59cd6c54e0aa0d1c4d8",
+    "boundary_band_outgoing_shifted_wider__spectral_cumulative_fraction": "984e9fbf3eb34fa52677fed3b609630eb12dba930f0af9ac77b229fa4461d132",
+    "boundary_band_outgoing_shifted_wider__spectral_energy": "f05906fae585ac2539e2e02b51e12efb4587ed9f63213d333cd76a1017cf63ac",
+    "boundary_band_outgoing_shifted_wider__spectral_wavenumbers": "f426bbb64df751ad88964900c65e8989bdd1b2dde961e37e4f7a9eb60226aba8",
+    "boundary_band_outgoing_wider__spectral_cumulative_fraction": "984e9fbf3eb34fa52677fed3b609630eb12dba930f0af9ac77b229fa4461d132",
+    "boundary_band_outgoing_wider__spectral_energy": "f05906fae585ac2539e2e02b51e12efb4587ed9f63213d333cd76a1017cf63ac",
+    "boundary_band_outgoing_wider__spectral_wavenumbers": "f426bbb64df751ad88964900c65e8989bdd1b2dde961e37e4f7a9eb60226aba8",
+    "continuum_background_coefficients": "4e23bbd7ee809c4fddb3692836b6ca747ee190075e09e09e201dc456569cb663",
+    "continuum_background_knots": "6b13eb8d125c08524f9c648e563d958e6e5bb44489c202b617bea62e3b544096",
+    "continuum_perturbation_field_scales": "ee02d751758ffa54e25e4b298f1f0778ea7ea7586c78325e3ee106034321fac6",
+    "global_contiguous_passed": "438c04c11e285069d5ac837722bc05966e8d527427ac8d58145aa5682eb35c31",
+    "global_point_passed": "438c04c11e285069d5ac837722bc05966e8d527427ac8d58145aa5682eb35c31",
+    "r11.00__complete_semigroup_error": "0835ecd40cc95dd29bed49c98356f464a0b08c125c9fa5cd4cf707dd825cb464",
+    "r11.00__continuum_basis_condition": "16b4202d284b545bfcd728fbc55af0ac082d4dd562e53a261e48a181db8d2cf3",
+    "r11.00__continuum_principal_eigenvalues": "5bfaba7f0fc931f9208344208f0eea78405bf2a6b612b031a941f88ee645f3bc",
+    "r11.00__continuum_reference_error": "3298aa305085bdb0de0f95030e72999f5b8197dfe80a4d08168eaaec29b74d85",
+    "r11.00__continuum_reference_to_discrete_ratio": "59495fa20976602f17848d37026a45e68f8ac984dddfc58d2aacf72e929802f5",
+    "r11.00__family_leakage": "bedd5ae88cbed6ec4e0ada4941cd2c93228f90c5184893ccb33a62d091a2adb2",
+    "r11.00__group_speed_relative_error": "0d547c0781b10e1d971f2ae8682b1daedde778f2e7f405957c07531faf48a09f",
+    "r11.00__log_amplitude_error": "db8a17963dec079a4c28e1452371a05899c977f6759960e5f93816a7279898c9",
+    "r11.00__numerical_basis_condition": "f223c1d0db88a406ce4c8b7bae8001a75625b0a8bbd8991b62a6077e544a3206",
+    "r11.00__numerical_principal_eigenvalues": "69dd7334997b0101df932bb04f540919bddfb4bf66f77f128b55fd760f24c7b1",
+    "r11.00__phase_error_radians": "1e20891f617c959ae6839864abfe236a43a002fcb3a30ae27c6c8fed639e25bf",
+    "r11.00__point_passed": "62d57c9006b13c35bab22c7c1f228a4d22a18bc7b75a80521bdd3b2a11fe12d4",
+    "r11.00__principal_semigroup_error": "815ae691daee28095c6ce5e484e93a0896316894cc90c0a89fc050b33dfe02a4",
+    "r11.00__theta0.10__cross_grid_errors": "3ecd3b80d5a6cf25df23f4d1cc062bfe5c07913ac2ab61bc31ce52727ea5c189",
+    "r11.00__theta0.10__cross_grid_orders": "351e8504e2e194fbad26260cd149946510e90546bdd80a092603571a54b46932",
+    "r11.00__theta0.20__cross_grid_errors": "5ac1e494d534475b5cdabfd6eff2012f5ae357ec5a7c2905c4a34bdc06203723",
+    "r11.00__theta0.20__cross_grid_orders": "5d9887ea91cb55e0504ca5ccad7adffcc5252f2629d9d7966bac2c4757a88566",
+    "r2.20__complete_semigroup_error": "7f1e5e7e73879fa69e75186ba56d08190d000fb9915d16f5ebde18eb2e4b9dfb",
+    "r2.20__continuum_basis_condition": "ef32407c8494dcccd2f0c1725e2ed511794ef17425bc01d00612b687b0d052ef",
+    "r2.20__continuum_principal_eigenvalues": "1e058836473175fc859ad8a34b86dc1f6925bf7725cf5a6bd9d09b636b57494a",
+    "r2.20__continuum_reference_error": "a7d560998d7bbf99d9a50f4e201a26f86bc392351efd4ba5b701a149e58f1dc7",
+    "r2.20__continuum_reference_to_discrete_ratio": "8e7a8604de59ee79f32f16284a3d720080514c502e3a6f141ea3128c16db8a10",
+    "r2.20__family_leakage": "e41641ca6e9b8a6e9b657e94c81deda23e777564e4ad56378334a1185762d438",
+    "r2.20__group_speed_relative_error": "7271477067ebbc00d5239f77517bdd274b18e5e43f64b06232283d3f5d8e25a8",
+    "r2.20__log_amplitude_error": "d74d6dbb249528ee07ed1f4af268aa2433f659037b50b0401a630cbfb248b842",
+    "r2.20__numerical_basis_condition": "1a6cd91629bcd40c5ee1a913bb35e09093c3b610dab6eb9aefed9073db834b05",
+    "r2.20__numerical_principal_eigenvalues": "2c8550b0c86c699265045701268f207a2bd4397ab7564f1744c58fe8b308e36a",
+    "r2.20__phase_error_radians": "d76f992d6c4a5038ede7060ce0479a464ebb49c9d34e757a0e776ca86e71b6b2",
+    "r2.20__point_passed": "8a1077c8b04003663d0738d63c3b43c41f5c90615537c1fb935c39ed6bd92711",
+    "r2.20__principal_semigroup_error": "5de5dde78b2356c9604d12a862c8c81f108133f6ee382914c225ef8654b3cb2b",
+    "r2.20__theta0.10__cross_grid_errors": "547c84d3a46096a42a3d2185eb36681cc435d2accceedb8d81ae085085586dc6",
+    "r2.20__theta0.10__cross_grid_orders": "d75aae39a6b9c8516f51e39b4e8b245e8d506fa01fdb73bf2d87a169d5a5ae41",
+    "r2.20__theta0.20__cross_grid_errors": "c985fcb1523ef1c6596b1ed22e3279f5aa297ba16c083301374b58dcf1efcc19",
+    "r2.20__theta0.20__cross_grid_orders": "728d46eb822f8b0605ef07f583a55851100383fb7a2e831650eaf53ceb1375a2",
+    "r3.00__complete_semigroup_error": "881aaacc0d056e86b21217091807e7d140ceac964507ec264f12e98ce32f2784",
+    "r3.00__continuum_basis_condition": "df1709e7c4a032bc9ceda94ce0cb4088151d22b24bb70881bfce9ec000b5328a",
+    "r3.00__continuum_principal_eigenvalues": "c0eaabd092573eb3cb45b78008a2dd1f2d87dee43c28bab8e14741ff6d6dd635",
+    "r3.00__continuum_reference_error": "bad8965ac5f15f05198685ffe0ffe1724de62f3c803e5b1e2abcca4ba798fe96",
+    "r3.00__continuum_reference_to_discrete_ratio": "edbb601a27787d0404e03acc71f4878f6da0bf129e64bd92b582e1d329a5c06a",
+    "r3.00__family_leakage": "2def278b535a12700d011e11421c69d8a4a6e80c5bcf59712f4fafd27c7c989d",
+    "r3.00__group_speed_relative_error": "c20a36618e325e736e390ec051f2b7f5c8b393dad38155934ecb09d2ac0e99d3",
+    "r3.00__log_amplitude_error": "4eb0af55302702e84106de8c29f6373559459670c0f6ccf98ecde624edb100b5",
+    "r3.00__numerical_basis_condition": "64eeb42e9467bcc4b607df69cce66b80431cf5549d84a3f38e6d04f4eb6ab369",
+    "r3.00__numerical_principal_eigenvalues": "983935d519343fd96d6319d6bab88431c10f031337e299ed612ab6f2011cc58a",
+    "r3.00__phase_error_radians": "6e55c980c2802dd16e9095d593260264d6b3aa0054f61db8933711574be43857",
+    "r3.00__point_passed": "f63e2060980c03b28e4c251b17ce7c4d017b76d13cb7a665acd1c6e80cd1f96f",
+    "r3.00__principal_semigroup_error": "489e5408f2b0404d176820edde1239e2ef13ca28a78612a33d035df6926b0a46",
+    "r3.00__theta0.10__cross_grid_errors": "f89a1ee85d55cf2719221f9537b5b74494ac123395eb0787b8d87c83ea199845",
+    "r3.00__theta0.10__cross_grid_orders": "1b1e71c04c1349beaeac48a92c7eba1bb8a658e375b823c42346d3875b729b47",
+    "r3.00__theta0.20__cross_grid_errors": "11f2ca357847c5d611542f4e80f882537221b31a56076c018f157574b1629ee3",
+    "r3.00__theta0.20__cross_grid_orders": "4c6b44f16cbb3a8d126980e852c24f1efed69fb6a487751c618d8f6288c99ada",
+    "r5.00__complete_semigroup_error": "4586fb24869cd97717acc368f5a38679da5bc99733dee4dda6e230621b85e566",
+    "r5.00__continuum_basis_condition": "7c7c66a2fb3e1b2680eac4ef8ae5cacbf4946e1caf34538deaf0c1c7eb9e99a4",
+    "r5.00__continuum_principal_eigenvalues": "89e31bbeeada8d12a77fe9e04da33a8355158b8dd7e733a6397eb75c0105ff80",
+    "r5.00__continuum_reference_error": "05e6c83de00945a1d4e027836b7b3266ef2c02f474e6e56945066957ca4055f6",
+    "r5.00__continuum_reference_to_discrete_ratio": "b101c90d474673846f547b29763fc550dc1f40cd0704d964c60bb95b28986375",
+    "r5.00__family_leakage": "7fa05f2e8665379743ce91503584e5888d310bea9ac6fc0f4c1d839185ed8686",
+    "r5.00__group_speed_relative_error": "129644d4274f62323f25b782bac287757aa732c3c0533fcddd050e7112f49622",
+    "r5.00__log_amplitude_error": "fb9754cadd96134bb5b4271dbbda4a71e4c20fdf221f7e3849bce715081ee72c",
+    "r5.00__numerical_basis_condition": "38576506a1ce355c2fb69223c61cb35e9e098a9b00096e85247c43593f73d708",
+    "r5.00__numerical_principal_eigenvalues": "03a77e9cd8f53cc67373d0e8eb5ea1d913b3b635814de36d6570357cb40cf948",
+    "r5.00__phase_error_radians": "4b84f1854dea774a6bf657fb64e35d26947b704507a68c3e0061c2fa31a0affb",
+    "r5.00__point_passed": "62d57c9006b13c35bab22c7c1f228a4d22a18bc7b75a80521bdd3b2a11fe12d4",
+    "r5.00__principal_semigroup_error": "b5b025ab85bdebe92a0986a4c5285883a0a21081b97ba86ed7bf9ff3fa30a56a",
+    "r5.00__theta0.10__cross_grid_errors": "60b70f6a329e1b704d38864f0ddd36beb99d315797a084cc098bb658d8c37fd2",
+    "r5.00__theta0.10__cross_grid_orders": "ac11982145a0a1bf5c1000c8ad74f884a8e8129fa131d6aaa7b9f92cd544ce43",
+    "r5.00__theta0.20__cross_grid_errors": "84af7468c564918fea3d7729a7706e0b2840318bf0877d1a0dbc5f0921ee97ad",
+    "r5.00__theta0.20__cross_grid_orders": "f9b2380508adaf74c4b9e22f37e782c00c88bb9c33f9a5e2d053847040759b5f",
+    "r8.00__complete_semigroup_error": "af1f79f706f9036388899b06155bc7565c78889e5b700c89d01852820a1cf938",
+    "r8.00__continuum_basis_condition": "377871d01bcd7b711a7de93035631ad29bf08b0482218109cc93c65990dc71a7",
+    "r8.00__continuum_principal_eigenvalues": "3c16004287927bda84d610255a14c19547c6135dcc6564272f1b969d1724eb39",
+    "r8.00__continuum_reference_error": "6796f32a51047351a06d58a37b75baf0d54328b9e7070456bb81e8a166af0e0d",
+    "r8.00__continuum_reference_to_discrete_ratio": "8cd986bf51211efd09e1a7297f48078fabb256d2f1c37738ad66b15ae3ce45bb",
+    "r8.00__family_leakage": "aef867d4a01e9b230a2670bf268a6c8a06fd07f506da3d87da5afde01b2a6ad5",
+    "r8.00__group_speed_relative_error": "cca353bd4bd9672120db7e9925ed737dca42e548c3ace372c921b699fb056aa5",
+    "r8.00__log_amplitude_error": "203ee4a54c6279414eafb3fada0b91c050619c4b7e66453035c64471d82d8cc3",
+    "r8.00__numerical_basis_condition": "999e1c99b2f2adf4ad67ff251395ed7a00381015043751d275f5824d11d9c3ba",
+    "r8.00__numerical_principal_eigenvalues": "da1561d03f2cedb4bfc857b60663e95689ba15fdf80e93f1eabeef4ca93e6905",
+    "r8.00__phase_error_radians": "6da49c97fa5414519de1eb4acba0a644d220ba8f816aed68d25fe9aa8ac2b229",
+    "r8.00__point_passed": "438c04c11e285069d5ac837722bc05966e8d527427ac8d58145aa5682eb35c31",
+    "r8.00__principal_semigroup_error": "5ef288159daf1027e160a1eec4357546b4fca4c08df9c9fa95b78278dedf366f",
+    "r8.00__theta0.10__cross_grid_errors": "68b1310dbce420736b1ff6dbe9969de3ab12bcd19e90218acac6f4c7984984ec",
+    "r8.00__theta0.10__cross_grid_orders": "1e3992ae863546105521f6f865042f52ccdad58bdf52aa8da338aa0c277ebc9a",
+    "r8.00__theta0.20__cross_grid_errors": "2e1174b68c6aaea59d55d38e6968a60dbd121a7d30e0cf1fa97f8f9f51ae8c77",
+    "r8.00__theta0.20__cross_grid_orders": "613f90d606c908282b4a1f45ef03b1f592fb18f0311d04ccd4628582d816b3f2",
+    "symbol_times_s": "909bcea2b7b2650325c7cc75d6beadeff4d09cb208487982515c955e4af6d17f",
+    "theta_values": "4bdba53cae2cd4fda92d8a880e02688e0c361bdb78f388405e4f8e1a74f837b7"
+  },
+  "decisive_arrays_sha256": "8705892e3d38a74630e45d839d20ad0045a39976f2bc00762dbab18d84f36256",
+  "embedded_export_discrimination_authorized": false,
+  "fixed_q_micro_solver_authorized": false,
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_packet_resolution_wp10c9d6c6a.py": "5b8f57ef9f375ab7aee1fa1ad4432181852b5f7aee24489710c1e03922c9151d",
+    "src/imri_qpe/layer3_minidisk_1d/__init__.py": "e8c33c667a15f4a0f3a5ae09237500a17512c51646cec3f6c46e52d9fae50f5d",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_continuum_truncation.py": "a7ca35a9e30e99b346489e37cbfb50087f04354d8ef681e4c16f87c200880286",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_tangent.py": "23a958a894fc40188a0cda1e640f943bd00dc8070a64af4b2b2a56cd609ba0c4",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_packet_resolution.py": "989e96180b4fe8ddb48d7513e85e1af6969173bdbaaab7a1e9a7e42d4b931b64",
+    "tests/test_causal_inner_packet_resolution.py": "fb54619f8e31969f096a08e4db9c69b30ba4b3ab565fc1867e811b29b2b36ffe",
+    "tests/test_causal_inner_packet_resolution_wp10c9d6c6a.py": "ee1631fcdd07b2c788c3861c20b2af1458ce02685645538dccd2d88acc56ea8d"
+  },
+  "implementation_source_manifest_sha256": "883aa50663b6d67520f9c63591cf919d15a420348bc84c4f792730e368b0fafa",
+  "interior_packet_spectral_contract_certified": false,
+  "nonlinear_physical_trajectory_authorized": false,
+  "operator_changed": false,
+  "packet_resolution_report": {
+    "boundary_packets_require_spectral_and_dae_contracts": true,
+    "historical_results_used_to_set_threshold": false,
+    "profiles": {
+      "boundary_band_outgoing_original": {
+        "boundary_dae_eligible": true,
+        "cells_per_sigma_on_N128": 1.5919350528495864,
+        "center_over_rg": 1.84,
+        "combined_boundary_packet_eligible": false,
+        "historical_instantaneous_gate_passed": false,
+        "historical_result_is_nonbinding_for_contract": true,
+        "log_width": 0.065,
+        "nyquist_alias_fraction": 0.015377050145194134,
+        "role": "frozen_c4_binding_profile",
+        "spectral_eligible": false,
+        "theta_quantile": 1.1290098598838318
+      },
+      "boundary_band_outgoing_shifted": {
+        "boundary_dae_eligible": true,
+        "cells_per_sigma_on_N128": 1.5919350528495864,
+        "center_over_rg": 1.98,
+        "combined_boundary_packet_eligible": false,
+        "historical_instantaneous_gate_passed": false,
+        "historical_result_is_nonbinding_for_contract": true,
+        "log_width": 0.065,
+        "nyquist_alias_fraction": 0.015377050145194134,
+        "role": "same_width_support_control",
+        "spectral_eligible": false,
+        "theta_quantile": 1.1290098598838318
+      },
+      "boundary_band_outgoing_shifted_wider": {
+        "boundary_dae_eligible": true,
+        "cells_per_sigma_on_N128": 3.1838701056991727,
+        "center_over_rg": 1.98,
+        "combined_boundary_packet_eligible": false,
+        "historical_instantaneous_gate_passed": true,
+        "historical_result_is_nonbinding_for_contract": true,
+        "log_width": 0.13,
+        "nyquist_alias_fraction": 0.003993956605620674,
+        "role": "width_and_support_control",
+        "spectral_eligible": false,
+        "theta_quantile": 0.5706408530934586
+      },
+      "boundary_band_outgoing_wider": {
+        "boundary_dae_eligible": true,
+        "cells_per_sigma_on_N128": 3.1838701056991727,
+        "center_over_rg": 1.84,
+        "combined_boundary_packet_eligible": false,
+        "historical_instantaneous_gate_passed": true,
+        "historical_result_is_nonbinding_for_contract": true,
+        "log_width": 0.13,
+        "nyquist_alias_fraction": 0.003993956605620674,
+        "role": "same_center_width_control",
+        "spectral_eligible": false,
+        "theta_quantile": 0.5706408530934586
+      }
+    },
+    "spectral_energy_quantile": 0.99
+  },
+  "parent_classification": "narrow_profile_preasymptotic_width_crossover_no_redesign",
+  "parent_classification_preserved": true,
+  "passed": false,
+  "production_defaults_changed": false,
+  "production_operator_authorized": false,
+  "prospective_packet_manifest_authorized": false,
+  "reduced_slow_evolution_authorized": false,
+  "runtime_seconds": 569.3735690410249,
+  "schema_version": 1,
+  "symbol_contract": {
+    "certified_range_usable": false,
+    "certified_theta": 0.16999999999999996,
+    "minimum_usable_theta": 0.2,
+    "passed": false,
+    "radius_reports": {
+      "r11.00": {
+        "cell_index": 44,
+        "maximum_metrics": {
+          "complete_semigroup_error": 0.1705664632604454,
+          "continuum_basis_condition": 457.0412904552108,
+          "continuum_reference_error": 6.473162421974383e-12,
+          "continuum_reference_to_discrete_ratio": 2.530478806686756e-09,
+          "family_leakage": 0.0014007628799349648,
+          "group_speed_relative_error": 0.04585665910235897,
+          "log_amplitude_error": 0.025879192205901513,
+          "numerical_basis_condition": 458.4022208809987,
+          "phase_error_radians": 0.035971298965789655,
+          "principal_semigroup_error": 0.0422280155188948
+        },
+        "maximum_omitted_stencil_fraction": 1.709186622058026e-15,
+        "maximum_row_symbol_parity_defect": 1.8887249314173456e-14,
+        "offsets": [
+          -1,
+          0,
+          1,
+          2
+        ],
+        "point_pass_fraction": 0.288135593220339,
+        "radius_over_rg": 11.075747133136186,
+        "target_radius_over_rg": 11.0,
+        "touches_boundary": false
+      },
+      "r2.20": {
+        "cell_index": 4,
+        "maximum_metrics": {
+          "complete_semigroup_error": 0.2101955828446638,
+          "continuum_basis_condition": 973.8292777481979,
+          "continuum_reference_error": 6.482331082981011e-12,
+          "continuum_reference_to_discrete_ratio": 3.244649684907954e-09,
+          "family_leakage": 0.01794082013373034,
+          "group_speed_relative_error": 0.051613127849171124,
+          "log_amplitude_error": 0.15884046688964348,
+          "numerical_basis_condition": 960.275085472282,
+          "phase_error_radians": 0.23532170278588893,
+          "principal_semigroup_error": 0.22543188793160507
+        },
+        "maximum_omitted_stencil_fraction": 1.960718841569824e-15,
+        "maximum_row_symbol_parity_defect": 2.6830873489252967e-14,
+        "offsets": [
+          -1,
+          0,
+          1,
+          2
+        ],
+        "point_pass_fraction": 0.3898305084745763,
+        "radius_over_rg": 2.1630630945545706,
+        "target_radius_over_rg": 2.2,
+        "touches_boundary": false
+      },
+      "r3.00": {
+        "cell_index": 12,
+        "maximum_metrics": {
+          "complete_semigroup_error": 0.1599191207562739,
+          "continuum_basis_condition": 1964.3311091251376,
+          "continuum_reference_error": 2.5464338483204058e-11,
+          "continuum_reference_to_discrete_ratio": 1.306910491239772e-08,
+          "family_leakage": 0.008267035871032337,
+          "group_speed_relative_error": 0.0488247517549988,
+          "log_amplitude_error": 0.1102755040511223,
+          "numerical_basis_condition": 2121.3946079079387,
+          "phase_error_radians": 0.1623254900834077,
+          "principal_semigroup_error": 0.15782090828523745
+        },
+        "maximum_omitted_stencil_fraction": 1.389664712190651e-15,
+        "maximum_row_symbol_parity_defect": 1.7817820724400554e-14,
+        "offsets": [
+          -1,
+          0,
+          1,
+          2
+        ],
+        "point_pass_fraction": 0.3559322033898305,
+        "radius_over_rg": 2.9986788494565086,
+        "target_radius_over_rg": 3.0,
+        "touches_boundary": false
+      },
+      "r5.00": {
+        "cell_index": 25,
+        "maximum_metrics": {
+          "complete_semigroup_error": 0.13276609598528144,
+          "continuum_basis_condition": 357.4703226718671,
+          "continuum_reference_error": 2.9294847127513345e-11,
+          "continuum_reference_to_discrete_ratio": 1.726972096422802e-08,
+          "family_leakage": 0.00327990147957263,
+          "group_speed_relative_error": 0.044821961681352336,
+          "log_amplitude_error": 0.06119651946327953,
+          "numerical_basis_condition": 358.79369738650337,
+          "phase_error_radians": 0.08867954324885119,
+          "principal_semigroup_error": 0.0891546409956682
+        },
+        "maximum_omitted_stencil_fraction": 1.069863806931859e-15,
+        "maximum_row_symbol_parity_defect": 1.3966218404258525e-14,
+        "offsets": [
+          -1,
+          0,
+          1,
+          2
+        ],
+        "point_pass_fraction": 0.288135593220339,
+        "radius_over_rg": 5.098632452177477,
+        "target_radius_over_rg": 5.0,
+        "touches_boundary": false
+      },
+      "r8.00": {
+        "cell_index": 36,
+        "maximum_metrics": {
+          "complete_semigroup_error": 0.15037572804332922,
+          "continuum_basis_condition": 431.91187327811076,
+          "continuum_reference_error": 1.3686553198441084e-12,
+          "continuum_reference_to_discrete_ratio": 7.191399945612105e-10,
+          "family_leakage": 0.0017297789572863751,
+          "group_speed_relative_error": 0.03896964659129623,
+          "log_amplitude_error": 0.03735148259255616,
+          "numerical_basis_condition": 429.47387857298213,
+          "phase_error_radians": 0.05301021836716435,
+          "principal_semigroup_error": 0.056781818492498956
+        },
+        "maximum_omitted_stencil_fraction": 2.0496221987138194e-15,
+        "maximum_row_symbol_parity_defect": 2.5871002600681964e-14,
+        "offsets": [
+          -1,
+          0,
+          1,
+          2
+        ],
+        "point_pass_fraction": 0.2711864406779661,
+        "radius_over_rg": 7.989365007409072,
+        "target_radius_over_rg": 8.0,
+        "touches_boundary": false
+      }
+    },
+    "stencil_contract_passed": true
+  },
+  "uniform_packet_propagation_authorized": false,
+  "work_package": "WP10c9d6c6a"
+}
