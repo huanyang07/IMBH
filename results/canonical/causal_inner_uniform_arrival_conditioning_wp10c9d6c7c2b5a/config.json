@@ -1,0 +1,70 @@
+{
+  "RSS_used": false,
+  "conditioning_is_diagnostic_only": true,
+  "embedded_or_nonlinear_propagation_executed": false,
+  "experiment_end_seconds": 11.82686804912109,
+  "historical_c2b4_gates_unchanged": true,
+  "history_normalizations_reported": [
+    "initial_source_energy_absolute",
+    "response_relative",
+    "fixed_second_order_Richardson_relative",
+    "observed_order_Richardson_relative",
+    "amplitude_and_unit_shape"
+  ],
+  "horizon_gates": {
+    "final_window_fraction": 0.1,
+    "maximum_final_window_range_to_peak": 0.02,
+    "maximum_terminal_slope_horizon_to_peak": 0.05,
+    "maximum_terminal_to_peak": 0.01
+  },
+  "measured_nuisance_components": [
+    "receiving_band",
+    "arrival_window",
+    "time_sampling",
+    "restart_roundoff",
+    "projection_and_subspace"
+  ],
+  "nuisance_combination": "conservative_sum_of_deterministic_error_vector_bounds",
+  "observability_factor": 5.0,
+  "operator_changed": false,
+  "parent_positive_transfer_contract": {
+    "definition": "A_total = integral_window E_receiving_total(t) dt / (window_duration * E_initial_source)",
+    "name": "normalized_time_averaged_receiving_band_energy",
+    "need_not_be_bounded_by_one": true,
+    "normalization": "the positive initial source-band energy computed on the same grid from the analytic reprojection",
+    "peak_companion": "maximum receiving-band energy divided by initial source-band energy",
+    "primary_history": "positive receiving-band total-energy history divided by initial source-band energy",
+    "reason_not_bounded": "variable-background, descriptor, relaxation and lower-source work can amplify or attenuate stored packet energy",
+    "receiving_energy": "E_receiving_total(t) = 1/2 sum_cells delta_p.T H delta_p Delta_lnR over fixed faces [6,49]",
+    "strictly_nonnegative": true
+  },
+  "primary_arrival_windows_seconds": {
+    "acoustic": [
+      0.0,
+      11.141908685984637
+    ],
+    "mixed_shear_acoustic": [
+      0.0,
+      11.82686804912109
+    ],
+    "shear": [
+      0.0,
+      11.82686804912109
+    ]
+  },
+  "reference_levels": [
+    98,
+    196,
+    392
+  ],
+  "representative_profiles": [
+    "acoustic",
+    "shear",
+    "mixed_shear_acoustic"
+  ],
+  "schema_version": 1,
+  "unresolved_nuisance_components": [
+    "independent_continuum_history_reference"
+  ],
+  "work_package": "WP10c9d6c7c2b5a"
+}
