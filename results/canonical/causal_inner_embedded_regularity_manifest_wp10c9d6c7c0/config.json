@@ -1,0 +1,210 @@
+{
+  "decision_contract": {
+    "p4_and_buffered_p3_fail": "no_regularized_embedded_class_selected_stop_before_operator_change",
+    "p4_and_buffered_p3_pass_embedded": "endpoint_interface_regularity_crossover_no_operator_redesign_certify_only_declared_smooth_or_buffered_class",
+    "p4_fails_buffered_p3_passes": "active_endpoint_coupling_stencil_hypothesis_selected_local_truncation_audit_only",
+    "p4_passes_buffered_p3_fails": "short_support_or_global_p3_preasymptotic_hypothesis_selected_no_interface_redesign"
+  },
+  "embedded_definition_contract": {
+    "buffer_support_parent_face": 45,
+    "maximum_buffered_coupling_trace_fraction": 1e-15,
+    "maximum_exterior_norm": 0.0,
+    "maximum_reconstruction_weight_defect": 1e-12,
+    "maximum_restriction_defect": 2e-12,
+    "minimum_active_coupling_trace_fraction": 1e-10,
+    "minimum_zero_buffer_parent_cells": 3,
+    "no_profile_taper_shift_or_fit_after_manifest": true,
+    "parent_coupling_face": 48
+  },
+  "future_propagation_contract": {
+    "absolute_reflection_threshold": null,
+    "all_sign_and_amplitude_variants_binding": true,
+    "direct_state_gates_inherited_from_f1": true,
+    "exact_shared_flux_and_prefix_ledgers_required": true,
+    "minimum_characteristic_energy_relative_activity": 1e-08,
+    "no_threshold_or_profile_change_after_this_manifest": true,
+    "phase_1": "new_profiles_must_pass_the_unchanged_uniform_state_and_13_export_contract_before_embedded_propagation",
+    "phase_2": "only_uniform_passes_may_run_on_the_unchanged_three_embedded_layouts",
+    "physical_export_gates_inherited_from_c7a": true
+  },
+  "operator_change": false,
+  "profile_definitions": {
+    "p3_buffer45__inward_shear": {
+      "coupling_trace_expectation": "inactive",
+      "family": "inward_shear",
+      "role": "prospective_C2_exact_zero_buffer",
+      "support_upper_parent_face": 45,
+      "window_power": 3,
+      "zero_extension_regularity": "C2"
+    },
+    "p3_buffer45__outward_shear": {
+      "coupling_trace_expectation": "inactive",
+      "family": "outward_shear",
+      "role": "prospective_C2_exact_zero_buffer",
+      "support_upper_parent_face": 45,
+      "window_power": 3,
+      "zero_extension_regularity": "C2"
+    },
+    "p4__inward_shear": {
+      "coupling_trace_expectation": "active",
+      "family": "inward_shear",
+      "role": "prospective_active_C3_endpoint",
+      "support_upper_parent_face": 48,
+      "window_power": 4,
+      "zero_extension_regularity": "C3"
+    },
+    "p4__outward_shear": {
+      "coupling_trace_expectation": "active",
+      "family": "outward_shear",
+      "role": "prospective_active_C3_endpoint",
+      "support_upper_parent_face": 48,
+      "window_power": 4,
+      "zero_extension_regularity": "C3"
+    }
+  },
+  "profile_variants": [
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p4__inward_shear",
+      "binding": true,
+      "profile_id": "p4__inward_shear::a0.50::minus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p4__inward_shear",
+      "binding": true,
+      "profile_id": "p4__inward_shear::a0.50::plus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p4__inward_shear",
+      "binding": true,
+      "profile_id": "p4__inward_shear::a1.00::minus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p4__inward_shear",
+      "binding": true,
+      "profile_id": "p4__inward_shear::a1.00::plus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p4__outward_shear",
+      "binding": true,
+      "profile_id": "p4__outward_shear::a0.50::minus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p4__outward_shear",
+      "binding": true,
+      "profile_id": "p4__outward_shear::a0.50::plus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p4__outward_shear",
+      "binding": true,
+      "profile_id": "p4__outward_shear::a1.00::minus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p4__outward_shear",
+      "binding": true,
+      "profile_id": "p4__outward_shear::a1.00::plus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3_buffer45__inward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__inward_shear::a0.50::minus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3_buffer45__inward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__inward_shear::a0.50::plus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3_buffer45__inward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__inward_shear::a1.00::minus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3_buffer45__inward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__inward_shear::a1.00::plus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3_buffer45__outward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__outward_shear::a0.50::minus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3_buffer45__outward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__outward_shear::a0.50::plus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3_buffer45__outward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__outward_shear::a1.00::minus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3_buffer45__outward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__outward_shear::a1.00::plus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": 1
+    }
+  ],
+  "propagation_executed": false,
+  "schema_version": 1,
+  "uniform_eligibility_contract": {
+    "maximum_balance_coefficient_relative_769_513_difference": 1e-06,
+    "maximum_endpoint_cell_fraction": 0.005,
+    "maximum_nyquist_alias_fraction": 0.001,
+    "maximum_projection_replay_defect": 2e-12,
+    "maximum_secondary_continuum_initial_cancellation_ratio": 1e-06,
+    "maximum_theta_99": 0.3,
+    "minimum_active_cell_family_purity": 0.98,
+    "minimum_global_family_purity": 0.995,
+    "minimum_theta_99": 0.0,
+    "spectral_energy_quantile": 0.99
+  },
+  "work_package": "WP10c9d6c7c0"
+}

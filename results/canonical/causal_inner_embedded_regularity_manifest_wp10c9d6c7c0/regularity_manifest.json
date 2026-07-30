@@ -1,0 +1,505 @@
+{
+  "all_coupling_trace_expectations_passed": true,
+  "all_uniform_profiles_eligible": true,
+  "c7a_layout_preserved": true,
+  "c7b_rejection_preserved": true,
+  "decision_contract": {
+    "p4_and_buffered_p3_fail": "no_regularized_embedded_class_selected_stop_before_operator_change",
+    "p4_and_buffered_p3_pass_embedded": "endpoint_interface_regularity_crossover_no_operator_redesign_certify_only_declared_smooth_or_buffered_class",
+    "p4_fails_buffered_p3_passes": "active_endpoint_coupling_stencil_hypothesis_selected_local_truncation_audit_only",
+    "p4_passes_buffered_p3_fails": "short_support_or_global_p3_preasymptotic_hypothesis_selected_no_interface_redesign"
+  },
+  "embedded_definition_contract": {
+    "buffer_support_parent_face": 45,
+    "maximum_buffered_coupling_trace_fraction": 1e-15,
+    "maximum_exterior_norm": 0.0,
+    "maximum_reconstruction_weight_defect": 1e-12,
+    "maximum_restriction_defect": 2e-12,
+    "minimum_active_coupling_trace_fraction": 1e-10,
+    "minimum_zero_buffer_parent_cells": 3,
+    "no_profile_taper_shift_or_fit_after_manifest": true,
+    "parent_coupling_face": 48
+  },
+  "future_propagation_contract": {
+    "absolute_reflection_threshold": null,
+    "all_sign_and_amplitude_variants_binding": true,
+    "direct_state_gates_inherited_from_f1": true,
+    "exact_shared_flux_and_prefix_ledgers_required": true,
+    "minimum_characteristic_energy_relative_activity": 1e-08,
+    "no_threshold_or_profile_change_after_this_manifest": true,
+    "phase_1": "new_profiles_must_pass_the_unchanged_uniform_state_and_13_export_contract_before_embedded_propagation",
+    "phase_2": "only_uniform_passes_may_run_on_the_unchanged_three_embedded_layouts",
+    "physical_export_gates_inherited_from_c7a": true
+  },
+  "historical_controls": {
+    "p3__inward_shear": {
+      "cumulative_passed": true,
+      "instantaneous_refinement_error_cosine": 0.7870107395609527,
+      "instantaneous_rms_order": 2.172732751228165,
+      "passed": false
+    },
+    "p3__outward_shear": {
+      "cumulative_passed": true,
+      "instantaneous_refinement_error_cosine": 0.7897937531007153,
+      "instantaneous_rms_order": 2.1727979244251925,
+      "passed": false
+    },
+    "p5__inward_shear": {
+      "cumulative_passed": true,
+      "instantaneous_refinement_error_cosine": 0.9896016294471759,
+      "instantaneous_rms_order": 2.121579604724375,
+      "passed": true
+    },
+    "p5__outward_shear": {
+      "cumulative_passed": true,
+      "instantaneous_refinement_error_cosine": 0.9899153077998619,
+      "instantaneous_rms_order": 2.121518129106753,
+      "passed": true
+    }
+  },
+  "layout_reports": {
+    "N128_exterior_N128_inner_c48": {
+      "active_cell_count": 48,
+      "coupling_face_index": 48,
+      "n_cells": 64,
+      "profile_reports": {
+        "p3_buffer45__inward_shear": {
+          "coupling_left_trace_fraction": 0.0,
+          "coupling_right_trace_fraction": 0.0,
+          "coupling_trace_expectation": "inactive",
+          "coupling_trace_expectation_passed": true,
+          "exterior_norm": 0.0,
+          "maximum_coupling_trace_fraction": 0.0,
+          "primary_array_sha256": "d5017a8b5a391758c0339d3949f878c862bd5f45923a2e3ed727422afa043699",
+          "restriction_to_parent_defect": 0.0,
+          "secondary_array_sha256": "18d749f503d7268d41c76da732a10f86cc3d5a3a320e2a40b87e86895f336363",
+          "support_face_index": 45,
+          "zero_buffer_cell_count": 3,
+          "zero_buffer_norm": 0.0
+        },
+        "p3_buffer45__outward_shear": {
+          "coupling_left_trace_fraction": 0.0,
+          "coupling_right_trace_fraction": 0.0,
+          "coupling_trace_expectation": "inactive",
+          "coupling_trace_expectation_passed": true,
+          "exterior_norm": 0.0,
+          "maximum_coupling_trace_fraction": 0.0,
+          "primary_array_sha256": "45dc15322f73f6dc5b1919e66d8657776d55711515ce7928eb244e7a302f2116",
+          "restriction_to_parent_defect": 0.0,
+          "secondary_array_sha256": "cafd342e98b6ba1dfa5b8b54a0ab40f956bd19a5fae4bf0e5ac4d78d15b3418f",
+          "support_face_index": 45,
+          "zero_buffer_cell_count": 3,
+          "zero_buffer_norm": 0.0
+        },
+        "p4__inward_shear": {
+          "coupling_left_trace_fraction": 1.1245355406013166e-05,
+          "coupling_right_trace_fraction": 1.3413113929174686e-06,
+          "coupling_trace_expectation": "active",
+          "coupling_trace_expectation_passed": true,
+          "exterior_norm": 0.0,
+          "maximum_coupling_trace_fraction": 1.1245355406013166e-05,
+          "primary_array_sha256": "409a9ece5139ba9a1de2cea645a8914ba1acfe5126d3648fc81431f90142180e",
+          "restriction_to_parent_defect": 0.0,
+          "secondary_array_sha256": "c599c71fb60dfa02d79d6286048d982c95ba4adf63f13c097cb40cb78b932a05",
+          "support_face_index": 48,
+          "zero_buffer_cell_count": 0,
+          "zero_buffer_norm": 0.0
+        },
+        "p4__outward_shear": {
+          "coupling_left_trace_fraction": 1.1245355406013166e-05,
+          "coupling_right_trace_fraction": 1.3413113929174686e-06,
+          "coupling_trace_expectation": "active",
+          "coupling_trace_expectation_passed": true,
+          "exterior_norm": 0.0,
+          "maximum_coupling_trace_fraction": 1.1245355406013166e-05,
+          "primary_array_sha256": "72e51b67daffffc7bdd45bc38d013cb85c2f1c2b65e3417ecb54ab7f2a3e5e35",
+          "restriction_to_parent_defect": 0.0,
+          "secondary_array_sha256": "e344c2b701eb7f8cdf482fc086a32537ea35458bcfa3bcb4b130687946a3669d",
+          "support_face_index": 48,
+          "zero_buffer_cell_count": 0,
+          "zero_buffer_norm": 0.0
+        }
+      },
+      "reconstruction_weight_defect": 2.319896367534886e-16,
+      "refinement_ratio": 1
+    },
+    "N128_exterior_N256_inner_c48": {
+      "active_cell_count": 96,
+      "coupling_face_index": 96,
+      "n_cells": 112,
+      "profile_reports": {
+        "p3_buffer45__inward_shear": {
+          "coupling_left_trace_fraction": 0.0,
+          "coupling_right_trace_fraction": 0.0,
+          "coupling_trace_expectation": "inactive",
+          "coupling_trace_expectation_passed": true,
+          "exterior_norm": 0.0,
+          "maximum_coupling_trace_fraction": 0.0,
+          "primary_array_sha256": "2bb5c949f0d08d1796065be770a792ad83fc76aaa055ef6ca5674a1647f2ef3f",
+          "restriction_to_parent_defect": 3.164544008187303e-14,
+          "secondary_array_sha256": "442ca812b18c249931f23a0bc2db3c92da22187faf824980ef20dfd86c0dc854",
+          "support_face_index": 90,
+          "zero_buffer_cell_count": 6,
+          "zero_buffer_norm": 0.0
+        },
+        "p3_buffer45__outward_shear": {
+          "coupling_left_trace_fraction": 0.0,
+          "coupling_right_trace_fraction": 0.0,
+          "coupling_trace_expectation": "inactive",
+          "coupling_trace_expectation_passed": true,
+          "exterior_norm": 0.0,
+          "maximum_coupling_trace_fraction": 0.0,
+          "primary_array_sha256": "8c2da23c250a455a238c451e321479b42c244fb632957931a844f7f712a57a54",
+          "restriction_to_parent_defect": 3.160705483470856e-14,
+          "secondary_array_sha256": "bd35d21b1c4f76863f639566f12ef9e708bbeaf25cce4283480cf61ddad1c97c",
+          "support_face_index": 90,
+          "zero_buffer_cell_count": 6,
+          "zero_buffer_norm": 0.0
+        },
+        "p4__inward_shear": {
+          "coupling_left_trace_fraction": 1.1829315411500346e-06,
+          "coupling_right_trace_fraction": 1.2937852781825e-07,
+          "coupling_trace_expectation": "active",
+          "coupling_trace_expectation_passed": true,
+          "exterior_norm": 0.0,
+          "maximum_coupling_trace_fraction": 1.1829315411500346e-06,
+          "primary_array_sha256": "0b58a82ecf0d79b96bfde71c0fe0a24d43a51af5198cb0d375f52dff0334d6d3",
+          "restriction_to_parent_defect": 3.46877598601303e-14,
+          "secondary_array_sha256": "2978a5199e8b39094799ba62014acaf5db2a826e24e089e7cb43d923043f3454",
+          "support_face_index": 96,
+          "zero_buffer_cell_count": 0,
+          "zero_buffer_norm": 0.0
+        },
+        "p4__outward_shear": {
+          "coupling_left_trace_fraction": 1.1829315411500346e-06,
+          "coupling_right_trace_fraction": 1.2937852781825e-07,
+          "coupling_trace_expectation": "active",
+          "coupling_trace_expectation_passed": true,
+          "exterior_norm": 0.0,
+          "maximum_coupling_trace_fraction": 1.1829315411500346e-06,
+          "primary_array_sha256": "82a0da164d3da34ee917d8843bd62929d6f30c161e28810aa1bce49a317affa1",
+          "restriction_to_parent_defect": 3.467237690306437e-14,
+          "secondary_array_sha256": "171319fc2d9f70a703b8c52affcdcd11a7f40f2728dfe84c7801d56ecc7216cc",
+          "support_face_index": 96,
+          "zero_buffer_cell_count": 0,
+          "zero_buffer_norm": 0.0
+        }
+      },
+      "reconstruction_weight_defect": 5.799738099161833e-16,
+      "refinement_ratio": 2
+    },
+    "N128_exterior_N512_inner_c48": {
+      "active_cell_count": 192,
+      "coupling_face_index": 192,
+      "n_cells": 208,
+      "profile_reports": {
+        "p3_buffer45__inward_shear": {
+          "coupling_left_trace_fraction": 0.0,
+          "coupling_right_trace_fraction": 0.0,
+          "coupling_trace_expectation": "inactive",
+          "coupling_trace_expectation_passed": true,
+          "exterior_norm": 0.0,
+          "maximum_coupling_trace_fraction": 0.0,
+          "primary_array_sha256": "00dd50a92aca4731a085c8afd73f5c2948a14e34161ac57de56ed70b6c5d2c93",
+          "restriction_to_parent_defect": 2.004062798412142e-14,
+          "secondary_array_sha256": "486e71b041f8e69451eaa47949e681abe904c0b63d9b64e0bb27c1884c842392",
+          "support_face_index": 180,
+          "zero_buffer_cell_count": 12,
+          "zero_buffer_norm": 0.0
+        },
+        "p3_buffer45__outward_shear": {
+          "coupling_left_trace_fraction": 0.0,
+          "coupling_right_trace_fraction": 0.0,
+          "coupling_trace_expectation": "inactive",
+          "coupling_trace_expectation_passed": true,
+          "exterior_norm": 0.0,
+          "maximum_coupling_trace_fraction": 0.0,
+          "primary_array_sha256": "e68cfd114e2cecf80c734a27232a629f201f8a3a07ec43b573a8b059b095dec4",
+          "restriction_to_parent_defect": 2.0031379321013032e-14,
+          "secondary_array_sha256": "707019e8967ca3be0420b0335a0e4c3c0fc1dbf64d40cdd026ce1b9a4a7d6bed",
+          "support_face_index": 180,
+          "zero_buffer_cell_count": 12,
+          "zero_buffer_norm": 0.0
+        },
+        "p4__inward_shear": {
+          "coupling_left_trace_fraction": 1.0935628653911988e-07,
+          "coupling_right_trace_fraction": 1.0517535495787958e-08,
+          "coupling_trace_expectation": "active",
+          "coupling_trace_expectation_passed": true,
+          "exterior_norm": 0.0,
+          "maximum_coupling_trace_fraction": 1.0935628653911988e-07,
+          "primary_array_sha256": "9fb6603c98510ab5be428ebb236062e29b8d04404c464b816f14963e964dd08c",
+          "restriction_to_parent_defect": 2.1982037452281703e-14,
+          "secondary_array_sha256": "ad121d1157f8b4f584e50991695f7b0b60dafd03da655867e0b3d24de400bd4a",
+          "support_face_index": 192,
+          "zero_buffer_cell_count": 0,
+          "zero_buffer_norm": 0.0
+        },
+        "p4__outward_shear": {
+          "coupling_left_trace_fraction": 1.0935628653911988e-07,
+          "coupling_right_trace_fraction": 1.0517535495787958e-08,
+          "coupling_trace_expectation": "active",
+          "coupling_trace_expectation_passed": true,
+          "exterior_norm": 0.0,
+          "maximum_coupling_trace_fraction": 1.0935628653911988e-07,
+          "primary_array_sha256": "72082f6d24f2ccfb603c0dc8f7da66bef8d8819820be76d5da0c1dc1ce5c783d",
+          "restriction_to_parent_defect": 2.2000327227553118e-14,
+          "secondary_array_sha256": "b3ad110de5fee5fadae7050a04f78b4cb46e1485e8c172a501e1f78cf2921993",
+          "support_face_index": 192,
+          "zero_buffer_cell_count": 0,
+          "zero_buffer_norm": 0.0
+        }
+      },
+      "reconstruction_weight_defect": 3.4798393600341837e-16,
+      "refinement_ratio": 4
+    }
+  },
+  "manifest_sha256": "b230ce7a3c7e7546d0d706ee8f9bcfa3102c6c69be5f67a29aa451e1b5d9706b",
+  "measured_extrema": {
+    "field_scale_defect": 0.0,
+    "maximum_buffered_coupling_trace_fraction": 0.0,
+    "maximum_embedded_exterior_norm": 0.0,
+    "maximum_nyquist_alias_fraction": 0.0008013394477087153,
+    "maximum_projection_defect": 7.812675281354924e-13,
+    "maximum_reconstruction_weight_defect": 5.799738099161833e-16,
+    "maximum_restriction_defect": 8.160301118164188e-13,
+    "maximum_support_endpoint_cell_fraction": 8.679621487809018e-05,
+    "maximum_theta_99": 0.24543692606170261,
+    "minimum_active_cell_family_purity": 0.9999937324999117,
+    "minimum_active_coupling_trace_fraction": 1.0935628653911988e-07,
+    "minimum_global_family_purity": 0.9999999915168227,
+    "minimum_zero_buffer_parent_cells": 3.0
+  },
+  "operator_changed": false,
+  "parent_commit": "fad76852220d7c304fff9016ff99ada64d404eff",
+  "passed": true,
+  "profile_definitions": {
+    "p3_buffer45__inward_shear": {
+      "coupling_trace_expectation": "inactive",
+      "family": "inward_shear",
+      "role": "prospective_C2_exact_zero_buffer",
+      "support_upper_parent_face": 45,
+      "window_power": 3,
+      "zero_extension_regularity": "C2"
+    },
+    "p3_buffer45__outward_shear": {
+      "coupling_trace_expectation": "inactive",
+      "family": "outward_shear",
+      "role": "prospective_C2_exact_zero_buffer",
+      "support_upper_parent_face": 45,
+      "window_power": 3,
+      "zero_extension_regularity": "C2"
+    },
+    "p4__inward_shear": {
+      "coupling_trace_expectation": "active",
+      "family": "inward_shear",
+      "role": "prospective_active_C3_endpoint",
+      "support_upper_parent_face": 48,
+      "window_power": 4,
+      "zero_extension_regularity": "C3"
+    },
+    "p4__outward_shear": {
+      "coupling_trace_expectation": "active",
+      "family": "outward_shear",
+      "role": "prospective_active_C3_endpoint",
+      "support_upper_parent_face": 48,
+      "window_power": 4,
+      "zero_extension_regularity": "C3"
+    }
+  },
+  "profile_variants": [
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p4__inward_shear",
+      "binding": true,
+      "profile_id": "p4__inward_shear::a0.50::minus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p4__inward_shear",
+      "binding": true,
+      "profile_id": "p4__inward_shear::a0.50::plus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p4__inward_shear",
+      "binding": true,
+      "profile_id": "p4__inward_shear::a1.00::minus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p4__inward_shear",
+      "binding": true,
+      "profile_id": "p4__inward_shear::a1.00::plus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p4__outward_shear",
+      "binding": true,
+      "profile_id": "p4__outward_shear::a0.50::minus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p4__outward_shear",
+      "binding": true,
+      "profile_id": "p4__outward_shear::a0.50::plus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p4__outward_shear",
+      "binding": true,
+      "profile_id": "p4__outward_shear::a1.00::minus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p4__outward_shear",
+      "binding": true,
+      "profile_id": "p4__outward_shear::a1.00::plus",
+      "role": "prospective_active_C3_endpoint",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3_buffer45__inward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__inward_shear::a0.50::minus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3_buffer45__inward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__inward_shear::a0.50::plus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3_buffer45__inward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__inward_shear::a1.00::minus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3_buffer45__inward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__inward_shear::a1.00::plus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3_buffer45__outward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__outward_shear::a0.50::minus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 0.5,
+      "base_profile": "p3_buffer45__outward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__outward_shear::a0.50::plus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": 1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3_buffer45__outward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__outward_shear::a1.00::minus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": -1
+    },
+    {
+      "amplitude_factor": 1.0,
+      "base_profile": "p3_buffer45__outward_shear",
+      "binding": true,
+      "profile_id": "p3_buffer45__outward_shear::a1.00::plus",
+      "role": "prospective_C2_exact_zero_buffer",
+      "sign": 1
+    }
+  ],
+  "propagation_executed": false,
+  "schema_version": 1,
+  "uniform_eligibility_contract": {
+    "maximum_balance_coefficient_relative_769_513_difference": 1e-06,
+    "maximum_endpoint_cell_fraction": 0.005,
+    "maximum_nyquist_alias_fraction": 0.001,
+    "maximum_projection_replay_defect": 2e-12,
+    "maximum_secondary_continuum_initial_cancellation_ratio": 1e-06,
+    "maximum_theta_99": 0.3,
+    "minimum_active_cell_family_purity": 0.98,
+    "minimum_global_family_purity": 0.995,
+    "minimum_theta_99": 0.0,
+    "spectral_energy_quantile": 0.99
+  },
+  "uniform_eligibility_reports": {
+    "p3_buffer45__inward_shear": {
+      "family": "inward_shear",
+      "maximum_outside_support_norm": 0.0,
+      "maximum_projection_defect": 7.111041725167357e-13,
+      "maximum_support_endpoint_cell_fraction": 8.679621487809018e-05,
+      "minimum_active_cell_family_fraction": 0.9999937324999117,
+      "nyquist_alias_fraction": 0.0007181936527418348,
+      "passed": true,
+      "role": "prospective_C2_exact_zero_buffer",
+      "selected_global_family_fraction": 0.9999999922350589,
+      "theta_99": 0.23316507975861744
+    },
+    "p3_buffer45__outward_shear": {
+      "family": "outward_shear",
+      "maximum_outside_support_norm": 0.0,
+      "maximum_projection_defect": 7.11095603777201e-13,
+      "maximum_support_endpoint_cell_fraction": 8.679621487809018e-05,
+      "minimum_active_cell_family_fraction": 0.9999937324999117,
+      "nyquist_alias_fraction": 0.0007181936527418347,
+      "passed": true,
+      "role": "prospective_C2_exact_zero_buffer",
+      "selected_global_family_fraction": 0.9999999922350589,
+      "theta_99": 0.23316507975861744
+    },
+    "p4__inward_shear": {
+      "family": "inward_shear",
+      "maximum_outside_support_norm": 0.0,
+      "maximum_projection_defect": 7.812471292769497e-13,
+      "maximum_support_endpoint_cell_fraction": 3.760156026204475e-06,
+      "minimum_active_cell_family_fraction": 0.9999978011809286,
+      "nyquist_alias_fraction": 0.0008013394477087153,
+      "passed": true,
+      "role": "prospective_active_C3_endpoint",
+      "selected_global_family_fraction": 0.9999999915168227,
+      "theta_99": 0.24543692606170261
+    },
+    "p4__outward_shear": {
+      "family": "outward_shear",
+      "maximum_outside_support_norm": 0.0,
+      "maximum_projection_defect": 7.812675281354924e-13,
+      "maximum_support_endpoint_cell_fraction": 3.760156026204475e-06,
+      "minimum_active_cell_family_fraction": 0.9999978011809286,
+      "nyquist_alias_fraction": 0.0008013394477087153,
+      "passed": true,
+      "role": "prospective_active_C3_endpoint",
+      "selected_global_family_fraction": 0.9999999915168227,
+      "theta_99": 0.24543692606170261
+    }
+  },
+  "work_package": "WP10c9d6c7c0"
+}
