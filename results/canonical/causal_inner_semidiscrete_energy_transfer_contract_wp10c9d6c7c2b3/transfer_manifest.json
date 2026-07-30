@@ -1,0 +1,358 @@
+{
+  "authorized_next": "WP10c9d6c7c2b4_one_way_uniform_arrival_energy_validation",
+  "binding_decision": {
+    "c2b1_rejection_preserved": true,
+    "c2b2_interpretation_preserved": true,
+    "embedded_c2c1_authorized": false,
+    "embedded_c2c2_authorized": false,
+    "fixed_Q_or_reduction_authorized": false,
+    "local_face_transmission_contract_certified": false,
+    "nonlinear_authorized": false,
+    "operator_or_interface_redesign_authorized": false,
+    "positive_fixed_band_arrival_contract_frozen": true,
+    "positive_initial_reference_certified": true,
+    "uniform_c2b4_authorized": true
+  },
+  "classification": "positive_fixed_band_arrival_energy_contract_frozen_uniform_validation_authorized",
+  "decision_table": {
+    "all_uniform_arrival_energy_contracts_pass": "authorize c2c2 one-way embedded arrival-energy discrimination",
+    "local_face_ratio_only_changes": "nonbinding; the c2b1/c2b2 rejection remains unchanged",
+    "one_uniform_arrival_energy_contract_fails": "freeze the failing profile and authorize only a local truncation/observable audit; do not redesign",
+    "uncertainty_or_partition_contract_fails": "repair the observable definition before interpretation"
+  },
+  "energy_ledger": {
+    "local_face_ratio_is_not_reintroduced": true,
+    "primary_identity": "retain the exact c2b2 descriptor-dual semidiscrete stored-energy, ten-block and shared-face identity",
+    "report_complete_block_work": true,
+    "report_stored_energy_change": true,
+    "report_time_integration_residual": true
+  },
+  "family_transfer": {
+    "definition": "project the state with normalization-invariant, energy-orthogonal projectors before evaluating the same positive band energy",
+    "opposite_family_leakage": "sum of arrival energies outside the declared target family indices",
+    "partition_identity": "target arrival + opposite-family leakage = total arrival",
+    "target_arrival": "sum of arrival energies in the declared target family indices",
+    "target_indices": {
+      "acoustic": [
+        0
+      ],
+      "mixed_shear_acoustic": [
+        0,
+        1
+      ],
+      "shear": [
+        1
+      ]
+    }
+  },
+  "future_profile_contract": {
+    "amplitude_factors": [
+      0.5,
+      1.0
+    ],
+    "analytic_reprojection_at_every_level": true,
+    "binding_case_count": 12,
+    "binding_families": [
+      "acoustic",
+      "shear",
+      "mixed_shear_acoustic"
+    ],
+    "energy_scaling": "quadratic",
+    "material_null_control": true,
+    "sign_symmetry_required_for_energy": true,
+    "signs": [
+      -1,
+      1
+    ],
+    "state_and_flux_scaling": "linear",
+    "zero_null_control": true
+  },
+  "future_uniform_gates": {
+    "exact_null_and_amplitude_scaling": true,
+    "exact_restart_replay": true,
+    "maximum_energy_ledger_defect": 1e-10,
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_RMS_order": 0.75,
+    "minimum_component_order": 0.75,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_observable_error_cosine": 0.9
+  },
+  "geometry_and_windows": {
+    "arrival_windows": {
+      "acoustic": [
+        0.0,
+        11.141908685984637
+      ],
+      "mixed_shear_acoustic": [
+        0.0,
+        11.82686804912109
+      ],
+      "shear": [
+        0.0,
+        11.82686804912109
+      ]
+    },
+    "bands_scale_by_exact_nested_integer_factor": true,
+    "observed_histories_may_not_move_windows": true,
+    "receiving_band_faces_N98": [
+      6,
+      49
+    ],
+    "receiving_band_nuisance_faces_N98": [
+      [
+        5,
+        48
+      ],
+      [
+        5,
+        49
+      ],
+      [
+        6,
+        48
+      ],
+      [
+        6,
+        49
+      ],
+      [
+        7,
+        48
+      ],
+      [
+        7,
+        49
+      ]
+    ],
+    "reference_levels": [
+      98,
+      196,
+      392
+    ],
+    "source_band_faces_N98": [
+      52,
+      95
+    ],
+    "time_sample_counts": [
+      257,
+      513,
+      1025
+    ],
+    "time_stride_diagnostics": [
+      1,
+      2,
+      4
+    ],
+    "upstream_diagnostic_band_faces_N98": [
+      95,
+      98
+    ],
+    "window_padding_nuisance_factors": [
+      0.5,
+      1.0,
+      1.5
+    ],
+    "windows_derived_from_c2a3_characteristic_travel_times": true
+  },
+  "hard_stops": [
+    "do_not_relabel_c2b1_or_c2b2",
+    "do_not_reintroduce_a_local_face_transmission_ratio",
+    "do_not_change_the_operator_or_interface",
+    "do_not_propagate_in_c2b3",
+    "do_not_run_embedded_or_nonlinear_work",
+    "do_not_run_N1024",
+    "do_not_begin_fixed_Q_or_reduced_slow_time_evolution"
+  ],
+  "historical_classifications_preserved": true,
+  "manifest_sha256": "31ed1c931e840dbf301f7d24b64311e193df8a2d1747ee8871ee32e2117888b2",
+  "operator_changed": false,
+  "parent_classification_preserved": "exact_semidiscrete_energy_identity_certified_local_face_transmission_not_certifiable",
+  "positive_reference": {
+    "arrival_windows_derived_before_propagation": true,
+    "bands_fixed_in_physical_space_and_nested_across_levels": true,
+    "maximum_family_partition_relative_defect": 1.1562871327412506e-16,
+    "maximum_initial_receiving_band_energy": 0.0,
+    "minimum_energy_metric_eigenvalue": 0.21758209501719575,
+    "minimum_positive_initial_energy": 0.2400405126867389,
+    "packet_order": [
+      "acoustic",
+      "shear",
+      "mixed_shear_acoustic",
+      "material_null",
+      "zero_null"
+    ],
+    "passed": true,
+    "per_packet": {
+      "acoustic": {
+        "family_partition_relative_defect": 1.1562871327412506e-16,
+        "initial_family_energies": [
+          0.24004051268673895,
+          2.1497154795065595e-34,
+          7.420287439821879e-32,
+          7.950919898140111e-35,
+          1.7099385792147105e-32
+        ],
+        "initial_receiving_band_energy": 0.0,
+        "initial_source_band_energy": 0.24004051268673893,
+        "initial_upstream_diagnostic_band_energy": 0.0,
+        "target_family_indices": [
+          0
+        ]
+      },
+      "material_null": {
+        "family_partition_relative_defect": 1.1562871327412504e-16,
+        "initial_family_energies": [
+          1.9522712443248684e-32,
+          6.434490141306554e-35,
+          0.24004051268673898,
+          4.345511219286004e-35,
+          1.2577249099668494e-32
+        ],
+        "initial_receiving_band_energy": 0.0,
+        "initial_source_band_energy": 0.24004051268673895,
+        "initial_upstream_diagnostic_band_energy": 0.0,
+        "target_family_indices": [
+          2
+        ]
+      },
+      "mixed_shear_acoustic": {
+        "family_partition_relative_defect": 1.1562871327412506e-16,
+        "initial_family_energies": [
+          0.12002025634336946,
+          0.12002025634336946,
+          3.3828182338558054e-32,
+          2.405345372973705e-33,
+          5.216521054639689e-33
+        ],
+        "initial_receiving_band_energy": 0.0,
+        "initial_source_band_energy": 0.2400405126867389,
+        "initial_upstream_diagnostic_band_energy": 0.0,
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "shear": {
+        "family_partition_relative_defect": 0.0,
+        "initial_family_energies": [
+          5.649153779822045e-33,
+          0.24004051268673893,
+          1.6079565129177084e-32,
+          3.795721472152118e-33,
+          2.8625959112223383e-33
+        ],
+        "initial_receiving_band_energy": 0.0,
+        "initial_source_band_energy": 0.24004051268673893,
+        "initial_upstream_diagnostic_band_energy": 0.0,
+        "target_family_indices": [
+          1
+        ]
+      },
+      "zero_null": {
+        "family_partition_relative_defect": 0.0,
+        "initial_family_energies": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "initial_receiving_band_energy": 0.0,
+        "initial_source_band_energy": 0.0,
+        "initial_upstream_diagnostic_band_energy": 0.0,
+        "target_family_indices": []
+      }
+    },
+    "primary_arrival_windows_seconds": {
+      "acoustic": [
+        0.0,
+        11.141908685984637
+      ],
+      "mixed_shear_acoustic": [
+        0.0,
+        11.82686804912109
+      ],
+      "shear": [
+        0.0,
+        11.82686804912109
+      ]
+    },
+    "receiving_band_faces_N98": [
+      6,
+      49
+    ],
+    "receiving_band_nuisance_faces_N98": [
+      [
+        5,
+        48
+      ],
+      [
+        5,
+        49
+      ],
+      [
+        6,
+        48
+      ],
+      [
+        6,
+        49
+      ],
+      [
+        7,
+        48
+      ],
+      [
+        7,
+        49
+      ]
+    ],
+    "source_band_faces_N98": [
+      52,
+      95
+    ],
+    "upstream_diagnostic_band_faces_N98": [
+      95,
+      98
+    ],
+    "zero_null_initial_energy": 0.0
+  },
+  "propagation_executed": false,
+  "prospective_observable": {
+    "definition": "A_total = integral_window E_receiving_total(t) dt / (window_duration * E_initial_source)",
+    "name": "normalized_time_averaged_receiving_band_energy",
+    "need_not_be_bounded_by_one": true,
+    "normalization": "the positive initial source-band energy computed on the same grid from the analytic reprojection",
+    "peak_companion": "maximum receiving-band energy divided by initial source-band energy",
+    "primary_history": "positive receiving-band total-energy history divided by initial source-band energy",
+    "reason_not_bounded": "variable-background, descriptor, relaxation and lower-source work can amplify or attenuate stored packet energy",
+    "receiving_energy": "E_receiving_total(t) = 1/2 sum_cells delta_p.T H delta_p Delta_lnR over fixed faces [6,49]",
+    "strictly_nonnegative": true
+  },
+  "rejected_contract": {
+    "local_incident_face_power": true,
+    "local_transmitted_face_power": true,
+    "ratio_of_two_local_face_powers": true,
+    "reason": "descriptor inversion makes the exact control-energy dual nonlocal, so two selected faces do not define a closed positive transport balance"
+  },
+  "schema_version": 1,
+  "uncertainty_contract": {
+    "combination": "conservative deterministic sum or directly measured nuisance envelope; no root-sum-square without demonstrated independence",
+    "components": [
+      "continuum_reference",
+      "analytic_projection",
+      "invariant_subspace_choice",
+      "receiving_band_placement",
+      "arrival_window_padding",
+      "time_sampling",
+      "restart",
+      "roundoff"
+    ],
+    "direction_cosine_binding_rule": "both refinement-error norms must exceed the frozen uncertainty envelope by the observability factor",
+    "maximum_reference_uncertainty_to_medium_fine_difference": 0.1,
+    "no_slow_impact_threshold": true,
+    "observability_factor": 5.0
+  },
+  "work_package": "WP10c9d6c7c2b3"
+}

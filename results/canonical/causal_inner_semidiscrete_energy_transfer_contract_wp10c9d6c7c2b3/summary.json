@@ -1,0 +1,207 @@
+{
+  "analyzed_base_commit": "6b144ecf325efbd428b25b14f0f388d8e0369515",
+  "authorized_next": "WP10c9d6c7c2b4_one_way_uniform_arrival_energy_validation",
+  "binding_decision": {
+    "c2b1_rejection_preserved": true,
+    "c2b2_interpretation_preserved": true,
+    "embedded_c2c1_authorized": false,
+    "embedded_c2c2_authorized": false,
+    "fixed_Q_or_reduction_authorized": false,
+    "local_face_transmission_contract_certified": false,
+    "nonlinear_authorized": false,
+    "operator_or_interface_redesign_authorized": false,
+    "positive_fixed_band_arrival_contract_frozen": true,
+    "positive_initial_reference_certified": true,
+    "uniform_c2b4_authorized": true
+  },
+  "classification": "positive_fixed_band_arrival_energy_contract_frozen_uniform_validation_authorized",
+  "config_sha256": "eb1ef8b8368adacc0751f10478dcd2f5cbf45f927dbc5d231d624db0eb8eb692",
+  "decisive_array_hashes": {
+    "arrival_window_nuisance_seconds": "70707fc333ed83776371539eab3b4bdc84683cb0b7832f6d550b07bb979f2c25",
+    "family_partition_relative_defect": "36e8790ecb0e4c3c4771b7df00aa260cf833e0a113f5a52e2ff234f8ad000eda",
+    "initial_family_energy": "4471c4e187fcac79395721cb15fe8a3bbddf8fbb1fa5fc130f4d68a006c1cbf1",
+    "initial_receiving_band_energy": "63ffa67c49abde408c07012750b4c8d9d9b1f9ddf3034cc5edb7ef8154e06059",
+    "initial_total_energy": "4b84aeeadcaebf8cab39b87c4e07816b91945f776b076dd688062d4859bd3dfc",
+    "initial_upstream_band_energy": "63ffa67c49abde408c07012750b4c8d9d9b1f9ddf3034cc5edb7ef8154e06059",
+    "level_band_faces": "9b3851f7242c559ebb2b92005f60c0b7ef51a67c67d0e114a04f508741e33f80",
+    "patch_edges": "f7fcd1d7828efe5ebeabc64d2a6c613aa7845302e38da8a263d6a2debc24cf91",
+    "primary_arrival_windows_seconds": "664831b28398689d55b38fa3a650c2f51921c18745bd8e5a6a1c962f74099f1a",
+    "primary_time_samples_seconds": "e141063afec3b8e96f5e5efb71b969e3f6176bbde2eb77e3e298263bac96c52f",
+    "receiving_band_nuisance_faces_N98": "86aa5589028478bae38d259541b23f7b0f37b787b29f3850d3b2f6fada06b62c",
+    "reference_levels": "0edd9a5c8435601aad00b6c085e10001d29609bf3c76e4921ea8fd7834ca0677"
+  },
+  "decisive_arrays_sha256": "b631cd515e6f1dc1447bf1637c77c00603af417cb40f806a144e16541291ff53",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_semidiscrete_energy_transfer_contract_wp10c9d6c7c2b3.py": "249d6fa498c52cb96af12f9cb446c92e3a8710e9f563a7cb92afe0649e4adbd1",
+    "tests/test_causal_inner_semidiscrete_energy_transfer_contract_wp10c9d6c7c2b3.py": "891304a2896ea0a4af662609804e33238ddefd70d5e37db3b4938505a91ffd25"
+  },
+  "implementation_source_manifest_sha256": "e7771079f2b1ef3c3bfdbc48dc2b1ed89a412c84b5b9f79c20d90f2f2894b97c",
+  "manifest_sha256": "31ed1c931e840dbf301f7d24b64311e193df8a2d1747ee8871ee32e2117888b2",
+  "operator_changed": false,
+  "parent_classification": "exact_semidiscrete_energy_identity_certified_local_face_transmission_not_certifiable",
+  "parent_input_hashes": {
+    "results/canonical/causal_inner_one_way_transmission_interpretation_wp10c9d6c7c2b2/config.json": "6804f66c61a491acf3d3f5cdfb8a4d04977fe9e26c3f86b2194331c2c8dcdbef",
+    "results/canonical/causal_inner_one_way_transmission_interpretation_wp10c9d6c7c2b2/decisive_arrays.npz": "b80be0c54bec573d1bd05ba7c242d6bae19612343b272f6440a3b7750f988761",
+    "results/canonical/causal_inner_one_way_transmission_interpretation_wp10c9d6c7c2b2/summary.json": "96fecc789951f5d6a0a6933dedf73ff028c8bdbd53513afc061f7c59a4e2ad74",
+    "results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/decisive_arrays.npz": "d82fec216c5dbd44d91fda648a542ca97235a79080871065e239510d38c62927",
+    "results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/method_manifest.json": "c8d81ace10c36ccb87d1642179cc01517cbe13e718d7c3ad12d9f057b6635e2a",
+    "results/canonical/causal_inner_scattering_scope_wp10c9d6c7c2a3/decisive_arrays.npz": "5dd13eaf228c9e8cc04934a3ebb4ac8e729058509595b646274dc1528e1808a5",
+    "results/canonical/causal_inner_scattering_scope_wp10c9d6c7c2a3/scope_manifest.json": "e13347ad018f0a21793619573288089e1491a7b98bfa13a4aa6d1cf6e8277a0c"
+  },
+  "passed": true,
+  "positive_reference": {
+    "arrival_windows_derived_before_propagation": true,
+    "bands_fixed_in_physical_space_and_nested_across_levels": true,
+    "maximum_family_partition_relative_defect": 1.1562871327412506e-16,
+    "maximum_initial_receiving_band_energy": 0.0,
+    "minimum_energy_metric_eigenvalue": 0.21758209501719575,
+    "minimum_positive_initial_energy": 0.2400405126867389,
+    "packet_order": [
+      "acoustic",
+      "shear",
+      "mixed_shear_acoustic",
+      "material_null",
+      "zero_null"
+    ],
+    "passed": true,
+    "per_packet": {
+      "acoustic": {
+        "family_partition_relative_defect": 1.1562871327412506e-16,
+        "initial_family_energies": [
+          0.24004051268673895,
+          2.1497154795065595e-34,
+          7.420287439821879e-32,
+          7.950919898140111e-35,
+          1.7099385792147105e-32
+        ],
+        "initial_receiving_band_energy": 0.0,
+        "initial_source_band_energy": 0.24004051268673893,
+        "initial_upstream_diagnostic_band_energy": 0.0,
+        "target_family_indices": [
+          0
+        ]
+      },
+      "material_null": {
+        "family_partition_relative_defect": 1.1562871327412504e-16,
+        "initial_family_energies": [
+          1.9522712443248684e-32,
+          6.434490141306554e-35,
+          0.24004051268673898,
+          4.345511219286004e-35,
+          1.2577249099668494e-32
+        ],
+        "initial_receiving_band_energy": 0.0,
+        "initial_source_band_energy": 0.24004051268673895,
+        "initial_upstream_diagnostic_band_energy": 0.0,
+        "target_family_indices": [
+          2
+        ]
+      },
+      "mixed_shear_acoustic": {
+        "family_partition_relative_defect": 1.1562871327412506e-16,
+        "initial_family_energies": [
+          0.12002025634336946,
+          0.12002025634336946,
+          3.3828182338558054e-32,
+          2.405345372973705e-33,
+          5.216521054639689e-33
+        ],
+        "initial_receiving_band_energy": 0.0,
+        "initial_source_band_energy": 0.2400405126867389,
+        "initial_upstream_diagnostic_band_energy": 0.0,
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "shear": {
+        "family_partition_relative_defect": 0.0,
+        "initial_family_energies": [
+          5.649153779822045e-33,
+          0.24004051268673893,
+          1.6079565129177084e-32,
+          3.795721472152118e-33,
+          2.8625959112223383e-33
+        ],
+        "initial_receiving_band_energy": 0.0,
+        "initial_source_band_energy": 0.24004051268673893,
+        "initial_upstream_diagnostic_band_energy": 0.0,
+        "target_family_indices": [
+          1
+        ]
+      },
+      "zero_null": {
+        "family_partition_relative_defect": 0.0,
+        "initial_family_energies": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "initial_receiving_band_energy": 0.0,
+        "initial_source_band_energy": 0.0,
+        "initial_upstream_diagnostic_band_energy": 0.0,
+        "target_family_indices": []
+      }
+    },
+    "primary_arrival_windows_seconds": {
+      "acoustic": [
+        0.0,
+        11.141908685984637
+      ],
+      "mixed_shear_acoustic": [
+        0.0,
+        11.82686804912109
+      ],
+      "shear": [
+        0.0,
+        11.82686804912109
+      ]
+    },
+    "receiving_band_faces_N98": [
+      6,
+      49
+    ],
+    "receiving_band_nuisance_faces_N98": [
+      [
+        5,
+        48
+      ],
+      [
+        5,
+        49
+      ],
+      [
+        6,
+        48
+      ],
+      [
+        6,
+        49
+      ],
+      [
+        7,
+        48
+      ],
+      [
+        7,
+        49
+      ]
+    ],
+    "source_band_faces_N98": [
+      52,
+      95
+    ],
+    "upstream_diagnostic_band_faces_N98": [
+      95,
+      98
+    ],
+    "zero_null_initial_energy": 0.0
+  },
+  "propagation_executed": false,
+  "runtime_seconds": 0.18343770783394575,
+  "schema_version": 1,
+  "scope_classification": "one_way_physical_core_scattering_scope_frozen_uniform_validation_authorized",
+  "work_package": "WP10c9d6c7c2b3"
+}

@@ -1,0 +1,97 @@
+{
+  "family_indices": {
+    "acoustic": [
+      0
+    ],
+    "material_null": [
+      2
+    ],
+    "mixed_shear_acoustic": [
+      0,
+      1
+    ],
+    "shear": [
+      1
+    ]
+  },
+  "gates": {
+    "exact_null_and_amplitude_scaling": true,
+    "exact_restart_replay": true,
+    "maximum_energy_ledger_defect": 1e-10,
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_RMS_order": 0.75,
+    "minimum_component_order": 0.75,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_observable_error_cosine": 0.9
+  },
+  "operator_changed": false,
+  "primary_families": [
+    "acoustic",
+    "shear",
+    "mixed_shear_acoustic"
+  ],
+  "propagation_executed": false,
+  "receiving_band_faces_N98": [
+    6,
+    49
+  ],
+  "receiving_band_nuisance_faces_N98": [
+    [
+      5,
+      48
+    ],
+    [
+      5,
+      49
+    ],
+    [
+      6,
+      48
+    ],
+    [
+      6,
+      49
+    ],
+    [
+      7,
+      48
+    ],
+    [
+      7,
+      49
+    ]
+  ],
+  "reference_levels": [
+    98,
+    196,
+    392
+  ],
+  "schema_version": 1,
+  "source_band_faces_N98": [
+    52,
+    95
+  ],
+  "uncertainty_contract": {
+    "combination": "conservative deterministic sum or directly measured nuisance envelope; no root-sum-square without demonstrated independence",
+    "components": [
+      "continuum_reference",
+      "analytic_projection",
+      "invariant_subspace_choice",
+      "receiving_band_placement",
+      "arrival_window_padding",
+      "time_sampling",
+      "restart",
+      "roundoff"
+    ],
+    "direction_cosine_binding_rule": "both refinement-error norms must exceed the frozen uncertainty envelope by the observability factor",
+    "maximum_reference_uncertainty_to_medium_fine_difference": 0.1,
+    "no_slow_impact_threshold": true,
+    "observability_factor": 5.0
+  },
+  "upstream_diagnostic_band_faces_N98": [
+    95,
+    98
+  ],
+  "work_package": "WP10c9d6c7c2b3"
+}
