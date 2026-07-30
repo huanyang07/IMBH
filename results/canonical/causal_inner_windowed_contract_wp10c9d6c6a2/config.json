@@ -1,0 +1,109 @@
+{
+  "characteristic_field_nodes": 513,
+  "gates": {
+    "maximum_alias_fraction": 0.001,
+    "maximum_binding_theta": 0.3,
+    "maximum_boundary_integral_uncertainty_to_fine_difference_ratio": 0.1,
+    "maximum_characteristic_norm_defect": 1e-12,
+    "maximum_complete_semigroup_error": 0.025,
+    "maximum_endpoint_cell_fraction": 0.005,
+    "maximum_restart_to_fine_difference_ratio": 0.1,
+    "maximum_uncertainty_to_fine_difference_ratio": 0.1,
+    "minimum_characteristic_field_overlap": 0.995,
+    "minimum_component_order": 1.25,
+    "minimum_cross_grid_order": 1.5,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_usable_theta": 0.2
+  },
+  "labels": [
+    "uniform_N128",
+    "uniform_N256",
+    "uniform_N512"
+  ],
+  "operator_change": false,
+  "probe_amplitude": 0.01,
+  "probe_definitions": {
+    "p2__inward_acoustic": {
+      "family": "inward_acoustic",
+      "mixed_coefficients": null,
+      "role": "low_wavenumber_control",
+      "window_power": 2
+    },
+    "p2__inward_shear": {
+      "family": "inward_shear",
+      "mixed_coefficients": null,
+      "role": "low_wavenumber_control",
+      "window_power": 2
+    },
+    "p2__material": {
+      "family": "material",
+      "mixed_coefficients": null,
+      "role": "low_wavenumber_control",
+      "window_power": 2
+    },
+    "p2__outward_acoustic": {
+      "family": "outward_acoustic",
+      "mixed_coefficients": null,
+      "role": "low_wavenumber_control",
+      "window_power": 2
+    },
+    "p2__outward_shear": {
+      "family": "outward_shear",
+      "mixed_coefficients": null,
+      "role": "low_wavenumber_control",
+      "window_power": 2
+    },
+    "p4__inward_acoustic": {
+      "family": "inward_acoustic",
+      "mixed_coefficients": null,
+      "role": "binding_theta20_window",
+      "window_power": 4
+    },
+    "p4__inward_shear": {
+      "family": "inward_shear",
+      "mixed_coefficients": null,
+      "role": "binding_theta20_window",
+      "window_power": 4
+    },
+    "p4__material": {
+      "family": "material",
+      "mixed_coefficients": null,
+      "role": "binding_theta20_window",
+      "window_power": 4
+    },
+    "p4__mixed": {
+      "family": "mixed",
+      "mixed_coefficients": [
+        0.35,
+        -0.4,
+        0.5,
+        -0.45,
+        0.3
+      ],
+      "role": "binding_theta20_window",
+      "window_power": 4
+    },
+    "p4__outward_acoustic": {
+      "family": "outward_acoustic",
+      "mixed_coefficients": null,
+      "role": "binding_theta20_window",
+      "window_power": 4
+    },
+    "p4__outward_shear": {
+      "family": "outward_shear",
+      "mixed_coefficients": null,
+      "role": "binding_theta20_window",
+      "window_power": 4
+    }
+  },
+  "production_defaults_changed": false,
+  "projection_orders": [
+    24,
+    12
+  ],
+  "schema_version": 1,
+  "spectral_energy_quantile": 0.99,
+  "time_horizon_s": 0.125,
+  "time_sample_count": 65,
+  "work_package": "WP10c9d6c6a2"
+}
