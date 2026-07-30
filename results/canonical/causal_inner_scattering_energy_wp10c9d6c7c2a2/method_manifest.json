@@ -1,0 +1,211 @@
+{
+  "authorized_next": "WP10c9d6c7c2a3_definitions_only_scattering_scope_revision",
+  "binding_decision": {
+    "all_c2a2_method_gates_passed": false,
+    "bidirectional_incidence_passed": false,
+    "coarse_to_fine_incidence_available": true,
+    "energy_and_projector_method_passed": true,
+    "extension_admissibility_and_hyperbolicity_passed": true,
+    "fine_to_coarse_incidence_available": false,
+    "independent_balance_reference_passed": true,
+    "interface_core_parity_passed": true,
+    "uniform_c2b_authorized": false
+  },
+  "binding_gates": {
+    "both_incidence_directions_required": true,
+    "maximum_constant_state_residual": 1e-12,
+    "maximum_energy_ledger_relative_defect": 1e-10,
+    "maximum_interface_core_parity_defect": 1e-12,
+    "maximum_projector_idempotence_defect": 1e-12,
+    "maximum_reference_uncertainty_to_fine_difference": 0.1,
+    "minimum_signal_to_uncertainty_ratio": 5.0
+  },
+  "classification": "manufactured_interface_patch_rejected_unidirectional_characteristic_core",
+  "hard_stops": [
+    "do_not_start_uniform_c2b",
+    "do_not_claim_bidirectional_physical_scattering",
+    "do_not_change_characteristic_signs_or_fit_the_background",
+    "do_not_relabel_c7c1b",
+    "do_not_change_the_interface_operator",
+    "do_not_begin_embedded_nonlinear_fixed_Q_or_reduced_evolution"
+  ],
+  "historical_classifications_preserved": true,
+  "independent_balance_reference": {
+    "fourth_order_product_rule_relative_l2": [
+      0.005198603604333969,
+      0.0005382516913989045,
+      4.0153457536012874e-05
+    ],
+    "maximum_allowed_ratio": 0.1,
+    "passed": true,
+    "reference_levels": [
+      98,
+      196,
+      392
+    ],
+    "reference_uncertainty_to_fine_difference": 0.07459977957831383
+  },
+  "manifest_sha256": "7fd875517a570a9a7a19ce73965e9199f39221c571c6c176a65e52a24950df11",
+  "manufactured_state": {
+    "admissible_cell_count": 98,
+    "cell_count": 98,
+    "construction": "quintic_C4_exact_core_spline_plus_fourth_order_endpoint_Taylor_jets_and_degree9_C4_smootherstep",
+    "direct_matrix_interpolation_used": false,
+    "left_far_anchor": "unchanged_parent_cell_0_primitive_state",
+    "maximum_core_replay_defect": 3.552713678800501e-15,
+    "maximum_eigenvector_condition_number": 3313.478226181235,
+    "maximum_imaginary_part": 0.0,
+    "maximum_scaled_C4_far_defect": 0.0,
+    "maximum_scaled_C4_join_defect": 0.0,
+    "minimum_characteristic_speed_gap": 0.0024669284768447652,
+    "passed": true,
+    "right_far_anchor": "unchanged_parent_cell_63_primitive_state"
+  },
+  "next_decision_options": {
+    "generic_bidirectional_method_route": "define a separate nonphysical interface state with opposite-sign characteristic families and relinquish the exact physical-core claim",
+    "physical_core_route": "retain exact physical core and certify only the physically available coarse_to_fine scattering direction",
+    "routes_must_not_be_combined": true
+  },
+  "normalization_invariant_energy": {
+    "constant_state_residual": 0.0,
+    "descriptor_compatible": true,
+    "energy_metric": "sum_of_spectral_projector_pullbacks_in_fixed_physical_primitive_scales",
+    "lower_work_blocks": [
+      "perfect_fluid_geometry",
+      "stress_geometry",
+      "radiative_cooling",
+      "vertical_work",
+      "stress_relaxation"
+    ],
+    "maximum_cross_projector_defect": 3.197442310920451e-13,
+    "maximum_eigenpair_defect": 1.522849279612805e-13,
+    "maximum_energy_eigenvalue": 28632957.70849436,
+    "maximum_energy_ledger_relative_defect": 3.493307787106605e-16,
+    "maximum_energy_orthogonality_defect": 6.26536128662077e-16,
+    "maximum_projector_idempotence_defect": 3.410605131648481e-13,
+    "maximum_projector_identity_defect": 7.571721027943568e-14,
+    "maximum_rescaling_invariance_defect": 6.821210263296962e-13,
+    "maximum_symmetrizer_defect": 6.995177229100536e-15,
+    "minimum_energy_eigenvalue": 0.21758209501719575,
+    "minimum_packet_signal_to_uncertainty_ratio": 1359175862930.2566,
+    "normalization_and_sign_invariant": true,
+    "passed": true,
+    "thermodynamic_entropy_claimed": false
+  },
+  "operator_changed": false,
+  "packet_and_characteristic_preflight": {
+    "bidirectional_incidence_passed": false,
+    "coarse_to_fine_incidence_available": true,
+    "fine_to_coarse_incidence_available": false,
+    "interface_characteristic_speeds_over_c": [
+      -0.4647517270995453,
+      -0.4534337700244592,
+      -0.44839856867995725,
+      -0.4433234857328713,
+      -0.4318550824866386
+    ],
+    "interface_face": 49,
+    "interface_negative_characteristic_count": 5,
+    "interface_positive_characteristic_count": 0,
+    "measurement_faces": [
+      6,
+      49,
+      92
+    ],
+    "reason_not_frozen": "all five complete coordinate characteristics are inward through the exact physical core, so no fine-to-coarse packet can cross the interface without changing that core",
+    "requested_profiles": {
+      "coarse_to_fine__acoustic": {
+        "direct_energy_orthogonal_sum_defect": 3.599752688402423e-16,
+        "energy_flux_eigenvalue_identity_defect": 1.6868347872248039e-15,
+        "family_index": 0,
+        "half_amplitude_quadratic_scaling_defect": 0.0,
+        "intended_coordinate_speed_sign": -1,
+        "intended_direction_available": true,
+        "maximum_selected_speed_over_c": -0.335476640517113,
+        "minimum_selected_speed_over_c": -0.442214512553898,
+        "null_channel_leakage_fraction": 0.0,
+        "selected_family_energy_fraction": 1.0,
+        "sign_invariance_defect": 0.0,
+        "signal_to_uncertainty_ratio": 1359175862930.2566,
+        "total_energy": 4.3693668319698947e+21
+      },
+      "coarse_to_fine__mixed_shear_acoustic": {
+        "construction": "equal_energy_sum_of_normalization_invariant_acoustic_and_shear_directions",
+        "half_amplitude_quadratic_scaling_defect": 0.0,
+        "intended_direction_available": true,
+        "sign_invariance_defect": 0.0,
+        "signal_to_uncertainty_ratio": 1359175862930.2566
+      },
+      "coarse_to_fine__shear": {
+        "direct_energy_orthogonal_sum_defect": 2.399835125601615e-16,
+        "energy_flux_eigenvalue_identity_defect": 6.329174852062681e-15,
+        "family_index": 1,
+        "half_amplitude_quadratic_scaling_defect": 0.0,
+        "intended_coordinate_speed_sign": -1,
+        "intended_direction_available": true,
+        "maximum_selected_speed_over_c": -0.3165871533763575,
+        "minimum_selected_speed_over_c": -0.43207194226164225,
+        "null_channel_leakage_fraction": 0.0,
+        "selected_family_energy_fraction": 1.0,
+        "sign_invariance_defect": 0.0,
+        "signal_to_uncertainty_ratio": 1359175862930.2566,
+        "total_energy": 4.369366831969894e+21
+      },
+      "fine_to_coarse__acoustic": {
+        "direct_energy_orthogonal_sum_defect": 1.0664763655184832e-15,
+        "energy_flux_eigenvalue_identity_defect": 1.558404122093243e-14,
+        "family_index": 4,
+        "half_amplitude_quadratic_scaling_defect": 0.0,
+        "intended_coordinate_speed_sign": 1,
+        "intended_direction_available": false,
+        "maximum_selected_speed_over_c": -0.2556940476864347,
+        "minimum_selected_speed_over_c": -0.6356556961789845,
+        "null_channel_leakage_fraction": 0.0,
+        "selected_family_energy_fraction": 1.0,
+        "sign_invariance_defect": 0.0,
+        "signal_to_uncertainty_ratio": 1359175862930.2566,
+        "total_energy": 9.217644495310327e+19
+      },
+      "fine_to_coarse__mixed_shear_acoustic": {
+        "construction": "equal_energy_sum_of_normalization_invariant_acoustic_and_shear_directions",
+        "half_amplitude_quadratic_scaling_defect": 0.0,
+        "intended_direction_available": false,
+        "sign_invariance_defect": 0.0,
+        "signal_to_uncertainty_ratio": 1359175862930.2566
+      },
+      "fine_to_coarse__shear": {
+        "direct_energy_orthogonal_sum_defect": 1.7774606091974703e-16,
+        "energy_flux_eigenvalue_identity_defect": 5.8301138624613285e-15,
+        "family_index": 3,
+        "half_amplitude_quadratic_scaling_defect": 0.0,
+        "intended_coordinate_speed_sign": 1,
+        "intended_direction_available": false,
+        "maximum_selected_speed_over_c": -0.4098518748491125,
+        "minimum_selected_speed_over_c": -0.6524837190532515,
+        "null_channel_leakage_fraction": 0.0,
+        "selected_family_energy_fraction": 1.0,
+        "sign_invariance_defect": 0.0,
+        "signal_to_uncertainty_ratio": 1359175862930.2566,
+        "total_energy": 9.217644495310324e+19
+      }
+    },
+    "travel_windows_frozen": false
+  },
+  "parent_manifest_sha256": "d028438fbed6426cdf477ad275453f2e7ed29c5412a9ef9f7a3bc893312be4b3",
+  "physical_core_parity": {
+    "defects": {
+      "cell_center": 2.261196766849683e-15,
+      "cell_measure": 9.323220321207802e-14,
+      "face_measure": 3.613359949683768e-15,
+      "interface_face_measure": 1.5559116809203096e-15,
+      "primitive_state": 5.520575418573839e-16,
+      "spatial_principal_matrix": 6.1772094917806335e-15,
+      "temporal_storage_matrix": 4.830609987890794e-15
+    },
+    "maximum_defect": 9.323220321207802e-14,
+    "passed": true
+  },
+  "propagation_executed": false,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c2a2"
+}

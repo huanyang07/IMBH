@@ -1,6 +1,6 @@
 # Project Status
 
-- Updated: 2026-07-29
+- Updated: 2026-07-30
 - Pre-cleanup scientific tag: `pre-cleanup-p0-2026-07-11`
 - Legacy phase classification tag: `legacy-steady-positive-flux-dae-2026-07-10`
 
@@ -185,6 +185,7 @@ This is the canonical project handoff. Status labels mean:
 | Embedded endpoint/interface regularity discrimination WP10c9d6c7c1b | **DIRECT PHYSICAL EXPORTS PASS; COMPLETE DIAGNOSTIC CONTRACT REJECTED**; `no_regularized_embedded_profile_class_selected`; **NO DOWNSTREAM WORK AUTHORIZED** | All 16 C3 endpoint-active and C2 exact-zero-buffer variants pass direct state and 13-export gates. Worst instantaneous RMS/maximum/component orders are `2.054/1.961/1.795`, fine difference is `1.14e-8`, and minimum history/error cosines are `0.9999999/0.99320`. The old coupling-plus-net rotation disappears (`0.990-0.998`), coupling-face fluxes are inactive and pass, exact-integral residual is `7.27e-15`, and ledgers close | Two small characteristic-energy channels and three interface-stress histories fail unchanged direction gates despite RMS orders `2.27-6.65`; response/fine scales range from `1.01e-6` to `8.96e-11`. No post-hoc activity exception is allowed, so neither complete prospective class is certified. Do not redesign the interface. If continued, first freeze an operator-neutral diagnostic-observability manifest using independent numerical uncertainty, physical energy balance, and new held-out scattering controls |
 | Interface-scattering observability manifest WP10c9d6c7c2a | **DEFINITIONS CERTIFIED; BIDIRECTIONAL COMPACT-PACKET GEOMETRY PREFLIGHT BLOCKED**; `scattering_observability_contract_frozen_bidirectional_packet_preflight_blocked`; **NO PROPAGATION OR DOWNSTREAM WORK AUTHORIZED** | Tier I now denotes the direct state/M/J/E/net-drive/cooling/height contract that passed for all c7c1b profiles; Tier II uses invariant time-integrated incident/reflected/transmitted energy, complete variable-background work ledgers, and pointwise traction only when independently observable. Deterministic uncertainties use conservative envelopes, not RSS; no slow-impact gate is introduced | The inherited `theta_99 <= 0.30` and alias `<=1e-3` contract first admits the frozen C3 `sin^4` template at 43 parent cells. The face-48 layout has only 48/16 raw cells on its two sides and 42/10 after three-cell clearance, so this bidirectional separated packet class cannot fit. This is geometry for the declared template, not an operator failure or a proof about every C3 window. Design one operator-neutral extended-domain or boundary-injection preflight before propagation |
 | Interface-scattering geometry feasibility WP10c9d6c7c2a1 | **MANUFACTURED METHOD PATCH SELECTED; ENERGY PREFLIGHT AUTHORIZED**; `manufactured_interface_patch_geometry_selected_energy_preflight_authorized`; **NO PROPAGATION OR PHYSICAL PROMOTION AUTHORIZED** | A two-sided 98-cell patch supplies 49 parent-equivalent cells per side, three-cell packet clearance, and 86 cell-times of incident/reflected separation. It reproduces the face-48 interface radius to `1.62e-15`, maps the exact physical faces 42–54 onto patch faces 43–55, and retains the unchanged local coupling stencil | A physical extension would require `1.728–94.479 rg`, outside the certified `1.8–12.777 rg` background and below the certified excision surface. Existing-domain injection has only 32/6 cell-times of coarse-side return separation for a 43-cell pulse. Select only a C4 manufactured variable-coefficient method patch; next derive and certify its energy/projector/ledger machinery in c2a2 before any propagation |
+| Manufactured scattering-energy preflight WP10c9d6c7c2a2 | **ENERGY/PROJECTOR METHOD CERTIFIED; BIDIRECTIONAL PATCH REJECTED**; `manufactured_interface_patch_rejected_unidirectional_characteristic_core`; **NO PROPAGATION OR DOWNSTREAM WORK AUTHORIZED** | The C4 state is admissible in all 98 cells; physical-core parity is `9.32e-14`; projector idempotence is `3.41e-13`; the positive normalization-invariant energy ledger closes to `3.49e-16`; and its independent 98/196/392 product-rule reference ratio is `0.07460 <= 0.10` | All five complete coordinate speeds at the exact interface core are inward (`-0.46475` to `-0.43186`), so coarse-to-fine incidence exists but fine-to-coarse incidence does not. Exact physical-core parity and a bidirectional packet class cannot both be retained. Do not start c2b. Next freeze a definitions-only choice between the preferred one-way physical-core audit and a separate nonphysical generic bidirectional method stress test |
 
 ## Frozen Target Under Review
 
@@ -1418,6 +1419,17 @@ N                    = 164
    construction of the C4 extended state, invariant Schur/QZ energy
    projectors, and complete variable-background energy ledger. No propagation
    or physical promotion follows from geometry selection alone.
+   WP10c9d6c7c2a2 completes that method preflight. The C4 extension,
+   exact-core replay, positive normalization-invariant projector energy and
+   complete variable-coefficient ledger all pass, with maximum core,
+   projector and ledger defects `9.32e-14`, `3.41e-13` and `3.49e-16`.
+   The selected experiment is nevertheless rejected before propagation:
+   all five complete coordinate speeds at the exact interface are negative,
+   so only coarse-to-fine causal incidence exists. A fine-to-coarse packet
+   cannot cross the interface without changing the exact physical core.
+   Next make a definitions-only scope choice between a one-way physical-core
+   scattering audit and a separate generic bidirectional method patch; do not
+   combine their claims.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -1429,7 +1441,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_INNER_SCATTERING_GEOMETRY_WP10C9D6C7C2A1_RESULTS_2026-07-30.md`
+  `reports/current/CODEX_CAUSAL_INNER_SCATTERING_ENERGY_WP10C9D6C7C2A2_RESULTS_2026-07-30.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)

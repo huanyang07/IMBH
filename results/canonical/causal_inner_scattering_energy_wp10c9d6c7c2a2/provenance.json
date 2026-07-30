@@ -1,0 +1,31 @@
+{
+  "analyzed_base_commit": "de29e71f05be20c979c52354584b7b694fb26c6e",
+  "analyzed_base_parent": "73f902622834d13981d36e22aa21e13fefb9df8b",
+  "analyzed_base_tree": "cec8bab662cdf5509658ef7dd658926428609b2d",
+  "classification": "manufactured_interface_patch_rejected_unidirectional_characteristic_core",
+  "command": "PYTHONPATH=src python scripts/run_causal_inner_scattering_energy_wp10c9d6c7c2a2.py",
+  "current_branch": "codex/repository-cleanup-after-1e7438e",
+  "current_head": "de29e71f05be20c979c52354584b7b694fb26c6e",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_scattering_energy_wp10c9d6c7c2a2.py": "fdb65d8c71ff2e8e3a2a5871a346051a527d1a01e676213ed8a20cc70183e68c",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_scattering_energy.py": "1181e6ae6c45a153a120d05f53cca9d174a37e347e78f9e9043df1dac31c1331",
+    "tests/test_causal_inner_scattering_energy_wp10c9d6c7c2a2.py": "a19b6766eda2f354809ae98469eb1638751d501ceeee6ef3bf08167de731eb23"
+  },
+  "numpy_version": "2.3.5",
+  "parent_input_hashes": {
+    "results/canonical/causal_inner_cross_grid_analytic_tangent_wp10c9d5c0e/replay_contexts.json": "656a7c02351f2fea13571c9da2058c4f5e8ffb7dc5cb5bc7370cdcebe7fc0564",
+    "results/canonical/causal_inner_cross_grid_analytic_tangent_wp10c9d5c0e/replay_inputs.npz": "836644d1a656bb44700c55119d51b8cd8abd84247be542fc7f8eb619f7689074",
+    "results/canonical/causal_inner_embedded_manifest_wp10c9d6c7a/decisive_arrays.npz": "468d2ed7d2cd3b0b81856e977536f4aa981da4c4f889ae481cdb0661a7cb9313",
+    "results/canonical/causal_inner_embedded_manifest_wp10c9d6c7a/summary.json": "c67c60667451a890fb177408e2b96ead964e25e48771eb08e723388442443e14",
+    "results/canonical/causal_inner_scattering_geometry_wp10c9d6c7c2a1/decisive_arrays.npz": "609add285974b85d902382dd14887334450821711a001fe75839b46d5a630dc3",
+    "results/canonical/causal_inner_scattering_geometry_wp10c9d6c7c2a1/geometry_manifest.json": "fc5e2943a81d392bee5aff52ec065c2612c06e98c868de86c51d968de8a0281f",
+    "results/canonical/causal_inner_scattering_geometry_wp10c9d6c7c2a1/summary.json": "849b0e1974ad21f53e8b7abe5518698e61e2486f6022cd6aa7abddabc55aec98"
+  },
+  "python_version": "3.12.13",
+  "schema_version": 1,
+  "scientific_status": "REJECTED",
+  "scipy_version": "1.18.0",
+  "source_parent_commit": "de29e71f05be20c979c52354584b7b694fb26c6e",
+  "work_package": "WP10c9d6c7c2a2",
+  "working_tree_status": "M  docs/PROJECT_STATUS.md\nA  docs/reports/current/CODEX_CAUSAL_INNER_SCATTERING_ENERGY_WP10C9D6C7C2A2_RESULTS_2026-07-30.md\nA  results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/SHA256SUMS.txt\nA  results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/config.json\nA  results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/decisive_arrays.npz\nA  results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/method_manifest.json\nA  results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/provenance.json\nA  results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/summary.json\nM  results/manifests/canonical_artifacts.csv\nM  results/manifests/canonical_summary.json\nA  scripts/run_causal_inner_scattering_energy_wp10c9d6c7c2a2.py\nA  src/imri_qpe/layer3_minidisk_1d/causal_inner_scattering_energy.py\nAM tests/test_causal_inner_scattering_energy_wp10c9d6c7c2a2.py\n?? docs/reports/gpt/CODEX_IMBH_119A998_REVIEW_AND_NEXT_PLAN.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_119A998_PROVISIONAL_REVIEW_AND_NEXT_PLAN_2026-07-17.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_1CF430F_REVIEW_AND_PHYSICAL_OUTER_BOUNDARY_PLAN_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_272E891_REVIEW_AND_LOCKED_NEXT_PLAN_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_8D0691B_REVIEW_AND_CHARACTERISTIC_RESPONSE_PLAN_2026-07-16.md\n?? docs/reports/gpt/CODEX_IMBH_COMMIT_B9B1BC1_REVIEW_AND_LOCKED_TIME_EVOLUTION_PLAN_2026-07-11.md\n?? docs/reports/gpt/CODEX_IMBH_DAE_BOUNDARY_CONSTRAINT_INDEX_AND_REVISED_COUNTS_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_LATEST_UPDATE_REVIEW_AND_LOCKED_NEXT_PLAN_2026-07-14.md\n?? docs/reports/gpt/CODEX_IMBH_PHYSICS_DISCUSSION_AND_STAGED_TIME_DEPENDENT_PLAN_2026-07-11.md\n?? docs/reports/gpt/CODEX_IMBH_PRODUCTION_FACE_TORQUE_AND_FINAL_DAE_ARCHITECTURE_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_TIME_DAE_EXACT_UNKNOWN_RESIDUAL_COUNT_2026-07-12.md\n?? docs/reports/gpt/CODEX_IMBH_TIME_DEPENDENT_DAE_DERIVATION_AND_REVISED_LOCKED_PLAN_2026-07-12.md\n?? docs/reports/gpt/IMBH_long_timescale_evolution_plan_for_codex.md"
+}

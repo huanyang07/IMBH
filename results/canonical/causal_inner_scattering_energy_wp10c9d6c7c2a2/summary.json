@@ -1,0 +1,228 @@
+{
+  "analyzed_base_commit": "de29e71f05be20c979c52354584b7b694fb26c6e",
+  "analyzed_base_parent": "73f902622834d13981d36e22aa21e13fefb9df8b",
+  "analyzed_base_tree": "cec8bab662cdf5509658ef7dd658926428609b2d",
+  "authorized_next": "WP10c9d6c7c2a3_definitions_only_scattering_scope_revision",
+  "bounded_nonlinear_common_mode_authorized": false,
+  "classification": "manufactured_interface_patch_rejected_unidirectional_characteristic_core",
+  "decisive_array_hashes": {
+    "characteristic_speeds_over_c": "f10f1ff4d857d9718b60712a5283447069f40afeaabd8f1d44da126633501219",
+    "incidence_direction_available_flags": "dd34f80f5d51917963a2b9e205f8009848a19ba9a6273e326724b5cab4ee04d9",
+    "interface_characteristic_speeds_over_c": "90cdb0052b83d977fdd5bcd70c1db2e048ab758fc6726236269fd8888dc13bfd",
+    "log_radius_energy_flux_metrics": "74560d56d3ba18b4ed3ac16d597d270b9d5e9b187e057cc2db9d05fbe3530f45",
+    "manufactured_energy_ledger_residual_N98": "2586306b5ff4903e0e534dee20b8d8a8f8119dda9bc56b59a2b074e9363be92a",
+    "manufactured_primitive_charts": "bd54b98191332f68e54cc203b901aa61044936686d45f117cc8346463589f7ca",
+    "manufactured_product_rule_relative_l2": "648330f00db87b101073d0557b0c4f5f9988da6a744f35997e7262c6f28babcf",
+    "normalization_invariant_projectors": "95dd083c9b4e3c6e23dc53573380c691383cfca5fbb28ca75d6e3813b110e864",
+    "packet__coarse_to_fine__acoustic": "6b766f7b0db722b5b3fb8b2d2c4c4c6b5bf5dfea86fea7958bbbe77a55b19d01",
+    "packet__coarse_to_fine__mixed_shear_acoustic": "9e5db7e2b16a55ecfdd140f44a1f52f5413cb715b97563cbee449451785c45b3",
+    "packet__coarse_to_fine__shear": "01c965176900da894e9ddd233d1e9f81ec561e29e369d4b573483f5089a76b2f",
+    "packet__fine_to_coarse__acoustic": "deee867af07412a7f1ccbc4f0f11979d5ad12e8cca2d81eff54d84fdc5d84251",
+    "packet__fine_to_coarse__mixed_shear_acoustic": "0a9259d78cf34c7723839ef899d2e5635c37a40ed64eb8a61dd0efec391691b6",
+    "packet__fine_to_coarse__shear": "80bea10f5208e5f080591883cd22e3dd0d6eac72ed40d8f2040583f33a51fedc",
+    "packet_measurement_faces": "bc4d1a14efc939af01962410f6fafa4748432e3e154e4836e20481c7ea3b2d59",
+    "patch_centers": "519f219c26a68c0bae0455c2618c7828fea03d49fd0f5de05ee17451c022114e",
+    "patch_edges": "f7fcd1d7828efe5ebeabc64d2a6c613aa7845302e38da8a263d6a2debc24cf91",
+    "primitive_energy_metrics": "d51be1a7bf41379945c2973c4f0cb2cd39ba8aadad70e6838bc614bf1f79c7e8",
+    "reference_levels": "0edd9a5c8435601aad00b6c085e10001d29609bf3c76e4921ea8fd7834ca0677",
+    "spatial_principal_matrices": "939ef4c7d39f9120a813d86156bd5abe6d792aef5d1e50d3817d30f6d1f86403",
+    "temporal_storage_matrices": "a80cd4de48c00ae1466d0f3e90b57f037460f4c1a71e52233bc9039abf81c090"
+  },
+  "decisive_arrays_path": "results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/decisive_arrays.npz",
+  "decisive_arrays_sha256": "d82fec216c5dbd44d91fda648a542ca97235a79080871065e239510d38c62927",
+  "embedded_scattering_propagation_authorized": false,
+  "energy_report": {
+    "constant_state_residual": 0.0,
+    "descriptor_compatible": true,
+    "energy_metric": "sum_of_spectral_projector_pullbacks_in_fixed_physical_primitive_scales",
+    "lower_work_blocks": [
+      "perfect_fluid_geometry",
+      "stress_geometry",
+      "radiative_cooling",
+      "vertical_work",
+      "stress_relaxation"
+    ],
+    "maximum_cross_projector_defect": 3.197442310920451e-13,
+    "maximum_eigenpair_defect": 1.522849279612805e-13,
+    "maximum_energy_eigenvalue": 28632957.70849436,
+    "maximum_energy_ledger_relative_defect": 3.493307787106605e-16,
+    "maximum_energy_orthogonality_defect": 6.26536128662077e-16,
+    "maximum_projector_idempotence_defect": 3.410605131648481e-13,
+    "maximum_projector_identity_defect": 7.571721027943568e-14,
+    "maximum_rescaling_invariance_defect": 6.821210263296962e-13,
+    "maximum_symmetrizer_defect": 6.995177229100536e-15,
+    "minimum_energy_eigenvalue": 0.21758209501719575,
+    "minimum_packet_signal_to_uncertainty_ratio": 1359175862930.2566,
+    "normalization_and_sign_invariant": true,
+    "passed": true,
+    "thermodynamic_entropy_claimed": false
+  },
+  "extension_report": {
+    "admissible_cell_count": 98,
+    "cell_count": 98,
+    "construction": "quintic_C4_exact_core_spline_plus_fourth_order_endpoint_Taylor_jets_and_degree9_C4_smootherstep",
+    "direct_matrix_interpolation_used": false,
+    "left_far_anchor": "unchanged_parent_cell_0_primitive_state",
+    "maximum_core_replay_defect": 3.552713678800501e-15,
+    "maximum_eigenvector_condition_number": 3313.478226181235,
+    "maximum_imaginary_part": 0.0,
+    "maximum_scaled_C4_far_defect": 0.0,
+    "maximum_scaled_C4_join_defect": 0.0,
+    "minimum_characteristic_speed_gap": 0.0024669284768447652,
+    "passed": true,
+    "right_far_anchor": "unchanged_parent_cell_63_primitive_state"
+  },
+  "fixed_q_micro_solver_authorized": false,
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_scattering_energy_wp10c9d6c7c2a2.py": "fdb65d8c71ff2e8e3a2a5871a346051a527d1a01e676213ed8a20cc70183e68c",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_scattering_energy.py": "1181e6ae6c45a153a120d05f53cca9d174a37e347e78f9e9043df1dac31c1331",
+    "tests/test_causal_inner_scattering_energy_wp10c9d6c7c2a2.py": "a19b6766eda2f354809ae98469eb1638751d501ceeee6ef3bf08167de731eb23"
+  },
+  "implementation_source_manifest_sha256": "1a0da5b6fa27c50e1b0ef9edaf7885160d306b964b9173e3d136da88103d8693",
+  "independent_balance_reference": {
+    "fourth_order_product_rule_relative_l2": [
+      0.005198603604333969,
+      0.0005382516913989045,
+      4.0153457536012874e-05
+    ],
+    "maximum_allowed_ratio": 0.1,
+    "passed": true,
+    "reference_levels": [
+      98,
+      196,
+      392
+    ],
+    "reference_uncertainty_to_fine_difference": 0.07459977957831383
+  },
+  "manifest_sha256": "7fd875517a570a9a7a19ce73965e9199f39221c571c6c176a65e52a24950df11",
+  "operator_changed": false,
+  "packet_and_characteristic_preflight": {
+    "bidirectional_incidence_passed": false,
+    "coarse_to_fine_incidence_available": true,
+    "fine_to_coarse_incidence_available": false,
+    "interface_characteristic_speeds_over_c": [
+      -0.4647517270995453,
+      -0.4534337700244592,
+      -0.44839856867995725,
+      -0.4433234857328713,
+      -0.4318550824866386
+    ],
+    "interface_face": 49,
+    "interface_negative_characteristic_count": 5,
+    "interface_positive_characteristic_count": 0,
+    "measurement_faces": [
+      6,
+      49,
+      92
+    ],
+    "reason_not_frozen": "all five complete coordinate characteristics are inward through the exact physical core, so no fine-to-coarse packet can cross the interface without changing that core",
+    "requested_profiles": {
+      "coarse_to_fine__acoustic": {
+        "direct_energy_orthogonal_sum_defect": 3.599752688402423e-16,
+        "energy_flux_eigenvalue_identity_defect": 1.6868347872248039e-15,
+        "family_index": 0,
+        "half_amplitude_quadratic_scaling_defect": 0.0,
+        "intended_coordinate_speed_sign": -1,
+        "intended_direction_available": true,
+        "maximum_selected_speed_over_c": -0.335476640517113,
+        "minimum_selected_speed_over_c": -0.442214512553898,
+        "null_channel_leakage_fraction": 0.0,
+        "selected_family_energy_fraction": 1.0,
+        "sign_invariance_defect": 0.0,
+        "signal_to_uncertainty_ratio": 1359175862930.2566,
+        "total_energy": 4.3693668319698947e+21
+      },
+      "coarse_to_fine__mixed_shear_acoustic": {
+        "construction": "equal_energy_sum_of_normalization_invariant_acoustic_and_shear_directions",
+        "half_amplitude_quadratic_scaling_defect": 0.0,
+        "intended_direction_available": true,
+        "sign_invariance_defect": 0.0,
+        "signal_to_uncertainty_ratio": 1359175862930.2566
+      },
+      "coarse_to_fine__shear": {
+        "direct_energy_orthogonal_sum_defect": 2.399835125601615e-16,
+        "energy_flux_eigenvalue_identity_defect": 6.329174852062681e-15,
+        "family_index": 1,
+        "half_amplitude_quadratic_scaling_defect": 0.0,
+        "intended_coordinate_speed_sign": -1,
+        "intended_direction_available": true,
+        "maximum_selected_speed_over_c": -0.3165871533763575,
+        "minimum_selected_speed_over_c": -0.43207194226164225,
+        "null_channel_leakage_fraction": 0.0,
+        "selected_family_energy_fraction": 1.0,
+        "sign_invariance_defect": 0.0,
+        "signal_to_uncertainty_ratio": 1359175862930.2566,
+        "total_energy": 4.369366831969894e+21
+      },
+      "fine_to_coarse__acoustic": {
+        "direct_energy_orthogonal_sum_defect": 1.0664763655184832e-15,
+        "energy_flux_eigenvalue_identity_defect": 1.558404122093243e-14,
+        "family_index": 4,
+        "half_amplitude_quadratic_scaling_defect": 0.0,
+        "intended_coordinate_speed_sign": 1,
+        "intended_direction_available": false,
+        "maximum_selected_speed_over_c": -0.2556940476864347,
+        "minimum_selected_speed_over_c": -0.6356556961789845,
+        "null_channel_leakage_fraction": 0.0,
+        "selected_family_energy_fraction": 1.0,
+        "sign_invariance_defect": 0.0,
+        "signal_to_uncertainty_ratio": 1359175862930.2566,
+        "total_energy": 9.217644495310327e+19
+      },
+      "fine_to_coarse__mixed_shear_acoustic": {
+        "construction": "equal_energy_sum_of_normalization_invariant_acoustic_and_shear_directions",
+        "half_amplitude_quadratic_scaling_defect": 0.0,
+        "intended_direction_available": false,
+        "sign_invariance_defect": 0.0,
+        "signal_to_uncertainty_ratio": 1359175862930.2566
+      },
+      "fine_to_coarse__shear": {
+        "direct_energy_orthogonal_sum_defect": 1.7774606091974703e-16,
+        "energy_flux_eigenvalue_identity_defect": 5.8301138624613285e-15,
+        "family_index": 3,
+        "half_amplitude_quadratic_scaling_defect": 0.0,
+        "intended_coordinate_speed_sign": 1,
+        "intended_direction_available": false,
+        "maximum_selected_speed_over_c": -0.4098518748491125,
+        "minimum_selected_speed_over_c": -0.6524837190532515,
+        "null_channel_leakage_fraction": 0.0,
+        "selected_family_energy_fraction": 1.0,
+        "sign_invariance_defect": 0.0,
+        "signal_to_uncertainty_ratio": 1359175862930.2566,
+        "total_energy": 9.217644495310324e+19
+      }
+    },
+    "travel_windows_frozen": false
+  },
+  "parent_classification_preserved": "manufactured_interface_patch_geometry_selected_energy_preflight_authorized",
+  "parent_input_hashes": {
+    "results/canonical/causal_inner_cross_grid_analytic_tangent_wp10c9d5c0e/replay_contexts.json": "656a7c02351f2fea13571c9da2058c4f5e8ffb7dc5cb5bc7370cdcebe7fc0564",
+    "results/canonical/causal_inner_cross_grid_analytic_tangent_wp10c9d5c0e/replay_inputs.npz": "836644d1a656bb44700c55119d51b8cd8abd84247be542fc7f8eb619f7689074",
+    "results/canonical/causal_inner_embedded_manifest_wp10c9d6c7a/decisive_arrays.npz": "468d2ed7d2cd3b0b81856e977536f4aa981da4c4f889ae481cdb0661a7cb9313",
+    "results/canonical/causal_inner_embedded_manifest_wp10c9d6c7a/summary.json": "c67c60667451a890fb177408e2b96ead964e25e48771eb08e723388442443e14",
+    "results/canonical/causal_inner_scattering_geometry_wp10c9d6c7c2a1/decisive_arrays.npz": "609add285974b85d902382dd14887334450821711a001fe75839b46d5a630dc3",
+    "results/canonical/causal_inner_scattering_geometry_wp10c9d6c7c2a1/geometry_manifest.json": "fc5e2943a81d392bee5aff52ec065c2612c06e98c868de86c51d968de8a0281f",
+    "results/canonical/causal_inner_scattering_geometry_wp10c9d6c7c2a1/summary.json": "849b0e1974ad21f53e8b7abe5518698e61e2486f6022cd6aa7abddabc55aec98"
+  },
+  "passed": false,
+  "physical_core_parity": {
+    "defects": {
+      "cell_center": 2.261196766849683e-15,
+      "cell_measure": 9.323220321207802e-14,
+      "face_measure": 3.613359949683768e-15,
+      "interface_face_measure": 1.5559116809203096e-15,
+      "primitive_state": 5.520575418573839e-16,
+      "spatial_principal_matrix": 6.1772094917806335e-15,
+      "temporal_storage_matrix": 4.830609987890794e-15
+    },
+    "maximum_defect": 9.323220321207802e-14,
+    "passed": true
+  },
+  "production_operator_authorized": false,
+  "propagation_executed": false,
+  "reduced_slow_evolution_authorized": false,
+  "runtime_seconds": 18.51450170809403,
+  "schema_version": 1,
+  "uniform_scattering_propagation_authorized": false,
+  "work_package": "WP10c9d6c7c2a2"
+}

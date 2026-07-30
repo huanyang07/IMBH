@@ -1,0 +1,46 @@
+{
+  "gates": {
+    "both_incidence_directions_required": true,
+    "maximum_constant_state_residual": 1e-12,
+    "maximum_energy_ledger_relative_defect": 1e-10,
+    "maximum_interface_core_parity_defect": 1e-12,
+    "maximum_projector_idempotence_defect": 1e-12,
+    "maximum_reference_uncertainty_to_fine_difference": 0.1,
+    "minimum_signal_to_uncertainty_ratio": 5.0
+  },
+  "manifest_sha256": "7fd875517a570a9a7a19ce73965e9199f39221c571c6c176a65e52a24950df11",
+  "operator_changed": false,
+  "parent_core_cells": [
+    42,
+    54
+  ],
+  "patch_core_cells": [
+    43,
+    55
+  ],
+  "patch_interface_face": 49,
+  "patch_measurement_faces": [
+    6,
+    49,
+    92
+  ],
+  "patch_support_faces": [
+    [
+      3,
+      46
+    ],
+    [
+      52,
+      95
+    ]
+  ],
+  "propagation_executed": false,
+  "reference_levels": [
+    98,
+    196,
+    392
+  ],
+  "schema_version": 1,
+  "transition_parent_cells": 12,
+  "work_package": "WP10c9d6c7c2a2"
+}
