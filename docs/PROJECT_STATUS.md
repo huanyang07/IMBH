@@ -182,6 +182,7 @@ This is the canonical project handoff. Status labels mean:
 | Prospective embedded profile validation WP10c9d6c7b | **METHOD/LEDGER CERTIFIED; COMPLETE FROZEN PROFILE CLASS REJECTED**; `prospective_embedded_profile_validation_failed`; **ENDPOINT/INTERFACE REGULARITY MANIFEST ONLY AUTHORIZED; NONLINEAR, PRODUCTION, FIXED-Q, AND REDUCTION WORK BLOCKED** | All three embedded tangents, active export JVPs, exact semigroup integrals, shared-flux telescopes, and active prefix ledgers pass. The `p5` inward/outward shear and `p3` material variants pass. All eight `p3` shear sign/amplitude variants retain near-second-order RMS/maximum/component contraction, fine differences below `9.3e-9`, history cosines above `0.9999998`, and passing state/cumulative gates | The `p3` shear variants fail only the instantaneous refinement-error direction (`0.7870/0.7898 < 0.90`). Their inner-face plus distributed error cosines are `0.996`, while the coupling-face plus net-drive sector falls to `0.734/0.738`; the corresponding `p5` sectors remain about `0.990`. Because zero-extended `sin^3` is C2 and `sin^5` is C4, freeze prospective endpoint-regularity and exact-zero-buffer controls before attributing the failure to the coupling operator |
 | Embedded endpoint/interface regularity manifest WP10c9d6c7c0 | **DEFINITIONS AND ELIGIBILITY CERTIFIED; UNIFORM CONTROL PREFLIGHT AUTHORIZED**; `endpoint_interface_regularity_manifest_frozen_uniform_control_preflight_authorized`; **EMBEDDED CONTROL PROPAGATION, NONLINEAR, PRODUCTION, FIXED-Q, AND REDUCTION WORK BLOCKED** | C3 `sin^4` inward/outward shear endpoints and C2 `sin^3` shear profiles ending at parent face 45 are frozen under manifest hash `b230ce7a3c7e7546d0d706ee8f9bcfa3102c6c69be5f67a29aa451e1b5d9706b`. All four pass the inherited spectral, alias, endpoint, purity, projection, restriction, and reconstruction gates; maximum `theta_99/alias/projection/restriction` are `0.24544/8.01e-4/7.81e-13/8.16e-13` | The C3 coupling traces remain active down to `1.09e-7`; the C2 buffered traces and three-parent-cell buffer norms are exactly zero. No propagation occurred. Run the 16 frozen variants uniformly first; only uniform passes may enter the unchanged embedded ladder. Preserve c7b, add no taper or fitted coefficient, and decide between regularity crossover, active-stencil localization, short-support pre-asymptotics, or no selected class using the frozen table |
 | Endpoint/interface regularity uniform controls WP10c9d6c7c1a | **UNIFORM CONTROLS CERTIFIED; EMBEDDED REGULARITY DISCRIMINATION AUTHORIZED**; `endpoint_interface_regularity_uniform_controls_certified_embedded_discrimination_authorized`; **NONLINEAR, PRODUCTION, FIXED-Q, AND REDUCTION WORK BLOCKED** | All 16 frozen C3 endpoint-active `p4` and C2 exact-zero-buffer `p3` inward/outward-shear sign/amplitude variants pass the unchanged direct state and 13-export contract. Worst instantaneous RMS/maximum/component orders are `1.996/1.959/1.953`, fine difference is `1.75e-8`, and minimum history/error cosines are `0.9999996/0.99617`. Cumulative minima also pass, and the exact-integral residual is `7.35e-15` | This certifies only the uniform controls and preserves the c7b rejection. Propagate the exact 16 variants on the frozen embedded layouts next; change no endpoint power, support, buffer, coupling radius, activity scale, operator, or threshold. The result must choose among smoother/buffered certification, active-endpoint localization, short-support pre-asymptotics, or no selected embedded class |
+| Embedded endpoint/interface regularity discrimination WP10c9d6c7c1b | **DIRECT PHYSICAL EXPORTS PASS; COMPLETE DIAGNOSTIC CONTRACT REJECTED**; `no_regularized_embedded_profile_class_selected`; **NO DOWNSTREAM WORK AUTHORIZED** | All 16 C3 endpoint-active and C2 exact-zero-buffer variants pass direct state and 13-export gates. Worst instantaneous RMS/maximum/component orders are `2.054/1.961/1.795`, fine difference is `1.14e-8`, and minimum history/error cosines are `0.9999999/0.99320`. The old coupling-plus-net rotation disappears (`0.990-0.998`), coupling-face fluxes are inactive and pass, exact-integral residual is `7.27e-15`, and ledgers close | Two small characteristic-energy channels and three interface-stress histories fail unchanged direction gates despite RMS orders `2.27-6.65`; response/fine scales range from `1.01e-6` to `8.96e-11`. No post-hoc activity exception is allowed, so neither complete prospective class is certified. Do not redesign the interface. If continued, first freeze an operator-neutral diagnostic-observability manifest using independent uncertainty/slow-impact scales and new held-out scattering controls |
 
 ## Frozen Target Under Review
 
@@ -1382,6 +1383,17 @@ N                    = 164
    cosine is `0.99617`; cumulative and state/reference gates also pass.
    Proceed only to the unchanged c7c1b embedded discrimination. Preserve the
    c7b rejection and every c7c0 definition and threshold.
+   WP10c9d6c7c1b then separates direct physics from auxiliary diagnostics.
+   Every one of the 16 embedded variants passes the direct state and
+   13-export contract near second order, and the old coupling-plus-net error
+   rotation is absent. The strict complete contract nevertheless fails:
+   two characteristic-energy channels and three interface-stress histories
+   miss unchanged `0.90` direction gates even though they contract at orders
+   `2.27-6.65` and are tiny in fixed physical units. Preserve the rejection
+   and add no post-hoc activity threshold. The result selects neither an
+   operator redesign nor downstream physics. If the line continues, freeze a
+   definitions-only diagnostic-observability contract from independent
+   uncertainty and slow-impact scales before any new propagation.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -1393,7 +1405,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_INNER_EMBEDDED_REGULARITY_UNIFORM_WP10C9D6C7C1A_RESULTS_2026-07-29.md`
+  `reports/current/CODEX_CAUSAL_INNER_EMBEDDED_REGULARITY_WP10C9D6C7C1B_RESULTS_2026-07-29.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)

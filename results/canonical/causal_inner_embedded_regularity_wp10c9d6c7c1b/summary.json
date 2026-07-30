@@ -1,0 +1,2848 @@
+{
+  "analyzed_base_commit": "d9300e938f6636d92518cc242ac16231a65d6716",
+  "analyzed_base_parent": "406ab7e18d6094d07647efb91dccce06808087b4",
+  "analyzed_base_tree": "9249a03bdd6403866e411fe131843ce35b22a244",
+  "authorized_next": null,
+  "bounded_nonlinear_common_mode_authorized": false,
+  "c7b_rejection_preserved": true,
+  "c7c0_manifest_preserved": true,
+  "c7c1a_uniform_certification_preserved": true,
+  "classification": "no_regularized_embedded_profile_class_selected",
+  "coupling_diagnostic_report": {
+    "absolute_reflection_threshold_applied": false,
+    "characteristic_energy_method": "complete_coordinate_descriptor_pencil_eigenvectors_normalized_by_fixed_physical_field_scales",
+    "common_face_flux_reports": {
+      "p3_buffer45__inward_shear": {
+        "0": {
+          "active": true,
+          "coarse_medium_rms_difference": 1.2076943593790668e-08,
+          "component_orders": {
+            "angular_momentum": 2.1542335601846507,
+            "killing_energy": 2.157481545269398,
+            "mass": 2.040648996884827
+          },
+          "history_cosine": 0.9999999215255304,
+          "maximum_fine_normalized_difference": 1.1379233347640067e-08,
+          "medium_fine_rms_difference": 2.864850503512497e-09,
+          "minimum_significant_component_order": 2.040648996884827,
+          "observed_maximum_order": 2.054763746080566,
+          "observed_rms_order": 2.0757236248750957,
+          "passed": true,
+          "refinement_error_cosine": 0.9972022719578052,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "13": {
+          "active": true,
+          "coarse_medium_rms_difference": 3.298502343014637e-08,
+          "component_orders": {
+            "angular_momentum": 2.230972800419254,
+            "killing_energy": 2.248321768319001,
+            "mass": 2.0946580814908264
+          },
+          "history_cosine": 0.9999999777034468,
+          "maximum_fine_normalized_difference": 2.0014331131159895e-08,
+          "medium_fine_rms_difference": 7.644094787828553e-09,
+          "minimum_significant_component_order": 2.0946580814908264,
+          "observed_maximum_order": 2.074588058189719,
+          "observed_rms_order": 2.1093935565431603,
+          "passed": true,
+          "refinement_error_cosine": 0.9989724947047919,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "25": {
+          "active": true,
+          "coarse_medium_rms_difference": 4.8510340519304576e-08,
+          "component_orders": {
+            "angular_momentum": 2.155172544877477,
+            "killing_energy": 2.159673558915384,
+            "mass": 2.1442196516867083
+          },
+          "history_cosine": 0.999999999638275,
+          "maximum_fine_normalized_difference": 2.4002855525764345e-08,
+          "medium_fine_rms_difference": 1.0902326090894515e-08,
+          "minimum_significant_component_order": 2.1442196516867083,
+          "observed_maximum_order": 2.0458085243004365,
+          "observed_rms_order": 2.153656329227946,
+          "passed": true,
+          "refinement_error_cosine": 0.9987852744754562,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "37": {
+          "active": true,
+          "coarse_medium_rms_difference": 2.7925965022523787e-08,
+          "component_orders": {
+            "angular_momentum": 1.5661324513199655,
+            "killing_energy": 2.448204591827101,
+            "mass": 1.9879137395039073
+          },
+          "history_cosine": 0.9999999670700557,
+          "maximum_fine_normalized_difference": 1.778938447869272e-08,
+          "medium_fine_rms_difference": 7.105186261078571e-09,
+          "minimum_significant_component_order": 1.5661324513199655,
+          "observed_maximum_order": 1.9931473510435984,
+          "observed_rms_order": 1.9746627609581924,
+          "passed": true,
+          "refinement_error_cosine": 0.9791189182238424,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "43": {
+          "active": true,
+          "coarse_medium_rms_difference": 6.78257988993687e-08,
+          "component_orders": {
+            "angular_momentum": 2.2749339109472153,
+            "mass": 2.251750388565231
+          },
+          "history_cosine": 0.9998770072245136,
+          "maximum_fine_normalized_difference": 3.249110969183951e-08,
+          "medium_fine_rms_difference": 1.4027726051909842e-08,
+          "minimum_significant_component_order": 2.251750388565231,
+          "observed_maximum_order": 2.4162437708474176,
+          "observed_rms_order": 2.2735529741490343,
+          "passed": true,
+          "refinement_error_cosine": 0.9795540097674889,
+          "significant_components": [
+            "mass",
+            "angular_momentum"
+          ]
+        },
+        "45": {
+          "active": true,
+          "coarse_medium_rms_difference": 1.1063837631999454e-08,
+          "component_orders": {
+            "angular_momentum": 3.2031765972722006,
+            "mass": 3.0577701904756247
+          },
+          "history_cosine": 0.07655454033244623,
+          "maximum_fine_normalized_difference": 4.026141312939877e-09,
+          "medium_fine_rms_difference": 1.2090935201640195e-09,
+          "minimum_significant_component_order": 3.0577701904756247,
+          "observed_maximum_order": 2.9577123795963627,
+          "observed_rms_order": 3.1938541467653763,
+          "passed": false,
+          "refinement_error_cosine": 0.042136974624573456,
+          "significant_components": [
+            "mass",
+            "angular_momentum"
+          ]
+        },
+        "48": {
+          "active": false,
+          "maximum_response_over_scale": 3.782190416025904e-10,
+          "passed": true
+        },
+        "51": {
+          "active": false,
+          "maximum_response_over_scale": 1.4896836738932213e-12,
+          "passed": true
+        }
+      },
+      "p3_buffer45__outward_shear": {
+        "0": {
+          "active": true,
+          "coarse_medium_rms_difference": 1.1643841704979818e-08,
+          "component_orders": {
+            "angular_momentum": 2.15248838930807,
+            "killing_energy": 2.171765750078414,
+            "mass": 2.0350253496346853
+          },
+          "history_cosine": 0.999999909820824,
+          "maximum_fine_normalized_difference": 1.0983851976757264e-08,
+          "medium_fine_rms_difference": 2.767933027330612e-09,
+          "minimum_significant_component_order": 2.0350253496346853,
+          "observed_maximum_order": 2.0493466055162903,
+          "observed_rms_order": 2.072686190455734,
+          "passed": true,
+          "refinement_error_cosine": 0.9970417909972502,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "13": {
+          "active": true,
+          "coarse_medium_rms_difference": 3.2523223271073963e-08,
+          "component_orders": {
+            "angular_momentum": 2.230747726584955,
+            "killing_energy": 2.2307877880875777,
+            "mass": 2.092260624782685
+          },
+          "history_cosine": 0.9999999783938155,
+          "maximum_fine_normalized_difference": 1.9889364554829845e-08,
+          "medium_fine_rms_difference": 7.547386693692406e-09,
+          "minimum_significant_component_order": 2.092260624782685,
+          "observed_maximum_order": 2.071342880267256,
+          "observed_rms_order": 2.1074211469883344,
+          "passed": true,
+          "refinement_error_cosine": 0.9989283503937242,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "25": {
+          "active": true,
+          "coarse_medium_rms_difference": 4.774438505348875e-08,
+          "component_orders": {
+            "angular_momentum": 2.1544628007151942,
+            "killing_energy": 2.145498064657355,
+            "mass": 2.1425684583293467
+          },
+          "history_cosine": 0.9999999996275519,
+          "maximum_fine_normalized_difference": 2.362758160962832e-08,
+          "medium_fine_rms_difference": 1.0736519679070932e-08,
+          "minimum_significant_component_order": 2.1425684583293467,
+          "observed_maximum_order": 2.045144322407878,
+          "observed_rms_order": 2.1528046669218366,
+          "passed": true,
+          "refinement_error_cosine": 0.99877290719857,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "37": {
+          "active": true,
+          "coarse_medium_rms_difference": 2.77790264512194e-08,
+          "component_orders": {
+            "angular_momentum": 1.5316136232248962,
+            "killing_energy": 2.5529203495902246,
+            "mass": 1.9835911197514606
+          },
+          "history_cosine": 0.9999999666248324,
+          "maximum_fine_normalized_difference": 1.7884677751541494e-08,
+          "medium_fine_rms_difference": 7.098202580875223e-09,
+          "minimum_significant_component_order": 1.5316136232248962,
+          "observed_maximum_order": 1.9885740424209495,
+          "observed_rms_order": 1.968470385009871,
+          "passed": true,
+          "refinement_error_cosine": 0.9800050969029269,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "43": {
+          "active": true,
+          "coarse_medium_rms_difference": 6.638402751271855e-08,
+          "component_orders": {
+            "angular_momentum": 2.2873956942837688,
+            "mass": 2.3404274321633314
+          },
+          "history_cosine": 0.9998874134573829,
+          "maximum_fine_normalized_difference": 3.2043455102972155e-08,
+          "medium_fine_rms_difference": 1.3570240184494315e-08,
+          "minimum_significant_component_order": 2.2873956942837688,
+          "observed_maximum_order": 2.4161894570898674,
+          "observed_rms_order": 2.290389904490217,
+          "passed": true,
+          "refinement_error_cosine": 0.9821374367373973,
+          "significant_components": [
+            "mass",
+            "angular_momentum"
+          ]
+        },
+        "45": {
+          "active": true,
+          "coarse_medium_rms_difference": 1.0769177032487984e-08,
+          "component_orders": {
+            "angular_momentum": 3.2064281304672315,
+            "mass": 3.086306484401999
+          },
+          "history_cosine": 0.09543622582093021,
+          "maximum_fine_normalized_difference": 3.976486844317942e-09,
+          "medium_fine_rms_difference": 1.172643743867646e-09,
+          "minimum_significant_component_order": 3.086306484401999,
+          "observed_maximum_order": 2.9574297152230944,
+          "observed_rms_order": 3.1990713193559133,
+          "passed": false,
+          "refinement_error_cosine": 0.0674962443787679,
+          "significant_components": [
+            "mass",
+            "angular_momentum"
+          ]
+        },
+        "48": {
+          "active": false,
+          "maximum_response_over_scale": 3.628888223213175e-10,
+          "passed": true
+        },
+        "51": {
+          "active": false,
+          "maximum_response_over_scale": 1.5462168067215281e-12,
+          "passed": true
+        }
+      },
+      "p4__inward_shear": {
+        "0": {
+          "active": true,
+          "coarse_medium_rms_difference": 9.106209656187467e-09,
+          "component_orders": {
+            "angular_momentum": 2.1196374108545206,
+            "killing_energy": 2.1681322384872,
+            "mass": 2.01287955705641
+          },
+          "history_cosine": 0.9999999171785487,
+          "maximum_fine_normalized_difference": 8.327249863011849e-09,
+          "medium_fine_rms_difference": 2.1682686541748537e-09,
+          "minimum_significant_component_order": 2.01287955705641,
+          "observed_maximum_order": 1.9728852808704564,
+          "observed_rms_order": 2.070307154061563,
+          "passed": true,
+          "refinement_error_cosine": 0.9920144418116208,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "13": {
+          "active": true,
+          "coarse_medium_rms_difference": 4.135596811789359e-08,
+          "component_orders": {
+            "angular_momentum": 2.225090821837604,
+            "killing_energy": 2.219981562410168,
+            "mass": 2.105300285837021
+          },
+          "history_cosine": 0.9999999489942094,
+          "maximum_fine_normalized_difference": 2.673418435254402e-08,
+          "medium_fine_rms_difference": 9.497213459393157e-09,
+          "minimum_significant_component_order": 2.105300285837021,
+          "observed_maximum_order": 2.0863031458376167,
+          "observed_rms_order": 2.1225193559919835,
+          "passed": true,
+          "refinement_error_cosine": 0.9988135274569717,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "25": {
+          "active": true,
+          "coarse_medium_rms_difference": 4.9855870677578836e-08,
+          "component_orders": {
+            "angular_momentum": 2.175069224544383,
+            "killing_energy": 2.1782583482087494,
+            "mass": 2.1298231735295157
+          },
+          "history_cosine": 0.9999999993684369,
+          "maximum_fine_normalized_difference": 2.3502756735558445e-08,
+          "medium_fine_rms_difference": 1.107439375978506e-08,
+          "minimum_significant_component_order": 2.1298231735295157,
+          "observed_maximum_order": 2.060019824931773,
+          "observed_rms_order": 2.170535672092736,
+          "passed": true,
+          "refinement_error_cosine": 0.9972236796434365,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "37": {
+          "active": true,
+          "coarse_medium_rms_difference": 3.061041664632281e-08,
+          "component_orders": {
+            "angular_momentum": 1.5529663662639177,
+            "killing_energy": 2.2172412144073026,
+            "mass": 1.9784760080107322
+          },
+          "history_cosine": 0.9999999800174572,
+          "maximum_fine_normalized_difference": 1.850168316144467e-08,
+          "medium_fine_rms_difference": 8.014681830002285e-09,
+          "minimum_significant_component_order": 1.5529663662639177,
+          "observed_maximum_order": 1.9753907191281823,
+          "observed_rms_order": 1.9333055279420774,
+          "passed": true,
+          "refinement_error_cosine": 0.9859701999714175,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "43": {
+          "active": true,
+          "coarse_medium_rms_difference": 3.930452894731901e-08,
+          "component_orders": {
+            "angular_momentum": 2.432902504681704,
+            "killing_energy": 2.3898713924765995,
+            "mass": 2.3281109956060315
+          },
+          "history_cosine": 0.9999995593312225,
+          "maximum_fine_normalized_difference": 2.789758942989783e-08,
+          "medium_fine_rms_difference": 7.310746773357303e-09,
+          "minimum_significant_component_order": 2.3281109956060315,
+          "observed_maximum_order": 2.325602683658391,
+          "observed_rms_order": 2.426604873361281,
+          "passed": true,
+          "refinement_error_cosine": 0.9881873349575723,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "45": {
+          "active": true,
+          "coarse_medium_rms_difference": 3.35676409046428e-08,
+          "component_orders": {
+            "angular_momentum": 2.4410706464357896,
+            "mass": 2.5014654830450147
+          },
+          "history_cosine": 0.9999821675585782,
+          "maximum_fine_normalized_difference": 2.0888539782293072e-08,
+          "medium_fine_rms_difference": 6.166923853392499e-09,
+          "minimum_significant_component_order": 2.4410706464357896,
+          "observed_maximum_order": 2.407551916537648,
+          "observed_rms_order": 2.4444482119019875,
+          "passed": true,
+          "refinement_error_cosine": 0.9982724854723923,
+          "significant_components": [
+            "mass",
+            "angular_momentum"
+          ]
+        },
+        "48": {
+          "active": false,
+          "maximum_response_over_scale": 2.790984595427515e-09,
+          "passed": true
+        },
+        "51": {
+          "active": false,
+          "maximum_response_over_scale": 2.989082918524368e-11,
+          "passed": true
+        }
+      },
+      "p4__outward_shear": {
+        "0": {
+          "active": true,
+          "coarse_medium_rms_difference": 8.760202608695503e-09,
+          "component_orders": {
+            "angular_momentum": 2.1174021107289387,
+            "killing_energy": 2.178077863284358,
+            "mass": 2.007813379123962
+          },
+          "history_cosine": 0.9999999062663231,
+          "maximum_fine_normalized_difference": 7.796762952613973e-09,
+          "medium_fine_rms_difference": 2.0880953593058096e-09,
+          "minimum_significant_component_order": 2.007813379123962,
+          "observed_maximum_order": 1.9614415866391919,
+          "observed_rms_order": 2.0687766387880124,
+          "passed": true,
+          "refinement_error_cosine": 0.9917200406365992,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "13": {
+          "active": true,
+          "coarse_medium_rms_difference": 4.066942044765544e-08,
+          "component_orders": {
+            "angular_momentum": 2.224527709064083,
+            "killing_energy": 2.2071833068997506,
+            "mass": 2.1022795175943525
+          },
+          "history_cosine": 0.9999999508927996,
+          "maximum_fine_normalized_difference": 2.6490490941073614e-08,
+          "medium_fine_rms_difference": 9.355148060907938e-09,
+          "minimum_significant_component_order": 2.1022795175943525,
+          "observed_maximum_order": 2.082201491711458,
+          "observed_rms_order": 2.120112040249373,
+          "passed": true,
+          "refinement_error_cosine": 0.9987630984345206,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "25": {
+          "active": true,
+          "coarse_medium_rms_difference": 4.901561128264633e-08,
+          "component_orders": {
+            "angular_momentum": 2.174111654291969,
+            "killing_energy": 2.1640031917931344,
+            "mass": 2.12421341056594
+          },
+          "history_cosine": 0.9999999993401302,
+          "maximum_fine_normalized_difference": 2.3115872968917407e-08,
+          "medium_fine_rms_difference": 1.0899042203765597e-08,
+          "minimum_significant_component_order": 2.12421341056594,
+          "observed_maximum_order": 2.0591710282855815,
+          "observed_rms_order": 2.169039957141049,
+          "passed": true,
+          "refinement_error_cosine": 0.9971915554784365,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "37": {
+          "active": true,
+          "coarse_medium_rms_difference": 3.05929427285884e-08,
+          "component_orders": {
+            "angular_momentum": 1.5751294328947993,
+            "killing_energy": 2.714810315084531,
+            "mass": 1.9769177823827229
+          },
+          "history_cosine": 0.9999999797207055,
+          "maximum_fine_normalized_difference": 1.858168356748906e-08,
+          "medium_fine_rms_difference": 8.015687245509404e-09,
+          "minimum_significant_component_order": 1.5751294328947993,
+          "observed_maximum_order": 1.9759663954505844,
+          "observed_rms_order": 1.9323007621410704,
+          "passed": true,
+          "refinement_error_cosine": 0.9867385594773728,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "43": {
+          "active": true,
+          "coarse_medium_rms_difference": 3.877857579456723e-08,
+          "component_orders": {
+            "angular_momentum": 2.433362323499808,
+            "killing_energy": 2.406646271004443,
+            "mass": 2.318592394036436
+          },
+          "history_cosine": 0.9999995527510318,
+          "maximum_fine_normalized_difference": 2.7479141134478113e-08,
+          "medium_fine_rms_difference": 7.215031066649492e-09,
+          "minimum_significant_component_order": 2.318592394036436,
+          "observed_maximum_order": 2.3253863490752873,
+          "observed_rms_order": 2.4261823072943427,
+          "passed": true,
+          "refinement_error_cosine": 0.9881367687121981,
+          "significant_components": [
+            "mass",
+            "angular_momentum",
+            "killing_energy"
+          ]
+        },
+        "45": {
+          "active": true,
+          "coarse_medium_rms_difference": 3.3060550168532044e-08,
+          "component_orders": {
+            "angular_momentum": 2.442757036489691,
+            "mass": 2.5001298237214007
+          },
+          "history_cosine": 0.9999828755478677,
+          "maximum_fine_normalized_difference": 2.0603453180582757e-08,
+          "medium_fine_rms_difference": 6.067114495971551e-09,
+          "minimum_significant_component_order": 2.442757036489691,
+          "observed_maximum_order": 2.4074926017199596,
+          "observed_rms_order": 2.446028290403851,
+          "passed": true,
+          "refinement_error_cosine": 0.9982791026538667,
+          "significant_components": [
+            "mass",
+            "angular_momentum"
+          ]
+        },
+        "48": {
+          "active": false,
+          "maximum_response_over_scale": 2.741071856106067e-09,
+          "passed": true
+        },
+        "51": {
+          "active": false,
+          "maximum_response_over_scale": 2.87062202472142e-11,
+          "passed": true
+        }
+      }
+    },
+    "coupling_face_flux_convergence_passed": true,
+    "energy_convergence_passed": false,
+    "energy_reports": {
+      "p3_buffer45__inward_shear": {
+        "channels": {
+          "incident_inner_selected": {
+            "active": true,
+            "history_cosine": 0.999999412282964,
+            "maximum_fine_normalized_difference": 3.2242257583495756e-09,
+            "maximum_response_over_scale": 6.269133503507904e-06,
+            "minimum_component_order": 2.2707514500719563,
+            "observed_maximum_order": 2.2649329716360533,
+            "observed_rms_order": 2.2707514500719563,
+            "passed": false,
+            "refinement_error_cosine": 0.8438273396206767
+          },
+          "inner_other": {
+            "active": true,
+            "history_cosine": 0.9999057399911259,
+            "maximum_fine_normalized_difference": 7.357652578718994e-10,
+            "maximum_response_over_scale": 1.0104384095211484e-07,
+            "minimum_component_order": 3.7963553800122174,
+            "observed_maximum_order": 3.6426068012462713,
+            "observed_rms_order": 3.7963553800122174,
+            "passed": true,
+            "refinement_error_cosine": 0.9277006692119628
+          },
+          "outer_opposite": {
+            "active": false,
+            "maximum_response_over_scale": 4.321655753782576e-17,
+            "passed": true
+          },
+          "outer_other": {
+            "active": false,
+            "maximum_response_over_scale": 3.029161822993994e-14,
+            "passed": true
+          },
+          "reflected_inner_opposite": {
+            "active": true,
+            "history_cosine": 0.9999902150981135,
+            "maximum_fine_normalized_difference": 2.9423933811789052e-09,
+            "maximum_response_over_scale": 1.0700788123716467e-06,
+            "minimum_component_order": 1.5645458374692072,
+            "observed_maximum_order": 1.4935082714097392,
+            "observed_rms_order": 1.5645458374692072,
+            "passed": true,
+            "refinement_error_cosine": 0.9623431096622329
+          },
+          "transmitted_outer_selected": {
+            "active": false,
+            "maximum_response_over_scale": 1.0073786718618482e-14,
+            "passed": true
+          }
+        },
+        "fixed_energy_scale": 9.495843467341413e+16,
+        "opposite_family": "outward_shear",
+        "passed": false,
+        "scattering_interpretation": "kinematic_energy_diagnostic_only",
+        "selected_family": "inward_shear"
+      },
+      "p3_buffer45__outward_shear": {
+        "channels": {
+          "incident_inner_selected": {
+            "active": true,
+            "history_cosine": 0.999994499731929,
+            "maximum_fine_normalized_difference": 1.2263284991776776e-08,
+            "maximum_response_over_scale": 6.260056153789333e-06,
+            "minimum_component_order": 1.7906287773201601,
+            "observed_maximum_order": 1.743692551729001,
+            "observed_rms_order": 1.7906287773201601,
+            "passed": true,
+            "refinement_error_cosine": 0.9640202325387779
+          },
+          "inner_other": {
+            "active": true,
+            "history_cosine": 0.9994252427852112,
+            "maximum_fine_normalized_difference": 2.0873396601425386e-09,
+            "maximum_response_over_scale": 9.204355201835383e-08,
+            "minimum_component_order": 2.7015688661179516,
+            "observed_maximum_order": 2.5888251703794305,
+            "observed_rms_order": 2.7015688661179516,
+            "passed": true,
+            "refinement_error_cosine": 0.9701682279870164
+          },
+          "outer_opposite": {
+            "active": false,
+            "maximum_response_over_scale": 1.021823333488515e-15,
+            "passed": true
+          },
+          "outer_other": {
+            "active": false,
+            "maximum_response_over_scale": 3.18944539381577e-14,
+            "passed": true
+          },
+          "reflected_inner_opposite": {
+            "active": true,
+            "history_cosine": 0.9999989184386198,
+            "maximum_fine_normalized_difference": 1.284624915545115e-09,
+            "maximum_response_over_scale": 1.0652096222874626e-06,
+            "minimum_component_order": 2.094196555484445,
+            "observed_maximum_order": 2.101093819679291,
+            "observed_rms_order": 2.094196555484445,
+            "passed": true,
+            "refinement_error_cosine": 0.9493200610216794
+          },
+          "transmitted_outer_selected": {
+            "active": false,
+            "maximum_response_over_scale": 3.883666315990463e-15,
+            "passed": true
+          }
+        },
+        "fixed_energy_scale": 9.548257110406106e+16,
+        "opposite_family": "inward_shear",
+        "passed": true,
+        "scattering_interpretation": "outward_selected_family_incident_on_coupling",
+        "selected_family": "outward_shear"
+      },
+      "p4__inward_shear": {
+        "channels": {
+          "incident_inner_selected": {
+            "active": true,
+            "history_cosine": 0.9999998800209622,
+            "maximum_fine_normalized_difference": 1.500387199248886e-08,
+            "maximum_response_over_scale": 6.12917162676999e-05,
+            "minimum_component_order": 2.2971908504867744,
+            "observed_maximum_order": 2.3047304332703744,
+            "observed_rms_order": 2.2971908504867744,
+            "passed": true,
+            "refinement_error_cosine": 0.9999404755447224
+          },
+          "inner_other": {
+            "active": true,
+            "history_cosine": 0.9999885841927734,
+            "maximum_fine_normalized_difference": 2.9192307602450665e-09,
+            "maximum_response_over_scale": 1.0107720347479245e-06,
+            "minimum_component_order": 3.7511629725330318,
+            "observed_maximum_order": 3.780834983210598,
+            "observed_rms_order": 3.7511629725330318,
+            "passed": false,
+            "refinement_error_cosine": 0.8140074641937975
+          },
+          "outer_opposite": {
+            "active": false,
+            "maximum_response_over_scale": 3.8320175328176696e-14,
+            "passed": true
+          },
+          "outer_other": {
+            "active": false,
+            "maximum_response_over_scale": 8.077995549693577e-14,
+            "passed": true
+          },
+          "reflected_inner_opposite": {
+            "active": true,
+            "history_cosine": 0.9999958067049483,
+            "maximum_fine_normalized_difference": 1.9221490556137257e-08,
+            "maximum_response_over_scale": 1.0415444414121447e-05,
+            "minimum_component_order": 1.7933966023594632,
+            "observed_maximum_order": 1.7882798654101255,
+            "observed_rms_order": 1.7933966023594632,
+            "passed": true,
+            "refinement_error_cosine": 0.999969399031285
+          },
+          "transmitted_outer_selected": {
+            "active": false,
+            "maximum_response_over_scale": 2.3802499367576885e-13,
+            "passed": true
+          }
+        },
+        "fixed_energy_scale": 9.679407817247613e+16,
+        "opposite_family": "outward_shear",
+        "passed": false,
+        "scattering_interpretation": "kinematic_energy_diagnostic_only",
+        "selected_family": "inward_shear"
+      },
+      "p4__outward_shear": {
+        "channels": {
+          "incident_inner_selected": {
+            "active": true,
+            "history_cosine": 0.9999980122731887,
+            "maximum_fine_normalized_difference": 7.430213561424975e-08,
+            "maximum_response_over_scale": 6.120406701240363e-05,
+            "minimum_component_order": 1.9275700141917107,
+            "observed_maximum_order": 1.919797238933382,
+            "observed_rms_order": 1.9275700141917107,
+            "passed": true,
+            "refinement_error_cosine": 0.9999262284469916
+          },
+          "inner_other": {
+            "active": true,
+            "history_cosine": 0.9998690325222234,
+            "maximum_fine_normalized_difference": 1.271231542055704e-08,
+            "maximum_response_over_scale": 9.214141331450602e-07,
+            "minimum_component_order": 2.5395518566531923,
+            "observed_maximum_order": 2.489050893635395,
+            "observed_rms_order": 2.5395518566531923,
+            "passed": true,
+            "refinement_error_cosine": 0.9892049941668827
+          },
+          "outer_opposite": {
+            "active": false,
+            "maximum_response_over_scale": 2.5965788486299714e-14,
+            "passed": true
+          },
+          "outer_other": {
+            "active": false,
+            "maximum_response_over_scale": 7.065207936433618e-14,
+            "passed": true
+          },
+          "reflected_inner_opposite": {
+            "active": true,
+            "history_cosine": 0.9999995845298693,
+            "maximum_fine_normalized_difference": 7.933554922781324e-09,
+            "maximum_response_over_scale": 1.0369432431503906e-05,
+            "minimum_component_order": 1.937539525424849,
+            "observed_maximum_order": 1.9737694125582772,
+            "observed_rms_order": 1.937539525424849,
+            "passed": true,
+            "refinement_error_cosine": 0.9976872567483391
+          },
+          "transmitted_outer_selected": {
+            "active": false,
+            "maximum_response_over_scale": 2.6473341221446015e-13,
+            "passed": true
+          }
+        },
+        "fixed_energy_scale": 9.731894331542726e+16,
+        "opposite_family": "inward_shear",
+        "passed": true,
+        "scattering_interpretation": "outward_selected_family_incident_on_coupling",
+        "selected_family": "outward_shear"
+      }
+    },
+    "interface_state_convergence_passed": false,
+    "interface_state_reports": {
+      "p3_buffer45__inward_shear": {
+        "active": true,
+        "coarse_medium_rms_difference": 3.6080398202605225e-09,
+        "component_orders": {
+          "inner_stress": 6.676381186096192,
+          "outer_stress": 6.622689652992311
+        },
+        "history_cosine": 0.8728163540485775,
+        "maximum_fine_normalized_difference": 8.960746924257976e-11,
+        "medium_fine_rms_difference": 3.592338992188688e-11,
+        "minimum_significant_component_order": 6.622689652992311,
+        "observed_maximum_order": 7.050849117156065,
+        "observed_rms_order": 6.650147953941169,
+        "passed": false,
+        "refinement_error_cosine": 0.875264288003961,
+        "significant_components": [
+          "inner_stress",
+          "outer_stress"
+        ]
+      },
+      "p3_buffer45__outward_shear": {
+        "active": true,
+        "coarse_medium_rms_difference": 3.2477243667285928e-09,
+        "component_orders": {
+          "inner_stress": 6.558682122821358,
+          "outer_stress": 6.511475178465559
+        },
+        "history_cosine": 0.934310663132992,
+        "maximum_fine_normalized_difference": 8.917382828823629e-11,
+        "medium_fine_rms_difference": 3.500437300157467e-11,
+        "minimum_significant_component_order": 6.511475178465559,
+        "observed_maximum_order": 6.956662276906906,
+        "observed_rms_order": 6.535750221148764,
+        "passed": true,
+        "refinement_error_cosine": 0.9134457717154411,
+        "significant_components": [
+          "inner_stress",
+          "outer_stress"
+        ]
+      },
+      "p4__inward_shear": {
+        "active": true,
+        "coarse_medium_rms_difference": 2.1012447894027265e-08,
+        "component_orders": {
+          "inner_stress": 2.9151480123859153,
+          "outer_stress": 2.901951123354227
+        },
+        "history_cosine": 0.8612045239691184,
+        "maximum_fine_normalized_difference": 7.715647141697946e-09,
+        "medium_fine_rms_difference": 2.798382514507124e-09,
+        "minimum_significant_component_order": 2.901951123354227,
+        "observed_maximum_order": 2.522688777387781,
+        "observed_rms_order": 2.9085791569821846,
+        "passed": false,
+        "refinement_error_cosine": 0.8706546987746092,
+        "significant_components": [
+          "inner_stress",
+          "outer_stress"
+        ]
+      },
+      "p4__outward_shear": {
+        "active": true,
+        "coarse_medium_rms_difference": 2.0684357158437645e-08,
+        "component_orders": {
+          "inner_stress": 2.861616690748459,
+          "outer_stress": 2.8474419902495502
+        },
+        "history_cosine": 0.8606823452151416,
+        "maximum_fine_normalized_difference": 7.697988982282728e-09,
+        "medium_fine_rms_difference": 2.859778840926657e-09,
+        "minimum_significant_component_order": 2.8474419902495502,
+        "observed_maximum_order": 2.517723084704584,
+        "observed_rms_order": 2.854564634699397,
+        "passed": false,
+        "refinement_error_cosine": 0.8955584091719286,
+        "significant_components": [
+          "inner_stress",
+          "outer_stress"
+        ]
+      }
+    },
+    "maximum_characteristic_descriptor_condition": 17978.1183423125,
+    "maximum_characteristic_eigenpair_defect": 4.470806138379308e-15,
+    "passed": false
+  },
+  "decisive_array_hashes": {
+    "N128_exterior_N128_inner_c48__base_characteristic_cell_energy": "174a3e2984d66c9fabf66b1dd91a00b9d5a412ecf69ae421634a07cdf2e1ebc5",
+    "N128_exterior_N128_inner_c48__base_common_face_fluxes": "2aa7820654560232c7fa4fb969c4d3295dc4c2d55848e3f67a60192a8f6bcfb6",
+    "N128_exterior_N128_inner_c48__base_cumulative_exports": "85b3281146f70c0ff1c22f4d2b5e92f4dc79ed84f0d81258eac89f202ac2e0f6",
+    "N128_exterior_N128_inner_c48__base_instantaneous_exports": "241044178962a5dff5603f291bd84ea9b76f6adeacc7f767d5cbc201f4cd0eeb",
+    "N128_exterior_N128_inner_c48__base_parent_state_histories": "f8bbc30765cbba28764d6d611dc9f44e0f35036f8d23317468455398a564997d",
+    "N128_exterior_N256_inner_c48__base_characteristic_cell_energy": "34325e3683daf07e53e9c8e9edf68fc17409c45b3e3fa13c0b0e5ee06e8f9e77",
+    "N128_exterior_N256_inner_c48__base_common_face_fluxes": "b669345ae4d393af08a794d84226e47f8d557505d6e41c91a7c99b79c7a8f0d3",
+    "N128_exterior_N256_inner_c48__base_cumulative_exports": "2a7bd4b5bf70897e9f2ba1d2f18fc2785461eb9547d51f069fcbf772cd8854f3",
+    "N128_exterior_N256_inner_c48__base_instantaneous_exports": "bf5b61e892e9a92a8a84ccf44cf078dbb37a94aeb1b3cc9a55ca5f1f3d98b572",
+    "N128_exterior_N256_inner_c48__base_parent_state_histories": "94f1e91d93a8211e85e08775e4b4c999ec7f7daa617142d08be8288818ae9eb0",
+    "N128_exterior_N512_inner_c48__base_characteristic_cell_energy": "cd8f6489fa6cfbb0a6fbba460437b96b39f8c430f4bca334ee7fb9aae2a93064",
+    "N128_exterior_N512_inner_c48__base_common_face_fluxes": "aad84ba1e0d7438584adae1381ef496da695647220e57b17b4a8920d7b7c8e5b",
+    "N128_exterior_N512_inner_c48__base_cumulative_exports": "698da7581d566ffb51bbc62a4f90848aed4ea63d06e54ee80ccb1cf244779119",
+    "N128_exterior_N512_inner_c48__base_instantaneous_exports": "a109e23170d32540753e30385b250d0e90c106911bfad6c32b65bbaa616f76a3",
+    "N128_exterior_N512_inner_c48__base_parent_state_histories": "b0e67766fa80607fde2f06788a87dd4a3f594b6f8c608ea667246bd8797bc8a5",
+    "common_face_radii_over_rg": "ef2bb531fce71b2359c8baa886b85884d2dfc2699ce75753b4c927ff74c1f572",
+    "common_parent_face_indices": "5a5d2f7a5d78d251620038db5f84c63d99e4aa90c7ed656d7a8c4c891b0d8103",
+    "cumulative_metric_matrix": "126826ff7986e55c06f869a05438a9249cebb2eab35b2f6489b2b47d9a20c244",
+    "direct_packet_pass_flags": "8054f66c30097b079f49a584742c291ca4a83ed9a91acb1076e8d67e81cf7457",
+    "field_scales": "ee02d751758ffa54e25e4b298f1f0778ea7ea7586c78325e3ee106034321fac6",
+    "fixed_physical_observable_scales": "fd7dcc9ca75f3e9c7b1333846986e9aaeb19c45442f0dd8c7f6c6901f8430a99",
+    "instantaneous_metric_matrix": "4ff4fa7631c03febfc1a36134b66f0d8687cf1ceeb1dc7930ed3ec2c044a08f8",
+    "p3_buffer45__inward_shear__incident_inner_selected__histories": "7ce16a6aefc1342c1a9a6327ca647367211ab91e6ebed3b451702b2ab3eaa534",
+    "p3_buffer45__inward_shear__inner_other__histories": "ce29de8a5cb63800ca0595a7f4eee1be002d900b79fe7b7bc9be9179be66a442",
+    "p3_buffer45__inward_shear__interface_state_histories": "57a54e155a2507d43be4d06beb2b93790f572cf898c00c6c7ac8394d20f8e117",
+    "p3_buffer45__inward_shear__outer_opposite__histories": "5cbb58306fa6cce2662499d659c6c98162a5aa4cb742aac387a1c075e58ac9e9",
+    "p3_buffer45__inward_shear__outer_other__histories": "43daae5c02b4097d4775eb287bfb9071d0c310bf1cecc3c9f6f266be7782079d",
+    "p3_buffer45__inward_shear__reflected_inner_opposite__histories": "0c321a47274091e1351509887b6550bc78eee63df9d9fdc5bfecd138fdc0440c",
+    "p3_buffer45__inward_shear__transmitted_outer_selected__histories": "b37d2f7f86d6b5ffd66b9d6bf0916217a7e992a583318d80a501e209e13b7647",
+    "p3_buffer45__outward_shear__incident_inner_selected__histories": "20adb8aa0932750442535e089198f673baaef4357f3620bb3a4e493ec0a20213",
+    "p3_buffer45__outward_shear__inner_other__histories": "dc7ddd24f6e7aa0a36ce9d94d3558828c8c8368c715f1fcc5ee79e9deeea264e",
+    "p3_buffer45__outward_shear__interface_state_histories": "dfab4559dd1c9fbd5c1a81ef1b07e3fc49e607f9bf1621cd8c116aed4b51d050",
+    "p3_buffer45__outward_shear__outer_opposite__histories": "a0f26a9a7acd88baa5411b3a6504a0dbda4b84c3b2eb1815146d62984196dc25",
+    "p3_buffer45__outward_shear__outer_other__histories": "6792bea56460ca587998f39afba1586e1a9c4c13902b6651c77fa1c807443c59",
+    "p3_buffer45__outward_shear__reflected_inner_opposite__histories": "7970d6c63b08470c154d5ed87b7d2dec287628b397941dbeab5be1a90bd768f7",
+    "p3_buffer45__outward_shear__transmitted_outer_selected__histories": "ca7b6afd302c16bf532651167fad70ab25635c11809172b89032c5ac45ebbc2c",
+    "p4__inward_shear__incident_inner_selected__histories": "603364bb34a463ee20b9bcbd46c32b9993719727982ffdf96e7b19091e9bdc06",
+    "p4__inward_shear__inner_other__histories": "b9230baf276f1e6cb7077f80724aa7f399a27e03c60a00b28c9557cf6cfd2b5b",
+    "p4__inward_shear__interface_state_histories": "5202abecf90c51aecf53a29055a686d76adfc207b3076dba94eda631d3378b77",
+    "p4__inward_shear__outer_opposite__histories": "59aa64fcad1040e32636ca665bb193a143cbf7108d919d63af54ca995e0d40fe",
+    "p4__inward_shear__outer_other__histories": "f4ea3c5b00cbbb69cb00f5e7c610e15bf093a8faf0c574ee3a6e5eb07e6518ac",
+    "p4__inward_shear__reflected_inner_opposite__histories": "f595de58c54ec9c672756481059afc6e0555c18607170b88ac7519a0ff53902f",
+    "p4__inward_shear__transmitted_outer_selected__histories": "b5df961ea503b1ef3cbc9019c10b521c82d6edd73bef7761283afe2aa41d0c96",
+    "p4__outward_shear__incident_inner_selected__histories": "45c54edcb91bf34290681c6f9f79ba252e91549ce3c973aa09cbbd6e13029102",
+    "p4__outward_shear__inner_other__histories": "cbdf32066168c3c3d6de2357e085fa7805872e46f2c94b6cf5b2f0704564ee18",
+    "p4__outward_shear__interface_state_histories": "002d89939214d7254a35e61a215c06f789208b8630a2480ac0732a24cdc3ef56",
+    "p4__outward_shear__outer_opposite__histories": "9c84579736c8e2874c03e8006096aedb8d86bca307bce66d5034ab58cb9c2ea0",
+    "p4__outward_shear__outer_other__histories": "531037e6a00680206a100a87e8b77c69651d4ae8c8b659975efd81059a338503",
+    "p4__outward_shear__reflected_inner_opposite__histories": "4aeb8a02196c41cf2e063e2284493825858449740daf73be061a016b767ebc1f",
+    "p4__outward_shear__transmitted_outer_selected__histories": "29dee807734999c032ac4e2b183c32016b4434215b9b926fd00d75fab8e089c1",
+    "parent_characteristic_inverse": "60f7b80b3661a200a915e92f2454847e8f9e7eeeeebe318f1eaccaebb8034705",
+    "state_metric_matrix": "0d978d3a1eb419403090f54607e3e19330c3d6e344f3cd2b696f3c571d62be7a",
+    "times": "7077e9d7397ed03593b5bd1f7790c7bb3cfa484ea8ee96d89222eda943495d73"
+  },
+  "decisive_arrays_path": "results/canonical/causal_inner_embedded_regularity_wp10c9d6c7c1b/decisive_arrays.npz",
+  "decisive_arrays_sha256": "03b3d497b692efe755d90335e06be42ed72d41dcffeb7e0ca78eeae0f64f358a",
+  "embedded_regularized_profile_class_certified": false,
+  "fixed_q_micro_solver_authorized": false,
+  "historical_classifications_preserved": true,
+  "historical_direct_contract_report": {
+    "all_packets_passed": true,
+    "failed_packets": [],
+    "maximum_propagation_scaling_defect": 0.0,
+    "packet_count": 16,
+    "packet_reports": {
+      "p3_buffer45__inward_shear::a0.50::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 1.881379321614059e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.1038498473695295,
+            "inner_flux_angular_momentum": 2.082252683672272,
+            "inner_flux_killing_energy": 2.1983918481028755,
+            "inner_flux_mass": 1.958282393737139,
+            "net_drive_angular_momentum": 2.065095115995624,
+            "net_drive_killing_energy": 1.752462571134065,
+            "net_drive_mass": 1.9529692563252872,
+            "vertical_work_angular_momentum": 2.075877395089272
+          },
+          "history_cosine": 0.9999997011680044,
+          "maximum_fine_normalized_difference": 1.5067446271819585e-09,
+          "medium_fine_rms_difference": 4.567421863144158e-10,
+          "minimum_significant_component_order": 1.752462571134065,
+          "observed_maximum_order": 2.096528704468833,
+          "observed_rms_order": 2.042338799393261,
+          "passed": true,
+          "refinement_error_cosine": 0.9984922185168414,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 5.382709255181496e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.057760743454538,
+            "inner_flux_angular_momentum": 2.1542335601845988,
+            "inner_flux_killing_energy": 2.1574815452689164,
+            "inner_flux_mass": 2.0406489968851473,
+            "net_drive_angular_momentum": 2.1194285155525163,
+            "net_drive_killing_energy": 1.8592568247020025,
+            "net_drive_mass": 2.036942188773527,
+            "vertical_work_angular_momentum": 2.042173393912977
+          },
+          "history_cosine": 0.999999912872032,
+          "maximum_fine_normalized_difference": 5.6905639924087595e-09,
+          "medium_fine_rms_difference": 1.2808046853010822e-09,
+          "minimum_significant_component_order": 1.8592568247020025,
+          "observed_maximum_order": 2.054523558007503,
+          "observed_rms_order": 2.071282010397426,
+          "passed": true,
+          "refinement_error_cosine": 0.9976338183341453,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p3_buffer45__inward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__inward_shear::a0.50::minus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.031896593059441e-09,
+          "maximum_N128_Richardson_error": 0.0007081395365705918,
+          "minimum_significant_component_order": 1.9429602410844313,
+          "observed_order": 1.9673014681554337,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.7245854961058108e-11,
+          "reference_uncertainty_to_fine_difference": 0.010266759767382843,
+          "refinement_error_cosine": 0.9897792776813581,
+          "restart_uncertainty_to_fine_difference": 1.3690424680850069e-11
+        }
+      },
+      "p3_buffer45__inward_shear::a0.50::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 1.881379321614059e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.1038498473695295,
+            "inner_flux_angular_momentum": 2.082252683672272,
+            "inner_flux_killing_energy": 2.1983918481028755,
+            "inner_flux_mass": 1.958282393737139,
+            "net_drive_angular_momentum": 2.065095115995624,
+            "net_drive_killing_energy": 1.752462571134065,
+            "net_drive_mass": 1.9529692563252872,
+            "vertical_work_angular_momentum": 2.075877395089272
+          },
+          "history_cosine": 0.9999997011680044,
+          "maximum_fine_normalized_difference": 1.5067446271819585e-09,
+          "medium_fine_rms_difference": 4.567421863144158e-10,
+          "minimum_significant_component_order": 1.752462571134065,
+          "observed_maximum_order": 2.096528704468833,
+          "observed_rms_order": 2.042338799393261,
+          "passed": true,
+          "refinement_error_cosine": 0.9984922185168414,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 5.382709255181496e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.057760743454538,
+            "inner_flux_angular_momentum": 2.1542335601845988,
+            "inner_flux_killing_energy": 2.1574815452689164,
+            "inner_flux_mass": 2.0406489968851473,
+            "net_drive_angular_momentum": 2.1194285155525163,
+            "net_drive_killing_energy": 1.8592568247020025,
+            "net_drive_mass": 2.036942188773527,
+            "vertical_work_angular_momentum": 2.042173393912977
+          },
+          "history_cosine": 0.999999912872032,
+          "maximum_fine_normalized_difference": 5.6905639924087595e-09,
+          "medium_fine_rms_difference": 1.2808046853010822e-09,
+          "minimum_significant_component_order": 1.8592568247020025,
+          "observed_maximum_order": 2.054523558007503,
+          "observed_rms_order": 2.071282010397426,
+          "passed": true,
+          "refinement_error_cosine": 0.9976338183341453,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p3_buffer45__inward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__inward_shear::a0.50::plus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.031896593059441e-09,
+          "maximum_N128_Richardson_error": 0.0007081395365705918,
+          "minimum_significant_component_order": 1.9429602410844313,
+          "observed_order": 1.9673014681554337,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.7245854961058108e-11,
+          "reference_uncertainty_to_fine_difference": 0.010266759767382843,
+          "refinement_error_cosine": 0.9897792776813581,
+          "restart_uncertainty_to_fine_difference": 1.3690424680850069e-11
+        }
+      },
+      "p3_buffer45__inward_shear::a1.00::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 3.762758643228118e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.1038498473695295,
+            "inner_flux_angular_momentum": 2.082252683672272,
+            "inner_flux_killing_energy": 2.1983918481028755,
+            "inner_flux_mass": 1.958282393737139,
+            "net_drive_angular_momentum": 2.065095115995624,
+            "net_drive_killing_energy": 1.752462571134065,
+            "net_drive_mass": 1.9529692563252872,
+            "vertical_work_angular_momentum": 2.075877395089272
+          },
+          "history_cosine": 0.9999997011680044,
+          "maximum_fine_normalized_difference": 3.013489254363917e-09,
+          "medium_fine_rms_difference": 9.134843726288316e-10,
+          "minimum_significant_component_order": 1.752462571134065,
+          "observed_maximum_order": 2.096528704468833,
+          "observed_rms_order": 2.042338799393261,
+          "passed": true,
+          "refinement_error_cosine": 0.9984922185168414,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 1.0765418510362992e-08,
+          "component_orders": {
+            "cooling_angular_momentum": 2.057760743454538,
+            "inner_flux_angular_momentum": 2.1542335601845988,
+            "inner_flux_killing_energy": 2.1574815452689164,
+            "inner_flux_mass": 2.0406489968851473,
+            "net_drive_angular_momentum": 2.1194285155525163,
+            "net_drive_killing_energy": 1.8592568247020025,
+            "net_drive_mass": 2.036942188773527,
+            "vertical_work_angular_momentum": 2.042173393912977
+          },
+          "history_cosine": 0.999999912872032,
+          "maximum_fine_normalized_difference": 1.1381127984817519e-08,
+          "medium_fine_rms_difference": 2.5616093706021644e-09,
+          "minimum_significant_component_order": 1.8592568247020025,
+          "observed_maximum_order": 2.054523558007503,
+          "observed_rms_order": 2.071282010397426,
+          "passed": true,
+          "refinement_error_cosine": 0.9976338183341453,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p3_buffer45__inward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__inward_shear::a1.00::minus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.031896593059441e-09,
+          "maximum_N128_Richardson_error": 0.0007081395365705918,
+          "minimum_significant_component_order": 1.9429602410844313,
+          "observed_order": 1.9673014681554337,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.7245854961058108e-11,
+          "reference_uncertainty_to_fine_difference": 0.010266759767382843,
+          "refinement_error_cosine": 0.9897792776813581,
+          "restart_uncertainty_to_fine_difference": 1.3690424680850069e-11
+        }
+      },
+      "p3_buffer45__inward_shear::a1.00::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 3.762758643228118e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.1038498473695295,
+            "inner_flux_angular_momentum": 2.082252683672272,
+            "inner_flux_killing_energy": 2.1983918481028755,
+            "inner_flux_mass": 1.958282393737139,
+            "net_drive_angular_momentum": 2.065095115995624,
+            "net_drive_killing_energy": 1.752462571134065,
+            "net_drive_mass": 1.9529692563252872,
+            "vertical_work_angular_momentum": 2.075877395089272
+          },
+          "history_cosine": 0.9999997011680044,
+          "maximum_fine_normalized_difference": 3.013489254363917e-09,
+          "medium_fine_rms_difference": 9.134843726288316e-10,
+          "minimum_significant_component_order": 1.752462571134065,
+          "observed_maximum_order": 2.096528704468833,
+          "observed_rms_order": 2.042338799393261,
+          "passed": true,
+          "refinement_error_cosine": 0.9984922185168414,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 1.0765418510362992e-08,
+          "component_orders": {
+            "cooling_angular_momentum": 2.057760743454538,
+            "inner_flux_angular_momentum": 2.1542335601845988,
+            "inner_flux_killing_energy": 2.1574815452689164,
+            "inner_flux_mass": 2.0406489968851473,
+            "net_drive_angular_momentum": 2.1194285155525163,
+            "net_drive_killing_energy": 1.8592568247020025,
+            "net_drive_mass": 2.036942188773527,
+            "vertical_work_angular_momentum": 2.042173393912977
+          },
+          "history_cosine": 0.999999912872032,
+          "maximum_fine_normalized_difference": 1.1381127984817519e-08,
+          "medium_fine_rms_difference": 2.5616093706021644e-09,
+          "minimum_significant_component_order": 1.8592568247020025,
+          "observed_maximum_order": 2.054523558007503,
+          "observed_rms_order": 2.071282010397426,
+          "passed": true,
+          "refinement_error_cosine": 0.9976338183341453,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p3_buffer45__inward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__inward_shear::a1.00::plus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.031896593059441e-09,
+          "maximum_N128_Richardson_error": 0.0007081395365705918,
+          "minimum_significant_component_order": 1.9429602410844313,
+          "observed_order": 1.9673014681554337,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.7245854961058108e-11,
+          "reference_uncertainty_to_fine_difference": 0.010266759767382843,
+          "refinement_error_cosine": 0.9897792776813581,
+          "restart_uncertainty_to_fine_difference": 1.3690424680850069e-11
+        }
+      },
+      "p3_buffer45__outward_shear::a0.50::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 1.8415865916571618e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.103693051639653,
+            "inner_flux_angular_momentum": 2.0803720906051018,
+            "inner_flux_killing_energy": 2.1393738334109274,
+            "inner_flux_mass": 1.9563262823843217,
+            "net_drive_angular_momentum": 2.063450537822985,
+            "net_drive_killing_energy": 2.2375662014354862,
+            "net_drive_mass": 1.950445059123957,
+            "vertical_work_angular_momentum": 2.0754375386947865
+          },
+          "history_cosine": 0.9999996881769404,
+          "maximum_fine_normalized_difference": 1.4851698821824793e-09,
+          "medium_fine_rms_difference": 4.4740572552309055e-10,
+          "minimum_significant_component_order": 1.950445059123957,
+          "observed_maximum_order": 2.0949707608016035,
+          "observed_rms_order": 2.0412936105251207,
+          "passed": true,
+          "refinement_error_cosine": 0.9985216087516872,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 5.198564024863449e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.05794973262307,
+            "inner_flux_angular_momentum": 2.152488389307728,
+            "inner_flux_killing_energy": 2.17176575007891,
+            "inner_flux_mass": 2.035025349634136,
+            "net_drive_angular_momentum": 2.1179926481097926,
+            "net_drive_killing_energy": 1.9533267904105949,
+            "net_drive_mass": 2.0311686953573145,
+            "vertical_work_angular_momentum": 2.042312498306773
+          },
+          "history_cosine": 0.9999998999908953,
+          "maximum_fine_normalized_difference": 5.492805147012139e-09,
+          "medium_fine_rms_difference": 1.2395445479984651e-09,
+          "minimum_significant_component_order": 1.9533267904105949,
+          "observed_maximum_order": 2.0491156744547165,
+          "observed_rms_order": 2.0683030479671136,
+          "passed": true,
+          "refinement_error_cosine": 0.9975005101870834,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p3_buffer45__outward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__outward_shear::a0.50::minus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.0148738153920153e-09,
+          "maximum_N128_Richardson_error": 0.0006689679884905501,
+          "minimum_significant_component_order": 1.9468379124250588,
+          "observed_order": 2.0025892453427865,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.9798823236208918e-11,
+          "reference_uncertainty_to_fine_difference": 0.0007964655243822063,
+          "refinement_error_cosine": 0.9897592628507662,
+          "restart_uncertainty_to_fine_difference": 1.2903901175065032e-11
+        }
+      },
+      "p3_buffer45__outward_shear::a0.50::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 1.8415865916571618e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.103693051639653,
+            "inner_flux_angular_momentum": 2.0803720906051018,
+            "inner_flux_killing_energy": 2.1393738334109274,
+            "inner_flux_mass": 1.9563262823843217,
+            "net_drive_angular_momentum": 2.063450537822985,
+            "net_drive_killing_energy": 2.2375662014354862,
+            "net_drive_mass": 1.950445059123957,
+            "vertical_work_angular_momentum": 2.0754375386947865
+          },
+          "history_cosine": 0.9999996881769404,
+          "maximum_fine_normalized_difference": 1.4851698821824793e-09,
+          "medium_fine_rms_difference": 4.4740572552309055e-10,
+          "minimum_significant_component_order": 1.950445059123957,
+          "observed_maximum_order": 2.0949707608016035,
+          "observed_rms_order": 2.0412936105251207,
+          "passed": true,
+          "refinement_error_cosine": 0.9985216087516872,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 5.198564024863449e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.05794973262307,
+            "inner_flux_angular_momentum": 2.152488389307728,
+            "inner_flux_killing_energy": 2.17176575007891,
+            "inner_flux_mass": 2.035025349634136,
+            "net_drive_angular_momentum": 2.1179926481097926,
+            "net_drive_killing_energy": 1.9533267904105949,
+            "net_drive_mass": 2.0311686953573145,
+            "vertical_work_angular_momentum": 2.042312498306773
+          },
+          "history_cosine": 0.9999998999908953,
+          "maximum_fine_normalized_difference": 5.492805147012139e-09,
+          "medium_fine_rms_difference": 1.2395445479984651e-09,
+          "minimum_significant_component_order": 1.9533267904105949,
+          "observed_maximum_order": 2.0491156744547165,
+          "observed_rms_order": 2.0683030479671136,
+          "passed": true,
+          "refinement_error_cosine": 0.9975005101870834,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p3_buffer45__outward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__outward_shear::a0.50::plus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.0148738153920153e-09,
+          "maximum_N128_Richardson_error": 0.0006689679884905501,
+          "minimum_significant_component_order": 1.9468379124250588,
+          "observed_order": 2.0025892453427865,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.9798823236208918e-11,
+          "reference_uncertainty_to_fine_difference": 0.0007964655243822063,
+          "refinement_error_cosine": 0.9897592628507662,
+          "restart_uncertainty_to_fine_difference": 1.2903901175065032e-11
+        }
+      },
+      "p3_buffer45__outward_shear::a1.00::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 3.6831731833143236e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.103693051639653,
+            "inner_flux_angular_momentum": 2.0803720906051018,
+            "inner_flux_killing_energy": 2.1393738334109274,
+            "inner_flux_mass": 1.9563262823843217,
+            "net_drive_angular_momentum": 2.063450537822985,
+            "net_drive_killing_energy": 2.2375662014354862,
+            "net_drive_mass": 1.950445059123957,
+            "vertical_work_angular_momentum": 2.0754375386947865
+          },
+          "history_cosine": 0.9999996881769404,
+          "maximum_fine_normalized_difference": 2.9703397643649585e-09,
+          "medium_fine_rms_difference": 8.948114510461811e-10,
+          "minimum_significant_component_order": 1.950445059123957,
+          "observed_maximum_order": 2.0949707608016035,
+          "observed_rms_order": 2.0412936105251207,
+          "passed": true,
+          "refinement_error_cosine": 0.9985216087516872,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 1.0397128049726899e-08,
+          "component_orders": {
+            "cooling_angular_momentum": 2.05794973262307,
+            "inner_flux_angular_momentum": 2.152488389307728,
+            "inner_flux_killing_energy": 2.17176575007891,
+            "inner_flux_mass": 2.035025349634136,
+            "net_drive_angular_momentum": 2.1179926481097926,
+            "net_drive_killing_energy": 1.9533267904105949,
+            "net_drive_mass": 2.0311686953573145,
+            "vertical_work_angular_momentum": 2.042312498306773
+          },
+          "history_cosine": 0.9999998999908953,
+          "maximum_fine_normalized_difference": 1.0985610294024278e-08,
+          "medium_fine_rms_difference": 2.4790890959969302e-09,
+          "minimum_significant_component_order": 1.9533267904105949,
+          "observed_maximum_order": 2.0491156744547165,
+          "observed_rms_order": 2.0683030479671136,
+          "passed": true,
+          "refinement_error_cosine": 0.9975005101870834,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p3_buffer45__outward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__outward_shear::a1.00::minus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.0148738153920153e-09,
+          "maximum_N128_Richardson_error": 0.0006689679884905501,
+          "minimum_significant_component_order": 1.9468379124250588,
+          "observed_order": 2.0025892453427865,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.9798823236208918e-11,
+          "reference_uncertainty_to_fine_difference": 0.0007964655243822063,
+          "refinement_error_cosine": 0.9897592628507662,
+          "restart_uncertainty_to_fine_difference": 1.2903901175065032e-11
+        }
+      },
+      "p3_buffer45__outward_shear::a1.00::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 3.6831731833143236e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.103693051639653,
+            "inner_flux_angular_momentum": 2.0803720906051018,
+            "inner_flux_killing_energy": 2.1393738334109274,
+            "inner_flux_mass": 1.9563262823843217,
+            "net_drive_angular_momentum": 2.063450537822985,
+            "net_drive_killing_energy": 2.2375662014354862,
+            "net_drive_mass": 1.950445059123957,
+            "vertical_work_angular_momentum": 2.0754375386947865
+          },
+          "history_cosine": 0.9999996881769404,
+          "maximum_fine_normalized_difference": 2.9703397643649585e-09,
+          "medium_fine_rms_difference": 8.948114510461811e-10,
+          "minimum_significant_component_order": 1.950445059123957,
+          "observed_maximum_order": 2.0949707608016035,
+          "observed_rms_order": 2.0412936105251207,
+          "passed": true,
+          "refinement_error_cosine": 0.9985216087516872,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 1.0397128049726899e-08,
+          "component_orders": {
+            "cooling_angular_momentum": 2.05794973262307,
+            "inner_flux_angular_momentum": 2.152488389307728,
+            "inner_flux_killing_energy": 2.17176575007891,
+            "inner_flux_mass": 2.035025349634136,
+            "net_drive_angular_momentum": 2.1179926481097926,
+            "net_drive_killing_energy": 1.9533267904105949,
+            "net_drive_mass": 2.0311686953573145,
+            "vertical_work_angular_momentum": 2.042312498306773
+          },
+          "history_cosine": 0.9999998999908953,
+          "maximum_fine_normalized_difference": 1.0985610294024278e-08,
+          "medium_fine_rms_difference": 2.4790890959969302e-09,
+          "minimum_significant_component_order": 1.9533267904105949,
+          "observed_maximum_order": 2.0491156744547165,
+          "observed_rms_order": 2.0683030479671136,
+          "passed": true,
+          "refinement_error_cosine": 0.9975005101870834,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p3_buffer45__outward_shear",
+          "binding": true,
+          "profile_id": "p3_buffer45__outward_shear::a1.00::plus",
+          "role": "prospective_C2_exact_zero_buffer",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.0148738153920153e-09,
+          "maximum_N128_Richardson_error": 0.0006689679884905501,
+          "minimum_significant_component_order": 1.9468379124250588,
+          "observed_order": 2.0025892453427865,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.9798823236208918e-11,
+          "reference_uncertainty_to_fine_difference": 0.0007964655243822063,
+          "refinement_error_cosine": 0.9897592628507662,
+          "restart_uncertainty_to_fine_difference": 1.2903901175065032e-11
+        }
+      },
+      "p4__inward_shear::a0.50::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 1.4699401749819266e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.1826456410346085,
+            "inner_flux_angular_momentum": 1.9961273391757293,
+            "inner_flux_killing_energy": 2.139532499892854,
+            "inner_flux_mass": 2.543483982601115,
+            "net_drive_angular_momentum": 2.0624199468747317,
+            "net_drive_killing_energy": 1.963852885789295,
+            "net_drive_mass": 2.494227896761895,
+            "vertical_work_angular_momentum": 2.1306080530380918
+          },
+          "history_cosine": 0.9999997757487787,
+          "maximum_fine_normalized_difference": 1.4367385705298056e-09,
+          "medium_fine_rms_difference": 3.447268181564224e-10,
+          "minimum_significant_component_order": 1.963852885789295,
+          "observed_maximum_order": 2.051194306991073,
+          "observed_rms_order": 2.0922319968830867,
+          "passed": true,
+          "refinement_error_cosine": 0.9909926063768153,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 4.11228344726742e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.089669931121248,
+            "inner_flux_angular_momentum": 2.1196374108557965,
+            "inner_flux_killing_energy": 2.168132238487688,
+            "inner_flux_mass": 2.0128795570576345,
+            "net_drive_angular_momentum": 2.0654704312384147,
+            "net_drive_killing_energy": 1.7951852634334378,
+            "net_drive_mass": 1.9995783660185273,
+            "vertical_work_angular_momentum": 2.0719802915015517
+          },
+          "history_cosine": 0.9999999070494783,
+          "maximum_fine_normalized_difference": 4.166197260469393e-09,
+          "medium_fine_rms_difference": 9.90398513953002e-10,
+          "minimum_significant_component_order": 1.7951852634334378,
+          "observed_maximum_order": 1.9719942447194827,
+          "observed_rms_order": 2.053858653597715,
+          "passed": true,
+          "refinement_error_cosine": 0.9933526466250114,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p4__inward_shear",
+          "binding": true,
+          "profile_id": "p4__inward_shear::a0.50::minus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.131609240504462e-09,
+          "maximum_N128_Richardson_error": 0.000781290946034909,
+          "minimum_significant_component_order": 1.9141393951299615,
+          "observed_order": 1.959174285852687,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.681072894946871e-11,
+          "reference_uncertainty_to_fine_difference": 0.01287986208862428,
+          "refinement_error_cosine": 0.9915648368176653,
+          "restart_uncertainty_to_fine_difference": 1.2350209843029247e-11
+        }
+      },
+      "p4__inward_shear::a0.50::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 1.4699401749819266e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.1826456410346085,
+            "inner_flux_angular_momentum": 1.9961273391757293,
+            "inner_flux_killing_energy": 2.139532499892854,
+            "inner_flux_mass": 2.543483982601115,
+            "net_drive_angular_momentum": 2.0624199468747317,
+            "net_drive_killing_energy": 1.963852885789295,
+            "net_drive_mass": 2.494227896761895,
+            "vertical_work_angular_momentum": 2.1306080530380918
+          },
+          "history_cosine": 0.9999997757487787,
+          "maximum_fine_normalized_difference": 1.4367385705298056e-09,
+          "medium_fine_rms_difference": 3.447268181564224e-10,
+          "minimum_significant_component_order": 1.963852885789295,
+          "observed_maximum_order": 2.051194306991073,
+          "observed_rms_order": 2.0922319968830867,
+          "passed": true,
+          "refinement_error_cosine": 0.9909926063768153,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 4.11228344726742e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.089669931121248,
+            "inner_flux_angular_momentum": 2.1196374108557965,
+            "inner_flux_killing_energy": 2.168132238487688,
+            "inner_flux_mass": 2.0128795570576345,
+            "net_drive_angular_momentum": 2.0654704312384147,
+            "net_drive_killing_energy": 1.7951852634334378,
+            "net_drive_mass": 1.9995783660185273,
+            "vertical_work_angular_momentum": 2.0719802915015517
+          },
+          "history_cosine": 0.9999999070494783,
+          "maximum_fine_normalized_difference": 4.166197260469393e-09,
+          "medium_fine_rms_difference": 9.90398513953002e-10,
+          "minimum_significant_component_order": 1.7951852634334378,
+          "observed_maximum_order": 1.9719942447194827,
+          "observed_rms_order": 2.053858653597715,
+          "passed": true,
+          "refinement_error_cosine": 0.9933526466250114,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p4__inward_shear",
+          "binding": true,
+          "profile_id": "p4__inward_shear::a0.50::plus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.131609240504462e-09,
+          "maximum_N128_Richardson_error": 0.000781290946034909,
+          "minimum_significant_component_order": 1.9141393951299615,
+          "observed_order": 1.959174285852687,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.681072894946871e-11,
+          "reference_uncertainty_to_fine_difference": 0.01287986208862428,
+          "refinement_error_cosine": 0.9915648368176653,
+          "restart_uncertainty_to_fine_difference": 1.2350209843029247e-11
+        }
+      },
+      "p4__inward_shear::a1.00::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 2.939880349963853e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.1826456410346085,
+            "inner_flux_angular_momentum": 1.9961273391757293,
+            "inner_flux_killing_energy": 2.139532499892854,
+            "inner_flux_mass": 2.543483982601115,
+            "net_drive_angular_momentum": 2.0624199468747317,
+            "net_drive_killing_energy": 1.963852885789295,
+            "net_drive_mass": 2.494227896761895,
+            "vertical_work_angular_momentum": 2.1306080530380918
+          },
+          "history_cosine": 0.9999997757487787,
+          "maximum_fine_normalized_difference": 2.8734771410596113e-09,
+          "medium_fine_rms_difference": 6.894536363128448e-10,
+          "minimum_significant_component_order": 1.963852885789295,
+          "observed_maximum_order": 2.051194306991073,
+          "observed_rms_order": 2.0922319968830867,
+          "passed": true,
+          "refinement_error_cosine": 0.9909926063768153,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 8.22456689453484e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.089669931121248,
+            "inner_flux_angular_momentum": 2.1196374108557965,
+            "inner_flux_killing_energy": 2.168132238487688,
+            "inner_flux_mass": 2.0128795570576345,
+            "net_drive_angular_momentum": 2.0654704312384147,
+            "net_drive_killing_energy": 1.7951852634334378,
+            "net_drive_mass": 1.9995783660185273,
+            "vertical_work_angular_momentum": 2.0719802915015517
+          },
+          "history_cosine": 0.9999999070494783,
+          "maximum_fine_normalized_difference": 8.332394520938787e-09,
+          "medium_fine_rms_difference": 1.980797027906004e-09,
+          "minimum_significant_component_order": 1.7951852634334378,
+          "observed_maximum_order": 1.9719942447194827,
+          "observed_rms_order": 2.053858653597715,
+          "passed": true,
+          "refinement_error_cosine": 0.9933526466250114,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p4__inward_shear",
+          "binding": true,
+          "profile_id": "p4__inward_shear::a1.00::minus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.131609240504462e-09,
+          "maximum_N128_Richardson_error": 0.000781290946034909,
+          "minimum_significant_component_order": 1.9141393951299615,
+          "observed_order": 1.959174285852687,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.681072894946871e-11,
+          "reference_uncertainty_to_fine_difference": 0.01287986208862428,
+          "refinement_error_cosine": 0.9915648368176653,
+          "restart_uncertainty_to_fine_difference": 1.2350209843029247e-11
+        }
+      },
+      "p4__inward_shear::a1.00::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 2.939880349963853e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.1826456410346085,
+            "inner_flux_angular_momentum": 1.9961273391757293,
+            "inner_flux_killing_energy": 2.139532499892854,
+            "inner_flux_mass": 2.543483982601115,
+            "net_drive_angular_momentum": 2.0624199468747317,
+            "net_drive_killing_energy": 1.963852885789295,
+            "net_drive_mass": 2.494227896761895,
+            "vertical_work_angular_momentum": 2.1306080530380918
+          },
+          "history_cosine": 0.9999997757487787,
+          "maximum_fine_normalized_difference": 2.8734771410596113e-09,
+          "medium_fine_rms_difference": 6.894536363128448e-10,
+          "minimum_significant_component_order": 1.963852885789295,
+          "observed_maximum_order": 2.051194306991073,
+          "observed_rms_order": 2.0922319968830867,
+          "passed": true,
+          "refinement_error_cosine": 0.9909926063768153,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 8.22456689453484e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.089669931121248,
+            "inner_flux_angular_momentum": 2.1196374108557965,
+            "inner_flux_killing_energy": 2.168132238487688,
+            "inner_flux_mass": 2.0128795570576345,
+            "net_drive_angular_momentum": 2.0654704312384147,
+            "net_drive_killing_energy": 1.7951852634334378,
+            "net_drive_mass": 1.9995783660185273,
+            "vertical_work_angular_momentum": 2.0719802915015517
+          },
+          "history_cosine": 0.9999999070494783,
+          "maximum_fine_normalized_difference": 8.332394520938787e-09,
+          "medium_fine_rms_difference": 1.980797027906004e-09,
+          "minimum_significant_component_order": 1.7951852634334378,
+          "observed_maximum_order": 1.9719942447194827,
+          "observed_rms_order": 2.053858653597715,
+          "passed": true,
+          "refinement_error_cosine": 0.9933526466250114,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p4__inward_shear",
+          "binding": true,
+          "profile_id": "p4__inward_shear::a1.00::plus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.131609240504462e-09,
+          "maximum_N128_Richardson_error": 0.000781290946034909,
+          "minimum_significant_component_order": 1.9141393951299615,
+          "observed_order": 1.959174285852687,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.681072894946871e-11,
+          "reference_uncertainty_to_fine_difference": 0.01287986208862428,
+          "refinement_error_cosine": 0.9915648368176653,
+          "restart_uncertainty_to_fine_difference": 1.2350209843029247e-11
+        }
+      },
+      "p4__outward_shear::a0.50::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 1.4424989832265596e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.1817466360549513,
+            "inner_flux_angular_momentum": 1.993626648095562,
+            "inner_flux_killing_energy": 2.055834169244307,
+            "inner_flux_mass": 2.52615484019793,
+            "net_drive_angular_momentum": 2.0621860281481563,
+            "net_drive_killing_energy": 2.1619545379925693,
+            "net_drive_mass": 2.4807944777234416,
+            "vertical_work_angular_momentum": 2.1291649019034224
+          },
+          "history_cosine": 0.9999997534028388,
+          "maximum_fine_normalized_difference": 1.4105902526154866e-09,
+          "medium_fine_rms_difference": 3.3871378737707303e-10,
+          "minimum_significant_component_order": 1.993626648095562,
+          "observed_maximum_order": 2.052002129661499,
+          "observed_rms_order": 2.0904316837800745,
+          "passed": true,
+          "refinement_error_cosine": 0.9913356249234799,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 3.9715002454747135e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0896430879655594,
+            "inner_flux_angular_momentum": 2.117402110729974,
+            "inner_flux_killing_energy": 2.1780778632845514,
+            "inner_flux_mass": 2.0078133791248507,
+            "net_drive_angular_momentum": 2.0669852999756277,
+            "net_drive_killing_energy": 2.0639546117912273,
+            "net_drive_mass": 1.9998597193244987,
+            "vertical_work_angular_momentum": 2.0718913271003103
+          },
+          "history_cosine": 0.9999998946404126,
+          "maximum_fine_normalized_difference": 3.89864908176213e-09,
+          "medium_fine_rms_difference": 9.561860391442466e-10,
+          "minimum_significant_component_order": 1.9998597193244987,
+          "observed_maximum_order": 1.9613425558462354,
+          "observed_rms_order": 2.0543208456790687,
+          "passed": true,
+          "refinement_error_cosine": 0.9932030817345449,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p4__outward_shear",
+          "binding": true,
+          "profile_id": "p4__outward_shear::a0.50::minus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.2263802905752964e-09,
+          "maximum_N128_Richardson_error": 0.000738401397255596,
+          "minimum_significant_component_order": 1.9413900770069163,
+          "observed_order": 1.998355250440562,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.8354313418828898e-11,
+          "reference_uncertainty_to_fine_difference": 0.0005071722345905056,
+          "refinement_error_cosine": 0.9913479754532065,
+          "restart_uncertainty_to_fine_difference": 1.3914270508703935e-11
+        }
+      },
+      "p4__outward_shear::a0.50::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 1.4424989832265596e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.1817466360549513,
+            "inner_flux_angular_momentum": 1.993626648095562,
+            "inner_flux_killing_energy": 2.055834169244307,
+            "inner_flux_mass": 2.52615484019793,
+            "net_drive_angular_momentum": 2.0621860281481563,
+            "net_drive_killing_energy": 2.1619545379925693,
+            "net_drive_mass": 2.4807944777234416,
+            "vertical_work_angular_momentum": 2.1291649019034224
+          },
+          "history_cosine": 0.9999997534028388,
+          "maximum_fine_normalized_difference": 1.4105902526154866e-09,
+          "medium_fine_rms_difference": 3.3871378737707303e-10,
+          "minimum_significant_component_order": 1.993626648095562,
+          "observed_maximum_order": 2.052002129661499,
+          "observed_rms_order": 2.0904316837800745,
+          "passed": true,
+          "refinement_error_cosine": 0.9913356249234799,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 3.9715002454747135e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0896430879655594,
+            "inner_flux_angular_momentum": 2.117402110729974,
+            "inner_flux_killing_energy": 2.1780778632845514,
+            "inner_flux_mass": 2.0078133791248507,
+            "net_drive_angular_momentum": 2.0669852999756277,
+            "net_drive_killing_energy": 2.0639546117912273,
+            "net_drive_mass": 1.9998597193244987,
+            "vertical_work_angular_momentum": 2.0718913271003103
+          },
+          "history_cosine": 0.9999998946404126,
+          "maximum_fine_normalized_difference": 3.89864908176213e-09,
+          "medium_fine_rms_difference": 9.561860391442466e-10,
+          "minimum_significant_component_order": 1.9998597193244987,
+          "observed_maximum_order": 1.9613425558462354,
+          "observed_rms_order": 2.0543208456790687,
+          "passed": true,
+          "refinement_error_cosine": 0.9932030817345449,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 0.5,
+          "base_profile": "p4__outward_shear",
+          "binding": true,
+          "profile_id": "p4__outward_shear::a0.50::plus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.2263802905752964e-09,
+          "maximum_N128_Richardson_error": 0.000738401397255596,
+          "minimum_significant_component_order": 1.9413900770069163,
+          "observed_order": 1.998355250440562,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.8354313418828898e-11,
+          "reference_uncertainty_to_fine_difference": 0.0005071722345905056,
+          "refinement_error_cosine": 0.9913479754532065,
+          "restart_uncertainty_to_fine_difference": 1.3914270508703935e-11
+        }
+      },
+      "p4__outward_shear::a1.00::minus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 2.884997966453119e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.1817466360549513,
+            "inner_flux_angular_momentum": 1.993626648095562,
+            "inner_flux_killing_energy": 2.055834169244307,
+            "inner_flux_mass": 2.52615484019793,
+            "net_drive_angular_momentum": 2.0621860281481563,
+            "net_drive_killing_energy": 2.1619545379925693,
+            "net_drive_mass": 2.4807944777234416,
+            "vertical_work_angular_momentum": 2.1291649019034224
+          },
+          "history_cosine": 0.9999997534028388,
+          "maximum_fine_normalized_difference": 2.8211805052309733e-09,
+          "medium_fine_rms_difference": 6.774275747541461e-10,
+          "minimum_significant_component_order": 1.993626648095562,
+          "observed_maximum_order": 2.052002129661499,
+          "observed_rms_order": 2.0904316837800745,
+          "passed": true,
+          "refinement_error_cosine": 0.9913356249234799,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 7.943000490949427e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0896430879655594,
+            "inner_flux_angular_momentum": 2.117402110729974,
+            "inner_flux_killing_energy": 2.1780778632845514,
+            "inner_flux_mass": 2.0078133791248507,
+            "net_drive_angular_momentum": 2.0669852999756277,
+            "net_drive_killing_energy": 2.0639546117912273,
+            "net_drive_mass": 1.9998597193244987,
+            "vertical_work_angular_momentum": 2.0718913271003103
+          },
+          "history_cosine": 0.9999998946404126,
+          "maximum_fine_normalized_difference": 7.79729816352426e-09,
+          "medium_fine_rms_difference": 1.9123720782884933e-09,
+          "minimum_significant_component_order": 1.9998597193244987,
+          "observed_maximum_order": 1.9613425558462354,
+          "observed_rms_order": 2.0543208456790687,
+          "passed": true,
+          "refinement_error_cosine": 0.9932030817345449,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p4__outward_shear",
+          "binding": true,
+          "profile_id": "p4__outward_shear::a1.00::minus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": -1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.2263802905752964e-09,
+          "maximum_N128_Richardson_error": 0.000738401397255596,
+          "minimum_significant_component_order": 1.9413900770069163,
+          "observed_order": 1.998355250440562,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.8354313418828898e-11,
+          "reference_uncertainty_to_fine_difference": 0.0005071722345905056,
+          "refinement_error_cosine": 0.9913479754532065,
+          "restart_uncertainty_to_fine_difference": 1.3914270508703935e-11
+        }
+      },
+      "p4__outward_shear::a1.00::plus": {
+        "cumulative_exports": {
+          "coarse_medium_rms_difference": 2.884997966453119e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.1817466360549513,
+            "inner_flux_angular_momentum": 1.993626648095562,
+            "inner_flux_killing_energy": 2.055834169244307,
+            "inner_flux_mass": 2.52615484019793,
+            "net_drive_angular_momentum": 2.0621860281481563,
+            "net_drive_killing_energy": 2.1619545379925693,
+            "net_drive_mass": 2.4807944777234416,
+            "vertical_work_angular_momentum": 2.1291649019034224
+          },
+          "history_cosine": 0.9999997534028388,
+          "maximum_fine_normalized_difference": 2.8211805052309733e-09,
+          "medium_fine_rms_difference": 6.774275747541461e-10,
+          "minimum_significant_component_order": 1.993626648095562,
+          "observed_maximum_order": 2.052002129661499,
+          "observed_rms_order": 2.0904316837800745,
+          "passed": true,
+          "refinement_error_cosine": 0.9913356249234799,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "instantaneous_exports": {
+          "coarse_medium_rms_difference": 7.943000490949427e-09,
+          "component_orders": {
+            "cooling_angular_momentum": 2.0896430879655594,
+            "inner_flux_angular_momentum": 2.117402110729974,
+            "inner_flux_killing_energy": 2.1780778632845514,
+            "inner_flux_mass": 2.0078133791248507,
+            "net_drive_angular_momentum": 2.0669852999756277,
+            "net_drive_killing_energy": 2.0639546117912273,
+            "net_drive_mass": 1.9998597193244987,
+            "vertical_work_angular_momentum": 2.0718913271003103
+          },
+          "history_cosine": 0.9999998946404126,
+          "maximum_fine_normalized_difference": 7.79729816352426e-09,
+          "medium_fine_rms_difference": 1.9123720782884933e-09,
+          "minimum_significant_component_order": 1.9998597193244987,
+          "observed_maximum_order": 1.9613425558462354,
+          "observed_rms_order": 2.0543208456790687,
+          "passed": true,
+          "refinement_error_cosine": 0.9932030817345449,
+          "significant_components": [
+            "inner_flux_mass",
+            "inner_flux_angular_momentum",
+            "inner_flux_killing_energy",
+            "net_drive_mass",
+            "net_drive_angular_momentum",
+            "net_drive_killing_energy",
+            "cooling_angular_momentum",
+            "vertical_work_angular_momentum"
+          ]
+        },
+        "manifest_variant": {
+          "amplitude_factor": 1.0,
+          "base_profile": "p4__outward_shear",
+          "binding": true,
+          "profile_id": "p4__outward_shear::a1.00::plus",
+          "role": "prospective_active_C3_endpoint",
+          "sign": 1
+        },
+        "passed": true,
+        "propagation_scaling_defects": {
+          "N128_exterior_N128_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N128_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N128_inner_c48::signals": 0.0,
+          "N128_exterior_N256_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N256_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N256_inner_c48::signals": 0.0,
+          "N128_exterior_N512_inner_c48::cumulative_signals": 0.0,
+          "N128_exterior_N512_inner_c48::primary_physical": 0.0,
+          "N128_exterior_N512_inner_c48::signals": 0.0
+        },
+        "state_reference": {
+          "boundary_integral_uncertainty_to_fine_difference": 1.2263802905752964e-09,
+          "maximum_N128_Richardson_error": 0.000738401397255596,
+          "minimum_significant_component_order": 1.9413900770069163,
+          "observed_order": 1.998355250440562,
+          "parent_state_convergence_replayed": true,
+          "passed": true,
+          "projection_uncertainty_to_fine_difference": 1.8354313418828898e-11,
+          "reference_uncertainty_to_fine_difference": 0.0005071722345905056,
+          "refinement_error_cosine": 0.9913479754532065,
+          "restart_uncertainty_to_fine_difference": 1.3914270508703935e-11
+        }
+      }
+    },
+    "passed": true,
+    "state_gates": {
+      "maximum_N128_Richardson_error": 0.025,
+      "maximum_boundary_integral_uncertainty_to_fine_difference": 0.1,
+      "maximum_projection_uncertainty_to_fine_difference": 0.1,
+      "maximum_reference_uncertainty_to_fine_difference": 0.1,
+      "maximum_restart_uncertainty_to_fine_difference": 0.1
+    }
+  },
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_embedded_regularity_manifest_wp10c9d6c7c0.py": "078cfa8c7f4ef26fa7bbdd6549b7e0df72d7a7e44ebebde76e89e5af30461c7f",
+    "scripts/run_causal_inner_embedded_regularity_uniform_wp10c9d6c7c1a.py": "1e4fcb2521edfd7eb3bdb19fd9a9ed3d8e209634bb81480db262bf39926a1307",
+    "scripts/run_causal_inner_embedded_regularity_wp10c9d6c7c1b.py": "a13897859a51c46c7011d6dbc0255a0fb43a1654726f69c49adffa91e70e0fbe",
+    "scripts/run_causal_inner_embedded_validation_wp10c9d6c7b.py": "b61db94c1a2c1bc52612baa1a25d951827144132b264aadeb445b289936c3e15",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_embedded_patch.py": "8bfbca3c74e6911e95c20476a688e46b7195c39fac318ec23581ccad2d68099a",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_embedded_validation.py": "f87061d87ce4d96b9a858751f47d750df08682ccd6c5f6a954408a6fa8e2af3b",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_tangent.py": "23a958a894fc40188a0cda1e640f943bd00dc8070a64af4b2b2a56cd609ba0c4",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_packet_validation.py": "31d384bc008f0ea1e94ba1ef4569037d63930b74f4f98425a4c643c8698f99d1",
+    "tests/test_causal_inner_embedded_regularity_wp10c9d6c7c1b.py": "3df253e5651334a15faa8af502344c233b569539a58ff26906148a2092f0d343"
+  },
+  "implementation_source_manifest_sha256": "3018f6392eb01f2685d792876983518e38cb1b9014ba08bc059a3dac0a9dedd6",
+  "interface_localization_report": {
+    "binding": false,
+    "physical_scaling": "frozen_13_observable_scales",
+    "post_result_diagnostic_only": true,
+    "profiles": {
+      "p3_buffer45__inward_shear": {
+        "all_active_exports": 0.997610031522209,
+        "coupling_face_and_net_drive": 0.9979456082481201,
+        "coupling_face_only": -0.983841010353545,
+        "inner_face_and_distributed": 0.9972542694436024
+      },
+      "p3_buffer45__outward_shear": {
+        "all_active_exports": 0.9974763760537578,
+        "coupling_face_and_net_drive": 0.997827574346758,
+        "coupling_face_only": -0.9847613176483255,
+        "inner_face_and_distributed": 0.9971022604977292
+      },
+      "p4__inward_shear": {
+        "all_active_exports": 0.9911850123677179,
+        "coupling_face_and_net_drive": 0.9903508684736511,
+        "coupling_face_only": 0.46846328396866244,
+        "inner_face_and_distributed": 0.9922210226167525
+      },
+      "p4__outward_shear": {
+        "all_active_exports": 0.9910546745650654,
+        "coupling_face_and_net_drive": 0.9903302804489285,
+        "coupling_face_only": 0.48407863709648286,
+        "inner_face_and_distributed": 0.9919499204929714
+      }
+    }
+  },
+  "manifest_sha256": "b230ce7a3c7e7546d0d706ee8f9bcfa3102c6c69be5f67a29aa451e1b5d9706b",
+  "maximum_exact_integral_relative_solve_residual": 7.273998173997799e-15,
+  "method_passed": true,
+  "method_reports": {
+    "N128_exterior_N128_inner_c48": {
+      "active_directional_export_defects": {
+        "common_mode": 1.7834275939704262e-08,
+        "heldout_near_excision": 6.195109966820135e-09
+      },
+      "active_prefix_ledger_defect": 2.075779074838986e-16,
+      "conservative_transport_telescoping_defect": 1.0696697215065919e-16,
+      "coupling_gates": {
+        "active_directional_export": true,
+        "active_prefix_ledger": true,
+        "shared_flux_telescoping": true
+      },
+      "inherited_monolithic_method_report": {
+        "descriptor_condition_number": 10363.94034539404,
+        "directional_audits": {
+          "common_mode": {
+            "export_relative_defect": 1.5474035035132738e-08,
+            "scaled_direction_normalization": 0.020773049445225258,
+            "stationary_relative_defect": 1.998300442024668e-08,
+            "storage_rate_relative_defect": 8.735047141975622e-12
+          },
+          "heldout_near_excision": {
+            "export_relative_defect": 6.153284405554286e-08,
+            "scaled_direction_normalization": 0.01983450685040358,
+            "stationary_relative_defect": 1.6048706845132628e-08,
+            "storage_rate_relative_defect": 8.694239893178648e-12
+          }
+        },
+        "gates": {
+          "base_rate_balance": true,
+          "center_broken_paths": true,
+          "centered_storage_action": true,
+          "characteristics": true,
+          "descriptor_components": true,
+          "descriptor_condition": true,
+          "directional_export": true,
+          "directional_stationary": true,
+          "directional_storage_rate": true,
+          "generator_factorization": true,
+          "node_partition": true,
+          "node_reconstruction": true,
+          "production_neutral": true,
+          "storage_rate_components": true
+        },
+        "incoming_excision_characteristics": 0,
+        "maximum_base_rate_balance_defect": 3.0255952877919517e-16,
+        "maximum_centered_storage_action_defect": 3.0339672790669483e-10,
+        "maximum_characteristic_descriptor_condition": 18908.919222791243,
+        "maximum_descriptor_component_defect": 7.590221636311196e-18,
+        "maximum_directional_export_defect": 6.153284405554286e-08,
+        "maximum_directional_stationary_defect": 1.998300442024668e-08,
+        "maximum_directional_storage_rate_defect": 8.735047141975622e-12,
+        "maximum_generator_factorization_defect": 2.7216072967763918e-16,
+        "maximum_node_partition_defect": 2.220446049250313e-16,
+        "maximum_node_reconstruction_defect": 2.3201031094307566e-16,
+        "maximum_storage_rate_component_defect": 3.2914685699108825e-17,
+        "minimum_absolute_characteristic_speed": 0.32442300897888876,
+        "minimum_characteristic_spectral_gap": 0.0026995795963493663,
+        "passed": true
+      },
+      "maximum_active_directional_export_defect": 1.7834275939704262e-08,
+      "passed": true
+    },
+    "N128_exterior_N256_inner_c48": {
+      "active_directional_export_defects": {
+        "common_mode": 1.810802112248436e-08,
+        "heldout_near_excision": 9.886129113093399e-09
+      },
+      "active_prefix_ledger_defect": 3.0480864449637864e-16,
+      "conservative_transport_telescoping_defect": 2.8069093841427027e-16,
+      "coupling_gates": {
+        "active_directional_export": true,
+        "active_prefix_ledger": true,
+        "shared_flux_telescoping": true
+      },
+      "inherited_monolithic_method_report": {
+        "descriptor_condition_number": 23997.219267257762,
+        "directional_audits": {
+          "common_mode": {
+            "export_relative_defect": 1.946341727932479e-08,
+            "scaled_direction_normalization": 0.0208125321097694,
+            "stationary_relative_defect": 1.9426078555570756e-08,
+            "storage_rate_relative_defect": 8.328783112905325e-12
+          },
+          "heldout_near_excision": {
+            "export_relative_defect": 2.870806546013445e-08,
+            "scaled_direction_normalization": 0.019862179494556313,
+            "stationary_relative_defect": 2.0202848698645636e-08,
+            "storage_rate_relative_defect": 7.778510987739002e-12
+          }
+        },
+        "gates": {
+          "base_rate_balance": true,
+          "center_broken_paths": true,
+          "centered_storage_action": true,
+          "characteristics": true,
+          "descriptor_components": true,
+          "descriptor_condition": true,
+          "directional_export": true,
+          "directional_stationary": true,
+          "directional_storage_rate": true,
+          "generator_factorization": true,
+          "node_partition": true,
+          "node_reconstruction": true,
+          "production_neutral": true,
+          "storage_rate_components": true
+        },
+        "incoming_excision_characteristics": 0,
+        "maximum_base_rate_balance_defect": 2.930570012677357e-16,
+        "maximum_centered_storage_action_defect": 3.257981524697513e-10,
+        "maximum_characteristic_descriptor_condition": 18908.919222791243,
+        "maximum_descriptor_component_defect": 6.845766670216987e-18,
+        "maximum_directional_export_defect": 2.870806546013445e-08,
+        "maximum_directional_stationary_defect": 2.0202848698645636e-08,
+        "maximum_directional_storage_rate_defect": 8.328783112905325e-12,
+        "maximum_generator_factorization_defect": 2.561962643880843e-16,
+        "maximum_node_partition_defect": 2.220446049250313e-16,
+        "maximum_node_reconstruction_defect": 2.319994683115609e-16,
+        "maximum_storage_rate_component_defect": 2.612360119643791e-17,
+        "minimum_absolute_characteristic_speed": 0.32442300897888876,
+        "minimum_characteristic_spectral_gap": 0.0026995795963493663,
+        "passed": true
+      },
+      "maximum_active_directional_export_defect": 1.810802112248436e-08,
+      "passed": true
+    },
+    "N128_exterior_N512_inner_c48": {
+      "active_directional_export_defects": {
+        "common_mode": 2.857564941701989e-08,
+        "heldout_near_excision": 2.5264007742207885e-08
+      },
+      "active_prefix_ledger_defect": 4.233962894130916e-16,
+      "conservative_transport_telescoping_defect": 3.273503984533643e-16,
+      "coupling_gates": {
+        "active_directional_export": true,
+        "active_prefix_ledger": true,
+        "shared_flux_telescoping": true
+      },
+      "inherited_monolithic_method_report": {
+        "descriptor_condition_number": 51529.396723952545,
+        "directional_audits": {
+          "common_mode": {
+            "export_relative_defect": 9.007333184441089e-08,
+            "scaled_direction_normalization": 0.0208151022041856,
+            "stationary_relative_defect": 2.0822886989485017e-08,
+            "storage_rate_relative_defect": 8.636404138219524e-12
+          },
+          "heldout_near_excision": {
+            "export_relative_defect": 1.9840903209336918e-07,
+            "scaled_direction_normalization": 0.01986712358557905,
+            "stationary_relative_defect": 2.1213240069393915e-08,
+            "storage_rate_relative_defect": 8.279324573098323e-12
+          }
+        },
+        "gates": {
+          "base_rate_balance": true,
+          "center_broken_paths": true,
+          "centered_storage_action": true,
+          "characteristics": true,
+          "descriptor_components": true,
+          "descriptor_condition": true,
+          "directional_export": true,
+          "directional_stationary": true,
+          "directional_storage_rate": true,
+          "generator_factorization": true,
+          "node_partition": true,
+          "node_reconstruction": true,
+          "production_neutral": true,
+          "storage_rate_components": true
+        },
+        "incoming_excision_characteristics": 0,
+        "maximum_base_rate_balance_defect": 2.764642453067974e-16,
+        "maximum_centered_storage_action_defect": 3.82008945884228e-10,
+        "maximum_characteristic_descriptor_condition": 18908.919222791243,
+        "maximum_descriptor_component_defect": 6.4168304776946645e-18,
+        "maximum_directional_export_defect": 1.9840903209336918e-07,
+        "maximum_directional_stationary_defect": 2.1213240069393915e-08,
+        "maximum_directional_storage_rate_defect": 8.636404138219524e-12,
+        "maximum_generator_factorization_defect": 2.631077045981789e-16,
+        "maximum_node_partition_defect": 2.220446049250313e-16,
+        "maximum_node_reconstruction_defect": 2.3199430276246345e-16,
+        "maximum_storage_rate_component_defect": 2.2318625723288688e-17,
+        "minimum_absolute_characteristic_speed": 0.32442300897888876,
+        "minimum_characteristic_spectral_gap": 0.0026995795963493663,
+        "passed": true
+      },
+      "maximum_active_directional_export_defect": 2.857564941701989e-08,
+      "passed": true
+    }
+  },
+  "nonlinear_physical_trajectory_authorized": false,
+  "operator_changed": false,
+  "passed": false,
+  "production_operator_authorized": false,
+  "propagation_executed": true,
+  "propagation_report": {
+    "N128_exterior_N128_inner_c48": {
+      "active_cell_count": 48,
+      "base_count": 4,
+      "cell_count": 64,
+      "maximum_exact_integral_relative_solve_residual": 1.9996549529638947e-15,
+      "restart_relative_defect": 5.886766851157248e-16,
+      "variant_count": 16
+    },
+    "N128_exterior_N256_inner_c48": {
+      "active_cell_count": 96,
+      "base_count": 4,
+      "cell_count": 112,
+      "maximum_exact_integral_relative_solve_residual": 3.603334161888988e-15,
+      "restart_relative_defect": 1.0716356542734512e-15,
+      "variant_count": 16
+    },
+    "N128_exterior_N512_inner_c48": {
+      "active_cell_count": 192,
+      "base_count": 4,
+      "cell_count": 208,
+      "maximum_exact_integral_relative_solve_residual": 7.273998173997799e-15,
+      "restart_relative_defect": 1.844845947598778e-15,
+      "variant_count": 16
+    }
+  },
+  "prospective_decision": {
+    "alternate_variant_count": 0,
+    "authorized_next": null,
+    "classification": "no_regularized_embedded_profile_class_selected",
+    "decision_branch": "both_prospective_classes_fail",
+    "direct_variant_count": 16,
+    "failed_variants": [],
+    "p3_exact_zero_buffer_class_passed": false,
+    "p4_active_endpoint_class_passed": false,
+    "passed": false,
+    "profile_reports": {
+      "p3_buffer45__inward_shear": {
+        "characteristic_energy_contract_passed": false,
+        "coupling_face_flux_contract_passed": true,
+        "direct_state_and_export_contract_passed": true,
+        "interface_state_contract_passed": false,
+        "passed": false,
+        "variant_ids": [
+          "p3_buffer45__inward_shear::a0.50::minus",
+          "p3_buffer45__inward_shear::a0.50::plus",
+          "p3_buffer45__inward_shear::a1.00::minus",
+          "p3_buffer45__inward_shear::a1.00::plus"
+        ]
+      },
+      "p3_buffer45__outward_shear": {
+        "characteristic_energy_contract_passed": true,
+        "coupling_face_flux_contract_passed": true,
+        "direct_state_and_export_contract_passed": true,
+        "interface_state_contract_passed": true,
+        "passed": true,
+        "variant_ids": [
+          "p3_buffer45__outward_shear::a0.50::minus",
+          "p3_buffer45__outward_shear::a0.50::plus",
+          "p3_buffer45__outward_shear::a1.00::minus",
+          "p3_buffer45__outward_shear::a1.00::plus"
+        ]
+      },
+      "p4__inward_shear": {
+        "characteristic_energy_contract_passed": false,
+        "coupling_face_flux_contract_passed": true,
+        "direct_state_and_export_contract_passed": true,
+        "interface_state_contract_passed": false,
+        "passed": false,
+        "variant_ids": [
+          "p4__inward_shear::a0.50::minus",
+          "p4__inward_shear::a0.50::plus",
+          "p4__inward_shear::a1.00::minus",
+          "p4__inward_shear::a1.00::plus"
+        ]
+      },
+      "p4__outward_shear": {
+        "characteristic_energy_contract_passed": true,
+        "coupling_face_flux_contract_passed": true,
+        "direct_state_and_export_contract_passed": true,
+        "interface_state_contract_passed": false,
+        "passed": false,
+        "variant_ids": [
+          "p4__outward_shear::a0.50::minus",
+          "p4__outward_shear::a0.50::plus",
+          "p4__outward_shear::a1.00::minus",
+          "p4__outward_shear::a1.00::plus"
+        ]
+      }
+    }
+  },
+  "reduced_slow_evolution_authorized": false,
+  "runtime_seconds": 1631.3487638749648,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c1b"
+}
