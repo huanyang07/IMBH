@@ -1,0 +1,267 @@
+{
+  "authorized_next": "WP10c9d6c7c2b1_one_way_uniform_scattering_validation",
+  "binding_decision": {
+    "bidirectional_physical_propagation_authorized": false,
+    "definitions_only_scope_is_internally_consistent": true,
+    "embedded_c2c1_authorized": false,
+    "exact_physical_core_retained": true,
+    "fixed_Q_or_reduction_authorized": false,
+    "generic_bidirectional_method_test_authorized": false,
+    "nonlinear_authorized": false,
+    "one_way_uniform_c2b1_authorized": true
+  },
+  "certification_tiers": {
+    "tier_III_nonlinear": {
+      "authorized": false,
+      "bitwise_bdf2_replay_required": true,
+      "dense_colored_and_independent_jvp_checks_required": true,
+      "future_required_cases": [
+        "bounded_nonlinear_common_mode",
+        "finite_amplitude_interface_crossing_packet"
+      ],
+      "nonlinear_scaled_residual_maximum": 1e-10
+    },
+    "tier_II_one_way_transport": {
+      "energy_balance": "E_incident - E_transmitted - D_physical - Delta_E_stored - W_background - W_height - W_other = ledger_residual",
+      "interface_induced_transmission": "Delta_T = T_embedded - T_uniform_continuum_extrapolate",
+      "no_R_plus_T_equals_one_assumption": true,
+      "primary_observables": [
+        "time_integrated_incident_energy_at_interface",
+        "time_integrated_transmitted_energy_at_downstream_face",
+        "transmission_coefficient_T",
+        "target_family_transmission",
+        "family_leakage",
+        "physical_stress_relaxation_dissipation",
+        "stored_energy_change_between_faces_6_and_49",
+        "background_gradient_work",
+        "responsive_height_work",
+        "other_declared_lower_source_work",
+        "complete_energy_ledger_residual"
+      ],
+      "reflection_coefficient_is_not_defined": true,
+      "secondary_observables": [
+        "embedded_minus_uniform_upstream_contamination",
+        "pointwise_interface_traction_when_observable",
+        "spatial_window_energy"
+      ],
+      "transmission_definition": "T = E_transmitted_face_6 / E_incident_face_49"
+    },
+    "tier_I_primary_physics": {
+      "exact_prefix_and_global_ledgers": true,
+      "historical_order_difference_and_cosine_gates_unchanged": true,
+      "observables": [
+        "state",
+        "inner_mass_flux",
+        "inner_angular_momentum_flux",
+        "inner_killing_energy_flux",
+        "coupling_mass_flux_when_active",
+        "coupling_angular_momentum_flux_when_active",
+        "coupling_killing_energy_flux_when_active",
+        "net_mass_drive",
+        "net_angular_momentum_drive",
+        "net_killing_energy_drive",
+        "cooling",
+        "responsive_height_work"
+      ],
+      "one_shared_conservative_face_flux": true
+    }
+  },
+  "classification": "one_way_physical_core_scattering_scope_frozen_uniform_validation_authorized",
+  "conditional_embedded_c2c1_contract": {
+    "authorized_now": false,
+    "authorized_only_after_uniform_c2b1_passes": true,
+    "inner_transmitted_refinement_factors": [
+      1,
+      2,
+      4
+    ],
+    "one_shared_MJE_interface_flux": true,
+    "outer_incident_grid_fixed": true,
+    "same_packet_definitions_surfaces_windows_and_gates": true,
+    "uniform_continuum_extrapolate_is_reference": true,
+    "work_package": "WP10c9d6c7c2c1_one_way_embedded_scattering_discrimination"
+  },
+  "decision_table": {
+    "embedded_T_and_energy_balance_pass": "certify_declared_one_way_embedded_scattering_class",
+    "embedded_T_fails_with_stable_interface_local_mechanism": "authorize_interface_local_truncation_audit_only",
+    "tier_I_passes_tier_II_below_observability": "classify_tier_II_non_certifying_then_run_pre_frozen_tier_I_heldouts",
+    "uniform_integrated_transport_passes_pointwise_fails": "revise_prospective_pointwise_metric_not_operator",
+    "uniform_observable_definition_or_ledger_fails": "repair_diagnostic_or_reference_before_embedded",
+    "uniform_tier_I_and_observable_tier_II_pass": "authorize_one_way_embedded_c2c1"
+  },
+  "hard_stops": [
+    "do_not_relabel_c2a2_or_c7c1b",
+    "do_not_claim_bidirectional_physical_scattering",
+    "do_not_define_R_for_an_empty_positive_speed_subspace",
+    "do_not_change_characteristic_signs_or_fit_the_background",
+    "do_not_change_the_interface_operator",
+    "do_not_start_embedded_before_uniform_c2b1_passes",
+    "do_not_start_nonlinear_fixed_Q_or_reduced_evolution",
+    "do_not_run_N1024_as_rescue"
+  ],
+  "historical_classifications_preserved": true,
+  "manifest_sha256": "028c347d6825fafab5e413bd1f7d50c29bd95994e4e73eb67093347d082da10a",
+  "operator_changed": false,
+  "packet_and_window_contract": {
+    "all_characteristics_inward_over_patch": true,
+    "amplitude_factors": [
+      0.5,
+      1.0
+    ],
+    "downstream_measurement_face": 6,
+    "downstream_windows_seconds": {
+      "acoustic": [
+        0.8450455967492615,
+        11.141908685984637
+      ],
+      "mixed_shear_acoustic": [
+        0.8450455967492615,
+        11.82686804912109
+      ],
+      "shear": [
+        0.9161502462141635,
+        11.82686804912109
+      ]
+    },
+    "exact_physical_core_retained": true,
+    "experiment_end_seconds": 11.82686804912109,
+    "initial_family_energy_fractions": {
+      "acoustic": [
+        1.0,
+        9.890637772876054e-34,
+        3.035392007797866e-31,
+        3.383562456840169e-34,
+        7.028894730990537e-32
+      ],
+      "material_null": [
+        8.005765579255592e-32,
+        2.762217169585156e-34,
+        1.0,
+        1.7624611068483571e-34,
+        5.343102084350618e-32
+      ],
+      "mixed_shear_acoustic": [
+        0.5000000000000001,
+        0.49999999999999994,
+        1.4468146077314898e-31,
+        9.405778994178279e-33,
+        2.180583218009712e-32
+      ],
+      "shear": [
+        2.032564432358257e-32,
+        1.0,
+        5.960461245747672e-32,
+        1.568603393269379e-32,
+        1.0538128177300026e-32
+      ]
+    },
+    "interface_face": 49,
+    "interface_windows_seconds": {
+      "acoustic": [
+        0.0,
+        10.23189979007625
+      ],
+      "mixed_shear_acoustic": [
+        0.0,
+        10.835522482293666
+      ],
+      "shear": [
+        0.0,
+        10.835522482293666
+      ]
+    },
+    "manufactured_extension_is_physical_background": false,
+    "maximum_characteristic_speed_over_c": -0.2274543459607056,
+    "observed_histories_may_not_move_windows": true,
+    "packet_support_faces": [
+      52,
+      95
+    ],
+    "positive_speed_family_count_everywhere": 0,
+    "primary_time_sample_count": 513,
+    "reflection_coefficient_defined": false,
+    "reflection_reason": "the positive-speed characteristic subspace is empty; report upstream contamination rather than a physical reflection ratio",
+    "route": "one_way_coarse_to_fine_physical_core",
+    "seed_center_cell": 73,
+    "seed_primitive_columns": {
+      "acoustic": 1,
+      "material_null": 3,
+      "shear": 2
+    },
+    "signs": [
+      -1,
+      1
+    ],
+    "time_sample_counts_for_stability": [
+      257,
+      513,
+      1025
+    ],
+    "upstream_diagnostic_face": 92,
+    "window_padding_fraction": 0.025,
+    "window_padding_nuisance_factors": [
+      0.5,
+      1.0,
+      1.5
+    ],
+    "windows_derived_before_propagation": true
+  },
+  "parent_classification_preserved": "manufactured_interface_patch_rejected_unidirectional_characteristic_core",
+  "physical_scope": {
+    "bidirectional_physical_scattering": false,
+    "exact_interface_core": true,
+    "full_manufactured_extension": false,
+    "generic_bidirectional_method_stress_test": "deferred_to_a_separate_nonphysical_work_package",
+    "routes_must_not_be_combined": true
+  },
+  "propagation_executed": false,
+  "route_claim": "operator-neutral method-level one-way transmission through the exact physical interface core",
+  "schema_version": 1,
+  "selected_route": "one_way_coarse_to_fine_physical_core",
+  "uncertainty_and_observability": {
+    "RSS_forbidden_without_demonstrated_independence": true,
+    "below_floor_classification": "direction_not_certifying_because_error_is_below_observability",
+    "component_bounds": [
+      "continuum_reference",
+      "finite_volume_projection",
+      "invariant_subspace_choice",
+      "window_placement",
+      "time_sampling_and_quadrature",
+      "restart_replay",
+      "roundoff"
+    ],
+    "default_combination": "conservative_sum_of_deterministic_component_bounds",
+    "error_direction_cosine_binding_condition": "both refinement-error norms must exceed observability_factor times their frozen uncertainty bounds",
+    "maximum_reference_uncertainty_to_medium_fine_difference": 0.1,
+    "measured_covariance_allowed_only_if_stable_and_documented": true,
+    "no_slow_impact_threshold": true,
+    "observability_factor": 5.0,
+    "transmission_ratio_requires_observable_incident_energy": true
+  },
+  "uniform_c2b1_contract": {
+    "analytic_packet_reprojection_required_at_every_level": true,
+    "energy_amplitude_scaling": "quadratic",
+    "exact_conservative_ledgers": true,
+    "material_family_null_control": true,
+    "maximum_energy_ledger_relative_defect": 1e-10,
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_observable_refinement_error_cosine": 0.9,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75,
+    "packet_cases": "acoustic_shear_mixed_times_two_signs_times_two_amplitudes",
+    "reference_levels": [
+      98,
+      196,
+      392
+    ],
+    "same_C4_coefficient_field_at_every_level": true,
+    "state_and_flux_amplitude_scaling": "linear",
+    "virtual_interface_matches_patch_face_49": true,
+    "window_and_time_quadrature_stability": true,
+    "work_package": "WP10c9d6c7c2b1_one_way_uniform_scattering_validation",
+    "zero_state_null_control": true
+  },
+  "work_package": "WP10c9d6c7c2a3"
+}

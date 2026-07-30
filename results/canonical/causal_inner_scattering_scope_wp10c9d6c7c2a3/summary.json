@@ -1,0 +1,164 @@
+{
+  "authorized_next": "WP10c9d6c7c2b1_one_way_uniform_scattering_validation",
+  "binding_decision": {
+    "bidirectional_physical_propagation_authorized": false,
+    "definitions_only_scope_is_internally_consistent": true,
+    "embedded_c2c1_authorized": false,
+    "exact_physical_core_retained": true,
+    "fixed_Q_or_reduction_authorized": false,
+    "generic_bidirectional_method_test_authorized": false,
+    "nonlinear_authorized": false,
+    "one_way_uniform_c2b1_authorized": true
+  },
+  "classification": "one_way_physical_core_scattering_scope_frozen_uniform_validation_authorized",
+  "decisive_array_hashes": {
+    "initial_family_energy_fractions__acoustic": "cbd4a6588166c75b27430c705f8ffd650aab299ccdb4cd00df15fd77b36b27b9",
+    "initial_family_energy_fractions__material_null": "1556a89a17feff599dbcdbeb8f2f67f0b4ecee03346829ce2b170616d0681b93",
+    "initial_family_energy_fractions__mixed": "fdc60a8cd4ab83094988e16c3096890ffdcdf1dffbd03580e2dde71aa4ded728",
+    "initial_family_energy_fractions__shear": "4545a8a35b7da5d053120679ef12e38fbc170e0af8ed73c1862c119360170c8a",
+    "interface_characteristic_speeds_over_c": "90cdb0052b83d977fdd5bcd70c1db2e048ab758fc6726236269fd8888dc13bfd",
+    "measurement_faces": "bc4d1a14efc939af01962410f6fafa4748432e3e154e4836e20481c7ea3b2d59",
+    "packet__acoustic": "baa4f5ca1249733c9a83e3d235a78912252387cbf46bdab2c87c1f6bb9e13760",
+    "packet__material_null": "2aa8348fb259daca5124f0eda129f0574ae78116a225892b5659ad47567277db",
+    "packet__mixed_shear_acoustic": "e31decaa812e5162b8564b5f7caa3a5d0b7869d88c832640ebdf34bf79510038",
+    "packet__shear": "ff20e5f2e176272fe388daf8f5514e1dca51040633e3233324389fd6ce65c2f6",
+    "packet__zero_null": "24d7c4e496445b81a6331194fef53d6cdc14a8da57fe99659818d0836319078d",
+    "packet_envelope": "8ab8a8326538462d76091e9bbc31ed5304e771d28482199bc7982dc3ae365881",
+    "packet_seed__acoustic": "f11dbe3c947829b50a3d332f4e29509f161d3d5efa8d7d3704acc1ed981a44da",
+    "packet_seed__material_null": "3983db60a086e3673382c2f2825403038469742b25c15b268ad4510b68b1f70b",
+    "packet_seed__shear": "23230dbfc91329819a48d05d9b05e810fd88c9d927523c0d664848e6a1baa3a2",
+    "patch_centers": "519f219c26a68c0bae0455c2618c7828fea03d49fd0f5de05ee17451c022114e",
+    "patch_edges": "f7fcd1d7828efe5ebeabc64d2a6c613aa7845302e38da8a263d6a2debc24cf91",
+    "primary_time_samples_seconds": "e141063afec3b8e96f5e5efb71b969e3f6176bbde2eb77e3e298263bac96c52f",
+    "reference_levels": "0edd9a5c8435601aad00b6c085e10001d29609bf3c76e4921ea8fd7834ca0677",
+    "travel_windows_seconds": "a4cf3b0cfd97446eb170f3b45917c2bbee7845db71c6ca47de9fd2f7fad442f7"
+  },
+  "decisive_arrays_sha256": "5dd13eaf228c9e8cc04934a3ebb4ac8e729058509595b646274dc1528e1808a5",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_scattering_scope_wp10c9d6c7c2a3.py": "c1b322959b0832dd90d86632bce42f1627e85c06f4ccaf0b7261257281d84d7f",
+    "tests/test_causal_inner_scattering_scope_wp10c9d6c7c2a3.py": "519ce5e536e22b69b57215a110107c7581453163882861a6db19a6a3682dec4e"
+  },
+  "implementation_source_manifest_sha256": "5caef2af11a27d21883509eb54314ad6a99f0ddf1de5bb41bf082b0bd27abce1",
+  "manifest_sha256": "028c347d6825fafab5e413bd1f7d50c29bd95994e4e73eb67093347d082da10a",
+  "operator_changed": false,
+  "packet_and_window_contract": {
+    "all_characteristics_inward_over_patch": true,
+    "amplitude_factors": [
+      0.5,
+      1.0
+    ],
+    "downstream_measurement_face": 6,
+    "downstream_windows_seconds": {
+      "acoustic": [
+        0.8450455967492615,
+        11.141908685984637
+      ],
+      "mixed_shear_acoustic": [
+        0.8450455967492615,
+        11.82686804912109
+      ],
+      "shear": [
+        0.9161502462141635,
+        11.82686804912109
+      ]
+    },
+    "exact_physical_core_retained": true,
+    "experiment_end_seconds": 11.82686804912109,
+    "initial_family_energy_fractions": {
+      "acoustic": [
+        1.0,
+        9.890637772876054e-34,
+        3.035392007797866e-31,
+        3.383562456840169e-34,
+        7.028894730990537e-32
+      ],
+      "material_null": [
+        8.005765579255592e-32,
+        2.762217169585156e-34,
+        1.0,
+        1.7624611068483571e-34,
+        5.343102084350618e-32
+      ],
+      "mixed_shear_acoustic": [
+        0.5000000000000001,
+        0.49999999999999994,
+        1.4468146077314898e-31,
+        9.405778994178279e-33,
+        2.180583218009712e-32
+      ],
+      "shear": [
+        2.032564432358257e-32,
+        1.0,
+        5.960461245747672e-32,
+        1.568603393269379e-32,
+        1.0538128177300026e-32
+      ]
+    },
+    "interface_face": 49,
+    "interface_windows_seconds": {
+      "acoustic": [
+        0.0,
+        10.23189979007625
+      ],
+      "mixed_shear_acoustic": [
+        0.0,
+        10.835522482293666
+      ],
+      "shear": [
+        0.0,
+        10.835522482293666
+      ]
+    },
+    "manufactured_extension_is_physical_background": false,
+    "maximum_characteristic_speed_over_c": -0.2274543459607056,
+    "observed_histories_may_not_move_windows": true,
+    "packet_support_faces": [
+      52,
+      95
+    ],
+    "positive_speed_family_count_everywhere": 0,
+    "primary_time_sample_count": 513,
+    "reflection_coefficient_defined": false,
+    "reflection_reason": "the positive-speed characteristic subspace is empty; report upstream contamination rather than a physical reflection ratio",
+    "route": "one_way_coarse_to_fine_physical_core",
+    "seed_center_cell": 73,
+    "seed_primitive_columns": {
+      "acoustic": 1,
+      "material_null": 3,
+      "shear": 2
+    },
+    "signs": [
+      -1,
+      1
+    ],
+    "time_sample_counts_for_stability": [
+      257,
+      513,
+      1025
+    ],
+    "upstream_diagnostic_face": 92,
+    "window_padding_fraction": 0.025,
+    "window_padding_nuisance_factors": [
+      0.5,
+      1.0,
+      1.5
+    ],
+    "windows_derived_before_propagation": true
+  },
+  "parent_classification_preserved": "manufactured_interface_patch_rejected_unidirectional_characteristic_core",
+  "parent_input_hashes": {
+    "results/canonical/causal_inner_embedded_manifest_wp10c9d6c7a/decisive_arrays.npz": "468d2ed7d2cd3b0b81856e977536f4aa981da4c4f889ae481cdb0661a7cb9313",
+    "results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/decisive_arrays.npz": "d82fec216c5dbd44d91fda648a542ca97235a79080871065e239510d38c62927",
+    "results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/method_manifest.json": "c8d81ace10c36ccb87d1642179cc01517cbe13e718d7c3ad12d9f057b6635e2a",
+    "results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/summary.json": "259427423e50eaea12b123cced858b6e3b66155bb7bb8c67784ea2eae33ac1dc",
+    "results/canonical/causal_inner_scattering_observability_manifest_wp10c9d6c7c2a/scattering_manifest.json": "43ae198a9352bfab96c3bfd78c4ff803fb29499fc8cd54167599e64380549981",
+    "results/canonical/causal_inner_scattering_observability_manifest_wp10c9d6c7c2a/summary.json": "fbe70189c353ccceb9cb2e1d42b6eb1dfdd6627dce3e1595324d151062dc6424"
+  },
+  "parent_manifest_sha256": "7fd875517a570a9a7a19ce73965e9199f39221c571c6c176a65e52a24950df11",
+  "passed": true,
+  "propagation_executed": false,
+  "runtime_seconds": 0.13163662515580654,
+  "schema_version": 1,
+  "selected_route": "one_way_coarse_to_fine_physical_core",
+  "work_package": "WP10c9d6c7c2a3"
+}

@@ -186,6 +186,7 @@ This is the canonical project handoff. Status labels mean:
 | Interface-scattering observability manifest WP10c9d6c7c2a | **DEFINITIONS CERTIFIED; BIDIRECTIONAL COMPACT-PACKET GEOMETRY PREFLIGHT BLOCKED**; `scattering_observability_contract_frozen_bidirectional_packet_preflight_blocked`; **NO PROPAGATION OR DOWNSTREAM WORK AUTHORIZED** | Tier I now denotes the direct state/M/J/E/net-drive/cooling/height contract that passed for all c7c1b profiles; Tier II uses invariant time-integrated incident/reflected/transmitted energy, complete variable-background work ledgers, and pointwise traction only when independently observable. Deterministic uncertainties use conservative envelopes, not RSS; no slow-impact gate is introduced | The inherited `theta_99 <= 0.30` and alias `<=1e-3` contract first admits the frozen C3 `sin^4` template at 43 parent cells. The face-48 layout has only 48/16 raw cells on its two sides and 42/10 after three-cell clearance, so this bidirectional separated packet class cannot fit. This is geometry for the declared template, not an operator failure or a proof about every C3 window. Design one operator-neutral extended-domain or boundary-injection preflight before propagation |
 | Interface-scattering geometry feasibility WP10c9d6c7c2a1 | **MANUFACTURED METHOD PATCH SELECTED; ENERGY PREFLIGHT AUTHORIZED**; `manufactured_interface_patch_geometry_selected_energy_preflight_authorized`; **NO PROPAGATION OR PHYSICAL PROMOTION AUTHORIZED** | A two-sided 98-cell patch supplies 49 parent-equivalent cells per side, three-cell packet clearance, and 86 cell-times of incident/reflected separation. It reproduces the face-48 interface radius to `1.62e-15`, maps the exact physical faces 42–54 onto patch faces 43–55, and retains the unchanged local coupling stencil | A physical extension would require `1.728–94.479 rg`, outside the certified `1.8–12.777 rg` background and below the certified excision surface. Existing-domain injection has only 32/6 cell-times of coarse-side return separation for a 43-cell pulse. Select only a C4 manufactured variable-coefficient method patch; next derive and certify its energy/projector/ledger machinery in c2a2 before any propagation |
 | Manufactured scattering-energy preflight WP10c9d6c7c2a2 | **ENERGY/PROJECTOR METHOD CERTIFIED; BIDIRECTIONAL PATCH REJECTED**; `manufactured_interface_patch_rejected_unidirectional_characteristic_core`; **NO PROPAGATION OR DOWNSTREAM WORK AUTHORIZED** | The C4 state is admissible in all 98 cells; physical-core parity is `9.32e-14`; projector idempotence is `3.41e-13`; the positive normalization-invariant energy ledger closes to `3.49e-16`; and its independent 98/196/392 product-rule reference ratio is `0.07460 <= 0.10` | All five complete coordinate speeds at the exact interface core are inward (`-0.46475` to `-0.43186`), so coarse-to-fine incidence exists but fine-to-coarse incidence does not. Exact physical-core parity and a bidirectional packet class cannot both be retained. Do not start c2b. Next freeze a definitions-only choice between the preferred one-way physical-core audit and a separate nonphysical generic bidirectional method stress test |
+| One-way scattering-scope revision WP10c9d6c7c2a3 | **PHYSICAL-CORE ONE-WAY SCOPE FROZEN; UNIFORM VALIDATION AUTHORIZED**; `one_way_physical_core_scattering_scope_frozen_uniform_validation_authorized`; **EMBEDDED/NONLINEAR/REDUCTION WORK STILL BLOCKED** | The exact core and all c2a2 method gates are retained. Twelve causal acoustic/shear/mixed sign-amplitude cases plus material and zero null controls are frozen on faces 52–95. Fixed faces 49/6 define incident/transmitted energy, and precomputed windows end at `11.8269 s`. Uncertainty uses conservative deterministic envelopes and no slow-impact gate | The positive-speed subspace is empty throughout the patch, so a physical reflection coefficient is undefined. Tier II is now one-way transmission, leakage, physical work, stored energy, ledger closure and upstream contamination. Only uniform 98/196/392 c2b1 propagation is authorized; c2c1 requires a complete uniform pass |
 
 ## Frozen Target Under Review
 
@@ -1430,6 +1431,14 @@ N                    = 164
    Next make a definitions-only scope choice between a one-way physical-core
    scattering audit and a separate generic bidirectional method patch; do not
    combine their claims.
+   WP10c9d6c7c2a3 selects the preferred one-way physical-core route and
+   freezes the complete prospective contract. It defines 12 causal
+   acoustic/shear/mixed cases, two null controls, faces 49/6 for incident and
+   transmitted energy, face 92 for upstream contamination, and fixed
+   characteristic-travel windows ending at `11.82686805 s`. Because the
+   positive-speed subspace is empty, no physical reflection ratio is defined.
+   Uniform 98/196/392 c2b1 validation is now authorized; embedded c2c1,
+   nonlinear, fixed-Q and reduced evolution remain blocked.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -1441,7 +1450,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_INNER_SCATTERING_ENERGY_WP10C9D6C7C2A2_RESULTS_2026-07-30.md`
+  `reports/current/CODEX_CAUSAL_INNER_SCATTERING_SCOPE_WP10C9D6C7C2A3_RESULTS_2026-07-30.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)
