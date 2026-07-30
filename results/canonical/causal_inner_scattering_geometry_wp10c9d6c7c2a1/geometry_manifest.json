@@ -1,0 +1,178 @@
+{
+  "c2a2_method_preflight_contract": {
+    "maximum_constant_state_residual": 1e-12,
+    "maximum_energy_ledger_relative_defect": 1e-10,
+    "maximum_interface_core_parity_defect": 1e-12,
+    "maximum_projector_idempotence_defect": 1e-12,
+    "maximum_reference_uncertainty_to_fine_difference": 0.1,
+    "minimum_signal_to_uncertainty_ratio": 5.0,
+    "propagation_authorized": false,
+    "required_before_uniform_propagation": [
+      "construct_C4_extended_state_and_recompute_physical_matrices",
+      "certify_primitive_admissibility",
+      "certify_real_separated_characteristic_clusters",
+      "derive_complete_symmetrized_DAE_energy_identity",
+      "implement_normalization_invariant_Schur_or_QZ_projectors",
+      "implement_incident_reflected_transmitted_flux_ledgers",
+      "verify_interface_core_parity",
+      "verify_constant_and_variable_coefficient_manufactured_balances",
+      "verify_null_channel_and_amplitude_scaling",
+      "freeze_exact_packets_surfaces_windows_and_hashes"
+    ],
+    "uniform_c2b_authorized_only_if_every_gate_passes": true,
+    "work_package": "WP10c9d6c7c2a2_manufactured_scattering_energy_preflight"
+  },
+  "coefficient_extension_contract": {
+    "admissibility_required_everywhere": true,
+    "background_gradient_and_height_work_ledgered": true,
+    "construction": "fourth_order_endpoint_Taylor_jet_blended_to_constant_far_state_with_C4_degree9_smootherstep",
+    "degree9_smootherstep_coefficients_low_to_high": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      126.0,
+      -420.0,
+      540.0,
+      -315.0,
+      70.0
+    ],
+    "direct_matrix_interpolation_forbidden": true,
+    "endpoint_jet_order": 4,
+    "exact_physical_core": {
+      "interface_state_measure_and_principal_matrix_parity_required": true,
+      "maximum_interface_parity_defect": 1e-12,
+      "parent_faces": [
+        42,
+        54
+      ],
+      "patch_faces": [
+        43,
+        55
+      ]
+    },
+    "extension_chart": "implemented_five_field_primitive_chart",
+    "hyperbolicity_and_separated_subspaces_required_everywhere": true,
+    "must_recompute_all_physical_matrices_from_extended_state": true,
+    "no_fitted_coefficient": true,
+    "no_residual_subtraction": true,
+    "transition_parent_cells": 12,
+    "transition_regularity": "C4",
+    "uniform_and_embedded_use_identical_coefficient_field": true,
+    "uniform_subtraction_removes_manufactured_background_scattering": true
+  },
+  "decision_after_c2a2": {
+    "all_method_gates_pass": "authorize_uniform_c2b_on_exact_frozen_manufactured_patch",
+    "energy_identity_or_projector_fails": "repair_diagnostic_definition_before_propagation",
+    "extension_admissibility_or_hyperbolicity_fails": "reject_manufactured_route_and_stop",
+    "interface_core_parity_fails": "repair_patch_construction_not_interface_operator"
+  },
+  "hard_stops": [
+    "do_not_propagate_in_c2a1",
+    "do_not_change_the_interface_operator",
+    "do_not_claim_a_physical_background_extension",
+    "do_not_extrapolate_the_c3_background_as_physical_truth",
+    "do_not_use_existing_domain_injection_with_overlapping_windows",
+    "do_not_relax_packet_spectral_or_clearance_gates",
+    "do_not_reclassify_c7c1b",
+    "do_not_begin_embedded_nonlinear_fixed_Q_or_reduced_evolution"
+  ],
+  "manifest_sha256": "d028438fbed6426cdf477ad275453f2e7ed29c5412a9ef9f7a3bc893312be4b3",
+  "operator_changed": false,
+  "option_reports": {
+    "existing_domain_characteristic_injection": {
+      "coarse_to_fine_nonoverlap_at_outer_boundary_passed": false,
+      "coarse_to_fine_nonoverlap_at_postinterface_surface_passed": false,
+      "fine_to_coarse_injection_at_excision_allowed": false,
+      "injected_energy_ledger_implemented": false,
+      "minimum_resolved_pulse_extent_parent_cell_times": 43,
+      "operator_changed": false,
+      "option": "existing_domain_characteristic_injection",
+      "outer_boundary_to_interface_roundtrip_parent_cell_times": 32,
+      "outer_cells_available": 16,
+      "passed": false,
+      "postinterface_surface_roundtrip_parent_cell_times": 6,
+      "reason_not_selected": "the 43-cell resolved pulse is longer than both available coarse-side return separations, while injection through the outgoing excision surface would violate the causal contract",
+      "selected": false
+    },
+    "extended_physical_domain": {
+      "cells_per_side": 49,
+      "certified_background_coverage_passed": false,
+      "certified_background_inner_radius_over_rg": 1.7999999999999996,
+      "certified_background_outer_radius_over_rg": 12.777241939756335,
+      "geometry_passed": true,
+      "independent_stationary_background_extension_available": false,
+      "new_inner_excision_causality_certified": false,
+      "operator_changed": false,
+      "option": "extended_physical_domain",
+      "passed": false,
+      "reason_not_selected": "geometry fits, but the required 1.728-94.479 rg domain lies outside the independently certified 1.8-12.777 rg background; new inner-boundary causality is also uncertified",
+      "required_inner_radius_over_rg": 1.7279847643947073,
+      "required_outer_radius_over_rg": 94.47879110453655,
+      "selected": false
+    },
+    "manufactured_variable_coefficient_interface_patch": {
+      "coefficient_extension_implemented": false,
+      "energy_ledger_implemented": false,
+      "geometry_passed": true,
+      "incident_reflected_separation_parent_cell_times": 86,
+      "interface_face": 49,
+      "left_packet_support_faces": [
+        3,
+        46
+      ],
+      "maximum_log_spacing_defect": 3.0531133177191805e-15,
+      "measurement_faces": [
+        6,
+        49,
+        92
+      ],
+      "method_level_interface_audit_only": true,
+      "minimum_packet_clearance_cells": 3,
+      "operator_changed": false,
+      "option": "manufactured_variable_coefficient_interface_patch",
+      "parent_equivalent_cell_count": 98,
+      "parent_equivalent_cells_per_side": 49,
+      "passed": true,
+      "patch_core_faces": [
+        43,
+        55
+      ],
+      "physical_background_claimed": false,
+      "physical_core_parent_faces": [
+        42,
+        54
+      ],
+      "relative_interface_radius_defect": 1.617445238334602e-15,
+      "resolved_pulse_extent_parent_cell_times": 43,
+      "right_packet_support_faces": [
+        52,
+        95
+      ],
+      "selected": true,
+      "selection_scope": "definitions_only_route_selection; c2a2 method gates remain binding before propagation",
+      "travel_window_nonoverlap_capacity_passed": true
+    }
+  },
+  "parent_classification_preserved": "scattering_observability_contract_frozen_bidirectional_packet_preflight_blocked",
+  "parent_manifest_sha256": "b7bb70605d7f2e9670334db0f9f7a598ef8125677b73f5fbc7b352549057d47b",
+  "propagation_executed": false,
+  "required_geometry": {
+    "both_incidence_directions_required": true,
+    "clearance_cells_each_end": 3,
+    "packet_support_parent_cells": 43,
+    "required_parent_cells_per_side": 49
+  },
+  "schema_version": 1,
+  "scientific_limits": {
+    "actual_physical_embedded_scattering_certified": false,
+    "c7c1b_strict_rejection_unchanged": true,
+    "direct_c7c1b_Tier_I_result_unchanged": true,
+    "manufactured_patch_cannot_by_itself_authorize_nonlinear_work": true,
+    "physical_radial_background_certified": false
+  },
+  "selected_route": "manufactured_variable_coefficient_interface_patch",
+  "selected_route_scope": "operator-neutral method-level interface scattering only",
+  "work_package": "WP10c9d6c7c2a1"
+}

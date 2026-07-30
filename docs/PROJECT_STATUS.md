@@ -184,6 +184,7 @@ This is the canonical project handoff. Status labels mean:
 | Endpoint/interface regularity uniform controls WP10c9d6c7c1a | **UNIFORM CONTROLS CERTIFIED; EMBEDDED REGULARITY DISCRIMINATION AUTHORIZED**; `endpoint_interface_regularity_uniform_controls_certified_embedded_discrimination_authorized`; **NONLINEAR, PRODUCTION, FIXED-Q, AND REDUCTION WORK BLOCKED** | All 16 frozen C3 endpoint-active `p4` and C2 exact-zero-buffer `p3` inward/outward-shear sign/amplitude variants pass the unchanged direct state and 13-export contract. Worst instantaneous RMS/maximum/component orders are `1.996/1.959/1.953`, fine difference is `1.75e-8`, and minimum history/error cosines are `0.9999996/0.99617`. Cumulative minima also pass, and the exact-integral residual is `7.35e-15` | This certifies only the uniform controls and preserves the c7b rejection. Propagate the exact 16 variants on the frozen embedded layouts next; change no endpoint power, support, buffer, coupling radius, activity scale, operator, or threshold. The result must choose among smoother/buffered certification, active-endpoint localization, short-support pre-asymptotics, or no selected embedded class |
 | Embedded endpoint/interface regularity discrimination WP10c9d6c7c1b | **DIRECT PHYSICAL EXPORTS PASS; COMPLETE DIAGNOSTIC CONTRACT REJECTED**; `no_regularized_embedded_profile_class_selected`; **NO DOWNSTREAM WORK AUTHORIZED** | All 16 C3 endpoint-active and C2 exact-zero-buffer variants pass direct state and 13-export gates. Worst instantaneous RMS/maximum/component orders are `2.054/1.961/1.795`, fine difference is `1.14e-8`, and minimum history/error cosines are `0.9999999/0.99320`. The old coupling-plus-net rotation disappears (`0.990-0.998`), coupling-face fluxes are inactive and pass, exact-integral residual is `7.27e-15`, and ledgers close | Two small characteristic-energy channels and three interface-stress histories fail unchanged direction gates despite RMS orders `2.27-6.65`; response/fine scales range from `1.01e-6` to `8.96e-11`. No post-hoc activity exception is allowed, so neither complete prospective class is certified. Do not redesign the interface. If continued, first freeze an operator-neutral diagnostic-observability manifest using independent numerical uncertainty, physical energy balance, and new held-out scattering controls |
 | Interface-scattering observability manifest WP10c9d6c7c2a | **DEFINITIONS CERTIFIED; BIDIRECTIONAL COMPACT-PACKET GEOMETRY PREFLIGHT BLOCKED**; `scattering_observability_contract_frozen_bidirectional_packet_preflight_blocked`; **NO PROPAGATION OR DOWNSTREAM WORK AUTHORIZED** | Tier I now denotes the direct state/M/J/E/net-drive/cooling/height contract that passed for all c7c1b profiles; Tier II uses invariant time-integrated incident/reflected/transmitted energy, complete variable-background work ledgers, and pointwise traction only when independently observable. Deterministic uncertainties use conservative envelopes, not RSS; no slow-impact gate is introduced | The inherited `theta_99 <= 0.30` and alias `<=1e-3` contract first admits the frozen C3 `sin^4` template at 43 parent cells. The face-48 layout has only 48/16 raw cells on its two sides and 42/10 after three-cell clearance, so this bidirectional separated packet class cannot fit. This is geometry for the declared template, not an operator failure or a proof about every C3 window. Design one operator-neutral extended-domain or boundary-injection preflight before propagation |
+| Interface-scattering geometry feasibility WP10c9d6c7c2a1 | **MANUFACTURED METHOD PATCH SELECTED; ENERGY PREFLIGHT AUTHORIZED**; `manufactured_interface_patch_geometry_selected_energy_preflight_authorized`; **NO PROPAGATION OR PHYSICAL PROMOTION AUTHORIZED** | A two-sided 98-cell patch supplies 49 parent-equivalent cells per side, three-cell packet clearance, and 86 cell-times of incident/reflected separation. It reproduces the face-48 interface radius to `1.62e-15`, maps the exact physical faces 42–54 onto patch faces 43–55, and retains the unchanged local coupling stencil | A physical extension would require `1.728–94.479 rg`, outside the certified `1.8–12.777 rg` background and below the certified excision surface. Existing-domain injection has only 32/6 cell-times of coarse-side return separation for a 43-cell pulse. Select only a C4 manufactured variable-coefficient method patch; next derive and certify its energy/projector/ledger machinery in c2a2 before any propagation |
 
 ## Frozen Target Under Review
 
@@ -1408,6 +1409,15 @@ N                    = 164
    an extended audit domain or a nonoverlapping characteristic injection;
    no interface redesign, nonlinear run, fixed-`Q` experiment, or reduction
    is authorized.
+   WP10c9d6c7c2a1 rejects both literal routes: a physical extension would
+   require an uncertified `1.728-94.479 rg` background and new inner-boundary
+   causality, while the 43-cell pulse is longer than the existing outer
+   domain's 32-cell maximum return separation. It selects a 98-cell
+   manufactured variable-coefficient method patch with the exact physical
+   interface core and 49 cells per side. This authorizes only c2a2
+   construction of the C4 extended state, invariant Schur/QZ energy
+   projectors, and complete variable-background energy ledger. No propagation
+   or physical promotion follows from geometry selection alone.
 9. Continue one physical distributed tide only after the global no-tide
    duration gate is computationally practical and passes; search for
    accumulation, fronts, hot phases, and limit cycles.
@@ -1419,7 +1429,7 @@ N                    = 164
 - Reproduction and archive recovery: [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)
 - Compact evidence: [`../results/README.md`](../results/README.md)
 - Latest causal result:
-  `reports/current/CODEX_CAUSAL_INNER_SCATTERING_OBSERVABILITY_MANIFEST_WP10C9D6C7C2A_RESULTS_2026-07-30.md`
+  `reports/current/CODEX_CAUSAL_INNER_SCATTERING_GEOMETRY_WP10C9D6C7C2A1_RESULTS_2026-07-30.md`
 - P0 synthesis: `reports/current/CODEX_IMBH_PROJECT_REVIEW_P0_RESULTS_2026-07-10.md`
 - Detailed current reports: `reports/current/`
 - Historical development sequence: [`history/MILESTONES.md`](history/MILESTONES.md)

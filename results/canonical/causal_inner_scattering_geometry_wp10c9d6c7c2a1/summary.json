@@ -1,0 +1,131 @@
+{
+  "analyzed_base_commit": "73f902622834d13981d36e22aa21e13fefb9df8b",
+  "analyzed_base_parent": "c73102812b73f115c1e4f2771be952adc6ea4c00",
+  "analyzed_base_tree": "ae82502e89fdaf0a28235b9010df31f9ade67267",
+  "authorized_next": "WP10c9d6c7c2a2_manufactured_scattering_energy_preflight",
+  "bounded_nonlinear_common_mode_authorized": false,
+  "classification": "manufactured_interface_patch_geometry_selected_energy_preflight_authorized",
+  "decisive_array_hashes": {
+    "certified_background_knot_log_radii": "6b13eb8d125c08524f9c648e563d958e6e5bb44489c202b617bea62e3b544096",
+    "extended_physical_candidate_edges": "f7fcd1d7828efe5ebeabc64d2a6c613aa7845302e38da8a263d6a2debc24cf91",
+    "manufactured_patch_core_face_map": "034a55181c5108bb7a2c3b499624a2daef96ddfc41a539566d60821c7077ac79",
+    "manufactured_patch_edges": "f7fcd1d7828efe5ebeabc64d2a6c613aa7845302e38da8a263d6a2debc24cf91",
+    "manufactured_patch_measurement_faces": "bc4d1a14efc939af01962410f6fafa4748432e3e154e4836e20481c7ea3b2d59",
+    "manufactured_patch_support_faces": "7422636563da035c2c5b92a4cd8f2c887167046cf55daf4ab24b5a652a461d9a",
+    "option_passed_selected_flags": "82d94abe8857295098b20b3f319d092cb305f0b2e31798f84f6e314bf8471515",
+    "original_parent_grid_edges": "01bbfa7ba9a318660afb8d55e5f7ef0a74fed2d82cd3135dbc39a3e556e88763"
+  },
+  "decisive_arrays_path": "results/canonical/causal_inner_scattering_geometry_wp10c9d6c7c2a1/decisive_arrays.npz",
+  "decisive_arrays_sha256": "609add285974b85d902382dd14887334450821711a001fe75839b46d5a630dc3",
+  "embedded_scattering_propagation_authorized": false,
+  "fixed_q_micro_solver_authorized": false,
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_scattering_geometry_wp10c9d6c7c2a1.py": "2b076eb5a71db6d5f3bc106976f847d3edab1abd3aa9bff4760ebfe5d6f98d30",
+    "scripts/run_causal_inner_scattering_observability_manifest_wp10c9d6c7c2a.py": "303874f12259d5ec720a81ce27904b04ea0c36dca972d30e0ccd6a12caaba47b",
+    "tests/test_causal_inner_scattering_geometry_wp10c9d6c7c2a1.py": "e9f7b55f62a7b61311a035963300696199d6bb7cf09d5ae8f8119d6cae72177f"
+  },
+  "implementation_source_manifest_sha256": "a5807558bdde34170726873c841dd64d8d08cb7ab61952f0e129bdf6347d605e",
+  "manifest_sha256": "d028438fbed6426cdf477ad275453f2e7ed29c5412a9ef9f7a3bc893312be4b3",
+  "operator_changed": false,
+  "option_reports": {
+    "existing_domain_characteristic_injection": {
+      "coarse_to_fine_nonoverlap_at_outer_boundary_passed": false,
+      "coarse_to_fine_nonoverlap_at_postinterface_surface_passed": false,
+      "fine_to_coarse_injection_at_excision_allowed": false,
+      "injected_energy_ledger_implemented": false,
+      "minimum_resolved_pulse_extent_parent_cell_times": 43,
+      "operator_changed": false,
+      "option": "existing_domain_characteristic_injection",
+      "outer_boundary_to_interface_roundtrip_parent_cell_times": 32,
+      "outer_cells_available": 16,
+      "passed": false,
+      "postinterface_surface_roundtrip_parent_cell_times": 6,
+      "reason_not_selected": "the 43-cell resolved pulse is longer than both available coarse-side return separations, while injection through the outgoing excision surface would violate the causal contract",
+      "selected": false
+    },
+    "extended_physical_domain": {
+      "cells_per_side": 49,
+      "certified_background_coverage_passed": false,
+      "certified_background_inner_radius_over_rg": 1.7999999999999996,
+      "certified_background_outer_radius_over_rg": 12.777241939756335,
+      "geometry_passed": true,
+      "independent_stationary_background_extension_available": false,
+      "new_inner_excision_causality_certified": false,
+      "operator_changed": false,
+      "option": "extended_physical_domain",
+      "passed": false,
+      "reason_not_selected": "geometry fits, but the required 1.728-94.479 rg domain lies outside the independently certified 1.8-12.777 rg background; new inner-boundary causality is also uncertified",
+      "required_inner_radius_over_rg": 1.7279847643947073,
+      "required_outer_radius_over_rg": 94.47879110453655,
+      "selected": false
+    },
+    "manufactured_variable_coefficient_interface_patch": {
+      "coefficient_extension_implemented": false,
+      "energy_ledger_implemented": false,
+      "geometry_passed": true,
+      "incident_reflected_separation_parent_cell_times": 86,
+      "interface_face": 49,
+      "left_packet_support_faces": [
+        3,
+        46
+      ],
+      "maximum_log_spacing_defect": 3.0531133177191805e-15,
+      "measurement_faces": [
+        6,
+        49,
+        92
+      ],
+      "method_level_interface_audit_only": true,
+      "minimum_packet_clearance_cells": 3,
+      "operator_changed": false,
+      "option": "manufactured_variable_coefficient_interface_patch",
+      "parent_equivalent_cell_count": 98,
+      "parent_equivalent_cells_per_side": 49,
+      "passed": true,
+      "patch_core_faces": [
+        43,
+        55
+      ],
+      "physical_background_claimed": false,
+      "physical_core_parent_faces": [
+        42,
+        54
+      ],
+      "relative_interface_radius_defect": 1.617445238334602e-15,
+      "resolved_pulse_extent_parent_cell_times": 43,
+      "right_packet_support_faces": [
+        52,
+        95
+      ],
+      "selected": true,
+      "selection_scope": "definitions_only_route_selection; c2a2 method gates remain binding before propagation",
+      "travel_window_nonoverlap_capacity_passed": true
+    }
+  },
+  "parent_classification_preserved": "scattering_observability_contract_frozen_bidirectional_packet_preflight_blocked",
+  "parent_input_hashes": {
+    "results/canonical/causal_inner_continuum_lift_wp10c9d6c3/config.json": "733e413d121a03a2d69b2039afed41c5eea6849d8eb7e1d248e2883fbac5caaa",
+    "results/canonical/causal_inner_continuum_lift_wp10c9d6c3/decisive_arrays.npz": "28ac85f2d7a94f6d4334c27119c4585ddf7971d47df1d6ad6c07c593a1b3e6c7",
+    "results/canonical/causal_inner_continuum_lift_wp10c9d6c3/summary.json": "1333a1be0a94627d44178f2ab1f0c22fe2c9d29aee4047bd7b47b3fd1e73261c",
+    "results/canonical/causal_inner_scattering_observability_manifest_wp10c9d6c7c2a/config.json": "2bf75be157146ac91516629a300e2a9be00f17ed0689e19911416fd2bc08f999",
+    "results/canonical/causal_inner_scattering_observability_manifest_wp10c9d6c7c2a/decisive_arrays.npz": "293f07430e08fbaf0f7ca0247c89a9a026f978b6851c39e1652905f09c75f635",
+    "results/canonical/causal_inner_scattering_observability_manifest_wp10c9d6c7c2a/scattering_manifest.json": "43ae198a9352bfab96c3bfd78c4ff803fb29499fc8cd54167599e64380549981",
+    "results/canonical/causal_inner_scattering_observability_manifest_wp10c9d6c7c2a/summary.json": "fbe70189c353ccceb9cb2e1d42b6eb1dfdd6627dce3e1595324d151062dc6424"
+  },
+  "passed": true,
+  "production_operator_authorized": false,
+  "propagation_executed": false,
+  "reduced_slow_evolution_authorized": false,
+  "required_geometry": {
+    "both_incidence_directions_required": true,
+    "clearance_cells_each_end": 3,
+    "packet_support_parent_cells": 43,
+    "required_parent_cells_per_side": 49
+  },
+  "runtime_seconds": 0.12155787483789027,
+  "schema_version": 1,
+  "selected_route": "manufactured_variable_coefficient_interface_patch",
+  "selected_route_scope": "operator-neutral method-level interface scattering only",
+  "uniform_scattering_propagation_authorized": false,
+  "work_package": "WP10c9d6c7c2a1"
+}
