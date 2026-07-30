@@ -1,0 +1,44 @@
+{
+  "failed_profiles": [
+    "p2__inward_shear",
+    "p2__outward_shear"
+  ],
+  "fixed_band_targets_over_rg": [
+    1.8,
+    3.0,
+    5.0,
+    8.0,
+    10.5
+  ],
+  "gates": {
+    "maximum_continuum_ledger_defect": 1e-10,
+    "maximum_continuum_reference_to_fine_ratio": 0.1,
+    "maximum_direct_parity_defect": 1e-12,
+    "maximum_parent_replay_defect": 1e-10,
+    "minimum_component_order": 0.75
+  },
+  "operator_change": false,
+  "passing_controls": [
+    "p4__inward_shear",
+    "p4__outward_shear",
+    "p2__material"
+  ],
+  "primary_continuum_nodes": 769,
+  "profiles": [
+    "p2__inward_shear",
+    "p2__outward_shear",
+    "p4__inward_shear",
+    "p4__outward_shear",
+    "p2__material"
+  ],
+  "schema_version": 1,
+  "secondary_continuum_nodes": 513,
+  "source_channels": {
+    "angular_momentum": 2,
+    "killing_energy": 3,
+    "radial_momentum": 1
+  },
+  "time_horizon_s": 0.125,
+  "time_sample_count": 65,
+  "work_package": "WP10c9d6c6d"
+}
