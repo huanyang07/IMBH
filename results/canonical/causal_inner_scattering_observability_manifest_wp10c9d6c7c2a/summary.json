@@ -1,0 +1,108 @@
+{
+  "analyzed_base_commit": "c73102812b73f115c1e4f2771be952adc6ea4c00",
+  "analyzed_base_parent": "d9300e938f6636d92518cc242ac16231a65d6716",
+  "analyzed_base_tree": "61675425c2a5b3c0c2845e9a271ae95bfe9d2c60",
+  "authorized_next": "WP10c9d6c7c2a1_operator_neutral_scattering_geometry_feasibility_design",
+  "bounded_nonlinear_common_mode_authorized": false,
+  "classification": "scattering_observability_contract_frozen_bidirectional_packet_preflight_blocked",
+  "compact_envelope_preflight": {
+    "eligible_width_count": 6,
+    "full_physical_projection_and_family_purity_still_required": true,
+    "maximum_endpoint_cell_fraction": 0.005,
+    "maximum_nyquist_alias_fraction": 0.001,
+    "maximum_theta_99": 0.3,
+    "minimum_eligible_support_parent_cells": 43,
+    "regularity": "C3",
+    "scan_is_necessary_not_sufficient": true,
+    "spectral_energy_quantile": 0.99,
+    "template": "cell_centered_zero_extended_sin_power_4"
+  },
+  "decisive_array_hashes": {
+    "envelope_eligible": "8372d58ad537dc4eb83b5f88bb1f8b0c467929c51446d281f2e5e9f91a5cab17",
+    "envelope_endpoint_cell_fraction": "859e2a2460bf80edb25604ef764525a8fcafcfdbf8a05f6f2f1a37e49b925dbf",
+    "envelope_nyquist_alias_fraction": "2e1b37e1943f1bf3e0e1fa19df10b5b0e8afce25029cb7e1de90f00c503136b8",
+    "envelope_theta_99": "2d7944095beac32cf777907fd94027259d0203a26a01cc1152bc11fcc2bb7c16",
+    "field_scales": "ee02d751758ffa54e25e4b298f1f0778ea7ea7586c78325e3ee106034321fac6",
+    "geometry_capacity_parent_cells": "e1a562978858bd6e77c03ee96a18790f42639404150f1475bfe7327f7f51482e",
+    "measurement_parent_faces": "71d8e70fb7ef26aaf8ac2b25ce1d291fbaa4be766be73602d7d615fde68a1f78",
+    "parent_grid_edges": "01bbfa7ba9a318660afb8d55e5f7ef0a74fed2d82cd3135dbc39a3e556e88763",
+    "support_width_parent_cells": "41f3d5981b76042603361bc20503d82ae2136fc1480b1f8dab499bbb6a92390a"
+  },
+  "decisive_arrays_path": "results/canonical/causal_inner_scattering_observability_manifest_wp10c9d6c7c2a/decisive_arrays.npz",
+  "decisive_arrays_sha256": "293f07430e08fbaf0f7ca0247c89a9a026f978b6851c39e1652905f09c75f635",
+  "embedded_scattering_propagation_authorized": false,
+  "fixed_q_micro_solver_authorized": false,
+  "geometry_feasibility": {
+    "bidirectional_compact_packet_class_feasible": false,
+    "clearance_coarse_to_fine_capacity_passed": false,
+    "clearance_fine_to_coarse_capacity_passed": false,
+    "clearance_qualified_inner_parent_cells": 42,
+    "clearance_qualified_outer_parent_cells": 10,
+    "coupling_parent_face": 48,
+    "coupling_radius": 18867765907.439526,
+    "coupling_radius_over_rg": 12.777241939756358,
+    "interpretation": "The frozen 64-cell domain has insufficient clearance-qualified support on both sides of coupling face 48 for the narrowest frozen C3 sin^4 compact-envelope template that passes the inherited theta_99 and alias gates. This is a geometry preflight failure for the declared packet class, not an operator or scattering-diagnostic failure.",
+    "minimum_spectral_support_parent_cells": 43,
+    "parent_cell_count": 64,
+    "postinterface_measurement_parent_face": 51,
+    "preinterface_measurement_parent_face": 45,
+    "raw_coarse_to_fine_capacity_passed": false,
+    "raw_fine_to_coarse_capacity_passed": true,
+    "raw_inner_parent_cells": 48,
+    "raw_outer_parent_cells": 16,
+    "reconstruction_halo_cells_each_end": 3
+  },
+  "historical_classifications_preserved": {
+    "c7b": {
+      "classification": "prospective_embedded_profile_validation_failed",
+      "passed": false
+    },
+    "c7c0": {
+      "classification": "endpoint_interface_regularity_manifest_frozen_uniform_control_preflight_authorized",
+      "passed": true
+    },
+    "c7c1a": {
+      "classification": "endpoint_interface_regularity_uniform_controls_certified_embedded_discrimination_authorized",
+      "passed": true
+    },
+    "c7c1b": {
+      "classification": "no_regularized_embedded_profile_class_selected",
+      "passed": false
+    }
+  },
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_scattering_observability_manifest_wp10c9d6c7c2a.py": "303874f12259d5ec720a81ce27904b04ea0c36dca972d30e0ccd6a12caaba47b",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_packet_manifest.py": "a00b9c76ff07df81669c05658394b34c49a59ce43bd8373b14ccc6e538875286",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_packet_resolution.py": "989e96180b4fe8ddb48d7513e85e1af6969173bdbaaab7a1e9a7e42d4b931b64",
+    "tests/test_causal_inner_scattering_observability_manifest_wp10c9d6c7c2a.py": "ff42c2edfd595b815e71fc49dd8aa5ebe7c6a3501e264ff8d50977f49793cfc1"
+  },
+  "implementation_source_manifest_sha256": "75391d3051c03cd2775947a5b10ffd5e7c964d1ee879c67d9b446a74c4c8315b",
+  "manifest_sha256": "b7bb70605d7f2e9670334db0f9f7a598ef8125677b73f5fbc7b352549057d47b",
+  "operator_changed": false,
+  "parent_input_hashes": {
+    "results/canonical/causal_inner_embedded_regularity_manifest_wp10c9d6c7c0/decisive_arrays.npz": "899385f8dff9396632dc2c26b23459187589662934af9496de74e0f779e139f8",
+    "results/canonical/causal_inner_embedded_regularity_manifest_wp10c9d6c7c0/summary.json": "647b48c6e29486def957931fee5d585132b255c00321f5439bfcf27451fbea07",
+    "results/canonical/causal_inner_embedded_regularity_uniform_wp10c9d6c7c1a/summary.json": "9c203cd47388d1e6bdab8237422a40249d50b3e1b4d9454e74a84a3aa2dc9be5",
+    "results/canonical/causal_inner_embedded_regularity_wp10c9d6c7c1b/config.json": "a84d880181fbedf6fc6ad85ab125fc210188680e7bfef8f1cb3dad8b9f68e804",
+    "results/canonical/causal_inner_embedded_regularity_wp10c9d6c7c1b/decisive_arrays.npz": "03b3d497b692efe755d90335e06be42ed72d41dcffeb7e0ca78eeae0f64f358a",
+    "results/canonical/causal_inner_embedded_regularity_wp10c9d6c7c1b/summary.json": "f722bca374524ab7b80c4c1ce26d6f7c679e850f46e158c5ff5bebb0ce52b873",
+    "results/canonical/causal_inner_embedded_validation_wp10c9d6c7b/summary.json": "75b54299e6bbdd3d07ab66184955c0167e9283216352d837d5c1cb2ca13afd87",
+    "results/canonical/causal_inner_integral_conditioning_validation_wp10c9d6c6e1/config.json": "284dde2941fb8ff958fae86baf8ecf4cf957f2ad73d0170ad994b50d3ffbb573"
+  },
+  "passed": true,
+  "production_operator_authorized": false,
+  "propagation_executed": false,
+  "reduced_slow_evolution_authorized": false,
+  "runtime_seconds": 0.1393707909155637,
+  "schema_version": 1,
+  "scientific_interpretation": {
+    "c7c1b_strict_classification_unchanged": true,
+    "direct_physical_contract": "passed_for_declared_c7c1b_profiles",
+    "interface_redesign_selected": false,
+    "interface_scattering_observability": "unresolved"
+  },
+  "tier_II_scattering_status": "definitions_frozen_not_propagated",
+  "tier_I_direct_physics_status": "passed_for_declared_c7c1b_profiles",
+  "uniform_scattering_propagation_authorized": false,
+  "work_package": "WP10c9d6c7c2a"
+}

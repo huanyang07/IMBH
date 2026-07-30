@@ -1,0 +1,395 @@
+{
+  "branch_B_tier_I_heldouts": {
+    "tier_I_heldout__inner_broad_mixed": {
+      "binding_if_branch_B_reached": true,
+      "definition_must_remain_independent_of_c2c_results": true,
+      "endpoint_regularity": "C3_or_better",
+      "family": "five_field_mixed",
+      "support_side": "inner"
+    },
+    "tier_I_heldout__outer_broad_mixed": {
+      "binding_if_branch_B_reached": true,
+      "definition_must_remain_independent_of_c2c_results": true,
+      "endpoint_regularity": "C3_or_better",
+      "family": "five_field_mixed",
+      "support_side": "outer"
+    }
+  },
+  "certification_tiers": {
+    "tier_III_nonlinear": {
+      "authorized": false,
+      "bitwise_bdf2_replay_required": true,
+      "dense_colored_and_independent_jvp_checks_required": true,
+      "future_required_cases": [
+        "bounded_nonlinear_common_mode",
+        "finite_amplitude_interface_crossing_packet"
+      ],
+      "nonlinear_scaled_residual_maximum": 1e-10
+    },
+    "tier_II_interface_scattering": {
+      "integrated_flux_is_primary": true,
+      "pointwise_traction_requires_observability": true,
+      "primary_observables": [
+        "time_integrated_incident_energy_flux",
+        "time_integrated_reflected_energy_flux",
+        "time_integrated_transmitted_energy_flux",
+        "family_leakage",
+        "physical_stress_relaxation_dissipation",
+        "stored_energy_change",
+        "background_gradient_work",
+        "responsive_height_work",
+        "other_declared_lower_source_work",
+        "complete_energy_ledger_residual"
+      ],
+      "secondary_observables": [
+        "pointwise_interface_traction_when_observable",
+        "spatial_window_energy"
+      ]
+    },
+    "tier_I_primary_physics": {
+      "exact_prefix_and_global_ledgers": true,
+      "historical_order_difference_and_cosine_gates_unchanged": true,
+      "observables": [
+        "state",
+        "inner_mass_flux",
+        "inner_angular_momentum_flux",
+        "inner_killing_energy_flux",
+        "coupling_mass_flux_when_active",
+        "coupling_angular_momentum_flux_when_active",
+        "coupling_killing_energy_flux_when_active",
+        "net_mass_drive",
+        "net_angular_momentum_drive",
+        "net_killing_energy_drive",
+        "cooling",
+        "responsive_height_work"
+      ],
+      "one_shared_conservative_face_flux": true
+    }
+  },
+  "compact_envelope_preflight": {
+    "eligible_width_count": 6,
+    "full_physical_projection_and_family_purity_still_required": true,
+    "maximum_endpoint_cell_fraction": 0.005,
+    "maximum_nyquist_alias_fraction": 0.001,
+    "maximum_theta_99": 0.3,
+    "minimum_eligible_support_parent_cells": 43,
+    "regularity": "C3",
+    "scan_is_necessary_not_sufficient": true,
+    "spectral_energy_quantile": 0.99,
+    "template": "cell_centered_zero_extended_sin_power_4"
+  },
+  "decision_table": {
+    "bidirectional_geometry_infeasible": "stop_before_propagation_and_design_one_operator_neutral_scattering_domain_or_boundary_injection_preflight",
+    "geometry_and_uniform_pass": "authorize_separate_embedded_c2c_discrimination",
+    "integrated_scattering_passes_pointwise_traction_fails": "revise_prospective_diagnostic_metric_not_operator",
+    "observable_integrated_scattering_fails_stably": "authorize_interface_local_truncation_audit_only",
+    "tier_I_and_observable_tier_II_pass": "certify_declared_regularized_embedded_scattering_class",
+    "tier_I_pass_tier_II_below_observability": "classify_tier_II_channels_non_certifying_then_run_pre_frozen_tier_I_heldouts",
+    "uniform_scattering_fails": "repair_definition_or_reference_before_embedded"
+  },
+  "energy_and_scattering_contract": {
+    "balance_terms_must_be_derived_from_implemented_symmetrized_DAE": true,
+    "complete_balance": "E_incident - E_reflected - E_transmitted - D_physical - Delta_E_stored - W_background - W_height - W_other = ledger_residual",
+    "each_physical_work_term_recorded_exactly_once": true,
+    "eigenvector_normalization_invariant": true,
+    "energy_metric": "descriptor_compatible_positive_physical_symmetrizer",
+    "no_constant_coefficient_R_plus_T_equals_one_assumption": true,
+    "projectors": "smooth_real_Schur_or_generalized_QZ_invariant_subspaces",
+    "required_projector_checks": [
+      "positive_energy_metric",
+      "idempotence",
+      "mutual_energy_orthogonality_for_separated_clusters",
+      "internal_basis_change_invariance",
+      "continuous_subspace_tracking"
+    ],
+    "scattering_coefficients": {
+      "R": "E_reflected / E_incident",
+      "T": "E_transmitted / E_incident",
+      "interface_delta_R": "R_embedded - R_uniform_continuum_extrapolate",
+      "interface_delta_T": "T_embedded - T_uniform_continuum_extrapolate",
+      "interface_delta_leakage": "leakage_embedded - leakage_uniform_continuum_extrapolate"
+    },
+    "state_space": "complete_linearized_five_field_DAE",
+    "uniform_reference_requires_continuum_extrapolation": true,
+    "uniform_virtual_interface_parent_face": 48
+  },
+  "geometry_feasibility": {
+    "bidirectional_compact_packet_class_feasible": false,
+    "clearance_coarse_to_fine_capacity_passed": false,
+    "clearance_fine_to_coarse_capacity_passed": false,
+    "clearance_qualified_inner_parent_cells": 42,
+    "clearance_qualified_outer_parent_cells": 10,
+    "coupling_parent_face": 48,
+    "coupling_radius": 18867765907.439526,
+    "coupling_radius_over_rg": 12.777241939756358,
+    "interpretation": "The frozen 64-cell domain has insufficient clearance-qualified support on both sides of coupling face 48 for the narrowest frozen C3 sin^4 compact-envelope template that passes the inherited theta_99 and alias gates. This is a geometry preflight failure for the declared packet class, not an operator or scattering-diagnostic failure.",
+    "minimum_spectral_support_parent_cells": 43,
+    "parent_cell_count": 64,
+    "postinterface_measurement_parent_face": 51,
+    "preinterface_measurement_parent_face": 45,
+    "raw_coarse_to_fine_capacity_passed": false,
+    "raw_fine_to_coarse_capacity_passed": true,
+    "raw_inner_parent_cells": 48,
+    "raw_outer_parent_cells": 16,
+    "reconstruction_halo_cells_each_end": 3
+  },
+  "hard_stops": [
+    "do_not_amend_or_relabel_c7b_through_c7c1b",
+    "do_not_lower_historical_gates",
+    "do_not_use_c7c1b_magnitudes_to_set_thresholds",
+    "do_not_bind_a_slow_impact_threshold_yet",
+    "do_not_use_RSS_without_demonstrated_independence",
+    "do_not_tune_endpoint_power_or_buffer_length_again",
+    "do_not_redesign_the_interface",
+    "do_not_propagate_before_bidirectional_geometry_is_feasible",
+    "do_not_run_N1024_as_rescue",
+    "do_not_begin_nonlinear_fixed_Q_or_reduced_slow_evolution"
+  ],
+  "historical_classifications_preserved": {
+    "c7b": {
+      "classification": "prospective_embedded_profile_validation_failed",
+      "passed": false
+    },
+    "c7c0": {
+      "classification": "endpoint_interface_regularity_manifest_frozen_uniform_control_preflight_authorized",
+      "passed": true
+    },
+    "c7c1a": {
+      "classification": "endpoint_interface_regularity_uniform_controls_certified_embedded_discrimination_authorized",
+      "passed": true
+    },
+    "c7c1b": {
+      "classification": "no_regularized_embedded_profile_class_selected",
+      "passed": false
+    }
+  },
+  "inherited_spectral_contract": {
+    "maximum_balance_coefficient_relative_769_513_difference": 1e-06,
+    "maximum_endpoint_cell_fraction": 0.005,
+    "maximum_nyquist_alias_fraction": 0.001,
+    "maximum_projection_replay_defect": 2e-12,
+    "maximum_secondary_continuum_initial_cancellation_ratio": 1e-06,
+    "maximum_theta_99": 0.3,
+    "minimum_active_cell_family_purity": 0.98,
+    "minimum_global_family_purity": 0.995,
+    "minimum_theta_99": 0.0,
+    "spectral_energy_quantile": 0.99
+  },
+  "manifest_sha256": "b7bb70605d7f2e9670334db0f9f7a598ef8125677b73f5fbc7b352549057d47b",
+  "measurement_contract": {
+    "no_observed_peak_repositioning": true,
+    "postinterface_measurement_parent_face": 51,
+    "preinterface_measurement_parent_face": 45,
+    "primary_measurement": "time_integrated_signed_energy_flux_through_fixed_physical_surfaces",
+    "stop_before_boundary_return_contamination": true,
+    "uniform_virtual_interface_parent_face": 48,
+    "window_nuisance_sweeps_are_uncertainty_only": true,
+    "windows_from_precomputed_continuum_characteristic_travel_times": true
+  },
+  "operator_changed": false,
+  "propagation_executed": false,
+  "prospective_propagation_contract": {
+    "branch_B_tier_I_heldouts_frozen_before_any_propagation": true,
+    "characteristic_energy_amplitude_scaling": "quadratic",
+    "embedded_work_package": "WP10c9d6c7c2c",
+    "exact_conservative_and_energy_ledgers": true,
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_observable_refinement_error_cosine": 0.9,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75,
+    "state_and_flux_amplitude_scaling": "linear",
+    "uniform_and_embedded_are_separate_commits": true,
+    "uniform_must_pass_before_embedded": true,
+    "uniform_virtual_interface_matches_embedded_coupling_radius": true,
+    "uniform_work_package": "WP10c9d6c7c2b",
+    "window_shift_and_time_quadrature_stability": true
+  },
+  "requested_scattering_profiles": {
+    "coarse_to_fine__acoustic": {
+      "actual_finite_volume_projection_spectrum_required": true,
+      "amplitude_factors": [
+        0.5,
+        1.0
+      ],
+      "binding": true,
+      "compact_support": true,
+      "endpoint_regularity": "C3_or_better",
+      "family": "acoustic",
+      "incidence_direction": "coarse_to_fine",
+      "initial_support_separated_from_interface": true,
+      "measurement_windows_precomputed_from_characteristic_travel_times": true,
+      "observed_history_may_not_move_binding_windows": true,
+      "role": "prospective_interface_scattering",
+      "signs": [
+        -1,
+        1
+      ],
+      "spectral_contract_must_hold_on_incident_and_transmitted_sides": true
+    },
+    "coarse_to_fine__mixed_shear_acoustic": {
+      "actual_finite_volume_projection_spectrum_required": true,
+      "amplitude_factors": [
+        0.5,
+        1.0
+      ],
+      "binding": true,
+      "compact_support": true,
+      "endpoint_regularity": "C3_or_better",
+      "family": "mixed_shear_acoustic",
+      "incidence_direction": "coarse_to_fine",
+      "initial_support_separated_from_interface": true,
+      "measurement_windows_precomputed_from_characteristic_travel_times": true,
+      "observed_history_may_not_move_binding_windows": true,
+      "role": "prospective_interface_scattering",
+      "signs": [
+        -1,
+        1
+      ],
+      "spectral_contract_must_hold_on_incident_and_transmitted_sides": true
+    },
+    "coarse_to_fine__shear": {
+      "actual_finite_volume_projection_spectrum_required": true,
+      "amplitude_factors": [
+        0.5,
+        1.0
+      ],
+      "binding": true,
+      "compact_support": true,
+      "endpoint_regularity": "C3_or_better",
+      "family": "shear",
+      "incidence_direction": "coarse_to_fine",
+      "initial_support_separated_from_interface": true,
+      "measurement_windows_precomputed_from_characteristic_travel_times": true,
+      "observed_history_may_not_move_binding_windows": true,
+      "role": "prospective_interface_scattering",
+      "signs": [
+        -1,
+        1
+      ],
+      "spectral_contract_must_hold_on_incident_and_transmitted_sides": true
+    },
+    "fine_to_coarse__acoustic": {
+      "actual_finite_volume_projection_spectrum_required": true,
+      "amplitude_factors": [
+        0.5,
+        1.0
+      ],
+      "binding": true,
+      "compact_support": true,
+      "endpoint_regularity": "C3_or_better",
+      "family": "acoustic",
+      "incidence_direction": "fine_to_coarse",
+      "initial_support_separated_from_interface": true,
+      "measurement_windows_precomputed_from_characteristic_travel_times": true,
+      "observed_history_may_not_move_binding_windows": true,
+      "role": "prospective_interface_scattering",
+      "signs": [
+        -1,
+        1
+      ],
+      "spectral_contract_must_hold_on_incident_and_transmitted_sides": true
+    },
+    "fine_to_coarse__mixed_shear_acoustic": {
+      "actual_finite_volume_projection_spectrum_required": true,
+      "amplitude_factors": [
+        0.5,
+        1.0
+      ],
+      "binding": true,
+      "compact_support": true,
+      "endpoint_regularity": "C3_or_better",
+      "family": "mixed_shear_acoustic",
+      "incidence_direction": "fine_to_coarse",
+      "initial_support_separated_from_interface": true,
+      "measurement_windows_precomputed_from_characteristic_travel_times": true,
+      "observed_history_may_not_move_binding_windows": true,
+      "role": "prospective_interface_scattering",
+      "signs": [
+        -1,
+        1
+      ],
+      "spectral_contract_must_hold_on_incident_and_transmitted_sides": true
+    },
+    "fine_to_coarse__shear": {
+      "actual_finite_volume_projection_spectrum_required": true,
+      "amplitude_factors": [
+        0.5,
+        1.0
+      ],
+      "binding": true,
+      "compact_support": true,
+      "endpoint_regularity": "C3_or_better",
+      "family": "shear",
+      "incidence_direction": "fine_to_coarse",
+      "initial_support_separated_from_interface": true,
+      "measurement_windows_precomputed_from_characteristic_travel_times": true,
+      "observed_history_may_not_move_binding_windows": true,
+      "role": "prospective_interface_scattering",
+      "signs": [
+        -1,
+        1
+      ],
+      "spectral_contract_must_hold_on_incident_and_transmitted_sides": true
+    },
+    "null_selected_channel": {
+      "actual_finite_volume_projection_spectrum_required": true,
+      "amplitude_factors": [
+        0.5,
+        1.0
+      ],
+      "binding": true,
+      "compact_support": true,
+      "endpoint_regularity": "C3_or_better",
+      "family": "orthogonal_family_null",
+      "incidence_direction": "fine_to_coarse",
+      "initial_support_separated_from_interface": true,
+      "measurement_windows_precomputed_from_characteristic_travel_times": true,
+      "observed_history_may_not_move_binding_windows": true,
+      "role": "diagnostic_false_positive_floor",
+      "selected_incident_channel_exactly_zero": true,
+      "signs": [
+        -1,
+        1
+      ],
+      "spectral_contract_must_hold_on_incident_and_transmitted_sides": true
+    }
+  },
+  "schema_version": 1,
+  "scientific_interpretation": {
+    "c7c1b_strict_classification_unchanged": true,
+    "direct_physical_contract": "passed_for_declared_c7c1b_profiles",
+    "interface_redesign_selected": false,
+    "interface_scattering_observability": "unresolved"
+  },
+  "uncertainty_and_observability_contract": {
+    "c7c1b_not_reclassified": true,
+    "covariance_combination_allowed_only_when_measured_and_stable": true,
+    "default_combination": "conservative_sum_or_direct_nuisance_sweep_envelope",
+    "direction_gate": {
+      "below_floor_classification": "direction_not_certifying_because_error_is_below_observability",
+      "below_floor_is_neither_pass_nor_fail": true,
+      "coarse_medium_error_norm_must_exceed_kappa_uncertainty": true,
+      "medium_fine_error_norm_must_exceed_kappa_uncertainty": true,
+      "minimum_conservative_cosine_lower_bound": 0.9
+    },
+    "maximum_reference_uncertainty_to_medium_fine_difference": 0.1,
+    "minimum_signal_to_uncertainty_ratio": 5.0,
+    "ratio_eligibility": "incident_energy_lower_bound_must_be_positive_and nominal_incident_energy_must_exceed_kappa_times_uncertainty",
+    "ratio_uncertainty": "conservative_interval_bounds_not_near_zero_linearization",
+    "root_sum_square_forbidden_without_demonstrated_independence": true,
+    "slow_impact_deferred_until_Q_macro_horizon_and_closure_exist": true,
+    "slow_impact_threshold_binding": false,
+    "sources": [
+      "continuum_reference",
+      "finite_volume_projection",
+      "invariant_subspace_choice",
+      "measurement_window_placement",
+      "time_sampling_and_quadrature",
+      "restart_replay",
+      "roundoff"
+    ]
+  },
+  "work_package": "WP10c9d6c7c2a"
+}
