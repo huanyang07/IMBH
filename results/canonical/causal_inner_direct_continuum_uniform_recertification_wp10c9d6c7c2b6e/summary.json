@@ -1,0 +1,2149 @@
+{
+  "amplitude_and_sign_controls": {
+    "derived_from_exact_linear_and_quadratic_maps": true,
+    "maximum_linear_state_or_flux_scaling_defect": 0.0,
+    "maximum_quadratic_energy_scaling_defect": 0.0,
+    "maximum_sign_symmetry_defect": 0.0,
+    "passed": true,
+    "variant_count": 36
+  },
+  "analyzed_base_commit": "f6936282ab216e5e3db4ae04b981c544854dff87",
+  "authorized_next": "WP10c9d6c7c2c1_direct_continuum_embedded_manifest",
+  "binding_decision": {
+    "amplitude_sign_controls_passed": true,
+    "covariant_transfer_passed": true,
+    "definitions_only_embedded_manifest_authorized": true,
+    "direct_continuum_arrival_passed": true,
+    "embedded_propagation_authorized": false,
+    "fixed_Q_or_reduction_authorized": false,
+    "independent_continuum_passed": true,
+    "nonlinear_authorized": false,
+    "operator_or_interface_redesign_authorized": false,
+    "projector_contract_passed": true,
+    "tier_I_passed": true,
+    "uniform_direct_continuum_class_certified": true
+  },
+  "classification": "direct_continuum_uniform_arrival_class_certified_embedded_manifest_authorized",
+  "config_sha256": "74e4f497ec70cd9fe7c7c723224b4c399b03ad8e9546058c0f154d986ea54a3f",
+  "covariant_transfer": {
+    "by_base": {
+      "acoustic": {
+        "endpoint_balance_is_time_quadrature_diagnostic": true,
+        "passed": true,
+        "target_receiver_work": {
+          "N392_direct_response_relative_error": 1.0753625814824272e-10,
+          "direct_error_orders": [
+            7.949457251671402,
+            9.195403193759114
+          ],
+          "direct_errors": [
+            1.5583757667244076e-05,
+            6.304448540097819e-08,
+            1.0753625814824272e-10
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.021737653430793112,
+          "values": [
+            1.5583871309288798e-05,
+            6.315812744569951e-08,
+            2.2117830286957124e-10
+          ]
+        },
+        "target_work_stored_energy_relative_defect": 0.00045261740965765594,
+        "total_receiver_work": {
+          "N392_direct_response_relative_error": 3.4153233064602686e-08,
+          "direct_error_orders": [
+            6.482622157163867,
+            6.194067408538202
+          ],
+          "direct_errors": [
+            0.00022361226815845279,
+            2.5005290648955286e-06,
+            3.4153233064602686e-08
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.003404722935458244,
+          "values": [
+            0.00022368717524692648,
+            2.5754361533692167e-06,
+            1.0906032153829102e-07
+          ]
+        },
+        "total_work_stored_energy_relative_defect": 0.0011236533998706265
+      },
+      "angle_112p5_acoustic_shear": {
+        "endpoint_balance_is_time_quadrature_diagnostic": true,
+        "passed": true,
+        "target_receiver_work": {
+          "N392_direct_response_relative_error": 5.872462025542701e-08,
+          "direct_error_orders": [
+            4.681009688160368,
+            5.255323084639908
+          ],
+          "direct_errors": [
+            5.7537955841576775e-05,
+            2.2430042809142533e-06,
+            5.872462025542701e-08
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.0011033057958062444,
+          "values": [
+            5.754116825035297e-05,
+            2.2462166896904497e-06,
+            6.193702903162352e-08
+          ]
+        },
+        "target_work_stored_energy_relative_defect": 0.0007719408520451659,
+        "total_receiver_work": {
+          "N392_direct_response_relative_error": 1.2734817390393268e-07,
+          "direct_error_orders": [
+            4.425381055266384,
+            4.963318576409494
+          ],
+          "direct_errors": [
+            8.536364110637414e-05,
+            3.972834662179928e-06,
+            1.2734817390393268e-07
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.001536904357307723,
+          "values": [
+            8.536986094664295e-05,
+            3.979054502448738e-06,
+            1.3356801417274252e-07
+          ]
+        },
+        "total_work_stored_energy_relative_defect": 0.0007454691925637124
+      },
+      "angle_157p5_acoustic_shear": {
+        "endpoint_balance_is_time_quadrature_diagnostic": true,
+        "passed": true,
+        "target_receiver_work": {
+          "N392_direct_response_relative_error": 4.11732100550462e-08,
+          "direct_error_orders": [
+            3.3467735085929484,
+            6.095479439011755
+          ],
+          "direct_errors": [
+            2.8642840975890103e-05,
+            2.815379065869152e-06,
+            4.11732100550462e-08
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.001199027616486156,
+          "values": [
+            2.8667481749770327e-05,
+            2.8400198397493747e-06,
+            6.581398393526902e-08
+          ]
+        },
+        "target_work_stored_energy_relative_defect": 0.0027619345705055666,
+        "total_receiver_work": {
+          "N392_direct_response_relative_error": 9.978619865249717e-08,
+          "direct_error_orders": [
+            4.638446436209298,
+            5.179076549524403
+          ],
+          "direct_errors": [
+            9.004080733129106e-05,
+            3.615162885857634e-06,
+            9.978619865249717e-08
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.0031204688041656476,
+          "values": [
+            9.009777640024148e-05,
+            3.6721319548080474e-06,
+            1.567552676029105e-07
+          ]
+        },
+        "total_work_stored_energy_relative_defect": 0.0009721624370733308
+      },
+      "angle_22p5_acoustic_shear": {
+        "endpoint_balance_is_time_quadrature_diagnostic": true,
+        "passed": true,
+        "target_receiver_work": {
+          "N392_direct_response_relative_error": 1.0597485878096962e-08,
+          "direct_error_orders": [
+            6.907693107915929,
+            6.679749997547886
+          ],
+          "direct_errors": [
+            0.00013044600577092385,
+            1.08644553471125e-06,
+            1.0597485878096962e-08
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.006665033260292154,
+          "values": [
+            0.00013047593605205093,
+            1.1163758158383242e-06,
+            1.9332795248977135e-08
+          ]
+        },
+        "target_work_stored_energy_relative_defect": 0.002606090501847401,
+        "total_receiver_work": {
+          "N392_direct_response_relative_error": 2.00219520350519e-08,
+          "direct_error_orders": [
+            7.855365853386466,
+            6.259583182404271
+          ],
+          "direct_errors": [
+            0.00035524621850058035,
+            1.5340118514520657e-06,
+            2.00219520350519e-08
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.006329160077509807,
+          "values": [
+            0.00035531804258977744,
+            1.6058359406491352e-06,
+            5.180213716201761e-08
+          ]
+        },
+        "total_work_stored_energy_relative_defect": 0.001139877956238202
+      },
+      "angle_67p5_acoustic_shear": {
+        "endpoint_balance_is_time_quadrature_diagnostic": true,
+        "passed": true,
+        "target_receiver_work": {
+          "N392_direct_response_relative_error": 6.9596373057493e-09,
+          "direct_error_orders": [
+            8.2759741289288,
+            6.2067732770292
+          ],
+          "direct_errors": [
+            0.00015934116796853054,
+            5.140573109247798e-07,
+            6.9596373057493e-09
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.0079327694042963,
+          "values": [
+            0.0001593496698845536,
+            5.225592269478275e-07,
+            1.546155332879708e-08
+          ]
+        },
+        "target_work_stored_energy_relative_defect": 0.001916038479144084,
+        "total_receiver_work": {
+          "N392_direct_response_relative_error": 7.539075985964419e-09,
+          "direct_error_orders": [
+            7.53389933382027,
+            7.971052228333589
+          ],
+          "direct_errors": [
+            0.00035056909063849547,
+            1.891663735935558e-06,
+            7.539075985964419e-09
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.0321498147198117,
+          "values": [
+            0.00035059016549901094,
+            1.912738596451024e-06,
+            2.8613936501430445e-08
+          ]
+        },
+        "total_work_stored_energy_relative_defect": 0.0010870484456415312
+      },
+      "difference_shear_acoustic": {
+        "endpoint_balance_is_time_quadrature_diagnostic": true,
+        "passed": true,
+        "target_receiver_work": {
+          "N392_direct_response_relative_error": 6.067990220725896e-08,
+          "direct_error_orders": [
+            2.930144869966892,
+            5.5723349642151305
+          ],
+          "direct_errors": [
+            2.2006265069723904e-05,
+            2.887253006931252e-06,
+            6.067990220725896e-08
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.0013502397159840442,
+          "values": [
+            2.2019096168232154e-05,
+            2.9000841054395036e-06,
+            7.351100071551035e-08
+          ]
+        },
+        "target_work_stored_energy_relative_defect": 0.00035268328399764616,
+        "total_receiver_work": {
+          "N392_direct_response_relative_error": 1.3841632650514091e-07,
+          "direct_error_orders": [
+            2.9556191593313015,
+            4.931878721055474
+          ],
+          "direct_errors": [
+            3.27763638333072e-05,
+            4.225039262582023e-06,
+            1.3841632650514091e-07
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.0024873128504085164,
+          "values": [
+            3.2804881712489065e-05,
+            4.253557141763889e-06,
+            1.6693420568700654e-07
+          ]
+        },
+        "total_work_stored_energy_relative_defect": 0.00030032128765059924
+      },
+      "mixed_shear_acoustic": {
+        "endpoint_balance_is_time_quadrature_diagnostic": true,
+        "passed": true,
+        "target_receiver_work": {
+          "N392_direct_response_relative_error": 1.2548386889240379e-08,
+          "direct_error_orders": [
+            8.55214640731545,
+            5.1390538522959694
+          ],
+          "direct_errors": [
+            0.00016597774316427395,
+            4.4217813049442393e-07,
+            1.2548386889240379e-08
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.0069948270375846935,
+          "values": [
+            0.00016599805475566896,
+            4.6248972188944315e-07,
+            7.763204505778841e-09
+          ]
+        },
+        "target_work_stored_energy_relative_defect": 0.002269492440837353,
+        "total_receiver_work": {
+          "N392_direct_response_relative_error": 3.1036112502369044e-08,
+          "direct_error_orders": [
+            8.313756613448804,
+            5.367988512214831
+          ],
+          "direct_errors": [
+            0.00040783359097030445,
+            1.2817191586209918e-06,
+            3.1036112502369044e-08
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.008869824908886676,
+          "values": [
+            0.0004078831170205885,
+            1.3312452089050055e-06,
+            1.8489937781644676e-08
+          ]
+        },
+        "total_work_stored_energy_relative_defect": 0.001125084561487189
+      },
+      "shear": {
+        "endpoint_balance_is_time_quadrature_diagnostic": true,
+        "passed": true,
+        "target_receiver_work": {
+          "N392_direct_response_relative_error": 3.403854172453996e-08,
+          "direct_error_orders": [
+            6.443542757589142,
+            5.181578829247925
+          ],
+          "direct_errors": [
+            0.00010751801719449965,
+            1.2353260459974594e-06,
+            3.403854172453996e-08
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.00022750957590437473,
+          "values": [
+            0.00010751915334396712,
+            1.2364621954649297e-06,
+            3.517469119201017e-08
+          ]
+        },
+        "target_work_stored_energy_relative_defect": 0.0015979887401788753,
+        "total_receiver_work": {
+          "N392_direct_response_relative_error": 7.313415235709326e-08,
+          "direct_error_orders": [
+            6.173522560412269,
+            5.361324179880114
+          ],
+          "direct_errors": [
+            0.0002169976828562372,
+            3.006350601801135e-06,
+            7.313415235709326e-08
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.0006465169901767103,
+          "values": [
+            0.0002170008196972294,
+            3.009487442793326e-06,
+            7.627099334928426e-08
+          ]
+        },
+        "total_work_stored_energy_relative_defect": 0.001001859617747707
+      },
+      "shear_weighted_shear_acoustic": {
+        "endpoint_balance_is_time_quadrature_diagnostic": true,
+        "passed": true,
+        "target_receiver_work": {
+          "N392_direct_response_relative_error": 1.4481022612011152e-09,
+          "direct_error_orders": [
+            8.688868989994136,
+            8.122558347356039
+          ],
+          "direct_errors": [
+            0.00016654942212199764,
+            4.035830664173694e-07,
+            1.4481022612011152e-09
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.04899698224225736,
+          "values": [
+            0.00016656165654424827,
+            4.158174886679905e-07,
+            1.078631998941996e-08
+          ]
+        },
+        "target_work_stored_energy_relative_defect": 0.002039481953467544,
+        "total_receiver_work": {
+          "N392_direct_response_relative_error": 9.988833100574059e-09,
+          "direct_error_orders": [
+            7.890902887647974,
+            7.328423852542481
+          ],
+          "direct_errors": [
+            0.00038105583772233854,
+            1.6054255015469213e-06,
+            9.988833100574059e-09
+          ],
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.027497985006483233,
+          "values": [
+            0.00038108601393013183,
+            1.635601709340242e-06,
+            2.018737469274648e-08
+          ]
+        },
+        "total_work_stored_energy_relative_defect": 0.0011029006702804026
+      }
+    },
+    "maximum_exact_block_source_receiver_closure_defect": 4.796667065721627e-13,
+    "maximum_physical_work_stored_energy_balance_defect": 0.0027619345705055666,
+    "passed": true
+  },
+  "decisive_array_hashes": {
+    "acoustic__N392_tier_I_exports": "8479a74abe2b4b85f0625010fad901f463bcfdca8a8ba8d75d16009bf3d65d23",
+    "acoustic__target__gain__coarse": "2e99760aae596f8688965922deed350886907dae32d235b7febc322c333643fb",
+    "acoustic__target__gain__continuum_primary": "48930c63cccf272572f9189578f02c8ed2b429ddac453b48044e65ad0124365b",
+    "acoustic__target__gain__continuum_secondary": "c2f407657d7cfdbee4db02e03f832b91fa3020d3f4ea6330afc29f77d18af2dd",
+    "acoustic__target__gain__fine": "ee6404a2079ece9b47662a7a437a83e85274b4936b6f1954cbe13c3999829c9c",
+    "acoustic__target__gain__medium": "9c74b7d88096f95eb3995b45eb3b740c6f5d87695ad4c72ed429de86cff5bf50",
+    "acoustic__target__shape__coarse": "f4aa92c88185214a63224fe7f0a4893a4cd80cbd2a1f881834cd81cf9589e3d9",
+    "acoustic__target__shape__continuum_primary": "d55fbeca89e88c4c249a909c11f9232ff97fa4d947b707f7a5d694db9a55fbd9",
+    "acoustic__target__shape__continuum_secondary": "81122b190ac3879d70c7a77a465150b66883a7e108e20e175b39036158dc81ae",
+    "acoustic__target__shape__fine": "9c0b7eac36ce39cbf8aef83069a8d0999c05299656cbd7fc2c6801ca5db68631",
+    "acoustic__target__shape__medium": "cc0fbe61e237ef21ae4e0c8dd11229489663d4f35946a74d4c3658b9b35f58bd",
+    "acoustic__target_covariant_receiver_work": "40626351aa7a0670c707e7a62a3f364f9c51503bbfb6266f567d7456d21938a2",
+    "acoustic__total__gain__coarse": "6e81c1827f27c7bed889fc9ad479b7f58c008e919d24c2affceed7514a1e9007",
+    "acoustic__total__gain__continuum_primary": "67029340f8422b321ca09507d8424191b4662adfdeab49cf0b84313476e9c761",
+    "acoustic__total__gain__continuum_secondary": "a0cd0103b863cc0496dfdb9ce183cbbd899f22d02097605a418170711731bb08",
+    "acoustic__total__gain__fine": "25a4e171d0705a9b1d86827778d13e639129a8fa63ad347ad938355d8b8e0307",
+    "acoustic__total__gain__medium": "0d818d27b1b0b9a3b0a261c6f4575728b1f2bd02e3d56634db09ce8af89fe316",
+    "acoustic__total__shape__coarse": "0389ea0bed1339edde302a57c99ae2e372cf0ce1041ac92a3ce354d5b03aa30b",
+    "acoustic__total__shape__continuum_primary": "708bd4fcdacb9838c4650ad4986b2728eac4ec2db5476e48d46e7bbea1980ed9",
+    "acoustic__total__shape__continuum_secondary": "b46560f432bce58abafbae0e4c7df437c82e6e8ba53919cb2f5baaaaa96674af",
+    "acoustic__total__shape__fine": "e1e93cb23cd65ca1f0e78941ef94c10fb51d1fbdc23897452b699240166d55e7",
+    "acoustic__total__shape__medium": "8af537f47ef59f98619da98c599b3e10282f35cd533f98b78eb2cf83bff71d5c",
+    "acoustic__total_covariant_receiver_work": "b55d1b53b4a9bfdbdb015330c2b1e2e24cf73aca40891329fab27062137d4b55",
+    "angle_112p5_acoustic_shear__N392_tier_I_exports": "64e595129adce08cde7001414903d54d6bef1feafd3d5dabe2d356cc7dc95e20",
+    "angle_112p5_acoustic_shear__target__gain__coarse": "e8a49b4c8c006ff8b3151a98fd390b763177d2e079c36cb468ad5e095829d225",
+    "angle_112p5_acoustic_shear__target__gain__continuum_primary": "924e5696261309ff1f9c762a5329973799ad7e9d2f59180083ed00f343b4b296",
+    "angle_112p5_acoustic_shear__target__gain__continuum_secondary": "8bc812db25c5ae62ea409c404f8d0e6b0efc5758bd8b765c8af3621e87947d0d",
+    "angle_112p5_acoustic_shear__target__gain__fine": "b649cf330285c94472ba5e333e6b69b2fea668ba3ad97bc54c01369a03348eec",
+    "angle_112p5_acoustic_shear__target__gain__medium": "5fc9df80df4851944f602fda4de2852a63b78ae635576e890337331d8ca68aee",
+    "angle_112p5_acoustic_shear__target__shape__coarse": "7a51228571d90890b2a27c255be73f5ae61003d55930581e5ec0c0a76fef0ad8",
+    "angle_112p5_acoustic_shear__target__shape__continuum_primary": "f5650b583daf00e27dad19fa884906044a7a79403e2dd68170e877295f4a62e3",
+    "angle_112p5_acoustic_shear__target__shape__continuum_secondary": "50c481cc1ca4d14ca310e2c1bc370f854698d8c1c37efb06abcd8e506b1f133d",
+    "angle_112p5_acoustic_shear__target__shape__fine": "06da5223dcd80a6efdad7239864ade4dadfde87f90b4a41772de097eb2020f8b",
+    "angle_112p5_acoustic_shear__target__shape__medium": "17e6e9dfb29053d0455181c93c48f1d37c899170578da5abadf864b36a4432b6",
+    "angle_112p5_acoustic_shear__target_covariant_receiver_work": "6ea280e059d6df2b7a6018362598de5b6b0bcb413b4f17806b2b70354d9a52f8",
+    "angle_112p5_acoustic_shear__total__gain__coarse": "92febbe0f3bc4f0177fa32efd2a65281833dc4148df159e159430e1114fcca7f",
+    "angle_112p5_acoustic_shear__total__gain__continuum_primary": "45646e8f95cb996cc68155fe05b31edbce3e019812a34f045499310b657729b5",
+    "angle_112p5_acoustic_shear__total__gain__continuum_secondary": "ab2a257aed9f3dad0dec55e7ba28ec72d7395320a749adeeef8559483425140b",
+    "angle_112p5_acoustic_shear__total__gain__fine": "2a6999a093e817ed47d2f989fc834401664d88753df57edfcf7dcfc6d656cf31",
+    "angle_112p5_acoustic_shear__total__gain__medium": "bc55b52107631fcf09632a6ea8d37e60080472ba31081fd748279e01d2c5a699",
+    "angle_112p5_acoustic_shear__total__shape__coarse": "d1dbe6da9dcf7321cbd5edd4878860138631f9dba5f1b7c80de96a57521fe3cf",
+    "angle_112p5_acoustic_shear__total__shape__continuum_primary": "59b16f3181074c74a8bd457a926e65404ec68c2073263f4111eabffed56aa17b",
+    "angle_112p5_acoustic_shear__total__shape__continuum_secondary": "884a4eb0dfcaeb464d3bbfcbc2a65f8a28dd2380609892d2ae5895e6a1f648ac",
+    "angle_112p5_acoustic_shear__total__shape__fine": "a0772bf4a6009c0be96257f730c6557590ec80c1df0b86735f085ea6babdd4ce",
+    "angle_112p5_acoustic_shear__total__shape__medium": "0ae8b5a02498996b60594d878eff9fc33a0f14b344d1847ffc8ac1894d603ada",
+    "angle_112p5_acoustic_shear__total_covariant_receiver_work": "6b8eeac955cfdaae6b48c1e58d08ed37e8184f88d2f655b0c3e9a4071823cd1c",
+    "angle_157p5_acoustic_shear__N392_tier_I_exports": "10213b5c4de9c328b9cee62af5e1aab74c805f01de988c806f46343485903937",
+    "angle_157p5_acoustic_shear__target__gain__coarse": "3b071ac47b2e0fccc200955a649957c4e27e584d3fefd328bf4e5e8ef8aee7fe",
+    "angle_157p5_acoustic_shear__target__gain__continuum_primary": "a227343204ebfbd63779da3f891ed525c77d67d2048da58e65089860edd162c4",
+    "angle_157p5_acoustic_shear__target__gain__continuum_secondary": "89b3104927eac635ec3d8b92a2db59b6b645f15a86bf15f7cd55710f098cb69e",
+    "angle_157p5_acoustic_shear__target__gain__fine": "6f1df0d7242c043760435b69a90a2f43a7540656df9431b95c83980194bfa758",
+    "angle_157p5_acoustic_shear__target__gain__medium": "b019e5f476c3f4d2a9ac217a3c874fa4d18828a364e298cbd5eb17e5c4099e76",
+    "angle_157p5_acoustic_shear__target__shape__coarse": "e6eaa63bfdd24e49d1fbecc0a95a15a93b03a43eb58626d5c5d3c578d1359669",
+    "angle_157p5_acoustic_shear__target__shape__continuum_primary": "8175ef6f5454b5ee845263adce3df21a0de53b6dea090fe9ec6e3c80a5156119",
+    "angle_157p5_acoustic_shear__target__shape__continuum_secondary": "0e1e5e5ec980f405a0a1f63dc9ae4c7aa301a35b82c9357df74f485d3a35b79b",
+    "angle_157p5_acoustic_shear__target__shape__fine": "17cd8aaf5a20668f6fef67a3f71a64c31f0e381d4797b3bcdb6e499b091c4d1b",
+    "angle_157p5_acoustic_shear__target__shape__medium": "3e837eaa4594186e7ea1285dda8be7b551b39f6af31bb03ea9312b50f8f0eb9c",
+    "angle_157p5_acoustic_shear__target_covariant_receiver_work": "e78829d9bff4c2ed30985aab9dc29fe48d4c953b2112374c2f2517a4b8c3a9d8",
+    "angle_157p5_acoustic_shear__total__gain__coarse": "c76b4453b9cf6b2e5db512768f07a150fad217cf39634cc752f2740db9fe6f44",
+    "angle_157p5_acoustic_shear__total__gain__continuum_primary": "16682ef757efb946fc956921f712c2fb0370956697160e41a683b64fb1370e5a",
+    "angle_157p5_acoustic_shear__total__gain__continuum_secondary": "fa9af992fcd18593a74c67dfa95b93521cb7548230c7df8e6715107b61c2da43",
+    "angle_157p5_acoustic_shear__total__gain__fine": "30035fafa6e77d37b9d1481eb5a0111b0dca88280668a74f90ee7d793a308df8",
+    "angle_157p5_acoustic_shear__total__gain__medium": "f7ba01c821b16f4863e8c2aa0d98ffaa04375c6539bc0dd71c80616e1998d317",
+    "angle_157p5_acoustic_shear__total__shape__coarse": "93496a093ae720184e292c7c409b9af8ea2c552ccda0f4bfc00d9feeb517c510",
+    "angle_157p5_acoustic_shear__total__shape__continuum_primary": "4c2a023d0b48333287f4af18296c15b8996a569c7818d17fed8b20fef89ebbc4",
+    "angle_157p5_acoustic_shear__total__shape__continuum_secondary": "6cebd1d00279d3fd121b300af68b8fd63ae2f817223de6424b1536853151c462",
+    "angle_157p5_acoustic_shear__total__shape__fine": "8a412ddbe2dab21563bc0b614f25e23f9f7faa8a71efb965cba630f325a1b764",
+    "angle_157p5_acoustic_shear__total__shape__medium": "8c111aad2792c5e90555b1d322ef0e0604297979eeea03a69982d8f1b1225981",
+    "angle_157p5_acoustic_shear__total_covariant_receiver_work": "8b1d79169c595b74bcd4b7d667e3c9a711bbb806202097c921de1b0e8711581f",
+    "angle_22p5_acoustic_shear__N392_tier_I_exports": "1fcf442f26d4d47563802ff94a99b3e39c1df0ec44846b340f1ff58cdfbd648a",
+    "angle_22p5_acoustic_shear__target__gain__coarse": "ee0bedd191b6d3709baa9de7eddcf800757c07b5d33f8425ccbb9b91bc54d24c",
+    "angle_22p5_acoustic_shear__target__gain__continuum_primary": "359f73bdbd7823eeb2d05c61a4f90374a1bc6a113372be5dd575642027d51172",
+    "angle_22p5_acoustic_shear__target__gain__continuum_secondary": "90f50970c0eca1b316bc667f56c50b4addea40ebe319deda007b2d699b8c6095",
+    "angle_22p5_acoustic_shear__target__gain__fine": "55af5e96303ee3fdd71e08c9a5e61c284c55b19a26e3cd3445836b2ab9ddc742",
+    "angle_22p5_acoustic_shear__target__gain__medium": "45a5fce2e036b723643ef9437204f091b06cfdd7eff10d668c68b6f88a23d04e",
+    "angle_22p5_acoustic_shear__target__shape__coarse": "f0ff4c9427338d60ec7d009f947672bbdd9861e15c19eef53f9f20ea80f8a3fc",
+    "angle_22p5_acoustic_shear__target__shape__continuum_primary": "60abda8843f1a6dbe5be0aa2f83a6ec2f5b93fe034abdec6a62d29bfd9d345d9",
+    "angle_22p5_acoustic_shear__target__shape__continuum_secondary": "061652f3f0f79a53abbfd7d215e9bb09653292758d70c619ac89e63a05a791b0",
+    "angle_22p5_acoustic_shear__target__shape__fine": "41ee9b4c9dd6f0d4c261ddcd9c580530aa40a22fafac23cc181977a4ba20b00b",
+    "angle_22p5_acoustic_shear__target__shape__medium": "59aab18aa854c085d627eb6e863abc4566dd64335930a79019cac21cd7516b46",
+    "angle_22p5_acoustic_shear__target_covariant_receiver_work": "6fa62af3f5e72caed2446cddd790dae48825345d883dae58c5bc87962dcff0e7",
+    "angle_22p5_acoustic_shear__total__gain__coarse": "0297c01c5e0fb53ba2818beab46b8d7e1242d47ba07f7b1291f3f003964e9ead",
+    "angle_22p5_acoustic_shear__total__gain__continuum_primary": "b183fec7b550e67395861aa86226b2580df392bdb9f0fb2d86e45feb0440cdab",
+    "angle_22p5_acoustic_shear__total__gain__continuum_secondary": "108f8103145a612c7c630fb06b7bd01bd6e49e47ad6486f9ce147a77e82195be",
+    "angle_22p5_acoustic_shear__total__gain__fine": "10d62547f43586e4f2ed2ccaeeedefdd8442d36707934b09bd42941b06f95516",
+    "angle_22p5_acoustic_shear__total__gain__medium": "caa94109f7bd85999c0cb0b3f587d00321c96cd2f357cb672c54b749dcd2c0c6",
+    "angle_22p5_acoustic_shear__total__shape__coarse": "5d99f9b3413aa9239c7eaefe0dfc2b2cc2430821cac3f03908f7f36381d38f3a",
+    "angle_22p5_acoustic_shear__total__shape__continuum_primary": "03b89f310b064a33e9e384ccac0c05396fd058b1feb4952f0c433e49f6a144ea",
+    "angle_22p5_acoustic_shear__total__shape__continuum_secondary": "85c2e360538b2c5e128b7e8b97ed059171b4a6e809e3aef9038c7e840d326f3a",
+    "angle_22p5_acoustic_shear__total__shape__fine": "14bd0e2ebf548a7a3d83a190691d68776c3fa1a6a64cee285b90d205a5445906",
+    "angle_22p5_acoustic_shear__total__shape__medium": "9c19c2243c20ad685141f52353cca363178db31201970ba1c8c1beb141888028",
+    "angle_22p5_acoustic_shear__total_covariant_receiver_work": "dc3ca39b50fbee52246d4e8ccc71d37d79fdd8fdc26505aa4425711d2158089b",
+    "angle_67p5_acoustic_shear__N392_tier_I_exports": "4d4cdd220d8abc1a7eadf822ee6879a3d12c75b178a12b0735234c3e0355bcd0",
+    "angle_67p5_acoustic_shear__target__gain__coarse": "e16741e6e4a79322c6ee43a173413612576c545a99d527cb2ce70af82d6f32aa",
+    "angle_67p5_acoustic_shear__target__gain__continuum_primary": "0560eef8a682c0cf15c11c2d1b653e11357f883b9f5f398af7c2120c80590ed3",
+    "angle_67p5_acoustic_shear__target__gain__continuum_secondary": "c7351cfee2f0dae134197c13baefedc91572a4fbf0379c35ab50454643899c1a",
+    "angle_67p5_acoustic_shear__target__gain__fine": "cdbe90df2405606f3fabcd46b5d10c38ce3b884ad6a910e811c108822e7f4363",
+    "angle_67p5_acoustic_shear__target__gain__medium": "9df1ba1eacdab12dd4759a5bb6eb76a7c90b789579ef17e32cf912eb9feb3e20",
+    "angle_67p5_acoustic_shear__target__shape__coarse": "24afbb98aef7e0923983bebc80afbd28971ab04cf005dceb5bb735241f4dcc70",
+    "angle_67p5_acoustic_shear__target__shape__continuum_primary": "162ddd8e71645382ae8d3863b33c3414c6cef5ea9e505cb75fdd464104391c17",
+    "angle_67p5_acoustic_shear__target__shape__continuum_secondary": "27334c4aa987ca6e666c9770895358e3c9d094a94ab9730c78cf801ca27ba056",
+    "angle_67p5_acoustic_shear__target__shape__fine": "6bd516cb0d2b8639cb00cb93c457e4e917d4416efb1bc5f322109b99cb1e880a",
+    "angle_67p5_acoustic_shear__target__shape__medium": "8853f7e14532f5ca6a23a88052b22c846abfe7a5685ae8da5c3c9de42cb11b4c",
+    "angle_67p5_acoustic_shear__target_covariant_receiver_work": "215052139244ce444e855ff39b7408268e56a52a21c719200a4edc6bbfac5038",
+    "angle_67p5_acoustic_shear__total__gain__coarse": "4dfaf2a4f6211d09b028d9e223770c09499a2d49b95b822af5b0fe2cc3868ae2",
+    "angle_67p5_acoustic_shear__total__gain__continuum_primary": "bf40c2e222411edd229877bd2553829919db20fab1397746cb35fbfe5ba299b8",
+    "angle_67p5_acoustic_shear__total__gain__continuum_secondary": "40ea3fd8b0132b330f297270df8681b0bc1d2d7bd8c1dc0209ebb546ceae9c54",
+    "angle_67p5_acoustic_shear__total__gain__fine": "da0277a660ce71cb1f77b5aa9fbd7c6c653ac555d296fcba9954ea22cf28d2ee",
+    "angle_67p5_acoustic_shear__total__gain__medium": "119b57ea0a35ba10bb98ea81ea0d6006d1868d0a2bfe56e4022e31b24dd8d12c",
+    "angle_67p5_acoustic_shear__total__shape__coarse": "e2a3058ca4fbd5200da24573ccaf2d47128e2f80c27d2f98d64ac6c570167b55",
+    "angle_67p5_acoustic_shear__total__shape__continuum_primary": "000c83ac4a8719f2bb5ba2dd44b9d9d19a62dbb76eb1303279460919a5cd8cf0",
+    "angle_67p5_acoustic_shear__total__shape__continuum_secondary": "c8d02875b70b26ff2e76222a13e3af24cfcdd943a17f80e842aaa5c59c9d008d",
+    "angle_67p5_acoustic_shear__total__shape__fine": "3ad0c2148a76f47e53f3529d7e2950ab1d34639f6e142c9dcb9c1b2c14067d95",
+    "angle_67p5_acoustic_shear__total__shape__medium": "138dc947a8161fa5ed5d948b55ca13a77de9fa41a5fefa790b747781491f31a3",
+    "angle_67p5_acoustic_shear__total_covariant_receiver_work": "7e2749eb15633ae78d162bb7ffbe74cb350d443f73517f4f1093f933efb8cb5e",
+    "continuum_nodes": "c25f7c147efd5eb11d58cf51c581c4b67c46a3173aad21f4627790118f9b6bf2",
+    "continuum_primary_action_rate": "de54df25123031dafbab9e1aa4c4116b8596ec7bf16da1e5e8491ba49e7998fb",
+    "continuum_secondary_action_rate": "365b89fd9814957a08968edc80ae62f4d1316121adadbc050113144c03fe450b",
+    "difference_shear_acoustic__N392_tier_I_exports": "6cbb4abbf43a2334bfa742b4c7331e4dc0203942494f0aca4979869388922ac3",
+    "difference_shear_acoustic__target__gain__coarse": "34e6831b1379e7e48d4a36fc350d4daaff3499f17105bf0500b109eeb6f33beb",
+    "difference_shear_acoustic__target__gain__continuum_primary": "abd894f78680c698d24eccac12f5ea481d190b0e1717e3001eb761a2d7ddc4a2",
+    "difference_shear_acoustic__target__gain__continuum_secondary": "60b06ce31c5a281f4c16c7d0aed68074d00d726de29183d08637d4e02350d34e",
+    "difference_shear_acoustic__target__gain__fine": "211fbb7209ad490466f5f3f3bc0b0c2f85e41998a8057fa0db7adf3b3ca67630",
+    "difference_shear_acoustic__target__gain__medium": "b8bcccad9cf4c27e6b71b5941d3aac2788f474849218f749f4df55595232b2b9",
+    "difference_shear_acoustic__target__shape__coarse": "f8e84dec178bc13575a1d2e9ff4b5b98cc35bd529e76cee9df70f9b5eda089cb",
+    "difference_shear_acoustic__target__shape__continuum_primary": "6c6e3c29b00584c29ff77fca682ff925742dbe94367eaf80527f85cc74c02fb6",
+    "difference_shear_acoustic__target__shape__continuum_secondary": "b840598a0c6ad1d10f18a7b69a6b00e2f6b666f63a51799239f51a0d650c3578",
+    "difference_shear_acoustic__target__shape__fine": "7d412cc53b383ba0b4d24b0a6ddf4c303843b79658a26ba500912e065887d7f0",
+    "difference_shear_acoustic__target__shape__medium": "f9a155877c9a496d6561271172b930310951a741c411436ff9f6efc8f8fefc83",
+    "difference_shear_acoustic__target_covariant_receiver_work": "b6a09c311e4a7e3b7ef0ec6b657fdc3d99efe73e984a5621d7fd5e867cf81c5e",
+    "difference_shear_acoustic__total__gain__coarse": "276e65c8a1188a7e965516a1dc1cf0a3c8bae102926d4ced9515486df353d74c",
+    "difference_shear_acoustic__total__gain__continuum_primary": "f21325162d08347ab75c6bef7d7f71e0d130c5eb3169cb3fb7af78207d453f65",
+    "difference_shear_acoustic__total__gain__continuum_secondary": "64dcc66739fe4c361a6f72d1d431c2f10114bc43cab24df0d0058787c85368d8",
+    "difference_shear_acoustic__total__gain__fine": "5e82a83177946eaaa95a14ca6186a47ba2caff6834c19d81ad5e133bc9097ed2",
+    "difference_shear_acoustic__total__gain__medium": "5b8a71769195bfb8aa13872067c92b2048bf17874a7fae3af00fa4b9e52b926b",
+    "difference_shear_acoustic__total__shape__coarse": "1ee669db81cbcf1f3980302c1df6475b0746d847796986f35dfa9cf7744ae1d9",
+    "difference_shear_acoustic__total__shape__continuum_primary": "0973dc420e33713b19ce497a1c4a613cf96999007fc0313c1096923415067404",
+    "difference_shear_acoustic__total__shape__continuum_secondary": "b57d9dc23467a16af3b1d15cda763016a4e51ff68c81163ff10545735c87d4ac",
+    "difference_shear_acoustic__total__shape__fine": "83f8fd9a18cc1b71187df8b19a7208968e40f7acda2eb49fe023126ef0b3d421",
+    "difference_shear_acoustic__total__shape__medium": "6cf81bf0233596b0a258d8324389174fc2a591db21d88c8645b32a50318a8952",
+    "difference_shear_acoustic__total_covariant_receiver_work": "68cd76a5909c584ffdd563edfbc71d8098ff5cf80f6abcecb257c73dd3717669",
+    "mixed_shear_acoustic__N392_tier_I_exports": "36722820d9bc328aff02279ee2ee8327364b97555d11b15157680bf23ca8ec00",
+    "mixed_shear_acoustic__target__gain__coarse": "9c705cc00557da1ac7be34e823d1f2419ad81344d3b7847d6fec3cfed4275a87",
+    "mixed_shear_acoustic__target__gain__continuum_primary": "36ebf0403ddcdb0732ce3f29bb2b0cfb3c82a89f0c81bf2fb44ba29441ad3c4e",
+    "mixed_shear_acoustic__target__gain__continuum_secondary": "1082deeb3d06d1a0785ef9b49160787bd58e87f538cc412e354a745aee731a05",
+    "mixed_shear_acoustic__target__gain__fine": "21666ea22ef97a2f9c36810625d13c4d7d833c71f1d758fdd2f3b9ae9575d677",
+    "mixed_shear_acoustic__target__gain__medium": "cfde3c300ad349f61aaf0c14731bd5de28676e76aedb210ece16a4dd6f03a7f7",
+    "mixed_shear_acoustic__target__shape__coarse": "54daca8263859fe8e1b3cf346855f4b4372b7578f8fb7da8b9a881f487a7b9ed",
+    "mixed_shear_acoustic__target__shape__continuum_primary": "50340b3dc001e8f04433a5e4138ec34ec048e71b691c67fac344d3436cb28d2e",
+    "mixed_shear_acoustic__target__shape__continuum_secondary": "30f6bd98f4b3fd854482e0f51b51e123a74fb37f4fcd216c68d6920db55ed84e",
+    "mixed_shear_acoustic__target__shape__fine": "0f00bbbb081ac3cf1c862b3f8adf260aa59f0f55a4034c4e2a91cc2d09245ba8",
+    "mixed_shear_acoustic__target__shape__medium": "8d3b6ca2f11c077a8507d4f7d80944cce9ed798313d57f31f0389132fa8fc381",
+    "mixed_shear_acoustic__target_covariant_receiver_work": "980f44800349441342542f2874de505ee7dfa0b5939cf2060a1ed8f92cf82135",
+    "mixed_shear_acoustic__total__gain__coarse": "69eb6866866617c316011f9d709fd1ebce6fbc6cad9506069755fb363eca9992",
+    "mixed_shear_acoustic__total__gain__continuum_primary": "68bb2557fdcc224ca7361e70b62cd013a575813699d680f151e0c6186188083b",
+    "mixed_shear_acoustic__total__gain__continuum_secondary": "d1b63fffb1a319b232c75ddae3ae42c71352e1ee2f6302a37b9537e5a59d1d1a",
+    "mixed_shear_acoustic__total__gain__fine": "3a8ff28e5ec80ed37c03f26d5865e67cef99c3c20176e0660592d71a35287c2c",
+    "mixed_shear_acoustic__total__gain__medium": "b3be53bec1c6d23e0306900a64acc47963a46fd16877b246af9cf46d9d3ac3ef",
+    "mixed_shear_acoustic__total__shape__coarse": "36f402337b65331ad1bbe1e7bfc9649c01a63e2276cf9bd13332901dfbee0389",
+    "mixed_shear_acoustic__total__shape__continuum_primary": "e4127d2e7ce0254820c5e92020f9fb7edeba36a67282132a540205c34ce5cbf9",
+    "mixed_shear_acoustic__total__shape__continuum_secondary": "62852655fc09e92d65337fb3725ad49976259c5637b4d4a1b12c244a9250e2da",
+    "mixed_shear_acoustic__total__shape__fine": "e3230822383598b4d1da885341821b66fe0e234b1bddaa08accdb8a65da4d007",
+    "mixed_shear_acoustic__total__shape__medium": "3a0b4b4aa329b610b29fd6193a07dd179dd0fea102a2cb43a5cfcc498f8714b2",
+    "mixed_shear_acoustic__total_covariant_receiver_work": "1189aa9c0ac8b946874c4d8eee18aa5edd1703ec56a3e13115debe4463bbbd6d",
+    "primary_times_seconds": "e141063afec3b8e96f5e5efb71b969e3f6176bbde2eb77e3e298263bac96c52f",
+    "reference_levels": "0edd9a5c8435601aad00b6c085e10001d29609bf3c76e4921ea8fd7834ca0677",
+    "shear__N392_tier_I_exports": "11cc19f13e2d23e2489b2f77f94cccbd745dd964d9898624db5345bc31482a51",
+    "shear__target__gain__coarse": "c67de4d16851e0211d44b64ddd62d77dcb7ffbf93535802e0c9089e24d4b1129",
+    "shear__target__gain__continuum_primary": "bdc33d65db6e85c8d7e0f1bd6793e7ea1a3cc6b17aef8dada6fce07db4f7718f",
+    "shear__target__gain__continuum_secondary": "cce27b454bbc4460692a7ffebef71959abc26ab3a77f4506a66522f0a2c8709d",
+    "shear__target__gain__fine": "6589326b50e97f0490e7073ea555e321c67dc82a3d88f54f53afc6e0eddfa4ae",
+    "shear__target__gain__medium": "11faecc24393c5ec41e11dbea920d1a3c3a01dfc364b4708b5e75256e3b8083f",
+    "shear__target__shape__coarse": "5a1d4ca28cd8d91e7a7d4b1e9bcd92707785f883d9b82b73d2100d864d531e60",
+    "shear__target__shape__continuum_primary": "d8f4d9527e9b3c429538cde268e207f71d3e04ecade26a0578ad762ba34a1baa",
+    "shear__target__shape__continuum_secondary": "d265c9892d3b78603b984d867a0eb9e6cc102629065beb162a61c8e861b13e98",
+    "shear__target__shape__fine": "67d2530b8faae926777d161b14033dcc4ac6cde23acaa2280e6cf9c84f503e10",
+    "shear__target__shape__medium": "68f74b86df5e7162e24e381b8724554bd40be982cf67a5cf53b2fcab3f9d3b5f",
+    "shear__target_covariant_receiver_work": "e113cbbe4a9627a7cca8f75e8211672a9936c0b41d16e6f9bdb843bc59dbc942",
+    "shear__total__gain__coarse": "347f305e5e379d505c14230393ec44e18986207e599004a053f97239266ab1e3",
+    "shear__total__gain__continuum_primary": "a33840dead54776aeb030256e72f9b6afaa58eb0f081c047b2cf90dc7d9df3c0",
+    "shear__total__gain__continuum_secondary": "bda652c340912cb1b530ae85f44c2bad6c64ec58651eafdbcb58c782368021d8",
+    "shear__total__gain__fine": "2396c1036b53635ca4435a22ab53d9ccd56be691230705fdba399aa07271588b",
+    "shear__total__gain__medium": "8125f21a6414ab10061c775bb9f1f41289ca8b546ad25cc580362c15c5097f7f",
+    "shear__total__shape__coarse": "687d5597afea28c54ab982e4fdb2afb029f682ad05de0bd2fb6cbcb25b48bbd0",
+    "shear__total__shape__continuum_primary": "c4b2369179d64db0a1fb8f4906958cefbd2424bae6be1fa0d50aed40dec0b802",
+    "shear__total__shape__continuum_secondary": "1ddb756a5ca19d9ba31cd98bf1745bc90fed8ec493b8662bd495bba2ff01e5ac",
+    "shear__total__shape__fine": "ccdafd8ab1827784b3a0b75c4d9737b88b758eee136cc431b617609c7410d7eb",
+    "shear__total__shape__medium": "183057768a8ef362dbce49aced8c33160ad42087cb2609331a064c8d9f91f055",
+    "shear__total_covariant_receiver_work": "5de604fe4cab0f2145f3560f7255e54cfec46f8a2d1fb5f024a3c429e8f64e80",
+    "shear_weighted_shear_acoustic__N392_tier_I_exports": "d0b4108ade42329629f32f7738bab5877f209fd01fd277893cedcc24c2489a51",
+    "shear_weighted_shear_acoustic__target__gain__coarse": "652f2e86075ef3ec63eb05d75219932b9553cad27a013865416b7c9c24b8ba9a",
+    "shear_weighted_shear_acoustic__target__gain__continuum_primary": "cc16c0bf61588f28581b9e792f501528b54daafb884ce490e10f71cfeb0b1593",
+    "shear_weighted_shear_acoustic__target__gain__continuum_secondary": "05e7ea285c76a347e174d5f94ef9170b3246f9f4bffc76a718487407c6f52936",
+    "shear_weighted_shear_acoustic__target__gain__fine": "7e05b6c3061708b53aa5a9f6c7ca2fefa0ce27e9a54660d5694dae32051e6da7",
+    "shear_weighted_shear_acoustic__target__gain__medium": "4ec2e0338c2f9632869350192befbb84caca94f2f7fe9531655c9c5a39e9e186",
+    "shear_weighted_shear_acoustic__target__shape__coarse": "044f433f248d01ed94d8d4014ad9ae77ef3e60e01e40ebb1564e198b4f784533",
+    "shear_weighted_shear_acoustic__target__shape__continuum_primary": "d31f90c2c6d9e82bc2ddfa2f81ce415c93e3b88ebb99e8140b8b3de139da07f2",
+    "shear_weighted_shear_acoustic__target__shape__continuum_secondary": "a84a7533ebcc7126136556415db5427572f8b1d94ebb594a7e5f4655d9c37cfe",
+    "shear_weighted_shear_acoustic__target__shape__fine": "9c72a209ee85837be759cefb2b26f6e952d03cb9d318c2dd251cef7c7a9beeaf",
+    "shear_weighted_shear_acoustic__target__shape__medium": "11e0797f9e38803c41d7a634584f2f65ce418bc361e66e079156510516717f9e",
+    "shear_weighted_shear_acoustic__target_covariant_receiver_work": "fa5a323b00e5a755b232ac4453ebf3dd8d73f29ae721c27b89a72d5d578b86fa",
+    "shear_weighted_shear_acoustic__total__gain__coarse": "ad793494803cb3d2fc7aa61a5f009ff74240e0c13249c63ba318700649772619",
+    "shear_weighted_shear_acoustic__total__gain__continuum_primary": "dfeaf532c2cf4770438dd4245134fedb48ada19d9c04f55788305afaed5755fb",
+    "shear_weighted_shear_acoustic__total__gain__continuum_secondary": "ca65ee57b7da33bdd0d00cf970a44245aa18e67252702ba9e2d1adf31b3be15f",
+    "shear_weighted_shear_acoustic__total__gain__fine": "f6e3d39e8a84da60ecf36c5a2744aeaf73cf876b4ec8c01f1255d4ca552948ae",
+    "shear_weighted_shear_acoustic__total__gain__medium": "9517b815628f118b4dfa59b724f5da532b9b43e24b9fbce21c52fae35329e5d5",
+    "shear_weighted_shear_acoustic__total__shape__coarse": "fbec5bd7abc7e9afded66ec95f9a3db4332112e3e9b34f785f5c3c59feb7be9e",
+    "shear_weighted_shear_acoustic__total__shape__continuum_primary": "0ef5b074a8e4a3d174d64ff246b290601586ab73e76602c9eb3633c61ba92c6b",
+    "shear_weighted_shear_acoustic__total__shape__continuum_secondary": "14994ead5212c95687d05ec704cc0a06a5d629c3774391f3b75e4cd4a08cd5b3",
+    "shear_weighted_shear_acoustic__total__shape__fine": "44b16fe5cb5053826b0e14eba57431b90ef37c150138b83195a76602957de275",
+    "shear_weighted_shear_acoustic__total__shape__medium": "d6211e2921fc5001e58732e8774ff5a88102e69d04d90b8465bc582a74cb66da",
+    "shear_weighted_shear_acoustic__total_covariant_receiver_work": "9aeb1e5ff5d7528eaf525670bd8c7b18b6212f0961a1b9b4231f72e52374a493"
+  },
+  "decisive_arrays_sha256": "c7d5d06aad549d892f90c22e893b27a4adf93ce5fef7f125fd6b887b14dbcd2c",
+  "direct_continuum_extrema": {
+    "maximum_N392_relative_RMS_error": 0.016215294648509404,
+    "maximum_N392_relative_maximum_error": 0.04681950076046642,
+    "maximum_peak_response_relative_error": 0.046067272222358895,
+    "maximum_peak_time_window_fraction": 0.0,
+    "maximum_reference_to_fine_error_ratio": 0.0002239570840673564,
+    "maximum_time_average_response_relative_error": 0.007505914883732785,
+    "minimum_N392_continuum_history_cosine": 0.9999488397845702,
+    "minimum_RMS_error_order": 1.5295248358322666,
+    "minimum_maximum_error_order": 1.5494925858206596
+  },
+  "embedded_or_nonlinear_propagation_executed": false,
+  "finite_basis_propagation_reused": true,
+  "historical_classifications_preserved": {
+    "WP10c9d6c7c2b6a": "revised_uniform_arrival_transfer_contract_frozen_recertification_authorized",
+    "WP10c9d6c7c2b6b": "revised_uniform_arrival_transfer_recertification_failed_embedded_blocked",
+    "WP10c9d6c7c2b6c": "direct_continuum_arrival_errors_contract_pairwise_rotation_preasymptotic_no_redesign",
+    "WP10c9d6c7c2b6d": "direct_continuum_arrival_contract_frozen_uniform_recertification_authorized"
+  },
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_direct_continuum_uniform_recertification_wp10c9d6c7c2b6e.py": "abf33bc2863e5c075b507340d79c430d3cf558d90ce013fa1919619e253de622",
+    "tests/test_causal_inner_direct_continuum_uniform_recertification_wp10c9d6c7c2b6e.py": "c01796670bd557479169654ad39d5d3990a27f6e3346eb6fade6124f053ac874"
+  },
+  "implementation_source_manifest_sha256": "cc16ed0b7edb7516105744e61d80d4c5f64448fb49244e4d7268ae363233ee99",
+  "independent_N769_N513_propagation_executed": true,
+  "independent_continuum": {
+    "maximum_energy_algebra_defect": 6.821210263296962e-13,
+    "maximum_restart_defect": 1.667586777714167e-12,
+    "minimum_spectral_gap": 0.002450891731464566,
+    "passed": true,
+    "primary_secondary_action_relative_difference": 3.8086859420818527e-06
+  },
+  "input_hashes": {
+    "results/canonical/causal_inner_direct_continuum_contract_manifest_wp10c9d6c7c2b6d/contract_manifest.json": "d22be189e7276c9d18cfa45409472a288044eac3f016d1502fd1f108f7d36e94",
+    "results/canonical/causal_inner_direct_continuum_contract_manifest_wp10c9d6c7c2b6d/decisive_arrays.npz": "bc168d77fa481c64410dc42ab17246152e224efeabfe2e256695b23d2643b822",
+    "results/canonical/causal_inner_direct_continuum_contract_manifest_wp10c9d6c7c2b6d/summary.json": "9f469793d6ac9c12a527f3963a017bc977efd5937f01189d2cc3f01bb445840c",
+    "results/canonical/causal_inner_embedded_manifest_wp10c9d6c7a/decisive_arrays.npz": "468d2ed7d2cd3b0b81856e977536f4aa981da4c4f889ae481cdb0661a7cb9313",
+    "results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/decisive_arrays.npz": "d82fec216c5dbd44d91fda648a542ca97235a79080871065e239510d38c62927",
+    "results/canonical/causal_inner_scattering_scope_wp10c9d6c7c2a3/decisive_arrays.npz": "5dd13eaf228c9e8cc04934a3ebb4ac8e729058509595b646274dc1528e1808a5",
+    "results/canonical/causal_inner_scattering_scope_wp10c9d6c7c2a3/scope_manifest.json": "e13347ad018f0a21793619573288089e1491a7b98bfa13a4aa6d1cf6e8277a0c",
+    "results/canonical/causal_inner_semidiscrete_energy_transfer_contract_wp10c9d6c7c2b3/decisive_arrays.npz": "b631cd515e6f1dc1447bf1637c77c00603af417cb40f806a144e16541291ff53",
+    "results/canonical/causal_inner_uniform_family_transfer_wp10c9d6c7c2b5b/decisive_arrays.npz": "13ead0abfb07b97f27ce0d41e197fe69e58040c276616ecaa125536dcff32a10",
+    "results/canonical/causal_inner_uniform_family_transfer_wp10c9d6c7c2b5b/summary.json": "093ae385c698551eafa3544be49a77d94d01a606d970a9137b250ddd00e7140f"
+  },
+  "operator_changed": false,
+  "passed": true,
+  "projector_contract": {
+    "by_level": {
+      "N196": {
+        "maximum_eigenvector_polynomial_projector_defect": 1.7312564796823451e-12,
+        "maximum_polynomial_algebra_defect": 2.6501290051328397e-10,
+        "minimum_spectral_gap": 0.002454310288982353,
+        "passed": true
+      },
+      "N392": {
+        "maximum_eigenvector_polynomial_projector_defect": 1.973016826297395e-12,
+        "maximum_polynomial_algebra_defect": 2.977493807065912e-10,
+        "minimum_spectral_gap": 0.0024514519833662707,
+        "passed": true
+      },
+      "N98": {
+        "maximum_eigenvector_polynomial_projector_defect": 3.4355658745734952e-12,
+        "maximum_polynomial_algebra_defect": 2.3565738076214426e-10,
+        "minimum_spectral_gap": 0.0024669284768447652,
+        "passed": true
+      }
+    },
+    "maximum_equivalent_local_projector_difference": 3.4355658745734952e-12,
+    "maximum_family_partition_defect": 2.0441978197069486e-14,
+    "maximum_projector_algebra_defect": 2.977493807065912e-10,
+    "passed": true
+  },
+  "propagation_executed": true,
+  "runtime_seconds": 53.35396745800972,
+  "schema_version": 1,
+  "source_parent_commit": "f6936282ab216e5e3db4ae04b981c544854dff87",
+  "tier_I": {
+    "acoustic": {
+      "cumulative_exports": {
+        "history_cosine": 0.9999994455572963,
+        "maximum_fine_normalized_difference": 0.0007463565283112386,
+        "minimum_significant_component_order": 2.030481778209486,
+        "observed_maximum_order": 2.150034083967385,
+        "observed_rms_order": 2.1466313485790405,
+        "passed": true,
+        "refinement_error_cosine": 0.9986715462686947
+      },
+      "instantaneous_exports": {
+        "history_cosine": 0.9999969432021473,
+        "maximum_fine_normalized_difference": 0.005700450830212478,
+        "minimum_significant_component_order": 1.9682059211664378,
+        "observed_maximum_order": 2.0995391536242844,
+        "observed_rms_order": 2.0751291350378924,
+        "passed": true,
+        "refinement_error_cosine": 0.996025381395007
+      },
+      "passed": true,
+      "role": "historical_calibration",
+      "state": {
+        "minimum_significant_component_order": 2.0010563943829527,
+        "observed_order": 2.0693543723440926,
+        "passed": true,
+        "reference_choice_to_fine_difference_ratio": 0.020538925281677473,
+        "refinement_error_cosine": 0.995809107402838
+      }
+    },
+    "angle_112p5_acoustic_shear": {
+      "cumulative_exports": {
+        "history_cosine": 0.9999909254609726,
+        "maximum_fine_normalized_difference": 0.0012442124385557522,
+        "minimum_significant_component_order": 1.9556435715599843,
+        "observed_maximum_order": 2.0163938119765845,
+        "observed_rms_order": 2.0019031620100645,
+        "passed": true,
+        "refinement_error_cosine": 0.9995157582390634
+      },
+      "instantaneous_exports": {
+        "history_cosine": 0.9999720246647692,
+        "maximum_fine_normalized_difference": 0.00838565153490365,
+        "minimum_significant_component_order": 1.9536016017604054,
+        "observed_maximum_order": 2.0260515489651127,
+        "observed_rms_order": 2.00053583556725,
+        "passed": true,
+        "refinement_error_cosine": 0.9974130609213137
+      },
+      "passed": true,
+      "role": "prospective_heldout",
+      "state": {
+        "minimum_significant_component_order": 1.9323648624311505,
+        "observed_order": 1.9950804655187537,
+        "passed": true,
+        "reference_choice_to_fine_difference_ratio": 0.001519855826699867,
+        "refinement_error_cosine": 0.9977287922471271
+      }
+    },
+    "angle_157p5_acoustic_shear": {
+      "cumulative_exports": {
+        "history_cosine": 0.9999985361716909,
+        "maximum_fine_normalized_difference": 0.001085083601225098,
+        "minimum_significant_component_order": 2.0244241530258957,
+        "observed_maximum_order": 2.0891407369279276,
+        "observed_rms_order": 2.0756274474950214,
+        "passed": true,
+        "refinement_error_cosine": 0.9992574874517987
+      },
+      "instantaneous_exports": {
+        "history_cosine": 0.9999941836299217,
+        "maximum_fine_normalized_difference": 0.007568042777045425,
+        "minimum_significant_component_order": 1.9798753024055153,
+        "observed_maximum_order": 2.0726324721940315,
+        "observed_rms_order": 2.047862769537862,
+        "passed": true,
+        "refinement_error_cosine": 0.9969903727210946
+      },
+      "passed": true,
+      "role": "prospective_heldout",
+      "state": {
+        "minimum_significant_component_order": 1.9752352484664613,
+        "observed_order": 2.04103873791344,
+        "passed": true,
+        "reference_choice_to_fine_difference_ratio": 0.012349050022090484,
+        "refinement_error_cosine": 0.9969160773393438
+      }
+    },
+    "angle_22p5_acoustic_shear": {
+      "cumulative_exports": {
+        "history_cosine": 0.999999923550212,
+        "maximum_fine_normalized_difference": 0.00029547488676678196,
+        "minimum_significant_component_order": 1.9605259358459803,
+        "observed_maximum_order": 2.3506777053965506,
+        "observed_rms_order": 2.3589085452604004,
+        "passed": true,
+        "refinement_error_cosine": 0.9780879404612975
+      },
+      "instantaneous_exports": {
+        "history_cosine": 0.9999986246668462,
+        "maximum_fine_normalized_difference": 0.003278173789375255,
+        "minimum_significant_component_order": 1.8427682589741303,
+        "observed_maximum_order": 2.1487290274868514,
+        "observed_rms_order": 2.097881125348199,
+        "passed": true,
+        "refinement_error_cosine": 0.9912144139853362
+      },
+      "passed": true,
+      "role": "prospective_heldout",
+      "state": {
+        "minimum_significant_component_order": 2.0214299228184904,
+        "observed_order": 2.0950890189774154,
+        "passed": true,
+        "reference_choice_to_fine_difference_ratio": 0.02775891518182623,
+        "refinement_error_cosine": 0.991026817470115
+      }
+    },
+    "angle_67p5_acoustic_shear": {
+      "cumulative_exports": {
+        "history_cosine": 0.9999898015230064,
+        "maximum_fine_normalized_difference": 0.0007396635814322424,
+        "minimum_significant_component_order": 1.8233562475155902,
+        "observed_maximum_order": 1.893518895775851,
+        "observed_rms_order": 1.9003459094680888,
+        "passed": true,
+        "refinement_error_cosine": 0.999676209128727
+      },
+      "instantaneous_exports": {
+        "history_cosine": 0.9999850782913426,
+        "maximum_fine_normalized_difference": 0.005226912107453883,
+        "minimum_significant_component_order": 1.831864041312466,
+        "observed_maximum_order": 1.9464668225747739,
+        "observed_rms_order": 1.9158453885150535,
+        "passed": true,
+        "refinement_error_cosine": 0.9961568986389512
+      },
+      "passed": true,
+      "role": "prospective_heldout",
+      "state": {
+        "minimum_significant_component_order": 1.8634003905155332,
+        "observed_order": 1.9190302565585717,
+        "passed": true,
+        "reference_choice_to_fine_difference_ratio": 0.026160643089306615,
+        "refinement_error_cosine": 0.9974758935630459
+      }
+    },
+    "difference_shear_acoustic": {
+      "cumulative_exports": {
+        "history_cosine": 0.9999967231464766,
+        "maximum_fine_normalized_difference": 0.0012597465115375406,
+        "minimum_significant_component_order": 1.9898456513892966,
+        "observed_maximum_order": 2.051188627428601,
+        "observed_rms_order": 2.035393670517211,
+        "passed": true,
+        "refinement_error_cosine": 0.9994197828498239
+      },
+      "instantaneous_exports": {
+        "history_cosine": 0.9999888574832961,
+        "maximum_fine_normalized_difference": 0.008519789259138197,
+        "minimum_significant_component_order": 1.972419789778415,
+        "observed_maximum_order": 2.050383418891507,
+        "observed_rms_order": 2.0246366495879022,
+        "passed": true,
+        "refinement_error_cosine": 0.9973100201520572
+      },
+      "passed": true,
+      "role": "historical_calibration",
+      "state": {
+        "minimum_significant_component_order": 1.9538351665946205,
+        "observed_order": 2.018056354317874,
+        "passed": true,
+        "reference_choice_to_fine_difference_ratio": 0.005505050053612466,
+        "refinement_error_cosine": 0.9974112313110743
+      }
+    },
+    "mixed_shear_acoustic": {
+      "cumulative_exports": {
+        "history_cosine": 0.9999995726753198,
+        "maximum_fine_normalized_difference": 0.00037803874926858536,
+        "minimum_significant_component_order": 1.433059322265521,
+        "observed_maximum_order": 1.7454987911024475,
+        "observed_rms_order": 1.7102064376118162,
+        "passed": true,
+        "refinement_error_cosine": 0.9967566557438649
+      },
+      "instantaneous_exports": {
+        "history_cosine": 0.9999987318851363,
+        "maximum_fine_normalized_difference": 0.003030794656957235,
+        "minimum_significant_component_order": 1.7784373595066547,
+        "observed_maximum_order": 1.8715657049068672,
+        "observed_rms_order": 1.9263915875570494,
+        "passed": true,
+        "refinement_error_cosine": 0.9832422839933004
+      },
+      "passed": true,
+      "role": "historical_calibration",
+      "state": {
+        "minimum_significant_component_order": 1.8710352164024988,
+        "observed_order": 1.9219274129347619,
+        "passed": true,
+        "reference_choice_to_fine_difference_ratio": 0.025180888710963918,
+        "refinement_error_cosine": 0.9864822621479377
+      }
+    },
+    "shear": {
+      "cumulative_exports": {
+        "history_cosine": 0.9998729509670504,
+        "maximum_fine_normalized_difference": 0.0010438719900850385,
+        "minimum_significant_component_order": 1.9075598887621514,
+        "observed_maximum_order": 1.9705312096626963,
+        "observed_rms_order": 1.9635998727353199,
+        "passed": true,
+        "refinement_error_cosine": 0.9996010206791329
+      },
+      "instantaneous_exports": {
+        "history_cosine": 0.9997938184953804,
+        "maximum_fine_normalized_difference": 0.007200997393184387,
+        "minimum_significant_component_order": 1.9123167660788112,
+        "observed_maximum_order": 1.9938180258588563,
+        "observed_rms_order": 1.9686480410926068,
+        "passed": true,
+        "refinement_error_cosine": 0.9972986378243924
+      },
+      "passed": true,
+      "role": "historical_calibration",
+      "state": {
+        "minimum_significant_component_order": 1.9051925209948788,
+        "observed_order": 1.9657754423714988,
+        "passed": true,
+        "reference_choice_to_fine_difference_ratio": 0.010755522738119569,
+        "refinement_error_cosine": 0.9979335519376628
+      }
+    },
+    "shear_weighted_shear_acoustic": {
+      "cumulative_exports": {
+        "history_cosine": 0.9999965981541451,
+        "maximum_fine_normalized_difference": 0.0006283564116023495,
+        "minimum_significant_component_order": 1.7454495876843545,
+        "observed_maximum_order": 1.8637007839935955,
+        "observed_rms_order": 1.8633033255259346,
+        "passed": true,
+        "refinement_error_cosine": 0.9996398884945852
+      },
+      "instantaneous_exports": {
+        "history_cosine": 0.999994335222701,
+        "maximum_fine_normalized_difference": 0.004478172687517129,
+        "minimum_significant_component_order": 1.802230348251954,
+        "observed_maximum_order": 1.9255236895761414,
+        "observed_rms_order": 1.894192650176948,
+        "passed": true,
+        "refinement_error_cosine": 0.9945152055131921
+      },
+      "passed": true,
+      "role": "historical_calibration",
+      "state": {
+        "minimum_significant_component_order": 1.84748381471599,
+        "observed_order": 1.899761703823013,
+        "passed": true,
+        "reference_choice_to_fine_difference_ratio": 0.03276379345194082,
+        "refinement_error_cosine": 0.9963553872977426
+      }
+    }
+  },
+  "tier_II_direct_continuum_arrival": {
+    "acoustic": {
+      "passed": true,
+      "target": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.9999729337382492,
+          "N392_direct_response_relative_RMS_error": 0.00805677499788202,
+          "N392_direct_response_relative_maximum_error": 0.023958414331518508,
+          "N392_peak_response_relative_error": 0.023946271497367014,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0031316084113918253,
+          "N769_N513_weighted_difference": 0.0002557765345222923,
+          "direct_maximum_error_orders": [
+            1.9726420248196117,
+            2.017814714614664
+          ],
+          "direct_maximum_errors": [
+            173.24276867917433,
+            44.13983400685413,
+            10.899534260067753
+          ],
+          "direct_weighted_RMS_error_orders": [
+            1.985765172905354,
+            2.01978100772879
+          ],
+          "direct_weighted_RMS_errors": [
+            58.87089715236156,
+            14.86366035479158,
+            3.6653133174822488
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9979282659558611,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 6.978299325799207e-05
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.9999729337382494,
+          "N392_direct_response_relative_RMS_error": 0.003560912658914623,
+          "N392_direct_response_relative_maximum_error": 0.009714933239879375,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.002203455088831185,
+          "N769_N513_weighted_difference": 7.046114658742737e-08,
+          "direct_maximum_error_orders": [
+            2.3293887709804135,
+            2.047311714399503
+          ],
+          "direct_maximum_errors": [
+            0.2018170941168144,
+            0.04015522438149277,
+            0.009714933239879375
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.465703034759141,
+            2.1097646438131687
+          ],
+          "direct_weighted_RMS_errors": [
+            0.08490129937897273,
+            0.015369642403056237,
+            0.003560912658914623
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9883443388174404,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 1.978738411654953e-05
+        }
+      },
+      "total": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.9999903180438241,
+          "N392_direct_response_relative_RMS_error": 0.005723421036622205,
+          "N392_direct_response_relative_maximum_error": 0.016201857870770338,
+          "N392_peak_response_relative_error": 0.016200837397894487,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0023651473294537964,
+          "N769_N513_weighted_difference": 0.002825039073090591,
+          "direct_maximum_error_orders": [
+            1.9941580410733193,
+            2.023814846669979
+          ],
+          "direct_maximum_errors": [
+            1315.5784665214478,
+            330.22912199636176,
+            81.20567774366828
+          ],
+          "direct_weighted_RMS_error_orders": [
+            1.9972485985269468,
+            2.0228337430996253
+          ],
+          "direct_weighted_RMS_errors": [
+            465.4174288195798,
+            116.57647137749146,
+            28.686480772663156
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9967693447926167,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 9.847980641050672e-05
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.999990318043824,
+          "N392_direct_response_relative_RMS_error": 0.0020534822488581903,
+          "N392_direct_response_relative_maximum_error": 0.005381372575847199,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.001319661364297438,
+          "N769_N513_weighted_difference": 5.1554700241538186e-08,
+          "direct_maximum_error_orders": [
+            2.2197359384826356,
+            2.0218110997081937
+          ],
+          "direct_maximum_errors": [
+            0.10179488303705853,
+            0.021853391582091125,
+            0.005381372575847199
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.3883045953193376,
+            2.1069046979637553
+          ],
+          "direct_weighted_RMS_errors": [
+            0.04631096035040949,
+            0.008845705271211472,
+            0.0020534822488581903
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9799480112330392,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 2.5105987777690528e-05
+        }
+      }
+    },
+    "angle_112p5_acoustic_shear": {
+      "passed": true,
+      "target": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.9999850412990906,
+          "N392_direct_response_relative_RMS_error": 0.012881275432688069,
+          "N392_direct_response_relative_maximum_error": 0.03914634133422435,
+          "N392_peak_response_relative_error": 0.038461996700738375,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.005859375269441137,
+          "N769_N513_weighted_difference": 0.00036028470904430325,
+          "direct_maximum_error_orders": [
+            1.7063111349545663,
+            1.9313904125399985
+          ],
+          "direct_maximum_errors": [
+            856.7984394665489,
+            262.55955839739954,
+            68.83691294446135
+          ],
+          "direct_weighted_RMS_error_orders": [
+            1.7110527442351076,
+            1.9325264846722234
+          ],
+          "direct_weighted_RMS_errors": [
+            283.0842539781403,
+            86.4644360198429,
+            22.6510883355109
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9992076513585482,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 1.590584539284465e-05
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.9999850412990906,
+          "N392_direct_response_relative_RMS_error": 0.0020169061051357575,
+          "N392_direct_response_relative_maximum_error": 0.00476022956599198,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0009590053620736069,
+          "N769_N513_weighted_difference": 1.589515429651042e-07,
+          "direct_maximum_error_orders": [
+            2.4040541720567767,
+            2.099817925644148
+          ],
+          "direct_maximum_errors": [
+            0.10800117874324522,
+            0.020404975538942827,
+            0.00476022956599198
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.352089269697481,
+            2.1241297256881824
+          ],
+          "direct_weighted_RMS_errors": [
+            0.04489126724340976,
+            0.008792501330169332,
+            0.0020169061051357575
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9744443357618955,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 7.880958987647331e-05
+        }
+      },
+      "total": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.9999758550198745,
+          "N392_direct_response_relative_RMS_error": 0.013202999095453574,
+          "N392_direct_response_relative_maximum_error": 0.03926399317545177,
+          "N392_peak_response_relative_error": 0.03802383670463221,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.006090288493552267,
+          "N769_N513_weighted_difference": 0.000681428622054884,
+          "direct_maximum_error_orders": [
+            1.6886881270203435,
+            1.9305678390019845
+          ],
+          "direct_maximum_errors": [
+            1281.3271983827565,
+            397.479070301546,
+            104.26905491072876
+          ],
+          "direct_weighted_RMS_error_orders": [
+            1.6980541734739683,
+            1.9329841833980934
+          ],
+          "direct_weighted_RMS_errors": [
+            434.39520821028106,
+            133.8812582919206,
+            35.06174808859876
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9989549497067607,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 1.9435101191559478e-05
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.9999758550198742,
+          "N392_direct_response_relative_RMS_error": 0.0025531540983244148,
+          "N392_direct_response_relative_maximum_error": 0.0060339994124691265,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0010050444303754888,
+          "N769_N513_weighted_difference": 1.9652562808417689e-07,
+          "direct_maximum_error_orders": [
+            2.538924630294752,
+            2.1114482817093387
+          ],
+          "direct_maximum_errors": [
+            0.15153292315201516,
+            0.026074412428527288,
+            0.0060339994124691265
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.2830398314079945,
+            2.121207740960618
+          ],
+          "direct_weighted_RMS_errors": [
+            0.054061445722600375,
+            0.011107701106914256,
+            0.0025531540983244148
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9764562223491092,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 7.69736649319964e-05
+        }
+      }
+    },
+    "angle_157p5_acoustic_shear": {
+      "passed": true,
+      "target": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.9999700529688625,
+          "N392_direct_response_relative_RMS_error": 0.011458516351201549,
+          "N392_direct_response_relative_maximum_error": 0.03201838437391644,
+          "N392_peak_response_relative_error": 0.03201838437391644,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.005225736548988889,
+          "N769_N513_weighted_difference": 0.001379502287521945,
+          "direct_maximum_error_orders": [
+            1.857290882094842,
+            1.9818273140440392
+          ],
+          "direct_maximum_errors": [
+            950.041763643156,
+            262.20588268676147,
+            66.38240204199815
+          ],
+          "direct_weighted_RMS_error_orders": [
+            1.8770559889056373,
+            1.9848997883116655
+          ],
+          "direct_weighted_RMS_errors": [
+            345.4191960431695,
+            94.03646889268607,
+            23.756471605416923
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9978113080782314,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 5.806848384031038e-05
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.9999700529688627,
+          "N392_direct_response_relative_RMS_error": 0.004001720431663058,
+          "N392_direct_response_relative_maximum_error": 0.009688160591939166,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.002598168748252084,
+          "N769_N513_weighted_difference": 1.3605931200459384e-07,
+          "direct_maximum_error_orders": [
+            2.4640605053687206,
+            2.0692657477850043
+          ],
+          "direct_maximum_errors": [
+            0.22434092769382744,
+            0.04065859697757762,
+            0.009688160591939166
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.5377925242761408,
+            2.132050866197503
+          ],
+          "direct_weighted_RMS_errors": [
+            0.10186140922987151,
+            0.017541147790902618,
+            0.004001720431663058
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9814673787786071,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 3.400020424416544e-05
+        }
+      },
+      "total": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.9999702940787949,
+          "N392_direct_response_relative_RMS_error": 0.011157226527163402,
+          "N392_direct_response_relative_maximum_error": 0.03128451664959772,
+          "N392_peak_response_relative_error": 0.03124086244598339,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.005001452976110037,
+          "N769_N513_weighted_difference": 0.0025799549649344203,
+          "direct_maximum_error_orders": [
+            1.8868212737384318,
+            1.988916853441888
+          ],
+          "direct_maximum_errors": [
+            1748.5666645863676,
+            472.8162505579694,
+            119.11563298439341
+          ],
+          "direct_weighted_RMS_error_orders": [
+            1.8990215915862536,
+            1.990067754935438
+          ],
+          "direct_weighted_RMS_errors": [
+            629.4019923644711,
+            168.7584981838897,
+            42.48108145696486
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9981718282625951,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 6.0731857016117264e-05
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.9999702940787953,
+          "N392_direct_response_relative_RMS_error": 0.0038782202191207427,
+          "N392_direct_response_relative_maximum_error": 0.00997342040933441,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0024749322797019495,
+          "N769_N513_weighted_difference": 1.2364453225729909e-07,
+          "direct_maximum_error_orders": [
+            2.474887905880154,
+            2.070109839916331
+          ],
+          "direct_maximum_errors": [
+            0.23282240867797568,
+            0.04188025162700226,
+            0.00997342040933441
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.56308155694213,
+            2.1409764277517254
+          ],
+          "direct_weighted_RMS_errors": [
+            0.10108693318822073,
+            0.0171052958865062,
+            0.0038782202191207427
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9833580365037674,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 3.188177186217944e-05
+        }
+      }
+    },
+    "angle_22p5_acoustic_shear": {
+      "passed": true,
+      "target": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.9999977735980378,
+          "N392_direct_response_relative_RMS_error": 0.0017819840810384161,
+          "N392_direct_response_relative_maximum_error": 0.005124503636333005,
+          "N392_peak_response_relative_error": 0.005114962550890578,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.000527910777553717,
+          "N769_N513_weighted_difference": 0.0011475033392036875,
+          "direct_maximum_error_orders": [
+            2.1666564202611,
+            2.092532135403885
+          ],
+          "direct_maximum_errors": [
+            331.8229295939932,
+            73.90568055223684,
+            17.32857621670246
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.1332867495082226,
+            2.0780266771464153
+          ],
+          "direct_weighted_RMS_errors": [
+            111.6211667600053,
+            25.442703501114824,
+            6.025802527739304
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.994753946979473,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.0001904316203395725
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.9999977735980374,
+          "N392_direct_response_relative_RMS_error": 0.0008649879066389812,
+          "N392_direct_response_relative_maximum_error": 0.0028041420850981047,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0005254325364476845,
+          "N769_N513_weighted_difference": 5.923254389455305e-08,
+          "direct_maximum_error_orders": [
+            2.072131509432601,
+            2.0103552453635825
+          ],
+          "direct_maximum_errors": [
+            0.04750627577716138,
+            0.011297367233936428,
+            0.0028041420850981047
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.2578300921662713,
+            2.065693076579705
+          ],
+          "direct_weighted_RMS_errors": [
+            0.017318895685254514,
+            0.003621142482772077,
+            0.0008649879066389812
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9775457875534768,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 6.847788673105097e-05
+        }
+      },
+      "total": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.999996374838934,
+          "N392_direct_response_relative_RMS_error": 0.0021473062325441574,
+          "N392_direct_response_relative_maximum_error": 0.006416851614562395,
+          "N392_peak_response_relative_error": 0.006415729630982473,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.000606213191039428,
+          "N769_N513_weighted_difference": 0.002245855310550839,
+          "direct_maximum_error_orders": [
+            2.145365770544404,
+            2.080694206449285
+          ],
+          "direct_maximum_errors": [
+            688.793783841209,
+            155.69324502253494,
+            36.805981418812735
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.136150091548751,
+            2.074309368534921
+          ],
+          "direct_weighted_RMS_errors": [
+            228.01582191962046,
+            51.87041596576048,
+            12.316587330173263
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9952193673890517,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.00018234396025016824
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.9999963748389342,
+          "N392_direct_response_relative_RMS_error": 0.0011745316835804862,
+          "N392_direct_response_relative_maximum_error": 0.003496912203307667,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0007358357757782159,
+          "N769_N513_weighted_difference": 4.3233747990903714e-08,
+          "direct_maximum_error_orders": [
+            2.0772879571091174,
+            1.9994385334028364
+          ],
+          "direct_maximum_errors": [
+            0.059006748828605904,
+            0.013982206173359046,
+            0.003496912203307667
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.2554837716403062,
+            2.0686405580969685
+          ],
+          "direct_weighted_RMS_errors": [
+            0.023526421024860526,
+            0.004927057093700333,
+            0.0011745316835804862
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9833572892542684,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 3.680935013954527e-05
+        }
+      }
+    },
+    "angle_67p5_acoustic_shear": {
+      "passed": true,
+      "target": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.9999945395344588,
+          "N392_direct_response_relative_RMS_error": 0.001897305524706361,
+          "N392_direct_response_relative_maximum_error": 0.006938979560052205,
+          "N392_peak_response_relative_error": 0.006548268553502997,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0004113360591756908,
+          "N769_N513_weighted_difference": 0.00013754304552760028,
+          "direct_maximum_error_orders": [
+            1.587155174182352,
+            1.886381190710534
+          ],
+          "direct_maximum_errors": [
+            235.02998605592666,
+            78.2243493734145,
+            21.158488412241695
+          ],
+          "direct_weighted_RMS_error_orders": [
+            1.7129956329619027,
+            1.8995217568095357
+          ],
+          "direct_weighted_RMS_errors": [
+            70.76237410907376,
+            21.58436752542345,
+            5.785305549837888
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9380817284783765,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 2.3774551636508536e-05
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.999994539534459,
+          "N392_direct_response_relative_RMS_error": 0.001327489997655352,
+          "N392_direct_response_relative_maximum_error": 0.0045896512539436995,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.000674156270863312,
+          "N769_N513_weighted_difference": 4.486613645592736e-08,
+          "direct_maximum_error_orders": [
+            2.2282855397800416,
+            2.028755738609897
+          ],
+          "direct_maximum_errors": [
+            0.08775599694779168,
+            0.018728199112033272,
+            0.0045896512539436995
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.082256572547609,
+            1.989999370850345
+          ],
+          "direct_weighted_RMS_errors": [
+            0.022330705621627867,
+            0.00527327911811479,
+            0.001327489997655352
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9698706477978076,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 3.379772091328079e-05
+        }
+      },
+      "total": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.9999956512277359,
+          "N392_direct_response_relative_RMS_error": 0.0013582206572176226,
+          "N392_direct_response_relative_maximum_error": 0.0048315519908613954,
+          "N392_peak_response_relative_error": 0.004345224663745141,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.00013258570897438759,
+          "N769_N513_weighted_difference": 0.00024008890682222198,
+          "direct_maximum_error_orders": [
+            2.023649226713688,
+            1.8654309586340179
+          ],
+          "direct_maximum_errors": [
+            327.96070579532727,
+            80.65711697428196,
+            22.13563683695611
+          ],
+          "direct_weighted_RMS_error_orders": [
+            1.8816285327304136,
+            1.9144567911328274
+          ],
+          "direct_weighted_RMS_errors": [
+            86.43930050885866,
+            23.457656084020915,
+            6.222654598250733
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.8515857238101965,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 3.858303607108677e-05
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.999995651227736,
+          "N392_direct_response_relative_RMS_error": 0.001195939653212978,
+          "N392_direct_response_relative_maximum_error": 0.003990784771189498,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.000616235890033131,
+          "N769_N513_weighted_difference": 3.873869185475537e-08,
+          "direct_maximum_error_orders": [
+            2.3610918550527003,
+            2.069111443319408
+          ],
+          "direct_maximum_errors": [
+            0.08603643089779045,
+            0.016746456091717793,
+            0.003990784771189498
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.167497602714203,
+            2.0092372572594663
+          ],
+          "direct_weighted_RMS_errors": [
+            0.02162876602743127,
+            0.004814486227289534,
+            0.001195939653212978
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9485958970270061,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 3.239184498204494e-05
+        }
+      }
+    },
+    "difference_shear_acoustic": {
+      "passed": true,
+      "target": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.9999490009900467,
+          "N392_direct_response_relative_RMS_error": 0.016215294648509404,
+          "N392_direct_response_relative_maximum_error": 0.04681950076046642,
+          "N392_peak_response_relative_error": 0.046067272222358895,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.007505914883732785,
+          "N769_N513_weighted_difference": 0.000901634411379078,
+          "direct_maximum_error_orders": [
+            1.779685381796501,
+            1.955993325470052
+          ],
+          "direct_maximum_errors": [
+            1033.950785244782,
+            301.1349649480683,
+            77.61551121773368
+          ],
+          "direct_weighted_RMS_error_orders": [
+            1.7954340306185737,
+            1.9585872002787978
+          ],
+          "direct_weighted_RMS_errors": [
+            362.6766398284807,
+            104.4816650236786,
+            26.88107227219611
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9992764620813327,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 3.354160884094141e-05
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.9999490009900467,
+          "N392_direct_response_relative_RMS_error": 0.004590948942320578,
+          "N392_direct_response_relative_maximum_error": 0.010395590845594632,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0027815357753005715,
+          "N769_N513_weighted_difference": 2.1024309367203438e-07,
+          "direct_maximum_error_orders": [
+            2.7559031288752363,
+            2.122905428306468
+          ],
+          "direct_maximum_errors": [
+            0.30585592416125906,
+            0.04528010131089055,
+            0.010395590845594632
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.723972596830387,
+            2.1740001005343497
+          ],
+          "direct_weighted_RMS_errors": [
+            0.13687973719130386,
+            0.02071770780651927,
+            0.004590948942320578
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9704398413863591,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 4.579512782944678e-05
+        }
+      },
+      "total": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.9999488397845703,
+          "N392_direct_response_relative_RMS_error": 0.01595069570974523,
+          "N392_direct_response_relative_maximum_error": 0.04544417593816553,
+          "N392_peak_response_relative_error": 0.04487589255562845,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.007360549773487591,
+          "N769_N513_weighted_difference": 0.0016721323621542692,
+          "direct_maximum_error_orders": [
+            1.7925911083829267,
+            1.960460497808935
+          ],
+          "direct_maximum_errors": [
+            1734.1197639570235,
+            500.5591383461706,
+            128.6168826679932
+          ],
+          "direct_weighted_RMS_error_orders": [
+            1.8089841922934056,
+            1.9630888920578586
+          ],
+          "direct_weighted_RMS_errors": [
+            616.7462549423167,
+            176.0143261982972,
+            45.14393134479137
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9991743309107124,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 3.704002536649252e-05
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.9999488397845702,
+          "N392_direct_response_relative_RMS_error": 0.004725273818718895,
+          "N392_direct_response_relative_maximum_error": 0.012530044598697415,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0028594859475054783,
+          "N769_N513_weighted_difference": 2.0850237312901373e-07,
+          "direct_maximum_error_orders": [
+            2.72065885299539,
+            2.1156321479230566
+          ],
+          "direct_maximum_errors": [
+            0.3579491008546586,
+            0.05430269116110814,
+            0.012530044598697415
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.709600584227654,
+            2.1644051462760734
+          ],
+          "direct_weighted_RMS_errors": [
+            0.13856351886397497,
+            0.02118253105268744,
+            0.004725273818718895
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9722277350784195,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 4.412492929045589e-05
+        }
+      }
+    },
+    "mixed_shear_acoustic": {
+      "passed": true,
+      "target": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.9999972586020456,
+          "N392_direct_response_relative_RMS_error": 0.0009099273704726355,
+          "N392_direct_response_relative_maximum_error": 0.0027963404571786895,
+          "N392_peak_response_relative_error": 0.002494393839777679,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.00010164722639325257,
+          "N769_N513_weighted_difference": 0.0005656725028949139,
+          "direct_maximum_error_orders": [
+            2.0640349409640057,
+            2.008498858486175
+          ],
+          "direct_maximum_errors": [
+            164.05966892216406,
+            39.234254191238506,
+            9.75095155585177
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.0585893160165503,
+            2.0144278013650148
+          ],
+          "direct_weighted_RMS_errors": [
+            53.40279732309554,
+            12.819375644045941,
+            3.172953309760479
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9965336980977525,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.00017827949158748116
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.9999972586020459,
+          "N392_direct_response_relative_RMS_error": 0.0009855094375741222,
+          "N392_direct_response_relative_maximum_error": 0.0034794831968569806,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0005601748956303218,
+          "N769_N513_weighted_difference": 6.009261386866101e-08,
+          "direct_maximum_error_orders": [
+            2.121534867887253,
+            2.0070026457327246
+          ],
+          "direct_maximum_errors": [
+            0.06085949906587951,
+            0.013985652761192124,
+            0.0034794831968569806
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.090657556819031,
+            2.0066655585339124
+          ],
+          "direct_weighted_RMS_errors": [
+            0.01686855755333896,
+            0.003960292943737876,
+            0.0009855094375741222
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9969847420731863,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 6.0976193202757964e-05
+        }
+      },
+      "total": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.999996802482833,
+          "N392_direct_response_relative_RMS_error": 0.0009399542865631832,
+          "N392_direct_response_relative_maximum_error": 0.003292543244057578,
+          "N392_peak_response_relative_error": 0.0020809808437348347,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.00021262099220312357,
+          "N769_N513_weighted_difference": 0.0011697757633819471,
+          "direct_maximum_error_orders": [
+            2.092113051547603,
+            1.9986941101125906
+          ],
+          "direct_maximum_errors": [
+            311.7584486375524,
+            73.11886625657053,
+            18.296270377268
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.1344370320888837,
+            2.038308959311773
+          ],
+          "direct_weighted_RMS_errors": [
+            94.20186962760418,
+            21.45507079075027,
+            5.22321393964091
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9964181439298099,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 0.0002239570840673564
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.9999968024828335,
+          "N392_direct_response_relative_RMS_error": 0.0010734614869543802,
+          "N392_direct_response_relative_maximum_error": 0.0038804262584317684,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0006078524368488407,
+          "N769_N513_weighted_difference": 5.20583236792025e-08,
+          "direct_maximum_error_orders": [
+            2.1561290175940226,
+            2.015821030345197
+          ],
+          "direct_maximum_errors": [
+            0.06994578354640368,
+            0.015692857487212386,
+            0.0038804262584317684
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.1469995018378225,
+            2.0283832196716802
+          ],
+          "direct_weighted_RMS_errors": [
+            0.019395541551366784,
+            0.004379158450569513,
+            0.0010734614869543802
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9990293995948601,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 4.8495753515016295e-05
+        }
+      }
+    },
+    "shear": {
+      "passed": true,
+      "target": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.999994340664326,
+          "N392_direct_response_relative_RMS_error": 0.005978961930629302,
+          "N392_direct_response_relative_maximum_error": 0.019798993056824074,
+          "N392_peak_response_relative_error": 0.019325214855741357,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.002476232805505507,
+          "N769_N513_weighted_difference": 0.00017880978092222222,
+          "direct_maximum_error_orders": [
+            1.6702538757919332,
+            1.9136942070705494
+          ],
+          "direct_maximum_errors": [
+            552.1603657142082,
+            173.48770925671943,
+            46.04572906390922
+          ],
+          "direct_weighted_RMS_error_orders": [
+            1.6664552836765405,
+            1.912236297479218
+          ],
+          "direct_weighted_RMS_errors": [
+            166.1366885208189,
+            52.33744565264471,
+            13.90503347069438
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9955593008043673,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 1.2859356383361005e-05
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.9999943406643259,
+          "N392_direct_response_relative_RMS_error": 0.001267768026275177,
+          "N392_direct_response_relative_maximum_error": 0.0037646676727431383,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0005759171169211139,
+          "N769_N513_weighted_difference": 6.613979511652246e-08,
+          "direct_maximum_error_orders": [
+            2.4287290828448094,
+            2.033018147659322
+          ],
+          "direct_maximum_errors": [
+            0.08295573091342959,
+            0.015407284035315577,
+            0.0037646676727431383
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.1394810719494917,
+            2.009322903903122
+          ],
+          "direct_weighted_RMS_errors": [
+            0.022488176298843653,
+            0.005103948216779238,
+            0.001267768026275177
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9438236621521201,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 5.217026596801583e-05
+        }
+      },
+      "total": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.9999935529140153,
+          "N392_direct_response_relative_RMS_error": 0.005424417283808087,
+          "N392_direct_response_relative_maximum_error": 0.01782668802615201,
+          "N392_peak_response_relative_error": 0.016764270683843174,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0023063058198501134,
+          "N769_N513_weighted_difference": 0.00027708050537175835,
+          "direct_maximum_error_orders": [
+            1.5494925858206596,
+            1.8927119084862396
+          ],
+          "direct_maximum_errors": [
+            654.9898296513584,
+            223.76430567856642,
+            60.25980924263877
+          ],
+          "direct_weighted_RMS_error_orders": [
+            1.5295248358322666,
+            1.8891171694182207
+          ],
+          "direct_weighted_RMS_errors": [
+            196.07578726292428,
+            67.91897337286142,
+            18.336235552853037
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9789262881908198,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 1.5111089982079001e-05
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.9999935529140151,
+          "N392_direct_response_relative_RMS_error": 0.0012895872583108352,
+          "N392_direct_response_relative_maximum_error": 0.0037641541044773907,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0004542933210322875,
+          "N769_N513_weighted_difference": 7.434351255175599e-08,
+          "direct_maximum_error_orders": [
+            2.0120957602975413,
+            1.9728166393731232
+          ],
+          "direct_maximum_errors": [
+            0.05959990363296905,
+            0.014775574620002563,
+            0.0037641541044773907
+          ],
+          "direct_weighted_RMS_error_orders": [
+            1.9107608524241346,
+            1.9737329313704386
+          ],
+          "direct_weighted_RMS_errors": [
+            0.019045828981921066,
+            0.005065281070910833,
+            0.0012895872583108352
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.7445349408108907,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 5.76490749832119e-05
+        }
+      }
+    },
+    "shear_weighted_shear_acoustic": {
+      "passed": true,
+      "target": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.9999954051236417,
+          "N392_direct_response_relative_RMS_error": 0.001341846141716767,
+          "N392_direct_response_relative_maximum_error": 0.004751126524149627,
+          "N392_peak_response_relative_error": 0.0043378997056281515,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 9.711928083472562e-05,
+          "N769_N513_weighted_difference": 0.00022553894104404744,
+          "direct_maximum_error_orders": [
+            1.8144919530059302,
+            1.8996400044608743
+          ],
+          "direct_maximum_errors": [
+            202.3193703665105,
+            57.52027583792733,
+            15.416022578777756
+          ],
+          "direct_weighted_RMS_error_orders": [
+            1.8548579989413658,
+            1.9329027703532113
+          ],
+          "direct_weighted_RMS_errors": [
+            60.13233544267615,
+            16.624177836633255,
+            4.35390013564287
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9505996765733669,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 5.1801588005588414e-05
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.999995405123642,
+          "N392_direct_response_relative_RMS_error": 0.0012350149879552135,
+          "N392_direct_response_relative_maximum_error": 0.0043074623581836335,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0006451726629192652,
+          "N769_N513_weighted_difference": 4.956943844384849e-08,
+          "direct_maximum_error_orders": [
+            2.1813064069981283,
+            2.0203316953491925
+          ],
+          "direct_maximum_errors": [
+            0.0792575403884106,
+            0.0174743863066035,
+            0.0043074623581836335
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.063443785185344,
+            1.9928304204473675
+          ],
+          "direct_weighted_RMS_errors": [
+            0.02054624368564877,
+            0.00491557085962948,
+            0.0012350149879552135
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9808154837938183,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 4.013671002156783e-05
+        }
+      },
+      "total": {
+        "passed": true,
+        "physical_gain_history": {
+          "N392_continuum_history_cosine": 0.9999959990632713,
+          "N392_direct_response_relative_RMS_error": 0.001048862990593842,
+          "N392_direct_response_relative_maximum_error": 0.003509899119857039,
+          "N392_peak_response_relative_error": 0.0026528773764651166,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.00014527734534104217,
+          "N769_N513_weighted_difference": 0.00048545223451740136,
+          "direct_maximum_error_orders": [
+            2.2961029694094446,
+            2.059575142359052
+          ],
+          "direct_maximum_errors": [
+            356.8700311088651,
+            72.6631484740501,
+            17.43092023843542
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.0869609020254387,
+            1.9891763237221196
+          ],
+          "direct_weighted_RMS_errors": [
+            87.85854649952789,
+            20.679792792049156,
+            5.208881083406399
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9409215773692505,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 9.319702768102648e-05
+        },
+        "unit_shape_history": {
+          "N392_continuum_history_cosine": 0.9999959990632711,
+          "N392_direct_response_relative_RMS_error": 0.0011650459356844082,
+          "N392_direct_response_relative_maximum_error": 0.0041494539525622764,
+          "N392_peak_response_relative_error": 0.0,
+          "N392_peak_time_error_fraction_of_window": 0.0,
+          "N392_time_average_response_relative_error": 0.0006167894150496472,
+          "N769_N513_weighted_difference": 4.452999693561224e-08,
+          "direct_maximum_error_orders": [
+            2.2698714198264547,
+            2.0460116658066507
+          ],
+          "direct_maximum_errors": [
+            0.08264207557191217,
+            0.017135699295499296,
+            0.0041494539525622764
+          ],
+          "direct_weighted_RMS_error_orders": [
+            2.157018844532638,
+            2.015842222268522
+          ],
+          "direct_weighted_RMS_errors": [
+            0.02101354856250265,
+            0.004711639180551585,
+            0.0011650459356844082
+          ],
+          "pairwise_refinement_error_cosine_diagnostic": 0.9763385318797474,
+          "passed": true,
+          "reference_difference_to_N392_direct_error_ratio": 3.8221666263702316e-05
+        }
+      }
+    }
+  },
+  "work_package": "WP10c9d6c7c2b6e"
+}

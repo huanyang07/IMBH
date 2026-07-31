@@ -1,0 +1,57 @@
+{
+  "binding_bases": [
+    "acoustic",
+    "shear",
+    "mixed_shear_acoustic",
+    "difference_shear_acoustic",
+    "shear_weighted_shear_acoustic",
+    "angle_22p5_acoustic_shear",
+    "angle_67p5_acoustic_shear",
+    "angle_112p5_acoustic_shear",
+    "angle_157p5_acoustic_shear"
+  ],
+  "continuum_nodes": [
+    513,
+    769
+  ],
+  "continuum_reference_contract": {
+    "maximum_N769_N513_history_difference_to_N392_direct_error": 0.1,
+    "maximum_continuum_action_difference": 2e-05,
+    "reference_must_use_complete_DAE_generator_blocks": true,
+    "reference_reuse_requires_source_and_configuration_hash_match": true,
+    "stop_if_either_reference_is_unavailable": true
+  },
+  "direct_continuum_contract": {
+    "direct_error_orders": [
+      "log2(norm(e_N98)/norm(e_N196))",
+      "log2(norm(e_N196)/norm(e_N392))"
+    ],
+    "finite_levels": [
+      98,
+      196,
+      392
+    ],
+    "history_error": "e_h(t)=G_h(t)-G_N769(t), evaluated on the same frozen travel-time samples and physical window",
+    "maximum_N392_peak_response_relative_error": 0.05,
+    "maximum_N392_peak_time_error_fraction_of_window": 0.05,
+    "maximum_N392_response_relative_RMS_error": 0.05,
+    "maximum_N392_response_relative_maximum_error": 0.05,
+    "maximum_N392_time_average_response_relative_error": 0.05,
+    "minimum_N392_continuum_history_cosine": 0.9,
+    "minimum_maximum_error_order": 0.75,
+    "minimum_weighted_RMS_error_order": 0.75,
+    "no_grid_trajectory_called_exact": true,
+    "pairwise_error_direction_reported_not_binding": true,
+    "primary_reference": "independent_N769_continuum_history",
+    "response_scale": "max(max_t(abs(G_N769)),1)",
+    "secondary_reference": "independent_N513_continuum_history"
+  },
+  "operator_changed": false,
+  "reference_levels": [
+    98,
+    196,
+    392
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c2b6e"
+}
