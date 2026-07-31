@@ -1,0 +1,104 @@
+{
+  "analyzed_base_commit": "ac2288402b4630e33cb04397beaf1376fc696009",
+  "base_tangent_certificate_inherited": true,
+  "case_predictor": "base physical rate plus certified frozen generator action on the exact profile perturbation",
+  "fail_fast_order": [
+    {
+      "cases": [
+        "p4__inward_shear__p1",
+        "p4__inward_shear__m1",
+        "p4__inward_shear__p0p5",
+        "p4__inward_shear__m0p5",
+        "p4__outward_shear__p1",
+        "p4__outward_shear__m1",
+        "p4__outward_shear__p0p5",
+        "p4__outward_shear__m0p5",
+        "p3_buffer45__inward_shear__p1",
+        "p3_buffer45__inward_shear__m1",
+        "p3_buffer45__inward_shear__p0p5",
+        "p3_buffer45__inward_shear__m0p5",
+        "p3_buffer45__outward_shear__p1",
+        "p3_buffer45__outward_shear__m1",
+        "p3_buffer45__outward_shear__p0p5",
+        "p3_buffer45__outward_shear__m0p5"
+      ],
+      "layout": "N128_exterior_N128_inner_c48"
+    },
+    {
+      "cases": [
+        "p4__inward_shear__p1",
+        "p4__inward_shear__m1",
+        "p4__inward_shear__p0p5",
+        "p4__inward_shear__m0p5",
+        "p4__outward_shear__p1",
+        "p4__outward_shear__m1",
+        "p4__outward_shear__p0p5",
+        "p4__outward_shear__m0p5",
+        "p3_buffer45__inward_shear__p1",
+        "p3_buffer45__inward_shear__m1",
+        "p3_buffer45__inward_shear__p0p5",
+        "p3_buffer45__inward_shear__m0p5",
+        "p3_buffer45__outward_shear__p1",
+        "p3_buffer45__outward_shear__m1",
+        "p3_buffer45__outward_shear__p0p5",
+        "p3_buffer45__outward_shear__m0p5"
+      ],
+      "layout": "N128_exterior_N256_inner_c48"
+    },
+    {
+      "cases": [
+        "p4__inward_shear__p1",
+        "p4__inward_shear__m1",
+        "p4__inward_shear__p0p5",
+        "p4__inward_shear__m0p5",
+        "p4__outward_shear__p1",
+        "p4__outward_shear__m1",
+        "p4__outward_shear__p0p5",
+        "p4__outward_shear__m0p5",
+        "p3_buffer45__inward_shear__p1",
+        "p3_buffer45__inward_shear__m1",
+        "p3_buffer45__inward_shear__p0p5",
+        "p3_buffer45__inward_shear__m0p5",
+        "p3_buffer45__outward_shear__p1",
+        "p3_buffer45__outward_shear__m1",
+        "p3_buffer45__outward_shear__p0p5",
+        "p3_buffer45__outward_shear__m0p5"
+      ],
+      "layout": "N128_exterior_N512_inner_c48"
+    }
+  ],
+  "fixed_timestep_seconds": 1e-05,
+  "full_frozen_method_steps": 4,
+  "gates": {
+    "incoming_excision_characteristics": 0,
+    "maximum_discrete_ledger_defect": 1e-12,
+    "maximum_h_over_r": 0.25,
+    "maximum_mapped_endpoint_path_closure_defect": 2e-08,
+    "maximum_scaled_algebraic_residual": 1e-10,
+    "maximum_scaled_primitive_change": 0.005,
+    "maximum_scaled_residual": 1e-10,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0
+  },
+  "layouts": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "profile_kind": "primary_physical",
+  "profiles": [
+    "p4__inward_shear",
+    "p4__outward_shear",
+    "p3_buffer45__inward_shear",
+    "p3_buffer45__outward_shear"
+  ],
+  "schema_version": 1,
+  "steps_in_this_stage": 1,
+  "variant_multipliers": [
+    1.0,
+    -1.0,
+    0.5,
+    -0.5
+  ],
+  "work_package": "WP10c9d6c7c3b1b1"
+}
