@@ -1,0 +1,147 @@
+{
+  "c2c6_linear_certification_preserved": true,
+  "classification": "bounded_nonlinear_manufactured_background_rejected_physical_background_readiness_manifest_authorized",
+  "conditional_physical_ladder_contract": {
+    "amplitude_diagnostics": {
+      "half_amplitude_control": true,
+      "no_linearity_assumption_used_to_pass_spatial_gates": true,
+      "sign_pair_even_response": true,
+      "sign_pair_odd_response": true
+    },
+    "amplitudes": [
+      0.05,
+      -0.05,
+      0.025,
+      -0.025
+    ],
+    "comparison": "perturbed nonlinear trajectory minus independently evolved unperturbed nonlinear background on the same layout",
+    "horizon_seconds": 11.82686804912109,
+    "layouts": [
+      "N98_outer_N98_inner_f49",
+      "N98_outer_N196_inner_f49",
+      "N98_outer_N392_inner_f49"
+    ],
+    "manufactured_background_rejected": true,
+    "not_authorized_until_method_preflight_passes": true,
+    "output_sample_count": 513,
+    "profiles": [
+      "unseen_angle_11p25_acoustic_shear",
+      "unseen_angle_56p25_acoustic_shear",
+      "unseen_angle_101p25_acoustic_shear",
+      "unseen_angle_146p25_acoustic_shear"
+    ],
+    "spatial_gates": {
+      "maximum_fine_normalized_difference": 0.05,
+      "minimum_RMS_order": 0.75,
+      "minimum_history_cosine": 0.9,
+      "minimum_maximum_order": 0.75,
+      "minimum_refinement_error_cosine": 0.9,
+      "minimum_significant_component_order": 0.75
+    },
+    "state_restriction": "conservative restriction to the common N98 parent grid",
+    "temporal_refinement": {
+      "independent_of_spatial_refinement": true,
+      "maximum_temporal_to_spatial_error_fraction": 0.1
+    },
+    "tier_I_observables": "state, inner and coupling M/J/E flux, net M/J/E drive, cooling, and responsive-height work"
+  },
+  "hard_stops": [
+    "no nonlinear physical ladder before c3b1 passes",
+    "no production-default change",
+    "no fixed-Q experiment",
+    "no reduced slow-time evolution",
+    "no N1024 rescue",
+    "no tide wind hot-state S-curve or QPE-cycle physics"
+  ],
+  "historical_c2c3_rejection_preserved": true,
+  "initial_state_contract": {
+    "amplitudes": [
+      0.05,
+      -0.05,
+      0.025,
+      -0.025
+    ],
+    "base_plus_amplitude_times_frozen_packet": true,
+    "gates": {
+      "incoming_excision_characteristics": 0,
+      "maximum_h_over_r": 0.25,
+      "minimum_reconstruction_factor": 0.999999999999,
+      "minimum_scattering_optical_depth": 1.0
+    },
+    "initial_audit": {
+      "maximum_h_over_r": 1.3579875248231945,
+      "maximum_incoming_excision_characteristics": 0,
+      "minimum_reconstruction_admissibility_factor": 1.0,
+      "minimum_scattering_optical_depth": 15.930678808506242,
+      "minimum_surface_density": 93.70987534415436,
+      "minimum_temperature": 1641626.410074195,
+      "passed": false,
+      "variant_count": 96
+    },
+    "layouts": [
+      "N98_outer_N98_inner_f49",
+      "N98_outer_N196_inner_f49",
+      "N98_outer_N392_inner_f49"
+    ],
+    "profiles": [
+      "unseen_angle_11p25_acoustic_shear",
+      "unseen_angle_33p75_acoustic_shear",
+      "unseen_angle_56p25_acoustic_shear",
+      "unseen_angle_78p75_acoustic_shear",
+      "unseen_angle_101p25_acoustic_shear",
+      "unseen_angle_123p75_acoustic_shear",
+      "unseen_angle_146p25_acoustic_shear",
+      "unseen_angle_168p75_acoustic_shear"
+    ]
+  },
+  "method_preflight_contract": {
+    "amplitudes": [
+      0.05,
+      -0.05,
+      0.025,
+      -0.025
+    ],
+    "authorized_next": "WP10c9d6c7c3a1_physical_background_nonlinear_readiness_manifest",
+    "fixed_steps": 4,
+    "fixed_timestep_seconds": 1e-05,
+    "layouts": [
+      "N98_outer_N98_inner_f49",
+      "N98_outer_N196_inner_f49",
+      "N98_outer_N392_inner_f49"
+    ],
+    "method_preflight_authorized": false,
+    "profiles": [
+      "unseen_angle_11p25_acoustic_shear",
+      "unseen_angle_78p75_acoustic_shear",
+      "unseen_angle_168p75_acoustic_shear"
+    ],
+    "requirements": {
+      "BDF2_split_restart_replay": "bitwise",
+      "incoming_excision_characteristics": 0,
+      "increment_primary_BDF1_and_variable_step_BDF2": true,
+      "maximum_dense_colored_jacobian_defect": 1e-10,
+      "maximum_discrete_ledger_defect": 1e-12,
+      "maximum_independent_JVP_defect": 1e-06,
+      "maximum_scaled_algebraic_residual": 1e-10,
+      "maximum_scaled_residual": 1e-10,
+      "previous_complete_monolithic_storage_increment_stored": true,
+      "unchanged_admissibility_branch": true
+    },
+    "stop_condition": "any method, residual, Jacobian, ledger, replay, admissibility, or causality failure"
+  },
+  "nonlinear_architecture": {
+    "audit_only_finite_difference_characteristic_split": true,
+    "implementation": "causal_inner_monolithic_dae.evaluate_causal_five_field_monolithic_backward_euler",
+    "production_defaults_changed": false,
+    "residual": "production-neutral primitive-only monolithic descriptor-path DAE",
+    "shared_MJE_face_flux": true,
+    "stationary_operator": "center-broken complete radial fluctuation ledger",
+    "temporal_operator": "mapped endpoint increment plus path-integrated responsive-height one-form",
+    "uses_production_anchor_storage_derivative": false,
+    "uses_production_generator": false
+  },
+  "operator_changed": false,
+  "propagation_executed": false,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3a"
+}
