@@ -457,15 +457,16 @@ def causal_sixth_order_inward_collocation_derivative(
     )
 
 
-def causal_five_field_inward_collocation_generator(
+def causal_five_field_inward_collocation_generator_blocks(
     background: CausalFiveFieldContinuumBackground,
-) -> csr_matrix:
-    """Assemble an independent high-order continuum-history generator.
+) -> dict[str, csr_matrix]:
+    """Assemble independent high-order continuum-history generator blocks.
 
-    The returned matrix acts on node-major primitive perturbations and uses
-    the complete linearized continuum DAE, including mapped/height storage
-    derivatives and all lower-order blocks.  It is intentionally independent
-    of the finite-volume face/reconstruction tangent.
+    Each returned matrix acts on node-major primitive perturbations.  Their
+    sum is the complete linearized continuum DAE generator, including
+    mapped/height storage derivatives and all lower-order blocks.  The
+    construction is intentionally independent of the finite-volume
+    face/reconstruction tangent.
     """
 
     radii = np.asarray(background.radii, dtype=float)
@@ -547,28 +548,24 @@ def causal_five_field_inward_collocation_generator(
         / radii[:, None, None]
     ) @ derivative_fields
 
-    lower = (
-        local(
-            -measures[:, None, None]
-            * background.lower_source_jacobians["stress_relaxation"]
+    stress_relaxation = local(
+        -measures[:, None, None]
+        * background.lower_source_jacobians["stress_relaxation"]
+    )
+    geometry = local(
+        -measures[:, None, None]
+        * (
+            background.lower_source_jacobians["perfect_fluid_geometry"]
+            + background.lower_source_jacobians["stress_geometry"]
         )
-        + local(
-            -measures[:, None, None]
-            * (
-                background.lower_source_jacobians[
-                    "perfect_fluid_geometry"
-                ]
-                + background.lower_source_jacobians["stress_geometry"]
-            )
-        )
-        + local(
-            -measures[:, None, None]
-            * background.lower_source_jacobians["radiative_cooling"]
-        )
-        + local(
-            -measures[:, None, None]
-            * background.lower_source_jacobians["vertical_work"]
-        )
+    )
+    cooling = local(
+        -measures[:, None, None]
+        * background.lower_source_jacobians["radiative_cooling"]
+    )
+    lower_height_work = local(
+        -measures[:, None, None]
+        * background.lower_source_jacobians["vertical_work"]
     )
     mapped_storage = np.einsum(
         "nijk,nj->nik",
@@ -582,10 +579,12 @@ def causal_five_field_inward_collocation_generator(
         background.base_rate_per_s,
         optimize=True,
     )
-    storage = local(
-        measures[:, None, None] / C * (mapped_storage + height_storage)
+    mapped_storage_action = local(
+        measures[:, None, None] / C * mapped_storage
     )
-    density_action = conservative + shear + height + lower + storage
+    height_storage_action = local(
+        measures[:, None, None] / C * height_storage
+    )
     temporal_inverse = local(
         np.asarray(
             [
@@ -596,13 +595,45 @@ def causal_five_field_inward_collocation_generator(
             dtype=float,
         )
     )
-    generator = (temporal_inverse @ density_action).tocsr()
+    density_blocks = {
+        "candidate_conservative_transport": conservative,
+        "candidate_shear_principal": shear,
+        "candidate_height_principal": height,
+        "candidate_local_stress_relaxation": stress_relaxation,
+        "candidate_geometry": geometry,
+        "candidate_cooling": cooling,
+        "candidate_stream": csr_matrix(conservative.shape, dtype=float),
+        "candidate_lower_height_work": lower_height_work,
+        "mapped_storage_rate_derivative": mapped_storage_action,
+        "responsive_height_storage_rate_derivative": height_storage_action,
+    }
+    generator_blocks = {
+        name: (temporal_inverse @ matrix).tocsr()
+        for name, matrix in density_blocks.items()
+    }
+    generator = sum(
+        generator_blocks.values(),
+        start=csr_matrix(conservative.shape, dtype=float),
+    ).tocsr()
     if generator.shape != (
         count * _N_FIELDS,
         count * _N_FIELDS,
     ) or np.any(~np.isfinite(generator.data)):
         raise RuntimeError("continuum collocation generator assembly failed")
-    return generator
+    return generator_blocks
+
+
+def causal_five_field_inward_collocation_generator(
+    background: CausalFiveFieldContinuumBackground,
+) -> csr_matrix:
+    """Return the complete independent collocation-history generator."""
+
+    blocks = causal_five_field_inward_collocation_generator_blocks(background)
+    shape = next(iter(blocks.values())).shape
+    return sum(
+        blocks.values(),
+        start=csr_matrix(shape, dtype=float),
+    ).tocsr()
 
 
 def linearize_causal_five_field_continuum_reference(

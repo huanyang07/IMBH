@@ -1,0 +1,28 @@
+{
+  "classification": "direct_continuum_arrival_errors_contract_pairwise_rotation_preasymptotic_no_redesign",
+  "command": "PYTHONPATH=src python scripts/run_causal_inner_uniform_failure_localization_wp10c9d6c7c2b6c.py",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_uniform_failure_localization_wp10c9d6c7c2b6c.py": "49cbe0ba08516787b71aea7f62aec68369e6ec0b0bdc62e2382ed38939497bdd",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_continuum_truncation.py": "d227bbc65fa058de71596e7eb7e955d02a61ef05b2a97e614130c5bfbe0ee263",
+    "tests/test_causal_inner_continuum_collocation.py": "454d17a1c09a5b8e9a694e731b11fcb548d79a4f2aff0e73d58890b108623c87",
+    "tests/test_causal_inner_uniform_failure_localization_wp10c9d6c7c2b6c.py": "b9848c0950d403931f81296ae218ce0b6bbf233439ec8313fc96271f331e3259"
+  },
+  "implementation_worktree_head": "51c584a859b238eb528569179c570e6fd128707c",
+  "input_hashes": {
+    "results/canonical/causal_inner_revised_uniform_arrival_transfer_wp10c9d6c7c2b6b/config.json": "614686481841fcbe661fe4156109e9a77d2bf1d548b42ec3cab6cea9af7fa3d2",
+    "results/canonical/causal_inner_revised_uniform_arrival_transfer_wp10c9d6c7c2b6b/decisive_arrays.npz": "c19c54b58f5314f288a747095a79f9da63d61d0828e0554c8e84216b869c6be0",
+    "results/canonical/causal_inner_revised_uniform_arrival_transfer_wp10c9d6c7c2b6b/summary.json": "25f557fb147e091e0c4f3c741b925e36a532a230f9ce869697d8b5afdfd51a34",
+    "results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/decisive_arrays.npz": "d82fec216c5dbd44d91fda648a542ca97235a79080871065e239510d38c62927",
+    "results/canonical/causal_inner_scattering_scope_wp10c9d6c7c2a3/scope_manifest.json": "e13347ad018f0a21793619573288089e1491a7b98bfa13a4aa6d1cf6e8277a0c",
+    "results/canonical/causal_inner_semidiscrete_energy_transfer_contract_wp10c9d6c7c2b3/decisive_arrays.npz": "b631cd515e6f1dc1447bf1637c77c00603af417cb40f806a144e16541291ff53",
+    "results/canonical/causal_inner_uniform_family_transfer_wp10c9d6c7c2b5b/summary.json": "093ae385c698551eafa3544be49a77d94d01a606d970a9137b250ddd00e7140f"
+  },
+  "numpy_version": "2.3.5",
+  "python_version": "3.12.13",
+  "schema_version": 1,
+  "scientific_status": "DIAGNOSTIC COMPLETE",
+  "scipy_version": "1.18.0",
+  "source_parent_commit": "51c584a859b238eb528569179c570e6fd128707c",
+  "source_parent_tree": "add9dc620f625e3be361867324dbdee10d5558dc",
+  "work_package": "WP10c9d6c7c2b6c"
+}

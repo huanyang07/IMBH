@@ -1,0 +1,2989 @@
+{
+  "DAE_localization": {
+    "acoustic": {
+      "time_index_155": {
+        "block_error_orders": {
+          "candidate_conservative_transport": [
+            2.2197769917068584,
+            2.26046440479177
+          ],
+          "candidate_cooling": [
+            1.9541655242901947,
+            1.8334558755383241
+          ],
+          "candidate_geometry": [
+            1.895189443033231,
+            1.9681314059762882
+          ],
+          "candidate_height_principal": [
+            2.117576694393411,
+            1.3349597161270237
+          ],
+          "candidate_local_stress_relaxation": [
+            1.9125854087563645,
+            1.9767207297906928
+          ],
+          "candidate_lower_height_work": [
+            1.9462877222815012,
+            1.9817684887844191
+          ],
+          "candidate_shear_principal": [
+            2.6445132752270433,
+            2.607563682941515
+          ],
+          "candidate_stream": [
+            0.0,
+            0.0
+          ],
+          "mapped_storage_rate_derivative": [
+            2.4418620089644825,
+            2.207727019502069
+          ],
+          "responsive_height_storage_rate_derivative": [
+            2.4970429881432263,
+            2.194237104221396
+          ]
+        },
+        "dominant_fine_band": "receiver_3",
+        "dominant_fine_band_fraction": 0.7410079822594853,
+        "dominant_fine_block": "candidate_local_stress_relaxation",
+        "dominant_fine_block_fraction": 0.44030895686330507,
+        "fixed_band_error_orders": {
+          "inner_outflow": [
+            -1.3020636811159332,
+            -1.5229521897492024
+          ],
+          "receiver_1": [
+            1.6089246333653253,
+            1.846502819647975
+          ],
+          "receiver_2": [
+            1.849107181922758,
+            1.4672097966672484
+          ],
+          "receiver_3": [
+            1.9902547937458896,
+            2.1243942928835873
+          ],
+          "receiver_4": [
+            2.4133657932735324,
+            2.394972313764675
+          ],
+          "source_and_transition": [
+            1.9689490339947222,
+            1.9991408657690797
+          ]
+        },
+        "levels": {
+          "N196": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.29489497042238755,
+              "candidate_cooling": 1.7151565324497754e-05,
+              "candidate_geometry": 0.022541394431895973,
+              "candidate_height_principal": 0.0022689722315297534,
+              "candidate_local_stress_relaxation": 0.538404851871729,
+              "candidate_lower_height_work": 0.0016986799529221425,
+              "candidate_shear_principal": 0.40158426949393977,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.1800963044073518,
+              "responsive_height_storage_rate_derivative": 0.0016518363696397616
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.010723606115991925,
+              "receiver_1": 0.0008738932201540971,
+              "receiver_2": 0.0013699658013059963,
+              "receiver_3": 0.4219231537697184,
+              "receiver_4": 0.009016961415360528,
+              "source_and_transition": 0.002203179174510763
+            },
+            "mass_solved_rate_error_norm": 0.42216459290472763,
+            "unsolved_DAE_relative_residual": 0.10322180738398762
+          },
+          "N392": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.061545991927462365,
+              "candidate_cooling": 4.8125864890442785e-06,
+              "candidate_geometry": 0.005761216420022409,
+              "candidate_height_principal": 0.0008994277098402043,
+              "candidate_local_stress_relaxation": 0.136790750463265,
+              "candidate_lower_height_work": 0.0004300706465989007,
+              "candidate_shear_principal": 0.06589034909513355,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.038986365143147544,
+              "responsive_height_storage_rate_derivative": 0.00036094068489009827
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.030817339641605972,
+              "receiver_1": 0.0002429996422506707,
+              "receiver_2": 0.0004954907680986498,
+              "receiver_3": 0.09676692798633679,
+              "receiver_4": 0.0017143587407634792,
+              "source_and_transition": 0.0005511228931738802
+            },
+            "mass_solved_rate_error_norm": 0.1015730973081052,
+            "unsolved_DAE_relative_residual": 0.023677922174689486
+          },
+          "N98": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 1.3736839489876265,
+              "candidate_cooling": 6.646089738852728e-05,
+              "candidate_geometry": 0.0838474092648139,
+              "candidate_height_principal": 0.009846531713396282,
+              "candidate_local_stress_relaxation": 2.027003703628946,
+              "candidate_lower_height_work": 0.006546400118993645,
+              "candidate_shear_principal": 2.5110450968173166,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.9785398377915687,
+              "responsive_height_storage_rate_derivative": 0.009325064918794063
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.004348912096301385,
+              "receiver_1": 0.002665587513913904,
+              "receiver_2": 0.004935673840281012,
+              "receiver_3": 1.6763309005715146,
+              "receiver_4": 0.0480347688952776,
+              "source_and_transition": 0.00862506818285474
+            },
+            "mass_solved_rate_error_norm": 1.677056170288986,
+            "unsolved_DAE_relative_residual": 0.2700843285802665
+          }
+        },
+        "mass_solved_rate_error_orders": [
+          1.99005352092989,
+          2.055287244501579
+        ],
+        "stable_noncontracting_mechanism_selected": false,
+        "time_seconds": 3.5803995070581425,
+        "unsolved_DAE_residual_orders": [
+          1.3876621339605826,
+          2.124133407324245
+        ]
+      },
+      "time_index_157": {
+        "block_error_orders": {
+          "candidate_conservative_transport": [
+            2.2192392709873756,
+            2.263941014317357
+          ],
+          "candidate_cooling": [
+            1.9544098181605296,
+            1.836432266033954
+          ],
+          "candidate_geometry": [
+            1.895143345895969,
+            1.9681192711154283
+          ],
+          "candidate_height_principal": [
+            2.1202053019075895,
+            1.3374888485123606
+          ],
+          "candidate_local_stress_relaxation": [
+            1.9124939237236673,
+            1.9766910266347246
+          ],
+          "candidate_lower_height_work": [
+            1.9461012346649806,
+            1.9817665144375434
+          ],
+          "candidate_shear_principal": [
+            2.642961886988983,
+            2.605620859335683
+          ],
+          "candidate_stream": [
+            0.0,
+            0.0
+          ],
+          "mapped_storage_rate_derivative": [
+            2.4430905854582075,
+            2.2091097234314745
+          ],
+          "responsive_height_storage_rate_derivative": [
+            2.5065273156571917,
+            2.200769047670611
+          ]
+        },
+        "dominant_fine_band": "receiver_3",
+        "dominant_fine_band_fraction": 0.7425858885506643,
+        "dominant_fine_block": "candidate_local_stress_relaxation",
+        "dominant_fine_block_fraction": 0.4407833174093685,
+        "fixed_band_error_orders": {
+          "inner_outflow": [
+            -1.2920507655090867,
+            -1.5224681881717097
+          ],
+          "receiver_1": [
+            1.6132025820865536,
+            1.847858559316363
+          ],
+          "receiver_2": [
+            1.7594056641886004,
+            1.4736134515413277
+          ],
+          "receiver_3": [
+            1.989486382633386,
+            2.1238633661464488
+          ],
+          "receiver_4": [
+            2.4136252933834546,
+            2.395037197824413
+          ],
+          "source_and_transition": [
+            1.9691066335825345,
+            1.999185315925061
+          ]
+        },
+        "levels": {
+          "N196": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.2998289127892618,
+              "candidate_cooling": 1.729705616830832e-05,
+              "candidate_geometry": 0.022483708859257677,
+              "candidate_height_principal": 0.002274265175444094,
+              "candidate_local_stress_relaxation": 0.5451266796305876,
+              "candidate_lower_height_work": 0.0017074548821532061,
+              "candidate_shear_principal": 0.40661727375290957,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.18053165147449302,
+              "responsive_height_storage_rate_derivative": 0.0016420184451002488
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.010803350017931422,
+              "receiver_1": 0.0009032775029350323,
+              "receiver_2": 0.0014291718557867586,
+              "receiver_3": 0.42846895518111383,
+              "receiver_4": 0.00911591137816392,
+              "source_and_transition": 0.0021669171277257596
+            },
+            "mass_solved_rate_error_norm": 0.42871087196167407,
+            "unsolved_DAE_relative_residual": 0.10676002268741283
+          },
+          "N392": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.062425115741189266,
+              "candidate_cooling": 4.843407373634779e-06,
+              "candidate_geometry": 0.005746521254350962,
+              "candidate_height_principal": 0.0008999468041053817,
+              "candidate_local_stress_relaxation": 0.13850139466948558,
+              "candidate_lower_height_work": 0.00043229286887062456,
+              "candidate_shear_principal": 0.06680604907389788,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.039043169354477415,
+              "responsive_height_storage_rate_derivative": 0.00035717457319569
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.03103609261061274,
+              "receiver_1": 0.00025093447968973186,
+              "receiver_2": 0.0005146151936101961,
+              "receiver_3": 0.09830436010820243,
+              "receiver_4": 0.0017330937544116993,
+              "source_and_transition": 0.00054203528066355
+            },
+            "mass_solved_rate_error_norm": 0.10310485669421847,
+            "unsolved_DAE_relative_residual": 0.024510777327977372
+          },
+          "N98": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 1.3961468412731504,
+              "candidate_cooling": 6.703601273259587e-05,
+              "candidate_geometry": 0.08363016356628215,
+              "candidate_height_principal": 0.009887499946154342,
+              "candidate_local_stress_relaxation": 2.0521801162924684,
+              "candidate_lower_height_work": 0.00657936655633936,
+              "candidate_shear_principal": 2.5397831033682263,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.9817409429407804,
+              "responsive_height_storage_rate_derivative": 0.009330779752487672
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.004411765403579374,
+              "receiver_1": 0.002763398770976517,
+              "receiver_2": 0.004838584553251572,
+              "receiver_3": 1.7014313771175293,
+              "receiver_4": 0.04857062657865558,
+              "source_and_transition": 0.008484035238805704
+            },
+            "mass_solved_rate_error_norm": 1.702160488205343,
+            "unsolved_DAE_relative_residual": 0.27834203867404095
+          }
+        },
+        "mass_solved_rate_error_orders": [
+          1.9892901589556644,
+          2.0558927122574064
+        ],
+        "stable_noncontracting_mechanism_selected": false,
+        "time_seconds": 3.626598210375022,
+        "unsolved_DAE_residual_orders": [
+          1.382487301683711,
+          2.122883373905198
+        ]
+      },
+      "time_index_160": {
+        "block_error_orders": {
+          "candidate_conservative_transport": [
+            2.218461657913602,
+            2.2690803112257685
+          ],
+          "candidate_cooling": [
+            1.9547691017298747,
+            1.8410793180115896
+          ],
+          "candidate_geometry": [
+            1.895093577798394,
+            1.968108941469865
+          ],
+          "candidate_height_principal": [
+            2.1245502363613755,
+            1.3418011338753508
+          ],
+          "candidate_local_stress_relaxation": [
+            1.9123563244317665,
+            1.97664652472062
+          ],
+          "candidate_lower_height_work": [
+            1.9458239909912236,
+            1.9817699379808984
+          ],
+          "candidate_shear_principal": [
+            2.640662208351077,
+            2.6027484245509984
+          ],
+          "candidate_stream": [
+            0.0,
+            0.0
+          ],
+          "mapped_storage_rate_derivative": [
+            2.444910741346377,
+            2.211160528109606
+          ],
+          "responsive_height_storage_rate_derivative": [
+            2.52016489855017,
+            2.2104172299508513
+          ]
+        },
+        "dominant_fine_band": "receiver_3",
+        "dominant_fine_band_fraction": 0.744957994685603,
+        "dominant_fine_block": "candidate_local_stress_relaxation",
+        "dominant_fine_block_fraction": 0.44148341280082304,
+        "fixed_band_error_orders": {
+          "inner_outflow": [
+            -1.2767484583817512,
+            -1.521703498224892
+          ],
+          "receiver_1": [
+            1.6192290733853492,
+            1.8497747414133126
+          ],
+          "receiver_2": [
+            1.6322581776669767,
+            1.4839611675160331
+          ],
+          "receiver_3": [
+            1.9883751536909327,
+            2.1230959677914423
+          ],
+          "receiver_4": [
+            2.4139961454873684,
+            2.3951425553351013
+          ],
+          "source_and_transition": [
+            1.9694251413391632,
+            1.9992817679288175
+          ]
+        },
+        "levels": {
+          "N196": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.306735148217211,
+              "candidate_cooling": 1.7487997346976646e-05,
+              "candidate_geometry": 0.022359824211708002,
+              "candidate_height_principal": 0.0022775790465034414,
+              "candidate_local_stress_relaxation": 0.5542696140892436,
+              "candidate_lower_height_work": 0.001717677606018066,
+              "candidate_shear_principal": 0.413468493654445,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.1808365908246126,
+              "responsive_height_storage_rate_derivative": 0.0016258847457152339
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.010900358355200658,
+              "receiver_1": 0.0009458892576864904,
+              "receiver_2": 0.001517079291314191,
+              "receiver_3": 0.43758301892256973,
+              "receiver_4": 0.00924855941230196,
+              "source_and_transition": 0.0021119834980259126
+            },
+            "mass_solved_rate_error_norm": 0.43782520350389215,
+            "unsolved_DAE_relative_residual": 0.11213724778518955
+          },
+          "N392": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.0636359171279013,
+              "candidate_cooling": 4.88112556220073e-06,
+              "candidate_geometry": 0.005714898990920288,
+              "candidate_height_principal": 0.0008985682500157803,
+              "candidate_local_stress_relaxation": 0.14082870178015666,
+              "candidate_lower_height_work": 0.00043488002277680053,
+              "candidate_shear_principal": 0.0680670728902856,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.03905356340676118,
+              "responsive_height_storage_rate_derivative": 0.0003513078605758722
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.0312981864433797,
+              "receiver_1": 0.00026242343197319784,
+              "receiver_2": 0.0005423647508579857,
+              "receiver_3": 0.10044883176721779,
+              "receiver_4": 0.0017581840575595213,
+              "source_and_transition": 0.0005282587976966683
+            },
+            "mass_solved_rate_error_norm": 0.10522964207941411,
+            "unsolved_DAE_relative_residual": 0.025780860970221565
+          },
+          "N98": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 1.427535927318273,
+              "candidate_cooling": 6.779290010438269e-05,
+              "candidate_geometry": 0.08316649454098106,
+              "candidate_height_principal": 0.009931773510982227,
+              "candidate_local_stress_relaxation": 2.0864005407270505,
+              "candidate_lower_height_work": 0.006617486152815103,
+              "candidate_shear_principal": 2.578463303805886,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.9846406944788575,
+              "responsive_height_storage_rate_derivative": 0.009326849843512135
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.004498846682307134,
+              "receiver_1": 0.002905874234559362,
+              "receiver_2": 0.004702913081523815,
+              "receiver_3": 1.7362850429850347,
+              "receiver_4": 0.04929005922665231,
+              "source_and_transition": 0.008270781778433874
+            },
+            "mass_solved_rate_error_norm": 1.7370188448549797,
+            "unsolved_DAE_relative_residual": 0.29073566113194504
+          }
+        },
+        "mass_solved_rate_error_orders": [
+          1.9881864948013321,
+          2.0568138521221857
+        ],
+        "stable_noncontracting_mechanism_selected": false,
+        "time_seconds": 3.6958962653503407,
+        "unsolved_DAE_residual_orders": [
+          1.374442473902589,
+          2.120893217451113
+        ]
+      },
+      "time_index_161": {
+        "block_error_orders": {
+          "candidate_conservative_transport": [
+            2.218209899295979,
+            2.270771135756152
+          ],
+          "candidate_cooling": [
+            1.9548868281530352,
+            1.8426715185613147
+          ],
+          "candidate_geometry": [
+            1.895081802222272,
+            1.9681074973089414
+          ],
+          "candidate_height_principal": [
+            2.1261010799523143,
+            1.3433739895515486
+          ],
+          "candidate_local_stress_relaxation": [
+            1.9123104104075106,
+            1.976631717332519
+          ],
+          "candidate_lower_height_work": [
+            1.9457322157360981,
+            1.981772662467421
+          ],
+          "candidate_shear_principal": [
+            2.639902987441794,
+            2.601802109948777
+          ],
+          "candidate_stream": [
+            0.0,
+            0.0
+          ],
+          "mapped_storage_rate_derivative": [
+            2.445511803480951,
+            2.211838400209876
+          ],
+          "responsive_height_storage_rate_derivative": [
+            2.5245596444341274,
+            2.2135926334806277
+          ]
+        },
+        "dominant_fine_band": "receiver_3",
+        "dominant_fine_band_fraction": 0.7457488093690668,
+        "dominant_fine_block": "candidate_local_stress_relaxation",
+        "dominant_fine_block_fraction": 0.44171363075139736,
+        "fixed_band_error_orders": {
+          "inner_outflow": [
+            -1.2715782893816645,
+            -1.5214384541809525
+          ],
+          "receiver_1": [
+            1.6211420073624392,
+            1.8503845452115015
+          ],
+          "receiver_2": [
+            1.5919766629556362,
+            1.4875224556092832
+          ],
+          "receiver_3": [
+            1.9880153169584305,
+            2.12284757098998
+          ],
+          "receiver_4": [
+            2.414115042253725,
+            2.3951795020622773
+          ],
+          "source_and_transition": [
+            1.96955245986807,
+            1.999321566324561
+          ]
+        },
+        "levels": {
+          "N196": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.3089025007615419,
+              "candidate_cooling": 1.754436474641466e-05,
+              "candidate_geometry": 0.022308900184667663,
+              "candidate_height_principal": 0.0022774810022294367,
+              "candidate_local_stress_relaxation": 0.5570648507823345,
+              "candidate_lower_height_work": 0.001720312047660655,
+              "candidate_shear_principal": 0.4155646839781644,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.18084762258325354,
+              "responsive_height_storage_rate_derivative": 0.0016201397211467183
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.010926782727833213,
+              "receiver_1": 0.0009596754375249205,
+              "receiver_2": 0.0015460029187773852,
+              "receiver_3": 0.44042962819409714,
+              "receiver_4": 0.009288553054238055,
+              "source_and_transition": 0.0020935521804050722
+            },
+            "mass_solved_rate_error_norm": 0.4406717863132556,
+            "unsolved_DAE_relative_residual": 0.11394379548324383
+          },
+          "N392": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.06401049697499082,
+              "candidate_cooling": 4.891457094760572e-06,
+              "candidate_geometry": 0.005701889136939556,
+              "candidate_height_principal": 0.0008975505072820554,
+              "candidate_local_stress_relaxation": 0.1415403676253698,
+              "candidate_lower_height_work": 0.00043554618575111277,
+              "candidate_shear_principal": 0.06845704598978113,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.03903759911436116,
+              "responsive_height_storage_rate_derivative": 0.0003492968659235131
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.031368295373126964,
+              "receiver_1": 0.0002661356951686232,
+              "receiver_2": 0.0005513424491866672,
+              "receiver_3": 0.10111969049661752,
+              "receiver_4": 0.0017657417708409893,
+              "source_and_transition": 0.0005236342285066752
+            },
+            "mass_solved_rate_error_norm": 0.10589111673912281,
+            "unsolved_DAE_relative_residual": 0.02620884059778516
+          },
+          "N98": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 1.437371867689463,
+              "candidate_cooling": 6.801696059065686e-05,
+              "candidate_geometry": 0.08297640733407902,
+              "candidate_height_principal": 0.009942027540344633,
+              "candidate_local_stress_relaxation": 2.096855731931285,
+              "candidate_lower_height_work": 0.006627213948095053,
+              "candidate_shear_principal": 2.590172079169974,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.985111097475551,
+              "responsive_height_storage_rate_derivative": 0.009322247920870561
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.004525943212910342,
+              "receiver_1": 0.002952138650892738,
+              "receiver_2": 0.004660612948789478,
+              "receiver_3": 1.7471442731407394,
+              "receiver_4": 0.04950728461756581,
+              "source_and_transition": 0.008199326081005008
+            },
+            "mass_solved_rate_error_norm": 1.7478793527999887,
+            "unsolved_DAE_relative_residual": 0.294856856379471
+          }
+        },
+        "mass_solved_rate_error_orders": [
+          1.9878291691954977,
+          2.0571229661151276
+        ],
+        "stable_noncontracting_mechanism_selected": false,
+        "time_seconds": 3.7189956170087806,
+        "unsolved_DAE_residual_orders": [
+          1.3716923734061823,
+          2.120196928894001
+        ]
+      },
+      "time_index_198": {
+        "block_error_orders": {
+          "candidate_conservative_transport": [
+            2.210983578364453,
+            2.322810096884031
+          ],
+          "candidate_cooling": [
+            1.9583661874788065,
+            1.9065297741763212
+          ],
+          "candidate_geometry": [
+            1.8957858787544204,
+            1.9685877393753848
+          ],
+          "candidate_height_principal": [
+            2.209730186370551,
+            1.4452443315583012
+          ],
+          "candidate_local_stress_relaxation": [
+            1.910678494154351,
+            1.9761130385125751
+          ],
+          "candidate_lower_height_work": [
+            1.9425345746424447,
+            1.9821957062980697
+          ],
+          "candidate_shear_principal": [
+            2.6143837473430946,
+            2.5706141032381393
+          ],
+          "candidate_stream": [
+            0.0,
+            0.0
+          ],
+          "mapped_storage_rate_derivative": [
+            2.466423564257489,
+            2.235713136942322
+          ],
+          "responsive_height_storage_rate_derivative": [
+            2.6462332995562137,
+            2.3166120125159995
+          ]
+        },
+        "dominant_fine_band": "receiver_3",
+        "dominant_fine_band_fraction": 0.7728266158287793,
+        "dominant_fine_block": "candidate_local_stress_relaxation",
+        "dominant_fine_block_fraction": 0.4489758266960968,
+        "fixed_band_error_orders": {
+          "inner_outflow": [
+            -1.0694086541152295,
+            -1.508572611655579
+          ],
+          "receiver_1": [
+            1.6707169555644328,
+            1.8664678725918926
+          ],
+          "receiver_2": [
+            0.8731001063182997,
+            1.5990499124964328
+          ],
+          "receiver_3": [
+            1.97758488766618,
+            2.115674851925025
+          ],
+          "receiver_4": [
+            2.4172260870057576,
+            2.396735943042654
+          ],
+          "source_and_transition": [
+            1.9799428947811715,
+            2.0028348525231006
+          ]
+        },
+        "levels": {
+          "N196": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.3393167224911296,
+              "candidate_cooling": 1.7226892123655336e-05,
+              "candidate_geometry": 0.01791477458540795,
+              "candidate_height_principal": 0.0019438523194736394,
+              "candidate_local_stress_relaxation": 0.5741283427701604,
+              "candidate_lower_height_work": 0.001584598435667561,
+              "candidate_shear_principal": 0.42892846656430356,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.1559635100143888,
+              "responsive_height_storage_rate_derivative": 0.0013039830902797718
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.010207782052238192,
+              "receiver_1": 0.0012809855034316205,
+              "receiver_2": 0.0022949442574939326,
+              "receiver_3": 0.4759592655074671,
+              "receiver_4": 0.009353094333073263,
+              "source_and_transition": 0.0014157827008806443
+            },
+            "mass_solved_rate_error_norm": 0.4761699420838089,
+            "unsolved_DAE_relative_residual": 0.166153203010995
+          },
+          "N392": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.0678218684337753,
+              "candidate_cooling": 4.594986973021283e-06,
+              "candidate_geometry": 0.004577279046790798,
+              "candidate_height_principal": 0.0007138408091766409,
+              "candidate_local_stress_relaxation": 0.14592835526289444,
+              "candidate_lower_height_work": 0.0004010687809573321,
+              "candidate_shear_principal": 0.07220261343844726,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.03311359133027284,
+              "responsive_height_storage_rate_derivative": 0.00026175938132691603
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.02904403794930808,
+              "receiver_1": 0.0003513026285998518,
+              "receiver_2": 0.0007575479949940298,
+              "receiver_3": 0.10982170809430511,
+              "receiver_4": 0.001776093823634267,
+              "source_and_transition": 0.0003532508654385604
+            },
+            "mass_solved_rate_error_norm": 0.1136148770940561,
+            "unsolved_DAE_relative_residual": 0.039059934593196864
+          },
+          "N98": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 1.5710052647359332,
+              "candidate_cooling": 6.694742833999992e-05,
+              "candidate_geometry": 0.06666528849103202,
+              "candidate_height_principal": 0.008992042182769088,
+              "candidate_local_stress_relaxation": 2.158641518460159,
+              "candidate_lower_height_work": 0.006090884966692483,
+              "candidate_shear_principal": 2.626593093734172,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.8619666745968048,
+              "responsive_height_storage_rate_derivative": 0.00816333385773595
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.004864153887537166,
+              "receiver_1": 0.004078309048089988,
+              "receiver_2": 0.004203407187710055,
+              "receiver_3": 1.8744858043384336,
+              "receiver_4": 0.04995890064183631,
+              "source_and_transition": 0.0055849437388443115
+            },
+            "mass_solved_rate_error_norm": 1.8751752118791276,
+            "unsolved_DAE_relative_residual": 0.4046335191196498
+          }
+        },
+        "mass_solved_rate_error_orders": [
+          1.9774769444606781,
+          2.0673247960035126
+        ],
+        "stable_noncontracting_mechanism_selected": false,
+        "time_seconds": 4.573671628371047,
+        "unsolved_DAE_residual_orders": [
+          1.2841017303451017,
+          2.088752666275919
+        ]
+      }
+    },
+    "difference_shear_acoustic": {
+      "time_index_155": {
+        "block_error_orders": {
+          "candidate_conservative_transport": [
+            2.1899565427645773,
+            2.3872287368424
+          ],
+          "candidate_cooling": [
+            1.9611260460833573,
+            1.9888775856946985
+          ],
+          "candidate_geometry": [
+            1.901803124430341,
+            1.9719018588712396
+          ],
+          "candidate_height_principal": [
+            2.4436784001986407,
+            2.024003783709756
+          ],
+          "candidate_local_stress_relaxation": [
+            1.905598163814735,
+            1.9746616300327864
+          ],
+          "candidate_lower_height_work": [
+            1.9322713391113384,
+            1.9816686122639207
+          ],
+          "candidate_shear_principal": [
+            2.559797587542323,
+            2.509470906095781
+          ],
+          "candidate_stream": [
+            0.0,
+            0.0
+          ],
+          "mapped_storage_rate_derivative": [
+            2.474578413361924,
+            2.242830939549336
+          ],
+          "responsive_height_storage_rate_derivative": [
+            2.6390900966728315,
+            2.314168013048515
+          ]
+        },
+        "dominant_fine_band": "receiver_3",
+        "dominant_fine_band_fraction": 0.8287458421134705,
+        "dominant_fine_block": "candidate_local_stress_relaxation",
+        "dominant_fine_block_fraction": 0.4719744216550544,
+        "fixed_band_error_orders": {
+          "inner_outflow": [
+            -0.8467924091232756,
+            -1.475714847027718
+          ],
+          "receiver_1": [
+            1.6033761160567415,
+            1.8420582538497026
+          ],
+          "receiver_2": [
+            2.783082277407503,
+            1.4363018972519677
+          ],
+          "receiver_3": [
+            1.931455788316823,
+            2.0831370401158638
+          ],
+          "receiver_4": [
+            2.419195256826593,
+            2.4131141922747847
+          ],
+          "source_and_transition": [
+            1.9663325221304178,
+            1.990142733923388
+          ]
+        },
+        "levels": {
+          "N196": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.4449751340080988,
+              "candidate_cooling": 1.7765248322206863e-05,
+              "candidate_geometry": 0.017013128468356727,
+              "candidate_height_principal": 0.001721752471042968,
+              "candidate_local_stress_relaxation": 0.7565560781712651,
+              "candidate_lower_height_work": 0.0017082701385699058,
+              "candidate_shear_principal": 0.5443447229391373,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.13833114673326877,
+              "responsive_height_storage_rate_derivative": 0.0013578051983873334
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.009935190056004949,
+              "receiver_1": 0.001334111642987432,
+              "receiver_2": 0.0014187899560527129,
+              "receiver_3": 0.6299847248393806,
+              "receiver_4": 0.009096817901303506,
+              "source_and_transition": 0.0019337915372040387
+            },
+            "mass_solved_rate_error_norm": 0.6301347046440573,
+            "unsolved_DAE_relative_residual": 0.0396181657013765
+          },
+          "N392": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.08505665243192599,
+              "candidate_cooling": 4.475684569909043e-06,
+              "candidate_geometry": 0.004336931606866666,
+              "candidate_height_principal": 0.00042333567128737605,
+              "candidate_local_stress_relaxation": 0.19249025277530524,
+              "candidate_lower_height_work": 0.0004325286258866214,
+              "candidate_shear_principal": 0.09559782270830541,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.02922540842546814,
+              "responsive_height_storage_rate_derivative": 0.00027302566911047323
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.027631891403395482,
+              "receiver_1": 0.00037211517936013076,
+              "receiver_2": 0.00052426172414069,
+              "receiver_3": 0.14867682739587176,
+              "receiver_4": 0.0017079287387457747,
+              "source_and_transition": 0.00048676236974255223
+            },
+            "mass_solved_rate_error_norm": 0.15123454534356304,
+            "unsolved_DAE_relative_residual": 0.009369457637388251
+          },
+          "N98": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 2.0303847886604425,
+              "candidate_cooling": 6.91717952960008e-05,
+              "candidate_geometry": 0.0635746485094199,
+              "candidate_height_principal": 0.009366799264533028,
+              "candidate_local_stress_relaxation": 2.834544841276008,
+              "candidate_lower_height_work": 0.006519708552465184,
+              "candidate_shear_principal": 3.20959233188727,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.7688512171095997,
+              "responsive_height_storage_rate_derivative": 0.0084582934310161
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.005524160194541773,
+              "receiver_1": 0.004053745500216187,
+              "receiver_2": 0.009765834300896985,
+              "receiver_3": 2.4030131471288145,
+              "receiver_4": 0.04865638495577601,
+              "source_and_transition": 0.00755674427941612
+            },
+            "mass_solved_rate_error_norm": 2.4035471815991105,
+            "unsolved_DAE_relative_residual": 0.10103032166736058
+          }
+        },
+        "mass_solved_rate_error_orders": [
+          1.9314329505120629,
+          2.0588725472833955
+        ],
+        "stable_noncontracting_mechanism_selected": false,
+        "time_seconds": 3.5803995070581425,
+        "unsolved_DAE_residual_orders": [
+          1.3505543550637684,
+          2.080124642578498
+        ]
+      },
+      "time_index_157": {
+        "block_error_orders": {
+          "candidate_conservative_transport": [
+            2.1899871385941223,
+            2.3871624117547157
+          ],
+          "candidate_cooling": [
+            1.961172887927004,
+            1.9891313640851989
+          ],
+          "candidate_geometry": [
+            1.901631016973246,
+            1.9718651122813857
+          ],
+          "candidate_height_principal": [
+            2.4449120779835867,
+            2.0268752201950027
+          ],
+          "candidate_local_stress_relaxation": [
+            1.905659303321287,
+            1.9746752433848003
+          ],
+          "candidate_lower_height_work": [
+            1.9323424580412907,
+            1.9816923826641217
+          ],
+          "candidate_shear_principal": [
+            2.55964220746108,
+            2.5092610685509054
+          ],
+          "candidate_stream": [
+            0.0,
+            0.0
+          ],
+          "mapped_storage_rate_derivative": [
+            2.4748747476513575,
+            2.243364622678847
+          ],
+          "responsive_height_storage_rate_derivative": [
+            2.644712656345267,
+            2.3196587364918035
+          ]
+        },
+        "dominant_fine_band": "receiver_3",
+        "dominant_fine_band_fraction": 0.828474416351634,
+        "dominant_fine_block": "candidate_local_stress_relaxation",
+        "dominant_fine_block_fraction": 0.47171759862002055,
+        "fixed_band_error_orders": {
+          "inner_outflow": [
+            -0.8414447029932313,
+            -1.475512592605732
+          ],
+          "receiver_1": [
+            1.6092152291743356,
+            1.8439308816417945
+          ],
+          "receiver_2": [
+            2.7225483587361037,
+            1.4219269836053514
+          ],
+          "receiver_3": [
+            1.9315746832241334,
+            2.0832588329552078
+          ],
+          "receiver_4": [
+            2.4192765799889524,
+            2.4128684951941772
+          ],
+          "source_and_transition": [
+            1.9668230818902972,
+            1.9902319809460023
+          ]
+        },
+        "levels": {
+          "N196": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.44473058428046536,
+              "candidate_cooling": 1.772558024457643e-05,
+              "candidate_geometry": 0.0169006532262674,
+              "candidate_height_principal": 0.001716071950532853,
+              "candidate_local_stress_relaxation": 0.7551244193944703,
+              "candidate_lower_height_work": 0.001704855813204272,
+              "candidate_shear_principal": 0.5437111375154466,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.1383197109212623,
+              "responsive_height_storage_rate_derivative": 0.0013490178040516828
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.009937416334220834,
+              "receiver_1": 0.0013515775412460183,
+              "receiver_2": 0.001427167606558305,
+              "receiver_3": 0.628732751513581,
+              "receiver_4": 0.009067978719871,
+              "source_and_transition": 0.0018745431431078
+            },
+            "mass_solved_rate_error_norm": 0.6288825254278613,
+            "unsolved_DAE_relative_residual": 0.04066179683600439
+          },
+          "N392": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.08501381519511166,
+              "candidate_cooling": 4.464905328345792e-06,
+              "candidate_geometry": 0.004308369518639078,
+              "candidate_height_principal": 0.0004211000122081041,
+              "candidate_local_stress_relaxation": 0.19212418351649968,
+              "candidate_lower_height_work": 0.00043165701723729927,
+              "candidate_shear_principal": 0.095500441800368,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.029212184167925672,
+              "responsive_height_storage_rate_derivative": 0.0002702282956086841
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.02763420879107814,
+              "receiver_1": 0.00037649781603682925,
+              "receiver_2": 0.0005326381948300604,
+              "receiver_3": 0.14836883495215591,
+              "receiver_4": 0.0017028041487699137,
+              "source_and_transition": 0.00047181953220698145
+            },
+            "mass_solved_rate_error_norm": 0.15093213140435374,
+            "unsolved_DAE_relative_residual": 0.009616553984949034
+          },
+          "N98": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 2.0293119644497066,
+              "candidate_cooling": 6.901958229305124e-05,
+              "candidate_geometry": 0.06314681749118976,
+              "candidate_height_principal": 0.009343882424133022,
+              "candidate_local_stress_relaxation": 2.8293008277372804,
+              "candidate_lower_height_work": 0.006506998349035171,
+              "candidate_shear_principal": 3.2055112978986235,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.7689455840352619,
+              "responsive_height_storage_rate_derivative": 0.008436368101262758
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.005545917310181607,
+              "receiver_1": 0.004123471717111367,
+              "receiver_2": 0.00941984377620308,
+              "receiver_3": 2.398435272153194,
+              "receiver_4": 0.04850486617078548,
+              "source_and_transition": 0.007327708492276561
+            },
+            "mass_solved_rate_error_norm": 2.3989653323333253,
+            "unsolved_DAE_relative_residual": 0.10367610980610276
+          }
+        },
+        "mass_solved_rate_error_orders": [
+          1.931549855745199,
+          2.0588905796321137
+        ],
+        "stable_noncontracting_mechanism_selected": false,
+        "time_seconds": 3.626598210375022,
+        "unsolved_DAE_residual_orders": [
+          1.350337616642119,
+          2.080082055465439
+        ]
+      },
+      "time_index_160": {
+        "block_error_orders": {
+          "candidate_conservative_transport": [
+            2.1900490919089863,
+            2.387082824866415
+          ],
+          "candidate_cooling": [
+            1.9612445072987614,
+            1.9894553094378806
+          ],
+          "candidate_geometry": [
+            1.9013861451039304,
+            1.9718114336599848
+          ],
+          "candidate_height_principal": [
+            2.446528412154361,
+            2.0303148159056343
+          ],
+          "candidate_local_stress_relaxation": [
+            1.9057488389529422,
+            1.9746953411407062
+          ],
+          "candidate_lower_height_work": [
+            1.9324532669644634,
+            1.9817278243135081
+          ],
+          "candidate_shear_principal": [
+            2.559458531940722,
+            2.509005217147651
+          ],
+          "candidate_stream": [
+            0.0,
+            0.0
+          ],
+          "mapped_storage_rate_derivative": [
+            2.475250039140626,
+            2.2440754245602195
+          ],
+          "responsive_height_storage_rate_derivative": [
+            2.6526031660291047,
+            2.3275011300229544
+          ]
+        },
+        "dominant_fine_band": "receiver_3",
+        "dominant_fine_band_fraction": 0.8280929251461085,
+        "dominant_fine_block": "candidate_local_stress_relaxation",
+        "dominant_fine_block_fraction": 0.47133851850717373,
+        "fixed_band_error_orders": {
+          "inner_outflow": [
+            -0.8340302781839539,
+            -1.4752644651822067
+          ],
+          "receiver_1": [
+            1.6171666931025657,
+            1.8464958733734163
+          ],
+          "receiver_2": [
+            2.6286484356155793,
+            1.4061648714373451
+          ],
+          "receiver_3": [
+            1.931749360090163,
+            2.083437704329176
+          ],
+          "receiver_4": [
+            2.419393545452242,
+            2.412511435812839
+          ],
+          "source_and_transition": [
+            1.9677040737315818,
+            1.9904266850772012
+          ]
+        },
+        "levels": {
+          "N196": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.4433677406226468,
+              "candidate_cooling": 1.763122838229784e-05,
+              "candidate_geometry": 0.016711075664647065,
+              "candidate_height_principal": 0.0017047573012329727,
+              "candidate_local_stress_relaxation": 0.7514128514610249,
+              "candidate_lower_height_work": 0.0016965401887409086,
+              "candidate_shear_principal": 0.541612279938535,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.1380635748307929,
+              "responsive_height_storage_rate_derivative": 0.0013341498351182653
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.009916653017702804,
+              "receiver_1": 0.0013725649510932787,
+              "receiver_2": 0.0014408670952592527,
+              "receiver_3": 0.6255122989956864,
+              "receiver_4": 0.009007030382134129,
+              "source_and_transition": 0.0017884127694130798
+            },
+            "mass_solved_rate_error_norm": 0.6256614589784256,
+            "unsolved_DAE_relative_residual": 0.042210500682886065
+          },
+          "N392": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.08475797228906402,
+              "candidate_cooling": 4.440141880845814e-06,
+              "candidate_geometry": 0.004260200296818579,
+              "candidate_height_principal": 0.0004173273993051957,
+              "candidate_local_stress_relaxation": 0.19117719646843478,
+              "candidate_lower_height_work": 0.0004295410096157026,
+              "candidate_shear_principal": 0.0951486592288279,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.02914372759373499,
+              "responsive_height_storage_rate_derivative": 0.00026580120887233845
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.027571727219267147,
+              "receiver_1": 0.00038166493375139043,
+              "receiver_2": 0.0005436584197648694,
+              "receiver_3": 0.14759057007557697,
+              "receiver_4": 0.0016917777957358728,
+              "source_and_transition": 0.0004500799076673637
+            },
+            "mass_solved_rate_error_norm": 0.15015552748307315,
+            "unsolved_DAE_relative_residual": 0.009983347753966513
+          },
+          "N98": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 2.023180168593693,
+              "candidate_cooling": 6.86556046826061e-05,
+              "candidate_geometry": 0.06242789174994208,
+              "candidate_height_principal": 0.009292680305435536,
+              "candidate_local_stress_relaxation": 2.815569054446425,
+              "candidate_lower_height_work": 0.006475757102191537,
+              "candidate_shear_principal": 3.192730736874919,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.7677213578880216,
+              "responsive_height_storage_rate_derivative": 0.008389145493181085
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.005562845350963733,
+              "receiver_1": 0.00421064461132416,
+              "receiver_2": 0.008910989886501137,
+              "receiver_3": 2.386439093540031,
+              "receiver_4": 0.0481827580694907,
+              "source_and_transition": 0.006995289796616372
+            },
+            "mass_solved_rate_error_norm": 2.3869625342572696,
+            "unsolved_DAE_relative_residual": 0.10760059643306999
+          }
+        },
+        "mass_solved_rate_error_orders": [
+          1.9317217808320963,
+          2.0589246521671933
+        ],
+        "stable_noncontracting_mechanism_selected": false,
+        "time_seconds": 3.6958962653503407,
+        "unsolved_DAE_residual_orders": [
+          1.3500122276744568,
+          2.080006355805743
+        ]
+      },
+      "time_index_161": {
+        "block_error_orders": {
+          "candidate_conservative_transport": [
+            2.1900735732651424,
+            2.387060801394303
+          ],
+          "candidate_cooling": [
+            1.9612688056332064,
+            1.98955005730439
+          ],
+          "candidate_geometry": [
+            1.9013078562043868,
+            1.9717938972871925
+          ],
+          "candidate_height_principal": [
+            2.4470090786768615,
+            2.0312450676325073
+          ],
+          "candidate_local_stress_relaxation": [
+            1.905778125131036,
+            1.974701955871368
+          ],
+          "candidate_lower_height_work": [
+            1.9324911524913835,
+            1.9817395795039094
+          ],
+          "candidate_shear_principal": [
+            2.5594095547964555,
+            2.508934535737753
+          ],
+          "candidate_stream": [
+            0.0,
+            0.0
+          ],
+          "mapped_storage_rate_derivative": [
+            2.475358448150933,
+            2.244290512821455
+          ],
+          "responsive_height_storage_rate_derivative": [
+            2.6550989222691173,
+            2.330015612082489
+          ]
+        },
+        "dominant_fine_band": "receiver_3",
+        "dominant_fine_band_fraction": 0.827971844251598,
+        "dominant_fine_block": "candidate_local_stress_relaxation",
+        "dominant_fine_block_fraction": 0.4712137989422483,
+        "fixed_band_error_orders": {
+          "inner_outflow": [
+            -0.8317112893031864,
+            -1.475195464725535
+          ],
+          "receiver_1": [
+            1.6196233496512318,
+            1.8472918518670849
+          ],
+          "receiver_2": [
+            2.596725497767192,
+            1.4022481147309984
+          ],
+          "receiver_3": [
+            1.9318066687565363,
+            2.083496371044637
+          ],
+          "receiver_4": [
+            2.419431325597325,
+            2.412395256167164
+          ],
+          "source_and_transition": [
+            1.9680367081493697,
+            1.9905081190300742
+          ]
+        },
+        "levels": {
+          "N196": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.4426613729803405,
+              "candidate_cooling": 1.7590974343863315e-05,
+              "candidate_geometry": 0.016642590127116524,
+              "candidate_height_principal": 0.0017002757160277213,
+              "candidate_local_stress_relaxation": 0.7497804954878412,
+              "candidate_lower_height_work": 0.001692957320226275,
+              "candidate_shear_principal": 0.5406218387056606,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.1379166073643133,
+              "responsive_height_storage_rate_derivative": 0.001328763460969606
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.009903661174462609,
+              "receiver_1": 0.0013782258728741296,
+              "receiver_2": 0.0014455763648625237,
+              "receiver_3": 0.6241004168090258,
+              "receiver_4": 0.008982276203335747,
+              "source_and_transition": 0.0017604350392657448
+            },
+            "mass_solved_rate_error_norm": 0.6242492950582822,
+            "unsolved_DAE_relative_residual": 0.04272229042515741
+          },
+          "N392": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.08462422882637824,
+              "candidate_cooling": 4.4297136198325695e-06,
+              "candidate_geometry": 0.004242792663180052,
+              "candidate_height_principal": 0.00041596200049973055,
+              "candidate_local_stress_relaxation": 0.190761011874224,
+              "candidate_lower_height_work": 0.0004286303832816865,
+              "candidate_shear_principal": 0.09497931495077809,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.029108364324753846,
+              "responsive_height_storage_rate_derivative": 0.00026426709309629705
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.027534288472103038,
+              "receiver_1": 0.00038302766268338774,
+              "receiver_2": 0.0005469180982664667,
+              "receiver_3": 0.14725144629185602,
+              "receiver_4": 0.0016872641225170188,
+              "source_and_transition": 0.0004430139007856699
+            },
+            "mass_solved_rate_error_norm": 0.14981526767269202,
+            "unsolved_DAE_relative_residual": 0.010104590844210582
+          },
+          "N98": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 2.019991141916116,
+              "candidate_cooling": 6.850001005658854e-05,
+              "candidate_geometry": 0.06216867526969191,
+              "candidate_height_principal": 0.00927133949980363,
+              "candidate_local_stress_relaxation": 2.809509593519419,
+              "candidate_lower_height_work": 0.006462250857667565,
+              "candidate_shear_principal": 3.18678403253821,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.7669617551735081,
+              "responsive_height_storage_rate_derivative": 0.008369742448607512
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.0055644946343008555,
+              "receiver_1": 0.004235216426677867,
+              "receiver_2": 0.008744466216676301,
+              "receiver_3": 2.3811471006870253,
+              "receiver_4": 0.048051594874857044,
+              "source_and_transition": 0.006887444080063104
+            },
+            "mass_solved_rate_error_norm": 2.3816681704457343,
+            "unsolved_DAE_relative_residual": 0.10889706671113997
+          }
+        },
+        "mass_solved_rate_error_orders": [
+          1.931778229429391,
+          2.0589376306435354
+        ],
+        "stable_noncontracting_mechanism_selected": false,
+        "time_seconds": 3.7189956170087806,
+        "unsolved_DAE_residual_orders": [
+          1.3499041937469987,
+          2.079978089595273
+        ]
+      },
+      "time_index_198": {
+        "block_error_orders": {
+          "candidate_conservative_transport": [
+            2.1916704957980615,
+            2.386561223230751
+          ],
+          "candidate_cooling": [
+            1.9623311453841525,
+            1.9905925306623036
+          ],
+          "candidate_geometry": [
+            1.8993272121577758,
+            1.9712548145449769
+          ],
+          "candidate_height_principal": [
+            2.4510866419790998,
+            2.014747152571521
+          ],
+          "candidate_local_stress_relaxation": [
+            1.9066976232341823,
+            1.9749180105051845
+          ],
+          "candidate_lower_height_work": [
+            1.9339825063724412,
+            1.9821359409780133
+          ],
+          "candidate_shear_principal": [
+            2.5601988847930457,
+            2.509438663297529
+          ],
+          "candidate_stream": [
+            0.0,
+            0.0
+          ],
+          "mapped_storage_rate_derivative": [
+            2.4764652907083025,
+            2.24814753050886
+          ],
+          "responsive_height_storage_rate_derivative": [
+            2.7172987461074296,
+            2.3984501682372303
+          ]
+        },
+        "dominant_fine_band": "receiver_3",
+        "dominant_fine_band_fraction": 0.8243305697991657,
+        "dominant_fine_block": "candidate_local_stress_relaxation",
+        "dominant_fine_block_fraction": 0.46710618195335457,
+        "fixed_band_error_orders": {
+          "inner_outflow": [
+            -0.7830735668124905,
+            -1.4757530241852808
+          ],
+          "receiver_1": [
+            1.6717785882342493,
+            1.8646073323668522
+          ],
+          "receiver_2": [
+            1.4476647611313909,
+            1.442569174682095
+          ],
+          "receiver_3": [
+            1.933770072710676,
+            2.085474526132608
+          ],
+          "receiver_4": [
+            2.4205916174907167,
+            2.4087731187529133
+          ],
+          "source_and_transition": [
+            1.9931709439399818,
+            1.999608179689192
+          ]
+        },
+        "levels": {
+          "N196": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.35808908198184886,
+              "candidate_cooling": 1.4075979452150434e-05,
+              "candidate_geometry": 0.012852594036763774,
+              "candidate_height_principal": 0.0013640845263313695,
+              "candidate_local_stress_relaxation": 0.5984779080500677,
+              "candidate_lower_height_work": 0.00136664380758253,
+              "candidate_shear_principal": 0.43610245206265214,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.11618277411113015,
+              "responsive_height_storage_rate_derivative": 0.0010267754801350853
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.008057399773506233,
+              "receiver_1": 0.0012590517492747717,
+              "receiver_2": 0.0014791929865915078,
+              "receiver_3": 0.4954379869552807,
+              "receiver_4": 0.007086050474689438,
+              "source_and_transition": 0.0009695153666161416
+            },
+            "mass_solved_rate_error_norm": 0.49555892273672747,
+            "unsolved_DAE_relative_residual": 0.0604060655003933
+          },
+          "N392": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.06848012825282117,
+              "candidate_cooling": 3.5420163642419505e-06,
+              "candidate_geometry": 0.0032778114035474097,
+              "candidate_height_principal": 0.000337552987364651,
+              "candidate_local_stress_relaxation": 0.15224343127145226,
+              "candidate_lower_height_work": 0.0003459178429530333,
+              "candidate_shear_principal": 0.07659002629839941,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.024455801494762144,
+              "responsive_height_storage_rate_derivative": 0.00019474667218908362
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.022409947467145096,
+              "receiver_1": 0.00034573300709831676,
+              "receiver_2": 0.0005442121663618232,
+              "receiver_3": 0.11673441596696629,
+              "receiver_4": 0.0013344161210908617,
+              "source_and_transition": 0.00024244467805591805
+            },
+            "mass_solved_rate_error_norm": 0.11887550109517638,
+            "unsolved_DAE_relative_residual": 0.014306080948675047
+          },
+          "N98": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 1.6358732075756854,
+              "candidate_cooling": 5.4852845346572896e-05,
+              "candidate_geometry": 0.04794521301990116,
+              "candidate_height_principal": 0.007459193676757161,
+              "candidate_local_stress_relaxation": 2.24399198265616,
+              "candidate_lower_height_work": 0.005222062716651555,
+              "candidate_shear_principal": 2.5720842365648715,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.6465946065356709,
+              "responsive_height_storage_rate_derivative": 0.006752489518537937
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.004682375940584428,
+              "receiver_1": 0.004011428742094976,
+              "receiver_2": 0.004034738159509049,
+              "receiver_3": 1.8928321286650047,
+              "receiver_4": 0.037938043105975164,
+              "source_and_transition": 0.0038597478819376767
+            },
+            "mass_solved_rate_error_norm": 1.8932305605477464,
+            "unsolved_DAE_relative_residual": 0.15363200489691375
+          }
+        },
+        "mass_solved_rate_error_orders": [
+          1.9337216039386669,
+          2.059605183841906
+        ],
+        "stable_noncontracting_mechanism_selected": false,
+        "time_seconds": 4.573671628371047,
+        "unsolved_DAE_residual_orders": [
+          1.346713466219413,
+          2.078064910953817
+        ]
+      }
+    },
+    "shear": {
+      "time_index_155": {
+        "block_error_orders": {
+          "candidate_conservative_transport": [
+            2.176212118244982,
+            2.33566378522538
+          ],
+          "candidate_cooling": [
+            1.9331009942173316,
+            1.7208748668304046
+          ],
+          "candidate_geometry": [
+            1.9332035730139756,
+            1.9670148343050553
+          ],
+          "candidate_height_principal": [
+            1.8380019761788324,
+            1.063901865766661
+          ],
+          "candidate_local_stress_relaxation": [
+            1.8978857588735611,
+            1.972391818925149
+          ],
+          "candidate_lower_height_work": [
+            1.9081375928341064,
+            1.9654228022370872
+          ],
+          "candidate_shear_principal": [
+            2.461767842568549,
+            2.411574771015705
+          ],
+          "candidate_stream": [
+            0.0,
+            0.0
+          ],
+          "mapped_storage_rate_derivative": [
+            2.7126703590016756,
+            2.605413651925537
+          ],
+          "responsive_height_storage_rate_derivative": [
+            2.9137091393814636,
+            2.7501336074047344
+          ]
+        },
+        "dominant_fine_band": "receiver_3",
+        "dominant_fine_band_fraction": 0.7934672240893794,
+        "dominant_fine_block": "candidate_local_stress_relaxation",
+        "dominant_fine_block_fraction": 0.4867083084609713,
+        "fixed_band_error_orders": {
+          "inner_outflow": [
+            -0.9835862511140087,
+            -1.482770241920393
+          ],
+          "receiver_1": [
+            1.6102472763043312,
+            1.8413438631830126
+          ],
+          "receiver_2": [
+            3.264130902181826,
+            1.8448884857161498
+          ],
+          "receiver_3": [
+            1.881296971650119,
+            2.0489292435286073
+          ],
+          "receiver_4": [
+            2.420876588981894,
+            2.4446624700484363
+          ],
+          "source_and_transition": [
+            1.8647464276996764,
+            1.9636021519647466
+          ]
+        },
+        "levels": {
+          "N196": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.34333009865644915,
+              "candidate_cooling": 1.0683538354591391e-05,
+              "candidate_geometry": 0.005132903151381376,
+              "candidate_height_principal": 0.001235213833239294,
+              "candidate_local_stress_relaxation": 0.5325646314745862,
+              "candidate_lower_height_work": 0.0008602018490197639,
+              "candidate_shear_principal": 0.3724863136758215,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.017663692585946248,
+              "responsive_height_storage_rate_derivative": 0.00048375536528938787
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.009883891344748284,
+              "receiver_1": 0.0010262379490700506,
+              "receiver_2": 0.0009762783873506788,
+              "receiver_3": 0.4717620201929528,
+              "receiver_4": 0.003907276060530426,
+              "source_and_transition": 0.0030241227136519415
+            },
+            "mass_solved_rate_error_norm": 0.4718935403381455,
+            "unsolved_DAE_relative_residual": 0.018868389814466893
+          },
+          "N392": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.06801536283187365,
+              "candidate_cooling": 3.241008423604715e-06,
+              "candidate_geometry": 0.001312902885868836,
+              "candidate_height_principal": 0.000590848003913542,
+              "candidate_local_stress_relaxation": 0.135713552871722,
+              "candidate_lower_height_work": 0.00022026685661434632,
+              "candidate_shear_principal": 0.07000901658390037,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.002902510753510544,
+              "responsive_height_storage_rate_derivative": 7.190400598106981e-05
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.02762398197642513,
+              "receiver_1": 0.0002863837259886082,
+              "receiver_2": 0.00027177337160285445,
+              "receiver_3": 0.11400760259624888,
+              "receiver_4": 0.0007177238262538453,
+              "source_and_transition": 0.0007753472713166895
+            },
+            "mass_solved_rate_error_norm": 0.11731193459006638,
+            "unsolved_DAE_relative_residual": 0.004573050468655068
+          },
+          "N98": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 1.5517330237776967,
+              "candidate_cooling": 4.079777677641037e-05,
+              "candidate_geometry": 0.019602674708472892,
+              "candidate_height_principal": 0.004416069235000003,
+              "candidate_local_stress_relaxation": 1.9846908276695252,
+              "candidate_lower_height_work": 0.003228546330590107,
+              "candidate_shear_principal": 2.0519949281057985,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.11579149046161988,
+              "responsive_height_storage_rate_derivative": 0.003645353457518299
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.004998491956416034,
+              "receiver_1": 0.003133147212588124,
+              "receiver_2": 0.009379398465901698,
+              "receiver_3": 1.738000086552776,
+              "receiver_4": 0.020923318477380524,
+              "source_and_transition": 0.01101397329531474
+            },
+            "mass_solved_rate_error_norm": 1.738196239890706,
+            "unsolved_DAE_relative_residual": 0.04676510635563063
+          }
+        },
+        "mass_solved_rate_error_orders": [
+          1.8810576416300393,
+          2.0081116311331404
+        ],
+        "stable_noncontracting_mechanism_selected": false,
+        "time_seconds": 3.5803995070581425,
+        "unsolved_DAE_residual_orders": [
+          1.3094611567416912,
+          2.0447425657969873
+        ]
+      },
+      "time_index_157": {
+        "block_error_orders": {
+          "candidate_conservative_transport": [
+            2.176103910694559,
+            2.333495955437633
+          ],
+          "candidate_cooling": [
+            1.9318813643023118,
+            1.7099440188090644
+          ],
+          "candidate_geometry": [
+            1.9334258209966553,
+            1.9664460559470784
+          ],
+          "candidate_height_principal": [
+            1.8169468622858411,
+            1.0530171225376146
+          ],
+          "candidate_local_stress_relaxation": [
+            1.897893118466607,
+            1.9723877546090276
+          ],
+          "candidate_lower_height_work": [
+            1.9081453148935008,
+            1.9649397935901516
+          ],
+          "candidate_shear_principal": [
+            2.460324513583006,
+            2.4102411423742045
+          ],
+          "candidate_stream": [
+            0.0,
+            0.0
+          ],
+          "mapped_storage_rate_derivative": [
+            2.7124719455871547,
+            2.6054260494559127
+          ],
+          "responsive_height_storage_rate_derivative": [
+            2.916551918446043,
+            2.7571115035948406
+          ]
+        },
+        "dominant_fine_band": "receiver_3",
+        "dominant_fine_band_fraction": 0.79189740498786,
+        "dominant_fine_block": "candidate_local_stress_relaxation",
+        "dominant_fine_block_fraction": 0.4862832216177004,
+        "fixed_band_error_orders": {
+          "inner_outflow": [
+            -0.9867302074533354,
+            -1.4836314307802876
+          ],
+          "receiver_1": [
+            1.6180484274440932,
+            1.8437796469710974
+          ],
+          "receiver_2": [
+            3.268511668829942,
+            1.8273989441120042
+          ],
+          "receiver_3": [
+            1.8805519330387888,
+            2.0484731275162855
+          ],
+          "receiver_4": [
+            2.4204481456099702,
+            2.4449404593547768
+          ],
+          "source_and_transition": [
+            1.8647842473384666,
+            1.963656005072762
+          ]
+        },
+        "levels": {
+          "N196": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.3380164237300193,
+              "candidate_cooling": 1.050226312259646e-05,
+              "candidate_geometry": 0.005052448640274184,
+              "candidate_height_principal": 0.0012325005304629196,
+              "candidate_local_stress_relaxation": 0.5238111453885067,
+              "candidate_lower_height_work": 0.0008454381520554844,
+              "candidate_shear_principal": 0.36651141141475885,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.017183556982151328,
+              "responsive_height_storage_rate_derivative": 0.0004756984711492368
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.009814614954538474,
+              "receiver_1": 0.0010227156072564394,
+              "receiver_2": 0.0009394061140333051,
+              "receiver_3": 0.463443472114253,
+              "receiver_4": 0.003769105257059167,
+              "source_and_transition": 0.0029350867940275667
+            },
+            "mass_solved_rate_error_norm": 0.4635740801986323,
+            "unsolved_DAE_relative_residual": 0.019003114873990347
+          },
+          "N392": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.06706339344404127,
+              "candidate_cooling": 3.2102470406077717e-06,
+              "candidate_geometry": 0.0012928336867292414,
+              "candidate_height_principal": 0.0005940149496128453,
+              "candidate_local_stress_relaxation": 0.13348327628446394,
+              "candidate_lower_height_work": 0.000216558894011411,
+              "candidate_shear_principal": 0.06894973802424728,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.002823590259396733,
+              "responsive_height_storage_rate_derivative": 7.036529158482366e-05
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.027446743852672484,
+              "receiver_1": 0.0002849193234722286,
+              "receiver_2": 0.00026469850363243925,
+              "receiver_3": 0.11203272834976932,
+              "receiver_4": 0.0006922099696133175,
+              "source_and_transition": 0.0007524914845827371
+            },
+            "mass_solved_rate_error_norm": 0.11535099744693383,
+            "unsolved_DAE_relative_residual": 0.004607473187971581
+          },
+          "N98": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 1.5276024749764143,
+              "candidate_cooling": 4.007164152596872e-05,
+              "candidate_geometry": 0.019298389786502754,
+              "candidate_height_principal": 0.004342527935470695,
+              "candidate_local_stress_relaxation": 1.952079461466975,
+              "candidate_lower_height_work": 0.0031731515767102563,
+              "candidate_shear_principal": 2.0170607508035765,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.11262854804335924,
+              "responsive_height_storage_rate_derivative": 0.0035917108532735726
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.004952652716613885,
+              "receiver_1": 0.0031393229480840257,
+              "receiver_2": 0.00905260218749384,
+              "receiver_3": 1.7064725609683837,
+              "receiver_4": 0.02017742587913511,
+              "source_and_transition": 0.010689981220592464
+            },
+            "mass_solved_rate_error_norm": 1.7066594092775123,
+            "unsolved_DAE_relative_residual": 0.04707722164716509
+          }
+        },
+        "mass_solved_rate_error_orders": [
+          1.8803033662540618,
+          2.006769424097313
+        ],
+        "stable_noncontracting_mechanism_selected": false,
+        "time_seconds": 3.626598210375022,
+        "unsolved_DAE_residual_orders": [
+          1.30879326380612,
+          2.044188240065261
+        ]
+      },
+      "time_index_160": {
+        "block_error_orders": {
+          "candidate_conservative_transport": [
+            2.1759778146653903,
+            2.330338840349478
+          ],
+          "candidate_cooling": [
+            1.9300021507421952,
+            1.6938209039531498
+          ],
+          "candidate_geometry": [
+            1.9337770695573908,
+            1.965621190122508
+          ],
+          "candidate_height_principal": [
+            1.7865032043806017,
+            1.0381149247305232
+          ],
+          "candidate_local_stress_relaxation": [
+            1.8978984561271426,
+            1.9723802579101453
+          ],
+          "candidate_lower_height_work": [
+            1.908156392107308,
+            1.964214620622031
+          ],
+          "candidate_shear_principal": [
+            2.458153861013643,
+            2.4082493700345418
+          ],
+          "candidate_stream": [
+            0.0,
+            0.0
+          ],
+          "mapped_storage_rate_derivative": [
+            2.7114942555748653,
+            2.604051777829149
+          ],
+          "responsive_height_storage_rate_derivative": [
+            2.920690738456677,
+            2.7674961390601633
+          ]
+        },
+        "dominant_fine_band": "receiver_3",
+        "dominant_fine_band_fraction": 0.7896282255588086,
+        "dominant_fine_block": "candidate_local_stress_relaxation",
+        "dominant_fine_block_fraction": 0.485677417254359,
+        "fixed_band_error_orders": {
+          "inner_outflow": [
+            -0.9917808100723969,
+            -1.4849209383714346
+          ],
+          "receiver_1": [
+            1.6288434310052078,
+            1.8471543853939887
+          ],
+          "receiver_2": [
+            3.2768229475262562,
+            1.8073668514485908
+          ],
+          "receiver_3": [
+            1.8793251503583015,
+            2.0477149047762495
+          ],
+          "receiver_4": [
+            2.419677442781753,
+            2.4453594071985316
+          ],
+          "source_and_transition": [
+            1.8648840653160448,
+            1.9637493627769158
+          ]
+        },
+        "levels": {
+          "N196": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.32913203355890186,
+              "candidate_cooling": 1.0205771764377934e-05,
+              "candidate_geometry": 0.0049215818706557285,
+              "candidate_height_principal": 0.0012239294291064085,
+              "candidate_local_stress_relaxation": 0.5094056265858543,
+              "candidate_lower_height_work": 0.0008213795170739293,
+              "candidate_shear_principal": 0.35661413416511223,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.016460772724150582,
+              "responsive_height_storage_rate_derivative": 0.00046251948466519886
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.009673830409567605,
+              "receiver_1": 0.0010115749761041859,
+              "receiver_2": 0.0008850404830414594,
+              "receiver_3": 0.449770844761454,
+              "receiver_4": 0.0035528204258675313,
+              "source_and_transition": 0.0028035626463174413
+            },
+            "mass_solved_rate_error_norm": 0.44989963866322924,
+            "unsolved_DAE_relative_residual": 0.01915688354389584
+          },
+          "N392": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.06544376283194493,
+              "candidate_cooling": 3.1546773848175204e-06,
+              "candidate_geometry": 0.0012600673995913287,
+              "candidate_height_principal": 0.0005960087643706582,
+              "candidate_local_stress_relaxation": 0.12981297921690646,
+              "candidate_lower_height_work": 0.00021050205979191388,
+              "candidate_shear_principal": 0.0671805035457882,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.0027074006148972655,
+              "responsive_height_storage_rate_derivative": 6.792516191698337e-05
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.02707722870558181,
+              "receiver_1": 0.0002811571943015272,
+              "receiver_2": 0.00025286661852227694,
+              "receiver_3": 0.10878466810736326,
+              "receiver_4": 0.0006522990188337853,
+              "source_and_transition": 0.0007187250848336541
+            },
+            "mass_solved_rate_error_norm": 0.11210872124975724,
+            "unsolved_DAE_relative_residual": 0.004647674865640878
+          },
+          "N98": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 1.4873211207988484,
+              "candidate_cooling": 3.888968190439269e-05,
+              "candidate_geometry": 0.0188031069757618,
+              "candidate_height_principal": 0.0042222838808674045,
+              "candidate_local_stress_relaxation": 1.8984016454055224,
+              "candidate_lower_height_work": 0.0030828768673728684,
+              "candidate_shear_principal": 1.9596413655000982,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.10781801268588144,
+              "responsive_height_storage_rate_derivative": 0.0035022371735353684
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.0048645502799256465,
+              "receiver_1": 0.0031284470470787527,
+              "receiver_2": 0.008577982069481313,
+              "receiver_3": 1.6547200981509218,
+              "receiver_4": 0.01900941478688903,
+              "source_and_transition": 0.010211659074499703
+            },
+            "mass_solved_rate_error_norm": 1.6548931300428216,
+            "unsolved_DAE_relative_residual": 0.04742133935095406
+          }
+        },
+        "mass_solved_rate_error_orders": [
+          1.8790629401161572,
+          2.0047046944418105
+        ],
+        "stable_noncontracting_mechanism_selected": false,
+        "time_seconds": 3.6958962653503407,
+        "unsolved_DAE_residual_orders": [
+          1.3076735288889747,
+          2.043281829748001
+        ]
+      },
+      "time_index_161": {
+        "block_error_orders": {
+          "candidate_conservative_transport": [
+            2.1759452055124,
+            2.329310702316529
+          ],
+          "candidate_cooling": [
+            1.9293625347860073,
+            1.6885260320037605
+          ],
+          "candidate_geometry": [
+            1.9338989934412465,
+            1.965353709995459
+          ],
+          "candidate_height_principal": [
+            1.776654451314967,
+            1.0334928286640424
+          ],
+          "candidate_local_stress_relaxation": [
+            1.8978987968989134,
+            1.9723774030516155
+          ],
+          "candidate_lower_height_work": [
+            1.9081601046296026,
+            1.9639730694062794
+          ],
+          "candidate_shear_principal": [
+            2.4574278423893845,
+            2.4075868293515583
+          ],
+          "candidate_stream": [
+            0.0,
+            0.0
+          ],
+          "mapped_storage_rate_derivative": [
+            2.710984454267604,
+            2.603224038076822
+          ],
+          "responsive_height_storage_rate_derivative": [
+            2.9220390667535585,
+            2.7709390320673695
+          ]
+        },
+        "dominant_fine_band": "receiver_3",
+        "dominant_fine_band_fraction": 0.7888933518909796,
+        "dominant_fine_block": "candidate_local_stress_relaxation",
+        "dominant_fine_block_fraction": 0.48548376701172824,
+        "fixed_band_error_orders": {
+          "inner_outflow": [
+            -0.9935507861942119,
+            -1.485350029934202
+          ],
+          "receiver_1": [
+            1.6322298165717128,
+            1.848213149008101
+          ],
+          "receiver_2": [
+            3.280106267634698,
+            1.8024166170213143
+          ],
+          "receiver_3": [
+            1.8788865721742833,
+            2.0474421004925727
+          ],
+          "receiver_4": [
+            2.419380434883344,
+            2.445495369745776
+          ],
+          "source_and_transition": [
+            1.8649285803363165,
+            1.9637837917456602
+          ]
+        },
+        "levels": {
+          "N196": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.32594887118421256,
+              "candidate_cooling": 1.0101104537532892e-05,
+              "candidate_geometry": 0.004875400468400515,
+              "candidate_height_principal": 0.0012199167575719255,
+              "candidate_local_stress_relaxation": 0.504296546827426,
+              "candidate_lower_height_work": 0.0008129020641431697,
+              "candidate_shear_principal": 0.3530890539845755,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.016220140150687474,
+              "responsive_height_storage_rate_derivative": 0.0004578639949521153
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.009617686066928213,
+              "receiver_1": 0.0010064029844615637,
+              "receiver_2": 0.0008672084322103302,
+              "receiver_3": 0.44492594194986995,
+              "receiver_4": 0.003478735337702236,
+              "source_and_transition": 0.002760294638814382
+            },
+            "mass_solved_rate_error_norm": 0.4450540185513843,
+            "unsolved_DAE_relative_residual": 0.01919552624503021
+          },
+          "N392": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.0648570350168896,
+              "candidate_cooling": 3.133804368350863e-06,
+              "candidate_geometry": 0.0012484750737166521,
+              "candidate_height_principal": 0.00059596102079958,
+              "candidate_local_stress_relaxation": 0.1285112752570375,
+              "candidate_lower_height_work": 0.00020836435296746903,
+              "candidate_shear_principal": 0.06654698769134074,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.002669353442980931,
+              "responsive_height_storage_rate_derivative": 6.708118539628073e-05
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.026928087519010043,
+              "receiver_1": 0.00027951448560828765,
+              "receiver_2": 0.0002486234139443928,
+              "receiver_3": 0.10763319742692139,
+              "receiver_4": 0.0006386367825807156,
+              "source_and_transition": 0.0007076159533357581
+            },
+            "mass_solved_rate_error_norm": 0.11095528651218567,
+            "unsolved_DAE_relative_residual": 0.004658090784390163
+          },
+          "N98": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 1.4729033743686166,
+              "candidate_cooling": 3.847378034488625e-05,
+              "candidate_geometry": 0.01862824324808909,
+              "candidate_height_principal": 0.0041798094052924685,
+              "candidate_local_stress_relaxation": 1.8793620848253034,
+              "candidate_lower_height_work": 0.0030510663656082918,
+              "candidate_shear_principal": 1.9392944165168091,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.10620433426646335,
+              "responsive_height_storage_rate_derivative": 0.0034702271308243503
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.004830387904680766,
+              "receiver_1": 0.0031197662146895963,
+              "receiver_2": 0.008424300840412966,
+              "receiver_3": 1.6363980195827976,
+              "receiver_4": 0.01860919002702266,
+              "source_and_transition": 0.010054370490295126
+            },
+            "mass_solved_rate_error_norm": 1.636566498877181,
+            "unsolved_DAE_relative_residual": 0.04750364493217154
+          }
+        },
+        "mass_solved_rate_error_orders": [
+          1.8786198655212667,
+          2.00400204720984
+        ],
+        "stable_noncontracting_mechanism_selected": false,
+        "time_seconds": 3.7189956170087806,
+        "unsolved_DAE_residual_orders": [
+          1.307268102810328,
+          2.042959449682869
+        ]
+      },
+      "time_index_198": {
+        "block_error_orders": {
+          "candidate_conservative_transport": [
+            2.179020708782627,
+            2.298969579879088
+          ],
+          "candidate_cooling": [
+            1.9021183464839304,
+            1.5433774206907542
+          ],
+          "candidate_geometry": [
+            1.9412150810062003,
+            1.9577152496022143
+          ],
+          "candidate_height_principal": [
+            1.5056770607995282,
+            0.9345217289231237
+          ],
+          "candidate_local_stress_relaxation": [
+            1.897544979319989,
+            1.9721735188282208
+          ],
+          "candidate_lower_height_work": [
+            1.908741101505316,
+            1.955916579389311
+          ],
+          "candidate_shear_principal": [
+            2.4272072510924514,
+            2.3813958607925847
+          ],
+          "candidate_stream": [
+            0.0,
+            0.0
+          ],
+          "mapped_storage_rate_derivative": [
+            2.6074891915879643,
+            2.4350746977855167
+          ],
+          "responsive_height_storage_rate_derivative": [
+            2.964283303324747,
+            2.897735130625876
+          ]
+        },
+        "dominant_fine_band": "receiver_3",
+        "dominant_fine_band_fraction": 0.7667761572234308,
+        "dominant_fine_block": "candidate_local_stress_relaxation",
+        "dominant_fine_block_fraction": 0.48067119477925613,
+        "fixed_band_error_orders": {
+          "inner_outflow": [
+            -1.088497602657655,
+            -1.5012736253422738
+          ],
+          "receiver_1": [
+            1.7309144301192463,
+            1.8779712178754082
+          ],
+          "receiver_2": [
+            3.2438302939133945,
+            2.634993077500515
+          ],
+          "receiver_3": [
+            1.8494509905895018,
+            2.028427947643485
+          ],
+          "receiver_4": [
+            2.301840001555941,
+            2.3621132833832093
+          ],
+          "source_and_transition": [
+            1.8703323543175991,
+            1.9662324132327822
+          ]
+        },
+        "levels": {
+          "N196": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.17549717734269885,
+              "candidate_cooling": 5.606438235419983e-06,
+              "candidate_geometry": 0.0027042806139082618,
+              "candidate_height_principal": 0.0008037000915764683,
+              "candidate_local_stress_relaxation": 0.27289228985033626,
+              "candidate_lower_height_work": 0.00044104796195813123,
+              "candidate_shear_principal": 0.19043229437526735,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.009022704129483819,
+              "responsive_height_storage_rate_derivative": 0.0002513752458840578
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.005723266951520678,
+              "receiver_1": 0.0005428057031591783,
+              "receiver_2": 0.0004777758748560868,
+              "receiver_3": 0.22738281453699946,
+              "receiver_4": 0.0008492639131597223,
+              "source_and_transition": 0.0014105594250024608
+            },
+            "mass_solved_rate_error_norm": 0.22746193959928662,
+            "unsolved_DAE_relative_residual": 0.016954870367593966
+          },
+          "N392": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.03566246291933947,
+              "candidate_cooling": 1.9234643604797194e-06,
+              "candidate_geometry": 0.000696178716191521,
+              "candidate_height_principal": 0.0004205086616214538,
+              "candidate_local_stress_relaxation": 0.06955172083709359,
+              "candidate_lower_height_work": 0.00011368319224798243,
+              "candidate_shear_principal": 0.03654845427429433,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.001668423086157314,
+              "responsive_height_storage_rate_derivative": 3.373007560157306e-05
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.01620214058484092,
+              "receiver_1": 0.00014767899714299948,
+              "receiver_2": 7.691521559350708e-05,
+              "receiver_3": 0.05573653697094573,
+              "receiver_4": 0.00016518694412524218,
+              "source_and_transition": 0.0003609910646803753
+            },
+            "mass_solved_rate_error_norm": 0.05804529472193612,
+            "unsolved_DAE_relative_residual": 0.004174672574232685
+          },
+          "N98": {
+            "block_error_norms": {
+              "candidate_conservative_transport": 0.7947320548610056,
+              "candidate_cooling": 2.09547131245687e-05,
+              "candidate_geometry": 0.010385220507679272,
+              "candidate_height_principal": 0.002282169920091695,
+              "candidate_local_stress_relaxation": 1.0167383910931158,
+              "candidate_lower_height_work": 0.0016560526695697509,
+              "candidate_shear_principal": 1.0242424898090905,
+              "candidate_stream": 0.0,
+              "mapped_storage_rate_derivative": 0.054988158566482495,
+              "responsive_height_storage_rate_derivative": 0.0019618269596311678
+            },
+            "fixed_band_error_norms": {
+              "inner_outflow": 0.0026913710381815522,
+              "receiver_1": 0.0018017791850804842,
+              "receiver_2": 0.004525998812946561,
+              "receiver_3": 0.8194035884413622,
+              "receiver_4": 0.004187603519757085,
+              "source_and_transition": 0.00515724219934913
+            },
+            "mass_solved_rate_error_norm": 0.8194494178852497,
+            "unsolved_DAE_relative_residual": 0.0410940792855404
+          }
+        },
+        "mass_solved_rate_error_orders": [
+          1.849029734451694,
+          1.9703741355143338
+        ],
+        "stable_noncontracting_mechanism_selected": false,
+        "time_seconds": 4.573671628371047,
+        "unsolved_DAE_residual_orders": [
+          1.2772307956628224,
+          2.0219647995222063
+        ]
+      }
+    },
+    "stable_candidates": [],
+    "stable_noncontracting_mechanism_selected": false
+  },
+  "analyzed_base_commit": "51c584a859b238eb528569179c570e6fd128707c",
+  "authorized_next": "WP10c9d6c7c2b6d_direct_continuum_arrival_contract_manifest",
+  "binding_decision": {
+    "all_failed_channels_contract_directly_to_N769": true,
+    "b6b_rejection_preserved": true,
+    "definitions_only_direct_continuum_manifest_authorized": true,
+    "embedded_propagation_authorized": false,
+    "equivalent_local_projectors_passed": true,
+    "fixed_Q_or_reduction_authorized": false,
+    "nonlinear_authorized": false,
+    "operator_or_interface_redesign_authorized": false,
+    "stable_noncontracting_DAE_mechanism_selected": false
+  },
+  "classification": "direct_continuum_arrival_errors_contract_pairwise_rotation_preasymptotic_no_redesign",
+  "config_sha256": "fce2b0cbc306e80ccfebef3edaf72150ff05ae8d2d497fff90b07f9dbdc3a0c9",
+  "decisive_array_hashes": {
+    "N196__common_N392_field__acoustic__target_gain": "f8f9fd58e0f257fcfd26e3ce548093f664b43db9f249fce0b011df47faa8df37",
+    "N196__common_N392_field__difference_shear_acoustic__target_gain": "eb8852e230a248edf33d048fc79e63b1d5f39820b2844b5574806f9a8b6a6a40",
+    "N196__common_N392_field__mixed_shear_acoustic__target_gain": "fae51cf045e11e8575a26b4ecfbe580db986e3f059055f4decd24ff5c0a46c89",
+    "N196__common_N392_field__shear__target_gain": "93c71f714861a6c72fc1006a31d7f5b3b7683f6899a41c630ad5d948bdf16865",
+    "N196__common_N392_field__shear_weighted_shear_acoustic__target_gain": "62360527de35b39a94702e055c84f6c069a48fb7556313fc619d8bcd47fc7c81",
+    "N196__local_eigenvector__acoustic__target_gain": "9c74b7d88096f95eb3995b45eb3b740c6f5d87695ad4c72ed429de86cff5bf50",
+    "N196__local_eigenvector__difference_shear_acoustic__target_gain": "772849521c67c3090a4c5c08f30ece8f3f6869078894c8006b680c8f92b40de4",
+    "N196__local_eigenvector__mixed_shear_acoustic__target_gain": "9bb724a2372d60b20497ea11094743ad90e2e73a60cd4baeb961c0b9ea697236",
+    "N196__local_eigenvector__shear__target_gain": "11faecc24393c5ec41e11dbea920d1a3c3a01dfc364b4708b5e75256e3b8083f",
+    "N196__local_eigenvector__shear_weighted_shear_acoustic__target_gain": "896ac9f0c65c9d0dd01d7fac87e69ade012bbdb7ef2a86900a72406b29a85fe8",
+    "N196__local_polynomial__acoustic__target_gain": "d6d5920fe8030cec64da9983e331273ab0fbc23a88d1a75e60c4d19a7ec73596",
+    "N196__local_polynomial__difference_shear_acoustic__target_gain": "d69327279003dae4b686c2547a9f8511096faeac21353a462012b22ab6372f43",
+    "N196__local_polynomial__mixed_shear_acoustic__target_gain": "7f1a6bf0f2ce3e8615c657f8a18c30310de0f3caa972c94c4fec9d3f399ed498",
+    "N196__local_polynomial__shear__target_gain": "71211fe41eb208edaf7391c8ebc96d6a14bbc121986546a3f09fa36a4f4a2e53",
+    "N196__local_polynomial__shear_weighted_shear_acoustic__target_gain": "4681a4ab434c81c0b28e4fe0327d390ef4327ebaec33f82aedf5d1839a468a6a",
+    "N392__common_N392_field__acoustic__target_gain": "ee6404a2079ece9b47662a7a437a83e85274b4936b6f1954cbe13c3999829c9c",
+    "N392__common_N392_field__difference_shear_acoustic__target_gain": "613ccb0895a2144f112fd90889d65d49e2ec8eb557281c5c3a0bdc3e92011c4f",
+    "N392__common_N392_field__mixed_shear_acoustic__target_gain": "5974f491fd71f4881cd6dc3b8ffde355ef6f6a9d7590e11f469f58fb8a7cac5f",
+    "N392__common_N392_field__shear__target_gain": "6589326b50e97f0490e7073ea555e321c67dc82a3d88f54f53afc6e0eddfa4ae",
+    "N392__common_N392_field__shear_weighted_shear_acoustic__target_gain": "0194d20cfefdf691cba4d8cdeeaf8bf87df7df2ab440fd5e00202637d8423e43",
+    "N392__local_eigenvector__acoustic__target_gain": "ee6404a2079ece9b47662a7a437a83e85274b4936b6f1954cbe13c3999829c9c",
+    "N392__local_eigenvector__difference_shear_acoustic__target_gain": "613ccb0895a2144f112fd90889d65d49e2ec8eb557281c5c3a0bdc3e92011c4f",
+    "N392__local_eigenvector__mixed_shear_acoustic__target_gain": "5974f491fd71f4881cd6dc3b8ffde355ef6f6a9d7590e11f469f58fb8a7cac5f",
+    "N392__local_eigenvector__shear__target_gain": "6589326b50e97f0490e7073ea555e321c67dc82a3d88f54f53afc6e0eddfa4ae",
+    "N392__local_eigenvector__shear_weighted_shear_acoustic__target_gain": "0194d20cfefdf691cba4d8cdeeaf8bf87df7df2ab440fd5e00202637d8423e43",
+    "N392__local_polynomial__acoustic__target_gain": "0b2a6c769a925728878081ebab3fb12885d0f3bdeae529153e98cff711f92ee2",
+    "N392__local_polynomial__difference_shear_acoustic__target_gain": "3bfb2dc40cd5dbbedfb935f47cdbe942c3eb0b8bcdabb3ce378ae52f667defc9",
+    "N392__local_polynomial__mixed_shear_acoustic__target_gain": "4eb903f02e2e02d535336d088183ce994693788e601e6201d2cccb0d2e3f9bed",
+    "N392__local_polynomial__shear__target_gain": "51ff9a748a7f8277ef78d4d7043b88e3a9ce7dc8017c5912895f32c67184e55d",
+    "N392__local_polynomial__shear_weighted_shear_acoustic__target_gain": "fe03292e635caff16472c1d955c7d598c35bf7d9b2f44b4e32323de7f320ebc5",
+    "N98__common_N392_field__acoustic__target_gain": "efc10e38115f17e361edfc26fda84f2474eef0297437427a55f2182fb2f091b0",
+    "N98__common_N392_field__difference_shear_acoustic__target_gain": "1010b2ffbfe1847f9440311490ef82d3f9b9767c3ff01e5589951f697b3d82aa",
+    "N98__common_N392_field__mixed_shear_acoustic__target_gain": "d9b83384a4db864d975d97620bf14142d4db2b69ca831a0c29089bbf244b6bd5",
+    "N98__common_N392_field__shear__target_gain": "f07a797af3f8f5c9f8736f5b8d9e4e80b20aeb4aa931080f6cf81f01dde1b68f",
+    "N98__common_N392_field__shear_weighted_shear_acoustic__target_gain": "86dde7373c40b8b556f44721102f18979f8fdc85fc7b9a131635b1b2282ff2a2",
+    "N98__local_eigenvector__acoustic__target_gain": "2e99760aae596f8688965922deed350886907dae32d235b7febc322c333643fb",
+    "N98__local_eigenvector__difference_shear_acoustic__target_gain": "75a66b175e340e515a1e00a90cf98abc8a293bf66489fe7638da0c48ae849437",
+    "N98__local_eigenvector__mixed_shear_acoustic__target_gain": "378dc51d5f396cd9062ece3fcd59a44028c652524cb14db3bd30d7b1e0d7864e",
+    "N98__local_eigenvector__shear__target_gain": "c67de4d16851e0211d44b64ddd62d77dcb7ffbf93535802e0c9089e24d4b1129",
+    "N98__local_eigenvector__shear_weighted_shear_acoustic__target_gain": "f68ed6d2fab7e45fdcca07aada03ae1a828a54efdd173a1a16e1a6f30e346df7",
+    "N98__local_polynomial__acoustic__target_gain": "9dbc7758f12c275aeb728629958aa84fc9fd073d7a02445749d768ec23b0b5ac",
+    "N98__local_polynomial__difference_shear_acoustic__target_gain": "37a7533c7b428b4ddad7900a7ce0c794bad109004123273c12ee4bee090af5d4",
+    "N98__local_polynomial__mixed_shear_acoustic__target_gain": "40395d7a991c94998565fa42a0d361d6ee0ccedb4949b797c4bf0ed44cc59577",
+    "N98__local_polynomial__shear__target_gain": "fdb16cdfba6b44f863a39e33d330e7b79ea5f5ce9b0b375d85d35c74e342b3b9",
+    "N98__local_polynomial__shear_weighted_shear_acoustic__target_gain": "1472459f10b1d9a9609ac11825f61dc8e1bef2523c61ea8cb11fd193eb1585ec",
+    "acoustic__t155__N196__rate_error": "37efc85887af2467cc528d8384c1cf63b350744081e25ce16164ff84db0063d4",
+    "acoustic__t155__N196__tau_scaled": "dbc5128ee826062e4573d88e4f99683e5ad1310a5cd249c9ab997277c1531a77",
+    "acoustic__t155__N392__rate_error": "d3d18cf9e471af6420c139381b068d5d2b13c898b5ddd4211cad96bc320e846d",
+    "acoustic__t155__N392__tau_scaled": "ed660d0261fb3b975b0afe7a6deb6f4d7a5244f916f13e434acf6e139cf1bc32",
+    "acoustic__t155__N98__rate_error": "3ea059c1c6a469c8eace7a117f958357af1a18ab14c28ca875d4796334e20c33",
+    "acoustic__t155__N98__tau_scaled": "6475da3e33e9b323792c357d4f40688667b7ddc9c74edd40fb6013aea7096bc5",
+    "acoustic__t157__N196__rate_error": "3d21ee6929e80bd3355363491ccb0a6a4333863d935988b0ba3c63c848aa5557",
+    "acoustic__t157__N196__tau_scaled": "620f63deb8db5d2fb743378f745c6b4b0fc9a5b409554315238d67e9f2ff9a98",
+    "acoustic__t157__N392__rate_error": "4838f02378f6c43ba0e2c7681d786738aaab10862c47698c7ac8220aab81f359",
+    "acoustic__t157__N392__tau_scaled": "4f154d862c75711fb7890cd451c99ff007c8eb6baff77d0e1b27c875f920e616",
+    "acoustic__t157__N98__rate_error": "98877d3d72b6570bb2c9c2c971a7078d9dd2f831e8ff979d7a4ae4ce110e7844",
+    "acoustic__t157__N98__tau_scaled": "6c5bee8d8c94cd7b9bac04a44de49298de02784bf91b4c6801fc01e725842212",
+    "acoustic__t160__N196__rate_error": "b69f1deaa7ac86b520b37f5b88e5899348177ed09b9f9adfc92157e194bcda29",
+    "acoustic__t160__N196__tau_scaled": "e7e8f6434b4ea2ef429d19ecfa8d6759250e99955a3e2dd2f429a9666bdd7769",
+    "acoustic__t160__N392__rate_error": "92d237a4f42d5d70cb0ac375a23de6d69dd1bcd61b81a83a6c00326baa177e9a",
+    "acoustic__t160__N392__tau_scaled": "cd1de2eb34f96f4f2f32c28fa7fe762f94cb0dcfb184ababb33586019dbcda4f",
+    "acoustic__t160__N98__rate_error": "46c304a8882e0fc21ecfdffa72974a5c5d5a0eab947435d33abeac9492ad4c53",
+    "acoustic__t160__N98__tau_scaled": "86d29071848b24811a7358c4756db08097c16c3e396266411d222af4aec3e3fe",
+    "acoustic__t161__N196__rate_error": "3a99df85bb9ccaeadad9b3fc851fad3b4ef600f788b00deedece801306215bea",
+    "acoustic__t161__N196__tau_scaled": "e27cf9a8a13a2b5f65029492bb3a5d1e3966ffa0d812096f1902e52ca55dbabc",
+    "acoustic__t161__N392__rate_error": "3713d1028d91edcfe6dcc17a0a174f74ad9ac4abaac094a72dbba0105eea4815",
+    "acoustic__t161__N392__tau_scaled": "2169cea94fed85891fec50203c5a0997e1114a0601d7f7dc4d00f487ee390551",
+    "acoustic__t161__N98__rate_error": "34106095d138f71fe8ac7a790709e636f9d0872272f09d7d01e377b31967c268",
+    "acoustic__t161__N98__tau_scaled": "e62f40cefb3c8f12a27413c30651cae59bb3f3d0cd7ac9dd751b88a89619b466",
+    "acoustic__t198__N196__rate_error": "677081a75c2371d8a9ec12b9278d5a0dffb888c3c29bc991af340dac566858ff",
+    "acoustic__t198__N196__tau_scaled": "c70ef620411f3c183806a5a1e80c8eb98df5f2760309387459ef8f23e58a928a",
+    "acoustic__t198__N392__rate_error": "137efa64419df46675b54dd0db08564f9347c1b3000b325934404e99b9afd352",
+    "acoustic__t198__N392__tau_scaled": "604028170b094d7eed1b89247cadf366911b838a08d81548baa33396abc9194d",
+    "acoustic__t198__N98__rate_error": "ec4023d19154e041e7a094a36e8beb38ea1be885b739de3f4a8c43c2021f8515",
+    "acoustic__t198__N98__tau_scaled": "7c690042fb06a061c77c5ff6262f85e10738ef3aaf991ff2c494565bdaed4c91",
+    "acoustic__target__gain__coarse_error": "85c6079d9d383d054e555cffe4d3a1659ccfdfe3e2c6c098bd43fbc960cd9d77",
+    "acoustic__target__gain__fine_error": "44c3e9e7c4b499ac1cd635e37b2763b39a8ef0508f78f1aac9f39fbdb001e396",
+    "acoustic__target__gain__medium_error": "843ed2f3feb6a774fc979a5748e5f15bc0ee168319113e58a2ece7cfdd1b4367",
+    "continuum_log_radii": "8df20b39985048ab0dbc7a1ca22e0f232bdfb3027e370ccdc1ac4f8ad02ee877",
+    "difference_shear_acoustic__t155__N196__rate_error": "fb313093cd8086ac0df4509b8e2845c1189e362839f007687ac091fd0e42c930",
+    "difference_shear_acoustic__t155__N196__tau_scaled": "29fd41cf02da66461d0abb0dd5ab2bc14de7ab13ddfc4c2ffe2a45e58d8e9346",
+    "difference_shear_acoustic__t155__N392__rate_error": "88603b3db2060ee68bb7543073c0a0d44ef96dfef0de2ed3ed61199b1c0a328b",
+    "difference_shear_acoustic__t155__N392__tau_scaled": "e486079081c973eb1b94c69a649fb4882b752e4c9cac8cde15e63da7f0703500",
+    "difference_shear_acoustic__t155__N98__rate_error": "816c6fc6e9b6bf40900a99630b9f761fd266d5f0260f5210da0b4d17eed397a0",
+    "difference_shear_acoustic__t155__N98__tau_scaled": "213eac2b566486e63f38a47865c4817bdcf772607db1a4cce80a967b2bf10635",
+    "difference_shear_acoustic__t157__N196__rate_error": "5da3077cafb57703eb01f7d32d1eda341a4d73fc400ed661705964eeb2c3febd",
+    "difference_shear_acoustic__t157__N196__tau_scaled": "8f8da9fc9a95b9329cc0c59fcaab2fd182d66878633d70c6d53794c41597531b",
+    "difference_shear_acoustic__t157__N392__rate_error": "0876c709d2cb80c794fa1dd141e52f3153a1d0849eb92c795bb3d2aee1ca472f",
+    "difference_shear_acoustic__t157__N392__tau_scaled": "2c582178f95d4f3f898bed01378ae36bbbc7195694c98d3cb44257e190c24236",
+    "difference_shear_acoustic__t157__N98__rate_error": "7e3d218ff47a54af274346a11c9a4eff70c367d37fe953088ae9d4750e2f9c92",
+    "difference_shear_acoustic__t157__N98__tau_scaled": "a6d3e276c0f6b9e24168cfa02a6bc0acb3784138bc5bbd345d5d66afd03b7397",
+    "difference_shear_acoustic__t160__N196__rate_error": "efc9a00d5199ac8b1ea851198c4c2688215d4d0eb8a90d25c0c4304111564848",
+    "difference_shear_acoustic__t160__N196__tau_scaled": "fbfcd93bd4c9a13db66f4aee00e0a84a52d40a6ca538fbb79be092ff14ca9ada",
+    "difference_shear_acoustic__t160__N392__rate_error": "be3054d8d1b395a5cfbf75a481598af7928c1945da213a612c9695c142de970a",
+    "difference_shear_acoustic__t160__N392__tau_scaled": "58b940ce3c46894ad82acd0e065934802d2e32904daf5a7f56d713158a808b37",
+    "difference_shear_acoustic__t160__N98__rate_error": "beddd2d74ae95e1697aa8649b31c439d814deea01f93cfc745d2b93ca8c41fc5",
+    "difference_shear_acoustic__t160__N98__tau_scaled": "7a67c7718685fb379bb58fecc2a6c2492f7e342edc4fcbd1fd2b5ee2c357545e",
+    "difference_shear_acoustic__t161__N196__rate_error": "54573507ebef5480fd23387fddd33d8ea4a8fe8d2597fec3f9ff0d749445416d",
+    "difference_shear_acoustic__t161__N196__tau_scaled": "ffcfdfe10103463bcbfae85ca56c021783a999920dc5a5ea559f4d98cb513ab4",
+    "difference_shear_acoustic__t161__N392__rate_error": "272b79bd7ed633ae0eef32a60e205f3926362c08d9f785babfdcdb3add7efde6",
+    "difference_shear_acoustic__t161__N392__tau_scaled": "abf35cee9c063115030e53c9c579b552d7646a1f3d98691305b4bcd458e952a3",
+    "difference_shear_acoustic__t161__N98__rate_error": "6daa6292d86888bdaf105530e12be5f896cc1bc7f8911f675139e2ac4f209c8a",
+    "difference_shear_acoustic__t161__N98__tau_scaled": "260d3b330ec17bf983c928cb94ee0e57e8a8be92e47bacbd62dcccf537a9a3fd",
+    "difference_shear_acoustic__t198__N196__rate_error": "19fd9148ea5d56ff9c9f10e9a6f51d2f7ec33a34e6e7597b0f5cff652622d8d7",
+    "difference_shear_acoustic__t198__N196__tau_scaled": "4742ebb6b0654d36a0180ec67b1727176005f4d1baf4f75c1b18d0a5332a0a53",
+    "difference_shear_acoustic__t198__N392__rate_error": "86366e7758e9d7a2c00036e9dd9a6e130bfb27cfa12e5391b701d1c83b20d149",
+    "difference_shear_acoustic__t198__N392__tau_scaled": "dd65673ed19b43fa74723a902c8fb8a5c8e09a8765eca477a2c1f525c83a1636",
+    "difference_shear_acoustic__t198__N98__rate_error": "99cea128a375056e081fc171f4d48aac41898d8008612fe35fb34ec80a72b99c",
+    "difference_shear_acoustic__t198__N98__tau_scaled": "005a60fa4b582322d1ecae6bf773346a838874fd12724b89dd29037356008e47",
+    "difference_shear_acoustic__target__gain__coarse_error": "fd91df6c4b6033d031f6f3f6586265dea894b8f5c61d6efc133044054a2b9390",
+    "difference_shear_acoustic__target__gain__fine_error": "3369f3a60650655c45ede04096384c70962238ce5699e29fa8f96b4d2bfcca0c",
+    "difference_shear_acoustic__target__gain__medium_error": "caac616a755025a46d7a2f95a2bde8ab67fc70dd3b761c79b215ab333169ff80",
+    "difference_shear_acoustic__total__gain__coarse_error": "b21ce69755b14fabbb68131c6f3184f793cb90c1da8cf84298c66a5329205611",
+    "difference_shear_acoustic__total__gain__fine_error": "07e58f26af75f171f388d909135de44a236c2342054d7e6aaac23e4b458b3259",
+    "difference_shear_acoustic__total__gain__medium_error": "1223e9a1c64fb532523a6dc25f6e3a8b7c18027a1e25d05d64c6934a1242e1d6",
+    "mixed_shear_acoustic__target__gain__coarse_error": "126f38c438f4015dbc029adacbe72f5333078c088c93812da25f818b77ce06a7",
+    "mixed_shear_acoustic__target__gain__fine_error": "fca9c43c399984d273912d2dc8e724c504b64dcb57c4e1cb7506ae5f4edd6a8c",
+    "mixed_shear_acoustic__target__gain__medium_error": "936e7d931ccaa379a30d33fe5f20922d42d8b9772230abbf8e030301da4310a8",
+    "mixed_shear_acoustic__total__gain__coarse_error": "cadf77f37a582dd731849c7da7bb92ecd405a5ba75d7b45b121baf553ab147da",
+    "mixed_shear_acoustic__total__gain__fine_error": "fd4748c86e23d3d1897940eefdb03f63858fa1511098338af58a8087e3b568d2",
+    "mixed_shear_acoustic__total__gain__medium_error": "87eef84889318477a2709349655aa268a402854665441af4577955f5779598c0",
+    "reference_levels": "0edd9a5c8435601aad00b6c085e10001d29609bf3c76e4921ea8fd7834ca0677",
+    "selected_time_indices": "19aa4f7d42cc921ac211c21649a7d650335b203326cf962340161a8a8ad4c2b4",
+    "selected_times_seconds": "6ceb7f9e6b3e58c28ff897f4dbb0189d1132a2b89f1a4faba940419bdbb8887b",
+    "shear__t155__N196__rate_error": "be31c21c5f7351556e25833ec0f5402ab58499b60733210cd60f65a98066e05a",
+    "shear__t155__N196__tau_scaled": "d5c2d37f83f2c27cff898577498f09f11e52919127c548e3e978739fa0503cda",
+    "shear__t155__N392__rate_error": "f3b29caaeca510c781404d395256eedf71d9bfa0eaedaa750a306ed59e2778e9",
+    "shear__t155__N392__tau_scaled": "f1cc9655631fcea40845da30e10fb337ff2f4cadc8d1572ad3b914751f94101e",
+    "shear__t155__N98__rate_error": "e01f13aba221e1842d1d30d17216180e370aa37a297c7778a42be6a8129f4de8",
+    "shear__t155__N98__tau_scaled": "197dbc42b3fd7b2494a3f79ccae133acdac699218c5131f8d3f6b51a24e6c247",
+    "shear__t157__N196__rate_error": "a719017a0b24208243a874ea8aee5e14492269247f8ace0b200d4cac99eecc7f",
+    "shear__t157__N196__tau_scaled": "0dd48a04df1d8c11cfdcb66314565e55a251123ff4f7a8886552f7654727cac9",
+    "shear__t157__N392__rate_error": "58bda157290c77332a7196a8e8cc18c2f03e946b019fd337cd248a8782f37d9e",
+    "shear__t157__N392__tau_scaled": "bb52814c5de3c93e76d37aca367d8d024150bc965ed35b8dd57768592c173cf3",
+    "shear__t157__N98__rate_error": "754122b9fdaf6ee80d406aa759950c04a49d72f737a38304bea29c1c96ff7b5a",
+    "shear__t157__N98__tau_scaled": "6bea44d56ba94e5325e20e146086e25d703d47c17ceef6480234a3835b85bb1c",
+    "shear__t160__N196__rate_error": "c1d2c1436b17deefa2703b78bb81ab42a6cba9406d3345291df54fea09a5ffdb",
+    "shear__t160__N196__tau_scaled": "e1931ef0c2d7d4b689b7ef5f5fbde9db0b005177f637eb1de9e8cd85cbb1081c",
+    "shear__t160__N392__rate_error": "beb8915af4779b97df6e5649dbd51502be3d45e36d35615df8511856412dbbcd",
+    "shear__t160__N392__tau_scaled": "9e0d33fb9de4defd03d96fc9563c5548658a5d7404317f2f934f27dce68f2784",
+    "shear__t160__N98__rate_error": "ba58ede0d7a9f102704fa5a5b64fad9c3ad626a0bc278eb92c610a6c05ef063b",
+    "shear__t160__N98__tau_scaled": "406995de6969d86cdf0365614b7f60cd6dfe1f50273778292e4535dfb912e24b",
+    "shear__t161__N196__rate_error": "e17ad8670bbe9fb1f80cbb026b56c93cd025577484a3987701450086e3223baa",
+    "shear__t161__N196__tau_scaled": "a17a63062ad7c226308aeb536f3c9b5efe93facc2e4d5c8577b0a7b584fad0d3",
+    "shear__t161__N392__rate_error": "6bfa63e3cafc35bca6d939d5e5a638d999ddaca9bea11844c35e9a6f0a50aa67",
+    "shear__t161__N392__tau_scaled": "aa1ffc113847641c8222817290ed6b3ed18bda292ee94333f0e71b3b248345cf",
+    "shear__t161__N98__rate_error": "ca4b62df9817a4aae1d40e3f8f0d0e90e51e348f22dc19f277e1bdc05660bd9e",
+    "shear__t161__N98__tau_scaled": "fb4ef4c99e115b0dbb1299a78f98c36f49f12657dc7b20a8e74e976aec7a0ca3",
+    "shear__t198__N196__rate_error": "fedfc88cf56677080f1bc7bfc01290a49b14c71ff67cbf8400126de1d730f761",
+    "shear__t198__N196__tau_scaled": "ddacfd044e1a769d6e07dcca4b2d32ae6506d6f256e94c510b6a2de5f41289df",
+    "shear__t198__N392__rate_error": "26ab452a224705aba91d6ede3a8ec58c39b2e91c3adc288be03879b44d024aa2",
+    "shear__t198__N392__tau_scaled": "b40e38b1588f1c97092bab91b1c1323109d0fb0768aa148e7dcf787b189a7fa6",
+    "shear__t198__N98__rate_error": "d60408b7b740765d0461fa586764858e79275b903ffd36b54eff3d861f76b51b",
+    "shear__t198__N98__tau_scaled": "5f68024b7cdd6a7b1638a6332545f2ee3468b20b4e8f077d975adbdacd6e5ae9",
+    "shear__target__gain__coarse_error": "fcceb125941f2f00ff70e43e41050fe5ed31db8e0dcf46c82a17761fe57bd7f5",
+    "shear__target__gain__fine_error": "89b9c6f55fd06848d1866463108857ca146cd029be4932bbc225ac22e58addc9",
+    "shear__target__gain__medium_error": "303a4dbac9ac81679f782e6677312ead8017c4471ee5688569cc68a34842ccd7",
+    "shear__total__shape__coarse_error": "21849253259b6c37333257e0d8900a0762a6de24e81e40cc6e9b8f6f1700b81c",
+    "shear__total__shape__fine_error": "42884395045eb94f571cdea84cb99f381a25ec90350f13f9f74a26e2b97e709b",
+    "shear__total__shape__medium_error": "721d8ff21563e1dab13665ebb46b0cd392f351c491c6f0ef6cc961c878424c42",
+    "shear_weighted_shear_acoustic__target__gain__coarse_error": "520e45d5fed02d094fe8fb1d99f4e46a8ffdc98653e2fa1672ce0fa4a33b4d40",
+    "shear_weighted_shear_acoustic__target__gain__fine_error": "8767fcc9d62a41bbf746b395c658ce16a4077bea851e70c8f021fc9fe728dad5",
+    "shear_weighted_shear_acoustic__target__gain__medium_error": "347e0a15ecbf6ad9bb51a080360cbf6d66996021d36fbd7c8cc237b0c8b978a1",
+    "shear_weighted_shear_acoustic__total__gain__coarse_error": "e3386519203a9e94fe16e52d9e97f77db637d9f6853d4e7fe6ceebb0ca689aa6",
+    "shear_weighted_shear_acoustic__total__gain__fine_error": "034e2025a98c42a59f19640e254207219ad4b8dc4262c80b2e7d543ebe1aec9f",
+    "shear_weighted_shear_acoustic__total__gain__medium_error": "79313e38ffd022b32baebd86f40a7450f1ab3b9470b40cc72eae83c4baba2048"
+  },
+  "decisive_arrays_sha256": "9cfab044f9dc0e0409401f660bef1bb0897f28aaa15741daead2273fdd6a15d9",
+  "direct_to_N769_history": {
+    "acoustic__target__gain": {
+      "coarse_medium_direct_error_cosine": 0.9985009610534145,
+      "direct_continuum_contract_passed": true,
+      "direct_error_orders": [
+        1.9857651728806016,
+        2.019781007627384
+      ],
+      "direct_error_weighted_rms": [
+        58.87089715269642,
+        14.863660355131143,
+        3.6653133178236152
+      ],
+      "fine_direct_response_relative_maximum": 0.023958414333713936,
+      "fine_maximum_error_time_index": 160,
+      "fine_maximum_error_time_seconds": 3.6958962653503407,
+      "medium_fine_direct_error_cosine": 0.9996109602605632,
+      "minimum_direct_error_order": 1.9857651728806016
+    },
+    "difference_shear_acoustic__target__gain": {
+      "coarse_medium_direct_error_cosine": 0.999535597960772,
+      "direct_continuum_contract_passed": true,
+      "direct_error_orders": [
+        1.795434030599833,
+        1.958587200202557
+      ],
+      "direct_error_weighted_rms": [
+        362.67663983036874,
+        104.48166502557974,
+        26.881072274105797
+      ],
+      "fine_direct_response_relative_maximum": 0.04681950076336668,
+      "fine_maximum_error_time_index": 161,
+      "fine_maximum_error_time_seconds": 3.7189956170087806,
+      "medium_fine_direct_error_cosine": 0.999860662280501,
+      "minimum_direct_error_order": 1.795434030599833
+    },
+    "difference_shear_acoustic__total__gain": {
+      "coarse_medium_direct_error_cosine": 0.9994667826920478,
+      "direct_continuum_contract_passed": true,
+      "direct_error_orders": [
+        1.8089841922746583,
+        1.9630888919815597
+      ],
+      "direct_error_weighted_rms": [
+        616.746254945482,
+        176.0143262014878,
+        45.14393134799718
+      ],
+      "fine_direct_response_relative_maximum": 0.04544417594118752,
+      "fine_maximum_error_time_index": 157,
+      "fine_maximum_error_time_seconds": 3.626598210375022,
+      "medium_fine_direct_error_cosine": 0.9998488986961461,
+      "minimum_direct_error_order": 1.8089841922746583
+    },
+    "shear__target__gain": {
+      "coarse_medium_direct_error_cosine": 0.9978639104606085,
+      "direct_continuum_contract_passed": true,
+      "direct_error_orders": [
+        1.6664552836672726,
+        1.9122362974415095
+      ],
+      "direct_error_weighted_rms": [
+        166.13668852131855,
+        52.33744565313834,
+        13.90503347118897
+      ],
+      "fine_direct_response_relative_maximum": 0.01979899305733083,
+      "fine_maximum_error_time_index": 155,
+      "fine_maximum_error_time_seconds": 3.5803995070581425,
+      "medium_fine_direct_error_cosine": 0.9999783846870051,
+      "minimum_direct_error_order": 1.6664552836672726
+    },
+    "shear__total__shape": {
+      "coarse_medium_direct_error_cosine": 0.8438879908423683,
+      "direct_continuum_contract_passed": true,
+      "direct_error_orders": [
+        1.9107608524315842,
+        1.9737329313944967
+      ],
+      "direct_error_weighted_rms": [
+        0.019045828981921687,
+        0.005065281070884843,
+        0.0012895872582827134
+      ],
+      "fine_direct_response_relative_maximum": 0.0037641541044561855,
+      "fine_maximum_error_time_index": 198,
+      "fine_maximum_error_time_seconds": 4.573671628371047,
+      "medium_fine_direct_error_cosine": 0.9986389876323172,
+      "minimum_direct_error_order": 1.9107608524315842
+    }
+  },
+  "direct_to_N769_passing_controls": {
+    "mixed_shear_acoustic__target__gain": {
+      "coarse_medium_direct_error_cosine": 0.9977984320476748,
+      "direct_continuum_contract_passed": true,
+      "direct_error_orders": [
+        2.0585893160022795,
+        2.0144278013085093
+      ],
+      "direct_error_weighted_rms": [
+        53.40279732326372,
+        12.819375644213117,
+        3.1729533099261316
+      ],
+      "fine_direct_response_relative_maximum": 0.002796340457237687,
+      "fine_maximum_error_time_index": 107,
+      "fine_maximum_error_time_seconds": 2.4716306274530404,
+      "medium_fine_direct_error_cosine": 0.9996454566141975,
+      "minimum_direct_error_order": 2.0144278013085093
+    },
+    "mixed_shear_acoustic__total__gain": {
+      "coarse_medium_direct_error_cosine": 0.9971460228553998,
+      "direct_continuum_contract_passed": true,
+      "direct_error_orders": [
+        2.1344370320759465,
+        2.038308959261873
+      ],
+      "direct_error_weighted_rms": [
+        94.20186962787629,
+        21.45507079100464,
+        5.2232139398834985
+      ],
+      "fine_direct_response_relative_maximum": 0.0032925432441315776,
+      "fine_maximum_error_time_index": 111,
+      "fine_maximum_error_time_seconds": 2.5640280340867987,
+      "medium_fine_direct_error_cosine": 0.998722354810082,
+      "minimum_direct_error_order": 2.038308959261873
+    },
+    "shear_weighted_shear_acoustic__target__gain": {
+      "coarse_medium_direct_error_cosine": 0.970776222837756,
+      "direct_continuum_contract_passed": true,
+      "direct_error_orders": [
+        1.8548579989360687,
+        1.9329027703324508
+      ],
+      "direct_error_weighted_rms": [
+        60.13233544276732,
+        16.6241778367195,
+        4.353900135728111
+      ],
+      "fine_direct_response_relative_maximum": 0.004751126524295157,
+      "fine_maximum_error_time_index": 151,
+      "fine_maximum_error_time_seconds": 3.488002100424384,
+      "medium_fine_direct_error_cosine": 0.9987014991535482,
+      "minimum_direct_error_order": 1.8548579989360687
+    },
+    "shear_weighted_shear_acoustic__total__gain": {
+      "coarse_medium_direct_error_cosine": 0.960377494049879,
+      "direct_continuum_contract_passed": true,
+      "direct_error_orders": [
+        2.0869609020206337,
+        1.9891763237036009
+      ],
+      "direct_error_weighted_rms": [
+        87.8585464996423,
+        20.67979279214496,
+        5.208881083497393
+      ],
+      "fine_direct_response_relative_maximum": 0.003509899119962549,
+      "fine_maximum_error_time_index": 112,
+      "fine_maximum_error_time_seconds": 2.5871273857452386,
+      "medium_fine_direct_error_cosine": 0.9978502098535504,
+      "minimum_direct_error_order": 1.9891763237036009
+    }
+  },
+  "embedded_or_nonlinear_propagation_executed": false,
+  "finite_volume_propagation_reused": true,
+  "frozen_failure_channels": [
+    [
+      "acoustic",
+      "target",
+      "gain"
+    ],
+    [
+      "difference_shear_acoustic",
+      "total",
+      "gain"
+    ],
+    [
+      "difference_shear_acoustic",
+      "target",
+      "gain"
+    ],
+    [
+      "shear",
+      "total",
+      "shape"
+    ],
+    [
+      "shear",
+      "target",
+      "gain"
+    ]
+  ],
+  "historical_classifications_preserved": {
+    "WP10c9d6c7c2b6b": "revised_uniform_arrival_transfer_recertification_failed_embedded_blocked"
+  },
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_uniform_failure_localization_wp10c9d6c7c2b6c.py": "49cbe0ba08516787b71aea7f62aec68369e6ec0b0bdc62e2382ed38939497bdd",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_continuum_truncation.py": "d227bbc65fa058de71596e7eb7e955d02a61ef05b2a97e614130c5bfbe0ee263",
+    "tests/test_causal_inner_continuum_collocation.py": "454d17a1c09a5b8e9a694e731b11fcb548d79a4f2aff0e73d58890b108623c87",
+    "tests/test_causal_inner_uniform_failure_localization_wp10c9d6c7c2b6c.py": "b9848c0950d403931f81296ae218ce0b6bbf233439ec8313fc96271f331e3259"
+  },
+  "implementation_source_manifest_sha256": "1da02bc81fd8171cfb8737f03d6c6427f596fe3ad25291cd453701492c8fa280",
+  "independent_N769_state_propagated": true,
+  "input_hashes": {
+    "results/canonical/causal_inner_revised_uniform_arrival_transfer_wp10c9d6c7c2b6b/config.json": "614686481841fcbe661fe4156109e9a77d2bf1d548b42ec3cab6cea9af7fa3d2",
+    "results/canonical/causal_inner_revised_uniform_arrival_transfer_wp10c9d6c7c2b6b/decisive_arrays.npz": "c19c54b58f5314f288a747095a79f9da63d61d0828e0554c8e84216b869c6be0",
+    "results/canonical/causal_inner_revised_uniform_arrival_transfer_wp10c9d6c7c2b6b/summary.json": "25f557fb147e091e0c4f3c741b925e36a532a230f9ce869697d8b5afdfd51a34",
+    "results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/decisive_arrays.npz": "d82fec216c5dbd44d91fda648a542ca97235a79080871065e239510d38c62927",
+    "results/canonical/causal_inner_scattering_scope_wp10c9d6c7c2a3/scope_manifest.json": "e13347ad018f0a21793619573288089e1491a7b98bfa13a4aa6d1cf6e8277a0c",
+    "results/canonical/causal_inner_semidiscrete_energy_transfer_contract_wp10c9d6c7c2b3/decisive_arrays.npz": "b631cd515e6f1dc1447bf1637c77c00603af417cb40f806a144e16541291ff53",
+    "results/canonical/causal_inner_uniform_family_transfer_wp10c9d6c7c2b5b/summary.json": "093ae385c698551eafa3544be49a77d94d01a606d970a9137b250ddd00e7140f"
+  },
+  "maximum_fine_direct_history_difference": 0.04681950076336668,
+  "minimum_direct_history_order": 1.6664552836672726,
+  "operator_changed": false,
+  "passed": true,
+  "passing_controls": [
+    [
+      "mixed_shear_acoustic",
+      "total",
+      "gain"
+    ],
+    [
+      "mixed_shear_acoustic",
+      "target",
+      "gain"
+    ],
+    [
+      "shear_weighted_shear_acoustic",
+      "total",
+      "gain"
+    ],
+    [
+      "shear_weighted_shear_acoustic",
+      "target",
+      "gain"
+    ]
+  ],
+  "projector_sensitivity": {
+    "N196": {
+      "common_N392_field": {
+        "acoustic": {
+          "target_peak": 412.9357406981617,
+          "target_rms": 167.49535979869347
+        },
+        "difference_shear_acoustic": {
+          "target_peak": 1391.7226531728968,
+          "target_rms": 558.0923928729077
+        },
+        "maximum_partition_defect": 0.01759419110392843,
+        "shear": {
+          "target_peak": 2154.6878159719045,
+          "target_rms": 724.0978518773505
+        }
+      },
+      "local_eigenvector": {
+        "acoustic": {
+          "target_peak": 410.87990408371934,
+          "target_rms": 166.65301317345907
+        },
+        "difference_shear_acoustic": {
+          "target_peak": 1363.001564513006,
+          "target_rms": 545.9591087870966
+        },
+        "maximum_partition_defect": 8.59959937188886e-16,
+        "shear": {
+          "target_peak": 2157.4329495564293,
+          "target_rms": 724.875876238504
+        }
+      },
+      "local_polynomial": {
+        "acoustic": {
+          "target_peak": 410.87990408371854,
+          "target_rms": 166.65301317345873
+        },
+        "difference_shear_acoustic": {
+          "target_peak": 1363.0015645130375,
+          "target_rms": 545.9591087871083
+        },
+        "maximum_partition_defect": 1.0233523252547742e-14,
+        "shear": {
+          "target_peak": 2157.432949556475,
+          "target_rms": 724.8758762385191
+        }
+      },
+      "projector_audit": {
+        "maximum_eigenvector_polynomial_projector_defect": 1.7312564796823451e-12,
+        "maximum_polynomial_algebra_defect": 2.6501290051328397e-10,
+        "minimum_spectral_gap": 0.002454310288982353,
+        "passed": true
+      }
+    },
+    "N392": {
+      "common_N392_field": {
+        "acoustic": {
+          "target_peak": 444.0415340628695,
+          "target_rms": 177.06860470431886
+        },
+        "difference_shear_acoustic": {
+          "target_peak": 1581.3918374009422,
+          "target_rms": 620.7861881075684
+        },
+        "maximum_partition_defect": 8.540813902997489e-16,
+        "shear": {
+          "target_peak": 2280.7162630422836,
+          "target_rms": 762.5326946588164
+        }
+      },
+      "local_eigenvector": {
+        "acoustic": {
+          "target_peak": 444.0415340628695,
+          "target_rms": 177.06860470431886
+        },
+        "difference_shear_acoustic": {
+          "target_peak": 1581.3918374009422,
+          "target_rms": 620.7861881075684
+        },
+        "maximum_partition_defect": 8.540813902997489e-16,
+        "shear": {
+          "target_peak": 2280.7162630422836,
+          "target_rms": 762.5326946588164
+        }
+      },
+      "local_polynomial": {
+        "acoustic": {
+          "target_peak": 444.0415340628694,
+          "target_rms": 177.0686047043188
+        },
+        "difference_shear_acoustic": {
+          "target_peak": 1581.3918374009468,
+          "target_rms": 620.7861881075698
+        },
+        "maximum_partition_defect": 6.3202022882181415e-15,
+        "shear": {
+          "target_peak": 2280.7162630423,
+          "target_rms": 762.5326946588219
+        }
+      },
+      "projector_audit": {
+        "maximum_eigenvector_polynomial_projector_defect": 1.973016826297395e-12,
+        "maximum_polynomial_algebra_defect": 2.977493807065912e-10,
+        "minimum_spectral_gap": 0.0024514519833662707,
+        "passed": true
+      }
+    },
+    "N98": {
+      "common_N392_field": {
+        "acoustic": {
+          "target_peak": 284.61863301054495,
+          "target_rms": 127.20997129177516
+        },
+        "difference_shear_acoustic": {
+          "target_peak": 691.4342024286146,
+          "target_rms": 312.1316444403663
+        },
+        "maximum_partition_defect": 0.003409195091970976,
+        "shear": {
+          "target_peak": 1783.8810481723588,
+          "target_rms": 614.0948741412567
+        }
+      },
+      "local_eigenvector": {
+        "acoustic": {
+          "target_peak": 284.136555590107,
+          "target_rms": 127.0064460380655
+        },
+        "difference_shear_acoustic": {
+          "target_peak": 683.697347065669,
+          "target_rms": 308.4935466466094
+        },
+        "maximum_partition_defect": 5.33268996445291e-16,
+        "shear": {
+          "target_peak": 1786.7385867413432,
+          "target_rms": 615.0808142832232
+        }
+      },
+      "local_polynomial": {
+        "acoustic": {
+          "target_peak": 284.1365555901086,
+          "target_rms": 127.00644603806622
+        },
+        "difference_shear_acoustic": {
+          "target_peak": 683.6973470656623,
+          "target_rms": 308.49354664660666
+        },
+        "maximum_partition_defect": 2.0264221864921054e-14,
+        "shear": {
+          "target_peak": 1786.738586741382,
+          "target_rms": 615.0808142832366
+        }
+      },
+      "projector_audit": {
+        "maximum_eigenvector_polynomial_projector_defect": 3.4355658745734952e-12,
+        "maximum_polynomial_algebra_defect": 2.3565738076214426e-10,
+        "minimum_spectral_gap": 0.0024669284768447652,
+        "passed": true
+      }
+    },
+    "equivalent_local_projectors_passed": true,
+    "fine_response_relative_sensitivity": {
+      "acoustic__common_N392_field": 0.0,
+      "acoustic__local_polynomial": 8.960962015983825e-16,
+      "difference_shear_acoustic__common_N392_field": 0.0,
+      "difference_shear_acoustic__local_polynomial": 4.600983413536298e-15,
+      "shear__common_N392_field": 0.0,
+      "shear__local_polynomial": 8.573682051108973e-15
+    }
+  },
+  "propagation_executed": true,
+  "runtime_seconds": 97.93460841593333,
+  "schema_version": 1,
+  "selected_time_indices": [
+    155,
+    157,
+    160,
+    161,
+    198
+  ],
+  "source_parent_commit": "51c584a859b238eb528569179c570e6fd128707c",
+  "work_package": "WP10c9d6c7c2b6c"
+}

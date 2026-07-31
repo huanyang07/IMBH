@@ -1,0 +1,90 @@
+{
+  "continuum_nodes": 769,
+  "dominant_fraction": 0.6,
+  "failure_channels": [
+    [
+      "acoustic",
+      "target",
+      "gain"
+    ],
+    [
+      "difference_shear_acoustic",
+      "total",
+      "gain"
+    ],
+    [
+      "difference_shear_acoustic",
+      "target",
+      "gain"
+    ],
+    [
+      "shear",
+      "total",
+      "shape"
+    ],
+    [
+      "shear",
+      "target",
+      "gain"
+    ]
+  ],
+  "fixed_bands_N98": {
+    "inner_outflow": [
+      0,
+      6
+    ],
+    "receiver_1": [
+      6,
+      17
+    ],
+    "receiver_2": [
+      17,
+      28
+    ],
+    "receiver_3": [
+      28,
+      39
+    ],
+    "receiver_4": [
+      39,
+      49
+    ],
+    "source_and_transition": [
+      49,
+      98
+    ]
+  },
+  "maximum_direct_fine_difference": 0.05,
+  "mechanism_selection_rule": "same selected time; dominant block and fixed band each carry at least 0.60 of the N392 error score and have a direct error order below 0.75",
+  "minimum_direct_order": 0.75,
+  "operator_changed": false,
+  "passing_controls": [
+    [
+      "mixed_shear_acoustic",
+      "total",
+      "gain"
+    ],
+    [
+      "mixed_shear_acoustic",
+      "target",
+      "gain"
+    ],
+    [
+      "shear_weighted_shear_acoustic",
+      "total",
+      "gain"
+    ],
+    [
+      "shear_weighted_shear_acoustic",
+      "target",
+      "gain"
+    ]
+  ],
+  "reference_levels": [
+    98,
+    196,
+    392
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c2b6c"
+}
