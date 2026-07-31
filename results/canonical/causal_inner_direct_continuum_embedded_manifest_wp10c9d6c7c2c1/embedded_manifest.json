@@ -1,0 +1,722 @@
+{
+  "authorized_next": "WP10c9d6c7c2c2_fixed_exterior_continuum_reference_preflight",
+  "binding_decision": {
+    "embedded_propagation_authorized": false,
+    "fixed_Q_or_reduction_authorized": false,
+    "fixed_exterior_reference_preflight_authorized": true,
+    "layout_and_profile_preflight_passed": true,
+    "matched_fixed_exterior_reference_available_now": false,
+    "matched_fixed_exterior_reference_required": true,
+    "nonlinear_authorized": false,
+    "operator_or_interface_redesign_authorized": false,
+    "uniform_direct_continuum_class_preserved": true
+  },
+  "classification": "direct_continuum_embedded_contract_frozen_fixed_exterior_reference_preflight_authorized",
+  "decision_table": {
+    "integrated_quantities_pass_pointwise_direction_fails": "revise_future_pointwise_metric_not_operator",
+    "projector_definition_not_robust": "retain_total_energy_and_covariant_balance_and_keep_family_channel_noncertifying",
+    "reference_preflight_fails": "repair_reference_or_boundary_definition_before_embedded",
+    "stable_interface_local_noncontracting_mechanism": "authorize_interface_local_truncation_audit_only",
+    "tier_I_and_direct_tier_II_all_pass": "certify_declared_linear_embedded_arrival_class_and_authorize_definitions_only_nonlinear_manifest",
+    "tier_I_passes_direct_tier_II_fails_with_contracting_errors": "freeze_failure_and_run_direct_fixed_exterior_localization"
+  },
+  "execution_order": [
+    "c2c2_build_and_certify_fixed_exterior_continuum_reference",
+    "c2c3_propagate_uniform_certified_profiles_on_embedded_layouts",
+    "stop_on_first_failed_binding_profile"
+  ],
+  "hard_stops": [
+    "do_not_relabel_any_c2b_or_b6_result",
+    "do_not_change_the_operator_or_interface",
+    "do_not_run_embedded_before_c2c2_reference_passes",
+    "do_not_tune_packet_coefficients_windows_or_thresholds",
+    "do_not_use_N1024_as_rescue",
+    "do_not_start_nonlinear_fixed_Q_or_reduced_evolution"
+  ],
+  "historical_classifications_preserved": {
+    "WP10c9d6c7c2a2": "manufactured_interface_patch_rejected_unidirectional_characteristic_core",
+    "WP10c9d6c7c2a3": "one_way_physical_core_scattering_scope_frozen_uniform_validation_authorized",
+    "WP10c9d6c7c2b6d": "direct_continuum_arrival_contract_frozen_uniform_recertification_authorized",
+    "WP10c9d6c7c2b6e": "direct_continuum_uniform_arrival_class_certified_embedded_manifest_authorized"
+  },
+  "interface_and_ledger_contract": {
+    "direct_face_JVP_and_prefix_ledger_parity": true,
+    "exact_coupling_face_telescoping": true,
+    "maximum_active_export_JVP_defect": 5e-06,
+    "maximum_conservative_ledger_defect": 1e-12,
+    "no_absolute_reflection_gate": true,
+    "one_shared_MJE_coupling_flux": true,
+    "pointwise_direction_binding_only_above_frozen_observability_floor": true,
+    "prefix_MJE_balance_at_every_common_face": true,
+    "report_embedded_minus_matched_uniform_architecture_excess": true,
+    "report_interface_state_and_traction": true,
+    "report_upstream_contamination": true
+  },
+  "layout_contract": {
+    "common_parent_faces": [
+      0,
+      6,
+      49,
+      52,
+      92,
+      95,
+      98
+    ],
+    "fixed_outer_parent_cells": 49,
+    "layout_labels": [
+      "N98_outer_N98_inner_f49",
+      "N98_outer_N196_inner_f49",
+      "N98_outer_N392_inner_f49"
+    ],
+    "layout_preflight": {
+      "layouts": {
+        "N98_outer_N196_inner_f49": {
+          "common_face_radius_replay_defect": 0.0,
+          "common_parent_to_embedded_faces": {
+            "0": 0,
+            "49": 98,
+            "52": 101,
+            "6": 12,
+            "92": 141,
+            "95": 144,
+            "98": 147
+          },
+          "coupling_face_index": 98,
+          "fixed_outer_cells": 49,
+          "grid_exterior_replay_defect": 0.0,
+          "local_energy_and_causality": {
+            "all_characteristics_inward": true,
+            "maximum_characteristic_speed_over_c": -0.2274543459607056,
+            "maximum_eigenvector_condition_number": 3308.7986045620114,
+            "maximum_imaginary_part": 0.0,
+            "maximum_projector_or_energy_algebra_defect": 1.0231815394945443e-12,
+            "minimum_characteristic_gap": 0.0024669284770837407,
+            "minimum_characteristic_speed_over_c": -0.7075536673097034,
+            "minimum_energy_eigenvalue": 0.21758209501707604,
+            "passed": true
+          },
+          "matched_uniform_reference": "uniform_N196",
+          "parent_coupling_face": 49,
+          "passed": true,
+          "primitive_exterior_replay_defect": 4.316386070909122e-16,
+          "ratio_one_parent_replay_defect": null,
+          "refined_inner_cells": 98,
+          "refinement_ratio": 2,
+          "total_cells": 147
+        },
+        "N98_outer_N392_inner_f49": {
+          "common_face_radius_replay_defect": 0.0,
+          "common_parent_to_embedded_faces": {
+            "0": 0,
+            "49": 196,
+            "52": 199,
+            "6": 24,
+            "92": 239,
+            "95": 242,
+            "98": 245
+          },
+          "coupling_face_index": 196,
+          "fixed_outer_cells": 49,
+          "grid_exterior_replay_defect": 0.0,
+          "local_energy_and_causality": {
+            "all_characteristics_inward": true,
+            "maximum_characteristic_speed_over_c": -0.2274543459607056,
+            "maximum_eigenvector_condition_number": 3316.292918922769,
+            "maximum_imaginary_part": 0.0,
+            "maximum_projector_or_energy_algebra_defect": 7.958078640513122e-13,
+            "minimum_characteristic_gap": 0.0024669284770837407,
+            "minimum_characteristic_speed_over_c": -0.7082003045670076,
+            "minimum_energy_eigenvalue": 0.21758209501707604,
+            "passed": true
+          },
+          "matched_uniform_reference": "uniform_N392",
+          "parent_coupling_face": 49,
+          "passed": true,
+          "primitive_exterior_replay_defect": 4.316386070909122e-16,
+          "ratio_one_parent_replay_defect": null,
+          "refined_inner_cells": 196,
+          "refinement_ratio": 4,
+          "total_cells": 245
+        },
+        "N98_outer_N98_inner_f49": {
+          "common_face_radius_replay_defect": 0.0,
+          "common_parent_to_embedded_faces": {
+            "0": 0,
+            "49": 49,
+            "52": 52,
+            "6": 6,
+            "92": 92,
+            "95": 95,
+            "98": 98
+          },
+          "coupling_face_index": 49,
+          "fixed_outer_cells": 49,
+          "grid_exterior_replay_defect": 0.0,
+          "local_energy_and_causality": {
+            "all_characteristics_inward": true,
+            "maximum_characteristic_speed_over_c": -0.2274543459607056,
+            "maximum_eigenvector_condition_number": 3313.478226181239,
+            "maximum_imaginary_part": 0.0,
+            "maximum_projector_or_energy_algebra_defect": 6.821210263296962e-13,
+            "minimum_characteristic_gap": 0.0024669284770837407,
+            "minimum_characteristic_speed_over_c": -0.7062655750620925,
+            "minimum_energy_eigenvalue": 0.21758209501707604,
+            "passed": true
+          },
+          "matched_uniform_reference": "uniform_N98",
+          "parent_coupling_face": 49,
+          "passed": true,
+          "primitive_exterior_replay_defect": 4.316386070909122e-16,
+          "ratio_one_parent_replay_defect": 3.656215144021603e-15,
+          "refined_inner_cells": 49,
+          "refinement_ratio": 1,
+          "total_cells": 98
+        }
+      },
+      "passed": true
+    },
+    "parent_cells": 98,
+    "parent_coupling_face": 49,
+    "receiving_band_parent_faces": [
+      6,
+      49
+    ],
+    "refined_inner_cells": {
+      "N98_outer_N196_inner_f49": 98,
+      "N98_outer_N392_inner_f49": 196,
+      "N98_outer_N98_inner_f49": 49
+    },
+    "refinement_ratios": [
+      1,
+      2,
+      4
+    ],
+    "same_C4_manufactured_state_formula_at_every_center": true,
+    "same_parent_faces_retained_exactly_outside_interface": true,
+    "source_band_parent_faces": [
+      52,
+      95
+    ],
+    "total_cells": {
+      "N98_outer_N196_inner_f49": 147,
+      "N98_outer_N392_inner_f49": 245,
+      "N98_outer_N98_inner_f49": 98
+    },
+    "upstream_diagnostic_parent_face": 92
+  },
+  "manifest_sha256": "b75619264995378039a3424b71959f7f428bd567eafd68c6d3ea9acd554ed4de",
+  "matched_reference_contract": {
+    "continuum_inner": {
+      "domain": "parent_faces_0_through_49",
+      "energy_identity": "positive_total_and_target_energy_plus_exact covariant_background_height_relaxation_and_other_work",
+      "inner_boundary_condition": "causal_outflow_with_zero_incoming_characteristics",
+      "operator": "independent_complete_DAE_collocation_with_all principal_descriptor_and_lower_source_blocks",
+      "outer_interface_condition": "all_five_incoming_characteristic_data_from_the fixed_N98_exterior_drive",
+      "primary_nodes": 769,
+      "secondary_nodes": 513
+    },
+    "fixed_exterior": {
+      "cells": "parent_cells_49_through_97",
+      "initial_packet": "exact_frozen_outer_packet",
+      "interface_drive": "actual_five_component_shared_face_trace_and_flux on the frozen travel_time_samples",
+      "operator": "unchanged_complete_N98_semidiscrete_DAE_tangent",
+      "outer_boundary": "unchanged_uniform_N98_boundary"
+    },
+    "forbidden_shortcuts": [
+      "do_not_call_N392_embedded_exact",
+      "do_not_use_embedded_Richardson_extrapolate_as_truth",
+      "do_not_use_full_uniform_N769_as_the_only_reference",
+      "do_not_move_windows_from_observed_histories"
+    ],
+    "mandatory_preflight_gates": {
+      "incoming_inner_boundary_characteristic_count": 0,
+      "incoming_interface_characteristic_count": 5,
+      "maximum_N769_N513_action_difference": 2e-05,
+      "maximum_characteristic_boundary_closure_defect": 1e-10,
+      "maximum_energy_and_covariant_work_ledger_defect": 1e-10,
+      "maximum_ratio_one_outer_trace_replay_defect": 1e-10,
+      "maximum_reference_uncertainty_to_N392_embedded_error": 0.1,
+      "restart_replay_required": true
+    },
+    "reference_name": "fixed_N98_exterior_driven_N769_inner_continuum",
+    "required_before_embedded_propagation": true,
+    "secondary_reference": "fixed_N98_exterior_driven_N513_inner_continuum",
+    "uniform_controls": {
+      "continuum": [
+        "uniform_N513",
+        "uniform_N769"
+      ],
+      "embedded_minus_matched_uniform_reported": true,
+      "finite": [
+        "uniform_N98",
+        "uniform_N196",
+        "uniform_N392"
+      ],
+      "full_uniform_continuum_is_not_the_binding_fixed_exterior_reference": true
+    }
+  },
+  "operator_changed": false,
+  "profile_contract": {
+    "amplitude_factors": [
+      0.5,
+      1.0
+    ],
+    "base_profiles": [
+      "acoustic",
+      "shear",
+      "mixed_shear_acoustic",
+      "difference_shear_acoustic",
+      "shear_weighted_shear_acoustic",
+      "angle_22p5_acoustic_shear",
+      "angle_67p5_acoustic_shear",
+      "angle_112p5_acoustic_shear",
+      "angle_157p5_acoustic_shear"
+    ],
+    "binding_variant_count": 36,
+    "initial_support_is_entirely_in_fixed_outer_region": true,
+    "inner_initial_state_is_exactly_zero": true,
+    "no_shift_taper_or_reoptimization": true,
+    "profile_preflight": {
+      "binding_base_count": 9,
+      "binding_variant_count": 36,
+      "maximum_family_partition_relative_defect": 2.31257426549091e-16,
+      "maximum_initial_inner_packet_norm": 0.0,
+      "maximum_parent_restriction_defect": 1.1976168128781793e-16,
+      "minimum_initial_target_family_fraction": 0.9999999999999999,
+      "passed": true,
+      "per_profile": {
+        "acoustic": {
+          "layouts": {
+            "N98_outer_N196_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.24004051268647103,
+              "packet_sha256": "c9d0f55241465e7c567d418d1815a635ad1952aece2d036886c49de448b34300",
+              "parent_restriction_defect": 1.155152907057716e-16,
+              "passed": true
+            },
+            "N98_outer_N392_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.24004051268647103,
+              "packet_sha256": "f41d239407ded677d333267c56dda0c37c45a3027cfd6dad7310317436cb8c3b",
+              "parent_restriction_defect": 1.155152907057716e-16,
+              "passed": true
+            },
+            "N98_outer_N98_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.24004051268647103,
+              "packet_sha256": "baa4f5ca1249733c9a83e3d235a78912252387cbf46bdab2c87c1f6bb9e13760",
+              "parent_restriction_defect": 1.155152907057716e-16,
+              "passed": true
+            }
+          },
+          "role": "historical_calibration",
+          "target_family_indices": [
+            0
+          ]
+        },
+        "angle_112p5_acoustic_shear": {
+          "layouts": {
+            "N98_outer_N196_inner_f49": {
+              "family_partition_relative_defect": 1.1562871327449698e-16,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0000000000000002,
+              "initial_total_energy": 0.24004051268596682,
+              "packet_sha256": "c7e8bb657c077ec5356ca892d174c4fbe8af8007df8f44d0833d398aa72a21b6",
+              "parent_restriction_defect": 7.344129083230633e-17,
+              "passed": true
+            },
+            "N98_outer_N392_inner_f49": {
+              "family_partition_relative_defect": 1.1562871327449698e-16,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0000000000000002,
+              "initial_total_energy": 0.24004051268596682,
+              "packet_sha256": "99d6a325ddf4a81cc9fa7aa6732324a3efac19960474af6372f3d672927f4cad",
+              "parent_restriction_defect": 7.344129083230633e-17,
+              "passed": true
+            },
+            "N98_outer_N98_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.24004051268596682,
+              "packet_sha256": "1a05e9351cd27b05417ea61c030a7c6d0d6ab051c4f2b04c3f446978302fba0b",
+              "parent_restriction_defect": 7.344129083230633e-17,
+              "passed": true
+            }
+          },
+          "role": "prospective_heldout",
+          "target_family_indices": [
+            0,
+            1
+          ]
+        },
+        "angle_157p5_acoustic_shear": {
+          "layouts": {
+            "N98_outer_N196_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.24004051268644824,
+              "packet_sha256": "406e49c6c695c5fc96f261fae4b6939b7dbdeb008602644044011ba14272488d",
+              "parent_restriction_defect": 1.0776666604735222e-16,
+              "passed": true
+            },
+            "N98_outer_N392_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.24004051268644824,
+              "packet_sha256": "8ec5dd56217eabf2b5ffcf1f2952f6282f9044f29e3a798480459b2d7185e591",
+              "parent_restriction_defect": 1.0776666604735222e-16,
+              "passed": true
+            },
+            "N98_outer_N98_inner_f49": {
+              "family_partition_relative_defect": 2.3125742654853017e-16,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0000000000000002,
+              "initial_total_energy": 0.24004051268644822,
+              "packet_sha256": "e2a63911c0afe2df5c687cb7851f40127096cee7f9acbe2f73bc05c2d09d89d2",
+              "parent_restriction_defect": 1.0776666604735222e-16,
+              "passed": true
+            }
+          },
+          "role": "prospective_heldout",
+          "target_family_indices": [
+            0,
+            1
+          ]
+        },
+        "angle_22p5_acoustic_shear": {
+          "layouts": {
+            "N98_outer_N196_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.2400405126862944,
+              "packet_sha256": "c6aace5671623f2882fe8264e532a4c341f9f2575d38b2d2ebbebe21e60ab2be",
+              "parent_restriction_defect": 7.307390452920842e-17,
+              "passed": true
+            },
+            "N98_outer_N392_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.2400405126862944,
+              "packet_sha256": "3f3af2d32acec308860c77d5c4a1f18bb16cc4f41a23b30dd620ec0ffd9c2a4f",
+              "parent_restriction_defect": 7.307390452920842e-17,
+              "passed": true
+            },
+            "N98_outer_N98_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.2400405126862944,
+              "packet_sha256": "63cef0a9606bb448c67c2480c6968f4e80fc2fb52f02e9568c383605b24c6bdb",
+              "parent_restriction_defect": 7.307390452920842e-17,
+              "passed": true
+            }
+          },
+          "role": "prospective_heldout",
+          "target_family_indices": [
+            0,
+            1
+          ]
+        },
+        "angle_67p5_acoustic_shear": {
+          "layouts": {
+            "N98_outer_N196_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.240040512685813,
+              "packet_sha256": "7f108a6734f07ce22364705df83eac254f22ae3b3bcaf0a18004127644724ea5",
+              "parent_restriction_defect": 7.956473636880848e-17,
+              "passed": true
+            },
+            "N98_outer_N392_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.240040512685813,
+              "packet_sha256": "040fdcddcd9636370bfca356d772e25d4bc3a8256fd2ed0e0d35a9ca1d21ec1a",
+              "parent_restriction_defect": 7.956473636880848e-17,
+              "passed": true
+            },
+            "N98_outer_N98_inner_f49": {
+              "family_partition_relative_defect": 1.1562871327457109e-16,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0000000000000002,
+              "initial_total_energy": 0.24004051268581297,
+              "packet_sha256": "5f6bc5ab66426491c1bdee9d1951cb76b1fb6c17006810d1bac14bb9a2d8f0cb",
+              "parent_restriction_defect": 7.956473636880848e-17,
+              "passed": true
+            }
+          },
+          "role": "prospective_heldout",
+          "target_family_indices": [
+            0,
+            1
+          ]
+        },
+        "difference_shear_acoustic": {
+          "layouts": {
+            "N98_outer_N196_inner_f49": {
+              "family_partition_relative_defect": 2.312574265487314e-16,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0000000000000002,
+              "initial_total_energy": 0.24004051268623933,
+              "packet_sha256": "6da7aa14bde3f1ef31d61bcc237cac6a1b4dda9b5d21bcdea0ef2cdf8da6c9bc",
+              "parent_restriction_defect": 1.1612007198981352e-16,
+              "passed": true
+            },
+            "N98_outer_N392_inner_f49": {
+              "family_partition_relative_defect": 2.312574265487314e-16,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0000000000000002,
+              "initial_total_energy": 0.24004051268623933,
+              "packet_sha256": "8c6489aa73b4f72b99579b50cbe8cd568e3954ec3fc4a177a37b18eb6c13885e",
+              "parent_restriction_defect": 1.1612007198981352e-16,
+              "passed": true
+            },
+            "N98_outer_N98_inner_f49": {
+              "family_partition_relative_defect": 2.312574265487314e-16,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0000000000000002,
+              "initial_total_energy": 0.24004051268623933,
+              "packet_sha256": "3381d3cd895b8c1d6cdcdca7e960b028469da70f2b364aa63ca331a960f145cb",
+              "parent_restriction_defect": 1.1612007198981352e-16,
+              "passed": true
+            }
+          },
+          "role": "historical_calibration",
+          "target_family_indices": [
+            0,
+            1
+          ]
+        },
+        "mixed_shear_acoustic": {
+          "layouts": {
+            "N98_outer_N196_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.2400405126860218,
+              "packet_sha256": "3cc008c23fd14b926a52fd0bae11ad0a2ad48bdfa8a44a8a81dc67b678cfb845",
+              "parent_restriction_defect": 1.1976168128781793e-16,
+              "passed": true
+            },
+            "N98_outer_N392_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.2400405126860218,
+              "packet_sha256": "f219f6311811cafffbffdb872af2d73e02eebd179137d3fc01b820718c718a4d",
+              "parent_restriction_defect": 1.1976168128781793e-16,
+              "passed": true
+            },
+            "N98_outer_N98_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.2400405126860218,
+              "packet_sha256": "e31decaa812e5162b8564b5f7caa3a5d0b7869d88c832640ebdf34bf79510038",
+              "parent_restriction_defect": 1.1976168128781793e-16,
+              "passed": true
+            }
+          },
+          "role": "historical_calibration",
+          "target_family_indices": [
+            0,
+            1
+          ]
+        },
+        "shear": {
+          "layouts": {
+            "N98_outer_N196_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.24004051268579019,
+              "packet_sha256": "da6b530fe7e43b6ac593598614440d7030b30aaefa06bde0d0a1706977fad6e6",
+              "parent_restriction_defect": 1.1815343675958075e-16,
+              "passed": true
+            },
+            "N98_outer_N392_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.24004051268579019,
+              "packet_sha256": "b5b2c690c6c1f4efb9dcbe7f05b63ab1682218fbe579efcf4b04a10a3ff4052e",
+              "parent_restriction_defect": 1.1815343675958075e-16,
+              "passed": true
+            },
+            "N98_outer_N98_inner_f49": {
+              "family_partition_relative_defect": 0.0,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0,
+              "initial_total_energy": 0.24004051268579019,
+              "packet_sha256": "ff20e5f2e176272fe388daf8f5514e1dca51040633e3233324389fd6ce65c2f6",
+              "parent_restriction_defect": 1.1815343675958075e-16,
+              "passed": true
+            }
+          },
+          "role": "historical_calibration",
+          "target_family_indices": [
+            1
+          ]
+        },
+        "shear_weighted_shear_acoustic": {
+          "layouts": {
+            "N98_outer_N196_inner_f49": {
+              "family_partition_relative_defect": 1.1562871327454547e-16,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 0.9999999999999999,
+              "initial_total_energy": 0.24004051268586618,
+              "packet_sha256": "1192095f6ab7a5f47bca55ad3716dc98d52cf3362002b504acfa2ab02e58b62c",
+              "parent_restriction_defect": 1.1208640167167083e-16,
+              "passed": true
+            },
+            "N98_outer_N392_inner_f49": {
+              "family_partition_relative_defect": 1.1562871327454547e-16,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 0.9999999999999999,
+              "initial_total_energy": 0.24004051268586618,
+              "packet_sha256": "7e2077aaa59c9544cb5853c6f78f7e62de267a499db0869f82877b08a4e4e4fc",
+              "parent_restriction_defect": 1.1208640167167083e-16,
+              "passed": true
+            },
+            "N98_outer_N98_inner_f49": {
+              "family_partition_relative_defect": 2.31257426549091e-16,
+              "initial_inner_packet_norm": 0.0,
+              "initial_target_family_fraction": 1.0000000000000002,
+              "initial_total_energy": 0.24004051268586613,
+              "packet_sha256": "a56e270145cf35bd35bd7370a84eb9a2604fca413095978338aa93c0cc6f7c49",
+              "parent_restriction_defect": 1.1208640167167083e-16,
+              "passed": true
+            }
+          },
+          "role": "historical_calibration",
+          "target_family_indices": [
+            0,
+            1
+          ]
+        }
+      }
+    },
+    "same_frozen_packet_formula_and_parent_array": true,
+    "signs": [
+      -1,
+      1
+    ]
+  },
+  "propagation_executed": false,
+  "schema_version": 1,
+  "scope": {
+    "all_characteristics_inward": true,
+    "claim": "operator-neutral linear embedded arrival and transfer method certification on the manufactured patch",
+    "manufactured_extension_is_physical_background": false,
+    "physical_core": "exact_c2a2_one_way_interface_core",
+    "reflection_coefficient_defined": false,
+    "route": "fixed_N98_outer_coarse_to_refined_inner",
+    "upstream_contamination_reported_instead": true
+  },
+  "tier_II_direct_continuum_contract": {
+    "binding_observables": [
+      "positive_total_receiving_band_energy_gain",
+      "positive_target_receiving_band_energy_gain",
+      "total_unit_shape_history",
+      "target_unit_shape_history",
+      "total_covariant_receiver_work",
+      "target_covariant_receiver_work",
+      "stored_energy_and_physical_work_balance"
+    ],
+    "direct_error_orders": [
+      "log2(norm(e_N98)/norm(e_N196))",
+      "log2(norm(e_N196)/norm(e_N392))"
+    ],
+    "finite_layouts": [
+      "N98_outer_N98_inner_f49",
+      "N98_outer_N196_inner_f49",
+      "N98_outer_N392_inner_f49"
+    ],
+    "finite_levels": [
+      98,
+      196,
+      392
+    ],
+    "history_error": "e_h(t)=G_h(t)-G_N769(t), evaluated on the same frozen travel-time samples and physical window",
+    "maximum_N392_peak_response_relative_error": 0.05,
+    "maximum_N392_peak_time_error_fraction_of_window": 0.05,
+    "maximum_N392_response_relative_RMS_error": 0.05,
+    "maximum_N392_response_relative_maximum_error": 0.05,
+    "maximum_N392_time_average_response_relative_error": 0.05,
+    "minimum_N392_continuum_history_cosine": 0.9,
+    "minimum_maximum_error_order": 0.75,
+    "minimum_weighted_RMS_error_order": 0.75,
+    "no_grid_trajectory_called_exact": true,
+    "pairwise_embedded_error_direction_binding": false,
+    "pairwise_embedded_error_direction_reported": true,
+    "pairwise_error_direction_reported_not_binding": true,
+    "primary_reference": "fixed_N98_exterior_driven_N769_inner_continuum",
+    "raw_local_opposite_family_energy_binding_alone": false,
+    "response_scale": "max(max_t(abs(G_N769)),1)",
+    "secondary_reference": "fixed_N98_exterior_driven_N513_inner_continuum"
+  },
+  "tier_I_contract": {
+    "active_prefix": "cells_strictly_inside_coupling_face",
+    "exact_prefix_and_global_ledgers": true,
+    "historical_order_difference_and_cosine_gates_unchanged": true,
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_RMS_order": 0.75,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_significant_component_order": 0.75,
+    "observables": [
+      "state",
+      "inner_mass_flux",
+      "inner_angular_momentum_flux",
+      "inner_killing_energy_flux",
+      "coupling_mass_flux_when_active",
+      "coupling_angular_momentum_flux_when_active",
+      "coupling_killing_energy_flux_when_active",
+      "net_mass_drive",
+      "net_angular_momentum_drive",
+      "net_killing_energy_drive",
+      "cooling",
+      "responsive_height_work"
+    ],
+    "one_shared_conservative_face_flux": true,
+    "state_comparison": "conservative_restriction_to_the_common_N98_parent_grid"
+  },
+  "uncertainty_contract": {
+    "RSS_forbidden_without_demonstrated_independence": true,
+    "below_floor_classification": "direction_not_certifying_because_error_is_below_observability",
+    "complete_history_nuisance_envelopes_required": true,
+    "component_bounds": [
+      "continuum_reference",
+      "finite_volume_projection",
+      "invariant_subspace_choice",
+      "window_placement",
+      "time_sampling_and_quadrature",
+      "restart_replay",
+      "roundoff"
+    ],
+    "conservative_deterministic_sum_default": true,
+    "default_combination": "conservative_sum_of_deterministic_component_bounds",
+    "error_direction_cosine_binding_condition": "both refinement-error norms must exceed observability_factor times their frozen uncertainty bounds",
+    "matched_reference_uncertainty_is_mandatory": true,
+    "maximum_reference_uncertainty_to_medium_fine_difference": 0.1,
+    "measured_covariance_allowed_only_if_stable_and_documented": true,
+    "no_slow_impact_threshold": true,
+    "observability_factor": 5.0,
+    "transmission_ratio_requires_observable_incident_energy": true
+  },
+  "work_package": "WP10c9d6c7c2c1"
+}

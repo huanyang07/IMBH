@@ -1,0 +1,574 @@
+{
+  "analyzed_base_commit": "d29cba5d5bfe5950cba4e458a6ff8b458e1364de",
+  "authorized_next": "WP10c9d6c7c2c2_fixed_exterior_continuum_reference_preflight",
+  "binding_decision": {
+    "embedded_propagation_authorized": false,
+    "fixed_Q_or_reduction_authorized": false,
+    "fixed_exterior_reference_preflight_authorized": true,
+    "layout_and_profile_preflight_passed": true,
+    "matched_fixed_exterior_reference_available_now": false,
+    "matched_fixed_exterior_reference_required": true,
+    "nonlinear_authorized": false,
+    "operator_or_interface_redesign_authorized": false,
+    "uniform_direct_continuum_class_preserved": true
+  },
+  "classification": "direct_continuum_embedded_contract_frozen_fixed_exterior_reference_preflight_authorized",
+  "config_sha256": "9515af9284f1da61239dd4c1ed50547252c108c7e398a68733379808abf773df",
+  "decisive_array_hashes": {
+    "N98_outer_N196_inner_f49__base_primitive_charts": "7e11a091605c3e0ba6c10d60085d099b3e7b8a5df854fd8b25644066c1b509d0",
+    "N98_outer_N196_inner_f49__characteristic_speeds_over_c": "d9b9020ccf885bbfb85d59549a21a82fe31d492ff5ff9419f7ab6da23025e1ad",
+    "N98_outer_N196_inner_f49__grid_edges": "41880ec9b6f2b7b33ce149b98d90dff39351ec01ebb9b2369c29b76a5e671c9b",
+    "N98_outer_N196_inner_f49__parent_cell_indices": "cb84c0120cdf5715c36d3ae9518b19d137198590ff92e82d48e2028048a6df11",
+    "N98_outer_N196_inner_f49__subcell_indices": "5ac5f05644f591bf77c5a5b8c8c085dc03cee39202253ada1819bb5dddc45938",
+    "N98_outer_N392_inner_f49__base_primitive_charts": "875156ad8919a2977732d9b4d3241df5c632ddd953cce131039396537effa9f1",
+    "N98_outer_N392_inner_f49__characteristic_speeds_over_c": "cae555ef464c0950b83dd2f9754f87cf0bff507a95483ba479e4b92d152cebec",
+    "N98_outer_N392_inner_f49__grid_edges": "90ea986d9d279e2b270810d4ff859a8c3f4ab544c0677e5917ffaaa2059114ec",
+    "N98_outer_N392_inner_f49__parent_cell_indices": "698a5eed78fafbfb5fb0155a7cb242b3d6b83a5f09d8b5e723491cc207f595e5",
+    "N98_outer_N392_inner_f49__subcell_indices": "0e36de28e22ecb4a024b31cb985a90e1588341d58faa38ec42ba8c8ed1001145",
+    "N98_outer_N98_inner_f49__base_primitive_charts": "fbb33f76015c17ab58ef1c6ab2d78612ee9e14d8071305eefa58fa891dcb75f8",
+    "N98_outer_N98_inner_f49__characteristic_speeds_over_c": "2285a1a55c986aa62ad2022d31b6c1f339f996851f90cddc52fd44a058f456fb",
+    "N98_outer_N98_inner_f49__grid_edges": "f7fcd1d7828efe5ebeabc64d2a6c613aa7845302e38da8a263d6a2debc24cf91",
+    "N98_outer_N98_inner_f49__parent_cell_indices": "f83f952e027f177ce2a35406ef0b546cce5f1d7a127f1202d081ae21fae01f73",
+    "N98_outer_N98_inner_f49__subcell_indices": "4f1b8ee9aef16ce6bdd680c964e6b169ecb475eed037b56f0e60ab9eb02dc9bf",
+    "acoustic__N98_outer_N196_inner_f49__initial_family_energy": "edf9c45e4fb4f12074e56e4e2956ea7184e659d10e42bf80a0f2dfa5994fc710",
+    "acoustic__N98_outer_N196_inner_f49__packet": "c9d0f55241465e7c567d418d1815a635ad1952aece2d036886c49de448b34300",
+    "acoustic__N98_outer_N392_inner_f49__initial_family_energy": "edf9c45e4fb4f12074e56e4e2956ea7184e659d10e42bf80a0f2dfa5994fc710",
+    "acoustic__N98_outer_N392_inner_f49__packet": "f41d239407ded677d333267c56dda0c37c45a3027cfd6dad7310317436cb8c3b",
+    "acoustic__N98_outer_N98_inner_f49__initial_family_energy": "edf9c45e4fb4f12074e56e4e2956ea7184e659d10e42bf80a0f2dfa5994fc710",
+    "acoustic__N98_outer_N98_inner_f49__packet": "baa4f5ca1249733c9a83e3d235a78912252387cbf46bdab2c87c1f6bb9e13760",
+    "angle_112p5_acoustic_shear__N98_outer_N196_inner_f49__initial_family_energy": "acdb414404d612a9e3743009206ad769377a64b3563e379282fc025160de2eb2",
+    "angle_112p5_acoustic_shear__N98_outer_N196_inner_f49__packet": "c7e8bb657c077ec5356ca892d174c4fbe8af8007df8f44d0833d398aa72a21b6",
+    "angle_112p5_acoustic_shear__N98_outer_N392_inner_f49__initial_family_energy": "acdb414404d612a9e3743009206ad769377a64b3563e379282fc025160de2eb2",
+    "angle_112p5_acoustic_shear__N98_outer_N392_inner_f49__packet": "99d6a325ddf4a81cc9fa7aa6732324a3efac19960474af6372f3d672927f4cad",
+    "angle_112p5_acoustic_shear__N98_outer_N98_inner_f49__initial_family_energy": "36f9cc0f1388959d0d785e10e2cd368edfa04d6d0ae27440e2654a9429d17a95",
+    "angle_112p5_acoustic_shear__N98_outer_N98_inner_f49__packet": "1a05e9351cd27b05417ea61c030a7c6d0d6ab051c4f2b04c3f446978302fba0b",
+    "angle_157p5_acoustic_shear__N98_outer_N196_inner_f49__initial_family_energy": "cb71db513148f9c671a19870de80abd8184ce78520232aa456734f57c72a01ed",
+    "angle_157p5_acoustic_shear__N98_outer_N196_inner_f49__packet": "406e49c6c695c5fc96f261fae4b6939b7dbdeb008602644044011ba14272488d",
+    "angle_157p5_acoustic_shear__N98_outer_N392_inner_f49__initial_family_energy": "cb71db513148f9c671a19870de80abd8184ce78520232aa456734f57c72a01ed",
+    "angle_157p5_acoustic_shear__N98_outer_N392_inner_f49__packet": "8ec5dd56217eabf2b5ffcf1f2952f6282f9044f29e3a798480459b2d7185e591",
+    "angle_157p5_acoustic_shear__N98_outer_N98_inner_f49__initial_family_energy": "f8a13b73db1d1139b09ccd50592c9c43a805202471eca2001f69ebbc6c43b0e0",
+    "angle_157p5_acoustic_shear__N98_outer_N98_inner_f49__packet": "e2a63911c0afe2df5c687cb7851f40127096cee7f9acbe2f73bc05c2d09d89d2",
+    "angle_22p5_acoustic_shear__N98_outer_N196_inner_f49__initial_family_energy": "c4584ae62976f18d3ef7ff9306e848f155e397e3ea3cfdd142b46b0cfa42cbea",
+    "angle_22p5_acoustic_shear__N98_outer_N196_inner_f49__packet": "c6aace5671623f2882fe8264e532a4c341f9f2575d38b2d2ebbebe21e60ab2be",
+    "angle_22p5_acoustic_shear__N98_outer_N392_inner_f49__initial_family_energy": "c4584ae62976f18d3ef7ff9306e848f155e397e3ea3cfdd142b46b0cfa42cbea",
+    "angle_22p5_acoustic_shear__N98_outer_N392_inner_f49__packet": "3f3af2d32acec308860c77d5c4a1f18bb16cc4f41a23b30dd620ec0ffd9c2a4f",
+    "angle_22p5_acoustic_shear__N98_outer_N98_inner_f49__initial_family_energy": "ac00a31efae326671c07c15e580db1630061d39c3f79a4e9c62cbdbf36c24e7e",
+    "angle_22p5_acoustic_shear__N98_outer_N98_inner_f49__packet": "63cef0a9606bb448c67c2480c6968f4e80fc2fb52f02e9568c383605b24c6bdb",
+    "angle_67p5_acoustic_shear__N98_outer_N196_inner_f49__initial_family_energy": "516fad724ccdf2441745fcfac2b5d9f15feec0a1d553981e1d16847f6b34155b",
+    "angle_67p5_acoustic_shear__N98_outer_N196_inner_f49__packet": "7f108a6734f07ce22364705df83eac254f22ae3b3bcaf0a18004127644724ea5",
+    "angle_67p5_acoustic_shear__N98_outer_N392_inner_f49__initial_family_energy": "516fad724ccdf2441745fcfac2b5d9f15feec0a1d553981e1d16847f6b34155b",
+    "angle_67p5_acoustic_shear__N98_outer_N392_inner_f49__packet": "040fdcddcd9636370bfca356d772e25d4bc3a8256fd2ed0e0d35a9ca1d21ec1a",
+    "angle_67p5_acoustic_shear__N98_outer_N98_inner_f49__initial_family_energy": "95e487d509ced013d80525e882379ea43e784301ebfb599362962de423223680",
+    "angle_67p5_acoustic_shear__N98_outer_N98_inner_f49__packet": "5f6bc5ab66426491c1bdee9d1951cb76b1fb6c17006810d1bac14bb9a2d8f0cb",
+    "binding_variant_table": "eb0514b4d1c632a0a4cbeac93cca66b52ee7ff1440bb14dcda6e8c2b2ef0bbd8",
+    "common_parent_faces": "3dc1978886b7537c2327ccd1e453ecf0237bfab5930efce906ad422a28f27a8c",
+    "common_physical_face_radii": "4dc10cf6a3381a2529af398a78733ad736206584a1599fd102653a7fa1328afe",
+    "continuum_nodes": "c25f7c147efd5eb11d58cf51c581c4b67c46a3173aad21f4627790118f9b6bf2",
+    "difference_shear_acoustic__N98_outer_N196_inner_f49__initial_family_energy": "cdac7ec50b5d1fbba5431f28b755297f3039ab7d768442d37fe0a871064d4b59",
+    "difference_shear_acoustic__N98_outer_N196_inner_f49__packet": "6da7aa14bde3f1ef31d61bcc237cac6a1b4dda9b5d21bcdea0ef2cdf8da6c9bc",
+    "difference_shear_acoustic__N98_outer_N392_inner_f49__initial_family_energy": "cdac7ec50b5d1fbba5431f28b755297f3039ab7d768442d37fe0a871064d4b59",
+    "difference_shear_acoustic__N98_outer_N392_inner_f49__packet": "8c6489aa73b4f72b99579b50cbe8cd568e3954ec3fc4a177a37b18eb6c13885e",
+    "difference_shear_acoustic__N98_outer_N98_inner_f49__initial_family_energy": "cdac7ec50b5d1fbba5431f28b755297f3039ab7d768442d37fe0a871064d4b59",
+    "difference_shear_acoustic__N98_outer_N98_inner_f49__packet": "3381d3cd895b8c1d6cdcdca7e960b028469da70f2b364aa63ca331a960f145cb",
+    "field_scales": "ee02d751758ffa54e25e4b298f1f0778ea7ea7586c78325e3ee106034321fac6",
+    "mixed_shear_acoustic__N98_outer_N196_inner_f49__initial_family_energy": "03d5c343913293f0f6bfca052c442e74e5c2376eaecc0cb0f89ccdf616fef40f",
+    "mixed_shear_acoustic__N98_outer_N196_inner_f49__packet": "3cc008c23fd14b926a52fd0bae11ad0a2ad48bdfa8a44a8a81dc67b678cfb845",
+    "mixed_shear_acoustic__N98_outer_N392_inner_f49__initial_family_energy": "03d5c343913293f0f6bfca052c442e74e5c2376eaecc0cb0f89ccdf616fef40f",
+    "mixed_shear_acoustic__N98_outer_N392_inner_f49__packet": "f219f6311811cafffbffdb872af2d73e02eebd179137d3fc01b820718c718a4d",
+    "mixed_shear_acoustic__N98_outer_N98_inner_f49__initial_family_energy": "03d5c343913293f0f6bfca052c442e74e5c2376eaecc0cb0f89ccdf616fef40f",
+    "mixed_shear_acoustic__N98_outer_N98_inner_f49__packet": "e31decaa812e5162b8564b5f7caa3a5d0b7869d88c832640ebdf34bf79510038",
+    "parent_patch_edges": "f7fcd1d7828efe5ebeabc64d2a6c613aa7845302e38da8a263d6a2debc24cf91",
+    "primary_time_samples_seconds": "e141063afec3b8e96f5e5efb71b969e3f6176bbde2eb77e3e298263bac96c52f",
+    "receiving_band_parent_faces": "6ba8d82726c58d1591e1d326ae854ff54ede85a2a48674d1753d9a83297314ca",
+    "reference_levels": "0edd9a5c8435601aad00b6c085e10001d29609bf3c76e4921ea8fd7834ca0677",
+    "refinement_ratios": "9dd532abaa3f08f60dcf2876d294ca10612f495359f2331a802edbd0b98d7659",
+    "shear__N98_outer_N196_inner_f49__initial_family_energy": "d4e12669eced9a77816d55f59cf48d0434f0cc12c3de8940996b9d23fc29c330",
+    "shear__N98_outer_N196_inner_f49__packet": "da6b530fe7e43b6ac593598614440d7030b30aaefa06bde0d0a1706977fad6e6",
+    "shear__N98_outer_N392_inner_f49__initial_family_energy": "d4e12669eced9a77816d55f59cf48d0434f0cc12c3de8940996b9d23fc29c330",
+    "shear__N98_outer_N392_inner_f49__packet": "b5b2c690c6c1f4efb9dcbe7f05b63ab1682218fbe579efcf4b04a10a3ff4052e",
+    "shear__N98_outer_N98_inner_f49__initial_family_energy": "d4e12669eced9a77816d55f59cf48d0434f0cc12c3de8940996b9d23fc29c330",
+    "shear__N98_outer_N98_inner_f49__packet": "ff20e5f2e176272fe388daf8f5514e1dca51040633e3233324389fd6ce65c2f6",
+    "shear_weighted_shear_acoustic__N98_outer_N196_inner_f49__initial_family_energy": "cd888f9057cefac3d963a1cf166593e9adf55d6b0571d5fa81f812a77889f293",
+    "shear_weighted_shear_acoustic__N98_outer_N196_inner_f49__packet": "1192095f6ab7a5f47bca55ad3716dc98d52cf3362002b504acfa2ab02e58b62c",
+    "shear_weighted_shear_acoustic__N98_outer_N392_inner_f49__initial_family_energy": "cd888f9057cefac3d963a1cf166593e9adf55d6b0571d5fa81f812a77889f293",
+    "shear_weighted_shear_acoustic__N98_outer_N392_inner_f49__packet": "7e2077aaa59c9544cb5853c6f78f7e62de267a499db0869f82877b08a4e4e4fc",
+    "shear_weighted_shear_acoustic__N98_outer_N98_inner_f49__initial_family_energy": "56c149b38523d778a74c3e67c81f79915dfb535da0135c36e073a22060c3ce9f",
+    "shear_weighted_shear_acoustic__N98_outer_N98_inner_f49__packet": "a56e270145cf35bd35bd7370a84eb9a2604fca413095978338aa93c0cc6f7c49",
+    "source_band_parent_faces": "48ff0f7d551ec8e01485dd5ed25621316da6faa51709af7ef2dd5e79c9c9f580",
+    "travel_windows_seconds": "61e56695c07b306680d28d46fb9ce8338decf05cc03574372a2d0948c23bf299"
+  },
+  "decisive_arrays_sha256": "01a117e550e9c435b807ee3e59e965d0b4a45ee9240b2a230190753f7c21210b",
+  "embedded_manifest_file_sha256": "043c1d7f71ee99a70419e1b59e8d371a7360798824229b752c953f6cdbd592d7",
+  "embedded_or_nonlinear_propagation_executed": false,
+  "historical_classifications_preserved": {
+    "WP10c9d6c7c2a2": "manufactured_interface_patch_rejected_unidirectional_characteristic_core",
+    "WP10c9d6c7c2a3": "one_way_physical_core_scattering_scope_frozen_uniform_validation_authorized",
+    "WP10c9d6c7c2b6d": "direct_continuum_arrival_contract_frozen_uniform_recertification_authorized",
+    "WP10c9d6c7c2b6e": "direct_continuum_uniform_arrival_class_certified_embedded_manifest_authorized"
+  },
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_direct_continuum_embedded_manifest_wp10c9d6c7c2c1.py": "965b3b45b7b1a6acbd1520241e81e69c23117350647e309b3d9d55a32ef20b2f",
+    "tests/test_causal_inner_direct_continuum_embedded_manifest_wp10c9d6c7c2c1.py": "7604b39e511046d25e54444ce4539197a0ef9a74015dd73210863bbd302bdb8a"
+  },
+  "implementation_source_manifest_sha256": "04164486b4c061e63d9c2187464060e14dc392d47d81a7722c464d09144ad8e6",
+  "input_hashes": {
+    "results/canonical/causal_inner_direct_continuum_contract_manifest_wp10c9d6c7c2b6d/contract_manifest.json": "d22be189e7276c9d18cfa45409472a288044eac3f016d1502fd1f108f7d36e94",
+    "results/canonical/causal_inner_direct_continuum_contract_manifest_wp10c9d6c7c2b6d/decisive_arrays.npz": "bc168d77fa481c64410dc42ab17246152e224efeabfe2e256695b23d2643b822",
+    "results/canonical/causal_inner_direct_continuum_uniform_recertification_wp10c9d6c7c2b6e/config.json": "74e4f497ec70cd9fe7c7c723224b4c399b03ad8e9546058c0f154d986ea54a3f",
+    "results/canonical/causal_inner_direct_continuum_uniform_recertification_wp10c9d6c7c2b6e/decisive_arrays.npz": "c7d5d06aad549d892f90c22e893b27a4adf93ce5fef7f125fd6b887b14dbcd2c",
+    "results/canonical/causal_inner_direct_continuum_uniform_recertification_wp10c9d6c7c2b6e/summary.json": "7b66ca73b845b65c17716d5c87d01b427b144376b774790c9620f56cfdd4e5c1",
+    "results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/decisive_arrays.npz": "d82fec216c5dbd44d91fda648a542ca97235a79080871065e239510d38c62927",
+    "results/canonical/causal_inner_scattering_energy_wp10c9d6c7c2a2/method_manifest.json": "c8d81ace10c36ccb87d1642179cc01517cbe13e718d7c3ad12d9f057b6635e2a",
+    "results/canonical/causal_inner_scattering_scope_wp10c9d6c7c2a3/decisive_arrays.npz": "5dd13eaf228c9e8cc04934a3ebb4ac8e729058509595b646274dc1528e1808a5",
+    "results/canonical/causal_inner_scattering_scope_wp10c9d6c7c2a3/scope_manifest.json": "e13347ad018f0a21793619573288089e1491a7b98bfa13a4aa6d1cf6e8277a0c"
+  },
+  "layout_preflight": {
+    "layouts": {
+      "N98_outer_N196_inner_f49": {
+        "common_face_radius_replay_defect": 0.0,
+        "common_parent_to_embedded_faces": {
+          "0": 0,
+          "49": 98,
+          "52": 101,
+          "6": 12,
+          "92": 141,
+          "95": 144,
+          "98": 147
+        },
+        "coupling_face_index": 98,
+        "fixed_outer_cells": 49,
+        "grid_exterior_replay_defect": 0.0,
+        "local_energy_and_causality": {
+          "all_characteristics_inward": true,
+          "maximum_characteristic_speed_over_c": -0.2274543459607056,
+          "maximum_eigenvector_condition_number": 3308.7986045620114,
+          "maximum_imaginary_part": 0.0,
+          "maximum_projector_or_energy_algebra_defect": 1.0231815394945443e-12,
+          "minimum_characteristic_gap": 0.0024669284770837407,
+          "minimum_characteristic_speed_over_c": -0.7075536673097034,
+          "minimum_energy_eigenvalue": 0.21758209501707604,
+          "passed": true
+        },
+        "matched_uniform_reference": "uniform_N196",
+        "parent_coupling_face": 49,
+        "passed": true,
+        "primitive_exterior_replay_defect": 4.316386070909122e-16,
+        "ratio_one_parent_replay_defect": null,
+        "refined_inner_cells": 98,
+        "refinement_ratio": 2,
+        "total_cells": 147
+      },
+      "N98_outer_N392_inner_f49": {
+        "common_face_radius_replay_defect": 0.0,
+        "common_parent_to_embedded_faces": {
+          "0": 0,
+          "49": 196,
+          "52": 199,
+          "6": 24,
+          "92": 239,
+          "95": 242,
+          "98": 245
+        },
+        "coupling_face_index": 196,
+        "fixed_outer_cells": 49,
+        "grid_exterior_replay_defect": 0.0,
+        "local_energy_and_causality": {
+          "all_characteristics_inward": true,
+          "maximum_characteristic_speed_over_c": -0.2274543459607056,
+          "maximum_eigenvector_condition_number": 3316.292918922769,
+          "maximum_imaginary_part": 0.0,
+          "maximum_projector_or_energy_algebra_defect": 7.958078640513122e-13,
+          "minimum_characteristic_gap": 0.0024669284770837407,
+          "minimum_characteristic_speed_over_c": -0.7082003045670076,
+          "minimum_energy_eigenvalue": 0.21758209501707604,
+          "passed": true
+        },
+        "matched_uniform_reference": "uniform_N392",
+        "parent_coupling_face": 49,
+        "passed": true,
+        "primitive_exterior_replay_defect": 4.316386070909122e-16,
+        "ratio_one_parent_replay_defect": null,
+        "refined_inner_cells": 196,
+        "refinement_ratio": 4,
+        "total_cells": 245
+      },
+      "N98_outer_N98_inner_f49": {
+        "common_face_radius_replay_defect": 0.0,
+        "common_parent_to_embedded_faces": {
+          "0": 0,
+          "49": 49,
+          "52": 52,
+          "6": 6,
+          "92": 92,
+          "95": 95,
+          "98": 98
+        },
+        "coupling_face_index": 49,
+        "fixed_outer_cells": 49,
+        "grid_exterior_replay_defect": 0.0,
+        "local_energy_and_causality": {
+          "all_characteristics_inward": true,
+          "maximum_characteristic_speed_over_c": -0.2274543459607056,
+          "maximum_eigenvector_condition_number": 3313.478226181239,
+          "maximum_imaginary_part": 0.0,
+          "maximum_projector_or_energy_algebra_defect": 6.821210263296962e-13,
+          "minimum_characteristic_gap": 0.0024669284770837407,
+          "minimum_characteristic_speed_over_c": -0.7062655750620925,
+          "minimum_energy_eigenvalue": 0.21758209501707604,
+          "passed": true
+        },
+        "matched_uniform_reference": "uniform_N98",
+        "parent_coupling_face": 49,
+        "passed": true,
+        "primitive_exterior_replay_defect": 4.316386070909122e-16,
+        "ratio_one_parent_replay_defect": 3.656215144021603e-15,
+        "refined_inner_cells": 49,
+        "refinement_ratio": 1,
+        "total_cells": 98
+      }
+    },
+    "passed": true
+  },
+  "manifest_sha256": "b75619264995378039a3424b71959f7f428bd567eafd68c6d3ea9acd554ed4de",
+  "operator_changed": false,
+  "passed": true,
+  "profile_preflight": {
+    "binding_base_count": 9,
+    "binding_variant_count": 36,
+    "maximum_family_partition_relative_defect": 2.31257426549091e-16,
+    "maximum_initial_inner_packet_norm": 0.0,
+    "maximum_parent_restriction_defect": 1.1976168128781793e-16,
+    "minimum_initial_target_family_fraction": 0.9999999999999999,
+    "passed": true,
+    "per_profile": {
+      "acoustic": {
+        "layouts": {
+          "N98_outer_N196_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.24004051268647103,
+            "packet_sha256": "c9d0f55241465e7c567d418d1815a635ad1952aece2d036886c49de448b34300",
+            "parent_restriction_defect": 1.155152907057716e-16,
+            "passed": true
+          },
+          "N98_outer_N392_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.24004051268647103,
+            "packet_sha256": "f41d239407ded677d333267c56dda0c37c45a3027cfd6dad7310317436cb8c3b",
+            "parent_restriction_defect": 1.155152907057716e-16,
+            "passed": true
+          },
+          "N98_outer_N98_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.24004051268647103,
+            "packet_sha256": "baa4f5ca1249733c9a83e3d235a78912252387cbf46bdab2c87c1f6bb9e13760",
+            "parent_restriction_defect": 1.155152907057716e-16,
+            "passed": true
+          }
+        },
+        "role": "historical_calibration",
+        "target_family_indices": [
+          0
+        ]
+      },
+      "angle_112p5_acoustic_shear": {
+        "layouts": {
+          "N98_outer_N196_inner_f49": {
+            "family_partition_relative_defect": 1.1562871327449698e-16,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0000000000000002,
+            "initial_total_energy": 0.24004051268596682,
+            "packet_sha256": "c7e8bb657c077ec5356ca892d174c4fbe8af8007df8f44d0833d398aa72a21b6",
+            "parent_restriction_defect": 7.344129083230633e-17,
+            "passed": true
+          },
+          "N98_outer_N392_inner_f49": {
+            "family_partition_relative_defect": 1.1562871327449698e-16,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0000000000000002,
+            "initial_total_energy": 0.24004051268596682,
+            "packet_sha256": "99d6a325ddf4a81cc9fa7aa6732324a3efac19960474af6372f3d672927f4cad",
+            "parent_restriction_defect": 7.344129083230633e-17,
+            "passed": true
+          },
+          "N98_outer_N98_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.24004051268596682,
+            "packet_sha256": "1a05e9351cd27b05417ea61c030a7c6d0d6ab051c4f2b04c3f446978302fba0b",
+            "parent_restriction_defect": 7.344129083230633e-17,
+            "passed": true
+          }
+        },
+        "role": "prospective_heldout",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "angle_157p5_acoustic_shear": {
+        "layouts": {
+          "N98_outer_N196_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.24004051268644824,
+            "packet_sha256": "406e49c6c695c5fc96f261fae4b6939b7dbdeb008602644044011ba14272488d",
+            "parent_restriction_defect": 1.0776666604735222e-16,
+            "passed": true
+          },
+          "N98_outer_N392_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.24004051268644824,
+            "packet_sha256": "8ec5dd56217eabf2b5ffcf1f2952f6282f9044f29e3a798480459b2d7185e591",
+            "parent_restriction_defect": 1.0776666604735222e-16,
+            "passed": true
+          },
+          "N98_outer_N98_inner_f49": {
+            "family_partition_relative_defect": 2.3125742654853017e-16,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0000000000000002,
+            "initial_total_energy": 0.24004051268644822,
+            "packet_sha256": "e2a63911c0afe2df5c687cb7851f40127096cee7f9acbe2f73bc05c2d09d89d2",
+            "parent_restriction_defect": 1.0776666604735222e-16,
+            "passed": true
+          }
+        },
+        "role": "prospective_heldout",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "angle_22p5_acoustic_shear": {
+        "layouts": {
+          "N98_outer_N196_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.2400405126862944,
+            "packet_sha256": "c6aace5671623f2882fe8264e532a4c341f9f2575d38b2d2ebbebe21e60ab2be",
+            "parent_restriction_defect": 7.307390452920842e-17,
+            "passed": true
+          },
+          "N98_outer_N392_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.2400405126862944,
+            "packet_sha256": "3f3af2d32acec308860c77d5c4a1f18bb16cc4f41a23b30dd620ec0ffd9c2a4f",
+            "parent_restriction_defect": 7.307390452920842e-17,
+            "passed": true
+          },
+          "N98_outer_N98_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.2400405126862944,
+            "packet_sha256": "63cef0a9606bb448c67c2480c6968f4e80fc2fb52f02e9568c383605b24c6bdb",
+            "parent_restriction_defect": 7.307390452920842e-17,
+            "passed": true
+          }
+        },
+        "role": "prospective_heldout",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "angle_67p5_acoustic_shear": {
+        "layouts": {
+          "N98_outer_N196_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.240040512685813,
+            "packet_sha256": "7f108a6734f07ce22364705df83eac254f22ae3b3bcaf0a18004127644724ea5",
+            "parent_restriction_defect": 7.956473636880848e-17,
+            "passed": true
+          },
+          "N98_outer_N392_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.240040512685813,
+            "packet_sha256": "040fdcddcd9636370bfca356d772e25d4bc3a8256fd2ed0e0d35a9ca1d21ec1a",
+            "parent_restriction_defect": 7.956473636880848e-17,
+            "passed": true
+          },
+          "N98_outer_N98_inner_f49": {
+            "family_partition_relative_defect": 1.1562871327457109e-16,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0000000000000002,
+            "initial_total_energy": 0.24004051268581297,
+            "packet_sha256": "5f6bc5ab66426491c1bdee9d1951cb76b1fb6c17006810d1bac14bb9a2d8f0cb",
+            "parent_restriction_defect": 7.956473636880848e-17,
+            "passed": true
+          }
+        },
+        "role": "prospective_heldout",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "difference_shear_acoustic": {
+        "layouts": {
+          "N98_outer_N196_inner_f49": {
+            "family_partition_relative_defect": 2.312574265487314e-16,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0000000000000002,
+            "initial_total_energy": 0.24004051268623933,
+            "packet_sha256": "6da7aa14bde3f1ef31d61bcc237cac6a1b4dda9b5d21bcdea0ef2cdf8da6c9bc",
+            "parent_restriction_defect": 1.1612007198981352e-16,
+            "passed": true
+          },
+          "N98_outer_N392_inner_f49": {
+            "family_partition_relative_defect": 2.312574265487314e-16,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0000000000000002,
+            "initial_total_energy": 0.24004051268623933,
+            "packet_sha256": "8c6489aa73b4f72b99579b50cbe8cd568e3954ec3fc4a177a37b18eb6c13885e",
+            "parent_restriction_defect": 1.1612007198981352e-16,
+            "passed": true
+          },
+          "N98_outer_N98_inner_f49": {
+            "family_partition_relative_defect": 2.312574265487314e-16,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0000000000000002,
+            "initial_total_energy": 0.24004051268623933,
+            "packet_sha256": "3381d3cd895b8c1d6cdcdca7e960b028469da70f2b364aa63ca331a960f145cb",
+            "parent_restriction_defect": 1.1612007198981352e-16,
+            "passed": true
+          }
+        },
+        "role": "historical_calibration",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "mixed_shear_acoustic": {
+        "layouts": {
+          "N98_outer_N196_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.2400405126860218,
+            "packet_sha256": "3cc008c23fd14b926a52fd0bae11ad0a2ad48bdfa8a44a8a81dc67b678cfb845",
+            "parent_restriction_defect": 1.1976168128781793e-16,
+            "passed": true
+          },
+          "N98_outer_N392_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.2400405126860218,
+            "packet_sha256": "f219f6311811cafffbffdb872af2d73e02eebd179137d3fc01b820718c718a4d",
+            "parent_restriction_defect": 1.1976168128781793e-16,
+            "passed": true
+          },
+          "N98_outer_N98_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.2400405126860218,
+            "packet_sha256": "e31decaa812e5162b8564b5f7caa3a5d0b7869d88c832640ebdf34bf79510038",
+            "parent_restriction_defect": 1.1976168128781793e-16,
+            "passed": true
+          }
+        },
+        "role": "historical_calibration",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "shear": {
+        "layouts": {
+          "N98_outer_N196_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.24004051268579019,
+            "packet_sha256": "da6b530fe7e43b6ac593598614440d7030b30aaefa06bde0d0a1706977fad6e6",
+            "parent_restriction_defect": 1.1815343675958075e-16,
+            "passed": true
+          },
+          "N98_outer_N392_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.24004051268579019,
+            "packet_sha256": "b5b2c690c6c1f4efb9dcbe7f05b63ab1682218fbe579efcf4b04a10a3ff4052e",
+            "parent_restriction_defect": 1.1815343675958075e-16,
+            "passed": true
+          },
+          "N98_outer_N98_inner_f49": {
+            "family_partition_relative_defect": 0.0,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0,
+            "initial_total_energy": 0.24004051268579019,
+            "packet_sha256": "ff20e5f2e176272fe388daf8f5514e1dca51040633e3233324389fd6ce65c2f6",
+            "parent_restriction_defect": 1.1815343675958075e-16,
+            "passed": true
+          }
+        },
+        "role": "historical_calibration",
+        "target_family_indices": [
+          1
+        ]
+      },
+      "shear_weighted_shear_acoustic": {
+        "layouts": {
+          "N98_outer_N196_inner_f49": {
+            "family_partition_relative_defect": 1.1562871327454547e-16,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 0.9999999999999999,
+            "initial_total_energy": 0.24004051268586618,
+            "packet_sha256": "1192095f6ab7a5f47bca55ad3716dc98d52cf3362002b504acfa2ab02e58b62c",
+            "parent_restriction_defect": 1.1208640167167083e-16,
+            "passed": true
+          },
+          "N98_outer_N392_inner_f49": {
+            "family_partition_relative_defect": 1.1562871327454547e-16,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 0.9999999999999999,
+            "initial_total_energy": 0.24004051268586618,
+            "packet_sha256": "7e2077aaa59c9544cb5853c6f78f7e62de267a499db0869f82877b08a4e4e4fc",
+            "parent_restriction_defect": 1.1208640167167083e-16,
+            "passed": true
+          },
+          "N98_outer_N98_inner_f49": {
+            "family_partition_relative_defect": 2.31257426549091e-16,
+            "initial_inner_packet_norm": 0.0,
+            "initial_target_family_fraction": 1.0000000000000002,
+            "initial_total_energy": 0.24004051268586613,
+            "packet_sha256": "a56e270145cf35bd35bd7370a84eb9a2604fca413095978338aa93c0cc6f7c49",
+            "parent_restriction_defect": 1.1208640167167083e-16,
+            "passed": true
+          }
+        },
+        "role": "historical_calibration",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      }
+    }
+  },
+  "propagation_executed": false,
+  "runtime_seconds": 19.393118417123333,
+  "schema_version": 1,
+  "source_parent_commit": "d29cba5d5bfe5950cba4e458a6ff8b458e1364de",
+  "uniform_parent_classification": "direct_continuum_uniform_arrival_class_certified_embedded_manifest_authorized",
+  "work_package": "WP10c9d6c7c2c1"
+}

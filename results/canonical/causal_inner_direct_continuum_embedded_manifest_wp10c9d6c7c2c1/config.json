@@ -1,0 +1,49 @@
+{
+  "authorized_next": "WP10c9d6c7c2c2_fixed_exterior_continuum_reference_preflight",
+  "binding_bases": [
+    "acoustic",
+    "shear",
+    "mixed_shear_acoustic",
+    "difference_shear_acoustic",
+    "shear_weighted_shear_acoustic",
+    "angle_22p5_acoustic_shear",
+    "angle_67p5_acoustic_shear",
+    "angle_112p5_acoustic_shear",
+    "angle_157p5_acoustic_shear"
+  ],
+  "binding_variant_count": 36,
+  "common_parent_faces": [
+    0,
+    6,
+    49,
+    52,
+    92,
+    95,
+    98
+  ],
+  "continuum_nodes": [
+    513,
+    769
+  ],
+  "layout_labels": [
+    "N98_outer_N98_inner_f49",
+    "N98_outer_N196_inner_f49",
+    "N98_outer_N392_inner_f49"
+  ],
+  "operator_changed": false,
+  "parent_cells": 98,
+  "parent_coupling_face": 49,
+  "propagation_executed": false,
+  "reference_levels": [
+    98,
+    196,
+    392
+  ],
+  "refinement_ratios": [
+    1,
+    2,
+    4
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c2c1"
+}
