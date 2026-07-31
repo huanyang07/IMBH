@@ -1,0 +1,270 @@
+{
+  "arrival_history_definition": {
+    "amplitude_shape_separation": {
+      "amplitude": "maximum and time-averaged response over the frozen travel-time window",
+      "peak_time_reported_separately": true,
+      "unit_shape": "G_h(t)/max_t(abs(G_h(t))) for an observable response"
+    },
+    "binding_accuracy_normalization": "response-relative, using max(max_t(abs(G_reference)),1)",
+    "c2b4_result_reclassified": false,
+    "old_initial_energy_absolute_0p05_gate_reused": false,
+    "physical_gain_may_exceed_one": true,
+    "reference": {
+      "maximum_primary_secondary_difference_to_medium_fine": 0.1,
+      "no_grid_trajectory_may_be_called_exact": true,
+      "primary": "independent 769-node continuum/collocation trajectory",
+      "secondary": "independent 513-node continuum/collocation trajectory",
+      "stop_if_independent_history_reference_unavailable": true
+    },
+    "reported_physical_gain": "G_h(t)=E_receiving,h(t)/E_initial_source,h"
+  },
+  "authorized_next": "WP10c9d6c7c2b6b_revised_uniform_arrival_transfer_recertification",
+  "binding_decision": {
+    "embedded_authorized": false,
+    "fixed_Q_or_reduction_authorized": false,
+    "historical_classifications_preserved": true,
+    "nonlinear_authorized": false,
+    "operator_or_interface_redesign_authorized": false,
+    "profile_manifest_certified": true,
+    "raw_local_family_leakage_certifying": false,
+    "revised_uniform_contract_frozen": true,
+    "uniform_b6b_recertification_authorized": true
+  },
+  "certification_tiers": {
+    "tier_III_nonlinear": {
+      "authorized": false,
+      "binding": false
+    },
+    "tier_II_arrival_and_transfer": {
+      "binding": true,
+      "observables": [
+        "positive_total_receiving_band_energy",
+        "projector_qualified_target_family_energy",
+        "total_covariant_transfer_work",
+        "target_receiver_covariant_transfer_work",
+        "exact_block_source_receiver_transfer_closure",
+        "stored_energy_and_physical_work_balance"
+      ]
+    },
+    "tier_II_diagnostics_noncertifying_alone": [
+      "raw_local_opposite_family_stored_energy",
+      "individual_block_dominance",
+      "frozen_receiving_band_midpoint_family_energy",
+      "pointwise_interface_stress"
+    ],
+    "tier_I_primary_physics": {
+      "binding": true,
+      "contract": "unchanged_from_c2b4",
+      "observables": [
+        "five_field_state_history",
+        "inner_M_J_E_export",
+        "coupling_M_J_E_export",
+        "net_M_J_E_drive",
+        "cooling",
+        "responsive_height_work",
+        "exact_conservative_ledgers"
+      ]
+    }
+  },
+  "classification": "revised_uniform_arrival_transfer_contract_frozen_recertification_authorized",
+  "covariant_transfer_contract": {
+    "binding_integrals": [
+      "total_receiver_work",
+      "target_family_receiver_work"
+    ],
+    "block_source_receiver_tensor": "T_brs=<P_r u,H G_b P_s u> with the certified exact descriptor-reduced ten-block generator",
+    "family_rate": "dE_f/dt = 0.5 u.T (G.T Q_f + Q_f G) u",
+    "maximum_family_partition_power_and_block_closure_defect": 2e-09,
+    "no_block_specific_intervention_without_two_pair_truncation": true,
+    "one_large_block_is_not_causal_evidence": true,
+    "reported_nonbinding_integrals": [
+      "opposite_family_receiver_work",
+      "individual_block_source_receiver_work"
+    ]
+  },
+  "decision_table": {
+    "all_tier_I_and_binding_tier_II_and_heldouts_pass": "certify revised uniform arrival/transfer class and authorize a definitions-only embedded manifest",
+    "binding_calibration_or_heldout_profile_fails": "freeze the exact failure and authorize local DAE/observable audit only; do not tune the contract",
+    "independent_continuum_history_unavailable_or_fails": "stop uniform recertification; no embedded interpretation",
+    "projector_or_transfer_identity_fails": "repair the observable definition; no embedded work",
+    "raw_local_leakage_fails_but_binding_transfer_passes": "report raw leakage as projector-rotation diagnostic; it does not reject the revised uniform class",
+    "stable_two_pair_block_truncation_failure": "authorize only the selected local block audit"
+  },
+  "geometry_and_windows": {
+    "c2b5a_terminal_tail_contract_retained": true,
+    "receiving_band_faces_N98": [
+      6,
+      49
+    ],
+    "reference_levels": [
+      98,
+      196,
+      392
+    ],
+    "reuse_exact_c2b3_travel_time_windows": true,
+    "source_band_faces_N98": [
+      52,
+      95
+    ],
+    "time_stride_diagnostics": [
+      1,
+      2,
+      4
+    ],
+    "windows_may_not_move_from_observed_histories": true
+  },
+  "hard_stops": [
+    "do_not_relabel_c2b4_c2b5a_or_c2b5b",
+    "do_not_use_raw_local_leakage_as_a_standalone_gate",
+    "do_not_call_the_frozen_midpoint_projector_physical",
+    "do_not_change_the_operator_or_interface",
+    "do_not_propagate_in_c2b6a",
+    "do_not_run_embedded_or_nonlinear_work",
+    "do_not_run_N1024",
+    "do_not_begin_fixed_Q_or_reduced_slow_time_evolution"
+  ],
+  "historical_classifications_preserved": {
+    "WP10c9d6c7c2b4": "one_way_uniform_arrival_energy_validation_failed_embedded_discrimination_blocked",
+    "WP10c9d6c7c2b5a": "arrival_history_conditioning_and_horizon_audit_complete_shear_family_transfer_audit_required",
+    "WP10c9d6c7c2b5b": "raw_local_family_leakage_projector_rotation_sensitive_revised_transfer_observable_manifest_authorized"
+  },
+  "manifest_sha256": "0d583751e029c466b585fb9761d588ac8f44fd6ff6078806b9432be3716c16cb",
+  "operator_changed": false,
+  "profile_manifest": {
+    "amplitude_and_sign_variants_are_controls_not_independent_profiles": true,
+    "amplitude_factors": [
+      0.5,
+      1.0
+    ],
+    "binding_base_count": 5,
+    "binding_variant_count": 20,
+    "calibration_bases": [
+      "acoustic",
+      "shear",
+      "mixed_shear_acoustic"
+    ],
+    "heldouts_frozen_before_recertification_propagation": true,
+    "maximum_initial_family_partition_relative_defect": 2.3125742654825017e-16,
+    "minimum_initial_target_family_fraction": 1.0,
+    "passed": true,
+    "per_profile": {
+      "acoustic": {
+        "initial_family_partition_relative_defect": 1.1562871327412506e-16,
+        "initial_source_energy": 0.24004051268673893,
+        "initial_target_family_fraction": 1.0000000000000002,
+        "packet_sha256": "baa4f5ca1249733c9a83e3d235a78912252387cbf46bdab2c87c1f6bb9e13760",
+        "role": "calibration",
+        "target_family_indices": [
+          0
+        ]
+      },
+      "difference_shear_acoustic": {
+        "initial_family_partition_relative_defect": 2.3125742654825017e-16,
+        "initial_source_energy": 0.24004051268673887,
+        "initial_target_family_fraction": 1.0000000000000002,
+        "packet_sha256": "3381d3cd895b8c1d6cdcdca7e960b028469da70f2b364aa63ca331a960f145cb",
+        "role": "prospective_heldout",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "mixed_shear_acoustic": {
+        "initial_family_partition_relative_defect": 1.1562871327412506e-16,
+        "initial_source_energy": 0.2400405126867389,
+        "initial_target_family_fraction": 1.0000000000000002,
+        "packet_sha256": "e31decaa812e5162b8564b5f7caa3a5d0b7869d88c832640ebdf34bf79510038",
+        "role": "calibration",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "shear": {
+        "initial_family_partition_relative_defect": 0.0,
+        "initial_source_energy": 0.24004051268673893,
+        "initial_target_family_fraction": 1.0,
+        "packet_sha256": "ff20e5f2e176272fe388daf8f5514e1dca51040633e3233324389fd6ce65c2f6",
+        "role": "calibration",
+        "target_family_indices": [
+          1
+        ]
+      },
+      "shear_weighted_shear_acoustic": {
+        "initial_family_partition_relative_defect": 2.312574265482501e-16,
+        "initial_source_energy": 0.2400405126867389,
+        "initial_target_family_fraction": 1.0000000000000002,
+        "packet_sha256": "a56e270145cf35bd35bd7370a84eb9a2604fca413095978338aa93c0cc6f7c49",
+        "role": "prospective_heldout",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      }
+    },
+    "prospective_heldout_bases": [
+      "difference_shear_acoustic",
+      "shear_weighted_shear_acoustic"
+    ],
+    "signs": [
+      -1,
+      1
+    ]
+  },
+  "projector_contract": {
+    "common_high_resolution_local_field": "cross_grid_definition_sensitivity_diagnostic",
+    "frozen_midpoint_projector": "rotation_diagnostic_only_not_equivalent_uncertainty",
+    "hard_stop_on_unresolved_spectral_cluster": true,
+    "maximum_equivalent_local_projector_difference": 2e-08,
+    "maximum_projector_algebra_defect": 2e-09,
+    "physical_definition": "local descriptor-compatible energy-orthogonal invariant subspaces on the frozen background",
+    "raw_opposite_family_leakage_is_noncertifying": true,
+    "required_algorithms": [
+      "overlap_tracked_local_generalized_eigenvector_projector",
+      "local_polynomial_spectral_projector"
+    ]
+  },
+  "propagation_executed": false,
+  "schema_version": 1,
+  "scientific_interpretation": {
+    "old_absolute_arrival_history_contract_rejected": true,
+    "positive_energy_rejected": false,
+    "raw_local_opposite_family_leakage_certifying": false,
+    "reason": "c2b5a identified an initial-energy absolute normalization that becomes ill-conditioned at large physical gain; c2b5b showed that raw local family leakage mixes spatial projector rotation while all local DAE blocks converge",
+    "tier_I_direct_physics_rejected": false,
+    "uniform_operator_rejected": false
+  },
+  "uncertainty_contract": {
+    "combination": "conservative deterministic sum or directly measured nuisance envelope; root-sum-square is forbidden unless independence or measured covariance is demonstrated",
+    "components": [
+      "independent_continuum_history_reference",
+      "analytic_finite_volume_projection",
+      "equivalent_local_projector_algorithm",
+      "receiving_band_placement",
+      "arrival_window_placement",
+      "time_sampling_and_quadrature",
+      "restart",
+      "roundoff"
+    ],
+    "error_direction_rule": "both refinement-error norms must exceed their complete conservative envelopes by the observability factor; otherwise direction is non-certifying, not pass or fail",
+    "maximum_reference_uncertainty_to_medium_fine_difference": 0.1,
+    "no_slow_impact_threshold": true,
+    "observability_factor": 5.0
+  },
+  "uniform_gates": {
+    "exact_conservative_ledgers": true,
+    "exact_restart_replay": true,
+    "maximum_continuum_action_difference": 2e-05,
+    "maximum_continuum_history_to_medium_fine_difference": 0.1,
+    "maximum_fine_response_relative_difference": 0.05,
+    "maximum_scaling_and_sign_symmetry_defect": 1e-10,
+    "maximum_transfer_closure_defect": 2e-09,
+    "minimum_RMS_order": 0.75,
+    "minimum_component_order": 0.75,
+    "minimum_continuum_action_truncation_order": 0.75,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_observable_refinement_error_cosine": 0.9
+  },
+  "work_package": "WP10c9d6c7c2b6a"
+}
