@@ -1,0 +1,27 @@
+{
+  "analyzed_base_commit": "f89c368dc3154140352678ad1c3a98692d88b1aa",
+  "layouts": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "output_sample_count": 65,
+  "physical_horizon_seconds": 0.125,
+  "profile_kind": "primary_physical",
+  "profiles": [
+    "p4__inward_shear",
+    "p4__outward_shear",
+    "p3_buffer45__inward_shear",
+    "p3_buffer45__outward_shear"
+  ],
+  "schema_version": 1,
+  "short_preflight_steps": 4,
+  "short_preflight_timestep_seconds": 1e-05,
+  "variant_multipliers": [
+    1.0,
+    -1.0,
+    0.5,
+    -0.5
+  ],
+  "work_package": "WP10c9d6c7c3a1"
+}

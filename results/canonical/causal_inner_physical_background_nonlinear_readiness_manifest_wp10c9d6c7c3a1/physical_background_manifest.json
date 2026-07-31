@@ -1,0 +1,91 @@
+{
+  "authorized_next": "WP10c9d6c7c3b1_monolithic_bdf_method_preflight",
+  "c3a_manufactured_background_rejection_preserved": true,
+  "c7c1b_strict_auxiliary_rejection_preserved": true,
+  "classification": "physical_embedded_background_nonlinear_ready_monolithic_bdf_method_preflight_authorized",
+  "hard_stops": [
+    "no physical nonlinear ladder before c3b1 passes",
+    "no production default change",
+    "no fixed-Q or reduced evolution",
+    "no N1024 rescue",
+    "do not relabel c7c1b or c3a"
+  ],
+  "method_preflight_contract": {
+    "BDF2_split_restart_replay": "bitwise",
+    "fixed_steps": 4,
+    "fixed_timestep_seconds": 1e-05,
+    "incoming_excision_characteristics": 0,
+    "layouts": [
+      "N128_exterior_N128_inner_c48",
+      "N128_exterior_N256_inner_c48",
+      "N128_exterior_N512_inner_c48"
+    ],
+    "maximum_dense_colored_jacobian_defect": 1e-10,
+    "maximum_discrete_ledger_defect": 1e-12,
+    "maximum_independent_JVP_defect": 1e-06,
+    "maximum_scaled_algebraic_residual": 1e-10,
+    "maximum_scaled_residual": 1e-10,
+    "profiles": [
+      "p4__inward_shear",
+      "p4__outward_shear",
+      "p3_buffer45__inward_shear",
+      "p3_buffer45__outward_shear"
+    ],
+    "variant_multipliers": [
+      1.0,
+      -1.0,
+      0.5,
+      -0.5
+    ]
+  },
+  "nonlinear_response_contract": {
+    "comparison": "perturbed nonlinear run minus independently evolved unperturbed background on the same layout",
+    "horizon_seconds": 0.125,
+    "output_sample_count": 65,
+    "state_restriction": "exact conservative restriction to the common 64-cell parent grid",
+    "tier_II_integrated_energy_reported_nonpromoted": true,
+    "tier_I_binding": true
+  },
+  "operator_changed": false,
+  "physical_background_contract": {
+    "audit": {
+      "maximum_center_broken_path_adjustment": 6.2760433186501724e-09,
+      "maximum_coupling_trace_jump": 8.320781922756786e-06,
+      "maximum_h_over_r": 0.09879272693031896,
+      "maximum_incoming_excision_characteristics": 0,
+      "maximum_monolithic_block_ledger_defect": 0.0,
+      "maximum_restriction_defect": 7.544570932108066e-16,
+      "minimum_base_path_reconstruction_factor": 1.0,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 18.925172486261186,
+      "passed": true,
+      "variant_count": 48
+    },
+    "coupling_parent_face": 48,
+    "layouts": [
+      "N128_exterior_N128_inner_c48",
+      "N128_exterior_N256_inner_c48",
+      "N128_exterior_N512_inner_c48"
+    ],
+    "profile_kind": "primary_physical",
+    "profiles": [
+      "p4__inward_shear",
+      "p4__outward_shear",
+      "p3_buffer45__inward_shear",
+      "p3_buffer45__outward_shear"
+    ],
+    "rule": "smooth physical inner continuum projection plus one common committed physical N128 exterior",
+    "source": "WP10c9d6c7a committed spliced physical background",
+    "variant_multipliers": [
+      1.0,
+      -1.0,
+      0.5,
+      -0.5
+    ]
+  },
+  "propagation_executed": false,
+  "schema_version": 1,
+  "tier_II_interface_observability": "unresolved_nonpromoted",
+  "tier_I_direct_physics_eligibility": "all_16_c7c1b_direct_state_and_13_export_contracts_passed",
+  "work_package": "WP10c9d6c7c3a1"
+}
