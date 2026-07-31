@@ -1,0 +1,189 @@
+{
+  "alternate_route_limits": {
+    "global_RMS_order_still_binding": true,
+    "global_fine_difference_still_binding": true,
+    "global_history_cosine_still_binding": true,
+    "global_maximum_order_still_binding": true,
+    "global_refinement_error_cosine_still_binding": true,
+    "may_replace_only_failed_significant_component_order": true,
+    "non_boundary_component_failure_is_binding_failure": true
+  },
+  "binding_profiles": [
+    {
+      "acoustic_shear_coefficients": [
+        0.9807852804032304,
+        0.19509032201612825
+      ],
+      "angle_degrees": 11.25,
+      "name": "unseen_angle_11p25_acoustic_shear",
+      "role": "prospective_unseen_heldout"
+    },
+    {
+      "acoustic_shear_coefficients": [
+        0.8314696123025452,
+        0.5555702330196022
+      ],
+      "angle_degrees": 33.75,
+      "name": "unseen_angle_33p75_acoustic_shear",
+      "role": "prospective_unseen_heldout"
+    },
+    {
+      "acoustic_shear_coefficients": [
+        0.5555702330196023,
+        0.8314696123025452
+      ],
+      "angle_degrees": 56.25,
+      "name": "unseen_angle_56p25_acoustic_shear",
+      "role": "prospective_unseen_heldout"
+    },
+    {
+      "acoustic_shear_coefficients": [
+        0.19509032201612833,
+        0.9807852804032304
+      ],
+      "angle_degrees": 78.75,
+      "name": "unseen_angle_78p75_acoustic_shear",
+      "role": "prospective_unseen_heldout"
+    },
+    {
+      "acoustic_shear_coefficients": [
+        -0.1950903220161282,
+        0.9807852804032304
+      ],
+      "angle_degrees": 101.25,
+      "name": "unseen_angle_101p25_acoustic_shear",
+      "role": "prospective_unseen_heldout"
+    },
+    {
+      "acoustic_shear_coefficients": [
+        -0.5555702330196024,
+        0.8314696123025451
+      ],
+      "angle_degrees": 123.75,
+      "name": "unseen_angle_123p75_acoustic_shear",
+      "role": "prospective_unseen_heldout"
+    },
+    {
+      "acoustic_shear_coefficients": [
+        -0.8314696123025453,
+        0.5555702330196022
+      ],
+      "angle_degrees": 146.25,
+      "name": "unseen_angle_146p25_acoustic_shear",
+      "role": "prospective_unseen_heldout"
+    },
+    {
+      "acoustic_shear_coefficients": [
+        -0.9807852804032304,
+        0.19509032201612816
+      ],
+      "angle_degrees": 168.75,
+      "name": "unseen_angle_168p75_acoustic_shear",
+      "role": "prospective_unseen_heldout"
+    }
+  ],
+  "component_order_routes": {
+    "alternate_route": {
+      "eligible_components": [
+        "inner_mass_flux",
+        "inner_angular_momentum_flux",
+        "inner_killing_energy_flux",
+        "coupling_mass_flux",
+        "coupling_angular_momentum_flux",
+        "coupling_killing_energy_flux"
+      ],
+      "maximum_exact_integral_solve_residual": 1e-10,
+      "maximum_fixed_scale_RMS_error": 0.05,
+      "maximum_fixed_scale_maximum_error": 0.05,
+      "maximum_reference_uncertainty_fixed_scale": 0.005000000000000001,
+      "maximum_reference_uncertainty_response_relative": 0.005000000000000001,
+      "maximum_response_relative_RMS_error": 0.05,
+      "maximum_response_relative_maximum_error": 0.05,
+      "minimum_continuum_history_cosine": 0.9,
+      "name": "fixed_exterior_direct_continuum_absolute_envelope",
+      "reference_nodes": [
+        513,
+        769
+      ],
+      "requires_all_three_embedded_levels_inside_envelope": true,
+      "strict_direct_error_order_required": false
+    },
+    "primary_route": {
+      "minimum_order": 0.75,
+      "name": "unchanged_pairwise_component_order"
+    }
+  },
+  "decision": {
+    "absolute_envelope_failure": "freeze_exact_failure_and_localize_against_continuum",
+    "all_profiles_pass": "certify_declared_linear_embedded_class_and_authorize_definitions_only_bounded_nonlinear_manifest",
+    "non_boundary_component_failure": "reject_recertification_without_metric_tuning"
+  },
+  "hard_stops": [
+    "do_not_amend_c2c3",
+    "do_not_change_operator_or_interface",
+    "do_not_change_thresholds_after_propagation",
+    "do_not_run_N1024",
+    "do_not_start_nonlinear_before_complete_recertification",
+    "do_not_start_fixed_Q_or_reduced_evolution"
+  ],
+  "historical_c2c3_rejection_preserved": true,
+  "layouts": [
+    {
+      "coupling_parent_face": 49,
+      "label": "N98_outer_N98_inner_f49",
+      "outer_parent_resolution": 98,
+      "refinement_ratio": 1
+    },
+    {
+      "coupling_parent_face": 49,
+      "label": "N98_outer_N196_inner_f49",
+      "outer_parent_resolution": 98,
+      "refinement_ratio": 2
+    },
+    {
+      "coupling_parent_face": 49,
+      "label": "N98_outer_N392_inner_f49",
+      "outer_parent_resolution": 98,
+      "refinement_ratio": 4
+    }
+  ],
+  "manifest_sha256": "8f76627e89985a42fec9d733587b5d26b78c4f3270033dd9d538aaf716749a2c",
+  "operator_changed": false,
+  "propagation_executed": false,
+  "schema_version": 1,
+  "tier_I_global_contract": {
+    "active_prefix": "cells_strictly_inside_coupling_face",
+    "exact_prefix_and_global_ledgers": true,
+    "historical_order_difference_and_cosine_gates_unchanged": true,
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_RMS_order": 0.75,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_significant_component_order": 0.75,
+    "observables": [
+      "state",
+      "inner_mass_flux",
+      "inner_angular_momentum_flux",
+      "inner_killing_energy_flux",
+      "coupling_mass_flux_when_active",
+      "coupling_angular_momentum_flux_when_active",
+      "coupling_killing_energy_flux_when_active",
+      "net_mass_drive",
+      "net_angular_momentum_drive",
+      "net_killing_energy_drive",
+      "cooling",
+      "responsive_height_work"
+    ],
+    "one_shared_conservative_face_flux": true,
+    "state_comparison": "conservative_restriction_to_the_common_N98_parent_grid"
+  },
+  "variant_count": 32,
+  "variant_multipliers": [
+    1.0,
+    -1.0,
+    0.5,
+    -0.5
+  ],
+  "work_package": "WP10c9d6c7c2c5"
+}

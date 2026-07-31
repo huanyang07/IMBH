@@ -1,0 +1,65 @@
+{
+  "analyzed_base_commit": "f2e90efbf3c5a2293d7ed7455609fc1bdbba4c31",
+  "authorized_next": "WP10c9d6c7c2c6_direct_continuum_embedded_recertification",
+  "binding_decision": {
+    "embedded_recertification_authorized": true,
+    "fixed_Q_or_reduced_evolution_authorized": false,
+    "nonlinear_propagation_authorized": false,
+    "operator_or_interface_redesign_authorized": false,
+    "two_route_contract_frozen": true
+  },
+  "classification": "direct_continuum_embedded_two_route_contract_frozen_recertification_authorized",
+  "config_sha256": "879d646a942f215f2abcfa9175968e1469e26e3865585f7171aa2f58134828b9",
+  "decisive_array_hashes": {
+    "N98_outer_N196_inner_f49__packets": "ea62983e44cd3c13e8af731cb17b8b9e6dbc708208cba252bc9cabe32e3dbad3",
+    "N98_outer_N196_inner_f49__restricted_parent_packets": "30bd2fde8732f9e2a426d65005964071a492da784c77b3f1b24480ff778d1745",
+    "N98_outer_N392_inner_f49__packets": "f4af3f57f3c69145cb1a8ff27fcfa7d86ff261722c8a26ac440f12a164d0d6e1",
+    "N98_outer_N392_inner_f49__restricted_parent_packets": "30bd2fde8732f9e2a426d65005964071a492da784c77b3f1b24480ff778d1745",
+    "N98_outer_N98_inner_f49__packets": "7431c076a22b86cb52bd77dcc260355e9ca81c722d60ec96fd3c972b6db80b22",
+    "N98_outer_N98_inner_f49__restricted_parent_packets": "30bd2fde8732f9e2a426d65005964071a492da784c77b3f1b24480ff778d1745",
+    "acoustic_shear_coefficients": "dc0cb462f0d860dc6d2a971efd5f73cdfae90ddce5293a1f8511d11a8fa60a4a",
+    "angles_degrees": "18367a2c16ad85c3b537dd4af4e29cc94466deebd45773552c611ec133a896c9",
+    "common_parent_packets": "30bd2fde8732f9e2a426d65005964071a492da784c77b3f1b24480ff778d1745",
+    "profile_names_utf8": "08aa6f36397bf073d37efd6f52bbcca91e272ac8d88d3d20905b82a9d7685dd1",
+    "variant_multipliers": "8662fefd404a7599763375cf3943215cbde5f9cffb8d9266e90b09b5737524ba"
+  },
+  "decisive_arrays_sha256": "4b25e897b5ec756d53b95aaab0be8657dcc4ed101330cf6ee085f2776af4e01f",
+  "historical_c2c3_classification_preserved": "direct_continuum_embedded_discrimination_failed_nonlinear_blocked",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_direct_continuum_embedded_recertification_manifest_wp10c9d6c7c2c5.py": "f481cc0ff2b23f6a12ca6f65b196b0e9e36ed4c15af89f95ea6007d643b9c5df",
+    "tests/test_causal_inner_direct_continuum_embedded_recertification_manifest_wp10c9d6c7c2c5.py": "f16a8f5459f548379c7be720a02d0b40e447484bbe6e47ab1d546e87de471846"
+  },
+  "implementation_source_manifest_sha256": "91058db61d5dbff15cda26276c0474a9541c6a394a4af75ce305f4f751076432",
+  "input_hashes": {
+    "results/canonical/causal_inner_direct_continuum_embedded_manifest_wp10c9d6c7c2c1/decisive_arrays.npz": "01a117e550e9c435b807ee3e59e965d0b4a45ee9240b2a230190753f7c21210b",
+    "results/canonical/causal_inner_direct_continuum_embedded_manifest_wp10c9d6c7c2c1/embedded_manifest.json": "043c1d7f71ee99a70419e1b59e8d371a7360798824229b752c953f6cdbd592d7",
+    "results/canonical/causal_inner_embedded_cumulative_flux_diagnostic_wp10c9d6c7c2c4/decisive_arrays.npz": "a72456ea6b38461531ba60f0e43209b14a5088f66df87949e929e196af52eaa6",
+    "results/canonical/causal_inner_embedded_cumulative_flux_diagnostic_wp10c9d6c7c2c4/summary.json": "b2fd9d54dceaf407104cc793fdae0795b537b33b27496a34cc5ffdaab69c5ff5"
+  },
+  "manifest_sha256": "8f76627e89985a42fec9d733587b5d26b78c4f3270033dd9d538aaf716749a2c",
+  "operator_changed": false,
+  "passed": true,
+  "profile_audit": {
+    "coefficient_norm_defect": 0.0,
+    "initial_inner_activity_by_layout": {
+      "N98_outer_N196_inner_f49": 0.0,
+      "N98_outer_N392_inner_f49": 0.0,
+      "N98_outer_N98_inner_f49": 0.0
+    },
+    "maximum_initial_inner_activity": 0.0,
+    "maximum_restriction_defect": 0.0,
+    "passed": true,
+    "restriction_defects": {
+      "N98_outer_N196_inner_f49": 0.0,
+      "N98_outer_N392_inner_f49": 0.0,
+      "N98_outer_N98_inner_f49": 0.0
+    }
+  },
+  "profile_count": 8,
+  "propagation_executed": false,
+  "recertification_manifest_file_sha256": "bbb2abb555a58ec2ced73eb7dfed7292b7ac4af5ef86193084837606f359ee27",
+  "schema_version": 1,
+  "source_parent_commit": "f2e90efbf3c5a2293d7ed7455609fc1bdbba4c31",
+  "variant_count": 32,
+  "work_package": "WP10c9d6c7c2c5"
+}
