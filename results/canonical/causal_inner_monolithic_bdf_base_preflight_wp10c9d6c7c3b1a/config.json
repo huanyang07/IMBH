@@ -1,0 +1,25 @@
+{
+  "analyzed_base_commit": "276d693e648549427903182a51af84c5fb21a120",
+  "fixed_steps": 4,
+  "fixed_timestep_seconds": 1e-05,
+  "full_profile_variant_matrix_deferred_to_c3b1b": true,
+  "gates": {
+    "maximum_dense_colored_jacobian_defect": 1e-10,
+    "maximum_discrete_ledger_defect": 1e-12,
+    "maximum_h_over_r": 0.25,
+    "maximum_independent_jvp_defect": 1e-06,
+    "maximum_mapped_endpoint_path_closure_defect": 2e-08,
+    "maximum_scaled_algebraic_residual": 1e-10,
+    "maximum_scaled_residual": 1e-10,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0
+  },
+  "layouts": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "mapped_storage_representation": "stable analytic path integral of the exact mapped differential; endpoint subtraction retained as an independent closure audit",
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b1a"
+}
