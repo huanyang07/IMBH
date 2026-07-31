@@ -1,0 +1,316 @@
+{
+  "authorized_next": "WP10c9d6c7c2b6e_direct_continuum_uniform_recertification",
+  "binding_decision": {
+    "direct_continuum_contract_frozen": true,
+    "embedded_authorized": false,
+    "fixed_Q_or_reduction_authorized": false,
+    "historical_classifications_preserved": true,
+    "nonlinear_authorized": false,
+    "operator_or_interface_redesign_authorized": false,
+    "profile_manifest_certified": true,
+    "uniform_b6e_recertification_authorized": true
+  },
+  "certification_tiers": {
+    "noncertifying_diagnostics": [
+      "pairwise_refinement_error_direction_for_arrival_histories",
+      "raw_local_opposite_family_stored_energy",
+      "individual_block_dominance",
+      "pointwise_interface_stress"
+    ],
+    "tier_III_nonlinear": {
+      "authorized": false,
+      "binding": false
+    },
+    "tier_II_covariant_transfer": {
+      "binding": true,
+      "contract": "unchanged_exact_block_source_receiver_transfer",
+      "maximum_closure_defect": 2e-09
+    },
+    "tier_II_direct_continuum_arrival": {
+      "binding": true,
+      "observables": [
+        "positive_total_receiving_band_energy_gain",
+        "projector_qualified_target_family_energy_gain",
+        "unit_shape_history",
+        "time_average",
+        "peak_amplitude",
+        "peak_time"
+      ]
+    },
+    "tier_I_primary_physics": {
+      "binding": true,
+      "contract": "unchanged_pairwise_state_and_13_export_contract",
+      "maximum_fine_normalized_difference": 0.05,
+      "minimum_history_cosine": 0.9,
+      "minimum_order": 0.75,
+      "minimum_refinement_error_cosine": 0.9
+    }
+  },
+  "classification": "direct_continuum_arrival_contract_frozen_uniform_recertification_authorized",
+  "continuum_reference_contract": {
+    "maximum_N769_N513_history_difference_to_N392_direct_error": 0.1,
+    "maximum_continuum_action_difference": 2e-05,
+    "reference_must_use_complete_DAE_generator_blocks": true,
+    "reference_reuse_requires_source_and_configuration_hash_match": true,
+    "stop_if_either_reference_is_unavailable": true
+  },
+  "decision_table": {
+    "all_calibration_and_unseen_profiles_pass": "certify the declared uniform direct-continuum class and authorize a definitions-only embedded manifest",
+    "calibration_passes_but_unseen_profile_fails": "freeze the exact unseen failure and run one local DAE/observable audit; do not tune gates or profiles",
+    "calibration_profile_fails": "preserve the failure and re-audit the direct reference; no embedded work",
+    "continuum_reference_fails": "repair or strengthen the independent reference before interpreting finite-grid results",
+    "only_pairwise_error_direction_rotates": "report it as pre-asymptotic diagnostics; do not reject a passing direct-continuum contract",
+    "stable_noncontracting_DAE_block_is_selected": "authorize only that local block audit"
+  },
+  "direct_continuum_contract": {
+    "direct_error_orders": [
+      "log2(norm(e_N98)/norm(e_N196))",
+      "log2(norm(e_N196)/norm(e_N392))"
+    ],
+    "finite_levels": [
+      98,
+      196,
+      392
+    ],
+    "history_error": "e_h(t)=G_h(t)-G_N769(t), evaluated on the same frozen travel-time samples and physical window",
+    "maximum_N392_peak_response_relative_error": 0.05,
+    "maximum_N392_peak_time_error_fraction_of_window": 0.05,
+    "maximum_N392_response_relative_RMS_error": 0.05,
+    "maximum_N392_response_relative_maximum_error": 0.05,
+    "maximum_N392_time_average_response_relative_error": 0.05,
+    "minimum_N392_continuum_history_cosine": 0.9,
+    "minimum_maximum_error_order": 0.75,
+    "minimum_weighted_RMS_error_order": 0.75,
+    "no_grid_trajectory_called_exact": true,
+    "pairwise_error_direction_reported_not_binding": true,
+    "primary_reference": "independent_N769_continuum_history",
+    "response_scale": "max(max_t(abs(G_N769)),1)",
+    "secondary_reference": "independent_N513_continuum_history"
+  },
+  "geometry_and_windows": {
+    "receiving_band_faces_N98": [
+      6,
+      49
+    ],
+    "reuse_exact_c2b3_travel_time_windows": true,
+    "source_band_faces_N98": [
+      52,
+      95
+    ],
+    "terminal_tail_contract_retained": true,
+    "time_stride_diagnostics": [
+      1,
+      2,
+      4
+    ],
+    "windows_may_not_move_from_observed_histories": true
+  },
+  "hard_stops": [
+    "do_not_relabel_b6b_or_b6c",
+    "do_not_tune_the_four_unseen_profiles_after_propagation",
+    "do_not_change_the_operator_or_interface",
+    "do_not_propagate_in_b6d",
+    "do_not_run_embedded_before_uniform_b6e_passes",
+    "do_not_run_nonlinear_or_N1024",
+    "do_not_begin_fixed_Q_or_reduced_slow_time_evolution"
+  ],
+  "historical_classifications_preserved": {
+    "WP10c9d6c7c2b6a": "revised_uniform_arrival_transfer_contract_frozen_recertification_authorized",
+    "WP10c9d6c7c2b6b": "revised_uniform_arrival_transfer_recertification_failed_embedded_blocked",
+    "WP10c9d6c7c2b6c": "direct_continuum_arrival_errors_contract_pairwise_rotation_preasymptotic_no_redesign"
+  },
+  "manifest_sha256": "eb98767424c64c1a88d72679b485669da6ed350b2f85219f3bf9137e1760b254",
+  "operator_changed": false,
+  "profile_manifest": {
+    "amplitude_and_sign_variants_are_controls": true,
+    "amplitude_factors": [
+      0.5,
+      1.0
+    ],
+    "binding_base_count": 9,
+    "binding_variant_count": 36,
+    "heldout_angles_degrees": [
+      22.5,
+      67.5,
+      112.5,
+      157.5
+    ],
+    "heldouts_frozen_before_propagation": true,
+    "historical_calibration_bases": [
+      "acoustic",
+      "shear",
+      "mixed_shear_acoustic",
+      "difference_shear_acoustic",
+      "shear_weighted_shear_acoustic"
+    ],
+    "maximum_initial_family_partition_relative_defect": 2.3125742654825017e-16,
+    "minimum_initial_target_family_fraction": 1.0,
+    "passed": true,
+    "per_profile": {
+      "acoustic": {
+        "acoustic_shear_coefficients": null,
+        "initial_family_partition_relative_defect": 1.1562871327412506e-16,
+        "initial_source_energy": 0.24004051268673893,
+        "initial_target_family_fraction": 1.0000000000000002,
+        "packet_sha256": "baa4f5ca1249733c9a83e3d235a78912252387cbf46bdab2c87c1f6bb9e13760",
+        "role": "historical_calibration",
+        "target_family_indices": [
+          0
+        ]
+      },
+      "angle_112p5_acoustic_shear": {
+        "acoustic_shear_coefficients": [
+          -0.3826834323650897,
+          0.9238795325112867
+        ],
+        "initial_family_partition_relative_defect": 0.0,
+        "initial_source_energy": 0.24004051268673893,
+        "initial_target_family_fraction": 1.0,
+        "packet_sha256": "1a05e9351cd27b05417ea61c030a7c6d0d6ab051c4f2b04c3f446978302fba0b",
+        "role": "prospective_heldout",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "angle_157p5_acoustic_shear": {
+        "acoustic_shear_coefficients": [
+          -0.9238795325112867,
+          0.3826834323650899
+        ],
+        "initial_family_partition_relative_defect": 0.0,
+        "initial_source_energy": 0.24004051268673893,
+        "initial_target_family_fraction": 1.0,
+        "packet_sha256": "e2a63911c0afe2df5c687cb7851f40127096cee7f9acbe2f73bc05c2d09d89d2",
+        "role": "prospective_heldout",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "angle_22p5_acoustic_shear": {
+        "acoustic_shear_coefficients": [
+          0.9238795325112867,
+          0.3826834323650898
+        ],
+        "initial_family_partition_relative_defect": 0.0,
+        "initial_source_energy": 0.24004051268673893,
+        "initial_target_family_fraction": 1.0,
+        "packet_sha256": "63cef0a9606bb448c67c2480c6968f4e80fc2fb52f02e9568c383605b24c6bdb",
+        "role": "prospective_heldout",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "angle_67p5_acoustic_shear": {
+        "acoustic_shear_coefficients": [
+          0.38268343236508984,
+          0.9238795325112867
+        ],
+        "initial_family_partition_relative_defect": 1.1562871327412506e-16,
+        "initial_source_energy": 0.24004051268673893,
+        "initial_target_family_fraction": 1.0000000000000002,
+        "packet_sha256": "5f6bc5ab66426491c1bdee9d1951cb76b1fb6c17006810d1bac14bb9a2d8f0cb",
+        "role": "prospective_heldout",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "difference_shear_acoustic": {
+        "acoustic_shear_coefficients": null,
+        "initial_family_partition_relative_defect": 2.3125742654825017e-16,
+        "initial_source_energy": 0.24004051268673887,
+        "initial_target_family_fraction": 1.0000000000000002,
+        "packet_sha256": "3381d3cd895b8c1d6cdcdca7e960b028469da70f2b364aa63ca331a960f145cb",
+        "role": "historical_calibration",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "mixed_shear_acoustic": {
+        "acoustic_shear_coefficients": null,
+        "initial_family_partition_relative_defect": 1.1562871327412506e-16,
+        "initial_source_energy": 0.2400405126867389,
+        "initial_target_family_fraction": 1.0000000000000002,
+        "packet_sha256": "e31decaa812e5162b8564b5f7caa3a5d0b7869d88c832640ebdf34bf79510038",
+        "role": "historical_calibration",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      },
+      "shear": {
+        "acoustic_shear_coefficients": null,
+        "initial_family_partition_relative_defect": 0.0,
+        "initial_source_energy": 0.24004051268673893,
+        "initial_target_family_fraction": 1.0,
+        "packet_sha256": "ff20e5f2e176272fe388daf8f5514e1dca51040633e3233324389fd6ce65c2f6",
+        "role": "historical_calibration",
+        "target_family_indices": [
+          1
+        ]
+      },
+      "shear_weighted_shear_acoustic": {
+        "acoustic_shear_coefficients": null,
+        "initial_family_partition_relative_defect": 2.312574265482501e-16,
+        "initial_source_energy": 0.2400405126867389,
+        "initial_target_family_fraction": 1.0000000000000002,
+        "packet_sha256": "a56e270145cf35bd35bd7370a84eb9a2604fca413095978338aa93c0cc6f7c49",
+        "role": "historical_calibration",
+        "target_family_indices": [
+          0,
+          1
+        ]
+      }
+    },
+    "prospective_heldout_bases": [
+      "angle_22p5_acoustic_shear",
+      "angle_67p5_acoustic_shear",
+      "angle_112p5_acoustic_shear",
+      "angle_157p5_acoustic_shear"
+    ],
+    "signs": [
+      -1,
+      1
+    ]
+  },
+  "projector_and_transfer_contract": {
+    "equivalent_projector_algorithms": [
+      "overlap_tracked_generalized_eigenvector",
+      "local_polynomial_spectral_projector"
+    ],
+    "hard_stop_on_unresolved_spectral_cluster": true,
+    "maximum_covariant_transfer_closure_defect": 2e-09,
+    "maximum_equivalent_local_projector_difference": 2e-08,
+    "maximum_projector_algebra_defect": 2e-09,
+    "physical_projectors": "local descriptor-compatible energy-orthogonal invariant subspaces"
+  },
+  "propagation_executed": false,
+  "schema_version": 1,
+  "scientific_interpretation": {
+    "b6b_reclassified": false,
+    "numerical_redesign_selected": false,
+    "pairwise_error_direction_is_a_continuum_accuracy_gate": false,
+    "reason": "b6c showed that every frozen b6b failure contracts directly toward N769 and that no stable noncontracting DAE block is selected; therefore a prospective direct-continuum contract is tested on new unseen profiles",
+    "uniform_operator_rejected": false
+  },
+  "uncertainty_contract": {
+    "combination": "conservative deterministic sum or measured nuisance envelope; no RSS without demonstrated independence",
+    "components": [
+      "N769_N513_continuum_reference",
+      "finite_volume_projection",
+      "equivalent_projector_algorithm",
+      "receiving_band_placement",
+      "arrival_window_placement",
+      "time_sampling_and_quadrature",
+      "restart",
+      "roundoff"
+    ],
+    "maximum_reference_to_N392_direct_error_ratio": 0.1,
+    "no_slow_impact_threshold": true
+  },
+  "work_package": "WP10c9d6c7c2b6d"
+}

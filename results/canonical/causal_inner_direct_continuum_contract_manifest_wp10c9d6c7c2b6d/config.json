@@ -1,0 +1,67 @@
+{
+  "amplitude_factors": [
+    0.5,
+    1.0
+  ],
+  "calibration_bases": [
+    "acoustic",
+    "shear",
+    "mixed_shear_acoustic",
+    "difference_shear_acoustic",
+    "shear_weighted_shear_acoustic"
+  ],
+  "continuum_nodes": [
+    513,
+    769
+  ],
+  "direct_continuum_gates": {
+    "direct_error_orders": [
+      "log2(norm(e_N98)/norm(e_N196))",
+      "log2(norm(e_N196)/norm(e_N392))"
+    ],
+    "finite_levels": [
+      98,
+      196,
+      392
+    ],
+    "history_error": "e_h(t)=G_h(t)-G_N769(t), evaluated on the same frozen travel-time samples and physical window",
+    "maximum_N392_peak_response_relative_error": 0.05,
+    "maximum_N392_peak_time_error_fraction_of_window": 0.05,
+    "maximum_N392_response_relative_RMS_error": 0.05,
+    "maximum_N392_response_relative_maximum_error": 0.05,
+    "maximum_N392_time_average_response_relative_error": 0.05,
+    "minimum_N392_continuum_history_cosine": 0.9,
+    "minimum_maximum_error_order": 0.75,
+    "minimum_weighted_RMS_error_order": 0.75,
+    "no_grid_trajectory_called_exact": true,
+    "pairwise_error_direction_reported_not_binding": true,
+    "primary_reference": "independent_N769_continuum_history",
+    "response_scale": "max(max_t(abs(G_N769)),1)",
+    "secondary_reference": "independent_N513_continuum_history"
+  },
+  "heldout_angles_degrees": [
+    22.5,
+    67.5,
+    112.5,
+    157.5
+  ],
+  "operator_changed": false,
+  "propagation_executed": false,
+  "prospective_heldout_bases": [
+    "angle_22p5_acoustic_shear",
+    "angle_67p5_acoustic_shear",
+    "angle_112p5_acoustic_shear",
+    "angle_157p5_acoustic_shear"
+  ],
+  "reference_levels": [
+    98,
+    196,
+    392
+  ],
+  "schema_version": 1,
+  "signs": [
+    -1,
+    1
+  ],
+  "work_package": "WP10c9d6c7c2b6d"
+}
