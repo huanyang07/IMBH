@@ -1,0 +1,54 @@
+{
+  "channels": [
+    "coupling_killing_energy_flux",
+    "inner_angular_momentum_flux"
+  ],
+  "direct_continuum_contract": {
+    "active_prefix": "cells_strictly_inside_coupling_face",
+    "exact_prefix_and_global_ledgers": true,
+    "historical_order_difference_and_cosine_gates_unchanged": true,
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_RMS_order": 0.75,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_significant_component_order": 0.75,
+    "observables": [
+      "state",
+      "inner_mass_flux",
+      "inner_angular_momentum_flux",
+      "inner_killing_energy_flux",
+      "coupling_mass_flux_when_active",
+      "coupling_angular_momentum_flux_when_active",
+      "coupling_killing_energy_flux_when_active",
+      "net_mass_drive",
+      "net_angular_momentum_drive",
+      "net_killing_energy_drive",
+      "cooling",
+      "responsive_height_work"
+    ],
+    "one_shared_conservative_face_flux": true,
+    "state_comparison": "conservative_restriction_to_the_common_N98_parent_grid"
+  },
+  "maximum_reference_solve_residual": 1e-10,
+  "maximum_reference_uncertainty_to_fine_error": 0.1,
+  "new_state_propagation_executed": false,
+  "operator_changed": false,
+  "profiles": [
+    "acoustic",
+    "shear",
+    "mixed_shear_acoustic",
+    "difference_shear_acoustic",
+    "shear_weighted_shear_acoustic",
+    "angle_22p5_acoustic_shear",
+    "angle_67p5_acoustic_shear",
+    "angle_112p5_acoustic_shear",
+    "angle_157p5_acoustic_shear"
+  ],
+  "reference_nodes": [
+    513,
+    769
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c2c4"
+}

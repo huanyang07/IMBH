@@ -1,0 +1,1389 @@
+{
+  "analyzed_base_commit": "b2a09dd319099b8194b99e2a5df1393e9aecbcec",
+  "authorized_next": "WP10c9d6c7c2c5_direct_continuum_embedded_recertification_manifest",
+  "binding_decision": {
+    "absolute_direct_continuum_envelope_supported": true,
+    "definitions_only_embedded_recertification_manifest_authorized": true,
+    "fixed_Q_or_reduced_evolution_authorized": false,
+    "historical_c2c3_rejection_preserved": true,
+    "nonlinear_propagation_authorized": false,
+    "operator_or_interface_redesign_authorized": false,
+    "strict_direct_order_convergence_demonstrated": false
+  },
+  "classification": "cumulative_boundary_flux_absolute_envelope_supported_strict_order_unresolved_manifest_authorized",
+  "comparison": {
+    "absolute_envelope_failed_profile_channels": [],
+    "all_absolute_direct_envelopes_passed": true,
+    "all_strict_direct_order_channels_passed": false,
+    "passed": true,
+    "profile_channel_reports": {
+      "acoustic": {
+        "coupling_killing_energy_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.9581652057655913,
+            "cumulative_pairwise_error_orders": [
+              0.7078273037193469
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.02116010020773392,
+              0.03389481899475283
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              3.5225990988084835e-11,
+              3.0923295831809545e-11
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9386400433851679,
+            "instantaneous_pairwise_error_orders": [
+              1.3875456106141504
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9999371773421663
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 0.0,
+            "N769_N513_reference_uncertainty": 0.0,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              2.0211530262152988e-18,
+              4.8879830707523117e-11,
+              7.802598081527511e-11
+            ],
+            "direct_error_orders": [
+              -24.52755739702237,
+              -0.674715298991567
+            ],
+            "fine_fixed_scale_RMS_error": 7.802598081527511e-11,
+            "fine_fixed_scale_maximum_error": 1.0871193789602608e-10,
+            "fine_reference_history_cosine": 0.9999999999954914,
+            "fine_response_relative_RMS_error": 5.848195864050486e-06,
+            "fine_response_relative_maximum_error": 6.334408993683225e-06,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.0,
+            "reference_uncertainty_to_response_RMS_ratio": 0.0,
+            "reference_uncertainty_to_response_maximum_ratio": 0.0,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 3.86450311855302e-17,
+            "N769_N513_reference_uncertainty": 1.0746792506365507e-17,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              9.59734252583438e-18,
+              1.9531798157847976e-10,
+              2.666367017131506e-10
+            ],
+            "direct_error_orders": [
+              -24.278614550032312,
+              -0.4490506022691517
+            ],
+            "fine_fixed_scale_RMS_error": 2.666367017131506e-10,
+            "fine_fixed_scale_maximum_error": 9.351595518110708e-10,
+            "fine_reference_history_cosine": 0.9999999999449974,
+            "fine_response_relative_RMS_error": 1.0639671482050102e-05,
+            "fine_response_relative_maximum_error": 1.8609909811498005e-05,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 4.030500091441639e-08,
+            "reference_uncertainty_to_response_RMS_ratio": 4.2883196881311945e-13,
+            "reference_uncertainty_to_response_maximum_ratio": 7.690458207184522e-13,
+            "strict_order_passed": false
+          },
+          "passed": false
+        },
+        "inner_angular_momentum_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.9974641357049315,
+            "cumulative_pairwise_error_orders": [
+              2.824444165400905
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.035014974730520586,
+              0.02859261736332128
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              1.148730632411811e-05,
+              1.6649851136089217e-06
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9728594842879703,
+            "instantaneous_pairwise_error_orders": [
+              2.5321148091538688
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9999967801181887
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 1.797789459020288e-07,
+            "N769_N513_reference_uncertainty": 1.4026742660891635e-07,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              9.36217267148431e-06,
+              1.4538066549126561e-06,
+              3.373366448987082e-07
+            ],
+            "direct_error_orders": [
+              2.6870079589936147,
+              2.1075744626615696
+            ],
+            "fine_fixed_scale_RMS_error": 3.373366448987082e-07,
+            "fine_fixed_scale_maximum_error": 4.939751385487495e-07,
+            "fine_reference_history_cosine": 0.9999999999704946,
+            "fine_response_relative_RMS_error": 4.2046612907864676e-05,
+            "fine_response_relative_maximum_error": 4.602957122096713e-05,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.41580844752586643,
+            "reference_uncertainty_to_response_RMS_ratio": 1.748333683694027e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 1.6752154407485778e-05,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 7.575786415067731e-07,
+            "N769_N513_reference_uncertainty": 3.1464932663137097e-07,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              2.3312812907631495e-05,
+              4.3579530928282865e-06,
+              1.151389766833469e-06
+            ],
+            "direct_error_orders": [
+              2.4194005164516192,
+              1.920274372741723
+            ],
+            "fine_fixed_scale_RMS_error": 1.151389766833469e-06,
+            "fine_fixed_scale_maximum_error": 6.506582678411578e-06,
+            "fine_reference_history_cosine": 0.999999998875452,
+            "fine_response_relative_RMS_error": 6.786718656176973e-05,
+            "fine_response_relative_maximum_error": 0.00017279378177177885,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.2732778557661788,
+            "reference_uncertainty_to_response_RMS_ratio": 1.8546599220483656e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 2.0118837326053812e-05,
+            "strict_order_passed": false
+          },
+          "passed": false
+        }
+      },
+      "angle_112p5_acoustic_shear": {
+        "coupling_killing_energy_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.999158383156708,
+            "cumulative_pairwise_error_orders": [
+              1.338090826787197
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.019085761826150547,
+              0.01997816341964742
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              1.0289090086729982e-10,
+              4.047192678782946e-11
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9877087024548772,
+            "instantaneous_pairwise_error_orders": [
+              1.4040180157064173
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9937997625772624
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 0.0,
+            "N769_N513_reference_uncertainty": 0.0,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              5.5976161370466e-17,
+              7.846026709260761e-11,
+              1.0947596644035897e-10
+            ],
+            "direct_error_orders": [
+              -20.41871826010217,
+              -0.48058003405630656
+            ],
+            "fine_fixed_scale_RMS_error": 1.0947596644035897e-10,
+            "fine_fixed_scale_maximum_error": 1.434046270810561e-10,
+            "fine_reference_history_cosine": 0.9999999999967831,
+            "fine_response_relative_RMS_error": 6.336099361849342e-06,
+            "fine_response_relative_maximum_error": 6.730504376573378e-06,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.0,
+            "reference_uncertainty_to_response_RMS_ratio": 0.0,
+            "reference_uncertainty_to_response_maximum_ratio": 0.0,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 4.3869530404194723e-17,
+            "N769_N513_reference_uncertainty": 1.3908097021756257e-17,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              1.0962587443142696e-16,
+              3.475924473097408e-10,
+              4.777658990708491e-10
+            ],
+            "direct_error_orders": [
+              -21.59637695372129,
+              -0.4589071491600573
+            ],
+            "fine_fixed_scale_RMS_error": 4.777658990708491e-10,
+            "fine_fixed_scale_maximum_error": 1.4814438109476802e-09,
+            "fine_reference_history_cosine": 0.9999999999542615,
+            "fine_response_relative_RMS_error": 1.3147499859788426e-05,
+            "fine_response_relative_maximum_error": 1.7080614561255285e-05,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 2.9110694272664674e-08,
+            "reference_uncertainty_to_response_RMS_ratio": 3.8273284886820256e-13,
+            "reference_uncertainty_to_response_maximum_ratio": 5.058028757351118e-13,
+            "strict_order_passed": false
+          },
+          "passed": false
+        },
+        "inner_angular_momentum_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.9990737462373206,
+            "cumulative_pairwise_error_orders": [
+              1.4206193816937116
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.019497254142734847,
+              0.027040939564743967
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              5.001617853991197e-06,
+              1.9438542318010905e-06
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9704335711460975,
+            "instantaneous_pairwise_error_orders": [
+              1.8924937029052957
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9999714364803178
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 1.8936527845792028e-08,
+            "N769_N513_reference_uncertainty": 1.4177175061560677e-08,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              6.570200406978984e-06,
+              2.2444774854747148e-06,
+              6.280771632746365e-07
+            ],
+            "direct_error_orders": [
+              1.5495577523597448,
+              1.837365905160949
+            ],
+            "fine_fixed_scale_RMS_error": 6.280771632746365e-07,
+            "fine_fixed_scale_maximum_error": 7.895871664189563e-07,
+            "fine_reference_history_cosine": 0.9999999962556565,
+            "fine_response_relative_RMS_error": 0.00032744258848434985,
+            "fine_response_relative_maximum_error": 0.00028206449710518525,
+            "passed": true,
+            "reference_uncertainty_to_fine_error_ratio": 0.022572346027746732,
+            "reference_uncertainty_to_response_RMS_ratio": 7.391147411489822e-06,
+            "reference_uncertainty_to_response_maximum_ratio": 6.764702405139588e-06,
+            "strict_order_passed": true
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 2.952539991455381e-07,
+            "N769_N513_reference_uncertainty": 7.762752601495761e-08,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              2.5384417392367047e-05,
+              6.910456997671989e-06,
+              2.013279324994626e-06
+            ],
+            "direct_error_orders": [
+              1.8770901223782441,
+              1.7792337735677588
+            ],
+            "fine_fixed_scale_RMS_error": 2.013279324994626e-06,
+            "fine_fixed_scale_maximum_error": 8.754083486558085e-06,
+            "fine_reference_history_cosine": 0.9999998843152479,
+            "fine_response_relative_RMS_error": 0.0005312087916158698,
+            "fine_response_relative_maximum_error": 0.0011734255749835287,
+            "passed": true,
+            "reference_uncertainty_to_fine_error_ratio": 0.03855775254393218,
+            "reference_uncertainty_to_response_RMS_ratio": 2.0482217136285943e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 3.957679798753659e-05,
+            "strict_order_passed": true
+          },
+          "passed": true
+        }
+      },
+      "angle_157p5_acoustic_shear": {
+        "coupling_killing_energy_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.7937237903726075,
+            "cumulative_pairwise_error_orders": [
+              1.1560400759689795
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.011255934041874778,
+              0.014677811079149828
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              1.5658000306462258e-11,
+              -6.903645005583935e-12
+            ],
+            "instantaneous_pairwise_error_cosine": 0.978277059756924,
+            "instantaneous_pairwise_error_orders": [
+              1.5389911294936396
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9999138022706164
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 0.0,
+            "N769_N513_reference_uncertainty": 0.0,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              2.3582173011883715e-17,
+              3.4836615682511044e-11,
+              4.8196012880201155e-11
+            ],
+            "direct_error_orders": [
+              -20.49447638114966,
+              -0.46830932591794394
+            ],
+            "fine_fixed_scale_RMS_error": 4.8196012880201155e-11,
+            "fine_fixed_scale_maximum_error": 1.0372603223730385e-10,
+            "fine_reference_history_cosine": 0.9999999998812205,
+            "fine_response_relative_RMS_error": 1.5526966236694744e-05,
+            "fine_response_relative_maximum_error": 2.3917125213890395e-05,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.0,
+            "reference_uncertainty_to_response_RMS_ratio": 0.0,
+            "reference_uncertainty_to_response_maximum_ratio": 0.0,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 2.8431507907537845e-17,
+            "N769_N513_reference_uncertainty": 6.247245539214232e-18,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              5.009474836117003e-17,
+              2.616885384732746e-10,
+              3.502839476470988e-10
+            ],
+            "direct_error_orders": [
+              -22.31668803463242,
+              -0.4206741376160329
+            ],
+            "fine_fixed_scale_RMS_error": 3.502839476470988e-10,
+            "fine_fixed_scale_maximum_error": 1.3039664457532908e-09,
+            "fine_reference_history_cosine": 0.9999999983682796,
+            "fine_response_relative_RMS_error": 5.814952481319367e-05,
+            "fine_response_relative_maximum_error": 0.00010841532550337645,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 1.7834803967403486e-08,
+            "reference_uncertainty_to_response_RMS_ratio": 1.037085375840974e-12,
+            "reference_uncertainty_to_response_maximum_ratio": 2.363873084607521e-12,
+            "strict_order_passed": false
+          },
+          "passed": false
+        },
+        "inner_angular_momentum_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.7365494279206066,
+            "cumulative_pairwise_error_orders": [
+              3.7300084318809907
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.023086045752058183,
+              0.008934020791125624
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              -6.720265676553663e-06,
+              -4.691536501337523e-07
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9110245340091571,
+            "instantaneous_pairwise_error_orders": [
+              2.3603688639682234
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9999955687952395
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 1.2990080252434089e-07,
+            "N769_N513_reference_uncertainty": 1.018087404404845e-07,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              4.6705851454221456e-06,
+              4.0672147688199e-07,
+              8.864371621036508e-08
+            ],
+            "direct_error_orders": [
+              3.52149022730232,
+              2.197950904292053
+            ],
+            "fine_fixed_scale_RMS_error": 8.864371621036508e-08,
+            "fine_fixed_scale_maximum_error": 1.6225246524212178e-07,
+            "fine_reference_history_cosine": 0.9999999999183101,
+            "fine_response_relative_RMS_error": 1.279338847219097e-05,
+            "fine_response_relative_maximum_error": 1.7310279168115527e-05,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 1.1485161587638857,
+            "reference_uncertainty_to_response_RMS_ratio": 1.469341338565495e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 1.385876727668253e-05,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 5.153189755434384e-07,
+            "N769_N513_reference_uncertainty": 2.2214327388579155e-07,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              1.9819097932143397e-05,
+              4.1109765373726395e-06,
+              1.1085230336086595e-06
+            ],
+            "direct_error_orders": [
+              2.269338256509734,
+              1.8908423902465938
+            ],
+            "fine_fixed_scale_RMS_error": 1.1085230336086595e-06,
+            "fine_fixed_scale_maximum_error": 6.893994031841543e-06,
+            "fine_reference_history_cosine": 0.9999999970859673,
+            "fine_response_relative_RMS_error": 7.727431651115572e-05,
+            "fine_response_relative_maximum_error": 0.00022563606885229952,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.20039572219138435,
+            "reference_uncertainty_to_response_RMS_ratio": 1.5485442464098667e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 1.6866064477220926e-05,
+            "strict_order_passed": false
+          },
+          "passed": false
+        }
+      },
+      "angle_22p5_acoustic_shear": {
+        "coupling_killing_energy_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.9944196194894467,
+            "cumulative_pairwise_error_orders": [
+              0.8026555199108408
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.03688105058637068,
+              0.04396119287951614
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              8.07471444749634e-11,
+              5.0235155184280176e-11
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9479070433905746,
+            "instantaneous_pairwise_error_orders": [
+              1.0560063013340186
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9998972255397289
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 0.0,
+            "N769_N513_reference_uncertainty": 0.0,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              2.2794374564018645e-17,
+              7.491398296478459e-11,
+              1.1770912303148678e-10
+            ],
+            "direct_error_orders": [
+              -21.648125772538858,
+              -0.6519192074584651
+            ],
+            "fine_fixed_scale_RMS_error": 1.1770912303148678e-10,
+            "fine_fixed_scale_maximum_error": 1.4155491474558061e-10,
+            "fine_reference_history_cosine": 0.9999999999992953,
+            "fine_response_relative_RMS_error": 5.452518691353557e-06,
+            "fine_response_relative_maximum_error": 5.170930456302382e-06,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.0,
+            "reference_uncertainty_to_response_RMS_ratio": 0.0,
+            "reference_uncertainty_to_response_maximum_ratio": 0.0,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 4.297506361189418e-17,
+            "N769_N513_reference_uncertainty": 1.5996919042192836e-17,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              4.016507081118328e-17,
+              1.7174724574153243e-10,
+              2.514286881926164e-10
+            ],
+            "direct_error_orders": [
+              -22.02784220738366,
+              -0.5498623085170238
+            ],
+            "fine_fixed_scale_RMS_error": 2.514286881926164e-10,
+            "fine_fixed_scale_maximum_error": 7.055302698538929e-10,
+            "fine_reference_history_cosine": 0.9999999999917116,
+            "fine_response_relative_RMS_error": 6.0073308582088715e-06,
+            "fine_response_relative_maximum_error": 7.869824703615517e-06,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 6.362408027972447e-08,
+            "reference_uncertainty_to_response_RMS_ratio": 3.822109007895473e-13,
+            "reference_uncertainty_to_response_maximum_ratio": 4.793645739995984e-13,
+            "strict_order_passed": false
+          },
+          "passed": false
+        },
+        "inner_angular_momentum_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.9998302332227442,
+            "cumulative_pairwise_error_orders": [
+              2.4737831292132975
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.03851037909057581,
+              0.03637493589739251
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              1.4505508716525228e-05,
+              2.607337686661576e-06
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9877515241420743,
+            "instantaneous_pairwise_error_orders": [
+              2.3914805099272094
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9999978659629903
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 2.023078262709116e-07,
+            "N769_N513_reference_uncertainty": 1.574001408305467e-07,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              1.2740916778546006e-05,
+              2.4657331719895053e-06,
+              6.163431629995837e-07
+            ],
+            "direct_error_orders": [
+              2.369380498297059,
+              2.000210954874178
+            ],
+            "fine_fixed_scale_RMS_error": 6.163431629995837e-07,
+            "fine_fixed_scale_maximum_error": 8.497892210936747e-07,
+            "fine_reference_history_cosine": 0.9999999999913742,
+            "fine_response_relative_RMS_error": 7.8047393376611e-05,
+            "fine_response_relative_maximum_error": 8.126982012689761e-05,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.25537744276178986,
+            "reference_uncertainty_to_response_RMS_ratio": 1.993154373474237e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 1.9347763237265445e-05,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 8.872344209598371e-07,
+            "N769_N513_reference_uncertainty": 3.6154718716780905e-07,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              2.8255661100992278e-05,
+              5.819247949914248e-06,
+              1.6101265134105319e-06
+            ],
+            "direct_error_orders": [
+              2.27963532078326,
+              1.853658668078219
+            ],
+            "fine_fixed_scale_RMS_error": 1.6101265134105319e-06,
+            "fine_fixed_scale_maximum_error": 5.225573136584177e-06,
+            "fine_reference_history_cosine": 0.9999999987049758,
+            "fine_response_relative_RMS_error": 9.44574846735048e-05,
+            "fine_response_relative_maximum_error": 0.000133655207911305,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.22454582553391308,
+            "reference_uncertainty_to_response_RMS_ratio": 2.121003387386908e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 2.2692917676197394e-05,
+            "strict_order_passed": false
+          },
+          "passed": false
+        }
+      },
+      "angle_67p5_acoustic_shear": {
+        "coupling_killing_energy_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.9997214597059082,
+            "cumulative_pairwise_error_orders": [
+              1.0209053021701124
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.03036514897655383,
+              0.03387922269585825
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              1.2985170714564526e-10,
+              6.413959276619762e-11
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9817729837668536,
+            "instantaneous_pairwise_error_orders": [
+              1.1788896295971654
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9996016670722266
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 0.0,
+            "N769_N513_reference_uncertainty": 0.0,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              5.564865748774306e-17,
+              1.0273523525866021e-10,
+              1.5335439092267234e-10
+            ],
+            "direct_error_orders": [
+              -20.816080850763857,
+              -0.5779384053686233
+            ],
+            "fine_fixed_scale_RMS_error": 1.5335439092267234e-10,
+            "fine_fixed_scale_maximum_error": 1.939949649963006e-10,
+            "fine_reference_history_cosine": 0.9999999999998724,
+            "fine_response_relative_RMS_error": 5.581352619801175e-06,
+            "fine_response_relative_maximum_error": 5.642290658330854e-06,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.0,
+            "reference_uncertainty_to_response_RMS_ratio": 0.0,
+            "reference_uncertainty_to_response_maximum_ratio": 0.0,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 5.3722217646656745e-17,
+            "N769_N513_reference_uncertainty": 2.0255910840999158e-17,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              1.0545952708464995e-16,
+              2.86071205609122e-10,
+              4.108257484409137e-10
+            ],
+            "direct_error_orders": [
+              -21.371253428036024,
+              -0.5221523141449949
+            ],
+            "fine_fixed_scale_RMS_error": 4.108257484409137e-10,
+            "fine_fixed_scale_maximum_error": 9.390226626735327e-10,
+            "fine_reference_history_cosine": 0.9999999999939988,
+            "fine_response_relative_RMS_error": 7.456067006891223e-06,
+            "fine_response_relative_maximum_error": 7.542470178263538e-06,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 4.930535858054289e-08,
+            "reference_uncertainty_to_response_RMS_ratio": 3.676240573753269e-13,
+            "reference_uncertainty_to_response_maximum_ratio": 4.315105914019519e-13,
+            "strict_order_passed": false
+          },
+          "passed": false
+        },
+        "inner_angular_momentum_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.999231903412925,
+            "cumulative_pairwise_error_orders": [
+              2.07359434405444
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.035314496653207676,
+              0.0351929786459772
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              1.379362147947618e-05,
+              3.218178668025831e-06
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9887802842074217,
+            "instantaneous_pairwise_error_orders": [
+              2.068621435884105
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9659720406950048
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 1.5626434482149398e-07,
+            "N769_N513_reference_uncertainty": 1.208750470366663e-07,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              1.3553011773958765e-05,
+              3.3093952466418108e-06,
+              8.755010617811807e-07
+            ],
+            "direct_error_orders": [
+              2.033973974870322,
+              1.918386772006948
+            ],
+            "fine_fixed_scale_RMS_error": 8.755010617811807e-07,
+            "fine_fixed_scale_maximum_error": 1.1389249621081288e-06,
+            "fine_reference_history_cosine": 0.9999999999410992,
+            "fine_response_relative_RMS_error": 0.00020616761835278078,
+            "fine_response_relative_maximum_error": 0.00020692259788812042,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.13806384973508729,
+            "reference_uncertainty_to_response_RMS_ratio": 2.846429508049915e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 2.8390478094270415e-05,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 7.454140740215109e-07,
+            "N769_N513_reference_uncertainty": 2.956260597643103e-07,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              3.240299967225484e-05,
+              8.04474577152229e-06,
+              2.3274401632688983e-06
+            ],
+            "direct_error_orders": [
+              2.0100086401916126,
+              1.78930275224392
+            ],
+            "fine_fixed_scale_RMS_error": 2.3274401632688983e-06,
+            "fine_fixed_scale_maximum_error": 8.978358282072746e-06,
+            "fine_reference_history_cosine": 0.9999999881197804,
+            "fine_response_relative_RMS_error": 0.000233746409360023,
+            "fine_response_relative_maximum_error": 0.0003600883142484086,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.12701768424804633,
+            "reference_uncertainty_to_response_RMS_ratio": 2.968992761820598e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 2.9895765896020583e-05,
+            "strict_order_passed": false
+          },
+          "passed": false
+        }
+      },
+      "difference_shear_acoustic": {
+        "coupling_killing_energy_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.98899943548566,
+            "cumulative_pairwise_error_orders": [
+              1.6741399291631724
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.013894203963929687,
+              0.012263551345266414
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              -6.415820299653845e-11,
+              -1.816702318365327e-11
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9888789927960139,
+            "instantaneous_pairwise_error_orders": [
+              1.4940335710453454
+            ],
+            "minimum_physical_signal_sign_ratio": 0.922985574163051
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 0.0,
+            "N769_N513_reference_uncertainty": 0.0,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              4.303846485958342e-17,
+              5.2667251285167033e-11,
+              6.903220631473483e-11
+            ],
+            "direct_error_orders": [
+              -20.222848116950136,
+              -0.3903634276013381
+            ],
+            "fine_fixed_scale_RMS_error": 6.903220631473483e-11,
+            "fine_fixed_scale_maximum_error": 9.755693971321052e-11,
+            "fine_reference_history_cosine": 0.9999999999787895,
+            "fine_response_relative_RMS_error": 8.944936492007227e-06,
+            "fine_response_relative_maximum_error": 1.0262150820948295e-05,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.0,
+            "reference_uncertainty_to_response_RMS_ratio": 0.0,
+            "reference_uncertainty_to_response_maximum_ratio": 0.0,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 2.928701118426469e-17,
+            "N769_N513_reference_uncertainty": 8.444423660370368e-18,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              8.630903227753169e-17,
+              3.205066370671909e-10,
+              4.3335755411921773e-10
+            ],
+            "direct_error_orders": [
+              -21.82433935080034,
+              -0.4352036207848379
+            ],
+            "fine_fixed_scale_RMS_error": 4.3335755411921773e-10,
+            "fine_fixed_scale_maximum_error": 1.5073561927447915e-09,
+            "fine_reference_history_cosine": 0.9999999997889257,
+            "fine_response_relative_RMS_error": 2.410809247618783e-05,
+            "fine_response_relative_maximum_error": 3.268492654267356e-05,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 1.9486042368716357e-08,
+            "reference_uncertainty_to_response_RMS_ratio": 4.697713114199281e-13,
+            "reference_uncertainty_to_response_maximum_ratio": 6.350481815907596e-13,
+            "strict_order_passed": false
+          },
+          "passed": false
+        },
+        "inner_angular_momentum_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.355503093771382,
+            "cumulative_pairwise_error_orders": [
+              0.3934803862080043
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.005726752315923938,
+              0.01742723194922174
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              9.301254990951718e-07,
+              -7.981022036793184e-07
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9238266022171929,
+            "instantaneous_pairwise_error_orders": [
+              1.999034710849165
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9999926823865989
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 6.031569985999463e-08,
+            "N769_N513_reference_uncertainty": 4.7944153281574036e-08,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              1.8409263567005656e-06,
+              1.1733007950181708e-06,
+              3.523083951994792e-07
+            ],
+            "direct_error_orders": [
+              0.6498589956840038,
+              1.735662160952067
+            ],
+            "fine_fixed_scale_RMS_error": 3.523083951994792e-07,
+            "fine_fixed_scale_maximum_error": 4.5777178618155306e-07,
+            "fine_reference_history_cosine": 0.999999999726258,
+            "fine_response_relative_RMS_error": 7.366758311060948e-05,
+            "fine_response_relative_maximum_error": 6.948885437532867e-05,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.13608575309262147,
+            "reference_uncertainty_to_response_RMS_ratio": 1.0025108526120573e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 9.155804290775874e-06,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 2.978957246126601e-07,
+            "N769_N513_reference_uncertainty": 1.0409042602312266e-07,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              2.084665649926303e-05,
+              5.367868503090668e-06,
+              1.5357832722429727e-06
+            ],
+            "direct_error_orders": [
+              1.9573947795855986,
+              1.8053746910502475
+            ],
+            "fine_fixed_scale_RMS_error": 1.5357832722429727e-06,
+            "fine_fixed_scale_maximum_error": 6.985520089707888e-06,
+            "fine_reference_history_cosine": 0.999999988524701,
+            "fine_response_relative_RMS_error": 0.00015966822845102125,
+            "fine_response_relative_maximum_error": 0.00036589400248074897,
+            "passed": true,
+            "reference_uncertainty_to_fine_error_ratio": 0.06777676766273227,
+            "reference_uncertainty_to_response_RMS_ratio": 1.0821796422844925e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 1.5603456521586945e-05,
+            "strict_order_passed": true
+          },
+          "passed": false
+        }
+      },
+      "mixed_shear_acoustic": {
+        "coupling_killing_energy_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.999470162516805,
+            "cumulative_pairwise_error_orders": [
+              0.9134322458195636
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.03675710214027931,
+              0.04035823310621343
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              1.139752772073995e-10,
+              6.189916754075625e-11
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9767450110694343,
+            "instantaneous_pairwise_error_orders": [
+              1.0482722282988837
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9998132124757907
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 0.0,
+            "N769_N513_reference_uncertainty": 0.0,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              4.2433651595085184e-17,
+              9.483817268348491e-11,
+              1.4517224033599025e-10
+            ],
+            "direct_error_orders": [
+              -21.091827600972913,
+              -0.6142258385289476
+            ],
+            "fine_fixed_scale_RMS_error": 1.4517224033599025e-10,
+            "fine_fixed_scale_maximum_error": 1.7665665495513556e-10,
+            "fine_reference_history_cosine": 0.999999999999951,
+            "fine_response_relative_RMS_error": 5.467434694882472e-06,
+            "fine_response_relative_maximum_error": 5.2857109951736555e-06,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.0,
+            "reference_uncertainty_to_response_RMS_ratio": 0.0,
+            "reference_uncertainty_to_response_maximum_ratio": 0.0,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 4.8152128985512466e-17,
+            "N769_N513_reference_uncertainty": 1.9442459364277478e-17,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              7.862456359596578e-17,
+              2.1815847781449065e-10,
+              3.2199048099064273e-10
+            ],
+            "direct_error_orders": [
+              -21.403893098944007,
+              -0.5616414994581982
+            ],
+            "fine_fixed_scale_RMS_error": 3.2199048099064273e-10,
+            "fine_fixed_scale_maximum_error": 7.190045352720512e-10,
+            "fine_reference_history_cosine": 0.9999999999971922,
+            "fine_response_relative_RMS_error": 6.1410979800068155e-06,
+            "fine_response_relative_maximum_error": 6.207195803397203e-06,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 6.038209360866942e-08,
+            "reference_uncertainty_to_response_RMS_ratio": 3.708123530887822e-13,
+            "reference_uncertainty_to_response_maximum_ratio": 4.1569931523508723e-13,
+            "strict_order_passed": false
+          },
+          "passed": false
+        },
+        "inner_angular_momentum_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.9994717699303041,
+            "cumulative_pairwise_error_orders": [
+              2.2611111604191585
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.038081069896856785,
+              0.03690175030556264
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              1.5315378899606255e-05,
+              3.15274673249287e-06
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9881821491314269,
+            "instantaneous_pairwise_error_orders": [
+              2.2157263954442126
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9989536056848405
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 1.94050183779243e-07,
+            "N769_N513_reference_uncertainty": 1.505893581642016e-07,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              1.4216521511780076e-05,
+              3.1210390101153728e-06,
+              8.06373742302849e-07
+            ],
+            "direct_error_orders": [
+              2.1874702157120542,
+              1.9525058230443326
+            ],
+            "fine_fixed_scale_RMS_error": 8.06373742302849e-07,
+            "fine_fixed_scale_maximum_error": 1.0762492583214767e-06,
+            "fine_reference_history_cosine": 0.9999999999938488,
+            "fine_response_relative_RMS_error": 0.000122727066385764,
+            "fine_response_relative_maximum_error": 0.00012526643120611058,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.1867488365061928,
+            "reference_uncertainty_to_response_RMS_ratio": 2.2919136855359715e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 2.2585821833528122e-05,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 8.830159526837522e-07,
+            "N769_N513_reference_uncertainty": 3.548345875962137e-07,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              3.1751660482654566e-05,
+              7.2666395502174026e-06,
+              2.0705484226012566e-06
+            ],
+            "direct_error_orders": [
+              2.127471790259145,
+              1.8112754030713958
+            ],
+            "fine_fixed_scale_RMS_error": 2.0705484226012566e-06,
+            "fine_fixed_scale_maximum_error": 7.148117008179194e-06,
+            "fine_reference_history_cosine": 0.9999999965875251,
+            "fine_response_relative_RMS_error": 0.0001420670551678446,
+            "fine_response_relative_maximum_error": 0.00020641698119347598,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.1713722720623121,
+            "reference_uncertainty_to_response_RMS_ratio": 2.434635402931537e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 2.5498951274874274e-05,
+            "strict_order_passed": false
+          },
+          "passed": false
+        }
+      },
+      "shear": {
+        "coupling_killing_energy_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.9990536967342905,
+            "cumulative_pairwise_error_orders": [
+              1.147144496798443
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.0244495075364616,
+              0.027181227075237922
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              1.2595939179852497e-10,
+              5.661534641028835e-11
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9846180124344615,
+            "instantaneous_pairwise_error_orders": [
+              1.299949677098455
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9988011420172426
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 0.0,
+            "N769_N513_reference_uncertainty": 0.0,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              6.040563424740825e-17,
+              9.684462042813353e-11,
+              1.4054312929028717e-10
+            ],
+            "direct_error_orders": [
+              -20.612557359754152,
+              -0.5372691099938551
+            ],
+            "fine_fixed_scale_RMS_error": 1.4054312929028717e-10,
+            "fine_fixed_scale_maximum_error": 1.8259399940599697e-10,
+            "fine_reference_history_cosine": 0.999999999999183,
+            "fine_response_relative_RMS_error": 5.802957642559695e-06,
+            "fine_response_relative_maximum_error": 6.0627882629311685e-06,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.0,
+            "reference_uncertainty_to_response_RMS_ratio": 0.0,
+            "reference_uncertainty_to_response_maximum_ratio": 0.0,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 5.277354074573193e-17,
+            "N769_N513_reference_uncertainty": 1.8271536358115803e-17,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              1.163572379258733e-16,
+              3.3491567881870906e-10,
+              4.694480896336828e-10
+            ],
+            "direct_error_orders": [
+              -21.45680553016742,
+              -0.4871677209002147
+            ],
+            "fine_fixed_scale_RMS_error": 4.694480896336828e-10,
+            "fine_fixed_scale_maximum_error": 1.2368520995318164e-09,
+            "fine_reference_history_cosine": 0.9999999999836454,
+            "fine_response_relative_RMS_error": 9.49551049015995e-06,
+            "fine_response_relative_maximum_error": 1.0823603025286962e-05,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 3.89213136906646e-08,
+            "reference_uncertainty_to_response_RMS_ratio": 3.695777424405118e-13,
+            "reference_uncertainty_to_response_maximum_ratio": 4.618174278774512e-13,
+            "strict_order_passed": false
+          },
+          "passed": false
+        },
+        "inner_angular_momentum_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.9993887366770936,
+            "cumulative_pairwise_error_orders": [
+              1.844303669142553
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.02982191228095518,
+              0.03214261910073565
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              1.0171910228586739e-05,
+              2.793672074212321e-06
+            ],
+            "instantaneous_pairwise_error_cosine": 0.986531553522824,
+            "instantaneous_pairwise_error_orders": [
+              1.9524183881008772
+            ],
+            "minimum_physical_signal_sign_ratio": 0.5901762935908327
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 9.471722630521873e-08,
+            "N769_N513_reference_uncertainty": 7.280690666889144e-08,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              1.085579184652205e-05,
+              3.0006608386127906e-06,
+              8.127507647563607e-07
+            ],
+            "direct_error_orders": [
+              1.8551127962650957,
+              1.8843953483906017
+            ],
+            "fine_fixed_scale_RMS_error": 8.127507647563607e-07,
+            "fine_fixed_scale_maximum_error": 1.0318134806475057e-06,
+            "fine_reference_history_cosine": 0.9999999947160962,
+            "fine_response_relative_RMS_error": 0.0006279566660163715,
+            "fine_response_relative_maximum_error": 0.0005515637122323243,
+            "passed": true,
+            "reference_uncertainty_to_fine_error_ratio": 0.08958085285926105,
+            "reference_uncertainty_to_response_RMS_ratio": 5.625289370040471e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 5.0631810819598146e-05,
+            "strict_order_passed": true
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 4.955614259071622e-07,
+            "N769_N513_reference_uncertainty": 1.942632301661466e-07,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              2.9987727238618934e-05,
+              7.913678503702633e-06,
+              2.3065347676698356e-06
+            ],
+            "direct_error_orders": [
+              1.9219518233390032,
+              1.7786214173434605
+            ],
+            "fine_fixed_scale_RMS_error": 2.3065347676698356e-06,
+            "fine_fixed_scale_maximum_error": 9.551939033666692e-06,
+            "fine_reference_history_cosine": 0.9999999042063792,
+            "fine_response_relative_RMS_error": 0.000557631731352327,
+            "fine_response_relative_maximum_error": 0.0008293203574387368,
+            "passed": true,
+            "reference_uncertainty_to_fine_error_ratio": 0.08422297937542038,
+            "reference_uncertainty_to_response_RMS_ratio": 4.696540580876699e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 4.3025733038877634e-05,
+            "strict_order_passed": true
+          },
+          "passed": true
+        }
+      },
+      "shear_weighted_shear_acoustic": {
+        "coupling_killing_energy_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.9998297571772946,
+            "cumulative_pairwise_error_orders": [
+              0.9843646910072512
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.03252184930841962,
+              0.03608561256490741
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              1.2669702863476713e-10,
+              6.449197615152709e-11
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9807692426812605,
+            "instantaneous_pairwise_error_orders": [
+              1.13437913965782
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9996987893687503
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 0.0,
+            "N769_N513_reference_uncertainty": 0.0,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              5.2108401878898614e-17,
+              1.0161200331362265e-10,
+              1.5296577112235026e-10
+            ],
+            "direct_error_orders": [
+              -20.895051491161,
+              -0.5901380235898767
+            ],
+            "fine_fixed_scale_RMS_error": 1.5296577112235026e-10,
+            "fine_fixed_scale_maximum_error": 1.9119104318124618e-10,
+            "fine_reference_history_cosine": 0.9999999999999558,
+            "fine_response_relative_RMS_error": 5.534392537942758e-06,
+            "fine_response_relative_maximum_error": 5.5173548996698e-06,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.0,
+            "reference_uncertainty_to_response_RMS_ratio": 0.0,
+            "reference_uncertainty_to_response_maximum_ratio": 0.0,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 5.2231439659489176e-17,
+            "N769_N513_reference_uncertainty": 2.0299902712696348e-17,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              9.812504643426367e-17,
+              2.641800017515652e-10,
+              3.8292883958379926e-10
+            ],
+            "direct_error_orders": [
+              -21.360396492288473,
+              -0.5355550585389908
+            ],
+            "fine_fixed_scale_RMS_error": 3.8292883958379926e-10,
+            "fine_fixed_scale_maximum_error": 8.507108103898708e-10,
+            "fine_reference_history_cosine": 0.9999999999957317,
+            "fine_response_relative_RMS_error": 6.9443966796422e-06,
+            "fine_response_relative_maximum_error": 6.8771327652440665e-06,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 5.3012206484003836e-08,
+            "reference_uncertainty_to_response_RMS_ratio": 3.6813779068802296e-13,
+            "reference_uncertainty_to_response_maximum_ratio": 4.2223813388891e-13,
+            "strict_order_passed": false
+          },
+          "passed": false
+        },
+        "inner_angular_momentum_flux": {
+          "absolute_envelope_passed": true,
+          "conditioning": {
+            "cumulative_pairwise_error_cosine": 0.999279440405938,
+            "cumulative_pairwise_error_orders": [
+              2.1371764820925274
+            ],
+            "cumulative_to_instantaneous_error_suppression": [
+              0.03648727714642659,
+              0.035914065011674524
+            ],
+            "endpoint_cumulative_refinement_errors": [
+              1.4552785825029321e-05,
+              3.2518835429160356e-06
+            ],
+            "instantaneous_pairwise_error_cosine": 0.9886185748318772,
+            "instantaneous_pairwise_error_orders": [
+              2.1143319447210036
+            ],
+            "minimum_physical_signal_sign_ratio": 0.9854633407856866
+          },
+          "cumulative_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 1.718705125684783e-07,
+            "N769_N513_reference_uncertainty": 1.3311095725961497e-07,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              1.4012395267443632e-05,
+              3.3019977182057603e-06,
+              8.669990640720355e-07
+            ],
+            "direct_error_orders": [
+              2.0852925615531186,
+              1.9292367821323402
+            ],
+            "fine_fixed_scale_RMS_error": 8.669990640720355e-07,
+            "fine_fixed_scale_maximum_error": 1.137356645472716e-06,
+            "fine_reference_history_cosine": 0.9999999999738141,
+            "fine_response_relative_RMS_error": 0.00016958255065311186,
+            "fine_response_relative_maximum_error": 0.00017136789440540297,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.15353068160700495,
+            "reference_uncertainty_to_response_RMS_ratio": 2.6036124590426707e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 2.589608806215396e-05,
+            "strict_order_passed": false
+          },
+          "instantaneous_direct_continuum": {
+            "N769_N513_reference_maximum_uncertainty": 8.052027042418364e-07,
+            "N769_N513_reference_uncertainty": 3.2075328792921057e-07,
+            "absolute_envelope_passed": true,
+            "direct_error_norms": [
+              3.253750418318495e-05,
+              7.880714472371622e-06,
+              2.270811333430608e-06
+            ],
+            "direct_error_orders": [
+              2.045705255409022,
+              1.7951185844734365
+            ],
+            "fine_fixed_scale_RMS_error": 2.270811333430608e-06,
+            "fine_fixed_scale_maximum_error": 8.47280189428338e-06,
+            "fine_reference_history_cosine": 0.9999999924689048,
+            "fine_response_relative_RMS_error": 0.0001942181270344857,
+            "fine_response_relative_maximum_error": 0.0002955335194182043,
+            "passed": false,
+            "reference_uncertainty_to_fine_error_ratio": 0.1412505227568313,
+            "reference_uncertainty_to_response_RMS_ratio": 2.7433411972473777e-05,
+            "reference_uncertainty_to_response_maximum_ratio": 2.8085678385824237e-05,
+            "strict_order_passed": false
+          },
+          "passed": false
+        }
+      }
+    },
+    "strict_order_failed_profile_channels": [
+      "acoustic:coupling_killing_energy_flux",
+      "acoustic:inner_angular_momentum_flux",
+      "shear:coupling_killing_energy_flux",
+      "mixed_shear_acoustic:coupling_killing_energy_flux",
+      "mixed_shear_acoustic:inner_angular_momentum_flux",
+      "difference_shear_acoustic:coupling_killing_energy_flux",
+      "difference_shear_acoustic:inner_angular_momentum_flux",
+      "shear_weighted_shear_acoustic:coupling_killing_energy_flux",
+      "shear_weighted_shear_acoustic:inner_angular_momentum_flux",
+      "angle_22p5_acoustic_shear:coupling_killing_energy_flux",
+      "angle_22p5_acoustic_shear:inner_angular_momentum_flux",
+      "angle_67p5_acoustic_shear:coupling_killing_energy_flux",
+      "angle_67p5_acoustic_shear:inner_angular_momentum_flux",
+      "angle_112p5_acoustic_shear:coupling_killing_energy_flux",
+      "angle_157p5_acoustic_shear:coupling_killing_energy_flux",
+      "angle_157p5_acoustic_shear:inner_angular_momentum_flux"
+    ]
+  },
+  "config_sha256": "80f668ab520f1e7697ea411427d7ac8f15ac3a123530d71b0907a1ce00305f43",
+  "decisive_array_hashes": {
+    "N513_reference_cumulative_signals": "0ddd2edae941360d2330230f6395fb52761bfdd21e62baba62a0a854d302b20c",
+    "N513_reference_signals": "a380f070dd798100a7fb7072ab904fad64c7c3ae917818207472a83ce96650c8",
+    "N769_reference_cumulative_signals": "ee7eb77488ec17961d4ba9afcce493cc9ef994351b305f5882fa6bb6d88d5f22",
+    "N769_reference_signals": "f7bb24b4deb4507656c94ec0598c41d9113654152d8401e4689ff56f016ad866",
+    "N98_outer_N196_inner_f49__cumulative_signals": "51c2fb4c36c024f3b2b38b4ecfdead69ad517990c61740e46e6959d3db441fb2",
+    "N98_outer_N196_inner_f49__signals": "878f75e35cf4671e529190310ae21b23303b0c0e69ef54f1c24d0d371813a1d8",
+    "N98_outer_N392_inner_f49__cumulative_signals": "301971da5b2a7276f96b8a06ca6d129b5192896fe29f44d4d662091b235a9894",
+    "N98_outer_N392_inner_f49__signals": "04ab1fb4940f7780eea6ab53a3cb22ff20569becc945d6f7a5d2c36627cce0e2",
+    "N98_outer_N98_inner_f49__cumulative_signals": "696959c1add6b2475b8871d5f784f0dc00df4dd2ef3aebb226ab4754ee226d3b",
+    "N98_outer_N98_inner_f49__signals": "a3f44213b3201d6c7ccc93b85e6d8daf9cfc0ff738ab095c0bd98b86b23ea7c2",
+    "direct_metric_matrix": "7520dd85beea053f567ebe1b63c1d3fe69660f3465812a62201b8436061521d6",
+    "field_scales": "ee02d751758ffa54e25e4b298f1f0778ea7ea7586c78325e3ee106034321fac6",
+    "observable_scales": "fd7dcc9ca75f3e9c7b1333846986e9aaeb19c45442f0dd8c7f6c6901f8430a99",
+    "profile_channel_pass_flags": "475075465f7a70fbee3c0bc5dcd34e4faddc42ba07b33b47b09f647fc73d0ba0",
+    "times_seconds": "e141063afec3b8e96f5e5efb71b969e3f6176bbde2eb77e3e298263bac96c52f"
+  },
+  "decisive_arrays_sha256": "a72456ea6b38461531ba60f0e43209b14a5088f66df87949e929e196af52eaa6",
+  "historical_c2c3_classification_preserved": "direct_continuum_embedded_discrimination_failed_nonlinear_blocked",
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_embedded_cumulative_flux_diagnostic_wp10c9d6c7c2c4.py": "913a742340787266124874685a69db601b696fe192582bbbc66d324a64ef814e",
+    "tests/test_causal_inner_embedded_cumulative_flux_diagnostic_wp10c9d6c7c2c4.py": "ffd09ee03cbee21d415c22c4b44cb5c5d0b804269d3d192e4ee1841a2bea6bc5"
+  },
+  "implementation_source_manifest_sha256": "5a497034f64b8d07d769b1cd4e6ee274eef35d4a6679f5f83377f9ea2bbeafa2",
+  "input_hashes": {
+    "results/canonical/causal_inner_direct_continuum_embedded_discrimination_wp10c9d6c7c2c3/decisive_arrays.npz": "4f005282cfcfd348ae2a5273d9408ab03855455366971b3621774bb3afaa0fa9",
+    "results/canonical/causal_inner_direct_continuum_embedded_discrimination_wp10c9d6c7c2c3/summary.json": "71dcefd11004700b091d86ab65437c6433ea66d39fde094a59c4e71ebc962cf9",
+    "results/canonical/causal_inner_fixed_exterior_continuum_reference_wp10c9d6c7c2c2/decisive_arrays.npz": "0b78103fcc1feeffcdfe4041bfb21eced2cf38c9674e357c79f3024406f38a45",
+    "results/canonical/causal_inner_fixed_exterior_continuum_reference_wp10c9d6c7c2c2/summary.json": "b1103b3d4eea96f23756b531ac72eede2402a4015f003df07f61b341b25c9f7b"
+  },
+  "maximum_reference_exact_integral_solve_residual": 5.996922852977108e-13,
+  "new_state_propagation_executed": false,
+  "operator_changed": false,
+  "passed": true,
+  "reference_reports": {
+    "N513": {
+      "driver_exact_integral_relative_solve_residual": 5.996922852977108e-13,
+      "inner_exact_integral_relative_solve_residual": 5.1418487487970106e-14,
+      "maximum_exact_integral_relative_solve_residual": 5.996922852977108e-13,
+      "nodes": 513
+    },
+    "N769": {
+      "driver_exact_integral_relative_solve_residual": 5.996922852977108e-13,
+      "inner_exact_integral_relative_solve_residual": 4.84322029220408e-14,
+      "maximum_exact_integral_relative_solve_residual": 5.996922852977108e-13,
+      "nodes": 769
+    }
+  },
+  "runtime_seconds": 0.7567134159617126,
+  "schema_version": 1,
+  "source_parent_commit": "b2a09dd319099b8194b99e2a5df1393e9aecbcec",
+  "work_package": "WP10c9d6c7c2c4"
+}
