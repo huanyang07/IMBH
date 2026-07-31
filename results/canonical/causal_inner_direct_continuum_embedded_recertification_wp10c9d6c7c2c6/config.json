@@ -1,0 +1,77 @@
+{
+  "cached_basis_recombination_executed": true,
+  "component_order_routes": {
+    "alternate_route": {
+      "eligible_components": [
+        "inner_mass_flux",
+        "inner_angular_momentum_flux",
+        "inner_killing_energy_flux",
+        "coupling_mass_flux",
+        "coupling_angular_momentum_flux",
+        "coupling_killing_energy_flux"
+      ],
+      "maximum_exact_integral_solve_residual": 1e-10,
+      "maximum_fixed_scale_RMS_error": 0.05,
+      "maximum_fixed_scale_maximum_error": 0.05,
+      "maximum_reference_uncertainty_fixed_scale": 0.005000000000000001,
+      "maximum_reference_uncertainty_response_relative": 0.005000000000000001,
+      "maximum_response_relative_RMS_error": 0.05,
+      "maximum_response_relative_maximum_error": 0.05,
+      "minimum_continuum_history_cosine": 0.9,
+      "name": "fixed_exterior_direct_continuum_absolute_envelope",
+      "reference_nodes": [
+        513,
+        769
+      ],
+      "requires_all_three_embedded_levels_inside_envelope": true,
+      "strict_direct_error_order_required": false
+    },
+    "primary_route": {
+      "minimum_order": 0.75,
+      "name": "unchanged_pairwise_component_order"
+    }
+  },
+  "manifest_sha256": "8f76627e89985a42fec9d733587b5d26b78c4f3270033dd9d538aaf716749a2c",
+  "new_state_propagation_executed": false,
+  "operator_changed": false,
+  "profiles": [
+    "unseen_angle_11p25_acoustic_shear",
+    "unseen_angle_33p75_acoustic_shear",
+    "unseen_angle_56p25_acoustic_shear",
+    "unseen_angle_78p75_acoustic_shear",
+    "unseen_angle_101p25_acoustic_shear",
+    "unseen_angle_123p75_acoustic_shear",
+    "unseen_angle_146p25_acoustic_shear",
+    "unseen_angle_168p75_acoustic_shear"
+  ],
+  "schema_version": 1,
+  "tier_I_global_contract": {
+    "active_prefix": "cells_strictly_inside_coupling_face",
+    "exact_prefix_and_global_ledgers": true,
+    "historical_order_difference_and_cosine_gates_unchanged": true,
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_RMS_order": 0.75,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_significant_component_order": 0.75,
+    "observables": [
+      "state",
+      "inner_mass_flux",
+      "inner_angular_momentum_flux",
+      "inner_killing_energy_flux",
+      "coupling_mass_flux_when_active",
+      "coupling_angular_momentum_flux_when_active",
+      "coupling_killing_energy_flux_when_active",
+      "net_mass_drive",
+      "net_angular_momentum_drive",
+      "net_killing_energy_drive",
+      "cooling",
+      "responsive_height_work"
+    ],
+    "one_shared_conservative_face_flux": true,
+    "state_comparison": "conservative_restriction_to_the_common_N98_parent_grid"
+  },
+  "variant_count": 32,
+  "work_package": "WP10c9d6c7c2c6"
+}
