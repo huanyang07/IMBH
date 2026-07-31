@@ -21,6 +21,7 @@ from typing import Callable
 
 import numpy as np
 from scipy.interpolate import BSpline, make_interp_spline
+from scipy.sparse import block_diag, csr_matrix, eye, kron
 
 from imri_qpe.constants import C
 
@@ -395,6 +396,213 @@ def build_causal_five_field_continuum_background(
         base_stationary_density=stationary,
         base_rate_per_s=base_rate,
     )
+
+
+def causal_sixth_order_inward_collocation_derivative(
+    log_radii: np.ndarray,
+) -> csr_matrix:
+    """Return a sixth-order derivative for an inward-only collocation domain.
+
+    The interior uses a sixth-order seven-point upwind-biased stencil with
+    offsets ``[-2,-1,0,1,2,3,4]``.  Its Fourier symbol has nonpositive real
+    part for the declared negative-speed system.  The first two outflow rows
+    use the stable first-order forward closure.  Missing values beyond the
+    outer edge are homogeneous inflow data; the frozen packets vanish
+    throughout that buffer.
+    """
+
+    nodes = np.asarray(log_radii, dtype=float)
+    if (
+        nodes.ndim != 1
+        or nodes.size < 9
+        or np.any(~np.isfinite(nodes))
+        or np.any(np.diff(nodes) <= 0.0)
+    ):
+        raise ValueError("collocation log-radius nodes are invalid")
+    spacing = np.diff(nodes)
+    step = float(np.mean(spacing))
+    if np.max(np.abs(spacing - step)) > 1.0e-12 * max(abs(step), 1.0):
+        raise ValueError("collocation derivative requires uniform log nodes")
+    rows = []
+    columns = []
+    values = []
+    count = nodes.size
+    for row in (0, 1):
+        rows.extend((row, row))
+        columns.extend((row, row + 1))
+        values.extend((-1.0 / step, 1.0 / step))
+    offsets = np.arange(-2, 5, dtype=float)
+    matrix = np.asarray(
+        [offsets**degree for degree in range(7)],
+        dtype=float,
+    )
+    target = np.zeros(7, dtype=float)
+    target[1] = 1.0
+    weights = np.linalg.solve(matrix, target) / step
+    for row in range(2, count):
+        for offset, weight in zip(
+            offsets.astype(int),
+            weights,
+            strict=True,
+        ):
+            column = row + offset
+            if column < count:
+                rows.append(row)
+                columns.append(column)
+                values.append(weight)
+    return csr_matrix(
+        (values, (rows, columns)),
+        shape=(count, count),
+        dtype=float,
+    )
+
+
+def causal_five_field_inward_collocation_generator(
+    background: CausalFiveFieldContinuumBackground,
+) -> csr_matrix:
+    """Assemble an independent high-order continuum-history generator.
+
+    The returned matrix acts on node-major primitive perturbations and uses
+    the complete linearized continuum DAE, including mapped/height storage
+    derivatives and all lower-order blocks.  It is intentionally independent
+    of the finite-volume face/reconstruction tangent.
+    """
+
+    radii = np.asarray(background.radii, dtype=float)
+    count = radii.size
+    if count < 9:
+        raise ValueError("continuum generator needs at least nine nodes")
+    spatial = (
+        background.physical_flux_jacobians
+        - background.shear_principal_matrices
+        - background.height_principal_matrices
+    )
+    maximum_speed = max(
+        float(
+            np.max(
+                np.real(
+                    np.linalg.eigvals(
+                        np.linalg.solve(
+                            background.temporal_storage_matrices[index],
+                            spatial[index],
+                        )
+                    )
+                )
+            )
+        )
+        for index in range(count)
+    )
+    if maximum_speed >= 0.0:
+        raise ValueError(
+            "inward collocation generator requires strictly negative speeds"
+        )
+
+    derivative = causal_sixth_order_inward_collocation_derivative(
+        background.log_radii
+    )
+    field_identity = eye(_N_FIELDS, format="csr")
+    derivative_fields = kron(derivative, field_identity, format="csr")
+
+    def local(blocks: np.ndarray) -> csr_matrix:
+        values = np.asarray(blocks, dtype=float)
+        if values.shape != (count, _N_FIELDS, _N_FIELDS):
+            raise ValueError("local continuum blocks have invalid shape")
+        return block_diag(tuple(values), format="csr")
+
+    measures = np.asarray(background.face_measures, dtype=float)
+    inverse_radius = local(
+        np.repeat(
+            (1.0 / radii)[:, None, None],
+            _N_FIELDS,
+            axis=1,
+        )
+        * np.eye(_N_FIELDS)[None]
+    )
+    flux_action = local(
+        measures[:, None, None]
+        * background.physical_flux_jacobians
+    )
+    conservative = inverse_radius @ derivative_fields @ flux_action
+
+    shear_state = np.einsum(
+        "nijk,nj->nik",
+        background.shear_principal_derivatives,
+        background.primitive_radius_derivative,
+        optimize=True,
+    )
+    height_state = np.einsum(
+        "nijk,nj->nik",
+        background.height_principal_derivatives,
+        background.primitive_radius_derivative,
+        optimize=True,
+    )
+    shear = local(-measures[:, None, None] * shear_state) + local(
+        -measures[:, None, None]
+        * background.shear_principal_matrices
+        / radii[:, None, None]
+    ) @ derivative_fields
+    height = local(-measures[:, None, None] * height_state) + local(
+        -measures[:, None, None]
+        * background.height_principal_matrices
+        / radii[:, None, None]
+    ) @ derivative_fields
+
+    lower = (
+        local(
+            -measures[:, None, None]
+            * background.lower_source_jacobians["stress_relaxation"]
+        )
+        + local(
+            -measures[:, None, None]
+            * (
+                background.lower_source_jacobians[
+                    "perfect_fluid_geometry"
+                ]
+                + background.lower_source_jacobians["stress_geometry"]
+            )
+        )
+        + local(
+            -measures[:, None, None]
+            * background.lower_source_jacobians["radiative_cooling"]
+        )
+        + local(
+            -measures[:, None, None]
+            * background.lower_source_jacobians["vertical_work"]
+        )
+    )
+    mapped_storage = np.einsum(
+        "nijk,nj->nik",
+        background.mapped_conserved_hessians,
+        background.base_rate_per_s,
+        optimize=True,
+    )
+    height_storage = np.einsum(
+        "nijk,nj->nik",
+        background.vertical_storage_derivatives,
+        background.base_rate_per_s,
+        optimize=True,
+    )
+    storage = local(
+        measures[:, None, None] / C * (mapped_storage + height_storage)
+    )
+    density_action = conservative + shear + height + lower + storage
+    temporal_inverse = local(
+        np.asarray(
+            [
+                -C / measures[index]
+                * np.linalg.inv(background.temporal_storage_matrices[index])
+                for index in range(count)
+            ],
+            dtype=float,
+        )
+    )
+    generator = (temporal_inverse @ density_action).tocsr()
+    if generator.shape != (
+        count * _N_FIELDS,
+        count * _N_FIELDS,
+    ) or np.any(~np.isfinite(generator.data)):
+        raise RuntimeError("continuum collocation generator assembly failed")
+    return generator
 
 
 def linearize_causal_five_field_continuum_reference(

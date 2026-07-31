@@ -1,0 +1,105 @@
+{
+  "arrival_windows_seconds": {
+    "acoustic": [
+      0.0,
+      11.141908685984637
+    ],
+    "mixed_shear_acoustic": [
+      0.0,
+      11.82686804912109
+    ],
+    "shear": [
+      0.0,
+      11.82686804912109
+    ]
+  },
+  "binding_bases": [
+    "acoustic",
+    "shear",
+    "mixed_shear_acoustic",
+    "difference_shear_acoustic",
+    "shear_weighted_shear_acoustic"
+  ],
+  "continuum_nodes": [
+    513,
+    769
+  ],
+  "continuum_time_samples": 513,
+  "operator_changed": false,
+  "projection_quadrature_orders": [
+    12,
+    24
+  ],
+  "projector_contract": {
+    "common_high_resolution_local_field": "cross_grid_definition_sensitivity_diagnostic",
+    "frozen_midpoint_projector": "rotation_diagnostic_only_not_equivalent_uncertainty",
+    "hard_stop_on_unresolved_spectral_cluster": true,
+    "maximum_equivalent_local_projector_difference": 2e-08,
+    "maximum_projector_algebra_defect": 2e-09,
+    "physical_definition": "local descriptor-compatible energy-orthogonal invariant subspaces on the frozen background",
+    "raw_opposite_family_leakage_is_noncertifying": true,
+    "required_algorithms": [
+      "overlap_tracked_local_generalized_eigenvector_projector",
+      "local_polynomial_spectral_projector"
+    ]
+  },
+  "reference_levels": [
+    98,
+    196,
+    392
+  ],
+  "schema_version": 1,
+  "target_family_indices": {
+    "acoustic": [
+      0
+    ],
+    "difference_shear_acoustic": [
+      0,
+      1
+    ],
+    "mixed_shear_acoustic": [
+      0,
+      1
+    ],
+    "shear": [
+      1
+    ],
+    "shear_weighted_shear_acoustic": [
+      0,
+      1
+    ]
+  },
+  "uncertainty_contract": {
+    "combination": "conservative deterministic sum or directly measured nuisance envelope; root-sum-square is forbidden unless independence or measured covariance is demonstrated",
+    "components": [
+      "independent_continuum_history_reference",
+      "analytic_finite_volume_projection",
+      "equivalent_local_projector_algorithm",
+      "receiving_band_placement",
+      "arrival_window_placement",
+      "time_sampling_and_quadrature",
+      "restart",
+      "roundoff"
+    ],
+    "error_direction_rule": "both refinement-error norms must exceed their complete conservative envelopes by the observability factor; otherwise direction is non-certifying, not pass or fail",
+    "maximum_reference_uncertainty_to_medium_fine_difference": 0.1,
+    "no_slow_impact_threshold": true,
+    "observability_factor": 5.0
+  },
+  "uniform_gates": {
+    "exact_conservative_ledgers": true,
+    "exact_restart_replay": true,
+    "maximum_continuum_action_difference": 2e-05,
+    "maximum_continuum_history_to_medium_fine_difference": 0.1,
+    "maximum_fine_response_relative_difference": 0.05,
+    "maximum_scaling_and_sign_symmetry_defect": 1e-10,
+    "maximum_transfer_closure_defect": 2e-09,
+    "minimum_RMS_order": 0.75,
+    "minimum_component_order": 0.75,
+    "minimum_continuum_action_truncation_order": 0.75,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_observable_refinement_error_cosine": 0.9
+  },
+  "work_package": "WP10c9d6c7c2b6b"
+}
