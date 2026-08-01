@@ -1,0 +1,142 @@
+{
+  "authorized_next": "WP10c9d6c7c3b2b_nonlinear_short_horizon_spatial_export_pilot",
+  "classification": "nonlinear_short_horizon_spatial_export_manifest_frozen_canonical_response_pilot_authorized",
+  "decision": {
+    "all_tier_I_channels_pass": "authorize a definitions-only temporally refined bounded pilot; do not authorize the long ladder",
+    "state_passes_but_export_fails": "freeze the failed direct observable and audit its exact nonlinear ledger; no operator redesign without a stable mechanism",
+    "state_response_fails": "stop and localize the nonlinear spatial response; no export interpretation",
+    "tier_II_only_fails": "retain Tier-II as unresolved and do not alter the Tier-I pilot classification"
+  },
+  "hard_stops": [
+    "do not relabel any c7c1b or c3b1 classification",
+    "do not change production defaults",
+    "do not use N1024",
+    "do not infer temporal convergence from one timestep",
+    "do not launch the 0.125-second nonlinear ladder",
+    "do not begin fixed-Q or reduced slow-time evolution"
+  ],
+  "input_audit": {
+    "all_step_boundaries_bitwise_continuous": true,
+    "case_count": 48,
+    "layout_count": 3,
+    "maximum_step_continuity_defect": 0.0,
+    "passed": true,
+    "profile_count": 4,
+    "saved_time_count": 5,
+    "variant_count": 4
+  },
+  "interpretation_limits": {
+    "fixed_q_micro_solver_authorized": false,
+    "interface_scattering_certified": false,
+    "long_time_physical_convergence_certified": false,
+    "nonlinear_physical_ladder_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "spatial_pilot_only": true,
+    "temporal_convergence_certified": false
+  },
+  "method_gates_inherited": {
+    "BDF2_step3_split_restart_replay": "bitwise",
+    "all_final_checkpoint_roundtrips": "bitwise",
+    "full_four_step_preflight_must_remain_passed": true,
+    "incoming_excision_characteristics": 0,
+    "maximum_discrete_ledger_defect": 1e-12,
+    "maximum_scaled_residual": 1e-10
+  },
+  "nonlinear_response": {
+    "cumulative_export_rule": "trapezoidal integration of the instantaneous nonlinear export response on the five frozen saved times",
+    "definition": "perturbed nonlinear trajectory minus the independently evolved unperturbed trajectory on the same layout",
+    "export_response": "perturbed direct observable minus unperturbed direct observable on the same layout and saved time",
+    "fixed_observable_scales": "c7a fixed physical 13-export scales",
+    "instantaneous_export_definition": "evaluate the complete monolithic stationary ledger at each saved state with zero temporal increment, then apply causal_embedded_active_direct_observables at parent face 48",
+    "observable_names": [
+      "inner_flux_mass",
+      "inner_flux_angular_momentum",
+      "inner_flux_killing_energy",
+      "interface_flux_mass",
+      "interface_flux_angular_momentum",
+      "interface_flux_killing_energy",
+      "net_drive_mass",
+      "net_drive_angular_momentum",
+      "net_drive_killing_energy",
+      "cooling_angular_momentum",
+      "cooling_killing_energy",
+      "vertical_work_angular_momentum",
+      "vertical_work_killing_energy"
+    ],
+    "state_normalization": "fixed c7a five-field physical scales",
+    "state_restriction": "exact conservative restriction to the common 64-cell parent grid at every saved time"
+  },
+  "operator_changed": false,
+  "propagation_executed": false,
+  "schema_version": 1,
+  "scope": {
+    "all_profile_variants_binding": true,
+    "horizon_seconds": 4e-05,
+    "inner_refinement_ratios": [
+      1,
+      2,
+      4
+    ],
+    "layouts": [
+      "N128_exterior_N128_inner_c48",
+      "N128_exterior_N256_inner_c48",
+      "N128_exterior_N512_inner_c48"
+    ],
+    "output_times_seconds": [
+      0.0,
+      1e-05,
+      2e-05,
+      3.0000000000000004e-05,
+      4e-05
+    ],
+    "profiles": [
+      "p4__inward_shear",
+      "p4__outward_shear",
+      "p3_buffer45__inward_shear",
+      "p3_buffer45__outward_shear"
+    ],
+    "purpose": "reuse the certified four-step nonlinear histories to test short-time embedded spatial contraction before any new trajectory is launched",
+    "timestep_seconds": 1e-05,
+    "variant_multipliers": [
+      1.0,
+      -1.0,
+      0.5,
+      -0.5
+    ],
+    "variants_are_sign_and_amplitude_controls_not_independent_physical_profiles": true
+  },
+  "tier_II_contract": {
+    "c7c1b_auxiliary_observability_remains_unresolved": true,
+    "may_not_rescue_or_fail_tier_I": true,
+    "report_total_positive_and_characteristic_energy_if_available": true,
+    "status": "diagnostic_only_nonpromoted"
+  },
+  "tier_I_binding_contract": {
+    "cumulative_13_export_response": true,
+    "fail_fast_order": [
+      "state_response",
+      "instantaneous_13_export_response",
+      "cumulative_13_export_response"
+    ],
+    "gates": {
+      "maximum_fine_normalized_difference": 0.05,
+      "minimum_history_cosine": 0.9,
+      "minimum_maximum_order": 0.75,
+      "minimum_refinement_error_cosine": 0.9,
+      "minimum_relative_activity": 1e-08,
+      "minimum_rms_order": 0.75,
+      "minimum_significant_component_order": 0.75
+    },
+    "instantaneous_13_export_response": true,
+    "no_gate_changes_after_manifest": true,
+    "refinement_ratio": 2.0,
+    "significant_component_activity_uses_fixed_physical_scales": true,
+    "spatial_triplet": [
+      "N128_exterior_N128_inner_c48",
+      "N128_exterior_N256_inner_c48",
+      "N128_exterior_N512_inner_c48"
+    ],
+    "state_response": true
+  },
+  "work_package": "WP10c9d6c7c3b2a"
+}

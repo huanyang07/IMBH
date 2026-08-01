@@ -1,0 +1,61 @@
+{
+  "analyzed_base_commit": "bb7eac431f4f12fd03d27f2937a515e5f5993eb1",
+  "coupling_parent_face": 48,
+  "inner_refinement_ratios": [
+    1,
+    2,
+    4
+  ],
+  "layouts": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "observable_names": [
+    "inner_flux_mass",
+    "inner_flux_angular_momentum",
+    "inner_flux_killing_energy",
+    "interface_flux_mass",
+    "interface_flux_angular_momentum",
+    "interface_flux_killing_energy",
+    "net_drive_mass",
+    "net_drive_angular_momentum",
+    "net_drive_killing_energy",
+    "cooling_angular_momentum",
+    "cooling_killing_energy",
+    "vertical_work_angular_momentum",
+    "vertical_work_killing_energy"
+  ],
+  "output_times_seconds": [
+    0.0,
+    1e-05,
+    2e-05,
+    3.0000000000000004e-05,
+    4e-05
+  ],
+  "profiles": [
+    "p4__inward_shear",
+    "p4__outward_shear",
+    "p3_buffer45__inward_shear",
+    "p3_buffer45__outward_shear"
+  ],
+  "schema_version": 1,
+  "step_count": 4,
+  "tier_I_gates": {
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_relative_activity": 1e-08,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75
+  },
+  "timestep_seconds": 1e-05,
+  "variant_multipliers": [
+    1.0,
+    -1.0,
+    0.5,
+    -0.5
+  ],
+  "work_package": "WP10c9d6c7c3b2a"
+}
