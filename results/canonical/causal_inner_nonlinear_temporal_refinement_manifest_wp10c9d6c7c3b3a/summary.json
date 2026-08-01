@@ -1,0 +1,82 @@
+{
+  "analyzed_base_commit": "bf1ed9e6a11a7e687f8544ae6daae6c3e1cd9203",
+  "analyzed_base_parent_commit": "67b3e70e3eadb43d12229f89daecec5b04d0e7fb",
+  "analyzed_base_tree_sha": "b41dd8d4baca809e9948471866e403666347eb0a",
+  "authorized_next": "WP10c9d6c7c3b3b1_coarse_inward_outward_temporal_screen",
+  "case_selection_audit": {
+    "cumulative_export_worst_case": "p3_buffer45__inward_shear__p1",
+    "instantaneous_export_worst_case": "p3_buffer45__inward_shear__p1",
+    "passed": true,
+    "primary_case_id": "p3_buffer45__inward_shear__p1",
+    "primary_cumulative_export_error_cosine": 0.9406408312308518,
+    "primary_instantaneous_export_error_cosine": 0.9406918153607597,
+    "primary_state_error_cosine": 0.9486126796079318,
+    "secondary_case_id": "p3_buffer45__outward_shear__p1",
+    "selection_rule": "full-amplitude case with the smallest inherited state or Tier-I refinement-error cosine; add the same-support outward full-amplitude profile as the propagation-direction control",
+    "state_worst_case": "p3_buffer45__inward_shear__p1"
+  },
+  "classification": "nonlinear_temporal_refinement_manifest_frozen_coarse_temporal_screen_authorized",
+  "coarse_temporal_screen_authorized": true,
+  "config_sha256": "1dd90413cc01b5a2043d5e0e638c9acee0ae35f80043ffb1e5b664273b5d0d0c",
+  "cost_audit": {
+    "full_matrix_estimated_cpu_hours": 144.7711556643566,
+    "median_step_seconds_by_layout": {
+      "N128_exterior_N128_inner_c48": 213.16287533345167,
+      "N128_exterior_N256_inner_c48": 372.75855389609933,
+      "N128_exterior_N512_inner_c48": 691.4711207500659
+    },
+    "new_refined_steps_per_trajectory": 24,
+    "passed": true,
+    "refined_hours_per_trajectory": {
+      "N128_exterior_N128_inner_c48": 1.4210858355563445,
+      "N128_exterior_N256_inner_c48": 2.4850570259739957,
+      "N128_exterior_N512_inner_c48": 4.609807471667106
+    },
+    "stage_estimated_cpu_hours": [
+      4.263257506669033,
+      4.970114051947991,
+      9.219614943334212,
+      4.263257506669033
+    ],
+    "stage_trajectory_counts": [
+      3,
+      2,
+      2,
+      3
+    ],
+    "staged_to_full_matrix_cost_ratio": 0.156911395121322,
+    "staged_total_estimated_cpu_hours": 22.716244008620272
+  },
+  "decisive_array_hashes": {
+    "common_output_times_seconds": "4a75f97178caf61ee9019c9bf99c80252f66a5998135b1914774350f854a52a4",
+    "median_step_seconds_by_layout": "212fd938f72075efaf686d43103c523d216c31fe7cfc5dc00a5d6431897f4ae9",
+    "refined_hours_per_trajectory": "b3a5f4b2e6f211f22002747750a5e3c4c9b5dc15b6c1bf6821a296d83c13f46d",
+    "selection_error_cosines": "1ea3fbd2c2dbaa6f23accaf6bd9460f368ca56d7d0f79f1fe04f2e6d797735ca",
+    "stage_estimated_cpu_hours": "04594174044a28bdabb06a7f2dabe498f802e9db3084edef6b00cc3a31b6c351",
+    "step_counts": "9b139906fdf994bf208d0555607e0ff8cb317113af7319ee9fb19f824d8b1168",
+    "timestep_levels_seconds": "c98bbb2102e2f861e782fa33a53d2a2a2c517ccd89773e1d62d00e7aa8eeb80f"
+  },
+  "decisive_arrays_sha256": "eb1f83ba96c86878eca663233529ca5303f60d9addae7ca02d43e16b69045107",
+  "fixed_q_micro_solver_authorized": false,
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_nonlinear_temporal_refinement_manifest_wp10c9d6c7c3b3a.py": "a2149e7164d62ae2114d49e3f480fea94506c35fa42cc5071ad60a7e3bbebdd7",
+    "tests/test_causal_inner_nonlinear_temporal_refinement_manifest_wp10c9d6c7c3b3a.py": "ffa08b8bb0c135009f5d03548f932430ca9b9ff93a3b67d4e8134e5c43008556"
+  },
+  "input_hashes": {
+    "parent_arrays": "ede01c735c43d80574da33bce64a0683ed74e1ba1786804a4d07c70c72268443",
+    "parent_summary": "4649d1871cb10ccc1b5796c2d58bfcf602c871b750935e5b239f5df8c24ba6e9",
+    "preflight_summary": "3a05cf0f5ba2205b56c28083d6ffc804bb1dad7a64b2a3b1c29d2fe107d5d634",
+    "spatial_manifest": "5c7c87a61993f47726206bbd72e7b214debb68d62d9bc40dd7a3505501145c89"
+  },
+  "long_nonlinear_physical_ladder_authorized": false,
+  "manifest_file_sha256": "50c647fa5b84eff168cae2a85e972fe65bec07cdabe4ee60c2c4b96f2ed59e6f",
+  "meaningfully_nonlinear_dynamics_certified": false,
+  "operator_changed": false,
+  "parent_classification": "nonlinear_short_horizon_state_and_tier_I_export_spatial_pilot_certified_temporal_refinement_manifest_authorized",
+  "passed": true,
+  "propagation_executed": false,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "temporal_convergence_certified": false,
+  "work_package": "WP10c9d6c7c3b3a"
+}

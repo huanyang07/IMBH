@@ -1,0 +1,98 @@
+{
+  "analyzed_base_commit": "bf1ed9e6a11a7e687f8544ae6daae6c3e1cd9203",
+  "common_output_times_seconds": [
+    0.0,
+    1e-05,
+    2e-05,
+    3.0000000000000004e-05,
+    4e-05
+  ],
+  "fail_fast_stages": [
+    {
+      "binding": true,
+      "estimated_cpu_hours": 4.263257506669033,
+      "layout": "N128_exterior_N128_inner_c48",
+      "name": "coarse_inward_outward_temporal_screen",
+      "trajectories": [
+        "unperturbed_background",
+        "p3_buffer45__inward_shear__p1",
+        "p3_buffer45__outward_shear__p1"
+      ],
+      "work_package": "WP10c9d6c7c3b3b1"
+    },
+    {
+      "conditional_on": "c3b3b1_pass",
+      "estimated_cpu_hours": 4.970114051947991,
+      "layout": "N128_exterior_N256_inner_c48",
+      "name": "middle_primary_temporal_confirmation",
+      "trajectories": [
+        "unperturbed_background",
+        "p3_buffer45__inward_shear__p1"
+      ],
+      "work_package": "WP10c9d6c7c3b3b2"
+    },
+    {
+      "conditional_on": "c3b3b2_pass",
+      "estimated_cpu_hours": 9.219614943334212,
+      "layout": "N128_exterior_N512_inner_c48",
+      "name": "fine_primary_temporal_confirmation",
+      "trajectories": [
+        "unperturbed_background",
+        "p3_buffer45__inward_shear__p1"
+      ],
+      "work_package": "WP10c9d6c7c3b3b3"
+    },
+    {
+      "conditional_on": "c3b3b3_pass",
+      "estimated_cpu_hours": 4.263257506669033,
+      "layout": "N128_exterior_N128_inner_c48",
+      "name": "coarse_primary_nonlinear_symmetry_controls",
+      "reuses": [
+        "unperturbed_background",
+        "p3_buffer45__inward_shear__p1"
+      ],
+      "trajectories": [
+        "p3_buffer45__inward_shear__m1",
+        "p3_buffer45__inward_shear__p0p5",
+        "p3_buffer45__inward_shear__m0p5"
+      ],
+      "work_package": "WP10c9d6c7c3b3b4"
+    }
+  ],
+  "horizon_seconds": 4e-05,
+  "layouts": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "nonlinear_control_variants": [
+    -1.0,
+    0.5,
+    -0.5
+  ],
+  "primary_case_id": "p3_buffer45__inward_shear__p1",
+  "schema_version": 1,
+  "secondary_case_id": "p3_buffer45__outward_shear__p1",
+  "step_counts": [
+    4,
+    8,
+    16
+  ],
+  "temporal_gates": {
+    "maximum_fine_normalized_temporal_difference": 0.05,
+    "maximum_selected_step_richardson_error": 0.005,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 1.5,
+    "minimum_observable_refinement_error_cosine": 0.9,
+    "minimum_relative_activity": 1e-08,
+    "minimum_rms_order": 1.5,
+    "minimum_significant_component_order": 1.5,
+    "observability_factor": 5.0
+  },
+  "timestep_levels_seconds": [
+    1e-05,
+    5e-06,
+    2.5e-06
+  ],
+  "work_package": "WP10c9d6c7c3b3a"
+}

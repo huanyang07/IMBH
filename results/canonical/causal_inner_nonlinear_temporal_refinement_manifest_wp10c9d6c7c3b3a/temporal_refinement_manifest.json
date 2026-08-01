@@ -1,0 +1,204 @@
+{
+  "authorized_next": "WP10c9d6c7c3b3b1_coarse_inward_outward_temporal_screen",
+  "case_selection": {
+    "cumulative_export_worst_case": "p3_buffer45__inward_shear__p1",
+    "instantaneous_export_worst_case": "p3_buffer45__inward_shear__p1",
+    "passed": true,
+    "primary_case_id": "p3_buffer45__inward_shear__p1",
+    "primary_cumulative_export_error_cosine": 0.9406408312308518,
+    "primary_instantaneous_export_error_cosine": 0.9406918153607597,
+    "primary_state_error_cosine": 0.9486126796079318,
+    "secondary_case_id": "p3_buffer45__outward_shear__p1",
+    "selection_rule": "full-amplitude case with the smallest inherited state or Tier-I refinement-error cosine; add the same-support outward full-amplitude profile as the propagation-direction control",
+    "state_worst_case": "p3_buffer45__inward_shear__p1"
+  },
+  "classification": "nonlinear_temporal_refinement_manifest_frozen_coarse_temporal_screen_authorized",
+  "cost_audit": {
+    "full_matrix_estimated_cpu_hours": 144.7711556643566,
+    "median_step_seconds_by_layout": {
+      "N128_exterior_N128_inner_c48": 213.16287533345167,
+      "N128_exterior_N256_inner_c48": 372.75855389609933,
+      "N128_exterior_N512_inner_c48": 691.4711207500659
+    },
+    "new_refined_steps_per_trajectory": 24,
+    "passed": true,
+    "refined_hours_per_trajectory": {
+      "N128_exterior_N128_inner_c48": 1.4210858355563445,
+      "N128_exterior_N256_inner_c48": 2.4850570259739957,
+      "N128_exterior_N512_inner_c48": 4.609807471667106
+    },
+    "stage_estimated_cpu_hours": [
+      4.263257506669033,
+      4.970114051947991,
+      9.219614943334212,
+      4.263257506669033
+    ],
+    "stage_trajectory_counts": [
+      3,
+      2,
+      2,
+      3
+    ],
+    "staged_to_full_matrix_cost_ratio": 0.156911395121322,
+    "staged_total_estimated_cpu_hours": 22.716244008620272
+  },
+  "decision": {
+    "all_four_stages_pass": "authorize a definitions-only short-horizon nonlinear profile-breadth and efficient-controller manifest",
+    "coarse_passes_but_refined_layout_fails": "audit space-time stiffness and timestep control before any physical duration extension",
+    "stage_passes": "commit and push its certificate, then execute only the next frozen stage",
+    "temporal_order_or_budget_fails": "stop duration extension and localize BDF startup, temporal storage/path history, residual and export quadrature; do not redesign the spatial operator"
+  },
+  "fail_fast_stages": [
+    {
+      "binding": true,
+      "estimated_cpu_hours": 4.263257506669033,
+      "layout": "N128_exterior_N128_inner_c48",
+      "name": "coarse_inward_outward_temporal_screen",
+      "trajectories": [
+        "unperturbed_background",
+        "p3_buffer45__inward_shear__p1",
+        "p3_buffer45__outward_shear__p1"
+      ],
+      "work_package": "WP10c9d6c7c3b3b1"
+    },
+    {
+      "conditional_on": "c3b3b1_pass",
+      "estimated_cpu_hours": 4.970114051947991,
+      "layout": "N128_exterior_N256_inner_c48",
+      "name": "middle_primary_temporal_confirmation",
+      "trajectories": [
+        "unperturbed_background",
+        "p3_buffer45__inward_shear__p1"
+      ],
+      "work_package": "WP10c9d6c7c3b3b2"
+    },
+    {
+      "conditional_on": "c3b3b2_pass",
+      "estimated_cpu_hours": 9.219614943334212,
+      "layout": "N128_exterior_N512_inner_c48",
+      "name": "fine_primary_temporal_confirmation",
+      "trajectories": [
+        "unperturbed_background",
+        "p3_buffer45__inward_shear__p1"
+      ],
+      "work_package": "WP10c9d6c7c3b3b3"
+    },
+    {
+      "conditional_on": "c3b3b3_pass",
+      "estimated_cpu_hours": 4.263257506669033,
+      "layout": "N128_exterior_N128_inner_c48",
+      "name": "coarse_primary_nonlinear_symmetry_controls",
+      "reuses": [
+        "unperturbed_background",
+        "p3_buffer45__inward_shear__p1"
+      ],
+      "trajectories": [
+        "p3_buffer45__inward_shear__m1",
+        "p3_buffer45__inward_shear__p0p5",
+        "p3_buffer45__inward_shear__m0p5"
+      ],
+      "work_package": "WP10c9d6c7c3b3b4"
+    }
+  ],
+  "hard_stops": [
+    "do not change the monolithic spatial operator or interface",
+    "do not launch the complete 16-case by three-layout matrix",
+    "do not bind a ratio to a spatial error below uncertainty",
+    "do not run N1024",
+    "do not launch the 0.125-second nonlinear ladder",
+    "do not begin fixed-Q or reduced slow-time evolution",
+    "do not stage unrelated untracked docs/reports/gpt files"
+  ],
+  "interpretation_limits": {
+    "fixed_q_micro_solver_authorized": false,
+    "long_nonlinear_physical_ladder_authorized": false,
+    "meaningfully_nonlinear_dynamics_certified": false,
+    "reduced_slow_evolution_authorized": false,
+    "temporal_convergence_certified": false
+  },
+  "method_gates": {
+    "checkpoint_roundtrip": "bitwise",
+    "incoming_excision_characteristics": 0,
+    "mapped_endpoint_path_closure_gate_inherited": true,
+    "maximum_discrete_ledger_defect": 1e-12,
+    "maximum_scaled_residual": 1e-10,
+    "minimum_reconstruction_factor": 1.0,
+    "physical_admissibility_gates_inherited": true,
+    "split_restart_replay": "bitwise"
+  },
+  "nonlinear_response_diagnostics": {
+    "even_response": "(R_A + R_minus_A) / 2",
+    "half_amplitude_defect": "R_A - 2 R_A_over_2",
+    "meaningfully_nonlinear_claim_requires_spatial_and_temporal_convergence_of_nonzero_remainder": true,
+    "odd_response": "(R_A - R_minus_A) / 2",
+    "odd_vs_frozen_linear_tangent": true,
+    "status": "explanatory_until_resolved_above_uncertainty"
+  },
+  "numerical_uncertainty_contract": {
+    "combination_rule": "conservative_envelope_not_RSS",
+    "no_uncertainty_source_may_be_set_to_zero_without_evidence": true,
+    "sources": [
+      "nonlinear residual and independent residual replay",
+      "checkpoint split/restart replay",
+      "dense/colored or independent Jacobian-action spot check",
+      "instantaneous export reevaluation",
+      "cumulative export quadrature at common output times",
+      "roundoff-scale deterministic rerun"
+    ]
+  },
+  "operator_changed": false,
+  "propagation_executed": false,
+  "schema_version": 1,
+  "scope": {
+    "common_output_times_seconds": [
+      0.0,
+      1e-05,
+      2e-05,
+      3.0000000000000004e-05,
+      4e-05
+    ],
+    "each_level_uses_own_BDF1_startup_then_BDF2": true,
+    "existing_1e_minus_5_history_reused_by_hash": true,
+    "horizon_seconds": 4e-05,
+    "purpose": "certify temporal convergence of the nonlinear perturbed-minus-background state and Tier-I exports before extending physical time",
+    "smaller_timestep_histories_require_new_propagation": true,
+    "step_counts": [
+      4,
+      8,
+      16
+    ],
+    "timestep_levels_seconds": [
+      1e-05,
+      5e-06,
+      2.5e-06
+    ]
+  },
+  "space_time_budget": {
+    "binding_selected_step_error_is_richardson_estimate": true,
+    "interpretation": "ten percent of the inherited 0.05 Tier-I normalized accuracy allowance, not ten percent of a near-zero raw spatial difference",
+    "maximum_selected_step_normalized_error": 0.005,
+    "temporal_to_spatial_error_ratio": "reported only when the spatial difference exceeds its independent uncertainty floor; not a binding raw ratio"
+  },
+  "temporal_binding_contract": {
+    "below_floor_result": "certify an upper bound; do not force an order or angle",
+    "cumulative_13_export_response_binding": true,
+    "error_cosine_binding_rule": "both temporal refinement-error norms must exceed the complete frozen numerical uncertainty envelope by the observability factor",
+    "gates": {
+      "maximum_fine_normalized_temporal_difference": 0.05,
+      "maximum_selected_step_richardson_error": 0.005,
+      "minimum_history_cosine": 0.9,
+      "minimum_maximum_order": 1.5,
+      "minimum_observable_refinement_error_cosine": 0.9,
+      "minimum_relative_activity": 1e-08,
+      "minimum_rms_order": 1.5,
+      "minimum_significant_component_order": 1.5,
+      "observability_factor": 5.0
+    },
+    "instantaneous_13_export_response_binding": true,
+    "response_definition": "perturbed nonlinear trajectory minus independently evolved unperturbed trajectory at the same layout, timestep and physical output time",
+    "state_and_export_scales": "unchanged c3b2a fixed physical scales",
+    "state_response_binding": true,
+    "temporal_order_binding_only_for_significant_observable_differences": true
+  },
+  "work_package": "WP10c9d6c7c3b3a"
+}
