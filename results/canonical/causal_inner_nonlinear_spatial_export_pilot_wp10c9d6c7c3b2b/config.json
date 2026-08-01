@@ -1,0 +1,53 @@
+{
+  "analyzed_base_commit": "67b3e70e3eadb43d12229f89daecec5b04d0e7fb",
+  "layouts": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "observable_names": [
+    "inner_flux_mass",
+    "inner_flux_angular_momentum",
+    "inner_flux_killing_energy",
+    "interface_flux_mass",
+    "interface_flux_angular_momentum",
+    "interface_flux_killing_energy",
+    "net_drive_mass",
+    "net_drive_angular_momentum",
+    "net_drive_killing_energy",
+    "cooling_angular_momentum",
+    "cooling_killing_energy",
+    "vertical_work_angular_momentum",
+    "vertical_work_killing_energy"
+  ],
+  "profiles": [
+    "p4__inward_shear",
+    "p4__outward_shear",
+    "p3_buffer45__inward_shear",
+    "p3_buffer45__outward_shear"
+  ],
+  "schema_version": 1,
+  "tier_I_gates": {
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_relative_activity": 1e-08,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75
+  },
+  "times_seconds": [
+    0.0,
+    1e-05,
+    2e-05,
+    3.0000000000000004e-05,
+    4e-05
+  ],
+  "variant_multipliers": [
+    1.0,
+    -1.0,
+    0.5,
+    -0.5
+  ],
+  "work_package": "WP10c9d6c7c3b2b"
+}
