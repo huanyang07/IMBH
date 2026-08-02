@@ -1,0 +1,41 @@
+{
+  "analyzed_base_commit": "fd2ed817c6bc32195b9c476726b9d640c68b8013",
+  "common_output_times_seconds": [
+    0.0,
+    1e-05,
+    2e-05,
+    3.0000000000000004e-05,
+    4e-05
+  ],
+  "horizon_seconds": 4e-05,
+  "layout": "N128_exterior_N128_inner_c48",
+  "nonlinear_remainders_binding": false,
+  "profile": "p3_buffer45__inward_shear",
+  "reused_cases": [
+    "unperturbed_background",
+    "p3_buffer45__inward_shear__p1"
+  ],
+  "schema_version": 1,
+  "temporal_gates": {
+    "maximum_fine_normalized_difference": 0.05,
+    "maximum_selected_step_richardson_error": 0.005,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 1.5,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_relative_activity": 1e-08,
+    "minimum_rms_order": 1.5,
+    "minimum_significant_component_order": 1.5,
+    "observability_factor": 5.0
+  },
+  "timestep_levels_seconds": [
+    1e-05,
+    5e-06,
+    2.5e-06
+  ],
+  "variants": {
+    "m0p5": -0.5,
+    "m1": -1.0,
+    "p0p5": 0.5
+  },
+  "work_package": "WP10c9d6c7c3b3b4"
+}
