@@ -1,0 +1,78 @@
+{
+  "analyzed_base_commit": "1e5fcc3900b2d3bd44f792ee768291dab5459f03",
+  "binding_propagation_multiplier": 1.0,
+  "horizon_seconds": 4e-05,
+  "layouts": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "profile_amplitude": 0.01,
+  "profiles": {
+    "p3_buffer45__generic_five_field": {
+      "coupling_trace_expectation": "inactive",
+      "family": "mixed",
+      "mixed_coefficients": [
+        0.35,
+        -0.4,
+        0.5,
+        -0.45,
+        0.3
+      ],
+      "role": "generic_five_family_control",
+      "support_upper_parent_face": 45,
+      "window_power": 3
+    },
+    "p3_buffer45__material": {
+      "coupling_trace_expectation": "inactive",
+      "family": "material",
+      "mixed_coefficients": null,
+      "role": "material_contact_control",
+      "support_upper_parent_face": 45,
+      "window_power": 3
+    },
+    "p4__inward_acoustic": {
+      "coupling_trace_expectation": "active",
+      "family": "inward_acoustic",
+      "mixed_coefficients": null,
+      "role": "acoustic_direction_control",
+      "support_upper_parent_face": 48,
+      "window_power": 4
+    },
+    "p4__inward_shear_acoustic_mix": {
+      "coupling_trace_expectation": "active",
+      "family": "mixed",
+      "mixed_coefficients": [
+        0.7071067811865475,
+        0.7071067811865475,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "role": "mixed_shear_acoustic_control",
+      "support_upper_parent_face": 48,
+      "window_power": 4
+    },
+    "p4__outward_acoustic": {
+      "coupling_trace_expectation": "active",
+      "family": "outward_acoustic",
+      "mixed_coefficients": null,
+      "role": "acoustic_direction_control",
+      "support_upper_parent_face": 48,
+      "window_power": 4
+    }
+  },
+  "readiness_multipliers": [
+    1.0,
+    -1.0,
+    0.5,
+    -0.5
+  ],
+  "schema_version": 1,
+  "timestep_levels_seconds": [
+    1e-05,
+    5e-06,
+    2.5e-06
+  ],
+  "work_package": "WP10c9d6c7c3b4a"
+}

@@ -1,0 +1,933 @@
+{
+  "authorized_next": "WP10c9d6c7c3b4b1_coarse_short_horizon_nonlinear_profile_breadth_screen",
+  "binding_contract": {
+    "Tier_II": "diagnostic_nonpromoted",
+    "checkpoint_roundtrip": "bitwise",
+    "common_output_times_seconds": [
+      0.0,
+      1e-05,
+      2e-05,
+      3.0000000000000004e-05,
+      4e-05
+    ],
+    "horizon_seconds": 4e-05,
+    "incoming_excision_characteristics": 0,
+    "maximum_discrete_ledger_defect": 1e-12,
+    "maximum_scaled_residual": 1e-10,
+    "split_restart_replay": "bitwise",
+    "state_and_Tier_I_metrics": "unchanged b3a temporal and b2a spatial response contracts",
+    "timestep_levels_seconds": [
+      1e-05,
+      5e-06,
+      2.5e-06
+    ]
+  },
+  "binding_propagation_multiplier": 1.0,
+  "campaign_controller": {
+    "background_histories_reused_by_hash": true,
+    "estimated_naive_full_matrix_cpu_hours": 49.67637694365177,
+    "estimated_stage_cpu_hours": {
+      "coarse_fixed_step_method_screen": 1.1842381962969537,
+      "coarse_temporal_refinement": 7.105429177781722,
+      "middle_fine_spatial_confirmation": 5.9123870813675845
+    },
+    "estimated_staged_cpu_hours": 14.20205445544626,
+    "future_duration_controller_status": "not_yet_authorized; variable-step BDF2 and step-doubling must be frozen and certified after profile breadth passes",
+    "kind": "fail_fast_checkpoint_safe_campaign_controller",
+    "new_profile_histories_must_not_be_recombined_from_linear_bases": true,
+    "passed": true,
+    "selected_short_horizon_timestep_seconds": 1e-05,
+    "selected_step_basis": "all certified b3b1-b3b4 state and Tier-I selected-step Richardson bounds are below the frozen 0.005 budget",
+    "staged_to_naive_cost_ratio": 0.2858915107991016,
+    "stages": [
+      {
+        "layout": "N128_exterior_N128_inner_c48",
+        "name": "coarse_fixed_step_method_screen",
+        "profiles": [
+          "p4__inward_acoustic",
+          "p4__outward_acoustic",
+          "p3_buffer45__material",
+          "p4__inward_shear_acoustic_mix",
+          "p3_buffer45__generic_five_field"
+        ],
+        "stop_on_any_method_or_readiness_failure": true,
+        "timestep_seconds": 1e-05,
+        "work_package": "WP10c9d6c7c3b4b1"
+      },
+      {
+        "layout": "N128_exterior_N128_inner_c48",
+        "name": "coarse_temporal_refinement",
+        "profiles": [
+          "p4__inward_acoustic",
+          "p4__outward_acoustic",
+          "p3_buffer45__material",
+          "p4__inward_shear_acoustic_mix",
+          "p3_buffer45__generic_five_field"
+        ],
+        "stop_on_any_state_or_Tier_I_temporal_failure": true,
+        "timestep_seconds": [
+          5e-06,
+          2.5e-06
+        ],
+        "work_package": "WP10c9d6c7c3b4b2"
+      },
+      {
+        "layouts": [
+          "N128_exterior_N256_inner_c48",
+          "N128_exterior_N512_inner_c48"
+        ],
+        "name": "middle_fine_spatial_confirmation",
+        "profiles": [
+          "p4__inward_acoustic",
+          "p4__outward_acoustic",
+          "p3_buffer45__material",
+          "p4__inward_shear_acoustic_mix",
+          "p3_buffer45__generic_five_field"
+        ],
+        "stop_on_any_state_or_Tier_I_spatial_failure": true,
+        "timestep_seconds": 1e-05,
+        "work_package": "WP10c9d6c7c3b4b3"
+      }
+    ]
+  },
+  "classification": "short_horizon_nonlinear_profile_breadth_and_controller_manifest_frozen_coarse_breadth_screen_authorized",
+  "hard_stops": [
+    "no profile tuning after this manifest",
+    "no duration extension before all breadth stages pass",
+    "no meaningful-nonlinearity claim from the fixed 0.01 amplitude",
+    "no operator or production-default change",
+    "no fixed-Q or reduced evolution",
+    "no N1024 rescue"
+  ],
+  "initial_physical_readiness": {
+    "all_coupling_trace_expectations_passed": true,
+    "layouts": {
+      "N128_exterior_N128_inner_c48": {
+        "n_cells": 64,
+        "profiles": {
+          "p3_buffer45__generic_five_field": {
+            "array_sha256": "999af8439d47d78765ef24c998585c66baeeb496aae8b70c0805d4d99eec5238",
+            "coupling_trace_expectation": "inactive",
+            "coupling_trace_expectation_passed": true,
+            "maximum_coupling_trace_fraction": 0.0,
+            "readiness_variants": [
+              {
+                "coupling_trace_jump": 2.062139508345396e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09867814704655546,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 19.018089119063582,
+                "multiplier": 1.0
+              },
+              {
+                "coupling_trace_jump": 2.062139508345396e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09880537523514403,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.823823133008467,
+                "multiplier": -1.0
+              },
+              {
+                "coupling_trace_jump": 2.062139508345396e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.0987072136728979,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.972635929927296,
+                "multiplier": 0.5
+              },
+              {
+                "coupling_trace_jump": 2.062139508345396e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09877186277690779,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.87627869221457,
+                "multiplier": -0.5
+              }
+            ],
+            "restriction_to_parent_defect": 0.0
+          },
+          "p3_buffer45__material": {
+            "array_sha256": "3d06d8cfb4dff5a438c4ee0702f77d8c4a7c4c77ea805b4ae3779f3e896faa6c",
+            "coupling_trace_expectation": "inactive",
+            "coupling_trace_expectation_passed": true,
+            "maximum_coupling_trace_fraction": 0.0,
+            "readiness_variants": [
+              {
+                "coupling_trace_jump": 2.062139508345396e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09847748107696941,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 19.042074749758886,
+                "multiplier": 1.0
+              },
+              {
+                "coupling_trace_jump": 2.062139508345396e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09904031403272463,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.794185121089562,
+                "multiplier": -1.0
+              },
+              {
+                "coupling_trace_jump": 2.062139508345396e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09860679997073366,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.984596312550945,
+                "multiplier": 0.5
+              },
+              {
+                "coupling_trace_jump": 2.062139508345396e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09888772068995023,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.862857112911932,
+                "multiplier": -0.5
+              }
+            ],
+            "restriction_to_parent_defect": 0.0
+          },
+          "p4__inward_acoustic": {
+            "array_sha256": "2b12b3a87dfaed946e792b1ba38927515b29258f7604b5ff9e9a6159c849f3c9",
+            "coupling_trace_expectation": "active",
+            "coupling_trace_expectation_passed": true,
+            "maximum_coupling_trace_fraction": 1.1245354242065508e-05,
+            "readiness_variants": [
+              {
+                "coupling_trace_jump": 2.043883320055551e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09883159276968535,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 19.05273505980539,
+                "multiplier": 1.0
+              },
+              {
+                "coupling_trace_jump": 2.080395696769649e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09865442290566288,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.785002009579124,
+                "multiplier": -1.0
+              },
+              {
+                "coupling_trace_jump": 2.053011414334881e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09878496624488377,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.98990963498532,
+                "multiplier": 0.5
+              },
+              {
+                "coupling_trace_jump": 2.071267602490319e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09869534740747796,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.857776547453724,
+                "multiplier": -0.5
+              }
+            ],
+            "restriction_to_parent_defect": 0.0
+          },
+          "p4__inward_shear_acoustic_mix": {
+            "array_sha256": "203841f0c0e6e66094647a5ed162df7f9b1d5038c9b8d176b9eadfff33f0f71c",
+            "coupling_trace_expectation": "active",
+            "coupling_trace_expectation_passed": true,
+            "maximum_coupling_trace_fraction": 1.1245354824039364e-05,
+            "readiness_variants": [
+              {
+                "coupling_trace_jump": 2.0492304336957846e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09880427691450384,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 19.01590760569757,
+                "multiplier": 1.0
+              },
+              {
+                "coupling_trace_jump": 2.075048582860601e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09867839386459083,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.82904396080496,
+                "multiplier": -1.0
+              },
+              {
+                "coupling_trace_jump": 2.055684971087794e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09877131381738931,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.971547748943795,
+                "multiplier": 0.5
+              },
+              {
+                "coupling_trace_jump": 2.068594045602999e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09870733713057114,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.878120013239382,
+                "multiplier": -0.5
+              }
+            ],
+            "restriction_to_parent_defect": 0.0
+          },
+          "p4__outward_acoustic": {
+            "array_sha256": "5ae838e52e4ee779aa282c8cbdaf5253c826d4ea9ad52f4623072007593a919b",
+            "coupling_trace_expectation": "active",
+            "coupling_trace_expectation_passed": true,
+            "maximum_coupling_trace_fraction": 1.1245354242065508e-05,
+            "readiness_variants": [
+              {
+                "coupling_trace_jump": 2.043883320055551e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09883159276968535,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 19.05273505980539,
+                "multiplier": 1.0
+              },
+              {
+                "coupling_trace_jump": 2.080395696769649e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09865442290566288,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.785002009579124,
+                "multiplier": -1.0
+              },
+              {
+                "coupling_trace_jump": 2.053011414334881e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09878496624488377,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.98990963498532,
+                "multiplier": 0.5
+              },
+              {
+                "coupling_trace_jump": 2.071267602490319e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09869534740747796,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.857776547453724,
+                "multiplier": -0.5
+              }
+            ],
+            "restriction_to_parent_defect": 0.0
+          }
+        },
+        "reconstruction_weight_defect": 2.319896367534886e-16,
+        "refinement_ratio": 1
+      },
+      "N128_exterior_N256_inner_c48": {
+        "n_cells": 112,
+        "profiles": {
+          "p3_buffer45__generic_five_field": {
+            "array_sha256": "3969e91dbe035abdca4f6cab173ca3adbd66ab35c5700f186452b637fcc30f0a",
+            "coupling_trace_expectation": "inactive",
+            "coupling_trace_expectation_passed": true,
+            "maximum_coupling_trace_fraction": 0.0,
+            "readiness_variants": [
+              {
+                "coupling_trace_jump": 7.822354275171369e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09872092465030849,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 19.01687745325367,
+                "multiplier": 1.0
+              },
+              {
+                "coupling_trace_jump": 7.822354275171369e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09884670151128623,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.823471367453084,
+                "multiplier": -1.0
+              },
+              {
+                "coupling_trace_jump": 7.822354275171369e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09875113213390374,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.972377728307297,
+                "multiplier": 0.5
+              },
+              {
+                "coupling_trace_jump": 7.822354275171369e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09881425138363446,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.876168585319,
+                "multiplier": -0.5
+              }
+            ],
+            "restriction_to_parent_defect": 5.559200351117076e-15
+          },
+          "p3_buffer45__material": {
+            "array_sha256": "f205679bb21f28c56006e7518c4458a2e5f7cad964e5d274ef3f0cfbc3ea82d5",
+            "coupling_trace_expectation": "inactive",
+            "coupling_trace_expectation_passed": true,
+            "maximum_coupling_trace_fraction": 0.0,
+            "readiness_variants": [
+              {
+                "coupling_trace_jump": 7.822354275171369e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.0985196753462403,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 19.040090853711604,
+                "multiplier": 1.0
+              },
+              {
+                "coupling_trace_jump": 7.822354275171369e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09908203333599339,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.793845789097684,
+                "multiplier": -1.0
+              },
+              {
+                "coupling_trace_jump": 7.822354275171369e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.0986467796745491,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.984460736491627,
+                "multiplier": 0.5
+              },
+              {
+                "coupling_trace_jump": 7.822354275171369e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09892643622000563,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.8625904458247,
+                "multiplier": -0.5
+              }
+            ],
+            "restriction_to_parent_defect": 5.548700567117733e-15
+          },
+          "p4__inward_acoustic": {
+            "array_sha256": "f59ccbe5d73028f3e47a39777318dad2b27f8dba7d97c105e2cbdc78a528e907",
+            "coupling_trace_expectation": "active",
+            "coupling_trace_expectation_passed": true,
+            "maximum_coupling_trace_fraction": 1.182931516967144e-06,
+            "readiness_variants": [
+              {
+                "coupling_trace_jump": 7.63160792673668e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09887236980122151,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 19.050787278901943,
+                "multiplier": 1.0
+              },
+              {
+                "coupling_trace_jump": 8.013100623606059e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09869652642126543,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.784979116398425,
+                "multiplier": -1.0
+              },
+              {
+                "coupling_trace_jump": 7.726981087513287e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09882708049763513,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.98979257429136,
+                "multiplier": 0.5
+              },
+              {
+                "coupling_trace_jump": 7.917727449388715e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09873892854582135,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.857593439841327,
+                "multiplier": -0.5
+              }
+            ],
+            "restriction_to_parent_defect": 6.0073695428141884e-15
+          },
+          "p4__inward_shear_acoustic_mix": {
+            "array_sha256": "365ae93208bc2f86671d16d1581120002d3da734b0df27832d14880aca6b1d44",
+            "coupling_trace_expectation": "active",
+            "coupling_trace_expectation_passed": true,
+            "maximum_coupling_trace_fraction": 1.1829315290585895e-06,
+            "readiness_variants": [
+              {
+                "coupling_trace_jump": 7.687476233438939e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.0988458374240603,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 19.015033680169367,
+                "multiplier": 1.0
+              },
+              {
+                "coupling_trace_jump": 7.957232303463062e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.0987213628011293,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.828140370212335,
+                "multiplier": -1.0
+              },
+              {
+                "coupling_trace_jump": 7.754915240864417e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09881381949603484,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.971114563728353,
+                "multiplier": 0.5
+              },
+              {
+                "coupling_trace_jump": 7.889793282596847e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09875135128939373,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.877804630142883,
+                "multiplier": -0.5
+              }
+            ],
+            "restriction_to_parent_defect": 6.087737187572334e-15
+          },
+          "p4__outward_acoustic": {
+            "array_sha256": "1e35423cd031eba2150755295eec52d7b4e171e6f498c544372d581fd12b02bc",
+            "coupling_trace_expectation": "active",
+            "coupling_trace_expectation_passed": true,
+            "maximum_coupling_trace_fraction": 1.182931516967144e-06,
+            "readiness_variants": [
+              {
+                "coupling_trace_jump": 7.63160792673668e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09887236980122151,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 19.050787278901943,
+                "multiplier": 1.0
+              },
+              {
+                "coupling_trace_jump": 8.013100623606059e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09869652642126543,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.784979116398425,
+                "multiplier": -1.0
+              },
+              {
+                "coupling_trace_jump": 7.726981087513287e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09882708049763513,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.98979257429136,
+                "multiplier": 0.5
+              },
+              {
+                "coupling_trace_jump": 7.917727449388715e-08,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09873892854582135,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.857593439841327,
+                "multiplier": -0.5
+              }
+            ],
+            "restriction_to_parent_defect": 6.028827224474825e-15
+          }
+        },
+        "reconstruction_weight_defect": 5.799738099161833e-16,
+        "refinement_ratio": 2
+      },
+      "N128_exterior_N512_inner_c48": {
+        "n_cells": 208,
+        "profiles": {
+          "p3_buffer45__generic_five_field": {
+            "array_sha256": "ea5ea793bad01741a1db80dbaef4fde2452a6b47c21cc541372b3a9489f3e4c2",
+            "coupling_trace_expectation": "inactive",
+            "coupling_trace_expectation_passed": true,
+            "maximum_coupling_trace_fraction": 0.0,
+            "readiness_variants": [
+              {
+                "coupling_trace_jump": 8.320781922756786e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09873101754619987,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 19.016801542841474,
+                "multiplier": 1.0
+              },
+              {
+                "coupling_trace_jump": 8.320781922756786e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09885653023578043,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.82342111218075,
+                "multiplier": -1.0
+              },
+              {
+                "coupling_trace_jump": 8.320781922756786e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.0987617874890112,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.971991769014387,
+                "multiplier": 0.5
+              },
+              {
+                "coupling_trace_jump": 8.320781922756786e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09882462341929628,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.875912803721327,
+                "multiplier": -0.5
+              }
+            ],
+            "restriction_to_parent_defect": 3.645090816471677e-15
+          },
+          "p3_buffer45__material": {
+            "array_sha256": "b7e7effd4466b66d1f880f339e95b3df988f0d9d663eb051fba7292d32430906",
+            "coupling_trace_expectation": "inactive",
+            "coupling_trace_expectation_passed": true,
+            "maximum_coupling_trace_fraction": 0.0,
+            "readiness_variants": [
+              {
+                "coupling_trace_jump": 8.320781922756786e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.0985295364278725,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 19.039623572377092,
+                "multiplier": 1.0
+              },
+              {
+                "coupling_trace_jump": 8.320781922756786e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09909244272576444,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.793798323151748,
+                "multiplier": -1.0
+              },
+              {
+                "coupling_trace_jump": 8.320781922756786e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09865738242903888,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.983982133543883,
+                "multiplier": 0.5
+              },
+              {
+                "coupling_trace_jump": 8.320781922756786e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09893733609095562,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.862435869271774,
+                "multiplier": -0.5
+              }
+            ],
+            "restriction_to_parent_defect": 3.606324092745832e-15
+          },
+          "p4__inward_acoustic": {
+            "array_sha256": "9b9eadafec6724d014de0d68aa8a4105738f26372e0cb477c060edf008aed399",
+            "coupling_trace_expectation": "active",
+            "coupling_trace_expectation_passed": true,
+            "maximum_coupling_trace_fraction": 1.0935628615539875e-07,
+            "readiness_variants": [
+              {
+                "coupling_trace_jump": 8.32060758980676e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09888219588914941,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 19.050324536459474,
+                "multiplier": 1.0
+              },
+              {
+                "coupling_trace_jump": 8.320956255706812e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.0987062962191427,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.78485246599746,
+                "multiplier": -1.0
+              },
+              {
+                "coupling_trace_jump": 8.320694756348977e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09883730648473811,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.989311397552417,
+                "multiplier": 0.5
+              },
+              {
+                "coupling_trace_jump": 8.32086908943341e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09874942221288854,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.85738967300322,
+                "multiplier": -0.5
+              }
+            ],
+            "restriction_to_parent_defect": 3.998994132551942e-15
+          },
+          "p4__inward_shear_acoustic_mix": {
+            "array_sha256": "8bd0c6e3611046fcc6dcb12a8cd915882d5418f9b4da4c7c9cf31d616529d05b",
+            "coupling_trace_expectation": "active",
+            "coupling_trace_expectation_passed": true,
+            "maximum_coupling_trace_fraction": 1.093562863472593e-07,
+            "readiness_variants": [
+              {
+                "coupling_trace_jump": 8.320658650764917e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09885577783217009,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 19.014946458590167,
+                "multiplier": 1.0
+              },
+              {
+                "coupling_trace_jump": 8.320905194883063e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.098731556555907,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.8279999596401,
+                "multiplier": -1.0
+              },
+              {
+                "coupling_trace_jump": 8.320720286895258e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09882424735285254,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.9708182499316,
+                "multiplier": 0.5
+              },
+              {
+                "coupling_trace_jump": 8.320843558887129e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09876205709123688,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.87764944257146,
+                "multiplier": -0.5
+              }
+            ],
+            "restriction_to_parent_defect": 4.0677514434602386e-15
+          },
+          "p4__outward_acoustic": {
+            "array_sha256": "c194c22a1671470f17274d0d786be8da465deb7d811719009263d9abd3833762",
+            "coupling_trace_expectation": "active",
+            "coupling_trace_expectation_passed": true,
+            "maximum_coupling_trace_fraction": 1.0935628615539874e-07,
+            "readiness_variants": [
+              {
+                "coupling_trace_jump": 8.32060758980676e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09888219588914941,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 19.050324536459474,
+                "multiplier": 1.0
+              },
+              {
+                "coupling_trace_jump": 8.320956255706812e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.0987062962191427,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.78485246599746,
+                "multiplier": -1.0
+              },
+              {
+                "coupling_trace_jump": 8.320694756348977e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09883730648473811,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.989311397552417,
+                "multiplier": 0.5
+              },
+              {
+                "coupling_trace_jump": 8.32086908943341e-06,
+                "incoming_excision_characteristics": 0,
+                "maximum_h_over_r": 0.09874942221288854,
+                "minimum_reconstruction_factor": 1.0,
+                "minimum_scattering_optical_depth": 18.85738967300322,
+                "multiplier": -0.5
+              }
+            ],
+            "restriction_to_parent_defect": 4.030343309310832e-15
+          }
+        },
+        "reconstruction_weight_defect": 3.4798393600341837e-16,
+        "refinement_ratio": 4
+      }
+    },
+    "maximum_coupling_trace_jump": 8.320956255706812e-06,
+    "maximum_exterior_norm": 0.0,
+    "maximum_h_over_r": 0.09909244272576444,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_restriction_defect": 6.087737187572334e-15,
+    "minimum_reconstruction_factor": 1.0,
+    "minimum_scattering_optical_depth": 18.78485246599746,
+    "passed": true
+  },
+  "initial_readiness_multipliers": [
+    1.0,
+    -1.0,
+    0.5,
+    -0.5
+  ],
+  "interpretation_limits": {
+    "fixed_q_micro_solver_authorized": false,
+    "long_nonlinear_physical_ladder_authorized": false,
+    "meaningfully_nonlinear_dynamics_certified": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "operator_changed": false,
+  "profiles": {
+    "p3_buffer45__generic_five_field": {
+      "coupling_trace_expectation": "inactive",
+      "family": "mixed",
+      "mixed_coefficients": [
+        0.35,
+        -0.4,
+        0.5,
+        -0.45,
+        0.3
+      ],
+      "role": "generic_five_family_control",
+      "support_upper_parent_face": 45,
+      "window_power": 3
+    },
+    "p3_buffer45__material": {
+      "coupling_trace_expectation": "inactive",
+      "family": "material",
+      "mixed_coefficients": null,
+      "role": "material_contact_control",
+      "support_upper_parent_face": 45,
+      "window_power": 3
+    },
+    "p4__inward_acoustic": {
+      "coupling_trace_expectation": "active",
+      "family": "inward_acoustic",
+      "mixed_coefficients": null,
+      "role": "acoustic_direction_control",
+      "support_upper_parent_face": 48,
+      "window_power": 4
+    },
+    "p4__inward_shear_acoustic_mix": {
+      "coupling_trace_expectation": "active",
+      "family": "mixed",
+      "mixed_coefficients": [
+        0.7071067811865475,
+        0.7071067811865475,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "role": "mixed_shear_acoustic_control",
+      "support_upper_parent_face": 48,
+      "window_power": 4
+    },
+    "p4__outward_acoustic": {
+      "coupling_trace_expectation": "active",
+      "family": "outward_acoustic",
+      "mixed_coefficients": null,
+      "role": "acoustic_direction_control",
+      "support_upper_parent_face": 48,
+      "window_power": 4
+    }
+  },
+  "propagation_executed": false,
+  "schema_version": 1,
+  "spectral_eligibility": {
+    "contract": {
+      "maximum_balance_coefficient_relative_769_513_difference": 1e-06,
+      "maximum_endpoint_cell_fraction": 0.005,
+      "maximum_nyquist_alias_fraction": 0.001,
+      "maximum_projection_replay_defect": 2e-12,
+      "maximum_secondary_continuum_initial_cancellation_ratio": 1e-06,
+      "maximum_theta_99": 0.3,
+      "minimum_active_cell_family_purity": 0.98,
+      "minimum_global_family_purity": 0.995,
+      "minimum_theta_99": 0.0,
+      "spectral_energy_quantile": 0.99
+    },
+    "passed": true,
+    "profiles": {
+      "p3_buffer45__generic_five_field": {
+        "family": "mixed",
+        "family_energy_fractions": [
+          0.14848388744761537,
+          0.1939374130137683,
+          0.3030302708399245,
+          0.24545667024863402,
+          0.10909175845005788
+        ],
+        "maximum_outside_support_norm": 0.0,
+        "maximum_projection_defect": 1.312421973874503e-15,
+        "maximum_support_endpoint_cell_fraction": 8.679621423423467e-05,
+        "minimum_active_cell_selected_fraction": null,
+        "nyquist_alias_fraction": 0.0007181763966702078,
+        "passed": true,
+        "role": "generic_five_family_control",
+        "selected_global_family_fraction": null,
+        "theta_99": 0.23316507975861744
+      },
+      "p3_buffer45__material": {
+        "family": "material",
+        "family_energy_fractions": [
+          1.1234708331650894e-15,
+          0.0,
+          0.9999999999999977,
+          0.0,
+          1.1234708319589475e-15
+        ],
+        "maximum_outside_support_norm": 0.0,
+        "maximum_projection_defect": 2.0514986990932072e-16,
+        "maximum_support_endpoint_cell_fraction": 8.679621423149356e-05,
+        "minimum_active_cell_selected_fraction": 0.9999999999871956,
+        "nyquist_alias_fraction": 0.0007181762511895614,
+        "passed": true,
+        "role": "material_contact_control",
+        "selected_global_family_fraction": 0.9999999999999977,
+        "theta_99": 0.23316507975861744
+      },
+      "p4__inward_acoustic": {
+        "family": "inward_acoustic",
+        "family_energy_fractions": [
+          0.9999999925163597,
+          0.0,
+          1.3658329536877145e-17,
+          0.0,
+          7.4836401647595e-09
+        ],
+        "maximum_outside_support_norm": 0.0,
+        "maximum_projection_defect": 2.651108487251537e-14,
+        "maximum_support_endpoint_cell_fraction": 3.7601560735985247e-06,
+        "minimum_active_cell_selected_fraction": 0.9999976746238483,
+        "nyquist_alias_fraction": 0.0008013953974813452,
+        "passed": true,
+        "role": "acoustic_direction_control",
+        "selected_global_family_fraction": 0.9999999925163597,
+        "theta_99": 0.24543692606170261
+      },
+      "p4__inward_shear_acoustic_mix": {
+        "family": "mixed",
+        "family_energy_fractions": [
+          0.4999682263206275,
+          0.5000317656959319,
+          6.8287311003862e-18,
+          4.241858187612146e-09,
+          3.741582327601307e-09
+        ],
+        "maximum_outside_support_norm": 0.0,
+        "maximum_projection_defect": 3.239878639573352e-14,
+        "maximum_support_endpoint_cell_fraction": 3.7601560499014994e-06,
+        "minimum_active_cell_selected_fraction": null,
+        "nyquist_alias_fraction": 0.0008013674225942323,
+        "passed": true,
+        "role": "mixed_shear_acoustic_control",
+        "selected_global_family_fraction": null,
+        "theta_99": 0.24543692606170261
+      },
+      "p4__outward_acoustic": {
+        "family": "outward_acoustic",
+        "family_energy_fractions": [
+          7.48364016475237e-09,
+          0.0,
+          1.3658329569996846e-17,
+          0.0,
+          0.9999999925163597
+        ],
+        "maximum_outside_support_norm": 0.0,
+        "maximum_projection_defect": 2.6509684882754894e-14,
+        "maximum_support_endpoint_cell_fraction": 3.7601560735985256e-06,
+        "minimum_active_cell_selected_fraction": 0.9999976746238483,
+        "nyquist_alias_fraction": 0.0008013953974813452,
+        "passed": true,
+        "role": "acoustic_direction_control",
+        "selected_global_family_fraction": 0.9999999925163597,
+        "theta_99": 0.24543692606170261
+      }
+    }
+  },
+  "work_package": "WP10c9d6c7c3b4a"
+}
