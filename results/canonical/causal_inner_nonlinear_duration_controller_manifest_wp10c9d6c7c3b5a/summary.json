@@ -1,0 +1,153 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5b_short_horizon_variable_step_controller_validation",
+  "classification": "variable_step_monolithic_duration_controller_manifest_frozen_short_horizon_controller_validation_authorized",
+  "config_sha256": "5ebb75538aa9e513cab18e670de0c28c41910b23f7367db402e97aa90ee508c2",
+  "controller_contract": {
+    "analytic_stability_bound": 2.414213562373095,
+    "coupling_face_contract": {
+      "N128_exterior_N128_inner_c48": 48,
+      "N128_exterior_N256_inner_c48": 96,
+      "N128_exterior_N512_inner_c48": 192
+    },
+    "error_estimator": {
+      "accepted_branch": "full_step",
+      "accepted_branch_error_multiplier": 1.3333333333333333,
+      "export_norm": "maximum_fixed_scale_Tier_I_endpoint_difference",
+      "formal_order": 2,
+      "kind": "one_full_step_versus_two_independent_half_steps",
+      "local_error": "maximum_of_state_and_Tier_I_export_estimates",
+      "local_tolerance": 0.00025,
+      "short_horizon_sum_of_accepted_error_estimates": 0.005,
+      "state_norm": "maximum_of_scaled_RMS_and_scaled_fieldwise_maximum"
+    },
+    "initial_timestep_seconds": 2.5e-06,
+    "maximum_BDF2_step_ratio": 2.0,
+    "maximum_timestep_seconds": 2e-05,
+    "method": "monolithic_increment_primary_variable_step_BDF1_BDF2",
+    "minimum_timestep_seconds": 1.25e-06,
+    "proposal": {
+      "error_exponent": 0.3333333333333333,
+      "exact_landing_at_every_declared_output": true,
+      "maximum_factor": 2.0,
+      "maximum_retries": 8,
+      "minimum_factor": 0.5,
+      "reject_on_any_full_or_half_method_failure": true,
+      "safety_factor": 0.8
+    },
+    "step_method_gates": {
+      "checkpoint_roundtrip": "bitwise",
+      "maximum_discrete_ledger_defect": 1e-12,
+      "maximum_incoming_excision_characteristics": 0,
+      "maximum_mapped_endpoint_path_closure": 1e-09,
+      "maximum_scaled_residual": 1e-10,
+      "minimum_reconstruction_factor": 1.0,
+      "split_restart_replay": "bitwise_at_declared_outputs"
+    }
+  },
+  "duration_ladder": [
+    {
+      "binding_clock": "controller_depth_and_restart",
+      "horizon_seconds": 0.0002,
+      "scope": "coarse background plus generic five-field response",
+      "work_package": "WP10c9d6c7c3b5c1"
+    },
+    {
+      "binding_clock": "sub_cell_crossing",
+      "horizon_seconds": 0.001,
+      "scope": "coarse generic response plus strict-controller shadow",
+      "work_package": "WP10c9d6c7c3b5c2"
+    },
+    {
+      "binding_clock": "approximately_one_N128_cell_crossing",
+      "horizon_seconds": 0.005,
+      "scope": "coarse/middle/fine generic response and held-out coarse controls",
+      "work_package": "WP10c9d6c7c3b5c3"
+    },
+    {
+      "binding_clock": "multiple_cell_crossings",
+      "horizon_seconds": 0.02,
+      "scope": "middle fail-fast physical duration screen",
+      "work_package": "WP10c9d6c7c3b5c4"
+    },
+    {
+      "binding_clock": "one_third_stress_relaxation",
+      "horizon_seconds": 0.05,
+      "scope": "spatial/temporal Tier-I breadth certification",
+      "work_package": "WP10c9d6c7c3b5c5"
+    },
+    {
+      "binding_clock": "order_one_stress_relaxation",
+      "horizon_seconds": 0.125,
+      "scope": "conditional truth-model fast-horizon certification",
+      "work_package": "WP10c9d6c7c3b5c6"
+    }
+  ],
+  "fixed_q_micro_solver_authorized": false,
+  "hard_stops": [
+    "no duration rung before the short-horizon controller validates",
+    "no face-index alias: every export evaluation requires the active coupling face explicitly",
+    "no step larger than the frozen maximum or BDF2 stability ratio",
+    "no tolerance or profile tuning after observing propagation",
+    "no spatial-operator or interface redesign",
+    "no fixed-Q experiment or reduced evolution",
+    "no tide, wind, hot-state, S-curve or QPE-cycle physics",
+    "no N1024 rescue"
+  ],
+  "long_nonlinear_physical_ladder_authorized": false,
+  "manifest_sha256": "813a6205fcbc0f1d515f25cf2f5a586381d9fbf4d09f535740a1efa0cb5f2ce0",
+  "operator_changed": false,
+  "parent_classification_preserved": "heldout_spatial_export_failure_caused_by_active_face_alias_corrected_physical_face_contract_passes",
+  "passed": true,
+  "production_defaults_changed": false,
+  "propagation_executed": false,
+  "reduced_slow_evolution_authorized": false,
+  "reference_clocks_seconds": {
+    "global_loading": 848000.0,
+    "minimum_N128_cell_characteristic_crossing": 0.0055433,
+    "minimum_luminosity_response": 1.1384,
+    "minimum_radial_advection": 0.14029,
+    "minimum_stress_relaxation": 0.14705,
+    "minimum_thermal_response": 4.5538
+  },
+  "schema_version": 1,
+  "short_horizon_validation_contract": {
+    "background_and_perturbed_trajectories_required": true,
+    "correct_active_coupling_face_required": true,
+    "fixed_physical_export_scales": true,
+    "horizon_seconds": 4e-05,
+    "independent_reference": {
+      "artifact": "causal_inner_nonlinear_profile_breadth_temporal_wp10c9d6c7c3b4b2",
+      "kind": "committed_fixed_step_BDF1_BDF2",
+      "timestep_seconds": 2.5e-06
+    },
+    "layout": "N128_exterior_N128_inner_c48",
+    "maximum_controller_to_reference_scaled_Tier_I_difference": 0.005,
+    "maximum_controller_to_reference_scaled_state_difference": 0.005,
+    "minimum_history_cosine": 0.9,
+    "no_profile_or_gate_tuning_after_manifest": true,
+    "output_times_seconds": [
+      0.0,
+      1e-05,
+      2e-05,
+      3.0000000000000004e-05,
+      4e-05
+    ],
+    "profile": "p3_buffer45__generic_five_field",
+    "state_and_Tier_I_gates": {
+      "maximum_fine_normalized_difference": 0.05,
+      "minimum_history_cosine": 0.9,
+      "minimum_maximum_order": 0.75,
+      "minimum_refinement_error_cosine": 0.9,
+      "minimum_relative_activity": 1e-08,
+      "minimum_rms_order": 0.75,
+      "minimum_significant_component_order": 0.75
+    }
+  },
+  "stage_authorization": {
+    "authorized_now": "WP10c9d6c7c3b5b_short_horizon_variable_step_controller_validation",
+    "duration_rungs_authorized_now": false,
+    "each_later_rung_requires_previous_binding_pass": true,
+    "each_rung_freezes_its_outputs_profiles_and_strict_shadow_before_propagation": true
+  },
+  "work_package": "WP10c9d6c7c3b5a"
+}
