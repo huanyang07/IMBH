@@ -1,0 +1,32 @@
+{
+  "analyzed_base_commit": "29ad409d915a9602b3ef550630ba881fb01046a0",
+  "horizon_seconds": 4e-05,
+  "layouts": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "new_layouts": [
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "profiles": [
+    "p4__inward_acoustic",
+    "p4__outward_acoustic",
+    "p3_buffer45__material",
+    "p4__inward_shear_acoustic_mix",
+    "p3_buffer45__generic_five_field"
+  ],
+  "schema_version": 1,
+  "spatial_gates": {
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_relative_activity": 1e-08,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75
+  },
+  "timestep_seconds": 1e-05,
+  "work_package": "WP10c9d6c7c3b4b3"
+}
