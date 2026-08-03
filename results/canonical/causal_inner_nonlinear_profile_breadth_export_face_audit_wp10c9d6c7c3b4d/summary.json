@@ -1,0 +1,980 @@
+{
+  "audit": {
+    "all_corrected_spatial_contracts_passed": true,
+    "face_alias_cause_proved": true,
+    "face_mappings": {
+      "N128_exterior_N128_inner_c48": {
+        "active_cell_count": 64,
+        "correct_active_coupling_face_index": 48,
+        "correct_active_coupling_radius": 18867765907.439526,
+        "correct_radius_relative_defect": 0.0,
+        "legacy_hardcoded_face_radius": 18867765907.439526,
+        "legacy_radius_relative_displacement": 0.0,
+        "parent_coupling_face_index": 48,
+        "parent_coupling_radius": 18867765907.439526
+      },
+      "N128_exterior_N256_inner_c48": {
+        "active_cell_count": 112,
+        "correct_active_coupling_face_index": 96,
+        "correct_active_coupling_radius": 18867765907.439526,
+        "correct_radius_relative_defect": 0.0,
+        "legacy_hardcoded_face_radius": 7081710562.8127775,
+        "legacy_radius_relative_displacement": -0.6246661847749302,
+        "parent_coupling_face_index": 48,
+        "parent_coupling_radius": 18867765907.439526
+      },
+      "N128_exterior_N512_inner_c48": {
+        "active_cell_count": 208,
+        "correct_active_coupling_face_index": 192,
+        "correct_active_coupling_radius": 18867765907.439526,
+        "correct_radius_relative_defect": 0.0,
+        "legacy_hardcoded_face_radius": 4338574100.761527,
+        "legacy_radius_relative_displacement": -0.7700536395222692,
+        "parent_coupling_face_index": 48,
+        "parent_coupling_radius": 18867765907.439526
+      }
+    },
+    "legacy_helper_hardcodes_parent_face": true,
+    "maximum_corrected_export_ledger_defect": 1.1159374683477791e-10,
+    "maximum_corrected_incoming_excision_characteristics": 0,
+    "maximum_corrected_to_legacy_error_ratio": 5.644477942421819e-05,
+    "maximum_error_decomposition_closure_defect": 0.0,
+    "minimum_face_alias_alignment_with_legacy_error": 0.9999999988750456,
+    "passed": true,
+    "physical_face_contract_passed": true,
+    "profiles": {
+      "p3_buffer45__generic_five_field": {
+        "cumulative": {
+          "coarse_medium_attribution": {
+            "corrected_error_norm": 1.3676515297876014e-07,
+            "corrected_to_legacy_error_ratio": 2.3182448555919133e-05,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999997958832,
+            "face_alias_error_norm": 0.0058994457860684175,
+            "face_alias_to_legacy_error_ratio": 0.9999886335461827,
+            "legacy_error_norm": 0.005899512842608688
+          },
+          "corrected_physical_face": {
+            "coarse_medium_rms_difference": 2.3117530159384173e-08,
+            "component_orders": {
+              "cooling_angular_momentum": 2.002450467569734,
+              "inner_flux_angular_momentum": 5.017178974509872,
+              "inner_flux_mass": 5.0237072766989535,
+              "net_drive_angular_momentum": 4.156118996906737,
+              "net_drive_killing_energy": 2.1206944814450432,
+              "net_drive_mass": 5.023707219738059,
+              "vertical_work_angular_momentum": 2.001456745051175
+            },
+            "history_cosine": 0.9999997671855051,
+            "maximum_fine_normalized_difference": 2.1013757306432196e-09,
+            "medium_fine_rms_difference": 7.554040244422052e-10,
+            "minimum_significant_component_order": 2.001456745051175,
+            "observed_maximum_order": 5.037705675488192,
+            "observed_rms_order": 4.935594990765658,
+            "passed": true,
+            "refinement_error_cosine": 0.965921032266093,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "legacy_wrong_face": {
+            "coarse_medium_rms_difference": 0.0008343171073411457,
+            "component_orders": {
+              "cooling_angular_momentum": 0.3324553146081586,
+              "inner_flux_angular_momentum": 5.017178974509872,
+              "inner_flux_mass": 5.0237072766989535,
+              "interface_flux_angular_momentum": 0.32638465370944536,
+              "interface_flux_killing_energy": 0.03789166543524964,
+              "interface_flux_mass": 0.5456344383855176,
+              "net_drive_angular_momentum": 0.3242205407043115,
+              "net_drive_killing_energy": 1.4607109752071055,
+              "net_drive_mass": 0.5456718705933256,
+              "vertical_work_angular_momentum": 0.09876034570318204
+            },
+            "history_cosine": 0.990279289626555,
+            "maximum_fine_normalized_difference": 0.0019085720056110892,
+            "medium_fine_rms_difference": 0.0005880510781257636,
+            "minimum_significant_component_order": 0.03789166543524964,
+            "observed_maximum_order": 0.5457177067889184,
+            "observed_rms_order": 0.5046543545803521,
+            "passed": false,
+            "refinement_error_cosine": -0.9982368629583079,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "interface_flux_mass",
+              "interface_flux_angular_momentum",
+              "interface_flux_killing_energy",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "medium_fine_attribution": {
+            "corrected_error_norm": 4.469030482036442e-09,
+            "corrected_to_legacy_error_ratio": 1.0747643790567194e-06,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999999995626,
+            "face_alias_error_norm": 0.00415815124981071,
+            "face_alias_to_legacy_error_ratio": 1.0000005289716185,
+            "legacy_error_norm": 0.0041581490502678765
+          }
+        },
+        "instantaneous": {
+          "coarse_medium_attribution": {
+            "corrected_error_norm": 2.2284167162397233e-07,
+            "corrected_to_legacy_error_ratio": 2.3131161815369476e-05,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999997967813,
+            "face_alias_error_norm": 0.009633720353387097,
+            "face_alias_to_legacy_error_ratio": 0.9999886590073637,
+            "legacy_error_norm": 0.00963382961057777
+          },
+          "corrected_physical_face": {
+            "coarse_medium_rms_difference": 3.766711733457844e-08,
+            "component_orders": {
+              "cooling_angular_momentum": 2.002413364704895,
+              "inner_flux_angular_momentum": 5.029227003704007,
+              "inner_flux_mass": 5.035832232432223,
+              "net_drive_angular_momentum": 4.161139023459704,
+              "net_drive_killing_energy": 2.120612925956176,
+              "net_drive_mass": 5.035832141330084,
+              "vertical_work_angular_momentum": 2.001472917357659
+            },
+            "history_cosine": 0.9999997720714969,
+            "maximum_fine_normalized_difference": 2.2527602812464007e-09,
+            "medium_fine_rms_difference": 1.2218553975058628e-09,
+            "minimum_significant_component_order": 2.001472917357659,
+            "observed_maximum_order": 4.956976505596598,
+            "observed_rms_order": 4.946160165777421,
+            "passed": true,
+            "refinement_error_cosine": 0.9644754337227962,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "legacy_wrong_face": {
+            "coarse_medium_rms_difference": 0.0013624292492870598,
+            "component_orders": {
+              "cooling_angular_momentum": 0.33240562440640115,
+              "inner_flux_angular_momentum": 5.029227003704007,
+              "inner_flux_mass": 5.035832232432223,
+              "interface_flux_angular_momentum": 0.3264127889562524,
+              "interface_flux_killing_energy": 0.03790514208889814,
+              "interface_flux_mass": 0.5456819452253803,
+              "net_drive_angular_momentum": 0.32424860223509544,
+              "net_drive_killing_energy": 1.460798017248939,
+              "net_drive_mass": 0.5457192775741562,
+              "vertical_work_angular_momentum": 0.09870873539204565
+            },
+            "history_cosine": 0.9902793285500656,
+            "maximum_fine_normalized_difference": 0.0019090036033055406,
+            "medium_fine_rms_difference": 0.0009602513895699349,
+            "minimum_significant_component_order": 0.03790514208889814,
+            "observed_maximum_order": 0.5454330871974027,
+            "observed_rms_order": 0.5046972613535994,
+            "passed": false,
+            "refinement_error_cosine": -0.9982365146639939,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "interface_flux_mass",
+              "interface_flux_angular_momentum",
+              "interface_flux_killing_energy",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "medium_fine_attribution": {
+            "corrected_error_norm": 7.228594023079974e-09,
+            "corrected_to_legacy_error_ratio": 1.0645936902947092e-06,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999999995702,
+            "face_alias_error_norm": 0.006790006245439707,
+            "face_alias_to_legacy_error_ratio": 1.0000005233212426,
+            "legacy_error_norm": 0.006790002692087061
+          }
+        },
+        "passed": true
+      },
+      "p3_buffer45__material": {
+        "cumulative": {
+          "coarse_medium_attribution": {
+            "corrected_error_norm": 1.7114113362175195e-07,
+            "corrected_to_legacy_error_ratio": 2.3026702744458616e-05,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.999999999798187,
+            "face_alias_error_norm": 0.007432206418627907,
+            "face_alias_to_legacy_error_ratio": 0.9999887479736225,
+            "legacy_error_norm": 0.007432290046951561
+          },
+          "corrected_physical_face": {
+            "coarse_medium_rms_difference": 3.124595249324748e-08,
+            "component_orders": {
+              "cooling_angular_momentum": 2.002630180476767,
+              "inner_flux_angular_momentum": 5.030208912350249,
+              "inner_flux_mass": 5.030236975114925,
+              "net_drive_angular_momentum": 4.474053065339483,
+              "net_drive_killing_energy": 2.0175370073184107,
+              "net_drive_mass": 5.030236908491887
+            },
+            "history_cosine": 0.9999970610285926,
+            "maximum_fine_normalized_difference": 2.624026911689992e-09,
+            "medium_fine_rms_difference": 9.669137137216172e-10,
+            "minimum_significant_component_order": 2.002630180476767,
+            "observed_maximum_order": 5.0442959737967445,
+            "observed_rms_order": 5.014138358289783,
+            "passed": true,
+            "refinement_error_cosine": 0.9977318732024815,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum"
+            ]
+          },
+          "legacy_wrong_face": {
+            "coarse_medium_rms_difference": 0.0011079403848985713,
+            "component_orders": {
+              "cooling_angular_momentum": 0.32374045640103816,
+              "inner_flux_angular_momentum": 5.030208912350249,
+              "inner_flux_mass": 5.030236975114925,
+              "interface_flux_angular_momentum": 0.3244719684367789,
+              "interface_flux_killing_energy": 0.9025911004970867,
+              "interface_flux_mass": 0.5450240053446792,
+              "net_drive_angular_momentum": 0.32291019117145536,
+              "net_drive_killing_energy": 3.181135381960674,
+              "net_drive_mass": 0.5450612382427633
+            },
+            "history_cosine": 0.9901969748972232,
+            "maximum_fine_normalized_difference": 0.002407496336792583,
+            "medium_fine_rms_difference": 0.0007811656885401987,
+            "minimum_significant_component_order": 0.32291019117145536,
+            "observed_maximum_order": 0.5451069022765861,
+            "observed_rms_order": 0.5041797685389444,
+            "passed": false,
+            "refinement_error_cosine": -0.9982322147687311,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "interface_flux_mass",
+              "interface_flux_angular_momentum",
+              "interface_flux_killing_energy",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum"
+            ]
+          },
+          "medium_fine_attribution": {
+            "corrected_error_norm": 5.296004896105714e-09,
+            "corrected_to_legacy_error_ratio": 1.0106457678646923e-06,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999999996154,
+            "face_alias_error_norm": 0.005240221374148869,
+            "face_alias_to_legacy_error_ratio": 1.000000501954208,
+            "legacy_error_norm": 0.005240218743799019
+          }
+        },
+        "instantaneous": {
+          "coarse_medium_attribution": {
+            "corrected_error_norm": 2.788525233081782e-07,
+            "corrected_to_legacy_error_ratio": 2.2975719397354834e-05,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999997990758,
+            "face_alias_error_norm": 0.012136699090028926,
+            "face_alias_to_legacy_error_ratio": 0.9999887732572591,
+            "legacy_error_norm": 0.012136835347157057
+          },
+          "corrected_physical_face": {
+            "coarse_medium_rms_difference": 5.091127135642098e-08,
+            "component_orders": {
+              "cooling_angular_momentum": 2.002622311154825,
+              "inner_flux_angular_momentum": 5.042387696093283,
+              "inner_flux_mass": 5.042410600702523,
+              "net_drive_angular_momentum": 4.481244083923011,
+              "net_drive_killing_energy": 2.0013783340906675,
+              "net_drive_mass": 5.04241050220243
+            },
+            "history_cosine": 0.9999971228953377,
+            "maximum_fine_normalized_difference": 2.813658311104307e-09,
+            "medium_fine_rms_difference": 1.5624548272468703e-09,
+            "minimum_significant_component_order": 2.0013783340906675,
+            "observed_maximum_order": 4.963227657163683,
+            "observed_rms_order": 5.026098707876457,
+            "passed": true,
+            "refinement_error_cosine": 0.9969237578586996,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum"
+            ]
+          },
+          "legacy_wrong_face": {
+            "coarse_medium_rms_difference": 0.0018092525911976717,
+            "component_orders": {
+              "cooling_angular_momentum": 0.32368981169321576,
+              "inner_flux_angular_momentum": 5.042387696093283,
+              "inner_flux_mass": 5.042410600702523,
+              "interface_flux_angular_momentum": 0.32449986414724846,
+              "interface_flux_killing_energy": 0.9026681612212312,
+              "interface_flux_mass": 0.545071323486036,
+              "net_drive_angular_momentum": 0.32293802167869745,
+              "net_drive_killing_energy": 3.1815133402804805,
+              "net_drive_mass": 0.5451084572089483
+            },
+            "history_cosine": 0.9901970130284776,
+            "maximum_fine_normalized_difference": 0.0024080387730859073,
+            "medium_fine_rms_difference": 0.0012755958711220426,
+            "minimum_significant_component_order": 0.32293802167869745,
+            "observed_maximum_order": 0.5448234120514127,
+            "observed_rms_order": 0.5042225048640199,
+            "passed": false,
+            "refinement_error_cosine": -0.9982318659604711,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "interface_flux_mass",
+              "interface_flux_angular_momentum",
+              "interface_flux_killing_energy",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum"
+            ]
+          },
+          "medium_fine_attribution": {
+            "corrected_error_norm": 8.557918291971502e-09,
+            "corrected_to_legacy_error_ratio": 1.0001123124731945e-06,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.999999999999623,
+            "face_alias_error_norm": 0.008556961486126093,
+            "face_alias_to_legacy_error_ratio": 1.000000496342917,
+            "legacy_error_norm": 0.008556957238940977
+          }
+        },
+        "passed": true
+      },
+      "p4__inward_acoustic": {
+        "cumulative": {
+          "coarse_medium_attribution": {
+            "corrected_error_norm": 4.476453091123652e-07,
+            "corrected_to_legacy_error_ratio": 5.4972326447102696e-05,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999989280411,
+            "face_alias_error_norm": 0.008143344152698833,
+            "face_alias_to_legacy_error_ratio": 1.0000296306487078,
+            "legacy_error_norm": 0.008143102867278382
+          },
+          "corrected_physical_face": {
+            "coarse_medium_rms_difference": 6.673102150090764e-08,
+            "component_orders": {
+              "cooling_angular_momentum": 2.0044335879402406,
+              "inner_flux_angular_momentum": 3.84066282383173,
+              "inner_flux_mass": 3.8458166535246954,
+              "interface_flux_angular_momentum": 3.3541519881459103,
+              "interface_flux_mass": 3.353811953285729,
+              "net_drive_angular_momentum": 3.9333102624674003,
+              "net_drive_killing_energy": 0.8717968156289323,
+              "net_drive_mass": 3.814754120243787,
+              "vertical_work_angular_momentum": 2.0028272026608565
+            },
+            "history_cosine": 0.9999974886640806,
+            "maximum_fine_normalized_difference": 1.642662641206261e-08,
+            "medium_fine_rms_difference": 4.710124160763301e-09,
+            "minimum_significant_component_order": 0.8717968156289323,
+            "observed_maximum_order": 3.816262062573066,
+            "observed_rms_order": 3.8245205929435477,
+            "passed": true,
+            "refinement_error_cosine": 0.9975150723442668,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "interface_flux_mass",
+              "interface_flux_angular_momentum",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "legacy_wrong_face": {
+            "coarse_medium_rms_difference": 0.0011516086514704324,
+            "component_orders": {
+              "cooling_angular_momentum": 0.6295398068117811,
+              "inner_flux_angular_momentum": 3.84066282383173,
+              "inner_flux_mass": 3.8458166535246954,
+              "interface_flux_angular_momentum": 0.189074040300753,
+              "interface_flux_killing_energy": 0.47361438751101864,
+              "interface_flux_mass": 0.30278730213588473,
+              "net_drive_angular_momentum": 0.1866408267535743,
+              "net_drive_killing_energy": 1.3238334420368056,
+              "net_drive_mass": 0.3026973626294931,
+              "vertical_work_angular_momentum": 0.4579369749645801
+            },
+            "history_cosine": 0.9900172986992519,
+            "maximum_fine_normalized_difference": 0.003095961440715279,
+            "medium_fine_rms_difference": 0.0009476381140279924,
+            "minimum_significant_component_order": 0.1866408267535743,
+            "observed_maximum_order": 0.30281306396612084,
+            "observed_rms_order": 0.28124240222693625,
+            "passed": false,
+            "refinement_error_cosine": -0.999516354296318,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "interface_flux_mass",
+              "interface_flux_angular_momentum",
+              "interface_flux_killing_energy",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "medium_fine_attribution": {
+            "corrected_error_norm": 3.1596473984487504e-08,
+            "corrected_to_legacy_error_ratio": 4.715319209998655e-06,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999999922351,
+            "face_alias_error_norm": 0.006700796014807236,
+            "face_alias_to_legacy_error_ratio": 0.9999974106735914,
+            "legacy_error_norm": 0.006700813365400243
+          }
+        },
+        "instantaneous": {
+          "coarse_medium_attribution": {
+            "corrected_error_norm": 7.301370837897275e-07,
+            "corrected_to_legacy_error_ratio": 5.4907257972609855e-05,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999989306027,
+            "face_alias_error_norm": 0.01329803600116914,
+            "face_alias_to_legacy_error_ratio": 1.0000295964360657,
+            "legacy_error_norm": 0.013297642438344888
+          },
+          "corrected_physical_face": {
+            "coarse_medium_rms_difference": 1.0884240814143979e-07,
+            "component_orders": {
+              "cooling_angular_momentum": 2.0044458473332063,
+              "inner_flux_angular_momentum": 3.842160375335293,
+              "inner_flux_mass": 3.847318180603769,
+              "interface_flux_angular_momentum": 3.3551772785437737,
+              "interface_flux_mass": 3.3548371576103584,
+              "net_drive_angular_momentum": 3.9351912434451513,
+              "net_drive_killing_energy": 0.863573432604509,
+              "net_drive_mass": 3.816207553882408,
+              "vertical_work_angular_momentum": 2.0028267549716983
+            },
+            "history_cosine": 0.9999974997437262,
+            "maximum_fine_normalized_difference": 1.6647561111743806e-08,
+            "medium_fine_rms_difference": 7.674752913999994e-09,
+            "minimum_significant_component_order": 0.863573432604509,
+            "observed_maximum_order": 3.80727098405738,
+            "observed_rms_order": 3.8259766673321822,
+            "passed": true,
+            "refinement_error_cosine": 0.997493435592956,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "interface_flux_mass",
+              "interface_flux_angular_momentum",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "legacy_wrong_face": {
+            "coarse_medium_rms_difference": 0.0018805706283895373,
+            "component_orders": {
+              "cooling_angular_momentum": 0.6294770461009991,
+              "inner_flux_angular_momentum": 3.842160375335293,
+              "inner_flux_mass": 3.847318180603769,
+              "interface_flux_angular_momentum": 0.18909476168958986,
+              "interface_flux_killing_energy": 0.4736595018458795,
+              "interface_flux_mass": 0.30282014892147424,
+              "net_drive_angular_momentum": 0.18666157822570842,
+              "net_drive_killing_energy": 1.3238653207338966,
+              "net_drive_mass": 0.3027303257947044,
+              "vertical_work_angular_momentum": 0.45787467891888695
+            },
+            "history_cosine": 0.9900173026889295,
+            "maximum_fine_normalized_difference": 0.003096394154618243,
+            "medium_fine_rms_difference": 0.0015474554474481244,
+            "minimum_significant_component_order": 0.18666157822570842,
+            "observed_maximum_order": 0.30261588227828695,
+            "observed_rms_order": 0.2812726169124014,
+            "passed": false,
+            "refinement_error_cosine": -0.9995162412732292,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "interface_flux_mass",
+              "interface_flux_angular_momentum",
+              "interface_flux_killing_energy",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "medium_fine_attribution": {
+            "corrected_error_norm": 5.148380860213003e-08,
+            "corrected_to_legacy_error_ratio": 4.70508540247933e-06,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.999999999992269,
+            "face_alias_error_norm": 0.010942134133015693,
+            "face_alias_to_legacy_error_ratio": 0.9999974162574472,
+            "legacy_error_norm": 0.010942162404746318
+          }
+        },
+        "passed": true
+      },
+      "p4__inward_shear_acoustic_mix": {
+        "cumulative": {
+          "coarse_medium_attribution": {
+            "corrected_error_norm": 3.072385596671382e-07,
+            "corrected_to_legacy_error_ratio": 5.5702658058102736e-05,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999988966001,
+            "face_alias_error_norm": 0.005515854478414421,
+            "face_alias_to_legacy_error_ratio": 1.0000299319273105,
+            "legacy_error_norm": 0.005515689383200736
+          },
+          "corrected_physical_face": {
+            "coarse_medium_rms_difference": 5.186750607020654e-08,
+            "component_orders": {
+              "cooling_angular_momentum": 2.0056623417844417,
+              "inner_flux_angular_momentum": 3.8306039094580835,
+              "inner_flux_mass": 3.8425130852783753,
+              "net_drive_angular_momentum": 3.9418033061683135,
+              "net_drive_killing_energy": 2.767196690799484,
+              "net_drive_mass": 3.8123382598196502,
+              "vertical_work_angular_momentum": 2.0029400524037486
+            },
+            "history_cosine": 0.9999972594088549,
+            "maximum_fine_normalized_difference": 1.1320136375076512e-08,
+            "medium_fine_rms_difference": 3.6622103958952656e-09,
+            "minimum_significant_component_order": 2.0029400524037486,
+            "observed_maximum_order": 3.81384885528501,
+            "observed_rms_order": 3.8240444204839426,
+            "passed": true,
+            "refinement_error_cosine": 0.9979663340860554,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "legacy_wrong_face": {
+            "coarse_medium_rms_difference": 0.000780036273155977,
+            "component_orders": {
+              "cooling_angular_momentum": 0.38380490485395047,
+              "inner_flux_angular_momentum": 3.8306039094580835,
+              "inner_flux_mass": 3.8425130852783753,
+              "interface_flux_angular_momentum": 0.19347275960209148,
+              "interface_flux_killing_energy": 0.35788837681950597,
+              "interface_flux_mass": 0.3049309602168258,
+              "net_drive_angular_momentum": 0.19093174632996582,
+              "net_drive_killing_energy": 1.3421507065469738,
+              "net_drive_mass": 0.3048404955432047,
+              "vertical_work_angular_momentum": 0.4341948046762919
+            },
+            "history_cosine": 0.9915034049203383,
+            "maximum_fine_normalized_difference": 0.0021172395829922937,
+            "medium_fine_rms_difference": 0.0006397576262932609,
+            "minimum_significant_component_order": 0.19093174632996582,
+            "observed_maximum_order": 0.30495692462957674,
+            "observed_rms_order": 0.2860157734173039,
+            "passed": false,
+            "refinement_error_cosine": -0.999573456252907,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "interface_flux_mass",
+              "interface_flux_angular_momentum",
+              "interface_flux_killing_energy",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "medium_fine_attribution": {
+            "corrected_error_norm": 2.1717994811101268e-08,
+            "corrected_to_legacy_error_ratio": 4.800862318338174e-06,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999999919239,
+            "face_alias_error_norm": 0.00452375767899913,
+            "face_alias_to_legacy_error_ratio": 0.9999973739425816,
+            "legacy_error_norm": 0.004523769558677739
+          }
+        },
+        "instantaneous": {
+          "coarse_medium_attribution": {
+            "corrected_error_norm": 5.011239648030614e-07,
+            "corrected_to_legacy_error_ratio": 5.5636598850328295e-05,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999988992391,
+            "face_alias_error_norm": 0.00900736129403483,
+            "face_alias_to_legacy_error_ratio": 1.0000298972194122,
+            "legacy_error_norm": 0.00900709200702883
+          },
+          "corrected_physical_face": {
+            "coarse_medium_rms_difference": 8.459882558929295e-08,
+            "component_orders": {
+              "cooling_angular_momentum": 2.005684594495268,
+              "inner_flux_angular_momentum": 3.832104587847045,
+              "inner_flux_mass": 3.8440159044012527,
+              "net_drive_angular_momentum": 3.9437255100596063,
+              "net_drive_killing_energy": 2.7604118679819667,
+              "net_drive_mass": 3.8137941615394353,
+              "vertical_work_angular_momentum": 2.002939459087048
+            },
+            "history_cosine": 0.999997271545624,
+            "maximum_fine_normalized_difference": 1.1472613397568907e-08,
+            "medium_fine_rms_difference": 5.9672119458590465e-09,
+            "minimum_significant_component_order": 2.002939459087048,
+            "observed_maximum_order": 3.804842082142989,
+            "observed_rms_order": 3.825508710680096,
+            "passed": true,
+            "refinement_error_cosine": 0.9979464384519003,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "legacy_wrong_face": {
+            "coarse_medium_rms_difference": 0.0012737951673882468,
+            "component_orders": {
+              "cooling_angular_momentum": 0.38374182190624573,
+              "inner_flux_angular_momentum": 3.832104587847045,
+              "inner_flux_mass": 3.8440159044012527,
+              "interface_flux_angular_momentum": 0.19349402960486145,
+              "interface_flux_killing_energy": 0.3579231925439294,
+              "interface_flux_mass": 0.3049640759561205,
+              "net_drive_angular_momentum": 0.19095304560191934,
+              "net_drive_killing_energy": 1.342204697346361,
+              "net_drive_mass": 0.3048737284976926,
+              "vertical_work_angular_momentum": 0.4341324278557074
+            },
+            "history_cosine": 0.9915034070864086,
+            "maximum_fine_normalized_difference": 0.0021175336701525034,
+            "medium_fine_rms_difference": 0.001044698549071717,
+            "minimum_significant_component_order": 0.19095304560191934,
+            "observed_maximum_order": 0.3047581292964364,
+            "observed_rms_order": 0.28604659535629307,
+            "passed": false,
+            "refinement_error_cosine": -0.9995733561442227,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "interface_flux_mass",
+              "interface_flux_angular_momentum",
+              "interface_flux_killing_energy",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "medium_fine_attribution": {
+            "corrected_error_norm": 3.538746437083376e-08,
+            "corrected_to_legacy_error_ratio": 4.79041845092026e-06,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999999919592,
+            "face_alias_error_norm": 0.007387114926392439,
+            "face_alias_to_legacy_error_ratio": 0.9999973796264692,
+            "legacy_error_norm": 0.007387134283443584
+          }
+        },
+        "passed": true
+      },
+      "p4__outward_acoustic": {
+        "cumulative": {
+          "coarse_medium_attribution": {
+            "corrected_error_norm": 3.6745635840849165e-07,
+            "corrected_to_legacy_error_ratio": 5.644477942421819e-05,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999988750456,
+            "face_alias_error_norm": 0.006510214130939509,
+            "face_alias_to_legacy_error_ratio": 1.0000305946993704,
+            "legacy_error_norm": 0.006510014958988942
+          },
+          "corrected_physical_face": {
+            "coarse_medium_rms_difference": 5.4777158731488355e-08,
+            "component_orders": {
+              "cooling_angular_momentum": 2.0035507196973197,
+              "inner_flux_angular_momentum": 3.8793283257648303,
+              "inner_flux_mass": 3.8707831201169323,
+              "interface_flux_angular_momentum": 3.348873252623548,
+              "interface_flux_mass": 3.349517501755325,
+              "net_drive_angular_momentum": 3.959886324868268,
+              "net_drive_killing_energy": 1.5520091907821638,
+              "net_drive_mass": 3.8359235789135098,
+              "vertical_work_angular_momentum": 2.0027789288988567
+            },
+            "history_cosine": 0.9999974388353328,
+            "maximum_fine_normalized_difference": 1.3355004093701864e-08,
+            "medium_fine_rms_difference": 3.806196955779431e-09,
+            "minimum_significant_component_order": 1.5520091907821638,
+            "observed_maximum_order": 3.8372683725114753,
+            "observed_rms_order": 3.8471523135184627,
+            "passed": true,
+            "refinement_error_cosine": 0.9974969877704534,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "interface_flux_mass",
+              "interface_flux_angular_momentum",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "legacy_wrong_face": {
+            "coarse_medium_rms_difference": 0.0009206551446253891,
+            "component_orders": {
+              "cooling_angular_momentum": 0.796658034678451,
+              "inner_flux_angular_momentum": 3.8793283257648303,
+              "inner_flux_mass": 3.8707831201169323,
+              "interface_flux_angular_momentum": 0.18296010917391028,
+              "interface_flux_killing_energy": 0.4667370064759807,
+              "interface_flux_mass": 0.29862684750505186,
+              "net_drive_angular_momentum": 0.18035771702425837,
+              "net_drive_killing_energy": 0.7560545203367597,
+              "net_drive_mass": 0.2985356715485088,
+              "vertical_work_angular_momentum": 0.492652315510399
+            },
+            "history_cosine": 0.990544550632462,
+            "maximum_fine_normalized_difference": 0.0025153038737041064,
+            "medium_fine_rms_difference": 0.0007585564434441552,
+            "minimum_significant_component_order": 0.18035771702425837,
+            "observed_maximum_order": 0.298648582760179,
+            "observed_rms_order": 0.27940432448521635,
+            "passed": false,
+            "refinement_error_cosine": -0.999548366636372,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "interface_flux_mass",
+              "interface_flux_angular_momentum",
+              "interface_flux_killing_energy",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "medium_fine_attribution": {
+            "corrected_error_norm": 2.5532745843015238e-08,
+            "corrected_to_legacy_error_ratio": 4.760193624072186e-06,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999999921575,
+            "face_alias_error_norm": 0.005363789885333887,
+            "face_alias_to_legacy_error_ratio": 0.9999973590781656,
+            "legacy_error_norm": 0.00536380405072112
+          }
+        },
+        "instantaneous": {
+          "coarse_medium_attribution": {
+            "corrected_error_norm": 5.994091068221114e-07,
+            "corrected_to_legacy_error_ratio": 5.6384110898218486e-05,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999988774904,
+            "face_alias_error_norm": 0.010631140880787895,
+            "face_alias_to_legacy_error_ratio": 1.000030562723537,
+            "legacy_error_norm": 0.010630815974098304
+          },
+          "corrected_physical_face": {
+            "coarse_medium_rms_difference": 8.935463229417954e-08,
+            "component_orders": {
+              "cooling_angular_momentum": 2.003564007060177,
+              "inner_flux_angular_momentum": 3.8806714340750195,
+              "inner_flux_mass": 3.872131050362731,
+              "interface_flux_angular_momentum": 3.349797194861011,
+              "interface_flux_mass": 3.350441816710334,
+              "net_drive_angular_momentum": 3.9615834177551053,
+              "net_drive_killing_energy": 1.5525595216842323,
+              "net_drive_mass": 3.8372245580879327,
+              "vertical_work_angular_momentum": 2.002777665164888
+            },
+            "history_cosine": 0.9999974490330591,
+            "maximum_fine_normalized_difference": 1.3516556941013634e-08,
+            "medium_fine_rms_difference": 6.203207114601859e-09,
+            "minimum_significant_component_order": 1.5525595216842323,
+            "observed_maximum_order": 3.829245317821034,
+            "observed_rms_order": 3.848456322963282,
+            "passed": true,
+            "refinement_error_cosine": 0.9974786237885381,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "interface_flux_mass",
+              "interface_flux_angular_momentum",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "legacy_wrong_face": {
+            "coarse_medium_rms_difference": 0.0015034244129662367,
+            "component_orders": {
+              "cooling_angular_momentum": 0.7966044746160406,
+              "inner_flux_angular_momentum": 3.8806714340750195,
+              "inner_flux_mass": 3.872131050362731,
+              "interface_flux_angular_momentum": 0.18297794384098906,
+              "interface_flux_killing_energy": 0.4667831169347158,
+              "interface_flux_mass": 0.29865563543834006,
+              "net_drive_angular_momentum": 0.18037557847920796,
+              "net_drive_killing_energy": 0.7560660474907237,
+              "net_drive_mass": 0.2985645664154981,
+              "vertical_work_angular_momentum": 0.49259700861108346
+            },
+            "history_cosine": 0.9905445470102794,
+            "maximum_fine_normalized_difference": 0.0025156128612532744,
+            "medium_fine_rms_difference": 0.0012386952714773542,
+            "minimum_significant_component_order": 0.18037557847920796,
+            "observed_maximum_order": 0.2984757655684537,
+            "observed_rms_order": 0.2794310188674378,
+            "passed": false,
+            "refinement_error_cosine": -0.999548272580894,
+            "significant_components": [
+              "inner_flux_mass",
+              "inner_flux_angular_momentum",
+              "interface_flux_mass",
+              "interface_flux_angular_momentum",
+              "interface_flux_killing_energy",
+              "net_drive_mass",
+              "net_drive_angular_momentum",
+              "net_drive_killing_energy",
+              "cooling_angular_momentum",
+              "vertical_work_angular_momentum"
+            ]
+          },
+          "medium_fine_attribution": {
+            "corrected_error_norm": 4.161237910355396e-08,
+            "corrected_to_legacy_error_ratio": 4.750869099602651e-06,
+            "decomposition_closure_defect": 0.0,
+            "face_alias_alignment_with_legacy_error": 0.9999999999921886,
+            "face_alias_error_norm": 0.008758875176054162,
+            "face_alias_to_legacy_error_ratio": 0.9999973641891218,
+            "legacy_error_norm": 0.008758898262853485
+          }
+        },
+        "passed": true
+      }
+    }
+  },
+  "authorized_next": "WP10c9d6c7c3b5a_variable_step_duration_controller_manifest",
+  "classification": "heldout_spatial_export_failure_caused_by_active_face_alias_corrected_physical_face_contract_passes",
+  "config_sha256": "2c7dbc2405f97f1355117750e92f25741bae525b5a8c3c2d49a6adf3609df5ac",
+  "decisive_array_hashes": {
+    "N128_exterior_N128_inner_c48__p3_buffer45__generic_five_field__corrected_face_response": "3ce2e6d44d5d1890f1e61dfdeef71c4eb15ed67e77b790ffd67fff21855b9845",
+    "N128_exterior_N128_inner_c48__p3_buffer45__generic_five_field__face_alias_defect": "af586091eb0d2d47ad151e7c0c6c5410f0a45c868a96ffc7bf830c3bb4d85cb9",
+    "N128_exterior_N128_inner_c48__p3_buffer45__generic_five_field__legacy_wrong_face_response": "3ce2e6d44d5d1890f1e61dfdeef71c4eb15ed67e77b790ffd67fff21855b9845",
+    "N128_exterior_N128_inner_c48__p3_buffer45__material__corrected_face_response": "a510c21bb4b8890af997fa435805a41116fa68ca408794070305c892281a5ff9",
+    "N128_exterior_N128_inner_c48__p3_buffer45__material__face_alias_defect": "af586091eb0d2d47ad151e7c0c6c5410f0a45c868a96ffc7bf830c3bb4d85cb9",
+    "N128_exterior_N128_inner_c48__p3_buffer45__material__legacy_wrong_face_response": "a510c21bb4b8890af997fa435805a41116fa68ca408794070305c892281a5ff9",
+    "N128_exterior_N128_inner_c48__p4__inward_acoustic__corrected_face_response": "8570005ff1a4a9d78384a97d66c778fb710b7c74a6097fb1a1b0eabf3a44e9e6",
+    "N128_exterior_N128_inner_c48__p4__inward_acoustic__face_alias_defect": "af586091eb0d2d47ad151e7c0c6c5410f0a45c868a96ffc7bf830c3bb4d85cb9",
+    "N128_exterior_N128_inner_c48__p4__inward_acoustic__legacy_wrong_face_response": "8570005ff1a4a9d78384a97d66c778fb710b7c74a6097fb1a1b0eabf3a44e9e6",
+    "N128_exterior_N128_inner_c48__p4__inward_shear_acoustic_mix__corrected_face_response": "f4113967f29c6409c36c0b2ccd46d80fb6b93ff43ed760447670c161caed9e0e",
+    "N128_exterior_N128_inner_c48__p4__inward_shear_acoustic_mix__face_alias_defect": "af586091eb0d2d47ad151e7c0c6c5410f0a45c868a96ffc7bf830c3bb4d85cb9",
+    "N128_exterior_N128_inner_c48__p4__inward_shear_acoustic_mix__legacy_wrong_face_response": "f4113967f29c6409c36c0b2ccd46d80fb6b93ff43ed760447670c161caed9e0e",
+    "N128_exterior_N128_inner_c48__p4__outward_acoustic__corrected_face_response": "10e2f55c2f29d9de510cab5a386457ce89c180f0e203c78ed3b2533f77e85b79",
+    "N128_exterior_N128_inner_c48__p4__outward_acoustic__face_alias_defect": "af586091eb0d2d47ad151e7c0c6c5410f0a45c868a96ffc7bf830c3bb4d85cb9",
+    "N128_exterior_N128_inner_c48__p4__outward_acoustic__legacy_wrong_face_response": "10e2f55c2f29d9de510cab5a386457ce89c180f0e203c78ed3b2533f77e85b79",
+    "N128_exterior_N256_inner_c48__p3_buffer45__generic_five_field__corrected_face_response": "115058da8cb81dc7bfe72b96e7b7d72da1abac016db7f8f14ee9fde85027701d",
+    "N128_exterior_N256_inner_c48__p3_buffer45__generic_five_field__face_alias_defect": "7d8b540b85e3087e452783c5f5ff5c1ee37190ebf4495407475fb269cb89fe4c",
+    "N128_exterior_N256_inner_c48__p3_buffer45__generic_five_field__legacy_wrong_face_response": "23816d4503844d8f1a6435e38f559856253cf06f95431642dbd2a0c90a78759b",
+    "N128_exterior_N256_inner_c48__p3_buffer45__material__corrected_face_response": "fa6127a94077679d98db17a2622b672a2f3c1fa309d23e99954c555065426a40",
+    "N128_exterior_N256_inner_c48__p3_buffer45__material__face_alias_defect": "41b3f800e2a9efc56522f814d5dae109c1bd0973ab96e48302464ebf871a761a",
+    "N128_exterior_N256_inner_c48__p3_buffer45__material__legacy_wrong_face_response": "3044f09ca0d94a677caa2cddc8b24ae520ff09fe5060308a26d979b50dbf0ad5",
+    "N128_exterior_N256_inner_c48__p4__inward_acoustic__corrected_face_response": "9e4b72c99c0a62b4f899af03b38f53eca0295ca08e5cf857b6b42e92613ea742",
+    "N128_exterior_N256_inner_c48__p4__inward_acoustic__face_alias_defect": "ce109a3170445c49007297624939edcc562d3146ae8b2a856f51d4081acb2d05",
+    "N128_exterior_N256_inner_c48__p4__inward_acoustic__legacy_wrong_face_response": "661d90087881bff3d28f28fecb227daaba8e4b318dd1eb06e89bb367ce556e6a",
+    "N128_exterior_N256_inner_c48__p4__inward_shear_acoustic_mix__corrected_face_response": "c2dbca17bfb2ed444ead16ad32726c6aceb3a8c0f3f31528af6635a6cdc642c6",
+    "N128_exterior_N256_inner_c48__p4__inward_shear_acoustic_mix__face_alias_defect": "c7d03e37e6110098ff0f184dc69b1f32a6bee36339f55ad4d8a335f982d89713",
+    "N128_exterior_N256_inner_c48__p4__inward_shear_acoustic_mix__legacy_wrong_face_response": "88772a636a02b3970c8e6e882416b929cf13f90e2951119a8c2ee7022fabd968",
+    "N128_exterior_N256_inner_c48__p4__outward_acoustic__corrected_face_response": "1b89f7e758459c6c4da1f28db2e63f4eb07b2cfa29c8e98e279a39a6273e2259",
+    "N128_exterior_N256_inner_c48__p4__outward_acoustic__face_alias_defect": "ebc17400a08978369f41558ec6a8420fb4faabb0503fc4505dbf246faf382240",
+    "N128_exterior_N256_inner_c48__p4__outward_acoustic__legacy_wrong_face_response": "644935cf4a52b29cd7bda70d2da496c2afd49b2d4f3e41ad267bbcac3b62d3d1",
+    "N128_exterior_N512_inner_c48__p3_buffer45__generic_five_field__corrected_face_response": "f8be9415718675f965054125759b21c97b376d753f0520da4b0f590b770a8148",
+    "N128_exterior_N512_inner_c48__p3_buffer45__generic_five_field__face_alias_defect": "af1ed42d4a536c9517460d4049cd41368cb226b1899b1f644127d5eaf0180653",
+    "N128_exterior_N512_inner_c48__p3_buffer45__generic_five_field__legacy_wrong_face_response": "34f68fe91c9d28972f38624605411198e590f54314701a8e815959bdd794dcfb",
+    "N128_exterior_N512_inner_c48__p3_buffer45__material__corrected_face_response": "2f40e379e34233eb6b0bd02d24518d4d050a013e58274febe456e38888aa2cc3",
+    "N128_exterior_N512_inner_c48__p3_buffer45__material__face_alias_defect": "a0a06b8fa78cbab15cd1234858271b02d5c82fa189a0bd5990dc299c3c8eba87",
+    "N128_exterior_N512_inner_c48__p3_buffer45__material__legacy_wrong_face_response": "e29972085e667d519b77db6329e56d16176672e34914e8cc8ab499a9d92d15bd",
+    "N128_exterior_N512_inner_c48__p4__inward_acoustic__corrected_face_response": "68cc9b7e85ad81032edea88c15e78611b9a2a486a3caa06eec98cd61c6c0a44e",
+    "N128_exterior_N512_inner_c48__p4__inward_acoustic__face_alias_defect": "242a682c10e08c5d59107b5b1c8e1baf87e7898022ecae365a3285ebe8f41ef6",
+    "N128_exterior_N512_inner_c48__p4__inward_acoustic__legacy_wrong_face_response": "5b2e469bfdbd3330b978557230c0e9f7bee956a6caf2073a36578008399a6ed5",
+    "N128_exterior_N512_inner_c48__p4__inward_shear_acoustic_mix__corrected_face_response": "0158b40c8ce1e208451cb8e35ee76c84685560e698092f1661ead56fc66d20d5",
+    "N128_exterior_N512_inner_c48__p4__inward_shear_acoustic_mix__face_alias_defect": "50f51ec1250f960db998aabc72952cc19eaa15a33bdb1564c1632cfa4e917d28",
+    "N128_exterior_N512_inner_c48__p4__inward_shear_acoustic_mix__legacy_wrong_face_response": "6e632e12be95dca8da7f09538a55ef2a6acf12db73756de55f30d8e79a211f38",
+    "N128_exterior_N512_inner_c48__p4__outward_acoustic__corrected_face_response": "624c0491f1304390728a86f10cb734135857d84efaffb10215654a2012478b35",
+    "N128_exterior_N512_inner_c48__p4__outward_acoustic__face_alias_defect": "fb1ba352562eca88d91d2cc68e8d6345725078c26e73003ced46486f338a0586",
+    "N128_exterior_N512_inner_c48__p4__outward_acoustic__legacy_wrong_face_response": "da5a5fb37e32c6a6bec4edf6e98cbc3f5cbc6c48f2b5f4d808a277093f452c65",
+    "correct_active_coupling_face_indices": "8900476f57297168a753cb077e3987bf6e29828dc234353d054d44f48d1a4263",
+    "correct_active_coupling_radii": "78a49ccea99529964023c56c354ceeb787753b85a799eb9a058a607e3c98b0ee",
+    "fixed_physical_observable_scales": "fd7dcc9ca75f3e9c7b1333846986e9aaeb19c45442f0dd8c7f6c6901f8430a99",
+    "legacy_hardcoded_face_radii": "d04f7c5825b028d0b102e3c7ebbeefc28bbe45fe8615a4504d5c54c53da46edf",
+    "times_seconds": "79f93ca46d1abe76addccd314aa5727d9aa72a8573e4a4e3f14ca72568c69817"
+  },
+  "decisive_arrays_sha256": "a90204483996ed5eedc27556c2e9a2ee9c8185733b68e16e520c639a1b2db359",
+  "failed_b4b3_classification_preserved": "heldout_profile_spatial_confirmation_failed_duration_extension_blocked",
+  "fixed_q_micro_solver_authorized": false,
+  "heldout_spatial_convergence_certified": true,
+  "long_nonlinear_physical_ladder_authorized": false,
+  "operator_changed": false,
+  "parent_classification_preserved": "spatial_failure_localized_to_layout_native_export_map_common_parent_map_passes",
+  "passed": true,
+  "production_defaults_changed": false,
+  "propagation_executed": false,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "variable_step_duration_controller_manifest_authorized": true,
+  "work_package": "WP10c9d6c7c3b4d"
+}
