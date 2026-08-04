@@ -1,0 +1,279 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c3d_coarse_third_duration_rung_completion",
+  "binding_gates": {
+    "all_main_replay_and_strict_steps_pass_inherited_method_gates": true,
+    "main_and_serialized_replay_Tier_I_exports_bitwise": true,
+    "main_and_serialized_replay_complete_BDF_histories_bitwise": true,
+    "main_and_serialized_replay_states_bitwise": true,
+    "main_and_serialized_replay_target_labels_bitwise": true,
+    "main_local_error_maximum": 0.00025,
+    "main_local_error_sum_maximum": 0.005,
+    "maximum_h_over_r": 0.12,
+    "maximum_incoming_excision_characteristics": 0,
+    "minimum_reconstruction_factor": 1.0,
+    "minimum_scattering_optical_depth": 1.0,
+    "strict_local_error_maximum": 3.125e-05,
+    "strict_response_history_cosine_minimum": 0.9,
+    "strict_response_maximum_scaled_Tier_I_difference": 0.005,
+    "strict_response_maximum_scaled_state_difference": 0.005
+  },
+  "canonical_targets": {
+    "construction": "single_integer_100_microsecond_master_source",
+    "independent_target_construction_forbidden": true,
+    "main_indices": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      30
+    ],
+    "main_microseconds": [
+      2000,
+      2400,
+      2800,
+      3200,
+      3600,
+      4000,
+      4400,
+      4800,
+      5000
+    ],
+    "main_seconds": [
+      0.002,
+      0.0024,
+      0.0028,
+      0.0031999999999999997,
+      0.0036,
+      0.004,
+      0.004399999999999999,
+      0.0048,
+      0.005
+    ],
+    "master_microseconds": [
+      2000,
+      2100,
+      2200,
+      2300,
+      2400,
+      2500,
+      2600,
+      2700,
+      2800,
+      2900,
+      3000,
+      3100,
+      3200,
+      3300,
+      3400,
+      3500,
+      3600,
+      3700,
+      3800,
+      3900,
+      4000,
+      4100,
+      4200,
+      4300,
+      4400,
+      4500,
+      4600,
+      4700,
+      4800,
+      4900,
+      5000
+    ],
+    "replay_indices": [
+      24,
+      28,
+      30
+    ],
+    "replay_microseconds": [
+      4400,
+      4800,
+      5000
+    ],
+    "replay_seconds": [
+      0.004399999999999999,
+      0.0048,
+      0.005
+    ],
+    "strict_indices": [
+      28,
+      29,
+      30
+    ],
+    "strict_microseconds": [
+      4800,
+      4900,
+      5000
+    ],
+    "strict_seconds": [
+      0.0048,
+      0.0049,
+      0.005
+    ]
+  },
+  "classification": "third_duration_rung_completion_manifest_frozen_coarse_five_e_minus_three_second_completion_authorized",
+  "coarse_completion_execution": {
+    "durable_cache_after_each_complete_trajectory_stage": true,
+    "estimated_implicit_solves_per_trajectory": 36,
+    "exact_output_landing": true,
+    "main_expected_comparisons_per_trajectory": 8,
+    "one_tangent_per_execution_process": true,
+    "replay_expected_comparisons_per_trajectory": 2,
+    "run_base_stage_first": true,
+    "run_perturbed_stage_only_after_base_passes": true,
+    "serialized_replay_start_seconds": 0.004399999999999999,
+    "strict_expected_comparisons_per_trajectory": 2,
+    "strict_shadow_start_seconds": 0.0048
+  },
+  "hard_stops": [
+    "do not amend the c2d formal failure",
+    "do not use independently generated target grids",
+    "do not relax nonlinear residual, ledger or replay gates",
+    "do not claim the complete c3 rung from the coarse stage alone",
+    "do not begin the 2e-2 s c4 rung before c3 breadth and spatial gates",
+    "do not begin fixed-Q or reduced slow evolution",
+    "do not add tide, wind, hot-state, S-curve or QPE-cycle physics",
+    "do not use N1024 as a rescue"
+  ],
+  "historical_c2d_failure_preserved": true,
+  "main_controller": {
+    "analytic_stability_bound": 2.414213562373095,
+    "coupling_face_contract": {
+      "N128_exterior_N128_inner_c48": 48,
+      "N128_exterior_N256_inner_c48": 96,
+      "N128_exterior_N512_inner_c48": 192
+    },
+    "error_estimator": {
+      "accepted_branch": "full_step",
+      "accepted_branch_error_multiplier": 1.3333333333333333,
+      "export_norm": "maximum_fixed_scale_Tier_I_endpoint_difference",
+      "formal_order": 2,
+      "kind": "one_full_step_versus_two_independent_half_steps",
+      "local_error": "maximum_of_state_and_Tier_I_export_estimates",
+      "local_tolerance": 0.00025,
+      "short_horizon_sum_of_accepted_error_estimates": 0.005,
+      "state_norm": "maximum_of_scaled_RMS_and_scaled_fieldwise_maximum"
+    },
+    "initial_timestep_seconds": 0.0004,
+    "maximum_BDF2_step_ratio": 2.0,
+    "maximum_timestep_seconds": 0.0004,
+    "method": "monolithic_increment_primary_variable_step_BDF1_BDF2",
+    "minimum_timestep_seconds": 2.5e-05,
+    "proposal": {
+      "error_exponent": 0.3333333333333333,
+      "exact_landing_at_every_declared_output": true,
+      "maximum_factor": 2.0,
+      "maximum_retries": 8,
+      "minimum_factor": 0.5,
+      "reject_on_any_full_or_half_method_failure": true,
+      "safety_factor": 0.8
+    },
+    "step_method_gates": {
+      "checkpoint_roundtrip": "bitwise",
+      "maximum_discrete_ledger_defect": 1e-12,
+      "maximum_incoming_excision_characteristics": 0,
+      "maximum_mapped_endpoint_path_closure": 1e-09,
+      "maximum_scaled_residual": 1e-10,
+      "minimum_reconstruction_factor": 1.0,
+      "split_restart_replay": "bitwise_at_declared_outputs"
+    }
+  },
+  "negative_branch": {
+    "authorized_next": "none",
+    "classification": "coarse_third_rung_completion_failed_later_duration_blocked",
+    "localize_time_storage_or_response_failure_before_redesign": true
+  },
+  "operator_changed": false,
+  "passed": true,
+  "positive_branch": {
+    "authorized_next": "WP10c9d6c7c3b5c3e_third_duration_rung_breadth_manifest",
+    "classification": "coarse_third_rung_completion_certified_remaining_third_rung_breadth_manifest_authorized",
+    "middle_duration_rung_c4_still_blocked": true
+  },
+  "production_defaults_changed": false,
+  "propagation_executed": false,
+  "remaining_third_rung_scope": {
+    "all_three_stages_required_before_c4_manifest": true,
+    "stage_1_now_authorized": "coarse_generic_base_and_perturbed_completion_to_5e-3_s",
+    "stage_2_conditional_definitions_only": {
+      "profiles": [
+        "p4__inward_acoustic",
+        "p4__outward_acoustic",
+        "p3_buffer45__material",
+        "p4__inward_shear_acoustic_mix"
+      ],
+      "scope": "coarse_heldout_profile_duration_breadth"
+    },
+    "stage_3_conditional_definitions_only": {
+      "layouts": [
+        "N128_exterior_N256_inner_c48",
+        "N128_exterior_N512_inner_c48"
+      ],
+      "scope": "middle_and_fine_generic_spatial_confirmation"
+    }
+  },
+  "rung": {
+    "coarse_layout": "N128_exterior_N128_inner_c48",
+    "coupling_face": 48,
+    "fraction_of_N128_cell_crossing": 0.9025270758122744,
+    "generic_profile": "p3_buffer45__generic_five_field",
+    "horizon_seconds": 0.005,
+    "initial_restart_source": "committed_c3b_final_state_and_complete_BDF2_history_at_2e-3_s",
+    "no_new_BDF1_startup": true,
+    "start_seconds": 0.002,
+    "trajectories": [
+      "base",
+      "perturbed"
+    ]
+  },
+  "schema_version": 1,
+  "strict_controller": {
+    "analytic_stability_bound": 2.414213562373095,
+    "coupling_face_contract": {
+      "N128_exterior_N128_inner_c48": 48,
+      "N128_exterior_N256_inner_c48": 96,
+      "N128_exterior_N512_inner_c48": 192
+    },
+    "error_estimator": {
+      "accepted_branch": "full_step",
+      "accepted_branch_error_multiplier": 1.3333333333333333,
+      "export_norm": "maximum_fixed_scale_Tier_I_endpoint_difference",
+      "formal_order": 2,
+      "kind": "one_full_step_versus_two_independent_half_steps",
+      "local_error": "maximum_of_state_and_Tier_I_export_estimates",
+      "local_tolerance": 3.125e-05,
+      "short_horizon_sum_of_accepted_error_estimates": 0.005,
+      "state_norm": "maximum_of_scaled_RMS_and_scaled_fieldwise_maximum"
+    },
+    "initial_timestep_seconds": 0.0001,
+    "maximum_BDF2_step_ratio": 2.0,
+    "maximum_timestep_seconds": 0.0001,
+    "method": "monolithic_increment_primary_variable_step_BDF1_BDF2",
+    "minimum_timestep_seconds": 2.5e-05,
+    "proposal": {
+      "error_exponent": 0.3333333333333333,
+      "exact_landing_at_every_declared_output": true,
+      "maximum_factor": 2.0,
+      "maximum_retries": 8,
+      "minimum_factor": 0.5,
+      "reject_on_any_full_or_half_method_failure": true,
+      "safety_factor": 0.8
+    },
+    "step_method_gates": {
+      "checkpoint_roundtrip": "bitwise",
+      "maximum_discrete_ledger_defect": 1e-12,
+      "maximum_incoming_excision_characteristics": 0,
+      "maximum_mapped_endpoint_path_closure": 1e-09,
+      "maximum_scaled_residual": 1e-10,
+      "minimum_reconstruction_factor": 1.0,
+      "split_restart_replay": "bitwise_at_declared_outputs"
+    }
+  },
+  "work_package": "WP10c9d6c7c3b5c3c"
+}
