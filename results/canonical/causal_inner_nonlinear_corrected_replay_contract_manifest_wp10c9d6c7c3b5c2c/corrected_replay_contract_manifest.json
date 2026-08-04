@@ -1,0 +1,81 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c2c1_paired_base_replay_validation",
+  "classification": "corrected_replay_contract_manifest_frozen_paired_base_replay_validation_authorized",
+  "committed_main_comparison": {
+    "maximum_scaled_export_difference": 1e-12,
+    "maximum_scaled_state_difference": 1e-12,
+    "not_a_substitute_for_paired_bitwise_replay": true,
+    "scientific_role": "explanatory_fresh_process_check_only"
+  },
+  "coupling_face": 48,
+  "hard_stops": [
+    "do not amend or relabel the historical c2 failure",
+    "do not replace paired same-tangent bitwise gates with tolerances",
+    "do not run the missing perturbed trajectory before paired replay passes",
+    "do not begin the third duration rung",
+    "do not redesign the spatial operator or interface",
+    "do not begin fixed-Q or reduced slow evolution",
+    "do not add tide, wind, hot-state, S-curve or QPE-cycle physics",
+    "do not use N1024 as a rescue"
+  ],
+  "historical_c2_failure_preserved": true,
+  "layout": "N128_exterior_N128_inner_c48",
+  "method_gates": {
+    "checkpoint_roundtrip": "bitwise",
+    "maximum_discrete_ledger_defect": 1e-12,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_mapped_endpoint_path_closure": 1e-09,
+    "maximum_scaled_residual": 1e-10,
+    "minimum_reconstruction_factor": 1.0,
+    "split_restart_replay": "bitwise_at_declared_outputs"
+  },
+  "negative_branch": {
+    "authorized_next": "WP10c9d6c7c3b5c2c2_paired_replay_localization",
+    "no_perturbed_or_later_duration_propagation": true
+  },
+  "operator_changed": false,
+  "paired_base_replay": {
+    "accepted_step_count_per_branch": 4,
+    "build_one_frozen_tangent_shared_by_both_branches": true,
+    "canonical_output_targets_seconds": [
+      0.0006,
+      0.0007,
+      0.0007999999999999999,
+      0.0009,
+      0.001
+    ],
+    "direct_branch_starts_from_in_memory_restart": true,
+    "fixed_BDF2_timestep_seconds": 0.0001,
+    "reconstruct_history_from_committed_base_states": true,
+    "run_direct_and_serialized_branches_independently": true,
+    "serialized_branch_starts_from_save_load_of_same_restart": true,
+    "source_history_times_seconds": [
+      0.0005,
+      0.0006
+    ],
+    "start_seconds": 0.0006,
+    "stop_seconds": 0.001
+  },
+  "passed": true,
+  "positive_branch": {
+    "authorized_next": "WP10c9d6c7c3b5c2d_second_rung_perturbed_completion",
+    "instrument_time_state_export_replay_separately": true,
+    "require_original_response_and_strict_shadow_gates": true,
+    "reuse_committed_base_main_and_strict_arrays_by_hash": true,
+    "run_only_missing_perturbed_main_replay_and_strict_trajectory": true
+  },
+  "production_defaults_changed": false,
+  "profile": "p3_buffer45__generic_five_field",
+  "propagation_executed": false,
+  "schema_version": 1,
+  "separate_replay_gates": {
+    "accumulated_elapsed_time_within_ULP": 1.0,
+    "canonical_time_labels_bitwise": true,
+    "complete_BDF_history_bitwise": true,
+    "direct_Tier_I_exports_bitwise": true,
+    "no_combined_short_circuit_boolean": true,
+    "primitive_states_bitwise": true,
+    "restart_roundtrip_bitwise": true
+  },
+  "work_package": "WP10c9d6c7c3b5c2c"
+}
