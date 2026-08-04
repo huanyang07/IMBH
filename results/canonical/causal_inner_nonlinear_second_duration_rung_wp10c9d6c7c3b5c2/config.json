@@ -1,0 +1,119 @@
+{
+  "analyzed_base_commit": "0d6df95057829f75c40004c44722d9ab664c81d1",
+  "continuation_start_seconds": 0.0002,
+  "coupling_face": 48,
+  "horizon_seconds": 0.001,
+  "layout": "N128_exterior_N128_inner_c48",
+  "main_controller": {
+    "analytic_stability_bound": 2.414213562373095,
+    "coupling_face_contract": {
+      "N128_exterior_N128_inner_c48": 48,
+      "N128_exterior_N256_inner_c48": 96,
+      "N128_exterior_N512_inner_c48": 192
+    },
+    "error_estimator": {
+      "accepted_branch": "full_step",
+      "accepted_branch_error_multiplier": 1.3333333333333333,
+      "export_norm": "maximum_fixed_scale_Tier_I_endpoint_difference",
+      "formal_order": 2,
+      "kind": "one_full_step_versus_two_independent_half_steps",
+      "local_error": "maximum_of_state_and_Tier_I_export_estimates",
+      "local_tolerance": 0.00025,
+      "short_horizon_sum_of_accepted_error_estimates": 0.005,
+      "state_norm": "maximum_of_scaled_RMS_and_scaled_fieldwise_maximum"
+    },
+    "initial_timestep_seconds": 4e-05,
+    "maximum_BDF2_step_ratio": 2.0,
+    "maximum_timestep_seconds": 0.0001,
+    "method": "monolithic_increment_primary_variable_step_BDF1_BDF2",
+    "minimum_timestep_seconds": 1.25e-06,
+    "proposal": {
+      "error_exponent": 0.3333333333333333,
+      "exact_landing_at_every_declared_output": true,
+      "maximum_factor": 2.0,
+      "maximum_retries": 8,
+      "minimum_factor": 0.5,
+      "reject_on_any_full_or_half_method_failure": true,
+      "safety_factor": 0.8
+    },
+    "step_method_gates": {
+      "checkpoint_roundtrip": "bitwise",
+      "maximum_discrete_ledger_defect": 1e-12,
+      "maximum_incoming_excision_characteristics": 0,
+      "maximum_mapped_endpoint_path_closure": 1e-09,
+      "maximum_scaled_residual": 1e-10,
+      "minimum_reconstruction_factor": 1.0,
+      "split_restart_replay": "bitwise_at_declared_outputs"
+    }
+  },
+  "output_times_seconds": [
+    0.0,
+    0.0001,
+    0.0002,
+    0.00030000000000000003,
+    0.0004,
+    0.0005,
+    0.0006000000000000001,
+    0.0007,
+    0.0008,
+    0.0009000000000000001,
+    0.001
+  ],
+  "profile": "p3_buffer45__generic_five_field",
+  "restart_time_seconds": 0.0006,
+  "schema_version": 1,
+  "strict_shadow": {
+    "controller": {
+      "analytic_stability_bound": 2.414213562373095,
+      "coupling_face_contract": {
+        "N128_exterior_N128_inner_c48": 48,
+        "N128_exterior_N256_inner_c48": 96,
+        "N128_exterior_N512_inner_c48": 192
+      },
+      "error_estimator": {
+        "accepted_branch": "full_step",
+        "accepted_branch_error_multiplier": 1.3333333333333333,
+        "export_norm": "maximum_fixed_scale_Tier_I_endpoint_difference",
+        "formal_order": 2,
+        "kind": "one_full_step_versus_two_independent_half_steps",
+        "local_error": "maximum_of_state_and_Tier_I_export_estimates",
+        "local_tolerance": 3.125e-05,
+        "rung_sum_of_accepted_error_estimates": 0.000625,
+        "short_horizon_sum_of_accepted_error_estimates": 0.005,
+        "state_norm": "maximum_of_scaled_RMS_and_scaled_fieldwise_maximum"
+      },
+      "initial_timestep_seconds": 5e-05,
+      "maximum_BDF2_step_ratio": 2.0,
+      "maximum_timestep_seconds": 5e-05,
+      "method": "monolithic_increment_primary_variable_step_BDF1_BDF2",
+      "minimum_timestep_seconds": 1.25e-06,
+      "proposal": {
+        "error_exponent": 0.3333333333333333,
+        "exact_landing_at_every_declared_output": true,
+        "maximum_factor": 2.0,
+        "maximum_retries": 8,
+        "minimum_factor": 0.5,
+        "reject_on_any_full_or_half_method_failure": true,
+        "safety_factor": 0.8
+      },
+      "step_method_gates": {
+        "checkpoint_roundtrip": "bitwise",
+        "maximum_discrete_ledger_defect": 1e-12,
+        "maximum_incoming_excision_characteristics": 0,
+        "maximum_mapped_endpoint_path_closure": 1e-09,
+        "maximum_scaled_residual": 1e-10,
+        "minimum_reconstruction_factor": 1.0,
+        "split_restart_replay": "bitwise_at_declared_outputs"
+      }
+    },
+    "maximum_scaled_Tier_I_response_difference": 0.005,
+    "maximum_scaled_state_response_difference": 0.005,
+    "minimum_state_and_Tier_I_history_cosine": 0.9,
+    "required": true,
+    "same_saved_state_and_BDF_history_as_main": true,
+    "start_time_seconds": 0.0008,
+    "stop_time_seconds": 0.001
+  },
+  "strict_shadow_start_seconds": 0.0008,
+  "work_package": "WP10c9d6c7c3b5c2"
+}
