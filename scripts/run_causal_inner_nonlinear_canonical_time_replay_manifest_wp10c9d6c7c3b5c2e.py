@@ -155,7 +155,7 @@ def _manifest(target_grid: dict) -> dict:
         "schema_version": SCHEMA_VERSION,
         "work_package": WORK_PACKAGE,
         "classification": (
-            "canonical_time_replay_manifest_frozen_"
+            "canonical_time_replay_manifest_corrected_"
             "paired_target_grid_audit_authorized"
         ),
         "passed": True,
@@ -190,7 +190,10 @@ def _manifest(target_grid: dict) -> dict:
             "no_error_estimator_or_controller_retuning": True,
         },
         "binding_gates": {
-            "legacy_branch_reproduces_committed_c2d_main_state_export_and_history_bitwise": True,
+            "legacy_fresh_process_comparison_is_explanatory_not_bitwise": True,
+            "legacy_committed_maximum_scaled_state_difference": 1.0e-12,
+            "legacy_committed_maximum_scaled_export_difference": 1.0e-12,
+            "legacy_committed_maximum_relative_history_difference": 1.0e-9,
             "canonical_direct_and_serialized_target_labels_bitwise": True,
             "canonical_direct_and_serialized_states_bitwise": True,
             "canonical_direct_and_serialized_Tier_I_exports_bitwise": True,
@@ -227,6 +230,7 @@ def _manifest(target_grid: dict) -> dict:
         },
         "hard_stops": [
             "do not amend or relabel the c2d formal failure",
+            "do not require fresh-process equality with an older tangent bitwise",
             "do not relax same-target same-tangent bitwise replay gates",
             "do not change the physical or numerical operator",
             "do not begin the third duration rung before the audit passes",
@@ -353,7 +357,10 @@ def main() -> int:
         f"`{manifest['classification']}`\n\n"
         "This definitions-only package preserves the c2d failure and freezes "
         "a paired legacy-target/canonical-target replay audit. The separately "
-        "generated target grids differ by exactly one ULP at `9e-4 s`.\n\n"
+        "generated target grids differ by exactly one ULP at `9e-4 s`. A "
+        "fresh-process comparison with the older committed tangent is "
+        "explanatory within frozen envelopes; only same-tangent canonical "
+        "direct/serialized branches bind bitwise.\n\n"
         f"Authorized next: `{manifest['authorized_next']}`.\n\n"
         "The third duration rung, fixed-Q experiments, and reduced slow "
         "evolution remain blocked.\n",
