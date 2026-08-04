@@ -1,0 +1,49 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c2c_corrected_replay_contract_manifest",
+  "classification": "second_rung_replay_boolean_localized_to_one_ulp_time_label_fresh_process_replay_roundoff_scale_paired_replay_required",
+  "config_sha256": "ba6722463711d9a836f3115cce6de16c5403bb094df73847fb7d99d34d8a4863",
+  "corrected_replay_manifest_authorized": true,
+  "decisive_array_hashes": {
+    "main_tail_exports": "ad7a265f5342dcfe54cdd40a2b36ef4e551e052f35fbfb3e13e08db6cb85dc92",
+    "main_tail_states": "a6ba0c5a269d68e4e553fe5a5f9364fb8e6fab6efc5a48635c8adfdb4b32cd31",
+    "replay_tail_exports": "15ad098709a8dad767fb7c520ba2e02da80c2445d615ef2b20dc7e934b199ada",
+    "replay_tail_states": "7c90975aaece0a5857e089ac1c72c26b6864408ddc25f010b2a6450f996ef1e9"
+  },
+  "decisive_arrays_sha256": "b7fac17bf812b4c8715a8f0a579ad2d1fd1c900c2f5554f28600d586726ef8be",
+  "direct_replay_report": {
+    "all_steps_passed": true,
+    "export_bitwise": false,
+    "maximum_absolute_export_difference": 905969664.0,
+    "maximum_absolute_state_difference": 5.329070518200751e-15,
+    "maximum_discrete_ledger_defect": 0.0,
+    "maximum_mapped_closure_defect": 1.704928448045899e-12,
+    "maximum_scaled_export_difference": 4.594135920001761e-15,
+    "maximum_scaled_residual": 1.9619761182339868e-12,
+    "maximum_scaled_state_difference": 9.23343419040726e-15,
+    "restart_roundtrip_bitwise": true,
+    "state_bitwise": false,
+    "storage_mapped_closure_defect": 1.432092493571293e-12,
+    "storage_minimum_reconstruction_factor": 1.0
+  },
+  "fixed_q_micro_solver_authorized": false,
+  "fresh_process_replay_within_roundoff_envelope": true,
+  "historical_combined_boolean_short_circuited_by_time_label": true,
+  "historical_replay_failure_preserved": true,
+  "historical_state_export_bitwise_status": "not_recorded_separately",
+  "later_duration_rungs_authorized": false,
+  "operator_changed": false,
+  "parent_classification_preserved": "second_nonlinear_duration_rung_failed_later_duration_work_blocked",
+  "passed": true,
+  "production_defaults_changed": false,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "time_label_report": {
+    "bitwise_equal": false,
+    "maximum_absolute_difference": 1.0842021724855044e-19,
+    "maximum_spacing_units": 1.0,
+    "mismatch_indices": [
+      9
+    ]
+  },
+  "work_package": "WP10c9d6c7c3b5c2b"
+}
