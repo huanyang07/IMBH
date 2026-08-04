@@ -1,0 +1,108 @@
+{
+  "audit": {
+    "accepted_steps_per_branch": 2,
+    "branches_per_trajectory": [
+      "legacy_target_direct",
+      "canonical_target_direct",
+      "canonical_target_serialized"
+    ],
+    "build_one_frozen_tangent_shared_by_all_branches": true,
+    "coupling_face": 48,
+    "fixed_BDF2_step_uses_exact_next_target_minus_current_time": true,
+    "layout": "N128_exterior_N128_inner_c48",
+    "no_error_estimator_or_controller_retuning": true,
+    "previous_timestep_seconds": 0.0001,
+    "profile": "p3_buffer45__generic_five_field",
+    "reconstruct_start_from_committed_c2d_state_and_complete_BDF_history": true,
+    "start_history_index": 1,
+    "start_seconds": 0.0008,
+    "start_state_index": 8,
+    "stop_seconds": 0.001,
+    "trajectories": [
+      "base",
+      "perturbed"
+    ]
+  },
+  "authorized_next": "WP10c9d6c7c3b5c2e1_canonical_time_replay_audit",
+  "binding_gates": {
+    "all_inherited_method_gates": true,
+    "canonical_direct_and_serialized_Tier_I_exports_bitwise": true,
+    "canonical_direct_and_serialized_complete_BDF_histories_bitwise": true,
+    "canonical_direct_and_serialized_restart_payloads_bitwise": true,
+    "canonical_direct_and_serialized_states_bitwise": true,
+    "canonical_direct_and_serialized_target_labels_bitwise": true,
+    "canonical_response_maximum_scaled_Tier_I_difference_from_legacy": 1e-08,
+    "canonical_response_maximum_scaled_state_difference_from_legacy": 1e-08,
+    "legacy_and_canonical_first_difference_index": 1,
+    "legacy_branch_reproduces_committed_c2d_main_state_export_and_history_bitwise": true,
+    "legacy_canonical_maximum_relative_export_norm_difference": 1e-12,
+    "legacy_canonical_maximum_relative_history_norm_difference": 1e-09,
+    "legacy_canonical_maximum_relative_state_norm_difference": 1e-12,
+    "no_incoming_excision_characteristics": true
+  },
+  "classification": "canonical_time_replay_manifest_frozen_paired_target_grid_audit_authorized",
+  "hard_stops": [
+    "do not amend or relabel the c2d formal failure",
+    "do not relax same-target same-tangent bitwise replay gates",
+    "do not change the physical or numerical operator",
+    "do not begin the third duration rung before the audit passes",
+    "do not begin fixed-Q or reduced slow evolution",
+    "do not add tide, wind, hot-state, S-curve or QPE-cycle physics",
+    "do not use N1024 as a rescue"
+  ],
+  "historical_c2d_failure_preserved": true,
+  "method_gates": {
+    "checkpoint_roundtrip": "bitwise",
+    "maximum_discrete_ledger_defect": 1e-12,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_mapped_endpoint_path_closure": 1e-09,
+    "maximum_scaled_residual": 1e-10,
+    "minimum_reconstruction_factor": 1.0,
+    "split_restart_replay": "bitwise_at_declared_outputs"
+  },
+  "negative_branch": {
+    "authorized_next": "none",
+    "classification": "canonical_target_replay_audit_failed_later_duration_blocked",
+    "no_later_duration_propagation": true
+  },
+  "operator_changed": false,
+  "passed": true,
+  "positive_branch": {
+    "authorized_next": "WP10c9d6c7c3b5c3a_third_duration_rung_manifest",
+    "classification": "canonical_target_replay_bitwise_certified_third_rung_manifest_authorized",
+    "commit_corrected_base_and_perturbed_BDF2_restart_payloads": true,
+    "preserve_c2d_as_formal_failure": true,
+    "use_only_canonical_target_slices_in_all_future_controllers": true
+  },
+  "production_defaults_changed": false,
+  "propagation_executed": false,
+  "root_cause_hypothesis": "main_and_replay_used_independently_generated_target_grids_whose_9e_minus_4_entries_differ_by_one_ULP",
+  "schema_version": 1,
+  "target_grid_diagnostic": {
+    "canonical_target_hex": [
+      "0x1.a36e2eb1c432dp-11",
+      "0x1.d7dbf487fcb93p-11",
+      "0x1.0624dd2f1a9fcp-10"
+    ],
+    "canonical_targets_seconds": [
+      0.0008,
+      0.0009000000000000001,
+      0.001
+    ],
+    "differing_indices": [
+      1
+    ],
+    "legacy_target_hex": [
+      "0x1.a36e2eb1c432dp-11",
+      "0x1.d7dbf487fcb92p-11",
+      "0x1.0624dd2f1a9fcp-10"
+    ],
+    "legacy_targets_seconds": [
+      0.0008,
+      0.0009,
+      0.001
+    ],
+    "maximum_spacing_units": 1.0
+  },
+  "work_package": "WP10c9d6c7c3b5c2e"
+}
