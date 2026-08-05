@@ -1,0 +1,52 @@
+{
+  "active_coupling_face_indices": {
+    "N128_exterior_N128_inner_c48": 48,
+    "N128_exterior_N256_inner_c48": 96,
+    "N128_exterior_N512_inner_c48": 192
+  },
+  "analyzed_base_commit": "bafc167cfc0871c892982dc13bbb74e2fae5db22",
+  "coarse_execution_order": [
+    "p4__inward_acoustic",
+    "p4__outward_acoustic",
+    "p3_buffer45__material",
+    "p4__inward_shear_acoustic_mix"
+  ],
+  "coarse_heldout_profiles": [
+    "p4__inward_acoustic",
+    "p4__outward_acoustic",
+    "p3_buffer45__material",
+    "p4__inward_shear_acoustic_mix"
+  ],
+  "coarse_layout": "N128_exterior_N128_inner_c48",
+  "generic_profile": "p3_buffer45__generic_five_field",
+  "horizon_seconds": 0.005,
+  "main_targets_seconds": [
+    0.002,
+    0.0024,
+    0.0028,
+    0.0031999999999999997,
+    0.0036,
+    0.004,
+    0.004399999999999999,
+    0.0048,
+    0.005
+  ],
+  "propagation_executed": false,
+  "replay_targets_seconds": [
+    0.004399999999999999,
+    0.0048,
+    0.005
+  ],
+  "schema_version": 1,
+  "spatial_layouts": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "strict_targets_seconds": [
+    0.0048,
+    0.0049,
+    0.005
+  ],
+  "work_package": "WP10c9d6c7c3b5c3e"
+}
