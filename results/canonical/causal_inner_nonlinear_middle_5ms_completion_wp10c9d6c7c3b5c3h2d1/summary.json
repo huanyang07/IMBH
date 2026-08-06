@@ -1,0 +1,113 @@
+{
+  "anchor": {
+    "cumulative_Tier_I": {
+      "discrepancy_fraction_of_observable_response": 0.0020534886455416284,
+      "history_cosine": 0.999999944333857,
+      "maximum_scaled_actual_response": 1.2576199828889258e-08,
+      "maximum_scaled_discrepancy": 2.582508355268666e-11,
+      "maximum_scaled_predicted_response": 1.2550374745336572e-08,
+      "rms_scaled_discrepancy": 4.8291961764399485e-12
+    },
+    "final_state_audit": {
+      "maximum_h_over_r": 0.09848344605076921,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.098342655266595
+    },
+    "instantaneous_Tier_I": {
+      "discrepancy_fraction_of_observable_response": 0.00205247237726082,
+      "history_cosine": 0.9999999354804474,
+      "maximum_scaled_actual_response": 4.210587506409701e-06,
+      "maximum_scaled_discrepancy": 8.642114548945426e-09,
+      "maximum_scaled_predicted_response": 4.201945391860755e-06,
+      "rms_scaled_discrepancy": 2.5878517527612964e-09
+    },
+    "maximum_discrete_ledger_defect": 0.0,
+    "maximum_export_incoming_characteristics": 0,
+    "maximum_export_ledger_defect": 2.0666315179825593e-12,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_mapped_endpoint_path_closure_defect": 1.7260031699711928e-12,
+    "maximum_sampled_export_error_estimate": 1.114640373585399e-09,
+    "maximum_sampled_state_error_estimate": 8.620421399544487e-08,
+    "maximum_scaled_residual": 7.548127466399114e-11,
+    "median_routine_step_wall_seconds": 281.3191037911456,
+    "median_sampled_step_wall_seconds": 1246.6783117079176,
+    "minimum_path_reconstruction_factor": 1.0,
+    "passed": true,
+    "sampled_step_indices": [
+      0,
+      3,
+      7
+    ],
+    "state": {
+      "discrepancy_fraction_of_observable_response": 8.473545507357393e-07,
+      "history_cosine": 0.9999999999998397,
+      "maximum_scaled_actual_response": 0.007852480111762539,
+      "maximum_scaled_discrepancy": 6.653834757263874e-09,
+      "maximum_scaled_predicted_response": 0.007852480135564563,
+      "rms_scaled_discrepancy": 1.366538533610217e-09
+    }
+  },
+  "authorized_next": "WP10c9d6c7c3b5c3h2e0_middle_spatial_analysis_and_fine_manifest",
+  "base": {
+    "accepted_steps": 8,
+    "maximum_discrete_ledger_defect": 0.0,
+    "maximum_export_ledger_defect": 1.200218309370916e-11,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_local_error_estimate": 8.611153645389458e-08,
+    "maximum_mapped_endpoint_path_closure_defect": 1.3156295750703464e-12,
+    "maximum_scaled_residual": 8.650190530243802e-11,
+    "maximum_timestep_seconds": 0.0004,
+    "median_accepted_step_wall_seconds": 1612.7240068335086,
+    "minimum_path_reconstruction_factor": 1.0,
+    "minimum_timestep_seconds": 0.00020000000000000052,
+    "next_candidate_timestep_seconds": 0.0004,
+    "passed": true,
+    "passed_so_far": true,
+    "rejected_attempts": 0,
+    "sum_local_error_estimates": 6.173418218015555e-07,
+    "wall_seconds": 11901.881258208305
+  },
+  "classification": "middle_5ms_completion_passed_spatial_analysis_and_fine_manifest_authorized",
+  "fine_cost_bounded_propagation_authorized": false,
+  "fine_manifest_authorized": true,
+  "fixed_q_micro_solver_authorized": false,
+  "middle_5ms_spatial_analysis_authorized": true,
+  "middle_fine_5ms_spatial_certificate_issued": false,
+  "passed": true,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "serialized_replays": {
+    "anchor": {
+      "checkpoint_roundtrip_bitwise": true,
+      "last_step_replay_bitwise": true,
+      "maximum_scaled_residual": 3.8432548779294866e-12,
+      "wall_seconds": 380.5891915000975
+    },
+    "base": {
+      "checkpoint_roundtrip_bitwise": true,
+      "last_step_replay_bitwise": true,
+      "maximum_scaled_residual": 8.147602135705501e-12,
+      "wall_seconds": 571.4725850420073
+    }
+  },
+  "setup_wall_seconds": 127.92694912501611,
+  "surrogate_relative_gate_passed": true,
+  "tangent": {
+    "accepted_steps": 8,
+    "audit_step_indices": [
+      0,
+      3,
+      7
+    ],
+    "maximum_export_active_prefix_ledger_defect": 3.462563944348119e-16,
+    "maximum_export_transport_telescoping_defect": 3.1800957630976153e-16,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_linear_solve_relative_defect": 2.9401708840700153e-16,
+    "maximum_matrix_component_closure_defect": 6.364296615098879e-17,
+    "maximum_step_matrix_jvp_relative_defect": 6.380482119076009e-11,
+    "median_matrix_assembly_wall_seconds": 106.68493350001518,
+    "median_routine_block_step_wall_seconds": 0.0242513339035213,
+    "passed": true
+  },
+  "work_package": "WP10c9d6c7c3b5c3h2d1"
+}
