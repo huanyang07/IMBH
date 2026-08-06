@@ -1,0 +1,183 @@
+{
+  "analytic_complete_discrete_BDF_tangent_certified": true,
+  "authorized_next": "WP10c9d6c7c3b5c3h2_middle_cost_bounded_anchor_manifest",
+  "calibration": {
+    "long": {
+      "block_step_wall_seconds": [
+        159.74331800010987,
+        0.012017874978482723,
+        0.01194137497805059,
+        0.011766958050429821,
+        0.011734625091776252,
+        0.011655875016003847,
+        0.012512666871771216
+      ],
+      "instantaneous_Tier_I": {
+        "history_cosine": 0.9999993762672775,
+        "maximum_scaled_actual_response": 9.99397399992989e-06,
+        "maximum_scaled_discrepancy": 4.970473395202929e-08,
+        "maximum_scaled_predicted_response": 9.94426926597786e-06,
+        "rms_scaled_discrepancy": 8.22703679718664e-09
+      },
+      "matrix_assembly_wall_seconds": [
+        59.78825162514113,
+        59.72153199999593,
+        59.67815729090944,
+        59.864024915965274,
+        59.756203500088304,
+        59.716412666020915,
+        59.683685374911875
+      ],
+      "maximum_base_scaled_residual": 8.530616226638351e-11,
+      "maximum_export_active_prefix_ledger_defect": 2.150138412085466e-16,
+      "maximum_export_transport_telescoping_defect": 2.044983252603482e-16,
+      "maximum_incoming_excision_characteristics": 0,
+      "maximum_linear_solve_relative_defect": 3.0653528515386965e-16,
+      "maximum_matrix_component_closure_defect": 5.208921176999478e-17,
+      "maximum_step_matrix_jvp_relative_defect": 9.400010198542318e-11,
+      "profiles": [
+        "p3_buffer45__generic_five_field",
+        "p4__inward_acoustic",
+        "p4__outward_acoustic",
+        "p3_buffer45__material",
+        "p4__inward_shear_acoustic_mix"
+      ],
+      "state": {
+        "history_cosine": 0.9999999999501186,
+        "maximum_scaled_actual_response": 0.009915002631792902,
+        "maximum_scaled_discrepancy": 2.309575614268354e-07,
+        "maximum_scaled_predicted_response": 0.009915002631792902,
+        "rms_scaled_discrepancy": 2.059616992741511e-08
+      },
+      "steps": 7,
+      "tail_start_seconds": 0.0024,
+      "tail_stop_seconds": 0.005,
+      "windowed_cumulative_Tier_I": {
+        "history_cosine": 0.9999993967036421,
+        "maximum_scaled_actual_response": 2.1921402592095565e-08,
+        "maximum_scaled_discrepancy": 1.0905211389415233e-10,
+        "maximum_scaled_predicted_response": 2.1812350478201413e-08,
+        "rms_scaled_discrepancy": 1.1473658876719652e-11
+      }
+    },
+    "short": {
+      "N128_exterior_N128_inner_c48": {
+        "block_step_wall_seconds": 0.011999333975836635,
+        "export_reference": "WP10c9d6c7c3b4d_corrected_active_coupling_face",
+        "instantaneous_Tier_I": {
+          "history_cosine": 0.9999999415041961,
+          "maximum_scaled_actual_response": 4.145990987164208e-06,
+          "maximum_scaled_discrepancy": 8.508890176711254e-09,
+          "maximum_scaled_predicted_response": 4.1374820969874965e-06,
+          "rms_scaled_discrepancy": 2.5373519724793097e-09
+        },
+        "layout": "N128_exterior_N128_inner_c48",
+        "matrix_assembly_wall_seconds": 60.524981416994706,
+        "maximum_export_active_prefix_ledger_defect": 1.4967955768644467e-16,
+        "maximum_export_transport_telescoping_defect": 1.5159690534714317e-16,
+        "maximum_incoming_excision_characteristics": 0,
+        "maximum_linear_solve_relative_defect": 4.2400212880020005e-16,
+        "maximum_matrix_component_closure_defect": 4.243894757340864e-17,
+        "state": {
+          "history_cosine": 1.0,
+          "maximum_scaled_actual_response": 0.007848712905478727,
+          "maximum_scaled_discrepancy": 1.2094572955992366e-11,
+          "maximum_scaled_predicted_response": 0.0078487129055607,
+          "rms_scaled_discrepancy": 2.5613898959848352e-12
+        }
+      },
+      "N128_exterior_N256_inner_c48": {
+        "block_step_wall_seconds": 0.021351957926526666,
+        "export_reference": "WP10c9d6c7c3b4d_corrected_active_coupling_face",
+        "instantaneous_Tier_I": {
+          "history_cosine": 0.9999999482615467,
+          "maximum_scaled_actual_response": 4.149461247664826e-06,
+          "maximum_scaled_discrepancy": 8.53035200048534e-09,
+          "maximum_scaled_predicted_response": 4.140930895664341e-06,
+          "rms_scaled_discrepancy": 2.56323331460098e-09
+        },
+        "layout": "N128_exterior_N256_inner_c48",
+        "matrix_assembly_wall_seconds": 106.06803354201838,
+        "maximum_export_active_prefix_ledger_defect": 3.314125673977487e-16,
+        "maximum_export_transport_telescoping_defect": 2.7005199357450907e-16,
+        "maximum_incoming_excision_characteristics": 0,
+        "maximum_linear_solve_relative_defect": 3.5138387511792676e-16,
+        "maximum_matrix_component_closure_defect": 4.4635431389827697e-17,
+        "state": {
+          "history_cosine": 1.0,
+          "maximum_scaled_actual_response": 0.007848769375570441,
+          "maximum_scaled_discrepancy": 8.955722448356074e-12,
+          "maximum_scaled_predicted_response": 0.007848769375398834,
+          "rms_scaled_discrepancy": 2.4372267100798224e-12
+        }
+      },
+      "N128_exterior_N512_inner_c48": {
+        "block_step_wall_seconds": 0.046059750020504,
+        "export_reference": "WP10c9d6c7c3b4d_corrected_active_coupling_face",
+        "instantaneous_Tier_I": {
+          "history_cosine": 0.9999999495054905,
+          "maximum_scaled_actual_response": 4.150327932171159e-06,
+          "maximum_scaled_discrepancy": 8.535733955572519e-09,
+          "maximum_scaled_predicted_response": 4.1417921982155866e-06,
+          "rms_scaled_discrepancy": 2.5699676190469727e-09
+        },
+        "layout": "N128_exterior_N512_inner_c48",
+        "matrix_assembly_wall_seconds": 196.35331091703847,
+        "maximum_export_active_prefix_ledger_defect": 4.041484738966736e-16,
+        "maximum_export_transport_telescoping_defect": 3.52426375490316e-16,
+        "maximum_incoming_excision_characteristics": 0,
+        "maximum_linear_solve_relative_defect": 4.065238756846932e-16,
+        "maximum_matrix_component_closure_defect": 4.1949774253048366e-17,
+        "state": {
+          "history_cosine": 1.0000000000000002,
+          "maximum_scaled_actual_response": 0.007852311450082361,
+          "maximum_scaled_discrepancy": 8.89621709632138e-12,
+          "maximum_scaled_predicted_response": 0.007852311450028612,
+          "rms_scaled_discrepancy": 2.4693780574010045e-12
+        }
+      }
+    }
+  },
+  "classification": "complete_discrete_BDF_tangent_calibrated_middle_cost_bounded_anchor_manifest_authorized",
+  "fine_cost_bounded_propagation_authorized": false,
+  "fixed_q_micro_solver_authorized": false,
+  "fourth_duration_rung_manifest_authorized": false,
+  "gates": {
+    "coarse_long_horizon_profiles_required": [
+      "p3_buffer45__generic_five_field",
+      "p4__inward_acoustic",
+      "p4__outward_acoustic",
+      "p3_buffer45__material",
+      "p4__inward_shear_acoustic_mix"
+    ],
+    "maximum_base_scaled_residual": 1e-10,
+    "maximum_export_active_prefix_ledger_defect": 1e-12,
+    "maximum_export_transport_telescoping_defect": 1e-12,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_internal_discrete_residual_jvp_relative_defect": 1e-06,
+    "maximum_linear_solve_relative_defect": 1e-10,
+    "maximum_matrix_component_closure_defect": 1e-12,
+    "maximum_scaled_Tier_I_response_discrepancy": 0.005,
+    "maximum_scaled_state_response_discrepancy": 0.005,
+    "minimum_Tier_I_response_history_cosine": 0.99,
+    "minimum_state_response_history_cosine": 0.99,
+    "short_horizon_layouts_required": [
+      "N128_exterior_N128_inner_c48",
+      "N128_exterior_N256_inner_c48",
+      "N128_exterior_N512_inner_c48"
+    ],
+    "surrogate_fraction_of_fine_difference_acceptance_budget": 0.1
+  },
+  "middle_cost_bounded_anchor_manifest_authorized": true,
+  "middle_cost_bounded_propagation_authorized": false,
+  "new_physical_trajectory_executed": false,
+  "operator_changed": false,
+  "parent_classification_preserved": "third_duration_rung_cost_bounded_spatial_confirmation_manifest_frozen_discrete_bdf_tangent_calibration_authorized",
+  "passed": true,
+  "production_defaults_changed": false,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "third_duration_rung_spatial_convergence_certified": false,
+  "wall_seconds": 0.07826145784929395,
+  "work_package": "WP10c9d6c7c3b5c3h1"
+}

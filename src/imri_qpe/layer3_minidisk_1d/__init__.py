@@ -148,6 +148,16 @@ from .causal_inner_monolithic_tangent import (
     causal_five_field_monolithic_frozen_tangent,
     causal_five_field_monolithic_storage_rate_action,
 )
+from .causal_inner_monolithic_discrete_tangent import (
+    CausalFiveFieldMonolithicBDFHistoryDirection,
+    CausalFiveFieldMonolithicDiscreteStepMatrix,
+    CausalFiveFieldMonolithicDiscreteTangentStep,
+    causal_five_field_monolithic_bdf_history_direction,
+    causal_five_field_monolithic_bdf_history_from_interval,
+    causal_five_field_monolithic_discrete_export_directions,
+    causal_five_field_monolithic_discrete_step_matrix,
+    causal_five_field_monolithic_discrete_tangent_step,
+)
 from .causal_inner_monolithic_bdf import (
     CausalFiveFieldMonolithicBDFEvaluation,
     CausalFiveFieldMonolithicBDFHistory,
@@ -1503,6 +1513,14 @@ __all__ = [
     "CausalFiveFieldMonolithicFrozenTangent",
     "causal_five_field_monolithic_frozen_tangent",
     "causal_five_field_monolithic_storage_rate_action",
+    "CausalFiveFieldMonolithicBDFHistoryDirection",
+    "CausalFiveFieldMonolithicDiscreteStepMatrix",
+    "CausalFiveFieldMonolithicDiscreteTangentStep",
+    "causal_five_field_monolithic_bdf_history_direction",
+    "causal_five_field_monolithic_bdf_history_from_interval",
+    "causal_five_field_monolithic_discrete_export_directions",
+    "causal_five_field_monolithic_discrete_step_matrix",
+    "causal_five_field_monolithic_discrete_tangent_step",
     "CausalFiveFieldMonolithicBDFEvaluation",
     "CausalFiveFieldMonolithicBDFHistory",
     "CausalFiveFieldMonolithicBDFRestart",
