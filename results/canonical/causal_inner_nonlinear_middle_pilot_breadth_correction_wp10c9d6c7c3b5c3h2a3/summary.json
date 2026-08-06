@@ -1,0 +1,60 @@
+{
+  "audit": {
+    "audit_step_indices": [
+      0,
+      5
+    ],
+    "block_step_wall_seconds": [
+      282.3833824999165,
+      0.0233711670152843,
+      0.02280966704711318,
+      0.022841874975711107,
+      0.04016079194843769,
+      281.70881679211743
+    ],
+    "corrected_profile_count": 5,
+    "generic_Tier_I_relative_closure_defect": 8.406823916973569e-14,
+    "generic_state_relative_closure_defect": 4.51939161036883e-14,
+    "historical_pilot_tangent_direction_count": 1,
+    "initial_history_matrix_wall_seconds": 105.2628725420218,
+    "matrix_assembly_wall_seconds": [
+      105.43042295915075,
+      105.12178954202682,
+      105.96213245787658,
+      105.73847708408721,
+      105.83359145792201,
+      105.7857119999826
+    ],
+    "maximum_export_active_prefix_ledger_defect": 3.4923015688162335e-16,
+    "maximum_export_transport_telescoping_defect": 2.7596520831333004e-16,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_linear_solve_relative_defect": 3.226591998022023e-16,
+    "maximum_matrix_component_closure_defect": 4.6061222511253747e-17,
+    "maximum_step_matrix_jvp_relative_defect": 3.7604361754397244e-11,
+    "passed": true,
+    "pilot_five_profile_wording_superseded": true,
+    "pilot_generic_cost_and_anchor_result_retained": true,
+    "profiles": [
+      "p3_buffer45__generic_five_field",
+      "p4__inward_acoustic",
+      "p4__outward_acoustic",
+      "p3_buffer45__material",
+      "p4__inward_shear_acoustic_mix"
+    ],
+    "routine_five_profile_block_step_median_wall_seconds": 0.023106520995497704
+  },
+  "authorized_next": "WP10c9d6c7c3b5c3h2b1_middle_0p2_to_1ms_continuation",
+  "classification": "pilot_breadth_overclaim_corrected_five_profile_0p2ms_tangent_certified_1ms_execution_authorized",
+  "fine_cost_bounded_propagation_authorized": false,
+  "fixed_q_micro_solver_authorized": false,
+  "middle_1ms_propagation_authorized": true,
+  "middle_2ms_propagation_authorized": false,
+  "middle_5ms_spatial_confirmation_certified": false,
+  "passed": true,
+  "pilot_five_profile_wording_superseded": true,
+  "pilot_generic_science_and_cost_result_retained": true,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "third_duration_rung_spatial_convergence_certified": false,
+  "work_package": "WP10c9d6c7c3b5c3h2a3"
+}
