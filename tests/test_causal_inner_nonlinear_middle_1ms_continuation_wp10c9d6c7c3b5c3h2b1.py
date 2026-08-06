@@ -77,7 +77,22 @@ def test_authorizations_remain_narrow() -> None:
 def test_canonical_targets_and_hashes_close() -> None:
     with np.load(runner.DECISIVE_ARRAYS, allow_pickle=False) as payload:
         times = payload["base__output_times"]
-        expected = np.asarray(runner.TARGET_MICROSECONDS, dtype=float) * 1.0e-6
+        # The first label is inherited bitwise from the certified 0.2 ms pilot;
+        # later labels are constructed by this runner.  Do not reconstruct the
+        # inherited label from its decimal spelling: its stored float64 is one
+        # ULP above a fresh ``float(200) * 1.0e-6`` on this platform.
+        with np.load(runner.h2a2.DECISIVE_ARRAYS, allow_pickle=False) as pilot:
+            inherited = pilot["base__output_times"][-1]
+        expected = np.asarray(
+            [
+                inherited,
+                *[
+                    float(value) * 1.0e-6
+                    for value in runner.TARGET_MICROSECONDS[1:]
+                ],
+            ],
+            dtype=np.float64,
+        )
         assert np.array_equal(times, expected)
         assert payload["base__accepted_times"][-1] == 1.0e-3
     for line in (runner.CANONICAL_DIRECTORY / "SHA256SUMS.txt").read_text().splitlines():
