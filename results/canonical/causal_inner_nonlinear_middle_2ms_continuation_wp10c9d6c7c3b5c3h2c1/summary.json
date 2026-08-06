@@ -1,0 +1,118 @@
+{
+  "anchor": {
+    "cumulative_Tier_I": {
+      "discrepancy_fraction_of_observable_response": 0.002054835428266172,
+      "history_cosine": 0.9999999486610517,
+      "maximum_scaled_actual_response": 4.1674998054858865e-09,
+      "maximum_scaled_discrepancy": 8.563526247604781e-12,
+      "maximum_scaled_predicted_response": 4.158936279238282e-09,
+      "rms_scaled_discrepancy": 1.5222123263978268e-12
+    },
+    "final_state_audit": {
+      "maximum_h_over_r": 0.0986256307691173,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.049478055876328
+    },
+    "instantaneous_Tier_I": {
+      "discrepancy_fraction_of_observable_response": 0.002054502689481657,
+      "history_cosine": 0.9999999486375696,
+      "maximum_scaled_actual_response": 4.173616101808545e-06,
+      "maximum_scaled_discrepancy": 8.574705506029603e-09,
+      "maximum_scaled_predicted_response": 4.165041396302515e-06,
+      "rms_scaled_discrepancy": 2.5730990107861223e-09
+    },
+    "maximum_discrete_ledger_defect": 0.0,
+    "maximum_export_incoming_characteristics": 0,
+    "maximum_export_ledger_defect": 7.183830781583402e-12,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_mapped_endpoint_path_closure_defect": 2.359000057794919e-12,
+    "maximum_sampled_export_error_estimate": 1.0435447022801866e-09,
+    "maximum_sampled_state_error_estimate": 7.778870297513395e-08,
+    "maximum_scaled_residual": 8.014946320263066e-11,
+    "median_routine_step_wall_seconds": 0.0,
+    "median_sampled_step_wall_seconds": 913.9388924171217,
+    "minimum_path_reconstruction_factor": 1.0,
+    "passed": true,
+    "sampled_step_indices": [
+      0,
+      1,
+      2
+    ],
+    "state": {
+      "discrepancy_fraction_of_observable_response": 3.340030109516326e-07,
+      "history_cosine": 0.9999999999999752,
+      "maximum_scaled_actual_response": 0.007851503355859712,
+      "maximum_scaled_discrepancy": 2.6224257613539914e-09,
+      "maximum_scaled_predicted_response": 0.007851503334772691,
+      "rms_scaled_discrepancy": 5.363274202566431e-10
+    }
+  },
+  "authorized_next": "WP10c9d6c7c3b5c3h2d0_middle_5ms_completion_manifest",
+  "base": {
+    "accepted_steps": 3,
+    "maximum_discrete_ledger_defect": 0.0,
+    "maximum_export_ledger_defect": 1.6013119604722448e-11,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_local_error_estimate": 7.712014665503765e-08,
+    "maximum_mapped_endpoint_path_closure_defect": 2.1754960791708914e-12,
+    "maximum_scaled_residual": 8.417579138352429e-11,
+    "maximum_timestep_seconds": 0.0004,
+    "median_accepted_step_wall_seconds": 1055.7237460829783,
+    "minimum_path_reconstruction_factor": 1.0,
+    "minimum_timestep_seconds": 0.00019999999999999987,
+    "next_candidate_timestep_seconds": 0.0004,
+    "passed": true,
+    "passed_so_far": true,
+    "rejected_attempts": 0,
+    "sum_local_error_estimates": 1.3561973020292738e-07,
+    "wall_seconds": 3056.850404165918
+  },
+  "classification": "middle_2ms_continuation_passed_5ms_completion_manifest_authorized",
+  "fine_cost_bounded_propagation_authorized": false,
+  "fixed_q_micro_solver_authorized": false,
+  "middle_5ms_completion_manifest_authorized": true,
+  "middle_5ms_propagation_authorized": false,
+  "middle_5ms_spatial_confirmation_certified": false,
+  "passed": true,
+  "reduced_slow_evolution_authorized": false,
+  "remaining_cost_projection": {
+    "cost_projection_is_not_a_scientific_gate": true,
+    "projected_remaining_wall_hours": 7.801223005229905,
+    "projected_remaining_wall_seconds": 28084.402818827657,
+    "remaining_steps_to_5ms": 8,
+    "resource_tier": "automatic_continuation",
+    "safety_factor": 2.0
+  },
+  "schema_version": 1,
+  "serialized_replays": {
+    "anchor": {
+      "checkpoint_roundtrip_bitwise": true,
+      "last_step_replay_bitwise": true,
+      "maximum_scaled_residual": 2.4852335634806193e-12,
+      "wall_seconds": 214.19201212492771
+    },
+    "base": {
+      "checkpoint_roundtrip_bitwise": true,
+      "last_step_replay_bitwise": true,
+      "maximum_scaled_residual": 1.1231873881231906e-11,
+      "wall_seconds": 357.02983870892785
+    }
+  },
+  "tangent": {
+    "accepted_steps": 3,
+    "audit_step_indices": [
+      0,
+      2
+    ],
+    "maximum_export_active_prefix_ledger_defect": 3.060072119845876e-16,
+    "maximum_export_transport_telescoping_defect": 2.727219713709374e-16,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_linear_solve_relative_defect": 3.036539294958226e-16,
+    "maximum_matrix_component_closure_defect": 4.6663266122611413e-17,
+    "maximum_step_matrix_jvp_relative_defect": 5.607840961663552e-11,
+    "median_matrix_assembly_wall_seconds": 78.20450849994086,
+    "median_routine_block_step_wall_seconds": 0.017309832852333784,
+    "passed": true
+  },
+  "work_package": "WP10c9d6c7c3b5c3h2c1"
+}
