@@ -1,0 +1,100 @@
+{
+  "audit": {
+    "analytic_history_matrix_wall_seconds": 105.49966374994256,
+    "history_interval_seconds": [
+      2e-05,
+      3e-05
+    ],
+    "instantaneous_Tier_I": {
+      "discrepancy_fraction_of_observable_response": 0.004987502223146534,
+      "history_cosine": 0.999999431070013,
+      "maximum_scaled_actual_response": 9.869237210981977e-06,
+      "maximum_scaled_discrepancy": 4.9222842530533104e-08,
+      "maximum_scaled_predicted_response": 9.820014368451444e-06,
+      "rms_scaled_discrepancy": 8.163251524500844e-09
+    },
+    "layout": "N128_exterior_N256_inner_c48",
+    "mapped_history_relative_defect": 2.3305450238528462e-07,
+    "maximum_export_active_prefix_ledger_defect": 3.2291844005607683e-16,
+    "maximum_export_transport_telescoping_defect": 2.307915510322531e-16,
+    "profiles": [
+      "p3_buffer45__generic_five_field",
+      "p4__inward_acoustic",
+      "p4__outward_acoustic",
+      "p3_buffer45__material",
+      "p4__inward_shear_acoustic_mix"
+    ],
+    "propagated_interval_seconds": [
+      3e-05,
+      4e-05
+    ],
+    "ratio_audits": {
+      "0.5": {
+        "block_step_wall_seconds": 280.3747232919559,
+        "incoming_excision_characteristics": 0,
+        "matrix_assembly_wall_seconds": 104.9657175000757,
+        "maximum_linear_solve_relative_defect": 2.9859363208469113e-16,
+        "maximum_matrix_component_closure_defect": 3.564205818429919e-17,
+        "maximum_step_matrix_jvp_relative_defect": 3.593480592913237e-11,
+        "step_ratio": 0.5
+      },
+      "1.0": {
+        "block_step_wall_seconds": 279.96484158420935,
+        "incoming_excision_characteristics": 0,
+        "matrix_assembly_wall_seconds": 104.8392329160124,
+        "maximum_linear_solve_relative_defect": 3.006933001838249e-16,
+        "maximum_matrix_component_closure_defect": 5.377882788444797e-17,
+        "maximum_step_matrix_jvp_relative_defect": 3.5955087781990603e-11,
+        "step_ratio": 1.0
+      },
+      "2.0": {
+        "block_step_wall_seconds": 279.83607366587967,
+        "incoming_excision_characteristics": 0,
+        "matrix_assembly_wall_seconds": 104.54972325009294,
+        "maximum_linear_solve_relative_defect": 3.0962680091039296e-16,
+        "maximum_matrix_component_closure_defect": 3.9327251757787107e-17,
+        "maximum_step_matrix_jvp_relative_defect": 3.600653268636068e-11,
+        "step_ratio": 2.0
+      }
+    },
+    "responsive_height_history_relative_defect": 1.9573680054588187e-06,
+    "state": {
+      "discrepancy_fraction_of_observable_response": 1.7661871611569032e-08,
+      "history_cosine": 1.0,
+      "maximum_scaled_actual_response": 0.009916948604998588,
+      "maximum_scaled_discrepancy": 1.7515187304001367e-10,
+      "maximum_scaled_predicted_response": 0.009916948604124063,
+      "rms_scaled_discrepancy": 2.7293724746836247e-11
+    }
+  },
+  "authorized_next": "WP10c9d6c7c3b5c3h2a2_middle_0p2ms_cost_pilot",
+  "classification": "middle_tangent_hardening_audits_passed_0p2ms_cost_pilot_authorized",
+  "fine_cost_bounded_propagation_authorized": false,
+  "fixed_q_micro_solver_authorized": false,
+  "gates": {
+    "maximum_absolute_scaled_Tier_I_discrepancy": 0.005,
+    "maximum_absolute_scaled_state_discrepancy": 0.005,
+    "maximum_analytic_to_centered_history_relative_defect": 2e-06,
+    "maximum_discrepancy_fraction_of_observable_response": 0.01,
+    "maximum_export_active_prefix_ledger_defect": 1e-12,
+    "maximum_export_transport_telescoping_defect": 1e-12,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_internal_discrete_residual_jvp_relative_defect": 1e-06,
+    "maximum_linear_solve_relative_defect": 1e-10,
+    "maximum_matrix_component_closure_defect": 1e-12,
+    "maximum_uncertainty_fraction_of_observable_spatial_difference": 0.1,
+    "minimum_Tier_I_history_cosine": 0.99,
+    "minimum_state_history_cosine": 0.99,
+    "unobservable_spatial_difference_action": "report_upper_bound_or_run_full_nonlinear_anchor_do_not_report_order"
+  },
+  "middle_0p2ms_cost_pilot_authorized": true,
+  "middle_1ms_propagation_authorized": false,
+  "new_physical_trajectory_executed": false,
+  "operator_changed": false,
+  "passed": true,
+  "production_defaults_changed": false,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "third_duration_rung_spatial_convergence_certified": false,
+  "work_package": "WP10c9d6c7c3b5c3h2a1"
+}
