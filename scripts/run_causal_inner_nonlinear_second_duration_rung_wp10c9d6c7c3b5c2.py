@@ -208,6 +208,8 @@ def _controller_segment(
     stop_time: float,
     checkpoint_times: tuple[float, ...] = (),
     include_initial_output: bool,
+    record_accepted_steps: bool = False,
+    log_prefix: str = "c2",
 ) -> dict:
     context = configuration["context"]
     output_targets = np.asarray(output_times, dtype=float)
@@ -228,6 +230,33 @@ def _controller_segment(
     maximum_export_ledger = 0.0
     maximum_export_incoming = 0
     checkpoints = {}
+    accepted_states = [np.array(state, copy=True)] if record_accepted_steps else []
+    accepted_primitive_histories = (
+        [np.array(history.previous_primitive_increment, copy=True)]
+        if record_accepted_steps
+        else []
+    )
+    accepted_mapped_histories = (
+        [np.array(history.previous_mapped_storage_increment, copy=True)]
+        if record_accepted_steps
+        else []
+    )
+    accepted_height_histories = (
+        [
+            np.array(
+                history.previous_responsive_height_storage_increment,
+                copy=True,
+            )
+        ]
+        if record_accepted_steps
+        else []
+    )
+    accepted_previous_timesteps = (
+        [float(history.previous_timestep_seconds)]
+        if record_accepted_steps
+        else []
+    )
+    accepted_step_wall_seconds = []
 
     def append_output(time_value: float, state_value: np.ndarray) -> None:
         nonlocal maximum_export_ledger, maximum_export_incoming
@@ -263,6 +292,7 @@ def _controller_segment(
             raise RuntimeError("second rung exact landing fell below minimum step")
         attempt_count = 0
         accepted = False
+        step_started = time.perf_counter()
         while attempt_count <= contract["proposal"]["maximum_retries"]:
             attempt_count += 1
             full = advance_causal_five_field_monolithic_bdf(
@@ -331,7 +361,7 @@ def _controller_segment(
             )
             local_error = max(state_error, export_error)
             print(
-                f"c2: t={elapsed:.8e} dt={timestep:.3e} "
+                f"{log_prefix}: t={elapsed:.8e} dt={timestep:.3e} "
                 f"attempt={attempt_count} error={local_error:.3e}",
                 flush=True,
             )
@@ -357,6 +387,24 @@ def _controller_segment(
         local_export_estimates.append(export_error)
         local_error_estimates.append(local_error)
         retries.append(attempt_count - 1)
+        accepted_step_wall_seconds.append(time.perf_counter() - step_started)
+        if record_accepted_steps:
+            accepted_states.append(np.array(state, copy=True))
+            accepted_primitive_histories.append(
+                np.array(history.previous_primitive_increment, copy=True)
+            )
+            accepted_mapped_histories.append(
+                np.array(history.previous_mapped_storage_increment, copy=True)
+            )
+            accepted_height_histories.append(
+                np.array(
+                    history.previous_responsive_height_storage_increment,
+                    copy=True,
+                )
+            )
+            accepted_previous_timesteps.append(
+                float(history.previous_timestep_seconds)
+            )
 
         readiness = c3b1a._state_audit(context, state)
         if (
@@ -408,6 +456,28 @@ def _controller_segment(
         "local_error_estimates": np.asarray(local_error_estimates, dtype=float),
         "retries": np.asarray(retries, dtype=int),
         "step_records": step_records,
+        "accepted_step_wall_seconds": np.asarray(
+            accepted_step_wall_seconds,
+            dtype=float,
+        ),
+        "accepted_states": np.asarray(accepted_states, dtype=float),
+        "accepted_primitive_histories": np.asarray(
+            accepted_primitive_histories,
+            dtype=float,
+        ),
+        "accepted_mapped_histories": np.asarray(
+            accepted_mapped_histories,
+            dtype=float,
+        ),
+        "accepted_height_histories": np.asarray(
+            accepted_height_histories,
+            dtype=float,
+        ),
+        "accepted_previous_timesteps": np.asarray(
+            accepted_previous_timesteps,
+            dtype=float,
+        ),
+        "next_candidate_timestep": float(candidate_timestep),
         "maximum_export_ledger_defect": maximum_export_ledger,
         "maximum_export_incoming": maximum_export_incoming,
         "checkpoints": checkpoints,
