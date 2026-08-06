@@ -1,0 +1,99 @@
+{
+  "active_coupling_face_indices": {
+    "N128_exterior_N128_inner_c48": 48,
+    "N128_exterior_N256_inner_c48": 96,
+    "N128_exterior_N512_inner_c48": 192
+  },
+  "analyzed_base_commit": "05ce1e5b63eecdddef06402977d7bb417679e8d9",
+  "binding_multiplier": 1.0,
+  "execution_order": [
+    "N128_exterior_N256_inner_c48__base_main_replay_strict",
+    "N128_exterior_N256_inner_c48__p3_buffer45__generic_five_field_main_replay_strict",
+    "N128_exterior_N512_inner_c48__base_main_replay_strict",
+    "N128_exterior_N512_inner_c48__p3_buffer45__generic_five_field_main_replay_strict",
+    "common_parent_state_spatial_gate",
+    "instantaneous_Tier_I_spatial_gate",
+    "windowed_cumulative_Tier_I_spatial_gate"
+  ],
+  "horizon_seconds": 0.005,
+  "initial_history_seconds": [
+    3e-05,
+    4e-05
+  ],
+  "initial_previous_timestep_seconds": 1e-05,
+  "inner_refinement_ratios": {
+    "N128_exterior_N128_inner_c48": 1,
+    "N128_exterior_N256_inner_c48": 2,
+    "N128_exterior_N512_inner_c48": 4
+  },
+  "layout_cell_counts": {
+    "N128_exterior_N128_inner_c48": 64,
+    "N128_exterior_N256_inner_c48": 112,
+    "N128_exterior_N512_inner_c48": 208
+  },
+  "layouts": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "main_targets_seconds": [
+    0.002,
+    0.0024,
+    0.0028,
+    0.0031999999999999997,
+    0.0036,
+    0.004,
+    0.004399999999999999,
+    0.0048,
+    0.005
+  ],
+  "new_layouts": [
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "observable_names": [
+    "inner_flux_mass",
+    "inner_flux_angular_momentum",
+    "inner_flux_killing_energy",
+    "interface_flux_mass",
+    "interface_flux_angular_momentum",
+    "interface_flux_killing_energy",
+    "net_drive_mass",
+    "net_drive_angular_momentum",
+    "net_drive_killing_energy",
+    "cooling_angular_momentum",
+    "cooling_killing_energy",
+    "vertical_work_angular_momentum",
+    "vertical_work_killing_energy"
+  ],
+  "profile": "p3_buffer45__generic_five_field",
+  "propagation_executed": false,
+  "replay_targets_seconds": [
+    0.004399999999999999,
+    0.0048,
+    0.005
+  ],
+  "schema_version": 1,
+  "spatial_gates": {
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_relative_activity": 1e-08,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75
+  },
+  "strict_targets_seconds": [
+    0.0048,
+    0.0049,
+    0.005
+  ],
+  "temporal_uncertainty_gates": {
+    "conservative_envelope": "sum_of_base_and_perturbed_main_strict_differences",
+    "maximum_strict_to_observable_medium_fine_spatial_error_ratio": 0.1,
+    "observability_factor": 5.0,
+    "unobservable_route": "report_upper_bound_only_and_do_not_use_order_or_direction_as_evidence",
+    "unobservable_upper_bound_must_be_below_fine_difference_gate": true
+  },
+  "work_package": "WP10c9d6c7c3b5c3g"
+}
