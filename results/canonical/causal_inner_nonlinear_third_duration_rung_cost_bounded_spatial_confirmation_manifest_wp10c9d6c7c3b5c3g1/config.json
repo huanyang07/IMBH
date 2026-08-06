@@ -1,0 +1,88 @@
+{
+  "analyzed_base_commit": "10f3665fb106843c6618a0e1e6e3ac61ace62d27",
+  "cost_contract": {
+    "benchmark_before_middle_propagation": true,
+    "block_tangent_profiles_share_one_step_factorization": true,
+    "conditional_new_full_nonlinear_trajectories": [
+      "N128_exterior_N512_inner_c48__generic_anchor"
+    ],
+    "historical_bruteforce_lower_bound_hours": 61.7,
+    "mandatory_new_full_nonlinear_trajectories": [
+      "N128_exterior_N256_inner_c48__base",
+      "N128_exterior_N256_inner_c48__generic_anchor",
+      "N128_exterior_N512_inner_c48__base"
+    ],
+    "maximum_single_unattended_stage_wall_hours": 12.0,
+    "maximum_total_projected_new_nonlinear_wall_hours_before_execution": 24.0,
+    "projection_is_a_scheduling_stop_not_a_scientific_gate": true
+  },
+  "definitions_only": true,
+  "fine_decision_gates": {
+    "binding_fine_confirmation_minimum": "fine_nonlinear_base_plus_discrete_tangent",
+    "calibration_required_on_existing_full_fine_short_horizon_evidence": true,
+    "conservative_effectivity_safety_factor": 5.0,
+    "defect_estimator_is_triage_not_final_certificate": true,
+    "full_fine_nonlinear_perturbed_triggered_by": [
+      "middle_tangent_anchor_gate_failure",
+      "fine_estimator_calibration_failure",
+      "fine_estimator_bound_near_spatial_gate",
+      "observable_nonlinear_remainder_not_bounded_by_surrogate_budget"
+    ],
+    "maximum_estimator_bound_to_fine_difference_acceptance_budget": 0.2,
+    "minimum_effectivity_samples": 5
+  },
+  "layouts": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "profiles": [
+    "p3_buffer45__generic_five_field",
+    "p4__inward_acoustic",
+    "p4__outward_acoustic",
+    "p3_buffer45__material",
+    "p4__inward_shear_acoustic_mix"
+  ],
+  "schema_version": 1,
+  "spatial_gates": {
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_relative_activity": 1e-08,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75
+  },
+  "tangent_gates": {
+    "coarse_long_horizon_profiles_required": [
+      "p3_buffer45__generic_five_field",
+      "p4__inward_acoustic",
+      "p4__outward_acoustic",
+      "p3_buffer45__material",
+      "p4__inward_shear_acoustic_mix"
+    ],
+    "maximum_internal_discrete_residual_jvp_relative_defect": 1e-06,
+    "maximum_scaled_Tier_I_response_discrepancy": 0.005,
+    "maximum_scaled_state_response_discrepancy": 0.005,
+    "minimum_Tier_I_response_history_cosine": 0.99,
+    "minimum_state_response_history_cosine": 0.99,
+    "short_horizon_layouts_required": [
+      "N128_exterior_N128_inner_c48",
+      "N128_exterior_N256_inner_c48",
+      "N128_exterior_N512_inner_c48"
+    ],
+    "surrogate_fraction_of_fine_difference_acceptance_budget": 0.1
+  },
+  "temporal_schedule_gates": {
+    "coarse_schedule_reuse_on_middle_or_fine_forbidden_without_audit": true,
+    "each_layout_owns_its_schedule": true,
+    "maximum_sampled_step_doubling_to_spatial_error_ratio": 0.1,
+    "same_layout_base_schedule_reuse_for_tangent_and_anchor": true,
+    "sampled_windows": [
+      "first_two_accepted_steps",
+      "middle_declared_output_window",
+      "final_strict_shadow_window"
+    ]
+  },
+  "work_package": "WP10c9d6c7c3b5c3g1"
+}

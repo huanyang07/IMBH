@@ -1,0 +1,215 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c3h1_discrete_BDF_tangent_calibration",
+  "binding_final_certificate": {
+    "active_coupling_face_indices": {
+      "N128_exterior_N128_inner_c48": 48,
+      "N128_exterior_N256_inner_c48": 96,
+      "N128_exterior_N512_inner_c48": 192
+    },
+    "coarse_evidence": "committed_c3d_and_c3f",
+    "common_parent_state_response": true,
+    "correct_face_Tier_I_exports": true,
+    "fine_evidence": "nonlinear_base_and_block_tangent_minimum",
+    "middle_evidence": "nonlinear_base_generic_anchor_and_block_tangent",
+    "no_spatial_certificate_from_defect_estimator_alone": true,
+    "spatial_gates": {
+      "maximum_fine_normalized_difference": 0.05,
+      "minimum_history_cosine": 0.9,
+      "minimum_maximum_order": 0.75,
+      "minimum_refinement_error_cosine": 0.9,
+      "minimum_relative_activity": 1e-08,
+      "minimum_rms_order": 0.75,
+      "minimum_significant_component_order": 0.75
+    },
+    "surrogate_error_is_added_to_not_subtracted_from_error_budget": true,
+    "temporal_uncertainty_contract": {
+      "conservative_envelope": "sum_of_base_and_perturbed_main_strict_differences",
+      "maximum_strict_to_observable_medium_fine_spatial_error_ratio": 0.1,
+      "observability_factor": 5.0,
+      "unobservable_route": "report_upper_bound_only_and_do_not_use_order_or_direction_as_evidence",
+      "unobservable_upper_bound_must_be_below_fine_difference_gate": true
+    }
+  },
+  "c3g_historical_classification_preserved": "third_duration_rung_spatial_confirmation_manifest_frozen_middle_fine_generic_propagation_authorized",
+  "c3h_bruteforce_execution": {
+    "classification_issued": false,
+    "completed_scientific_evidence": false,
+    "prospective_route_superseded": true,
+    "reason": "projected_middle_fine_cost_exceeded_user_budget",
+    "started": true,
+    "stopped_before_complete_trajectory": true
+  },
+  "classification": "third_duration_rung_cost_bounded_spatial_confirmation_manifest_frozen_discrete_bdf_tangent_calibration_authorized",
+  "cost_contract": {
+    "benchmark_before_middle_propagation": true,
+    "block_tangent_profiles_share_one_step_factorization": true,
+    "conditional_new_full_nonlinear_trajectories": [
+      "N128_exterior_N512_inner_c48__generic_anchor"
+    ],
+    "historical_bruteforce_lower_bound_hours": 61.7,
+    "mandatory_new_full_nonlinear_trajectories": [
+      "N128_exterior_N256_inner_c48__base",
+      "N128_exterior_N256_inner_c48__generic_anchor",
+      "N128_exterior_N512_inner_c48__base"
+    ],
+    "maximum_single_unattended_stage_wall_hours": 12.0,
+    "maximum_total_projected_new_nonlinear_wall_hours_before_execution": 24.0,
+    "projection_is_a_scheduling_stop_not_a_scientific_gate": true
+  },
+  "definitions_only": true,
+  "hard_stops": [
+    "do not amend or relabel c3g",
+    "do not resume brute_force_c3h before tangent calibration fails",
+    "do not use the frozen continuous generator as the discrete tangent",
+    "do not reuse a coarse time schedule blindly on refined layouts",
+    "do not issue a fine spatial certificate from a defect estimate alone",
+    "do not relax the c3g spatial_temporal_method_or_replay_gates",
+    "do not begin the fourth duration rung fixed_Q or reduced evolution",
+    "do not add tide wind hot_state S_curve or QPE_cycle physics",
+    "do not use N1024 as a rescue"
+  ],
+  "operator_changed": false,
+  "passed": true,
+  "phase_h1_discrete_tangent_calibration": {
+    "authorized": true,
+    "coarse_long_horizon_evidence": {
+      "generic": "results/canonical/causal_inner_nonlinear_coarse_third_duration_rung_completion_wp10c9d6c7c3b5c3d/decisive_arrays.npz",
+      "heldouts": "results/canonical/causal_inner_nonlinear_coarse_heldout_third_duration_rung_screen_wp10c9d6c7c3b5c3f/decisive_arrays.npz"
+    },
+    "complete_discrete_residual": "variable_step_BDF2_current_state_old_state_primitive_history_mapped_storage_history_responsive_height_history",
+    "decision": {
+      "fail": "retain_bruteforce_c3g_as_only_certification_route",
+      "pass": "authorize_middle_cost_bounded_anchor_manifest"
+    },
+    "gates": {
+      "coarse_long_horizon_profiles_required": [
+        "p3_buffer45__generic_five_field",
+        "p4__inward_acoustic",
+        "p4__outward_acoustic",
+        "p3_buffer45__material",
+        "p4__inward_shear_acoustic_mix"
+      ],
+      "maximum_internal_discrete_residual_jvp_relative_defect": 1e-06,
+      "maximum_scaled_Tier_I_response_discrepancy": 0.005,
+      "maximum_scaled_state_response_discrepancy": 0.005,
+      "minimum_Tier_I_response_history_cosine": 0.99,
+      "minimum_state_response_history_cosine": 0.99,
+      "short_horizon_layouts_required": [
+        "N128_exterior_N128_inner_c48",
+        "N128_exterior_N256_inner_c48",
+        "N128_exterior_N512_inner_c48"
+      ],
+      "surrogate_fraction_of_fine_difference_acceptance_budget": 0.1
+    },
+    "layouts": [
+      "N128_exterior_N128_inner_c48",
+      "N128_exterior_N256_inner_c48",
+      "N128_exterior_N512_inner_c48"
+    ],
+    "new_long_trajectory_required": false,
+    "profiles": [
+      "p3_buffer45__generic_five_field",
+      "p4__inward_acoustic",
+      "p4__outward_acoustic",
+      "p3_buffer45__material",
+      "p4__inward_shear_acoustic_mix"
+    ],
+    "short_horizon_three_layout_evidence": "results/canonical/causal_inner_nonlinear_profile_breadth_spatial_wp10c9d6c7c3b4b3/decisive_arrays.npz",
+    "state_and_all_Tier_I_export_JVPs_required": true,
+    "tangent_history_state": [
+      "primitive_increment",
+      "mapped_storage_path_increment",
+      "responsive_height_storage_path_increment"
+    ]
+  },
+  "phase_h2_middle_confirmation": {
+    "authorized": false,
+    "block_tangent_profiles": [
+      "p3_buffer45__generic_five_field",
+      "p4__inward_acoustic",
+      "p4__outward_acoustic",
+      "p3_buffer45__material",
+      "p4__inward_shear_acoustic_mix"
+    ],
+    "definitions_required_after_h1_pass": true,
+    "generic_nonlinear_anchor_replays_frozen_middle_schedule": true,
+    "generic_tangent_anchor_gates": {
+      "coarse_long_horizon_profiles_required": [
+        "p3_buffer45__generic_five_field",
+        "p4__inward_acoustic",
+        "p4__outward_acoustic",
+        "p3_buffer45__material",
+        "p4__inward_shear_acoustic_mix"
+      ],
+      "maximum_internal_discrete_residual_jvp_relative_defect": 1e-06,
+      "maximum_scaled_Tier_I_response_discrepancy": 0.005,
+      "maximum_scaled_state_response_discrepancy": 0.005,
+      "minimum_Tier_I_response_history_cosine": 0.99,
+      "minimum_state_response_history_cosine": 0.99,
+      "short_horizon_layouts_required": [
+        "N128_exterior_N128_inner_c48",
+        "N128_exterior_N256_inner_c48",
+        "N128_exterior_N512_inner_c48"
+      ],
+      "surrogate_fraction_of_fine_difference_acceptance_budget": 0.1
+    },
+    "nonlinear_base_uses_layout_owned_adaptive_schedule": true,
+    "sampled_step_doubling_contract": {
+      "coarse_schedule_reuse_on_middle_or_fine_forbidden_without_audit": true,
+      "each_layout_owns_its_schedule": true,
+      "maximum_sampled_step_doubling_to_spatial_error_ratio": 0.1,
+      "same_layout_base_schedule_reuse_for_tangent_and_anchor": true,
+      "sampled_windows": [
+        "first_two_accepted_steps",
+        "middle_declared_output_window",
+        "final_strict_shadow_window"
+      ]
+    },
+    "stop_before_fine_on_failure": true
+  },
+  "phase_h3_fine_confirmation": {
+    "authorized": false,
+    "definitions_required_after_middle_pass": true,
+    "fine_decision_gates": {
+      "binding_fine_confirmation_minimum": "fine_nonlinear_base_plus_discrete_tangent",
+      "calibration_required_on_existing_full_fine_short_horizon_evidence": true,
+      "conservative_effectivity_safety_factor": 5.0,
+      "defect_estimator_is_triage_not_final_certificate": true,
+      "full_fine_nonlinear_perturbed_triggered_by": [
+        "middle_tangent_anchor_gate_failure",
+        "fine_estimator_calibration_failure",
+        "fine_estimator_bound_near_spatial_gate",
+        "observable_nonlinear_remainder_not_bounded_by_surrogate_budget"
+      ],
+      "maximum_estimator_bound_to_fine_difference_acceptance_budget": 0.2,
+      "minimum_effectivity_samples": 5
+    },
+    "fine_defect_error_transport_preflight": true,
+    "full_fine_generic_nonlinear_anchor_is_conditional": true,
+    "minimum_binding_execution": "one_fine_nonlinear_base_plus_block_discrete_BDF_tangent",
+    "spatial_gates_unchanged": {
+      "maximum_fine_normalized_difference": 0.05,
+      "minimum_history_cosine": 0.9,
+      "minimum_maximum_order": 0.75,
+      "minimum_refinement_error_cosine": 0.9,
+      "minimum_relative_activity": 1e-08,
+      "minimum_rms_order": 0.75,
+      "minimum_significant_component_order": 0.75
+    }
+  },
+  "production_defaults_changed": false,
+  "propagation_executed": false,
+  "schema_version": 1,
+  "scientific_assessment": {
+    "accepted_suggestion": "use_the_complete_discrete_variable_step_BDF_tangent_and_conditional_full_nonlinear_anchors",
+    "frozen_continuous_generator_is_not_an_acceptable_substitute": true,
+    "post_hoc_surrogate_tuning_forbidden": true,
+    "required_refinements": [
+      "linearize_mapped_and_responsive_height_history_actions",
+      "derive_a_safe_schedule_separately_for_each_layout",
+      "use_the_fine_defect_estimator_only_for_triage",
+      "retain_a_binding_fine_base_plus_tangent_confirmation"
+    ]
+  },
+  "work_package": "WP10c9d6c7c3b5c3g1"
+}
