@@ -436,8 +436,16 @@ def causal_five_field_monolithic_bdf_history_direction(
     new_primitive_directions: np.ndarray,
     *,
     directional_step: float = 1.0e-2,
+    analytic_step_matrix: (
+        CausalFiveFieldMonolithicDiscreteStepMatrix | None
+    ) = None,
 ) -> CausalFiveFieldMonolithicBDFHistoryDirection:
-    """Differentiate all stored path actions for one accepted interval."""
+    """Differentiate all stored path actions for one accepted interval.
+
+    When ``analytic_step_matrix`` is supplied, its old/new endpoint storage
+    matrices provide the derivative directly.  The centered-difference route
+    remains available as an independent audit and for legacy callers.
+    """
 
     old = np.asarray(base_old_primitive_charts, dtype=float)
     new = np.asarray(base_new_primitive_charts, dtype=float)
@@ -459,6 +467,66 @@ def causal_five_field_monolithic_bdf_history_direction(
         or alpha <= 0.0
     ):
         raise ValueError("monolithic BDF history-direction inputs are invalid")
+    if analytic_step_matrix is not None:
+        analytic = analytic_step_matrix
+        dimensions = int(old.size)
+        expected_matrix_shape = (dimensions, dimensions)
+        matrix_fields = (
+            analytic.mapped_storage_scaled_matrix,
+            analytic.responsive_height_storage_scaled_matrix,
+            analytic.old_mapped_storage_scaled_matrix,
+            analytic.old_responsive_height_storage_scaled_matrix,
+        )
+        columns = np.asarray(
+            analytic.spatial_tangent.primitive_column_scales,
+            dtype=float,
+        ).reshape(old.shape)
+        rows = np.asarray(
+            analytic.spatial_tangent.conservation_row_scales,
+            dtype=float,
+        ).reshape(old.shape)
+        if (
+            any(
+                np.asarray(matrix).shape != expected_matrix_shape
+                for matrix in matrix_fields
+            )
+            or any(
+                np.any(~np.isfinite(matrix))
+                for matrix in matrix_fields
+            )
+            or np.any(columns <= 0.0)
+            or np.any(rows <= 0.0)
+        ):
+            raise ValueError("analytic monolithic history matrix is invalid")
+        old_scaled = (old_directions / columns[None, :, :]).reshape(
+            old_directions.shape[0],
+            -1,
+        )
+        new_scaled = (new_directions / columns[None, :, :]).reshape(
+            new_directions.shape[0],
+            -1,
+        )
+        mapped_scaled = (
+            analytic.old_mapped_storage_scaled_matrix @ old_scaled.T
+            + analytic.mapped_storage_scaled_matrix @ new_scaled.T
+        ).T.reshape(old_directions.shape[0], *old.shape)
+        height_scaled = (
+            analytic.old_responsive_height_storage_scaled_matrix @ old_scaled.T
+            + analytic.responsive_height_storage_scaled_matrix @ new_scaled.T
+        ).T.reshape(old_directions.shape[0], *old.shape)
+        return CausalFiveFieldMonolithicBDFHistoryDirection(
+            previous_primitive_increment=new_directions - old_directions,
+            previous_mapped_storage_increment=(
+                mapped_scaled * C * rows[None, :, :]
+            ),
+            previous_responsive_height_storage_increment=(
+                height_scaled * C * rows[None, :, :]
+            ),
+        ).validated(
+            n_directions=old_directions.shape[0],
+            n_cells=old.shape[0],
+        )
+
     mapped = []
     height = []
     for old_direction, new_direction in zip(

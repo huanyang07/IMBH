@@ -1,0 +1,46 @@
+{
+  "analyzed_base_commit": "32b679f85bd27fffda7d0e8bef205be48b8795ce",
+  "middle_layout": "N128_exterior_N256_inner_c48",
+  "profiles": [
+    "p3_buffer45__generic_five_field",
+    "p4__inward_acoustic",
+    "p4__outward_acoustic",
+    "p3_buffer45__material",
+    "p4__inward_shear_acoustic_mix"
+  ],
+  "ratio_audit_values": [
+    0.5,
+    1.0,
+    2.0
+  ],
+  "resource_policy": {
+    "maximum_unattended_checkpoint_interval_hours": 4.0,
+    "pilot_minimum_accepted_steps": 5,
+    "pilot_must_reach_controller_timestep_plateau_or_step_minimum": true,
+    "projected_wall_hours_24_to_48": "continue_after_factorization_context_and_schedule_reuse_review",
+    "projected_wall_hours_above_48": "explicit_cost_benefit_decision",
+    "projected_wall_hours_at_most_24": "continue_automatically",
+    "projection_components": [
+      "context_setup",
+      "base_accepted_steps",
+      "generic_anchor_schedule_replay",
+      "tangent_matrix_assembly_and_block_solve",
+      "serialized_replay",
+      "sampled_strict_shadow",
+      "evidence_packaging"
+    ],
+    "scientific_rejection_from_cost_projection_alone_forbidden": true
+  },
+  "schema_version": 1,
+  "surrogate_gates": {
+    "maximum_absolute_scaled_Tier_I_discrepancy": 0.005,
+    "maximum_absolute_scaled_state_discrepancy": 0.005,
+    "maximum_discrepancy_fraction_of_observable_response": 0.01,
+    "maximum_internal_discrete_residual_jvp_relative_defect": 1e-06,
+    "maximum_uncertainty_fraction_of_observable_spatial_difference": 0.1,
+    "minimum_Tier_I_history_cosine": 0.99,
+    "minimum_state_history_cosine": 0.99,
+    "unobservable_spatial_difference_action": "report_upper_bound_or_run_full_nonlinear_anchor_do_not_report_order"
+  },
+  "work_package": "WP10c9d6c7c3b5c3h2a0"
+}

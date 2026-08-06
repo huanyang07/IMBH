@@ -1,0 +1,134 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c3h2a_middle_cheap_audits_and_0p2ms_cost_pilot",
+  "cheap_hardening_audits_authorized": true,
+  "classification": "middle_cost_bounded_anchor_hardening_frozen_cheap_audits_and_0p2ms_pilot_authorized",
+  "definitions_only": true,
+  "fine_cost_bounded_propagation_authorized": false,
+  "fixed_q_micro_solver_authorized": false,
+  "manifest": {
+    "archive_scope": {
+      "accepted_internal_states_stored_for_40us_to_first_output": false,
+      "binding_interpretation": "long five-profile tangent calibration covers stored 2.4ms-to-5ms outputs; the full middle generic nonlinear anchor must certify the unstored early interval",
+      "first_stored_long_duration_output_seconds": 0.002,
+      "five_profile_40us_to_5ms_tangent_replay_claim_authorized": false,
+      "five_profile_long_tangent_calibration_start_seconds": 0.0024,
+      "generic_and_heldout_output_times_bitwise_equal": true,
+      "last_stored_long_duration_output_seconds": 0.005,
+      "stored_output_times_seconds": [
+        0.002,
+        0.0024,
+        0.0028,
+        0.0031999999999999997,
+        0.0036,
+        0.004,
+        0.004399999999999999,
+        0.0048,
+        0.005
+      ]
+    },
+    "cheap_prerequisite_audits": {
+      "analytic_initial_BDF_history_direction_required": true,
+      "centered_difference_history_direction_retained_as_audit": true,
+      "middle_all_profile_short_step_interval_seconds": [
+        3e-05,
+        4e-05
+      ],
+      "middle_all_profile_short_step_profiles": [
+        "p3_buffer45__generic_five_field",
+        "p4__inward_acoustic",
+        "p4__outward_acoustic",
+        "p3_buffer45__material",
+        "p4__inward_shear_acoustic_mix"
+      ],
+      "no_new_physical_trajectory_required": true,
+      "variable_BDF_step_ratio_audit_values": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "variable_ratio_complete_residual_JVP_required": true
+    },
+    "classification": "middle_cost_bounded_anchor_hardening_frozen_cheap_audits_and_0p2ms_pilot_authorized",
+    "definitions_only": true,
+    "downstream_stops": {
+      "fine_propagation_authorized": false,
+      "fixed_q_micro_solver_authorized": false,
+      "middle_1ms_propagation_authorized": false,
+      "middle_5ms_spatial_confirmation_certified": false,
+      "reduced_slow_evolution_authorized": false,
+      "third_duration_rung_spatial_convergence_certified": false
+    },
+    "fine_strategy": {
+      "fine_work_before_middle_5ms_pass_forbidden": true,
+      "full_fine_generic_anchor_is_conditional": true,
+      "full_fine_generic_anchor_triggers": [
+        "middle_generic_tangent_anchor_failure",
+        "surrogate_uncertainty_above_10_percent_of_middle_fine_difference",
+        "spatial_result_near_a_binding_gate",
+        "observable_nonlinear_remainder"
+      ],
+      "minimum_fine_work_after_middle_pass": [
+        "fine_nonlinear_base",
+        "five_profile_fine_discrete_tangent",
+        "sampled_temporal_audits"
+      ]
+    },
+    "operator_changed": false,
+    "passed": true,
+    "pilot_contract": {
+      "all_common_strict_outputs_compared": true,
+      "complete_residual_JVP_checkpoints": [
+        "first_accepted_step",
+        "first_nonunit_step_ratio",
+        "final_pilot_step"
+      ],
+      "continue_to_1ms_without_fresh_decision_forbidden": true,
+      "durable_accepted_step_artifacts_required": true,
+      "five_profile_discrete_tangent_block": true,
+      "layout": "N128_exterior_N256_inner_c48",
+      "one_adaptive_nonlinear_base": true,
+      "one_generic_nonlinear_anchor_on_base_schedule": true,
+      "stop_seconds": 0.0002,
+      "tangent_prediction_used_as_anchor_Newton_initial_guess": true
+    },
+    "production_defaults_changed": false,
+    "propagation_executed": false,
+    "resource_policy": {
+      "maximum_unattended_checkpoint_interval_hours": 4.0,
+      "pilot_minimum_accepted_steps": 5,
+      "pilot_must_reach_controller_timestep_plateau_or_step_minimum": true,
+      "projected_wall_hours_24_to_48": "continue_after_factorization_context_and_schedule_reuse_review",
+      "projected_wall_hours_above_48": "explicit_cost_benefit_decision",
+      "projected_wall_hours_at_most_24": "continue_automatically",
+      "projection_components": [
+        "context_setup",
+        "base_accepted_steps",
+        "generic_anchor_schedule_replay",
+        "tangent_matrix_assembly_and_block_solve",
+        "serialized_replay",
+        "sampled_strict_shadow",
+        "evidence_packaging"
+      ],
+      "scientific_rejection_from_cost_projection_alone_forbidden": true
+    },
+    "schema_version": 1,
+    "surrogate_contract": {
+      "maximum_absolute_scaled_Tier_I_discrepancy": 0.005,
+      "maximum_absolute_scaled_state_discrepancy": 0.005,
+      "maximum_discrepancy_fraction_of_observable_response": 0.01,
+      "maximum_internal_discrete_residual_jvp_relative_defect": 1e-06,
+      "maximum_uncertainty_fraction_of_observable_spatial_difference": 0.1,
+      "minimum_Tier_I_history_cosine": 0.99,
+      "minimum_state_history_cosine": 0.99,
+      "unobservable_spatial_difference_action": "report_upper_bound_or_run_full_nonlinear_anchor_do_not_report_order"
+    },
+    "work_package": "WP10c9d6c7c3b5c3h2a0"
+  },
+  "middle_0p2ms_pilot_authorized_after_cheap_audits": true,
+  "middle_1ms_propagation_authorized": false,
+  "passed": true,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "third_duration_rung_spatial_convergence_certified": false,
+  "work_package": "WP10c9d6c7c3b5c3h2a0"
+}
