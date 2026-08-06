@@ -1,0 +1,64 @@
+{
+  "analyzed_base_commit": "71972ba60ec78f6e16eb672bc3815fb8e40980a6",
+  "cost_gates": {
+    "maximum_pilot_projection_safety_factor": 2.0,
+    "maximum_projected_total_new_nonlinear_wall_hours": 24.0,
+    "maximum_single_unattended_stage_wall_hours": 12.0,
+    "minimum_measured_accepted_steps_for_projection": 2,
+    "projection_failure_action": "stop_before_full_middle_and_optimize_context_history_or_factorization_reuse",
+    "projection_includes_context_base_anchor_replay_and_sampled_strict_cost": true
+  },
+  "horizon_seconds": 0.005,
+  "layout": "N128_exterior_N256_inner_c48",
+  "method_gates": {
+    "maximum_discrete_ledger_defect": 1e-12,
+    "maximum_h_over_r": 0.12,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_local_error_estimate": 0.00025,
+    "maximum_scaled_residual": 1e-10,
+    "maximum_sum_local_error_estimates": 0.005,
+    "minimum_reconstruction_factor": 1.0,
+    "minimum_scattering_optical_depth": 1.0,
+    "strict_response_maximum_scaled_Tier_I_difference": 0.005,
+    "strict_response_maximum_scaled_state_difference": 0.005,
+    "strict_response_minimum_history_cosine": 0.9
+  },
+  "profiles": [
+    "p3_buffer45__generic_five_field",
+    "p4__inward_acoustic",
+    "p4__outward_acoustic",
+    "p3_buffer45__material",
+    "p4__inward_shear_acoustic_mix"
+  ],
+  "schema_version": 1,
+  "spatial_gates": {
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_relative_activity": 1e-08,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75
+  },
+  "tangent_gates": {
+    "coarse_long_horizon_profiles_required": [
+      "p3_buffer45__generic_five_field",
+      "p4__inward_acoustic",
+      "p4__outward_acoustic",
+      "p3_buffer45__material",
+      "p4__inward_shear_acoustic_mix"
+    ],
+    "maximum_internal_discrete_residual_jvp_relative_defect": 1e-06,
+    "maximum_scaled_Tier_I_response_discrepancy": 0.005,
+    "maximum_scaled_state_response_discrepancy": 0.005,
+    "minimum_Tier_I_response_history_cosine": 0.99,
+    "minimum_state_response_history_cosine": 0.99,
+    "short_horizon_layouts_required": [
+      "N128_exterior_N128_inner_c48",
+      "N128_exterior_N256_inner_c48",
+      "N128_exterior_N512_inner_c48"
+    ],
+    "surrogate_fraction_of_fine_difference_acceptance_budget": 0.1
+  },
+  "work_package": "WP10c9d6c7c3b5c3h2"
+}

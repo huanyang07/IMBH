@@ -1,0 +1,260 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c3h2a_middle_cost_pilot",
+  "classification": "middle_cost_bounded_anchor_manifest_frozen_staged_middle_execution_authorized",
+  "definitions_only": true,
+  "fine_cost_bounded_confirmation_manifest_authorized": false,
+  "fine_cost_bounded_propagation_authorized": false,
+  "fixed_q_micro_solver_authorized": false,
+  "fourth_duration_rung_manifest_authorized": false,
+  "manifest": {
+    "classification": "middle_cost_bounded_anchor_manifest_frozen_staged_middle_execution_authorized",
+    "cost_contract": {
+      "maximum_pilot_projection_safety_factor": 2.0,
+      "maximum_projected_total_new_nonlinear_wall_hours": 24.0,
+      "maximum_single_unattended_stage_wall_hours": 12.0,
+      "minimum_measured_accepted_steps_for_projection": 2,
+      "projection_failure_action": "stop_before_full_middle_and_optimize_context_history_or_factorization_reuse",
+      "projection_includes_context_base_anchor_replay_and_sampled_strict_cost": true
+    },
+    "definitions_only": true,
+    "downstream_stops": {
+      "fine_propagation_authorized": false,
+      "fixed_q_micro_solver_authorized": false,
+      "fourth_duration_rung_manifest_authorized": false,
+      "reduced_slow_evolution_authorized": false,
+      "third_duration_rung_spatial_convergence_certified": false
+    },
+    "fail_fast_stages": [
+      {
+        "decision": "project_total_and_each_stage_cost_with_safety_factor_before_continuation",
+        "stage": "h2a_cost_pilot",
+        "stop_seconds": 0.0002,
+        "work": [
+          "construct_context_and_histories",
+          "advance_middle_base",
+          "advance_middle_generic_anchor_on_same_accepted_schedule",
+          "propagate_all_five_discrete_tangents_as_one_block",
+          "sample_step_doubling_on_first_two_accepted_steps"
+        ]
+      },
+      {
+        "authorized_only_if": "h2a_cost_and_scientific_gates_pass",
+        "durable_checkpoint_required": true,
+        "stage": "h2b_one_millisecond_screen",
+        "stop_seconds": 0.001
+      },
+      {
+        "authorized_only_if": "h2b_gates_pass",
+        "same_target_bitwise_replay_required": true,
+        "stage": "h2c_two_millisecond_screen",
+        "stop_seconds": 0.002
+      },
+      {
+        "authorized_only_if": "h2c_gates_pass_and_projection_remains_bounded",
+        "sampled_strict_shadow_required": true,
+        "stage": "h2d_five_millisecond_completion",
+        "stop_seconds": 0.005
+      }
+    ],
+    "method_gates": {
+      "maximum_discrete_ledger_defect": 1e-12,
+      "maximum_h_over_r": 0.12,
+      "maximum_incoming_excision_characteristics": 0,
+      "maximum_local_error_estimate": 0.00025,
+      "maximum_scaled_residual": 1e-10,
+      "maximum_sum_local_error_estimates": 0.005,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 1.0,
+      "strict_response_maximum_scaled_Tier_I_difference": 0.005,
+      "strict_response_maximum_scaled_state_difference": 0.005,
+      "strict_response_minimum_history_cosine": 0.9
+    },
+    "middle_decision": {
+      "cost_projection_failure": "stop_without_scientific_rejection_and_optimize_reuse",
+      "pass": "authorize_definitions_only_fine_cost_bounded_confirmation_manifest",
+      "scientific_failure": "stop_before_fine_and_localize_base_anchor_or_tangent_defect"
+    },
+    "middle_experiment": {
+      "active_coupling_face_index": 96,
+      "all_profile_tangents_solved_as_one_block": true,
+      "base_and_generic_history_source": "committed_b4b3_layout_native_30_and_40_microsecond_states",
+      "cell_count": 112,
+      "horizon_seconds": 0.005,
+      "initial_history_seconds": [
+        3e-05,
+        4e-05
+      ],
+      "initial_previous_timestep_seconds": 1e-05,
+      "layout": "N128_exterior_N256_inner_c48",
+      "main_controller": {
+        "analytic_stability_bound": 2.414213562373095,
+        "coupling_face_contract": {
+          "N128_exterior_N128_inner_c48": 48,
+          "N128_exterior_N256_inner_c48": 96,
+          "N128_exterior_N512_inner_c48": 192
+        },
+        "error_estimator": {
+          "accepted_branch": "full_step",
+          "accepted_branch_error_multiplier": 1.3333333333333333,
+          "export_norm": "maximum_fixed_scale_Tier_I_endpoint_difference",
+          "formal_order": 2,
+          "kind": "one_full_step_versus_two_independent_half_steps",
+          "local_error": "maximum_of_state_and_Tier_I_export_estimates",
+          "local_tolerance": 0.00025,
+          "short_horizon_sum_of_accepted_error_estimates": 0.005,
+          "state_norm": "maximum_of_scaled_RMS_and_scaled_fieldwise_maximum"
+        },
+        "exact_output_landing": true,
+        "initial_previous_timestep_seconds": 1e-05,
+        "initial_timestep_seconds": 5e-06,
+        "maximum_BDF2_step_ratio": 2.0,
+        "maximum_timestep_seconds": 0.0004,
+        "method": "monolithic_increment_primary_variable_step_BDF1_BDF2",
+        "minimum_timestep_seconds": 1.25e-06,
+        "proposal": {
+          "error_exponent": 0.3333333333333333,
+          "exact_landing_at_every_declared_output": true,
+          "maximum_factor": 2.0,
+          "maximum_retries": 8,
+          "minimum_factor": 0.5,
+          "reject_on_any_full_or_half_method_failure": true,
+          "safety_factor": 0.8
+        },
+        "step_method_gates": {
+          "checkpoint_roundtrip": "bitwise",
+          "maximum_discrete_ledger_defect": 1e-12,
+          "maximum_incoming_excision_characteristics": 0,
+          "maximum_mapped_endpoint_path_closure": 1e-09,
+          "maximum_scaled_residual": 1e-10,
+          "minimum_reconstruction_factor": 1.0,
+          "split_restart_replay": "bitwise_at_declared_outputs"
+        }
+      },
+      "main_target_microseconds": [
+        2000,
+        2400,
+        2800,
+        3200,
+        3600,
+        4000,
+        4400,
+        4800,
+        5000
+      ],
+      "mapped_and_height_histories_reconstructed_exactly": true,
+      "no_new_BDF1_startup": true,
+      "one_context_and_one_base_schedule_reused": true,
+      "replay_target_microseconds": [
+        4400,
+        4800,
+        5000
+      ],
+      "strict_controller": {
+        "analytic_stability_bound": 2.414213562373095,
+        "coupling_face_contract": {
+          "N128_exterior_N128_inner_c48": 48,
+          "N128_exterior_N256_inner_c48": 96,
+          "N128_exterior_N512_inner_c48": 192
+        },
+        "error_estimator": {
+          "accepted_branch": "full_step",
+          "accepted_branch_error_multiplier": 1.3333333333333333,
+          "export_norm": "maximum_fixed_scale_Tier_I_endpoint_difference",
+          "formal_order": 2,
+          "kind": "one_full_step_versus_two_independent_half_steps",
+          "local_error": "maximum_of_state_and_Tier_I_export_estimates",
+          "local_tolerance": 3.125e-05,
+          "short_horizon_sum_of_accepted_error_estimates": 0.005,
+          "state_norm": "maximum_of_scaled_RMS_and_scaled_fieldwise_maximum"
+        },
+        "exact_output_landing": true,
+        "initial_timestep_seconds": 0.0001,
+        "maximum_BDF2_step_ratio": 2.0,
+        "maximum_timestep_seconds": 0.0001,
+        "method": "monolithic_increment_primary_variable_step_BDF1_BDF2",
+        "minimum_timestep_seconds": 2.5e-05,
+        "proposal": {
+          "error_exponent": 0.3333333333333333,
+          "exact_landing_at_every_declared_output": true,
+          "maximum_factor": 2.0,
+          "maximum_retries": 8,
+          "minimum_factor": 0.5,
+          "reject_on_any_full_or_half_method_failure": true,
+          "safety_factor": 0.8
+        },
+        "step_method_gates": {
+          "checkpoint_roundtrip": "bitwise",
+          "maximum_discrete_ledger_defect": 1e-12,
+          "maximum_incoming_excision_characteristics": 0,
+          "maximum_mapped_endpoint_path_closure": 1e-09,
+          "maximum_scaled_residual": 1e-10,
+          "minimum_reconstruction_factor": 1.0,
+          "split_restart_replay": "bitwise_at_declared_outputs"
+        }
+      },
+      "strict_target_microseconds": [
+        4800,
+        4900,
+        5000
+      ]
+    },
+    "operator_changed": false,
+    "passed": true,
+    "production_defaults_changed": false,
+    "propagation_executed": false,
+    "schema_version": 1,
+    "scientific_basis": {
+      "binding_export_reference": "WP10c9d6c7c3b4d_corrected_active_coupling_face",
+      "complete_discrete_BDF_tangent_certified": true,
+      "long_tail_maximum_scaled_Tier_I_discrepancy": 4.970473395202929e-08,
+      "long_tail_maximum_scaled_state_discrepancy": 2.309575614268354e-07,
+      "long_tail_profiles": [
+        "p3_buffer45__generic_five_field",
+        "p4__inward_acoustic",
+        "p4__outward_acoustic",
+        "p3_buffer45__material",
+        "p4__inward_shear_acoustic_mix"
+      ],
+      "middle_short_block_solve_seconds": 0.021351957926526666,
+      "middle_short_matrix_assembly_seconds": 106.06803354201838
+    },
+    "tangent_anchor_contract": {
+      "generic_full_nonlinear_anchor_required": true,
+      "maximum_scaled_Tier_I_discrepancy": 0.005,
+      "maximum_scaled_state_discrepancy": 0.005,
+      "minimum_Tier_I_history_cosine": 0.99,
+      "minimum_state_history_cosine": 0.99,
+      "other_full_nonlinear_perturbed_trajectories_forbidden": true,
+      "profiles": [
+        "p3_buffer45__generic_five_field",
+        "p4__inward_acoustic",
+        "p4__outward_acoustic",
+        "p3_buffer45__material",
+        "p4__inward_shear_acoustic_mix"
+      ],
+      "stop_on_generic_anchor_failure": true,
+      "surrogate_uncertainty_added_to_spatial_and_temporal_budgets": true
+    },
+    "temporal_contract": {
+      "all_common_strict_outputs_are_compared": true,
+      "coarse_schedule_reuse_forbidden": true,
+      "layout_owns_adaptive_schedule": true,
+      "maximum_sampled_temporal_to_observable_spatial_error_ratio": 0.1,
+      "same_target_replay_complete_payload_bitwise": true,
+      "sampled_step_doubling_windows": [
+        "first_two_accepted_steps",
+        "around_one_millisecond",
+        "around_two_milliseconds",
+        "final_4p8_to_5p0_millisecond_window"
+      ]
+    },
+    "work_package": "WP10c9d6c7c3b5c3h2"
+  },
+  "middle_staged_execution_authorized": true,
+  "parent_classification_preserved": "complete_discrete_BDF_tangent_calibrated_middle_cost_bounded_anchor_manifest_authorized",
+  "passed": true,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "third_duration_rung_spatial_convergence_certified": false,
+  "work_package": "WP10c9d6c7c3b5c3h2"
+}
