@@ -1,0 +1,53 @@
+{
+  "active_coupling_face": 96,
+  "analyzed_base_commit": "137c844506f369b0c526953385ed7a08c8faefda",
+  "generic_profile": "p3_buffer45__generic_five_field",
+  "layout": "N128_exterior_N256_inner_c48",
+  "pilot_cost_projection": {
+    "cost_projection_is_not_a_scientific_gate": true,
+    "packaging_allowance_seconds_before_safety": 900.0,
+    "pilot_accepted_steps": 6,
+    "projected_JVP_audit_seconds_before_safety": 847.5704316236079,
+    "projected_anchor_seconds_before_safety": 8948.777410440613,
+    "projected_base_seconds_before_safety": 27413.03116201423,
+    "projected_replay_seconds_before_safety": 686.2013122080825,
+    "projected_tangent_seconds_before_safety": 2541.065854012035,
+    "projected_total_steps": 24,
+    "projected_total_wall_hours": 23.060655532943652,
+    "projected_total_wall_seconds": 83018.35991859715,
+    "resource_tier": "automatic_continuation",
+    "safety_factor": 2.0,
+    "setup_seconds": 172.53378900000826,
+    "simulated_remaining_steps": 18
+  },
+  "profiles": [
+    "p3_buffer45__generic_five_field",
+    "p4__inward_acoustic",
+    "p4__outward_acoustic",
+    "p3_buffer45__material",
+    "p4__inward_shear_acoustic_mix"
+  ],
+  "replay_target_microseconds": [
+    800,
+    1000
+  ],
+  "schema_version": 1,
+  "surrogate_gates": {
+    "maximum_absolute_scaled_Tier_I_discrepancy": 0.005,
+    "maximum_absolute_scaled_state_discrepancy": 0.005,
+    "maximum_discrepancy_fraction_of_observable_response": 0.01,
+    "maximum_internal_discrete_residual_jvp_relative_defect": 1e-06,
+    "maximum_uncertainty_fraction_of_observable_spatial_difference": 0.1,
+    "minimum_Tier_I_history_cosine": 0.99,
+    "minimum_state_history_cosine": 0.99,
+    "unobservable_spatial_difference_action": "report_upper_bound_or_run_full_nonlinear_anchor_do_not_report_order"
+  },
+  "target_microseconds": [
+    200,
+    400,
+    600,
+    800,
+    1000
+  ],
+  "work_package": "WP10c9d6c7c3b5c3h2b0"
+}

@@ -1,0 +1,187 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c3h2b1_middle_0p2_to_1ms_continuation",
+  "classification": "middle_1ms_continuation_manifest_frozen_cost_bounded_propagation_authorized",
+  "definitions_only": true,
+  "fine_cost_bounded_propagation_authorized": false,
+  "fixed_q_micro_solver_authorized": false,
+  "manifest": {
+    "base_schedule_contract": {
+      "accepted_step_artifact_cached_once": true,
+      "all_method_physics_and_ledger_gates_unchanged": true,
+      "cached_items": [
+        "old_and_new_base_primitives",
+        "primitive_mapped_and_height_BDF_histories",
+        "accepted_and_previous_timestep",
+        "state_and_Tier_I_exports",
+        "method_and_physical_audits"
+      ],
+      "coarse_schedule_reuse_forbidden": true,
+      "controller": {
+        "analytic_stability_bound": 2.414213562373095,
+        "coupling_face_contract": {
+          "N128_exterior_N128_inner_c48": 48,
+          "N128_exterior_N256_inner_c48": 96,
+          "N128_exterior_N512_inner_c48": 192
+        },
+        "error_estimator": {
+          "accepted_branch": "full_step",
+          "accepted_branch_error_multiplier": 1.3333333333333333,
+          "export_norm": "maximum_fixed_scale_Tier_I_endpoint_difference",
+          "formal_order": 2,
+          "kind": "one_full_step_versus_two_independent_half_steps",
+          "local_error": "maximum_of_state_and_Tier_I_export_estimates",
+          "local_tolerance": 0.00025,
+          "short_horizon_sum_of_accepted_error_estimates": 0.005,
+          "state_norm": "maximum_of_scaled_RMS_and_scaled_fieldwise_maximum"
+        },
+        "exact_output_landing": true,
+        "initial_previous_timestep_seconds": 1e-05,
+        "initial_timestep_seconds": 5e-06,
+        "maximum_BDF2_step_ratio": 2.0,
+        "maximum_timestep_seconds": 0.0004,
+        "method": "monolithic_increment_primary_variable_step_BDF1_BDF2",
+        "minimum_timestep_seconds": 1.25e-06,
+        "proposal": {
+          "error_exponent": 0.3333333333333333,
+          "exact_landing_at_every_declared_output": true,
+          "maximum_factor": 2.0,
+          "maximum_retries": 8,
+          "minimum_factor": 0.5,
+          "reject_on_any_full_or_half_method_failure": true,
+          "safety_factor": 0.8
+        },
+        "step_method_gates": {
+          "checkpoint_roundtrip": "bitwise",
+          "maximum_discrete_ledger_defect": 1e-12,
+          "maximum_incoming_excision_characteristics": 0,
+          "maximum_mapped_endpoint_path_closure": 1e-09,
+          "maximum_scaled_residual": 1e-10,
+          "minimum_reconstruction_factor": 1.0,
+          "split_restart_replay": "bitwise_at_declared_outputs"
+        }
+      },
+      "full_step_doubling_on_every_base_accepted_comparison": true,
+      "layout_owns_schedule": true
+    },
+    "classification": "middle_1ms_continuation_manifest_frozen_cost_bounded_propagation_authorized",
+    "continuation": {
+      "active_coupling_face": 96,
+      "canonical_target_microseconds": [
+        200,
+        400,
+        600,
+        800,
+        1000
+      ],
+      "durable_checkpoint_after_every_declared_target": true,
+      "generic_profile": "p3_buffer45__generic_five_field",
+      "initial_candidate_timestep_seconds": 9.999999999999972e-06,
+      "layout": "N128_exterior_N256_inner_c48",
+      "maximum_unattended_checkpoint_interval_hours": 4.0,
+      "no_new_BDF1_startup": true,
+      "profiles": [
+        "p3_buffer45__generic_five_field",
+        "p4__inward_acoustic",
+        "p4__outward_acoustic",
+        "p3_buffer45__material",
+        "p4__inward_shear_acoustic_mix"
+      ],
+      "replay_target_microseconds": [
+        800,
+        1000
+      ],
+      "restart_roundtrip_bitwise_required": true,
+      "restart_source": "h2a2_canonical_decisive_arrays_exact_0p2ms_base_anchor_and_BDF_histories",
+      "single_integer_target_source_required": true,
+      "start_microseconds": 200,
+      "stop_at_1ms_before_any_2ms_work": true,
+      "stop_microseconds": 1000
+    },
+    "decision": {
+      "base_method_or_physics_failure_action": "stop_without_fine_work_or_operator_redesign_unless_localized",
+      "cost_projection_alone_is_not_a_scientific_rejection": true,
+      "generic_anchor_failure_action": "stop_and_localize_surrogate_or_temporal_defect",
+      "pass_action": "authorize_only_fresh_definitions_only_middle_2ms_continuation_manifest"
+    },
+    "definitions_only": true,
+    "downstream_stops": {
+      "fine_cost_bounded_propagation_authorized": false,
+      "fixed_q_micro_solver_authorized": false,
+      "middle_2ms_propagation_authorized": false,
+      "middle_5ms_spatial_confirmation_certified": false,
+      "reduced_slow_evolution_authorized": false,
+      "third_duration_rung_spatial_convergence_certified": false
+    },
+    "generic_anchor_contract": {
+      "all_other_steps_use_one_full_nonlinear_solve": true,
+      "any_sampled_error_failure_stops_continuation": true,
+      "maximum_sampled_Tier_I_error": 0.00025,
+      "maximum_sampled_state_error": 0.00025,
+      "replays_exact_base_accepted_schedule": true,
+      "step_doubling_audit_locations": [
+        "first_continuation_step",
+        "first_new_maximum_timestep_or_ratio_transition",
+        "final_step_landing_at_1ms"
+      ],
+      "tangent_prediction_used_as_Newton_initial_guess": true
+    },
+    "measured_basis": {
+      "local_error_tolerance": 0.00025,
+      "maximum_base_local_error_estimate": 3.579343131458603e-10,
+      "median_full_controller_comparison_seconds": 1142.209631750593,
+      "median_routine_anchor_step_seconds": 283.0295176251093,
+      "median_sampled_anchor_comparison_seconds": 1001.7191801044391,
+      "median_tangent_matrix_assembly_seconds": 105.85529458348174,
+      "pilot_accepted_steps": 6,
+      "pilot_classification": "middle_0p2ms_pilot_passed_1ms_continuation_manifest_authorized",
+      "pilot_rejected_attempts": 0,
+      "pilot_stop_seconds": 0.0002,
+      "projected_5ms_wall_hours_with_factor_two_safety": 23.060655532943652,
+      "resource_tier": "automatic_continuation",
+      "routine_five_profile_block_solve_seconds": 0.02244933368638158
+    },
+    "operator_changed": false,
+    "passed": true,
+    "production_defaults_changed": false,
+    "propagation_executed": false,
+    "replay_and_evidence_contract": {
+      "accepted_timestep_schedule_bitwise": true,
+      "base_and_anchor_last_step_serialized_replay_bitwise": true,
+      "canonical_states_exports_and_histories_committed": true,
+      "complete_restart_payload_bitwise": true,
+      "results_resumable_by_stage_and_declared_target": true,
+      "source_and_input_hashes_required": true
+    },
+    "schema_version": 1,
+    "tangent_contract": {
+      "all_profiles_propagated_as_one_block": true,
+      "complete_residual_JVP_audit_locations": [
+        "first_continuation_step",
+        "first_new_nonunit_step_ratio",
+        "final_step_landing_at_1ms"
+      ],
+      "generic_anchor_closes_full_0p2_to_1ms_interval": true,
+      "non_generic_full_nonlinear_trajectories_forbidden": true,
+      "one_step_matrix_and_factorization_per_base_step": true,
+      "surrogate_gates": {
+        "maximum_absolute_scaled_Tier_I_discrepancy": 0.005,
+        "maximum_absolute_scaled_state_discrepancy": 0.005,
+        "maximum_discrepancy_fraction_of_observable_response": 0.01,
+        "maximum_internal_discrete_residual_jvp_relative_defect": 1e-06,
+        "maximum_uncertainty_fraction_of_observable_spatial_difference": 0.1,
+        "minimum_Tier_I_history_cosine": 0.99,
+        "minimum_state_history_cosine": 0.99,
+        "unobservable_spatial_difference_action": "report_upper_bound_or_run_full_nonlinear_anchor_do_not_report_order"
+      }
+    },
+    "work_package": "WP10c9d6c7c3b5c3h2b0"
+  },
+  "middle_1ms_propagation_authorized": true,
+  "middle_2ms_propagation_authorized": false,
+  "middle_5ms_spatial_confirmation_certified": false,
+  "passed": true,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "third_duration_rung_spatial_convergence_certified": false,
+  "work_package": "WP10c9d6c7c3b5c3h2b0"
+}
