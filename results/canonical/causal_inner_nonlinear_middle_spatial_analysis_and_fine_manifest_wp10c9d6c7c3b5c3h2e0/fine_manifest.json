@@ -1,0 +1,97 @@
+{
+  "active_coupling_face": 192,
+  "audit_target_microseconds": [
+    200,
+    2000,
+    5000
+  ],
+  "classification": "middle_spatial_analysis_complete_fine_base_tangent_and_full_generic_anchor_authorized",
+  "definitions_only": true,
+  "execution_contract": {
+    "base_and_anchor_last_step_bitwise_replay": true,
+    "base_full_step_doubling": true,
+    "complete_residual_JVP_audit_targets_microseconds": [
+      200,
+      2000,
+      5000
+    ],
+    "durable_checkpoint_after_every_target": true,
+    "fine_layout_owns_adaptive_base_schedule": true,
+    "generic_anchor_replays_exact_accepted_fine_base_schedule": true,
+    "generic_anchor_sampled_step_doubling_targets_microseconds": [
+      200,
+      2000,
+      5000
+    ],
+    "no_coarse_or_middle_schedule_as_acceptance_authority": true,
+    "tangent_predictor_initializes_generic_anchor_Newton_solves": true,
+    "tangent_uses_exact_accepted_fine_base_schedule": true
+  },
+  "full_fine_generic_anchor_selected_by_evidence": true,
+  "hard_stops": [
+    "do_not_issue_spatial_certificate_before_fine_completion",
+    "do_not_drop_full_fine_generic_anchor",
+    "do_not_relax_spatial_temporal_method_or_replay_gates",
+    "do_not_begin_fourth_duration_rung_fixed_Q_or_reduced_evolution",
+    "do_not_use_N1024_as_rescue"
+  ],
+  "layout": "N128_exterior_N512_inner_c48",
+  "method_gates": {
+    "bitwise_last_step_replay": true,
+    "maximum_discrete_ledger_defect": 1e-12,
+    "maximum_export_ledger_defect": 1e-09,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_mapped_endpoint_path_closure_defect": 1e-09,
+    "maximum_scaled_residual": 1e-10,
+    "maximum_step_matrix_JVP_relative_defect": 1e-06,
+    "minimum_path_reconstruction_factor": 1.0
+  },
+  "operator_changed": false,
+  "production_defaults_changed": false,
+  "propagation_executed": false,
+  "required_trajectories": [
+    "fine_nonlinear_base",
+    "fine_five_profile_complete_discrete_BDF_tangent",
+    "fine_full_nonlinear_generic_anchor"
+  ],
+  "resource_policy": {
+    "24_hours_is_soft_planning_target_not_a_scientific_gate": true,
+    "checkpointed_unattended_segments": true,
+    "stop_before_anchor_only_for_scientific_method_or_cost_reassessment": true
+  },
+  "schema_version": 1,
+  "selection_reason": "middle_generic_Tier_I_tangent_uncertainty_exceeds_0p10_of_coarse_middle_spatial_difference",
+  "spatial_gates_unchanged": {
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_relative_activity": 1e-08,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75
+  },
+  "target_microseconds": [
+    40,
+    200,
+    400,
+    600,
+    800,
+    1000,
+    1400,
+    1800,
+    2000,
+    2400,
+    2800,
+    3200,
+    3600,
+    4000,
+    4400,
+    4800,
+    5000
+  ],
+  "temporal_uncertainty_gate": {
+    "maximum_uncertainty_to_observable_medium_fine_difference": 0.1,
+    "unobservable_route": "report_upper_bound_only_without_order_or_direction_claim"
+  },
+  "work_package": "WP10c9d6c7c3b5c3h2e0"
+}

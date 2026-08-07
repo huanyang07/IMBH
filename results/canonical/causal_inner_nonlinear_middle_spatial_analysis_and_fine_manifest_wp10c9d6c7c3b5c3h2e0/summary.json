@@ -1,0 +1,59 @@
+{
+  "analysis": {
+    "full_fine_generic_nonlinear_anchor_required": true,
+    "generic_Tier_I_surrogate_small_relative_to_spatial_difference": false,
+    "generic_state_surrogate_small_relative_to_spatial_difference": true,
+    "generic_surrogate_to_spatial_difference_ratios": {
+      "cumulative_Tier_I": 1.5787348139545803,
+      "instantaneous_Tier_I": 0.4524397593100324,
+      "state": 0.005827907080454451
+    },
+    "profiles": {
+      "p3_buffer45__generic_five_field": {
+        "coarse_middle_cumulative_Tier_I_maximum_scaled_difference": 3.2716176680739952e-09,
+        "coarse_middle_instantaneous_Tier_I_maximum_scaled_difference": 1.9101138596052355e-08,
+        "coarse_middle_state_maximum_scaled_difference": 1.1377462416587575e-06,
+        "middle_tangent_nonlinear_cumulative_Tier_I_maximum_scaled_difference": 5.165016710537316e-09,
+        "middle_tangent_nonlinear_instantaneous_Tier_I_maximum_scaled_difference": 8.642114548945497e-09,
+        "middle_tangent_nonlinear_state_maximum_scaled_difference": 6.630679377523513e-09,
+        "surrogate_to_coarse_middle_spatial_difference_ratios": {
+          "cumulative_Tier_I": 1.5787348139545803,
+          "instantaneous_Tier_I": 0.4524397593100324,
+          "state": 0.005827907080454451
+        }
+      },
+      "p3_buffer45__material": {
+        "coarse_middle_cumulative_Tier_I_maximum_scaled_difference": 4.257279913965441e-09,
+        "coarse_middle_instantaneous_Tier_I_maximum_scaled_difference": 2.3714637840508866e-08,
+        "coarse_middle_state_maximum_scaled_difference": 1.3890673991536102e-06
+      },
+      "p4__inward_acoustic": {
+        "coarse_middle_cumulative_Tier_I_maximum_scaled_difference": 3.484123190768084e-08,
+        "coarse_middle_instantaneous_Tier_I_maximum_scaled_difference": 1.0552505712651503e-07,
+        "coarse_middle_state_maximum_scaled_difference": 1.7584721419680246e-06
+      },
+      "p4__inward_shear_acoustic_mix": {
+        "coarse_middle_cumulative_Tier_I_maximum_scaled_difference": 2.3780025279564945e-08,
+        "coarse_middle_instantaneous_Tier_I_maximum_scaled_difference": 7.195509718823456e-08,
+        "coarse_middle_state_maximum_scaled_difference": 1.0674314390240417e-06
+      },
+      "p4__outward_acoustic": {
+        "coarse_middle_cumulative_Tier_I_maximum_scaled_difference": 3.312052894656579e-08,
+        "coarse_middle_instantaneous_Tier_I_maximum_scaled_difference": 9.390166140696275e-08,
+        "coarse_middle_state_maximum_scaled_difference": 1.5509111239301113e-06
+      }
+    },
+    "surrogate_to_spatial_gate": 0.1
+  },
+  "authorized_next": "WP10c9d6c7c3b5c3h2e1_fine_5ms_completion",
+  "classification": "middle_spatial_analysis_complete_fine_base_tangent_and_full_generic_anchor_authorized",
+  "fine_cost_bounded_propagation_authorized": true,
+  "fine_manifest_frozen": true,
+  "fixed_q_micro_solver_authorized": false,
+  "full_fine_generic_nonlinear_anchor_required": true,
+  "middle_fine_5ms_spatial_certificate_issued": false,
+  "passed": true,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c3h2e0"
+}
