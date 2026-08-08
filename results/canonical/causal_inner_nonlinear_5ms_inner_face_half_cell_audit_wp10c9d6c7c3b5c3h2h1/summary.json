@@ -1,0 +1,2316 @@
+{
+  "audit": {
+    "authorized_next": "WP10c9d6c7c3b5c3h2i_conservative_extraction_surface_manifest",
+    "classification": "five_ms_inner_export_recovers_on_common_surface_extraction_surface_manifest_authorized",
+    "common_face_recovery": {
+      "compact_recovery_selected": true,
+      "faces": [
+        {
+          "coarse_face_index": 1,
+          "history_cosine": 0.9999993743437483,
+          "maximum_fine_normalized_difference": 6.016778585104471e-08,
+          "minimum_significant_component_order": 0.9121935523995087,
+          "observed_maximum_order": 1.202764909056989,
+          "observed_rms_order": 0.9364775112768597,
+          "passed": true,
+          "refinement_error_cosine": 0.9753498560643685,
+          "upper_bound_route_used": false
+        },
+        {
+          "coarse_face_index": 2,
+          "history_cosine": 0.9999999327471206,
+          "maximum_fine_normalized_difference": 9.249310282657978e-08,
+          "minimum_significant_component_order": 1.7153155841896686,
+          "observed_maximum_order": 1.782862642447212,
+          "observed_rms_order": 1.7226925644480342,
+          "passed": true,
+          "refinement_error_cosine": 0.9992699070296425,
+          "upper_bound_route_used": false
+        },
+        {
+          "coarse_face_index": 4,
+          "history_cosine": 0.9999999950348308,
+          "maximum_fine_normalized_difference": 1.6165122674052996e-07,
+          "minimum_significant_component_order": 1.9293769409674046,
+          "observed_maximum_order": 1.9492277752149516,
+          "observed_rms_order": 1.9311236482354368,
+          "passed": true,
+          "refinement_error_cosine": 0.9999501474828094,
+          "upper_bound_route_used": false
+        },
+        {
+          "coarse_face_index": 8,
+          "history_cosine": 0.999999999724855,
+          "maximum_fine_normalized_difference": 2.7276850008507497e-07,
+          "minimum_significant_component_order": 2.0808244708508052,
+          "observed_maximum_order": 2.07749621871636,
+          "observed_rms_order": 2.0811340905622187,
+          "passed": true,
+          "refinement_error_cosine": 0.9999948311815747,
+          "upper_bound_route_used": false
+        },
+        {
+          "coarse_face_index": 12,
+          "history_cosine": 0.9999999999607772,
+          "maximum_fine_normalized_difference": 2.801124011735101e-07,
+          "minimum_significant_component_order": 2.1703179509059027,
+          "observed_maximum_order": 2.1667742312489726,
+          "observed_rms_order": 2.1712913468329553,
+          "passed": true,
+          "refinement_error_cosine": 0.9999970041523718,
+          "upper_bound_route_used": false
+        },
+        {
+          "coarse_face_index": 16,
+          "history_cosine": 0.9999999999930508,
+          "maximum_fine_normalized_difference": 1.1831623762778749e-07,
+          "minimum_significant_component_order": 2.389128084437849,
+          "observed_maximum_order": 2.3831920081444555,
+          "observed_rms_order": 2.3962052033423675,
+          "passed": true,
+          "refinement_error_cosine": 0.9999497162953118,
+          "upper_bound_route_used": false
+        },
+        {
+          "coarse_face_index": 24,
+          "history_cosine": 0.9999999999993273,
+          "maximum_fine_normalized_difference": 4.2742476803270604e-07,
+          "minimum_significant_component_order": 2.0779647120870575,
+          "observed_maximum_order": 2.0759022903933073,
+          "observed_rms_order": 2.078893867191288,
+          "passed": true,
+          "refinement_error_cosine": 0.9999991297829571,
+          "upper_bound_route_used": false
+        },
+        {
+          "coarse_face_index": 32,
+          "history_cosine": 0.9999999999967645,
+          "maximum_fine_normalized_difference": 3.4086699399909527e-07,
+          "minimum_significant_component_order": 2.2101995007165263,
+          "observed_maximum_order": 2.213670129395628,
+          "observed_rms_order": 2.216012442352427,
+          "passed": true,
+          "refinement_error_cosine": 0.9999965147265453,
+          "upper_bound_route_used": false
+        },
+        {
+          "coarse_face_index": 40,
+          "history_cosine": 0.9999999999670146,
+          "maximum_fine_normalized_difference": 2.1689494581524906e-07,
+          "minimum_significant_component_order": 2.24822085153686,
+          "observed_maximum_order": 2.2449645836479974,
+          "observed_rms_order": 2.250056152799049,
+          "passed": true,
+          "refinement_error_cosine": 0.9999962889575811,
+          "upper_bound_route_used": false
+        },
+        {
+          "coarse_face_index": 48,
+          "history_cosine": 1.0,
+          "maximum_fine_normalized_difference": 2.2636985823300214e-14,
+          "minimum_significant_component_order": null,
+          "observed_maximum_order": null,
+          "observed_rms_order": null,
+          "passed": true,
+          "refinement_error_cosine": 1.0,
+          "upper_bound_route_used": true
+        }
+      ],
+      "recovery_face_index": 1
+    },
+    "decisive_arrays_reused_for_metadata_refresh": true,
+    "elapsed_wall_seconds": 3.19010170805268,
+    "final_discrete_step_diagnostics": {
+      "N128_exterior_N128_inner_c48": {
+        "current_timestep_seconds": 0.00020000000000000052,
+        "incoming_excision_characteristics": 0,
+        "linear_residual_relative_defect": 2.8464714306551444e-16,
+        "maximum_component_closure_defect": 4.2995489520108185e-17,
+        "previous_timestep_seconds": 0.0004000000000000002
+      },
+      "N128_exterior_N256_inner_c48": {
+        "current_timestep_seconds": 0.00020000000000000052,
+        "incoming_excision_characteristics": 0,
+        "linear_residual_relative_defect": 2.8688283494019574e-16,
+        "maximum_component_closure_defect": 4.3415748592913604e-17,
+        "previous_timestep_seconds": 0.0004
+      },
+      "N128_exterior_N512_inner_c48": {
+        "current_timestep_seconds": 0.00020000000000000052,
+        "incoming_excision_characteristics": 0,
+        "linear_residual_relative_defect": 2.619820936168845e-16,
+        "maximum_component_closure_defect": 5.273125837187274e-17,
+        "previous_timestep_seconds": 0.0004
+      }
+    },
+    "final_prefix_compensators": {
+      "channels": {
+        "angular_momentum": {
+          "1": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 7.51438421760435e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.004273873044270049,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.002053202955730482,
+                "candidate_shear_principal": 7.928835697279639e-22,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.450410725147242,
+                "outer_common_face_flux": 0.5320995359703886,
+                "responsive_height_temporal_storage": 0.011087519040192935
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5320995359703886,
+              "prefix_balance_closure_defect": 2.407358403117995e-12,
+              "target_inner_error": -726003239790272.0
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 4.731807875886599e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0015678487229891663,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0015361507952702748,
+                "candidate_shear_principal": 1.7170969864322093e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.3697669879298625,
+                "outer_common_face_flux": 0.6205389354591857,
+                "responsive_height_temporal_storage": 0.0065427590139334815
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.6205389354591857,
+              "prefix_balance_closure_defect": 1.270292701873904e-15,
+              "target_inner_error": -885622658730880.0
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "12": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.00010803477882448795,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.002696407323190115,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.004387746651947925,
+                "candidate_shear_principal": 1.6532151547232846e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.48016561634542204,
+                "outer_common_face_flux": 0.4984473005030339,
+                "responsive_height_temporal_storage": 0.01419489439758154
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.4984473005030339,
+              "prefix_balance_closure_defect": 5.486452789316289e-10,
+              "target_inner_error": -726003239790272.0
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.00013410312714217176,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.003053024868346355,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.005225648639093992,
+                "candidate_shear_principal": 3.4914071864878516e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.46329334834428537,
+                "outer_common_face_flux": 0.5108603398421077,
+                "responsive_height_temporal_storage": 0.017433535179024524
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5108603398421077,
+              "prefix_balance_closure_defect": 1.0137215225348167e-09,
+              "target_inner_error": -885622658730880.0
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "16": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0001409365420314955,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.006337093242838609,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.007146540988293646,
+                "candidate_shear_principal": 2.0580994926643123e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.46970405147571787,
+                "outer_common_face_flux": 0.49849615763604055,
+                "responsive_height_temporal_storage": 0.018175220115077925
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.49849615763604055,
+              "prefix_balance_closure_defect": 1.5548181304619094e-09,
+              "target_inner_error": -726003239790272.0
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0002550576064380316,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.009297409516144961,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.011051307095321239,
+                "candidate_shear_principal": 1.0712571951396233e-20,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.41872343830225806,
+                "outer_common_face_flux": 0.5288492473769307,
+                "responsive_height_temporal_storage": 0.03182354010290698
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5288492473769307,
+              "prefix_balance_closure_defect": 9.156902118585367e-10,
+              "target_inner_error": -885622658730880.0
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "2": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 7.897003188848585e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0016775649824384072,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0023987820934646222,
+                "candidate_shear_principal": 2.8897249545615687e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.47444540563526333,
+                "outer_common_face_flux": 0.5112234303373608,
+                "responsive_height_temporal_storage": 0.010175846919584302
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5112234303373608,
+              "prefix_balance_closure_defect": 7.83932452098165e-12,
+              "target_inner_error": -726003239790272.0
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 6.747384528900601e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0010356077256503792,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.002269709863839692,
+                "candidate_shear_principal": 3.7868333317070285e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4203218230001769,
+                "outer_common_face_flux": 0.5675876309972671,
+                "responsive_height_temporal_storage": 0.008717754567777057
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5675876309972671,
+              "prefix_balance_closure_defect": 5.3470854130878865e-12,
+              "target_inner_error": -885622658730880.0
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "24": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": 1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": 1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 4.775124680604327e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0004120007448743672,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.001732642958395178,
+                "candidate_shear_principal": 5.5648906264437705e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.48766934986694593,
+                "outer_common_face_flux": 0.49706935749504677,
+                "responsive_height_temporal_storage": 0.013068897687931604
+              },
+              "dominant_alignment": -1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.49706935749504677,
+              "prefix_balance_closure_defect": 4.077164450195974e-08,
+              "target_inner_error": -726003239790272.0
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": 1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": 1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 3.992274198818844e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.00028106253426902567,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0016792445786528339,
+                "candidate_shear_principal": 1.0794628755294408e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4930374982772905,
+                "outer_common_face_flux": 0.49219836531598204,
+                "responsive_height_temporal_storage": 0.012763906551817313
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "mapped_temporal_storage",
+              "dominant_fraction": 0.4930374982772905,
+              "prefix_balance_closure_defect": 1.1575162287164456e-08,
+              "target_inner_error": -885622658730880.0
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "32": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": 1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": 1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 3.9945591085439435e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.002370834954802628,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0036320836629325772,
+                "candidate_shear_principal": 6.921398131289222e-20,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.48071453947228754,
+                "outer_common_face_flux": 0.49532947230093743,
+                "responsive_height_temporal_storage": 0.01791312401795442
+              },
+              "dominant_alignment": -1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.49532947230093743,
+              "prefix_balance_closure_defect": 2.0557737461766056e-08,
+              "target_inner_error": -726003239790272.0
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": 1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": 1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 4.683609664981684e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0026208518621024276,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.004148664376110654,
+                "candidate_shear_principal": 2.4016453398582608e-20,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4813418043234332,
+                "outer_common_face_flux": 0.4900470961048374,
+                "responsive_height_temporal_storage": 0.02179474723686655
+              },
+              "dominant_alignment": -1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.4900470961048374,
+              "prefix_balance_closure_defect": 3.369398886288853e-09,
+              "target_inner_error": -885622658730880.0
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "4": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 9.50614491165374e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.00012158664178489525,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0031280072015966065,
+                "candidate_shear_principal": 6.951966887094341e-22,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.48127364840709985,
+                "outer_common_face_flux": 0.5039074629746859,
+                "responsive_height_temporal_storage": 0.011474233325716243
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5039074629746859,
+              "prefix_balance_closure_defect": 2.6703221056699984e-11,
+              "target_inner_error": -726003239790272.0
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 8.98806604983373e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 3.516709455856606e-05,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.003122265095610492,
+                "candidate_shear_principal": 3.367382146665821e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4532908541199908,
+                "outer_common_face_flux": 0.5324163056813,
+                "responsive_height_temporal_storage": 0.011045527348041732
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5324163056813,
+              "prefix_balance_closure_defect": 6.5221061623212476e-12,
+              "target_inner_error": -885622658730880.0
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "40": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 5.21735230293224e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0018546752940951864,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.002634803395115079,
+                "candidate_shear_principal": 1.1485120769663227e-19,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.48696712773239775,
+                "outer_common_face_flux": 0.49932668343215597,
+                "responsive_height_temporal_storage": 0.009164536623206617
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.49932668343215597,
+              "prefix_balance_closure_defect": 9.114674477088562e-08,
+              "target_inner_error": -726003239790272.0
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 6.079168544218372e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0023002309654756507,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.003176886659926785,
+                "candidate_shear_principal": 4.735496046331253e-20,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.48036813935668676,
+                "outer_common_face_flux": 0.5046617883354988,
+                "responsive_height_temporal_storage": 0.00943216299696986
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5046617883354988,
+              "prefix_balance_closure_defect": 1.3680363618250264e-08,
+              "target_inner_error": -885622658730880.0
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "48": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.001550898938237336,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.022010347222884544,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.04340654413499377,
+                "candidate_shear_principal": 1.6977650946055535e-18,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.504538428835034,
+                "outer_common_face_flux": 4.772449872488639e-06,
+                "responsive_height_temporal_storage": 0.4284890084189779
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "mapped_temporal_storage",
+              "dominant_fraction": 0.504538428835034,
+              "prefix_balance_closure_defect": 1.0168041264020424e-07,
+              "target_inner_error": -726003239790272.0
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.001336642561069689,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.016866159912867048,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.03430471292136976,
+                "candidate_shear_principal": 7.073787099196022e-19,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.5887042029741034,
+                "outer_common_face_flux": 1.390770135853047e-08,
+                "responsive_height_temporal_storage": 0.3587882677228888
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "mapped_temporal_storage",
+              "dominant_fraction": 0.5887042029741034,
+              "prefix_balance_closure_defect": 1.703173959168493e-08,
+              "target_inner_error": -885622658730880.0
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "8": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.00010416611646404936,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0014562691382787928,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.003782520395038179,
+                "candidate_shear_principal": 3.007089079067124e-22,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4822156035706925,
+                "outer_common_face_flux": 0.49958846871501233,
+                "responsive_height_temporal_storage": 0.012852972064514235
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.49958846871501233,
+              "prefix_balance_closure_defect": 6.405877061021782e-10,
+              "target_inner_error": -726003239790272.0
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.00011314841920697077,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0015033903683647988,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.004137701544234093,
+                "candidate_shear_principal": 1.1876801149107547e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.466335353866129,
+                "outer_common_face_flux": 0.5138618458128429,
+                "responsive_height_temporal_storage": 0.014048559989222347
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5138618458128429,
+              "prefix_balance_closure_defect": 2.540965080122035e-10,
+              "target_inner_error": -885622658730880.0
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          }
+        },
+        "killing_energy": {
+          "1": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 7.610130128124878e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.004303586771750204,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0020691765537256194,
+                "candidate_shear_principal": 7.121370524960582e-22,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.44791243550393284,
+                "outer_common_face_flux": 0.5344803440585313,
+                "responsive_height_temporal_storage": 0.011158355810778793
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5344803440585313,
+              "prefix_balance_closure_defect": 2.9715322517300907e-12,
+              "target_inner_error": -379310.4198253751
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 4.906693973027011e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0016202314161602365,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0015851194607038493,
+                "candidate_shear_principal": 2.556951505947246e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.36218013472684796,
+                "outer_common_face_flux": 0.6278159028949543,
+                "responsive_height_temporal_storage": 0.006749544561603407
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.6278159028949543,
+              "prefix_balance_closure_defect": 4.759672380085951e-13,
+              "target_inner_error": -449917.4888519943
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "12": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.00013504549476132683,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.00303920416775119,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.005403031799685676,
+                "candidate_shear_principal": 9.197438753522291e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.47469211096303404,
+                "outer_common_face_flux": 0.49901275404568524,
+                "responsive_height_temporal_storage": 0.01771785352908243
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.49901275404568524,
+              "prefix_balance_closure_defect": 5.37979924005281e-10,
+              "target_inner_error": -379310.4198253751
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.00016688067438508256,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0034869063287538042,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.006471176823916434,
+                "candidate_shear_principal": 2.006841950221281e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4500199260996451,
+                "outer_common_face_flux": 0.5181288181094457,
+                "responsive_height_temporal_storage": 0.02172629196385393
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5181288181094457,
+              "prefix_balance_closure_defect": 8.13165251001485e-11,
+              "target_inner_error": -449917.4888519943
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "16": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.00022369440348477397,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0077774381875178634,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.010408838731989943,
+                "candidate_shear_principal": 1.91046440668089e-20,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4530182470170149,
+                "outer_common_face_flux": 0.49939625036053026,
+                "responsive_height_temporal_storage": 0.029175531299462227
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.49939625036053026,
+              "prefix_balance_closure_defect": 3.2235158541375425e-09,
+              "target_inner_error": -379310.4198253751
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.00038698088387899,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.011636671101247494,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.01618644979751359,
+                "candidate_shear_principal": 2.6778972347630817e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.36992681615807854,
+                "outer_common_face_flux": 0.5527067718111139,
+                "responsive_height_temporal_storage": 0.04915631024816747
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5527067718111139,
+              "prefix_balance_closure_defect": 2.1514805900255221e-10,
+              "target_inner_error": -449917.4888519943
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "2": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 8.220644948730273e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0017658876954259502,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0024808051941997986,
+                "candidate_shear_principal": 4.772388550018536e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.47231849204454557,
+                "outer_common_face_flux": 0.5128097130307513,
+                "responsive_height_temporal_storage": 0.010542895585590054
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5128097130307513,
+              "prefix_balance_closure_defect": 4.9336274474861816e-12,
+              "target_inner_error": -379310.4198253751
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 7.10087883520205e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0011012211744806598,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0023828679489710024,
+                "candidate_shear_principal": 2.773936517576306e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.41276434819308744,
+                "outer_common_face_flux": 0.5745148701976104,
+                "responsive_height_temporal_storage": 0.009165683697498471
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5745148701976104,
+              "prefix_balance_closure_defect": 2.0122844305478904e-12,
+              "target_inner_error": -449917.4888519943
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "24": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": 1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": 1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 2.4153980461167815e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0003303752772268942,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0006417618068552457,
+                "candidate_shear_principal": 5.1705295887551866e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4920561160178774,
+                "outer_common_face_flux": 0.4960785413203509,
+                "responsive_height_temporal_storage": 0.010869051597228348
+              },
+              "dominant_alignment": -1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.4960785413203509,
+              "prefix_balance_closure_defect": 1.6276319002359508e-08,
+              "target_inner_error": -379310.4198253751
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": 1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": 1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 1.0062662658620414e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0005252126341809867,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.00046193738870781343,
+                "candidate_shear_principal": 1.060382266543871e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.5046255299820787,
+                "outer_common_face_flux": 0.4845484361097937,
+                "responsive_height_temporal_storage": 0.00982882122258021
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "mapped_temporal_storage",
+              "dominant_fraction": 0.5046255299820787,
+              "prefix_balance_closure_defect": 1.4949168661447606e-08,
+              "target_inner_error": -449917.4888519943
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "32": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": 1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": 1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 3.0512575838432214e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0020292952511092558,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.003348537531991808,
+                "candidate_shear_principal": 5.751637428828912e-20,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.48011579302119817,
+                "outer_common_face_flux": 0.4932205231567862,
+                "responsive_height_temporal_storage": 0.021255338463076034
+              },
+              "dominant_alignment": -1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.4932205231567862,
+              "prefix_balance_closure_defect": 2.0670295077312943e-08,
+              "target_inner_error": -379310.4198253751
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": 1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": 1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 2.7825669494252004e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.002103504046063796,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.00364595639829085,
+                "candidate_shear_principal": 1.526745358323125e-20,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.49160728136342985,
+                "outer_common_face_flux": 0.47804059161600854,
+                "responsive_height_temporal_storage": 0.024574840906712633
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "mapped_temporal_storage",
+              "dominant_fraction": 0.49160728136342985,
+              "prefix_balance_closure_defect": 2.9310567075478836e-08,
+              "target_inner_error": -449917.4888519943
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "4": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.00010180743017361332,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.00018930518336238907,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0033354125888725348,
+                "candidate_shear_principal": 3.467072858015161e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4790399379683114,
+                "outer_common_face_flux": 0.5050413621892044,
+                "responsive_height_temporal_storage": 0.012292174640075648
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5050413621892044,
+              "prefix_balance_closure_defect": 3.740165320438296e-11,
+              "target_inner_error": -379310.4198253751
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 9.679709008216295e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 7.768602308915579e-05,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0033637675858861796,
+                "candidate_shear_principal": 2.2613717350675306e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4461292360153425,
+                "outer_common_face_flux": 0.5383925138663849,
+                "responsive_height_temporal_storage": 0.011939999419215128
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5383925138663849,
+              "prefix_balance_closure_defect": 9.291258258239542e-12,
+              "target_inner_error": -449917.4888519943
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "40": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 6.684246543360334e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0021885001063042682,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.003425840216175722,
+                "candidate_shear_principal": 2.5636110899242295e-19,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.489867660048576,
+                "outer_common_face_flux": 0.5030520788806072,
+                "responsive_height_temporal_storage": 0.0013990782829030623
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5030520788806072,
+              "prefix_balance_closure_defect": 3.250710438306371e-08,
+              "target_inner_error": -379310.4198253751
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 9.287051001355774e-05,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0026571576050508174,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.004109160475082129,
+                "candidate_shear_principal": 8.63129271879633e-20,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4643175183846358,
+                "outer_common_face_flux": 0.5285254876101265,
+                "responsive_height_temporal_storage": 0.00029780541509113827
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5285254876101265,
+              "prefix_balance_closure_defect": 2.806603397159873e-08,
+              "target_inner_error": -449917.4888519943
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "48": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.002194616004744871,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.03605731998806075,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.07293139278272866,
+                "candidate_shear_principal": 8.098558548381696e-18,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.6025357631368153,
+                "outer_common_face_flux": 8.10456530784772e-06,
+                "responsive_height_temporal_storage": 0.2862728035223426
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "mapped_temporal_storage",
+              "dominant_fraction": 0.6025357631368153,
+              "prefix_balance_closure_defect": 3.115241100411892e-08,
+              "target_inner_error": -379310.4198253751
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": -1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0012291366794716287,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.015337857296054502,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.03281462692699472,
+                "candidate_shear_principal": 8.385643099632082e-19,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.8037601363962711,
+                "outer_common_face_flux": 7.239488462265287e-09,
+                "responsive_height_temporal_storage": 0.1468582354617195
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "mapped_temporal_storage",
+              "dominant_fraction": 0.8037601363962711,
+              "prefix_balance_closure_defect": 2.7823299477651745e-08,
+              "target_inner_error": -449917.4888519943
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "8": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.00011824004772857265,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0015239253096030452,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.00427620091109428,
+                "candidate_shear_principal": 7.397272472832819e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.47911852442033054,
+                "outer_common_face_flux": 0.5003298248366312,
+                "responsive_height_temporal_storage": 0.014633284474612325
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5003298248366312,
+              "prefix_balance_closure_defect": 1.0802127422898664e-10,
+              "target_inner_error": -379310.4198253751
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": -1.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 1.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": -1.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.00012867375529448138,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 0.0016013366286356386,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.004710764253294548,
+                "candidate_shear_principal": 1.7452476966494043e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4580915701528666,
+                "outer_common_face_flux": 0.5194045348955629,
+                "responsive_height_temporal_storage": 0.016063120314345702
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5194045348955629,
+              "prefix_balance_closure_defect": 2.8066361029271383e-10,
+              "target_inner_error": -449917.4888519943
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          }
+        },
+        "mass": {
+          "1": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.4298370473082563e-18,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 3.7893932682386234e-22,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.45977309756156104,
+                "outer_common_face_flux": 0.540226902438439,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.540226902438439,
+              "prefix_balance_closure_defect": 7.583902099400427e-13,
+              "target_inner_error": -255429.3198686391
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 3.1053746329763285e-18,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.5873899950753288e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.3692410126928165,
+                "outer_common_face_flux": 0.6307589873071835,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.6307589873071835,
+              "prefix_balance_closure_defect": 2.409679004121483e-14,
+              "target_inner_error": -309193.9044238031
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "12": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 2.2727117568478006e-18,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 3.2168682245714217e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.49573670694940225,
+                "outer_common_face_flux": 0.5042632930505978,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5042632930505978,
+              "prefix_balance_closure_defect": 1.1446444055150258e-09,
+              "target_inner_error": -255429.3198686391
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.3714503641607127e-18,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.598735857518367e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4757568666336063,
+                "outer_common_face_flux": 0.5242431333663937,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5242431333663937,
+              "prefix_balance_closure_defect": 2.8157581098960352e-09,
+              "target_inner_error": -309193.9044238031
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "16": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 4.138225562616079e-18,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 7.163326717103604e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4906429996132445,
+                "outer_common_face_flux": 0.5093570003867556,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5093570003867556,
+              "prefix_balance_closure_defect": 4.0853874444218167e-10,
+              "target_inner_error": -255429.3198686391
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 4.660052256808462e-18,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 3.1738345448360173e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4330879700934177,
+                "outer_common_face_flux": 0.5669120299065823,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5669120299065823,
+              "prefix_balance_closure_defect": 2.772576662142178e-09,
+              "target_inner_error": -309193.9044238031
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "2": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.464021837144061e-18,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.8182060096733343e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4833075571826117,
+                "outer_common_face_flux": 0.5166924428173882,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5166924428173882,
+              "prefix_balance_closure_defect": 4.958705218838741e-12,
+              "target_inner_error": -255429.3198686391
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 4.508166884779846e-18,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 9.341080949993686e-23,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4222602676037996,
+                "outer_common_face_flux": 0.5777397323962004,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5777397323962004,
+              "prefix_balance_closure_defect": 1.1566459219783118e-12,
+              "target_inner_error": -309193.9044238031
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "24": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 4.3127000912510524e-18,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 5.457884119928323e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.5028620772904486,
+                "outer_common_face_flux": 0.49713792270955137,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "mapped_temporal_storage",
+              "dominant_fraction": 0.5028620772904486,
+              "prefix_balance_closure_defect": 7.372312028413013e-09,
+              "target_inner_error": -255429.3198686391
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 6.873323987619144e-19,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 5.841089997816464e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.514329485919792,
+                "outer_common_face_flux": 0.485670514080208,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "mapped_temporal_storage",
+              "dominant_fraction": 0.514329485919792,
+              "prefix_balance_closure_defect": 6.283189809666684e-09,
+              "target_inner_error": -309193.9044238031
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "32": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 2.328010598013458e-18,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.8634603761410318e-20,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.5033554744226255,
+                "outer_common_face_flux": 0.49664452557737454,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "mapped_temporal_storage",
+              "dominant_fraction": 0.5033554744226255,
+              "prefix_balance_closure_defect": 1.5944687120499232e-08,
+              "target_inner_error": -255429.3198686391
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 4.574531603848183e-18,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 2.1329654341796808e-20,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.5183694219527788,
+                "outer_common_face_flux": 0.4816305780472212,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "mapped_temporal_storage",
+              "dominant_fraction": 0.5183694219527788,
+              "prefix_balance_closure_defect": 1.1501976021376655e-08,
+              "target_inner_error": -309193.9044238031
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "4": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": -1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.7994096157874874e-18,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 8.568245851181953e-22,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4916541974258356,
+                "outer_common_face_flux": 0.5083458025741644,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5083458025741644,
+              "prefix_balance_closure_defect": 6.002961594301405e-11,
+              "target_inner_error": -255429.3198686391
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.96511304607281e-18,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 9.111455200765326e-22,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4584382996314215,
+                "outer_common_face_flux": 0.5415617003685784,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5415617003685784,
+              "prefix_balance_closure_defect": 7.807359973353604e-12,
+              "target_inner_error": -309193.9044238031
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "40": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 2.3424780052152492e-18,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.7484162312641866e-19,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.49506925427287996,
+                "outer_common_face_flux": 0.50493074572712,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.50493074572712,
+              "prefix_balance_closure_defect": 2.3083355942897234e-08,
+              "target_inner_error": -255429.3198686391
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 9.044646682556861e-18,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 3.517804359058806e-20,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4701431930261635,
+                "outer_common_face_flux": 0.5298568069738365,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5298568069738365,
+              "prefix_balance_closure_defect": 1.95969552806622e-08,
+              "target_inner_error": -309193.9044238031
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          },
+          "48": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 5.399322909884779e-16,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.865323368063378e-17,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.9999715874402375,
+                "outer_common_face_flux": 2.841255976184425e-05,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "mapped_temporal_storage",
+              "dominant_fraction": 0.9999715874402375,
+              "prefix_balance_closure_defect": 2.613496045357779e-08,
+              "target_inner_error": -255429.3198686391
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 1.0,
+                "outer_common_face_flux": -1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.326690902055134e-16,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 9.215870395768298e-19,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.9999999928926832,
+                "outer_common_face_flux": 7.107316695209215e-09,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "mapped_temporal_storage",
+              "dominant_fraction": 0.9999999928926832,
+              "prefix_balance_closure_defect": 1.8991555057913607e-08,
+              "target_inner_error": -309193.9044238031
+            },
+            "selected_compensator": "mapped_temporal_storage",
+            "stable_compensator": true
+          },
+          "8": {
+            "coarse_middle": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 2.5325073316944882e-19,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 1.1963833658280425e-21,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.4955317120577695,
+                "outer_common_face_flux": 0.5044682879422305,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5044682879422305,
+              "prefix_balance_closure_defect": 5.0695468649069005e-11,
+              "target_inner_error": -255429.3198686391
+            },
+            "middle_fine": {
+              "compensator_alignments": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 1.0,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": -1.0,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": -1.0,
+                "outer_common_face_flux": 1.0,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "compensator_fractions": {
+                "candidate_cooling": 0.0,
+                "candidate_geometry": 0.0,
+                "candidate_height_principal": 6.857199444688484e-19,
+                "candidate_local_stress_relaxation": 0.0,
+                "candidate_lower_height_work": 0.0,
+                "candidate_shear_principal": 4.703799374055547e-22,
+                "candidate_stream": 0.0,
+                "mapped_temporal_storage": 0.47612685777915864,
+                "outer_common_face_flux": 0.5238731422208414,
+                "responsive_height_temporal_storage": 0.0
+              },
+              "dominant_alignment": 1.0,
+              "dominant_compensator": "outer_common_face_flux",
+              "dominant_fraction": 0.5238731422208414,
+              "prefix_balance_closure_defect": 1.1132716999041251e-10,
+              "target_inner_error": -309193.9044238031
+            },
+            "selected_compensator": null,
+            "stable_compensator": false
+          }
+        }
+      },
+      "stable_near_inner_compensators": {}
+    },
+    "inner_flux_primitive_path": {
+      "channels": {
+        "angular_momentum": {
+          "coarse_middle": {
+            "dominant_alignment": 0.9959103546491916,
+            "dominant_field": "log_surface_density",
+            "dominant_fraction": 0.5073716045034212,
+            "field_alignments": {
+              "azimuthal_velocity_over_c": -0.9397225104789219,
+              "log_surface_density": 0.9959103546491916,
+              "log_temperature": 0.9416690771195357,
+              "radial_velocity_over_c": -0.9362560600927486,
+              "specific_stress": 0.5478915849745752
+            },
+            "field_fractions": {
+              "azimuthal_velocity_over_c": 0.19704039910702345,
+              "log_surface_density": 0.5073716045034212,
+              "log_temperature": 0.182457928800935,
+              "radial_velocity_over_c": 0.11304489613510897,
+              "specific_stress": 8.517145351144383e-05
+            },
+            "path_closure_defect": 9.36431640863798e-09,
+            "target_error_norm": 1005946477096255.0
+          },
+          "middle_fine": {
+            "dominant_alignment": 0.9999713952296148,
+            "dominant_field": "log_surface_density",
+            "dominant_fraction": 0.7809050551761316,
+            "field_alignments": {
+              "azimuthal_velocity_over_c": -0.9926253128666456,
+              "log_surface_density": 0.9999713952296148,
+              "log_temperature": 0.9975260091386103,
+              "radial_velocity_over_c": -0.9981490343775308,
+              "specific_stress": 0.9997840825368709
+            },
+            "field_fractions": {
+              "azimuthal_velocity_over_c": 0.08190065180175453,
+              "log_surface_density": 0.7809050551761316,
+              "log_temperature": 0.0935511999958439,
+              "radial_velocity_over_c": 0.043382622441063556,
+              "specific_stress": 0.00026047058520626615
+            },
+            "path_closure_defect": 4.478698221903221e-09,
+            "target_error_norm": 1522282103104712.8
+          },
+          "selected_field": null,
+          "stable_field_localization": false
+        },
+        "killing_energy": {
+          "coarse_middle": {
+            "dominant_alignment": 0.9971144514309503,
+            "dominant_field": "log_surface_density",
+            "dominant_fraction": 0.5163780027150597,
+            "field_alignments": {
+              "azimuthal_velocity_over_c": -0.9447710255176808,
+              "log_surface_density": 0.9971144514309503,
+              "log_temperature": 0.9460447149934677,
+              "radial_velocity_over_c": -0.9410522164043524,
+              "specific_stress": 0.5359400173567068
+            },
+            "field_fractions": {
+              "azimuthal_velocity_over_c": 0.13896830299345184,
+              "log_surface_density": 0.5163780027150597,
+              "log_temperature": 0.18578750014614967,
+              "radial_velocity_over_c": 0.1588109531089551,
+              "specific_stress": 5.524103638364683e-05
+            },
+            "path_closure_defect": 7.790419841846614e-09,
+            "target_error_norm": 529022.0009568592
+          },
+          "middle_fine": {
+            "dominant_alignment": 0.9999889846335513,
+            "dominant_field": "log_surface_density",
+            "dominant_fraction": 0.7878324601356317,
+            "field_alignments": {
+              "azimuthal_velocity_over_c": -0.9931318503929933,
+              "log_surface_density": 0.9999889846335513,
+              "log_temperature": 0.9976934259392959,
+              "radial_velocity_over_c": -0.9983133920189577,
+              "specific_stress": 0.9996168093619366
+            },
+            "field_fractions": {
+              "azimuthal_velocity_over_c": 0.05723052836676312,
+              "log_surface_density": 0.7878324601356317,
+              "log_temperature": 0.09439127728290592,
+              "radial_velocity_over_c": 0.060378120313236236,
+              "specific_stress": 0.00016761390146301382
+            },
+            "path_closure_defect": 3.630855469158576e-09,
+            "target_error_norm": 776793.9835064785
+          },
+          "selected_field": null,
+          "stable_field_localization": false
+        },
+        "mass": {
+          "coarse_middle": {
+            "dominant_alignment": 0.9954359713418903,
+            "dominant_field": "log_surface_density",
+            "dominant_fraction": 0.7866176283489607,
+            "field_alignments": {
+              "azimuthal_velocity_over_c": -0.9381392069510073,
+              "log_surface_density": 0.9954359713418903,
+              "log_temperature": 0.0,
+              "radial_velocity_over_c": -0.934154442740409,
+              "specific_stress": 0.0
+            },
+            "field_fractions": {
+              "azimuthal_velocity_over_c": 0.10180707200348246,
+              "log_surface_density": 0.7866176283489607,
+              "log_temperature": 0.0,
+              "radial_velocity_over_c": 0.11157529964755669,
+              "specific_stress": 0.0
+            },
+            "path_closure_defect": 2.8926594927432223e-09,
+            "target_error_norm": 354139.5698169272
+          },
+          "middle_fine": {
+            "dominant_alignment": 0.9999809419807365,
+            "dominant_field": "log_surface_density",
+            "dominant_fraction": 0.9343489611116388,
+            "field_alignments": {
+              "azimuthal_velocity_over_c": -0.9929638632997568,
+              "log_surface_density": 0.9999809419807365,
+              "log_temperature": 0.0,
+              "radial_velocity_over_c": -0.9982296145877383,
+              "specific_stress": 0.0
+            },
+            "field_fractions": {
+              "azimuthal_velocity_over_c": 0.03263294209660787,
+              "log_surface_density": 0.9343489611116388,
+              "log_temperature": 0.0,
+              "radial_velocity_over_c": 0.03301809679175321,
+              "specific_stress": 0.0
+            },
+            "path_closure_defect": 2.0658297706598843e-09,
+            "target_error_norm": 533285.7012133788
+          },
+          "selected_field": null,
+          "stable_field_localization": false
+        }
+      },
+      "maximum_path_closure_defect": 9.36431640863798e-09,
+      "path_contract_passed": false,
+      "stable_field_localizations": {}
+    },
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_stationary_ledger_defect": 2.0666315179825593e-12,
+    "selected_common_time_indices": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "selected_common_times_seconds": [
+      0.0028,
+      0.0031999999999999997,
+      0.0036,
+      0.004,
+      0.004399999999999999,
+      0.0048,
+      0.005
+    ]
+  },
+  "authorized_next": "WP10c9d6c7c3b5c3h2i_conservative_extraction_surface_manifest",
+  "classification": "five_ms_inner_export_recovers_on_common_surface_extraction_surface_manifest_authorized",
+  "five_ms_spatial_convergence_certified": false,
+  "fixed_q_micro_solver_authorized": false,
+  "fourth_duration_rung_manifest_authorized": false,
+  "operator_changed": false,
+  "parent_manifest_classification": "inner_face_half_cell_audit_manifest_frozen_operator_neutral_control_volume_diagnostics_authorized",
+  "passed": true,
+  "production_defaults_changed": false,
+  "propagation_executed": false,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c3h2h1"
+}
