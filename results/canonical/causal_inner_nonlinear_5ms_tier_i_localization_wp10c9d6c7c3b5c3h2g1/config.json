@@ -1,0 +1,60 @@
+{
+  "analyzed_base_commit": "242966f54dada9fa0bbde67dd5d56cc4b9d7b488",
+  "failed_components": [
+    "inner_flux_mass",
+    "inner_flux_angular_momentum",
+    "net_drive_mass",
+    "net_drive_angular_momentum"
+  ],
+  "layouts": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "localization_gates": {
+    "maximum_common_state_error_fraction": 0.25,
+    "maximum_decomposition_closure_defect": 1e-12,
+    "maximum_nonlinear_remainder_pair_fraction": 0.25,
+    "maximum_temporal_uncertainty_fraction": 0.1,
+    "minimum_layout_map_alignment": 0.95,
+    "minimum_tangent_actual_pair_error_cosine": 0.95,
+    "minimum_term_error_alignment": 0.9,
+    "minimum_term_error_dominance_fraction": 0.7,
+    "minimum_time_window_error_energy_fraction": 0.7
+  },
+  "manifest_sha256": "deb982c138d84f2c85c8c90db2f6b2c020df74fff75634d23c2ec16280698ad8",
+  "observable_names": [
+    "inner_flux_mass",
+    "inner_flux_angular_momentum",
+    "inner_flux_killing_energy",
+    "interface_flux_mass",
+    "interface_flux_angular_momentum",
+    "interface_flux_killing_energy",
+    "net_drive_mass",
+    "net_drive_angular_momentum",
+    "net_drive_killing_energy",
+    "cooling_angular_momentum",
+    "cooling_killing_energy",
+    "vertical_work_angular_momentum",
+    "vertical_work_killing_energy"
+  ],
+  "schema_version": 1,
+  "time_windows": {
+    "early": [
+      0,
+      1,
+      2
+    ],
+    "late": [
+      6,
+      7,
+      8
+    ],
+    "middle": [
+      3,
+      4,
+      5
+    ]
+  },
+  "work_package": "WP10c9d6c7c3b5c3h2g1"
+}
