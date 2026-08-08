@@ -1,0 +1,137 @@
+{
+  "analysis": {
+    "cumulative_exterior_partition": {
+      "binding_channel_passed": false,
+      "coarse_medium_rms_difference": 1.361068194363824e-08,
+      "component_orders": {
+        "exterior_cooling_angular_momentum": 1.9681688481993835,
+        "exterior_cooling_killing_energy": 1.896291743174702,
+        "exterior_net_drive_angular_momentum": 0.5670896836676472,
+        "exterior_net_drive_killing_energy": 0.5081953308982962,
+        "exterior_net_drive_mass": 0.44370792419008614,
+        "exterior_vertical_work_angular_momentum": 2.012877349835487,
+        "exterior_vertical_work_killing_energy": 2.0363981912692894,
+        "extraction_flux_angular_momentum": 0.4113442498271664,
+        "extraction_flux_killing_energy": 0.4448518881017161,
+        "extraction_flux_mass": 0.44370689390425117
+      },
+      "failed_component_orders": [
+        "extraction_flux_mass",
+        "extraction_flux_angular_momentum",
+        "extraction_flux_killing_energy",
+        "exterior_net_drive_mass",
+        "exterior_net_drive_angular_momentum",
+        "exterior_net_drive_killing_energy"
+      ],
+      "history_cosine": 0.9999778487789597,
+      "maximum_fine_normalized_difference": 2.7726031148129915e-08,
+      "medium_fine_rms_difference": 9.855764382897693e-09,
+      "minimum_significant_component_order": 0.4113442498271664,
+      "observed_maximum_order": 0.6588775534933352,
+      "observed_rms_order": 0.4656996810833201,
+      "raw_spatial_contract_passed": false,
+      "refinement_error_cosine": 0.9862270239017015,
+      "significant_components": [
+        "extraction_flux_mass",
+        "extraction_flux_angular_momentum",
+        "extraction_flux_killing_energy",
+        "exterior_net_drive_mass",
+        "exterior_net_drive_angular_momentum",
+        "exterior_net_drive_killing_energy",
+        "exterior_cooling_angular_momentum",
+        "exterior_cooling_killing_energy",
+        "exterior_vertical_work_angular_momentum",
+        "exterior_vertical_work_killing_energy"
+      ],
+      "temporal_classification": {
+        "conservative_fine_difference_upper_bound": 2.931712561460869e-08,
+        "observability_threshold": 7.955472332393864e-09,
+        "passed": false,
+        "route": "observable_spatial_order_contract",
+        "spatial_difference_observable": true,
+        "spatial_orders_and_error_direction_certifying": true,
+        "temporal_uncertainty_envelope": 1.5910944664787728e-09,
+        "temporal_uncertainty_to_medium_fine_difference_ratio": 0.05738630451571465
+      }
+    },
+    "extraction_partition_spatial_certificate_passed": false,
+    "extraction_radius_rg": 1.8750165318355323,
+    "instantaneous_exterior_partition": {
+      "binding_channel_passed": true,
+      "coarse_medium_rms_difference": 5.3471579845490565e-08,
+      "component_orders": {
+        "exterior_cooling_angular_momentum": 1.9647178520116406,
+        "exterior_cooling_killing_energy": 1.8839602505822104,
+        "exterior_net_drive_angular_momentum": 0.9168264141162772,
+        "exterior_net_drive_killing_energy": 0.897811725489134,
+        "exterior_net_drive_mass": 0.8638795836474275,
+        "exterior_vertical_work_angular_momentum": 2.014304661170532,
+        "exterior_vertical_work_killing_energy": 2.040377019742979,
+        "extraction_flux_angular_momentum": 0.8414591065870831,
+        "extraction_flux_killing_energy": 0.8648549363383149,
+        "extraction_flux_mass": 0.8638757693275563
+      },
+      "failed_component_orders": [],
+      "history_cosine": 0.9999750462271442,
+      "maximum_fine_normalized_difference": 6.126505835922549e-08,
+      "medium_fine_rms_difference": 2.9157768676359618e-08,
+      "minimum_significant_component_order": 0.8414591065870831,
+      "observed_maximum_order": 1.225921041866698,
+      "observed_rms_order": 0.8748919821430076,
+      "raw_spatial_contract_passed": true,
+      "refinement_error_cosine": 0.9432813253047683,
+      "significant_components": [
+        "extraction_flux_mass",
+        "extraction_flux_angular_momentum",
+        "extraction_flux_killing_energy",
+        "exterior_net_drive_mass",
+        "exterior_net_drive_angular_momentum",
+        "exterior_net_drive_killing_energy",
+        "exterior_cooling_angular_momentum",
+        "exterior_cooling_killing_energy",
+        "exterior_vertical_work_angular_momentum",
+        "exterior_vertical_work_killing_energy"
+      ],
+      "temporal_classification": {
+        "conservative_fine_difference_upper_bound": 6.285615282570426e-08,
+        "observability_threshold": 7.955472332393864e-09,
+        "passed": true,
+        "route": "observable_spatial_order_contract",
+        "spatial_difference_observable": true,
+        "spatial_orders_and_error_direction_certifying": true,
+        "temporal_uncertainty_envelope": 1.5910944664787728e-09,
+        "temporal_uncertainty_to_medium_fine_difference_ratio": 0.02597066760549622
+      }
+    },
+    "layout_extraction_face_indices": {
+      "N128_exterior_N128_inner_c48": 1,
+      "N128_exterior_N256_inner_c48": 2,
+      "N128_exterior_N512_inner_c48": 4
+    },
+    "ledger_audits": {
+      "maximum_exterior_prefix_direct_identity_defect": 3.5489722965385613e-16,
+      "maximum_incoming_excision_characteristics": 0,
+      "maximum_local_block_ledger_defect": 0.0,
+      "maximum_shared_conservative_face_defect": 9.685307003588645e-16,
+      "maximum_source_double_count_defect": 0.0,
+      "maximum_split_closure_defect": 9.123573916930836e-12,
+      "passed": true
+    },
+    "pointwise_horizon_flux_convergence_claimed": false,
+    "raw_inner_face_rejection_preserved": true,
+    "state_channel_inherited_from_h2f_passed": true
+  },
+  "authorized_next": "WP10c9d6c7c3b5c3h2j_cumulative_extraction_recovery_manifest",
+  "classification": "five_ms_extraction_partition_spatial_certificate_rejected_later_duration_blocked",
+  "fixed_q_micro_solver_authorized": false,
+  "fourth_duration_rung_manifest_authorized": false,
+  "middle_fine_5ms_extraction_partition_spatial_certificate_issued": true,
+  "passed": false,
+  "physical_failure_detected": false,
+  "pointwise_horizon_flux_convergence_certified": false,
+  "raw_inner_face_spatial_convergence_certified": false,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "third_duration_rung_extraction_partition_spatial_convergence_certified": false,
+  "work_package": "WP10c9d6c7c3b5c3h2i1"
+}

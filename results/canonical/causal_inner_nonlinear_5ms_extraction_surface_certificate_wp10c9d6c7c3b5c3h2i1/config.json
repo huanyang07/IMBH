@@ -1,0 +1,45 @@
+{
+  "analyzed_base_commit": "37a4fec66c6da5182202d467261cbcfa64093c11",
+  "extraction_layout_face_indices": [
+    1,
+    2,
+    4
+  ],
+  "extraction_radius_rg": 1.8750165318355323,
+  "layouts": [
+    "N128_exterior_N128_inner_c48",
+    "N128_exterior_N256_inner_c48",
+    "N128_exterior_N512_inner_c48"
+  ],
+  "observable_names": [
+    "extraction_flux_mass",
+    "extraction_flux_angular_momentum",
+    "extraction_flux_killing_energy",
+    "coupling_flux_mass",
+    "coupling_flux_angular_momentum",
+    "coupling_flux_killing_energy",
+    "exterior_net_drive_mass",
+    "exterior_net_drive_angular_momentum",
+    "exterior_net_drive_killing_energy",
+    "exterior_cooling_angular_momentum",
+    "exterior_cooling_killing_energy",
+    "exterior_vertical_work_angular_momentum",
+    "exterior_vertical_work_killing_energy"
+  ],
+  "schema_version": 1,
+  "spatial_gates": {
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_relative_activity": 1e-08,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75
+  },
+  "temporal_gates": {
+    "maximum_temporal_to_observable_spatial_ratio": 0.1,
+    "observability_factor": 5.0,
+    "unobservable_route": "report_upper_bound_only_without_order_or_direction_claim"
+  },
+  "work_package": "WP10c9d6c7c3b5c3h2i1"
+}
