@@ -1,0 +1,122 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4b1_ten_ms_screen",
+  "classification": "ten_ms_cost_pilot_certified_full_ten_ms_screen_authorized",
+  "config_sha256": "3bb192db7a7a1d47c3267e447ff048df3c0a4b8e0bf4aecff60dc789cf53ee2c",
+  "decisive_array_hashes": {
+    "base__accepted_step_wall_seconds": "ec92586e27e51ca51facdf5f89505e99355298589a9257bdc889cdc7bcae013c",
+    "base__accepted_timesteps": "05cb98dbb3ed640369a55a38dfdf488aea088c4744936dbb32a701ce628e2923",
+    "base__extraction_partition_audits": "9a34ceb233e1d6c1e58acfd55fdc59763dfcaa24639930ac5d706e3f4f499ef1",
+    "base__output_extraction_partition": "5ad7c1356f6268c3975bfaefe30be2bcd0f81b9977f5789e369597a6ec9206d9",
+    "base__output_raw_Tier_I": "175d675a89738ed8ff36ad3e6d94ac1bc8a31f5318e81f238d469ad6b5630da5",
+    "base__output_states": "ad30a3bf02ae66c3232027bb4bcb9bb7e6753a97818bcb3930cd12cd086d4ab2",
+    "export_scales": "fd7dcc9ca75f3e9c7b1333846986e9aaeb19c45442f0dd8c7f6c6901f8430a99",
+    "field_scales": "ee02d751758ffa54e25e4b298f1f0778ea7ea7586c78325e3ee106034321fac6",
+    "perturbed__accepted_step_wall_seconds": "ad54a2931cd77ce81672c60c4c6c9bb3e34e8ecc537aeae128d57ef1d30f4f59",
+    "perturbed__accepted_timesteps": "05cb98dbb3ed640369a55a38dfdf488aea088c4744936dbb32a701ce628e2923",
+    "perturbed__extraction_partition_audits": "8d1cbc2eb4339498a90233f3d58851987b823e8b1e69b21ab8f9353190ef23c6",
+    "perturbed__output_extraction_partition": "7b140cf91904a76c8c4775512a3908cd17a59ae0ebaf50f47f96f918a48c2b61",
+    "perturbed__output_raw_Tier_I": "28cc918bad453e301c068843091cc3c4b86b8f3912d262cb0390a97aa94c6893",
+    "perturbed__output_states": "97b135ff0c36ba58ef5f32e9f2df7a589c7070f8c96daef2f519351902fcc336",
+    "pilot_times_seconds": "c9408c4929c6e07191b7b177231dd1bcbb00812de4c16a651480b80aa856e824"
+  },
+  "decisive_arrays_sha256": "1395a302c958ad446cf9dec53afea6624bc1bb84a186bd4c7f10aa01573d44cf",
+  "elapsed_seconds": 1096.2119309159461,
+  "fixed_q_micro_solver_authorized": false,
+  "parent_classification_preserved": "fourth_duration_rung_manifest_frozen_cost_controlled_ten_ms_screen_pilot_authorized",
+  "passed": true,
+  "physical_failure_detected": false,
+  "pointwise_horizon_flux_convergence_claimed": false,
+  "raw_inner_face_rejection_preserved": true,
+  "reduced_slow_evolution_authorized": false,
+  "response": {
+    "maximum_absolute_extraction_partition_response": 8.304673692686746e+17,
+    "maximum_absolute_state_response": 0.007843337505981651
+  },
+  "runtime_projection": {
+    "full_screen_resource_authorized": true,
+    "projected_wall_hours": 18.158278992520742,
+    "projected_wall_seconds": 65369.80437307467,
+    "raw_projected_wall_seconds": 43579.86958204978,
+    "resource_branch": "continue_automatically",
+    "resource_projection_is_not_a_physical_gate": true,
+    "safety_factor": 1.5,
+    "screen_comparisons_per_trajectory": 22
+  },
+  "schema_version": 1,
+  "setup_seconds": 99.43003462511115,
+  "ten_ms_screen_propagation_authorized": true,
+  "trajectory_reports": {
+    "base": {
+      "elapsed_seconds": 989.6855374171864,
+      "extraction_partition_audit": {
+        "maximum_exterior_prefix_identity_defect": 1.7762432920725193e-16,
+        "maximum_incoming_excision_characteristics": 0,
+        "maximum_local_block_ledger_defect": 0.0,
+        "maximum_shared_conservative_face_defect": 7.748245602870918e-16,
+        "maximum_source_double_count_defect": 0.0,
+        "maximum_split_closure_defect": 6.320600472679443e-12,
+        "passed": true,
+        "transport_sign_convention_diagnostic": 2.0
+      },
+      "method": {
+        "accepted_comparisons": 1,
+        "maximum_discrete_ledger_defect": 0.0,
+        "maximum_export_ledger_defect": 3.312039883459883e-11,
+        "maximum_incoming_excision_characteristics": 0,
+        "maximum_local_error_estimate": 5.6564401771893424e-08,
+        "maximum_mapped_endpoint_path_closure_defect": 1.4536832982028978e-12,
+        "maximum_scaled_residual": 1.9015548994836072e-11,
+        "method_passed": true,
+        "minimum_path_reconstruction_factor": 1.0,
+        "rejected_attempts": 0,
+        "sum_local_error_estimates": 5.6564401771893424e-08
+      },
+      "passed": true,
+      "readiness": {
+        "maximum_h_over_r": 0.09848122596893283,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.016690684291888
+      },
+      "reused_numerical_attempt_after_audit_contract_correction": true,
+      "seconds_per_accepted_comparison": 989.6855374171864,
+      "trajectory": "base"
+    },
+    "perturbed": {
+      "elapsed_seconds": 986.698078374844,
+      "extraction_partition_audit": {
+        "maximum_exterior_prefix_identity_defect": 1.7765967947438035e-16,
+        "maximum_incoming_excision_characteristics": 0,
+        "maximum_local_block_ledger_defect": 0.0,
+        "maximum_shared_conservative_face_defect": 7.748245602870924e-16,
+        "maximum_source_double_count_defect": 0.0,
+        "maximum_split_closure_defect": 9.10388843236847e-13,
+        "passed": true,
+        "transport_sign_convention_diagnostic": 2.0
+      },
+      "method": {
+        "accepted_comparisons": 1,
+        "maximum_discrete_ledger_defect": 0.0,
+        "maximum_export_ledger_defect": 9.10388843236847e-13,
+        "maximum_incoming_excision_characteristics": 0,
+        "maximum_local_error_estimate": 5.7069847156819887e-08,
+        "maximum_mapped_endpoint_path_closure_defect": 6.912405785796625e-13,
+        "maximum_scaled_residual": 1.3335501803931394e-11,
+        "method_passed": true,
+        "minimum_path_reconstruction_factor": 1.0,
+        "rejected_attempts": 0,
+        "sum_local_error_estimates": 5.7069847156819887e-08
+      },
+      "passed": true,
+      "readiness": {
+        "maximum_h_over_r": 0.09842543170005014,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.105812316620767
+      },
+      "seconds_per_accepted_comparison": 986.698078374844,
+      "trajectory": "perturbed"
+    }
+  },
+  "twenty_ms_completion_manifest_authorized": false,
+  "twenty_ms_propagation_authorized": false,
+  "work_package": "WP10c9d6c7c3b5c4b"
+}
