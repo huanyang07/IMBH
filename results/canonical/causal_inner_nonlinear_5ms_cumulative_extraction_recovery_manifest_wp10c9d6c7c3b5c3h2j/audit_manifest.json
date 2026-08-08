@@ -1,0 +1,83 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c3h2j1_cumulative_extraction_recovery_audit",
+  "binding_window_seconds": [
+    0.002,
+    0.005
+  ],
+  "candidate_coarse_face_indices": [
+    1,
+    2,
+    4,
+    8,
+    12,
+    16,
+    24,
+    32,
+    40
+  ],
+  "classification": "cumulative_extraction_recovery_manifest_frozen_nested_common_surface_audit_authorized",
+  "decision_tree": [
+    "two_consecutive_surfaces_pass__certify_innermost_selected_extraction_partition_and_authorize_fourth_duration_manifest",
+    "instantaneous_passes_but_no_cumulative_recovery__localize_early_time_storage_and_source_buffer",
+    "instantaneous_recovery_lost__reject_extraction_partition_route"
+  ],
+  "definitions_only": true,
+  "hard_stops": [
+    "do_not_propagate_new_state",
+    "do_not_change_operator_or_production_defaults",
+    "do_not_select_a_surface_after_seeing_results_except_by_frozen_innermost_rule",
+    "do_not_shorten_the_binding_two_to_five_ms_window",
+    "do_not_relabel_extraction_flux_as_pointwise_horizon_flux",
+    "do_not_start_fourth_duration_fixed_Q_or_reduction_before_a_pass"
+  ],
+  "layout_face_multipliers": [
+    1,
+    2,
+    4
+  ],
+  "minimum_consecutive_passing_surfaces": 2,
+  "no_shortened_window_may_certify": true,
+  "observable_names": [
+    "extraction_flux_mass",
+    "extraction_flux_angular_momentum",
+    "extraction_flux_killing_energy",
+    "coupling_flux_mass",
+    "coupling_flux_angular_momentum",
+    "coupling_flux_killing_energy",
+    "exterior_net_drive_mass",
+    "exterior_net_drive_angular_momentum",
+    "exterior_net_drive_killing_energy",
+    "exterior_cooling_angular_momentum",
+    "exterior_cooling_killing_energy",
+    "exterior_vertical_work_angular_momentum",
+    "exterior_vertical_work_killing_energy"
+  ],
+  "operator_changed": false,
+  "parent_fixed_surface_rejection_preserved": true,
+  "production_defaults_changed": false,
+  "propagation_executed": false,
+  "required_audits": {
+    "all_exact_common_target_bits_required": true,
+    "incoming_excision_characteristics": 0,
+    "maximum_exterior_prefix_direct_identity_defect": 1e-12,
+    "maximum_shared_conservative_face_defect": 1e-12,
+    "same_physical_surface_across_layouts": true
+  },
+  "schema_version": 1,
+  "selection_rule": "select_the_innermost_surface_only_when_it_and_the_next_declared_surface_pass_both_full_window_instantaneous_and_cumulative_thirteen_export_contracts",
+  "spatial_gates": {
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_relative_activity": 1e-08,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75
+  },
+  "temporal_gates": {
+    "maximum_temporal_to_observable_spatial_ratio": 0.1,
+    "observability_factor": 5.0,
+    "unobservable_route": "report_upper_bound_only_without_order_or_direction_claim"
+  },
+  "work_package": "WP10c9d6c7c3b5c3h2j"
+}
