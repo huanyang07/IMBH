@@ -1,0 +1,113 @@
+{
+  "anchor": {
+    "cumulative_Tier_I": {
+      "discrepancy_fraction_of_observable_response": 0.002055654594492294,
+      "history_cosine": 0.9999999489561348,
+      "maximum_scaled_actual_response": 2.073700519251676e-08,
+      "maximum_scaled_discrepancy": 4.262812000000764e-11,
+      "maximum_scaled_predicted_response": 2.069437707251675e-08,
+      "rms_scaled_discrepancy": 5.64859335173336e-12
+    },
+    "final_state_audit": {
+      "maximum_h_over_r": 0.09849263688567855,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.09820478915003
+    },
+    "instantaneous_Tier_I": {
+      "discrepancy_fraction_of_observable_response": 0.002054613356238361,
+      "history_cosine": 0.9999999456038522,
+      "maximum_scaled_actual_response": 4.211327702259654e-06,
+      "maximum_scaled_discrepancy": 8.652650144559294e-09,
+      "maximum_scaled_predicted_response": 4.202675052115095e-06,
+      "rms_scaled_discrepancy": 2.580634354235025e-09
+    },
+    "maximum_discrete_ledger_defect": 0.0,
+    "maximum_export_incoming_characteristics": 0,
+    "maximum_export_ledger_defect": 9.123573916930836e-12,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_mapped_endpoint_path_closure_defect": 7.825355109691959e-11,
+    "maximum_sampled_export_error_estimate": 4.764540928933737e-10,
+    "maximum_sampled_state_error_estimate": 2.3946869335778674e-08,
+    "maximum_scaled_residual": 9.006076534836848e-11,
+    "median_routine_step_wall_seconds": 520.663941145991,
+    "median_sampled_step_wall_seconds": 2035.0912771460135,
+    "minimum_path_reconstruction_factor": 1.0,
+    "passed": true,
+    "sampled_step_indices": [
+      0,
+      5,
+      17,
+      25
+    ],
+    "state": {
+      "discrepancy_fraction_of_observable_response": 8.623679904948638e-07,
+      "history_cosine": 0.9999999999999416,
+      "maximum_scaled_actual_response": 0.007853287158643418,
+      "maximum_scaled_discrepancy": 6.772423465778443e-09,
+      "maximum_scaled_predicted_response": 0.007853287172629638,
+      "rms_scaled_discrepancy": 8.231461431024688e-10
+    }
+  },
+  "authorized_next": "WP10c9d6c7c3b5c3h2f_5ms_spatial_certificate",
+  "base": {
+    "accepted_steps": 26,
+    "maximum_discrete_ledger_defect": 0.0,
+    "maximum_export_ledger_defect": 9.123573916930836e-12,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_local_error_estimate": 8.650955334161572e-08,
+    "maximum_mapped_endpoint_path_closure_defect": 6.971966740712385e-11,
+    "maximum_scaled_residual": 9.166051356701051e-11,
+    "maximum_timestep_seconds": 0.0004,
+    "median_accepted_step_wall_seconds": 2143.090939146001,
+    "minimum_path_reconstruction_factor": 1.0,
+    "minimum_timestep_seconds": 4.999999999999959e-06,
+    "next_candidate_timestep_seconds": 0.0004,
+    "passed": true,
+    "passed_so_far": true,
+    "rejected_attempts": 0,
+    "sum_local_error_estimates": 7.575443302380989e-07,
+    "wall_seconds": 59892.261438540416
+  },
+  "classification": "fine_5ms_completion_passed_final_spatial_certificate_analysis_authorized",
+  "final_spatial_certificate_analysis_authorized": true,
+  "fixed_q_micro_solver_authorized": false,
+  "full_fine_generic_anchor_executed": true,
+  "middle_fine_5ms_spatial_certificate_issued": false,
+  "passed": true,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "serialized_replays": {
+    "anchor": {
+      "checkpoint_roundtrip_bitwise": true,
+      "last_step_replay_bitwise": true,
+      "maximum_scaled_residual": 6.40767802698925e-11,
+      "wall_seconds": 524.3097656250466
+    },
+    "base": {
+      "checkpoint_roundtrip_bitwise": true,
+      "last_step_replay_bitwise": true,
+      "maximum_scaled_residual": 4.66989980651631e-12,
+      "wall_seconds": 1050.9844420421869
+    }
+  },
+  "setup_wall_seconds": 321.24922929215245,
+  "tangent": {
+    "accepted_steps": 26,
+    "audit_step_indices": [
+      0,
+      5,
+      17,
+      25
+    ],
+    "maximum_export_active_prefix_ledger_defect": 4.587989794274548e-16,
+    "maximum_export_transport_telescoping_defect": 4.2351574624541386e-16,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_linear_solve_relative_defect": 3.215874977521694e-16,
+    "maximum_matrix_component_closure_defect": 6.432573053498152e-17,
+    "maximum_step_matrix_jvp_relative_defect": 3.9595302781634245e-11,
+    "median_matrix_assembly_wall_seconds": 195.02177895850036,
+    "median_routine_block_step_wall_seconds": 0.049246104434132576,
+    "passed": true
+  },
+  "work_package": "WP10c9d6c7c3b5c3h2e1"
+}
