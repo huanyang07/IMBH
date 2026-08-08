@@ -1,0 +1,61 @@
+{
+  "analyzed_base_commit": "ef491daea69fa0f92075b5de768e7b84b9de839d",
+  "candidate_coarse_face_indices": [
+    1,
+    2,
+    4,
+    8,
+    12,
+    16,
+    24,
+    32,
+    40
+  ],
+  "candidate_radii_rg": [
+    1.8750165318355323,
+    1.9531594414758637,
+    2.119351002125714,
+    2.495360372339588,
+    2.9380802809903948,
+    3.459346326579322,
+    4.795730965302525,
+    6.648376115120987,
+    9.21671905448998
+  ],
+  "layout_face_multipliers": [
+    1,
+    2,
+    4
+  ],
+  "observable_names": [
+    "extraction_flux_mass",
+    "extraction_flux_angular_momentum",
+    "extraction_flux_killing_energy",
+    "coupling_flux_mass",
+    "coupling_flux_angular_momentum",
+    "coupling_flux_killing_energy",
+    "exterior_net_drive_mass",
+    "exterior_net_drive_angular_momentum",
+    "exterior_net_drive_killing_energy",
+    "exterior_cooling_angular_momentum",
+    "exterior_cooling_killing_energy",
+    "exterior_vertical_work_angular_momentum",
+    "exterior_vertical_work_killing_energy"
+  ],
+  "schema_version": 1,
+  "spatial_gates": {
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_relative_activity": 1e-08,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75
+  },
+  "temporal_gates": {
+    "maximum_temporal_to_observable_spatial_ratio": 0.1,
+    "observability_factor": 5.0,
+    "unobservable_route": "report_upper_bound_only_without_order_or_direction_claim"
+  },
+  "work_package": "WP10c9d6c7c3b5c3h2j1"
+}
