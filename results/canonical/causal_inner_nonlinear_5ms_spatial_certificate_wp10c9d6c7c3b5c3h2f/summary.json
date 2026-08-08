@@ -1,0 +1,140 @@
+{
+  "analysis": {
+    "binding_generic_profile_passed": false,
+    "breadth_tangent_classification_executed": false,
+    "breadth_tangent_stop_reason": "binding_full_nonlinear_generic_instantaneous_Tier_I_gate_failed",
+    "common_history_window_seconds": [
+      0.002,
+      0.005
+    ],
+    "cumulative_Tier_I": {
+      "binding_channel_passed": true,
+      "coarse_medium_rms_difference": 9.54171967069682e-10,
+      "component_orders": {
+        "cooling_angular_momentum": 1.9694766977827498,
+        "inner_flux_angular_momentum": -0.9763306006764216,
+        "inner_flux_mass": -1.0101363688288363,
+        "net_drive_angular_momentum": 0.37312873964807286,
+        "net_drive_killing_energy": 1.9649310673569598,
+        "net_drive_mass": -1.0101275795300613,
+        "vertical_work_angular_momentum": 2.018816927196236
+      },
+      "failed_component_orders": [
+        "inner_flux_mass",
+        "inner_flux_angular_momentum",
+        "net_drive_mass",
+        "net_drive_angular_momentum"
+      ],
+      "history_cosine": 0.9999970028393781,
+      "maximum_fine_normalized_difference": 5.736850906528163e-09,
+      "medium_fine_rms_difference": 1.5713597091487335e-09,
+      "minimum_significant_component_order": -1.0101363688288363,
+      "observed_maximum_order": -0.9297148008147835,
+      "observed_rms_order": -0.7196922675566954,
+      "raw_spatial_contract_passed": false,
+      "refinement_error_cosine": 0.8687858243704497,
+      "significant_components": [
+        "inner_flux_mass",
+        "inner_flux_angular_momentum",
+        "net_drive_mass",
+        "net_drive_angular_momentum",
+        "net_drive_killing_energy",
+        "cooling_angular_momentum",
+        "vertical_work_angular_momentum"
+      ],
+      "temporal_classification": {
+        "conservative_fine_difference_upper_bound": 7.327945373006936e-09,
+        "observability_threshold": 7.955472332393864e-09,
+        "passed": true,
+        "route": "unobservable_upper_bound_without_order_or_direction_claim",
+        "spatial_difference_observable": false,
+        "spatial_orders_and_error_direction_certifying": false,
+        "temporal_uncertainty_envelope": 1.5910944664787728e-09,
+        "temporal_uncertainty_to_medium_fine_difference_ratio": 0.2773463163681334
+      }
+    },
+    "generic_profile": "p3_buffer45__generic_five_field",
+    "instantaneous_Tier_I": {
+      "binding_channel_passed": false,
+      "coarse_medium_rms_difference": 5.296015699422762e-09,
+      "component_orders": {
+        "cooling_angular_momentum": 1.966470296338584,
+        "inner_flux_angular_momentum": -0.5220270228885925,
+        "inner_flux_mass": -0.5188502733657329,
+        "net_drive_angular_momentum": 0.16544417086363433,
+        "net_drive_killing_energy": 1.952707805324791,
+        "net_drive_mass": -0.5188196920763197,
+        "vertical_work_angular_momentum": 2.0203952178200826
+      },
+      "failed_component_orders": [
+        "inner_flux_mass",
+        "inner_flux_angular_momentum",
+        "net_drive_mass",
+        "net_drive_angular_momentum"
+      ],
+      "history_cosine": 0.9999910424135418,
+      "maximum_fine_normalized_difference": 2.3120847196477564e-08,
+      "medium_fine_rms_difference": 7.2667553016057664e-09,
+      "minimum_significant_component_order": -0.5220270228885925,
+      "observed_maximum_order": -0.2754792150808077,
+      "observed_rms_order": -0.45640392743549585,
+      "raw_spatial_contract_passed": false,
+      "refinement_error_cosine": 0.8654872763360253,
+      "significant_components": [
+        "inner_flux_mass",
+        "inner_flux_angular_momentum",
+        "net_drive_mass",
+        "net_drive_angular_momentum",
+        "net_drive_killing_energy",
+        "cooling_angular_momentum",
+        "vertical_work_angular_momentum"
+      ],
+      "temporal_classification": {
+        "conservative_fine_difference_upper_bound": 2.4711941662956337e-08,
+        "observability_threshold": 7.955472332393864e-09,
+        "passed": false,
+        "route": "observable_spatial_order_contract",
+        "spatial_difference_observable": true,
+        "spatial_orders_and_error_direction_certifying": true,
+        "temporal_uncertainty_envelope": 1.5910944664787728e-09,
+        "temporal_uncertainty_to_medium_fine_difference_ratio": 0.06881644314145956
+      }
+    },
+    "numerical_spatial_export_failure_detected": true,
+    "physical_admissibility_failure_detected": false,
+    "state": {
+      "binding_channel_passed": true,
+      "coarse_medium_history_norm": 1.8597725468972143e-07,
+      "history_cosine": 0.9999999997706404,
+      "maximum_fine_normalized_difference": 2.80508985366296e-07,
+      "medium_fine_history_norm": 4.669825601369468e-08,
+      "minimum_significant_component_order": 1.9833035044948333,
+      "observed_maximum_order": 2.011879225983821,
+      "observed_rms_order": 1.9936856108796364,
+      "raw_spatial_contract_passed": true,
+      "refinement_error_cosine": 0.993303201191234,
+      "temporal_classification": {
+        "conservative_fine_difference_upper_bound": 3.906600686975196e-07,
+        "observability_threshold": 5.507554166561178e-07,
+        "passed": true,
+        "route": "unobservable_upper_bound_without_order_or_direction_claim",
+        "spatial_difference_observable": false,
+        "spatial_orders_and_error_direction_certifying": false,
+        "temporal_uncertainty_envelope": 1.1015108333122355e-07,
+        "temporal_uncertainty_to_medium_fine_difference_ratio": 0.3926829052815737
+      }
+    }
+  },
+  "authorized_next": "WP10c9d6c7c3b5c3h2g_Tier_I_spatial_failure_localization_manifest",
+  "classification": "five_ms_spatial_certificate_rejected_Tier_I_exports_nonconvergent_later_duration_blocked",
+  "fixed_q_micro_solver_authorized": false,
+  "fourth_duration_rung_manifest_authorized": false,
+  "middle_fine_5ms_spatial_certificate_issued": true,
+  "numerical_spatial_export_failure_detected": true,
+  "passed": false,
+  "physical_failure_detected": false,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "third_duration_rung_spatial_convergence_certified": false,
+  "work_package": "WP10c9d6c7c3b5c3h2f"
+}
