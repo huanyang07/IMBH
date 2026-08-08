@@ -1,0 +1,40 @@
+{
+  "analyzed_base_commit": "f5d743acf516a9f491c978efd5599b8f763d6500",
+  "audit_gates": {
+    "maximum_fine_normalized_difference": 0.05,
+    "maximum_identity_closure_defect": 1e-10,
+    "maximum_inner_flux_field_path_closure_defect": 1e-09,
+    "maximum_temporal_uncertainty_fraction": 0.1,
+    "minimum_consecutive_recovery_faces": 2,
+    "minimum_error_alignment": 0.9,
+    "minimum_error_dominance_fraction": 0.7,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_spatial_order": 0.75
+  },
+  "common_prefix_coarse_face_indices": [
+    1,
+    2,
+    4,
+    8,
+    12,
+    16,
+    24,
+    32,
+    40,
+    48
+  ],
+  "conservative_channels": [
+    "mass",
+    "angular_momentum",
+    "killing_energy"
+  ],
+  "primitive_names": [
+    "log_surface_density",
+    "radial_velocity_over_c",
+    "azimuthal_velocity_over_c",
+    "log_temperature",
+    "specific_stress"
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c3h2h"
+}

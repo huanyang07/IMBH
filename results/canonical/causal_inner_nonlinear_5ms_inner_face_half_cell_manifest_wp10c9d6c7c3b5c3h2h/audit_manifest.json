@@ -1,0 +1,102 @@
+{
+  "audit_gates": {
+    "maximum_fine_normalized_difference": 0.05,
+    "maximum_identity_closure_defect": 1e-10,
+    "maximum_inner_flux_field_path_closure_defect": 1e-09,
+    "maximum_temporal_uncertainty_fraction": 0.1,
+    "minimum_consecutive_recovery_faces": 2,
+    "minimum_error_alignment": 0.9,
+    "minimum_error_dominance_fraction": 0.7,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_spatial_order": 0.75
+  },
+  "authorized_next": "WP10c9d6c7c3b5c3h2h1_operator_neutral_inner_face_half_cell_audit",
+  "classification": "inner_face_half_cell_audit_manifest_frozen_operator_neutral_control_volume_diagnostics_authorized",
+  "common_prefix_coarse_face_indices": [
+    1,
+    2,
+    4,
+    8,
+    12,
+    16,
+    24,
+    32,
+    40,
+    48
+  ],
+  "common_prefix_face_multipliers": [
+    1,
+    2,
+    4
+  ],
+  "conservative_channels": [
+    "mass",
+    "angular_momentum",
+    "killing_energy"
+  ],
+  "decision_tree": [
+    "two_consecutive_common_faces_recover__authorize_conservative_extraction_surface_manifest",
+    "stable_inner_flux_and_one_primitive_column_dominate__authorize_one_outgoing_half_cell_candidate_manifest",
+    "stable_temporal_storage_block_dominates__authorize_space_storage_consistency_manifest",
+    "stable_principal_or_lower_source_block_dominates__authorize_one_targeted_source_consistency_manifest",
+    "otherwise__authorize_monolithic_near_horizon_space_storage_redesign_manifest_only"
+  ],
+  "definitions_only": true,
+  "diagnostics": {
+    "common_face_recovery": {
+      "requires_consecutive_faces": 2,
+      "requires_every_conservative_channel": true,
+      "requires_instantaneous_response_contract": true
+    },
+    "complete_BDF_prefix_balance": {
+      "blocks": [
+        "minus_inner_face_flux",
+        "outer_common_face_flux",
+        "mapped_temporal_storage",
+        "responsive_height_temporal_storage",
+        "shear_principal",
+        "height_principal",
+        "local_stress_relaxation",
+        "geometry",
+        "cooling",
+        "stream",
+        "lower_height_work"
+      ],
+      "compare_base_to_full_generic_anchor": true,
+      "evaluate_only_committed_accepted_steps": true,
+      "identity": "temporal_storage_plus_outer_common_face_flux_minus_inner_face_flux_plus_distributed_principal_and_lower_sources_equals_zero",
+      "use_actual_layout_owned_BDF_histories": true
+    },
+    "inner_flux_primitive_path": {
+      "definition": "integrate_the_analytic_inner_flux_jacobian_along_the_straight_base_to_anchor_first_cell_path_and_record_each_primitive_column_contribution",
+      "no_fitted_coefficients": true,
+      "quadrature_order": 8
+    },
+    "time_scope": {
+      "no_time_interpolation": true,
+      "retain_late_window_as_binding": true,
+      "use_common_accepted_targets_with_complete_BDF_history": true
+    }
+  },
+  "hard_stops": [
+    "do_not_propagate_new_state",
+    "do_not_change_excision_trace_flux_path_storage_or_source",
+    "do_not_tune_a_candidate_before_the_audit_selects_one_branch",
+    "do_not_relax_spatial_temporal_or_ledger_gates",
+    "do_not_infer_physical_instability",
+    "do_not_start_fourth_duration_rung_fixed_Q_or_reduction"
+  ],
+  "operator_changed": false,
+  "parent_rejection_preserved": true,
+  "primitive_names": [
+    "log_surface_density",
+    "radial_velocity_over_c",
+    "azimuthal_velocity_over_c",
+    "log_temperature",
+    "specific_stress"
+  ],
+  "production_defaults_changed": false,
+  "propagation_executed": false,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c3h2h"
+}
