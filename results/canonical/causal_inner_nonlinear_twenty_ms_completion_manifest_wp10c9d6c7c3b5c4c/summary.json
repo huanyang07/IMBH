@@ -1,0 +1,38 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4c1_twenty_ms_completion",
+  "classification": "twenty_ms_completion_manifest_frozen_durable_propagation_authorized",
+  "definitions_only": true,
+  "fifty_ms_propagation_authorized": false,
+  "fixed_q_micro_solver_authorized": false,
+  "parent_classification_preserved": "ten_ms_screen_certified_twenty_ms_completion_manifest_authorized",
+  "passed": true,
+  "reduced_slow_evolution_authorized": false,
+  "runtime_projection": {
+    "expected_comparisons": {
+      "main": 26,
+      "replay": 4,
+      "strict": 4
+    },
+    "mean_seconds_per_comparison": {
+      "base_main": 1041.5456775806524,
+      "base_replay": 1109.1804169684183,
+      "base_strict": 998.591651958297,
+      "perturbed_main": 1019.6802360000293,
+      "perturbed_replay": 1087.9826095311437,
+      "perturbed_strict": 985.2618182917358
+    },
+    "method": "measured_10ms_stage_seconds_per_accepted_comparison",
+    "projected_wall_hours_with_safety": 24.415256854200035,
+    "projected_wall_seconds_with_safety": 87894.92467512013,
+    "raw_projected_wall_hours": 19.532205483360027,
+    "raw_projected_wall_seconds": 70315.9397400961,
+    "runtime_is_advisory_not_scientific": true,
+    "safety_factor": 1.25
+  },
+  "schema_version": 1,
+  "ten_ms_screen_certified": true,
+  "twenty_ms_checkpoint_assessment_authorized": false,
+  "twenty_ms_completion_manifest_authorized": true,
+  "twenty_ms_propagation_authorized": true,
+  "work_package": "WP10c9d6c7c3b5c4c"
+}

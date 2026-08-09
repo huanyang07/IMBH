@@ -1,0 +1,286 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4c1_twenty_ms_completion",
+  "binding_gates": {
+    "main_local_error_maximum": 0.00025,
+    "main_local_error_sum_maximum": 0.005,
+    "maximum_discrete_ledger_defect": 1e-12,
+    "maximum_exterior_prefix_identity_defect": 1e-12,
+    "maximum_h_over_r": 0.12,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_scaled_residual": 1e-10,
+    "maximum_shared_conservative_face_defect": 1e-12,
+    "minimum_reconstruction_factor": 1.0,
+    "minimum_scattering_optical_depth": 1.0,
+    "strict_local_error_maximum": 3.125e-05,
+    "strict_response_maximum_scaled_extraction_partition_difference": 0.005,
+    "strict_response_maximum_scaled_state_difference": 0.005,
+    "strict_response_minimum_history_cosine": 0.9
+  },
+  "canonical_targets": {
+    "all_common_strict_outputs_binding": true,
+    "construction": "one_integer_microsecond_master_table",
+    "every_replay_and_strict_target_is_a_main_target": true,
+    "independent_target_construction_forbidden": true,
+    "main_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "main_seconds": [
+      0.01,
+      0.012,
+      0.013999999999999999,
+      0.016,
+      0.018,
+      0.0188,
+      0.0196,
+      0.019799999999999998,
+      0.02
+    ],
+    "master_microseconds": [
+      10000,
+      12000,
+      14000,
+      16000,
+      18000,
+      18800,
+      19600,
+      19800,
+      20000
+    ],
+    "replay_indices": [
+      5,
+      6,
+      7,
+      8
+    ],
+    "replay_seconds": [
+      0.0188,
+      0.0196,
+      0.019799999999999998,
+      0.02
+    ],
+    "strict_indices": [
+      6,
+      7,
+      8
+    ],
+    "strict_seconds": [
+      0.0196,
+      0.019799999999999998,
+      0.02
+    ]
+  },
+  "classification": "twenty_ms_completion_manifest_frozen_durable_propagation_authorized",
+  "definitions_only": true,
+  "execution": {
+    "base_before_perturbed": true,
+    "durable_restart_and_arrays_after_every_target": true,
+    "main_expected_comparisons_per_trajectory": 26,
+    "replay_expected_comparisons_per_trajectory": 4,
+    "resume_requires_exact_runner_manifest_and_input_hashes": true,
+    "stage_order": [
+      "base_main",
+      "perturbed_main",
+      "base_replay",
+      "perturbed_replay",
+      "base_strict",
+      "perturbed_strict"
+    ],
+    "stop_on_first_scientific_failure": true,
+    "strict_expected_comparisons_per_trajectory": 4
+  },
+  "extraction_partition_contract": {
+    "buffer_storage_and_sources_remain_explicit": true,
+    "coarse_middle_fine_face_indices": [
+      2,
+      4,
+      8
+    ],
+    "excision_to_extraction_buffer_remains_inside_microdomain": true,
+    "extraction_flux_is_not_pointwise_horizon_flux": true,
+    "observable_names": [
+      "extraction_flux_mass",
+      "extraction_flux_angular_momentum",
+      "extraction_flux_killing_energy",
+      "coupling_flux_mass",
+      "coupling_flux_angular_momentum",
+      "coupling_flux_killing_energy",
+      "exterior_net_drive_mass",
+      "exterior_net_drive_angular_momentum",
+      "exterior_net_drive_killing_energy",
+      "exterior_cooling_angular_momentum",
+      "exterior_cooling_killing_energy",
+      "exterior_vertical_work_angular_momentum",
+      "exterior_vertical_work_killing_energy"
+    ],
+    "physical_radius_rg": 1.9531594414758637,
+    "raw_inner_face_rejection_preserved": true
+  },
+  "hard_stops": [
+    "do_not_use_raw_inner_face_flux_as_the_slow_export",
+    "do_not_relabel_extraction_flux_as_pointwise_horizon_flux",
+    "do_not_change_operator_profile_or_production_defaults",
+    "do_not_run_fifty_ms_before_a_fresh_manifest",
+    "do_not_start_fixed_Q_or_reduced_slow_evolution",
+    "do_not_add_tide_wind_hot_state_S_curve_or_QPE_cycle_physics",
+    "do_not_use_N1024_as_a_rescue"
+  ],
+  "initial_restarts": {
+    "base_canonical_path": "results/canonical/causal_inner_nonlinear_twenty_ms_completion_manifest_wp10c9d6c7c3b5c4c/base_restart_10000us.npz",
+    "candidate_timestep_seconds": 0.0004,
+    "complete_primitive_mapped_and_responsive_height_histories": true,
+    "copied_into_canonical_evidence": true,
+    "perturbed_canonical_path": "results/canonical/causal_inner_nonlinear_twenty_ms_completion_manifest_wp10c9d6c7c3b5c4c/perturbed_restart_10000us.npz",
+    "source": "certified_c4b2_complete_BDF2_restarts_at_10ms"
+  },
+  "main_controller": {
+    "analytic_stability_bound": 2.414213562373095,
+    "coupling_face_contract": {
+      "N128_exterior_N128_inner_c48": 48,
+      "N128_exterior_N256_inner_c48": 96,
+      "N128_exterior_N512_inner_c48": 192
+    },
+    "error_estimator": {
+      "accepted_branch": "full_step",
+      "accepted_branch_error_multiplier": 1.3333333333333333,
+      "export_norm": "maximum_fixed_scale_Tier_I_endpoint_difference",
+      "formal_order": 2,
+      "kind": "one_full_step_versus_two_independent_half_steps",
+      "local_error": "maximum_of_state_and_Tier_I_export_estimates",
+      "local_tolerance": 0.00025,
+      "short_horizon_sum_of_accepted_error_estimates": 0.005,
+      "state_norm": "maximum_of_scaled_RMS_and_scaled_fieldwise_maximum"
+    },
+    "exact_output_landing": true,
+    "initial_timestep_seconds": 0.0004,
+    "maximum_BDF2_step_ratio": 2.0,
+    "maximum_timestep_seconds": 0.0004,
+    "method": "monolithic_increment_primary_variable_step_BDF1_BDF2",
+    "minimum_timestep_seconds": 2.5e-05,
+    "proposal": {
+      "error_exponent": 0.3333333333333333,
+      "exact_landing_at_every_declared_output": true,
+      "maximum_factor": 2.0,
+      "maximum_retries": 8,
+      "minimum_factor": 0.5,
+      "reject_on_any_full_or_half_method_failure": true,
+      "safety_factor": 0.8
+    },
+    "step_method_gates": {
+      "checkpoint_roundtrip": "bitwise",
+      "maximum_discrete_ledger_defect": 1e-12,
+      "maximum_incoming_excision_characteristics": 0,
+      "maximum_mapped_endpoint_path_closure": 1e-09,
+      "maximum_scaled_residual": 1e-10,
+      "minimum_reconstruction_factor": 1.0,
+      "split_restart_replay": "bitwise_at_declared_outputs"
+    }
+  },
+  "negative_branch": {
+    "authorized_next": "failure_localization_only",
+    "classification": "twenty_ms_completion_failed_later_duration_blocked",
+    "runtime_projection_alone_is_not_scientific_failure": true
+  },
+  "operator_changed": false,
+  "passed": true,
+  "positive_branch": {
+    "authorized_next": "WP10c9d6c7c3b5c4d_twenty_ms_checkpoint_assessment_manifest",
+    "classification": "twenty_ms_completion_certified_checkpoint_assessment_manifest_authorized",
+    "fifty_ms_propagation_requires_fresh_manifest": true
+  },
+  "production_defaults_changed": false,
+  "propagation_executed": false,
+  "resource_policy": {
+    "projected_hours_24_to_36": "continue_with_durable_checkpoints_after_cost_review",
+    "projected_hours_above_36": "stop_and_optimize_before_propagation",
+    "projected_hours_at_or_below_24": "continue_automatically",
+    "runtime_is_not_a_physical_gate": true
+  },
+  "rung": {
+    "approximate_N128_cell_crossing_times": 3.6101083032490977,
+    "fraction_of_stress_relaxation_time": 0.1360544217687075,
+    "horizon_seconds": 0.02,
+    "layout": "N128-exterior__N128-equivalent-inner",
+    "no_new_BDF1_startup": true,
+    "profile": "generic_five_field",
+    "start_seconds": 0.01,
+    "trajectories": [
+      "base",
+      "perturbed"
+    ]
+  },
+  "runtime_projection": {
+    "expected_comparisons": {
+      "main": 26,
+      "replay": 4,
+      "strict": 4
+    },
+    "mean_seconds_per_comparison": {
+      "base_main": 1041.5456775806524,
+      "base_replay": 1109.1804169684183,
+      "base_strict": 998.591651958297,
+      "perturbed_main": 1019.6802360000293,
+      "perturbed_replay": 1087.9826095311437,
+      "perturbed_strict": 985.2618182917358
+    },
+    "method": "measured_10ms_stage_seconds_per_accepted_comparison",
+    "projected_wall_hours_with_safety": 24.415256854200035,
+    "projected_wall_seconds_with_safety": 87894.92467512013,
+    "raw_projected_wall_hours": 19.532205483360027,
+    "raw_projected_wall_seconds": 70315.9397400961,
+    "runtime_is_advisory_not_scientific": true,
+    "safety_factor": 1.25
+  },
+  "schema_version": 1,
+  "strict_controller": {
+    "analytic_stability_bound": 2.414213562373095,
+    "coupling_face_contract": {
+      "N128_exterior_N128_inner_c48": 48,
+      "N128_exterior_N256_inner_c48": 96,
+      "N128_exterior_N512_inner_c48": 192
+    },
+    "error_estimator": {
+      "accepted_branch": "full_step",
+      "accepted_branch_error_multiplier": 1.3333333333333333,
+      "export_norm": "maximum_fixed_scale_Tier_I_endpoint_difference",
+      "formal_order": 2,
+      "kind": "one_full_step_versus_two_independent_half_steps",
+      "local_error": "maximum_of_state_and_Tier_I_export_estimates",
+      "local_tolerance": 3.125e-05,
+      "short_horizon_sum_of_accepted_error_estimates": 0.005,
+      "state_norm": "maximum_of_scaled_RMS_and_scaled_fieldwise_maximum"
+    },
+    "exact_output_landing": true,
+    "initial_timestep_seconds": 0.0001,
+    "maximum_BDF2_step_ratio": 2.0,
+    "maximum_timestep_seconds": 0.0001,
+    "method": "monolithic_increment_primary_variable_step_BDF1_BDF2",
+    "minimum_timestep_seconds": 2.5e-05,
+    "proposal": {
+      "error_exponent": 0.3333333333333333,
+      "exact_landing_at_every_declared_output": true,
+      "maximum_factor": 2.0,
+      "maximum_retries": 8,
+      "minimum_factor": 0.5,
+      "reject_on_any_full_or_half_method_failure": true,
+      "safety_factor": 0.8
+    },
+    "step_method_gates": {
+      "checkpoint_roundtrip": "bitwise",
+      "maximum_discrete_ledger_defect": 1e-12,
+      "maximum_incoming_excision_characteristics": 0,
+      "maximum_mapped_endpoint_path_closure": 1e-09,
+      "maximum_scaled_residual": 1e-10,
+      "minimum_reconstruction_factor": 1.0,
+      "split_restart_replay": "bitwise_at_declared_outputs"
+    }
+  },
+  "work_package": "WP10c9d6c7c3b5c4c"
+}
