@@ -1,0 +1,67 @@
+{
+  "assessment_metrics": {
+    "accepted_local_error_sum_and_stage_cost": true,
+    "base_and_perturbed_readiness_margin_change": true,
+    "duration_in_crossing_and_relaxation_clocks": true,
+    "endpoint_direction_cosine_twenty_vs_ten": true,
+    "endpoint_response_ratio_twenty_over_ten": true,
+    "scaled_extraction_response_rms_and_max_history": true,
+    "scaled_state_response_rms_and_max_history": true,
+    "ten_to_twenty_boundary_extraction_partition_bitwise": true,
+    "ten_to_twenty_boundary_raw_Tier_I_bitwise": true,
+    "ten_to_twenty_boundary_state_bitwise": true
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4d1_twenty_ms_checkpoint_assessment",
+  "binding_gates": {
+    "all_replays_passed": true,
+    "all_twenty_ms_stages_passed": true,
+    "boundary_bitwise": true,
+    "maximum_h_over_r": 0.12,
+    "maximum_scaled_extraction_partition_response": 0.005,
+    "maximum_scaled_state_response": 0.05,
+    "minimum_reconstruction_factor": 1.0,
+    "minimum_scattering_optical_depth": 1.0,
+    "physical_failure_detected": false,
+    "strict_response_passed": true
+  },
+  "classification": "twenty_ms_checkpoint_assessment_manifest_frozen_evidence_only_assessment_authorized",
+  "definitions_only": true,
+  "hard_stops": [
+    "do_not_infer_attraction_or_memory_loss_from_one_trajectory_pair",
+    "do_not_run_fifty_ms_before_the_spatial_checkpoint_decision",
+    "do_not_use_raw_inner_face_flux_as_the_slow_export",
+    "do_not_start_fixed_Q_or_reduced_slow_evolution",
+    "do_not_change_operator_profile_or_production_defaults"
+  ],
+  "inputs": {
+    "all_inputs_must_match_committed_hashes": true,
+    "ten_ms_arrays": "results/canonical/causal_inner_nonlinear_ten_ms_screen_wp10c9d6c7c3b5c4b2/decisive_arrays.npz",
+    "ten_ms_summary": "results/canonical/causal_inner_nonlinear_ten_ms_screen_wp10c9d6c7c3b5c4b2/summary.json",
+    "twenty_ms_arrays": "results/canonical/causal_inner_nonlinear_twenty_ms_completion_wp10c9d6c7c3b5c4c1/decisive_arrays.npz",
+    "twenty_ms_summary": "results/canonical/causal_inner_nonlinear_twenty_ms_completion_wp10c9d6c7c3b5c4c1/summary.json"
+  },
+  "interpretation_contract": {
+    "amplitude_trend_is_not_an_attractor_classification": true,
+    "endpoint_ratio_0p9_to_1p1": "approximately_stationary_amplitude",
+    "endpoint_ratio_above_1p1": "increasing_over_10_to_20ms",
+    "endpoint_ratio_below_0p9": "decreasing_over_10_to_20ms",
+    "no_fixed_Q_or_slow_reduction_claim_can_be_authorized": true,
+    "one_perturbation_is_not_multiple_equal_Q_fast_lifts": true,
+    "twenty_ms_is_only_0p136_of_reference_stress_relaxation_time": true
+  },
+  "negative_branch": {
+    "authorized_next": "failure_localization_only",
+    "classification": "twenty_ms_checkpoint_assessment_failed"
+  },
+  "operator_changed": false,
+  "passed": true,
+  "positive_branch": {
+    "authorized_next": "WP10c9d6c7c3b5c4e_twenty_ms_spatial_checkpoint_manifest",
+    "classification": "twenty_ms_checkpoint_assessed_cost_bounded_spatial_checkpoint_manifest_authorized",
+    "fifty_ms_requires_spatial_checkpoint_decision": true
+  },
+  "production_defaults_changed": false,
+  "propagation_executed": false,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4d"
+}
