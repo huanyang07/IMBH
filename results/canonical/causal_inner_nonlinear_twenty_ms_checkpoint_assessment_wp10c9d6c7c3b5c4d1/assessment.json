@@ -1,0 +1,112 @@
+{
+  "boundary": {
+    "base": {
+      "output_extraction_partition_bitwise": true,
+      "output_extraction_partition_maximum_absolute_difference": 0.0,
+      "output_raw_Tier_I_bitwise": true,
+      "output_raw_Tier_I_maximum_absolute_difference": 0.0,
+      "output_states_bitwise": true,
+      "output_states_maximum_absolute_difference": 0.0,
+      "output_times_bitwise": true,
+      "output_times_maximum_absolute_difference": 0.0,
+      "passed": true
+    },
+    "passed": true,
+    "perturbed": {
+      "output_extraction_partition_bitwise": true,
+      "output_extraction_partition_maximum_absolute_difference": 0.0,
+      "output_raw_Tier_I_bitwise": true,
+      "output_raw_Tier_I_maximum_absolute_difference": 0.0,
+      "output_states_bitwise": true,
+      "output_states_maximum_absolute_difference": 0.0,
+      "output_times_bitwise": true,
+      "output_times_maximum_absolute_difference": 0.0,
+      "passed": true
+    }
+  },
+  "classification": "twenty_ms_checkpoint_assessed_cost_bounded_spatial_checkpoint_manifest_authorized",
+  "gates": {
+    "all_replays_passed": true,
+    "all_twenty_ms_stages_passed": true,
+    "boundary_bitwise": true,
+    "extraction_response_cap_passed": true,
+    "physical_readiness_passed": true,
+    "state_response_cap_passed": true,
+    "strict_response_passed": true
+  },
+  "interpretation": {
+    "attraction_or_memory_loss_demonstrated": false,
+    "extraction_partition_response_increases_over_10_to_20ms": true,
+    "multiple_equal_Q_lifts_tested": false,
+    "physical_failure_detected": false,
+    "spatial_checkpoint_required_before_fifty_ms": true,
+    "state_amplitude_is_approximately_stationary_over_10_to_20ms": true
+  },
+  "passed": true,
+  "physical_clock_coverage": {
+    "N128_cell_crossings": 3.6101083032490977,
+    "duration_seconds": 0.02,
+    "reference_N128_cell_crossing_seconds": 0.00554,
+    "reference_stress_relaxation_seconds": 0.147,
+    "stress_relaxation_times": 0.1360544217687075
+  },
+  "readiness_change": {
+    "base": {
+      "change": {
+        "maximum_h_over_r": -0.00045971818601310555,
+        "minimum_reconstruction_factor": 0.0,
+        "minimum_scattering_optical_depth": 0.16334492951350654
+      },
+      "ten_ms": {
+        "maximum_h_over_r": 0.09826639257626875,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.092371551352773
+      },
+      "twenty_ms": {
+        "maximum_h_over_r": 0.09780667439025564,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.25571648086628
+      }
+    },
+    "perturbed": {
+      "change": {
+        "maximum_h_over_r": -0.00045553512838958365,
+        "minimum_reconstruction_factor": 0.0,
+        "minimum_scattering_optical_depth": 0.16183866188244522
+      },
+      "ten_ms": {
+        "maximum_h_over_r": 0.09821256862530536,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.180387459434986
+      },
+      "twenty_ms": {
+        "maximum_h_over_r": 0.09775703349691578,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.34222612131743
+      }
+    }
+  },
+  "response_history": {
+    "endpoint": {
+      "extraction_direction_cosine_twenty_vs_ten": 0.9915138615587157,
+      "extraction_max_ratio_twenty_over_ten": 2.6926226767057373,
+      "extraction_rms_ratio_twenty_over_ten": 2.7074100875005263,
+      "extraction_rms_trend": "increasing_over_10_to_20ms",
+      "state_direction_cosine_twenty_vs_ten": 0.9977200091811362,
+      "state_max_ratio_twenty_over_ten": 1.0005410803016073,
+      "state_rms_ratio_twenty_over_ten": 1.0085952410739099,
+      "state_rms_trend": "approximately_stationary_amplitude"
+    },
+    "maximum_scaled_extraction_partition_response": 8.231670380966249e-05,
+    "maximum_scaled_state_response": 0.007849307110241455
+  },
+  "schema_version": 1,
+  "stage_costs": {
+    "ten_ms_elapsed_seconds": 32339.561874957755,
+    "twenty_ms_elapsed_seconds": 85636.59536937485,
+    "twenty_ms_main_sum_local_error_estimates": 3.1593825110334565e-06,
+    "twenty_ms_main_wall_seconds": 63443.879040835425,
+    "twenty_ms_total_elapsed_hours": 23.787943158159678
+  },
+  "work_package": "WP10c9d6c7c3b5c4d1"
+}
