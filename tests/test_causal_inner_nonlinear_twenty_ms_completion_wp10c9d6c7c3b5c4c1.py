@@ -70,3 +70,17 @@ def test_progress_identity_is_durable() -> None:
     finally:
         for name, value in previous.items():
             setattr(c4c1.engine, name, value)
+
+
+def test_canonical_twenty_ms_result_passes_binding_classification() -> None:
+    summary = _read(c4c1.SUMMARY_PATH)
+    assert summary["passed"]
+    assert summary["twenty_ms_completion_certified"]
+    assert summary["twenty_ms_checkpoint_assessment_authorized"]
+    assert not summary["physical_failure_detected"]
+    assert not summary["fifty_ms_propagation_authorized"]
+    assert not summary["fixed_q_micro_solver_authorized"]
+    assert not summary["reduced_slow_evolution_authorized"]
+    assert summary["strict_response"]["passed"]
+    assert all(report["passed"] for report in summary["stage_reports"].values())
+    assert all(report["passed"] for report in summary["replay_reports"].values())
