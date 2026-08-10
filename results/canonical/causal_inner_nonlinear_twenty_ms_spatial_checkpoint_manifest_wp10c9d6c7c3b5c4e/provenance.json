@@ -1,0 +1,29 @@
+{
+  "command": "PYTHONPATH=src:scripts python scripts/run_causal_inner_nonlinear_twenty_ms_spatial_checkpoint_manifest_wp10c9d6c7c3b5c4e.py",
+  "environment": {
+    "numpy": "2.3.5",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_nonlinear_twenty_ms_spatial_checkpoint_manifest_wp10c9d6c7c3b5c4e.py": "0dabdcf8f83ef6515de95707524c081b736159e841cb0ec02ff921ef2b15bc80",
+    "tests/test_causal_inner_nonlinear_twenty_ms_spatial_checkpoint_manifest_wp10c9d6c7c3b5c4e.py": "79f3deb6cbadd71bcc47c6e99435173e29bd25865ee74fa9be2913b93cfca72c"
+  },
+  "input_hashes": {
+    "checkpoint_assessment": "84f00e007384975c71c61f5870f8ae5861a37850c6a5caeff502932c7c77be06",
+    "coarse_10ms_arrays": "38d45f7705bc931c82dc87402098da0635a5992ba78260c2cee4457d1da297ac",
+    "coarse_20ms_arrays": "49ea5a152f98fbd44074f103025bf78719f571d6b1c0bdac04d17f37ad3f212a",
+    "fine_5ms_arrays": "94d314f1e38283124c9eb9315fa91fab090c4ae16346fe3b43443e5ea495137f",
+    "five_ms_extraction_certificate": "b1dafb5f6a510f974fe706dc34d2dda0f74ea1a900396ec0786e73d9a283950d",
+    "middle_5ms_arrays": "67c44375fcae989ec1dead618f4c7a9f7fa4d8c880bcddb8d66b5d4862bb94ee"
+  },
+  "report": "docs/reports/current/CODEX_CAUSAL_INNER_NONLINEAR_TWENTY_MS_SPATIAL_CHECKPOINT_MANIFEST_WP10C9D6C7C3B5C4E_2026-08-10.md",
+  "runner": "scripts/run_causal_inner_nonlinear_twenty_ms_spatial_checkpoint_manifest_wp10c9d6c7c3b5c4e.py",
+  "schema_version": 1,
+  "scientific_status": "CERTIFIED",
+  "source_parent_commit": "a4ead99e2265bee5d6af463f823c470a8cf6319e",
+  "source_parent_tree_sha": "cadc8820a69b905fe776e0bedde82987cd084485",
+  "test": "tests/test_causal_inner_nonlinear_twenty_ms_spatial_checkpoint_manifest_wp10c9d6c7c3b5c4e.py",
+  "work_package": "WP10c9d6c7c3b5c4e",
+  "working_head": "a4ead99e2265bee5d6af463f823c470a8cf6319e"
+}

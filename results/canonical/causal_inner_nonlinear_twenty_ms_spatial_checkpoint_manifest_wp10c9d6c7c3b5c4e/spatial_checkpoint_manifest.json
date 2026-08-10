@@ -1,0 +1,177 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4e1_middle_5_to_6ms_spatial_cost_pilot",
+  "canonical_seeds": {
+    "coarse_10ms_arrays": "results/canonical/causal_inner_nonlinear_ten_ms_screen_wp10c9d6c7c3b5c4b2/decisive_arrays.npz",
+    "coarse_20ms_arrays": "results/canonical/causal_inner_nonlinear_twenty_ms_completion_wp10c9d6c7c3b5c4c1/decisive_arrays.npz",
+    "fine_5ms_arrays": "results/canonical/causal_inner_nonlinear_fine_5ms_completion_wp10c9d6c7c3b5c3h2e1/decisive_arrays.npz",
+    "five_ms_extraction_certificate": "results/canonical/causal_inner_nonlinear_5ms_cumulative_extraction_recovery_audit_wp10c9d6c7c3b5c3h2j1/summary.json",
+    "ignored_output_checkpoints_are_not_required": true,
+    "middle_5ms_arrays": "results/canonical/causal_inner_nonlinear_middle_5ms_completion_wp10c9d6c7c3b5c3h2d1/decisive_arrays.npz"
+  },
+  "classification": "twenty_ms_spatial_checkpoint_manifest_frozen_middle_six_ms_cost_pilot_authorized",
+  "decision_branches": {
+    "fine_certificate_passes": "fifty_ms_manifest_may_be_considered",
+    "middle_checkpoint_fails": "stop_before_fine",
+    "middle_checkpoint_passes": "freeze_conditional_fine_manifest",
+    "pilot_cost_only_exceeds_projection": "optimize_without_scientific_rejection",
+    "pilot_passes_and_projection_acceptable": "freeze_middle_6_to_20ms_completion_manifest",
+    "pilot_scientific_gate_fails": "localize_middle_time_or_spatial_failure"
+  },
+  "definitions_only": true,
+  "execution_stages": [
+    {
+      "authorized": true,
+      "name": "middle_5_to_6ms_cost_pilot",
+      "target_microseconds": [
+        5400,
+        5800,
+        6000
+      ],
+      "work": [
+        "one_nonlinear_base",
+        "one_full_generic_nonlinear_anchor",
+        "one_five_profile_block_tangent",
+        "sampled_step_doubling",
+        "binding_extraction_partition_evaluation"
+      ]
+    },
+    {
+      "authorized": false,
+      "name": "middle_6_to_20ms_completion",
+      "output_target_microseconds": [
+        6000,
+        7000,
+        8000,
+        9000,
+        10000,
+        12000,
+        14000,
+        16000,
+        18000,
+        18800,
+        19600,
+        19800,
+        20000
+      ],
+      "requires_fresh_manifest_after_pilot": true
+    },
+    {
+      "authorized": false,
+      "name": "coarse_middle_checkpoint_analysis",
+      "requires_middle_completion": true
+    },
+    {
+      "authorized": false,
+      "name": "fine_5_to_20ms_conditional_confirmation",
+      "requires_fresh_manifest_after_middle_analysis": true
+    }
+  ],
+  "fine_trigger": {
+    "defect_estimator_is_screening_only_until_independently_calibrated": true,
+    "fine_information_required_for_a_measured_order": true,
+    "five_profile_fine_block_tangent_is_default_if_middle_passes": true,
+    "full_fine_anchor_triggers": [
+      "middle_anchor_surrogate_uncertainty_exceeds_0p1_of_predicted_medium_fine_difference",
+      "predicted_spatial_result_is_within_0p2_of_a_gate",
+      "observable_nonlinear_remainder_changes_between_5_and_20ms",
+      "fine_tangent_audit_fails"
+    ],
+    "full_fine_generic_anchor_is_conditional": true,
+    "full_fine_nonlinear_base_is_default_if_middle_passes": true
+  },
+  "hard_stops": [
+    "do_not_run_fine_before_middle_checkpoint_analysis",
+    "do_not_run_fifty_ms_before_the_spatial_certificate",
+    "do_not_use_raw_inner_face_flux_as_the_slow_export",
+    "do_not_drop_the_fine_level_without_a_certified_upper_bound",
+    "do_not_start_fixed_Q_or_reduced_slow_evolution",
+    "do_not_change_operator_profile_or_production_defaults"
+  ],
+  "method_gates": {
+    "maximum_discrete_ledger_defect": 1e-12,
+    "maximum_extraction_identity_defect": 1e-12,
+    "maximum_generic_tangent_discrepancy_fraction_of_response": 0.01,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_local_error_estimate": 0.00025,
+    "maximum_mapped_endpoint_path_closure_defect": 1e-09,
+    "maximum_scaled_nonlinear_residual": 1e-10,
+    "maximum_tangent_linear_solve_relative_defect": 1e-10,
+    "maximum_tangent_matrix_jvp_relative_defect": 1e-08,
+    "minimum_reconstruction_factor": 1.0
+  },
+  "operator_changed": false,
+  "passed": true,
+  "pilot_contract": {
+    "checkpoint_after_every_completed_stage": true,
+    "coarse_schedule_is_not_acceptance_authority": true,
+    "complete_residual_jvp_only_at_declared_audit_steps": true,
+    "five_profiles_share_one_matrix_factorization": true,
+    "generic_anchor_replays_base_schedule": true,
+    "middle_layout_owns_accepted_schedule": true,
+    "minimum_measured_steps_for_projection": 3,
+    "projection_safety_factor": 1.5,
+    "same_target_restart_replay_bitwise": true,
+    "tangent_prediction_is_anchor_newton_initial_guess": true
+  },
+  "production_defaults_changed": false,
+  "propagation_executed": false,
+  "resource_policy": {
+    "contingency_total_hours": 78.0,
+    "projected_conditional_fine_anchor_additional_hours": 12.0,
+    "projected_fine_base_and_tangent_up_to_hours": 36.0,
+    "projected_middle_up_to_hours": 30.0,
+    "stop_for_optimization_review_if_single_stage_projects_above_hours": 48.0,
+    "twenty_four_hours_is_soft_not_binding": true,
+    "unattended_stage_checkpoint_hours": 4.0,
+    "working_total_hours": 54.0
+  },
+  "schema_version": 1,
+  "scientific_scope": {
+    "binding_extraction_face_indices": [
+      2,
+      4,
+      8
+    ],
+    "binding_extraction_radius_rg": 1.9531594414758637,
+    "checkpoint_seconds": 0.02,
+    "coupling_face_indices": [
+      48,
+      96,
+      192
+    ],
+    "generic_nonlinear_anchor": "p3_buffer45__generic_five_field",
+    "layout_cell_counts": [
+      64,
+      112,
+      208
+    ],
+    "layouts": [
+      "N128_exterior_N128_inner_c48",
+      "N128_exterior_N256_inner_c48",
+      "N128_exterior_N512_inner_c48"
+    ],
+    "profiles": [
+      "p3_buffer45__generic_five_field",
+      "p4__inward_acoustic",
+      "p4__outward_acoustic",
+      "p3_buffer45__material",
+      "p4__inward_shear_acoustic_mix"
+    ],
+    "raw_inner_face_is_not_a_binding_slow_export": true,
+    "start_seconds": 0.005
+  },
+  "spatial_certificate_gates": {
+    "common_parent_restriction_required": true,
+    "maximum_fine_normalized_difference": 0.05,
+    "maximum_surrogate_uncertainty_fraction_of_spatial_difference": 0.1,
+    "maximum_temporal_uncertainty_fraction_of_spatial_difference": 0.1,
+    "minimum_extraction_cumulative_rms_order": 0.75,
+    "minimum_extraction_instantaneous_rms_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_significant_extraction_component_order": 0.75,
+    "minimum_significant_state_field_order": 0.75,
+    "minimum_state_max_order": 0.75,
+    "minimum_state_rms_order": 0.75
+  },
+  "work_package": "WP10c9d6c7c3b5c4e"
+}
