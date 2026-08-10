@@ -39,6 +39,9 @@ TARGET_MICROSECONDS = (5000, *c4e.PILOT_TARGET_MICROSECONDS)
 SAMPLED_INDICES = {0, 1, 2}
 EXTRACTION_FACE = c4e.EXTRACTION_FACE_INDICES[1]
 COUPLING_FACE = c4e.COUPLING_FACE_INDICES[1]
+PRE_PROJECTION_CORRECTION_RUNNER_SHA256 = (
+    "f800286a28dbd2575aeea7f6fae0f21f5ff5767bb5b9fb84b701382a85029047"
+)
 
 ARTIFACT = (
     "causal_inner_nonlinear_middle_6ms_spatial_cost_pilot_"
@@ -169,6 +172,32 @@ def _patch_shared_modules() -> None:
     h2c1.ANALYZED_BASE_COMMIT = ANALYZED_BASE_COMMIT
 
 
+def _migrate_projection_only_checkpoint_identity() -> None:
+    if not PROGRESS_PATH.exists():
+        return
+    progress = _read_json(PROGRESS_PATH)
+    prior = dict(progress.get("source_identity", {}))
+    current = _source_identity()
+    runner_key = THIS_RUNNER
+    if prior == current:
+        return
+    if prior.get(runner_key) != PRE_PROJECTION_CORRECTION_RUNNER_SHA256:
+        raise RuntimeError("c4e1 checkpoint is not the pre-projection-correction run")
+    prior_without_runner = {key: value for key, value in prior.items() if key != runner_key}
+    current_without_runner = {
+        key: value for key, value in current.items() if key != runner_key
+    }
+    if prior_without_runner != current_without_runner:
+        raise RuntimeError("c4e1 scientific checkpoint source identity changed")
+    progress["source_identity"] = current
+    progress["projection_only_identity_migration"] = {
+        "prior_runner_sha256": PRE_PROJECTION_CORRECTION_RUNNER_SHA256,
+        "state_arrays_recomputed": False,
+        "scientific_results_changed": False,
+    }
+    _write_json(PROGRESS_PATH, progress)
+
+
 def _extraction_histories(configuration, base: dict, anchor: dict):
     context = configuration["context"]
     accepted_times = np.asarray(base["accepted_times"], dtype=float)
@@ -209,27 +238,74 @@ def _extraction_histories(configuration, base: dict, anchor: dict):
     }
 
 
-def _projection(base_report, base, tangent_report, tangent, anchor_report, replays, setup, contract):
-    legacy = h2b1._remaining_projection(
-        base_report,
-        base,
-        tangent_report,
-        tangent,
-        anchor_report,
-        replays,
-        setup,
-        contract,
+def _simulate_remaining_steps(base: dict, contract: dict) -> int:
+    elapsed = float(base["accepted_times"][-1])
+    previous_timestep = float(base["accepted_timesteps"][-1])
+    candidate_timestep = float(base["next_candidate_timestep"][0])
+    local_error = float(base["local_error_estimates"][-1])
+    targets = np.asarray(c4e.COMPLETION_OUTPUT_MICROSECONDS, dtype=float) * 1.0e-6
+    target_index = int(np.searchsorted(targets, elapsed + 1.0e-15, side="right"))
+    count = 0
+    while elapsed < 20.0e-3 - 1.0e-15:
+        target = float(targets[target_index])
+        dt = min(
+            candidate_timestep,
+            target - elapsed,
+            contract["maximum_BDF2_step_ratio"] * previous_timestep,
+            contract["maximum_timestep_seconds"],
+        )
+        elapsed = target if abs(elapsed + dt - target) <= 1.0e-15 else elapsed + dt
+        previous_timestep = dt
+        candidate_timestep = h2b1.controller._next_timestep(dt, local_error, contract)
+        count += 1
+        if elapsed >= target - 1.0e-15:
+            target_index += 1
+    return count
+
+
+def _projection(base_report, base, tangent_report, tangent, anchor_report, replays, setup, contract, manifest):
+    remaining = _simulate_remaining_steps(base, contract)
+    middle5_summary = _read_json(middle5.SUMMARY_PATH)
+    routine_anchor = float(
+        middle5_summary["anchor"]["median_routine_step_wall_seconds"]
     )
+    sampled_anchor = float(anchor_report["median_sampled_step_wall_seconds"])
+    routine_tangent = float(
+        tangent_report["median_matrix_assembly_wall_seconds"]
+        + middle5_summary["tangent"]["median_routine_block_step_wall_seconds"]
+    )
+    audited = tangent["block_step_wall_seconds"][tangent["audit_flags"]]
+    audit_extra = max(
+        float(np.median(audited))
+        - middle5_summary["tangent"]["median_routine_block_step_wall_seconds"],
+        0.0,
+    )
+    replay_median = float(np.median([item["wall_seconds"] for item in replays.values()]))
+    raw = (
+        setup
+        + remaining * base_report["median_accepted_step_wall_seconds"]
+        + remaining * routine_anchor
+        + 3.0 * max(sampled_anchor - routine_anchor, 0.0)
+        + remaining * routine_tangent
+        + 3.0 * audit_extra
+        + 2.0 * replay_median
+        + 3600.0
+    )
+    safety_factor = float(manifest["pilot_contract"]["projection_safety_factor"])
+    projected = safety_factor * raw
+    hours = projected / 3600.0
     return {
-        "remaining_steps_to_20ms": legacy["remaining_steps_to_5ms"],
-        "safety_factor": legacy["safety_factor"],
-        "projected_remaining_wall_seconds": legacy[
-            "projected_remaining_wall_seconds"
-        ],
-        "projected_remaining_wall_hours": legacy[
-            "projected_remaining_wall_hours"
-        ],
-        "resource_tier": legacy["resource_tier"],
+        "remaining_steps_to_20ms": remaining,
+        "safety_factor": safety_factor,
+        "projected_remaining_wall_seconds": projected,
+        "projected_remaining_wall_hours": hours,
+        "resource_tier": (
+            "automatic_continuation"
+            if hours <= 24.0
+            else "optimization_review"
+            if hours <= 48.0
+            else "explicit_cost_benefit_decision"
+        ),
         "cost_projection_is_not_a_scientific_gate": True,
     }
 
@@ -237,6 +313,7 @@ def _projection(base_report, base, tangent_report, tangent, anchor_report, repla
 def main() -> int:
     _parent, manifest = _validate_parent()
     _patch_shared_modules()
+    _migrate_projection_only_checkpoint_identity()
     progress = h2c1._seed_checkpoints()
     configuration = h2b1._configuration()
     print("c4e1: build middle frozen nonlinear tangent", flush=True)
@@ -325,6 +402,7 @@ def main() -> int:
         replays,
         setup_seconds,
         contract,
+        manifest,
     )
     scientific_passed = bool(
         base_report["passed"]

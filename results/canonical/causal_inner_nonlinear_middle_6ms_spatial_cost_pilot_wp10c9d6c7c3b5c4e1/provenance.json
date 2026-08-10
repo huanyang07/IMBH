@@ -1,0 +1,29 @@
+{
+  "command": "PYTHONPATH=src:scripts python scripts/run_causal_inner_nonlinear_middle_6ms_spatial_cost_pilot_wp10c9d6c7c3b5c4e1.py",
+  "environment": {
+    "numpy": "2.3.5",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_nonlinear_middle_6ms_spatial_cost_pilot_wp10c9d6c7c3b5c4e1.py": "f7595b51b53bba0482884591e5fba1441e7adf50b26780efd2b3f62e4577dcc3",
+    "scripts/run_causal_inner_nonlinear_second_duration_rung_wp10c9d6c7c3b5c2.py": "78d1f84660ca1820f5fed2aaa7b41d411c3f8f1db685d1c19f93fa79c0d72e19",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_discrete_tangent.py": "49b010f8fd4811f908c17c57963bbe5b44c3781324520803b6bb8e79b0f411ef",
+    "tests/test_causal_inner_nonlinear_middle_6ms_spatial_cost_pilot_wp10c9d6c7c3b5c4e1.py": "ce471ca8ad0971b7d77d361c7aaf070b760dc16748c77df16c24739b2eacf20f"
+  },
+  "input_hashes": {
+    "five_ms_extraction_certificate": "b1dafb5f6a510f974fe706dc34d2dda0f74ea1a900396ec0786e73d9a283950d",
+    "middle_5ms_arrays": "67c44375fcae989ec1dead618f4c7a9f7fa4d8c880bcddb8d66b5d4862bb94ee",
+    "middle_5ms_summary": "efa17fbe6d38c15fc5a6070eb4fd8110cf92b0ceb73a44bf19dc22bc4b1f08bd",
+    "spatial_checkpoint_manifest": "9077d27ad20401d4601b15cf103e645a50e16b4907025e97fe3d0a0639cedf93"
+  },
+  "report": "docs/reports/current/CODEX_CAUSAL_INNER_NONLINEAR_MIDDLE_6MS_SPATIAL_COST_PILOT_WP10C9D6C7C3B5C4E1_2026-08-10.md",
+  "runner": "scripts/run_causal_inner_nonlinear_middle_6ms_spatial_cost_pilot_wp10c9d6c7c3b5c4e1.py",
+  "schema_version": 1,
+  "scientific_status": "CERTIFIED",
+  "source_parent_commit": "bc159c719a16670890e11b62f9b2db521ce8764f",
+  "source_parent_tree_sha": "8cf2f4ec4cde4a2b16cd4c68d45e1febb09476dc",
+  "test": "tests/test_causal_inner_nonlinear_middle_6ms_spatial_cost_pilot_wp10c9d6c7c3b5c4e1.py",
+  "work_package": "WP10c9d6c7c3b5c4e1",
+  "working_head": "e0154f7c4f97be51f6b8efce507bdb8b1a14f9d0"
+}
