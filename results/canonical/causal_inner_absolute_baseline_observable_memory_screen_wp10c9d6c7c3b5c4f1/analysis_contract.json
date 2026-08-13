@@ -1,0 +1,144 @@
+{
+  "augmented_state": {
+    "components": [
+      "current_primitive_state",
+      "previous_primitive_increment",
+      "previous_mapped_storage_increment",
+      "previous_responsive_height_storage_increment",
+      "previous_timestep_seconds"
+    ],
+    "primitive_snapshot_only_analysis_forbidden": true,
+    "required": true,
+    "responsive_height_history_retained_because_one_form_is_nonexact": true,
+    "variable_step_BDF2_history_ratios_retained": true
+  },
+  "baseline_gates": {
+    "baseline_plus_response_relative_defect_gate": 1e-12,
+    "below_floor_route": "report_upper_bound_without_order_claim",
+    "channels": [
+      "absolute_primitive_state_on_common_parent",
+      "absolute_mapped_exterior_M_J_E_storage",
+      "absolute_instantaneous_extraction_partition",
+      "absolute_cumulative_extraction_partition",
+      "absolute_window_mean_extraction_partition",
+      "baseline_plus_response_reconstruction"
+    ],
+    "layouts": [
+      "coarse",
+      "middle",
+      "fine"
+    ],
+    "minimum_spatial_RMS_order": 0.75,
+    "minimum_spatial_error_direction_cosine": 0.9,
+    "no_new_trajectory": true,
+    "relative_observability_floor": 1e-10,
+    "required_before_closure_fit": true,
+    "responsive_height_temporal_one_form_is_not_an_absolute_state": true,
+    "uses_existing_canonical_trajectories_only": true
+  },
+  "classification": "Q3_analysis_only_absolute_baseline_and_observable_memory_screen",
+  "fine_complement_gates": {
+    "definition": "fine_state_minus_prolongated_restricted_fine_state",
+    "failed_gate_requires_retention_or_targeted_fine_followup": true,
+    "maximum_discarded_output_fraction": 0.01,
+    "maximum_fraction_of_middle_fine_spatial_difference": 0.1,
+    "state_energy_and_extraction_observability_both_required": true
+  },
+  "fixed_Q_dynamics": false,
+  "hard_stops": [
+    "do_not_run_50ms_or_125ms_trajectory",
+    "do_not_start_constrained_fixed_Q_propagation",
+    "do_not_start_reduced_slow_evolution",
+    "do_not_fit_a_scalar_relaxation_law_before_memory_classification",
+    "do_not_treat_kinematic_projection_as_fixed_Q_dynamics",
+    "do_not_drop_BDF_or_responsive_height_history",
+    "do_not_use_raw_pointwise_horizon_face_flux_as_slow_export",
+    "do_not_change_the_certified_operator_or_spatial_gates",
+    "do_not_add_slow_coordinates_after_inspecting_held_out_results"
+  ],
+  "lift_ensemble": {
+    "initial_Q3_null_projection_only": true,
+    "per_step_projection": false,
+    "seed": 20260813,
+    "seeded_smooth_random_profiles": 24,
+    "stored_structured_profiles": 5,
+    "total_block_directions": 29
+  },
+  "memory_gates": {
+    "Q3_failure_authorizes_only_Q4_definitions_or_screen_manifest": true,
+    "algorithms": [
+      "matrix_free_block_augmented_BDF_propagation",
+      "randomized_output_weighted_SVD",
+      "finite_time_singular_values_and_transient_growth",
+      "principal_angles_across_time_and_resolution",
+      "decay_regrowth_and_oscillation_diagnostics"
+    ],
+    "binding_primary_layout": "middle",
+    "coarse_and_fine_roles": "cross_resolution_and_fine_complement_checks",
+    "compact_retained_mode_limit": 3,
+    "constraint_null_defect_gate": 1e-10,
+    "dense_full_propagator_or_dense_Gramian_forbidden": true,
+    "existing_tangent_matrix_JVP_gate": 1e-08,
+    "forms": [
+      "instantaneous",
+      "cumulative",
+      "window_mean"
+    ],
+    "historical_output_label_alias": "inner_flux_in_the_committed_13_vector_means_the_fixed_extraction_surface_flux_not_the_raw_excision_face_flux",
+    "linear_solve_relative_defect_gate": 1e-10,
+    "maximum_temporal_fraction_of_memory_signal": 0.1,
+    "minimum_cross_resolution_subspace_cosine": 0.9,
+    "minimum_observable_energy_capture": 0.99,
+    "minimum_significant_singular_value_fraction": 0.001,
+    "one_step_matrix_factorization_reused_for_all_directions": true,
+    "outputs": [
+      "inner_flux_mass",
+      "inner_flux_angular_momentum",
+      "inner_flux_killing_energy",
+      "interface_flux_mass",
+      "interface_flux_angular_momentum",
+      "interface_flux_killing_energy",
+      "net_drive_mass",
+      "net_drive_angular_momentum",
+      "net_drive_killing_energy",
+      "cooling_angular_momentum",
+      "cooling_killing_energy",
+      "vertical_work_angular_momentum",
+      "vertical_work_killing_energy"
+    ],
+    "persistent_mode_final_to_peak_floor": 0.1,
+    "rapid_contraction_final_to_peak_gain": 0.1,
+    "rapid_contraction_last_quarter_regrowth_fraction": 0.05,
+    "time_interval_seconds": [
+      0.005,
+      0.02
+    ]
+  },
+  "new_nonlinear_trajectory": false,
+  "parent_classification": "reduced_architecture_manifest_frozen_analysis_only_observable_memory_screen_authorized",
+  "propagation": "accepted_discrete_BDF_tangent_only",
+  "schema_version": 1,
+  "slow_coordinate": {
+    "definition": "sum_the_exact_cell_integrated_mapped_conserved_state_over_cells_between_extraction_and_coupling_faces",
+    "mapped_storage_rows": [
+      0,
+      2,
+      3
+    ],
+    "names": [
+      "exterior_mapped_mass",
+      "exterior_mapped_angular_momentum",
+      "exterior_mapped_killing_energy"
+    ],
+    "responsive_height_one_form_excluded": true,
+    "single_valued_state_function": true
+  },
+  "staged_decision": {
+    "Q3_noncompact_or_slow_leakage": "authorize_Q4_definitions_or_screen_manifest_only",
+    "Q3_one_to_three_stable_modes": "authorize_retained_mode_pilot_manifest_only",
+    "Q3_oscillatory_pair": "authorize_amplitude_phase_pilot_manifest_only",
+    "Q3_rapid_contraction": "authorize_quasi_steady_pilot_manifest_only",
+    "cross_resolution_failure": "authorize_localization_only"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f1"
+}

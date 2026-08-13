@@ -1,0 +1,179 @@
+{
+  "Q3_screen_completed": false,
+  "absolute_baseline": {
+    "baseline_plus_response_scaled_defect": 8.673617379884035e-19,
+    "common_times_seconds": [
+      0.005,
+      0.005399999999999999,
+      0.006,
+      0.008,
+      0.0096,
+      0.01,
+      0.012,
+      0.013999999999999999,
+      0.016,
+      0.018,
+      0.0188,
+      0.0196,
+      0.019799999999999998,
+      0.02
+    ],
+    "instantaneous_extraction_component_metrics": {
+      "cooling_angular_momentum": {
+        "RMS_order": 1.9987157249187948,
+        "error_direction_cosine": 0.999996156592259,
+        "observable": true,
+        "passed": true,
+        "relative_difference": 0.00045335262745148873
+      },
+      "cooling_killing_energy": {
+        "RMS_order": 1.996828658627243,
+        "error_direction_cosine": 0.9999999334955397,
+        "observable": true,
+        "passed": true,
+        "relative_difference": 0.0003832285795887121
+      },
+      "inner_flux_angular_momentum": {
+        "RMS_order": 2.024690604237832,
+        "error_direction_cosine": 0.9994828548007855,
+        "observable": true,
+        "passed": true,
+        "relative_difference": 4.1084844173555517e-05
+      },
+      "inner_flux_killing_energy": {
+        "RMS_order": 2.033037547650114,
+        "error_direction_cosine": 0.999443441425638,
+        "observable": true,
+        "passed": true,
+        "relative_difference": 2.3200469722582128e-05
+      },
+      "inner_flux_mass": {
+        "RMS_order": 2.0721419142680424,
+        "error_direction_cosine": 0.9974903072185554,
+        "observable": true,
+        "passed": true,
+        "relative_difference": 8.193265113674533e-06
+      },
+      "interface_flux_angular_momentum": {
+        "RMS_order": 1.6878925382803842,
+        "error_direction_cosine": -0.8264575479063525,
+        "observable": true,
+        "passed": false,
+        "relative_difference": 4.8667406335239185e-05
+      },
+      "interface_flux_killing_energy": {
+        "RMS_order": 1.5995751743417144,
+        "error_direction_cosine": -0.822787963017777,
+        "observable": true,
+        "passed": false,
+        "relative_difference": 6.075677622231663e-05
+      },
+      "interface_flux_mass": {
+        "RMS_order": 1.5741006561019926,
+        "error_direction_cosine": -0.8233319302806177,
+        "observable": true,
+        "passed": false,
+        "relative_difference": 7.314815976434012e-05
+      },
+      "net_drive_angular_momentum": {
+        "RMS_order": 1.7913717390353432,
+        "error_direction_cosine": -0.8257832488528374,
+        "observable": true,
+        "passed": false,
+        "relative_difference": 5.309850474984489e-05
+      },
+      "net_drive_killing_energy": {
+        "RMS_order": 1.803102421753773,
+        "error_direction_cosine": -0.8242120929656764,
+        "observable": true,
+        "passed": false,
+        "relative_difference": 8.646227194790103e-05
+      },
+      "net_drive_mass": {
+        "RMS_order": 1.6317328915514577,
+        "error_direction_cosine": -0.8263032881933323,
+        "observable": true,
+        "passed": false,
+        "relative_difference": 9.634298692065853e-05
+      },
+      "vertical_work_angular_momentum": {
+        "RMS_order": 1.9986482661402283,
+        "error_direction_cosine": 0.9999968140254324,
+        "observable": true,
+        "passed": true,
+        "relative_difference": 0.0006347883142376247
+      },
+      "vertical_work_killing_energy": {
+        "RMS_order": 1.9968569808107246,
+        "error_direction_cosine": 0.9999999450186222,
+        "observable": true,
+        "passed": true,
+        "relative_difference": 0.0006203298068249862
+      }
+    },
+    "metrics": {
+      "absolute_Q3": {
+        "RMS_order": 2.0447527531699072,
+        "error_direction_cosine": 0.9998754767475944,
+        "observable": true,
+        "passed": true,
+        "relative_difference": 9.234916841213621e-05
+      },
+      "absolute_state": {
+        "RMS_order": 1.9387223443046708,
+        "error_direction_cosine": 0.9720278927049393,
+        "observable": true,
+        "passed": true,
+        "relative_difference": 2.0855082355195697e-06
+      },
+      "cumulative_extraction": {
+        "RMS_order": 1.8856500825024147,
+        "error_direction_cosine": -0.9810080878241758,
+        "observable": true,
+        "passed": false,
+        "relative_difference": 7.018675633370496e-05
+      },
+      "instantaneous_extraction": {
+        "RMS_order": 1.6627413319977864,
+        "error_direction_cosine": -0.8203045119103355,
+        "observable": true,
+        "passed": false,
+        "relative_difference": 6.779007149193721e-05
+      },
+      "window_mean_extraction": {
+        "RMS_order": 1.3204294898076014,
+        "error_direction_cosine": -0.9677801189936015,
+        "observable": true,
+        "passed": false,
+        "relative_difference": 5.90409234596953e-05
+      }
+    },
+    "passed": false,
+    "wall_seconds": 672.3415367500857
+  },
+  "absolute_state_and_Q3_storage_passed": true,
+  "authorized_next": "definitions_only_absolute_baseline_anchor_or_coupling_localization_manifest",
+  "classification": "absolute_extraction_baseline_direction_gate_failed_observable_memory_propagation_not_executed",
+  "failed_absolute_channels": [
+    "cumulative_extraction",
+    "instantaneous_extraction",
+    "window_mean_extraction"
+  ],
+  "failed_instantaneous_components": [
+    "interface_flux_angular_momentum",
+    "interface_flux_killing_energy",
+    "interface_flux_mass",
+    "net_drive_angular_momentum",
+    "net_drive_killing_energy",
+    "net_drive_mass"
+  ],
+  "fifty_ms_propagation_authorized": false,
+  "fixed_Q_micro_solver_authorized": false,
+  "new_nonlinear_trajectory_executed": false,
+  "observable_memory_propagation_executed": false,
+  "passed": false,
+  "physical_failure_detected": false,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f1"
+}
