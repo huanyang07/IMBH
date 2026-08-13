@@ -1,0 +1,33 @@
+{
+  "command": "PYTHONPATH=src:scripts python scripts/run_causal_inner_nonlinear_final_three_grid_20ms_spatial_reanalysis_wp10c9d6c7c3b5c4e12.py",
+  "environment": {
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_nonlinear_final_three_grid_20ms_spatial_reanalysis_wp10c9d6c7c3b5c4e12.py": "444fae17687f8f07148fa23deaa2457b5bac6e53e6aa9776deca11463a4c98a6",
+    "scripts/run_causal_inner_nonlinear_fine_20ms_generic_anchor_wp10c9d6c7c3b5c4e11.py": "85835adbaf1596858e569dc5640d1937f2510b12aa2711c4ed46ac0e895ab633",
+    "scripts/run_causal_inner_nonlinear_three_grid_20ms_spatial_analysis_wp10c9d6c7c3b5c4e9.py": "22eeb31f34939928ee62d30cfdd535857638c3790b495957e53ac68d7db554cb",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_embedded_patch.py": "8bfbca3c74e6911e95c20476a688e46b7195c39fac318ec23581ccad2d68099a",
+    "tests/test_causal_inner_nonlinear_final_three_grid_20ms_spatial_reanalysis_wp10c9d6c7c3b5c4e12.py": "545b088719d23e018ba66764b23113c4610d294d2df84e94d318bbf6b90aa233"
+  },
+  "input_hashes": {
+    "c4e9_summary": "612b009ae1f88afafc517a576b2ee25c56e2f94436f2a5ee5545bb1c1c0e7e94",
+    "coarse_middle_arrays": "a418901656dcb57847d842cb17e22750cc0dfd6dc99f7e7630174b6086528b6c",
+    "fine_anchor_arrays": "ba25e0134cfdbb8f0c8e033db4d11fe9c9bfb72f6353c85d6c9fa77d6029bfe3",
+    "fine_anchor_summary": "30cceb5ea9fa53d9570410995fac2f06542ad2911f1fb1e94a9e9e1374879c93",
+    "fine_base_tangent_arrays": "a8fc6b0f601e475f3eb70ac5b6a1125500d948349ad8fa4ff59c34a0b23a868c",
+    "temporal_summary": "9d2f51e429936abaaf32ad4857ff197428970841f163a7dc6280bd5c8a23d4d3"
+  },
+  "report": "docs/reports/current/CODEX_CAUSAL_INNER_NONLINEAR_FINAL_THREE_GRID_20MS_SPATIAL_REANALYSIS_WP10C9D6C7C3B5C4E12_2026-08-13.md",
+  "runner": "scripts/run_causal_inner_nonlinear_final_three_grid_20ms_spatial_reanalysis_wp10c9d6c7c3b5c4e12.py",
+  "schema_version": 1,
+  "scientific_status": "CERTIFIED",
+  "source_parent_commit": "132857f4acb0c71185bd2096fc6a4bbd87ac0675",
+  "source_parent_tree_sha": "91f3cc17443e4cf25e652a5159b251420b764ba8",
+  "test": "tests/test_causal_inner_nonlinear_final_three_grid_20ms_spatial_reanalysis_wp10c9d6c7c3b5c4e12.py",
+  "work_package": "WP10c9d6c7c3b5c4e12",
+  "working_head": "132857f4acb0c71185bd2096fc6a4bbd87ac0675"
+}

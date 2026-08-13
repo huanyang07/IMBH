@@ -1,0 +1,36 @@
+{
+  "command": "PYTHONPATH=src:scripts python scripts/run_causal_inner_nonlinear_fine_20ms_generic_anchor_wp10c9d6c7c3b5c4e11.py",
+  "environment": {
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_nonlinear_5ms_cumulative_extraction_recovery_audit_wp10c9d6c7c3b5c3h2j1.py": "51443834e819ae0f083cc4680a4c8cad621598ba90348075b11be3fdd4bece1e",
+    "scripts/run_causal_inner_nonlinear_cost_bounded_fine_20ms_base_tangent_wp10c9d6c7c3b5c4e8.py": "100f59dd3520bbe233012fad1c6249fd02a99b743aebfc9dc90cb72d8212eb1c",
+    "scripts/run_causal_inner_nonlinear_fine_20ms_generic_anchor_manifest_wp10c9d6c7c3b5c4e10.py": "165010675c7f3279c5b1daefd36f3693f7960733c48a794d12e28f9f948ce573",
+    "scripts/run_causal_inner_nonlinear_fine_20ms_generic_anchor_wp10c9d6c7c3b5c4e11.py": "85835adbaf1596858e569dc5640d1937f2510b12aa2711c4ed46ac0e895ab633",
+    "scripts/run_causal_inner_nonlinear_optimized_middle_20ms_completion_wp10c9d6c7c3b5c4e3.py": "228a59c1ad9363d69eabaf9101f778615a74da4b33e6a5f565c17cec3599030f",
+    "scripts/run_causal_inner_nonlinear_second_duration_rung_wp10c9d6c7c3b5c2.py": "78d1f84660ca1820f5fed2aaa7b41d411c3f8f1db685d1c19f93fa79c0d72e19",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_discrete_tangent.py": "49b010f8fd4811f908c17c57963bbe5b44c3781324520803b6bb8e79b0f411ef",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_fluctuation.py": "57be77e57cc4b446b82ab54141166e15b34b908194a525a369560bf6b5b2fc7b",
+    "tests/test_causal_inner_nonlinear_fine_20ms_generic_anchor_wp10c9d6c7c3b5c4e11.py": "fa6ba3e5b97a87d6019b54f1526a4d48a0ecb102220b915246bb0e0dbadf9524"
+  },
+  "input_hashes": {
+    "anchor_manifest": "7f649a7ab2ef443965e3f422e16a1b0f8030e1e5045d186bde02adc47718bc0b",
+    "fine_5ms_arrays": "94d314f1e38283124c9eb9315fa91fab090c4ae16346fe3b43443e5ea495137f",
+    "fine_5ms_summary": "bebb2e45d5385cd0f45250639d969f279f61cf53a970252b27dcd211a2e1a66d",
+    "fine_base_tangent_arrays": "a8fc6b0f601e475f3eb70ac5b6a1125500d948349ad8fa4ff59c34a0b23a868c",
+    "fine_base_tangent_summary": "efa0e4824e40de7467b49d4b2b9c3f7129e9f12bbab416d2b659dcf7cff5b92a"
+  },
+  "report": "docs/reports/current/CODEX_CAUSAL_INNER_NONLINEAR_FINE_20MS_GENERIC_ANCHOR_WP10C9D6C7C3B5C4E11_2026-08-12.md",
+  "runner": "scripts/run_causal_inner_nonlinear_fine_20ms_generic_anchor_wp10c9d6c7c3b5c4e11.py",
+  "schema_version": 1,
+  "scientific_status": "CERTIFIED",
+  "source_parent_commit": "132857f4acb0c71185bd2096fc6a4bbd87ac0675",
+  "source_parent_tree_sha": "91f3cc17443e4cf25e652a5159b251420b764ba8",
+  "test": "tests/test_causal_inner_nonlinear_fine_20ms_generic_anchor_wp10c9d6c7c3b5c4e11.py",
+  "work_package": "WP10c9d6c7c3b5c4e11",
+  "working_head": "132857f4acb0c71185bd2096fc6a4bbd87ac0675"
+}

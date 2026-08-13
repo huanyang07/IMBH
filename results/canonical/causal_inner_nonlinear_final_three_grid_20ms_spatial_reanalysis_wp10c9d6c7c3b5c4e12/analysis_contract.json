@@ -1,0 +1,69 @@
+{
+  "classification": "final_three_grid_20ms_spatial_reanalysis_contract_frozen",
+  "decision": {
+    "all_state_and_extraction_channels_certify": "issue_20ms_spatial_certificate_and_authorize_reduced_architecture_definitions_only",
+    "temporal_or_spatial_gate_fails": "localize_before_later_duration"
+  },
+  "definitions_inherited_unchanged_from_c4e9": true,
+  "hard_stops": [
+    "do_not_change_c4e9_spatial_thresholds",
+    "do_not_use_raw_inner_face_flux_as_slow_export",
+    "do_not_run_50ms_fixed_Q_or_reduced_evolution"
+  ],
+  "operator_changed": false,
+  "propagation_executed": false,
+  "schema_version": 1,
+  "scope": {
+    "cumulative_interval_seconds": [
+      0.005,
+      0.02
+    ],
+    "fine_response": "continuous_nonlinear_generic_anchor",
+    "instantaneous_interval_seconds": [
+      0.005,
+      0.02
+    ],
+    "layouts": [
+      "coarse",
+      "middle",
+      "fine"
+    ],
+    "raw_inner_face_is_not_a_slow_export": true,
+    "slow_export": "certified_conservative_exterior_partition",
+    "state_restricted_to_common_64_cell_parent": true,
+    "window_mean_intervals_seconds": [
+      [
+        0.005,
+        0.02
+      ],
+      [
+        0.01,
+        0.02
+      ],
+      [
+        0.016,
+        0.02
+      ]
+    ]
+  },
+  "spatial_gates": {
+    "maximum_fine_normalized_difference": 0.05,
+    "minimum_history_cosine": 0.9,
+    "minimum_maximum_order": 0.75,
+    "minimum_refinement_error_cosine": 0.9,
+    "minimum_relative_activity": 1e-08,
+    "minimum_rms_order": 0.75,
+    "minimum_significant_component_order": 0.75
+  },
+  "uncertainty_construction": {
+    "surrogate": "none_actual_fine_nonlinear_response",
+    "temporal": "certified_coarse_middle_response_specific_shadow_envelope_plus_fine_anchor_sampled_full_vs_two_half_envelope"
+  },
+  "uncertainty_gates": {
+    "fine_nonlinear_surrogate_uncertainty": 0.0,
+    "maximum_temporal_fraction_of_middle_fine_difference": 0.1,
+    "observability_factor": 5.0,
+    "unobservable_route": "report_upper_bound_only_without_order_or_direction_claim"
+  },
+  "work_package": "WP10c9d6c7c3b5c4e12"
+}

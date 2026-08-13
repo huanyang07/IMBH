@@ -1,0 +1,122 @@
+{
+  "anchor_contract": {
+    "continuous_nonlinear_generic_anchor_required": true,
+    "exact_fine_base_accepted_timestep_schedule_required": true,
+    "maximum_discrete_ledger_defect": 1e-12,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_local_error_estimate": 0.00025,
+    "maximum_mapped_endpoint_path_closure_defect": 1e-09,
+    "maximum_scaled_nonlinear_residual": 1e-10,
+    "maximum_timestep_seconds": 0.0004,
+    "minimum_reconstruction_factor": 1.0,
+    "same_target_last_step_replay_bitwise": true,
+    "sampled_full_versus_two_half_audits": [
+      8000,
+      14000,
+      20000
+    ],
+    "tangent_predicted_Newton_initial_guess_required": true
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4e11_fine_5_to_20ms_generic_nonlinear_anchor",
+  "classification": "fine_20ms_generic_anchor_manifest_frozen_targeted_anchor_propagation_authorized",
+  "cost_control": {
+    "accepted_steps": 39,
+    "basis": "measured_fine_5ms_generic_anchor_step_costs",
+    "extraction_reanalysis_replay_allowance_wall_seconds": 2400.0,
+    "projected_raw_wall_hours": 7.569215475748254,
+    "projected_raw_wall_seconds": 27249.175712693715,
+    "projected_safe_wall_hours": 9.461519344685318,
+    "projection_is_scheduling_only": true,
+    "routine_step_wall_seconds": 520.663941145991,
+    "routine_steps": 36,
+    "safety_factor": 1.25,
+    "sampled_step_wall_seconds": 2035.0912771460135,
+    "sampled_temporal_audits": 3
+  },
+  "decision": {
+    "actual_fine_extraction_spatial_gate_fails": "reject_20ms_spatial_certificate_and_localize_components",
+    "anchor_and_reanalysis_pass": "issue_20ms_spatial_certificate_and_authorize_50ms_manifest_only",
+    "anchor_method_or_physics_fails": "stop_and_localize_without_operator_reopen"
+  },
+  "definitions_frozen_before_propagation": true,
+  "durability": {
+    "atomic_checkpoint_after_every_accepted_step": true,
+    "bind_c4e8_base_and_tangent_hashes": true,
+    "bind_execution_source_hashes": true,
+    "bind_fine5_initial_history_hashes": true,
+    "canonical_integer_target_IDs_and_exact_float_bits": true,
+    "retain_previous_complete_checkpoint": true
+  },
+  "hard_stops": [
+    "do_not_rerun_the_fine_base",
+    "do_not_rerun_other_profiles_nonlinearly",
+    "do_not_use_the_raw_inner_face_flux_as_slow_export",
+    "do_not_change_operator_profile_or_spatial_thresholds",
+    "do_not_launch_50ms_fixed_Q_or_reduced_evolution"
+  ],
+  "operator_changed": false,
+  "output_contract": {
+    "actual_extraction_response_at_every_accepted_time": true,
+    "actual_state_response_at_every_accepted_time": true,
+    "extraction_component_and_aggregate_gates_may_not_be_weakened": true,
+    "instantaneous_cumulative_and_window_mean_responses": true,
+    "rerun_c4e9_with_actual_fine_response": true,
+    "state_spatial_gate_may_not_be_weakened": true,
+    "surrogate_fraction_gate_removed_only_for_actual_fine_anchor": true,
+    "temporal_fraction_gate": 0.1
+  },
+  "production_defaults_changed": false,
+  "propagation_executed": false,
+  "reuse_contract": {
+    "fine_base": "reuse_c4e8_canonical_states_histories_and_schedule_bitwise",
+    "fine_tangent": "reuse_c4e8_generic_direction_as_Newton_predictor",
+    "initial_generic_anchor": "reuse_fine5_nonlinear_generic_state_and_complete_BDF2_history",
+    "reassemble_five_profile_block_tangent": false,
+    "rerun_fine_base": false,
+    "run_other_profiles_nonlinearly": false
+  },
+  "schema_version": 1,
+  "scientific_reason": {
+    "aggregate_extraction_orders_are_near_second_order": true,
+    "decision": "replace_only_the_fine_generic_tangent_response_with_one_continuous_nonlinear_anchor",
+    "fine_tangent_extraction_surrogate_fraction_range": [
+      0.421,
+      0.616
+    ],
+    "maximum_allowed_surrogate_fraction": 0.1,
+    "physical_failure_detected": false,
+    "state_spatial_contract_already_certified": true
+  },
+  "scope": {
+    "coupling_face": 192,
+    "extraction_face": 8,
+    "extraction_radius_rg": 1.9531594414758637,
+    "layout": "N128_exterior_N512_inner_c48",
+    "profile": "p3_buffer45__generic_five_field",
+    "raw_inner_face_is_not_a_slow_export": true,
+    "slow_export": "certified_conservative_exterior_partition",
+    "start_microseconds": 5000,
+    "stop_microseconds": 20000,
+    "target_microseconds": [
+      5000,
+      5400,
+      6000,
+      8000,
+      10000,
+      12000,
+      14000,
+      16000,
+      18000,
+      18800,
+      19600,
+      19800,
+      20000
+    ],
+    "temporal_audit_target_microseconds": [
+      8000,
+      14000,
+      20000
+    ]
+  },
+  "work_package": "WP10c9d6c7c3b5c4e10"
+}
