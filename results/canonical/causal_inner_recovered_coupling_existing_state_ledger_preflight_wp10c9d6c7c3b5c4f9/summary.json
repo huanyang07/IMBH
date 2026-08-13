@@ -1,0 +1,73 @@
+{
+  "absolute_closure_fit_authorized": false,
+  "authorized_next": "WP10c9d6c7c3b5c4f10_definitions_only_retained_guard_buffer_micro_macro_manifest",
+  "classification": "control_volume_identity_dependent_overlap_state_converges",
+  "control_volume_direct_flux_metrics": {
+    "cumulative": {
+      "RMS_order": 1.8234268505818332,
+      "error_direction_cosine": -0.9861072026616912,
+      "observable": true,
+      "passed": false,
+      "relative_difference": 6.387580237100023e-05
+    },
+    "instantaneous": {
+      "RMS_order": 1.604596132053802,
+      "error_direction_cosine": -0.8234068980856405,
+      "observable": true,
+      "passed": false,
+      "relative_difference": 6.169339681105314e-05
+    },
+    "window_mean": {
+      "RMS_order": 1.2543353249035092,
+      "error_direction_cosine": -0.9723211333867224,
+      "observable": true,
+      "passed": false,
+      "relative_difference": 5.340117812952678e-05
+    }
+  },
+  "control_volume_reconstruction_is_independent_evidence": false,
+  "direct_face48_absolute_export_spatially_convergent": false,
+  "exact_BDF_ledger_defect": 2.8375583364599494e-12,
+  "exact_BDF_residual_defect": 2.8378143941362226e-12,
+  "fifty_ms_propagation_authorized": false,
+  "fixed_Q_micro_solver_authorized": false,
+  "memory_propagation_authorized": false,
+  "method_gates_passed": true,
+  "overlap_state_metrics": {
+    "combined_face36_and_guard_storage": {
+      "RMS_order": 2.0088676537582235,
+      "error_direction_cosine": 0.9992261781199087,
+      "observable": true,
+      "passed": true,
+      "relative_difference": 0.00011311307738295948
+    },
+    "guard_mapped_storage": {
+      "RMS_order": 2.043589617091843,
+      "error_direction_cosine": 0.9998651059198034,
+      "observable": true,
+      "passed": true,
+      "relative_difference": 0.00013601163458169628
+    },
+    "guard_responsive_height_history_rate": {
+      "RMS_order": 1.923959221189103,
+      "error_direction_cosine": 0.9999738797779505,
+      "observable": true,
+      "passed": true,
+      "relative_difference": 0.02496406426277993
+    },
+    "recovery_face36_flux": {
+      "RMS_order": 1.9275704217692489,
+      "error_direction_cosine": 0.9999943777696982,
+      "observable": true,
+      "passed": true,
+      "relative_difference": 8.471494826810492e-05
+    }
+  },
+  "overlap_state_spatially_convergent": true,
+  "passed": true,
+  "physical_failure_detected": false,
+  "reduced_slow_evolution_authorized": false,
+  "response_certificate_preserved": true,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f9"
+}

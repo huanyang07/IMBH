@@ -1,0 +1,115 @@
+{
+  "algorithm": {
+    "all_29_directions_one_block_solve": true,
+    "compute_finite_time_gain_regrowth_and_oscillation_diagnostics": true,
+    "dense_full_propagator_forbidden": true,
+    "one_analytic_step_matrix_and_factorization_per_accepted_step": true,
+    "output_weighted_time_stacked_SVD": true,
+    "reuse_committed_accepted_variable_step_BDF2_histories": true,
+    "track_Q3_macro_leakage_without_suppressing_it": true
+  },
+  "augmented_diagnostic_output": {
+    "fine_complement_face36_observability_fraction": 0.060476803007652596,
+    "fine_complement_retained": true,
+    "guard_parent_mapped_storage": "cells_36_to_48_M_J_E",
+    "guard_parent_responsive_height_history": "cells_36_to_48_angular_momentum_and_energy_history"
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f13_face36_augmented_analysis_only_memory_screen",
+  "binding_output": {
+    "analytic_JVP_from_shared_face_flux_map": true,
+    "forms": [
+      "instantaneous",
+      "cumulative",
+      "window_mean"
+    ],
+    "name": "shared_face36_M_J_E_flux"
+  },
+  "classification": "face36_augmented_memory_screen_frozen_analysis_only_propagation_authorized",
+  "cost_contract": {
+    "block_solve_marginal_cost_is_negligible": true,
+    "checkpoint_each_accepted_step": true,
+    "expected_matrix_assembly_wall_hours_middle_plus_fine": [
+      2.5,
+      4.5
+    ],
+    "no_50ms_or_full_fine_nonlinear_run": true
+  },
+  "decision": {
+    "broad_observable_memory_low_leakage": "authorize_definitions_only_HMM_microburst_manifest",
+    "cross_resolution_failure": "memory_localization_only",
+    "large_Q3_leakage": "derive_physical_constraint_reaction_map_before_conditional_memory_claim",
+    "one_to_three_persistent_modes_low_leakage": "authorize_definitions_only_retained_mode_Q_plus_a_pilot_manifest",
+    "oscillatory_pair_low_leakage": "authorize_definitions_only_amplitude_phase_pilot_manifest",
+    "rapid_contraction_low_leakage": "authorize_definitions_only_quasi_steady_constraint_pilot_manifest"
+  },
+  "definitions_only": true,
+  "fixed_Q_authorized": false,
+  "hard_stops": [
+    "do_not_project_each_step_without_a_physical_reaction_map",
+    "do_not_use_face48_as_slow_output",
+    "do_not_discard_the_guard_fine_complement",
+    "do_not_fit_a_scalar_relaxation_law_before_the_spectrum_is_known",
+    "do_not_run_50ms_fixed_Q_or_reduced_evolution"
+  ],
+  "initial_lifts": {
+    "Euclidean_state_projection": false,
+    "initial_Q3_macro_null_projection_only": true,
+    "per_step_reprojection": false,
+    "physical_fixed_Q_constraint_imposed": false,
+    "projection_metric": "declared_primitive_column_scaling_with_exact_mapped_storage_constraint",
+    "seed": 20260813,
+    "seeded_smooth_random_directions": 24,
+    "structured_directions": 5
+  },
+  "interpretation_limits": {
+    "absolute_face48_export_rejection_preserved": true,
+    "persistent_modes_select_architecture_not_fitted_coefficients": true,
+    "this_cannot_prove_a_quasi_steady_manifold": true,
+    "this_is_not_a_fixed_Q_attractor_experiment": true
+  },
+  "layouts": {
+    "coarse": "absolute_scale_and_existing_response_reference_only",
+    "fine": "cross_resolution_confirmation",
+    "middle": "binding_primary"
+  },
+  "memory_propagation_authorized": true,
+  "new_nonlinear_trajectory": false,
+  "new_nonlinear_trajectory_authorized": false,
+  "propagation_executed": false,
+  "prospective_gates": {
+    "compact_retained_mode_limit": 3,
+    "maximum_Q3_macro_leakage_for_unconstrained_architecture_classification": 0.1,
+    "maximum_component_closure_defect": 1e-12,
+    "maximum_face36_output_map_defect": 1e-09,
+    "maximum_initial_Q3_null_defect": 1e-10,
+    "maximum_linear_solve_relative_defect": 1e-10,
+    "maximum_tangent_matrix_JVP_defect": 1e-08,
+    "minimum_cross_resolution_memory_subspace_cosine": 0.9,
+    "minimum_observable_energy_capture": 0.99,
+    "minimum_significant_singular_value_fraction": 0.001,
+    "rapid_contraction_final_to_peak_gain": 0.1,
+    "rapid_contraction_last_quarter_regrowth_fraction": 0.05
+  },
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "slow_coordinate": {
+    "Q3_macro": [
+      "exact_mapped_M_cells_36_to_64",
+      "exact_mapped_J_cells_36_to_64",
+      "exact_mapped_E_cells_36_to_64"
+    ],
+    "raw_face48_flux_forbidden": true,
+    "responsive_height_history_is_not_an_absolute_Q_coordinate": true
+  },
+  "staging": {
+    "no_nonlinear_anchor_in_this_package": true,
+    "run_fine_only_after_middle_method_pass": true,
+    "run_middle_first": true,
+    "stop_before_fine_on_any_method_gate_failure": true
+  },
+  "time_interval_seconds": [
+    0.005,
+    0.02
+  ],
+  "work_package": "WP10c9d6c7c3b5c4f12"
+}

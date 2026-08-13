@@ -1,0 +1,106 @@
+{
+  "absolute_closure_fit_authorized": false,
+  "authorized_next": "WP10c9d6c7c3b5c4f11_analysis_only_existing_state_overlap_consistency_preflight",
+  "classification": "retained_guard_buffer_overlap_architecture_frozen_analysis_only_preflight_authorized",
+  "cost_contract": {
+    "block_tangent_directions": "16_to_32_after_overlap_preflight_only",
+    "full_fine_or_50ms_trajectory_authorized": false,
+    "new_nonlinear_anchor_limit_before_memory_dimension_known": 0,
+    "reuse_committed_5_to_20_ms_trajectories_first": true
+  },
+  "decision": {
+    "absolute_overlap_state_fails": "absolute_slow_closure_remains_blocked",
+    "existing_state_overlap_contract_passes": "authorize_analysis_only_face36_augmented_projected_memory_screen_manifest",
+    "guard_reaction_is_large": "retain_overlap_microburst_do_not_project_memory_without_reaction",
+    "restriction_or_inventory_fails": "repair_overlap_maps_only"
+  },
+  "definitions_only": true,
+  "existing_state_overlap_preflight": {
+    "new_trajectory": false,
+    "projected_memory_propagation": false,
+    "verify_baseline_plus_response_reconstruction": true,
+    "verify_conservative_restriction_and_physical_inventory_partition": true,
+    "verify_face36_flux_and_guard_storage_three_grid_convergence": true,
+    "verify_macro_owned_overlap_state_convergence": true,
+    "verify_no_face48_substitution": true,
+    "verify_responsive_height_history_transfer": true
+  },
+  "fixed_Q_authorized": false,
+  "hard_stops": [
+    "do_not_relabel_face36_as_face48_or_horizon_flux",
+    "do_not_drop_or_double_count_guard_storage_or_sources",
+    "do_not_overwrite_primitive_guard_state_without_DAE_history_transfer",
+    "do_not_run_fixed_Q_or_reduced_evolution",
+    "do_not_start_50ms_propagation"
+  ],
+  "memory_propagation_authorized": false,
+  "new_trajectory": false,
+  "numerical_overlap": {
+    "macro_overlap_storage_and_sources_counted_exactly_once": true,
+    "macro_owned_overlap_representation": "exact_parent_sums_of_mapped_storage_integrals_plus_responsive_height_BDF_history",
+    "micro_guard_is_duplicate_numerical_state": true,
+    "micro_guard_must_remain_evolved_for_boundary_insulation": true,
+    "micro_guard_storage_and_sources_counted_in_physical_inventory": false,
+    "micro_solver_guard_parent_cells": [
+      36,
+      48
+    ],
+    "original_numerical_coupling_parent_face": 48,
+    "primitive_recovery_from_restricted_storage_requires_separate_certification": true
+  },
+  "physical_partition": {
+    "binding_exchange_observable": "shared_face36_M_J_E_flux",
+    "inner_micro_core_parent_cells": [
+      0,
+      36
+    ],
+    "macro_exterior_parent_cells": [
+      36,
+      64
+    ],
+    "raw_face48_flux_forbidden_as_slow_exchange": true,
+    "shared_exchange_parent_face": 36
+  },
+  "production_operator_changed": false,
+  "prospective_gates": {
+    "maximum_baseline_plus_response_scaled_defect": 1e-10,
+    "maximum_conservative_restriction_defect": 1e-12,
+    "maximum_guard_reaction_fraction_for_projection_free_memory_screen": 0.1,
+    "maximum_overlap_sync_roundtrip_defect": 1e-10,
+    "maximum_physical_inventory_partition_defect": 1e-12,
+    "minimum_spatial_RMS_order": 0.75,
+    "minimum_spatial_error_direction_cosine": 0.9
+  },
+  "reduced_slow_evolution_authorized": false,
+  "response_certificate_preserved": true,
+  "schema_version": 1,
+  "slow_state_candidates": {
+    "Q3": [
+      "macro_exterior_M",
+      "macro_exterior_J",
+      "macro_exterior_E"
+    ],
+    "Q4": [
+      "macro_exterior_M",
+      "macro_exterior_J",
+      "macro_exterior_E",
+      "shell_thermal_height_storage"
+    ],
+    "guard_auxiliary_is_not_assumed_to_be_a_slow_coordinate": true,
+    "guard_auxiliary_state": [
+      "restricted_guard_mapped_M_J_E",
+      "restricted_guard_responsive_height_BDF_history",
+      "previous_guard_timestep"
+    ]
+  },
+  "synchronization_contract": {
+    "Euclidean_projection_forbidden": true,
+    "double_counted_storage_forbidden": true,
+    "macro_to_micro": "storage_space_parent_increment_distributed_by_child_measure_while_preserving_zero_mean_fine_complement",
+    "micro_to_macro": "conservative_restriction_plus_explicit_reaction_increment",
+    "primitive_only_overwrite_forbidden": true,
+    "reaction_M_J_E_must_be_ledgered": true,
+    "responsive_height_history_must_be_transferred": true
+  },
+  "work_package": "WP10c9d6c7c3b5c4f10"
+}
