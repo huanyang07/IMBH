@@ -1,0 +1,225 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f15_analysis_only_Q_plus_a_reaction_map_and_coordinate_preflight",
+  "authorized_reaction_map_preflight": {
+    "construct_DQ_macro_and_B_Q_at_times_ms": [
+      5.0,
+      10.0,
+      16.0,
+      20.0
+    ],
+    "construct_state_lifts_and_descriptor_duals": true,
+    "new_trajectory": false,
+    "uses_existing_middle_and_fine_5_to_20ms_states_only": true,
+    "verify_KKT_Schur_conditioning": true,
+    "verify_exact_reaction_ledgers": true,
+    "verify_middle_fine_basis_and_coefficient_consistency": true,
+    "verify_retained_guard_complement_is_not_discarded": true,
+    "verify_two_mode_face36_reconstruction_for_all_29_directions": true
+  },
+  "certified_parent_result": {
+    "classification": "face36_compact_persistent_observable_memory_detected",
+    "minimum_middle_fine_memory_subspace_cosine": 0.9999890224716108,
+    "observable_memory_dimension": 2,
+    "oscillatory_pair_resolution_confirmed": false,
+    "rapid_contraction_detected": false,
+    "raw_face48_export_rejection_preserved": true
+  },
+  "classification": "face36_retained_mode_Q_plus_a_pilot_manifest_frozen_reaction_map_preflight_authorized",
+  "conditional_nonlinear_pilot_after_preflight": {
+    "Q_points": 1,
+    "amplitudes": [
+      0.5,
+      1.0
+    ],
+    "anchor_selection": "largest_predicted_two_mode_face36_effect_and_largest_predicted_closure_residual",
+    "duration_selected_only_after_projected_decay_estimate": true,
+    "equal_Q_lifts_screened_by_block_tangent": 29,
+    "fine_strategy": "fine_KKT_tangent_and_short_shadow_first_full_fine_only_if_uncertainty_exceeds_10_percent_of_spatial_difference",
+    "layout": "middle",
+    "maximum_full_nonlinear_anchor_lifts": 2,
+    "signs": [
+      -1,
+      1
+    ]
+  },
+  "cost_contract": {
+    "block_screen_before_nonlinear_anchors": true,
+    "no_50ms_or_full_fine_trajectory": true,
+    "no_large_rectangular_Q_database": true,
+    "one_Q_middle_pilot_expected_wall_hours_after_authorization": [
+      4.0,
+      12.0
+    ],
+    "reaction_map_preflight_expected_wall_hours": [
+      0.25,
+      1.0
+    ]
+  },
+  "decision": {
+    "basis_cross_resolution_fails": "return_to_memory_basis_localization",
+    "nonlinear_anchor_fails_later": "retain_inner_micro_solver_or_HMM",
+    "reaction_and_coordinate_preflight_passes": "authorize_definitions_only_one_Q_constrained_nonlinear_retained_mode_pilot_manifest",
+    "reaction_map_fails": "redesign_physical_macro_reservoir_coupling",
+    "two_mode_reconstruction_fails": "increase_output_oriented_memory_dimension_without_discarding_guard_state"
+  },
+  "definitions_only": true,
+  "fifty_ms_propagation_authorized": false,
+  "fixed_Q_micro_solver_authorized": false,
+  "future_nonlinear_gates": {
+    "incoming_excision_characteristics": 0,
+    "maximum_conservative_and_reaction_ledger_defect": 1e-12,
+    "maximum_relative_Q_drift": 1e-08,
+    "maximum_scaled_nonlinear_residual": 1e-10,
+    "maximum_tangent_vs_nonlinear_face36_response_fraction": 0.01,
+    "maximum_tangent_vs_nonlinear_state_response_fraction": 0.01,
+    "maximum_temporal_or_surrogate_fraction_of_spatial_difference": 0.1,
+    "maximum_two_mode_output_closure_error": 0.05,
+    "minimum_middle_fine_error_direction_cosine": 0.9,
+    "minimum_middle_fine_state_and_face36_order": 0.75,
+    "restart_replay": "bitwise"
+  },
+  "hard_stops": [
+    "do_not_run_fixed_Q_or_nonlinear_microburst_in_this_package",
+    "do_not_assume_B_Q_equals_DQ_transpose",
+    "do_not_call_the_two_modes_an_oscillatory_pair",
+    "do_not_discard_or_double_count_the_guard_state",
+    "do_not_use_face48_as_the_slow_exchange",
+    "do_not_fit_nonlinear_reduced_coefficients_before_anchor_gates",
+    "do_not_start_50ms_or_reduced_slow_evolution"
+  ],
+  "nonlinear_retained_mode_pilot_authorized": false,
+  "physical_constraint_reaction": {
+    "B_Q_equals_DQ_transpose_forbidden": true,
+    "Euclidean_projection_forbidden": true,
+    "KKT_system": [
+      "M_times_p_dot_minus_B_Q_times_lambda_equals_minus_R",
+      "DQ_macro_times_p_dot_equals_zero"
+    ],
+    "constraint": "DQ_macro_times_p_dot_equals_zero_during_fixed_Q_microburst",
+    "normalization": "DQ_macro_times_M_inverse_times_B_Q_equals_I3",
+    "normalized_map": "B_Q_equals_B_raw_times_inverse_of_DQ_M_inverse_B_raw",
+    "raw_physical_reaction_channels": {
+      "external_heating": "unit_mapped_Killing_energy_only",
+      "external_torque": "unit_mapped_angular_momentum_with_local_Omega_times_torque_Killing_energy_work",
+      "mass_loading": "unit_mapped_mass_with_background_local_specific_angular_momentum_and_Killing_energy"
+    },
+    "reaction_M_J_E_and_work_must_be_ledgered": true,
+    "reaction_envelope": "nonnegative_sin_squared_cell_volume_weight_over_parent_cells_48_to_64_normalized_to_unit_integral",
+    "reaction_map_name": "B_Q",
+    "reaction_must_not_modify_micro_core_or_duplicate_guard": true,
+    "reaction_support": "macro_only_parent_cells_48_to_64",
+    "responsive_height_BDF_history_must_be_updated": true,
+    "row_units": "exact_monolithic_mapped_M_J_E_storage_rate_conventions"
+  },
+  "physical_operator_changed": false,
+  "physical_partition": {
+    "binding_exchange": "shared_face36_M_J_E_flux",
+    "duplicate_micro_guard_parent_cells": [
+      36,
+      48
+    ],
+    "inner_micro_core_parent_cells": [
+      0,
+      36
+    ],
+    "macro_exterior_parent_cells": [
+      36,
+      64
+    ],
+    "macro_only_reaction_support_parent_cells": [
+      48,
+      64
+    ],
+    "macro_owns_guard_physical_inventory_exactly_once": true,
+    "micro_guard_fine_complement_retained": true,
+    "shared_exchange_parent_face": 36
+  },
+  "prospective_preflight_gates": {
+    "maximum_DQ_M_inverse_BQ_identity_defect": 1e-10,
+    "maximum_KKT_Schur_condition_number": 100000000.0,
+    "maximum_KKT_linear_solve_relative_defect": 1e-10,
+    "maximum_dual_biorthogonality_defect": 1e-10,
+    "maximum_reaction_ledger_relative_defect": 1e-12,
+    "maximum_state_lift_Q3_defect": 1e-10,
+    "maximum_two_mode_face36_output_weighted_RMS_error": 0.1,
+    "maximum_two_mode_face36_significant_direction_error": 0.25,
+    "minimum_consensus_form_energy_capture": 0.99,
+    "minimum_consensus_layout_subspace_cosine": 0.95,
+    "minimum_middle_fine_amplitude_history_cosine": 0.95,
+    "minimum_mode_spectral_gap_sigma2_over_sigma3": 5.0,
+    "significant_direction_relative_response_floor": 0.001
+  },
+  "reaction_map_preflight_authorized": true,
+  "reduced_candidate": {
+    "closure_residual": "full_micro_output_minus_Q_plus_a_reconstruction",
+    "face36_output_map": "Y=F_face36(Q,a)",
+    "form": [
+      "Q_dot=F_Q(Q,a)",
+      "a_dot=F_a(Q,a)"
+    ],
+    "linear_terms": "projected_discrete_BDF_tangent_preflight_only",
+    "nonlinear_terms": "not_fitted_until_two_selected_nonlinear_anchors_pass",
+    "state": "Q_plus_a1_plus_a2"
+  },
+  "reduced_slow_evolution_authorized": false,
+  "retained_amplitudes": {
+    "basis": "equal_weight_consensus_of_middle_and_fine_normalized_instantaneous_cumulative_window_mean_face36_Gramians",
+    "consensus_basis_metrics": {
+      "consensus_energy_capture": 0.9958151947856674,
+      "form_energy_capture": {
+        "fine": {
+          "cumulative": 0.9965994496732864,
+          "instantaneous": 0.9950756886054862,
+          "window_mean": 0.9957773686553718
+        },
+        "middle": {
+          "cumulative": 0.9957880468482853,
+          "instantaneous": 0.9951333239396483,
+          "window_mean": 0.9965172909919237
+        }
+      },
+      "layout_subspace_cosines": {
+        "fine": [
+          0.9992207997706497,
+          0.9898966001103451
+        ],
+        "middle": [
+          0.9992194607096071,
+          0.9901529303388086
+        ]
+      },
+      "minimum_form_energy_capture": 0.9950756886054862,
+      "minimum_layout_subspace_cosine": 0.9898966001103451,
+      "spectral_gap_sigma2_over_sigma3": 14.574033642235998
+    },
+    "dimension": 2,
+    "dual_coordinate": "descriptor_weighted_Petrov_Galerkin_dual_A_satisfying_A_times_state_lifts_equals_I_and_A_times_DQ_dual_equals_0",
+    "names": [
+      "a1",
+      "a2"
+    ],
+    "normalization": "dimensionless_with_a1_a2_equal_to_consensus_coefficients_at_5ms",
+    "not_assumed": [
+      "eigenmodes",
+      "normal_modes",
+      "oscillatory_phase_pair",
+      "individually_conserved_quantities"
+    ],
+    "sign_rule": "largest_absolute_consensus_coefficient_is_positive",
+    "state_lifts": "reconstruct_from_the_frozen_29_initial_Q3_null_lifts_and_consensus_direction_coefficients",
+    "time_dependent_basis_forbidden_in_first_pilot": true
+  },
+  "schema_version": 1,
+  "slow_state": {
+    "Q": [
+      "exact_mapped_M_parent_cells_36_to_64",
+      "exact_mapped_J_parent_cells_36_to_64",
+      "exact_mapped_E_parent_cells_36_to_64"
+    ],
+    "evolution_exchange": "shared_face36_M_J_E_flux_plus_macro_sources",
+    "raw_face48_flux_forbidden": true,
+    "responsive_height_history_is_not_an_absolute_Q_coordinate": true
+  },
+  "trajectory_executed": false,
+  "work_package": "WP10c9d6c7c3b5c4f14"
+}
