@@ -1,0 +1,131 @@
+{
+  "analysis_only_memory_screen_completed": true,
+  "authorized_next": "definitions_only_retained_mode_Q_plus_a_pilot_manifest",
+  "classification": "face36_compact_persistent_observable_memory_detected",
+  "cross_resolution": {
+    "forms": {
+      "cumulative": {
+        "dimension": 2,
+        "minimum_principal_cosine": 0.9999983119255066
+      },
+      "instantaneous": {
+        "dimension": 2,
+        "minimum_principal_cosine": 0.9999890224716108
+      },
+      "window_mean": {
+        "dimension": 2,
+        "minimum_principal_cosine": 0.999997532676368
+      }
+    },
+    "minimum_principal_cosine": 0.9999890224716108
+  },
+  "face36_overlap_partition_preserved": true,
+  "face48_absolute_export_rejection_preserved": true,
+  "fifty_ms_propagation_authorized": false,
+  "fine": {
+    "directions": 29,
+    "face36_output_map_audit_count": 4,
+    "initial_constraint_defect": 3.1583356362904285e-15,
+    "initial_orthogonality_defect": 9.272420839670462e-13,
+    "maximum_JVP_defect": 5.0199537199688085e-11,
+    "maximum_component_closure_defect": 6.973075804733847e-17,
+    "maximum_face36_output_map_defect": 1.0525534701659369e-10,
+    "maximum_incoming_characteristics": 0,
+    "maximum_linear_solve_defect": 4.186348673825391e-16,
+    "memory": {
+      "augmented_guard_k99": 8,
+      "augmented_guard_significant_dimension": 19,
+      "forms": {
+        "cumulative": {
+          "k99": 2,
+          "k99_energy_capture": 0.9985228790664267,
+          "leading_singular_value": 0.3049793065849994,
+          "significant_dimension": 5
+        },
+        "instantaneous": {
+          "k99": 2,
+          "k99_energy_capture": 0.9971109418485273,
+          "leading_singular_value": 0.5283520521358223,
+          "significant_dimension": 7
+        },
+        "window_mean": {
+          "k99": 2,
+          "k99_energy_capture": 0.9984124729651279,
+          "leading_singular_value": 0.5286907671478939,
+          "significant_dimension": 5
+        }
+      },
+      "instantaneous_final_to_peak_gain": 1.0,
+      "instantaneous_last_quarter_regrowth_fraction": 0.0007419769177095641,
+      "maximum_Q3_macro_leakage": 0.0016411563929105417,
+      "maximum_binding_k99": 2,
+      "oscillation": {
+        "dominant_cycles_over_interval": 0.9937500000000021,
+        "leading_mode_zero_crossings": 1
+      },
+      "oscillatory_pair_candidate": false,
+      "rapid_contraction": false
+    },
+    "passed_method_gates": true,
+    "steps": 39,
+    "wall_seconds": 10268.69857237162
+  },
+  "fine_guard_complement_retained": true,
+  "fixed_Q_micro_solver_authorized": false,
+  "initial_null_projection_only": true,
+  "middle": {
+    "directions": 29,
+    "face36_output_map_audit_count": 4,
+    "initial_constraint_defect": 2.516595841641398e-15,
+    "initial_orthogonality_defect": 9.85524712647749e-13,
+    "maximum_JVP_defect": 5.5142969622029944e-11,
+    "maximum_component_closure_defect": 6.557358613096931e-17,
+    "maximum_face36_output_map_defect": 3.753111360882157e-11,
+    "maximum_incoming_characteristics": 0,
+    "maximum_linear_solve_defect": 4.119498035879205e-16,
+    "memory": {
+      "augmented_guard_k99": 8,
+      "augmented_guard_significant_dimension": 20,
+      "forms": {
+        "cumulative": {
+          "k99": 2,
+          "k99_energy_capture": 0.9984939397031536,
+          "leading_singular_value": 0.4235563597480255,
+          "significant_dimension": 5
+        },
+        "instantaneous": {
+          "k99": 2,
+          "k99_energy_capture": 0.9971302185027381,
+          "leading_singular_value": 0.733408273218246,
+          "significant_dimension": 7
+        },
+        "window_mean": {
+          "k99": 2,
+          "k99_energy_capture": 0.9983758324934423,
+          "leading_singular_value": 0.7335395520225755,
+          "significant_dimension": 5
+        }
+      },
+      "instantaneous_final_to_peak_gain": 1.0,
+      "instantaneous_last_quarter_regrowth_fraction": 0.0004404521873054352,
+      "maximum_Q3_macro_leakage": 0.0023120874422616505,
+      "maximum_binding_k99": 2,
+      "oscillation": {
+        "dominant_cycles_over_interval": 0.9937500000000021,
+        "leading_mode_zero_crossings": 2
+      },
+      "oscillatory_pair_candidate": true,
+      "rapid_contraction": false
+    },
+    "passed_method_gates": true,
+    "steps": 39,
+    "wall_seconds": 4661.505936835427
+  },
+  "new_nonlinear_trajectory_executed": false,
+  "passed": true,
+  "per_step_projection_executed": false,
+  "physical_failure_detected": false,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f13"
+}
