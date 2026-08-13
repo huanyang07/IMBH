@@ -1,0 +1,72 @@
+{
+  "classification": "middle_20ms_response_temporal_reference_contract_frozen",
+  "decision": {
+    "all_response_specific_temporal_ratios_at_most_0.10": "definitions-only cost-bounded fine manifest authorized",
+    "fine_propagation_directly_authorized": false,
+    "full_fine_generic_anchor_remains_conditional": true,
+    "otherwise": "shorter_timestep_or_one_additional_short_shadow_only"
+  },
+  "definitions_frozen_before_propagation": true,
+  "durability": {
+    "canonical_target_integer_identity_required": true,
+    "complete_BDF2_histories_required": true,
+    "resume_source_identity_required": true,
+    "stage_payload_hashes_required": true
+  },
+  "hard_stops": [
+    "do_not_rerun_full_5_to_20ms_coarse_or_middle_histories",
+    "do_not_run_fine_in_the_temporal_reference_package",
+    "do_not_change_operator_profile_or_thresholds",
+    "do_not_run_50ms_fixed_Q_or_reduced_evolution",
+    "do_not_use_raw_inner_face_flux_as_slow_export"
+  ],
+  "method_gates": {
+    "main_local_error_maximum": 0.00025,
+    "maximum_discrete_ledger_defect": 1e-12,
+    "maximum_extraction_identity_defect": 1e-12,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_mapped_endpoint_path_closure_defect": 1e-09,
+    "maximum_scaled_nonlinear_residual": 1e-10,
+    "maximum_shared_conservative_face_defect": 1e-12,
+    "maximum_source_double_count_defect": 1e-12,
+    "minimum_reconstruction_factor": 1.0,
+    "strict_local_error_maximum": 3.125e-05
+  },
+  "response_observables": {
+    "cumulative_extraction_increment": "trapezoidal integral over 16.0 to 16.4 ms normalized by the full 5 to 20 ms duration",
+    "instantaneous_extraction": "maximum over common window targets",
+    "state": "perturbed_or_anchor_minus_base at common endpoints",
+    "window_mean_extraction": "trapezoidal mean over 16.0 to 16.4 ms"
+  },
+  "schema_version": 1,
+  "scope": {
+    "coarse_main_reference": "one deterministic 0.4 ms BDF2 continuation from the committed 16 ms restart",
+    "layouts": [
+      "coarse_N128_inner",
+      "middle_N256_inner"
+    ],
+    "middle_main_reference": "committed c4e3 accepted 16.0 and 16.4 ms states",
+    "profile": "generic_five_field",
+    "raw_inner_face_is_not_a_slow_export": true,
+    "slow_export": "certified_exterior_extraction_partition",
+    "start_microseconds": 16000,
+    "stop_microseconds": 16400,
+    "strict_reference": "unchanged full-step-versus-two-half strict controller with 0.1 ms cap",
+    "strict_target_microseconds": [
+      16000,
+      16100,
+      16200,
+      16300,
+      16400
+    ]
+  },
+  "temporal_uncertainty": {
+    "combined_formula": "2 * (maximum coarse response-specific discrepancy + middle response-specific discrepancy)",
+    "existing_coarse_windows": "direct main-minus-strict response at 10 and 20 ms",
+    "interior_coarse_window": "direct main-minus-strict response at 16 ms",
+    "interior_middle_window": "direct main-minus-strict response at 16 ms",
+    "maximum_fraction_of_spatial_difference": 0.1,
+    "safety_factor": 2.0
+  },
+  "work_package": "WP10c9d6c7c3b5c4e5"
+}

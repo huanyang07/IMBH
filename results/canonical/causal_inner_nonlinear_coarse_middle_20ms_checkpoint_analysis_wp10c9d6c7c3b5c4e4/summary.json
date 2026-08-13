@@ -1,0 +1,204 @@
+{
+  "analysis": {
+    "analysis_contract": {
+      "classification": "coarse_middle_20ms_checkpoint_analysis_contract_frozen",
+      "decision": {
+        "fine_base_and_five_profile_block_tangent_are_minimum_work": true,
+        "fine_level_required_for_measured_order": true,
+        "full_fine_generic_anchor_is_conditional": true,
+        "screen_fails_spatial_or_direction_gate": "stop_before_fine_and_localize",
+        "screen_fails_temporal_gate": "strengthen_middle_temporal_reference_before_fine",
+        "screen_passes": "definitions-only cost-bounded fine manifest authorized; no fine propagation directly"
+      },
+      "definitions_frozen_before_analysis": true,
+      "hard_stops": [
+        "do_not_issue_a_spatial_order_from_two_grids",
+        "do_not_run_fine_in_this_package",
+        "do_not_run_50ms_fixed_Q_or_reduced_evolution",
+        "do_not_use_the_raw_inner_face_flux_as_slow_export",
+        "do_not_change_operator_profile_or_thresholds"
+      ],
+      "operator_change_authorized": false,
+      "propagation_authorized": false,
+      "schema_version": 1,
+      "scope": {
+        "cumulative_interval_seconds": [
+          0.005,
+          0.02
+        ],
+        "cumulative_uses_one_common_coarse_target_quadrature": true,
+        "generic_nonlinear_response_only": true,
+        "instantaneous_interval_seconds": [
+          0.005,
+          0.02
+        ],
+        "raw_inner_face_is_not_a_slow_export": true,
+        "slow_export": "certified_exterior_extraction_partition",
+        "state_restricted_to_common_64_cell_parent": true,
+        "window_mean_intervals_seconds": [
+          [
+            0.005,
+            0.02
+          ],
+          [
+            0.01,
+            0.02
+          ],
+          [
+            0.016,
+            0.02
+          ]
+        ]
+      },
+      "screening_gates": {
+        "maximum_normalized_state_or_extraction_difference": 0.05,
+        "maximum_surrogate_uncertainty_fraction_for_tangent_only_fine_anchor": 0.1,
+        "maximum_temporal_uncertainty_fraction_of_spatial_difference": 0.1,
+        "minimum_cross_grid_response_history_cosine": 0.9,
+        "near_gate_fraction_triggering_full_fine_anchor": 0.8
+      },
+      "uncertainty": {
+        "coarse": "maximum of strict response discrepancy and summed base-plus-perturbed local estimator",
+        "middle_anchor": "observable-specific cubic envelope between declared sampled nonlinear-anchor audits",
+        "middle_base": "observable-specific cubic envelope between declared full-step-versus-two-half audits",
+        "surrogate": "nonlinear middle anchor minus complete discrete BDF tangent"
+      },
+      "work_package": "WP10c9d6c7c3b5c4e4"
+    },
+    "checkpoint_screen_passed": false,
+    "cumulative_extraction": {
+      "cross_grid_response_history_cosine": 0.9999961650808777,
+      "maximum_coarse_response": 4.3551353196179345e-05,
+      "maximum_component_normalized_difference": [
+        5.153920718350312e-07,
+        1.1370757311609657e-07,
+        5.5311802599749e-07,
+        1.5510136355311365e-11,
+        1.4260214911003692e-11,
+        1.5683736805171022e-11,
+        5.154075819416783e-07,
+        1.1726821815344959e-07,
+        5.649313905216639e-07,
+        1.0230222706350692e-10,
+        9.136727505746406e-11,
+        3.4634796787988894e-09,
+        8.963906695969257e-09
+      ],
+      "maximum_middle_response": 4.2998235170181855e-05,
+      "maximum_normalized_difference": 5.649313905216639e-07,
+      "rms_normalized_difference": 1.7104383594122395e-07,
+      "screen_passed": false,
+      "surrogate_uncertainty": 2.2441225779976133e-08,
+      "surrogate_uncertainty_fraction_of_spatial_difference": 0.03972380745076611,
+      "temporal_uncertainty": 1.6844561926679356e-07,
+      "temporal_uncertainty_fraction_of_spatial_difference": 0.29817004700561783
+    },
+    "full_fine_generic_anchor_required": false,
+    "instantaneous_extraction": {
+      "cross_grid_response_history_cosine": 0.999995156975952,
+      "maximum_coarse_response": 8.231670380966249e-05,
+      "maximum_component_normalized_difference": [
+        6.77362815456776e-07,
+        1.561190593624461e-07,
+        7.25265265549805e-07,
+        4.0667856189303233e-11,
+        3.8820278370832656e-11,
+        4.078725337369196e-11,
+        6.774034832034528e-07,
+        1.611884472537452e-07,
+        7.441574019331266e-07,
+        1.1023430888323742e-10,
+        4.216131298797187e-10,
+        3.98858801484339e-09,
+        1.2474280590833611e-08
+      ],
+      "maximum_middle_response": 8.159143854411268e-05,
+      "maximum_normalized_difference": 7.441574019331266e-07,
+      "rms_normalized_difference": 3.1505826386320854e-07,
+      "screen_passed": false,
+      "surrogate_uncertainty": 2.2925135436110016e-08,
+      "surrogate_uncertainty_fraction_of_spatial_difference": 0.030806836532911587,
+      "temporal_uncertainty": 1.6844561926679356e-07,
+      "temporal_uncertainty_fraction_of_spatial_difference": 0.22635751365129989
+    },
+    "maximum_early_extraction_identity_defect": 1.7767191580310405e-16,
+    "maximum_incoming_excision_characteristics": 0,
+    "maximum_local_block_ledger_defect": 0.0,
+    "maximum_shared_conservative_face_defect": 5.8111842021531595e-15,
+    "maximum_source_double_count_defect": 0.0,
+    "minimum_fine_work": [
+      "one_fine_nonlinear_base",
+      "one_five_profile_block_tangent",
+      "certified_extraction_partition_tangents",
+      "sampled_temporal_audits"
+    ],
+    "result_near_normalized_difference_gate": false,
+    "state": {
+      "cross_grid_response_history_cosine": 0.9999999404960528,
+      "maximum_coarse_response": 0.007849307110241455,
+      "maximum_component_normalized_difference": [
+        1.684831647029406e-06,
+        2.7453759451006066e-07,
+        8.285620863871567e-08,
+        4.483287472709704e-06,
+        8.608645521715952e-07
+      ],
+      "maximum_middle_response": 0.007849751552055763,
+      "maximum_normalized_difference": 4.483287472709704e-06,
+      "rms_normalized_difference": 7.401012137462332e-07,
+      "screen_passed": false,
+      "surrogate_uncertainty": 2.8439499949903598e-08,
+      "surrogate_uncertainty_fraction_of_spatial_difference": 0.006343447776440429,
+      "temporal_uncertainty": 7.86204590418317e-07,
+      "temporal_uncertainty_fraction_of_spatial_difference": 0.175363412496753
+    },
+    "surrogate_to_spatial_difference_ratios": {
+      "cumulative_extraction": 0.03972380745076611,
+      "instantaneous_extraction": 0.030806836532911587,
+      "state": 0.006343447776440429,
+      "window_mean_extraction": 0.03223309942988959
+    },
+    "window_mean_extraction": {
+      "cross_grid_response_history_cosine": 0.9999982940741093,
+      "maximum_coarse_response": 7.001877738712153e-05,
+      "maximum_component_normalized_difference": [
+        6.442881215289978e-07,
+        1.4662007824643809e-07,
+        6.903178251634805e-07,
+        3.2433086671432206e-11,
+        3.060657589732551e-11,
+        3.261685187280778e-11,
+        6.443205545609253e-07,
+        1.5125165709786958e-07,
+        7.071800285335356e-07,
+        1.0230222706350692e-10,
+        3.099791375009336e-10,
+        3.7724464734491375e-09,
+        1.1200339180805595e-08
+      ],
+      "maximum_middle_response": 6.932845956195805e-05,
+      "maximum_normalized_difference": 7.071800285335356e-07,
+      "rms_normalized_difference": 3.413426476757224e-07,
+      "screen_passed": false,
+      "surrogate_uncertainty": 2.279460417455361e-08,
+      "surrogate_uncertainty_fraction_of_spatial_difference": 0.03223309942988959,
+      "temporal_uncertainty": 1.6844561926679356e-07,
+      "temporal_uncertainty_fraction_of_spatial_difference": 0.2381934054558861
+    }
+  },
+  "analysis_completed": true,
+  "authorized_next": "middle_20ms_temporal_reference_hardening_only",
+  "classification": "coarse_middle_20ms_checkpoint_temporal_reference_insufficient_fine_blocked",
+  "coarse_middle_twenty_ms_checkpoint_screen_passed": false,
+  "fifty_ms_propagation_authorized": false,
+  "fine_completion_manifest_authorized": false,
+  "fine_twenty_ms_propagation_authorized": false,
+  "fixed_q_micro_solver_authorized": false,
+  "full_fine_generic_anchor_required": false,
+  "passed": true,
+  "physical_failure_detected": false,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "twenty_ms_spatial_checkpoint_certified": false,
+  "work_package": "WP10c9d6c7c3b5c4e4"
+}

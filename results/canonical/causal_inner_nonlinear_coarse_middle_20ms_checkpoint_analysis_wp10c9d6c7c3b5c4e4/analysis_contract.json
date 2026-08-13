@@ -1,0 +1,65 @@
+{
+  "classification": "coarse_middle_20ms_checkpoint_analysis_contract_frozen",
+  "decision": {
+    "fine_base_and_five_profile_block_tangent_are_minimum_work": true,
+    "fine_level_required_for_measured_order": true,
+    "full_fine_generic_anchor_is_conditional": true,
+    "screen_fails_spatial_or_direction_gate": "stop_before_fine_and_localize",
+    "screen_fails_temporal_gate": "strengthen_middle_temporal_reference_before_fine",
+    "screen_passes": "definitions-only cost-bounded fine manifest authorized; no fine propagation directly"
+  },
+  "definitions_frozen_before_analysis": true,
+  "hard_stops": [
+    "do_not_issue_a_spatial_order_from_two_grids",
+    "do_not_run_fine_in_this_package",
+    "do_not_run_50ms_fixed_Q_or_reduced_evolution",
+    "do_not_use_the_raw_inner_face_flux_as_slow_export",
+    "do_not_change_operator_profile_or_thresholds"
+  ],
+  "operator_change_authorized": false,
+  "propagation_authorized": false,
+  "schema_version": 1,
+  "scope": {
+    "cumulative_interval_seconds": [
+      0.005,
+      0.02
+    ],
+    "cumulative_uses_one_common_coarse_target_quadrature": true,
+    "generic_nonlinear_response_only": true,
+    "instantaneous_interval_seconds": [
+      0.005,
+      0.02
+    ],
+    "raw_inner_face_is_not_a_slow_export": true,
+    "slow_export": "certified_exterior_extraction_partition",
+    "state_restricted_to_common_64_cell_parent": true,
+    "window_mean_intervals_seconds": [
+      [
+        0.005,
+        0.02
+      ],
+      [
+        0.01,
+        0.02
+      ],
+      [
+        0.016,
+        0.02
+      ]
+    ]
+  },
+  "screening_gates": {
+    "maximum_normalized_state_or_extraction_difference": 0.05,
+    "maximum_surrogate_uncertainty_fraction_for_tangent_only_fine_anchor": 0.1,
+    "maximum_temporal_uncertainty_fraction_of_spatial_difference": 0.1,
+    "minimum_cross_grid_response_history_cosine": 0.9,
+    "near_gate_fraction_triggering_full_fine_anchor": 0.8
+  },
+  "uncertainty": {
+    "coarse": "maximum of strict response discrepancy and summed base-plus-perturbed local estimator",
+    "middle_anchor": "observable-specific cubic envelope between declared sampled nonlinear-anchor audits",
+    "middle_base": "observable-specific cubic envelope between declared full-step-versus-two-half audits",
+    "surrogate": "nonlinear middle anchor minus complete discrete BDF tangent"
+  },
+  "work_package": "WP10c9d6c7c3b5c4e4"
+}

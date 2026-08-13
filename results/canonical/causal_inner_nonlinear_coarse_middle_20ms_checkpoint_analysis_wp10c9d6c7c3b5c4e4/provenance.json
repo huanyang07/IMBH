@@ -1,0 +1,32 @@
+{
+  "command": "PYTHONPATH=src:scripts python scripts/run_causal_inner_nonlinear_coarse_middle_20ms_checkpoint_analysis_wp10c9d6c7c3b5c4e4.py",
+  "environment": {
+    "numpy": "2.3.5",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_nonlinear_coarse_middle_20ms_checkpoint_analysis_wp10c9d6c7c3b5c4e4.py": "286e027695b071ce84522bb322673ff19572eb1c370e30cfadc70c809387835e",
+    "scripts/run_causal_inner_nonlinear_optimized_middle_20ms_completion_wp10c9d6c7c3b5c4e3.py": "228a59c1ad9363d69eabaf9101f778615a74da4b33e6a5f565c17cec3599030f",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_embedded_patch.py": "8bfbca3c74e6911e95c20476a688e46b7195c39fac318ec23581ccad2d68099a",
+    "tests/test_causal_inner_nonlinear_coarse_middle_20ms_checkpoint_analysis_wp10c9d6c7c3b5c4e4.py": "5ae8a2b571c0d671ddb503fc08c0b472bb296b39ce5630a4b081f989a51dedd0",
+    "tests/test_causal_inner_nonlinear_optimized_middle_20ms_completion_wp10c9d6c7c3b5c4e3.py": "d7ecfdd11e763fe183819ff9dde478f4ace451ef7ab47db4d70d51c3a73e2e81"
+  },
+  "input_hashes": {
+    "coarse_10ms_arrays": "38d45f7705bc931c82dc87402098da0635a5992ba78260c2cee4457d1da297ac",
+    "coarse_20ms_arrays": "49ea5a152f98fbd44074f103025bf78719f571d6b1c0bdac04d17f37ad3f212a",
+    "middle_20ms_arrays": "b4cfbce2f1d823a1d2b3a9582c866e1baf6bc908d3a34b0c9200ade97adf5a10",
+    "middle_20ms_summary": "2a082fb510be9f0da950339cb6e81ca75abb56cdfbd72347e1a7a24d0df4bf5d",
+    "middle_6ms_arrays": "b90c541aa78361ae6bd2359b0a0ac7aadbcc6a225f8b493763e75343c767ff1e",
+    "spatial_checkpoint_manifest": "9077d27ad20401d4601b15cf103e645a50e16b4907025e97fe3d0a0639cedf93"
+  },
+  "report": "docs/reports/current/CODEX_CAUSAL_INNER_NONLINEAR_COARSE_MIDDLE_20MS_CHECKPOINT_ANALYSIS_WP10C9D6C7C3B5C4E4_2026-08-11.md",
+  "runner": "scripts/run_causal_inner_nonlinear_coarse_middle_20ms_checkpoint_analysis_wp10c9d6c7c3b5c4e4.py",
+  "schema_version": 1,
+  "scientific_status": "CERTIFIED",
+  "source_parent_commit": "132857f4acb0c71185bd2096fc6a4bbd87ac0675",
+  "source_parent_tree_sha": "91f3cc17443e4cf25e652a5159b251420b764ba8",
+  "test": "tests/test_causal_inner_nonlinear_coarse_middle_20ms_checkpoint_analysis_wp10c9d6c7c3b5c4e4.py",
+  "work_package": "WP10c9d6c7c3b5c4e4",
+  "working_head": "132857f4acb0c71185bd2096fc6a4bbd87ac0675"
+}

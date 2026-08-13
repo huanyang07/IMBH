@@ -1,0 +1,49 @@
+{
+  "command": "PYTHONPATH=src:scripts python scripts/run_causal_inner_nonlinear_middle_20ms_temporal_reference_shadow_wp10c9d6c7c3b5c4e6.py",
+  "environment": {
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_nonlinear_coarse_middle_20ms_checkpoint_analysis_wp10c9d6c7c3b5c4e4.py": "286e027695b071ce84522bb322673ff19572eb1c370e30cfadc70c809387835e",
+    "scripts/run_causal_inner_nonlinear_middle_20ms_temporal_reference_manifest_wp10c9d6c7c3b5c4e5.py": "05585ea95c4c852d2aeb7ad0394dd63e921a24dd93af1611457c345b1aa5c455",
+    "scripts/run_causal_inner_nonlinear_middle_20ms_temporal_reference_shadow_wp10c9d6c7c3b5c4e6.py": "b9a1f343e3c820264060ff9f1757652b7d9e1d5fe2a99b5f71d8afdcbcec0d11",
+    "scripts/run_causal_inner_nonlinear_optimized_middle_20ms_completion_wp10c9d6c7c3b5c4e3.py": "228a59c1ad9363d69eabaf9101f778615a74da4b33e6a5f565c17cec3599030f",
+    "scripts/run_causal_inner_nonlinear_second_duration_rung_wp10c9d6c7c3b5c2.py": "78d1f84660ca1820f5fed2aaa7b41d411c3f8f1db685d1c19f93fa79c0d72e19",
+    "scripts/run_causal_inner_nonlinear_ten_ms_screen_wp10c9d6c7c3b5c4b2.py": "d94ef81b37382d891d40ae900ee57c15c15642b0764121c988cf104ccc0b478a",
+    "scripts/run_causal_inner_nonlinear_twenty_ms_completion_wp10c9d6c7c3b5c4c1.py": "acca986490ae13b382234159d6be511eb954d5c5d3339dbd4d1c4797aa2dc56a",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_discrete_tangent.py": "49b010f8fd4811f908c17c57963bbe5b44c3781324520803b6bb8e79b0f411ef",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_fluctuation.py": "57be77e57cc4b446b82ab54141166e15b34b908194a525a369560bf6b5b2fc7b",
+    "tests/test_causal_inner_nonlinear_middle_20ms_temporal_reference_manifest_wp10c9d6c7c3b5c4e5.py": "ac2ed911a9e7ecf279aedca00a8abc44eba1f79c5f47d8ab901843270fe3648b",
+    "tests/test_causal_inner_nonlinear_middle_20ms_temporal_reference_shadow_wp10c9d6c7c3b5c4e6.py": "818c533ceec1b5904d3a61dee46b98cd1335a843c80bbeaeb977f1121c9657b1"
+  },
+  "input_hashes": {
+    "c4e4_summary": "c7d67dc1758f580c4c59e27e57f1481aa1f4b36437dabd3e9a200564f9bc9e29",
+    "coarse_10ms_arrays": "38d45f7705bc931c82dc87402098da0635a5992ba78260c2cee4457d1da297ac",
+    "coarse_20ms_arrays": "49ea5a152f98fbd44074f103025bf78719f571d6b1c0bdac04d17f37ad3f212a",
+    "middle_20ms_arrays": "b4cfbce2f1d823a1d2b3a9582c866e1baf6bc908d3a34b0c9200ade97adf5a10",
+    "middle_anchor_checkpoint": "925cdb5497a23cc81ab643d041dd819c99aee30aacb847f2ca089238ea3c7d56",
+    "middle_base_checkpoint": "1409c7d3c42e5c27925204e83561f969b04c03ef9fecc8004d6aed1bc21cb352",
+    "middle_extraction_checkpoint": "9d17c70a629648763d06f29b58215b91949d3f731795473c575800a7c6661278",
+    "temporal_manifest": "40010ca2ce8d9470eb02c0192d7dc9d51c1f418e8422ab38e6bd1c3c8f030ef5"
+  },
+  "report": "docs/reports/current/CODEX_CAUSAL_INNER_NONLINEAR_MIDDLE_20MS_TEMPORAL_REFERENCE_SHADOW_WP10C9D6C7C3B5C4E6_2026-08-11.md",
+  "runner": "scripts/run_causal_inner_nonlinear_middle_20ms_temporal_reference_shadow_wp10c9d6c7c3b5c4e6.py",
+  "schema_version": 1,
+  "scientific_status": "CERTIFIED",
+  "source_parent_commit": "132857f4acb0c71185bd2096fc6a4bbd87ac0675",
+  "source_parent_tree_sha": "91f3cc17443e4cf25e652a5159b251420b764ba8",
+  "stage_hashes": {
+    "coarse_base_main": "ca7dc95b7bdfe0dad06df10c30b20547a41b1caddc677a4290850a54c36735d4",
+    "coarse_base_strict": "047d070fcec7a19290e5db718bc27bcd3ce70f6d3718c534658a9fe5e5f5dd2c",
+    "coarse_perturbed_main": "aae7141d7e36f7279c643d579d169b39455d2765188c91192dc25d8afc0e1972",
+    "coarse_perturbed_strict": "020cedbeae2f5432af000d6175f9b0ca5b2c9fa5534206a651e97550a8b01072",
+    "middle_anchor_strict": "ee612341f18d4b4f1c4e715e9b6b2c9849a469c7632a273af64738dfd98c4128",
+    "middle_base_strict": "51b533d328697c3c1886740fc1417bb66fa8a67cae2e4f50bafe9b4268c65e0c"
+  },
+  "test": "tests/test_causal_inner_nonlinear_middle_20ms_temporal_reference_shadow_wp10c9d6c7c3b5c4e6.py",
+  "work_package": "WP10c9d6c7c3b5c4e6",
+  "working_head": "132857f4acb0c71185bd2096fc6a4bbd87ac0675"
+}
