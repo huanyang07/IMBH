@@ -1,0 +1,34 @@
+{
+  "command": "PYTHONPATH=src:scripts python scripts/run_causal_inner_nonlinear_three_grid_20ms_spatial_analysis_wp10c9d6c7c3b5c4e9.py",
+  "environment": {
+    "numpy": "2.3.5",
+    "platform": "macOS-14.8.3-arm64-arm-64bit",
+    "python": "3.12.13",
+    "scipy": "1.18.0"
+  },
+  "implementation_source_hashes": {
+    "scripts/run_causal_inner_nonlinear_coarse_middle_20ms_checkpoint_analysis_wp10c9d6c7c3b5c4e4.py": "286e027695b071ce84522bb322673ff19572eb1c370e30cfadc70c809387835e",
+    "scripts/run_causal_inner_nonlinear_cost_bounded_fine_20ms_base_tangent_wp10c9d6c7c3b5c4e8.py": "100f59dd3520bbe233012fad1c6249fd02a99b743aebfc9dc90cb72d8212eb1c",
+    "scripts/run_causal_inner_nonlinear_middle_20ms_temporal_reference_shadow_wp10c9d6c7c3b5c4e6.py": "b9a1f343e3c820264060ff9f1757652b7d9e1d5fe2a99b5f71d8afdcbcec0d11",
+    "scripts/run_causal_inner_nonlinear_three_grid_20ms_spatial_analysis_wp10c9d6c7c3b5c4e9.py": "22eeb31f34939928ee62d30cfdd535857638c3790b495957e53ac68d7db554cb",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_embedded_patch.py": "8bfbca3c74e6911e95c20476a688e46b7195c39fac318ec23581ccad2d68099a",
+    "tests/test_causal_inner_nonlinear_three_grid_20ms_spatial_analysis_wp10c9d6c7c3b5c4e9.py": "fa1a1faa614440760d6c1cd5920e4e00e621c378a0cc8a9525755790b447433d"
+  },
+  "input_hashes": {
+    "coarse_middle_arrays": "a418901656dcb57847d842cb17e22750cc0dfd6dc99f7e7630174b6086528b6c",
+    "coarse_middle_summary": "c7d67dc1758f580c4c59e27e57f1481aa1f4b36437dabd3e9a200564f9bc9e29",
+    "fine_arrays": "a8fc6b0f601e475f3eb70ac5b6a1125500d948349ad8fa4ff59c34a0b23a868c",
+    "fine_manifest": "31c9c6ee180d521a29e160cb90f421a2b0602ce139287ddd74ff0eac69e7b203",
+    "fine_summary": "efa0e4824e40de7467b49d4b2b9c3f7129e9f12bbab416d2b659dcf7cff5b92a",
+    "temporal_summary": "9d2f51e429936abaaf32ad4857ff197428970841f163a7dc6280bd5c8a23d4d3"
+  },
+  "report": "docs/reports/current/CODEX_CAUSAL_INNER_NONLINEAR_THREE_GRID_20MS_SPATIAL_ANALYSIS_WP10C9D6C7C3B5C4E9_2026-08-12.md",
+  "runner": "scripts/run_causal_inner_nonlinear_three_grid_20ms_spatial_analysis_wp10c9d6c7c3b5c4e9.py",
+  "schema_version": 1,
+  "scientific_status": "CERTIFIED",
+  "source_parent_commit": "132857f4acb0c71185bd2096fc6a4bbd87ac0675",
+  "source_parent_tree_sha": "91f3cc17443e4cf25e652a5159b251420b764ba8",
+  "test": "tests/test_causal_inner_nonlinear_three_grid_20ms_spatial_analysis_wp10c9d6c7c3b5c4e9.py",
+  "work_package": "WP10c9d6c7c3b5c4e9",
+  "working_head": "132857f4acb0c71185bd2096fc6a4bbd87ac0675"
+}
