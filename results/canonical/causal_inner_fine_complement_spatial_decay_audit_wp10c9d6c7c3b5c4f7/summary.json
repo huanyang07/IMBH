@@ -1,0 +1,78 @@
+{
+  "JVP_fraction_of_transition": {
+    "32": 0.016851682978375814,
+    "36": 0.060476803007652596,
+    "40": 0.14211958029742053,
+    "42": 0.2031455668155233,
+    "44": 0.28517752147248415,
+    "45": 0.33440330219104347,
+    "46": 0.3894247493926443,
+    "47": 0.47040300200665064,
+    "48": 1.0
+  },
+  "absolute_closure_fit_authorized": false,
+  "authorized_next": "definitions_only_recovered_coupling_control_volume_manifest",
+  "classification": "fine_complement_recovery_surface_candidate_identified",
+  "eligible_faces": [
+    36
+  ],
+  "face_metrics": {
+    "32": {
+      "cosine": 0.999421293113622,
+      "order": 1.7584913223760903,
+      "passed": true
+    },
+    "36": {
+      "cosine": 0.9999953031675237,
+      "order": 1.9281006731897155,
+      "passed": true
+    },
+    "40": {
+      "cosine": 0.9999998575064172,
+      "order": 1.9776451115084746,
+      "passed": true
+    },
+    "42": {
+      "cosine": 0.9999999240348255,
+      "order": 1.976683335439694,
+      "passed": true
+    },
+    "44": {
+      "cosine": 0.9999992567018551,
+      "order": 2.0100086055788084,
+      "passed": true
+    },
+    "45": {
+      "cosine": 0.9998555052738689,
+      "order": 1.953250206194845,
+      "passed": true
+    },
+    "46": {
+      "cosine": 0.9967957546852114,
+      "order": 2.0658809147216846,
+      "passed": true
+    },
+    "47": {
+      "cosine": 0.9805994407420917,
+      "order": 1.9282397146068881,
+      "passed": true
+    },
+    "48": {
+      "cosine": -0.802400825630814,
+      "order": 1.6461142651839162,
+      "passed": false
+    }
+  },
+  "fixed_Q_micro_solver_authorized": false,
+  "incoming_excision_characteristics": 0,
+  "maximum_ledger_defect": 4.26153508157899e-15,
+  "memory_propagation_authorized": false,
+  "method_gates_passed": true,
+  "passed": true,
+  "physical_failure_detected": false,
+  "reduced_slow_evolution_authorized": false,
+  "response_certificate_preserved": true,
+  "schema_version": 1,
+  "selected_recovery_parent_face": 36,
+  "work_package": "WP10c9d6c7c3b5c4f7"
+}

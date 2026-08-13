@@ -1,0 +1,59 @@
+{
+  "absolute_closure_fit_authorized": false,
+  "analytic_kernel": "forward_AD_radial_shared_face_flux_jacobian",
+  "authorized_next": "WP10c9d6c7c3b5c4f5_fine_complement_exact_JVP_audit",
+  "classification": "fine_complement_JVP_manifest_frozen_analysis_authorized",
+  "decision": {
+    "JVP_audit_failure": "method_repair_only",
+    "adjacent_JVP_also_large": "distributed_fine_complement_localization_required",
+    "transition_JVP_above_point_one_and_adjacent_below_point_one": "coupling_recovery_surface_manifest_authorized",
+    "transition_JVP_below_point_one": "fine_anchored_absolute_baseline_manifest_authorized"
+  },
+  "definitions_only": true,
+  "direction": "native_fine_state_minus_repeated_conservative_parent_average",
+  "direction_is_diagnostic_not_a_physical_lift": true,
+  "faces": [
+    46,
+    47,
+    48
+  ],
+  "finite_difference_audit": {
+    "maximum_analytic_FD_relative_defect": 1e-06,
+    "maximum_step_plateau_relative_change": 0.0001,
+    "relative_steps": [
+      0.0005,
+      0.001,
+      0.002
+    ],
+    "times_microseconds": [
+      5000,
+      20000
+    ]
+  },
+  "fixed_Q_authorized": false,
+  "gates": {
+    "maximum_JVP_fraction_of_actual_middle_fine_transition_difference": 0.1,
+    "maximum_adjacent_face_JVP_fraction_of_transition_JVP": 0.1,
+    "maximum_characteristic_imaginary_part": 1e-10,
+    "maximum_projector_closure_defect": 1e-10
+  },
+  "hard_stops": [
+    "do_not_promote_the_repeated_parent_state",
+    "do_not_change_operator_or_run_trajectory",
+    "do_not_relax_failed_absolute_gate",
+    "do_not_start_memory_or_fixed_Q"
+  ],
+  "layout": "fine",
+  "new_trajectory": false,
+  "observable_memory_propagation_authorized": false,
+  "reduced_slow_evolution_authorized": false,
+  "response_certificate_preserved": true,
+  "schema_version": 1,
+  "times_microseconds": [
+    5000,
+    10000,
+    16000,
+    20000
+  ],
+  "work_package": "WP10c9d6c7c3b5c4f4"
+}

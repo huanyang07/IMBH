@@ -1,0 +1,42 @@
+{
+  "absolute_closure_fit_authorized": false,
+  "authorized_next": "WP10c9d6c7c3b5c4f7_fine_complement_spatial_decay_audit",
+  "centered_difference_step": 0.001,
+  "classification": "fine_complement_decay_manifest_frozen_existing_state_audit_authorized",
+  "definitions_only": true,
+  "fixed_Q_authorized": false,
+  "gates": {
+    "maximum_JVP_fraction_of_transition": 0.1,
+    "maximum_ledger_defect": 1e-12,
+    "maximum_nonmonotone_regrowth_fraction": 0.05,
+    "minimum_actual_flux_cosine": 0.9,
+    "minimum_actual_flux_order": 0.75,
+    "minimum_consecutive_recovered_faces": 2
+  },
+  "memory_propagation_authorized": false,
+  "new_trajectory": false,
+  "parent_faces": [
+    32,
+    36,
+    40,
+    42,
+    44,
+    45,
+    46,
+    47,
+    48
+  ],
+  "reduced_slow_evolution_authorized": false,
+  "response_certificate_preserved": true,
+  "schema_version": 1,
+  "selected_face_is_only_a_recovery_surface_candidate": true,
+  "selection": "largest_parent_face_below_48_whose_JVP_is_below_point_one_with_two_consecutive_inward_passes_and_whose_actual_flux_passes_spatial_gates",
+  "step_certified_by_parent_JVP_audit": true,
+  "times_microseconds": [
+    5000,
+    10000,
+    16000,
+    20000
+  ],
+  "work_package": "WP10c9d6c7c3b5c4f6"
+}

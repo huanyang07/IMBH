@@ -1,0 +1,60 @@
+{
+  "absolute_closure_fit_authorized": false,
+  "analysis_contract": {
+    "compare_direct_and_control_volume_face_48_flux": true,
+    "existing_states_only": true,
+    "require_exact_buffer_ledger_closure": true,
+    "require_recovery_face_36_remain_spatially_convergent": true,
+    "separate_mapped_storage_rate_responsive_height_rate_and_all_stationary_source_blocks": true,
+    "test_recovery_faces": [
+      32,
+      36,
+      40
+    ],
+    "three_grid_instantaneous_cumulative_and_window_mean_forms": true
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f9_recovered_coupling_existing_state_ledger_preflight",
+  "candidate_architectures": {
+    "control_volume_identity": {
+      "direct_BDF_identity_may_not_be_used_as_independent_convergence_evidence": true,
+      "identity": "F_48_equals_F_36_plus_integrated_sources_minus_complete_storage_rate_over_36_to_48",
+      "mapped_storage_and_nonexact_height_history_both_required": true
+    },
+    "overlap_state": {
+      "outer_use": "requires_overlap_or_reaction_ledger_no_direct_substitution",
+      "retained_guard_state": "complete_mapped_M_J_E_plus_responsive_height_BDF_history_in_cells_36_to_48",
+      "slow_boundary_flux": "shared_M_J_E_flux_at_recovery_face_36"
+    }
+  },
+  "classification": "recovered_coupling_guard_buffer_manifest_frozen_analysis_only_ledger_audit_authorized",
+  "decision": {
+    "control_volume_absolute_export_converges": "authorize_Q3_memory_screen_using_augmented_guard_buffer_output_map",
+    "identity_is_only_discrete_tautology": "do_not_claim_recovery_run_independent_temporal_shadow_or_reformulate_output",
+    "neither_converges": "absolute_slow_closure_remains_blocked",
+    "only_overlap_state_converges": "authorize_retained_guard_buffer_micro_macro_manifest"
+  },
+  "definitions_only": true,
+  "fixed_Q_authorized": false,
+  "guard_buffer_parent_cells": [
+    36,
+    48
+  ],
+  "guard_buffer_remains_explicitly_evolved": true,
+  "hard_stops": [
+    "do_not_drop_guard_buffer_storage_or_sources",
+    "do_not_treat_direct_BDF_rearrangement_as_independent_validation",
+    "do_not_relabel_face_36_as_face_48_or_horizon_flux",
+    "do_not_run_new_trajectory_memory_or_fixed_Q"
+  ],
+  "memory_propagation_authorized": false,
+  "new_trajectory": false,
+  "original_coupling_parent_face": 48,
+  "original_coupling_radius_rg": 12.777241939756358,
+  "recovery_flux_is_not_relabelled_horizon_or_original_coupling_flux": true,
+  "recovery_parent_face": 36,
+  "recovery_radius_rg": 7.827912545605751,
+  "reduced_slow_evolution_authorized": false,
+  "response_certificate_preserved": true,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f8"
+}
