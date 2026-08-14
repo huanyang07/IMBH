@@ -1,0 +1,145 @@
+{
+  "authorized_analysis_only_preflight": {
+    "also_check_fine_endpoint_without_propagation": true,
+    "compute_finite_time_singular_and_transient_growth_diagnostics": true,
+    "construct_descriptor_consistent_KKT": true,
+    "construct_fixed_Q_projected_local_tangent": true,
+    "do_not_assume_guard_mixing_or_decay": true,
+    "evaluate_face36_output_observability": true,
+    "lift_classes": [
+      "two_explicit_leading_directions",
+      "four_rotatable_weak_enrichment_directions",
+      "fine_only_complement_directions",
+      "smooth_random_Q3_null_guard_directions"
+    ],
+    "new_nonlinear_trajectory": false,
+    "new_tangent_trajectory": false,
+    "representative_Q_state": "committed_middle_20ms_base_state",
+    "screen_equal_Q_lifts_as_block_RHS": 24,
+    "work_package": "WP10c9d6c7c3b5c4f22_analysis_only_leading_two_plus_HMM_fixed_Q_constraint_preflight"
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f22_analysis_only_leading_two_plus_HMM_fixed_Q_constraint_preflight",
+  "classification": "leading_two_plus_HMM_architecture_manifest_frozen_analysis_only_fixed_Q_preflight_authorized",
+  "conditional_nonlinear_pilot_contract": {
+    "adaptive_microburst_windows_ms": [
+      2.0,
+      5.0,
+      10.0,
+      20.0
+    ],
+    "all_lifts_screened_by_block_tangent_first": true,
+    "binding_outputs": [
+      "instantaneous_face36_exterior_partition",
+      "cumulative_face36_exterior_partition",
+      "window_mean_face36_exterior_partition",
+      "a2_transition_history",
+      "constraint_reaction_ledgers"
+    ],
+    "extend_window_only_if_guard_statistics_not_converged": true,
+    "fine_full_trajectory_automatic": false,
+    "fine_residual_correction_then_short_shadow": true,
+    "layout": "middle_primary",
+    "maximum_full_nonlinear_anchor_lifts": 2,
+    "one_constrained_nonlinear_base_per_Q": true
+  },
+  "cost_contract": {
+    "adaptive_window_extension": true,
+    "analysis_only_preflight_wall_hours": [
+      1.0,
+      3.0
+    ],
+    "first_middle_one_Q_pilot_wall_hours": [
+      6.0,
+      15.0
+    ],
+    "no_automatic_fine_or_50ms_trajectory": true,
+    "no_full_nonlinear_run_for_every_lift": true,
+    "one_factorization_24_RHS": true
+  },
+  "decision": {
+    "fixed_Q_preflight_fails": "stop_before_any_constrained_microburst",
+    "guard_contracts_or_mixes_rapidly": "authorize_Q3_plus_a2_closure_with_short_HMM_burst",
+    "guard_has_low_rank_persistent_observable_memory": "augment_a2_only_after_new_cross_grid_coordinate_gate",
+    "guard_is_broad_but_window_mean_converges": "retain_HMM_microburst_closure",
+    "guard_mean_depends_on_lift_or_has_long_memory": "retain_inner_solver_or_explicit_memory_kernel",
+    "multiple_guard_attractors": "add_discrete_branch_or_hysteresis_state"
+  },
+  "definitions_only": true,
+  "fifty_ms_propagation_authorized": false,
+  "fixed_Q_constraint": {
+    "C": "DQ3",
+    "Euclidean_projection_forbidden": true,
+    "Q": "Q3_exterior_domain_M_J_E",
+    "a2_is_not_constrained": true,
+    "constraint_reaction_must_annihilate_a2_dual": true,
+    "continuous_KKT": "[M,-B_Q;DQ3,0]*[p_dot,lambda]=[-R,0]",
+    "manual_primitive_freezing_forbidden": true,
+    "reaction": "ledger_derived_B_Q_from_c4f15",
+    "record_multiplier_work_in_M_J_E_ledgers": true
+  },
+  "fixed_Q_constraint_preflight_authorized": true,
+  "fixed_Q_micro_solver_authorized": false,
+  "hard_stops": [
+    "do_not_fit_a_direct_two_mode_face36_output_law",
+    "do_not_promote_the_four_weak_vectors_as_coordinates",
+    "do_not_discard_the_guard_or_fine_only_complement",
+    "do_not_freeze_primitives_manually",
+    "do_not_run_every_lift_nonlinearly",
+    "do_not_use_raw_face48_as_slow_exchange",
+    "do_not_start_50ms_or_reduced_slow_evolution"
+  ],
+  "hybrid_state": {
+    "architecture_metrics": {
+      "earlier_two_mode_static_maximum_significant_direction_error": 1.0437719690983103,
+      "earlier_two_mode_static_output_weighted_RMS_error": 0.07017343795563558,
+      "fine_complement_face36_fraction_p95": 1.207237573468713,
+      "fine_complement_global_face36_relative_norm": 0.020135932811161623,
+      "fine_complement_global_state_relative_norm": 0.07371827969644393,
+      "fine_complement_state_fraction_p95": 0.10416396688279327,
+      "leading_amplitude_history_cosine": 0.9996159890883407,
+      "leading_amplitude_history_relative_difference": 0.036903207919854845,
+      "leading_face36_history_cosine": 0.9999998724654362,
+      "leading_face36_history_relative_difference": 0.279672528799845,
+      "minimum_full_six_mode_projector_cosine": 0.8316579983090716,
+      "minimum_leading_block_projector_cosine": 0.9809726636589404,
+      "six_mode_static_maximum_significant_direction_error": 0.03307795194719029,
+      "six_mode_static_output_weighted_RMS_error": 0.006856370518842662,
+      "weak_amplitude_history_cosine": 0.8833045986751896,
+      "weak_amplitude_history_relative_difference": 0.46888672475592613,
+      "weak_face36_history_cosine": 0.3041597093139905,
+      "weak_face36_history_relative_difference": 1.0493160928834107
+    },
+    "explicit_memory_coordinates": "a2_cross_grid_stable_leading_block",
+    "formal_state": "Q3_plus_a2_plus_Z_guard",
+    "guard_microstate": "all_remaining_DAE_state_including_rotatable_weak_block_fine_only_complement_and_storage_histories",
+    "macro_coordinates": "Q3_exterior_domain_M_J_E",
+    "raw_face48_exchange_forbidden": true,
+    "slow_exchange": "certified_face36_exterior_partition"
+  },
+  "interpretation": {
+    "HMM_microstate_supplies_binding_face36_output": true,
+    "direct_two_mode_output_closure_supported": false,
+    "guard_complement_may_be_discarded": false,
+    "leading_two_state_coordinate_supported": true,
+    "reason": "leading_state_amplitudes_are_cross_grid_stable_but_their_direct_face36_magnitude_is_not;_the_weak_block_is_resolution_dependent_and_remains_part_of_the_guard_microstate",
+    "six_mode_explicit_coordinate_supported": false,
+    "weak_vectors_are_individually_named_physical_modes": false
+  },
+  "nonlinear_retained_mode_pilot_authorized": false,
+  "physical_operator_changed": false,
+  "prospective_preflight_gates": {
+    "incoming_excision_characteristics": 0,
+    "maximum_DQ_M_inverse_BQ_identity_defect": 1e-10,
+    "maximum_KKT_linear_solve_relative_defect": 1e-10,
+    "maximum_a2_dual_biorthogonality_defect": 1e-10,
+    "maximum_a2_dual_reaction_annihilation_defect": 1e-10,
+    "maximum_face36_directional_JVP_relative_defect": 1e-08,
+    "maximum_projected_block_solve_relative_defect": 1e-10,
+    "maximum_reaction_ledger_relative_defect": 1e-12,
+    "maximum_reaction_support_relative_defect": 1e-12
+  },
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "trajectory_executed": false,
+  "work_package": "WP10c9d6c7c3b5c4f21"
+}
