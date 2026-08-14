@@ -1,0 +1,29 @@
+{
+  "augmented_residual_sign": "scaled_monolithic_residual_minus_BQ_lambda",
+  "binding_exchange_parent_face": 36,
+  "finite_constraint": "exact_Q3_of_new_endpoint_minus_target",
+  "finite_lift_amplitude": 1e-05,
+  "layout": "middle",
+  "nonzero_multiplier_direction_indices": [
+    0,
+    1,
+    2,
+    6,
+    8,
+    12
+  ],
+  "raw_face48_exchange_forbidden": true,
+  "representative_time_seconds": 0.02,
+  "schema_version": 1,
+  "selected_relative_steps": [
+    5e-05,
+    0.0001
+  ],
+  "small_timesteps_seconds": [
+    2e-08,
+    1e-08,
+    5e-09
+  ],
+  "temporal_storage": "unchanged_complete_variable_step_BDF2_history",
+  "work_package": "WP10c9d6c7c3b5c4f24"
+}

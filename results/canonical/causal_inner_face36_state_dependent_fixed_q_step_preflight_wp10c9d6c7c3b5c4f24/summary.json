@@ -1,0 +1,113 @@
+{
+  "analysis_only": true,
+  "authorized_next": null,
+  "classification": "state_dependent_fixed_Q_step_and_JVP_preflight_failed",
+  "fifty_ms_propagation_authorized": false,
+  "finite_equal_Q_lifts_preflight_certified": true,
+  "fixed_Q_micro_solver_authorized": false,
+  "gates": {
+    "incoming_excision_characteristics": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_Q3_endpoint_relative_defect": 1e-12,
+    "maximum_augmented_step_scaled_residual": 1e-10,
+    "maximum_constraint_work_ledger_relative_defect": 1e-12,
+    "maximum_continuous_KKT_relative_defect": 1e-10,
+    "maximum_dense_colored_Jacobian_relative_defect": 1e-09,
+    "maximum_directional_JVP_relative_defect": 1e-08,
+    "maximum_face36_directional_JVP_relative_defect": 1e-08,
+    "maximum_reaction_ledger_relative_defect": 1e-12,
+    "maximum_reconstruction_factor": 1.0,
+    "maximum_small_timestep_KKT_closure_defect": 1e-08,
+    "maximum_zero_multiplier_reduction_defect": 1e-12,
+    "minimum_scattering_optical_depth": 1.0
+  },
+  "supplementary_diagnostics": {
+    "reaction_derivative_worst_direction_index": 2,
+    "reaction_derivative_step_sweep": [
+      {
+        "central_five_relative_defect": 8.955078528448462e-07,
+        "five_to_previous_relative_defect": null,
+        "relative_step": 5e-05
+      },
+      {
+        "central_five_relative_defect": 1.434410883568111e-07,
+        "five_to_previous_relative_defect": 2.392348037389226e-10,
+        "relative_step": 2e-05
+      },
+      {
+        "central_five_relative_defect": 3.616719333000523e-08,
+        "five_to_previous_relative_defect": 1.2287471909184238e-09,
+        "relative_step": 1e-05
+      },
+      {
+        "central_five_relative_defect": 8.366331447084044e-09,
+        "five_to_previous_relative_defect": 2.7042463005557207e-09,
+        "relative_step": 5e-06
+      },
+      {
+        "central_five_relative_defect": 7.129315906623348e-09,
+        "five_to_previous_relative_defect": 1.8510286736943734e-08,
+        "relative_step": 2e-06
+      }
+    ],
+    "small_timestep_cubic_extrapolated_residual": 4.48796719261901e-08,
+    "small_timestep_quadratic_extrapolated_residual": 9.328698772718506e-08,
+    "small_timestep_quarter_scale_extrapolated_residual": 1.333395911300624e-07,
+    "small_timestep_limit_gate_passed": false
+  },
+  "middle_endpoint": {
+    "DQ_M_inverse_BQ_identity_defect": 1.517084725520701e-12,
+    "augmented_dimensions": 563,
+    "committed_previous_timestep_seconds": 0.0001999999999999988,
+    "committed_timestep_seconds": 0.00020000000000000226,
+    "committed_transition_index": 38,
+    "continuous_KKT_relative_defect": 1.21100207482938e-14,
+    "dimensions": 560,
+    "finite_lift_amplitude": 1e-05,
+    "incoming_excision_characteristics": 0,
+    "maximum_H_over_R": 0.09783779399425115,
+    "maximum_Q3_endpoint_relative_defect": 6.846055045257363e-15,
+    "maximum_augmented_endpoint_scaled_residual": 7.266539530473789e-11,
+    "maximum_constraint_work_ledger_relative_defect": 1.8894465740189937e-16,
+    "maximum_dense_colored_Jacobian_relative_defect": 2.6280840535739347e-08,
+    "maximum_directional_central_JVP_relative_defect": 1.0622735436362156e-07,
+    "maximum_directional_central_five_point_relative_defect": 1.6935669796101998e-12,
+    "maximum_directional_five_point_JVP_relative_defect": 1.0622735435686292e-07,
+    "maximum_face36_directional_JVP_relative_defect": 1.2086394451143873e-09,
+    "maximum_nonzero_multiplier_state_dependent_central_five_point_defect": 3.581535374544277e-06,
+    "maximum_reaction_coordinate_Newton_iterations": 2,
+    "maximum_reaction_ledger_relative_defect": 1.8894465740189937e-16,
+    "maximum_reaction_support_relative_defect": 0.0,
+    "maximum_reconstruction_factor": 1.0,
+    "maximum_small_timestep_KKT_closure_defect": 0.042395092538830004,
+    "maximum_unconstrained_endpoint_scaled_residual": 7.266539530473789e-11,
+    "maximum_zero_multiplier_reduction_defect": 0.0,
+    "minimum_scattering_optical_depth": 19.254287729557294,
+    "passed": false,
+    "sign_symmetric_lift_count": 48,
+    "small_timestep_KKT_closure_defects": [
+      0.16990338153597748,
+      0.08484397366427573,
+      0.042395092538830004
+    ],
+    "small_timestep_Q3_relative_defects": [
+      6.124201654594035e-09,
+      1.5305026664212067e-09,
+      3.825571366364042e-10
+    ],
+    "time_seconds": 0.02,
+    "wall_seconds": 13476.995164334308
+  },
+  "one_Q_execution_manifest_authorized": false,
+  "one_Q_nonlinear_pilot_propagation_authorized": false,
+  "passed": false,
+  "physical_operator_changed": false,
+  "raw_face48_export_rejection_preserved": true,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "state_dependent_constrained_JVP_certified": false,
+  "state_dependent_constrained_step_certified": false,
+  "total_wall_seconds": 13494.239897457883,
+  "trajectory_executed": false,
+  "work_package": "WP10c9d6c7c3b5c4f24"
+}
