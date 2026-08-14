@@ -1,0 +1,50 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f18_analysis_only_stable_dual_and_face36_directional_JVP_recovery",
+  "classification": "face36_six_mode_middle_dynamic_coordinate_preflight_rejected_fine_blocked_numerical_audit_recovery_manifest_authorized",
+  "failed_gates": [
+    "dual_normalized_slow_annihilation",
+    "face36_output_map"
+  ],
+  "fifty_ms_propagation_authorized": false,
+  "fine_executed": false,
+  "fixed_Q_micro_solver_authorized": false,
+  "fixed_Q_reaction_applied": false,
+  "guard_complement_retained": true,
+  "individual_gate_results": {
+    "Q3_leakage": true,
+    "block_linear_solve": true,
+    "dual_biorthogonality": true,
+    "dual_normalized_slow_annihilation": false,
+    "face36_output_map": false,
+    "initial_orthogonality": true,
+    "initial_state_lift_Q3": true,
+    "outgoing_excision": true,
+    "step_matrix_JVP": true
+  },
+  "middle": {
+    "directions": 6,
+    "dual_biorthogonality_defect": 1.3462897463512036e-11,
+    "dual_normalized_slow_annihilation_defect": 3.8425079280433883e-10,
+    "initial_Q3_defect": 3.4110932595812996e-15,
+    "initial_orthogonality_defect": 3.690199187889043e-13,
+    "maximum_JVP_defect": 5.853715086202995e-11,
+    "maximum_Q3_leakage": 0.004142935138736577,
+    "maximum_component_closure_defect": 6.557358613096931e-17,
+    "maximum_face36_output_map_defect": 1.3673433788383734e-07,
+    "maximum_incoming_characteristics": 0,
+    "maximum_linear_solve_defect": 3.310674481777607e-16,
+    "passed_method_and_single_layout_coordinate_gates": false,
+    "steps": 39,
+    "wall_seconds": 6715.606338332873
+  },
+  "middle_completed": true,
+  "middle_state_history_scientifically_interpreted": false,
+  "new_nonlinear_trajectory": false,
+  "nonlinear_retained_mode_pilot_authorized": false,
+  "passed": false,
+  "physical_failure_detected": false,
+  "raw_face48_export_rejection_preserved": true,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f17"
+}

@@ -1,0 +1,64 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f18_analysis_only_stable_dual_and_face36_directional_JVP_recovery",
+  "classification": "six_mode_middle_numerical_audit_recovery_manifest_frozen_analysis_only_recovery_authorized",
+  "decision": {
+    "both_recovery_audits_pass": "reclassify_saved_middle_history_without_repropagation_and_authorize_definitions_only_fine_replay_manifest",
+    "directional_JVP_has_no_plateau": "audit_face36_derivative_or_scaling_before_any_fine_work",
+    "stable_dual_fails": "reject_six_mode_Petrov_coordinate"
+  },
+  "definitions_only": true,
+  "expected_wall_hours": [
+    0.5,
+    1.5
+  ],
+  "face36_directional_JVP_plateau": {
+    "all_six_saved_directions": true,
+    "central_and_five_point_references": true,
+    "maximum_relative_defect": 1e-08,
+    "relative_steps": [
+      5e-05,
+      0.0001,
+      0.0002,
+      0.0005,
+      0.001,
+      0.002
+    ],
+    "require_visible_plateau_or_U_shaped_curve": true,
+    "times_seconds": [
+      0.005,
+      0.0054,
+      0.01,
+      0.016,
+      0.02
+    ],
+    "tolerance_relaxation_forbidden": true
+  },
+  "fifty_ms_propagation_authorized": false,
+  "fixed_Q_micro_solver_authorized": false,
+  "hard_stops": [
+    "do_not_relax_the_frozen_tolerances",
+    "do_not_rerun_middle_propagation",
+    "do_not_start_fine_propagation",
+    "do_not_apply_a_fixed_Q_reaction",
+    "do_not_start_a_nonlinear_microburst",
+    "do_not_start_50ms_or_reduced_slow_evolution"
+  ],
+  "nonlinear_retained_mode_pilot_authorized": false,
+  "reduced_slow_evolution_authorized": false,
+  "reruns_middle_propagation": false,
+  "runs_fine_propagation": false,
+  "schema_version": 1,
+  "stable_dual_audit": {
+    "compare_with_c4f15_endpoint_metrics": true,
+    "maximum_dual_biorthogonality_defect": 1e-10,
+    "maximum_normalized_slow_lift_annihilation_defect": 1e-10,
+    "methods": [
+      "reduced_QR",
+      "thin_SVD"
+    ],
+    "replace_normal_equations_in_audit_only": true,
+    "tolerance_relaxation_forbidden": true
+  },
+  "uses_saved_c4f17_middle_state_direction_history": true,
+  "work_package": "WP10c9d6c7c3b5c4f18"
+}

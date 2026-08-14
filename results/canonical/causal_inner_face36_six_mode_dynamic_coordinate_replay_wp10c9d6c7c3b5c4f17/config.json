@@ -1,0 +1,30 @@
+{
+  "audit_targets_seconds": [
+    0.0054,
+    0.01,
+    0.016,
+    0.02
+  ],
+  "leading_dimension": 2,
+  "mode_dimension": 6,
+  "prospective_gates": {
+    "incoming_excision_characteristics": 0,
+    "maximum_Q3_leakage": 0.1,
+    "maximum_block_linear_solve_relative_defect": 1e-10,
+    "maximum_dual_biorthogonality_defect": 1e-10,
+    "maximum_face36_output_map_relative_defect": 1e-08,
+    "maximum_initial_state_lift_Q3_defect": 1e-10,
+    "maximum_middle_fine_amplitude_transition_relative_difference": 0.1,
+    "maximum_middle_fine_face36_mode_history_relative_difference": 0.1,
+    "maximum_normalized_slow_lift_annihilation_defect": 1e-10,
+    "maximum_six_mode_output_weighted_RMS_error": 0.1,
+    "maximum_six_mode_significant_direction_error": 0.25,
+    "maximum_step_matrix_JVP_relative_defect": 1e-08,
+    "minimum_middle_fine_amplitude_transition_history_cosine": 0.95,
+    "minimum_middle_fine_face36_mode_history_cosine": 0.95,
+    "minimum_middle_fine_full_subspace_projector_cosine": 0.9,
+    "minimum_middle_fine_leading_block_projector_cosine": 0.95
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f17"
+}
