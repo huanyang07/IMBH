@@ -1,0 +1,82 @@
+{
+  "audit_time_ids_microseconds": [
+    5000,
+    5400,
+    10000,
+    16000,
+    20000
+  ],
+  "cross_resolution_contract": {
+    "align_weak_block_by_orthogonal_Procrustes": true,
+    "fine_only_complement_and_face36_observability_must_be_reported": true,
+    "guard_complement_retained_without_smallness_assumption": true,
+    "individual_weak_mode_matching_forbidden": true,
+    "leading_block_dimensions": [
+      0,
+      2
+    ],
+    "maximum_face36_mode_history_relative_difference": 0.1,
+    "maximum_six_mode_output_weighted_RMS_error": 0.1,
+    "maximum_six_mode_significant_direction_error": 0.25,
+    "maximum_stable_dual_amplitude_history_relative_difference": 0.1,
+    "minimum_face36_mode_history_cosine": 0.95,
+    "minimum_full_subspace_projector_cosine": 0.9,
+    "minimum_leading_block_projector_cosine": 0.95,
+    "minimum_stable_dual_amplitude_history_cosine": 0.95,
+    "require_exact_common_output_time_ids": true,
+    "restrict_middle_and_fine_state_directions_to_common_parent": true,
+    "weak_enrichment_block_dimensions": [
+      2,
+      6
+    ]
+  },
+  "face36_directional_JVP_contract": {
+    "central_difference_recorded_as_nonbinding_diagnostic": true,
+    "directions": 6,
+    "maximum_relative_defect_at_each_selected_step": 1e-08,
+    "reference": "five_point_central_directional_difference",
+    "same_pair_required_for_all_times_and_directions": true,
+    "selected_relative_steps": [
+      5e-05,
+      0.0001
+    ],
+    "time_ids_microseconds": [
+      5000,
+      5400,
+      10000,
+      16000,
+      20000
+    ],
+    "tolerance_relaxation_forbidden": true
+  },
+  "leading_dimension": 2,
+  "mode_dimension": 6,
+  "schema_version": 1,
+  "selected_relative_steps": [
+    5e-05,
+    0.0001
+  ],
+  "single_layout_method_gates": {
+    "incoming_excision_characteristics": 0,
+    "maximum_Q3_leakage": 0.1,
+    "maximum_block_linear_solve_relative_defect": 1e-10,
+    "maximum_component_closure_defect": 1e-12,
+    "maximum_initial_scaled_orthogonality_defect": 1e-10,
+    "maximum_initial_state_lift_Q3_defect": 1e-10,
+    "maximum_step_matrix_JVP_relative_defect": 1e-08
+  },
+  "stable_dual_contract": {
+    "maximum_biorthogonality_defect": 1e-10,
+    "maximum_initial_consensus_coefficient_defect": 1e-10,
+    "maximum_normalized_slow_lift_annihilation_defect": 1e-10,
+    "maximum_relative_QR_SVD_dual_difference": 1e-08,
+    "methods": [
+      "reduced_QR",
+      "thin_SVD"
+    ],
+    "normal_equations_forbidden": true,
+    "recompute_saved_middle_amplitudes_with_recovered_QR_dual": true,
+    "use_QR_dual_for_reported_amplitude_history": true
+  },
+  "work_package": "WP10c9d6c7c3b5c4f20"
+}

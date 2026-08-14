@@ -1,0 +1,127 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f21_definitions_only_leading_two_plus_HMM_closure_manifest",
+  "classification": "face36_six_mode_dynamic_coordinate_rejected_leading_two_plus_HMM_manifest_authorized",
+  "cross_resolution": {
+    "amplitude_transition_history_cosine": 0.913724304420957,
+    "amplitude_transition_relative_difference": 0.4071375094642169,
+    "face36_mode_history_cosine": 0.9969886746730504,
+    "face36_mode_history_relative_difference": 0.28742606508078433,
+    "minimum_full_subspace_projector_cosine": 0.8316579983090716,
+    "minimum_leading_block_projector_cosine": 0.9809726636589404
+  },
+  "fifty_ms_propagation_authorized": false,
+  "fine": {
+    "complete": true,
+    "descriptor_trial_condition_number": 20215.950922710963,
+    "directions": 6,
+    "dual_QR_metrics": {
+      "biorthogonality_defect": 7.342271747855854e-14,
+      "initial_consensus_coefficient_defect": 1.0941247907680918e-13,
+      "normalized_slow_lift_annihilation_defect": 2.1472968527668086e-12
+    },
+    "dual_SVD_metrics": {
+      "biorthogonality_defect": 8.214230753145891e-15,
+      "initial_consensus_coefficient_defect": 1.1324274851176597e-14,
+      "normalized_slow_lift_annihilation_defect": 1.3827246762008235e-13
+    },
+    "dual_relative_QR_SVD_difference": 5.28023172320407e-14,
+    "initial_Q3_defect": 6.118411193333618e-15,
+    "initial_orthogonality_defect": 4.8497490745536e-13,
+    "maximum_JVP_defect": 5.101969563636154e-11,
+    "maximum_Q3_leakage": 0.0029901265246511876,
+    "maximum_component_closure_defect": 6.973075804733847e-17,
+    "maximum_face36_central_defect": 3.137179499359737e-09,
+    "maximum_face36_five_point_defect": 3.641371231053012e-09,
+    "maximum_fine_complement_face36_fraction": 260.72543726151923,
+    "maximum_fine_complement_state_fraction": 0.10846217308667849,
+    "maximum_incoming_characteristics": 0,
+    "maximum_linear_solve_defect": 3.4487448098457557e-16,
+    "passed": true,
+    "preflight_passed": true,
+    "steps": 39,
+    "wall_seconds": 13831.550528049469
+  },
+  "fine_executed": true,
+  "fixed_Q_micro_solver_authorized": false,
+  "fixed_Q_reaction_applied": false,
+  "guard_complement_retained": true,
+  "middle_replayed": false,
+  "new_nonlinear_trajectory": false,
+  "new_tangent_trajectory": true,
+  "nonlinear_retained_mode_pilot_authorized": false,
+  "passed": false,
+  "physical_failure_detected": false,
+  "raw_face48_export_rejection_preserved": true,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "static_six_mode_output_reconstruction": {
+    "layouts": {
+      "fine": {
+        "cumulative": {
+          "maximum_significant_direction_error": 0.01711464351528991,
+          "output_weighted_RMS_error": 0.003630309753242364,
+          "significant_direction_count": 29
+        },
+        "instantaneous": {
+          "maximum_significant_direction_error": 0.029378810020346736,
+          "output_weighted_RMS_error": 0.006856370518842662,
+          "significant_direction_count": 29
+        },
+        "window_mean": {
+          "maximum_significant_direction_error": 0.02162358621432867,
+          "output_weighted_RMS_error": 0.00461063086891536,
+          "significant_direction_count": 29
+        }
+      },
+      "middle": {
+        "cumulative": {
+          "maximum_significant_direction_error": 0.02220915737767965,
+          "output_weighted_RMS_error": 0.00422955736396957,
+          "significant_direction_count": 29
+        },
+        "instantaneous": {
+          "maximum_significant_direction_error": 0.03307795194719029,
+          "output_weighted_RMS_error": 0.006429609378001341,
+          "significant_direction_count": 29
+        },
+        "window_mean": {
+          "maximum_significant_direction_error": 0.021551136892487527,
+          "output_weighted_RMS_error": 0.003923902779413988,
+          "significant_direction_count": 29
+        }
+      }
+    },
+    "maximum_output_weighted_RMS_error": 0.006856370518842662,
+    "maximum_significant_direction_error": 0.03307795194719029,
+    "minimum_modal_output_history_cosine": -0.832665226366921,
+    "modal_output_history_cosines": {
+      "cumulative": [
+        0.9999999700408382,
+        0.9999580486257111,
+        -0.832665226366921,
+        0.9122037361422447,
+        -0.41434002289981575,
+        -0.532454339251054
+      ],
+      "instantaneous": [
+        0.9999998903328556,
+        0.9999620085437063,
+        -0.44263025543966167,
+        0.912253626643903,
+        0.3427841461203192,
+        0.048288112437830426
+      ],
+      "window_mean": [
+        0.9999999725319633,
+        0.9999740763838926,
+        -0.6961017838296826,
+        0.9108542935901905,
+        0.14124422626963884,
+        -0.27421294172572175
+      ]
+    },
+    "state_amplitude_history_gate_evaluated": false,
+    "state_amplitude_history_gate_reason": "c4f13_commits_output_histories_but_not_intermediate_state_direction_histories;_modal_output_kernels_are_not_relabelled_as_descriptor_dual_state_amplitudes"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f20"
+}
