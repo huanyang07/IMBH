@@ -1,0 +1,221 @@
+{
+  "authorized_dynamic_coordinate_preflight": {
+    "align_weak_block_by_orthogonal_Procrustes": true,
+    "amplitude_transition_history": "A_5ms_times_delta_p_mode_of_t",
+    "compare_middle_then_fine_after_common_parent_restriction": true,
+    "directions": 6,
+    "dual": "fixed_5ms_descriptor_weighted_constraint_compatible_Petrov_dual",
+    "independent_complete_residual_JVP_only_at_times_ms": [
+      5.4,
+      10.0,
+      16.0,
+      20.0
+    ],
+    "initial_state_lifts": "frozen_29_Q3_null_lifts_times_six_mode_consensus_coefficients",
+    "new_nonlinear_trajectory": false,
+    "propagate_complete_BDF_history_directions": true,
+    "run_fine_only_after_middle_method_and_coordinate_gates_pass": true,
+    "run_middle_first": true,
+    "save_guard_mapped_and_height_history_complement": true,
+    "save_state_direction_history_at_all_committed_outputs": true,
+    "uses_committed_middle_and_fine_5_to_20ms_base_histories": true,
+    "work_package": "WP10c9d6c7c3b5c4f17_analysis_only_six_mode_dynamic_coordinate_replay"
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f17_analysis_only_six_mode_dynamic_coordinate_replay",
+  "classification": "face36_six_mode_output_closure_manifest_frozen_dynamic_coordinate_preflight_authorized",
+  "coordinate_architecture": {
+    "Procrustes_or_projector_comparison_required": true,
+    "consensus_basis_metrics": {
+      "form_capture": {
+        "fine": {
+          "cumulative": 0.9999868208510951,
+          "instantaneous": 0.9999529901833079,
+          "window_mean": 0.9999787420829903
+        },
+        "middle": {
+          "cumulative": 0.9999821108445047,
+          "instantaneous": 0.9999586601232463,
+          "window_mean": 0.9999846029869771
+        }
+      },
+      "middle_fine_leading_block_principal_cosines": [
+        0.9968816902445223,
+        0.9603110798693058
+      ],
+      "middle_fine_six_mode_principal_cosines": [
+        0.9991726138694333,
+        0.9983747741782609,
+        0.9982504263764106,
+        0.9962594013402486,
+        0.7265118312388734,
+        0.5971163854367905
+      ],
+      "minimum_middle_fine_leading_block_cosine": 0.9603110798693058,
+      "minimum_middle_fine_six_mode_cosine": 0.5971163854367905,
+      "minimum_six_mode_form_capture": 0.9999529901833079,
+      "sigma6_over_sigma7_gap": 38.257063062976364,
+      "six_mode_consensus_energy_capture": 0.9999739878453541
+    },
+    "eigenmode_or_oscillatory_pair_claim_forbidden": true,
+    "guard_state_retained": true,
+    "individual_mode_matching_for_dimensions_3_to_6_forbidden": true,
+    "leading_block": {
+      "dimensions": [
+        0,
+        2
+      ],
+      "interpretation": "cross_grid_stable_dominant_output_subspace"
+    },
+    "state": "Q_M_J_E_plus_six_output_oriented_amplitudes",
+    "weak_enrichment_block": {
+      "dimensions": [
+        2,
+        6
+      ],
+      "interpretation": "rotatable_low_energy_closure_enrichment_subspace_not_four_individually_identified_physical_modes"
+    }
+  },
+  "cost_contract": {
+    "block_solve_marginal_cost_negligible": true,
+    "durable_middle_and_fine_checkpoints": true,
+    "expected_total_wall_hours": [
+      3.5,
+      5.0
+    ],
+    "measured_parent_fine_wall_hours": 2.852416270103228,
+    "measured_parent_middle_wall_hours": 1.294862760232063,
+    "no_repeated_29_direction_propagation": true,
+    "one_factorization_six_RHS_per_step": true
+  },
+  "definitions_only": true,
+  "dynamic_coordinate_preflight_authorized": true,
+  "fail_fast_decision": {
+    "leading_block_fails": "return_to_memory_basis_localization",
+    "middle_method_fails": "stop_before_fine",
+    "six_mode_dynamic_preflight_passes": "authorize_definitions_only_one_Q_constrained_pilot_manifest",
+    "weak_block_only_fails": "retain_two_stable_coordinates_and_represent_residual_closure_with_HMM_or_guard_microstate"
+  },
+  "fifty_ms_propagation_authorized": false,
+  "fixed_Q_micro_solver_authorized": false,
+  "hard_stops": [
+    "do_not_call_weak_enrichment_vectors_individual_physical_modes",
+    "do_not_apply_Euclidean_fixed_Q_projection",
+    "do_not_start_a_fixed_Q_or_nonlinear_microburst",
+    "do_not_discard_the_guard_complement",
+    "do_not_use_raw_face48_as_slow_exchange",
+    "do_not_start_50ms_or_reduced_slow_evolution"
+  ],
+  "new_trajectory": false,
+  "nonlinear_retained_mode_pilot_authorized": false,
+  "parent_decision": {
+    "minimum_output_closing_dimension": 6,
+    "reaction_map_preflight_passed": true,
+    "six_mode_output_metrics": {
+      "layouts": {
+        "fine": {
+          "cumulative": {
+            "maximum_significant_direction_error": 0.01711464351528991,
+            "output_weighted_RMS_error": 0.003630309753242364,
+            "significant_direction_count": 29
+          },
+          "instantaneous": {
+            "maximum_significant_direction_error": 0.029378810020346736,
+            "output_weighted_RMS_error": 0.006856370518842662,
+            "significant_direction_count": 29
+          },
+          "window_mean": {
+            "maximum_significant_direction_error": 0.02162358621432867,
+            "output_weighted_RMS_error": 0.00461063086891536,
+            "significant_direction_count": 29
+          }
+        },
+        "middle": {
+          "cumulative": {
+            "maximum_significant_direction_error": 0.02220915737767965,
+            "output_weighted_RMS_error": 0.00422955736396957,
+            "significant_direction_count": 29
+          },
+          "instantaneous": {
+            "maximum_significant_direction_error": 0.03307795194719029,
+            "output_weighted_RMS_error": 0.006429609378001341,
+            "significant_direction_count": 29
+          },
+          "window_mean": {
+            "maximum_significant_direction_error": 0.021551136892487527,
+            "output_weighted_RMS_error": 0.003923902779413988,
+            "significant_direction_count": 29
+          }
+        }
+      },
+      "maximum_output_weighted_RMS_error": 0.006856370518842662,
+      "maximum_significant_direction_error": 0.03307795194719029,
+      "minimum_modal_output_history_cosine": -0.832665226366921,
+      "modal_output_history_cosines": {
+        "cumulative": [
+          0.9999999700408382,
+          0.9999580486257111,
+          -0.832665226366921,
+          0.9122037361422447,
+          -0.41434002289981575,
+          -0.532454339251054
+        ],
+        "instantaneous": [
+          0.9999998903328556,
+          0.9999620085437063,
+          -0.44263025543966167,
+          0.912253626643903,
+          0.3427841461203192,
+          0.048288112437830426
+        ],
+        "window_mean": [
+          0.9999999725319633,
+          0.9999740763838926,
+          -0.6961017838296826,
+          0.9108542935901905,
+          0.14124422626963884,
+          -0.27421294172572175
+        ]
+      },
+      "state_amplitude_history_gate_evaluated": false,
+      "state_amplitude_history_gate_reason": "c4f13_commits_output_histories_but_not_intermediate_state_direction_histories;_modal_output_kernels_are_not_relabelled_as_descriptor_dual_state_amplitudes"
+    },
+    "two_mode_coordinate_rejected": true
+  },
+  "physical_operator_changed": false,
+  "prospective_dynamic_gates": {
+    "incoming_excision_characteristics": 0,
+    "maximum_Q3_leakage": 0.1,
+    "maximum_block_linear_solve_relative_defect": 1e-10,
+    "maximum_dual_biorthogonality_defect": 1e-10,
+    "maximum_face36_output_map_relative_defect": 1e-08,
+    "maximum_initial_state_lift_Q3_defect": 1e-10,
+    "maximum_middle_fine_amplitude_transition_relative_difference": 0.1,
+    "maximum_middle_fine_face36_mode_history_relative_difference": 0.1,
+    "maximum_normalized_slow_lift_annihilation_defect": 1e-10,
+    "maximum_six_mode_output_weighted_RMS_error": 0.1,
+    "maximum_six_mode_significant_direction_error": 0.25,
+    "maximum_step_matrix_JVP_relative_defect": 1e-08,
+    "minimum_middle_fine_amplitude_transition_history_cosine": 0.95,
+    "minimum_middle_fine_face36_mode_history_cosine": 0.95,
+    "minimum_middle_fine_full_subspace_projector_cosine": 0.9,
+    "minimum_middle_fine_leading_block_projector_cosine": 0.95
+  },
+  "reaction_contract": {
+    "macro_Q_parent_cells": [
+      36,
+      64
+    ],
+    "no_reaction_applied_in_dynamic_coordinate_preflight": true,
+    "raw_face48_exchange_forbidden": true,
+    "reason": "the_next_preflight_is_a_kinematic_coordinate_replay_not_a_fixed_Q_attractor_experiment",
+    "reuse_c4f15_ledger_derived_B_Q": true,
+    "shared_exchange_parent_face": 36,
+    "support_parent_cells": [
+      48,
+      64
+    ]
+  },
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f16"
+}
