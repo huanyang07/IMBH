@@ -1,0 +1,78 @@
+{
+  "QR_metrics": {
+    "biorthogonality_defect": 7.627232179174825e-14,
+    "initial_consensus_coefficient_defect": 1.0716427745194324e-13,
+    "normalized_slow_lift_annihilation_defect": 1.4541918347745923e-12
+  },
+  "SVD_metrics": {
+    "biorthogonality_defect": 4.316066031557602e-15,
+    "initial_consensus_coefficient_defect": 1.1213252548714081e-14,
+    "normalized_slow_lift_annihilation_defect": 6.876035234153784e-14
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f19_definitions_only_fine_six_mode_dynamic_coordinate_replay_manifest",
+  "classification": "middle_six_mode_numerical_audits_recovered_saved_dynamic_history_reclassified_fine_manifest_authorized",
+  "descriptor_trial_condition_number": 10217.117703499607,
+  "dual_QR_passed": true,
+  "dual_SVD_passed": true,
+  "dual_recovery_passed": true,
+  "eligible_adjacent_step_pairs": [
+    [
+      5e-05,
+      0.0001
+    ],
+    [
+      0.0001,
+      0.0002
+    ],
+    [
+      0.0002,
+      0.0005
+    ],
+    [
+      0.0005,
+      0.001
+    ],
+    [
+      0.001,
+      0.002
+    ]
+  ],
+  "face36_directional_JVP_plateau_passed": true,
+  "fifty_ms_propagation_authorized": false,
+  "fine_executed": false,
+  "fixed_Q_micro_solver_authorized": false,
+  "fixed_Q_reaction_applied": false,
+  "guard_complement_retained": true,
+  "maximum_central_defect_by_step": [
+    1.3702606485630638e-09,
+    5.473481049814725e-09,
+    2.187563460286279e-08,
+    1.3673433788383734e-07,
+    5.469327054821685e-07,
+    2.1877285146065147e-06
+  ],
+  "maximum_five_point_defect_by_step": [
+    1.4029084762503807e-09,
+    4.186434914013353e-09,
+    3.468487085586114e-10,
+    3.5589074286204883e-10,
+    1.7853269227373188e-10,
+    6.563492517120872e-11
+  ],
+  "new_nonlinear_trajectory": false,
+  "new_tangent_trajectory": false,
+  "nonlinear_retained_mode_pilot_authorized": false,
+  "passed": true,
+  "physical_failure_detected": false,
+  "raw_face48_export_rejection_preserved": true,
+  "reduced_slow_evolution_authorized": false,
+  "relative_QR_SVD_dual_difference": 4.139548457888929e-14,
+  "saved_middle_history_reclassified": true,
+  "schema_version": 1,
+  "selected_adjacent_step_pair": [
+    5e-05,
+    0.0001
+  ],
+  "wall_seconds": 4504.111270249821,
+  "work_package": "WP10c9d6c7c3b5c4f18"
+}
