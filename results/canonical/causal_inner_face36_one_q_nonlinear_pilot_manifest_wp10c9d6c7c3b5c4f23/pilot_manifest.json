@@ -1,0 +1,172 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f24_analysis_only_state_dependent_fixed_Q_step_and_JVP_preflight",
+  "authorized_state_dependent_step_preflight": {
+    "compare_dense_colored_and_directional_JVPs": true,
+    "directions": [
+      "two_a2_lifts",
+      "four_weak_guard_lifts",
+      "six_refinement_complement_lifts",
+      "twelve_smooth_random_guard_lifts",
+      "three_multiplier_directions"
+    ],
+    "finite_equal_Q_lifts": {
+      "amplitude_selected_before_nonlinear_response": true,
+      "do_not_run_all_lifts_nonlinearly": true,
+      "method": "reaction_coordinate_Newton_correction_to_exact_Q3_after_each_prospective_scaled_lift",
+      "require_sign_symmetric_admissibility_preflight": true,
+      "use_smallest_common_admissible_amplitude": true
+    },
+    "implement_augmented_backward_Euler_and_variable_step_BDF2": true,
+    "new_physical_trajectory": false,
+    "new_tangent_trajectory": false,
+    "verify_small_timestep_limit_against_c4f22_continuous_KKT": true,
+    "verify_zero_multiplier_reduces_to_unconstrained_residual": true,
+    "work_package": "WP10c9d6c7c3b5c4f24_analysis_only_state_dependent_fixed_Q_step_and_JVP_preflight"
+  },
+  "classification": "one_Q_leading_two_plus_HMM_nonlinear_pilot_manifest_frozen_state_dependent_constrained_step_preflight_authorized",
+  "conditional_one_Q_pilot": {
+    "anchor_selection_frozen_rule": [
+      "largest_predicted_persistent_face36_effect_from_a2_block",
+      "largest_predicted_persistent_face36_effect_from_Z_guard_block"
+    ],
+    "binding_outputs": [
+      "instantaneous_face36_exterior_partition",
+      "cumulative_face36_exterior_partition",
+      "window_mean_face36_exterior_partition",
+      "a2_history",
+      "Q3_drift",
+      "constraint_multiplier_and_reaction_ledgers",
+      "guard_state_and_storage_history_statistics"
+    ],
+    "fail_fast_windows_ms": [
+      0.2,
+      1.0,
+      2.0,
+      5.0,
+      10.0,
+      20.0
+    ],
+    "fine_check_order": [
+      "endpoint_JVP_and_residual_correction",
+      "short_temporal_shadow_if_needed",
+      "full_fine_only_if_still_inconclusive"
+    ],
+    "fine_full_trajectory_automatic": false,
+    "maximum_full_nonlinear_anchor_lifts": 2,
+    "not_authorized_by_this_manifest": true,
+    "one_constrained_nonlinear_base": true,
+    "one_unconstrained_short_drift_control": true,
+    "primary_layout": "middle",
+    "prospective_scientific_gates": {
+      "maximum_late_window_mean_relative_change": 0.05,
+      "maximum_lift_dependent_mean_relative_difference": 0.05,
+      "maximum_scaled_Q3_drift": 1e-10,
+      "maximum_tangent_to_nonlinear_anchor_fraction": 0.01,
+      "maximum_temporal_to_response_uncertainty_fraction": 0.1
+    },
+    "screen_24_equal_Q_lifts_by_one_block_tangent": true,
+    "starting_time_seconds": 0.02
+  },
+  "cost_contract": {
+    "adaptive_window_extension": true,
+    "checkpoint_each_fail_fast_window": true,
+    "conditional_middle_one_Q_pilot_wall_hours": [
+      6.0,
+      15.0
+    ],
+    "no_automatic_fine_or_50ms_run": true,
+    "one_factorization_24_RHS": true,
+    "sparse_nonlinear_anchors_only": true,
+    "state_dependent_step_preflight_wall_hours": [
+      1.0,
+      3.0
+    ]
+  },
+  "decision_tree": {
+    "a2_persists_guard_mean_converges": "retain_Q3_plus_a2_with_short_HMM_guard_burst",
+    "guard_mean_is_lift_dependent": "retain_longer_inner_solver_or_explicit_memory_kernel",
+    "method_passes_guard_statistics_converge": "authorize_exact_one_Q_nonlinear_pilot_manifest_execution",
+    "multiple_conditional_branches": "add_discrete_hysteresis_state",
+    "no_low_dimensional_observable_structure": "retain_inner_micro_solver",
+    "step_or_JVP_preflight_fails": "stop_before_any_fixed_Q_microburst"
+  },
+  "definitions_only": true,
+  "fifty_ms_propagation_authorized": false,
+  "fixed_Q_micro_solver_authorized": false,
+  "hard_stops": [
+    "do_not_treat_frozen_PG_as_the_state_dependent_constrained_JVP",
+    "do_not_begin_a_microburst_before_augmented_step_JVP_certification",
+    "do_not_fit_a_direct_two_mode_face36_output_law",
+    "do_not_discard_Z_guard_or_storage_history",
+    "do_not_run_all_24_lifts_nonlinearly",
+    "do_not_use_raw_face48_as_slow_exchange",
+    "do_not_start_50ms_or_reduced_slow_evolution"
+  ],
+  "inherited_architecture": {
+    "Q3": "exact_exterior_domain_M_J_E_state_map",
+    "Z_guard": "remaining_DAE_state_storage_histories_rotatable_weak_block_and_refinement_complement",
+    "a2": "cross_grid_stable_leading_two_state_amplitudes",
+    "binding_exchange": "certified_face36_exterior_partition",
+    "c4f22_maximum_frozen_state_gain": 944.1282672653601,
+    "direct_two_mode_face36_law_rejected": true,
+    "formal_state": "Q3_plus_a2_plus_Z_guard",
+    "guard_mixing_or_decay_assumed": false,
+    "raw_face48_exchange_forbidden": true
+  },
+  "one_Q_nonlinear_pilot_propagation_authorized": false,
+  "physical_operator_changed": false,
+  "preflight_gates": {
+    "incoming_excision_characteristics": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_Q3_endpoint_relative_defect": 1e-12,
+    "maximum_augmented_step_scaled_residual": 1e-10,
+    "maximum_constraint_work_ledger_relative_defect": 1e-12,
+    "maximum_continuous_KKT_relative_defect": 1e-10,
+    "maximum_dense_colored_Jacobian_relative_defect": 1e-09,
+    "maximum_directional_JVP_relative_defect": 1e-08,
+    "maximum_face36_directional_JVP_relative_defect": 1e-08,
+    "maximum_reaction_ledger_relative_defect": 1e-12,
+    "maximum_reconstruction_factor": 1.0,
+    "maximum_small_timestep_KKT_closure_defect": 1e-08,
+    "maximum_zero_multiplier_reduction_defect": 1e-12,
+    "minimum_scattering_optical_depth": 1.0
+  },
+  "reduced_slow_evolution_authorized": false,
+  "representative_one_Q_state": {
+    "Q_target": "Q3_of_the_committed_endpoint",
+    "excision_to_face36_buffer_remains_in_Z_guard": true,
+    "history": "exact_committed_variable_step_BDF2_history",
+    "layout": "middle_primary",
+    "state": "committed_middle_20ms_nonlinear_base_endpoint",
+    "time_seconds": 0.02
+  },
+  "schema_version": 1,
+  "state_dependent_constrained_system": {
+    "B_Q": "ledger_derived_macro_reaction_from_c4f15_generalized_to_p",
+    "Euclidean_projection_forbidden": true,
+    "constraint_reaction_M_J_E_ledgers_required": true,
+    "continuous_KKT": "[M(p),-B_Q(p);DQ3(p),0]*[p_dot,lambda]=[-R(p),0]",
+    "finite_step_constraint": "Q3(p_new)-Q_target=0",
+    "finite_step_unknowns": [
+      "new_primitive_state",
+      "three_multipliers"
+    ],
+    "frozen_P_times_G_is_reference_only": true,
+    "linearization_must_include": [
+      "D_M",
+      "D_R",
+      "D_DQ3",
+      "D_B_Q",
+      "multiplier_coupling",
+      "mapped_storage_history",
+      "responsive_height_history"
+    ],
+    "manual_primitive_freezing_forbidden": true,
+    "reaction_term": "insert_once_into_the_complete_scaled_monolithic_BDF_residual_with_sign_and_time_units_derived_from_the_continuous_KKT",
+    "residual_subtraction_forbidden": true,
+    "temporal_storage": "unchanged_mapped_endpoint_plus_responsive_height_path_increments_and_complete_BDF_history"
+  },
+  "state_dependent_fixed_Q_step_preflight_authorized": true,
+  "trajectory_executed": false,
+  "work_package": "WP10c9d6c7c3b5c4f23"
+}
