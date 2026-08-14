@@ -1,0 +1,852 @@
+{
+  "audit_completed": true,
+  "authorized_next": "WP10c9d6c7c3b5c4f16_definitions_only_six_mode_Q_plus_a_coordinate_manifest",
+  "classification": "face36_two_mode_coordinate_preflight_rejected_six_mode_manifest_authorized",
+  "coordinates_at_5ms": {
+    "fine": {
+      "descriptor_trial_condition_number": 20215.95092271094,
+      "dual_biorthogonality_defect": 4.4353409833775004e-13,
+      "dual_normalized_slow_lift_annihilation_defect": 1.8924105338324893e-11,
+      "dual_slow_lift_annihilation_defect": 5.9614064795709965e-09,
+      "initial_consensus_coefficient_defect": 1.5402540354259031e-12,
+      "state_lift_Q3_defect": 7.624109676918067e-16
+    },
+    "middle": {
+      "descriptor_trial_condition_number": 10217.117703499609,
+      "dual_biorthogonality_defect": 4.3114577147263587e-13,
+      "dual_normalized_slow_lift_annihilation_defect": 1.6185506454807635e-11,
+      "dual_slow_lift_annihilation_defect": 5.159228697118141e-09,
+      "initial_consensus_coefficient_defect": 2.581629354736492e-12,
+      "state_lift_Q3_defect": 7.22078646875346e-16
+    }
+  },
+  "dynamic_state_amplitude_history_gate_evaluated": false,
+  "endpoint_coordinate_preflight_passed": true,
+  "fifty_ms_propagation_authorized": false,
+  "fixed_Q_micro_solver_authorized": false,
+  "guard_complement_retained": true,
+  "maximum_DQ_M_inverse_BQ_identity_defect": 2.4473352198909662e-12,
+  "maximum_KKT_Schur_condition_number": 36616.15073826497,
+  "maximum_KKT_linear_solve_relative_defect": 1.334004419096544e-15,
+  "maximum_dual_biorthogonality_defect": 4.4353409833775004e-13,
+  "maximum_reaction_ledger_relative_defect": 3.8187767464785863e-16,
+  "maximum_state_lift_Q3_defect": 7.624109676918067e-16,
+  "minimum_passing_dimension_output_reconstruction": {
+    "layouts": {
+      "fine": {
+        "cumulative": {
+          "maximum_significant_direction_error": 0.01711464351528991,
+          "output_weighted_RMS_error": 0.003630309753242364,
+          "significant_direction_count": 29
+        },
+        "instantaneous": {
+          "maximum_significant_direction_error": 0.029378810020346736,
+          "output_weighted_RMS_error": 0.006856370518842662,
+          "significant_direction_count": 29
+        },
+        "window_mean": {
+          "maximum_significant_direction_error": 0.02162358621432867,
+          "output_weighted_RMS_error": 0.00461063086891536,
+          "significant_direction_count": 29
+        }
+      },
+      "middle": {
+        "cumulative": {
+          "maximum_significant_direction_error": 0.02220915737767965,
+          "output_weighted_RMS_error": 0.00422955736396957,
+          "significant_direction_count": 29
+        },
+        "instantaneous": {
+          "maximum_significant_direction_error": 0.03307795194719029,
+          "output_weighted_RMS_error": 0.006429609378001341,
+          "significant_direction_count": 29
+        },
+        "window_mean": {
+          "maximum_significant_direction_error": 0.021551136892487527,
+          "output_weighted_RMS_error": 0.003923902779413988,
+          "significant_direction_count": 29
+        }
+      }
+    },
+    "maximum_output_weighted_RMS_error": 0.006856370518842662,
+    "maximum_significant_direction_error": 0.03307795194719029,
+    "minimum_modal_output_history_cosine": -0.832665226366921,
+    "modal_output_history_cosines": {
+      "cumulative": [
+        0.9999999700408382,
+        0.9999580486257111,
+        -0.832665226366921,
+        0.9122037361422447,
+        -0.41434002289981575,
+        -0.532454339251054
+      ],
+      "instantaneous": [
+        0.9999998903328556,
+        0.9999620085437063,
+        -0.44263025543966167,
+        0.912253626643903,
+        0.3427841461203192,
+        0.048288112437830426
+      ],
+      "window_mean": [
+        0.9999999725319633,
+        0.9999740763838926,
+        -0.6961017838296826,
+        0.9108542935901905,
+        0.14124422626963884,
+        -0.27421294172572175
+      ]
+    },
+    "state_amplitude_history_gate_evaluated": false,
+    "state_amplitude_history_gate_reason": "c4f13_commits_output_histories_but_not_intermediate_state_direction_histories;_modal_output_kernels_are_not_relabelled_as_descriptor_dual_state_amplitudes"
+  },
+  "minimum_passing_output_oriented_dimension": 6,
+  "new_trajectory_executed": false,
+  "nonlinear_retained_mode_pilot_authorized": false,
+  "passed": false,
+  "physical_failure_detected": false,
+  "raw_face48_export_rejection_preserved": true,
+  "reaction_map_preflight_passed": true,
+  "reactions": {
+    "fine": [
+      {
+        "DQ_M_inverse_BQ_identity_defect": 1.055555468206505e-12,
+        "KKT_linear_solve_relative_defect": 9.466138685286432e-16,
+        "Q_derivative_row_norms": [
+          6.908098098937155e+23,
+          3.6835622922598325e+34,
+          1.2495864004126772e+24
+        ],
+        "descriptor_component_relative_defect": 6.4846405171704786e-18,
+        "normalized_physical_reaction_ledger": [
+          [
+            6.908098098934338e+23,
+            683322760055.1062,
+            99702639614.50636
+          ],
+          [
+            1.1993768779924854e+34,
+            -1.6056342772114853e+28,
+            -2.3386301727819456e+27
+          ],
+          [
+            1.0446077709039836e+25,
+            -2.591781952498105e+25,
+            -2.1416752920495562e+24
+          ]
+        ],
+        "raw_physical_reaction_ledger": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            17361887448.890133,
+            1.0,
+            0.0
+          ],
+          [
+            1.238756406857084,
+            0.5491033206696683,
+            1.0
+          ]
+        ],
+        "raw_schur_condition_number": 36616.15073826497,
+        "reaction_envelope": [
+          0.0006451474584894028,
+          0.006123648632420463,
+          0.017477639573889953,
+          0.03426207483555322,
+          0.05506709793241532,
+          0.07759664460586395,
+          0.09891238046571861,
+          0.11582987625099568,
+          0.12542565754110538,
+          0.12558765820825663,
+          0.11552249057479752,
+          0.09612530146726722,
+          0.07012511617601262,
+          0.04194183839305794,
+          0.01722931029648275,
+          0.002128117587673284
+        ],
+        "reaction_ledger_relative_defect": 1.9225341521303154e-16,
+        "reaction_support_relative_defect": 0.0,
+        "support_cell_indices": [
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207
+        ],
+        "time_seconds": 0.005
+      },
+      {
+        "DQ_M_inverse_BQ_identity_defect": 8.427413580480198e-13,
+        "KKT_linear_solve_relative_defect": 8.913916454815426e-16,
+        "Q_derivative_row_norms": [
+          6.939173498174322e+23,
+          3.7011807011014016e+34,
+          1.2542816026770177e+24
+        ],
+        "descriptor_component_relative_defect": 6.745850280839977e-18,
+        "normalized_physical_reaction_ledger": [
+          [
+            6.939173498175446e+23,
+            -272255811152.6836,
+            -39663776647.467445
+          ],
+          [
+            1.2057479916363435e+34,
+            -1.5668002232302722e+28,
+            -2.280273943755688e+27
+          ],
+          [
+            1.0198137928663277e+25,
+            -2.5303386469333296e+25,
+            -2.0435709416923835e+24
+          ]
+        ],
+        "raw_physical_reaction_ledger": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            17375950412.17455,
+            1.0,
+            0.0
+          ],
+          [
+            1.2381243819778918,
+            0.5497655484423146,
+            1.0
+          ]
+        ],
+        "raw_schur_condition_number": 35592.524141371796,
+        "reaction_envelope": [
+          0.0006451474584894028,
+          0.006123648632420463,
+          0.017477639573889953,
+          0.03426207483555322,
+          0.05506709793241532,
+          0.07759664460586395,
+          0.09891238046571861,
+          0.11582987625099568,
+          0.12542565754110538,
+          0.12558765820825663,
+          0.11552249057479752,
+          0.09612530146726722,
+          0.07012511617601262,
+          0.04194183839305794,
+          0.01722931029648275,
+          0.002128117587673284
+        ],
+        "reaction_ledger_relative_defect": 1.8771530036147512e-22,
+        "reaction_support_relative_defect": 0.0,
+        "support_cell_indices": [
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207
+        ],
+        "time_seconds": 0.01
+      },
+      {
+        "DQ_M_inverse_BQ_identity_defect": 9.885982472827455e-13,
+        "KKT_linear_solve_relative_defect": 5.967770222438156e-16,
+        "Q_derivative_row_norms": [
+          6.97638602551259e+23,
+          3.722259259921772e+34,
+          1.2599126429078848e+24
+        ],
+        "descriptor_component_relative_defect": 6.356333656470858e-18,
+        "normalized_physical_reaction_ledger": [
+          [
+            6.97638602551249e+23,
+            23624911580.068596,
+            3445739686.0164633
+          ],
+          [
+            1.2133790064983243e+34,
+            -1.5233787172080764e+28,
+            -2.2150356810056886e+27
+          ],
+          [
+            9.920773631894041e+24,
+            -2.4615948210013285e+25,
+            -1.9333669662302692e+24
+          ]
+        ],
+        "raw_physical_reaction_ledger": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            17392649631.73911,
+            1.0,
+            0.0
+          ],
+          [
+            1.2373718140950138,
+            0.5505525289749876,
+            1.0
+          ]
+        ],
+        "raw_schur_condition_number": 34446.83368551158,
+        "reaction_envelope": [
+          0.0006451474584894028,
+          0.006123648632420463,
+          0.017477639573889953,
+          0.03426207483555322,
+          0.05506709793241532,
+          0.07759664460586395,
+          0.09891238046571861,
+          0.11582987625099568,
+          0.12542565754110538,
+          0.12558765820825663,
+          0.11552249057479752,
+          0.09612530146726722,
+          0.07012511617601262,
+          0.04194183839305794,
+          0.01722931029648275,
+          0.002128117587673284
+        ],
+        "reaction_ledger_relative_defect": 1.9003485282538594e-16,
+        "reaction_support_relative_defect": 0.0,
+        "support_cell_indices": [
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207
+        ],
+        "time_seconds": 0.016
+      },
+      {
+        "DQ_M_inverse_BQ_identity_defect": 2.4473352198909662e-12,
+        "KKT_linear_solve_relative_defect": 8.55903309032527e-16,
+        "Q_derivative_row_norms": [
+          7.001147432768061e+23,
+          3.7362733981320476e+34,
+          1.2636647125012064e+24
+        ],
+        "descriptor_component_relative_defect": 5.8567254982247206e-18,
+        "normalized_physical_reaction_ledger": [
+          [
+            7.001147432767504e+23,
+            135124155195.22182,
+            19663255284.79937
+          ],
+          [
+            1.2184576971611796e+34,
+            -1.4961867700389274e+28,
+            -2.1741881583816406e+27
+          ],
+          [
+            9.74699039351599e+24,
+            -2.4185181314414093e+25,
+            -1.8640483260496712e+24
+          ]
+        ],
+        "raw_physical_reaction_ledger": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            17403676921.047,
+            1.0,
+            0.0
+          ],
+          [
+            1.236873626258406,
+            0.5510725685124245,
+            1.0
+          ]
+        ],
+        "raw_schur_condition_number": 33728.648759435426,
+        "reaction_envelope": [
+          0.0006451474584894028,
+          0.006123648632420463,
+          0.017477639573889953,
+          0.03426207483555322,
+          0.05506709793241532,
+          0.07759664460586395,
+          0.09891238046571861,
+          0.11582987625099568,
+          0.12542565754110538,
+          0.12558765820825663,
+          0.11552249057479752,
+          0.09612530146726722,
+          0.07012511617601262,
+          0.04194183839305794,
+          0.01722931029648275,
+          0.002128117587673284
+        ],
+        "reaction_ledger_relative_defect": 1.8924276276384862e-16,
+        "reaction_support_relative_defect": 0.0,
+        "support_cell_indices": [
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207
+        ],
+        "time_seconds": 0.02
+      }
+    ],
+    "middle": [
+      {
+        "DQ_M_inverse_BQ_identity_defect": 8.810729923425242e-13,
+        "KKT_linear_solve_relative_defect": 8.117664547668002e-16,
+        "Q_derivative_row_norms": [
+          6.91886059868339e+23,
+          3.686007068056851e+34,
+          1.2530824711498292e+24
+        ],
+        "descriptor_component_relative_defect": 7.080747243472503e-18,
+        "normalized_physical_reaction_ledger": [
+          [
+            6.918860598684919e+23,
+            -370968463985.0987,
+            -54207512710.04958
+          ],
+          [
+            1.2012454520438571e+34,
+            -1.6066321363346453e+28,
+            -2.34507450847126e+27
+          ],
+          [
+            1.046183887702193e+25,
+            -2.5933775347076755e+25,
+            -2.1474859700237257e+24
+          ]
+        ],
+        "raw_physical_reaction_ledger": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            17361887448.262417,
+            1.0,
+            0.0
+          ],
+          [
+            1.2387564068467602,
+            0.549103320641004,
+            1.0
+          ]
+        ],
+        "raw_schur_condition_number": 36573.80674371946,
+        "reaction_envelope": [
+          0.0006451474584894028,
+          0.006123648632420463,
+          0.017477639573889953,
+          0.03426207483555322,
+          0.05506709793241532,
+          0.07759664460586395,
+          0.09891238046571861,
+          0.11582987625099568,
+          0.12542565754110538,
+          0.12558765820825663,
+          0.11552249057479752,
+          0.09612530146726722,
+          0.07012511617601262,
+          0.04194183839305794,
+          0.01722931029648275,
+          0.002128117587673284
+        ],
+        "reaction_ledger_relative_defect": 1.9195435914380412e-16,
+        "reaction_support_relative_defect": 0.0,
+        "support_cell_indices": [
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111
+        ],
+        "time_seconds": 0.005
+      },
+      {
+        "DQ_M_inverse_BQ_identity_defect": 1.9468870959826745e-12,
+        "KKT_linear_solve_relative_defect": 8.411509775724614e-16,
+        "Q_derivative_row_norms": [
+          6.950029706340492e+23,
+          3.703657788848374e+34,
+          1.2578047675473138e+24
+        ],
+        "descriptor_component_relative_defect": 6.447295794633112e-18,
+        "normalized_physical_reaction_ledger": [
+          [
+            6.950029706340495e+23,
+            -289160068.91461325,
+            -25782060.23757933
+          ],
+          [
+            1.207634361625499e+34,
+            -1.5677843030132056e+28,
+            -2.2865852055093507e+27
+          ],
+          [
+            1.0213616156879288e+25,
+            -2.53191653763151e+25,
+            -2.0491431163379327e+24
+          ]
+        ],
+        "raw_physical_reaction_ledger": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            17375950407.256207,
+            1.0,
+            0.0
+          ],
+          [
+            1.238124381793753,
+            0.5497655482786112,
+            1.0
+          ]
+        ],
+        "raw_schur_condition_number": 35551.35896385306,
+        "reaction_envelope": [
+          0.0006451474584894028,
+          0.006123648632420463,
+          0.017477639573889953,
+          0.03426207483555322,
+          0.05506709793241532,
+          0.07759664460586395,
+          0.09891238046571861,
+          0.11582987625099568,
+          0.12542565754110538,
+          0.12558765820825663,
+          0.11552249057479752,
+          0.09612530146726722,
+          0.07012511617601262,
+          0.04194183839305794,
+          0.01722931029648275,
+          0.002128117587673284
+        ],
+        "reaction_ledger_relative_defect": 3.8187767464785863e-16,
+        "reaction_support_relative_defect": 0.0,
+        "support_cell_indices": [
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111
+        ],
+        "time_seconds": 0.01
+      },
+      {
+        "DQ_M_inverse_BQ_identity_defect": 7.958078640513122e-13,
+        "KKT_linear_solve_relative_defect": 1.334004419096544e-15,
+        "Q_derivative_row_norms": [
+          6.98735572402686e+23,
+          3.7247754815731415e+34,
+          1.2634685375270086e+24
+        ],
+        "descriptor_component_relative_defect": 5.92523931843763e-18,
+        "normalized_physical_reaction_ledger": [
+          [
+            6.987355724027088e+23,
+            -55574186314.118774,
+            -8119489923.631787
+          ],
+          [
+            1.215286927871097e+34,
+            -1.5243500931748324e+28,
+            -2.2212024082522826e+27
+          ],
+          [
+            9.935933141795417e+24,
+            -2.463152209760473e+25,
+            -1.938668717836237e+24
+          ]
+        ],
+        "raw_physical_reaction_ledger": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            17392649620.01751,
+            1.0,
+            0.0
+          ],
+          [
+            1.2373718136250096,
+            0.5505525286000578,
+            1.0
+          ]
+        ],
+        "raw_schur_condition_number": 34406.968792176296,
+        "reaction_envelope": [
+          0.0006451474584894028,
+          0.006123648632420463,
+          0.017477639573889953,
+          0.03426207483555322,
+          0.05506709793241532,
+          0.07759664460586395,
+          0.09891238046571861,
+          0.11582987625099568,
+          0.12542565754110538,
+          0.12558765820825663,
+          0.11552249057479752,
+          0.09612530146726722,
+          0.07012511617601262,
+          0.04194183839305794,
+          0.01722931029648275,
+          0.002128117587673284
+        ],
+        "reaction_ledger_relative_defect": 3.656030138820168e-22,
+        "reaction_support_relative_defect": 0.0,
+        "support_cell_indices": [
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111
+        ],
+        "time_seconds": 0.016
+      },
+      {
+        "DQ_M_inverse_BQ_identity_defect": 1.3073986337985843e-12,
+        "KKT_linear_solve_relative_defect": 8.298600346664279e-16,
+        "Q_derivative_row_norms": [
+          7.012193422892008e+23,
+          3.738815927712354e+34,
+          1.2672425596563524e+24
+        ],
+        "descriptor_component_relative_defect": 7.091142064975125e-18,
+        "normalized_physical_reaction_ledger": [
+          [
+            7.012193422891255e+23,
+            182425815493.05444,
+            26536265276.947712
+          ],
+          [
+            1.2203801054333562e+34,
+            -1.4971492918241845e+28,
+            -2.1802632499308533e+27
+          ],
+          [
+            9.761948870809437e+24,
+            -2.420062245378228e+25,
+            -1.869178482349844e+24
+          ]
+        ],
+        "raw_physical_reaction_ledger": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            17403676905.18131,
+            1.0,
+            0.0
+          ],
+          [
+            1.23687362561021,
+            0.5510725680079492,
+            1.0
+          ]
+        ],
+        "raw_schur_condition_number": 33689.587510623605,
+        "reaction_envelope": [
+          0.0006451474584894028,
+          0.006123648632420463,
+          0.017477639573889953,
+          0.03426207483555322,
+          0.05506709793241532,
+          0.07759664460586395,
+          0.09891238046571861,
+          0.11582987625099568,
+          0.12542565754110538,
+          0.12558765820825663,
+          0.11552249057479752,
+          0.09612530146726722,
+          0.07012511617601262,
+          0.04194183839305794,
+          0.01722931029648275,
+          0.002128117587673284
+        ],
+        "reaction_ledger_relative_defect": 1.8894465740189937e-16,
+        "reaction_support_relative_defect": 0.0,
+        "support_cell_indices": [
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111
+        ],
+        "time_seconds": 0.02
+      }
+    ]
+  },
+  "reduced_slow_evolution_authorized": false,
+  "retained_coordinate_preflight_passed": false,
+  "schema_version": 1,
+  "two_mode_aggregate_output_gate_passed": true,
+  "two_mode_output_reconstruction": {
+    "layouts": {
+      "fine": {
+        "cumulative": {
+          "maximum_significant_direction_error": 0.9694665824502621,
+          "output_weighted_RMS_error": 0.058314237770146826,
+          "significant_direction_count": 29
+        },
+        "instantaneous": {
+          "maximum_significant_direction_error": 0.9525040248723206,
+          "output_weighted_RMS_error": 0.07017343795563558,
+          "significant_direction_count": 29
+        },
+        "window_mean": {
+          "maximum_significant_direction_error": 0.9299396472723102,
+          "output_weighted_RMS_error": 0.06498177701962146,
+          "significant_direction_count": 29
+        }
+      },
+      "middle": {
+        "cumulative": {
+          "maximum_significant_direction_error": 1.0085022941291621,
+          "output_weighted_RMS_error": 0.06489956203022006,
+          "significant_direction_count": 29
+        },
+        "instantaneous": {
+          "maximum_significant_direction_error": 1.0249911288020028,
+          "output_weighted_RMS_error": 0.06976156578196437,
+          "significant_direction_count": 29
+        },
+        "window_mean": {
+          "maximum_significant_direction_error": 1.0437719690983103,
+          "output_weighted_RMS_error": 0.05901448134209131,
+          "significant_direction_count": 29
+        }
+      }
+    },
+    "maximum_output_weighted_RMS_error": 0.07017343795563558,
+    "maximum_significant_direction_error": 1.0437719690983103,
+    "minimum_modal_output_history_cosine": 0.9999580486257114,
+    "modal_output_history_cosines": {
+      "cumulative": [
+        0.9999999700408382,
+        0.9999580486257114
+      ],
+      "instantaneous": [
+        0.9999998903328556,
+        0.9999620085437063
+      ],
+      "window_mean": [
+        0.9999999725319633,
+        0.9999740763838925
+      ]
+    },
+    "state_amplitude_history_gate_evaluated": false,
+    "state_amplitude_history_gate_reason": "c4f13_commits_output_histories_but_not_intermediate_state_direction_histories;_modal_output_kernels_are_not_relabelled_as_descriptor_dual_state_amplitudes"
+  },
+  "two_mode_significant_direction_gate_passed": false,
+  "wall_seconds": 289.06305729132146,
+  "work_package": "WP10c9d6c7c3b5c4f15"
+}

@@ -1,0 +1,39 @@
+{
+  "layouts": [
+    "middle",
+    "fine"
+  ],
+  "parent_macro_cells": [
+    36,
+    64
+  ],
+  "parent_reaction_support_cells": [
+    48,
+    64
+  ],
+  "prospective_gates": {
+    "maximum_DQ_M_inverse_BQ_identity_defect": 1e-10,
+    "maximum_KKT_Schur_condition_number": 100000000.0,
+    "maximum_KKT_linear_solve_relative_defect": 1e-10,
+    "maximum_dual_biorthogonality_defect": 1e-10,
+    "maximum_reaction_ledger_relative_defect": 1e-12,
+    "maximum_state_lift_Q3_defect": 1e-10,
+    "maximum_two_mode_face36_output_weighted_RMS_error": 0.1,
+    "maximum_two_mode_face36_significant_direction_error": 0.25,
+    "minimum_consensus_form_energy_capture": 0.99,
+    "minimum_consensus_layout_subspace_cosine": 0.95,
+    "minimum_middle_fine_amplitude_history_cosine": 0.95,
+    "minimum_mode_spectral_gap_sigma2_over_sigma3": 5.0,
+    "significant_direction_relative_response_floor": 0.001
+  },
+  "schema_version": 1,
+  "selected_times_seconds": [
+    0.005,
+    0.01,
+    0.016,
+    0.02
+  ],
+  "shared_exchange_parent_face": 36,
+  "two_mode_dimension": 2,
+  "work_package": "WP10c9d6c7c3b5c4f15"
+}
