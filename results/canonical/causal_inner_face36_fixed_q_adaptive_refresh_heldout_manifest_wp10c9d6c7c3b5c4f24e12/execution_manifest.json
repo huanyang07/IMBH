@@ -1,0 +1,22 @@
+{
+  "binding_temporal_form": "exact_increment_primary",
+  "case": "heldout_coarse",
+  "exact_jacobian_refresh_policy": "on_line_search_failure",
+  "historical_rejection_must_be_preserved": true,
+  "maximum_exact_jacobian_assemblies": 2,
+  "maximum_scaled_residual": 1e-10,
+  "may_change_physical_equations": false,
+  "may_relax_any_gate": false,
+  "may_resume_refined_ladder": false,
+  "require_BDF1_bitwise_historical_arrays": true,
+  "require_all_existing_step_acceptance_gates": true,
+  "require_bitwise_BDF2_replay": true,
+  "require_bitwise_restart_roundtrip": true,
+  "required_BDF1_exact_jacobian_assemblies": 1,
+  "required_BDF2_exact_jacobian_assemblies": 2,
+  "required_BDF2_function_evaluations": 18,
+  "required_optional_refresh_reason": "line_search_failure",
+  "schema_version": 1,
+  "state": "heldout_16ms",
+  "timestep_seconds": 1e-07
+}
