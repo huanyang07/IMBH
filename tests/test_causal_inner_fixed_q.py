@@ -19,6 +19,7 @@ from imri_qpe.layer3_minidisk_1d import (
     pack_causal_five_field_state,
 )
 from imri_qpe.layer3_minidisk_1d.causal_inner_fixed_q import (
+    _stable_fixed_q_schur_inverse,
     causal_five_field_fixed_q_accepted_history,
     causal_five_field_fixed_q_augmented_step_matrix,
     causal_five_field_fixed_q_bdf_restart,
@@ -32,6 +33,41 @@ from imri_qpe.layer3_minidisk_1d.causal_inner_fixed_q import (
     solve_causal_five_field_fixed_q_bdf,
     solve_causal_five_field_fixed_q_backward_euler,
 )
+
+
+def test_stable_schur_inverse_closes_audited_endpoint_matrix() -> None:
+    matrix = np.asarray(
+        [
+            [
+                1.4260852200815492e-24,
+                -9.04005665305226e-41,
+                -1.0474986280520873e-40,
+            ],
+            [
+                4.511086842028512e-25,
+                -4.841062683662367e-26,
+                -8.798602261922747e-26,
+            ],
+            [
+                9.455442151169303e-25,
+                3.319755123043794e-25,
+                6.041931367226739e-25,
+            ],
+        ],
+        dtype=float,
+    )
+    first = _stable_fixed_q_schur_inverse(
+        matrix,
+        maximum_condition_number=1.0e8,
+    )
+    second = _stable_fixed_q_schur_inverse(
+        matrix,
+        maximum_condition_number=1.0e8,
+    )
+    assert first[2] == 3
+    assert first[3] < 1.0e8
+    assert first[4] <= 5.0e-13
+    assert np.array_equal(first[0], second[0])
 
 
 def _problem():

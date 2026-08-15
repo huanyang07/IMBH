@@ -450,9 +450,44 @@ def _stable_fixed_q_schur_inverse(
         raise np.linalg.LinAlgError(
             "fixed-Q reaction Schur matrix exceeds its condition gate"
         )
-    inverse = np.linalg.solve(matrix, np.eye(3))
-    scale = max(float(np.linalg.norm(np.eye(3))), np.finfo(float).tiny)
-    solve_defect = float(np.linalg.norm(matrix @ inverse - np.eye(3)) / scale)
+    identity = np.eye(3)
+    row_scale = np.max(np.abs(matrix), axis=1)
+    if np.any(~np.isfinite(row_scale)) or np.any(row_scale <= 0.0):
+        raise np.linalg.LinAlgError(
+            "fixed-Q reaction Schur row equilibration is singular"
+        )
+    row_scaled = matrix / row_scale[:, None]
+    column_scale = np.max(np.abs(row_scaled), axis=0)
+    if np.any(~np.isfinite(column_scale)) or np.any(column_scale <= 0.0):
+        raise np.linalg.LinAlgError(
+            "fixed-Q reaction Schur column equilibration is singular"
+        )
+    equilibrated = row_scaled / column_scale[None, :]
+    inverse = (
+        np.diag(1.0 / column_scale)
+        @ np.linalg.solve(equilibrated, np.diag(1.0 / row_scale))
+    )
+
+    # One deterministic residual-refinement correction is the method selected
+    # prospectively by WP10c9d6c7c3b5c4f24e7 at both audited physical states.
+    # Accumulate the physical-matrix residual in extended precision, then solve
+    # its correction through a globally scaled double-precision system.
+    global_scale = float(np.max(np.abs(matrix)))
+    normalized = matrix / global_scale
+    extended_residual = (
+        identity.astype(np.longdouble)
+        - matrix.astype(np.longdouble) @ inverse.astype(np.longdouble)
+    )
+    correction = np.linalg.solve(
+        normalized,
+        np.asarray(extended_residual, dtype=float),
+    ) / global_scale
+    inverse = inverse + correction
+
+    defect_scale = max(float(np.linalg.norm(identity)), np.finfo(float).tiny)
+    solve_defect = float(
+        np.linalg.norm(matrix @ inverse - identity) / defect_scale
+    )
     return (
         np.asarray(inverse, dtype=float),
         np.asarray(singular_values, dtype=float),
