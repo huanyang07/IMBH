@@ -1,0 +1,32 @@
+{
+  "analysis_only": true,
+  "endpoint_repeat_evaluations": 3,
+  "line_search_alphas": [
+    1.0,
+    0.5,
+    0.25,
+    0.125,
+    0.0625,
+    0.03125,
+    0.015625,
+    0.0078125
+  ],
+  "maximum_full_step_model_error_to_base_residual": 0.1,
+  "maximum_increment_direct_storage_relative_defect": 1e-09,
+  "may_change_physical_equations": false,
+  "may_change_row_scales_or_merit_norm": false,
+  "may_relax_nonlinear_residual_gate": false,
+  "minimum_resolvable_model_error_order": 1.5,
+  "outer_localization_cells": [
+    108,
+    109,
+    110,
+    111
+  ],
+  "physical_operator_changed": false,
+  "require_bitwise_endpoint_repeatability": true,
+  "schema_version": 1,
+  "source": "f24e3_saved_endpoint_and_exact_Newton_correction",
+  "timestep_seconds": 1e-07,
+  "trajectory_executed": false
+}
