@@ -1,0 +1,146 @@
+{
+  "analysis_only": true,
+  "authorized_next": "definitions_only_constrained_BDF_startup_history_preflight",
+  "binding_step_indices": [
+    3,
+    4,
+    0
+  ],
+  "classification": "fixed_Q_second_state_Jacobian_and_exact_BDF2_roots_passed_but_synthetic_history_limit_orders_failed",
+  "derivative_audit": {
+    "direct_augmented_JVP_relative_defect": 7.666023739986227e-11,
+    "direct_monolithic_JVP_relative_defect": 6.172254849643049e-09,
+    "direct_raw_reaction_JVP_relative_defect": 1.3671056999268807e-09,
+    "maximum_augmented_block_closure_defect": 0.0,
+    "maximum_reaction_ledger_relative_defect": 1.3098701080513568e-16,
+    "passed": true,
+    "relative_step": 0.0001,
+    "state_time_seconds": 0.016,
+    "wall_seconds": 490.6410644170828
+  },
+  "diagnostic_small_timestep_multiplier_convergence_orders": [
+    1.0257308735058508,
+    -0.06151501531961406
+  ],
+  "diagnostic_small_timestep_rate_convergence_orders": [
+    0.832458514604487,
+    0.19661045903258584
+  ],
+  "exact_bdf2_steps": [
+    {
+      "accepted": true,
+      "direct_storage_rate_used": true,
+      "function_evaluations": 3,
+      "history_Q3_relative_defect": 1.754824715399079e-14,
+      "history_projection_iterations": 3,
+      "iterations": 2,
+      "maximum_Q3_relative_defect": 2.352244594778822e-16,
+      "maximum_exact_Jacobian_refreshes": 4,
+      "maximum_scaled_residual": 6.157248491653518e-13,
+      "message": "residual gate passed",
+      "multiplier_relative_defect": 2.785982562094561e-05,
+      "rate_relative_defect": 0.0004560423319874219,
+      "step_index": 0,
+      "timestep_seconds": 2e-09,
+      "wall_seconds": 752.831043458078
+    },
+    {
+      "accepted": true,
+      "direct_storage_rate_used": true,
+      "function_evaluations": 3,
+      "history_Q3_relative_defect": 1.4038597723192631e-16,
+      "history_projection_iterations": 3,
+      "iterations": 2,
+      "maximum_Q3_relative_defect": 1.403859772319263e-16,
+      "maximum_exact_Jacobian_refreshes": 4,
+      "maximum_scaled_residual": 5.498846005995818e-13,
+      "message": "residual gate passed",
+      "multiplier_relative_defect": 1.368367130214211e-05,
+      "rate_relative_defect": 0.00025610035161905987,
+      "step_index": 1,
+      "timestep_seconds": 1e-09,
+      "wall_seconds": 757.4759753327817
+    },
+    {
+      "accepted": true,
+      "direct_storage_rate_used": true,
+      "function_evaluations": 3,
+      "history_Q3_relative_defect": 1.6284773358903452e-14,
+      "history_projection_iterations": 2,
+      "iterations": 2,
+      "maximum_Q3_relative_defect": 1.4363319492682984e-16,
+      "maximum_exact_Jacobian_refreshes": 4,
+      "maximum_scaled_residual": 3.864392184839294e-13,
+      "message": "residual gate passed",
+      "multiplier_relative_defect": 1.4279746514381127e-05,
+      "rate_relative_defect": 0.00022347272723934663,
+      "step_index": 2,
+      "timestep_seconds": 5e-10,
+      "wall_seconds": 750.8255581250414
+    },
+    {
+      "accepted": true,
+      "direct_storage_rate_used": true,
+      "function_evaluations": 3,
+      "history_Q3_relative_defect": 1.4363319492682984e-16,
+      "history_projection_iterations": 8,
+      "iterations": 2,
+      "maximum_Q3_relative_defect": 2.872663898536597e-16,
+      "maximum_exact_Jacobian_refreshes": 1,
+      "maximum_scaled_residual": 8.77929118292542e-11,
+      "message": "residual gate passed",
+      "multiplier_relative_defect": 1.916065859365942e-05,
+      "rate_relative_defect": 0.001232115610673126,
+      "step_index": 3,
+      "timestep_seconds": 8e-09,
+      "wall_seconds": 475.77695304201916
+    },
+    {
+      "accepted": true,
+      "direct_storage_rate_used": true,
+      "function_evaluations": 3,
+      "history_Q3_relative_defect": 1.9934808766933537e-14,
+      "history_projection_iterations": 4,
+      "iterations": 2,
+      "maximum_Q3_relative_defect": 1.4363319492682982e-16,
+      "maximum_exact_Jacobian_refreshes": 1,
+      "maximum_scaled_residual": 2.2788937403817044e-11,
+      "message": "residual gate passed",
+      "multiplier_relative_defect": 4.6885585600801265e-05,
+      "rate_relative_defect": 0.0005834174795416943,
+      "step_index": 4,
+      "timestep_seconds": 4e-09,
+      "wall_seconds": 479.5940108336508
+    }
+  ],
+  "exact_constrained_BDF2_roots_certified": true,
+  "fixed_Q_micro_solver_authorized": false,
+  "gates": {
+    "maximum_direct_augmented_JVP_relative_defect": 1e-08,
+    "maximum_direct_monolithic_JVP_relative_defect": 1e-08,
+    "maximum_direct_raw_reaction_JVP_relative_defect": 1e-08,
+    "maximum_exact_step_Q3_relative_defect": 1e-12,
+    "maximum_exact_step_scaled_residual": 1e-10,
+    "maximum_history_Q3_relative_defect": 1e-12,
+    "minimum_multiplier_convergence_order": 0.9,
+    "minimum_rate_convergence_order": 0.9
+  },
+  "multiplier_convergence_orders": [
+    -1.2909973014778664,
+    0.7509582240708447
+  ],
+  "one_Q_execution_manifest_authorized": false,
+  "one_Q_propagation_authorized": false,
+  "passed": false,
+  "physical_operator_changed": false,
+  "rate_convergence_orders": [
+    1.0785371159263948,
+    0.35536086257879174
+  ],
+  "reduced_slow_evolution_authorized": false,
+  "second_state_derivative_certified": true,
+  "second_state_time_seconds": 0.016,
+  "synthetic_history_limit_orders_certified": false,
+  "trajectory_executed": false,
+  "work_package": "WP10c9d6c7c3b5c4f24c"
+}

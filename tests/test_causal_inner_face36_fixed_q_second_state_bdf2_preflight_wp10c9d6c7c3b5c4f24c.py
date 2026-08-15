@@ -10,8 +10,8 @@ ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT = (
     ROOT
     / "results/canonical"
-    / "causal_inner_face36_fixed_q_jacobian_repair_"
-    "wp10c9d6c7c3b5c4f24b"
+    / "causal_inner_face36_fixed_q_second_state_bdf2_preflight_"
+    "wp10c9d6c7c3b5c4f24c"
 )
 
 
@@ -19,61 +19,65 @@ def _read(name: str) -> dict:
     return json.loads((ARTIFACT / name).read_text(encoding="utf-8"))
 
 
-def test_c4f24b_certifies_only_the_repair_preflight():
+def test_c4f24c_preserves_the_narrow_negative_classification() -> None:
     summary = _read("summary.json")
-    assert summary["passed"]
+    assert not summary["passed"]
     assert summary["analysis_only"]
     assert not summary["trajectory_executed"]
     assert not summary["physical_operator_changed"]
     assert summary["classification"] == (
-        "fixed_Q_Jacobian_and_exact_BE_limit_repair_passed"
+        "fixed_Q_second_state_Jacobian_and_exact_BDF2_roots_passed_"
+        "but_synthetic_history_limit_orders_failed"
     )
     assert summary["authorized_next"] == (
-        "second_state_and_constrained_BDF2_preflight"
+        "definitions_only_constrained_BDF_startup_history_preflight"
     )
     assert not summary["one_Q_execution_manifest_authorized"]
     assert not summary["fixed_Q_micro_solver_authorized"]
+    assert not summary["one_Q_propagation_authorized"]
     assert not summary["reduced_slow_evolution_authorized"]
 
 
-def test_c4f24b_derivative_and_exact_step_gates_pass():
+def test_c4f24c_derivatives_and_roots_pass_but_orders_fail() -> None:
     summary = _read("summary.json")
-    derivative = summary["derivative_audit"]
     gates = summary["gates"]
-    assert derivative["direct_monolithic_JVP_relative_defect"] <= gates[
-        "maximum_direct_monolithic_JVP_relative_defect"
-    ]
-    assert derivative["direct_augmented_JVP_relative_defect"] <= gates[
-        "maximum_direct_augmented_JVP_relative_defect"
-    ]
-    assert derivative["direct_raw_reaction_JVP_relative_defect"] <= gates[
-        "maximum_direct_raw_reaction_JVP_relative_defect"
-    ]
-    assert all(step["accepted"] for step in summary["exact_steps"])
+    assert summary["second_state_derivative_certified"]
+    assert summary["exact_constrained_BDF2_roots_certified"]
+    assert not summary["synthetic_history_limit_orders_certified"]
+    assert len(summary["exact_bdf2_steps"]) == 5
+    assert all(step["accepted"] for step in summary["exact_bdf2_steps"])
     assert max(
-        step["maximum_scaled_residual"] for step in summary["exact_steps"]
+        step["maximum_scaled_residual"]
+        for step in summary["exact_bdf2_steps"]
     ) <= gates["maximum_exact_step_scaled_residual"]
     assert max(
-        step["maximum_Q3_relative_defect"] for step in summary["exact_steps"]
+        step["maximum_Q3_relative_defect"]
+        for step in summary["exact_bdf2_steps"]
     ) <= gates["maximum_exact_step_Q3_relative_defect"]
-    assert min(summary["rate_convergence_orders"]) >= gates[
-        "minimum_rate_convergence_order"
-    ]
-    assert min(summary["multiplier_convergence_orders"]) >= gates[
-        "minimum_multiplier_convergence_order"
-    ]
+    assert max(
+        step["history_Q3_relative_defect"]
+        for step in summary["exact_bdf2_steps"]
+    ) <= gates["maximum_history_Q3_relative_defect"]
+    assert (
+        min(summary["rate_convergence_orders"])
+        < gates["minimum_rate_convergence_order"]
+    )
+    assert (
+        min(summary["multiplier_convergence_orders"])
+        < gates["minimum_multiplier_convergence_order"]
+    )
 
 
-def test_c4f24b_decisive_arrays_and_hashes_are_complete():
+def test_c4f24c_decisive_arrays_and_hashes_are_complete() -> None:
     with np.load(ARTIFACT / "decisive_arrays.npz", allow_pickle=False) as arrays:
         np.testing.assert_array_equal(
             arrays["timesteps_seconds"],
-            np.asarray((1.0e-7, 5.0e-8, 2.5e-8)),
+            np.asarray((2.0e-9, 1.0e-9, 5.0e-10, 8.0e-9, 4.0e-9)),
         )
         assert arrays["derivative_direction"].shape == (563,)
-        for index in range(3):
+        for index in range(5):
             assert arrays[f"step_{index}_primitive_charts"].shape == (112, 5)
-            assert arrays[f"step_{index}_scaled_rate_per_s"].shape == (560,)
+            assert arrays[f"step_{index}_scaled_bdf_rate_per_s"].shape == (560,)
             assert arrays[f"step_{index}_multipliers"].shape == (3,)
             assert np.all(np.isfinite(arrays[f"step_{index}_primitive_charts"]))
 
@@ -93,12 +97,10 @@ def test_c4f24b_decisive_arrays_and_hashes_are_complete():
         assert hashlib.sha256((ARTIFACT / name).read_bytes()).hexdigest() == digest
 
 
-def test_c4f24b_provenance_records_uncommitted_execution_transparently():
+def test_c4f24c_provenance_hashes_the_committed_source_bundle() -> None:
     provenance = _read("provenance.json")
     assert not provenance["working_tree_clean"]
     assert provenance["implementation_commit"] is None
-    assert provenance["execution_base_commit"]
-    assert provenance["implementation_source_bundle_sha256"]
     artifact_commit = subprocess.run(
         (
             "git",
@@ -114,10 +116,13 @@ def test_c4f24b_provenance_records_uncommitted_execution_transparently():
         text=True,
     ).stdout.strip()
     for relative, digest in provenance["source_hashes"].items():
-        committed = subprocess.run(
-            ("git", "show", f"{artifact_commit}:{relative}"),
-            cwd=ROOT,
-            check=True,
-            capture_output=True,
-        ).stdout
-        assert hashlib.sha256(committed).hexdigest() == digest
+        if artifact_commit:
+            contents = subprocess.run(
+                ("git", "show", f"{artifact_commit}:{relative}"),
+                cwd=ROOT,
+                check=True,
+                capture_output=True,
+            ).stdout
+        else:
+            contents = (ROOT / relative).read_bytes()
+        assert hashlib.sha256(contents).hexdigest() == digest

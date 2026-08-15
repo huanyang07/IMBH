@@ -17,6 +17,10 @@ from scipy.sparse.linalg import splu
 
 from imri_qpe.constants import C
 
+from .causal_inner_bdf import (
+    causal_bdf_coefficients,
+    causal_bdf_weighted_increment,
+)
 from .causal_inner_dae_system import CausalFiveFieldDAEContext, _cell_state
 from .causal_inner_monolithic_bdf import (
     CausalFiveFieldMonolithicBDFEvaluation,
@@ -128,12 +132,14 @@ class CausalFiveFieldFixedQAugmentedStepMatrix:
 
 @dataclass(frozen=True)
 class CausalFiveFieldFixedQBackwardEulerResult:
-    """One exact constrained backward-Euler solve used by the limit audit."""
+    """One exact constrained BDF solve used by the consistency audit."""
 
     primitive_charts: np.ndarray
     scaled_rate_per_s: np.ndarray
+    scaled_interval_rate_per_s: np.ndarray
     multipliers: np.ndarray
     evaluation: CausalFiveFieldFixedQBDFEvaluation
+    order: int
     accepted: bool
     iterations: int
     function_evaluations: int
@@ -1130,7 +1136,7 @@ def _equilibrated_dense_solve(
     return np.asarray(solution, dtype=float), residual
 
 
-def solve_causal_five_field_fixed_q_backward_euler(
+def solve_causal_five_field_fixed_q_bdf(
     context: CausalFiveFieldDAEContext,
     old_primitive_charts: np.ndarray,
     timestep_seconds: float,
@@ -1138,6 +1144,8 @@ def solve_causal_five_field_fixed_q_backward_euler(
     initial_multipliers: np.ndarray,
     top_left_scaled_matrix: np.ndarray,
     *,
+    order: int = 1,
+    history: CausalFiveFieldMonolithicBDFHistory | None = None,
     primitive_column_scales: np.ndarray,
     conservation_row_scales: np.ndarray,
     parent_cell_indices: np.ndarray,
@@ -1165,7 +1173,7 @@ def solve_causal_five_field_fixed_q_backward_euler(
     | None = None,
     base_reaction: CausalFiveFieldFixedQReaction | None = None,
 ) -> CausalFiveFieldFixedQBackwardEulerResult:
-    """Solve an exact finite constrained BE step for the KKT-limit audit.
+    """Solve one exact finite constrained BDF step for a consistency audit.
 
     The supplied top-left matrix is a preconditioner/Jacobian seed.  Secant
     updates act on the complete state-dependent augmented residual, so the
@@ -1185,6 +1193,25 @@ def solve_causal_five_field_fixed_q_backward_euler(
     )
     dimensions = int(old.size)
     timestep = float(timestep_seconds)
+    selected_order = int(order)
+    if selected_order != order or selected_order not in (1, 2):
+        raise ValueError("fixed-Q BDF order must be one or two")
+    validated_history = (
+        None
+        if history is None
+        else history.validated(n_cells=n_cells)
+    )
+    if (selected_order == 1) != (validated_history is None):
+        raise ValueError("fixed-Q BDF history is inconsistent with order")
+    coefficients = causal_bdf_coefficients(
+        selected_order,
+        timestep,
+        (
+            None
+            if validated_history is None
+            else validated_history.previous_timestep_seconds
+        ),
+    )
     rate = np.asarray(initial_scaled_rate_per_s, dtype=float).reshape(-1)
     multiplier = np.asarray(initial_multipliers, dtype=float)
     top_left = np.asarray(top_left_scaled_matrix, dtype=float)
@@ -1284,17 +1311,33 @@ def solve_causal_five_field_fixed_q_backward_euler(
             [base_reaction.q3_scaled_derivative, np.zeros((3, 3))],
         ]
     )
-    scaled_increment = (
-        timestep * rate
-        if initial_scaled_increment is None
-        else np.asarray(initial_scaled_increment, dtype=float).reshape(-1)
+    previous_scaled_increment = (
+        None
+        if validated_history is None
+        else (
+            validated_history.previous_primitive_increment
+            / columns
+        ).ravel()
     )
+    if initial_scaled_increment is None:
+        scaled_increment = timestep * rate
+        if previous_scaled_increment is not None:
+            scaled_increment = (
+                scaled_increment
+                - coefficients.previous_increment_coefficient
+                * previous_scaled_increment
+            ) / coefficients.current_increment_coefficient
+    else:
+        scaled_increment = np.asarray(
+            initial_scaled_increment,
+            dtype=float,
+        ).reshape(-1)
     if (
         scaled_increment.shape != (dimensions,)
         or np.any(~np.isfinite(scaled_increment))
         or np.max(np.abs(scaled_increment)) > maximum_scaled_primitive_change
     ):
-        raise ValueError("fixed-Q BE initial increment is invalid")
+        raise ValueError("fixed-Q BDF initial increment is invalid")
     unknown = np.concatenate((scaled_increment, multiplier))
     function_evaluations = 0
 
@@ -1312,7 +1355,8 @@ def solve_causal_five_field_fixed_q_backward_euler(
             target,
             timestep,
             context,
-            order=1,
+            order=selected_order,
+            history=validated_history,
             primitive_column_scales=columns,
             conservation_row_scales=rows,
             parent_cell_indices=parent_cell_indices,
@@ -1378,8 +1422,12 @@ def solve_causal_five_field_fixed_q_backward_euler(
                 candidate_state,
                 unknown[dimensions:],
                 timestep,
-                None,
-                order=1,
+                (
+                    None
+                    if validated_history is None
+                    else validated_history.previous_timestep_seconds
+                ),
+                order=selected_order,
                 primitive_column_scales=columns,
                 conservation_row_scales=rows,
                 parent_cell_indices=parent_cell_indices,
@@ -1496,10 +1544,17 @@ def solve_causal_five_field_fixed_q_backward_euler(
     )
     if success and not accepted:
         message = "fixed-Q root exceeds one or more acceptance gates"
+    scaled_interval_rate = scaled_increment / timestep
+    scaled_bdf_rate = causal_bdf_weighted_increment(
+        scaled_increment,
+        previous_scaled_increment,
+        coefficients,
+    ) / timestep
     return CausalFiveFieldFixedQBackwardEulerResult(
         primitive_charts=np.array(new, copy=True),
-        scaled_rate_per_s=np.asarray(
-            scaled_increment / timestep,
+        scaled_rate_per_s=np.asarray(scaled_bdf_rate, dtype=float),
+        scaled_interval_rate_per_s=np.asarray(
+            scaled_interval_rate,
             dtype=float,
         ),
         multipliers=np.asarray(
@@ -1507,10 +1562,29 @@ def solve_causal_five_field_fixed_q_backward_euler(
             dtype=float,
         ),
         evaluation=evaluation,
+        order=selected_order,
         accepted=accepted,
         iterations=iterations,
         function_evaluations=function_evaluations,
         maximum_scaled_residual=maximum_residual,
         maximum_linear_residual=max(linear_residuals, default=0.0),
         message=message,
+    )
+
+
+def solve_causal_five_field_fixed_q_backward_euler(
+    *args,
+    **kwargs,
+) -> CausalFiveFieldFixedQBackwardEulerResult:
+    """Backward-compatible wrapper for one exact constrained BDF1 step."""
+
+    if "order" in kwargs or "history" in kwargs:
+        raise TypeError(
+            "backward-Euler wrapper does not accept order or history"
+        )
+    return solve_causal_five_field_fixed_q_bdf(
+        *args,
+        order=1,
+        history=None,
+        **kwargs,
     )

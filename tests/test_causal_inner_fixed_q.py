@@ -6,9 +6,11 @@ import numpy as np
 
 from imri_qpe.constants import C
 from imri_qpe.layer3_minidisk_1d import (
+    CausalFiveFieldMonolithicBDFHistory,
     causal_five_field_analytic_local_maps,
     causal_five_field_dae_scaling,
     causal_five_field_monolithic_frozen_tangent,
+    causal_five_field_monolithic_storage_increment,
     causal_five_field_state_from_primitives,
     evaluate_causal_five_field_dae,
     make_causal_five_field_regression_context,
@@ -17,9 +19,11 @@ from imri_qpe.layer3_minidisk_1d import (
 )
 from imri_qpe.layer3_minidisk_1d.causal_inner_fixed_q import (
     causal_five_field_fixed_q_augmented_step_matrix,
+    causal_five_field_exterior_q3,
     causal_five_field_fixed_q_reaction,
     causal_five_field_fixed_q_reaction_jvp,
     evaluate_causal_five_field_fixed_q_bdf,
+    solve_causal_five_field_fixed_q_bdf,
     solve_causal_five_field_fixed_q_backward_euler,
 )
 
@@ -271,3 +275,95 @@ def test_backward_euler_correction_preserves_q3():
     assert result.maximum_scaled_residual <= 1.0e-2
     assert result.evaluation.maximum_constraint_relative_defect <= 1.0e-12
     assert _relative(result.scaled_rate_per_s, constrained_rate) <= 2.0e-2
+
+
+def test_bdf2_correction_uses_exact_equal_q_history() -> None:
+    context, base, columns, _rows, keywords = _problem()
+    tangent = causal_five_field_monolithic_frozen_tangent(
+        context,
+        base,
+        primitive_column_scales=keywords["primitive_column_scales"],
+        conservation_row_scales=keywords["conservation_row_scales"],
+    )
+    reaction = causal_five_field_fixed_q_reaction(context, base, **keywords)
+    multiplier = -reaction.q3_scaled_derivative @ tangent.scaled_base_rate_per_s
+    constrained_rate = (
+        tangent.scaled_base_rate_per_s
+        + reaction.reaction_lift @ multiplier
+    )
+    timestep = 1.0e-8
+    previous_scaled_increment = -timestep * constrained_rate
+    target_scale = np.maximum(
+        np.abs(reaction.q3_value),
+        np.finfo(float).tiny,
+    )
+    exterior_face = keywords["exterior_parent_face"]
+    for _iteration in range(8):
+        previous = base + columns * previous_scaled_increment.reshape(base.shape)
+        q3, _factors = causal_five_field_exterior_q3(
+            context,
+            previous,
+            exterior_face_index=exterior_face,
+        )
+        if np.max(np.abs((q3 - reaction.q3_value) / target_scale)) <= 1.0e-13:
+            break
+        previous_scaled_increment -= reaction.reaction_lift @ (
+            (q3 - reaction.q3_value) / reaction.q3_derivative_norms
+        )
+    previous = base + columns * previous_scaled_increment.reshape(base.shape)
+    previous_q3, _factors = causal_five_field_exterior_q3(
+        context,
+        previous,
+        exterior_face_index=exterior_face,
+    )
+    assert (
+        np.max(
+            np.abs((previous_q3 - reaction.q3_value) / target_scale)
+        )
+        <= 1.0e-12
+    )
+    previous_storage = causal_five_field_monolithic_storage_increment(
+        context,
+        previous,
+        base,
+    )
+    history = CausalFiveFieldMonolithicBDFHistory(
+        previous_primitive_increment=base - previous,
+        previous_mapped_storage_increment=(
+            previous_storage.mapped_path_increment
+        ),
+        previous_responsive_height_storage_increment=(
+            previous_storage.responsive_height_path_increment
+        ),
+        previous_timestep_seconds=timestep,
+    )
+    top_left = (
+        1.5 * reaction.descriptor_scaled_matrix / timestep
+        + tangent.evolving_scaled_jacobian
+    )
+    result = solve_causal_five_field_fixed_q_bdf(
+        context,
+        base,
+        timestep,
+        constrained_rate,
+        multiplier,
+        top_left,
+        order=2,
+        history=history,
+        q3_target=reaction.q3_value,
+        constraint_row_scales=reaction.q3_derivative_norms,
+        reaction_channel_basis="frozen_normalized",
+        reaction_channel_transform=reaction.raw_schur_inverse,
+        maximum_scaled_primitive_change=1.0e-2,
+        residual_tolerance=1.0e-8,
+        maximum_newton_iterations=3,
+        maximum_line_search_iterations=2,
+        refresh_exact_jacobian=True,
+        maximum_exact_jacobian_refreshes=2,
+        **keywords,
+    )
+    assert result.accepted, result.message
+    assert result.order == 2
+    assert result.maximum_scaled_residual <= 1.0e-8
+    assert result.evaluation.maximum_constraint_relative_defect <= 1.0e-12
+    assert _relative(result.scaled_rate_per_s, constrained_rate) <= 3.0e-2

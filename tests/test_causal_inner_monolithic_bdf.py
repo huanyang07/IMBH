@@ -115,6 +115,55 @@ def test_monolithic_bdf2_uses_stored_complete_path_increment() -> None:
     assert evaluation.incoming_excision_characteristics == 0
 
 
+def test_monolithic_bdf2_direct_storage_rate_matches_increment_form() -> None:
+    context, base, _tangent = _problem()
+    timestep = 1.0e-5
+    first_increment = _increment(base)
+    first_storage = causal_five_field_monolithic_storage_increment(
+        context,
+        base,
+        base + first_increment,
+    )
+    history = causal_five_field_monolithic_bdf_history(
+        first_increment,
+        first_storage,
+        timestep,
+    )
+    old = base + first_increment
+    new = old + 0.75 * first_increment
+    interval_rate = (new - old) / timestep
+    increment_form = evaluate_causal_five_field_monolithic_bdf(
+        old,
+        new,
+        timestep,
+        context,
+        order=2,
+        history=history,
+    )
+    direct_rate = evaluate_causal_five_field_monolithic_bdf(
+        old,
+        new,
+        timestep,
+        context,
+        order=2,
+        history=history,
+        current_primitive_rate_per_s=interval_rate,
+    )
+    scale = max(
+        float(np.linalg.norm(increment_form.residual_rows)),
+        float(np.linalg.norm(direct_rate.residual_rows)),
+        np.finfo(float).tiny,
+    )
+    assert (
+        np.linalg.norm(
+            increment_form.residual_rows - direct_rate.residual_rows
+        )
+        / scale
+        <= 1.0e-9
+    )
+    assert direct_rate.temporal_storage_uses_direct_rate_action
+
+
 def test_monolithic_bdf1_and_bdf2_reach_frozen_method_gate() -> None:
     context, base, tangent = _problem(5, with_tangent=True)
     assert tangent is not None

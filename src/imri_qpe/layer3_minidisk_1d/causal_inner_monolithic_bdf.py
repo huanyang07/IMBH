@@ -271,8 +271,6 @@ def evaluate_causal_five_field_monolithic_bdf(
     )
     direct_rate = None
     if current_primitive_rate_per_s is not None:
-        if int(order) != 1:
-            raise ValueError("direct storage-rate action requires BDF1")
         primitive_rate = np.asarray(current_primitive_rate_per_s, dtype=float)
         if primitive_rate.shape != old.shape or np.any(~np.isfinite(primitive_rate)):
             raise ValueError("direct storage-rate action is invalid")
@@ -294,8 +292,27 @@ def evaluate_causal_five_field_monolithic_bdf(
             primitive_rate,
             temporal_quadrature_order=temporal_quadrature_order,
         )
-        mapped_rows = direct_rate.mapped_rate_per_s / C
-        height_rows = direct_rate.responsive_height_rate_per_s / C
+        mapped_rows = (
+            coefficients.current_increment_coefficient
+            * direct_rate.mapped_rate_per_s
+        )
+        height_rows = (
+            coefficients.current_increment_coefficient
+            * direct_rate.responsive_height_rate_per_s
+        )
+        if validated_history is not None:
+            mapped_rows += (
+                coefficients.previous_increment_coefficient
+                * validated_history.previous_mapped_storage_increment
+                / timestep
+            )
+            height_rows += (
+                coefficients.previous_increment_coefficient
+                * validated_history.previous_responsive_height_storage_increment
+                / timestep
+            )
+        mapped_rows /= C
+        height_rows /= C
     else:
         mapped_rows = weighted_mapped / (C * timestep)
         height_rows = weighted_height / (C * timestep)
