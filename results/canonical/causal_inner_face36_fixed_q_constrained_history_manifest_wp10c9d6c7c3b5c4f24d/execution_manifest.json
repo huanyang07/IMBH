@@ -1,0 +1,121 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f24e_exact_constrained_BDF1_startup_BDF2_history_preflight",
+  "binding_gates": {
+    "incoming_excision_characteristics": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_Q3_relative_defect": 1e-12,
+    "maximum_checkpoint_roundtrip_difference": 0.0,
+    "maximum_constraint_work_ledger_relative_defect": 1e-12,
+    "maximum_reaction_ledger_relative_defect": 1e-12,
+    "maximum_reconstruction_factor": 1.0,
+    "maximum_scaled_residual": 1e-10,
+    "maximum_split_replay_difference": 0.0,
+    "maximum_storage_parity_relative_defect": 1e-09,
+    "minimum_reaction_action_convergence_order": 0.9,
+    "minimum_scattering_optical_depth": 1.0,
+    "minimum_state_rate_convergence_order": 0.9
+  },
+  "classification": "fixed_Q_constrained_BDF1_startup_BDF2_history_manifest_frozen_execution_preflight_authorized",
+  "committed_states": [
+    {
+      "layout": "middle",
+      "role": "primary",
+      "source": "committed_middle_20ms_base_endpoint",
+      "time_seconds": 0.02
+    },
+    {
+      "layout": "middle",
+      "role": "held_out",
+      "source": "committed_middle_16ms_base_endpoint",
+      "time_seconds": 0.016
+    }
+  ],
+  "constrained_history_execution_preflight_authorized": true,
+  "convergence_observables": {
+    "compare_at_chain_endpoint_relative_to_each_start": true,
+    "face36_rate": "certified_exterior_partition_directional_rate",
+    "multiplier_coordinates": "reported_nonbinding_conditioning_audit",
+    "reaction_action": "physical_scaled_B_Q_times_multiplier_not_multiplier_coordinates_alone",
+    "require_two_adjacent_orders": true,
+    "state_rate": "complete_BDF_weighted_scaled_rate"
+  },
+  "cost_contract": {
+    "estimated_wall_hours": [
+      1.5,
+      4.0
+    ],
+    "fail_fast_before_refined_rungs": true,
+    "no_long_trajectory": true,
+    "one_exact_matrix_refresh_per_root": true,
+    "reuse_committed_20ms_BE_evidence_when_hashes_match": true
+  },
+  "decision_tree": {
+    "all_gates_and_replay_pass": "authorize_fresh_definitions_only_one_Q_execution_manifest",
+    "any_primary_or_held_out_method_gate_fails": "stop_and_localize_startup_history_reaction_or_storage",
+    "roots_pass_but_convergence_fails": "do_not_authorize_one_Q_manifest_audit_history_or_conditioning"
+  },
+  "definitions_only": true,
+  "durability": {
+    "bitwise_required": true,
+    "compare_primitive_mapped_height_multiplier_and_Q3_arrays": true,
+    "hash_execution_tree_and_all_solver_dependencies": true,
+    "replay_BDF2_from_serialized_BDF1_history": true,
+    "serialize_after_BDF1_and_after_BDF2": true
+  },
+  "execution_shaped_chain": {
+    "Q3_target": "Q3_of_each_committed_start_state",
+    "continuation": "one_exact_equal_step_constrained_BDF2_root_using_only_the_accepted_BDF1_history",
+    "fail_fast_order": [
+      "primary_coarse_BDF1_then_BDF2",
+      "held_out_coarse_BDF1_then_BDF2",
+      "primary_middle_and_fine",
+      "held_out_middle_and_fine",
+      "serialized_replay"
+    ],
+    "history": "accepted_BDF1_primitive_increment_mapped_storage_increment_responsive_height_increment_and_timestep",
+    "manual_primitive_freezing_forbidden": true,
+    "raw_channel_repeat": "diagnostic_only_if_conditioning_requires",
+    "reaction_channel_basis": "frozen_normalized",
+    "startup": "one_exact_constrained_BDF1_root_from_the_committed_state",
+    "synthetic_backward_tangent_projection_forbidden": true,
+    "timestep_ladder_seconds": [
+      1e-07,
+      5e-08,
+      2.5e-08
+    ]
+  },
+  "fixed_Q_micro_solver_authorized": false,
+  "hard_stops": [
+    "do_not_tune_or_reuse_the_rejected_synthetic_history_projection",
+    "do_not_relax_the_1e-10_residual_or_1e-12_Q3_gates",
+    "do_not_authorize_a_fixed_Q_microburst_from_exact_roots_alone",
+    "do_not_run_50ms_or_fine_or_reduced_slow_evolution",
+    "do_not_use_raw_face48_as_the_slow_exchange"
+  ],
+  "inherited_certificates": {
+    "Q3_reaction_and_continuous_KKT": true,
+    "complete_state_dependent_Jacobian_at_16ms": true,
+    "complete_state_dependent_Jacobian_at_20ms": true,
+    "exact_constrained_backward_Euler_limit_at_20ms": true,
+    "exact_equal_Q_BDF2_roots_at_16ms": true,
+    "parent_minimum_multiplier_order": -1.2909973014778664,
+    "parent_minimum_rate_order": 0.35536086257879174,
+    "synthetic_projected_history_limit_rejected": true
+  },
+  "one_Q_execution_manifest_authorized": false,
+  "one_Q_propagation_authorized": false,
+  "physical_operator_changed": false,
+  "reduced_slow_evolution_authorized": false,
+  "residual_contract": {
+    "binding_solver_residual": "increment_primary_complete_BDF",
+    "constraint_row_scales_frozen_at_step_target": true,
+    "dense_exact_refresh_at_every_iteration_forbidden_in_execution": true,
+    "direct_rate_form": "independent_parity_audit_only",
+    "maximum_direct_rate_increment_parity_defect": 1e-09,
+    "one_exact_Jacobian_refresh_then_matrix_free_reaction_corrections": true,
+    "state_dependent_reaction_JVP_required": true
+  },
+  "schema_version": 1,
+  "trajectory_executed": false,
+  "work_package": "WP10c9d6c7c3b5c4f24d"
+}
