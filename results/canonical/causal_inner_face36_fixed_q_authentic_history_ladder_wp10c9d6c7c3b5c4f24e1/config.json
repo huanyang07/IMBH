@@ -1,0 +1,30 @@
+{
+  "binding_temporal_form": "increment_primary_complete_BDF",
+  "case_order": [
+    "primary_coarse",
+    "heldout_coarse",
+    "primary_middle",
+    "heldout_middle",
+    "primary_fine",
+    "heldout_fine"
+  ],
+  "diagnostic_refresh_may_not_convert_this_result_to_a_pass": true,
+  "executed_cases": [
+    "primary_coarse"
+  ],
+  "fail_fast": true,
+  "gates": {
+    "maximum_H_over_R": 0.12,
+    "maximum_Q3_relative_defect": 1e-12,
+    "maximum_complete_Jacobian_assemblies": 1,
+    "maximum_ledger_relative_defect": 1e-12,
+    "maximum_raw_Schur_condition_number": 100000000.0,
+    "maximum_scaled_primitive_change": 0.005,
+    "maximum_scaled_residual": 1e-10,
+    "maximum_storage_parity_relative_defect": 1e-09,
+    "minimum_path_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0
+  },
+  "schema_version": 1,
+  "timestep_seconds": 1e-07
+}

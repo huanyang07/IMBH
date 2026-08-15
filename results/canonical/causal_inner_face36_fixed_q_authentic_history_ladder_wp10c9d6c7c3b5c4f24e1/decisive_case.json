@@ -1,0 +1,69 @@
+{
+  "all_nonroot_acceptance_gates_passed": true,
+  "case": {
+    "BDF1": {
+      "Broyden_updates": 5,
+      "acceptance": {
+        "accepted": false,
+        "complete_residual_passed": false,
+        "constraint_action_ledger_passed": true,
+        "failure_reasons": [
+          "nonlinear_root",
+          "complete_residual"
+        ],
+        "incoming_excision_passed": true,
+        "nonlinear_root_passed": false,
+        "physical_height_passed": true,
+        "physical_optical_depth_passed": true,
+        "primitive_change_passed": true,
+        "q3_passed": true,
+        "reaction_conditioning_passed": true,
+        "reaction_ledger_passed": true,
+        "reconstruction_passed": true,
+        "storage_parity_passed": true
+      },
+      "accepted": false,
+      "exact_Jacobian_assemblies": 1,
+      "face36_rate_relative_defect": 5.88937324030277e-07,
+      "failure_reasons": [
+        "nonlinear_root",
+        "complete_residual"
+      ],
+      "function_evaluations": 36,
+      "incoming_excision_characteristics": 0,
+      "iterations": 5,
+      "linear_solves": 6,
+      "maximum_H_over_R": 0.09783749592085345,
+      "maximum_Q3_relative_defect": 1.1715113276858363e-16,
+      "maximum_path_reconstruction_factor": 1.0,
+      "maximum_raw_Schur_solve_relative_defect": 1.753629738579043e-14,
+      "maximum_reaction_action_ledger_relative_defect": 1.3322903251383958e-16,
+      "maximum_reaction_channel_ledger_relative_defect": 1.8894456589593619e-16,
+      "maximum_scaled_Q3_rate_tangency_defect": 2.5731240391917016e-05,
+      "maximum_scaled_primitive_change": 0.004697892912821189,
+      "maximum_scaled_residual": 4.718758821187219e-10,
+      "maximum_storage_parity_relative_defect": 5.391553049402088e-10,
+      "message": "fixed-Q bound-aware line search failed",
+      "minimum_path_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.254312533940528,
+      "raw_Schur_condition_number": 33851.12649992484,
+      "raw_Schur_rank": 3,
+      "raw_Schur_singular_values": [
+        1.8065679781741098e-24,
+        5.940760188954908e-25,
+        5.336803128776589e-29
+      ],
+      "reaction_action_relative_defect": 0.028981114784038257,
+      "state_rate_relative_defect": 0.014097616572736293,
+      "wall_seconds": 4681.55850904109
+    },
+    "case": "primary_coarse",
+    "failed_stage": "BDF1",
+    "passed": false,
+    "state_label": "primary_20ms",
+    "timestep_seconds": 1e-07
+  },
+  "checkpoint_residual_maximum": 4.718758821187219e-10,
+  "residual_gate_ratio": 4.718758821187219,
+  "schema_version": 1
+}
