@@ -1,0 +1,85 @@
+{
+  "case": {
+    "BDF1": {
+      "Broyden_updates": 1,
+      "acceptance": {
+        "accepted": false,
+        "complete_residual_passed": true,
+        "constraint_action_ledger_passed": true,
+        "failure_reasons": [
+          "reaction_conditioning"
+        ],
+        "incoming_excision_passed": true,
+        "nonlinear_root_passed": true,
+        "physical_height_passed": true,
+        "physical_optical_depth_passed": true,
+        "primitive_change_passed": true,
+        "q3_passed": true,
+        "reaction_conditioning_passed": false,
+        "reaction_ledger_passed": true,
+        "reconstruction_passed": true,
+        "storage_parity_passed": true
+      },
+      "accepted": false,
+      "binding_uses_direct_rate_action": false,
+      "binding_uses_exact_primitive_increment": true,
+      "direct_audit_uses_direct_rate_action": true,
+      "exact_Jacobian_assemblies": 1,
+      "face36_rate_relative_defect": 5.911216088952772e-07,
+      "failure_reasons": [
+        "reaction_conditioning"
+      ],
+      "function_evaluations": 2,
+      "incoming_excision_characteristics": 0,
+      "iterations": 1,
+      "linear_solves": 1,
+      "mapped_endpoint_path_closure_defect": 2.609051894397338e-10,
+      "maximum_H_over_R": 0.09783749592085345,
+      "maximum_Q3_relative_defect": 1.171511327685836e-16,
+      "maximum_path_reconstruction_factor": 1.0,
+      "maximum_raw_Schur_solve_relative_defect": 1.059323384326695e-12,
+      "maximum_reaction_action_ledger_relative_defect": 1.3322903265115662e-16,
+      "maximum_reaction_channel_ledger_relative_defect": 1.889445658958019e-16,
+      "maximum_scaled_Q3_rate_tangency_defect": 2.573124035235446e-05,
+      "maximum_scaled_primitive_change": 0.004697892899604222,
+      "maximum_scaled_residual": 4.03150512085468e-13,
+      "maximum_storage_parity_relative_defect": 1.0892619194286624e-14,
+      "message": "fixed-Q root exceeds gates: reaction_conditioning",
+      "minimum_path_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.254312533940514,
+      "raw_Schur_condition_number": 33851.126499459024,
+      "raw_Schur_rank": 3,
+      "raw_Schur_singular_values": [
+        1.806567978174112e-24,
+        5.940760188954948e-25,
+        5.336803128850034e-29
+      ],
+      "reaction_action_relative_defect": 0.028981115962062695,
+      "state_rate_relative_defect": 0.014097617668671457,
+      "wall_seconds": 522.792576292064
+    },
+    "case": "primary_coarse",
+    "failed_stage": "BDF1",
+    "passed": false,
+    "state_label": "primary_20ms",
+    "timestep_seconds": 1e-07
+  },
+  "exact_increment_contract_passed": true,
+  "execution_identity": {
+    "execution_commit": "81e7226dcd1b3430d0b7ac3965355acce43a13dd",
+    "execution_test_sha256": "f95cc74086f2e4ab7123af9b3c5569d1e83fdb86858b56bef3af64fe819555e4",
+    "execution_tree": "1a3e38ffcef0d622e727dcd549e02ce258bc23a5",
+    "fixed_q_source_sha256": "65096c5937333ea728ad04d4304b818958721f81f796b5aa6a262ad6c7c2d21d",
+    "implementation_summary_sha256": "021e08b55236458e323a47235c7c74f90d01d840e41f61bf33daeb348879b5dc",
+    "manifest_summary_sha256": "dd03af10ee9b13fda19711472c1e3fd8e08daadee7b40a028f7514d148858d43",
+    "monolithic_bdf_source_sha256": "b6fdf1bafda43669ddb0210b069baa474a6ea98018fdb2f57d8a60ea3cc77dc5",
+    "monolithic_dae_source_sha256": "6fa8416c495cc3fbb5ff1815f91db24c52c1b6a5b6c3b4e350020812b01b5fdb",
+    "runner_sha256": "a1d9b3739e0d60d34884a7d56869b5f3d2e6c9fb577176b1ee8abb33bd96b183",
+    "thread_environment": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    }
+  }
+}
