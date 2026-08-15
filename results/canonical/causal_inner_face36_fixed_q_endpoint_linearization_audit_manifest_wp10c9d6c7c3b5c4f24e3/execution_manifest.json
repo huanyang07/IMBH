@@ -1,0 +1,33 @@
+{
+  "analysis_only": true,
+  "binding_directional_step": 0.0001,
+  "diagnostic_directional_steps": [
+    0.0004,
+    0.0002,
+    5e-05,
+    2e-05
+  ],
+  "fail_fast_before_sweep_if_binding_action_fails": true,
+  "line_search_alphas": [
+    1.0,
+    0.5,
+    0.25,
+    0.125,
+    0.0625,
+    0.03125,
+    0.015625,
+    0.0078125
+  ],
+  "maximum_actual_correction_action_error_to_residual": 0.1,
+  "maximum_block_JVP_relative_defect": 1e-08,
+  "maximum_central_five_point_relative_defect": 1e-08,
+  "maximum_direct_augmented_JVP_relative_defect": 1e-08,
+  "maximum_equilibrated_linear_relative_residual": 1e-10,
+  "may_authorize_physical_execution": false,
+  "may_relax_nonlinear_residual_gate": false,
+  "physical_operator_changed": false,
+  "schema_version": 1,
+  "source": "saved_rejected_primary_coarse_BDF1_endpoint",
+  "timestep_seconds": 1e-07,
+  "trajectory_executed": false
+}
