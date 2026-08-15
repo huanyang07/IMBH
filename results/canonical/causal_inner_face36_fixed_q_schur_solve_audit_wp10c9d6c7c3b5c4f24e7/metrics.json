@@ -1,0 +1,147 @@
+{
+  "common_selected_method": "row_column_equilibrated_LU_refined_1",
+  "selected_methods": {
+    "endpoint": "row_column_equilibrated_LU_refined_1",
+    "start": "row_column_equilibrated_LU_refined_1"
+  },
+  "states": {
+    "endpoint": {
+      "methods": {
+        "direct_LU": {
+          "double_identity_closure_defect": 1.059323384326695e-12,
+          "extended_identity_closure_defect": 6.960534104518719e-13,
+          "physical_action_relative_difference_from_direct": 0.0
+        },
+        "global_scaled_LU": {
+          "double_identity_closure_defect": 2.6428969218124924e-13,
+          "extended_identity_closure_defect": 2.4647573603962963e-13,
+          "physical_action_relative_difference_from_direct": 8.163318361094966e-14
+        },
+        "global_scaled_QR": {
+          "double_identity_closure_defect": 1.1008086284293178e-12,
+          "extended_identity_closure_defect": 1.0122816851064943e-12,
+          "physical_action_relative_difference_from_direct": 1.1842557298474153e-12
+        },
+        "global_scaled_SVD": {
+          "double_identity_closure_defect": 8.723023243156164e-13,
+          "extended_identity_closure_defect": 8.776565908426549e-13,
+          "physical_action_relative_difference_from_direct": 2.554369117203391e-13
+        },
+        "row_column_equilibrated_LU": {
+          "double_identity_closure_defect": 2.768512263027305e-13,
+          "extended_identity_closure_defect": 1.164043646318231e-13,
+          "physical_action_relative_difference_from_direct": 1.4977177369599888e-13
+        },
+        "row_column_equilibrated_LU_refined_1": {
+          "double_identity_closure_defect": 2.1400217784270954e-14,
+          "extended_identity_closure_defect": 2.0970821559410462e-13,
+          "physical_action_relative_difference_from_direct": 8.841263997836239e-13
+        },
+        "row_column_equilibrated_LU_refined_2": {
+          "double_identity_closure_defect": 5.887325668318397e-13,
+          "extended_identity_closure_defect": 2.841488670310375e-13,
+          "physical_action_relative_difference_from_direct": 5.721264507065633e-13
+        },
+        "row_scaled_LU": {
+          "double_identity_closure_defect": 2.6082405272827942e-14,
+          "extended_identity_closure_defect": 5.469004909717113e-13,
+          "physical_action_relative_difference_from_direct": 2.606811271638555e-14
+        }
+      },
+      "raw_schur_condition_number": 33851.126499459024,
+      "raw_schur_matrix": [
+        [
+          1.4260852200815492e-24,
+          -9.04005665305226e-41,
+          -1.0474986280520873e-40
+        ],
+        [
+          4.511086842028512e-25,
+          -4.841062683662367e-26,
+          -8.798602261922747e-26
+        ],
+        [
+          9.455442151169303e-25,
+          3.319755123043794e-25,
+          6.041931367226739e-25
+        ]
+      ],
+      "raw_schur_rank": 3,
+      "raw_schur_singular_values": [
+        1.806567978174112e-24,
+        5.940760188954948e-25,
+        5.336803128850034e-29
+      ],
+      "selected_method": "row_column_equilibrated_LU_refined_1"
+    },
+    "start": {
+      "methods": {
+        "direct_LU": {
+          "double_identity_closure_defect": 2.71287938377843e-13,
+          "extended_identity_closure_defect": 1.1230614543738685e-13,
+          "physical_action_relative_difference_from_direct": 0.0
+        },
+        "global_scaled_LU": {
+          "double_identity_closure_defect": 1.8994802506079695e-13,
+          "extended_identity_closure_defect": 2.711641277976857e-13,
+          "physical_action_relative_difference_from_direct": 2.3038039681371836e-13
+        },
+        "global_scaled_QR": {
+          "double_identity_closure_defect": 1.5290649043863604e-12,
+          "extended_identity_closure_defect": 1.320693531994454e-12,
+          "physical_action_relative_difference_from_direct": 9.131668204720135e-13
+        },
+        "global_scaled_SVD": {
+          "double_identity_closure_defect": 6.012458277159398e-13,
+          "extended_identity_closure_defect": 8.017346760711262e-13,
+          "physical_action_relative_difference_from_direct": 8.653293164616458e-14
+        },
+        "row_column_equilibrated_LU": {
+          "double_identity_closure_defect": 1.0913004694357671e-12,
+          "extended_identity_closure_defect": 6.057335659554565e-13,
+          "physical_action_relative_difference_from_direct": 2.6778492485229264e-13
+        },
+        "row_column_equilibrated_LU_refined_1": {
+          "double_identity_closure_defect": 5.397328223821947e-14,
+          "extended_identity_closure_defect": 2.604223627525722e-13,
+          "physical_action_relative_difference_from_direct": 5.640923924288067e-13
+        },
+        "row_column_equilibrated_LU_refined_2": {
+          "double_identity_closure_defect": 6.841323329192165e-14,
+          "extended_identity_closure_defect": 1.775300622203597e-13,
+          "physical_action_relative_difference_from_direct": 7.045358583623526e-14
+        },
+        "row_scaled_LU": {
+          "double_identity_closure_defect": 5.317626351131997e-13,
+          "extended_identity_closure_defect": 3.06782429602337e-13,
+          "physical_action_relative_difference_from_direct": 1.3444863662307273e-13
+        }
+      },
+      "raw_schur_condition_number": 33689.587510651814,
+      "raw_schur_matrix": [
+        [
+          1.4260873020635739e-24,
+          4.52002832652613e-41,
+          5.022253696140144e-41
+        ],
+        [
+          4.511094707102252e-25,
+          -4.8411875192217954e-26,
+          -8.798715622207658e-26
+        ],
+        [
+          9.45542511403027e-25,
+          3.3197736420467076e-25,
+          6.041926756468716e-25
+        ]
+      ],
+      "raw_schur_rank": 3,
+      "raw_schur_singular_values": [
+        1.8065687213382496e-24,
+        5.94077477874563e-25,
+        5.362394896544985e-29
+      ],
+      "selected_method": "row_column_equilibrated_LU_refined_1"
+    }
+  }
+}

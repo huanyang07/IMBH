@@ -1,0 +1,28 @@
+{
+  "analysis_only": true,
+  "fixed_Q_micro_solver_authorized": false,
+  "maximum_condition_number": 100000000.0,
+  "maximum_selected_physical_action_relative_difference": 1e-10,
+  "maximum_selected_solve_closure_defect": 5e-13,
+  "may_change_reaction_support_or_physical_rows": false,
+  "may_relax_ledger_or_condition_gates": false,
+  "methods": [
+    "direct_LU",
+    "global_scaled_LU",
+    "row_scaled_LU",
+    "row_column_equilibrated_LU",
+    "global_scaled_QR",
+    "global_scaled_SVD",
+    "row_column_equilibrated_LU_refined_1",
+    "row_column_equilibrated_LU_refined_2"
+  ],
+  "physical_execution_authorized": false,
+  "reduced_slow_evolution_authorized": false,
+  "required_rank": 3,
+  "schema_version": 1,
+  "selection": "minimum_double_precision_identity_closure",
+  "states": [
+    "committed_middle_20ms",
+    "recovered_BDF1_endpoint"
+  ]
+}
