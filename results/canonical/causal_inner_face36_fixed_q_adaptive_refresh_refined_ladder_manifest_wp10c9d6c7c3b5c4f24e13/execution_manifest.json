@@ -1,0 +1,42 @@
+{
+  "binding_temporal_form": "exact_increment_primary",
+  "case_order": [
+    "primary_coarse",
+    "heldout_coarse",
+    "primary_middle",
+    "heldout_middle",
+    "primary_fine",
+    "heldout_fine"
+  ],
+  "direct_rate_form": "post_root_parity_audit_only",
+  "exact_jacobian_refresh_policy": "on_line_search_failure",
+  "fail_fast": true,
+  "fixed_Q_micro_solver_authorized": false,
+  "maximum_exact_jacobian_assemblies_per_root": 2,
+  "may_change_physical_equations": false,
+  "may_relax_any_gate": false,
+  "minimum_reaction_action_convergence_order": 0.9,
+  "minimum_state_rate_convergence_order": 0.9,
+  "one_Q_execution_manifest_authorized": false,
+  "reduced_slow_evolution_authorized": false,
+  "refined_cases": [
+    "primary_middle",
+    "heldout_middle",
+    "primary_fine",
+    "heldout_fine"
+  ],
+  "require_all_existing_step_acceptance_gates": true,
+  "require_bitwise_BDF2_replay": true,
+  "require_bitwise_restart_roundtrip": true,
+  "required_schur_solve_method": "row_column_equilibrated_LU_refined_1",
+  "reused_cases": [
+    "primary_coarse",
+    "heldout_coarse"
+  ],
+  "schema_version": 1,
+  "timesteps_seconds": [
+    1e-07,
+    5e-08,
+    2.5e-08
+  ]
+}
