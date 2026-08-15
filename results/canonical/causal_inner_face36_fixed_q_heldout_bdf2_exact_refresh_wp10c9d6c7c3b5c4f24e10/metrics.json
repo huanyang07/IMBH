@@ -1,0 +1,83 @@
+{
+  "Broyden_updates": 1,
+  "acceptance": {
+    "accepted": true,
+    "complete_residual_passed": true,
+    "constraint_action_ledger_passed": true,
+    "failure_reasons": [],
+    "incoming_excision_passed": true,
+    "nonlinear_root_passed": true,
+    "physical_height_passed": true,
+    "physical_optical_depth_passed": true,
+    "primitive_change_passed": true,
+    "q3_passed": true,
+    "reaction_conditioning_passed": true,
+    "reaction_ledger_passed": true,
+    "reconstruction_passed": true,
+    "storage_parity_passed": true
+  },
+  "accepted": true,
+  "binding_uses_direct_rate_action": false,
+  "binding_uses_exact_primitive_increment": true,
+  "direct_audit_uses_direct_rate_action": true,
+  "exact_Jacobian_assemblies": 1,
+  "face36_rate_relative_defect": 1.6522173251983013e-06,
+  "failure_reasons": [],
+  "fresh_initial_maximum_scaled_residual": 1.562552753853197e-09,
+  "function_evaluations": 2,
+  "incoming_excision_characteristics": 0,
+  "iterations": 1,
+  "linear_solves": 1,
+  "maximum_H_over_R": 0.09802323954394723,
+  "maximum_Q3_relative_defect": 1.4363319492682982e-16,
+  "maximum_path_reconstruction_factor": 1.0,
+  "maximum_raw_Schur_solve_relative_defect": 8.987489981510699e-15,
+  "maximum_reaction_action_ledger_relative_defect": 1.3332092687678884e-16,
+  "maximum_reaction_channel_ledger_relative_defect": 1.8973632174078863e-16,
+  "maximum_scaled_Q3_rate_tangency_defect": 1.546391724478719e-07,
+  "maximum_scaled_primitive_change": 0.004669853270435145,
+  "maximum_scaled_residual": 3.4751678547950057e-13,
+  "maximum_storage_parity_relative_defect": 2.5108234036000673e-14,
+  "message": "residual gate passed",
+  "minimum_path_reconstruction_factor": 1.0,
+  "minimum_scattering_optical_depth": 19.189034143861285,
+  "progress": [
+    {
+      "function_evaluations": 1,
+      "maximum_scaled_residual": 1.562552753853197e-09,
+      "stage": "initial_residual"
+    },
+    {
+      "function_evaluations": 1,
+      "iteration": 0,
+      "maximum_scaled_residual": 1.562552753853197e-09,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 1.0,
+      "function_evaluations": 2,
+      "iteration": 0,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 3.4751678547950057e-13,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 2,
+      "iteration": 1,
+      "maximum_scaled_residual": 3.4751678547950057e-13,
+      "stage": "newton_iteration"
+    }
+  ],
+  "raw_Schur_condition_number": 34756.80244993165,
+  "raw_Schur_rank": 3,
+  "raw_Schur_singular_values": [
+    1.8126115957694892e-24,
+    5.956884290080255e-25,
+    5.215127595182605e-29
+  ],
+  "reaction_action_relative_defect": 0.056733862589327236,
+  "source_endpoint_reproduced_bitwise": true,
+  "source_maximum_scaled_residual": 1.562552753853197e-09,
+  "state_rate_relative_defect": 0.05696832753520047,
+  "wall_seconds": 528.7453211247921
+}

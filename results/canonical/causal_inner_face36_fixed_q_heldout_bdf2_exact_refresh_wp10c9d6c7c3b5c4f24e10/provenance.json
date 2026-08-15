@@ -1,0 +1,24 @@
+{
+  "blas_thread_environment": {
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "canonical_restart_sha256": "00898886425d7d0b7a14e8d933769da6ea4654b65b06a03bdb5547c2af2e1213",
+  "execution_commit": "f421138998cbc07123fc4039d5e2d1f8a8fd8ef4",
+  "execution_tree": "79606d1ab9793d37d829d8495779912da41781db",
+  "manifest_summary_sha256": "3c0912720519ce71e379c722b2df9b507ec3336f9a8db888ef0e8afca9c3d214",
+  "numpy": "2.3.5",
+  "parent_classification": "fixed_Q_remaining_history_stage_heldout_coarse_failed",
+  "parent_decisive_arrays_sha256": "65cad1ad5c7efb7c5a24ef67e10a3bcb5dde5e88eab74aeee8ebc9b860a92f91",
+  "parent_failed_residual": 1.562552753853197e-09,
+  "parent_metrics_sha256": "614f304817882944d7a0ad7cba65f9ba85d92df8372e37397d248c2908da85ca",
+  "parent_summary_sha256": "da2cf50a08fe5bddb03eb6e103f452bec949bf4dcdfb58b1ddaa3fb16af35806",
+  "platform": "macOS-14.8.3-arm64-arm-64bit",
+  "python": "3.12.13 (main, Aug  7 2026, 02:15:23) [Clang 22.1.3 ]",
+  "runner_sha256": "417ffa983ac9a6e2ac81f2a32be7a51a9e11b18825aa641d20717bbca6eb84af",
+  "schema_version": 1,
+  "test_sha256": "d0c87347e835418e7e366fb3f906fbadc9bff1f4e443afc300cd4407ea911c88",
+  "tracked_worktree_clean_at_start": true
+}
