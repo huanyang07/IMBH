@@ -1408,6 +1408,9 @@ def solve_causal_five_field_fixed_q_bdf(
     maximum_line_search_iterations: int = 12,
     refresh_exact_jacobian: bool = False,
     maximum_exact_jacobian_refreshes: int | None = None,
+    exact_jacobian_refresh_policy: Literal[
+        "per_iteration", "on_line_search_failure"
+    ] = "per_iteration",
     progress_callback: Callable[[dict], None] | None = None,
     initial_scaled_increment: np.ndarray | None = None,
     checkpoint_callback: Callable[
@@ -1486,6 +1489,11 @@ def solve_causal_five_field_fixed_q_bdf(
         )
     ):
         raise ValueError("fixed-Q exact-Jacobian refresh count is invalid")
+    if exact_jacobian_refresh_policy not in {
+        "per_iteration",
+        "on_line_search_failure",
+    }:
+        raise ValueError("fixed-Q exact-Jacobian refresh policy is invalid")
     if reaction_channel_basis not in {"raw", "frozen_normalized"}:
         raise ValueError(
             "fixed-Q nonlinear solve requires raw or frozen-normalized "
@@ -1642,6 +1650,52 @@ def solve_causal_five_field_fixed_q_bdf(
     success = False
     iterations = 0
     bound = float(maximum_scaled_primitive_change)
+
+    def assemble_exact_matrix(reason: str) -> np.ndarray:
+        nonlocal exact_jacobian_refreshes
+        candidate_state = old + (
+            columns.ravel() * unknown[:dimensions]
+        ).reshape(old.shape)
+        exact_augmented = causal_five_field_fixed_q_augmented_step_matrix(
+            context,
+            old,
+            candidate_state,
+            unknown[dimensions:],
+            timestep,
+            (
+                None
+                if validated_history is None
+                else validated_history.previous_timestep_seconds
+            ),
+            order=selected_order,
+            primitive_column_scales=columns,
+            conservation_row_scales=rows,
+            parent_cell_indices=parent_cell_indices,
+            refinement_ratio=refinement_ratio,
+            constraint_row_scales=constraint_scales,
+            reaction_channel_basis=reaction_channel_basis,
+            reaction_channel_transform=channel_transform,
+            exterior_parent_face=exterior_parent_face,
+            guard_end_parent_face=guard_end_parent_face,
+            parent_cell_count=parent_cell_count,
+            reaction=evaluation.reaction,
+        )
+        exact_jacobian_refreshes += 1
+        if progress_callback is not None:
+            progress_callback(
+                {
+                    "stage": "exact_jacobian_refresh",
+                    "reason": reason,
+                    "iteration": iterations,
+                    "exact_jacobian_assemblies": exact_jacobian_refreshes,
+                    "maximum_scaled_residual": float(
+                        np.max(np.abs(values))
+                    ),
+                    "function_evaluations": function_evaluations,
+                }
+            )
+        return exact_augmented.scaled_matrix
+
     for iteration in range(int(maximum_newton_iterations) + 1):
         iterations = iteration
         maximum = float(np.max(np.abs(values)))
@@ -1664,40 +1718,20 @@ def solve_causal_five_field_fixed_q_bdf(
             refresh_exact_jacobian
             and reaction_channel_basis in {"raw", "frozen_normalized"}
             and (
+                exact_jacobian_refresh_policy == "per_iteration"
+                or exact_jacobian_refreshes == 0
+            )
+            and (
                 maximum_exact_jacobian_refreshes is None
                 or exact_jacobian_refreshes
                 < int(maximum_exact_jacobian_refreshes)
             )
         ):
-            candidate_state = old + (
-                columns.ravel() * unknown[:dimensions]
-            ).reshape(old.shape)
-            exact_augmented = causal_five_field_fixed_q_augmented_step_matrix(
-                context,
-                old,
-                candidate_state,
-                unknown[dimensions:],
-                timestep,
-                (
-                    None
-                    if validated_history is None
-                    else validated_history.previous_timestep_seconds
-                ),
-                order=selected_order,
-                primitive_column_scales=columns,
-                conservation_row_scales=rows,
-                parent_cell_indices=parent_cell_indices,
-                refinement_ratio=refinement_ratio,
-                constraint_row_scales=constraint_scales,
-                reaction_channel_basis=reaction_channel_basis,
-                reaction_channel_transform=channel_transform,
-                exterior_parent_face=exterior_parent_face,
-                guard_end_parent_face=guard_end_parent_face,
-                parent_cell_count=parent_cell_count,
-                reaction=evaluation.reaction,
+            matrix = assemble_exact_matrix(
+                "initial"
+                if exact_jacobian_refreshes == 0
+                else "per_iteration"
             )
-            matrix = exact_augmented.scaled_matrix
-            exact_jacobian_refreshes += 1
         try:
             correction, linear_residual = _equilibrated_dense_solve(
                 matrix,
@@ -1787,9 +1821,24 @@ def solve_causal_five_field_fixed_q_bdf(
             if float(np.max(np.abs(values))) <= residual_tolerance:
                 success = True
                 message = "residual gate passed at line-search floor"
+            elif (
+                exact_jacobian_refresh_policy == "on_line_search_failure"
+                and refresh_exact_jacobian
+                and reaction_channel_basis in {"raw", "frozen_normalized"}
+                and (
+                    maximum_exact_jacobian_refreshes is None
+                    or exact_jacobian_refreshes
+                    < int(maximum_exact_jacobian_refreshes)
+                )
+                and iteration + 2 <= int(maximum_newton_iterations)
+            ):
+                matrix = assemble_exact_matrix("line_search_failure")
+                message = "fresh exact Jacobian after line-search failure"
+                continue
             else:
                 message = "fixed-Q bound-aware line search failed"
-            break
+            if success or message == "fixed-Q bound-aware line search failed":
+                break
     scaled_increment = unknown[:dimensions]
     new = old + (columns.ravel() * scaled_increment).reshape(old.shape)
     accepted_scaled_increment = np.asarray(

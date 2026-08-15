@@ -485,6 +485,55 @@ def test_binding_solver_rejects_state_normalized_reaction_channels() -> None:
         )
 
 
+def test_binding_solver_refreshes_after_line_search_failure() -> None:
+    context, base, _columns, _rows, keywords = _problem()
+    dimensions = base.size
+    progress = []
+    result = solve_causal_five_field_fixed_q_bdf(
+        context,
+        base,
+        1.0e-8,
+        np.zeros(dimensions),
+        np.zeros(3),
+        np.eye(dimensions),
+        order=1,
+        history=None,
+        maximum_newton_iterations=3,
+        maximum_line_search_iterations=0,
+        refresh_exact_jacobian=True,
+        maximum_exact_jacobian_refreshes=2,
+        exact_jacobian_refresh_policy="on_line_search_failure",
+        progress_callback=progress.append,
+        **keywords,
+    )
+    assert not result.accepted
+    assert result.exact_jacobian_assemblies == 2
+    reasons = [
+        entry["reason"]
+        for entry in progress
+        if entry["stage"] == "exact_jacobian_refresh"
+    ]
+    assert reasons == ["initial", "line_search_failure"]
+
+
+def test_binding_solver_rejects_unknown_refresh_policy() -> None:
+    context, base, _columns, _rows, keywords = _problem()
+    dimensions = base.size
+    with pytest.raises(ValueError, match="refresh policy"):
+        solve_causal_five_field_fixed_q_bdf(
+            context,
+            base,
+            1.0e-8,
+            np.zeros(dimensions),
+            np.zeros(3),
+            np.eye(dimensions),
+            order=1,
+            history=None,
+            exact_jacobian_refresh_policy="always",  # type: ignore[arg-type]
+            **keywords,
+        )
+
+
 def test_reaction_schur_condition_gate_fails_closed() -> None:
     context, base, _columns, _rows, keywords = _problem()
     with pytest.raises(np.linalg.LinAlgError, match="condition gate"):
