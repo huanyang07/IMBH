@@ -1,0 +1,19 @@
+{
+  "all_checks_passed": true,
+  "binding_reaction_basis": "frozen_normalized",
+  "binding_temporal_form": "increment_primary_complete_BDF",
+  "checks": {
+    "accepted_history_only": true,
+    "fail_closed_acceptance": true,
+    "increment_primary_binding": true,
+    "normalized_kernel_rejected": true,
+    "restart_roundtrip": true,
+    "solver_counters": true,
+    "stable_schur_solve": true,
+    "state_local_reaction_on_restart": true
+  },
+  "direct_rate_role": "post_root_parity_only",
+  "maximum_complete_Jacobian_assemblies_per_root": 1,
+  "physical_operator_changed": false,
+  "schema_version": 1
+}
