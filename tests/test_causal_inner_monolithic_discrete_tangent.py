@@ -10,6 +10,7 @@ from imri_qpe.layer3_minidisk_1d import (
     causal_five_field_monolithic_discrete_step_matrix,
     causal_five_field_state_from_primitives,
     evaluate_causal_five_field_dae,
+    evaluate_causal_five_field_monolithic_bdf,
     make_causal_five_field_regression_context,
     make_causal_five_field_seed,
     pack_causal_five_field_state,
@@ -111,3 +112,81 @@ def test_analytic_initial_history_direction_matches_centered_difference() -> Non
             np.finfo(float).tiny,
         )
         assert relative <= 2.0e-8
+
+
+def test_backward_euler_step_matrix_matches_direct_residual_jvp() -> None:
+    context, base, columns, rows = _problem()
+    scaled_direction = np.sin(
+        np.linspace(0.0, np.pi, base.shape[0]),
+    )[:, None] * np.asarray([0.5, -0.25, 0.125, -0.375, 0.25])[None, :]
+    scaled_direction /= np.linalg.norm(scaled_direction)
+    timestep = 1.0e-5
+    new = base + timestep * columns * scaled_direction
+    matrix = causal_five_field_monolithic_discrete_step_matrix(
+        context,
+        base,
+        new,
+        timestep,
+        None,
+        primitive_column_scales=columns,
+        conservation_row_scales=rows,
+        order=1,
+    )
+    step = 1.0e-5
+
+    def residual(coefficient: float) -> np.ndarray:
+        candidate = new + coefficient * step * columns * scaled_direction
+        evaluation = evaluate_causal_five_field_monolithic_bdf(
+            base,
+            candidate,
+            timestep,
+            context,
+            order=1,
+        )
+        return evaluation.residual_rows.ravel() / rows.ravel()
+
+    direct = (residual(1.0) - residual(-1.0)) / (2.0 * step)
+    analytic = matrix.scaled_matrix @ scaled_direction.ravel()
+    relative = np.linalg.norm(analytic - direct) / max(
+        np.linalg.norm(analytic),
+        np.linalg.norm(direct),
+        np.finfo(float).tiny,
+    )
+    assert relative <= 1.0e-8
+
+
+def test_direct_storage_rate_matches_increment_form_at_moderate_step() -> None:
+    context, base, columns, _rows = _problem()
+    scaled_rate = np.sin(
+        np.linspace(0.0, np.pi, base.shape[0]),
+    )[:, None] * np.asarray([0.5, -0.25, 0.125, -0.375, 0.25])[None, :]
+    timestep = 1.0e-5
+    physical_rate = columns * scaled_rate
+    new = base + timestep * physical_rate
+    representable_rate = (new - base) / timestep
+    increment = evaluate_causal_five_field_monolithic_bdf(
+        base,
+        new,
+        timestep,
+        context,
+        order=1,
+    )
+    direct = evaluate_causal_five_field_monolithic_bdf(
+        base,
+        new,
+        timestep,
+        context,
+        order=1,
+        current_primitive_rate_per_s=representable_rate,
+    )
+    relative = np.linalg.norm(
+        direct.residual_rows - increment.residual_rows
+    ) / max(
+        np.linalg.norm(direct.residual_rows),
+        np.linalg.norm(increment.residual_rows),
+        np.finfo(float).tiny,
+    )
+    assert relative <= 1.0e-10
+    assert direct.temporal_storage_uses_direct_rate_action
+    assert direct.maximum_direct_rate_reconstruction_defect <= 1.0e-12
+    assert direct.maximum_direct_rate_partition_defect <= 1.0e-12

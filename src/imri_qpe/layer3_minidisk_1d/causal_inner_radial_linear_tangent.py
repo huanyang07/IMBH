@@ -521,6 +521,8 @@ class CausalFiveFieldAnalyticLocalMaps:
     vertical_storage_derivative: np.ndarray
     temporal_storage_matrix: np.ndarray
     temporal_storage_derivative: np.ndarray
+    coordinate_angular_velocity: float
+    coordinate_angular_velocity_jacobian: np.ndarray
     physical_flux_over_c: np.ndarray
     physical_flux_jacobian: np.ndarray
     shear_principal_source_matrix: np.ndarray
@@ -786,6 +788,9 @@ def causal_five_field_analytic_local_maps(
         values, jacobian, _hessian = _extract_vector(vector)
         lower_values[name] = values
         lower_jacobians[name] = jacobian
+    coordinate_angular_velocity = (
+        C * state.four_velocity[2] / state.four_velocity[0]
+    )
     return CausalFiveFieldAnalyticLocalMaps(
         radius=radius,
         primitive_chart=np.array(chart, copy=True),
@@ -797,6 +802,13 @@ def causal_five_field_analytic_local_maps(
         temporal_storage_matrix=conserved_jacobian + vertical_storage,
         temporal_storage_derivative=(
             conserved_hessian + vertical_storage_derivative
+        ),
+        coordinate_angular_velocity=float(
+            coordinate_angular_velocity.value
+        ),
+        coordinate_angular_velocity_jacobian=np.asarray(
+            coordinate_angular_velocity.gradient,
+            dtype=float,
         ),
         physical_flux_over_c=flux,
         physical_flux_jacobian=flux_jacobian,

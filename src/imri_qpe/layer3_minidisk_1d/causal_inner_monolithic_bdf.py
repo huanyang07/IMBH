@@ -28,6 +28,7 @@ from .causal_inner_dae_system import CausalFiveFieldDAEContext
 from .causal_inner_monolithic_dae import (
     CausalFiveFieldMonolithicDAEEvaluation,
     CausalFiveFieldMonolithicStorageIncrement,
+    causal_five_field_monolithic_storage_rate,
     evaluate_causal_five_field_monolithic_backward_euler,
 )
 from .causal_inner_monolithic_tangent import (
@@ -121,6 +122,9 @@ class CausalFiveFieldMonolithicBDFEvaluation:
     maximum_block_ledger_defect: float
     maximum_mapped_endpoint_path_closure_defect: float
     mapped_storage_uses_stable_exact_path_integral: bool
+    temporal_storage_uses_direct_rate_action: bool
+    maximum_direct_rate_reconstruction_defect: float
+    maximum_direct_rate_partition_defect: float
     incoming_excision_characteristics: int
 
 
@@ -212,6 +216,7 @@ def evaluate_causal_five_field_monolithic_bdf(
     path_quadrature_order: int = 6,
     relative_step: float = 2.0e-4,
     stationary_speed_tolerance: float = 1.0e-12,
+    current_primitive_rate_per_s: np.ndarray | None = None,
 ) -> CausalFiveFieldMonolithicBDFEvaluation:
     """Evaluate one increment-primary BDF1 or BDF2 monolithic residual."""
 
@@ -264,8 +269,36 @@ def evaluate_causal_five_field_monolithic_bdf(
         previous_height,
         coefficients,
     )
-    mapped_rows = weighted_mapped / (C * timestep)
-    height_rows = weighted_height / (C * timestep)
+    direct_rate = None
+    if current_primitive_rate_per_s is not None:
+        if int(order) != 1:
+            raise ValueError("direct storage-rate action requires BDF1")
+        primitive_rate = np.asarray(current_primitive_rate_per_s, dtype=float)
+        if primitive_rate.shape != old.shape or np.any(~np.isfinite(primitive_rate)):
+            raise ValueError("direct storage-rate action is invalid")
+        increment_scale = max(
+            float(np.linalg.norm(new - old)),
+            float(np.linalg.norm(timestep * primitive_rate)),
+            np.finfo(float).tiny,
+        )
+        if (
+            np.linalg.norm((new - old) - timestep * primitive_rate)
+            / increment_scale
+            > 1.0e-10
+        ):
+            raise ValueError("direct storage rate is inconsistent with endpoint")
+        direct_rate = causal_five_field_monolithic_storage_rate(
+            context,
+            old,
+            new,
+            primitive_rate,
+            temporal_quadrature_order=temporal_quadrature_order,
+        )
+        mapped_rows = direct_rate.mapped_rate_per_s / C
+        height_rows = direct_rate.responsive_height_rate_per_s / C
+    else:
+        mapped_rows = weighted_mapped / (C * timestep)
+        height_rows = weighted_height / (C * timestep)
     blocks = (
         mapped_rows,
         height_rows,
@@ -327,6 +360,17 @@ def evaluate_causal_five_field_monolithic_bdf(
             current.maximum_mapped_path_closure_defect
         ),
         mapped_storage_uses_stable_exact_path_integral=True,
+        temporal_storage_uses_direct_rate_action=direct_rate is not None,
+        maximum_direct_rate_reconstruction_defect=(
+            0.0
+            if direct_rate is None
+            else direct_rate.maximum_node_reconstruction_relative_defect
+        ),
+        maximum_direct_rate_partition_defect=(
+            0.0
+            if direct_rate is None
+            else direct_rate.maximum_node_partition_of_unity_defect
+        ),
         incoming_excision_characteristics=(
             backward_euler.incoming_excision_characteristics
         ),

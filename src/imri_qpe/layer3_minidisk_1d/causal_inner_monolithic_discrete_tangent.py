@@ -130,12 +130,13 @@ def causal_five_field_monolithic_discrete_step_matrix(
     old_primitive_charts: np.ndarray,
     new_primitive_charts: np.ndarray,
     timestep_seconds: float,
-    previous_timestep_seconds: float,
+    previous_timestep_seconds: float | None,
     *,
     primitive_column_scales: np.ndarray,
     conservation_row_scales: np.ndarray,
     temporal_quadrature_order: int = 4,
     path_quadrature_order: int = 6,
+    order: int = 2,
 ) -> CausalFiveFieldMonolithicDiscreteStepMatrix:
     """Assemble the analytic Jacobian with respect to the new BDF endpoint."""
 
@@ -146,7 +147,7 @@ def causal_five_field_monolithic_discrete_step_matrix(
     shape = (n_cells, _N_FIELDS)
     columns = np.asarray(primitive_column_scales, dtype=float).reshape(shape)
     rows = np.asarray(conservation_row_scales, dtype=float).reshape(shape)
-    order = int(temporal_quadrature_order)
+    quadrature_order = int(temporal_quadrature_order)
     if (
         old.shape != shape
         or new.shape != shape
@@ -154,8 +155,8 @@ def causal_five_field_monolithic_discrete_step_matrix(
         or np.any(~np.isfinite(new))
         or np.any(columns <= 0.0)
         or np.any(rows <= 0.0)
-        or order != temporal_quadrature_order
-        or not 2 <= order <= 12
+        or quadrature_order != temporal_quadrature_order
+        or not 2 <= quadrature_order <= 12
     ):
         raise ValueError("monolithic discrete step-matrix inputs are invalid")
 
@@ -184,7 +185,9 @@ def causal_five_field_monolithic_discrete_step_matrix(
     old_mapped = np.zeros_like(mapped)
     old_height = np.zeros_like(mapped)
     primitive_direction = new - old
-    temporal_nodes, temporal_weights = np.polynomial.legendre.leggauss(order)
+    temporal_nodes, temporal_weights = np.polynomial.legendre.leggauss(
+        quadrature_order
+    )
     for temporal_node, temporal_weight in zip(
         temporal_nodes,
         temporal_weights,
@@ -281,10 +284,17 @@ def causal_five_field_monolithic_discrete_step_matrix(
         spatial.candidate_stationary_scaled_jacobian,
         dtype=float,
     )
-    coefficients = causal_bdf_coefficients(
-        2,
-        timestep_seconds,
-        previous_timestep_seconds,
+    selected_order = int(order)
+    if selected_order != order or selected_order not in (1, 2):
+        raise ValueError("monolithic discrete step-matrix order is invalid")
+    coefficients = (
+        causal_bdf_coefficients(1, timestep_seconds)
+        if selected_order == 1
+        else causal_bdf_coefficients(
+            2,
+            timestep_seconds,
+            previous_timestep_seconds,
+        )
     )
     storage = mapped + height
     matrix = (

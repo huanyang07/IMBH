@@ -72,6 +72,16 @@ class CausalFiveFieldMonolithicStorageIncrement:
 
 
 @dataclass(frozen=True)
+class CausalFiveFieldMonolithicStorageRate:
+    """Direct path evaluation of mapped and height storage rates."""
+
+    mapped_rate_per_s: np.ndarray
+    responsive_height_rate_per_s: np.ndarray
+    maximum_node_reconstruction_relative_defect: float
+    maximum_node_partition_of_unity_defect: float
+
+
+@dataclass(frozen=True)
 class CausalFiveFieldTemporalIntegrabilityAudit:
     """Exterior-derivative and loop audit of the temporal descriptor."""
 
@@ -638,6 +648,98 @@ def causal_five_field_monolithic_storage_increment(
         ),
         mapped_storage_is_exact_endpoint_increment=True,
         responsive_height_is_nonconservative_temporal_product=True,
+    )
+
+
+def causal_five_field_monolithic_storage_rate(
+    context: CausalFiveFieldDAEContext,
+    old_primitive_charts: np.ndarray,
+    new_primitive_charts: np.ndarray,
+    primitive_rate_per_s: np.ndarray,
+    *,
+    temporal_quadrature_order: int = 4,
+) -> CausalFiveFieldMonolithicStorageRate:
+    """Evaluate the temporal path action directly in rate coordinates.
+
+    This is algebraically identical to dividing the path increment by the
+    timestep, but avoids forming and then dividing a tiny increment during
+    the exact small-step KKT audit.
+    """
+
+    from .causal_inner_monolithic_tangent import (  # local cycle break
+        _node_reconstruction_weights,
+    )
+
+    context = context.validated()
+    old = _validate_charts(context, old_primitive_charts)
+    new = _validate_charts(context, new_primitive_charts)
+    rate = np.asarray(primitive_rate_per_s, dtype=float)
+    order = int(temporal_quadrature_order)
+    if (
+        rate.shape != old.shape
+        or np.any(~np.isfinite(rate))
+        or order != temporal_quadrature_order
+        or not 2 <= order <= 12
+    ):
+        raise ValueError("monolithic storage-rate inputs are invalid")
+    mapped_rate = np.zeros_like(old)
+    height_rate = np.zeros_like(old)
+    direction = new - old
+    temporal_nodes, temporal_weights = np.polynomial.legendre.leggauss(order)
+    reconstruction_defects = []
+    partition_defects = []
+    for node, temporal_weight in zip(
+        temporal_nodes,
+        temporal_weights,
+        strict=True,
+    ):
+        fraction = 0.5 * (float(node) + 1.0)
+        weight_t = 0.5 * float(temporal_weight)
+        center = old + fraction * direction
+        (
+            node_weights,
+            node_cells,
+            node_radii,
+            node_measures,
+            reconstruction_defect,
+            partition_defect,
+        ) = _node_reconstruction_weights(context, center)
+        reconstruction_defects.append(float(reconstruction_defect))
+        partition_defects.append(float(partition_defect))
+        for weights, cell, radius, measure in zip(
+            node_weights,
+            node_cells,
+            node_radii,
+            node_measures,
+            strict=True,
+        ):
+            local = causal_five_field_analytic_local_maps(
+                context,
+                float(radius),
+                np.asarray(weights @ center, dtype=float),
+            )
+            node_rate = np.asarray(weights @ rate, dtype=float)
+            mapped_rate[int(cell)] += (
+                weight_t
+                * float(measure)
+                * (local.mapped_conserved_jacobian @ node_rate)
+            )
+            height_rate[int(cell)] += (
+                weight_t
+                * float(measure)
+                * (local.vertical_storage_matrix @ node_rate)
+            )
+    return CausalFiveFieldMonolithicStorageRate(
+        mapped_rate_per_s=np.asarray(mapped_rate, dtype=float),
+        responsive_height_rate_per_s=np.asarray(height_rate, dtype=float),
+        maximum_node_reconstruction_relative_defect=max(
+            reconstruction_defects,
+            default=0.0,
+        ),
+        maximum_node_partition_of_unity_defect=max(
+            partition_defects,
+            default=0.0,
+        ),
     )
 
 

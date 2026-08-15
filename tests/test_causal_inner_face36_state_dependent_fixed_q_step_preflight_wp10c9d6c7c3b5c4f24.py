@@ -1,5 +1,6 @@
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 import numpy as np
@@ -138,5 +139,12 @@ def test_c4f24_hashes_and_source_provenance_are_self_consistent():
         assert hashlib.sha256((ARTIFACT / name).read_bytes()).hexdigest() == digest
 
     provenance = _read("provenance.json")
+    execution_commit = provenance["execution_commit"]
     for relative, digest in provenance["source_hashes"].items():
-        assert hashlib.sha256((ROOT / relative).read_bytes()).hexdigest() == digest
+        committed = subprocess.run(
+            ("git", "show", f"{execution_commit}:{relative}"),
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+        ).stdout
+        assert hashlib.sha256(committed).hexdigest() == digest

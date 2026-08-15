@@ -1,0 +1,33 @@
+{
+  "commands": [
+    "python run_causal_inner_face36_fixed_q_jacobian_repair_wp10c9d6c7c3b5c4f24b.py --derivative-audit",
+    "python run_causal_inner_face36_fixed_q_jacobian_repair_wp10c9d6c7c3b5c4f24b.py --step-index 0",
+    "python run_causal_inner_face36_fixed_q_jacobian_repair_wp10c9d6c7c3b5c4f24b.py --step-index 1",
+    "python run_causal_inner_face36_fixed_q_jacobian_repair_wp10c9d6c7c3b5c4f24b.py --step-index 2",
+    "python run_causal_inner_face36_fixed_q_jacobian_repair_wp10c9d6c7c3b5c4f24b.py --finalize"
+  ],
+  "execution_base_commit": "d710259a00644ae5f26d2abd2927236e1d94028d",
+  "execution_base_tree": "a551064cbd2129fe141d4d78f1e8246b7587de29",
+  "focused_test_command": "python -m pytest -q tests/test_causal_inner_fixed_q.py tests/test_causal_inner_monolithic_discrete_tangent.py tests/test_causal_inner_face36_state_dependent_fixed_q_step_preflight_wp10c9d6c7c3b5c4f24.py",
+  "focused_test_result": "15 passed in 88.25 s",
+  "implementation_commit": null,
+  "implementation_source_bundle_sha256": "66365a08d4bb124a190105f78fe43d9a513c526f2bebbf14397e67ff104aee87",
+  "numpy": "2.3.5",
+  "platform": "macOS-14.8.3-arm64-arm-64bit",
+  "predecessor_summary_sha256": "c4513c44b3f37387e5576f48a02e7936b6802c234f41ba9bc7b440f68f284f45",
+  "python": "3.12.13 (main, Aug  7 2026, 02:15:23) [Clang 22.1.3 ]",
+  "schema_version": 1,
+  "source_hashes": {
+    "docs/reports/current/CODEX_CAUSAL_INNER_FACE36_FIXED_Q_JACOBIAN_REPAIR_WP10C9D6C7C3B5C4F24B_2026-08-14.md": "89c3791934147103079eb1923f99da19c0696a730a1d5d8991cc56575dd8cd60",
+    "scripts/run_causal_inner_face36_fixed_q_jacobian_repair_wp10c9d6c7c3b5c4f24b.py": "e865d1337811f21952db957fee6b45e51f4b018c8a6e9f293f0b7f006d06409d",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_fixed_q.py": "4bfb35942f11c8a00408b831a62785951692cfd8357ebd7536f00333c53c0f2f",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_bdf.py": "287ebffa4c57e7ab75537c490e87db5b3af07903a49c0c99397bc78e210b0a6c",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_dae.py": "a346f484bd93dd5e899a7885a4711d39188df2697cf38f7ac2333f35d861820a",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_discrete_tangent.py": "0eaf8802d1686acf7a257428052b1638c0c1eb95de7d758f051b2cc248223daf",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_linear_tangent.py": "f1ca6a2e13a942b202eda5ca24d1feddbdbf9e1a6fbc5bdc1e1e493e076e0ed6",
+    "tests/test_causal_inner_face36_fixed_q_jacobian_repair_wp10c9d6c7c3b5c4f24b.py": "088733d6a733e61de8843be26103332a765202c5f774c19613d64e3e65148fc2",
+    "tests/test_causal_inner_fixed_q.py": "4437068e87bfd5eb75c70fe67e7d168e06dd5b3d34db1fcc0b2bb1c7442a169a",
+    "tests/test_causal_inner_monolithic_discrete_tangent.py": "be8ea560c91261196a8c8a2423da3e776e20c9f8bf48fd95cf2b4d8f0c97a7ab"
+  },
+  "working_tree_clean": false
+}
