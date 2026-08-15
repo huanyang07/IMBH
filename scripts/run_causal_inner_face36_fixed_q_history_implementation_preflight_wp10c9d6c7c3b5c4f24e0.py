@@ -149,7 +149,8 @@ def _implementation_contract() -> dict:
             and "np.linalg.solve(matrix, np.eye(3))" in source
         ),
         "normalized_kernel_rejected": (
-            "requires raw or frozen-normalized reaction channels" in source
+            "requires raw or frozen-normalized " in source
+            and '"reaction channels"' in source
         ),
         "accepted_history_only": (
             "rejected fixed-Q step cannot define BDF history" in source
