@@ -9,7 +9,9 @@ production integration default.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable
+import json
+from pathlib import Path
+from typing import Callable, Literal
 
 import numpy as np
 from scipy.sparse import csc_matrix
@@ -25,6 +27,7 @@ from .causal_inner_dae_system import CausalFiveFieldDAEContext, _cell_state
 from .causal_inner_monolithic_bdf import (
     CausalFiveFieldMonolithicBDFEvaluation,
     CausalFiveFieldMonolithicBDFHistory,
+    causal_five_field_monolithic_bdf_history,
     evaluate_causal_five_field_monolithic_bdf,
 )
 from .causal_inner_monolithic_discrete_tangent import (
@@ -62,9 +65,18 @@ class CausalFiveFieldFixedQReaction:
     reaction_physical_ledger: np.ndarray
     raw_reaction_scaled_rows: np.ndarray
     raw_reaction_lift: np.ndarray
+    raw_reaction_physical_rows: np.ndarray
+    raw_reaction_physical_ledger: np.ndarray
+    raw_schur_matrix: np.ndarray
     raw_schur_inverse: np.ndarray
+    raw_schur_singular_values: np.ndarray
+    raw_schur_numerical_rank: int
+    raw_schur_condition_number: float
+    maximum_raw_schur_solve_relative_defect: float
     support_cell_indices: np.ndarray
     support_envelope: np.ndarray
+    minimum_q3_reconstruction_factor: float
+    maximum_q3_reconstruction_factor: float
     maximum_descriptor_reconstruction_defect: float
     maximum_descriptor_partition_defect: float
     maximum_identity_defect: float
@@ -135,17 +147,72 @@ class CausalFiveFieldFixedQBackwardEulerResult:
     """One exact constrained BDF solve used by the consistency audit."""
 
     primitive_charts: np.ndarray
+    primitive_increment: np.ndarray
     scaled_rate_per_s: np.ndarray
     scaled_interval_rate_per_s: np.ndarray
     multipliers: np.ndarray
     evaluation: CausalFiveFieldFixedQBDFEvaluation
+    direct_rate_evaluation: CausalFiveFieldFixedQBDFEvaluation
     order: int
     accepted: bool
+    acceptance: CausalFiveFieldFixedQStepAcceptance
     iterations: int
     function_evaluations: int
     maximum_scaled_residual: float
     maximum_linear_residual: float
+    maximum_scaled_primitive_change: float
+    minimum_path_reconstruction_factor: float
+    maximum_path_reconstruction_factor: float
+    maximum_direct_rate_increment_parity_defect: float
+    maximum_multiplier_weighted_action_ledger_relative_defect: float
+    scaled_reaction_rate_action_per_s: np.ndarray
+    maximum_scaled_q3_rate_tangency_defect: float
+    maximum_h_over_r: float | None
+    minimum_scattering_optical_depth: float | None
+    exact_jacobian_assemblies: int
+    broyden_updates: int
+    linear_solves: int
     message: str
+
+
+@dataclass(frozen=True)
+class CausalFiveFieldFixedQStepAcceptance:
+    """One authoritative fail-closed fixed-Q step decision."""
+
+    nonlinear_root_passed: bool
+    complete_residual_passed: bool
+    q3_passed: bool
+    incoming_excision_passed: bool
+    storage_parity_passed: bool
+    reconstruction_passed: bool
+    reaction_ledger_passed: bool
+    constraint_action_ledger_passed: bool
+    primitive_change_passed: bool
+    reaction_conditioning_passed: bool
+    physical_height_passed: bool
+    physical_optical_depth_passed: bool
+    accepted: bool
+    failure_reasons: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class CausalFiveFieldFixedQBDFRestart:
+    """Lossless constrained BDF1 history used for one BDF2 replay."""
+
+    primitive_charts: np.ndarray
+    previous_primitive_charts: np.ndarray
+    history: CausalFiveFieldMonolithicBDFHistory
+    q3_target: np.ndarray
+    constraint_row_scales: np.ndarray
+    multiplier_predictor: np.ndarray
+    reaction_channel_basis: str
+    reaction_channel_transform: np.ndarray
+    previous_minimum_path_reconstruction_factor: float
+    elapsed_time_seconds: float
+    completed_steps: int
+    next_order: int
+    provenance: dict
+    schema_version: int = 1
 
 
 def _validated_scales(
@@ -349,6 +416,52 @@ def causal_five_field_exterior_q3(
     return np.asarray(q3, dtype=float), np.asarray(factors, dtype=float)
 
 
+def _stable_fixed_q_schur_inverse(
+    raw_schur_matrix: np.ndarray,
+    *,
+    maximum_condition_number: float,
+) -> tuple[np.ndarray, np.ndarray, int, float, float]:
+    """Invert one three-channel Schur map with explicit rank diagnostics."""
+
+    matrix = np.asarray(raw_schur_matrix, dtype=float)
+    maximum_condition = float(maximum_condition_number)
+    if (
+        matrix.shape != (3, 3)
+        or np.any(~np.isfinite(matrix))
+        or not np.isfinite(maximum_condition)
+        or maximum_condition <= 1.0
+    ):
+        raise ValueError("fixed-Q Schur matrix or condition gate is invalid")
+    singular_values = np.linalg.svd(matrix, compute_uv=False)
+    threshold = (
+        np.finfo(float).eps
+        * max(matrix.shape)
+        * float(singular_values[0])
+    )
+    rank = int(np.count_nonzero(singular_values > threshold))
+    condition = float(
+        np.inf
+        if singular_values[-1] <= 0.0
+        else singular_values[0] / singular_values[-1]
+    )
+    if rank != 3:
+        raise np.linalg.LinAlgError("fixed-Q reaction Schur matrix is rank deficient")
+    if not np.isfinite(condition) or condition > maximum_condition:
+        raise np.linalg.LinAlgError(
+            "fixed-Q reaction Schur matrix exceeds its condition gate"
+        )
+    inverse = np.linalg.solve(matrix, np.eye(3))
+    scale = max(float(np.linalg.norm(np.eye(3))), np.finfo(float).tiny)
+    solve_defect = float(np.linalg.norm(matrix @ inverse - np.eye(3)) / scale)
+    return (
+        np.asarray(inverse, dtype=float),
+        np.asarray(singular_values, dtype=float),
+        rank,
+        condition,
+        solve_defect,
+    )
+
+
 def causal_five_field_fixed_q_reaction(
     context: CausalFiveFieldDAEContext,
     primitive_charts: np.ndarray,
@@ -360,6 +473,7 @@ def causal_five_field_fixed_q_reaction(
     exterior_parent_face: int = 36,
     guard_end_parent_face: int = 48,
     parent_cell_count: int = 64,
+    maximum_schur_condition_number: float = 1.0e8,
 ) -> CausalFiveFieldFixedQReaction:
     """Build the physical ledger reaction and normalize ``DQ M^-1 BQ=I``."""
 
@@ -435,7 +549,16 @@ def causal_five_field_fixed_q_reaction(
     factor = splu(csc_matrix(descriptor))
     raw_lift = factor.solve(raw)
     raw_schur = q_scaled @ raw_lift
-    raw_schur_inverse = np.linalg.inv(raw_schur)
+    (
+        raw_schur_inverse,
+        raw_schur_singular_values,
+        raw_schur_numerical_rank,
+        raw_schur_condition_number,
+        raw_schur_solve_defect,
+    ) = _stable_fixed_q_schur_inverse(
+        raw_schur,
+        maximum_condition_number=maximum_schur_condition_number,
+    )
     reaction = raw @ raw_schur_inverse
     reaction_lift = factor.solve(reaction)
     identity = q_scaled @ reaction_lift
@@ -466,7 +589,9 @@ def causal_five_field_fixed_q_reaction(
         state,
         exterior_face_index=exterior_face,
     )
-    if float(np.max(factors)) > 1.0:
+    minimum_q3_factor = float(np.min(factors))
+    maximum_q3_factor = float(np.max(factors))
+    if maximum_q3_factor > 1.0 + 1.0e-12:
         raise ValueError("fixed-Q Q3 reconstruction factor exceeds one")
     return CausalFiveFieldFixedQReaction(
         q3_value=q3,
@@ -480,9 +605,18 @@ def causal_five_field_fixed_q_reaction(
         reaction_physical_ledger=np.asarray(ledger, dtype=float),
         raw_reaction_scaled_rows=np.asarray(raw, dtype=float),
         raw_reaction_lift=np.asarray(raw_lift, dtype=float),
+        raw_reaction_physical_rows=np.asarray(physical_raw, dtype=float),
+        raw_reaction_physical_ledger=np.asarray(raw_ledger, dtype=float),
+        raw_schur_matrix=np.asarray(raw_schur, dtype=float),
         raw_schur_inverse=np.asarray(raw_schur_inverse, dtype=float),
+        raw_schur_singular_values=raw_schur_singular_values,
+        raw_schur_numerical_rank=raw_schur_numerical_rank,
+        raw_schur_condition_number=raw_schur_condition_number,
+        maximum_raw_schur_solve_relative_defect=raw_schur_solve_defect,
         support_cell_indices=np.asarray(support, dtype=int),
         support_envelope=np.asarray(envelope, dtype=float),
+        minimum_q3_reconstruction_factor=minimum_q3_factor,
+        maximum_q3_reconstruction_factor=maximum_q3_factor,
         maximum_descriptor_reconstruction_defect=float(reconstruction_defect),
         maximum_descriptor_partition_defect=float(partition_defect),
         maximum_identity_defect=float(np.linalg.norm(identity - np.eye(3))),
@@ -992,6 +1126,7 @@ def evaluate_causal_five_field_fixed_q_bdf(
     reaction_channel_basis: str = "normalized",
     reaction_channel_transform: np.ndarray | None = None,
     scaled_rate_per_s: np.ndarray | None = None,
+    maximum_schur_condition_number: float = 1.0e8,
 ) -> CausalFiveFieldFixedQBDFEvaluation:
     """Evaluate the complete augmented BDF residual at one endpoint."""
 
@@ -1034,6 +1169,7 @@ def evaluate_causal_five_field_fixed_q_bdf(
         exterior_parent_face=exterior_parent_face,
         guard_end_parent_face=guard_end_parent_face,
         parent_cell_count=parent_cell_count,
+        maximum_schur_condition_number=maximum_schur_condition_number,
     )
     constraint_scales = (
         reaction.q3_derivative_norms
@@ -1136,6 +1272,63 @@ def _equilibrated_dense_solve(
     return np.asarray(solution, dtype=float), residual
 
 
+def _relative_array_defect(first: np.ndarray, second: np.ndarray) -> float:
+    left = np.asarray(first, dtype=float)
+    right = np.asarray(second, dtype=float)
+    scale = max(
+        float(np.linalg.norm(left)),
+        float(np.linalg.norm(right)),
+        np.finfo(float).tiny,
+    )
+    return float(np.linalg.norm(left - right) / scale)
+
+
+def _fixed_q_storage_parity_defect(
+    increment_primary: CausalFiveFieldFixedQBDFEvaluation,
+    direct_rate: CausalFiveFieldFixedQBDFEvaluation,
+) -> float:
+    increment_temporal = (
+        increment_primary.monolithic_evaluation.mapped_temporal_storage_rows
+        + increment_primary.monolithic_evaluation
+        .responsive_height_temporal_storage_rows
+    )
+    direct_temporal = (
+        direct_rate.monolithic_evaluation.mapped_temporal_storage_rows
+        + direct_rate.monolithic_evaluation
+        .responsive_height_temporal_storage_rows
+    )
+    return max(
+        _relative_array_defect(increment_temporal, direct_temporal),
+        _relative_array_defect(
+            increment_primary.scaled_monolithic_residual,
+            direct_rate.scaled_monolithic_residual,
+        ),
+    )
+
+
+def _multiplier_weighted_action_ledger_defect(
+    reaction: CausalFiveFieldFixedQReaction,
+    multipliers: np.ndarray,
+    channel_transform: np.ndarray,
+) -> float:
+    multiplier = np.asarray(multipliers, dtype=float)
+    transform = np.asarray(channel_transform, dtype=float)
+    if multiplier.shape != (3,) or transform.shape != (3, 3):
+        raise ValueError("fixed-Q action-ledger inputs are invalid")
+    raw_multiplier = transform @ multiplier
+    physical_action = reaction.raw_reaction_physical_rows @ raw_multiplier
+    summed = np.sum(physical_action, axis=0)[
+        np.asarray(_CONSERVATIVE_FIELDS)
+    ]
+    channel = reaction.raw_reaction_physical_ledger @ raw_multiplier
+    scale = max(
+        float(np.linalg.norm(summed)),
+        float(np.linalg.norm(channel)),
+        np.finfo(float).tiny,
+    )
+    return float(np.linalg.norm(summed - channel) / scale)
+
+
 def solve_causal_five_field_fixed_q_bdf(
     context: CausalFiveFieldDAEContext,
     old_primitive_charts: np.ndarray,
@@ -1152,13 +1345,19 @@ def solve_causal_five_field_fixed_q_bdf(
     refinement_ratio: int,
     q3_target: np.ndarray | None = None,
     constraint_row_scales: np.ndarray | None = None,
-    reaction_channel_basis: str = "frozen_normalized",
+    reaction_channel_basis: Literal["raw", "frozen_normalized"] = (
+        "frozen_normalized"
+    ),
     reaction_channel_transform: np.ndarray | None = None,
     exterior_parent_face: int = 36,
     guard_end_parent_face: int = 48,
     parent_cell_count: int = 64,
     residual_tolerance: float = 1.0e-10,
     constraint_tolerance: float = 1.0e-12,
+    ledger_tolerance: float = 1.0e-12,
+    storage_parity_tolerance: float = 1.0e-9,
+    minimum_reconstruction_factor: float = 1.0 - 1.0e-12,
+    maximum_schur_condition_number: float = 1.0e8,
     maximum_scaled_primitive_change: float = 5.0e-3,
     maximum_newton_iterations: int = 8,
     maximum_line_search_iterations: int = 12,
@@ -1172,6 +1371,13 @@ def solve_causal_five_field_fixed_q_bdf(
     ]
     | None = None,
     base_reaction: CausalFiveFieldFixedQReaction | None = None,
+    physical_state_audit: Callable[
+        [CausalFiveFieldDAEContext, np.ndarray], dict
+    ]
+    | None = None,
+    require_physical_state_audit: bool = False,
+    maximum_h_over_r: float = 0.12,
+    minimum_scattering_optical_depth: float = 1.0,
 ) -> CausalFiveFieldFixedQBackwardEulerResult:
     """Solve one exact finite constrained BDF step for a consistency audit.
 
@@ -1235,6 +1441,11 @@ def solve_causal_five_field_fixed_q_bdf(
         )
     ):
         raise ValueError("fixed-Q exact-Jacobian refresh count is invalid")
+    if reaction_channel_basis not in {"raw", "frozen_normalized"}:
+        raise ValueError(
+            "fixed-Q nonlinear solve requires raw or frozen-normalized "
+            "reaction channels"
+        )
     base_reaction = (
         causal_five_field_fixed_q_reaction(
             context,
@@ -1246,6 +1457,7 @@ def solve_causal_five_field_fixed_q_bdf(
             exterior_parent_face=exterior_parent_face,
             guard_end_parent_face=guard_end_parent_face,
             parent_cell_count=parent_cell_count,
+            maximum_schur_condition_number=maximum_schur_condition_number,
         )
         if base_reaction is None
         else base_reaction
@@ -1264,10 +1476,7 @@ def solve_causal_five_field_fixed_q_bdf(
     )
     if target.shape != (3,) or constraint_scales.shape != (3,):
         raise ValueError("fixed-Q BE target or constraint scales are invalid")
-    if reaction_channel_basis == "normalized":
-        base_reaction_rows = base_reaction.reaction_scaled_rows
-        channel_transform = base_reaction.raw_schur_inverse
-    elif reaction_channel_basis == "raw":
+    if reaction_channel_basis == "raw":
         base_reaction_rows = base_reaction.raw_reaction_scaled_rows
         channel_transform = np.eye(3)
     elif reaction_channel_basis == "frozen_normalized":
@@ -1287,24 +1496,23 @@ def solve_causal_five_field_fixed_q_bdf(
     else:
         raise ValueError("fixed-Q BE reaction channel basis is invalid")
     initial_top_left = np.array(top_left, copy=True)
-    if reaction_channel_basis in {"raw", "frozen_normalized"}:
-        raw_jacobian = causal_five_field_fixed_q_raw_reaction_jacobian(
-            context,
-            old,
-            primitive_column_scales=columns,
-            conservation_row_scales=rows,
-            parent_cell_indices=parent_cell_indices,
-            refinement_ratio=refinement_ratio,
-            exterior_parent_face=exterior_parent_face,
-            guard_end_parent_face=guard_end_parent_face,
-            parent_cell_count=parent_cell_count,
-            reaction=base_reaction,
-        )
-        initial_top_left -= np.tensordot(
-            raw_jacobian.scaled_jacobian,
-            channel_transform @ multiplier,
-            axes=(1, 0),
-        )
+    raw_jacobian = causal_five_field_fixed_q_raw_reaction_jacobian(
+        context,
+        old,
+        primitive_column_scales=columns,
+        conservation_row_scales=rows,
+        parent_cell_indices=parent_cell_indices,
+        refinement_ratio=refinement_ratio,
+        exterior_parent_face=exterior_parent_face,
+        guard_end_parent_face=guard_end_parent_face,
+        parent_cell_count=parent_cell_count,
+        reaction=base_reaction,
+    )
+    initial_top_left -= np.tensordot(
+        raw_jacobian.scaled_jacobian,
+        channel_transform @ multiplier,
+        axes=(1, 0),
+    )
     matrix = np.block(
         [
             [initial_top_left, -base_reaction_rows],
@@ -1367,7 +1575,7 @@ def solve_causal_five_field_fixed_q_bdf(
             constraint_row_scales=constraint_scales,
             reaction_channel_basis=reaction_channel_basis,
             reaction_channel_transform=channel_transform,
-            scaled_rate_per_s=scaled_increment / timestep,
+            maximum_schur_condition_number=maximum_schur_condition_number,
         )
         return evaluation.augmented_scaled_residual, evaluation
 
@@ -1382,6 +1590,8 @@ def solve_causal_five_field_fixed_q_bdf(
         )
     linear_residuals = []
     exact_jacobian_refreshes = 0
+    broyden_updates = 0
+    linear_solves = 0
     message = "maximum Newton iterations reached"
     success = False
     iterations = 0
@@ -1447,6 +1657,7 @@ def solve_causal_five_field_fixed_q_bdf(
                 matrix,
                 -values,
             )
+            linear_solves += 1
         except np.linalg.LinAlgError:
             message = "fixed-Q bordered Newton matrix is singular"
             break
@@ -1482,6 +1693,7 @@ def solve_causal_five_field_fixed_q_bdf(
             else min(1.0, max(0.0, 0.99 * alpha))
         )
         accepted_correction = False
+        merit = float(np.linalg.norm(values))
         for _line_search in range(int(maximum_line_search_iterations)):
             candidate_unknown = unknown + alpha * correction
             candidate_values, candidate_evaluation = residual(candidate_unknown)
@@ -1498,7 +1710,11 @@ def solve_causal_five_field_fixed_q_bdf(
                         "function_evaluations": function_evaluations,
                     }
                 )
-            if np.max(np.abs(candidate_values)) < maximum:
+            candidate_merit = float(np.linalg.norm(candidate_values))
+            if (
+                candidate_merit < merit
+                or np.max(np.abs(candidate_values)) <= residual_tolerance
+            ):
                 secant_step = candidate_unknown - unknown
                 secant_change = candidate_values - values
                 denominator = float(secant_step @ secant_step)
@@ -1507,6 +1723,7 @@ def solve_causal_five_field_fixed_q_bdf(
                         secant_change - matrix @ secant_step,
                         secant_step,
                     ) / denominator
+                    broyden_updates += 1
                 unknown = candidate_unknown
                 values = candidate_values
                 evaluation = candidate_evaluation
@@ -1529,29 +1746,150 @@ def solve_causal_five_field_fixed_q_bdf(
             break
     scaled_increment = unknown[:dimensions]
     new = old + (columns.ravel() * scaled_increment).reshape(old.shape)
+    accepted_scaled_increment = ((new - old) / columns).ravel()
     maximum_residual = float(np.max(np.abs(values)))
-    accepted = bool(
-        success
-        and maximum_residual <= residual_tolerance
-        and evaluation.maximum_constraint_relative_defect
-        <= constraint_tolerance
-        and evaluation.monolithic_evaluation.maximum_block_ledger_defect
-        <= 1.0e-12
-        and evaluation.reaction.maximum_reaction_ledger_relative_defect
-        <= 1.0e-12
-        and evaluation.monolithic_evaluation.incoming_excision_characteristics
-        == 0
-    )
-    if success and not accepted:
-        message = "fixed-Q root exceeds one or more acceptance gates"
-    scaled_interval_rate = scaled_increment / timestep
+    scaled_interval_rate = accepted_scaled_increment / timestep
     scaled_bdf_rate = causal_bdf_weighted_increment(
-        scaled_increment,
+        accepted_scaled_increment,
         previous_scaled_increment,
         coefficients,
     ) / timestep
+    direct_rate_evaluation = evaluate_causal_five_field_fixed_q_bdf(
+        old,
+        new,
+        unknown[dimensions:],
+        target,
+        timestep,
+        context,
+        order=selected_order,
+        history=validated_history,
+        primitive_column_scales=columns,
+        conservation_row_scales=rows,
+        parent_cell_indices=parent_cell_indices,
+        refinement_ratio=refinement_ratio,
+        exterior_parent_face=exterior_parent_face,
+        guard_end_parent_face=guard_end_parent_face,
+        parent_cell_count=parent_cell_count,
+        constraint_row_scales=constraint_scales,
+        reaction_channel_basis=reaction_channel_basis,
+        reaction_channel_transform=channel_transform,
+        scaled_rate_per_s=scaled_interval_rate,
+        maximum_schur_condition_number=maximum_schur_condition_number,
+    )
+    storage_parity_defect = _fixed_q_storage_parity_defect(
+        evaluation,
+        direct_rate_evaluation,
+    )
+    action_ledger_defect = _multiplier_weighted_action_ledger_defect(
+        evaluation.reaction,
+        unknown[dimensions:],
+        channel_transform,
+    )
+    maximum_change = float(np.max(np.abs(accepted_scaled_increment)))
+    minimum_factor = min(
+        float(
+            evaluation.monolithic_evaluation.current_storage_increment
+            .minimum_path_reconstruction_factor
+        ),
+        evaluation.reaction.minimum_q3_reconstruction_factor,
+    )
+    maximum_factor = max(
+        float(
+            evaluation.monolithic_evaluation.current_storage_increment
+            .maximum_path_reconstruction_factor
+        ),
+        evaluation.reaction.maximum_q3_reconstruction_factor,
+    )
+    scaled_reaction_action = (
+        evaluation.reaction.raw_reaction_lift
+        @ channel_transform
+        @ unknown[dimensions:]
+    )
+    q3_rate_tangency_defect = float(
+        np.linalg.norm(
+            evaluation.reaction.q3_scaled_derivative @ scaled_bdf_rate
+        )
+        / max(float(np.linalg.norm(scaled_bdf_rate)), np.finfo(float).tiny)
+    )
+    physical_audit = (
+        None
+        if physical_state_audit is None
+        else physical_state_audit(context, new)
+    )
+    if physical_audit is not None and not isinstance(physical_audit, dict):
+        raise ValueError("fixed-Q physical state audit is invalid")
+    physical_height_passed = bool(
+        not require_physical_state_audit
+        or (
+            physical_audit is not None
+            and float(physical_audit["maximum_h_over_r"])
+            <= float(maximum_h_over_r)
+        )
+    )
+    physical_optical_passed = bool(
+        not require_physical_state_audit
+        or (
+            physical_audit is not None
+            and float(physical_audit["minimum_scattering_optical_depth"])
+            >= float(minimum_scattering_optical_depth)
+        )
+    )
+    checks = {
+        "nonlinear_root": success,
+        "complete_residual": maximum_residual <= residual_tolerance,
+        "Q3": evaluation.maximum_constraint_relative_defect
+        <= constraint_tolerance,
+        "incoming_excision": (
+            evaluation.monolithic_evaluation.incoming_excision_characteristics
+            == 0
+        ),
+        "storage_parity": storage_parity_defect <= storage_parity_tolerance,
+        "reconstruction": (
+            minimum_factor >= minimum_reconstruction_factor
+            and maximum_factor <= 1.0 + 1.0e-12
+        ),
+        "reaction_ledger": (
+            evaluation.reaction.maximum_reaction_ledger_relative_defect
+            <= ledger_tolerance
+        ),
+        "constraint_action_ledger": action_ledger_defect <= ledger_tolerance,
+        "primitive_change": maximum_change <= maximum_scaled_primitive_change,
+        "reaction_conditioning": (
+            evaluation.reaction.raw_schur_numerical_rank == 3
+            and evaluation.reaction.raw_schur_condition_number
+            <= maximum_schur_condition_number
+            and evaluation.reaction.maximum_raw_schur_solve_relative_defect
+            <= ledger_tolerance
+        ),
+        "physical_height": physical_height_passed,
+        "physical_optical_depth": physical_optical_passed,
+    }
+    failure_reasons = tuple(name for name, passed in checks.items() if not passed)
+    accepted = not failure_reasons
+    acceptance = CausalFiveFieldFixedQStepAcceptance(
+        nonlinear_root_passed=checks["nonlinear_root"],
+        complete_residual_passed=checks["complete_residual"],
+        q3_passed=checks["Q3"],
+        incoming_excision_passed=checks["incoming_excision"],
+        storage_parity_passed=checks["storage_parity"],
+        reconstruction_passed=checks["reconstruction"],
+        reaction_ledger_passed=checks["reaction_ledger"],
+        constraint_action_ledger_passed=checks["constraint_action_ledger"],
+        primitive_change_passed=checks["primitive_change"],
+        reaction_conditioning_passed=checks["reaction_conditioning"],
+        physical_height_passed=checks["physical_height"],
+        physical_optical_depth_passed=checks["physical_optical_depth"],
+        accepted=accepted,
+        failure_reasons=failure_reasons,
+    )
+    if success and not accepted:
+        message = "fixed-Q root exceeds gates: " + ", ".join(failure_reasons)
     return CausalFiveFieldFixedQBackwardEulerResult(
         primitive_charts=np.array(new, copy=True),
+        primitive_increment=np.asarray(
+            new - old,
+            dtype=float,
+        ).reshape(old.shape),
         scaled_rate_per_s=np.asarray(scaled_bdf_rate, dtype=float),
         scaled_interval_rate_per_s=np.asarray(
             scaled_interval_rate,
@@ -1562,14 +1900,375 @@ def solve_causal_five_field_fixed_q_bdf(
             dtype=float,
         ),
         evaluation=evaluation,
+        direct_rate_evaluation=direct_rate_evaluation,
         order=selected_order,
         accepted=accepted,
+        acceptance=acceptance,
         iterations=iterations,
         function_evaluations=function_evaluations,
         maximum_scaled_residual=maximum_residual,
         maximum_linear_residual=max(linear_residuals, default=0.0),
+        maximum_scaled_primitive_change=maximum_change,
+        minimum_path_reconstruction_factor=minimum_factor,
+        maximum_path_reconstruction_factor=maximum_factor,
+        maximum_direct_rate_increment_parity_defect=storage_parity_defect,
+        maximum_multiplier_weighted_action_ledger_relative_defect=(
+            action_ledger_defect
+        ),
+        scaled_reaction_rate_action_per_s=np.asarray(
+            scaled_reaction_action,
+            dtype=float,
+        ),
+        maximum_scaled_q3_rate_tangency_defect=q3_rate_tangency_defect,
+        maximum_h_over_r=(
+            None
+            if physical_audit is None
+            else float(physical_audit["maximum_h_over_r"])
+        ),
+        minimum_scattering_optical_depth=(
+            None
+            if physical_audit is None
+            else float(physical_audit["minimum_scattering_optical_depth"])
+        ),
+        exact_jacobian_assemblies=exact_jacobian_refreshes,
+        broyden_updates=broyden_updates,
+        linear_solves=linear_solves,
         message=message,
     )
+
+
+def causal_five_field_fixed_q_accepted_history(
+    result: CausalFiveFieldFixedQBackwardEulerResult,
+) -> CausalFiveFieldMonolithicBDFHistory:
+    """Freeze history only from one fully accepted constrained BDF step."""
+
+    if not result.accepted or not result.acceptance.accepted:
+        raise ValueError("rejected fixed-Q step cannot define BDF history")
+    return causal_five_field_monolithic_bdf_history(
+        result.primitive_increment,
+        result.evaluation.monolithic_evaluation.current_storage_increment,
+        result.evaluation.monolithic_evaluation.coefficients
+        .current_timestep_seconds,
+    )
+
+
+def causal_five_field_fixed_q_bdf_restart(
+    result: CausalFiveFieldFixedQBackwardEulerResult,
+    context: CausalFiveFieldDAEContext,
+    previous_primitive_charts: np.ndarray,
+    *,
+    primitive_column_scales: np.ndarray,
+    conservation_row_scales: np.ndarray,
+    parent_cell_indices: np.ndarray,
+    refinement_ratio: int,
+    exterior_parent_face: int = 36,
+    guard_end_parent_face: int = 48,
+    parent_cell_count: int = 64,
+    maximum_schur_condition_number: float = 1.0e8,
+    q3_target: np.ndarray,
+    constraint_row_scales: np.ndarray,
+    reaction_channel_basis: Literal["raw", "frozen_normalized"],
+    elapsed_time_seconds: float,
+    completed_steps: int,
+    provenance: dict,
+) -> CausalFiveFieldFixedQBDFRestart:
+    """Construct one replay payload from an accepted constrained BDF1 step."""
+
+    if result.order != 1:
+        raise ValueError("fixed-Q replay restart must follow BDF1 startup")
+    history = causal_five_field_fixed_q_accepted_history(result)
+    previous = np.asarray(previous_primitive_charts, dtype=float)
+    target = np.asarray(q3_target, dtype=float)
+    scales = np.asarray(constraint_row_scales, dtype=float)
+    endpoint_reaction = causal_five_field_fixed_q_reaction(
+        context,
+        result.primitive_charts,
+        primitive_column_scales=primitive_column_scales,
+        conservation_row_scales=conservation_row_scales,
+        parent_cell_indices=parent_cell_indices,
+        refinement_ratio=refinement_ratio,
+        exterior_parent_face=exterior_parent_face,
+        guard_end_parent_face=guard_end_parent_face,
+        parent_cell_count=parent_cell_count,
+        maximum_schur_condition_number=maximum_schur_condition_number,
+    )
+    transform = (
+        np.eye(3)
+        if reaction_channel_basis == "raw"
+        else endpoint_reaction.raw_schur_inverse
+    )
+    if (
+        previous.shape != result.primitive_charts.shape
+        or np.any(~np.isfinite(previous))
+        or target.shape != (3,)
+        or scales.shape != (3,)
+        or transform.shape != (3, 3)
+        or np.any(~np.isfinite(target))
+        or np.any(~np.isfinite(scales))
+        or np.any(scales <= 0.0)
+        or np.any(~np.isfinite(transform))
+        or reaction_channel_basis not in {"raw", "frozen_normalized"}
+    ):
+        raise ValueError("fixed-Q restart inputs are invalid")
+    return CausalFiveFieldFixedQBDFRestart(
+        primitive_charts=np.array(result.primitive_charts, copy=True),
+        previous_primitive_charts=np.array(previous, copy=True),
+        history=history,
+        q3_target=np.array(target, copy=True),
+        constraint_row_scales=np.array(scales, copy=True),
+        multiplier_predictor=np.array(result.multipliers, copy=True),
+        reaction_channel_basis=str(reaction_channel_basis),
+        reaction_channel_transform=np.array(transform, copy=True),
+        previous_minimum_path_reconstruction_factor=float(
+            result.minimum_path_reconstruction_factor
+        ),
+        elapsed_time_seconds=float(elapsed_time_seconds),
+        completed_steps=int(completed_steps),
+        next_order=2,
+        provenance=dict(provenance),
+    )
+
+
+def _validated_fixed_q_restart(
+    context: CausalFiveFieldDAEContext,
+    restart: CausalFiveFieldFixedQBDFRestart,
+) -> CausalFiveFieldFixedQBDFRestart:
+    context = context.validated()
+    shape = (int(context.grid.centers.size), _N_FIELDS)
+    current = np.asarray(restart.primitive_charts, dtype=float)
+    previous = np.asarray(restart.previous_primitive_charts, dtype=float)
+    target = np.asarray(restart.q3_target, dtype=float)
+    scales = np.asarray(restart.constraint_row_scales, dtype=float)
+    multiplier = np.asarray(restart.multiplier_predictor, dtype=float)
+    transform = np.asarray(restart.reaction_channel_transform, dtype=float)
+    history = restart.history.validated(n_cells=shape[0])
+    elapsed = float(restart.elapsed_time_seconds)
+    factor = float(restart.previous_minimum_path_reconstruction_factor)
+    if (
+        current.shape != shape
+        or previous.shape != shape
+        or np.any(~np.isfinite(current))
+        or np.any(~np.isfinite(previous))
+        or target.shape != (3,)
+        or scales.shape != (3,)
+        or multiplier.shape != (3,)
+        or transform.shape != (3, 3)
+        or np.any(~np.isfinite(target))
+        or np.any(~np.isfinite(scales))
+        or np.any(scales <= 0.0)
+        or np.any(~np.isfinite(multiplier))
+        or np.any(~np.isfinite(transform))
+        or restart.reaction_channel_basis not in {"raw", "frozen_normalized"}
+        or not np.isfinite(factor)
+        or factor < 1.0 - 1.0e-12
+        or not np.isfinite(elapsed)
+        or elapsed < 0.0
+        or int(restart.completed_steps) != restart.completed_steps
+        or restart.completed_steps < 1
+        or int(restart.next_order) != restart.next_order
+        or restart.next_order != 2
+        or restart.schema_version != 1
+        or not isinstance(restart.provenance, dict)
+    ):
+        raise ValueError("fixed-Q BDF restart is invalid")
+    expected_increment = current - previous
+    increment_scale = max(
+        float(np.linalg.norm(expected_increment)),
+        float(np.linalg.norm(history.previous_primitive_increment)),
+        np.finfo(float).tiny,
+    )
+    if (
+        np.linalg.norm(expected_increment - history.previous_primitive_increment)
+        / increment_scale
+        > 1.0e-12
+    ):
+        raise ValueError("fixed-Q restart primitive history is inconsistent")
+    return CausalFiveFieldFixedQBDFRestart(
+        primitive_charts=np.array(current, copy=True),
+        previous_primitive_charts=np.array(previous, copy=True),
+        history=history,
+        q3_target=np.array(target, copy=True),
+        constraint_row_scales=np.array(scales, copy=True),
+        multiplier_predictor=np.array(multiplier, copy=True),
+        reaction_channel_basis=str(restart.reaction_channel_basis),
+        reaction_channel_transform=np.array(transform, copy=True),
+        previous_minimum_path_reconstruction_factor=factor,
+        elapsed_time_seconds=elapsed,
+        completed_steps=int(restart.completed_steps),
+        next_order=2,
+        provenance=dict(restart.provenance),
+        schema_version=1,
+    )
+
+
+def causal_five_field_fixed_q_bdf_restarts_equal(
+    left: CausalFiveFieldFixedQBDFRestart,
+    right: CausalFiveFieldFixedQBDFRestart,
+) -> bool:
+    """Return whether two constrained restart payloads are bitwise equal."""
+
+    arrays = (
+        (left.primitive_charts, right.primitive_charts),
+        (left.previous_primitive_charts, right.previous_primitive_charts),
+        (
+            left.history.previous_primitive_increment,
+            right.history.previous_primitive_increment,
+        ),
+        (
+            left.history.previous_mapped_storage_increment,
+            right.history.previous_mapped_storage_increment,
+        ),
+        (
+            left.history.previous_responsive_height_storage_increment,
+            right.history.previous_responsive_height_storage_increment,
+        ),
+        (left.q3_target, right.q3_target),
+        (left.constraint_row_scales, right.constraint_row_scales),
+        (left.multiplier_predictor, right.multiplier_predictor),
+        (left.reaction_channel_transform, right.reaction_channel_transform),
+    )
+    return bool(
+        all(np.array_equal(first, second) for first, second in arrays)
+        and left.history.previous_timestep_seconds
+        == right.history.previous_timestep_seconds
+        and left.history.temporal_path_scheme
+        == right.history.temporal_path_scheme
+        and left.reaction_channel_basis == right.reaction_channel_basis
+        and left.previous_minimum_path_reconstruction_factor
+        == right.previous_minimum_path_reconstruction_factor
+        and left.elapsed_time_seconds == right.elapsed_time_seconds
+        and left.completed_steps == right.completed_steps
+        and left.next_order == right.next_order
+        and left.provenance == right.provenance
+        and left.schema_version == right.schema_version
+    )
+
+
+def save_causal_five_field_fixed_q_bdf_restart(
+    path: str | Path,
+    context: CausalFiveFieldDAEContext,
+    restart: CausalFiveFieldFixedQBDFRestart,
+) -> None:
+    """Atomically persist one complete constrained BDF restart."""
+
+    validated = _validated_fixed_q_restart(context, restart)
+    destination = Path(path)
+    if destination.suffix != ".npz":
+        raise ValueError("fixed-Q BDF restart path must end in .npz")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temporary = destination.with_name(destination.name + ".tmp")
+    with temporary.open("wb") as handle:
+        np.savez_compressed(
+            handle,
+            primitive_charts=validated.primitive_charts,
+            previous_primitive_charts=validated.previous_primitive_charts,
+            previous_primitive_increment=(
+                validated.history.previous_primitive_increment
+            ),
+            previous_mapped_storage_increment=(
+                validated.history.previous_mapped_storage_increment
+            ),
+            previous_responsive_height_storage_increment=(
+                validated.history.previous_responsive_height_storage_increment
+            ),
+            previous_timestep_seconds=np.asarray(
+                validated.history.previous_timestep_seconds,
+                dtype="<f8",
+            ),
+            temporal_path_scheme=np.asarray(
+                validated.history.temporal_path_scheme
+            ),
+            q3_target=validated.q3_target,
+            constraint_row_scales=validated.constraint_row_scales,
+            multiplier_predictor=validated.multiplier_predictor,
+            reaction_channel_basis=np.asarray(
+                validated.reaction_channel_basis
+            ),
+            reaction_channel_transform=validated.reaction_channel_transform,
+            previous_minimum_path_reconstruction_factor=np.asarray(
+                validated.previous_minimum_path_reconstruction_factor,
+                dtype="<f8",
+            ),
+            elapsed_time_seconds=np.asarray(
+                validated.elapsed_time_seconds,
+                dtype="<f8",
+            ),
+            completed_steps=np.asarray(validated.completed_steps, dtype="<i8"),
+            next_order=np.asarray(validated.next_order, dtype="<i8"),
+            provenance_json=np.asarray(
+                json.dumps(
+                    validated.provenance,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                    allow_nan=False,
+                )
+            ),
+            schema_version=np.asarray(validated.schema_version, dtype="<i8"),
+        )
+    temporary.replace(destination)
+
+
+def load_causal_five_field_fixed_q_bdf_restart(
+    path: str | Path,
+    context: CausalFiveFieldDAEContext,
+    *,
+    expected_provenance: dict | None = None,
+) -> CausalFiveFieldFixedQBDFRestart:
+    """Load and validate one complete constrained BDF restart."""
+
+    with np.load(Path(path), allow_pickle=False) as source:
+        restart = CausalFiveFieldFixedQBDFRestart(
+            primitive_charts=np.asarray(source["primitive_charts"], dtype=float),
+            previous_primitive_charts=np.asarray(
+                source["previous_primitive_charts"], dtype=float
+            ),
+            history=CausalFiveFieldMonolithicBDFHistory(
+                previous_primitive_increment=np.asarray(
+                    source["previous_primitive_increment"], dtype=float
+                ),
+                previous_mapped_storage_increment=np.asarray(
+                    source["previous_mapped_storage_increment"], dtype=float
+                ),
+                previous_responsive_height_storage_increment=np.asarray(
+                    source["previous_responsive_height_storage_increment"],
+                    dtype=float,
+                ),
+                previous_timestep_seconds=float(
+                    source["previous_timestep_seconds"]
+                ),
+                temporal_path_scheme=str(
+                    source["temporal_path_scheme"].item()
+                ),
+            ),
+            q3_target=np.asarray(source["q3_target"], dtype=float),
+            constraint_row_scales=np.asarray(
+                source["constraint_row_scales"], dtype=float
+            ),
+            multiplier_predictor=np.asarray(
+                source["multiplier_predictor"], dtype=float
+            ),
+            reaction_channel_basis=str(
+                source["reaction_channel_basis"].item()
+            ),
+            reaction_channel_transform=np.asarray(
+                source["reaction_channel_transform"], dtype=float
+            ),
+            previous_minimum_path_reconstruction_factor=float(
+                source["previous_minimum_path_reconstruction_factor"]
+            ),
+            elapsed_time_seconds=float(source["elapsed_time_seconds"]),
+            completed_steps=int(source["completed_steps"]),
+            next_order=int(source["next_order"]),
+            provenance=json.loads(str(source["provenance_json"].item())),
+            schema_version=int(source["schema_version"]),
+        )
+    validated = _validated_fixed_q_restart(context, restart)
+    if (
+        expected_provenance is not None
+        and validated.provenance != expected_provenance
+    ):
+        raise ValueError("fixed-Q BDF restart provenance differs")
+    return validated
 
 
 def solve_causal_five_field_fixed_q_backward_euler(

@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import replace
 
 import numpy as np
+import pytest
 
 from imri_qpe.constants import C
 from imri_qpe.layer3_minidisk_1d import (
@@ -18,11 +19,16 @@ from imri_qpe.layer3_minidisk_1d import (
     pack_causal_five_field_state,
 )
 from imri_qpe.layer3_minidisk_1d.causal_inner_fixed_q import (
+    causal_five_field_fixed_q_accepted_history,
     causal_five_field_fixed_q_augmented_step_matrix,
+    causal_five_field_fixed_q_bdf_restart,
+    causal_five_field_fixed_q_bdf_restarts_equal,
     causal_five_field_exterior_q3,
     causal_five_field_fixed_q_reaction,
     causal_five_field_fixed_q_reaction_jvp,
     evaluate_causal_five_field_fixed_q_bdf,
+    load_causal_five_field_fixed_q_bdf_restart,
+    save_causal_five_field_fixed_q_bdf_restart,
     solve_causal_five_field_fixed_q_bdf,
     solve_causal_five_field_fixed_q_backward_euler,
 )
@@ -233,7 +239,9 @@ def test_augmented_matrix_contains_state_dependent_raw_reaction_derivative():
     assert matrix.maximum_reaction_ledger_relative_defect <= 1.0e-12
 
 
-def test_backward_euler_correction_preserves_q3():
+def test_backward_euler_correction_preserves_q3_and_roundtrips_restart(
+    tmp_path,
+):
     context, base, _columns, _rows, keywords = _problem()
     tangent = causal_five_field_monolithic_frozen_tangent(
         context,
@@ -267,6 +275,7 @@ def test_backward_euler_correction_preserves_q3():
         reaction_channel_transform=reaction.raw_schur_inverse,
         maximum_scaled_primitive_change=1.0e-2,
         residual_tolerance=1.0e-2,
+        storage_parity_tolerance=2.0e-6,
         maximum_newton_iterations=1,
         maximum_line_search_iterations=1,
         **keywords,
@@ -275,9 +284,48 @@ def test_backward_euler_correction_preserves_q3():
     assert result.maximum_scaled_residual <= 1.0e-2
     assert result.evaluation.maximum_constraint_relative_defect <= 1.0e-12
     assert _relative(result.scaled_rate_per_s, constrained_rate) <= 2.0e-2
+    assert not (
+        result.evaluation.monolithic_evaluation
+        .temporal_storage_uses_direct_rate_action
+    )
+    assert (
+        result.direct_rate_evaluation.monolithic_evaluation
+        .temporal_storage_uses_direct_rate_action
+    )
+    history = causal_five_field_fixed_q_accepted_history(result)
+    np.testing.assert_array_equal(
+        history.previous_primitive_increment,
+        result.primitive_charts - base,
+    )
+    restart = causal_five_field_fixed_q_bdf_restart(
+        result,
+        context,
+        base,
+        primitive_column_scales=keywords["primitive_column_scales"],
+        conservation_row_scales=keywords["conservation_row_scales"],
+        parent_cell_indices=keywords["parent_cell_indices"],
+        refinement_ratio=keywords["refinement_ratio"],
+        exterior_parent_face=keywords["exterior_parent_face"],
+        guard_end_parent_face=keywords["guard_end_parent_face"],
+        parent_cell_count=keywords["parent_cell_count"],
+        q3_target=reaction.q3_value,
+        constraint_row_scales=reaction.q3_derivative_norms,
+        reaction_channel_basis="frozen_normalized",
+        elapsed_time_seconds=timestep,
+        completed_steps=1,
+        provenance={"fixture": "fixed_q"},
+    )
+    path = tmp_path / "fixed_q_restart.npz"
+    save_causal_five_field_fixed_q_bdf_restart(path, context, restart)
+    loaded = load_causal_five_field_fixed_q_bdf_restart(
+        path,
+        context,
+        expected_provenance={"fixture": "fixed_q"},
+    )
+    assert causal_five_field_fixed_q_bdf_restarts_equal(restart, loaded)
 
 
-def test_bdf2_correction_uses_exact_equal_q_history() -> None:
+def test_synthetic_equal_q_history_does_not_certify_increment_primary_bdf2() -> None:
     context, base, columns, _rows, keywords = _problem()
     tangent = causal_five_field_monolithic_frozen_tangent(
         context,
@@ -362,8 +410,37 @@ def test_bdf2_correction_uses_exact_equal_q_history() -> None:
         maximum_exact_jacobian_refreshes=2,
         **keywords,
     )
-    assert result.accepted, result.message
+    assert not result.accepted
     assert result.order == 2
-    assert result.maximum_scaled_residual <= 1.0e-8
-    assert result.evaluation.maximum_constraint_relative_defect <= 1.0e-12
-    assert _relative(result.scaled_rate_per_s, constrained_rate) <= 3.0e-2
+    assert "nonlinear_root" in result.acceptance.failure_reasons
+    with pytest.raises(ValueError, match="rejected fixed-Q step"):
+        causal_five_field_fixed_q_accepted_history(result)
+
+
+def test_binding_solver_rejects_state_normalized_reaction_channels() -> None:
+    context, base, _columns, _rows, keywords = _problem()
+    dimensions = base.size
+    with pytest.raises(ValueError, match="raw or frozen-normalized"):
+        solve_causal_five_field_fixed_q_bdf(
+            context,
+            base,
+            1.0e-8,
+            np.zeros(dimensions),
+            np.zeros(3),
+            np.eye(dimensions),
+            order=1,
+            history=None,
+            reaction_channel_basis="normalized",  # type: ignore[arg-type]
+            **keywords,
+        )
+
+
+def test_reaction_schur_condition_gate_fails_closed() -> None:
+    context, base, _columns, _rows, keywords = _problem()
+    with pytest.raises(np.linalg.LinAlgError, match="condition gate"):
+        causal_five_field_fixed_q_reaction(
+            context,
+            base,
+            maximum_schur_condition_number=5.0e4,
+            **keywords,
+        )

@@ -65,6 +65,7 @@ class CausalFiveFieldMonolithicStorageIncrement:
     maximum_affine_reconstruction_path_defect: float
     maximum_path_reconstruction_factor_change: float
     minimum_path_reconstruction_factor: float
+    maximum_path_reconstruction_factor: float
     one_flux_reconstruction_for_space_and_storage: bool
     uses_exact_affine_reconstruction_path_derivative: bool
     mapped_storage_is_exact_endpoint_increment: bool
@@ -493,6 +494,7 @@ def causal_five_field_monolithic_storage_increment(
             maximum_affine_reconstruction_path_defect=0.0,
             maximum_path_reconstruction_factor_change=0.0,
             minimum_path_reconstruction_factor=float(np.min(factors)),
+            maximum_path_reconstruction_factor=float(np.max(factors)),
             one_flux_reconstruction_for_space_and_storage=True,
             uses_exact_affine_reconstruction_path_derivative=exact_affine,
             mapped_storage_is_exact_endpoint_increment=True,
@@ -642,6 +644,7 @@ def causal_five_field_monolithic_storage_increment(
             np.max(np.ptp(factors, axis=0))
         ),
         minimum_path_reconstruction_factor=float(np.min(factors)),
+        maximum_path_reconstruction_factor=float(np.max(factors)),
         one_flux_reconstruction_for_space_and_storage=True,
         uses_exact_affine_reconstruction_path_derivative=(
             uses_exact_affine_derivative
