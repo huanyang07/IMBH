@@ -30,7 +30,7 @@ from imri_qpe.layer3_minidisk_1d.causal_inner_fixed_q import (  # noqa: E402
     causal_five_field_fixed_q_augmented_step_matrix,
     evaluate_causal_five_field_fixed_q_bdf,
 )
-from imri_qpe.layer3_minidisk_1d.causal_inner_monolithic_tangent import (  # noqa: E402
+from imri_qpe.layer3_minidisk_1d.causal_inner_monolithic_discrete_tangent import (  # noqa: E402
     causal_five_field_monolithic_discrete_step_matrix,
 )
 
