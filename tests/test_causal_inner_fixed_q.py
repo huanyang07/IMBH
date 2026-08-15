@@ -289,13 +289,21 @@ def test_backward_euler_correction_preserves_q3_and_roundtrips_restart(
         .temporal_storage_uses_direct_rate_action
     )
     assert (
+        result.evaluation.monolithic_evaluation
+        .temporal_storage_uses_exact_primitive_increment
+    )
+    assert (
         result.direct_rate_evaluation.monolithic_evaluation
         .temporal_storage_uses_direct_rate_action
     )
     history = causal_five_field_fixed_q_accepted_history(result)
     np.testing.assert_array_equal(
         history.previous_primitive_increment,
-        result.primitive_charts - base,
+        result.primitive_increment,
+    )
+    np.testing.assert_array_equal(
+        result.primitive_charts,
+        base + result.primitive_increment,
     )
     restart = causal_five_field_fixed_q_bdf_restart(
         result,
@@ -325,7 +333,7 @@ def test_backward_euler_correction_preserves_q3_and_roundtrips_restart(
     assert causal_five_field_fixed_q_bdf_restarts_equal(restart, loaded)
 
 
-def test_synthetic_equal_q_history_does_not_certify_increment_primary_bdf2() -> None:
+def test_synthetic_equal_q_history_root_is_numerically_well_formed() -> None:
     context, base, columns, _rows, keywords = _problem()
     tangent = causal_five_field_monolithic_frozen_tangent(
         context,
@@ -410,11 +418,17 @@ def test_synthetic_equal_q_history_does_not_certify_increment_primary_bdf2() -> 
         maximum_exact_jacobian_refreshes=2,
         **keywords,
     )
-    assert not result.accepted
     assert result.order == 2
-    assert "nonlinear_root" in result.acceptance.failure_reasons
-    with pytest.raises(ValueError, match="rejected fixed-Q step"):
-        causal_five_field_fixed_q_accepted_history(result)
+    assert (
+        result.evaluation.monolithic_evaluation
+        .temporal_storage_uses_exact_primitive_increment
+    )
+    assert result.accepted
+    accepted_history = causal_five_field_fixed_q_accepted_history(result)
+    np.testing.assert_array_equal(
+        accepted_history.previous_primitive_increment,
+        result.primitive_increment,
+    )
 
 
 def test_binding_solver_rejects_state_normalized_reaction_channels() -> None:

@@ -122,6 +122,7 @@ class CausalFiveFieldMonolithicBDFEvaluation:
     maximum_block_ledger_defect: float
     maximum_mapped_endpoint_path_closure_defect: float
     mapped_storage_uses_stable_exact_path_integral: bool
+    temporal_storage_uses_exact_primitive_increment: bool
     temporal_storage_uses_direct_rate_action: bool
     maximum_direct_rate_reconstruction_defect: float
     maximum_direct_rate_partition_defect: float
@@ -216,6 +217,7 @@ def evaluate_causal_five_field_monolithic_bdf(
     path_quadrature_order: int = 6,
     relative_step: float = 2.0e-4,
     stationary_speed_tolerance: float = 1.0e-12,
+    current_primitive_increment: np.ndarray | None = None,
     current_primitive_rate_per_s: np.ndarray | None = None,
 ) -> CausalFiveFieldMonolithicBDFEvaluation:
     """Evaluate one increment-primary BDF1 or BDF2 monolithic residual."""
@@ -242,6 +244,7 @@ def evaluate_causal_five_field_monolithic_bdf(
         path_quadrature_order=path_quadrature_order,
         relative_step=relative_step,
         stationary_speed_tolerance=stationary_speed_tolerance,
+        exact_primitive_increment=current_primitive_increment,
     )
     current = backward_euler.storage_increment
     previous_mapped = (
@@ -274,13 +277,18 @@ def evaluate_causal_five_field_monolithic_bdf(
         primitive_rate = np.asarray(current_primitive_rate_per_s, dtype=float)
         if primitive_rate.shape != old.shape or np.any(~np.isfinite(primitive_rate)):
             raise ValueError("direct storage-rate action is invalid")
+        declared_increment = (
+            new - old
+            if current_primitive_increment is None
+            else np.asarray(current_primitive_increment, dtype=float)
+        )
         increment_scale = max(
-            float(np.linalg.norm(new - old)),
+            float(np.linalg.norm(declared_increment)),
             float(np.linalg.norm(timestep * primitive_rate)),
             np.finfo(float).tiny,
         )
         if (
-            np.linalg.norm((new - old) - timestep * primitive_rate)
+            np.linalg.norm(declared_increment - timestep * primitive_rate)
             / increment_scale
             > 1.0e-10
         ):
@@ -377,6 +385,9 @@ def evaluate_causal_five_field_monolithic_bdf(
             current.maximum_mapped_path_closure_defect
         ),
         mapped_storage_uses_stable_exact_path_integral=True,
+        temporal_storage_uses_exact_primitive_increment=(
+            current_primitive_increment is not None
+        ),
         temporal_storage_uses_direct_rate_action=direct_rate is not None,
         maximum_direct_rate_reconstruction_defect=(
             0.0

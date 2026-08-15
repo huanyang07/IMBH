@@ -1125,6 +1125,7 @@ def evaluate_causal_five_field_fixed_q_bdf(
     constraint_row_scales: np.ndarray | None = None,
     reaction_channel_basis: str = "normalized",
     reaction_channel_transform: np.ndarray | None = None,
+    scaled_primitive_increment: np.ndarray | None = None,
     scaled_rate_per_s: np.ndarray | None = None,
     maximum_schur_condition_number: float = 1.0e8,
 ) -> CausalFiveFieldFixedQBDFEvaluation:
@@ -1152,6 +1153,15 @@ def evaluate_causal_five_field_fixed_q_bdf(
         context,
         order=order,
         history=history,
+        current_primitive_increment=(
+            None
+            if scaled_primitive_increment is None
+            else _columns
+            * np.asarray(
+                scaled_primitive_increment,
+                dtype=float,
+            ).reshape(new.shape)
+        ),
         current_primitive_rate_per_s=(
             None
             if scaled_rate_per_s is None
@@ -1575,6 +1585,7 @@ def solve_causal_five_field_fixed_q_bdf(
             constraint_row_scales=constraint_scales,
             reaction_channel_basis=reaction_channel_basis,
             reaction_channel_transform=channel_transform,
+            scaled_primitive_increment=scaled_increment,
             maximum_schur_condition_number=maximum_schur_condition_number,
         )
         return evaluation.augmented_scaled_residual, evaluation
@@ -1746,7 +1757,10 @@ def solve_causal_five_field_fixed_q_bdf(
             break
     scaled_increment = unknown[:dimensions]
     new = old + (columns.ravel() * scaled_increment).reshape(old.shape)
-    accepted_scaled_increment = ((new - old) / columns).ravel()
+    accepted_scaled_increment = np.asarray(
+        unknown[:dimensions],
+        dtype=float,
+    )
     maximum_residual = float(np.max(np.abs(values)))
     scaled_interval_rate = accepted_scaled_increment / timestep
     scaled_bdf_rate = causal_bdf_weighted_increment(
@@ -1773,6 +1787,7 @@ def solve_causal_five_field_fixed_q_bdf(
         constraint_row_scales=constraint_scales,
         reaction_channel_basis=reaction_channel_basis,
         reaction_channel_transform=channel_transform,
+        scaled_primitive_increment=accepted_scaled_increment,
         scaled_rate_per_s=scaled_interval_rate,
         maximum_schur_condition_number=maximum_schur_condition_number,
     )
@@ -1887,7 +1902,7 @@ def solve_causal_five_field_fixed_q_bdf(
     return CausalFiveFieldFixedQBackwardEulerResult(
         primitive_charts=np.array(new, copy=True),
         primitive_increment=np.asarray(
-            new - old,
+            columns.ravel() * accepted_scaled_increment,
             dtype=float,
         ).reshape(old.shape),
         scaled_rate_per_s=np.asarray(scaled_bdf_rate, dtype=float),
@@ -2071,16 +2086,9 @@ def _validated_fixed_q_restart(
         or not isinstance(restart.provenance, dict)
     ):
         raise ValueError("fixed-Q BDF restart is invalid")
-    expected_increment = current - previous
-    increment_scale = max(
-        float(np.linalg.norm(expected_increment)),
-        float(np.linalg.norm(history.previous_primitive_increment)),
-        np.finfo(float).tiny,
-    )
-    if (
-        np.linalg.norm(expected_increment - history.previous_primitive_increment)
-        / increment_scale
-        > 1.0e-12
+    if not np.array_equal(
+        current,
+        previous + history.previous_primitive_increment,
     ):
         raise ValueError("fixed-Q restart primitive history is inconsistent")
     return CausalFiveFieldFixedQBDFRestart(

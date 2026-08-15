@@ -68,6 +68,7 @@ class CausalFiveFieldMonolithicStorageIncrement:
     maximum_path_reconstruction_factor: float
     one_flux_reconstruction_for_space_and_storage: bool
     uses_exact_affine_reconstruction_path_derivative: bool
+    uses_exact_primitive_increment_path_direction: bool
     mapped_storage_is_exact_endpoint_increment: bool
     responsive_height_is_nonconservative_temporal_product: bool
 
@@ -438,6 +439,7 @@ def causal_five_field_monolithic_storage_increment(
     *,
     temporal_quadrature_order: int = 4,
     reconstruction_directional_step: float = 1.0e-2,
+    exact_primitive_increment: np.ndarray | None = None,
 ) -> CausalFiveFieldMonolithicStorageIncrement:
     """Integrate mapped and responsive-height storage on one common path.
 
@@ -458,6 +460,20 @@ def causal_five_field_monolithic_storage_increment(
     context = context.validated()
     old = _validate_charts(context, old_primitive_charts)
     new = _validate_charts(context, new_primitive_charts)
+    exact_increment = (
+        None
+        if exact_primitive_increment is None
+        else np.asarray(exact_primitive_increment, dtype=float)
+    )
+    if exact_increment is not None:
+        if (
+            exact_increment.shape != old.shape
+            or np.any(~np.isfinite(exact_increment))
+            or not np.array_equal(new, old + exact_increment)
+        ):
+            raise ValueError(
+                "exact primitive increment does not reproduce the endpoint"
+            )
     order = int(temporal_quadrature_order)
     step = float(reconstruction_directional_step)
     if (
@@ -470,6 +486,8 @@ def causal_five_field_monolithic_storage_increment(
 
     nodes = _spatial_nodes(context)
     if np.array_equal(old, new):
+        if exact_increment is not None and np.any(exact_increment != 0.0):
+            raise ValueError("nonzero exact increment is below endpoint resolution")
         _node_values, factors = _node_charts(context, old, nodes)
         zeros = np.zeros_like(old)
         exact_affine = bool(
@@ -497,6 +515,9 @@ def causal_five_field_monolithic_storage_increment(
             maximum_path_reconstruction_factor=float(np.max(factors)),
             one_flux_reconstruction_for_space_and_storage=True,
             uses_exact_affine_reconstruction_path_derivative=exact_affine,
+            uses_exact_primitive_increment_path_direction=(
+                exact_increment is not None
+            ),
             mapped_storage_is_exact_endpoint_increment=True,
             responsive_height_is_nonconservative_temporal_product=True,
         )
@@ -513,7 +534,7 @@ def causal_five_field_monolithic_storage_increment(
     endpoint_increment = new_mapped - old_mapped
     mapped_path = np.zeros_like(endpoint_increment)
     height_path = np.zeros_like(endpoint_increment)
-    direction = new - old
+    direction = new - old if exact_increment is None else exact_increment
     temporal_nodes, temporal_weights = np.polynomial.legendre.leggauss(order)
     path_factors = [old_factors, new_factors]
     affine_defects = []
@@ -529,85 +550,105 @@ def causal_five_field_monolithic_storage_increment(
     )
     exact_node_direction = new_nodes - old_nodes
     uses_exact_affine_derivative = endpoint_affine_branch
-
-    for node, temporal_weight in zip(
-        temporal_nodes,
-        temporal_weights,
-        strict=True,
-    ):
-        fraction = 0.5 * (float(node) + 1.0)
-        weight_t = 0.5 * float(temporal_weight)
-        center = old + fraction * direction
-        sampled_center_nodes, center_factors = _node_charts(
+    if exact_increment is not None:
+        if not endpoint_affine_branch:
+            raise ValueError(
+                "exact-increment storage requires inactive affine reconstruction"
+            )
+        stable = causal_five_field_monolithic_storage_rate(
             context,
-            center,
-            nodes,
+            old,
+            new,
+            exact_increment,
+            temporal_quadrature_order=order,
         )
-        path_factors.append(center_factors)
-        exact_center_nodes = (
-            old_nodes + fraction * exact_node_direction
+        mapped_path = np.asarray(stable.mapped_rate_per_s, dtype=float)
+        height_path = np.asarray(
+            stable.responsive_height_rate_per_s,
+            dtype=float,
         )
-        if endpoint_affine_branch:
-            affine_defects.append(
-                _relative_norm(
-                    sampled_center_nodes - exact_center_nodes,
-                    sampled_center_nodes,
-                    exact_center_nodes,
+        affine_defects.append(
+            stable.maximum_node_reconstruction_relative_defect
+        )
+    else:
+        for node, temporal_weight in zip(
+            temporal_nodes,
+            temporal_weights,
+            strict=True,
+        ):
+            fraction = 0.5 * (float(node) + 1.0)
+            weight_t = 0.5 * float(temporal_weight)
+            center = old + fraction * direction
+            sampled_center_nodes, center_factors = _node_charts(
+                context,
+                center,
+                nodes,
+            )
+            path_factors.append(center_factors)
+            exact_center_nodes = (
+                old_nodes + fraction * exact_node_direction
+            )
+            if endpoint_affine_branch:
+                affine_defects.append(
+                    _relative_norm(
+                        sampled_center_nodes - exact_center_nodes,
+                        sampled_center_nodes,
+                        exact_center_nodes,
+                    )
+                )
+            use_exact_at_node = bool(
+                endpoint_affine_branch
+                and np.array_equal(
+                    center_factors,
+                    np.ones_like(center_factors),
                 )
             )
-        use_exact_at_node = bool(
-            endpoint_affine_branch
-            and np.array_equal(
-                center_factors,
-                np.ones_like(center_factors),
-            )
-        )
-        if use_exact_at_node:
-            center_nodes = exact_center_nodes
-            node_direction = exact_node_direction
-        else:
-            uses_exact_affine_derivative = False
-            plus = center + step * direction
-            minus = center - step * direction
-            plus_nodes, plus_factors = _node_charts(
-                context,
-                plus,
-                nodes,
-            )
-            minus_nodes, minus_factors = _node_charts(
-                context,
-                minus,
-                nodes,
-            )
-            path_factors.extend((plus_factors, minus_factors))
-            center_nodes = sampled_center_nodes
-            node_direction = (plus_nodes - minus_nodes) / (2.0 * step)
-
-        flat = 0
-        for cell, cell_nodes in enumerate(nodes):
-            for radius, weight_r in cell_nodes:
-                local = causal_five_field_analytic_local_maps(
+            if use_exact_at_node:
+                center_nodes = exact_center_nodes
+                node_direction = exact_node_direction
+            else:
+                uses_exact_affine_derivative = False
+                plus = center + step * direction
+                minus = center - step * direction
+                plus_nodes, plus_factors = _node_charts(
                     context,
-                    radius,
-                    center_nodes[flat],
+                    plus,
+                    nodes,
                 )
-                mapped_path[cell] += (
-                    weight_t
-                    * weight_r
-                    * (
-                        local.mapped_conserved_jacobian
-                        @ node_direction[flat]
+                minus_nodes, minus_factors = _node_charts(
+                    context,
+                    minus,
+                    nodes,
+                )
+                path_factors.extend((plus_factors, minus_factors))
+                center_nodes = sampled_center_nodes
+                node_direction = (plus_nodes - minus_nodes) / (2.0 * step)
+
+            flat = 0
+            for cell, cell_nodes in enumerate(nodes):
+                for radius, weight_r in cell_nodes:
+                    local = causal_five_field_analytic_local_maps(
+                        context,
+                        radius,
+                        center_nodes[flat],
                     )
-                )
-                height_path[cell] += (
-                    weight_t
-                    * weight_r
-                    * (
-                        local.vertical_storage_matrix
-                        @ node_direction[flat]
+                    mapped_path[cell] += (
+                        weight_t
+                        * weight_r
+                        * (
+                            local.mapped_conserved_jacobian
+                            @ node_direction[flat]
+                        )
                     )
-                )
-                flat += 1
+                    height_path[cell] += (
+                        weight_t
+                        * weight_r
+                        * (
+                            local.vertical_storage_matrix
+                            @ node_direction[flat]
+                        )
+                    )
+                    flat += 1
 
     mapped_scale = max(
         float(np.linalg.norm(endpoint_increment)),
@@ -648,6 +689,9 @@ def causal_five_field_monolithic_storage_increment(
         one_flux_reconstruction_for_space_and_storage=True,
         uses_exact_affine_reconstruction_path_derivative=(
             uses_exact_affine_derivative
+        ),
+        uses_exact_primitive_increment_path_direction=(
+            exact_increment is not None
         ),
         mapped_storage_is_exact_endpoint_increment=True,
         responsive_height_is_nonconservative_temporal_product=True,
@@ -797,6 +841,7 @@ def evaluate_causal_five_field_monolithic_backward_euler(
     path_quadrature_order: int = 6,
     relative_step: float = DEFAULT_COORDINATE_PRINCIPAL_RELATIVE_STEP,
     stationary_speed_tolerance: float = 1.0e-12,
+    exact_primitive_increment: np.ndarray | None = None,
 ) -> CausalFiveFieldMonolithicDAEEvaluation:
     """Evaluate one production-neutral monolithic backward-Euler residual."""
 
@@ -813,6 +858,7 @@ def evaluate_causal_five_field_monolithic_backward_euler(
         new,
         temporal_quadrature_order=temporal_quadrature_order,
         reconstruction_directional_step=reconstruction_directional_step,
+        exact_primitive_increment=exact_primitive_increment,
     )
     stationary = causal_five_field_radial_candidate_ledger(
         context,

@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import replace
 
 import numpy as np
+import pytest
 
 from imri_qpe.layer3_minidisk_1d import (
     causal_five_field_monolithic_storage_increment,
@@ -86,6 +87,30 @@ def test_monolithic_storage_is_zero_and_reversible() -> None:
     assert forward.responsive_height_is_nonconservative_temporal_product
     assert forward.minimum_path_reconstruction_factor == 1.0
     assert forward.maximum_path_reconstruction_factor_change == 0.0
+
+
+def test_monolithic_storage_accepts_an_exact_increment_direction() -> None:
+    context, charts = _context_and_charts()
+    increment = _small_increment(charts)
+    new = charts + increment
+    stable = causal_five_field_monolithic_storage_increment(
+        context,
+        charts,
+        new,
+        temporal_quadrature_order=6,
+        exact_primitive_increment=increment,
+    )
+    assert stable.uses_exact_primitive_increment_path_direction
+    assert stable.uses_exact_affine_reconstruction_path_derivative
+    assert stable.maximum_mapped_path_closure_defect <= 2.0e-8
+    assert stable.minimum_path_reconstruction_factor == 1.0
+    with pytest.raises(ValueError, match="does not reproduce the endpoint"):
+        causal_five_field_monolithic_storage_increment(
+            context,
+            charts,
+            new,
+            exact_primitive_increment=1.01 * increment,
+        )
 
 
 def test_responsive_height_storage_is_a_nonexact_temporal_one_form() -> None:
