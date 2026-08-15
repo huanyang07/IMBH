@@ -1,0 +1,50 @@
+{
+  "binding_temporal_form": "exact_increment_primary",
+  "case_order": [
+    "primary_coarse",
+    "heldout_coarse",
+    "primary_middle",
+    "heldout_middle",
+    "primary_fine",
+    "heldout_fine"
+  ],
+  "fixed_Q_micro_solver_authorized": false,
+  "gates": {
+    "maximum_H_over_R": 0.12,
+    "maximum_Q3_relative_defect": 1e-12,
+    "maximum_complete_Jacobian_assemblies": 1,
+    "maximum_ledger_relative_defect": 1e-12,
+    "maximum_path_reconstruction_factor": 1.000000000001,
+    "maximum_raw_Schur_condition_number": 100000000.0,
+    "maximum_scaled_primitive_change": 0.005,
+    "maximum_scaled_residual": 1e-10,
+    "maximum_storage_parity_relative_defect": 1e-09,
+    "minimum_path_reconstruction_factor": 0.999999999999,
+    "minimum_reaction_action_convergence_order": 0.9,
+    "minimum_scattering_optical_depth": 1.0,
+    "minimum_state_rate_convergence_order": 0.9
+  },
+  "may_change_physical_equations": false,
+  "may_relax_any_gate": false,
+  "minimum_reaction_action_convergence_order": 0.9,
+  "minimum_state_rate_convergence_order": 0.9,
+  "one_Q_execution_manifest_authorized": false,
+  "reduced_slow_evolution_authorized": false,
+  "remaining_cases": [
+    "heldout_coarse",
+    "primary_middle",
+    "heldout_middle",
+    "primary_fine",
+    "heldout_fine"
+  ],
+  "require_bitwise_BDF2_replay": true,
+  "require_bitwise_restart_roundtrip": true,
+  "required_schur_solve_method": "row_column_equilibrated_LU_refined_1",
+  "reused_case": "primary_coarse",
+  "schema_version": 1,
+  "timesteps_seconds": [
+    1e-07,
+    5e-08,
+    2.5e-08
+  ]
+}
