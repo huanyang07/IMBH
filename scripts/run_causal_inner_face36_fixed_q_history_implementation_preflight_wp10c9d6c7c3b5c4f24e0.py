@@ -225,6 +225,9 @@ def main() -> None:
     execution_commit = _git("rev-parse", "HEAD")
     execution_tree = _git("rev-parse", "HEAD^{tree}")
     tracked_clean = _tracked_tree_is_clean()
+    untracked_files_at_start = _git(
+        "ls-files", "--others", "--exclude-standard"
+    ).splitlines()
     if not tracked_clean:
         raise RuntimeError("implementation preflight requires a clean tracked tree")
     contract = _implementation_contract()
@@ -267,9 +270,7 @@ def main() -> None:
             "execution_commit": execution_commit,
             "execution_tree": execution_tree,
             "tracked_worktree_clean_at_start": tracked_clean,
-            "untracked_files_at_start": _git(
-                "ls-files", "--others", "--exclude-standard"
-            ).splitlines(),
+            "untracked_files_at_start": untracked_files_at_start,
             "source_hashes": {
                 relative: _sha(ROOT / relative) for relative in SOURCE_FILES
             },
