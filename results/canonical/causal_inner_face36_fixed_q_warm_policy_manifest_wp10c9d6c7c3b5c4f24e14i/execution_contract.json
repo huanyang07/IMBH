@@ -1,0 +1,52 @@
+{
+  "classifications": [
+    "warm_policy_scientific_and_cost_passed",
+    "warm_policy_scientific_passed_cost_failed",
+    "warm_policy_failed"
+  ],
+  "cost_gate": {
+    "residual_evaluation_ratio_is_reported": true,
+    "wall_time_per_accepted_root_is_binding": true,
+    "warm_to_same_history_cold_wall_ratio_maximum": 0.75,
+    "zero_exact_refresh_required": false
+  },
+  "definitions_only": true,
+  "hard_stops": {
+    "no_fast_averaging": true,
+    "no_fixed_Q_micro_solver": true,
+    "no_full_primary_retry": true,
+    "no_heldout_continuation": true,
+    "no_more_than_one_warm_root": true,
+    "no_operational_timestep_search": true,
+    "no_physical_microburst": true,
+    "no_reduced_slow_evolution": true,
+    "no_second_warm_continuation": true
+  },
+  "preserved_parent_classification": "bounded_continuation_failed",
+  "same_history_cold_control": {
+    "endpoint_scaled_state_tolerance": 1e-08,
+    "fresh_exact_matrix_at_iteration_zero": true,
+    "identical_start_state_history_target_scales_and_predictor": true,
+    "maximum_exact_assemblies": 2,
+    "reaction_action_relative_tolerance": 1e-08,
+    "required_only_after_warm_scientific_pass": true
+  },
+  "schema_version": 1,
+  "warm_root": {
+    "all_existing_physical_and_history_gates": true,
+    "carried_matrix_at_iteration_zero": true,
+    "forced_initial_exact_assembly": false,
+    "maximum_exact_assemblies": 1,
+    "maximum_line_search_iterations": 12,
+    "maximum_newton_iterations": 8,
+    "maximum_scaled_residual": 1e-10,
+    "primary_trigger_iteration": 6,
+    "refresh_policy": "on_line_search_failure_or_iteration_reserve",
+    "root_label": "warm_1",
+    "secondary_trigger_failed_relative_backtracks": 4,
+    "seed": "hash_locked_accepted_cold_1_checkpoint",
+    "state": "primary_20ms",
+    "timestep_seconds": 1e-07
+  },
+  "work_package": "WP10c9d6c7c3b5c4f24e14i"
+}
