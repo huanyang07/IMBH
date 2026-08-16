@@ -1,0 +1,45 @@
+{
+  "decisive_hashes": {
+    "endpoint_replay.json": "3bc322596850df4933785993fef41c1bede7c944c3fe7f5856923fdc14bb21e3",
+    "endpoint_replay_arrays.npz": "572191af0f98aff86dbfccdcff1b0b05faa734fc28674736e5211c6e497d675e",
+    "failure_aware_accounting.json": "425c2c04ecab262e9061e50f586b48fef0aee6a98282c293764cce922afab090",
+    "legacy_counter_reconstruction.json": "f951bab28ded8f57efc1117c68effad0eacd3b3ac50a8d9eca1f9e178cc26e8b",
+    "provenance.json": "2f0851724c50d0a3cad381f52c40e1a06d90a96533b77f0293f8d8f07844cda4",
+    "summary.json": "a23b52301849f6c01f1cca15d6b8cfd4de9b3f47153967a37179660e36f76aab"
+  },
+  "endpoint_replay": {
+    "bitwise_residual_reproduction": true,
+    "candidate_state_bitwise_increment_closure": true,
+    "committed_maximum_scaled_residual": 5.708109263036221e-09,
+    "continuation_state_constructed": false,
+    "elapsed_wall_seconds": 121.30502479197457,
+    "exact_jacobian_assembled": false,
+    "legacy_counter_semantics": "legacy_untrusted_aggregate",
+    "legacy_solver_schema_version": 1,
+    "maximum_residual_array_absolute_difference": 0.0,
+    "nonlinear_root_executed": false,
+    "replayed_maximum_scaled_residual": 5.708109263036221e-09
+  },
+  "summary": {
+    "accounting_repair_certified": true,
+    "authorized_next_action": "freeze_separate_nonpropagating_exact_endpoint_diagnostic_manifest",
+    "classification": "warm_failure_accounting_and_endpoint_replay_certified_endpoint_diagnostic_manifest_authorized",
+    "endpoint_diagnostic_execution_authorized": false,
+    "endpoint_diagnostic_manifest_authorized": true,
+    "endpoint_residual_replay_bitwise": true,
+    "exact_jacobian_assembled": false,
+    "fast_averaging_authorized": false,
+    "fixed_Q_micro_solver_authorized": false,
+    "full_primary_retry_authorized": false,
+    "heldout_continuation_authorized": false,
+    "nonlinear_root_executed": false,
+    "parent_classification_preserved": "bounded_continuation_failed",
+    "passed": true,
+    "physical_microburst_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "schema_version": 1,
+    "trajectory_executed": false,
+    "warm_policy_execution_authorized": false,
+    "work_package": "WP10c9d6c7c3b5c4f24e14f"
+  }
+}
