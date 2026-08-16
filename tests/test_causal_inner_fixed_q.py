@@ -19,6 +19,9 @@ from imri_qpe.layer3_minidisk_1d import (
     pack_causal_five_field_state,
 )
 from imri_qpe.layer3_minidisk_1d.causal_inner_fixed_q import (
+    _broyden_counters_after_exact,
+    _broyden_counters_after_update,
+    _fixed_q_exclusive_profile,
     _stable_fixed_q_schur_inverse,
     causal_five_field_fixed_q_accepted_history,
     causal_five_field_fixed_q_augmented_step_matrix,
@@ -499,6 +502,14 @@ def test_bdf2_continuation_roundtrip_rebases_and_warm_starts(tmp_path) -> None:
     assert continuation.nonlinear_solver_state.serialized_multiplier_basis == (
         "raw_reaction_channels"
     )
+    assert continuation.nonlinear_solver_state.schema_version == 2
+    assert continuation.nonlinear_solver_state.counter_semantics == (
+        "exact_reset_v2"
+    )
+    assert (
+        continuation.nonlinear_solver_state.total_broyden_updates
+        >= continuation.nonlinear_solver_state.broyden_updates_since_exact
+    )
     path = tmp_path / "fixed_q_continuation.npz"
     timing = {}
     save_causal_five_field_fixed_q_continuation_state(
@@ -591,6 +602,57 @@ def test_bdf2_continuation_roundtrip_rebases_and_warm_starts(tmp_path) -> None:
     assert causal_five_field_fixed_q_nonlinear_solver_states_equal(
         warm.nonlinear_solver_state,
         warm.nonlinear_solver_state,
+    )
+
+
+def test_broyden_update_age_resets_at_every_exact_assembly() -> None:
+    total, since = _broyden_counters_after_exact(0, 0)
+    for _ in range(3):
+        total, since = _broyden_counters_after_update(total, since)
+    assert (total, since) == (3, 3)
+    total, since = _broyden_counters_after_exact(total, since)
+    assert (total, since) == (3, 0)
+    total, since = _broyden_counters_after_update(total, since)
+    assert (total, since) == (4, 1)
+
+
+def test_exclusive_profile_separates_nested_residual_work() -> None:
+    values = {
+        "total_wall_seconds": 20.0,
+        "root_residual_wall_seconds": 8.0,
+        "line_search_residual_wall_seconds": 6.0,
+        "physical_acceptance_wall_seconds": 2.0,
+        "root_monolithic_residual_wall_seconds": 3.0,
+        "root_reaction_construction_wall_seconds": 4.0,
+        "root_descriptor_assembly_wall_seconds": 1.0,
+        "root_descriptor_sparse_lu_wall_seconds": 0.5,
+        "line_search_monolithic_residual_wall_seconds": 2.0,
+        "line_search_reaction_construction_wall_seconds": 3.0,
+        "line_search_descriptor_assembly_wall_seconds": 0.75,
+        "line_search_descriptor_sparse_lu_wall_seconds": 0.25,
+        "acceptance_monolithic_residual_wall_seconds": 0.5,
+        "acceptance_reaction_construction_wall_seconds": 1.0,
+        "acceptance_descriptor_assembly_wall_seconds": 0.25,
+        "acceptance_descriptor_sparse_lu_wall_seconds": 0.1,
+        "base_reaction_construction_wall_seconds": 0.5,
+        "base_descriptor_assembly_wall_seconds": 0.1,
+        "base_descriptor_sparse_lu_wall_seconds": 0.05,
+        "exact_jacobian_wall_seconds": 1.0,
+        "bordered_linear_solve_wall_seconds": 0.25,
+        "root_monolithic_residual_call_count": 1,
+        "line_search_monolithic_residual_call_count": 2,
+    }
+    counts, exclusive = _fixed_q_exclusive_profile(values)
+    assert counts["root_monolithic_residual"] == 1
+    assert counts["line_search_monolithic_residual"] == 2
+    assert np.isclose(exclusive["root_residual_wrapper"], 1.0)
+    assert np.isclose(exclusive["line_search_residual_wrapper"], 1.0)
+    assert np.isclose(exclusive["monolithic_residual"], 5.5)
+    assert np.isclose(exclusive["descriptor_assembly"], 2.1)
+    assert np.isclose(exclusive["descriptor_sparse_lu"], 0.9)
+    assert np.isclose(
+        sum(exclusive.values()),
+        values["total_wall_seconds"],
     )
 
 

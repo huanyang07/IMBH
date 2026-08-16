@@ -161,9 +161,11 @@ class CausalFiveFieldFixedQNonlinearSolverState:
     previous_timestep_seconds: float
     matrix_age_steps: int
     broyden_updates_since_exact: int
+    total_broyden_updates: int
+    counter_semantics: str
     serialized_multiplier_basis: str
     provenance: dict
-    schema_version: int = 1
+    schema_version: int = 2
 
 
 @dataclass(frozen=True)
@@ -180,6 +182,8 @@ class CausalFiveFieldFixedQStepProfiling:
     bordered_linear_solve_wall_seconds: float
     line_search_residual_wall_seconds: float
     physical_acceptance_wall_seconds: float
+    activity_call_counts: dict[str, int]
+    exclusive_wall_seconds: dict[str, float]
 
 
 @dataclass(frozen=True)
@@ -286,6 +290,129 @@ def _accumulate_timing(
 ) -> None:
     if accumulator is not None:
         accumulator[key] = float(accumulator.get(key, 0.0) + seconds)
+        count_key = key.replace("_wall_seconds", "_call_count")
+        accumulator[count_key] = int(accumulator.get(count_key, 0) + 1)
+
+
+def _merge_timing(
+    accumulator: dict[str, float] | None,
+    local: dict[str, float],
+    context: str,
+) -> None:
+    if accumulator is None:
+        return
+    for key, value in local.items():
+        if key.endswith("_wall_seconds"):
+            accumulator[key] = float(accumulator.get(key, 0.0) + value)
+            contextual = f"{context}_{key}"
+            accumulator[contextual] = float(
+                accumulator.get(contextual, 0.0) + value
+            )
+        elif key.endswith("_call_count"):
+            accumulator[key] = int(accumulator.get(key, 0) + value)
+            contextual = f"{context}_{key}"
+            accumulator[contextual] = int(
+                accumulator.get(contextual, 0) + value
+            )
+
+
+def _broyden_counters_after_exact(
+    total_updates: int,
+    updates_since_last_exact: int,
+) -> tuple[int, int]:
+    """Reset only the exact-age counter after an exact matrix assembly."""
+
+    total = int(total_updates)
+    since = int(updates_since_last_exact)
+    if total < 0 or since < 0 or since > total:
+        raise ValueError("fixed-Q Broyden counters are invalid")
+    return total, 0
+
+
+def _broyden_counters_after_update(
+    total_updates: int,
+    updates_since_last_exact: int,
+) -> tuple[int, int]:
+    """Advance total and since-last-exact Broyden counters together."""
+
+    total = int(total_updates)
+    since = int(updates_since_last_exact)
+    if total < 0 or since < 0 or since > total:
+        raise ValueError("fixed-Q Broyden counters are invalid")
+    return total + 1, since + 1
+
+
+def _fixed_q_exclusive_profile(
+    values: dict[str, float],
+) -> tuple[dict[str, int], dict[str, float]]:
+    """Return call counts and non-overlapping timed subcomponents."""
+
+    counts = {
+        key.removesuffix("_call_count"): int(value)
+        for key, value in values.items()
+        if key.endswith("_call_count")
+    }
+
+    def _component(context: str, component: str) -> float:
+        return float(values.get(f"{context}_{component}_wall_seconds", 0.0))
+
+    contexts = ("base", "root", "line_search", "acceptance")
+    monolithic = sum(
+        _component(context, "monolithic_residual") for context in contexts
+    )
+    reaction = sum(
+        _component(context, "reaction_construction") for context in contexts
+    )
+    descriptor = sum(
+        _component(context, "descriptor_assembly") for context in contexts
+    )
+    sparse_lu = sum(
+        _component(context, "descriptor_sparse_lu") for context in contexts
+    )
+    root_total = float(values.get("root_residual_wall_seconds", 0.0))
+    line_total = float(
+        values.get("line_search_residual_wall_seconds", 0.0)
+    )
+    root_nested = _component("root", "monolithic_residual") + _component(
+        "root", "reaction_construction"
+    )
+    line_nested = _component(
+        "line_search", "monolithic_residual"
+    ) + _component("line_search", "reaction_construction")
+    acceptance_total = float(
+        values.get("physical_acceptance_wall_seconds", 0.0)
+    )
+    acceptance_nested = _component(
+        "acceptance", "monolithic_residual"
+    ) + _component("acceptance", "reaction_construction")
+    exclusive = {
+        "root_residual_wrapper": max(0.0, root_total - root_nested),
+        "line_search_residual_wrapper": max(0.0, line_total - line_nested),
+        "monolithic_residual": max(0.0, monolithic),
+        "reaction_without_descriptor_or_sparse_lu": max(
+            0.0,
+            reaction - descriptor - sparse_lu,
+        ),
+        "descriptor_assembly": max(0.0, descriptor),
+        "descriptor_sparse_lu": max(0.0, sparse_lu),
+        "exact_jacobian": max(
+            0.0,
+            float(values.get("exact_jacobian_wall_seconds", 0.0)),
+        ),
+        "bordered_linear_solve": max(
+            0.0,
+            float(values.get("bordered_linear_solve_wall_seconds", 0.0)),
+        ),
+        "physical_acceptance_other": max(
+            0.0, acceptance_total - acceptance_nested
+        ),
+    }
+    exclusive["solver_other"] = max(
+        0.0,
+        float(values.get("total_wall_seconds", 0.0))
+        - sum(exclusive.values()),
+    )
+    return counts, exclusive
 
 
 def _array_sha256(array: np.ndarray) -> str:
@@ -1537,6 +1664,9 @@ def _validated_fixed_q_nonlinear_solver_state(
     previous_timestep = float(solver_state.previous_timestep_seconds)
     age = int(solver_state.matrix_age_steps)
     updates = int(solver_state.broyden_updates_since_exact)
+    total_updates = int(solver_state.total_broyden_updates)
+    counter_semantics = str(solver_state.counter_semantics)
+    schema_version = int(solver_state.schema_version)
     provenance = solver_state.provenance
     expected_hashes = _solver_state_compatibility_hashes(
         anchor,
@@ -1574,10 +1704,20 @@ def _validated_fixed_q_nonlinear_solver_state(
         or age < 0
         or updates != solver_state.broyden_updates_since_exact
         or updates < 0
+        or total_updates != solver_state.total_broyden_updates
+        or total_updates < updates
+        or schema_version not in (1, 2)
+        or (
+            schema_version == 1
+            and counter_semantics != "legacy_untrusted_aggregate"
+        )
+        or (
+            schema_version == 2
+            and counter_semantics != "exact_reset_v2"
+        )
         or solver_state.serialized_multiplier_basis != "raw_reaction_channels"
         or not isinstance(provenance, dict)
         or provenance.get("compatibility_hashes") != expected_hashes
-        or solver_state.schema_version != 1
     ):
         raise ValueError("fixed-Q nonlinear solver state is invalid")
     return CausalFiveFieldFixedQNonlinearSolverState(
@@ -1597,9 +1737,11 @@ def _validated_fixed_q_nonlinear_solver_state(
         previous_timestep_seconds=previous_timestep,
         matrix_age_steps=age,
         broyden_updates_since_exact=updates,
+        total_broyden_updates=total_updates,
+        counter_semantics=counter_semantics,
         serialized_multiplier_basis="raw_reaction_channels",
         provenance=dict(provenance),
-        schema_version=1,
+        schema_version=schema_version,
     )
 
 
@@ -1795,6 +1937,7 @@ def solve_causal_five_field_fixed_q_bdf(
             "fixed-Q nonlinear solve requires raw or frozen-normalized "
             "reaction channels"
         )
+    base_timing: dict[str, float] = {}
     base_reaction = (
         causal_five_field_fixed_q_reaction(
             context,
@@ -1807,11 +1950,12 @@ def solve_causal_five_field_fixed_q_bdf(
             guard_end_parent_face=guard_end_parent_face,
             parent_cell_count=parent_cell_count,
             maximum_schur_condition_number=maximum_schur_condition_number,
-            timing_accumulator=profiling_values,
+            timing_accumulator=base_timing,
         )
         if base_reaction is None
         else base_reaction
     )
+    _merge_timing(profiling_values, base_timing, "base")
     if base_reaction.q3_value.shape != (3,):
         raise ValueError("fixed-Q BE base reaction is invalid")
     target = (
@@ -1953,6 +2097,7 @@ def solve_causal_five_field_fixed_q_bdf(
         candidate = old + (
             columns.ravel() * scaled_increment
         ).reshape(old.shape)
+        local_timing: dict[str, float] = {}
         evaluation = evaluate_causal_five_field_fixed_q_bdf(
             old,
             candidate,
@@ -1974,7 +2119,12 @@ def solve_causal_five_field_fixed_q_bdf(
             reaction_channel_transform=channel_transform,
             scaled_primitive_increment=scaled_increment,
             maximum_schur_condition_number=maximum_schur_condition_number,
-            timing_accumulator=profiling_values,
+            timing_accumulator=local_timing,
+        )
+        _merge_timing(
+            profiling_values,
+            local_timing,
+            "line_search" if line_search else "root",
         )
         residual_seconds = time.perf_counter() - residual_began
         _accumulate_timing(
@@ -1986,6 +2136,12 @@ def solve_causal_five_field_fixed_q_bdf(
             _accumulate_timing(
                 profiling_values,
                 "line_search_residual_wall_seconds",
+                residual_seconds,
+            )
+        else:
+            _accumulate_timing(
+                profiling_values,
+                "root_residual_wall_seconds",
                 residual_seconds,
             )
         return evaluation.augmented_scaled_residual, evaluation
@@ -2002,6 +2158,14 @@ def solve_causal_five_field_fixed_q_bdf(
     linear_residuals = []
     exact_jacobian_refreshes = 0
     broyden_updates = 0
+    total_broyden_updates = (
+        0 if carried_state is None else carried_state.total_broyden_updates
+    )
+    broyden_updates_since_last_exact = (
+        0
+        if carried_state is None
+        else carried_state.broyden_updates_since_exact
+    )
     linear_solves = 0
     message = "maximum Newton iterations reached"
     success = False
@@ -2010,6 +2174,8 @@ def solve_causal_five_field_fixed_q_bdf(
 
     def assemble_exact_matrix(reason: str) -> np.ndarray:
         nonlocal exact_jacobian_refreshes
+        nonlocal total_broyden_updates
+        nonlocal broyden_updates_since_last_exact
         exact_began = time.perf_counter()
         candidate_state = old + (
             columns.ravel() * unknown[:dimensions]
@@ -2039,6 +2205,13 @@ def solve_causal_five_field_fixed_q_bdf(
             reaction=evaluation.reaction,
         )
         exact_jacobian_refreshes += 1
+        (
+            total_broyden_updates,
+            broyden_updates_since_last_exact,
+        ) = _broyden_counters_after_exact(
+            total_broyden_updates,
+            broyden_updates_since_last_exact,
+        )
         _accumulate_timing(
             profiling_values,
             "exact_jacobian_wall_seconds",
@@ -2179,6 +2352,13 @@ def solve_causal_five_field_fixed_q_bdf(
                         secant_step,
                     ) / denominator
                     broyden_updates += 1
+                    (
+                        total_broyden_updates,
+                        broyden_updates_since_last_exact,
+                    ) = _broyden_counters_after_update(
+                        total_broyden_updates,
+                        broyden_updates_since_last_exact,
+                    )
                 unknown = candidate_unknown
                 values = candidate_values
                 evaluation = candidate_evaluation
@@ -2228,6 +2408,7 @@ def solve_causal_five_field_fixed_q_bdf(
         previous_scaled_increment,
         coefficients,
     ) / timestep
+    acceptance_timing: dict[str, float] = {}
     direct_rate_evaluation = evaluate_causal_five_field_fixed_q_bdf(
         old,
         new,
@@ -2250,8 +2431,9 @@ def solve_causal_five_field_fixed_q_bdf(
         scaled_primitive_increment=accepted_scaled_increment,
         scaled_rate_per_s=scaled_interval_rate,
         maximum_schur_condition_number=maximum_schur_condition_number,
-        timing_accumulator=profiling_values,
+        timing_accumulator=acceptance_timing,
     )
+    _merge_timing(profiling_values, acceptance_timing, "acceptance")
     storage_parity_defect = _fixed_q_storage_parity_defect(
         evaluation,
         direct_rate_evaluation,
@@ -2389,11 +2571,6 @@ def solve_causal_five_field_fixed_q_bdf(
         if carried_state is None or exact_jacobian_refreshes > 0
         else carried_state.matrix_age_steps + 1
     )
-    updates_since_exact = (
-        broyden_updates
-        if carried_state is None or exact_jacobian_refreshes > 0
-        else carried_state.broyden_updates_since_exact + broyden_updates
-    )
     state_provenance = (
         {} if solver_state_provenance is None else dict(solver_state_provenance)
     )
@@ -2405,6 +2582,11 @@ def solve_causal_five_field_fixed_q_bdf(
             columns,
             rows,
         )
+    )
+    counter_is_trusted = bool(
+        carried_state is None
+        or carried_state.counter_semantics == "exact_reset_v2"
+        or exact_jacobian_refreshes > 0
     )
     solver_state = CausalFiveFieldFixedQNonlinearSolverState(
         bordered_matrix_raw_reaction_coordinates=raw_matrix,
@@ -2429,9 +2611,16 @@ def solve_causal_five_field_fixed_q_bdf(
             else float(validated_history.previous_timestep_seconds)
         ),
         matrix_age_steps=matrix_age,
-        broyden_updates_since_exact=updates_since_exact,
+        broyden_updates_since_exact=broyden_updates_since_last_exact,
+        total_broyden_updates=total_broyden_updates,
+        counter_semantics=(
+            "exact_reset_v2"
+            if counter_is_trusted
+            else "legacy_untrusted_aggregate"
+        ),
         serialized_multiplier_basis="raw_reaction_channels",
         provenance=state_provenance,
+        schema_version=2 if counter_is_trusted else 1,
     )
     solver_state = _validated_fixed_q_nonlinear_solver_state(
         context,
@@ -2442,8 +2631,13 @@ def solve_causal_five_field_fixed_q_bdf(
         "physical_acceptance_wall_seconds",
         time.perf_counter() - acceptance_began,
     )
+    total_wall_seconds = time.perf_counter() - total_began
+    profiling_values["total_wall_seconds"] = total_wall_seconds
+    activity_call_counts, exclusive_wall_seconds = (
+        _fixed_q_exclusive_profile(profiling_values)
+    )
     profiling = CausalFiveFieldFixedQStepProfiling(
-        total_wall_seconds=time.perf_counter() - total_began,
+        total_wall_seconds=total_wall_seconds,
         residual_wall_seconds=profiling_values.get(
             "residual_wall_seconds",
             0.0,
@@ -2480,6 +2674,8 @@ def solve_causal_five_field_fixed_q_bdf(
             "physical_acceptance_wall_seconds",
             0.0,
         ),
+        activity_call_counts=activity_call_counts,
+        exclusive_wall_seconds=exclusive_wall_seconds,
     )
     return CausalFiveFieldFixedQBackwardEulerResult(
         primitive_charts=np.array(new, copy=True),
@@ -3139,6 +3335,8 @@ def causal_five_field_fixed_q_nonlinear_solver_states_equal(
         and left.matrix_age_steps == right.matrix_age_steps
         and left.broyden_updates_since_exact
         == right.broyden_updates_since_exact
+        and left.total_broyden_updates == right.total_broyden_updates
+        and left.counter_semantics == right.counter_semantics
         and left.serialized_multiplier_basis
         == right.serialized_multiplier_basis
         and left.provenance == right.provenance
@@ -3262,6 +3460,13 @@ def save_causal_five_field_fixed_q_continuation_state(
                         solver.broyden_updates_since_exact,
                         dtype="<i8",
                     ),
+                    "solver_total_broyden_updates": np.asarray(
+                        solver.total_broyden_updates,
+                        dtype="<i8",
+                    ),
+                    "solver_counter_semantics": np.asarray(
+                        solver.counter_semantics
+                    ),
                     "solver_serialized_multiplier_basis": np.asarray(
                         solver.serialized_multiplier_basis
                     ),
@@ -3302,6 +3507,22 @@ def load_causal_five_field_fixed_q_continuation_state(
         has_solver = bool(source["has_nonlinear_solver_state"])
         solver = None
         if has_solver:
+            solver_schema_version = int(source["solver_schema_version"])
+            if solver_schema_version == 1:
+                legacy_updates = int(
+                    source["solver_broyden_updates_since_exact"]
+                )
+                total_broyden_updates = legacy_updates
+                counter_semantics = "legacy_untrusted_aggregate"
+            elif solver_schema_version == 2:
+                total_broyden_updates = int(
+                    source["solver_total_broyden_updates"]
+                )
+                counter_semantics = str(
+                    source["solver_counter_semantics"].item()
+                )
+            else:
+                raise ValueError("fixed-Q solver-state schema is unsupported")
             solver = CausalFiveFieldFixedQNonlinearSolverState(
                 bordered_matrix_raw_reaction_coordinates=np.asarray(
                     source["solver_bordered_matrix_raw"],
@@ -3343,13 +3564,15 @@ def load_causal_five_field_fixed_q_continuation_state(
                 broyden_updates_since_exact=int(
                     source["solver_broyden_updates_since_exact"]
                 ),
+                total_broyden_updates=total_broyden_updates,
+                counter_semantics=counter_semantics,
                 serialized_multiplier_basis=str(
                     source["solver_serialized_multiplier_basis"].item()
                 ),
                 provenance=json.loads(
                     str(source["solver_provenance_json"].item())
                 ),
-                schema_version=int(source["solver_schema_version"]),
+                schema_version=solver_schema_version,
             )
         continuation = CausalFiveFieldFixedQContinuationState(
             current_primitive_charts=np.asarray(

@@ -28,12 +28,13 @@ def _read(path: Path) -> dict:
 def test_c4f24e14d_frozen_contract_authorizes_only_primary(monkeypatch) -> None:
     for name, value in RUNNER.THREAD_ENVIRONMENT.items():
         monkeypatch.setenv(name, value)
-    frozen = RUNNER._validate_frozen_contract(require_clean=False)
-    summary = frozen["summary"]
+    summary = _read(RUNNER.MANIFEST_DIRECTORY / "summary.json")
     assert summary["primary_bounded_continuation_execution_authorized"]
     assert not summary["heldout_continuation_authorized"]
     assert not summary["fixed_Q_micro_solver_authorized"]
     assert not summary["reduced_slow_evolution_authorized"]
+    with pytest.raises(RuntimeError, match="frozen source changed"):
+        RUNNER._validate_frozen_contract(require_clean=False)
 
 
 def test_c4f24e14d_root_policy_is_cold_then_warm() -> None:
@@ -108,6 +109,47 @@ def test_c4f24e14d_scaled_comparisons() -> None:
         ),
         0.1,
     )
+
+
+def test_c4f24e14d_failure_aware_accounting_excludes_rejected_root() -> None:
+    accepted = {
+        "accepted": True,
+        "maximum_reaction_ledger_relative_defect": 2.0e-13,
+        "maximum_constraint_action_ledger_relative_defect": 3.0e-13,
+    }
+    rejected = {
+        "accepted": False,
+        "maximum_reaction_ledger_relative_defect": 5.0e-13,
+        "maximum_constraint_action_ledger_relative_defect": 7.0e-13,
+    }
+    accounting = RUNNER._failure_aware_root_accounting(
+        {"cold_1": accepted, "warm_1": rejected}
+    )
+    assert accounting["attempted_roots"] == ["cold_1", "warm_1"]
+    assert accounting["accepted_roots"] == ["cold_1"]
+    assert accounting["rejected_roots"] == ["warm_1"]
+    assert accounting["accepted_trajectory_horizon_seconds"] == 1.0e-7
+    assert accounting["accepted_trajectory_cumulative_ledger"] == 3.0e-13
+    assert accounting["rejected_candidate_diagnostic_ledgers"] == {
+        "warm_1": 7.0e-13
+    }
+    assert not accounting["planned_ladder_complete"]
+
+
+def test_c4f24e14d_legacy_checkpoint_marks_counter_untrusted() -> None:
+    checkpoint = CANONICAL / "checkpoint_cold_1.npz"
+    if not checkpoint.exists():
+        pytest.skip("canonical e14d checkpoint is recorded after execution")
+    data = RUNNER.e1._state_data("primary_20ms")
+    loaded = RUNNER.load_causal_five_field_fixed_q_continuation_state(
+        checkpoint,
+        data["context"],
+    )
+    solver = loaded.nonlinear_solver_state
+    assert solver is not None
+    assert solver.schema_version == 1
+    assert solver.counter_semantics == "legacy_untrusted_aggregate"
+    assert solver.total_broyden_updates == solver.broyden_updates_since_exact
 
 
 def test_c4f24e14d_canonical_package_closes_when_present() -> None:

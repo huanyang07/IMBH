@@ -382,6 +382,12 @@ def _result_metrics(result, events: list[dict], wall: float, process: float) -> 
         "Broyden_updates_since_exact": (
             result.nonlinear_solver_state.broyden_updates_since_exact
         ),
+        "total_Broyden_updates": (
+            result.nonlinear_solver_state.total_broyden_updates
+        ),
+        "Broyden_counter_semantics": (
+            result.nonlinear_solver_state.counter_semantics
+        ),
         "solver_profiling": asdict(result.profiling),
         "root_wall_seconds": wall,
         "root_process_seconds": process,
@@ -672,6 +678,46 @@ def _classification(scientific_passed: bool, cost_passed: bool) -> str:
     return "bounded_continuation_and_reuse_passed"
 
 
+def _failure_aware_root_accounting(main_metrics: dict) -> dict:
+    labels = [
+        label
+        for label in ("cold_1", "warm_1", "warm_2", "warm_3")
+        if label in main_metrics
+    ]
+    accepted = [label for label in labels if main_metrics[label]["accepted"]]
+    rejected = [label for label in labels if not main_metrics[label]["accepted"]]
+    accepted_ledger = sum(
+        max(
+            main_metrics[label]["maximum_reaction_ledger_relative_defect"],
+            main_metrics[label][
+                "maximum_constraint_action_ledger_relative_defect"
+            ],
+        )
+        for label in accepted
+    )
+    rejected_ledgers = {
+        label: max(
+            main_metrics[label]["maximum_reaction_ledger_relative_defect"],
+            main_metrics[label][
+                "maximum_constraint_action_ledger_relative_defect"
+            ],
+        )
+        for label in rejected
+    }
+    planned_complete = bool(len(labels) == 4 and not rejected)
+    return {
+        "attempted_roots": labels,
+        "accepted_roots": accepted,
+        "rejected_roots": rejected,
+        "accepted_trajectory_horizon_seconds": (
+            len(accepted) * TIMESTEP_SECONDS
+        ),
+        "accepted_trajectory_cumulative_ledger": accepted_ledger,
+        "rejected_candidate_diagnostic_ledgers": rejected_ledgers,
+        "planned_ladder_complete": planned_complete,
+    }
+
+
 def _run() -> dict:
     frozen = _validate_frozen_contract(require_clean=True)
     identity = _execution_identity()
@@ -875,15 +921,13 @@ def _run() -> dict:
         if not half_passed:
             failure_stage = "matched_endpoint_half_step_audit"
 
-    cumulative_ledger = sum(
-        max(
-            metrics["maximum_reaction_ledger_relative_defect"],
-            metrics["maximum_constraint_action_ledger_relative_defect"],
-        )
-        for metrics in main_metrics.values()
-    )
+    root_accounting = _failure_aware_root_accounting(main_metrics)
+    cumulative_ledger = root_accounting[
+        "accepted_trajectory_cumulative_ledger"
+    ]
     ledger_passed = bool(
-        len(main_metrics) == 4 and cumulative_ledger <= 4.0e-12
+        root_accounting["planned_ladder_complete"]
+        and cumulative_ledger <= 4.0e-12
     )
     scientific_passed = bool(scientific_passed and ledger_passed)
     if not ledger_passed and failure_stage is None:
@@ -910,7 +954,11 @@ def _run() -> dict:
         "replay": replay_metrics,
         "same_history_cold_shadow": shadow_metrics,
         "matched_endpoint_half_step_audit": half_metrics,
-        "cumulative_absolute_ledger_budget": cumulative_ledger,
+        "root_accounting": root_accounting,
+        "cumulative_absolute_ledger_defect": cumulative_ledger,
+        "cumulative_ledger_complete": root_accounting[
+            "planned_ladder_complete"
+        ],
         "cumulative_ledger_passed": ledger_passed,
         "warm_roots_without_exact_refresh": warm_without_refresh,
         "identity": identity,
@@ -978,10 +1026,19 @@ def _canonicalize(metrics: dict, data: dict, main_results: dict) -> None:
         "scientific_passed": metrics["scientific_passed"],
         "cost_passed": metrics["cost_passed"],
         "trajectory_executed": True,
-        "new_main_BDF2_roots": len(metrics["main_roots"]),
-        "new_main_horizon_seconds": (
-            len(metrics["main_roots"]) * TIMESTEP_SECONDS
+        "attempted_main_BDF2_roots": len(
+            metrics["root_accounting"]["attempted_roots"]
         ),
+        "accepted_main_BDF2_roots": len(
+            metrics["root_accounting"]["accepted_roots"]
+        ),
+        "rejected_main_BDF2_roots": len(
+            metrics["root_accounting"]["rejected_roots"]
+        ),
+        "accepted_main_horizon_seconds": metrics["root_accounting"]
+        ["accepted_trajectory_horizon_seconds"],
+        "planned_ladder_complete": metrics["root_accounting"]
+        ["planned_ladder_complete"],
         "heldout_continuation_manifest_authorized": bool(
             metrics["classification"]
             == "bounded_continuation_and_reuse_passed"
