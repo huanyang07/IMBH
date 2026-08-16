@@ -1,0 +1,64 @@
+{
+  "bound_limited_initial_alpha": 1.0,
+  "carried_linear_solve_relative_residual": 2.0007801097855803e-14,
+  "corrected_candidate_audit": {
+    "checks": {
+      "Q3": true,
+      "complete_residual": true,
+      "constraint_action_ledger": true,
+      "incoming_excision": true,
+      "physical_height": true,
+      "physical_optical_depth": true,
+      "primitive_change": true,
+      "reaction_conditioning": true,
+      "reaction_ledger": true,
+      "reconstruction": true,
+      "storage_parity": true
+    },
+    "failure_reasons": [],
+    "incoming_excision_characteristics": 0,
+    "maximum_H_over_R": 0.09783748204272863,
+    "maximum_Q3_relative_defect": 2.8604873761813977e-16,
+    "maximum_constraint_action_ledger_relative_defect": 1.3322943312274142e-16,
+    "maximum_path_reconstruction_factor": 1.0,
+    "maximum_raw_Schur_solve_relative_defect": 6.982416507505268e-14,
+    "maximum_reaction_ledger_relative_defect": 1.8894429697741555e-16,
+    "maximum_scaled_primitive_change": 0.0042798165186276665,
+    "maximum_scaled_residual": 6.919126059694603e-13,
+    "maximum_storage_parity_relative_defect": 2.366753846808583e-14,
+    "minimum_path_reconstruction_factor": 1.0,
+    "minimum_scattering_optical_depth": 19.25431742390132,
+    "passed": true,
+    "raw_Schur_condition_number": 34351.447857783496,
+    "raw_Schur_rank": 3,
+    "scaled_bdf_rate_norm": 107289.37824584528,
+    "scaled_reaction_action_norm": 107343.04711244114
+  },
+  "exact_jacobian_wall_seconds": 104.96253383392468,
+  "exact_linear_solve_relative_residual": 7.522536952618608e-15,
+  "initial_euclidean_merit": 1.9630876436333994e-08,
+  "initial_maximum_scaled_residual": 5.708109263036221e-09,
+  "line_search_trials": [
+    {
+      "alpha": 1.0,
+      "euclidean_merit": 1.3273720406433536e-12,
+      "factor": 1.0,
+      "maximum_scaled_residual": 6.919126059694603e-13
+    }
+  ],
+  "matrix_and_correction_comparison": {
+    "carried_matrix_action_defect_on_exact_correction": 1.1126238933346602,
+    "correction_angle_radians": 0.48491522210369264,
+    "correction_cosine": 0.8847144700932275,
+    "exact_jacobian_action_defect_on_carried_correction": 0.894168677728411,
+    "exact_to_carried_correction_norm_ratio": 2.0517510819363585,
+    "full_matrix_relative_frobenius_defect_diagnostic_only": 2.7696772996108675e-05
+  },
+  "nonpropagation": {
+    "accepted_trajectory_horizon_seconds_added": 0.0,
+    "candidate_entered_history": false,
+    "continuation_state_constructed": false
+  },
+  "positive_diagnosis": true,
+  "schema_version": 1
+}
