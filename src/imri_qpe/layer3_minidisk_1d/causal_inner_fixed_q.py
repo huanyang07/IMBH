@@ -342,6 +342,37 @@ def _broyden_counters_after_update(
     return total + 1, since + 1
 
 
+def _fixed_q_iteration_reserve_refresh_due(
+    policy: str,
+    iteration: int,
+    maximum_iterations: int,
+    exact_assemblies: int,
+    carried_matrix: bool,
+) -> bool:
+    """Return whether a warm root has reached its two-correction reserve."""
+
+    return bool(
+        policy == "on_line_search_failure_or_iteration_reserve"
+        and carried_matrix
+        and int(exact_assemblies) == 0
+        and int(iteration) == int(maximum_iterations) - 2
+    )
+
+
+def _fixed_q_early_backtrack_refresh_due(
+    policy: str,
+    failed_backtracks: int,
+    exact_assemblies: int,
+) -> bool:
+    """Return whether four failed relative backtracks request a refresh."""
+
+    return bool(
+        policy == "on_line_search_failure_or_iteration_reserve"
+        and int(exact_assemblies) == 0
+        and int(failed_backtracks) >= 4
+    )
+
+
 def _fixed_q_exclusive_profile(
     values: dict[str, float],
 ) -> tuple[dict[str, int], dict[str, float]]:
@@ -1822,7 +1853,9 @@ def solve_causal_five_field_fixed_q_bdf(
     refresh_exact_jacobian: bool = False,
     maximum_exact_jacobian_refreshes: int | None = None,
     exact_jacobian_refresh_policy: Literal[
-        "per_iteration", "on_line_search_failure"
+        "per_iteration",
+        "on_line_search_failure",
+        "on_line_search_failure_or_iteration_reserve",
     ] = "per_iteration",
     initial_nonlinear_solver_state: (
         CausalFiveFieldFixedQNonlinearSolverState | None
@@ -1930,6 +1963,7 @@ def solve_causal_five_field_fixed_q_bdf(
     if exact_jacobian_refresh_policy not in {
         "per_iteration",
         "on_line_search_failure",
+        "on_line_search_failure_or_iteration_reserve",
     }:
         raise ValueError("fixed-Q exact-Jacobian refresh policy is invalid")
     if reaction_channel_basis not in {"raw", "frozen_normalized"}:
@@ -2271,6 +2305,23 @@ def solve_causal_five_field_fixed_q_bdf(
                 if exact_jacobian_refreshes == 0
                 else "per_iteration"
             )
+        elif (
+            refresh_exact_jacobian
+            and reaction_channel_basis in {"raw", "frozen_normalized"}
+            and _fixed_q_iteration_reserve_refresh_due(
+                exact_jacobian_refresh_policy,
+                iteration,
+                int(maximum_newton_iterations),
+                exact_jacobian_refreshes,
+                carried_state is not None,
+            )
+            and (
+                maximum_exact_jacobian_refreshes is None
+                or exact_jacobian_refreshes
+                < int(maximum_exact_jacobian_refreshes)
+            )
+        ):
+            matrix = assemble_exact_matrix("iteration_reserve")
         try:
             linear_began = time.perf_counter()
             correction, linear_residual = _equilibrated_dense_solve(
@@ -2318,6 +2369,7 @@ def solve_causal_five_field_fixed_q_bdf(
             else min(1.0, max(0.0, 0.99 * alpha))
         )
         accepted_correction = False
+        early_backtrack_refresh = False
         merit = float(np.linalg.norm(values))
         for _line_search in range(int(maximum_line_search_iterations)):
             candidate_unknown = unknown + alpha * correction
@@ -2371,13 +2423,23 @@ def solve_causal_five_field_fixed_q_bdf(
                         evaluation,
                     )
                 break
+            if _fixed_q_early_backtrack_refresh_due(
+                exact_jacobian_refresh_policy,
+                _line_search + 1,
+                exact_jacobian_refreshes,
+            ):
+                early_backtrack_refresh = True
+                break
             alpha *= 0.5
         if not accepted_correction:
             if float(np.max(np.abs(values))) <= residual_tolerance:
                 success = True
                 message = "residual gate passed at line-search floor"
             elif (
-                exact_jacobian_refresh_policy == "on_line_search_failure"
+                (
+                    exact_jacobian_refresh_policy == "on_line_search_failure"
+                    or early_backtrack_refresh
+                )
                 and refresh_exact_jacobian
                 and reaction_channel_basis in {"raw", "frozen_normalized"}
                 and (
@@ -2387,7 +2449,11 @@ def solve_causal_five_field_fixed_q_bdf(
                 )
                 and iteration + 2 <= int(maximum_newton_iterations)
             ):
-                matrix = assemble_exact_matrix("line_search_failure")
+                matrix = assemble_exact_matrix(
+                    "early_backtrack_failure"
+                    if early_backtrack_refresh
+                    else "line_search_failure"
+                )
                 message = "fresh exact Jacobian after line-search failure"
                 continue
             else:

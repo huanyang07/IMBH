@@ -21,7 +21,9 @@ from imri_qpe.layer3_minidisk_1d import (
 from imri_qpe.layer3_minidisk_1d.causal_inner_fixed_q import (
     _broyden_counters_after_exact,
     _broyden_counters_after_update,
+    _fixed_q_early_backtrack_refresh_due,
     _fixed_q_exclusive_profile,
+    _fixed_q_iteration_reserve_refresh_due,
     _stable_fixed_q_schur_inverse,
     causal_five_field_fixed_q_accepted_history,
     causal_five_field_fixed_q_augmented_step_matrix,
@@ -614,6 +616,17 @@ def test_broyden_update_age_resets_at_every_exact_assembly() -> None:
     assert (total, since) == (3, 0)
     total, since = _broyden_counters_after_update(total, since)
     assert (total, since) == (4, 1)
+
+
+def test_warm_refresh_triggers_are_prospective_and_bounded() -> None:
+    policy = "on_line_search_failure_or_iteration_reserve"
+    assert not _fixed_q_iteration_reserve_refresh_due(policy, 5, 8, 0, True)
+    assert _fixed_q_iteration_reserve_refresh_due(policy, 6, 8, 0, True)
+    assert not _fixed_q_iteration_reserve_refresh_due(policy, 6, 8, 1, True)
+    assert not _fixed_q_iteration_reserve_refresh_due(policy, 6, 8, 0, False)
+    assert not _fixed_q_early_backtrack_refresh_due(policy, 3, 0)
+    assert _fixed_q_early_backtrack_refresh_due(policy, 4, 0)
+    assert not _fixed_q_early_backtrack_refresh_due(policy, 4, 1)
 
 
 def test_exclusive_profile_separates_nested_residual_work() -> None:
