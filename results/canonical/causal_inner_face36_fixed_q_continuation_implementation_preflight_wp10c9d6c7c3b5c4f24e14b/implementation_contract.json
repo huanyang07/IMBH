@@ -1,0 +1,21 @@
+{
+  "all_checks_passed": true,
+  "binding_step_multiplier_basis": "frozen_normalized",
+  "canonical_solver_state_multiplier_basis": "raw_reaction_channels",
+  "checks": {
+    "arbitrary_BDF2_checkpoint": true,
+    "continuation_after_any_accepted_order": true,
+    "legacy_BDF1_restart_preserved": true,
+    "module_remains_production_neutral": true,
+    "profiling_counters": true,
+    "raw_solver_matrix_serialization": true,
+    "reaction_coordinate_rebase": true,
+    "rejected_history_fails_closed": true,
+    "solver_compatibility_hashes": true,
+    "warm_initial_exact_assembly_optional": true
+  },
+  "physical_operator_changed": false,
+  "production_defaults_changed": false,
+  "schema_version": 1,
+  "warm_exact_refresh_policy": "line_search_failure_only"
+}

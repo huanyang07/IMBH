@@ -1,0 +1,40 @@
+{
+  "canonical_seed_continuation_sha256": "929f844ecd1dba520bcdffdeab4e8876c5842d536032ca8cb2d77bfe609cd653",
+  "execution_commit": "041662f61f84d3653cecd383400f2682fb09d641",
+  "execution_tree": "61e69855cced557d7bb6c1b761e3e1040e9bd279",
+  "numpy": "2.3.5",
+  "parent_artifact_hashes": {
+    "SHA256SUMS.txt": "62ec32ff6d5ea956f5ab53e5bdb8b8b3f3c71e41099a6160f3746e59f73728f1",
+    "execution_manifest.json": "db5a7b9acc96673afb145183a36978c536fbd8b30ad5dc6548fca4df75c71d54",
+    "parent_authorization.json": "0d4c018d9a318cca0a5767e41d7f61b8abcf4863496a14f856713cb62fcb54cc",
+    "provenance.json": "bca014e4b3e44af3bbbf5ac4f77060fd30b40ea5263c15b1e28359ce79f0f4a8",
+    "seed_inventory.json": "0681c617bb529a32f46002db825868427263f1dd9e5319f1a87dcd113397777b",
+    "summary.json": "2f1089e5a5ccadbf729961d80727b2732811481a5b0d99b52139689c0484a58f"
+  },
+  "platform": "macOS-14.8.3-arm64-arm-64bit",
+  "python": "3.12.13 (main, Aug  7 2026, 02:15:23) [Clang 22.1.3 ]",
+  "schema_version": 1,
+  "seed_artifact_hashes": {
+    "SHA256SUMS.txt": "c0194393c7e76f067847baddd7eb35d09aef732aea72c18a9935a4146db9efe4",
+    "contract.json": "ca1fda955c9a3362caa37a8e84abd471df2c3e03126cfa3419820c761e36d802",
+    "decisive_arrays.npz": "f5d31e6950c733405c8e46b159ef8ebc561f0f63afcbcac36a9a9ac9b270a945",
+    "metrics.json": "a6620acd3f0848133be5f42faa65c50b44c26cde188560cbdaa9f9ff09d4af9d",
+    "provenance.json": "812bd0d9e227b028d536ed9dd9ec895d9e90d23c7a5a277bd6b987de43279c15",
+    "summary.json": "83c881662094ef98ecc3c69ed913695ca47fb218c3647274f2580dd7c5848c6d"
+  },
+  "source_hashes": {
+    "scripts/run_causal_inner_face36_fixed_q_continuation_implementation_preflight_wp10c9d6c7c3b5c4f24e14b.py": "099c8bf1602a4081edbe30c808fb8ea50371572cdfe2b4446fb3ccc50b003c36",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_fixed_q.py": "709ed7f3fb53b84cd95677561746c49214663d65062fb0859ccff3d8660393bd",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_monolithic_bdf.py": "b6fdf1bafda43669ddb0210b069baa474a6ea98018fdb2f57d8a60ea3cc77dc5",
+    "tests/test_causal_inner_face36_fixed_q_adaptive_refresh_refined_ladder_wp10c9d6c7c3b5c4f24e13.py": "97adba9e7fe1d5c7ab44a469c0813171fc39f603f5ca3a0cbb400bcdec147832",
+    "tests/test_causal_inner_face36_fixed_q_continuation_implementation_preflight_wp10c9d6c7c3b5c4f24e14b.py": "e2d9ca4a6949d228c3a6c006fc222ef794c9857d8c5d4a5ace2e87c768285d92",
+    "tests/test_causal_inner_fixed_q.py": "5a221ee203167df4f94f0214370e05d68d80b6f7d4b7f40fb12c2d226a03b3b8"
+  },
+  "thread_environment": {
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "tracked_worktree_clean_at_start": true
+}
