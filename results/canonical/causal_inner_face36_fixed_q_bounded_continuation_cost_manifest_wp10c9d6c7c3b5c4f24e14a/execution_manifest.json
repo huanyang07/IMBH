@@ -1,0 +1,139 @@
+{
+  "authorization_boundaries": {
+    "bounded_continuation_execution_authorized": false,
+    "fast_averaging_authorized": false,
+    "fixed_Q_micro_solver_authorized": false,
+    "heldout_continuation_authorized": false,
+    "operational_timestep_study_authorized": false,
+    "physical_microburst_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "authorized_objective": "implementation_only_fixed_Q_continuation_state_and_solver_reuse_preflight",
+  "definitions_only": true,
+  "implementation_contract": {
+    "bitwise_save_load_required": true,
+    "continuation_state_valid_after_orders": [
+      1,
+      2
+    ],
+    "persist_Q3_target_and_constraint_scales": true,
+    "persist_complete_mapped_storage_history": true,
+    "persist_complete_responsive_height_history": true,
+    "persist_current_and_previous_primitive_states": true,
+    "persist_current_and_previous_timesteps": true,
+    "persist_final_bordered_Broyden_matrix": true,
+    "persist_matrix_anchor_order_timestep_age_and_hashes": true,
+    "persist_multiplier_predictor": true,
+    "persist_reaction_basis_and_transform": true,
+    "production_defaults_may_change": false,
+    "rejected_step_may_define_history": false
+  },
+  "inherited_step_gates": {
+    "incoming_excision_characteristics": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_Q3_relative_defect": 1e-12,
+    "maximum_ledger_relative_defect": 1e-12,
+    "maximum_path_reconstruction_factor": 1.000000000001,
+    "maximum_raw_Schur_condition_number": 100000000.0,
+    "maximum_scaled_primitive_change": 0.005,
+    "maximum_scaled_residual": 1e-10,
+    "maximum_storage_parity_relative_defect": 1e-09,
+    "minimum_path_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0
+  },
+  "parent_metadata_roles": {
+    "contract.json": "input_pre_ladder_execution_contract",
+    "summary.json": "post_ladder_final_authorization"
+  },
+  "parent_work_package": "WP10c9d6c7c3b5c4f24e13a",
+  "profiling_contract": {
+    "exclusive_timing_categories": [
+      "monolithic_residual",
+      "fixed_Q_reaction_construction",
+      "descriptor_assembly_and_sparse_LU",
+      "exact_complete_Jacobian",
+      "bordered_linear_solve",
+      "line_search_residuals",
+      "physical_acceptance_audit",
+      "checkpoint_write",
+      "checkpoint_read"
+    ],
+    "pin_thread_environment": true,
+    "record_Broyden_updates": true,
+    "record_checkpoint_bytes": true,
+    "record_exact_assemblies": true,
+    "record_failed_line_search_trials": true,
+    "record_function_evaluations": true,
+    "record_matrix_age": true,
+    "record_residual_margin": true,
+    "record_wall_and_process_time": true,
+    "same_history_cost_control_required": true
+  },
+  "prospective_decision_gates": {
+    "maximum_cumulative_absolute_ledger_budget": 4e-12,
+    "maximum_half_step_reaction_action_relative_difference": 0.1,
+    "maximum_half_step_state_difference_relative_to_full_step_change": 0.1,
+    "maximum_same_history_warm_to_cold_wall_time_ratio": 0.75,
+    "maximum_warm_cold_reaction_action_relative_difference": 1e-08,
+    "maximum_warm_cold_scaled_state_difference": 1e-08,
+    "minimum_warm_roots_without_exact_refresh": 2
+  },
+  "prospective_primary_pilot": {
+    "bitwise_two_step_suffix_replay_required": true,
+    "checkpoint_every_accepted_endpoint": true,
+    "cold_roots": 1,
+    "cold_shadow_may_define_history": false,
+    "conditional_matched_endpoint_half_step_audit": true,
+    "execution_authorized_by_this_manifest": false,
+    "first_root_requires_initial_exact_matrix": true,
+    "maximum_warm_exact_refreshes_per_root": 1,
+    "new_BDF2_roots": 4,
+    "new_physical_horizon_seconds": 4e-07,
+    "pilot_interpretation": "infrastructure_and_cost_only",
+    "restart_before_warm_root_index": 2,
+    "same_history_cold_shadow_at_warm_root_index": 2,
+    "warm_refresh_only_after_complete_line_search_failure": true,
+    "warm_roots": 3,
+    "warm_roots_force_initial_exact_matrix": false
+  },
+  "reaction_coordinate_contract": {
+    "matrix_multiplier_column_rebase": "J_lambda_new_equals_J_lambda_old_times_inverse_T_old_times_T_new",
+    "multiplier_coordinate_equality_binding": false,
+    "physical_raw_coefficients": "mu_equals_T_lambda",
+    "physical_reaction_action_invariance_required": true,
+    "predictor_rebase": "lambda_new_equals_inverse_T_new_times_T_old_times_lambda_old",
+    "serialized_solver_matrix_multiplier_basis": "raw_reaction_channels",
+    "step_residual_multiplier_basis": "frozen_normalized"
+  },
+  "result_classifications": {
+    "scientific_and_cost_pass": "bounded_continuation_and_reuse_passed",
+    "scientific_fail": "bounded_continuation_failed",
+    "scientific_pass_cost_fail": "bounded_continuation_valid_cost_failed"
+  },
+  "schema_version": 1,
+  "seed": {
+    "canonical_artifact": "causal_inner_face36_fixed_q_adaptive_refresh_primary_wp10c9d6c7c3b5c4f24e11",
+    "complete_history_policy": "recompute_the_declared_straight_primitive_path_storage_integrals_from_hash_validated_canonical_BDF1_BDF2_states_and_freeze_them;_if_exact_reconstruction_cannot_be_certified_rerun_one_authentic_coarse_startup",
+    "layout": "middle",
+    "required_complete_history_arrays": [
+      "bdf2_previous_mapped_storage_increment",
+      "bdf2_previous_responsive_height_storage_increment",
+      "bdf2_previous_timestep_seconds"
+    ],
+    "required_root_arrays": [
+      "bdf1_primitive_charts",
+      "bdf1_primitive_increment",
+      "bdf1_scaled_rate_per_s",
+      "bdf1_multipliers",
+      "bdf2_primitive_charts",
+      "bdf2_primitive_increment",
+      "bdf2_scaled_rate_per_s",
+      "bdf2_multipliers",
+      "bdf2_scaled_reaction_rate_action_per_s"
+    ],
+    "state": "primary_20ms",
+    "synthetic_or_projected_history_forbidden": true,
+    "timestep_seconds": 1e-07
+  },
+  "trajectory_may_execute": false
+}

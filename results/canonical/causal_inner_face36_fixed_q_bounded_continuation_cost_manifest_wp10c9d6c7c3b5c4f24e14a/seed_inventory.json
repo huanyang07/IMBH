@@ -1,0 +1,39 @@
+{
+  "available_arrays": [
+    "bdf1_augmented_scaled_residual",
+    "bdf1_multipliers",
+    "bdf1_primitive_charts",
+    "bdf1_primitive_increment",
+    "bdf1_scaled_interval_rate_per_s",
+    "bdf1_scaled_rate_per_s",
+    "bdf1_scaled_reaction_rate_action_per_s",
+    "bdf2_augmented_scaled_residual",
+    "bdf2_multipliers",
+    "bdf2_primitive_charts",
+    "bdf2_primitive_increment",
+    "bdf2_scaled_interval_rate_per_s",
+    "bdf2_scaled_rate_per_s",
+    "bdf2_scaled_reaction_rate_action_per_s"
+  ],
+  "canonical_artifact": "causal_inner_face36_fixed_q_adaptive_refresh_primary_wp10c9d6c7c3b5c4f24e11",
+  "canonical_root_arrays_complete": true,
+  "complete_storage_history_present": false,
+  "required_complete_history_arrays": [
+    "bdf2_previous_mapped_storage_increment",
+    "bdf2_previous_responsive_height_storage_increment",
+    "bdf2_previous_timestep_seconds"
+  ],
+  "required_root_arrays": [
+    "bdf1_primitive_charts",
+    "bdf1_primitive_increment",
+    "bdf1_scaled_rate_per_s",
+    "bdf1_multipliers",
+    "bdf2_primitive_charts",
+    "bdf2_primitive_increment",
+    "bdf2_scaled_rate_per_s",
+    "bdf2_multipliers",
+    "bdf2_scaled_reaction_rate_action_per_s"
+  ],
+  "resolution_required_before_execution": "exact_path_reconstruction_certificate_or_authentic_startup_rerun",
+  "schema_version": 1
+}
