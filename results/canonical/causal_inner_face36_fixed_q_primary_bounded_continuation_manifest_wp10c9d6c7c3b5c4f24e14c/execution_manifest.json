@@ -1,0 +1,222 @@
+{
+  "authorized_execution": {
+    "case": "primary_20ms",
+    "fixed_Q_coordinates": [
+      "M",
+      "J",
+      "E"
+    ],
+    "interpretation": "continuation_infrastructure_and_cost_only",
+    "layout": "middle",
+    "new_main_BDF2_roots": 4,
+    "new_main_horizon_seconds": 4e-07,
+    "timestep_seconds": 1e-07
+  },
+  "classification_contract": {
+    "cost_failure_may_not_override_scientific_pass": true,
+    "scientific_and_cost_pass": "bounded_continuation_and_reuse_passed",
+    "scientific_fail": "bounded_continuation_failed",
+    "scientific_failure_may_not_be_reclassified_as_cost_failure": true,
+    "scientific_pass_cost_fail": "bounded_continuation_valid_cost_failed"
+  },
+  "definitions_only": true,
+  "execution_order": [
+    "validate_committed_manifest_sources_parents_seed_and_thread_env",
+    "load_and_bitwise_roundtrip_canonical_seed",
+    "run_cold_1_then_warm_1_then_warm_2_then_warm_3_fail_closed",
+    "restart_after_warm_1_and_replay_warm_2_then_warm_3_bitwise",
+    "run_same_history_cold_shadow_for_warm_2_without_propagation",
+    "run_two_cold_half_steps_from_warm_3_start_without_propagation",
+    "classify_scientific_validity_before_cost",
+    "canonicalize_all_pass_or_failure_evidence"
+  ],
+  "hard_stops": {
+    "no_fast_averaging": true,
+    "no_fixed_Q_micro_solver": true,
+    "no_gate_relaxation": true,
+    "no_heldout_continuation": true,
+    "no_operational_timestep_search": true,
+    "no_physical_microburst": true,
+    "no_reduced_slow_evolution": true,
+    "no_rejected_step_in_history": true,
+    "no_stale_or_optional_local_predictor": true,
+    "no_undeclared_retry": true
+  },
+  "inherited_step_gates": {
+    "incoming_excision_characteristics": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_Q3_relative_defect": 1e-12,
+    "maximum_ledger_relative_defect": 1e-12,
+    "maximum_path_reconstruction_factor": 1.000000000001,
+    "maximum_raw_Schur_condition_number": 100000000.0,
+    "maximum_scaled_primitive_change": 0.005,
+    "maximum_scaled_residual": 1e-10,
+    "maximum_storage_parity_relative_defect": 1e-09,
+    "minimum_path_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "raw_Schur_rank": 3
+  },
+  "main_root_sequence": [
+    {
+      "index": 1,
+      "initial_exact_complete_matrix_required": true,
+      "label": "cold_1",
+      "maximum_exact_assemblies": 2,
+      "may_define_main_history": true,
+      "solver_mode": "cold",
+      "start_checkpoint": "canonical_seed"
+    },
+    {
+      "index": 2,
+      "initial_exact_complete_matrix_required": false,
+      "label": "warm_1",
+      "maximum_exact_assemblies": 1,
+      "may_define_main_history": true,
+      "solver_mode": "carried_raw_coordinate_Broyden",
+      "start_checkpoint": "cold_1"
+    },
+    {
+      "index": 3,
+      "initial_exact_complete_matrix_required": false,
+      "label": "warm_2",
+      "maximum_exact_assemblies": 1,
+      "may_define_main_history": true,
+      "solver_mode": "carried_raw_coordinate_Broyden",
+      "start_checkpoint": "warm_1"
+    },
+    {
+      "index": 4,
+      "initial_exact_complete_matrix_required": false,
+      "label": "warm_3",
+      "maximum_exact_assemblies": 1,
+      "may_define_main_history": true,
+      "solver_mode": "carried_raw_coordinate_Broyden",
+      "start_checkpoint": "warm_2"
+    }
+  ],
+  "matched_endpoint_half_step_audit": {
+    "conditional_on_main_and_replay_scientific_pass": true,
+    "each_half_step_initial_exact_complete_matrix_required": true,
+    "full_step_root": "warm_3",
+    "half_steps_may_define_main_history": false,
+    "half_timestep_seconds": 5e-08,
+    "maximum_exact_assemblies_per_half_step": 2,
+    "maximum_reaction_action_relative_difference": 0.1,
+    "maximum_state_difference_relative_to_full_step_change": 0.1,
+    "number_of_cold_half_steps": 2,
+    "start_checkpoint": "after_warm_2",
+    "variable_step_BDF2_coefficients_required": true
+  },
+  "parent_work_packages": [
+    "WP10c9d6c7c3b5c4f24e14a",
+    "WP10c9d6c7c3b5c4f24e14b"
+  ],
+  "predictor_contract": {
+    "multiplier_coordinate_equality_is_binding": false,
+    "physical_reaction_action_invariance_is_binding": true,
+    "raw_multiplier_predictor": "checkpoint_raw_multiplier_predictor",
+    "state_rate_predictor": "checkpoint_previous_primitive_increment_divided_by_primitive_column_scales_and_previous_timestep",
+    "state_rate_predictor_must_be_reconstructed_identically_after_restart": true,
+    "step_multiplier_predictor": "solve_current_reaction_transform_times_lambda_equals_raw_mu"
+  },
+  "profiling_contract": {
+    "checkpoint_read_write_wall_and_process_time_required": true,
+    "event_trace_required": true,
+    "nested_activity_counters_may_not_be_summed_as_exclusive_time": true,
+    "record_Broyden_updates": true,
+    "record_checkpoint_bytes": true,
+    "record_exact_assemblies": true,
+    "record_failed_line_search_trials": true,
+    "record_function_evaluations": true,
+    "record_line_search_trials": true,
+    "record_linear_solves": true,
+    "record_matrix_age": true,
+    "record_residual_margin": true,
+    "root_total_wall_and_process_time_required": true,
+    "solver_activity_wall_counters_required": [
+      "residual",
+      "monolithic_residual",
+      "reaction_construction",
+      "descriptor_assembly",
+      "descriptor_sparse_LU",
+      "exact_complete_Jacobian",
+      "bordered_linear_solve",
+      "line_search_residual",
+      "physical_acceptance"
+    ],
+    "thread_environment": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    }
+  },
+  "restart_replay_contract": {
+    "bitwise_fields": [
+      "primitive_state",
+      "primitive_increment",
+      "mapped_storage_history",
+      "responsive_height_history",
+      "Q3_target_and_scales",
+      "raw_multiplier_predictor",
+      "raw_coordinate_Broyden_matrix_and_anchor",
+      "reaction_action",
+      "accepted_and_rejected_line_search_trace",
+      "decisive_diagnostics"
+    ],
+    "profiling_times_are_excluded_from_bitwise_comparison": true,
+    "replayed_suffix": [
+      "warm_2",
+      "warm_3"
+    ],
+    "restart_checkpoint": "after_warm_1_before_warm_2",
+    "warm_root_indices_are_one_based": true
+  },
+  "same_history_cold_shadow": {
+    "initial_exact_complete_matrix_required": true,
+    "main_root": "warm_2",
+    "maximum_exact_assemblies": 2,
+    "maximum_reaction_action_relative_difference": 1e-08,
+    "maximum_scaled_state_difference": 1e-08,
+    "maximum_warm_to_cold_wall_time_ratio": 0.75,
+    "may_define_main_history": false,
+    "start_checkpoint": "after_warm_1"
+  },
+  "schema_version": 1,
+  "seed_contract": {
+    "carried_nonlinear_matrix_present": false,
+    "complete_history_required": true,
+    "completed_steps": 2,
+    "continuation_artifact": "causal_inner_face36_fixed_q_continuation_implementation_preflight_wp10c9d6c7c3b5c4f24e14b",
+    "continuation_file": "canonical_seed_continuation.npz",
+    "current_order": 2,
+    "first_new_root_must_be_cold": true,
+    "next_order": 2,
+    "previous_timestep_seconds": 1e-07,
+    "seed_state_artifact": "causal_inner_face36_fixed_q_adaptive_refresh_primary_wp10c9d6c7c3b5c4f24e11",
+    "synthetic_or_projected_history_forbidden": true
+  },
+  "solver_contract": {
+    "accepted_history_only": true,
+    "binding_temporal_form": "increment_primary",
+    "direct_rate_form": "post_root_parity_audit_only",
+    "maximum_line_search_trials_per_iteration": 12,
+    "maximum_newton_iterations": 8,
+    "production_defaults_may_change": false,
+    "reaction_channel_basis": "frozen_normalized",
+    "serialized_solver_matrix_basis": "raw_reaction_channels",
+    "warm_matrix_anchor_target_scale_hashes_must_match": true,
+    "warm_matrix_multiplier_columns_rebased_to_current_transform": true,
+    "warm_refresh_policy": "after_complete_line_search_failure_only"
+  },
+  "trajectory_gates": {
+    "all_main_roots_must_pass_before_any_nonpropagating_audit": true,
+    "checkpoint_every_accepted_main_endpoint": true,
+    "checkpoint_roundtrip_bitwise_each_main_endpoint": true,
+    "cumulative_ledger_definition": "sum_over_four_main_roots_of_the_maximum_of_reaction_ledger_and_multiplier_weighted_constraint_action_ledger_defects",
+    "maximum_cumulative_absolute_ledger_budget": 4e-12,
+    "minimum_warm_roots_without_exact_refresh": 2
+  },
+  "trajectory_may_execute_during_freeze": false,
+  "work_package": "WP10c9d6c7c3b5c4f24e14c"
+}
