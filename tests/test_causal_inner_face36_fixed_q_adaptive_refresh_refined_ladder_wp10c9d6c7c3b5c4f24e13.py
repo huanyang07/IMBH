@@ -2,6 +2,7 @@ import hashlib
 import importlib
 import json
 from pathlib import Path
+import subprocess
 import sys
 
 import numpy as np
@@ -100,7 +101,26 @@ def test_c4f24e13a_manifest_checksums_close() -> None:
 
 
 def test_c4f24e13a_frozen_source_and_parent_contract_closes() -> None:
-    RUNNER._validate_frozen_contract(prior_to="primary_middle")
+    RUNNER._validate_checksums(
+        MANIFEST,
+        {
+            "continuous_references.npz",
+            "execution_manifest.json",
+            "provenance.json",
+            "summary.json",
+        },
+    )
+    provenance = _read(MANIFEST, "provenance.json")
+    definition_commit = provenance["definition_commit"]
+    for path, digest in provenance["source_hashes"].items():
+        blob = subprocess.run(
+            ("git", "show", f"{definition_commit}:{path}"),
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+        ).stdout
+        assert hashlib.sha256(blob).hexdigest() == digest
+    RUNNER._parents()
 
 
 def test_c4f24e13a_predictor_is_deterministic_and_self_contained() -> None:

@@ -9,8 +9,10 @@ production integration default.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import hashlib
 import json
 from pathlib import Path
+import time
 from typing import Callable, Literal
 
 import numpy as np
@@ -143,6 +145,44 @@ class CausalFiveFieldFixedQAugmentedStepMatrix:
 
 
 @dataclass(frozen=True)
+class CausalFiveFieldFixedQNonlinearSolverState:
+    """Carried bordered secant matrix in canonical raw-reaction coordinates."""
+
+    bordered_matrix_raw_reaction_coordinates: np.ndarray
+    anchor_primitive_charts: np.ndarray
+    raw_multiplier_predictor: np.ndarray
+    q3_target: np.ndarray
+    constraint_row_scales: np.ndarray
+    primitive_column_scales: np.ndarray
+    conservation_row_scales: np.ndarray
+    source_reaction_channel_transform: np.ndarray
+    order: int
+    current_timestep_seconds: float
+    previous_timestep_seconds: float
+    matrix_age_steps: int
+    broyden_updates_since_exact: int
+    serialized_multiplier_basis: str
+    provenance: dict
+    schema_version: int = 1
+
+
+@dataclass(frozen=True)
+class CausalFiveFieldFixedQStepProfiling:
+    """Wall-time accounting for one constrained nonlinear root."""
+
+    total_wall_seconds: float
+    residual_wall_seconds: float
+    monolithic_residual_wall_seconds: float
+    reaction_construction_wall_seconds: float
+    descriptor_assembly_wall_seconds: float
+    descriptor_sparse_lu_wall_seconds: float
+    exact_jacobian_wall_seconds: float
+    bordered_linear_solve_wall_seconds: float
+    line_search_residual_wall_seconds: float
+    physical_acceptance_wall_seconds: float
+
+
+@dataclass(frozen=True)
 class CausalFiveFieldFixedQBackwardEulerResult:
     """One exact constrained BDF solve used by the consistency audit."""
 
@@ -172,6 +212,8 @@ class CausalFiveFieldFixedQBackwardEulerResult:
     exact_jacobian_assemblies: int
     broyden_updates: int
     linear_solves: int
+    nonlinear_solver_state: CausalFiveFieldFixedQNonlinearSolverState
+    profiling: CausalFiveFieldFixedQStepProfiling
     message: str
 
 
@@ -213,6 +255,62 @@ class CausalFiveFieldFixedQBDFRestart:
     next_order: int
     provenance: dict
     schema_version: int = 1
+
+
+@dataclass(frozen=True)
+class CausalFiveFieldFixedQContinuationState:
+    """Lossless accepted BDF1/BDF2 state for arbitrary BDF2 continuation."""
+
+    current_primitive_charts: np.ndarray
+    previous_primitive_charts: np.ndarray
+    history: CausalFiveFieldMonolithicBDFHistory
+    q3_target: np.ndarray
+    constraint_row_scales: np.ndarray
+    raw_multiplier_predictor: np.ndarray
+    next_reaction_channel_basis: str
+    next_reaction_channel_transform: np.ndarray
+    previous_minimum_path_reconstruction_factor: float
+    elapsed_time_seconds: float
+    completed_steps: int
+    current_order: int
+    next_order: int
+    nonlinear_solver_state: CausalFiveFieldFixedQNonlinearSolverState | None
+    provenance: dict
+    schema_version: int = 1
+
+
+def _accumulate_timing(
+    accumulator: dict[str, float] | None,
+    key: str,
+    seconds: float,
+) -> None:
+    if accumulator is not None:
+        accumulator[key] = float(accumulator.get(key, 0.0) + seconds)
+
+
+def _array_sha256(array: np.ndarray) -> str:
+    normalized = np.ascontiguousarray(np.asarray(array))
+    digest = hashlib.sha256()
+    digest.update(str(normalized.dtype).encode("utf-8"))
+    digest.update(json.dumps(normalized.shape).encode("utf-8"))
+    digest.update(normalized.tobytes(order="C"))
+    return digest.hexdigest()
+
+
+def _solver_state_compatibility_hashes(
+    anchor: np.ndarray,
+    target: np.ndarray,
+    constraint_scales: np.ndarray,
+    columns: np.ndarray,
+    rows: np.ndarray,
+) -> dict[str, str]:
+    return {
+        "anchor_primitive_charts": _array_sha256(anchor),
+        "q3_target": _array_sha256(target),
+        "constraint_row_scales": _array_sha256(constraint_scales),
+        "primitive_column_scales": _array_sha256(columns),
+        "conservation_row_scales": _array_sha256(rows),
+    }
 
 
 def _validated_scales(
@@ -509,6 +607,7 @@ def causal_five_field_fixed_q_reaction(
     guard_end_parent_face: int = 48,
     parent_cell_count: int = 64,
     maximum_schur_condition_number: float = 1.0e8,
+    timing_accumulator: dict[str, float] | None = None,
 ) -> CausalFiveFieldFixedQReaction:
     """Build the physical ledger reaction and normalize ``DQ M^-1 BQ=I``."""
 
@@ -532,6 +631,7 @@ def causal_five_field_fixed_q_reaction(
     ):
         raise ValueError("fixed-Q parent layout is invalid")
 
+    descriptor_began = time.perf_counter()
     (
         node_weights,
         node_cells,
@@ -551,6 +651,11 @@ def causal_five_field_fixed_q_reaction(
         node_measures,
     )
     descriptor = np.asarray(mapped + height, dtype=float)
+    _accumulate_timing(
+        timing_accumulator,
+        "descriptor_assembly_wall_seconds",
+        time.perf_counter() - descriptor_began,
+    )
 
     exterior_face = int(exterior_parent_face) * ratio
     q_selectors = _q3_physical_selectors(n_cells, exterior_face, rows)
@@ -581,6 +686,7 @@ def causal_five_field_fixed_q_reaction(
     )
 
     raw = (physical_raw / C / rows[:, :, None]).reshape(state.size, 3)
+    factor_began = time.perf_counter()
     factor = splu(csc_matrix(descriptor))
     raw_lift = factor.solve(raw)
     raw_schur = q_scaled @ raw_lift
@@ -597,6 +703,11 @@ def causal_five_field_fixed_q_reaction(
     reaction = raw @ raw_schur_inverse
     reaction_lift = factor.solve(reaction)
     identity = q_scaled @ reaction_lift
+    _accumulate_timing(
+        timing_accumulator,
+        "descriptor_sparse_lu_wall_seconds",
+        time.perf_counter() - factor_began,
+    )
 
     physical = (
         reaction.reshape(n_cells, _N_FIELDS, 3)
@@ -1163,6 +1274,7 @@ def evaluate_causal_five_field_fixed_q_bdf(
     scaled_primitive_increment: np.ndarray | None = None,
     scaled_rate_per_s: np.ndarray | None = None,
     maximum_schur_condition_number: float = 1.0e8,
+    timing_accumulator: dict[str, float] | None = None,
 ) -> CausalFiveFieldFixedQBDFEvaluation:
     """Evaluate the complete augmented BDF residual at one endpoint."""
 
@@ -1181,6 +1293,7 @@ def evaluate_causal_five_field_fixed_q_bdf(
         or np.any(~np.isfinite(target))
     ):
         raise ValueError("fixed-Q multiplier or target is invalid")
+    monolithic_began = time.perf_counter()
     monolithic = evaluate_causal_five_field_monolithic_bdf(
         old_primitive_charts,
         new,
@@ -1204,6 +1317,12 @@ def evaluate_causal_five_field_fixed_q_bdf(
             * np.asarray(scaled_rate_per_s, dtype=float).reshape(new.shape)
         ),
     )
+    _accumulate_timing(
+        timing_accumulator,
+        "monolithic_residual_wall_seconds",
+        time.perf_counter() - monolithic_began,
+    )
+    reaction_began = time.perf_counter()
     reaction = causal_five_field_fixed_q_reaction(
         context,
         new,
@@ -1215,6 +1334,12 @@ def evaluate_causal_five_field_fixed_q_bdf(
         guard_end_parent_face=guard_end_parent_face,
         parent_cell_count=parent_cell_count,
         maximum_schur_condition_number=maximum_schur_condition_number,
+        timing_accumulator=timing_accumulator,
+    )
+    _accumulate_timing(
+        timing_accumulator,
+        "reaction_construction_wall_seconds",
+        time.perf_counter() - reaction_began,
     )
     constraint_scales = (
         reaction.q3_derivative_norms
@@ -1374,13 +1499,159 @@ def _multiplier_weighted_action_ledger_defect(
     return float(np.linalg.norm(summed - channel) / scale)
 
 
+def _validated_fixed_q_nonlinear_solver_state(
+    context: CausalFiveFieldDAEContext,
+    solver_state: CausalFiveFieldFixedQNonlinearSolverState,
+) -> CausalFiveFieldFixedQNonlinearSolverState:
+    context = context.validated()
+    shape = (int(context.grid.centers.size), _N_FIELDS)
+    dimensions = int(np.prod(shape))
+    matrix = np.asarray(
+        solver_state.bordered_matrix_raw_reaction_coordinates,
+        dtype=float,
+    )
+    anchor = np.asarray(solver_state.anchor_primitive_charts, dtype=float)
+    raw_multiplier = np.asarray(
+        solver_state.raw_multiplier_predictor,
+        dtype=float,
+    )
+    target = np.asarray(solver_state.q3_target, dtype=float)
+    constraint_scales = np.asarray(
+        solver_state.constraint_row_scales,
+        dtype=float,
+    )
+    columns = np.asarray(
+        solver_state.primitive_column_scales,
+        dtype=float,
+    )
+    rows = np.asarray(
+        solver_state.conservation_row_scales,
+        dtype=float,
+    )
+    source_transform = np.asarray(
+        solver_state.source_reaction_channel_transform,
+        dtype=float,
+    )
+    order = int(solver_state.order)
+    current_timestep = float(solver_state.current_timestep_seconds)
+    previous_timestep = float(solver_state.previous_timestep_seconds)
+    age = int(solver_state.matrix_age_steps)
+    updates = int(solver_state.broyden_updates_since_exact)
+    provenance = solver_state.provenance
+    expected_hashes = _solver_state_compatibility_hashes(
+        anchor,
+        target,
+        constraint_scales,
+        columns,
+        rows,
+    )
+    if (
+        matrix.shape != (dimensions + 3, dimensions + 3)
+        or anchor.shape != shape
+        or raw_multiplier.shape != (3,)
+        or target.shape != (3,)
+        or constraint_scales.shape != (3,)
+        or columns.shape != shape
+        or rows.shape != shape
+        or source_transform.shape != (3, 3)
+        or np.any(~np.isfinite(matrix))
+        or np.any(~np.isfinite(anchor))
+        or np.any(~np.isfinite(raw_multiplier))
+        or np.any(~np.isfinite(target))
+        or np.any(~np.isfinite(constraint_scales))
+        or np.any(constraint_scales <= 0.0)
+        or np.any(~np.isfinite(columns))
+        or np.any(columns <= 0.0)
+        or np.any(~np.isfinite(rows))
+        or np.any(rows <= 0.0)
+        or np.any(~np.isfinite(source_transform))
+        or order not in (1, 2)
+        or not np.isfinite(current_timestep)
+        or current_timestep <= 0.0
+        or not np.isfinite(previous_timestep)
+        or previous_timestep <= 0.0
+        or age != solver_state.matrix_age_steps
+        or age < 0
+        or updates != solver_state.broyden_updates_since_exact
+        or updates < 0
+        or solver_state.serialized_multiplier_basis != "raw_reaction_channels"
+        or not isinstance(provenance, dict)
+        or provenance.get("compatibility_hashes") != expected_hashes
+        or solver_state.schema_version != 1
+    ):
+        raise ValueError("fixed-Q nonlinear solver state is invalid")
+    return CausalFiveFieldFixedQNonlinearSolverState(
+        bordered_matrix_raw_reaction_coordinates=np.array(matrix, copy=True),
+        anchor_primitive_charts=np.array(anchor, copy=True),
+        raw_multiplier_predictor=np.array(raw_multiplier, copy=True),
+        q3_target=np.array(target, copy=True),
+        constraint_row_scales=np.array(constraint_scales, copy=True),
+        primitive_column_scales=np.array(columns, copy=True),
+        conservation_row_scales=np.array(rows, copy=True),
+        source_reaction_channel_transform=np.array(
+            source_transform,
+            copy=True,
+        ),
+        order=order,
+        current_timestep_seconds=current_timestep,
+        previous_timestep_seconds=previous_timestep,
+        matrix_age_steps=age,
+        broyden_updates_since_exact=updates,
+        serialized_multiplier_basis="raw_reaction_channels",
+        provenance=dict(provenance),
+        schema_version=1,
+    )
+
+
+def causal_five_field_fixed_q_rebase_nonlinear_solver_state(
+    context: CausalFiveFieldDAEContext,
+    solver_state: CausalFiveFieldFixedQNonlinearSolverState,
+    new_reaction_channel_transform: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Map canonical raw solver state into one frozen-normalized step basis."""
+
+    validated = _validated_fixed_q_nonlinear_solver_state(
+        context,
+        solver_state,
+    )
+    transform = np.asarray(new_reaction_channel_transform, dtype=float)
+    if transform.shape != (3, 3) or np.any(~np.isfinite(transform)):
+        raise ValueError("fixed-Q reaction-coordinate rebase is invalid")
+    try:
+        multiplier = np.linalg.solve(
+            transform,
+            validated.raw_multiplier_predictor,
+        )
+    except np.linalg.LinAlgError as error:
+        raise ValueError("fixed-Q reaction-coordinate rebase is singular") from error
+    dimensions = int(validated.anchor_primitive_charts.size)
+    matrix = np.array(
+        validated.bordered_matrix_raw_reaction_coordinates,
+        copy=True,
+    )
+    matrix[:, dimensions:] = matrix[:, dimensions:] @ transform
+    closure = transform @ multiplier
+    scale = max(
+        float(np.linalg.norm(closure)),
+        float(np.linalg.norm(validated.raw_multiplier_predictor)),
+        np.finfo(float).tiny,
+    )
+    if (
+        np.any(~np.isfinite(matrix))
+        or np.linalg.norm(closure - validated.raw_multiplier_predictor) / scale
+        > 1.0e-12
+    ):
+        raise ValueError("fixed-Q reaction-coordinate rebase does not close")
+    return matrix, np.asarray(multiplier, dtype=float)
+
+
 def solve_causal_five_field_fixed_q_bdf(
     context: CausalFiveFieldDAEContext,
     old_primitive_charts: np.ndarray,
     timestep_seconds: float,
     initial_scaled_rate_per_s: np.ndarray,
     initial_multipliers: np.ndarray,
-    top_left_scaled_matrix: np.ndarray,
+    top_left_scaled_matrix: np.ndarray | None,
     *,
     order: int = 1,
     history: CausalFiveFieldMonolithicBDFHistory | None = None,
@@ -1411,6 +1682,11 @@ def solve_causal_five_field_fixed_q_bdf(
     exact_jacobian_refresh_policy: Literal[
         "per_iteration", "on_line_search_failure"
     ] = "per_iteration",
+    initial_nonlinear_solver_state: (
+        CausalFiveFieldFixedQNonlinearSolverState | None
+    ) = None,
+    initial_exact_jacobian_required: bool = True,
+    solver_state_provenance: dict | None = None,
     progress_callback: Callable[[dict], None] | None = None,
     initial_scaled_increment: np.ndarray | None = None,
     checkpoint_callback: Callable[
@@ -1435,6 +1711,8 @@ def solve_causal_five_field_fixed_q_bdf(
     not an Euler predictor.
     """
 
+    total_began = time.perf_counter()
+    profiling_values: dict[str, float] = {}
     context = context.validated()
     old = np.asarray(old_primitive_charts, dtype=float)
     n_cells = int(context.grid.centers.size)
@@ -1468,18 +1746,36 @@ def solve_causal_five_field_fixed_q_bdf(
     )
     rate = np.asarray(initial_scaled_rate_per_s, dtype=float).reshape(-1)
     multiplier = np.asarray(initial_multipliers, dtype=float)
-    top_left = np.asarray(top_left_scaled_matrix, dtype=float)
+    top_left = (
+        None
+        if top_left_scaled_matrix is None
+        else np.asarray(top_left_scaled_matrix, dtype=float)
+    )
     if (
         not np.isfinite(timestep)
         or timestep <= 0.0
         or rate.shape != (dimensions,)
         or multiplier.shape != (3,)
-        or top_left.shape != (dimensions, dimensions)
         or np.any(~np.isfinite(rate))
         or np.any(~np.isfinite(multiplier))
-        or np.any(~np.isfinite(top_left))
+        or (
+            top_left is not None
+            and (
+                top_left.shape != (dimensions, dimensions)
+                or np.any(~np.isfinite(top_left))
+            )
+        )
     ):
         raise ValueError("fixed-Q BE predictor or matrix is invalid")
+    if top_left is None and initial_nonlinear_solver_state is None:
+        raise ValueError("fixed-Q cold solve requires a top-left matrix")
+    if not isinstance(initial_exact_jacobian_required, (bool, np.bool_)):
+        raise ValueError("fixed-Q initial exact-Jacobian policy is invalid")
+    if solver_state_provenance is not None and not isinstance(
+        solver_state_provenance,
+        dict,
+    ):
+        raise ValueError("fixed-Q solver-state provenance is invalid")
     if (
         maximum_exact_jacobian_refreshes is not None
         and (
@@ -1511,6 +1807,7 @@ def solve_causal_five_field_fixed_q_bdf(
             guard_end_parent_face=guard_end_parent_face,
             parent_cell_count=parent_cell_count,
             maximum_schur_condition_number=maximum_schur_condition_number,
+            timing_accumulator=profiling_values,
         )
         if base_reaction is None
         else base_reaction
@@ -1548,30 +1845,76 @@ def solve_causal_five_field_fixed_q_bdf(
         )
     else:
         raise ValueError("fixed-Q BE reaction channel basis is invalid")
-    initial_top_left = np.array(top_left, copy=True)
-    raw_jacobian = causal_five_field_fixed_q_raw_reaction_jacobian(
-        context,
-        old,
-        primitive_column_scales=columns,
-        conservation_row_scales=rows,
-        parent_cell_indices=parent_cell_indices,
-        refinement_ratio=refinement_ratio,
-        exterior_parent_face=exterior_parent_face,
-        guard_end_parent_face=guard_end_parent_face,
-        parent_cell_count=parent_cell_count,
-        reaction=base_reaction,
-    )
-    initial_top_left -= np.tensordot(
-        raw_jacobian.scaled_jacobian,
-        channel_transform @ multiplier,
-        axes=(1, 0),
-    )
-    matrix = np.block(
-        [
-            [initial_top_left, -base_reaction_rows],
-            [base_reaction.q3_scaled_derivative, np.zeros((3, 3))],
-        ]
-    )
+    carried_state = None
+    if initial_nonlinear_solver_state is None:
+        initial_top_left = np.array(top_left, copy=True)
+        raw_jacobian = causal_five_field_fixed_q_raw_reaction_jacobian(
+            context,
+            old,
+            primitive_column_scales=columns,
+            conservation_row_scales=rows,
+            parent_cell_indices=parent_cell_indices,
+            refinement_ratio=refinement_ratio,
+            exterior_parent_face=exterior_parent_face,
+            guard_end_parent_face=guard_end_parent_face,
+            parent_cell_count=parent_cell_count,
+            reaction=base_reaction,
+        )
+        initial_top_left -= np.tensordot(
+            raw_jacobian.scaled_jacobian,
+            channel_transform @ multiplier,
+            axes=(1, 0),
+        )
+        matrix = np.block(
+            [
+                [initial_top_left, -base_reaction_rows],
+                [base_reaction.q3_scaled_derivative, np.zeros((3, 3))],
+            ]
+        )
+    else:
+        carried_state = _validated_fixed_q_nonlinear_solver_state(
+            context,
+            initial_nonlinear_solver_state,
+        )
+        if (
+            carried_state.order != 2
+            or selected_order != 2
+            or carried_state.current_timestep_seconds != timestep
+            or carried_state.previous_timestep_seconds != timestep
+            or not np.array_equal(carried_state.anchor_primitive_charts, old)
+            or not np.array_equal(carried_state.q3_target, target)
+            or not np.array_equal(
+                carried_state.constraint_row_scales,
+                constraint_scales,
+            )
+            or not np.array_equal(
+                carried_state.primitive_column_scales,
+                columns,
+            )
+            or not np.array_equal(
+                carried_state.conservation_row_scales,
+                rows,
+            )
+            or reaction_channel_basis != "frozen_normalized"
+        ):
+            raise ValueError("fixed-Q carried solver state is incompatible")
+        matrix, carried_multiplier = (
+            causal_five_field_fixed_q_rebase_nonlinear_solver_state(
+                context,
+                carried_state,
+                channel_transform,
+            )
+        )
+        multiplier_scale = max(
+            float(np.linalg.norm(multiplier)),
+            float(np.linalg.norm(carried_multiplier)),
+            np.finfo(float).tiny,
+        )
+        if np.linalg.norm(multiplier - carried_multiplier) / multiplier_scale > (
+            1.0e-12
+        ):
+            raise ValueError("fixed-Q carried multiplier predictor differs")
+        multiplier = carried_multiplier
     previous_scaled_increment = (
         None
         if validated_history is None
@@ -1602,9 +1945,10 @@ def solve_causal_five_field_fixed_q_bdf(
     unknown = np.concatenate((scaled_increment, multiplier))
     function_evaluations = 0
 
-    def residual(values: np.ndarray):
+    def residual(values: np.ndarray, *, line_search: bool = False):
         nonlocal function_evaluations
         function_evaluations += 1
+        residual_began = time.perf_counter()
         scaled_increment = np.asarray(values[:dimensions], dtype=float)
         candidate = old + (
             columns.ravel() * scaled_increment
@@ -1630,7 +1974,20 @@ def solve_causal_five_field_fixed_q_bdf(
             reaction_channel_transform=channel_transform,
             scaled_primitive_increment=scaled_increment,
             maximum_schur_condition_number=maximum_schur_condition_number,
+            timing_accumulator=profiling_values,
         )
+        residual_seconds = time.perf_counter() - residual_began
+        _accumulate_timing(
+            profiling_values,
+            "residual_wall_seconds",
+            residual_seconds,
+        )
+        if line_search:
+            _accumulate_timing(
+                profiling_values,
+                "line_search_residual_wall_seconds",
+                residual_seconds,
+            )
         return evaluation.augmented_scaled_residual, evaluation
 
     values, evaluation = residual(unknown)
@@ -1653,6 +2010,7 @@ def solve_causal_five_field_fixed_q_bdf(
 
     def assemble_exact_matrix(reason: str) -> np.ndarray:
         nonlocal exact_jacobian_refreshes
+        exact_began = time.perf_counter()
         candidate_state = old + (
             columns.ravel() * unknown[:dimensions]
         ).reshape(old.shape)
@@ -1681,6 +2039,11 @@ def solve_causal_five_field_fixed_q_bdf(
             reaction=evaluation.reaction,
         )
         exact_jacobian_refreshes += 1
+        _accumulate_timing(
+            profiling_values,
+            "exact_jacobian_wall_seconds",
+            time.perf_counter() - exact_began,
+        )
         if progress_callback is not None:
             progress_callback(
                 {
@@ -1719,7 +2082,10 @@ def solve_causal_five_field_fixed_q_bdf(
             and reaction_channel_basis in {"raw", "frozen_normalized"}
             and (
                 exact_jacobian_refresh_policy == "per_iteration"
-                or exact_jacobian_refreshes == 0
+                or (
+                    exact_jacobian_refreshes == 0
+                    and bool(initial_exact_jacobian_required)
+                )
             )
             and (
                 maximum_exact_jacobian_refreshes is None
@@ -1733,9 +2099,15 @@ def solve_causal_five_field_fixed_q_bdf(
                 else "per_iteration"
             )
         try:
+            linear_began = time.perf_counter()
             correction, linear_residual = _equilibrated_dense_solve(
                 matrix,
                 -values,
+            )
+            _accumulate_timing(
+                profiling_values,
+                "bordered_linear_solve_wall_seconds",
+                time.perf_counter() - linear_began,
             )
             linear_solves += 1
         except np.linalg.LinAlgError:
@@ -1776,7 +2148,10 @@ def solve_causal_five_field_fixed_q_bdf(
         merit = float(np.linalg.norm(values))
         for _line_search in range(int(maximum_line_search_iterations)):
             candidate_unknown = unknown + alpha * correction
-            candidate_values, candidate_evaluation = residual(candidate_unknown)
+            candidate_values, candidate_evaluation = residual(
+                candidate_unknown,
+                line_search=True,
+            )
             if progress_callback is not None:
                 progress_callback(
                     {
@@ -1839,6 +2214,7 @@ def solve_causal_five_field_fixed_q_bdf(
                 message = "fixed-Q bound-aware line search failed"
             if success or message == "fixed-Q bound-aware line search failed":
                 break
+    acceptance_began = time.perf_counter()
     scaled_increment = unknown[:dimensions]
     new = old + (columns.ravel() * scaled_increment).reshape(old.shape)
     accepted_scaled_increment = np.asarray(
@@ -1874,6 +2250,7 @@ def solve_causal_five_field_fixed_q_bdf(
         scaled_primitive_increment=accepted_scaled_increment,
         scaled_rate_per_s=scaled_interval_rate,
         maximum_schur_condition_number=maximum_schur_condition_number,
+        timing_accumulator=profiling_values,
     )
     storage_parity_defect = _fixed_q_storage_parity_defect(
         evaluation,
@@ -1983,6 +2360,127 @@ def solve_causal_five_field_fixed_q_bdf(
     )
     if success and not accepted:
         message = "fixed-Q root exceeds gates: " + ", ".join(failure_reasons)
+    try:
+        inverse_transform = np.linalg.solve(channel_transform, np.eye(3))
+    except np.linalg.LinAlgError as error:
+        raise ValueError("fixed-Q reaction transform is singular") from error
+    raw_matrix = np.array(matrix, copy=True)
+    raw_matrix[:, dimensions:] = (
+        raw_matrix[:, dimensions:] @ inverse_transform
+    )
+    raw_multiplier_predictor = channel_transform @ unknown[dimensions:]
+    physical_action_from_raw = (
+        evaluation.reaction.raw_reaction_lift @ raw_multiplier_predictor
+    )
+    action_scale = max(
+        float(np.linalg.norm(physical_action_from_raw)),
+        float(np.linalg.norm(scaled_reaction_action)),
+        np.finfo(float).tiny,
+    )
+    if (
+        np.any(~np.isfinite(raw_matrix))
+        or np.linalg.norm(physical_action_from_raw - scaled_reaction_action)
+        / action_scale
+        > 1.0e-12
+    ):
+        raise ValueError("fixed-Q raw solver-state action does not close")
+    matrix_age = (
+        0
+        if carried_state is None or exact_jacobian_refreshes > 0
+        else carried_state.matrix_age_steps + 1
+    )
+    updates_since_exact = (
+        broyden_updates
+        if carried_state is None or exact_jacobian_refreshes > 0
+        else carried_state.broyden_updates_since_exact + broyden_updates
+    )
+    state_provenance = (
+        {} if solver_state_provenance is None else dict(solver_state_provenance)
+    )
+    state_provenance["compatibility_hashes"] = (
+        _solver_state_compatibility_hashes(
+            new,
+            target,
+            constraint_scales,
+            columns,
+            rows,
+        )
+    )
+    solver_state = CausalFiveFieldFixedQNonlinearSolverState(
+        bordered_matrix_raw_reaction_coordinates=raw_matrix,
+        anchor_primitive_charts=np.array(new, copy=True),
+        raw_multiplier_predictor=np.asarray(
+            raw_multiplier_predictor,
+            dtype=float,
+        ),
+        q3_target=np.array(target, copy=True),
+        constraint_row_scales=np.array(constraint_scales, copy=True),
+        primitive_column_scales=np.array(columns, copy=True),
+        conservation_row_scales=np.array(rows, copy=True),
+        source_reaction_channel_transform=np.array(
+            channel_transform,
+            copy=True,
+        ),
+        order=selected_order,
+        current_timestep_seconds=timestep,
+        previous_timestep_seconds=(
+            timestep
+            if validated_history is None
+            else float(validated_history.previous_timestep_seconds)
+        ),
+        matrix_age_steps=matrix_age,
+        broyden_updates_since_exact=updates_since_exact,
+        serialized_multiplier_basis="raw_reaction_channels",
+        provenance=state_provenance,
+    )
+    solver_state = _validated_fixed_q_nonlinear_solver_state(
+        context,
+        solver_state,
+    )
+    _accumulate_timing(
+        profiling_values,
+        "physical_acceptance_wall_seconds",
+        time.perf_counter() - acceptance_began,
+    )
+    profiling = CausalFiveFieldFixedQStepProfiling(
+        total_wall_seconds=time.perf_counter() - total_began,
+        residual_wall_seconds=profiling_values.get(
+            "residual_wall_seconds",
+            0.0,
+        ),
+        monolithic_residual_wall_seconds=profiling_values.get(
+            "monolithic_residual_wall_seconds",
+            0.0,
+        ),
+        reaction_construction_wall_seconds=profiling_values.get(
+            "reaction_construction_wall_seconds",
+            0.0,
+        ),
+        descriptor_assembly_wall_seconds=profiling_values.get(
+            "descriptor_assembly_wall_seconds",
+            0.0,
+        ),
+        descriptor_sparse_lu_wall_seconds=profiling_values.get(
+            "descriptor_sparse_lu_wall_seconds",
+            0.0,
+        ),
+        exact_jacobian_wall_seconds=profiling_values.get(
+            "exact_jacobian_wall_seconds",
+            0.0,
+        ),
+        bordered_linear_solve_wall_seconds=profiling_values.get(
+            "bordered_linear_solve_wall_seconds",
+            0.0,
+        ),
+        line_search_residual_wall_seconds=profiling_values.get(
+            "line_search_residual_wall_seconds",
+            0.0,
+        ),
+        physical_acceptance_wall_seconds=profiling_values.get(
+            "physical_acceptance_wall_seconds",
+            0.0,
+        ),
+    )
     return CausalFiveFieldFixedQBackwardEulerResult(
         primitive_charts=np.array(new, copy=True),
         primitive_increment=np.asarray(
@@ -2032,6 +2530,8 @@ def solve_causal_five_field_fixed_q_bdf(
         exact_jacobian_assemblies=exact_jacobian_refreshes,
         broyden_updates=broyden_updates,
         linear_solves=linear_solves,
+        nonlinear_solver_state=solver_state,
+        profiling=profiling,
         message=message,
     )
 
@@ -2360,6 +2860,562 @@ def load_causal_five_field_fixed_q_bdf_restart(
         and validated.provenance != expected_provenance
     ):
         raise ValueError("fixed-Q BDF restart provenance differs")
+    return validated
+
+
+def causal_five_field_fixed_q_continuation_state(
+    result: CausalFiveFieldFixedQBackwardEulerResult,
+    context: CausalFiveFieldDAEContext,
+    previous_primitive_charts: np.ndarray,
+    *,
+    primitive_column_scales: np.ndarray,
+    conservation_row_scales: np.ndarray,
+    parent_cell_indices: np.ndarray,
+    refinement_ratio: int,
+    exterior_parent_face: int = 36,
+    guard_end_parent_face: int = 48,
+    parent_cell_count: int = 64,
+    maximum_schur_condition_number: float = 1.0e8,
+    elapsed_time_seconds: float,
+    completed_steps: int,
+    provenance: dict,
+) -> CausalFiveFieldFixedQContinuationState:
+    """Construct a lossless continuation payload after any accepted step."""
+
+    if not result.accepted or not result.acceptance.accepted:
+        raise ValueError("rejected fixed-Q step cannot define continuation")
+    if result.order not in (1, 2):
+        raise ValueError("fixed-Q continuation result order is invalid")
+    previous = np.asarray(previous_primitive_charts, dtype=float)
+    if previous.shape != result.primitive_charts.shape:
+        raise ValueError("fixed-Q continuation previous state is invalid")
+    history = causal_five_field_fixed_q_accepted_history(result)
+    endpoint_reaction = causal_five_field_fixed_q_reaction(
+        context,
+        result.primitive_charts,
+        primitive_column_scales=primitive_column_scales,
+        conservation_row_scales=conservation_row_scales,
+        parent_cell_indices=parent_cell_indices,
+        refinement_ratio=refinement_ratio,
+        exterior_parent_face=exterior_parent_face,
+        guard_end_parent_face=guard_end_parent_face,
+        parent_cell_count=parent_cell_count,
+        maximum_schur_condition_number=maximum_schur_condition_number,
+    )
+    basis = result.evaluation.reaction_channel_basis
+    if basis == "raw":
+        next_transform = np.eye(3)
+    elif basis == "frozen_normalized":
+        next_transform = endpoint_reaction.raw_schur_inverse
+    else:
+        raise ValueError("fixed-Q continuation reaction basis is invalid")
+    raw_multiplier = (
+        result.evaluation.reaction_channel_transform @ result.multipliers
+    )
+    continuation = CausalFiveFieldFixedQContinuationState(
+        current_primitive_charts=np.array(result.primitive_charts, copy=True),
+        previous_primitive_charts=np.array(previous, copy=True),
+        history=history,
+        q3_target=np.array(result.evaluation.q3_target, copy=True),
+        constraint_row_scales=np.array(
+            result.evaluation.constraint_row_scales,
+            copy=True,
+        ),
+        raw_multiplier_predictor=np.asarray(raw_multiplier, dtype=float),
+        next_reaction_channel_basis=str(basis),
+        next_reaction_channel_transform=np.array(next_transform, copy=True),
+        previous_minimum_path_reconstruction_factor=float(
+            result.minimum_path_reconstruction_factor
+        ),
+        elapsed_time_seconds=float(elapsed_time_seconds),
+        completed_steps=int(completed_steps),
+        current_order=int(result.order),
+        next_order=2,
+        nonlinear_solver_state=result.nonlinear_solver_state,
+        provenance=dict(provenance),
+    )
+    return _validated_fixed_q_continuation_state(context, continuation)
+
+
+def _validated_fixed_q_continuation_state(
+    context: CausalFiveFieldDAEContext,
+    continuation: CausalFiveFieldFixedQContinuationState,
+) -> CausalFiveFieldFixedQContinuationState:
+    context = context.validated()
+    shape = (int(context.grid.centers.size), _N_FIELDS)
+    current = np.asarray(
+        continuation.current_primitive_charts,
+        dtype=float,
+    )
+    previous = np.asarray(
+        continuation.previous_primitive_charts,
+        dtype=float,
+    )
+    history = continuation.history.validated(n_cells=shape[0])
+    target = np.asarray(continuation.q3_target, dtype=float)
+    scales = np.asarray(continuation.constraint_row_scales, dtype=float)
+    raw_multiplier = np.asarray(
+        continuation.raw_multiplier_predictor,
+        dtype=float,
+    )
+    transform = np.asarray(
+        continuation.next_reaction_channel_transform,
+        dtype=float,
+    )
+    factor = float(continuation.previous_minimum_path_reconstruction_factor)
+    elapsed = float(continuation.elapsed_time_seconds)
+    steps = int(continuation.completed_steps)
+    current_order = int(continuation.current_order)
+    next_order = int(continuation.next_order)
+    if (
+        current.shape != shape
+        or previous.shape != shape
+        or target.shape != (3,)
+        or scales.shape != (3,)
+        or raw_multiplier.shape != (3,)
+        or transform.shape != (3, 3)
+        or np.any(~np.isfinite(current))
+        or np.any(~np.isfinite(previous))
+        or np.any(~np.isfinite(target))
+        or np.any(~np.isfinite(scales))
+        or np.any(scales <= 0.0)
+        or np.any(~np.isfinite(raw_multiplier))
+        or np.any(~np.isfinite(transform))
+        or continuation.next_reaction_channel_basis
+        not in {"raw", "frozen_normalized"}
+        or not np.isfinite(factor)
+        or factor < 1.0 - 1.0e-12
+        or not np.isfinite(elapsed)
+        or elapsed < 0.0
+        or steps != continuation.completed_steps
+        or steps < 1
+        or current_order != continuation.current_order
+        or current_order not in (1, 2)
+        or next_order != continuation.next_order
+        or next_order != 2
+        or continuation.schema_version != 1
+        or not isinstance(continuation.provenance, dict)
+    ):
+        raise ValueError("fixed-Q continuation state is invalid")
+    if not np.array_equal(
+        current,
+        previous + history.previous_primitive_increment,
+    ):
+        raise ValueError("fixed-Q continuation primitive history is inconsistent")
+    solver_state = continuation.nonlinear_solver_state
+    if solver_state is not None:
+        solver_state = _validated_fixed_q_nonlinear_solver_state(
+            context,
+            solver_state,
+        )
+        if (
+            not np.array_equal(solver_state.anchor_primitive_charts, current)
+            or not np.array_equal(solver_state.q3_target, target)
+            or solver_state.order != current_order
+        ):
+            raise ValueError("fixed-Q continuation solver anchor differs")
+        raw_scale = max(
+            float(np.linalg.norm(raw_multiplier)),
+            float(np.linalg.norm(solver_state.raw_multiplier_predictor)),
+            np.finfo(float).tiny,
+        )
+        if (
+            np.linalg.norm(
+                raw_multiplier - solver_state.raw_multiplier_predictor
+            )
+            / raw_scale
+            > 1.0e-12
+        ):
+            raise ValueError("fixed-Q continuation multiplier anchor differs")
+    return CausalFiveFieldFixedQContinuationState(
+        current_primitive_charts=np.array(current, copy=True),
+        previous_primitive_charts=np.array(previous, copy=True),
+        history=history,
+        q3_target=np.array(target, copy=True),
+        constraint_row_scales=np.array(scales, copy=True),
+        raw_multiplier_predictor=np.array(raw_multiplier, copy=True),
+        next_reaction_channel_basis=str(
+            continuation.next_reaction_channel_basis
+        ),
+        next_reaction_channel_transform=np.array(transform, copy=True),
+        previous_minimum_path_reconstruction_factor=factor,
+        elapsed_time_seconds=elapsed,
+        completed_steps=steps,
+        current_order=current_order,
+        next_order=next_order,
+        nonlinear_solver_state=solver_state,
+        provenance=dict(continuation.provenance),
+        schema_version=1,
+    )
+
+
+def causal_five_field_fixed_q_continuation_states_equal(
+    left: CausalFiveFieldFixedQContinuationState,
+    right: CausalFiveFieldFixedQContinuationState,
+) -> bool:
+    """Return whether two continuation payloads are bitwise equal."""
+
+    arrays = (
+        (left.current_primitive_charts, right.current_primitive_charts),
+        (left.previous_primitive_charts, right.previous_primitive_charts),
+        (
+            left.history.previous_primitive_increment,
+            right.history.previous_primitive_increment,
+        ),
+        (
+            left.history.previous_mapped_storage_increment,
+            right.history.previous_mapped_storage_increment,
+        ),
+        (
+            left.history.previous_responsive_height_storage_increment,
+            right.history.previous_responsive_height_storage_increment,
+        ),
+        (left.q3_target, right.q3_target),
+        (left.constraint_row_scales, right.constraint_row_scales),
+        (left.raw_multiplier_predictor, right.raw_multiplier_predictor),
+        (
+            left.next_reaction_channel_transform,
+            right.next_reaction_channel_transform,
+        ),
+    )
+    solvers_equal = (
+        left.nonlinear_solver_state is None
+        and right.nonlinear_solver_state is None
+    ) or (
+        left.nonlinear_solver_state is not None
+        and right.nonlinear_solver_state is not None
+        and causal_five_field_fixed_q_nonlinear_solver_states_equal(
+            left.nonlinear_solver_state,
+            right.nonlinear_solver_state,
+        )
+    )
+    return bool(
+        all(np.array_equal(first, second) for first, second in arrays)
+        and solvers_equal
+        and left.history.previous_timestep_seconds
+        == right.history.previous_timestep_seconds
+        and left.history.temporal_path_scheme
+        == right.history.temporal_path_scheme
+        and left.next_reaction_channel_basis
+        == right.next_reaction_channel_basis
+        and left.previous_minimum_path_reconstruction_factor
+        == right.previous_minimum_path_reconstruction_factor
+        and left.elapsed_time_seconds == right.elapsed_time_seconds
+        and left.completed_steps == right.completed_steps
+        and left.current_order == right.current_order
+        and left.next_order == right.next_order
+        and left.provenance == right.provenance
+        and left.schema_version == right.schema_version
+    )
+
+
+def causal_five_field_fixed_q_nonlinear_solver_states_equal(
+    left: CausalFiveFieldFixedQNonlinearSolverState,
+    right: CausalFiveFieldFixedQNonlinearSolverState,
+) -> bool:
+    """Return whether two carried nonlinear solver states are bitwise equal."""
+
+    arrays = (
+        (
+            left.bordered_matrix_raw_reaction_coordinates,
+            right.bordered_matrix_raw_reaction_coordinates,
+        ),
+        (left.anchor_primitive_charts, right.anchor_primitive_charts),
+        (left.raw_multiplier_predictor, right.raw_multiplier_predictor),
+        (left.q3_target, right.q3_target),
+        (left.constraint_row_scales, right.constraint_row_scales),
+        (left.primitive_column_scales, right.primitive_column_scales),
+        (left.conservation_row_scales, right.conservation_row_scales),
+        (
+            left.source_reaction_channel_transform,
+            right.source_reaction_channel_transform,
+        ),
+    )
+    return bool(
+        all(np.array_equal(first, second) for first, second in arrays)
+        and left.order == right.order
+        and left.current_timestep_seconds == right.current_timestep_seconds
+        and left.previous_timestep_seconds == right.previous_timestep_seconds
+        and left.matrix_age_steps == right.matrix_age_steps
+        and left.broyden_updates_since_exact
+        == right.broyden_updates_since_exact
+        and left.serialized_multiplier_basis
+        == right.serialized_multiplier_basis
+        and left.provenance == right.provenance
+        and left.schema_version == right.schema_version
+    )
+
+
+def save_causal_five_field_fixed_q_continuation_state(
+    path: str | Path,
+    context: CausalFiveFieldDAEContext,
+    continuation: CausalFiveFieldFixedQContinuationState,
+    *,
+    timing_accumulator: dict[str, float] | None = None,
+) -> None:
+    """Atomically persist one arbitrary accepted continuation payload."""
+
+    began = time.perf_counter()
+    validated = _validated_fixed_q_continuation_state(context, continuation)
+    destination = Path(path)
+    if destination.suffix != ".npz":
+        raise ValueError("fixed-Q continuation path must end in .npz")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temporary = destination.with_name(destination.name + ".tmp")
+    solver = validated.nonlinear_solver_state
+    with temporary.open("wb") as handle:
+        arrays = {
+            "current_primitive_charts": validated.current_primitive_charts,
+            "previous_primitive_charts": validated.previous_primitive_charts,
+            "previous_primitive_increment": (
+                validated.history.previous_primitive_increment
+            ),
+            "previous_mapped_storage_increment": (
+                validated.history.previous_mapped_storage_increment
+            ),
+            "previous_responsive_height_storage_increment": (
+                validated.history.previous_responsive_height_storage_increment
+            ),
+            "previous_timestep_seconds": np.asarray(
+                validated.history.previous_timestep_seconds,
+                dtype="<f8",
+            ),
+            "temporal_path_scheme": np.asarray(
+                validated.history.temporal_path_scheme
+            ),
+            "q3_target": validated.q3_target,
+            "constraint_row_scales": validated.constraint_row_scales,
+            "raw_multiplier_predictor": validated.raw_multiplier_predictor,
+            "next_reaction_channel_basis": np.asarray(
+                validated.next_reaction_channel_basis
+            ),
+            "next_reaction_channel_transform": (
+                validated.next_reaction_channel_transform
+            ),
+            "previous_minimum_path_reconstruction_factor": np.asarray(
+                validated.previous_minimum_path_reconstruction_factor,
+                dtype="<f8",
+            ),
+            "elapsed_time_seconds": np.asarray(
+                validated.elapsed_time_seconds,
+                dtype="<f8",
+            ),
+            "completed_steps": np.asarray(
+                validated.completed_steps,
+                dtype="<i8",
+            ),
+            "current_order": np.asarray(validated.current_order, dtype="<i8"),
+            "next_order": np.asarray(validated.next_order, dtype="<i8"),
+            "has_nonlinear_solver_state": np.asarray(
+                solver is not None,
+                dtype="?",
+            ),
+            "provenance_json": np.asarray(
+                json.dumps(
+                    validated.provenance,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                    allow_nan=False,
+                )
+            ),
+            "schema_version": np.asarray(validated.schema_version, dtype="<i8"),
+        }
+        if solver is not None:
+            arrays.update(
+                {
+                    "solver_bordered_matrix_raw": (
+                        solver.bordered_matrix_raw_reaction_coordinates
+                    ),
+                    "solver_anchor_primitive_charts": (
+                        solver.anchor_primitive_charts
+                    ),
+                    "solver_raw_multiplier_predictor": (
+                        solver.raw_multiplier_predictor
+                    ),
+                    "solver_q3_target": solver.q3_target,
+                    "solver_constraint_row_scales": (
+                        solver.constraint_row_scales
+                    ),
+                    "solver_primitive_column_scales": (
+                        solver.primitive_column_scales
+                    ),
+                    "solver_conservation_row_scales": (
+                        solver.conservation_row_scales
+                    ),
+                    "solver_source_reaction_channel_transform": (
+                        solver.source_reaction_channel_transform
+                    ),
+                    "solver_order": np.asarray(solver.order, dtype="<i8"),
+                    "solver_current_timestep_seconds": np.asarray(
+                        solver.current_timestep_seconds,
+                        dtype="<f8",
+                    ),
+                    "solver_previous_timestep_seconds": np.asarray(
+                        solver.previous_timestep_seconds,
+                        dtype="<f8",
+                    ),
+                    "solver_matrix_age_steps": np.asarray(
+                        solver.matrix_age_steps,
+                        dtype="<i8",
+                    ),
+                    "solver_broyden_updates_since_exact": np.asarray(
+                        solver.broyden_updates_since_exact,
+                        dtype="<i8",
+                    ),
+                    "solver_serialized_multiplier_basis": np.asarray(
+                        solver.serialized_multiplier_basis
+                    ),
+                    "solver_provenance_json": np.asarray(
+                        json.dumps(
+                            solver.provenance,
+                            sort_keys=True,
+                            separators=(",", ":"),
+                            allow_nan=False,
+                        )
+                    ),
+                    "solver_schema_version": np.asarray(
+                        solver.schema_version,
+                        dtype="<i8",
+                    ),
+                }
+            )
+        np.savez_compressed(handle, **arrays)
+    temporary.replace(destination)
+    _accumulate_timing(
+        timing_accumulator,
+        "checkpoint_write_wall_seconds",
+        time.perf_counter() - began,
+    )
+
+
+def load_causal_five_field_fixed_q_continuation_state(
+    path: str | Path,
+    context: CausalFiveFieldDAEContext,
+    *,
+    expected_provenance: dict | None = None,
+    timing_accumulator: dict[str, float] | None = None,
+) -> CausalFiveFieldFixedQContinuationState:
+    """Load and validate one arbitrary accepted continuation payload."""
+
+    began = time.perf_counter()
+    with np.load(Path(path), allow_pickle=False) as source:
+        has_solver = bool(source["has_nonlinear_solver_state"])
+        solver = None
+        if has_solver:
+            solver = CausalFiveFieldFixedQNonlinearSolverState(
+                bordered_matrix_raw_reaction_coordinates=np.asarray(
+                    source["solver_bordered_matrix_raw"],
+                    dtype=float,
+                ),
+                anchor_primitive_charts=np.asarray(
+                    source["solver_anchor_primitive_charts"],
+                    dtype=float,
+                ),
+                raw_multiplier_predictor=np.asarray(
+                    source["solver_raw_multiplier_predictor"],
+                    dtype=float,
+                ),
+                q3_target=np.asarray(source["solver_q3_target"], dtype=float),
+                constraint_row_scales=np.asarray(
+                    source["solver_constraint_row_scales"],
+                    dtype=float,
+                ),
+                primitive_column_scales=np.asarray(
+                    source["solver_primitive_column_scales"],
+                    dtype=float,
+                ),
+                conservation_row_scales=np.asarray(
+                    source["solver_conservation_row_scales"],
+                    dtype=float,
+                ),
+                source_reaction_channel_transform=np.asarray(
+                    source["solver_source_reaction_channel_transform"],
+                    dtype=float,
+                ),
+                order=int(source["solver_order"]),
+                current_timestep_seconds=float(
+                    source["solver_current_timestep_seconds"]
+                ),
+                previous_timestep_seconds=float(
+                    source["solver_previous_timestep_seconds"]
+                ),
+                matrix_age_steps=int(source["solver_matrix_age_steps"]),
+                broyden_updates_since_exact=int(
+                    source["solver_broyden_updates_since_exact"]
+                ),
+                serialized_multiplier_basis=str(
+                    source["solver_serialized_multiplier_basis"].item()
+                ),
+                provenance=json.loads(
+                    str(source["solver_provenance_json"].item())
+                ),
+                schema_version=int(source["solver_schema_version"]),
+            )
+        continuation = CausalFiveFieldFixedQContinuationState(
+            current_primitive_charts=np.asarray(
+                source["current_primitive_charts"],
+                dtype=float,
+            ),
+            previous_primitive_charts=np.asarray(
+                source["previous_primitive_charts"],
+                dtype=float,
+            ),
+            history=CausalFiveFieldMonolithicBDFHistory(
+                previous_primitive_increment=np.asarray(
+                    source["previous_primitive_increment"],
+                    dtype=float,
+                ),
+                previous_mapped_storage_increment=np.asarray(
+                    source["previous_mapped_storage_increment"],
+                    dtype=float,
+                ),
+                previous_responsive_height_storage_increment=np.asarray(
+                    source["previous_responsive_height_storage_increment"],
+                    dtype=float,
+                ),
+                previous_timestep_seconds=float(
+                    source["previous_timestep_seconds"]
+                ),
+                temporal_path_scheme=str(source["temporal_path_scheme"].item()),
+            ),
+            q3_target=np.asarray(source["q3_target"], dtype=float),
+            constraint_row_scales=np.asarray(
+                source["constraint_row_scales"],
+                dtype=float,
+            ),
+            raw_multiplier_predictor=np.asarray(
+                source["raw_multiplier_predictor"],
+                dtype=float,
+            ),
+            next_reaction_channel_basis=str(
+                source["next_reaction_channel_basis"].item()
+            ),
+            next_reaction_channel_transform=np.asarray(
+                source["next_reaction_channel_transform"],
+                dtype=float,
+            ),
+            previous_minimum_path_reconstruction_factor=float(
+                source["previous_minimum_path_reconstruction_factor"]
+            ),
+            elapsed_time_seconds=float(source["elapsed_time_seconds"]),
+            completed_steps=int(source["completed_steps"]),
+            current_order=int(source["current_order"]),
+            next_order=int(source["next_order"]),
+            nonlinear_solver_state=solver,
+            provenance=json.loads(str(source["provenance_json"].item())),
+            schema_version=int(source["schema_version"]),
+        )
+    validated = _validated_fixed_q_continuation_state(context, continuation)
+    if (
+        expected_provenance is not None
+        and validated.provenance != expected_provenance
+    ):
+        raise ValueError("fixed-Q continuation provenance differs")
+    _accumulate_timing(
+        timing_accumulator,
+        "checkpoint_read_wall_seconds",
+        time.perf_counter() - began,
+    )
     return validated
 
 

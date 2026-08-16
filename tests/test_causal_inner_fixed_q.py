@@ -24,12 +24,18 @@ from imri_qpe.layer3_minidisk_1d.causal_inner_fixed_q import (
     causal_five_field_fixed_q_augmented_step_matrix,
     causal_five_field_fixed_q_bdf_restart,
     causal_five_field_fixed_q_bdf_restarts_equal,
+    causal_five_field_fixed_q_continuation_state,
+    causal_five_field_fixed_q_continuation_states_equal,
     causal_five_field_exterior_q3,
+    causal_five_field_fixed_q_nonlinear_solver_states_equal,
+    causal_five_field_fixed_q_rebase_nonlinear_solver_state,
     causal_five_field_fixed_q_reaction,
     causal_five_field_fixed_q_reaction_jvp,
     evaluate_causal_five_field_fixed_q_bdf,
     load_causal_five_field_fixed_q_bdf_restart,
+    load_causal_five_field_fixed_q_continuation_state,
     save_causal_five_field_fixed_q_bdf_restart,
+    save_causal_five_field_fixed_q_continuation_state,
     solve_causal_five_field_fixed_q_bdf,
     solve_causal_five_field_fixed_q_backward_euler,
 )
@@ -129,6 +135,79 @@ def _scaled_direction(base: np.ndarray) -> np.ndarray:
     )[None, :]
     direction = direction.ravel()
     return direction / np.linalg.norm(direction)
+
+
+def _accepted_fixture_bdf1_bdf2():
+    context, base, _columns, _rows, keywords = _problem()
+    tangent = causal_five_field_monolithic_frozen_tangent(
+        context,
+        base,
+        primitive_column_scales=keywords["primitive_column_scales"],
+        conservation_row_scales=keywords["conservation_row_scales"],
+    )
+    reaction = causal_five_field_fixed_q_reaction(context, base, **keywords)
+    multiplier = -reaction.q3_scaled_derivative @ tangent.scaled_base_rate_per_s
+    constrained_rate = (
+        tangent.scaled_base_rate_per_s + reaction.reaction_lift @ multiplier
+    )
+    timestep = 1.0e-8
+    bdf1 = solve_causal_five_field_fixed_q_backward_euler(
+        context,
+        base,
+        timestep,
+        constrained_rate,
+        multiplier,
+        reaction.descriptor_scaled_matrix / timestep
+        + tangent.evolving_scaled_jacobian,
+        q3_target=reaction.q3_value,
+        constraint_row_scales=reaction.q3_derivative_norms,
+        reaction_channel_basis="frozen_normalized",
+        reaction_channel_transform=reaction.raw_schur_inverse,
+        maximum_scaled_primitive_change=1.0e-2,
+        residual_tolerance=1.0e-2,
+        storage_parity_tolerance=2.0e-6,
+        maximum_newton_iterations=1,
+        maximum_line_search_iterations=1,
+        solver_state_provenance={"fixture": "bdf1"},
+        **keywords,
+    )
+    assert bdf1.accepted, bdf1.message
+    endpoint_reaction = causal_five_field_fixed_q_reaction(
+        context,
+        bdf1.primitive_charts,
+        **keywords,
+    )
+    raw_multiplier = (
+        bdf1.evaluation.reaction_channel_transform @ bdf1.multipliers
+    )
+    next_multiplier = np.linalg.solve(
+        endpoint_reaction.raw_schur_inverse,
+        raw_multiplier,
+    )
+    bdf2 = solve_causal_five_field_fixed_q_bdf(
+        context,
+        bdf1.primitive_charts,
+        timestep,
+        bdf1.scaled_rate_per_s,
+        next_multiplier,
+        1.5 * endpoint_reaction.descriptor_scaled_matrix / timestep
+        + tangent.evolving_scaled_jacobian,
+        order=2,
+        history=causal_five_field_fixed_q_accepted_history(bdf1),
+        q3_target=reaction.q3_value,
+        constraint_row_scales=reaction.q3_derivative_norms,
+        reaction_channel_basis="frozen_normalized",
+        reaction_channel_transform=endpoint_reaction.raw_schur_inverse,
+        maximum_scaled_primitive_change=1.0e-2,
+        residual_tolerance=1.0e-2,
+        storage_parity_tolerance=2.0e-6,
+        maximum_newton_iterations=2,
+        maximum_line_search_iterations=1,
+        solver_state_provenance={"fixture": "bdf2"},
+        **keywords,
+    )
+    assert bdf2.accepted, bdf2.message
+    return context, base, tangent, reaction, keywords, timestep, bdf1, bdf2
 
 
 def test_analytic_local_map_exposes_coordinate_angular_velocity_jacobian():
@@ -367,6 +446,152 @@ def test_backward_euler_correction_preserves_q3_and_roundtrips_restart(
         expected_provenance={"fixture": "fixed_q"},
     )
     assert causal_five_field_fixed_q_bdf_restarts_equal(restart, loaded)
+
+
+def test_bdf2_continuation_roundtrip_rebases_and_warm_starts(tmp_path) -> None:
+    (
+        context,
+        _base,
+        _tangent,
+        reaction,
+        keywords,
+        timestep,
+        bdf1,
+        bdf2,
+    ) = _accepted_fixture_bdf1_bdf2()
+    with pytest.raises(
+        ValueError,
+        match="rejected fixed-Q step cannot define continuation",
+    ):
+        causal_five_field_fixed_q_continuation_state(
+            replace(bdf2, accepted=False),
+            context,
+            bdf1.primitive_charts,
+            primitive_column_scales=keywords["primitive_column_scales"],
+            conservation_row_scales=keywords["conservation_row_scales"],
+            parent_cell_indices=keywords["parent_cell_indices"],
+            refinement_ratio=keywords["refinement_ratio"],
+            exterior_parent_face=keywords["exterior_parent_face"],
+            guard_end_parent_face=keywords["guard_end_parent_face"],
+            parent_cell_count=keywords["parent_cell_count"],
+            elapsed_time_seconds=2.0 * timestep,
+            completed_steps=2,
+            provenance={"fixture": "rejected"},
+        )
+    continuation = causal_five_field_fixed_q_continuation_state(
+        bdf2,
+        context,
+        bdf1.primitive_charts,
+        primitive_column_scales=keywords["primitive_column_scales"],
+        conservation_row_scales=keywords["conservation_row_scales"],
+        parent_cell_indices=keywords["parent_cell_indices"],
+        refinement_ratio=keywords["refinement_ratio"],
+        exterior_parent_face=keywords["exterior_parent_face"],
+        guard_end_parent_face=keywords["guard_end_parent_face"],
+        parent_cell_count=keywords["parent_cell_count"],
+        elapsed_time_seconds=2.0 * timestep,
+        completed_steps=2,
+        provenance={"fixture": "continuation"},
+    )
+    assert continuation.current_order == 2
+    assert continuation.next_order == 2
+    assert continuation.nonlinear_solver_state is not None
+    assert continuation.nonlinear_solver_state.serialized_multiplier_basis == (
+        "raw_reaction_channels"
+    )
+    path = tmp_path / "fixed_q_continuation.npz"
+    timing = {}
+    save_causal_five_field_fixed_q_continuation_state(
+        path,
+        context,
+        continuation,
+        timing_accumulator=timing,
+    )
+    loaded = load_causal_five_field_fixed_q_continuation_state(
+        path,
+        context,
+        expected_provenance={"fixture": "continuation"},
+        timing_accumulator=timing,
+    )
+    assert causal_five_field_fixed_q_continuation_states_equal(
+        continuation,
+        loaded,
+    )
+    assert timing["checkpoint_write_wall_seconds"] > 0.0
+    assert timing["checkpoint_read_wall_seconds"] > 0.0
+    tampered_anchor = np.array(
+        loaded.nonlinear_solver_state.anchor_primitive_charts,
+        copy=True,
+    )
+    tampered_anchor[0, 0] = np.nextafter(tampered_anchor[0, 0], np.inf)
+    tampered_solver_state = replace(
+        loaded.nonlinear_solver_state,
+        anchor_primitive_charts=tampered_anchor,
+    )
+    with pytest.raises(
+        ValueError,
+        match="fixed-Q nonlinear solver state is invalid",
+    ):
+        causal_five_field_fixed_q_rebase_nonlinear_solver_state(
+            context,
+            tampered_solver_state,
+            loaded.next_reaction_channel_transform,
+        )
+    endpoint_reaction = causal_five_field_fixed_q_reaction(
+        context,
+        loaded.current_primitive_charts,
+        **keywords,
+    )
+    carried_matrix, next_multiplier = (
+        causal_five_field_fixed_q_rebase_nonlinear_solver_state(
+            context,
+            loaded.nonlinear_solver_state,
+            endpoint_reaction.raw_schur_inverse,
+        )
+    )
+    dimensions = loaded.current_primitive_charts.size
+    assert carried_matrix.shape == (dimensions + 3, dimensions + 3)
+    np.testing.assert_allclose(
+        endpoint_reaction.raw_schur_inverse @ next_multiplier,
+        loaded.raw_multiplier_predictor,
+        rtol=1.0e-13,
+        atol=0.0,
+    )
+    warm = solve_causal_five_field_fixed_q_bdf(
+        context,
+        loaded.current_primitive_charts,
+        timestep,
+        bdf2.scaled_rate_per_s,
+        next_multiplier,
+        None,
+        order=2,
+        history=loaded.history,
+        q3_target=reaction.q3_value,
+        constraint_row_scales=reaction.q3_derivative_norms,
+        reaction_channel_basis="frozen_normalized",
+        reaction_channel_transform=endpoint_reaction.raw_schur_inverse,
+        initial_nonlinear_solver_state=loaded.nonlinear_solver_state,
+        initial_exact_jacobian_required=False,
+        refresh_exact_jacobian=True,
+        maximum_exact_jacobian_refreshes=1,
+        exact_jacobian_refresh_policy="on_line_search_failure",
+        maximum_scaled_primitive_change=1.0e-2,
+        residual_tolerance=1.0e-2,
+        storage_parity_tolerance=2.0e-6,
+        maximum_newton_iterations=2,
+        maximum_line_search_iterations=1,
+        solver_state_provenance={"fixture": "warm"},
+        **keywords,
+    )
+    assert warm.accepted, warm.message
+    assert warm.exact_jacobian_assemblies == 0
+    assert warm.nonlinear_solver_state.matrix_age_steps == 1
+    assert warm.profiling.total_wall_seconds > 0.0
+    assert warm.profiling.residual_wall_seconds > 0.0
+    assert causal_five_field_fixed_q_nonlinear_solver_states_equal(
+        warm.nonlinear_solver_state,
+        warm.nonlinear_solver_state,
+    )
 
 
 def test_synthetic_equal_q_history_root_is_numerically_well_formed() -> None:
