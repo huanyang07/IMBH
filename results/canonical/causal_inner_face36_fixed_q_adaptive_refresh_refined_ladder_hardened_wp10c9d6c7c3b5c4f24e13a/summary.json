@@ -1,0 +1,109 @@
+{
+  "classification": "adaptive_refresh_refined_fixed_Q_history_ladder_certified_one_Q_manifest_authorized",
+  "convergence": {
+    "heldout_16ms": {
+      "coarse_to_middle": {
+        "current": {
+          "reaction_action_absolute_error": 3271.276938092931,
+          "reaction_action_fixed_reference_relative_error": 0.028760546806456923,
+          "state_rate_absolute_error": 3279.3579338184495,
+          "state_rate_fixed_reference_relative_error": 0.02883153264720815
+        },
+        "current_case": "heldout_middle",
+        "passed": true,
+        "previous_case": "heldout_coarse",
+        "prior": {
+          "reaction_action_absolute_error": 6453.012786799062,
+          "reaction_action_fixed_reference_relative_error": 0.056733862589327236,
+          "state_rate_absolute_error": 6479.694963320587,
+          "state_rate_fixed_reference_relative_error": 0.05696832753520047
+        },
+        "reaction_action_order": 0.9801189846886358,
+        "state_rate_order": 0.9825125217920744
+      },
+      "middle_to_fine": {
+        "current": {
+          "reaction_action_absolute_error": 1648.5834033318356,
+          "reaction_action_fixed_reference_relative_error": 0.014494083207615718,
+          "state_rate_absolute_error": 1650.7845294054011,
+          "state_rate_fixed_reference_relative_error": 0.014513404457085068
+        },
+        "current_case": "heldout_fine",
+        "passed": true,
+        "previous_case": "heldout_middle",
+        "prior": {
+          "reaction_action_absolute_error": 3271.276938092931,
+          "reaction_action_fixed_reference_relative_error": 0.028760546806456923,
+          "state_rate_absolute_error": 3279.3579338184495,
+          "state_rate_fixed_reference_relative_error": 0.02883153264720815
+        },
+        "reaction_action_order": 0.9886270234238572,
+        "state_rate_order": 0.9902615538547083
+      }
+    },
+    "primary_20ms": {
+      "coarse_to_middle": {
+        "current": {
+          "reaction_action_absolute_error": 3102.2251108584155,
+          "reaction_action_fixed_reference_relative_error": 0.028032694468738642,
+          "state_rate_absolute_error": 3109.8303601433795,
+          "state_rate_fixed_reference_relative_error": 0.028101357220348105
+        },
+        "current_case": "primary_middle",
+        "passed": true,
+        "previous_case": "primary_coarse",
+        "prior": {
+          "reaction_action_absolute_error": 6119.8664058750655,
+          "reaction_action_fixed_reference_relative_error": 0.055301062629179124,
+          "state_rate_absolute_error": 6145.2235736163575,
+          "state_rate_fixed_reference_relative_error": 0.05553007812076782
+        },
+        "reaction_action_order": 0.9801967814737184,
+        "state_rate_order": 0.9826296151034483
+      },
+      "middle_to_fine": {
+        "current": {
+          "reaction_action_absolute_error": 1563.2598934555888,
+          "reaction_action_fixed_reference_relative_error": 0.014126114450910162,
+          "state_rate_absolute_error": 1565.323587039817,
+          "state_rate_fixed_reference_relative_error": 0.014144732088477807
+        },
+        "current_case": "primary_fine",
+        "passed": true,
+        "previous_case": "primary_middle",
+        "prior": {
+          "reaction_action_absolute_error": 3102.2251108584155,
+          "reaction_action_fixed_reference_relative_error": 0.028032694468738642,
+          "state_rate_absolute_error": 3109.8303601433795,
+          "state_rate_fixed_reference_relative_error": 0.028101357220348105
+        },
+        "reaction_action_order": 0.9887457306477128,
+        "state_rate_order": 0.9903749591397027
+      }
+    }
+  },
+  "fixed_Q_micro_solver_authorized": false,
+  "one_Q_execution_manifest_authorized": true,
+  "passed": true,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "stages": {
+    "heldout_fine": {
+      "classification": "adaptive_refresh_refined_ladder_stage_heldout_fine_passed",
+      "passed": true
+    },
+    "heldout_middle": {
+      "classification": "adaptive_refresh_refined_ladder_stage_heldout_middle_passed",
+      "passed": true
+    },
+    "primary_fine": {
+      "classification": "adaptive_refresh_refined_ladder_stage_primary_fine_passed",
+      "passed": true
+    },
+    "primary_middle": {
+      "classification": "adaptive_refresh_refined_ladder_stage_primary_middle_passed",
+      "passed": true
+    }
+  },
+  "work_package": "WP10c9d6c7c3b5c4f24e13a"
+}
