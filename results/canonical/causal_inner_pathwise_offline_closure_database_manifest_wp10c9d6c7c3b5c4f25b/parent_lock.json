@@ -1,0 +1,49 @@
+{
+  "decision": {
+    "analysis_completed": true,
+    "architecture_supported_for_offline_identification": true,
+    "classification": "reduced_cycle_architecture_selected_coefficients_unidentified_offline_closure_database_manifest_authorized",
+    "coefficients_identifiable_from_existing_committed_data": false,
+    "fallback_if_finite_memory_fails": "larger_conservative_coarse_radial_PDE",
+    "new_fixed_Q_root_executed": false,
+    "new_truth_trajectory_executed": false,
+    "next_manifest_must_freeze": {
+      "exploratory_and_predictive_cycle_claims_separated": true,
+      "fine_layout_is_sparse_validation_only": true,
+      "global_tensor_product_Q_grid_forbidden": true,
+      "memory_orders": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "middle_layout_is_primary": true,
+      "pathwise_anchor_count_range": [
+        10,
+        30
+      ],
+      "stable_poles_and_dissipation_required": true,
+      "training_validation_split_frozen_before_truth_queries": true,
+      "truth_queries": [
+        "constrained_steady_roots_on_declared_branches",
+        "complete_local_Jacobians_and_transfer_functions",
+        "short_truth_bursts_only_near_unresolved_transitions"
+      ]
+    },
+    "offline_closure_database_manifest_authorized": true,
+    "online_solver_implementation_authorized": false,
+    "predictive_cycle_authorized": false,
+    "selected_architecture": "cellwise_Q5_FV_plus_a2_finite_memory_hybrid"
+  },
+  "package_hashes": {
+    "candidate_matrix.json": "c32b5933ee30fb1e137f92c50e4a18f6e0c30a08c5c44bea92f321f9ea4b66da",
+    "decision.json": "0046308ac41e71ff62f00973a18be57766d006faa67cf7d0a7ea8fcd4658cdc9",
+    "evidence_ledger.json": "38bf36bab30f80e46dc36e7edb3fbe7469a05dbc12d6adfe728380b30180f828",
+    "parent_lock.json": "951cc765beb4ba0930da9e4537aec6ffda800620a0085e720ff2318421753a14",
+    "provenance.json": "6bf37bfa2ba82d4a6a69c22e05895f6e2013eace525290944bc81087d278fcca",
+    "summary.json": "561460b8b67a8c57eae68ebd35f34871d54fe659a1edbfe038a0fb4b84bd6d8b"
+  },
+  "parent_package_commit": "a7e0beb3099075cb89c70c9385d47f7d0bd1bec1",
+  "parent_package_parent": "1c070c5c2ab3bcdaaae411fe0c4dfe87752dc4a4",
+  "parent_package_tree": "08aa4feb2eee1c59c7a6d81fdaf70986a0950153"
+}

@@ -1,0 +1,161 @@
+{
+  "binding_validation_gates": {
+    "M_J_E_telescope_relative_defect_max": 5e-12,
+    "complete_JVP_relative_defect_max": 1e-07,
+    "fine_middle_significant_transfer_error_max": 0.25,
+    "frequency_solve_relative_residual_max": 1e-10,
+    "leading_two_projector_cosine_min": 0.95,
+    "online_conservation_regression_must_be_bitwise": true,
+    "quasi_steady_face_flux_normalized_error_max": 0.15,
+    "restriction_lifting_identity_max": 5e-12,
+    "significant_transfer_direction_error_max": 0.25,
+    "truth_root_complete_residual_max": 1e-10,
+    "unstable_fitted_pole_count_max": 0
+  },
+  "claim_boundary": {
+    "database_pass_may_authorize": [
+      "online_reduced_solver_implementation_manifest",
+      "committed_short_time_replay_manifest"
+    ],
+    "database_pass_may_not_authorize": [
+      "predictive_QPE_cycle",
+      "physical_hot_cold_cycle_claim",
+      "reduced_slow_evolution"
+    ],
+    "exploratory_one_zone_switches_are_not_truth_labels": true
+  },
+  "classification": "pathwise_offline_closure_database_manifest_frozen_single_anchor_descriptor_pilot_authorized",
+  "definitions_only": true,
+  "descriptor_reduction": {
+    "DC_quasi_steady_map_is_not_refit_by_the_memory_kernel": true,
+    "full_linearization": "E_dxdt=A_dx+B_du_with_constraint_border",
+    "remaining_transfer_is_fit_with_shared_stable_poles": true,
+    "state_split": "dx=L_dU+Z_dz_with_RL=I_and_RZ=0",
+    "two_stable_modes_are_removed_from_the_kernel_and_retained_explicitly": true,
+    "unresolved_transfer": "G(s)=D+C_z*(s*E_z-A_z)^(-1)*(A_z*L-s*E_z*L)"
+  },
+  "hard_stops": [
+    "do_not_open_heldout_anchors_before_training_and_memory_order_are_frozen",
+    "do_not_add_anchors_using_heldout_error",
+    "do_not_call_an_unclassified_20ms_seed_a_cold_or_hot_state",
+    "do_not_infer_transition_states_by_interpolating_steady_branches",
+    "do_not_run_a_global_tensor_product_parameter_sweep",
+    "do_not_put_fixed_Q_or_HMM_truth_calls_in_the_online_model",
+    "do_not_claim_a_predictive_cycle_from_the_database_alone"
+  ],
+  "identification_scope": {
+    "fine_layout_is_sparse_validation_truth_only": true,
+    "global_tensor_product_Q_grid_forbidden": true,
+    "local_validity_object": "branchwise_trajectory_tube_with_linear_transverse_response",
+    "middle_layout_is_training_truth": true,
+    "online_truth_calls": 0,
+    "pathwise_not_global_state_space": true
+  },
+  "memory_selection": {
+    "complex_poles_and_residues_must_occur_in_conjugate_pairs": true,
+    "orders_tested": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "passivity_or_declared_supply_rate_dissipation_identity_required": true,
+    "poles_must_have_strictly_negative_real_parts": true,
+    "post_heldout_order_change_forbidden": true,
+    "selection_rule": "smallest_order_passing_every_training_CV_and_sealed_heldout_gate"
+  },
+  "purpose": "identify_a_trajectory_tube_closure_from_offline_truth_without_placing_the_truth_solver_in_the_online_cycle",
+  "resolved_coordinates": {
+    "branch_labels": [
+      "cold",
+      "transition_up",
+      "hot",
+      "transition_down"
+    ],
+    "candidate_memory_orders": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "cellwise_storage": [
+      "mapped_mass",
+      "mapped_angular_momentum",
+      "mapped_killing_energy",
+      "column_thermal_content_candidate",
+      "relaxing_stress_storage_candidate"
+    ],
+    "explicit_cross_grid_stable_amplitudes": 2,
+    "lifting_must_satisfy_RL_identity_and_constraints": true,
+    "primary_radial_cells": 16,
+    "restriction_must_preserve_cell_integrated_M_J_E_exactly": true
+  },
+  "schema_version": 1,
+  "selected_architecture": "cellwise_Q5_FV_plus_a2_finite_memory_hybrid",
+  "truth_record_per_anchor": {
+    "frequency_grid": {
+      "angular_frequency_max_per_second": 31415926.535897933,
+      "angular_frequency_min_per_second": 1.0854037636780656e-05,
+      "count": 32,
+      "includes_exact_DC_evaluation_separately": true,
+      "spacing": "logarithmic_in_angular_frequency",
+      "values_per_second": [
+        1.0854037636780656e-05,
+        2.7389057189504134e-05,
+        6.911349295380076e-05,
+        0.00017440085196162046,
+        0.00044008276625912305,
+        0.001110503985387082,
+        0.0028022435689619035,
+        0.007071175901319455,
+        0.01784339133872084,
+        0.04502597855150628,
+        0.11361846557281416,
+        0.28670461219079707,
+        0.7234698535758388,
+        1.8256024032313998,
+        4.606721507760647,
+        11.624591977147283,
+        29.333472493943958,
+        74.02002670240172,
+        186.7819895566549,
+        471.3253044748003,
+        1189.3413447707237,
+        3001.1816063159467,
+        7573.175752857993,
+        19110.13677512138,
+        48222.481490149905,
+        121684.51479087227,
+        307058.4648970122,
+        774830.7253963108,
+        1955206.3259989773,
+        4933763.7911443375,
+        12449849.830743477,
+        31415926.53589785
+      ]
+    },
+    "raw_pointwise_horizon_flux_forbidden": true,
+    "required_linear_objects": [
+      "continuous_time_descriptor_E_and_A",
+      "constraint_border_and_reaction_action_derivative",
+      "conservative_restriction_and_constraint_compatible_lifting",
+      "resolved_to_flux_transfer_G_of_s",
+      "two_explicit_mode_projectors"
+    ],
+    "required_quasi_steady_outputs": [
+      "single_valued_M_J_E_flux_at_every_coarse_face",
+      "face36_exterior_partition",
+      "cell_sources_and_work",
+      "two_mode_coordinates_and_rates",
+      "physical_reaction_action"
+    ],
+    "required_state_fields": [
+      "primitive_state",
+      "mapped_storage",
+      "responsive_height_history",
+      "Q_target_and_constraint_scales",
+      "branch_and_arclength"
+    ]
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25b"
+}

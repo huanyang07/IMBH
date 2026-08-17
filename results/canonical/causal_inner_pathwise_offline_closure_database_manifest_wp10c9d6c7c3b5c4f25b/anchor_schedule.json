@@ -1,0 +1,219 @@
+{
+  "adaptive_rule": {
+    "deterministic_tie_break": "branch_order_then_lower_arclength",
+    "heldout_data_may_not_select_new_anchors": true,
+    "indicator": "training_only_leave_one_interval_out_flux_and_transfer_error",
+    "maximum_new_anchors_per_branch": 3,
+    "new_location": "midpoint_of_highest_indicator_same_branch_interval",
+    "stop_when_all_training_indicators_pass_or_budget_is_exhausted": true
+  },
+  "branch_order": [
+    "cold",
+    "transition_up",
+    "hot",
+    "transition_down"
+  ],
+  "fine_validation_ids": [
+    "C04",
+    "TU01",
+    "H04",
+    "TD01"
+  ],
+  "initial_anchor_count": 18,
+  "initial_slots": [
+    {
+      "anchor_id": "C00",
+      "branch": "cold",
+      "fine_layout_query": false,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 0.0,
+      "role": "training",
+      "sealed_until_training_and_memory_order_are_frozen": false
+    },
+    {
+      "anchor_id": "C01",
+      "branch": "cold",
+      "fine_layout_query": false,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 0.2,
+      "role": "heldout",
+      "sealed_until_training_and_memory_order_are_frozen": true
+    },
+    {
+      "anchor_id": "C02",
+      "branch": "cold",
+      "fine_layout_query": false,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 0.4,
+      "role": "training",
+      "sealed_until_training_and_memory_order_are_frozen": false
+    },
+    {
+      "anchor_id": "C03",
+      "branch": "cold",
+      "fine_layout_query": false,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 0.6,
+      "role": "training",
+      "sealed_until_training_and_memory_order_are_frozen": false
+    },
+    {
+      "anchor_id": "C04",
+      "branch": "cold",
+      "fine_layout_query": true,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 0.8,
+      "role": "heldout",
+      "sealed_until_training_and_memory_order_are_frozen": true
+    },
+    {
+      "anchor_id": "C05",
+      "branch": "cold",
+      "fine_layout_query": false,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 1.0,
+      "role": "training",
+      "sealed_until_training_and_memory_order_are_frozen": false
+    },
+    {
+      "anchor_id": "TU00",
+      "branch": "transition_up",
+      "fine_layout_query": false,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 0.0,
+      "role": "training",
+      "sealed_until_training_and_memory_order_are_frozen": false
+    },
+    {
+      "anchor_id": "TU01",
+      "branch": "transition_up",
+      "fine_layout_query": true,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 0.5,
+      "role": "heldout",
+      "sealed_until_training_and_memory_order_are_frozen": true
+    },
+    {
+      "anchor_id": "TU02",
+      "branch": "transition_up",
+      "fine_layout_query": false,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 1.0,
+      "role": "training",
+      "sealed_until_training_and_memory_order_are_frozen": false
+    },
+    {
+      "anchor_id": "H00",
+      "branch": "hot",
+      "fine_layout_query": false,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 0.0,
+      "role": "training",
+      "sealed_until_training_and_memory_order_are_frozen": false
+    },
+    {
+      "anchor_id": "H01",
+      "branch": "hot",
+      "fine_layout_query": false,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 0.2,
+      "role": "heldout",
+      "sealed_until_training_and_memory_order_are_frozen": true
+    },
+    {
+      "anchor_id": "H02",
+      "branch": "hot",
+      "fine_layout_query": false,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 0.4,
+      "role": "training",
+      "sealed_until_training_and_memory_order_are_frozen": false
+    },
+    {
+      "anchor_id": "H03",
+      "branch": "hot",
+      "fine_layout_query": false,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 0.6,
+      "role": "training",
+      "sealed_until_training_and_memory_order_are_frozen": false
+    },
+    {
+      "anchor_id": "H04",
+      "branch": "hot",
+      "fine_layout_query": true,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 0.8,
+      "role": "heldout",
+      "sealed_until_training_and_memory_order_are_frozen": true
+    },
+    {
+      "anchor_id": "H05",
+      "branch": "hot",
+      "fine_layout_query": false,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 1.0,
+      "role": "training",
+      "sealed_until_training_and_memory_order_are_frozen": false
+    },
+    {
+      "anchor_id": "TD00",
+      "branch": "transition_down",
+      "fine_layout_query": false,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 0.0,
+      "role": "training",
+      "sealed_until_training_and_memory_order_are_frozen": false
+    },
+    {
+      "anchor_id": "TD01",
+      "branch": "transition_down",
+      "fine_layout_query": true,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 0.5,
+      "role": "heldout",
+      "sealed_until_training_and_memory_order_are_frozen": true
+    },
+    {
+      "anchor_id": "TD02",
+      "branch": "transition_down",
+      "fine_layout_query": false,
+      "middle_layout_query": true,
+      "normalized_branch_arclength": 1.0,
+      "role": "training",
+      "sealed_until_training_and_memory_order_are_frozen": false
+    }
+  ],
+  "initial_training_ids": [
+    "C00",
+    "C02",
+    "C03",
+    "C05",
+    "TU00",
+    "TU02",
+    "H00",
+    "H02",
+    "H03",
+    "H05",
+    "TD00",
+    "TD02"
+  ],
+  "maximum_adaptive_training_anchors": 12,
+  "maximum_total_middle_anchors": 30,
+  "path_is_one_dimensional_branch_arclength_not_a_tensor_product_grid": true,
+  "physical_anchor_construction": {
+    "branch_existence_is_assumed": false,
+    "cold_and_hot": "constraint_consistent_pseudo_arclength_roots_in_total_inner_mass_with_all_other_slow_controls_recorded_not_silently_frozen",
+    "failure_to_find_two_branches_and_two_transitions": "database_architecture_not_identified_stop_without_cycle_claim",
+    "one_zone_thresholds_define_truth_anchors": false,
+    "transitions": "event_bracketed_states_from_the_shortest_prospectively_authorized_truth_snippet_not_interpolation_between_branch_roots"
+  },
+  "sealed_heldout_ids": [
+    "C01",
+    "C04",
+    "TU01",
+    "H01",
+    "H04",
+    "TD01"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "allowed_exact_continuous_descriptor_assemblies": 1,
+  "allowed_fine_layout_queries": 0,
+  "allowed_frequency_points": 33,
+  "allowed_new_nonlinear_roots": 0,
+  "allowed_short_truth_burst_steps": 0,
+  "automatic_next_on_pass": "definitions_only_first_training_anchor_batch_manifest_not_the_full_campaign",
+  "classifications": {
+    "fail": "single_anchor_descriptor_schema_failed_database_campaign_blocked",
+    "inconclusive": "single_anchor_descriptor_schema_inconclusive_diagnostic_only",
+    "pass": "single_anchor_descriptor_schema_passed_first_training_batch_manifest_authorized"
+  },
+  "full_campaign_truth_budget": {
+    "maximum_fine_validation_anchors": 4,
+    "maximum_middle_anchors": 30,
+    "maximum_optional_transition_burst_anchors": 2,
+    "maximum_optional_transition_burst_steps_per_anchor": 8,
+    "maximum_total_execution_wall_hours": 72.0,
+    "stop_on_first_binding_failure": true
+  },
+  "maximum_wall_hours": 6.0,
+  "must_extract": [
+    "conservative_16_cell_restriction",
+    "constraint_compatible_lifting",
+    "continuous_time_descriptor_not_a_BDF_matrix",
+    "two_explicit_mode_projectors",
+    "all_coarse_face_M_J_E_output_rows",
+    "DC_and_log_frequency_transfer_samples"
+  ],
+  "pass_requires": {
+    "M_J_E_telescope_relative_defect_max": 5e-12,
+    "database_roundtrip_bitwise": true,
+    "descriptor_complete_JVP_relative_defect_max": 1e-07,
+    "frequency_solve_relative_residual_max": 1e-10,
+    "no_new_root_or_propagated_state": true,
+    "restriction_lifting_identity_max": 5e-12,
+    "seed_checkpoint_hash_and_acceptance_valid": true,
+    "transfer_conjugate_symmetry_relative_defect_max": 1e-10
+  },
+  "pilot_id": "P00_primary_20ms_descriptor_schema",
+  "purpose": "test_descriptor_and_database_extractability_before_any_anchor_campaign",
+  "seed_branch_label": "unclassified",
+  "seed_hashes": {
+    "results/canonical/causal_inner_face36_fixed_q_primary_retry_wp10c9d6c7c3b5c4f24e14l/checkpoint_warm_3.json": "369f28bb25f6fcf7b5f68efe16a78c63e7274f999d8d915a917a40ccf2ff59fc",
+    "results/canonical/causal_inner_face36_fixed_q_primary_retry_wp10c9d6c7c3b5c4f24e14l/checkpoint_warm_3.npz": "c072942d8ca37b6ae5747d2b76a214725c79ecc1932fe233a91d84e0eb55b1f9",
+    "results/canonical/causal_inner_face36_fixed_q_primary_retry_wp10c9d6c7c3b5c4f24e14l/metrics_warm_3.json": "cb7c88d6f9d06808cf8849d5a1d464353b43632aa53f15df66fb89029029f9ab",
+    "results/canonical/causal_inner_face36_fixed_q_primary_retry_wp10c9d6c7c3b5c4f24e14l/summary.json": "84218f97ec96a653aad86fc1905ae4566cb4df99be34f984cf5aac13ba3d5873"
+  },
+  "seed_role": "unclassified_schema_seed_not_training_not_heldout"
+}
