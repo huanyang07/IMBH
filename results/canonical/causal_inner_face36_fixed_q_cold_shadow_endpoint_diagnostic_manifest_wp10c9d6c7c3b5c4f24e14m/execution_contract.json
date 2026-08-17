@@ -1,0 +1,68 @@
+{
+  "authorized_diagnostic": {
+    "all_existing_physical_storage_reaction_and_ledger_gates": true,
+    "candidate_may_enter_history": false,
+    "cold_shadow_endpoint": "result_cold_shadow.npz",
+    "committed_cold_maximum_scaled_residual": 6.398284679853816e-11,
+    "committed_reaction_action_relative_defect": 2.8666087608919947e-08,
+    "committed_scaled_state_absolute_defect": 7.859135564558528e-11,
+    "committed_warm_maximum_scaled_residual": 5.048217216618925e-13,
+    "common_start_checkpoint": "checkpoint_warm_1.npz",
+    "continuation_state_may_be_constructed": false,
+    "maximum_exact_complete_jacobian_assemblies": 1,
+    "maximum_exact_newton_corrections": 1,
+    "relative_line_search_factors": [
+      1.0,
+      0.5,
+      0.25,
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+    ],
+    "saved_residual_and_reaction_action_reproduction": "bitwise",
+    "state": "primary_20ms",
+    "timestep_seconds": 1e-07,
+    "unchanged_maximum_reaction_action_relative_difference": 1e-08,
+    "unchanged_maximum_scaled_residual": 1e-10,
+    "unchanged_maximum_scaled_state_difference": 1e-08,
+    "warm_endpoint": "result_warm_2.npz"
+  },
+  "binding_diagnostics": [
+    "bitwise_saved_warm_and_cold_residual_reproduction",
+    "bitwise_saved_warm_and_cold_reaction_action_reproduction",
+    "exact_linear_solve_relative_residual",
+    "corrected_cold_complete_residual",
+    "corrected_cold_physical_acceptance",
+    "corrected_cold_to_warm_scaled_state_absolute_defect",
+    "corrected_cold_to_warm_reaction_action_relative_defect"
+  ],
+  "classifications": {
+    "failed": "cold_shadow_exact_endpoint_diagnostic_failed",
+    "improved_not_passed": "cold_shadow_exact_endpoint_diagnostic_inconclusive",
+    "positive": "cold_shadow_residual_limited_action_equivalence_diagnosed"
+  },
+  "definitions_only": true,
+  "diagnostic_only": [
+    "cold_action_change_per_scaled_state_correction",
+    "reaction_action_defect_reduction_factor",
+    "Schur_condition_number"
+  ],
+  "hard_stops": {
+    "no_continuation_state": true,
+    "no_fast_averaging": true,
+    "no_fixed_Q_micro_solver": true,
+    "no_gate_relaxation": true,
+    "no_heldout_continuation": true,
+    "no_operational_timestep_search": true,
+    "no_parent_reclassification": true,
+    "no_physical_microburst": true,
+    "no_primary_retry": true,
+    "no_reduced_slow_evolution": true,
+    "no_trajectory_advance": true
+  },
+  "parent_classification_preserved": "bounded_continuation_failed",
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f24e14m"
+}
