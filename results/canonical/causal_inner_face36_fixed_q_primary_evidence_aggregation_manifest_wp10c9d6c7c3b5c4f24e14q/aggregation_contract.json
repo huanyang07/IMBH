@@ -1,0 +1,41 @@
+{
+  "aggregation_only": true,
+  "binding_primary_evidence": {
+    "accepted_main_BDF2_roots": 4,
+    "accepted_main_horizon_seconds": 4e-07,
+    "all_main_root_acceptance_gates": true,
+    "all_polished_control_audits": true,
+    "certified_control_comparison_residual": 1e-12,
+    "cumulative_ledger_passed": true,
+    "matched_endpoint_half_step_audit_passed": true,
+    "maximum_reaction_action_relative_difference": 1e-08,
+    "maximum_scaled_state_difference": 1e-08,
+    "maximum_warm_to_cold_residual_evaluation_ratio": 0.75,
+    "maximum_warm_to_cold_wall_time_ratio": 0.75,
+    "same_history_control_accepted": true,
+    "same_history_cost_passed": true,
+    "suffix_replay_bitwise": true
+  },
+  "decision": {
+    "fail": "primary_evidence_aggregation_failed",
+    "pass": "primary_bounded_continuation_evidence_certified",
+    "pass_authorizes_only": "definitions_only_heldout_continuation_manifest"
+  },
+  "definitions_only": true,
+  "hard_stops": {
+    "no_fast_averaging": true,
+    "no_fixed_Q_micro_solver": true,
+    "no_heldout_execution": true,
+    "no_historical_parent_reclassification": true,
+    "no_new_physical_root": true,
+    "no_operational_timestep_search": true,
+    "no_physical_microburst": true,
+    "no_primary_retry": true,
+    "no_reduced_slow_evolution": true,
+    "no_trajectory_advance": true
+  },
+  "historical_parent_classification_preserved": "bounded_continuation_failed",
+  "physical_root_execution_authorized": false,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f24e14q"
+}
