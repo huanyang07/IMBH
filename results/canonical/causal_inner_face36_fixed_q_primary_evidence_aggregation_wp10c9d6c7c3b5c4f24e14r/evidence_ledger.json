@@ -1,0 +1,57 @@
+{
+  "accepted_primary_evidence": {
+    "accepted_horizon_seconds": 4e-07,
+    "cumulative_absolute_ledger_defect": 3.9968871035996406e-16,
+    "half_step_reaction_action_difference": 1.7656403948099872e-05,
+    "half_step_state_difference": 3.363160546067348e-06,
+    "main_roots": {
+      "cold_1": {
+        "exact_Jacobian_assemblies": 2,
+        "function_evaluations": 19,
+        "maximum_scaled_residual": 4.737492683089679e-13
+      },
+      "warm_1": {
+        "exact_Jacobian_assemblies": 1,
+        "function_evaluations": 8,
+        "maximum_scaled_residual": 5.533443390874517e-13
+      },
+      "warm_2": {
+        "exact_Jacobian_assemblies": 1,
+        "function_evaluations": 8,
+        "maximum_scaled_residual": 5.048217216618925e-13
+      },
+      "warm_3": {
+        "exact_Jacobian_assemblies": 1,
+        "function_evaluations": 8,
+        "maximum_scaled_residual": 8.748886309915929e-13
+      }
+    },
+    "polished_reaction_action_difference": 1.8755691793246385e-09,
+    "polished_state_difference": 5.064393349130114e-12,
+    "suffix_replay_passed": true,
+    "warm_to_cold_residual_evaluation_ratio": 0.6153846153846154,
+    "warm_to_cold_wall_time_ratio": 0.671928380445457
+  },
+  "evaluation": {
+    "gates": {
+      "accepted_horizon": true,
+      "all_main_roots_accepted": true,
+      "certified_comparison_policy": true,
+      "cumulative_ledger": true,
+      "historical_classification_preserved": true,
+      "main_root_count": true,
+      "matched_endpoint_half_step": true,
+      "nonpropagation": true,
+      "positive_diagnosis": true,
+      "same_history_control_accepted": true,
+      "same_history_cost": true,
+      "suffix_replay_bitwise": true
+    },
+    "passed": true
+  },
+  "nonpropagation": {
+    "physical_roots_rerun": 0,
+    "trajectory_horizon_seconds_added": 0.0
+  },
+  "schema_version": 1
+}
