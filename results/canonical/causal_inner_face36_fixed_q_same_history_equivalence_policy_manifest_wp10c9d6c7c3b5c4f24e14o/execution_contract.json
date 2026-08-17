@@ -1,0 +1,60 @@
+{
+  "authorized_certificate": {
+    "accepted_control": "result_cold_shadow.npz",
+    "accepted_trajectory_horizon_seconds_added": 0.0,
+    "common_start_checkpoint": "checkpoint_warm_1.npz",
+    "maximum_exact_assemblies": 1,
+    "maximum_exact_corrections": 1,
+    "warm_reference": "result_warm_2.npz"
+  },
+  "classifications": {
+    "fail": "same_history_equivalence_policy_failed",
+    "pass": "same_history_equivalence_policy_certified"
+  },
+  "definitions_only": true,
+  "equivalence_control_policy": {
+    "accepted_control_root_required_before_polish": true,
+    "all_existing_physical_storage_reaction_and_ledger_gates": true,
+    "endpoint_polish_trigger": "accepted_control_residual_above_1e-12_or_state_action_equivalence_not_yet_closed",
+    "maximum_endpoint_polish_corrections": 1,
+    "maximum_endpoint_polish_exact_assemblies": 1,
+    "maximum_reaction_action_relative_difference": 1e-08,
+    "maximum_scaled_residual_before_state_action_comparison": 1e-12,
+    "maximum_scaled_state_difference": 1e-08,
+    "multiplier_coordinate_equality_binding": false,
+    "physical_reaction_action_equality_binding": true,
+    "polished_control_may_define_history": false,
+    "polished_control_may_define_trajectory": false,
+    "relative_line_search_factors": [
+      1.0,
+      0.5,
+      0.25,
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+    ]
+  },
+  "hard_stops": {
+    "no_continuation_state": true,
+    "no_fast_averaging": true,
+    "no_fixed_Q_micro_solver": true,
+    "no_heldout_continuation": true,
+    "no_historical_parent_reclassification": true,
+    "no_operational_timestep_search": true,
+    "no_physical_microburst": true,
+    "no_primary_retry": true,
+    "no_production_root_gate_change": true,
+    "no_reduced_slow_evolution": true,
+    "no_trajectory_advance": true
+  },
+  "historical_parent_classification_preserved": "bounded_continuation_failed",
+  "policy_scope": "nonpropagating_same_history_equivalence_controls_only",
+  "production_step_acceptance": {
+    "maximum_scaled_residual": 1e-10,
+    "unchanged": true
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f24e14o"
+}
