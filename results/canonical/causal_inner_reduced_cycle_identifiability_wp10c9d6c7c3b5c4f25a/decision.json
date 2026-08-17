@@ -1,0 +1,36 @@
+{
+  "analysis_completed": true,
+  "architecture_supported_for_offline_identification": true,
+  "classification": "reduced_cycle_architecture_selected_coefficients_unidentified_offline_closure_database_manifest_authorized",
+  "coefficients_identifiable_from_existing_committed_data": false,
+  "fallback_if_finite_memory_fails": "larger_conservative_coarse_radial_PDE",
+  "new_fixed_Q_root_executed": false,
+  "new_truth_trajectory_executed": false,
+  "next_manifest_must_freeze": {
+    "exploratory_and_predictive_cycle_claims_separated": true,
+    "fine_layout_is_sparse_validation_only": true,
+    "global_tensor_product_Q_grid_forbidden": true,
+    "memory_orders": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "middle_layout_is_primary": true,
+    "pathwise_anchor_count_range": [
+      10,
+      30
+    ],
+    "stable_poles_and_dissipation_required": true,
+    "training_validation_split_frozen_before_truth_queries": true,
+    "truth_queries": [
+      "constrained_steady_roots_on_declared_branches",
+      "complete_local_Jacobians_and_transfer_functions",
+      "short_truth_bursts_only_near_unresolved_transitions"
+    ]
+  },
+  "offline_closure_database_manifest_authorized": true,
+  "online_solver_implementation_authorized": false,
+  "predictive_cycle_authorized": false,
+  "selected_architecture": "cellwise_Q5_FV_plus_a2_finite_memory_hybrid"
+}

@@ -1,0 +1,44 @@
+{
+  "cellwise_Q5_FV_plus_a2_finite_memory_hybrid": {
+    "architecture_supported_for_offline_identification": true,
+    "coefficients_identified": false,
+    "decisive_reason": "only_predeclared_candidate_preserving_exact_conservation_stable_leading_coordinates_unresolved_memory_and_zero_online_truth_calls",
+    "online_feasibility_by_construction": true,
+    "selected": true
+  },
+  "direct_fixed_Q_microstepping": {
+    "decisive_reason": "requires_more_than_2e10_end_to_end_speedup",
+    "online_feasible": false,
+    "scientific_role": "offline_truth_only",
+    "selected": false
+  },
+  "global_Q3_instantaneous_Markov": {
+    "decisive_reason": "exact_34_coordinate_fiber_counterexample",
+    "online_feasible": true,
+    "scientifically_supported": false,
+    "selected": false
+  },
+  "global_Q3_plus_six_explicit_modes": {
+    "decisive_reason": "six_mode_dynamic_coordinate_not_cross_grid_stable",
+    "online_feasible": true,
+    "scientifically_supported": false,
+    "selected": false
+  },
+  "global_Q3_plus_two_direct_modes": {
+    "decisive_reason": "significant_direction_error_1.043772_exceeds_0p25",
+    "online_feasible": true,
+    "scientifically_supported": false,
+    "selected": false
+  },
+  "larger_conservative_coarse_radial_PDE": {
+    "must_preserve_exact_M_J_E_ledgers": true,
+    "role": "fallback_if_compact_finite_memory_fails_cross_grid_validation",
+    "selected": false
+  },
+  "leading_two_plus_online_HMM": {
+    "decisive_reason": "online_truth_microbursts_violate_zero_truth_call_contract",
+    "guard_scientifically_required": true,
+    "online_feasible": false,
+    "selected": false
+  }
+}

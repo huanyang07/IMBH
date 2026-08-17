@@ -1,0 +1,68 @@
+{
+  "cycle_physics": {
+    "certified_short_time_truth_includes_predictive_hot_cold_cycle": false,
+    "fiducial_cycle_days": 6.7,
+    "predictive_cycle_coefficients_identifiable_from_existing_data": false,
+    "source_is_phenomenological_one_zone_model": true
+  },
+  "instantaneous_markov_counterexample": {
+    "classification": "exact_nonlinear_fiber_counterexample_confirmed_N64_N128",
+    "coordinate_dimension": 34,
+    "instantaneous_markov_closure_supported": false,
+    "source": "docs/reports/current/CODEX_CAUSAL_NONLINEAR_FIBER_AUDIT_WP10C8O_RESULTS_2026-07-22.md",
+    "source_sha256": "50ba14af47c036d3334b9a643428f57992cc25889b61d6b5c3d598f489a4368a"
+  },
+  "leading_two_plus_guard": {
+    "direct_two_mode_output_closure_supported": false,
+    "guard_required": true,
+    "leading_two_state_coordinate_supported": true,
+    "online_guard_truth_calls_per_step_allowed": 0
+  },
+  "observable_memory": {
+    "binding_k99": 2,
+    "guard_state_k99": 8,
+    "minimum_cross_resolution_subspace_cosine": 0.9999890224716108,
+    "persistent_not_rapidly_contracting": true
+  },
+  "persistent_local_memory": {
+    "N64_and_N128_healing_supported": false,
+    "late_phase_is_cross_grid_resolved": false,
+    "persistence_horizon_seconds": 0.125,
+    "source": "docs/reports/current/CODEX_CAUSAL_INNER_MODE_HEALING_WP10C8T_RESULTS_2026-07-24.md",
+    "source_sha256": "271fba1dffce2ae4c305f4caa98b37b4f1f39ea688c4fd2894c0b13ee065dcf6"
+  },
+  "six_mode_coordinate": {
+    "explicit_six_mode_dynamic_coordinate_supported": false,
+    "minimum_full_cross_grid_projector_cosine": 0.8316579983090716,
+    "minimum_leading_two_projector_cosine": 0.9809726636589404,
+    "static_maximum_significant_direction_error": 0.03307795194719029
+  },
+  "truth_solver": {
+    "dense_bordered_solve_is_not_a_material_bottleneck": true,
+    "direct_truth_wall_days_per_millisecond": 149.2600080295233,
+    "direct_truth_wall_hours_per_microsecond": 3.5822401927085594,
+    "direct_truth_wall_years_per_fiducial_cycle": 236560255.84703752,
+    "dominant_cost": "monolithic_residual",
+    "doubled_timestep_classification": "operational_timestep_rung_2e7_failed",
+    "exclusive_profile_wall_seconds": {
+      "bordered_linear_solve": 0.025473082903772593,
+      "descriptor_assembly": 138.474619790446,
+      "descriptor_sparse_lu": 0.017319624312222004,
+      "exact_jacobian": 105.96563329221681,
+      "line_search_residual_wrapper": 0.0007773353718221188,
+      "monolithic_residual": 907.3702337490395,
+      "physical_acceptance_other": 0.07987820915877819,
+      "reaction_without_descriptor_or_sparse_lu": 110.08669687481597,
+      "root_residual_wrapper": 0.00010595843195915222,
+      "solver_other": 27.5853119995445
+    },
+    "largest_certified_timestep_seconds": 1e-07,
+    "minimum_required_speedup_for_three_days": 28801211149.376816,
+    "reference_warm_root_wall_seconds": 1289.6064693750814
+  },
+  "two_mode_output_closure": {
+    "gate": 0.25,
+    "maximum_significant_direction_error": 1.0437719690983103,
+    "supported": false
+  }
+}
