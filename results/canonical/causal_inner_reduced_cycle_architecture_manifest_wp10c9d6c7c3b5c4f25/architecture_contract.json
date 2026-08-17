@@ -1,0 +1,180 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25a_evidence_only_identifiability_screen",
+  "classification": "reduced_cycle_architecture_manifest_frozen_evidence_only_identifiability_authorized",
+  "conservative_semidiscrete_form": {
+    "binding_global_ledgers": [
+      "mass",
+      "angular_momentum",
+      "killing_energy"
+    ],
+    "cell_balance": "dU_i/dt=Phi_(i-1/2)-Phi_(i+1/2)+S_i-W_i",
+    "inner_boundary": "certified_face36_extraction_partition",
+    "interior_face_flux_is_single_valued": true,
+    "interior_fluxes_telescope_exactly": true,
+    "raw_horizon_face_flux_forbidden": true
+  },
+  "cycle_physics_scope": {
+    "current_6p7_day_cycle_source": "existing_one_zone_relaxation_oscillator",
+    "current_cycle_is_predictive_from_certified_truth": false,
+    "exploratory_route": "use_frozen_one_zone_thresholds_only_to_test_runtime_events_and_ledgers",
+    "predictive_route_requires": [
+      "certified_cold_branch",
+      "certified_hot_branch",
+      "fold_or_hysteresis_surfaces",
+      "distributed_tide_and_wind_if_physically_relevant",
+      "held_out_cycle_validation"
+    ]
+  },
+  "definitions_only": true,
+  "evidence_only_screen": {
+    "decision_branches": {
+      "architecture_supported_coefficients_unidentified": "authorize_definitions_only_offline_closure_database_manifest",
+      "no_conservative_finite_memory_architecture_supported": "retain_conservative_coarse_PDE_and_reassess_reduction"
+    },
+    "may_not_authorize_online_solver_implementation": true,
+    "may_select_architecture_but_not_fit_coefficients": true,
+    "must_hash_validate_all_inputs": true,
+    "new_fixed_Q_root_count": 0,
+    "new_nonlinear_trajectory_count": 0,
+    "new_tangent_propagation_count": 0
+  },
+  "finite_memory_boundary_closure": {
+    "continuous_form": "Phi_inner(t)=Phi_qs(U,b)+integral_0^t_K_b(t-s;U)dU/ds_ds",
+    "memory_dimension_selected_prospectively": true,
+    "online_flux_map": "Phi_inner=Phi_qs(U,b)+C_a(U,b)a+C_m(U,b)m+Phi_nl(U,a,m,b)",
+    "passivity_or_declared_dissipation_gate_required": true,
+    "rational_approximation": "dm_j/dt=-m_j/tau_j+B_j(U,b)dU/dt",
+    "stable_poles_required": true
+  },
+  "hard_stops": [
+    "do_not_optimize_the_truth_residual_as_the_primary_route_to_cycle_time",
+    "do_not_run_more_fixed_Q_roots_in_the_evidence_only_screen",
+    "do_not_call_online_HMM_computationally_feasible",
+    "do_not_relax_the_primitive_change_or_residual_gates",
+    "do_not_claim_predictive_cycle_physics_from_the_one_zone_demo",
+    "do_not_implement_the_online_reduced_solver_before_coefficients_are_identified",
+    "do_not_use_raw_pointwise_horizon_flux"
+  ],
+  "hybrid_branch_contract": {
+    "branches": [
+      "cold",
+      "hot",
+      "transition"
+    ],
+    "hysteresis_required": true,
+    "mass_angular_momentum_energy_continuous_across_switch": true,
+    "phenomenological_switches_are_exploratory_not_predictive": true,
+    "reset_impulse_ledger_must_close": true,
+    "reset_may_change_only_declared_auxiliary_memory": true,
+    "separate_switch_surfaces": [
+      "g_up(U,a,m)=0",
+      "g_down(U,a,m)=0"
+    ]
+  },
+  "macro_state": {
+    "cellwise_exact_or_declared_storage": [
+      "mapped_mass",
+      "mapped_angular_momentum",
+      "mapped_killing_energy",
+      "column_thermal_content_candidate",
+      "relaxing_stress_storage_candidate"
+    ],
+    "finite_memory_dimensions_to_screen": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "hybrid_branch_label": [
+      "cold",
+      "hot",
+      "transition"
+    ],
+    "leading_cross_grid_state_amplitudes": 2,
+    "primary_radial_cells": 16,
+    "radial_cell_candidates": [
+      8,
+      16,
+      32
+    ],
+    "responsive_height_one_form_is_not_an_absolute_coordinate": true
+  },
+  "new_truth_trajectory_executed": false,
+  "offline_online_split": {
+    "offline_truth_roles": [
+      "selected_constrained_steady_roots",
+      "local_complete_Jacobians_and_transfer_functions",
+      "short_fixed_Q_bursts_only_where_memory_or_switching_is_unresolved",
+      "middle_layout_training_with_sparse_fine_validation"
+    ],
+    "online_HMM_microbursts": false,
+    "online_model_may_use_only": [
+      "tabulated_branch_maps",
+      "stable_interpolants",
+      "finite_memory_auxiliary_ODEs",
+      "conservative_hybrid_event_maps"
+    ],
+    "online_truth_solver_calls": 0
+  },
+  "predeclared_identifiability_candidates": {
+    "fallback": "larger_conservative_coarse_radial_PDE_without_compact_kernel",
+    "kernel_memory_dimensions": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "negative_controls": [
+      "global_Q3_instantaneous_Markov_closure",
+      "global_Q3_plus_two_mode_direct_output_closure",
+      "global_Q3_plus_six_explicit_modes",
+      "leading_two_plus_online_HMM_truth_microbursts"
+    ],
+    "post_result_candidate_addition_forbidden": true,
+    "preferred": "cellwise_Q5_conservative_FV_plus_two_stable_modes_plus_finite_memory_plus_hybrid_branch"
+  },
+  "preserved_evidence": {
+    "doubled_timestep_rejected_without_accepted_state": true,
+    "fixed_Q_local_history_and_multistep_continuation_supported": true,
+    "largest_certified_truth_timestep_seconds": 1e-07,
+    "no_physical_failure_at_an_accepted_state": true,
+    "raw_pointwise_horizon_flux_remains_rejected": true,
+    "slow_export": "certified_face36_exterior_partition"
+  },
+  "purpose": "replace_online_fixed_Q_microstepping_with_an_offline_identified_conservative_finite_memory_macro_model",
+  "runtime_contract": {
+    "certified_truth_timestep_seconds": 1e-07,
+    "cycle_value_role": "phenomenological_runtime_target_not_a_truth_prediction",
+    "direct_truth_steps_per_cycle": 5788800000000.0,
+    "direct_truth_wall_days_per_millisecond": 149.2600080295233,
+    "direct_truth_wall_hours_per_microsecond": 3.5822401927085594,
+    "direct_truth_wall_years_per_cycle": 236560255.84703752,
+    "fiducial_cycle_days": 6.7,
+    "fiducial_cycle_seconds": 578880.0,
+    "maximum_online_macrosteps_per_cycle": 100000,
+    "maximum_online_wall_seconds_per_step": 1.0,
+    "maximum_primary_continuous_state_dimension": 96,
+    "maximum_validation_continuous_state_dimension": 192,
+    "minimum_average_macrostep_seconds": 5.7888,
+    "minimum_required_end_to_end_speedup": 28801211149.376816,
+    "online_truth_solver_calls_per_macrostep": 0,
+    "primary_continuous_state_dimension": 88,
+    "reference_warm_root_wall_seconds": 1289.6064693750814,
+    "validation_continuous_state_dimensions": {
+      "16": 88,
+      "32": 168,
+      "8": 48
+    },
+    "wall_budget_days": 3.0,
+    "wall_budget_seconds": 259200.0
+  },
+  "schema_version": 1,
+  "validation_ladder_after_offline_identification": [
+    "committed_5_to_20ms_response_replay",
+    "held_out_16ms_and_20ms_local_fixed_Q_checks",
+    "selected_cold_hot_transition_truth_snippets",
+    "exploratory_6p7_day_cycle_runtime_and_ledger_demo",
+    "predictive_cycle_only_after_missing_physics_is_certified"
+  ],
+  "work_package": "WP10c9d6c7c3b5c4f25"
+}
