@@ -1,0 +1,48 @@
+{
+  "heldout_seed_summary": {
+    "adaptive_refresh_used": true,
+    "classification": "adaptive_refresh_heldout_coarse_passed_refined_ladder_manifest_authorized",
+    "fixed_Q_micro_solver_authorized": false,
+    "historical_BDF1_decisive_arrays_bitwise": true,
+    "historical_rejection_preserved": true,
+    "one_Q_execution_manifest_authorized": false,
+    "passed": true,
+    "reduced_slow_evolution_authorized": false,
+    "refined_ladder_manifest_authorized": true,
+    "remaining_ladder_execution_authorized": false,
+    "schema_version": 1,
+    "work_package": "WP10c9d6c7c3b5c4f24e12"
+  },
+  "package_hashes": {
+    "heldout_seed": {
+      "contract.json": "dd0c71c51a06b71d97aa1ede5e692481d7334da1ec4f043ba9ec52f5a28b95e6",
+      "decisive_arrays.npz": "3347ba27f6b2e20a2bcb8040d656502c7b8f8dd73ecdfa976ffd526f9da84c59",
+      "metrics.json": "f8a3cb24d80fd72bc6dd9bd8aba9e6e7227e2c0224bf000c0516c94be018d66d",
+      "provenance.json": "59dbe69e7817acf813979aff5c9efcbbc25ae7f21c2d52ecb7c4594d8fc60a9e",
+      "summary.json": "8e7f855d52557e89e9166fed4d4d17d81f5cab693d79b60a850b9d3d86d2bf42"
+    },
+    "primary_evidence": {
+      "evidence_ledger.json": "19ad95f8267cc4698ec16edf7d81ac05f65cae2bdbbb9ba5febb18a341be790c",
+      "provenance.json": "b4d6174d37e1b9f5b663f32016f885c7c0f5faaea4d23cd616e836b403e46713",
+      "summary.json": "1d94d74d95d5c2191abdbe831c20e8228f7940709f253f70b53ea85dbfcc236a"
+    }
+  },
+  "primary_evidence_summary": {
+    "accepted_primary_BDF2_roots": 4,
+    "accepted_primary_horizon_seconds": 4e-07,
+    "aggregation_executed": true,
+    "classification": "primary_bounded_continuation_evidence_certified",
+    "fast_averaging_authorized": false,
+    "fixed_Q_micro_solver_authorized": false,
+    "heldout_continuation_execution_authorized": false,
+    "heldout_continuation_manifest_authorized": true,
+    "historical_parent_classification_preserved": "bounded_continuation_failed",
+    "operational_timestep_study_authorized": false,
+    "passed": true,
+    "physical_microburst_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "schema_version": 1,
+    "trajectory_executed": false,
+    "work_package": "WP10c9d6c7c3b5c4f24e14r"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "binding_gates": {
+    "incoming_excision_characteristics": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_Q3_relative_defect": 1e-12,
+    "maximum_constraint_action_ledger_relative_defect": 1e-12,
+    "maximum_cumulative_absolute_ledger_defect": 3e-12,
+    "maximum_raw_Schur_condition_number": 100000000.0,
+    "maximum_reaction_ledger_relative_defect": 1e-12,
+    "maximum_scaled_primitive_change": 0.005,
+    "maximum_scaled_residual": 1e-10,
+    "maximum_storage_parity_relative_defect": 1e-09,
+    "minimum_path_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0
+  },
+  "decision": {
+    "fail": "heldout_bounded_continuation_failed",
+    "pass": "heldout_bounded_continuation_certified",
+    "pass_authorizes_only": "definitions_only_operational_timestep_manifest"
+  },
+  "definitions_only": true,
+  "hard_stops": {
+    "no_fast_averaging": true,
+    "no_fixed_Q_micro_solver": true,
+    "no_operational_timestep_execution": true,
+    "no_physical_microburst": true,
+    "no_reduced_slow_evolution": true
+  },
+  "schema_version": 1,
+  "seed": {
+    "accepted_BDF1_then_BDF2_history": true,
+    "exact_residual_replay_required": true,
+    "nonlinear_solver_state_present": false,
+    "source": "adaptive_refresh_heldout_coarse_e12"
+  },
+  "solver_contract": {
+    "cold_initial_exact_assembly": true,
+    "cold_maximum_exact_assemblies": 2,
+    "maximum_line_search_iterations": 12,
+    "maximum_newton_iterations": 8,
+    "warm_carried_matrix_at_iteration_zero": true,
+    "warm_failed_relative_backtrack_trigger": 4,
+    "warm_iteration_reserve_trigger": 6,
+    "warm_maximum_exact_assemblies": 1,
+    "warm_refresh_policy": "on_line_search_failure_or_iteration_reserve"
+  },
+  "state": "heldout_16ms",
+  "timestep_seconds": 1e-07,
+  "trajectory": {
+    "accepted_history_only": true,
+    "accepted_horizon_seconds": 3e-07,
+    "bitwise_result_and_continuation_replay": true,
+    "checkpoint_every_accepted_root": true,
+    "replay_from": "checkpoint_warm_1.npz",
+    "replay_roots": [
+      "warm_2"
+    ],
+    "root_order": [
+      "cold_1",
+      "warm_1",
+      "warm_2"
+    ]
+  },
+  "work_package": "WP10c9d6c7c3b5c4f24e14s"
+}
