@@ -1,0 +1,64 @@
+{
+  "binding_gates": {
+    "incoming_excision_characteristics": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_Q3_relative_defect": 1e-12,
+    "maximum_constraint_action_ledger_relative_defect": 1e-12,
+    "maximum_raw_Schur_condition_number": 100000000.0,
+    "maximum_reaction_ledger_relative_defect": 1e-12,
+    "maximum_scaled_primitive_change": 0.005,
+    "maximum_scaled_residual": 1e-10,
+    "maximum_storage_parity_relative_defect": 1e-09,
+    "minimum_path_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0
+  },
+  "common_start": {
+    "accepted_history_only": true,
+    "previous_timestep_seconds": 1e-07,
+    "source": "canonical_primary_BDF2_continuation_seed_e14b"
+  },
+  "decision": {
+    "fail": "operational_timestep_rung_2e7_failed",
+    "pass": "operational_timestep_rung_2e7_certified",
+    "pass_authorizes_only": "definitions_only_operational_timestep_rung_4e7_manifest"
+  },
+  "definitions_only": true,
+  "hard_stops": {
+    "no_4e7_execution": true,
+    "no_fast_averaging": true,
+    "no_fixed_Q_micro_solver": true,
+    "no_physical_microburst": true,
+    "no_reduced_slow_evolution": true
+  },
+  "matched_endpoint": {
+    "coarse_root": "coarse_2e7",
+    "coarse_timestep_seconds": 2e-07,
+    "fine_reference_roots": [
+      "cold_1",
+      "warm_1"
+    ],
+    "fine_reference_source": "certified_primary_evidence_e14r_from_e14l",
+    "fine_timestep_seconds": 1e-07,
+    "reaction_action_relative_difference_maximum": 0.1,
+    "state_difference_relative_to_coarse_change_maximum": 0.1
+  },
+  "purpose": "first_fail_fast_operational_timestep_rung",
+  "schema_version": 1,
+  "solver_contract": {
+    "BDF_order": 2,
+    "bitwise_root_and_continuation_replay": true,
+    "initial_exact_assembly": true,
+    "initial_predictor": "previous_accepted_scaled_primitive_increment",
+    "last_rate_extrapolation_forbidden": true,
+    "maximum_exact_assemblies": 2,
+    "maximum_line_search_iterations": 12,
+    "maximum_newton_iterations": 8,
+    "maximum_scaled_primitive_change": 0.005,
+    "previous_accepted_scaled_increment_maximum": 0.0045488441553660965,
+    "refresh_policy": "on_line_search_failure",
+    "variable_step_history": true
+  },
+  "state": "primary_20ms",
+  "supersedes_before_nonlinear_root": "WP10c9d6c7c3b5c4f24e14u",
+  "work_package": "WP10c9d6c7c3b5c4f24e14w"
+}
