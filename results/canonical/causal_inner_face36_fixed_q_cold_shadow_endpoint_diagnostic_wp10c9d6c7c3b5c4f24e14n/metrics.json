@@ -1,0 +1,75 @@
+{
+  "bound_limited_initial_alpha": 1.0,
+  "cold_to_corrected_change": {
+    "reaction_action_change_per_scaled_state_correction": 364.3740769812561,
+    "reaction_action_relative_defect": 2.6791319020006472e-08,
+    "scaled_state_absolute_defect": 7.352696229645517e-11
+  },
+  "corrected_candidate_audit": {
+    "checks": {
+      "Q3": true,
+      "complete_residual": true,
+      "constraint_action_ledger": true,
+      "incoming_excision": true,
+      "physical_height": true,
+      "physical_optical_depth": true,
+      "primitive_change": true,
+      "reaction_conditioning": true,
+      "reaction_ledger": true,
+      "reconstruction": true,
+      "storage_parity": true
+    },
+    "failure_reasons": [],
+    "incoming_excision_characteristics": 0,
+    "maximum_H_over_R": 0.0978374774166655,
+    "maximum_Q3_relative_defect": 2.794308181737699e-16,
+    "maximum_constraint_action_ledger_relative_defect": 7.824791862720501e-24,
+    "maximum_path_reconstruction_factor": 1.0,
+    "maximum_raw_Schur_solve_relative_defect": 3.2575657615033377e-14,
+    "maximum_reaction_ledger_relative_defect": 2.9897376465495447e-22,
+    "maximum_scaled_primitive_change": 0.004158089147894511,
+    "maximum_scaled_residual": 5.108629683951753e-13,
+    "maximum_storage_parity_relative_defect": 3.7277124285433624e-14,
+    "minimum_path_reconstruction_factor": 1.0,
+    "minimum_scattering_optical_depth": 19.254319053888015,
+    "passed": true,
+    "raw_Schur_condition_number": 34523.78615412227,
+    "raw_Schur_rank": 3,
+    "scaled_bdf_rate_norm": 107083.79334713027,
+    "scaled_reaction_action_norm": 107137.03596213796
+  },
+  "corrected_to_warm_comparison": {
+    "reaction_action_relative_defect": 1.8755691793246385e-09,
+    "scaled_state_absolute_defect": 5.064393349130114e-12
+  },
+  "exact_jacobian_wall_seconds": 108.13351629208773,
+  "exact_linear_solve_relative_residual": 8.60170454638767e-12,
+  "initial_comparison": {
+    "cold_maximum_scaled_residual": 6.398284679853816e-11,
+    "reaction_action_relative_defect": 2.8666087608919947e-08,
+    "scaled_state_absolute_defect": 7.859135564558528e-11,
+    "warm_maximum_scaled_residual": 5.048217216618925e-13
+  },
+  "line_search_trials": [
+    {
+      "alpha": 1.0,
+      "euclidean_merit": 1.3437681013996796e-12,
+      "factor": 1.0,
+      "maximum_scaled_residual": 5.108629683951753e-13
+    }
+  ],
+  "nonpropagation": {
+    "accepted_trajectory_horizon_seconds_added": 0.0,
+    "candidate_entered_history": false,
+    "continuation_state_constructed": false
+  },
+  "positive_diagnosis": true,
+  "reaction_action_defect_reduction_factor": 15.283940429881735,
+  "saved_endpoint_reproduction": {
+    "cold_reaction_action_bitwise": true,
+    "cold_residual_bitwise": true,
+    "warm_reaction_action_bitwise": true,
+    "warm_residual_bitwise": true
+  },
+  "schema_version": 1
+}
