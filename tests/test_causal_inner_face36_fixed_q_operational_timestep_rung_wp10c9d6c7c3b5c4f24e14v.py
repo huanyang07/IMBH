@@ -25,9 +25,15 @@ def test_policy_is_cold_variable_step_control():
     assert policy["use_carried_solver_state"] is False
 
 
-def test_manifest_validation_when_frozen():
+def test_manifest_validation_when_frozen(monkeypatch):
     if not MODULE.MANIFEST_DIRECTORY.exists():
         pytest.skip("prospective operational-timestep manifest is not frozen yet")
+    provenance = MODULE._read(MODULE.MANIFEST_DIRECTORY / "provenance.json")
+    for name, value in provenance["thread_environment"].items():
+        if value is None:
+            monkeypatch.delenv(name, raising=False)
+        else:
+            monkeypatch.setenv(name, value)
     frozen = MODULE._validate_manifest()
     assert frozen["summary"]["operational_timestep_rung_2e7_execution_authorized"]
     assert frozen["contract"]["matched_endpoint"]["coarse_timestep_seconds"] == 2.0e-7
