@@ -1,0 +1,127 @@
+{
+  "claim_boundary": {
+    "full_anchor_campaign_authorized": false,
+    "memory_fit_authorized_in_this_package": false,
+    "online_solver_authorized": false,
+    "physical_failure_can_be_declared": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "invariant_projection_spectrum_manifest_frozen_saved_generator_audit_authorized",
+  "definitions_only": true,
+  "execution_budget": {
+    "allowed_new_full_560_direction_descriptor_assemblies": 0,
+    "allowed_new_nonlinear_roots": 0,
+    "allowed_propagated_states": 0,
+    "allowed_seed_local_mapped_height_descriptor_reconstructions": 1,
+    "maximum_wall_hours": 2.0,
+    "saved_complete_generator_must_be_reused": true
+  },
+  "parent_decisive_hashes": {
+    "descriptor_A.npz": "483ecb52b4669343a223ebf5b3bec1ad6c07b80f3cf5d95f2f17c528227fdfc1",
+    "descriptor_E.npz": "8db0854a05883d266ed06a146160b36570aae1b03fb7219d44263f4a54ff2c89",
+    "projection.npz": "685a404cf070a6680c66054e044520282f4fb9700854f10c621a48612390b4cf"
+  },
+  "schema_version": 1,
+  "stage_1_projection": {
+    "automatic_84_coordinate_rescue_forbidden": true,
+    "candidate_id": "R82_mapped_MJE_complete_thermal_stress_plus_a2",
+    "cellwise_storage_dimension": 80,
+    "coarse_face_36_must_remain_an_exact_group_boundary": true,
+    "explicit_mode_dimension": 2,
+    "failure_requires_a_new_definitions_only_coordinate_manifest": true,
+    "fixed_Q_rows_are_formed_from_mapped_storage_only": true,
+    "mapped_only_field_indices": [
+      0,
+      2,
+      3
+    ],
+    "mapped_plus_responsive_height_field_indices": [
+      1,
+      4
+    ],
+    "orthogonal_complement_from_same_complete_QR": true,
+    "pass_requires": {
+      "M_J_E_telescope_relative_defect_max": 5e-12,
+      "a2_dual_biorthogonality_defect_max": 5e-10,
+      "a2_dual_reaction_annihilation_defect_max": 5e-10,
+      "complement_orthogonality_max": 5e-12,
+      "constraint_rowspace_relative_defect_max": 5e-10,
+      "resolved_condition_number_max": 10000.0,
+      "resolved_rank": 82,
+      "restriction_complement_annihilation_max": 5e-12,
+      "restriction_lifting_identity_max": 5e-12,
+      "saved_complete_descriptor_relative_parity_max": 5e-12
+    },
+    "primary_cells": 16,
+    "resolved_dimension": 82,
+    "right_inverse_method": "complete_QR_of_R_transpose_plus_triangular_solve",
+    "truth_dimension": 560
+  },
+  "stage_2_spectrum_transfer": {
+    "cycle_scale_diagnostic": "negative_real_pole_with_decay_time_at_least_one_over_omega_min",
+    "decision": {
+      "no_unstable_unresolved_modes": "definitions_only_mode_selection_and_finite_memory_manifest_authorized",
+      "numerical_transfer_gate_failure": "spectrum_transfer_audit_failed_stop",
+      "one_or_more_unstable_unresolved_modes": "definitions_only_resolved_mode_promotion_manifest_authorized"
+    },
+    "frequency_grid": {
+      "angular_frequency_max_per_second": 31415926.535897933,
+      "angular_frequency_min_per_second": 1.0854037636780656e-05,
+      "count_excluding_DC": 32,
+      "exact_DC_is_separate": true,
+      "high_frequency_samples_are_diagnostic_not_explicit_online_step_constraints": true,
+      "values_per_second": [
+        1.0854037636780656e-05,
+        2.7389057189504134e-05,
+        6.911349295380076e-05,
+        0.00017440085196162046,
+        0.00044008276625912305,
+        0.001110503985387082,
+        0.0028022435689619035,
+        0.007071175901319455,
+        0.01784339133872084,
+        0.04502597855150628,
+        0.11361846557281416,
+        0.28670461219079707,
+        0.7234698535758388,
+        1.8256024032313998,
+        4.606721507760647,
+        11.624591977147283,
+        29.333472493943958,
+        74.02002670240172,
+        186.7819895566549,
+        471.3253044748003,
+        1189.3413447707237,
+        3001.1816063159467,
+        7573.175752857993,
+        19110.13677512138,
+        48222.481490149905,
+        121684.51479087227,
+        307058.4648970122,
+        774830.7253963108,
+        1955206.3259989773,
+        4933763.7911443375,
+        12449849.830743477,
+        31415926.53589785
+      ]
+    },
+    "generator_source": "hash_locked_parent_descriptor_A_complete_fixed_Q_generator",
+    "no_memory_coefficients_are_fit_in_this_package": true,
+    "output_source": "hash_locked_parent_projection_all_17_coarse_face_M_J_E_rows",
+    "pass_requires": {
+      "complex_schur_reconstruction_relative_defect_max": 1e-10,
+      "complex_schur_unitarity_defect_max": 5e-12,
+      "database_roundtrip_bitwise": true,
+      "frequency_count_including_DC": 33,
+      "frequency_solve_relative_residual_max": 1e-10,
+      "transfer_conjugate_symmetry_relative_defect_max": 1e-10
+    },
+    "requires_stage_1_pass": true,
+    "transfer": "G(s)=D+C_z*(sI-A_z)^(-1)*A_zr",
+    "unresolved_operator": "A_z=Z_transpose_A_Z",
+    "unstable_definition": "real_pole_greater_than_or_equal_to_zero",
+    "unstable_modes_may_not_be_fit_as_stable_memory": true
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25d"
+}
