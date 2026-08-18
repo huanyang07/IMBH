@@ -1,0 +1,133 @@
+{
+  "binding_gates": {
+    "complete_nonstable_eigenvalue_count_equal": 28,
+    "conservative_face_flux": {
+      "DC_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "DC_normalized_total_transfer_relative_error_max": 0.1,
+      "RMS_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "RMS_normalized_total_transfer_relative_error_max": 0.1,
+      "maximum_normalized_dynamic_transfer_relative_error_max": 0.25,
+      "maximum_normalized_total_transfer_relative_error_max": 0.25
+    },
+    "conservative_lift_identity_defect_max": 5e-09,
+    "cross_anchor_hidden_principal_cosine_min": 0.5,
+    "exact_nonstable_pole_relative_defect_max": 5e-09,
+    "extra_nonstable_eigenvalue_count_max": 0,
+    "hidden_conservative_annihilation_defect_max": 5e-09,
+    "maximum_frequency_solve_relative_residual_max": 1e-10,
+    "maximum_snapshot_solve_relative_residual_max": 1e-10,
+    "reduced_Lyapunov_identity_relative_defect_max": 1e-08,
+    "reduced_stable_spectral_abscissa_per_second_max": -1e-08,
+    "resolved_self_energy": {
+      "DC_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "DC_normalized_total_transfer_relative_error_max": 0.1,
+      "RMS_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "RMS_normalized_total_transfer_relative_error_max": 0.1,
+      "maximum_normalized_dynamic_transfer_relative_error_max": 0.25,
+      "maximum_normalized_total_transfer_relative_error_max": 0.25
+    },
+    "snapshot_covariance_effective_rank_min": 130,
+    "square_root_reconstruction_relative_defect_max": 5e-12,
+    "stable_Lyapunov_relative_residual_max": 1e-08,
+    "trial_test_biorthogonality_defect_max": 5e-09,
+    "whitened_Lyapunov_relative_defect_max": 1e-08
+  },
+  "claim_boundary": {
+    "online_integrator_implementation_authorized": false,
+    "physical_failure_can_be_declared": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "relative_Hermite_resolvent_POD_manifest_frozen_two_anchor_saved_generator_audit_authorized",
+  "decisions": {
+    "first_joint_pass": "two_anchor_relative_Hermite_resolvent_reduction_passed_parametric_alignment_manifest_authorized",
+    "no_order_through_130_passes": "relative_Hermite_resolvent_reduction_failed_within_R320_tangential_residual_greedy_reassessment_required",
+    "numerical_integrity_fails": "relative_Hermite_resolvent_numerical_failure_stop"
+  },
+  "definitions_only": true,
+  "dimension_budget": {
+    "exact_nonstable": 28,
+    "hidden_orders": [
+      112,
+      120,
+      124,
+      128,
+      130
+    ],
+    "maximum_online_dimension": 320,
+    "online_dimensions": [
+      302,
+      310,
+      314,
+      318,
+      320
+    ],
+    "physical_conservative": 162
+  },
+  "exact_architecture": {
+    "conservative_trial": "minimum_Euclidean_norm_right_inverse_of_Chat",
+    "hidden_constraint": "Z_transpose_Z_equals_identity_and_Chat_Z_equals_zero",
+    "nonstable_fiber": "all_28_effective_nonstable_modes_retained_exactly",
+    "stability_identity": "G_Ar_plus_Ar_transpose_G_equals_Vhat_transpose_Ahat_plus_Ahat_transpose_Vhat_strictly_negative",
+    "stable_coordinates": "upper_Cholesky_Lyapunov_whitened",
+    "test": "What_equals_horizontal_concatenation_Chat_transpose_Z",
+    "trial": "Vhat_equals_horizontal_concatenation_Lhat_Z"
+  },
+  "execution_budget": {
+    "allowed_new_full_560_direction_generator_assemblies": 0,
+    "allowed_new_nonlinear_roots": 0,
+    "allowed_new_truth_anchors": 0,
+    "allowed_propagated_states": 0,
+    "candidate_hidden_orders": [
+      112,
+      120,
+      124,
+      128,
+      130
+    ],
+    "fail_fast_after_first_joint_pass": true,
+    "maximum_wall_hours": 1.0
+  },
+  "fiber_decisive_hashes": {
+    "decisive_fibers.npz": "ad99620fa94e1f3c370a45d04645cc81b873dc83f55fedbc4bbc9ab742af0ec4",
+    "metrics.json": "d93ba0224ce03a182530a0607024d585448d97f10591dfd7232ec05d4341ce8d",
+    "summary.json": "fff6884035140e6bc5977cc862469eca5ab90ddda9b20b488abe64aa5c77626b"
+  },
+  "parent_decisive_hashes": {
+    "metrics.json": "60aef665aa6d14447c22d041f92ae095918d22beba70490094c0b8f55ae3e0df",
+    "pointwise_rank_bounds.npz": "1f6cdc0980bddd028eaccf6368c53f697f21a0e070826cf100fac8018045d20a",
+    "summary.json": "4c91b7d1ce3d0a2675f3f406e724a2896c315bf194fb2049a401f018498ddfc3"
+  },
+  "relative_Hermite_resolvent_POD": {
+    "candidate_hidden_orders": [
+      112,
+      120,
+      124,
+      128,
+      130
+    ],
+    "covariance": "equal_sum_over_training_frequency_output_block_and_snapshot_group_of_real_YY_conjugate_transpose",
+    "frequency_derivative": "dXw_equals_minus_i_times_iwI_minus_Ah_hidden_inverse_Xw",
+    "heldout_frequencies": "unchanged_log_midpoints_plus_DC_never_used_in_basis",
+    "heldout_information_may_influence_basis": false,
+    "local_interval_scale": "half_nearest_linear_frequency_spacing_with_one_sided_endpoints",
+    "nested_basis": "descending_eigenvectors_of_real_symmetric_covariance",
+    "normalized_hidden_system": "Bh_Ch_Dh_use_inherited_input_and_output_scaling",
+    "primal_state": "Xw_equals_iwI_minus_Ah_hidden_inverse_Bh",
+    "relative_block_weight": "inverse_squared_Frobenius_norm_of_each_output_block_applied_to_each_snapshot_group",
+    "snapshot_groups": [
+      "Xw",
+      "local_interval_scale_times_dXw"
+    ],
+    "training_frequencies": "unchanged_33_point_R32_ladder_only"
+  },
+  "saved_input_hashes": {
+    "R32_projection": "00e2a2be2142a4aa44fb6a3b000830e700e46dfe8ace9a67471ec1cb204ecc09",
+    "frequency_ladder": "f4e713ae430f2dbedbb839c2fb61a2b067e2cac2b611f2c749695dcfcdfe108d",
+    "heldout_generator_and_output": "841dfa22feaa24212c265697a0ab214a571934778fa5ad4799841ee8e85db673",
+    "primary_generator": "483ecb52b4669343a223ebf5b3bec1ad6c07b80f3cf5d95f2f17c528227fdfc1",
+    "primary_output": "685a404cf070a6680c66054e044520282f4fb9700854f10c621a48612390b4cf"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25ad"
+}
