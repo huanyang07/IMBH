@@ -1,0 +1,147 @@
+{
+  "authority": {
+    "may_reuse_only_saved_generators_and_canonical_bases": true,
+    "preserve_f25y_rejection": true,
+    "source": "explicit_user_authorization_after_f25y_reassessment"
+  },
+  "binding_gates": {
+    "complete_nonstable_eigenvalue_count_equal": 28,
+    "conservative_face_flux": {
+      "DC_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "DC_normalized_total_transfer_relative_error_max": 0.1,
+      "RMS_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "RMS_normalized_total_transfer_relative_error_max": 0.1,
+      "maximum_normalized_dynamic_transfer_relative_error_max": 0.25,
+      "maximum_normalized_total_transfer_relative_error_max": 0.25
+    },
+    "conservative_lift_identity_defect_max": 5e-09,
+    "conservative_map_rank_equal": 162,
+    "conservative_test_identity_defect_max": 5e-09,
+    "cross_anchor_hidden_principal_cosine_min": 0.5,
+    "exact_nonstable_pole_relative_defect_max": 5e-09,
+    "extra_nonstable_eigenvalue_count_max": 0,
+    "full_coordinate_reconstruction_relative_defect_max": 5e-09,
+    "hidden_conservative_annihilation_defect_max": 5e-09,
+    "maximum_frequency_solve_relative_residual_max": 1e-10,
+    "projected_seed_effective_rank_min": 130,
+    "reduced_Lyapunov_identity_relative_defect_max": 1e-08,
+    "reduced_stable_spectral_abscissa_per_second_max": -1e-08,
+    "resolved_self_energy": {
+      "DC_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "DC_normalized_total_transfer_relative_error_max": 0.1,
+      "RMS_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "RMS_normalized_total_transfer_relative_error_max": 0.1,
+      "maximum_normalized_dynamic_transfer_relative_error_max": 0.25,
+      "maximum_normalized_total_transfer_relative_error_max": 0.25
+    },
+    "square_root_reconstruction_relative_defect_max": 5e-12,
+    "stable_Lyapunov_condition_number_max": 1000000000000.0,
+    "stable_Lyapunov_minimum_eigenvalue_min": 0.0,
+    "stable_Lyapunov_relative_residual_max": 1e-08,
+    "trial_test_biorthogonality_defect_max": 5e-09,
+    "whitened_Lyapunov_relative_defect_max": 1e-08
+  },
+  "claim_boundary": {
+    "online_integrator_implementation_authorized": false,
+    "physical_failure_can_be_declared": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "square_root_conservative_transfer_seeded_manifest_frozen_saved_generator_reassessment_authorized",
+  "decisions": {
+    "first_joint_pass": "two_anchor_square_root_transfer_seeded_reduction_passed_parametric_alignment_manifest_authorized",
+    "no_order_through_130_passes": "square_root_transfer_seeded_reduction_failed_within_R320_structured_basis_reassessment_required",
+    "numerical_integrity_fails": "square_root_transfer_seeded_reduction_numerical_failure_stop"
+  },
+  "definitions_only": true,
+  "dimension_budget": {
+    "exact_nonstable": 28,
+    "hidden_available": 370,
+    "hidden_orders": [
+      112,
+      120,
+      124,
+      128,
+      130
+    ],
+    "maximum_online_dimension": 320,
+    "online_dimensions": [
+      302,
+      310,
+      314,
+      318,
+      320
+    ],
+    "physical_conservative": 162,
+    "stable": 532
+  },
+  "exact_architecture": {
+    "exact_nonstable_fiber": "a_dot_equals_Au_a_without_reduction",
+    "face_flux_single_valued_before_conservative_divergence": true,
+    "hidden_space": "Nhat_equals_orthonormal_basis_of_kernel_Chat",
+    "metric": "G_equals_Vhat_transpose_Vhat",
+    "minimum_norm_right_inverse": "Lhat_equals_Chat_Moore_Penrose_right_inverse",
+    "required_identities": [
+      "Chat_Lhat_equals_identity",
+      "Chat_Zhat_equals_zero",
+      "What_transpose_Vhat_equals_identity",
+      "full_Vhat_What_transpose_equals_identity"
+    ],
+    "square_root": "P_equals_T_transpose_T_upper_Cholesky",
+    "stable_lyapunov_equation": "As_transpose_P_plus_P_As_equals_minus_identity",
+    "test": "What_equals_horizontal_concatenation_Chat_transpose_Zhat",
+    "trial": "Vhat_equals_horizontal_concatenation_Lhat_Zhat",
+    "truth_split": "x_equals_Uu_a_plus_S_y",
+    "whitened_conservative_map": "Chat_equals_R32_S_T_inverse",
+    "whitened_operator": "Ahat_equals_T_As_T_inverse"
+  },
+  "execution_budget": {
+    "allowed_new_full_560_direction_generator_assemblies": 0,
+    "allowed_new_nonlinear_roots": 0,
+    "allowed_new_truth_anchors": 0,
+    "allowed_propagated_states": 0,
+    "candidate_hidden_orders": [
+      112,
+      120,
+      124,
+      128,
+      130
+    ],
+    "fail_fast_after_first_joint_pass": true,
+    "maximum_wall_hours": 1.5
+  },
+  "fiber_decisive_hashes": {
+    "decisive_fibers.npz": "ad99620fa94e1f3c370a45d04645cc81b873dc83f55fedbc4bbc9ab742af0ec4",
+    "metrics.json": "d93ba0224ce03a182530a0607024d585448d97f10591dfd7232ec05d4341ce8d",
+    "summary.json": "fff6884035140e6bc5977cc862469eca5ab90ddda9b20b488abe64aa5c77626b"
+  },
+  "prior_decisive_hashes": {
+    "decisive_model.npz": "8d05de903af2150fb678b2f506899856a5d44499ea1df0106461859d4b9f3106",
+    "metrics.json": "d173b867ff51d07d092fc30cc7102f196464b1551eb308673a71243a073f9f17",
+    "summary.json": "c1fdddb71fc7226801160d84244fe6f8eaf816734de87ff7bebaf8700d12a878"
+  },
+  "saved_input_hashes": {
+    "R196_common_basis": "fa6c3e4598c22d558c68b46aea42c3c4fa70f56eae9c2378c91acf2d0b5d853c",
+    "R32_projection": "00e2a2be2142a4aa44fb6a3b000830e700e46dfe8ace9a67471ec1cb204ecc09",
+    "frequency_ladder": "f4e713ae430f2dbedbb839c2fb61a2b067e2cac2b611f2c749695dcfcdfe108d",
+    "heldout_generator_and_output": "841dfa22feaa24212c265697a0ab214a571934778fa5ad4799841ee8e85db673",
+    "primary_generator": "483ecb52b4669343a223ebf5b3bec1ad6c07b80f3cf5d95f2f17c528227fdfc1",
+    "primary_output": "685a404cf070a6680c66054e044520282f4fb9700854f10c621a48612390b4cf"
+  },
+  "schema_version": 1,
+  "transfer_seed": {
+    "candidate_hidden_orders": [
+      112,
+      120,
+      124,
+      128,
+      130
+    ],
+    "mapping": "R196_stable_trial_to_truth_then_exact_nonstable_projection_then_stable_Lyapunov_whitening_then_kernel_Chat_projection",
+    "nested_basis": "left_singular_vectors_of_projected_seed_coordinates",
+    "seed_order": 130,
+    "source": "two_sided_balanced_trial_of_complete_R196_saved_generator",
+    "tangential_rational_Krylov_enrichment_allowed": false
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25z"
+}
