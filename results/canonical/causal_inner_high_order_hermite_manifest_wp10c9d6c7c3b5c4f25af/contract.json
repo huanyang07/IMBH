@@ -1,0 +1,155 @@
+{
+  "binding_gates": {
+    "complete_nonstable_eigenvalue_count_equal": 28,
+    "conservative_face_flux": {
+      "DC_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "DC_normalized_total_transfer_relative_error_max": 0.1,
+      "RMS_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "RMS_normalized_total_transfer_relative_error_max": 0.1,
+      "maximum_normalized_dynamic_transfer_relative_error_max": 0.25,
+      "maximum_normalized_total_transfer_relative_error_max": 0.25
+    },
+    "conservative_lift_identity_defect_max": 5e-09,
+    "cross_anchor_hidden_principal_cosine_min": 0.5,
+    "exact_nonstable_pole_relative_defect_max": 5e-09,
+    "extra_nonstable_eigenvalue_count_max": 0,
+    "hidden_conservative_annihilation_defect_max": 5e-09,
+    "maximum_frequency_solve_relative_residual_max": 1e-10,
+    "maximum_snapshot_solve_relative_residual_max": 1e-10,
+    "reduced_Lyapunov_identity_relative_defect_max": 1e-08,
+    "reduced_stable_spectral_abscissa_per_second_max": -1e-08,
+    "resolved_self_energy": {
+      "DC_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "DC_normalized_total_transfer_relative_error_max": 0.1,
+      "RMS_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "RMS_normalized_total_transfer_relative_error_max": 0.1,
+      "maximum_normalized_dynamic_transfer_relative_error_max": 0.25,
+      "maximum_normalized_total_transfer_relative_error_max": 0.25
+    },
+    "snapshot_covariance_effective_rank_min": 320,
+    "square_root_reconstruction_relative_defect_max": 5e-12,
+    "stable_Lyapunov_relative_residual_max": 1e-08,
+    "trial_test_biorthogonality_defect_max": 5e-09,
+    "whitened_Lyapunov_relative_defect_max": 1e-08
+  },
+  "claim_boundary": {
+    "online_integrator_implementation_authorized": false,
+    "physical_failure_can_be_declared": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "higher_order_square_root_Hermite_confirmation_manifest_frozen_two_anchor_unseen_eighth_grid_audit_authorized",
+  "decisions": {
+    "first_joint_pass": "two_anchor_higher_order_square_root_Hermite_reduction_passed_parametric_online_architecture_manifest_authorized",
+    "no_order_through_320_passes": "higher_order_Hermite_failed_through_R510_direct_stable_rational_realization_reassessment_required",
+    "numerical_integrity_fails": "higher_order_Hermite_numerical_failure_stop"
+  },
+  "definitions_only": true,
+  "dimension_budget": {
+    "exact_nonstable": 28,
+    "full_hidden": 370,
+    "hidden_orders": [
+      280,
+      288,
+      296,
+      300,
+      304,
+      320
+    ],
+    "maximum_online_dimension": 510,
+    "online_dimensions": [
+      470,
+      478,
+      486,
+      490,
+      494,
+      510
+    ],
+    "physical_conservative": 162
+  },
+  "exact_architecture": {
+    "conservative_trial": "minimum_Euclidean_norm_right_inverse_of_Chat",
+    "hidden_constraint": "Z_transpose_Z_equals_identity_and_Chat_Z_equals_zero",
+    "nonstable_fiber": "all_28_effective_nonstable_modes_retained_exactly",
+    "stability_identity": "G_Ar_plus_Ar_transpose_G_equals_Vhat_transpose_Ahat_plus_Ahat_transpose_Vhat_strictly_negative",
+    "stable_coordinates": "upper_Cholesky_Lyapunov_whitened",
+    "test": "What_equals_horizontal_concatenation_Chat_transpose_Z",
+    "trial": "Vhat_equals_horizontal_concatenation_Lhat_Z"
+  },
+  "execution_budget": {
+    "allowed_new_full_560_direction_generator_assemblies": 0,
+    "allowed_new_nonlinear_roots": 0,
+    "allowed_new_truth_anchors": 0,
+    "allowed_propagated_states": 0,
+    "candidate_hidden_orders": [
+      280,
+      288,
+      296,
+      300,
+      304,
+      320
+    ],
+    "fail_fast_after_first_joint_pass": true,
+    "maximum_wall_hours": 1.0
+  },
+  "exploratory_results_are_nonbinding": true,
+  "frequency_split": {
+    "non_DC_validation_frequencies_evaluated_before_freeze": false,
+    "parent_intervals": 32,
+    "positive_frequency_interpolation": "geometric",
+    "previously_inspected_original_midpoint_and_quarter_sets_promoted_to_training": true,
+    "shared_DC_training_control": true,
+    "training_frequency_count": 129,
+    "training_interval_fractions": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "validation_frequency_count_including_shared_DC": 129,
+    "validation_information_may_influence_basis": false,
+    "validation_interval_fractions": [
+      0.125,
+      0.375,
+      0.625,
+      0.875
+    ],
+    "zero_to_first_frequency_interpolation": "linear"
+  },
+  "high_order_relative_Hermite_POD": {
+    "basis_uses_training_only": true,
+    "candidate_hidden_orders": [
+      280,
+      288,
+      296,
+      300,
+      304,
+      320
+    ],
+    "frequency_derivative": "dXw_equals_minus_i_times_iwI_minus_Ah_hidden_inverse_Xw",
+    "local_interval_scale": "half_nearest_linear_frequency_spacing_with_one_sided_endpoints",
+    "nested_basis": "descending_eigenvectors_of_real_symmetric_covariance",
+    "primal_state": "Xw_equals_iwI_minus_Ah_hidden_inverse_Bh",
+    "relative_block_weight": "inverse_squared_Frobenius_norm_of_each_output_block_applied_to_each_snapshot_group",
+    "snapshot_groups": [
+      "Xw",
+      "local_interval_scale_times_dXw"
+    ]
+  },
+  "parent_decisive_hashes": {
+    "candidate_errors.npz": "47914c711f78c2d1c53aaecf42b2d520265ae94b7329dba57f08a88100b84ada",
+    "decisive_model.npz": "ca2afcb597c23e3da0e64f05fb767171dff778505aad01d93c46da836b2db854",
+    "metrics.json": "1da77755a2892c4545a18d421d908135c36f34a6c83b3f54a210828f85ad7377",
+    "summary.json": "f65fc2d7a9165da121bb899c53e05a5647f1711baab1736f4588ebc911c0a130"
+  },
+  "saved_input_hashes": {
+    "R32_projection": "00e2a2be2142a4aa44fb6a3b000830e700e46dfe8ace9a67471ec1cb204ecc09",
+    "frequency_ladder": "f4e713ae430f2dbedbb839c2fb61a2b067e2cac2b611f2c749695dcfcdfe108d",
+    "heldout_generator_and_output": "841dfa22feaa24212c265697a0ab214a571934778fa5ad4799841ee8e85db673",
+    "primary_generator": "483ecb52b4669343a223ebf5b3bec1ad6c07b80f3cf5d95f2f17c528227fdfc1",
+    "primary_output": "685a404cf070a6680c66054e044520282f4fb9700854f10c621a48612390b4cf"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25af"
+}
