@@ -1,0 +1,109 @@
+{
+  "claim_boundary": {
+    "online_integrator_implementation_authorized": false,
+    "physical_failure_can_be_declared": false,
+    "predictive_cycle_authorized": false,
+    "production_coefficients_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "complete_resolved_self_energy_closure_manifest_frozen_saved_generator_preflight_authorized",
+  "complete_closure": {
+    "candidate_orders": [
+      112,
+      120,
+      124
+    ],
+    "combined_memory_output": "row_normalized_concatenation_of_resolved_derivative_feedback_and_conservative_face_flux",
+    "exact_blocks": {
+      "face_direct": "O_face_L",
+      "face_memory_observation": "O_face_S",
+      "resolved_direct": "R_A_L",
+      "resolved_memory_observation": "R_A_S",
+      "stable_forcing": "S_transpose_A_L",
+      "stable_operator": "S_transpose_A_S"
+    },
+    "numerical_gates": {
+      "biorthogonality_defect_max": 5e-10,
+      "controllability_gramian_relative_residual_max": 1e-08,
+      "coordinate_reconstruction_relative_defect_max": 5e-10,
+      "lyapunov_certificate_minimum_eigenvalue_min": 0.0,
+      "lyapunov_dissipation_relative_residual_max": 1e-08,
+      "maximum_frequency_solve_relative_residual_max": 1e-10,
+      "memory_spectral_abscissa_per_second_max": -1e-08,
+      "observability_gramian_relative_residual_max": 1e-08
+    },
+    "online_dimensions": [
+      308,
+      316,
+      320
+    ],
+    "pass_requires_at_both_anchors_on_training_and_heldout": {
+      "conservative_face_flux": {
+        "DC_normalized_dynamic_transfer_relative_error_max": 0.1,
+        "DC_normalized_total_transfer_relative_error_max": 0.1,
+        "RMS_normalized_dynamic_transfer_relative_error_max": 0.1,
+        "RMS_normalized_total_transfer_relative_error_max": 0.1,
+        "maximum_normalized_dynamic_transfer_relative_error_max": 0.25,
+        "maximum_normalized_total_transfer_relative_error_max": 0.25
+      },
+      "resolved_self_energy": {
+        "DC_normalized_dynamic_transfer_relative_error_max": 0.1,
+        "DC_normalized_total_transfer_relative_error_max": 0.1,
+        "RMS_normalized_dynamic_transfer_relative_error_max": 0.1,
+        "RMS_normalized_total_transfer_relative_error_max": 0.1,
+        "maximum_normalized_dynamic_transfer_relative_error_max": 0.25,
+        "maximum_normalized_total_transfer_relative_error_max": 0.25
+      }
+    },
+    "resolved_dimension": 196,
+    "spectral_fidelity": {
+      "bidirectional_nearest_eigenvalue_relative_defect_max": 0.1,
+      "exact_and_reduced_nonstable_eigenvalue_count_must_match": true,
+      "nonstable_threshold_per_second": -1e-08
+    },
+    "stable_dimension": 364
+  },
+  "decisions": {
+    "first_joint_complete_closure_pass": "two_anchor_complete_R196_memory_closure_passed_bounded_online_prototype_manifest_authorized",
+    "no_order_through_124_passes": "complete_R196_memory_closure_failed_within_R320_structured_closure_reassessment_required",
+    "numerical_or_coordinate_gate_fails": "complete_resolved_closure_numerical_failure_stop"
+  },
+  "definitions_only": true,
+  "execution_budget": {
+    "allowed_new_full_560_direction_generator_assemblies": 0,
+    "allowed_new_nonlinear_roots": 0,
+    "allowed_new_truth_anchors": 0,
+    "allowed_propagated_states": 0,
+    "balanced_realizations_per_anchor": 1,
+    "candidate_memory_orders": [
+      112,
+      120,
+      124
+    ],
+    "fail_fast_after_first_joint_pass": true,
+    "maximum_wall_hours": 0.75
+  },
+  "online_architecture_if_passed": {
+    "equations": [
+      "x_dot_equals_D_resolved_x_plus_C_resolved_z",
+      "z_dot_equals_A_memory_z_plus_B_memory_x",
+      "face_flux_equals_D_face_x_plus_C_face_z"
+    ],
+    "face_flux_must_remain_single_valued_before_conservative_divergence": true,
+    "maximum_online_continuous_dimension": 320,
+    "memory_update": "exponential_or_L_stable_implicit",
+    "state": "x_R196_plus_z_memory"
+  },
+  "parent_decisive_hashes": {
+    "decisive_basis.npz": "fa6c3e4598c22d558c68b46aea42c3c4fa70f56eae9c2378c91acf2d0b5d853c",
+    "decisive_model.npz": "39fc62905bcb9a12aa5bef6fe8609652401a1f5f3376ef2dfc140a0880db9ccf",
+    "metrics.json": "1f7e21bb7e9f8a545a0c0c6b578826134b42d48299b02fcf015e9a7897d1e562",
+    "summary.json": "a170b976d2cc57fdd164a6c81f5516f64b69709053ebe99f67c8f279967f9866"
+  },
+  "saved_generator_hashes": {
+    "common_subspace.npz": "e152ac526bc8dd6182bff2c5b31dcb49a66dd5b673b38d73a5a512131b220f7c",
+    "heldout_generator.npz": "841dfa22feaa24212c265697a0ab214a571934778fa5ad4799841ee8e85db673"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25r"
+}
