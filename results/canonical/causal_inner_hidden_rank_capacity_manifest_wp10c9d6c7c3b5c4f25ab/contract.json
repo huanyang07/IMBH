@@ -1,0 +1,95 @@
+{
+  "authority": {
+    "capacity_result_may_not_promote_a_model": true,
+    "preserve_f25aa_rejection": true,
+    "source": "explicit_user_authorization_after_f25aa_stop"
+  },
+  "binding_gates": {
+    "capacity_safety_fraction_of_transfer_gate_max": 0.1,
+    "conservative_face_flux": {
+      "DC_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "DC_normalized_total_transfer_relative_error_max": 0.1,
+      "RMS_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "RMS_normalized_total_transfer_relative_error_max": 0.1,
+      "maximum_normalized_dynamic_transfer_relative_error_max": 0.25,
+      "maximum_normalized_total_transfer_relative_error_max": 0.25
+    },
+    "maximum_frequency_solve_relative_residual_max": 1e-10,
+    "resolved_self_energy": {
+      "DC_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "DC_normalized_total_transfer_relative_error_max": 0.1,
+      "RMS_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "RMS_normalized_total_transfer_relative_error_max": 0.1,
+      "maximum_normalized_dynamic_transfer_relative_error_max": 0.25,
+      "maximum_normalized_total_transfer_relative_error_max": 0.25
+    }
+  },
+  "claim_boundary": {
+    "coherent_dynamic_realizability_certified": false,
+    "online_integrator_implementation_authorized": false,
+    "physical_failure_can_be_declared": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "structure_preserving_basis_certified": false
+  },
+  "classification": "exact_hidden_pointwise_rank_capacity_manifest_frozen_saved_generator_lower_bound_authorized",
+  "decisions": {
+    "between_safety_and_original_gate": "R320_pointwise_transfer_rank_capacity_marginal_no_basis_search_authorized",
+    "numerical_integrity_fails": "hidden_rank_capacity_numerical_failure_stop",
+    "rank_130_lower_bound_exceeds_original_gate": "R320_pointwise_transfer_rank_capacity_impossible_dimension_or_resolved_coordinates_must_change",
+    "rank_130_lower_bound_with_safety_margin_passes": "two_anchor_R130_pointwise_transfer_capacity_not_ruled_out_direct_structure_preserving_basis_manifest_authorized"
+  },
+  "definitions_only": true,
+  "exact_lower_bound": {
+    "dynamic_relative_lower_bound": "tail_Frobenius_norm_divided_by_Gdyn_Frobenius_norm",
+    "dynamic_transfer": "Gdyn_b_iw_equals_C_b_times_iwI_minus_Ah_inverse_times_B",
+    "eckart_young_tail": "sqrt_sum_sigma_k_squared_for_k_greater_than_r",
+    "frequency_sets": [
+      "unchanged_training_ladder",
+      "unchanged_heldout_midpoints_plus_DC"
+    ],
+    "interpretation": "necessary_pointwise_rank_condition_not_a_coherent_realization_witness",
+    "output_blocks": [
+      "resolved_self_energy",
+      "conservative_face_flux"
+    ],
+    "pointwise_rank_constraint": "rank_of_any_order_r_dynamic_transfer_at_each_frequency_is_at_most_r",
+    "target_hidden_order": 130,
+    "total_relative_lower_bound": "same_tail_divided_by_D_plus_Gdyn_Frobenius_norm"
+  },
+  "execution_budget": {
+    "allowed_new_full_560_direction_generator_assemblies": 0,
+    "allowed_new_nonlinear_roots": 0,
+    "allowed_new_truth_anchors": 0,
+    "allowed_propagated_states": 0,
+    "allowed_reduced_model_promotions": 0,
+    "candidate_hidden_orders": [
+      112,
+      120,
+      124,
+      128,
+      130
+    ],
+    "maximum_wall_hours": 0.5
+  },
+  "fiber_decisive_hashes": {
+    "decisive_fibers.npz": "ad99620fa94e1f3c370a45d04645cc81b873dc83f55fedbc4bbc9ab742af0ec4",
+    "metrics.json": "d93ba0224ce03a182530a0607024d585448d97f10591dfd7232ec05d4341ce8d",
+    "summary.json": "fff6884035140e6bc5977cc862469eca5ab90ddda9b20b488abe64aa5c77626b"
+  },
+  "parent_decisive_hashes": {
+    "candidate_errors.npz": "18b49497781402402a8843fbaec7438145daf28c6b50c324d0aeeca3d46aa9e9",
+    "decisive_model.npz": "fdf91589a394ecb908058cb8cda92cadb3e677515422754d9c0c9b8efed4937d",
+    "metrics.json": "814bb86d401eca7b1037a83cc3db1d42b3df115de532a20660c4ae35bcdbe496",
+    "summary.json": "0508e4e089084206aaf050482bb40bc98d3940ee50160924b6f377884ebbe3c6"
+  },
+  "saved_input_hashes": {
+    "R32_projection": "00e2a2be2142a4aa44fb6a3b000830e700e46dfe8ace9a67471ec1cb204ecc09",
+    "frequency_ladder": "f4e713ae430f2dbedbb839c2fb61a2b067e2cac2b611f2c749695dcfcdfe108d",
+    "heldout_generator_and_output": "841dfa22feaa24212c265697a0ab214a571934778fa5ad4799841ee8e85db673",
+    "primary_generator": "483ecb52b4669343a223ebf5b3bec1ad6c07b80f3cf5d95f2f17c528227fdfc1",
+    "primary_output": "685a404cf070a6680c66054e044520282f4fb9700854f10c621a48612390b4cf"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25ab"
+}
