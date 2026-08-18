@@ -1,0 +1,70 @@
+{
+  "binding_gates": {
+    "constraint_gram_condition_number_max": 1000.0,
+    "constraint_rank_equal": 3,
+    "incoming_excision_characteristics_equal": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_normalized_Q3_retraction_defect": 1e-10,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "maximum_scaled_component_perturbation": 0.005,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "normal_spectral_norm_max": 20.0,
+    "projected_old_fiber_condition_number_max": 10.0,
+    "projected_old_fiber_rank_equal": 28,
+    "projector_idempotence_defect_max": 1e-12,
+    "projector_symmetry_defect_max": 1e-12,
+    "tangent_annihilation_defect_max": 1e-12,
+    "tangent_basis_orthogonality_defect_max": 1e-12
+  },
+  "claim_boundary": {
+    "old_28_modes_are_certified_physical_instabilities": false,
+    "old_442_state_kernel_certified_as_equilibrium_centered_closure": false,
+    "old_442_state_kernel_invalidated_as_transfer_approximation": false,
+    "online_integrator_implementation_authorized": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "intrinsic_constraint_geometry_manifest_frozen_orthogonal_chart_and_equilibrium_centered_architecture_audit_authorized",
+  "coordinate_geometry": {
+    "constraint_rows": "Q_equals_DQ3_scaled_at_anchor",
+    "minimum_norm_normal": "N_equals_Q_transpose_solve_Q_Q_transpose_I3",
+    "orthogonal_tangent_projector": "P_equals_I_minus_N_Q",
+    "orthonormal_tangent_basis": "Z_equals_null_space_Q",
+    "physical_reaction_lift_retained_for_rate_constraint": true,
+    "physical_reaction_lift_used_for_state_retraction": false,
+    "state_retraction": "delta_next_equals_delta_minus_N_times_normalized_Q3_error"
+  },
+  "decision": {
+    "fail": "intrinsic_constraint_geometry_failed_reduced_architecture_blocked",
+    "pass": "intrinsic_constraint_geometry_passed_equilibrium_centered_slow_fast_hybrid_manifest_authorized",
+    "pass_authorizes_only": "definitions_only_constrained_equilibrium_branch_and_fast_transition_collocation_manifest"
+  },
+  "definitions_only": true,
+  "finite_amplitude_chart_audit": {
+    "anchors": [
+      "primary",
+      "heldout"
+    ],
+    "directions": "eight_largest_symmetric_growth_directions_of_A_W",
+    "maximum_scaled_component_amplitude": 0.005,
+    "nonlinear_rate_evaluations": 0,
+    "nonlinear_roots": 0,
+    "propagated_states": 0,
+    "signs": [
+      -1,
+      1
+    ]
+  },
+  "preserved_rejection": "nonlinear_fixed_Q_bundle_evaluator_failed_architecture_selection_blocked",
+  "saved_generator_diagnostics": {
+    "instantaneous_eigenvalues_are_normal_hyperbolicity_certificate": false,
+    "intrinsic_frozen_operator": "A_T_equals_Z_transpose_A_Z",
+    "new_full_generator_assemblies": 0,
+    "old_28_fiber_tangent_projection": "W_equals_qr_P_V_old",
+    "projected_operator": "A_W_equals_W_transpose_A_W",
+    "reason": "both_committed_anchors_have_nonzero_base_rate_and_are_not_fast_equilibria"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25al"
+}
