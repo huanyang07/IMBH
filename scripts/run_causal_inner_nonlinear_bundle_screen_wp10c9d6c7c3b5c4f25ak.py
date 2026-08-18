@@ -84,6 +84,14 @@ PRIMARY_GENERATOR_DIRECTORY = ROOT / (
 )
 
 
+class CoordinateRetractionFailure(RuntimeError):
+    """Fail closed when a rate reaction is unusable as a state chart."""
+
+    def __init__(self, diagnostics: dict):
+        super().__init__("reaction-lift coordinate retraction left its trust region")
+        self.diagnostics = diagnostics
+
+
 def _plain(value):
     if isinstance(value, np.ndarray):
         return [_plain(item) for item in value.tolist()]
@@ -329,7 +337,32 @@ def _retract_to_base_q(
             errors.append(float(np.max(np.abs(error))))
             if errors[-1] <= 1.0e-12:
                 break
-            delta -= base_reaction.reaction_lift @ error
+            correction = base_reaction.reaction_lift @ error
+            proposed = delta - correction
+            if (
+                component_bound is not None
+                and float(np.max(np.abs(proposed))) > 4.0 * component_bound
+            ):
+                raise CoordinateRetractionFailure(
+                    {
+                        "normalized_Q3_error": errors[-1],
+                        "maximum_scaled_trial_component": float(
+                            np.max(np.abs(delta))
+                        ),
+                        "maximum_scaled_reaction_correction": float(
+                            np.max(np.abs(correction))
+                        ),
+                        "maximum_scaled_proposed_component": float(
+                            np.max(np.abs(proposed))
+                        ),
+                        "declared_component_bound": component_bound,
+                        "reaction_lift_spectral_norm": float(
+                            np.linalg.norm(base_reaction.reaction_lift, 2)
+                        ),
+                        "failure_kind": "rate_reaction_is_not_a_geometric_retraction",
+                    }
+                )
+            delta = proposed
         maximum = float(np.max(np.abs(delta)))
         if component_bound is None or maximum <= component_bound * (1.0 + 1.0e-12):
             break
@@ -675,12 +708,32 @@ def _run() -> dict:
     gates = frozen["contract"]["binding_evaluator_gates"]
     anchor_metrics = {}
     saved_arrays = {}
+    failure = None
     for anchor in manifest.ANCHORS:
-        anchor_metrics[anchor], arrays = _screen_anchor(anchor, fiber, gates)
+        try:
+            anchor_metrics[anchor], arrays = _screen_anchor(anchor, fiber, gates)
+        except CoordinateRetractionFailure as error:
+            failure = {"anchor": anchor, **error.diagnostics}
+            saved_arrays["failed_retraction_diagnostics"] = np.asarray(
+                (
+                    error.diagnostics["normalized_Q3_error"],
+                    error.diagnostics["maximum_scaled_trial_component"],
+                    error.diagnostics["maximum_scaled_reaction_correction"],
+                    error.diagnostics["maximum_scaled_proposed_component"],
+                    error.diagnostics["declared_component_bound"],
+                    error.diagnostics["reaction_lift_spectral_norm"],
+                ),
+                dtype=float,
+            )
+            break
         for name, value in arrays.items():
             saved_arrays[f"{anchor}_{name}"] = value
-    evaluator_passed = all(
-        anchor_metrics[anchor]["evaluator_passed"] for anchor in manifest.ANCHORS
+    evaluator_passed = bool(
+        failure is None
+        and all(
+            anchor_metrics[anchor]["evaluator_passed"]
+            for anchor in manifest.ANCHORS
+        )
     )
     local_supported = bool(
         evaluator_passed
@@ -709,14 +762,25 @@ def _run() -> dict:
         "evaluator_passed": evaluator_passed,
         "local_saturation_supported": local_supported,
         "selected_architecture": selected_architecture,
+        "fail_fast_coordinate_retraction": failure,
         "new_full_generator_assemblies": 0,
         "new_nonlinear_roots": 0,
         "propagated_states": 0,
-        "nonbase_continuous_rate_evaluations": int(
+        "planned_nonbase_continuous_rate_evaluations": int(
             len(manifest.ANCHORS)
             * manifest.ENERGY_DIRECTIONS
             * 2
             * len(manifest.MAXIMUM_COMPONENT_AMPLITUDES)
+        ),
+        "completed_nonbase_continuous_rate_evaluations": (
+            0
+            if failure is not None
+            else int(
+                len(manifest.ANCHORS)
+                * manifest.ENERGY_DIRECTIONS
+                * 2
+                * len(manifest.MAXIMUM_COMPONENT_AMPLITUDES)
+            )
         ),
         "total_wall_seconds": time.perf_counter() - began,
     }
@@ -789,7 +853,18 @@ def _run() -> dict:
         f"The exact nonlinear fixed-Q evaluator passed: `{evaluator_passed}`. Local trust-region saturation passed: `{local_supported}`.",
         "",
     ]
-    for anchor in manifest.ANCHORS:
+    if failure is not None:
+        lines.extend(
+            (
+                "## Fail-fast coordinate diagnosis",
+                "",
+                f"At `{failure['anchor']}`, a normalized Q3 error of `{failure['normalized_Q3_error']:.6e}` required a reaction-lift state correction with maximum scaled component `{failure['maximum_scaled_reaction_correction']:.6e}`, versus the frozen `{failure['declared_component_bound']:.6e}` trust bound. The reaction-lift spectral norm was `{failure['reaction_lift_spectral_norm']:.6e}`.",
+                "",
+                "The physical reaction lift is certified for enforcing a rate constraint, but it is not a minimum-norm geometric normal for finite-amplitude state retraction. The screen therefore stopped before admitting any nonlinear sample; this is not evidence against nonlinear saturation or the physical equations.",
+                "",
+            )
+        )
+    for anchor in anchor_metrics:
         item = anchor_metrics[anchor]
         lines.extend(
             (
