@@ -1,0 +1,187 @@
+{
+  "claim_boundary": {
+    "online_reduced_solver_implementation_authorized": false,
+    "physical_failure_can_be_declared": false,
+    "predictive_cycle_authorized": false,
+    "production_coefficients_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "rank_adaptive_common_memory_reassessment_manifest_frozen_saved_generator_audit_authorized",
+  "common_rank_ladder": {
+    "basis": "leading_left_singular_vectors_of_the_saved_concatenated_local_promoted_bases_projected_into_each_anchor_physical_complement_and_orthogonal_Procrustes_aligned",
+    "candidates": [
+      18,
+      20,
+      22,
+      24,
+      26,
+      28,
+      30,
+      32,
+      34,
+      36
+    ],
+    "evaluate_in_ascending_rank": true,
+    "local_subspace_capture_is_diagnostic": true,
+    "pass_requires_at_both_anchors": {
+      "augmented_restriction_lifting_identity_defect_max": 5e-10,
+      "augmented_restriction_stable_annihilation_defect_max": 5e-10,
+      "common_basis_orthogonality_defect_max": 5e-11,
+      "minimum_cross_anchor_basis_principal_cosine": 0.75,
+      "remaining_unresolved_spectral_abscissa_per_second_max": -1e-08
+    },
+    "stability_is_binding": true
+  },
+  "decisions": {
+    "joint_candidate_passes": "two_anchor_rank_adaptive_common_memory_passed_online_prototype_manifest_authorized",
+    "no_common_rank_stabilizes_both": "common_resolved_chart_failed_local_fiber_atlas_manifest_authorized",
+    "saved_evidence_or_numerical_gate_fails": "rank_adaptive_common_memory_numerical_failure_stop",
+    "stable_rank_exists_but_no_memory_order_within_R320_passes": "common_memory_cap_failed_local_fiber_parametric_memory_architecture_manifest_authorized"
+  },
+  "definitions_only": true,
+  "execution_budget": {
+    "allowed_new_full_560_direction_generator_assemblies": 0,
+    "allowed_new_nonlinear_roots": 0,
+    "allowed_new_truth_anchors": 0,
+    "allowed_propagated_states": 0,
+    "fail_fast_after_first_joint_rank_memory_pass": true,
+    "maximum_balanced_realizations_per_anchor": 10,
+    "maximum_wall_hours": 1.5,
+    "saved_generator_rank_candidates": [
+      18,
+      20,
+      22,
+      24,
+      26,
+      28,
+      30,
+      32,
+      34,
+      36
+    ]
+  },
+  "mathematical_diagnosis": {
+    "binding_selection_principle": "minimum_online_dimension_that_is_stable_and_transfer_accurate_at_both_hash_locked_anchors",
+    "full_union_dimension": 36,
+    "local_promoted_dimensions": [
+      18,
+      18
+    ],
+    "local_promoted_worst_principal_angle_degrees": 2.9204769695366193,
+    "reason_full_union_is_not_automatically_selected": "small_cross_anchor_difference_directions_need_only_be_retained_when_required_for_two_anchor_unresolved_stability"
+  },
+  "memory_order_ladder": {
+    "family": "anchor_local_continuous_time_square_root_balanced",
+    "heldout_frequencies": "same_DC_plus_32_midpoint_frequencies",
+    "orders_by_rank": {
+      "18": [
+        96,
+        104,
+        112,
+        120,
+        128,
+        136,
+        140
+      ],
+      "20": [
+        96,
+        104,
+        112,
+        120,
+        128,
+        136,
+        138
+      ],
+      "22": [
+        96,
+        104,
+        112,
+        120,
+        128,
+        136
+      ],
+      "24": [
+        96,
+        104,
+        112,
+        120,
+        128,
+        134
+      ],
+      "26": [
+        96,
+        104,
+        112,
+        120,
+        128,
+        132
+      ],
+      "28": [
+        96,
+        104,
+        112,
+        120,
+        128,
+        130
+      ],
+      "30": [
+        96,
+        104,
+        112,
+        120,
+        128
+      ],
+      "32": [
+        96,
+        104,
+        112,
+        120,
+        126
+      ],
+      "34": [
+        96,
+        104,
+        112,
+        120,
+        124
+      ],
+      "36": [
+        96,
+        104,
+        112,
+        120,
+        122
+      ]
+    },
+    "pass_requires_at_both_anchors": {
+      "DC_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "DC_normalized_total_transfer_relative_error_max": 0.1,
+      "RMS_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "RMS_normalized_total_transfer_relative_error_max": 0.1,
+      "lyapunov_certificate_minimum_eigenvalue_min": 0.0,
+      "lyapunov_dissipation_residual_max": 1e-08,
+      "maximum_normalized_dynamic_transfer_relative_error_max": 0.25,
+      "maximum_normalized_total_transfer_relative_error_max": 0.25,
+      "reduced_spectral_abscissa_per_second_max": -1e-08
+    },
+    "policy": "for_each_stable_rank_test_96_then_increment_by_8_then_the_largest_order_allowed_by_the_R320_cap",
+    "training_frequencies": "same_33_parent_frequencies"
+  },
+  "online_architecture": {
+    "dimension_formula": "162_plus_selected_common_rank_plus_selected_memory_order",
+    "interior_memory_output_enters_as_single_valued_face_flux": true,
+    "maximum_online_continuous_dimension": 320,
+    "memory_update": "exponential_or_L_stable_implicit",
+    "physical_R32_dimension": 162
+  },
+  "parent_decisive_hashes": {
+    "assembly_metrics.json": "ee28a1383c367b75dbc8fe016c0f2715161fc189f16349b0bb0eeb2949db7b33",
+    "common_memory_models.npz": "68382701f8dfb4c31c9458417c9d32f2487f66c8f32eb1f7c645821f2e28579e",
+    "common_metrics.json": "60fbf0799cc73e61dcb8121eaf449b6134194b57e0d68551746812e87a5feaa7",
+    "common_subspace.npz": "e152ac526bc8dd6182bff2c5b31dcb49a66dd5b673b38d73a5a512131b220f7c",
+    "heldout_generator.npz": "841dfa22feaa24212c265697a0ab214a571934778fa5ad4799841ee8e85db673",
+    "summary.json": "b18b195432bdbedd434d2cd58d94732bb4861e17073a6cce1a218cd394ae7fd7"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25p"
+}
