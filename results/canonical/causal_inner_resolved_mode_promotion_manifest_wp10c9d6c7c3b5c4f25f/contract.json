@@ -1,0 +1,75 @@
+{
+  "algebraic_promotion": {
+    "augmented_lifting": "columns_L_and_Z_times_Uu",
+    "augmented_restriction": "stack_R_and_Uu_transpose_times_Z_transpose",
+    "maximum_augmented_resolved_dimension": 114,
+    "maximum_promoted_dimension": 32,
+    "pass_requires": {
+      "augmented_resolved_dimension_max": 114,
+      "augmented_restriction_complement_annihilation_max": 5e-11,
+      "augmented_restriction_lifting_identity_max": 5e-11,
+      "ordered_schur_orthogonality_defect_max": 5e-11,
+      "ordered_schur_reconstruction_relative_defect_max": 1e-10,
+      "parent_nonstable_dimension": 24,
+      "promoted_dimension": 24,
+      "remaining_unresolved_spectral_abscissa_per_second_max": -1e-08,
+      "stable_complement_lifting_annihilation_max": 5e-11,
+      "stable_complement_orthogonality_max": 5e-11
+    },
+    "promote_every_nonstable_compressed_real_schur_coordinate": true,
+    "promotion_basis": "Z_times_ordered_real_schur_nonstable_vectors",
+    "remaining_complement": "Z_times_Us"
+  },
+  "claim_boundary": {
+    "full_anchor_campaign_authorized": false,
+    "memory_fit_authorized_in_this_package": false,
+    "online_solver_authorized": false,
+    "physical_instability_claim_authorized": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "resolved_mode_promotion_manifest_frozen_saved_generator_audit_authorized",
+  "decision": {
+    "numerical_gate_failure": "resolved_mode_promotion_audit_failed_stop",
+    "promotion_and_stable_transfer_pass": "definitions_only_mode_selection_and_finite_memory_manifest_authorized",
+    "promotion_budget_exceeded": "reduced_architecture_dimension_budget_failed_stop",
+    "remaining_unresolved_not_strictly_stable": "resolved_mode_promotion_failed_remaining_memory_not_stable"
+  },
+  "definitions_only": true,
+  "execution_budget": {
+    "allowed_memory_coefficients_fit": 0,
+    "allowed_new_full_560_direction_descriptor_assemblies": 0,
+    "allowed_new_nonlinear_roots": 0,
+    "allowed_propagated_states": 0,
+    "maximum_wall_hours": 2.0,
+    "saved_complete_generator_must_be_reused": true
+  },
+  "ordered_real_schur_attribution": {
+    "compressed_nonstable_poles_are_not_a_physical_instability_claim": true,
+    "expected_nonstable_compressed_dimension": 24,
+    "full_generator_spectrum_is_diagnostic_only": true,
+    "ordered_partition": "stable_first_then_nonstable",
+    "parent_resolved_dimension": 82,
+    "parent_unresolved_dimension": 478,
+    "record_full_nonstable_subspace_capture_and_principal_angles": true,
+    "stability_definition": "real_part_strictly_less_than_minus_margin",
+    "stability_margin_per_second": 1e-08
+  },
+  "parent_decisive_hashes": {
+    "parent_poles": "5365ca7a6d85b2419527b85fa4b887e5c7119d86c0d92d186a87fed6a4848d9c",
+    "parent_projection": "78e7da39c744522023eacdf7aa4dd9cc588d688f6c0b2cd93856f9129899c063",
+    "saved_generator": "483ecb52b4669343a223ebf5b3bec1ad6c07b80f3cf5d95f2f17c528227fdfc1"
+  },
+  "schema_version": 1,
+  "stable_transfer_reaudit": {
+    "frequency_count_including_DC": 33,
+    "no_memory_coefficients_are_fit_in_this_package": true,
+    "pass_requires": {
+      "conjugate_symmetry_relative_defect_max": 1e-10,
+      "database_roundtrip_bitwise": true,
+      "frequency_solve_relative_residual_max": 1e-10
+    },
+    "transfer": "G(s)=D_aug+C_s*(sI-A_s)^(-1)*A_sr"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25f"
+}
