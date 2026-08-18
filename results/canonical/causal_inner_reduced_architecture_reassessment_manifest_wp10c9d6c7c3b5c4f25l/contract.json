@@ -1,0 +1,100 @@
+{
+  "candidate_families": {
+    "coherent_spatial_channel_models": {
+      "construction": "project_balanced_input_and_output_maps_onto_leading_aggregate_dynamic_transfer_singular_subspaces",
+      "direct_map_is_never_projected": true,
+      "spatial_channel_ranks": [
+        1,
+        2,
+        3
+      ],
+      "temporal_orders": [
+        24,
+        48,
+        96
+      ]
+    },
+    "global_balanced_controls": {
+      "construction": "continuous_time_square_root_balanced_truncation",
+      "orders": [
+        24,
+        48,
+        96
+      ]
+    }
+  },
+  "claim_boundary": {
+    "common_cross_anchor_subspace_certified": false,
+    "online_solver_authorized": false,
+    "physical_failure_can_be_declared": false,
+    "predictive_cycle_authorized": false,
+    "production_memory_coefficients_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "reduced_architecture_reassessment_manifest_frozen_saved_R32_memory_selection_authorized",
+  "definitions_only": true,
+  "execution_budget": {
+    "allowed_new_full_560_direction_generator_assemblies": 0,
+    "allowed_new_nonlinear_roots": 0,
+    "allowed_new_truth_anchors": 0,
+    "allowed_propagated_states": 0,
+    "allowed_saved_generator_memory_fits": 12,
+    "maximum_wall_hours": 2.0
+  },
+  "normalization_and_validation": {
+    "candidate_pass_requires_training_and_heldout": {
+      "DC_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "DC_normalized_total_transfer_relative_error_max": 0.1,
+      "RMS_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "RMS_normalized_total_transfer_relative_error_max": 0.1,
+      "database_roundtrip_bitwise": true,
+      "lyapunov_certificate_minimum_eigenvalue_min": 0.0,
+      "lyapunov_dissipation_residual_max": 1e-08,
+      "maximum_normalized_dynamic_transfer_relative_error_max": 0.25,
+      "maximum_normalized_total_transfer_relative_error_max": 0.25,
+      "reduced_spectral_abscissa_per_second_max": -1e-08
+    },
+    "full_order_numerical_pass_requires": {
+      "controllability_gramian_relative_residual_max": 1e-08,
+      "maximum_reference_frequency_solve_relative_residual": 1e-10,
+      "minimum_positive_hankel_singular_value_count": 96,
+      "observability_gramian_relative_residual_max": 1e-08
+    },
+    "heldout_frequencies": "one_prospective_midpoint_per_adjacent_parent_interval; arithmetic_midpoint_for_DC_to_first_positive_and_geometric_thereafter",
+    "heldout_reference": "direct_solve_of_hash_locked_saved_R32_stable_system",
+    "normalization": "frozen_R32_forcing_observation_direct_two_norm_scaling",
+    "training_frequencies": "all_33_parent_frequencies"
+  },
+  "online_budget": {
+    "dimension_ceiling_is_runtime_derived_not_a_physical_gate": true,
+    "future_macro_memory_update": "exponential_or_L_stable_implicit_not_explicit_fast_substepping",
+    "maximum_memory_dimension": 96,
+    "maximum_online_continuous_dimension": 320
+  },
+  "parent_decisive_hashes": {
+    "R32_projection_promotion.npz": "00e2a2be2142a4aa44fb6a3b000830e700e46dfe8ace9a67471ec1cb204ecc09",
+    "R32_transfer.npz": "f4e713ae430f2dbedbb839c2fb61a2b067e2cac2b611f2c749695dcfcdfe108d",
+    "metrics.json": "154e3767b6bd541780fc6333935fc3453b4344fbf2fea3943b7c795c87e57072",
+    "summary.json": "b16874b0ee6fa0501b3f47ea29fd55b612117a5f7a8714b506cbf9800646c766"
+  },
+  "resolved_backbone": {
+    "base_online_dimension": 180,
+    "explicit_a2_dimension": 2,
+    "interior_M_J_E_fluxes_must_remain_single_valued_and_telescope": true,
+    "physical_grid": "nested_conservative_R32",
+    "physical_storage_dimension": 160,
+    "promoted_coordinates_are_single_anchor_diagnostic_until_common_subspace_audit": true,
+    "promoted_nonstable_dimension": 18,
+    "remaining_stable_dimension": 380
+  },
+  "schema_version": 1,
+  "selection": {
+    "no_candidate_pass": "saved_R32_memory_architectures_failed_reconsider_resolved_variables",
+    "no_post_result_candidate_addition": true,
+    "numerical_failure": "saved_R32_memory_selection_numerical_failure_stop",
+    "pass": "single_anchor_R32_memory_architecture_selected_cross_anchor_preflight_authorized",
+    "prefer_coherent_spatial_channel_model_at_equal_dimension": true,
+    "select_smallest_passing_memory_dimension": true
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25l"
+}
