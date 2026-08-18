@@ -118,6 +118,20 @@ def _tracked_tree_clean() -> bool:
     return not _git("status", "--short", "--untracked-files=no")
 
 
+def _pole_defect(reference: np.ndarray, candidate: np.ndarray) -> float:
+    """Return a symmetric relative matching defect for two pole multisets."""
+    if reference.size != candidate.size:
+        return math.inf
+    values = []
+    for pole in reference:
+        denominator = np.maximum(np.maximum(np.abs(pole), np.abs(candidate)), 1.0)
+        values.append(float(np.min(np.abs(pole - candidate) / denominator)))
+    for pole in candidate:
+        denominator = np.maximum(np.maximum(np.abs(pole), np.abs(reference)), 1.0)
+        values.append(float(np.min(np.abs(pole - reference) / denominator)))
+    return float(max(values, default=0.0))
+
+
 def _checksums(directory: Path) -> dict[str, str]:
     recorded = {}
     for line in (directory / "SHA256SUMS.txt").read_text(encoding="utf-8").splitlines():
@@ -313,7 +327,7 @@ def _candidate(
         "reduced_stable_spectral_abscissa_per_second": float(np.max(np.real(reduced_poles))),
         "complete_nonstable_eigenvalue_count": int(complete_nonstable.size),
         "extra_nonstable_eigenvalue_count": int(np.sum(np.real(reduced_poles) >= threshold)),
-        "exact_nonstable_pole_relative_defect": square_tools._pole_defect(unstable_poles, complete_nonstable),
+        "exact_nonstable_pole_relative_defect": _pole_defect(unstable_poles, complete_nonstable),
         "maximum_frequency_solve_relative_residual": max(prepared["reference_frequency_residual"], training_residual, heldout_residual),
         "blocks": blocks,
     }

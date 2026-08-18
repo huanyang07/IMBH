@@ -36,3 +36,10 @@ def test_relative_Hermite_basis_is_orthonormal_and_solves_derivatives():
 def test_relative_Hermite_basis_rejects_nonincreasing_frequencies():
     with np.testing.assert_raises(ValueError):
         f25ae._frequency_half_widths(np.asarray((0.0, 1.0, 1.0)))
+
+
+def test_pole_defect_is_local_and_handles_matching_and_cardinality():
+    reference = np.asarray((-1.0 + 2.0j, -1.0 - 2.0j))
+    assert f25ae._pole_defect(reference, reference.copy()) == 0.0
+    assert np.isinf(f25ae._pole_defect(reference, reference[:1]))
+    assert f25ae._pole_defect(reference, reference + 1.0) > 0.0
