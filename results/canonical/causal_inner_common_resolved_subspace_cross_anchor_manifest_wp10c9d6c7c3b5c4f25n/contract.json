@@ -1,0 +1,131 @@
+{
+  "anchor_local_R32_projection": {
+    "construction": "same_nested_R32_mapped_plus_responsive_height_complete_QR",
+    "pass_requires": {
+      "M_J_E_telescope_relative_defect_max": 5e-12,
+      "complement_orthogonality_max": 5e-11,
+      "constraint_rowspace_relative_defect_max": 5e-10,
+      "remaining_unresolved_spectral_abscissa_per_second_max": -1e-08,
+      "resolved_condition_number_max": 20000.0,
+      "resolved_rank": 162,
+      "restriction_complement_annihilation_max": 5e-11,
+      "restriction_lifting_identity_max": 5e-11
+    },
+    "promote_every_nonstable_compressed_coordinate": true,
+    "stability_margin_per_second": 1e-08
+  },
+  "anchors": {
+    "heldout_16ms": {
+      "layout": "same_committed_112_cell_middle_layout",
+      "new_generator_assembly": true,
+      "role": "heldout_state_robustness",
+      "source": "unique_exact_16ms_state_in_hash_locked_middle_trajectory",
+      "state_must_be_copied_bitwise_without_projection": true,
+      "time_seconds": 0.016
+    },
+    "primary_20ms": {
+      "new_generator_assembly": false,
+      "role": "training_and_reference",
+      "source": "hash_locked_existing_R32_generator_projection_and_transfer"
+    }
+  },
+  "claim_boundary": {
+    "online_reduced_solver_implementation_authorized": false,
+    "physical_failure_can_be_declared": false,
+    "predictive_cycle_authorized": false,
+    "production_memory_coefficients_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "common_resolved_subspace_cross_anchor_manifest_frozen_heldout_16ms_generator_preflight_authorized",
+  "common_basis_memory": {
+    "direct_primary_coefficients_applied_at_heldout_anchor": "diagnostic_nonbinding",
+    "family": "global_continuous_time_square_root_balanced",
+    "fit_separately_at_each_anchor_behind_common_resolved_coordinates": true,
+    "heldout_frequencies": "same_DC_plus_32_prospective_midpoint_ladder",
+    "normalization": "anchor_local_forcing_observation_direct_two_norm_scaling",
+    "order": 96,
+    "pass_requires_at_each_anchor_on_training_and_heldout": {
+      "DC_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "DC_normalized_total_transfer_relative_error_max": 0.1,
+      "RMS_normalized_dynamic_transfer_relative_error_max": 0.1,
+      "RMS_normalized_total_transfer_relative_error_max": 0.1,
+      "database_roundtrip_bitwise": true,
+      "lyapunov_certificate_minimum_eigenvalue_min": 0.0,
+      "lyapunov_dissipation_residual_max": 1e-08,
+      "maximum_normalized_dynamic_transfer_relative_error_max": 0.25,
+      "maximum_normalized_total_transfer_relative_error_max": 0.25,
+      "reduced_spectral_abscissa_per_second_max": -1e-08
+    },
+    "training_frequencies": "same_33_parent_frequencies"
+  },
+  "common_resolved_subspace": {
+    "anchor_local_realization": "project_reference_union_into_each_anchor_physical_R32_complement_then_complete_QR_and_orthogonal_Procrustes_align_to_reference",
+    "coordinate_policy": {
+      "below_threshold_selects_local_atlas_not_physical_failure": true,
+      "minimum_anchor_basis_principal_cosine_for_one_global_chart": 0.75,
+      "raw_anchor_local_Schur_vectors_may_not_be_interpolated": true
+    },
+    "input_spaces": "primary_and_heldout_local_promoted_truth_bases",
+    "maximum_common_promoted_dimension": 62,
+    "pass_requires": {
+      "common_augmented_restriction_lifting_identity_defect_max": 5e-10,
+      "common_augmented_restriction_stable_annihilation_defect_max": 5e-10,
+      "common_modal_basis_orthogonality_defect_max": 5e-11,
+      "local_promoted_subspace_projection_relative_defect_max": 1e-08,
+      "maximum_online_continuous_dimension": 320,
+      "remaining_common_unresolved_spectral_abscissa_per_second_max": -1e-08
+    },
+    "reference_basis": "left_singular_vectors_of_concatenated_local_promoted_truth_bases",
+    "union_numerical_rank_relative_cutoff": 1e-10
+  },
+  "decisions": {
+    "all_gates_and_global_chart_pass": "two_anchor_common_subspace_R96_memory_passed_online_prototype_manifest_authorized",
+    "generator_projection_or_stability_fails": "heldout_generator_or_common_projection_numerical_failure_stop",
+    "heldout_memory_fails": "heldout_R32_R96_memory_failed_architecture_reassessment_required",
+    "local_gates_pass_global_chart_alignment_fails": "two_anchor_local_models_passed_common_chart_failed_conservative_atlas_manifest_authorized"
+  },
+  "definitions_only": true,
+  "execution_budget": {
+    "allowed_anchor_local_R32_projection_promotion_audits": 1,
+    "allowed_common_basis_memory_fits": 2,
+    "allowed_new_full_560_direction_generator_assemblies": 1,
+    "allowed_new_nonlinear_roots": 0,
+    "allowed_new_truth_anchors": 1,
+    "allowed_propagated_states": 0,
+    "fail_fast": true,
+    "maximum_wall_hours": 2.5
+  },
+  "heldout_generator": {
+    "all_560_coordinate_directions": true,
+    "construction": "complete_state_dependent_fixed_Q_continuous_generator_from_monolithic_frozen_tangent_plus_complete_reaction_JVP",
+    "pass_requires": {
+      "complete_JVP_relative_defect_max": 5e-10,
+      "constraint_differential_identity_relative_defect_max": 5e-10,
+      "generator_and_state_database_roundtrip_bitwise": true,
+      "maximum_raw_Schur_condition_number": 100000000.0,
+      "reaction_identity_directional_defect_max": 5e-08,
+      "reaction_ledger_directional_relative_defect_max": 5e-10
+    },
+    "reaction_mode": "same_certified_frozen_normalized_physical_action"
+  },
+  "online_architecture": {
+    "common_promoted_dimension_max": 62,
+    "interior_M_J_E_memory_output_must_enter_as_single_valued_face_flux": true,
+    "maximum_online_continuous_dimension": 320,
+    "memory_update_requirement": "exponential_or_L_stable_implicit",
+    "physical_R32_dimension": 162,
+    "stable_memory_dimension": 96
+  },
+  "parent_decisive_hashes": {
+    "middle_20ms_arrays": "b4cfbce2f1d823a1d2b3a9582c866e1baf6bc908d3a34b0c9200ade97adf5a10",
+    "middle_6ms_arrays": "b90c541aa78361ae6bd2359b0a0ac7aadbcc6a225f8b493763e75343c767ff1e",
+    "primary_R32_projection_promotion": "00e2a2be2142a4aa44fb6a3b000830e700e46dfe8ace9a67471ec1cb204ecc09",
+    "primary_R32_transfer": "f4e713ae430f2dbedbb839c2fb61a2b067e2cac2b611f2c749695dcfcdfe108d",
+    "primary_complete_fixed_Q_generator": "483ecb52b4669343a223ebf5b3bec1ad6c07b80f3cf5d95f2f17c528227fdfc1",
+    "selected_R32_memory_errors": "3504db92cd9c5ec3d2f737f53c0b1ead450cf0c33f96dd3bdc745ddc5e531e14",
+    "selected_R32_memory_metrics": "30f521b1f43e0c244c0bcf29d7756285667767495d510d74bcbb15fd6e1d5e1a",
+    "selected_R32_memory_models": "1c7441cb64071796a47a6d7a51318f0337488a795f49b68f619850f11396abcb"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25n"
+}
