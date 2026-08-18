@@ -1,0 +1,70 @@
+{
+  "benchmark_points": {
+    "heldout": {
+      "LU_factor_median_wall_seconds": 0.000855875201523304,
+      "LU_solve_median_wall_seconds": 7.454166188836098e-05,
+      "exponential_median_wall_seconds": 0.014137625228613615,
+      "macrostep_seconds": 5.7888,
+      "matvec_median_wall_seconds": 8.875038474798203e-06,
+      "projected_exponential_cycle_wall_days": 0.01636299216274724,
+      "projected_exponential_cycle_wall_seconds": 1413.7625228613615,
+      "projected_exponential_fraction_of_wall_budget": 0.005454330720915747,
+      "stable_dimension": 442
+    },
+    "midpoint": {
+      "LU_factor_median_wall_seconds": 0.0008473750203847885,
+      "LU_solve_median_wall_seconds": 6.941612809896469e-05,
+      "exponential_median_wall_seconds": 0.015730292070657015,
+      "macrostep_seconds": 5.7888,
+      "matvec_median_wall_seconds": 8.95792618393898e-06,
+      "projected_exponential_cycle_wall_days": 0.018206356563260435,
+      "projected_exponential_cycle_wall_seconds": 1573.0292070657015,
+      "projected_exponential_fraction_of_wall_budget": 0.006068785521086811,
+      "stable_dimension": 442
+    },
+    "primary": {
+      "LU_factor_median_wall_seconds": 0.0008624582551419735,
+      "LU_solve_median_wall_seconds": 6.908271461725235e-05,
+      "exponential_median_wall_seconds": 0.014084624592214823,
+      "macrostep_seconds": 5.7888,
+      "matvec_median_wall_seconds": 9.041745215654373e-06,
+      "projected_exponential_cycle_wall_days": 0.01630164883358197,
+      "projected_exponential_cycle_wall_seconds": 1408.4624592214823,
+      "projected_exponential_fraction_of_wall_budget": 0.005433882944527324,
+      "stable_dimension": 442
+    }
+  },
+  "cost_passed": true,
+  "descriptor": {
+    "aligned_hidden_truth_trial_relative_mismatch": 0.08563651102698941,
+    "endpoint_0_operator_relative_defect": 4.423826172510965e-11,
+    "endpoint_1_operator_relative_defect": 1.7068873595739546e-11,
+    "hidden_alignment_orthogonality_defect": 2.6645352591003757e-15,
+    "maximum_descriptor_identity_relative_defect": 4.832128244804858e-13,
+    "maximum_metric_condition_number": 1540195965.2317615,
+    "maximum_spectral_abscissa_per_second": -0.8329611404776347,
+    "maximum_symmetric_dissipation_eigenvalue": -0.0011628560686385014,
+    "minimum_metric_eigenvalue": 0.0011366794532513584
+  },
+  "structural_passed": true,
+  "unstable_bundle": {
+    "alignment_orthogonality_defect": 3.9968028886505635e-15,
+    "maximum_growth_timescale_seconds": 0.3997730202037081,
+    "maximum_macrostep_linear_log_amplification": 1877568.5188386776,
+    "maximum_positive_real_part_count": 28,
+    "maximum_real_part_per_second": 324345.03158490144,
+    "minimum_growth_timescale_seconds": 3.0831364831258014e-06,
+    "minimum_positive_real_part_count": 28,
+    "minimum_real_part_per_second": 2.5014194291811904,
+    "operator_dimension": 28
+  },
+  "worst_benchmark": {
+    "LU_factor_median_wall_seconds": 0.0008624582551419735,
+    "LU_solve_median_wall_seconds": 7.454166188836098e-05,
+    "exponential_median_wall_seconds": 0.015730292070657015,
+    "matvec_median_wall_seconds": 9.041745215654373e-06,
+    "projected_exponential_cycle_wall_days": 0.018206356563260435,
+    "projected_exponential_cycle_wall_seconds": 1573.0292070657015,
+    "projected_exponential_fraction_of_wall_budget": 0.006068785521086811
+  }
+}
