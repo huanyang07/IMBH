@@ -1,0 +1,498 @@
+{
+  "anchors": {
+    "heldout": {
+      "base_square_root_metrics": {
+        "conservative_lift_identity_defect": 1.760263211222086e-12,
+        "conservative_map_largest_singular_value": 29.660672614215645,
+        "conservative_map_rank": 162,
+        "conservative_map_smallest_singular_value": 0.0007557758396876208,
+        "full_conservative_test_identity_defect": 0.0,
+        "full_coordinate_reconstruction_relative_defect": 4.431600806609397e-13,
+        "full_stable_spectral_abscissa_per_second": -0.9871849409670684,
+        "full_trial_test_biorthogonality_defect": 1.760263211222086e-12,
+        "square_root_reconstruction_relative_defect": 5.600369962881095e-16,
+        "stable_Lyapunov_condition_number": 1549764978.9317148,
+        "stable_Lyapunov_minimum_eigenvalue": 1.2687773853132345e-06,
+        "stable_Lyapunov_relative_residual": 7.636477973025284e-09,
+        "whitened_Lyapunov_relative_defect": 1.9183339903440113e-10
+      },
+      "candidate_metrics": [
+        {
+          "blocks": {
+            "conservative_face_flux": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_DC_normalized_total_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_total_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_total_transfer_relative_error": 0.0,
+              "training_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_DC_normalized_total_transfer_relative_error": 0.0,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_RMS_normalized_total_transfer_relative_error": 0.0,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_maximum_normalized_total_transfer_relative_error": 0.0
+            },
+            "resolved_self_energy": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 3.245237527800926e-06,
+              "heldout_DC_normalized_total_transfer_relative_error": 2.655008643380633e-06,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 2.662719911237168e-06,
+              "heldout_RMS_normalized_total_transfer_relative_error": 2.05708301807633e-06,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 3.6301177292722106e-06,
+              "heldout_maximum_normalized_total_transfer_relative_error": 2.9713931324816743e-06,
+              "training_DC_normalized_dynamic_transfer_relative_error": 3.245237527800926e-06,
+              "training_DC_normalized_total_transfer_relative_error": 2.655008643380633e-06,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 2.650023601874124e-06,
+              "training_RMS_normalized_total_transfer_relative_error": 2.037059328350771e-06,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 3.708428490837221e-06,
+              "training_maximum_normalized_total_transfer_relative_error": 3.037778196241091e-06
+            }
+          },
+          "hidden_order": 112,
+          "maximum_safety_gate_ratio": 0.00032452375278009256,
+          "online_dimension": 302,
+          "original_gate_passed": true,
+          "safety_margin_passed": true
+        },
+        {
+          "blocks": {
+            "conservative_face_flux": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_DC_normalized_total_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_total_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_total_transfer_relative_error": 0.0,
+              "training_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_DC_normalized_total_transfer_relative_error": 0.0,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_RMS_normalized_total_transfer_relative_error": 0.0,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_maximum_normalized_total_transfer_relative_error": 0.0
+            },
+            "resolved_self_energy": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 1.0524362624278286e-06,
+              "heldout_DC_normalized_total_transfer_relative_error": 8.610239926710537e-07,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 8.146654557514467e-07,
+              "heldout_RMS_normalized_total_transfer_relative_error": 6.4878085461779e-07,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 1.0524362624278286e-06,
+              "heldout_maximum_normalized_total_transfer_relative_error": 8.610239926710537e-07,
+              "training_DC_normalized_dynamic_transfer_relative_error": 1.0524362624278286e-06,
+              "training_DC_normalized_total_transfer_relative_error": 8.610239926710537e-07,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 8.066670573722135e-07,
+              "training_RMS_normalized_total_transfer_relative_error": 6.409579243885728e-07,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 1.0524362624278286e-06,
+              "training_maximum_normalized_total_transfer_relative_error": 8.610239926710537e-07
+            }
+          },
+          "hidden_order": 120,
+          "maximum_safety_gate_ratio": 0.00010524362624278285,
+          "online_dimension": 310,
+          "original_gate_passed": true,
+          "safety_margin_passed": true
+        },
+        {
+          "blocks": {
+            "conservative_face_flux": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_DC_normalized_total_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_total_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_total_transfer_relative_error": 0.0,
+              "training_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_DC_normalized_total_transfer_relative_error": 0.0,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_RMS_normalized_total_transfer_relative_error": 0.0,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_maximum_normalized_total_transfer_relative_error": 0.0
+            },
+            "resolved_self_energy": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 5.677165883203287e-07,
+              "heldout_DC_normalized_total_transfer_relative_error": 4.6446290481622325e-07,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 4.3153939719688015e-07,
+              "heldout_RMS_normalized_total_transfer_relative_error": 3.465353528465389e-07,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 5.677165883263719e-07,
+              "heldout_maximum_normalized_total_transfer_relative_error": 4.6446290482116765e-07,
+              "training_DC_normalized_dynamic_transfer_relative_error": 5.677165883203287e-07,
+              "training_DC_normalized_total_transfer_relative_error": 4.6446290481622325e-07,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 4.2717220694951206e-07,
+              "training_RMS_normalized_total_transfer_relative_error": 3.425274303862481e-07,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 5.677165883267312e-07,
+              "training_maximum_normalized_total_transfer_relative_error": 4.6446290482146226e-07
+            }
+          },
+          "hidden_order": 124,
+          "maximum_safety_gate_ratio": 5.677165883203286e-05,
+          "online_dimension": 314,
+          "original_gate_passed": true,
+          "safety_margin_passed": true
+        },
+        {
+          "blocks": {
+            "conservative_face_flux": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_DC_normalized_total_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_total_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_total_transfer_relative_error": 0.0,
+              "training_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_DC_normalized_total_transfer_relative_error": 0.0,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_RMS_normalized_total_transfer_relative_error": 0.0,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_maximum_normalized_total_transfer_relative_error": 0.0
+            },
+            "resolved_self_energy": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 2.264553293415742e-07,
+              "heldout_DC_normalized_total_transfer_relative_error": 1.852686749708909e-07,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 1.7163558665247988e-07,
+              "heldout_RMS_normalized_total_transfer_relative_error": 1.3801605089434371e-07,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 2.264553293415742e-07,
+              "heldout_maximum_normalized_total_transfer_relative_error": 1.852686749708909e-07,
+              "training_DC_normalized_dynamic_transfer_relative_error": 2.264553293415742e-07,
+              "training_DC_normalized_total_transfer_relative_error": 1.852686749708909e-07,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 1.6924966550370798e-07,
+              "training_RMS_normalized_total_transfer_relative_error": 1.359160187433703e-07,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 2.2645532934520476e-07,
+              "training_maximum_normalized_total_transfer_relative_error": 1.8526867497386154e-07
+            }
+          },
+          "hidden_order": 128,
+          "maximum_safety_gate_ratio": 2.2645532934157414e-05,
+          "online_dimension": 318,
+          "original_gate_passed": true,
+          "safety_margin_passed": true
+        },
+        {
+          "blocks": {
+            "conservative_face_flux": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_DC_normalized_total_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_total_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_total_transfer_relative_error": 0.0,
+              "training_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_DC_normalized_total_transfer_relative_error": 0.0,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_RMS_normalized_total_transfer_relative_error": 0.0,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_maximum_normalized_total_transfer_relative_error": 0.0
+            },
+            "resolved_self_energy": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 1.2406404525133243e-07,
+              "heldout_DC_normalized_total_transfer_relative_error": 1.0149984697676635e-07,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 9.553307942838637e-08,
+              "heldout_RMS_normalized_total_transfer_relative_error": 7.674177804612322e-08,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 1.3373252553683767e-07,
+              "heldout_maximum_normalized_total_transfer_relative_error": 1.0946529495870023e-07,
+              "training_DC_normalized_dynamic_transfer_relative_error": 1.2406404525133243e-07,
+              "training_DC_normalized_total_transfer_relative_error": 1.0149984697676635e-07,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 9.444925378811808e-08,
+              "training_RMS_normalized_total_transfer_relative_error": 7.574047567084613e-08,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 1.3060158810489678e-07,
+              "training_maximum_normalized_total_transfer_relative_error": 1.068712087655922e-07
+            }
+          },
+          "hidden_order": 130,
+          "maximum_safety_gate_ratio": 1.240640452513324e-05,
+          "online_dimension": 320,
+          "original_gate_passed": true,
+          "safety_margin_passed": true
+        }
+      ],
+      "maximum_frequency_solve_relative_residual": 2.4315351060254264e-14,
+      "minimum_pointwise_order_for_original_gates": 16,
+      "minimum_pointwise_order_for_safety_margin": 37,
+      "target": {
+        "blocks": {
+          "conservative_face_flux": {
+            "heldout_DC_normalized_dynamic_transfer_relative_error": 0.0,
+            "heldout_DC_normalized_total_transfer_relative_error": 0.0,
+            "heldout_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+            "heldout_RMS_normalized_total_transfer_relative_error": 0.0,
+            "heldout_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+            "heldout_maximum_normalized_total_transfer_relative_error": 0.0,
+            "training_DC_normalized_dynamic_transfer_relative_error": 0.0,
+            "training_DC_normalized_total_transfer_relative_error": 0.0,
+            "training_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+            "training_RMS_normalized_total_transfer_relative_error": 0.0,
+            "training_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+            "training_maximum_normalized_total_transfer_relative_error": 0.0
+          },
+          "resolved_self_energy": {
+            "heldout_DC_normalized_dynamic_transfer_relative_error": 1.2406404525133243e-07,
+            "heldout_DC_normalized_total_transfer_relative_error": 1.0149984697676635e-07,
+            "heldout_RMS_normalized_dynamic_transfer_relative_error": 9.553307942838637e-08,
+            "heldout_RMS_normalized_total_transfer_relative_error": 7.674177804612322e-08,
+            "heldout_maximum_normalized_dynamic_transfer_relative_error": 1.3373252553683767e-07,
+            "heldout_maximum_normalized_total_transfer_relative_error": 1.0946529495870023e-07,
+            "training_DC_normalized_dynamic_transfer_relative_error": 1.2406404525133243e-07,
+            "training_DC_normalized_total_transfer_relative_error": 1.0149984697676635e-07,
+            "training_RMS_normalized_dynamic_transfer_relative_error": 9.444925378811808e-08,
+            "training_RMS_normalized_total_transfer_relative_error": 7.574047567084613e-08,
+            "training_maximum_normalized_dynamic_transfer_relative_error": 1.3060158810489678e-07,
+            "training_maximum_normalized_total_transfer_relative_error": 1.068712087655922e-07
+          }
+        },
+        "hidden_order": 130,
+        "maximum_safety_gate_ratio": 1.240640452513324e-05,
+        "online_dimension": 320,
+        "original_gate_passed": true,
+        "safety_margin_passed": true
+      }
+    },
+    "primary": {
+      "base_square_root_metrics": {
+        "conservative_lift_identity_defect": 4.514854916973598e-12,
+        "conservative_map_largest_singular_value": 29.55387163152124,
+        "conservative_map_rank": 162,
+        "conservative_map_smallest_singular_value": 0.0007852074454574375,
+        "full_conservative_test_identity_defect": 0.0,
+        "full_coordinate_reconstruction_relative_defect": 3.9311585934391785e-13,
+        "full_stable_spectral_abscissa_per_second": -0.9803810121860569,
+        "full_trial_test_biorthogonality_defect": 4.514854916973598e-12,
+        "square_root_reconstruction_relative_defect": 5.413170555530321e-16,
+        "stable_Lyapunov_condition_number": 1324793382.4182098,
+        "stable_Lyapunov_minimum_eigenvalue": 1.5599630000553362e-06,
+        "stable_Lyapunov_relative_residual": 8.74607570365677e-09,
+        "whitened_Lyapunov_relative_defect": 2.009324355818384e-10
+      },
+      "candidate_metrics": [
+        {
+          "blocks": {
+            "conservative_face_flux": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_DC_normalized_total_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_total_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_total_transfer_relative_error": 0.0,
+              "training_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_DC_normalized_total_transfer_relative_error": 0.0,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_RMS_normalized_total_transfer_relative_error": 0.0,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_maximum_normalized_total_transfer_relative_error": 0.0
+            },
+            "resolved_self_energy": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 3.2584743494326795e-06,
+              "heldout_DC_normalized_total_transfer_relative_error": 2.6687249148100493e-06,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 2.7252325439723813e-06,
+              "heldout_RMS_normalized_total_transfer_relative_error": 2.0650208100738833e-06,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 3.7063761581580563e-06,
+              "heldout_maximum_normalized_total_transfer_relative_error": 3.0371522851369783e-06,
+              "training_DC_normalized_dynamic_transfer_relative_error": 3.2584743494326795e-06,
+              "training_DC_normalized_total_transfer_relative_error": 2.6687249148100493e-06,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 2.7059667019447554e-06,
+              "training_RMS_normalized_total_transfer_relative_error": 2.0369639943949577e-06,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 3.6581217503156317e-06,
+              "training_maximum_normalized_total_transfer_relative_error": 2.9999572605294227e-06
+            }
+          },
+          "hidden_order": 112,
+          "maximum_safety_gate_ratio": 0.0003258474349432679,
+          "online_dimension": 302,
+          "original_gate_passed": true,
+          "safety_margin_passed": true
+        },
+        {
+          "blocks": {
+            "conservative_face_flux": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_DC_normalized_total_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_total_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_total_transfer_relative_error": 0.0,
+              "training_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_DC_normalized_total_transfer_relative_error": 0.0,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_RMS_normalized_total_transfer_relative_error": 0.0,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_maximum_normalized_total_transfer_relative_error": 0.0
+            },
+            "resolved_self_energy": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 1.0807756789121043e-06,
+              "heldout_DC_normalized_total_transfer_relative_error": 8.851666983770033e-07,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 8.431765783237028e-07,
+              "heldout_RMS_normalized_total_transfer_relative_error": 6.651936456890952e-07,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 1.0807756789150384e-06,
+              "heldout_maximum_normalized_total_transfer_relative_error": 8.851666983794081e-07,
+              "training_DC_normalized_dynamic_transfer_relative_error": 1.0807756789121043e-06,
+              "training_DC_normalized_total_transfer_relative_error": 8.851666983770033e-07,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 8.350546289986966e-07,
+              "training_RMS_normalized_total_transfer_relative_error": 6.569561644664579e-07,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 1.0807756789143381e-06,
+              "training_maximum_normalized_total_transfer_relative_error": 8.851666983788348e-07
+            }
+          },
+          "hidden_order": 120,
+          "maximum_safety_gate_ratio": 0.0001080775678912104,
+          "online_dimension": 310,
+          "original_gate_passed": true,
+          "safety_margin_passed": true
+        },
+        {
+          "blocks": {
+            "conservative_face_flux": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_DC_normalized_total_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_total_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_total_transfer_relative_error": 0.0,
+              "training_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_DC_normalized_total_transfer_relative_error": 0.0,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_RMS_normalized_total_transfer_relative_error": 0.0,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_maximum_normalized_total_transfer_relative_error": 0.0
+            },
+            "resolved_self_energy": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 5.515108001402248e-07,
+              "heldout_DC_normalized_total_transfer_relative_error": 4.516931714921427e-07,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 4.2528831665240537e-07,
+              "heldout_RMS_normalized_total_transfer_relative_error": 3.3773479360601355e-07,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 5.515108001402248e-07,
+              "heldout_maximum_normalized_total_transfer_relative_error": 4.516931714921427e-07,
+              "training_DC_normalized_dynamic_transfer_relative_error": 5.515108001402248e-07,
+              "training_DC_normalized_total_transfer_relative_error": 4.516931714921427e-07,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 4.2049080733429017e-07,
+              "training_RMS_normalized_total_transfer_relative_error": 3.3317034806740313e-07,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 5.515108001402248e-07,
+              "training_maximum_normalized_total_transfer_relative_error": 4.516931714921427e-07
+            }
+          },
+          "hidden_order": 124,
+          "maximum_safety_gate_ratio": 5.515108001402247e-05,
+          "online_dimension": 314,
+          "original_gate_passed": true,
+          "safety_margin_passed": true
+        },
+        {
+          "blocks": {
+            "conservative_face_flux": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_DC_normalized_total_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_total_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_total_transfer_relative_error": 0.0,
+              "training_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_DC_normalized_total_transfer_relative_error": 0.0,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_RMS_normalized_total_transfer_relative_error": 0.0,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_maximum_normalized_total_transfer_relative_error": 0.0
+            },
+            "resolved_self_energy": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 2.2688688142890125e-07,
+              "heldout_DC_normalized_total_transfer_relative_error": 1.858227527303639e-07,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 1.7284704656886065e-07,
+              "heldout_RMS_normalized_total_transfer_relative_error": 1.37963032152286e-07,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 2.26886881429487e-07,
+              "heldout_maximum_normalized_total_transfer_relative_error": 1.8582275273084447e-07,
+              "training_DC_normalized_dynamic_transfer_relative_error": 2.2688688142890125e-07,
+              "training_DC_normalized_total_transfer_relative_error": 1.858227527303639e-07,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 1.7065547813996534e-07,
+              "training_RMS_normalized_total_transfer_relative_error": 1.3593122558147552e-07,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 2.2688688142890125e-07,
+              "training_maximum_normalized_total_transfer_relative_error": 1.858227527303639e-07
+            }
+          },
+          "hidden_order": 128,
+          "maximum_safety_gate_ratio": 2.268868814289012e-05,
+          "online_dimension": 318,
+          "original_gate_passed": true,
+          "safety_margin_passed": true
+        },
+        {
+          "blocks": {
+            "conservative_face_flux": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_DC_normalized_total_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_RMS_normalized_total_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "heldout_maximum_normalized_total_transfer_relative_error": 0.0,
+              "training_DC_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_DC_normalized_total_transfer_relative_error": 0.0,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_RMS_normalized_total_transfer_relative_error": 0.0,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+              "training_maximum_normalized_total_transfer_relative_error": 0.0
+            },
+            "resolved_self_energy": {
+              "heldout_DC_normalized_dynamic_transfer_relative_error": 1.214651647391624e-07,
+              "heldout_DC_normalized_total_transfer_relative_error": 9.948125308316375e-08,
+              "heldout_RMS_normalized_dynamic_transfer_relative_error": 9.431917936014348e-08,
+              "heldout_RMS_normalized_total_transfer_relative_error": 7.52316722819995e-08,
+              "heldout_maximum_normalized_dynamic_transfer_relative_error": 1.3070377925173168e-07,
+              "heldout_maximum_normalized_total_transfer_relative_error": 1.0710388392626489e-07,
+              "training_DC_normalized_dynamic_transfer_relative_error": 1.214651647391624e-07,
+              "training_DC_normalized_total_transfer_relative_error": 9.948125308316375e-08,
+              "training_RMS_normalized_dynamic_transfer_relative_error": 9.326936376189554e-08,
+              "training_RMS_normalized_total_transfer_relative_error": 7.423905657706797e-08,
+              "training_maximum_normalized_dynamic_transfer_relative_error": 1.2818409330300399e-07,
+              "training_maximum_normalized_total_transfer_relative_error": 1.0500706537737838e-07
+            }
+          },
+          "hidden_order": 130,
+          "maximum_safety_gate_ratio": 1.2146516473916237e-05,
+          "online_dimension": 320,
+          "original_gate_passed": true,
+          "safety_margin_passed": true
+        }
+      ],
+      "maximum_frequency_solve_relative_residual": 2.3936126514686574e-14,
+      "minimum_pointwise_order_for_original_gates": 16,
+      "minimum_pointwise_order_for_safety_margin": 37,
+      "target": {
+        "blocks": {
+          "conservative_face_flux": {
+            "heldout_DC_normalized_dynamic_transfer_relative_error": 0.0,
+            "heldout_DC_normalized_total_transfer_relative_error": 0.0,
+            "heldout_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+            "heldout_RMS_normalized_total_transfer_relative_error": 0.0,
+            "heldout_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+            "heldout_maximum_normalized_total_transfer_relative_error": 0.0,
+            "training_DC_normalized_dynamic_transfer_relative_error": 0.0,
+            "training_DC_normalized_total_transfer_relative_error": 0.0,
+            "training_RMS_normalized_dynamic_transfer_relative_error": 0.0,
+            "training_RMS_normalized_total_transfer_relative_error": 0.0,
+            "training_maximum_normalized_dynamic_transfer_relative_error": 0.0,
+            "training_maximum_normalized_total_transfer_relative_error": 0.0
+          },
+          "resolved_self_energy": {
+            "heldout_DC_normalized_dynamic_transfer_relative_error": 1.214651647391624e-07,
+            "heldout_DC_normalized_total_transfer_relative_error": 9.948125308316375e-08,
+            "heldout_RMS_normalized_dynamic_transfer_relative_error": 9.431917936014348e-08,
+            "heldout_RMS_normalized_total_transfer_relative_error": 7.52316722819995e-08,
+            "heldout_maximum_normalized_dynamic_transfer_relative_error": 1.3070377925173168e-07,
+            "heldout_maximum_normalized_total_transfer_relative_error": 1.0710388392626489e-07,
+            "training_DC_normalized_dynamic_transfer_relative_error": 1.214651647391624e-07,
+            "training_DC_normalized_total_transfer_relative_error": 9.948125308316375e-08,
+            "training_RMS_normalized_dynamic_transfer_relative_error": 9.326936376189554e-08,
+            "training_RMS_normalized_total_transfer_relative_error": 7.423905657706797e-08,
+            "training_maximum_normalized_dynamic_transfer_relative_error": 1.2818409330300399e-07,
+            "training_maximum_normalized_total_transfer_relative_error": 1.0500706537737838e-07
+          }
+        },
+        "hidden_order": 130,
+        "maximum_safety_gate_ratio": 1.2146516473916237e-05,
+        "online_dimension": 320,
+        "original_gate_passed": true,
+        "safety_margin_passed": true
+      }
+    }
+  },
+  "capacity_safety_fraction": 0.1,
+  "numerical_passed": true,
+  "target_hidden_order": 130,
+  "target_original_passed": true,
+  "target_safety_passed": true,
+  "wall_seconds": 2.1600352083332837
+}
