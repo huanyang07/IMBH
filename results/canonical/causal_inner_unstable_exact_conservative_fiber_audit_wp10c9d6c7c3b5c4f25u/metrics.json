@@ -1,0 +1,100 @@
+{
+  "anchors": {
+    "heldout": {
+      "conservative_compatibility": {
+        "R32_stable_coordinate_condition_number": 67981.22182198294,
+        "R32_stable_coordinate_rank": 162,
+        "augmented_coordinate_identity_defect": 1.6319674857774626e-13,
+        "augmented_nonstable_capture_relative_defect": 1.1754863871029554e-15,
+        "exact_unstable_augmented_dimension": 190,
+        "nonstable_residual_condition_number": 65.01577663815199,
+        "nonstable_residual_rank": 28,
+        "remaining_stable_memory_budget": 130,
+        "stable_physical_lifting_identity_defect": 2.5863358819937726e-12,
+        "stable_physical_lifting_nonstable_annihilation_defect": 2.360296008086305e-12
+      },
+      "passed": false,
+      "spectral": {
+        "biorthogonality_defect": 1.1258454639893358e-15,
+        "full_nonstable_eigenvalue_count": 28,
+        "left_invariance_relative_defect": 9.610518537695481e-15,
+        "left_ordered_schur_count": 28,
+        "left_realification": {
+          "realification_leading_singular_value": 1.0000000000000036,
+          "realification_rank": 39,
+          "realification_relative_defect": 5.132426133458827e-13,
+          "realification_tail_singular_value": 0.9999999999999974
+        },
+        "left_right_overlap_condition_number": 33.431790828364214,
+        "minimum_real_part_distance_to_partition_per_second": 0.9871849313778821,
+        "right_invariance_relative_defect": 2.0000144345530062e-14,
+        "right_ordered_schur_count": 28,
+        "right_realification": {
+          "realification_leading_singular_value": 1.000000000000002,
+          "realification_rank": 38,
+          "realification_relative_defect": 2.973405376967254e-13,
+          "realification_tail_singular_value": 0.9999999999999971
+        },
+        "spectral_projector_commutator_relative_defect": 1.1867779663054758e-14,
+        "spectral_projector_idempotence_relative_defect": 7.64076873654305e-16,
+        "spectral_projector_operator_norm": 33.43214054282239,
+        "stable_complement_invariance_relative_defect": 8.961950896694038e-15,
+        "stable_complement_nonstable_eigenvalue_count": 0,
+        "stable_complement_spectral_abscissa_per_second": -0.9871849408006892
+      }
+    },
+    "primary": {
+      "conservative_compatibility": {
+        "R32_stable_coordinate_condition_number": 67180.80397090354,
+        "R32_stable_coordinate_rank": 162,
+        "augmented_coordinate_identity_defect": 1.7543086811045177e-13,
+        "augmented_nonstable_capture_relative_defect": 1.0831901632576618e-15,
+        "exact_unstable_augmented_dimension": 190,
+        "nonstable_residual_condition_number": 67.01345277878207,
+        "nonstable_residual_rank": 28,
+        "remaining_stable_memory_budget": 130,
+        "stable_physical_lifting_identity_defect": 1.5322720404608258e-12,
+        "stable_physical_lifting_nonstable_annihilation_defect": 2.5284437472463067e-12
+      },
+      "passed": false,
+      "spectral": {
+        "biorthogonality_defect": 9.99756122822267e-16,
+        "full_nonstable_eigenvalue_count": 28,
+        "left_invariance_relative_defect": 6.8001013606109585e-15,
+        "left_ordered_schur_count": 28,
+        "left_realification": {
+          "realification_leading_singular_value": 1.0000000000000067,
+          "realification_rank": 38,
+          "realification_relative_defect": 3.669449625550675e-13,
+          "realification_tail_singular_value": 0.9999999999999987
+        },
+        "left_right_overlap_condition_number": 32.82128607528807,
+        "minimum_real_part_distance_to_partition_per_second": 0.980380996811602,
+        "right_invariance_relative_defect": 1.5998852637684065e-14,
+        "right_ordered_schur_count": 28,
+        "right_realification": {
+          "realification_leading_singular_value": 1.0000000000000036,
+          "realification_rank": 33,
+          "realification_relative_defect": 2.0082091646178654e-13,
+          "realification_tail_singular_value": 0.9999999999999984
+        },
+        "spectral_projector_commutator_relative_defect": 8.309836653379276e-15,
+        "spectral_projector_idempotence_relative_defect": 5.782611755256926e-16,
+        "spectral_projector_operator_norm": 32.821587864203316,
+        "stable_complement_invariance_relative_defect": 1.2837695000747924e-14,
+        "stable_complement_nonstable_eigenvalue_count": 0,
+        "stable_complement_spectral_abscissa_per_second": -0.9803810067825255
+      }
+    }
+  },
+  "cross_anchor": {
+    "aligned_heldout_biorthogonality_defect": 3.774758283725532e-15,
+    "left_largest_principal_angle_degrees": 2.367441589192356,
+    "left_principal_cosine_min": 0.9991464646860372,
+    "right_largest_principal_angle_degrees": 1.6045378399024253,
+    "right_principal_cosine_min": 0.9996079005045501
+  },
+  "cross_anchor_passed": true,
+  "numerical_passed": true,
+  "wall_seconds": 2.2167790830135345
+}
