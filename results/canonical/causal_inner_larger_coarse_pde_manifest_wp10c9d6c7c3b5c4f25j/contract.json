@@ -1,0 +1,86 @@
+{
+  "R32_conservative_grid": {
+    "base_resolved_dimension": 162,
+    "cellwise_storage_dimension": 160,
+    "coarse_cells": 32,
+    "construction": "split_each_frozen_R16_group_into_two_contiguous_subgroups",
+    "face_36_exterior_partition_remains_exact_group_boundary": true,
+    "frozen_a2_dimension": 2,
+    "interior_M_J_E_fluxes_must_telescope_exactly": true,
+    "mapped_only_field_indices": [
+      0,
+      2,
+      3
+    ],
+    "mapped_plus_responsive_height_field_indices": [
+      1,
+      4
+    ],
+    "original_R16_boundaries_are_every_second_R32_boundary": true,
+    "right_inverse_and_complement": "same_complete_QR_as_certified_R82_projection",
+    "truth_cells": 112
+  },
+  "algebra_pass_requires": {
+    "M_J_E_telescope_relative_defect_max": 5e-12,
+    "complement_orthogonality_max": 5e-11,
+    "constraint_rowspace_relative_defect_max": 5e-10,
+    "remaining_unresolved_spectral_abscissa_per_second_max": -1e-08,
+    "resolved_condition_number_max": 20000.0,
+    "resolved_rank": 162,
+    "restriction_complement_annihilation_max": 5e-11,
+    "restriction_lifting_identity_max": 5e-11,
+    "saved_complete_descriptor_relative_parity_max": 5e-12
+  },
+  "claim_boundary": {
+    "cross_anchor_campaign_authorized_only_after_pass": true,
+    "online_solver_authorized": false,
+    "physical_failure_can_be_declared": false,
+    "predictive_cycle_authorized": false,
+    "production_coefficients_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "larger_conservative_coarse_PDE_manifest_frozen_R32_audit_authorized",
+  "decision": {
+    "all_gates_pass": "R32_conservative_coarse_PDE_supported_cross_anchor_manifest_authorized",
+    "closure_error_failed": "R32_no_memory_closure_insufficient_architecture_reassessment_required",
+    "dimension_budget_failed": "R32_promotion_exceeds_online_dimension_budget_stop",
+    "numerical_failure": "R32_conservative_projection_audit_failed_stop"
+  },
+  "definitions_only": true,
+  "execution_budget": {
+    "allowed_memory_coefficients_fit": 0,
+    "allowed_new_full_560_direction_generator_assemblies": 0,
+    "allowed_new_nonlinear_roots": 0,
+    "allowed_propagated_states": 0,
+    "allowed_seed_local_mapped_height_descriptor_reconstructions": 1,
+    "maximum_wall_hours": 2.0
+  },
+  "no_memory_closure_screen": {
+    "candidate": "augmented_R32_direct_output_map_with_zero_auxiliary_memory",
+    "normalization": "same_frozen_column_and_row_two_norm_scaling_as_compact_memory_screen",
+    "pass_requires": {
+      "DC_normalized_total_transfer_relative_error_max": 0.1,
+      "RMS_normalized_total_transfer_relative_error_max": 0.1,
+      "database_roundtrip_bitwise": true,
+      "maximum_frequency_solve_relative_residual_max": 1e-10,
+      "maximum_normalized_total_transfer_relative_error_max": 0.25
+    },
+    "reference": "exact_33_point_stable_complement_transfer"
+  },
+  "ordered_schur_promotion": {
+    "maximum_online_continuous_dimension": 192,
+    "maximum_promoted_dimension": 30,
+    "no_post_result_dimension_expansion": true,
+    "promote_every_nonstable_compressed_coordinate": true,
+    "stability_margin_per_second": 1e-08
+  },
+  "parent_decisive_hashes": {
+    "R16_promotion": "2ab80ea9c5e06e140b3981fe4ed65e4bb757910b35d2c8a2ecfc6638d5e9cdd9",
+    "compact_memory_rejection": "2cf6df764e6386d320f3477dd71c4196b6c13a85e054f8490a5d785d0f821d52",
+    "saved_a2_output": "685a404cf070a6680c66054e044520282f4fb9700854f10c621a48612390b4cf",
+    "saved_descriptor": "8db0854a05883d266ed06a146160b36570aae1b03fb7219d44263f4a54ff2c89",
+    "saved_generator": "483ecb52b4669343a223ebf5b3bec1ad6c07b80f3cf5d95f2f17c528227fdfc1"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25j"
+}
