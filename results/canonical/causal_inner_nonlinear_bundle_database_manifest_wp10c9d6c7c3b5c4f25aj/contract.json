@@ -1,0 +1,99 @@
+{
+  "architecture_selection": {
+    "evaluator_failure": "stop_without_architecture_selection",
+    "local_saturation_requires": {
+      "interpretation": "energy_bounded_cubic_or_port_Hamiltonian_normal_form_may_be_identified_offline",
+      "largest_amplitude_direction_count": 8,
+      "negative_fitted_cubic_directions_per_anchor_min": 6,
+      "nonpositive_largest_amplitude_radial_growth_directions_per_anchor_min": 6
+    },
+    "otherwise": {
+      "online_unstable_state": "eliminated_by_event_localization_and_conservative_reset",
+      "reason": "no_trustworthy_local_saturation_inside_the_certified_primitive_trust_region",
+      "selection": "conservative_hybrid_branch_and_event_map"
+    }
+  },
+  "binding_evaluator_gates": {
+    "maximum_H_over_R": 0.12,
+    "maximum_normalized_Q3_retraction_defect": 1e-10,
+    "maximum_rate_tangency_relative_defect": 1e-10,
+    "maximum_raw_Schur_condition_number": 100000000.0,
+    "maximum_reaction_identity_defect": 1e-10,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "maximum_scaled_component_perturbation": 0.005,
+    "maximum_smallest_amplitude_linear_growth_relative_defect": 0.25,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0
+  },
+  "claim_boundary": {
+    "branch_existence_assumed": false,
+    "nonlinear_coefficients_identified": false,
+    "online_integrator_implementation_authorized": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "nonlinear_unstable_bundle_database_manifest_frozen_finite_amplitude_architecture_selection_authorized",
+  "corrected_state_partition": {
+    "coarse_constitutive_storage": 64,
+    "coarse_true_conservative_M_J_E_storage": 96,
+    "exact_unstable_bundle": 28,
+    "explicit_stable_coordinates": 2,
+    "note": "the inherited 162-coordinate block is 160 five-field storage coordinates plus two stable coordinates; only 96 storage coordinates are M/J/E conservative",
+    "stable_hidden_memory": 280,
+    "total_local_dimension": 470
+  },
+  "definitions_only": true,
+  "fiber_decisive_hashes": {
+    "decisive_fibers.npz": "ad99620fa94e1f3c370a45d04645cc81b873dc83f55fedbc4bbc9ab742af0ec4",
+    "metrics.json": "d93ba0224ce03a182530a0607024d585448d97f10591dfd7232ec05d4341ce8d",
+    "summary.json": "fff6884035140e6bc5977cc862469eca5ab90ddda9b20b488abe64aa5c77626b"
+  },
+  "hybrid_database_requirements": {
+    "branch_construction": "fixed_invariant_pseudo_arclength_equilibrium_continuation",
+    "continuous_state": "c96_conservative_plus_eta66_constitutive_plus_z280_memory",
+    "discrete_state": "branch_label_cold_hot_or_transition",
+    "event_surfaces": "separately_fitted_up_and_down_loss_of_stability_or_basin_boundaries",
+    "heldout_branches_and_transitions_required": true,
+    "online_truth_calls": 0,
+    "reset_map": "global_Q3_preserving_map_for_c_eta_z_plus_integrated_boundary_flux_impulse",
+    "transition_construction": "adaptive_orthogonal_collocation_boundary_value_solve_in_rescaled_fast_time"
+  },
+  "nonlinear_fixed_Q_field": {
+    "constrained_rate": "F_Q_x_equals_f_free_x_minus_B_x_DQ_x_f_free_x",
+    "finite_amplitude_chart": "x_of_a_equals_retract_to_base_Q_of_x0_plus_scaled_V_a_using_base_reaction_lift",
+    "free_rate": "f_free_x_equals_minus_M_x_inverse_R_x",
+    "identity": "DQ_x_F_Q_x_equals_zero",
+    "no_new_exact_generator_assembly": true,
+    "no_nonlinear_root": true,
+    "no_state_propagation": true
+  },
+  "parent_decisive_hashes": {
+    "metrics.json": "390476afa33dbb36440d3c5649e49638dfd70d786a1d54c713ed7fcf11c3fa8c",
+    "parametric_diagnostics.npz": "0fda3312081950fbbe022a1d1d5f5727d17e545cbb1d6561913596b4d141b3f4",
+    "summary.json": "239766151f5b98a32029abc7fb0259a693a6a1c5aec595761fe8ddf9e6ca31c2"
+  },
+  "prospective_screen": {
+    "anchors": [
+      "primary",
+      "heldout"
+    ],
+    "base_rate_is_subtracted_before_projection": true,
+    "central_odd_radial_growth": "gamma_r_equals_d_transpose_g_plus_minus_g_minus_over_two_r",
+    "direction_count_per_anchor": 8,
+    "directions": "eight_largest_eigenvectors_of_symmetric_part_of_exact_28_by_28_unstable_operator",
+    "heldout_results_may_not_change_directions_or_amplitudes": true,
+    "linear_reference": "gamma_0_equals_d_transpose_U_d",
+    "maximum_scaled_component_amplitudes": [
+      0.00025,
+      0.001,
+      0.005
+    ],
+    "signs": [
+      -1,
+      1
+    ],
+    "total_nonbase_rate_evaluations": 96
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25aj"
+}
