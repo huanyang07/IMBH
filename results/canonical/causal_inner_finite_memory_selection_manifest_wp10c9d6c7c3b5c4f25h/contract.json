@@ -1,0 +1,74 @@
+{
+  "balanced_truncation": {
+    "base_resolved_dimension": 106,
+    "candidate_memory_orders": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "continuous_lyapunov_gramians": true,
+    "direct_term_preserved_exactly": true,
+    "full_stable_transfer_is_the_single_anchor_reference": true,
+    "maximum_online_continuous_dimension": 114,
+    "post_result_candidate_addition_forbidden": true,
+    "selection_rule": "smallest_candidate_passing_every_binding_gate",
+    "square_root_balancing": true
+  },
+  "candidate_pass_requires": {
+    "DC_normalized_dynamic_transfer_relative_error_max": 0.1,
+    "RMS_normalized_dynamic_transfer_relative_error_max": 0.1,
+    "database_roundtrip_bitwise": true,
+    "lyapunov_certificate_minimum_eigenvalue_min": 1e-14,
+    "lyapunov_dissipation_residual_max": 1e-09,
+    "maximum_normalized_dynamic_transfer_relative_error_max": 0.25,
+    "maximum_normalized_total_transfer_relative_error_max": 0.1,
+    "reduced_spectral_abscissa_per_second_max": -1e-08
+  },
+  "claim_boundary": {
+    "cross_anchor_database_authorized_only_after_pass": true,
+    "online_solver_authorized": false,
+    "physical_failure_can_be_declared": false,
+    "predictive_cycle_authorized": false,
+    "production_memory_coefficients_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "selected_coefficients_are_single_anchor_diagnostic_only": true
+  },
+  "classification": "finite_memory_selection_manifest_frozen_balanced_screen_authorized",
+  "decision": {
+    "full_order_numerical_failure": "finite_memory_balancing_audit_failed_stop",
+    "no_candidate_passes": "compact_finite_memory_failed_larger_conservative_coarse_PDE_fallback_required",
+    "one_or_more_candidates_pass": "single_anchor_finite_memory_order_selected_cross_anchor_manifest_authorized"
+  },
+  "definitions_only": true,
+  "execution_budget": {
+    "allowed_new_full_generator_assemblies": 0,
+    "allowed_new_nonlinear_roots": 0,
+    "allowed_propagated_states": 0,
+    "allowed_single_anchor_linear_memory_fits": 4,
+    "allowed_truth_anchors": 0,
+    "maximum_wall_hours": 2.0
+  },
+  "full_order_numerical_pass_requires": {
+    "controllability_gramian_relative_residual_max": 1e-08,
+    "frequency_reference_roundtrip_bitwise": true,
+    "minimum_retained_hankel_singular_value_positive": true,
+    "observability_gramian_relative_residual_max": 1e-08
+  },
+  "normalized_stable_system": {
+    "DC_and_32_log_frequency_samples_reused": true,
+    "input_scaling": "unit_two_norm_of_stacked_stable_forcing_and_direct_column",
+    "output_scaling": "unit_two_norm_of_concatenated_stable_observation_and_direct_row",
+    "same_frozen_scaling_for_all_candidate_orders": true,
+    "source": "hash_locked_R106_promotion_and_454_dimensional_stable_block",
+    "zero_scale_fallback": 1.0
+  },
+  "parent_decisive_hashes": {
+    "metrics.json": "60795031bedb40d328001578dc78214356686541a17191d29d455244e6044601",
+    "promotion.npz": "2ab80ea9c5e06e140b3981fe4ed65e4bb757910b35d2c8a2ecfc6638d5e9cdd9",
+    "transfer_imag.npz": "ee9d724d0778e2852f2421a08b24b931ab65dc654d6aa8d31f881899e77a75e2",
+    "transfer_real.npz": "601e8981087c25c68c3913f5c18c5eeded9bb6e133c6ea6fd85ca7539a984fb8"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25h"
+}
