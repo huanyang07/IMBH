@@ -1,0 +1,1497 @@
+{
+  "capacity": {
+    "all_prior_tuning_and_holdout_directions_now_revealed": true,
+    "curvature_self_block_spectral_abscissa_per_second": -23.14560862989199,
+    "dynamic_augmentation_spectral_abscissa_per_second": 5157.957865286394,
+    "dynamic_augmentation_unstable_eigenvalue_count": 3,
+    "independent_validation_claimed": false,
+    "post_result_diagnosis": true,
+    "radial_consistency": {
+      "decoder_cubic_targets": {
+        "directionwise_high_low_normalized_target_difference": [
+          0.003696175461886461,
+          0.020021287269846737,
+          0.007990831214012624,
+          0.0008228157188758193,
+          0.005823887402692574,
+          0.0025290005818241353,
+          0.0013952635952807037,
+          0.013481483102929613
+        ],
+        "maximum_high_low_normalized_target_difference": 0.020021287269846737,
+        "median_high_low_normalized_target_difference": 0.004760031432289518
+      },
+      "decoder_quartic_targets": {
+        "directionwise_high_low_normalized_target_difference": [
+          0.008300595829498238,
+          0.026631804060807587,
+          0.028267599841498722,
+          0.0011384375326915568,
+          0.010499965293478838,
+          0.005214682840952382,
+          0.007569552013142193,
+          0.026905534040788444
+        ],
+        "maximum_high_low_normalized_target_difference": 0.028267599841498722,
+        "median_high_low_normalized_target_difference": 0.009400280561488538
+      },
+      "rate_cubic_targets": {
+        "directionwise_high_low_normalized_target_difference": [
+          0.017410506504167207,
+          0.08989728484544433,
+          0.08631427916392787,
+          0.002474122719894389,
+          0.026041016207454408,
+          0.00805690957879429,
+          0.013585478813102946,
+          0.034942905882158155
+        ],
+        "maximum_high_low_normalized_target_difference": 0.08989728484544433,
+        "median_high_low_normalized_target_difference": 0.021725761355810808
+      },
+      "rate_quadratic_targets": {
+        "directionwise_high_low_normalized_target_difference": [
+          0.011053805701277746,
+          0.04163342647135151,
+          0.043716991458321496,
+          0.004093083836849018,
+          0.027244306505931824,
+          0.004454921639141508,
+          0.016977595975139346,
+          0.01420935782033631
+        ],
+        "maximum_high_low_normalized_target_difference": 0.043716991458321496,
+        "median_high_low_normalized_target_difference": 0.015593476897737827
+      }
+    },
+    "rank4_curvature_basis_orthogonality_defect": 2.3479482247346084e-15,
+    "rank4_odd_only_capacity": {
+      "revealed_holdout": {
+        "maximum_full_scaled_state_relative_error": 0.0005853829073017955,
+        "median_full_scaled_state_relative_error": 0.00027560145023510695
+      },
+      "revealed_training": {
+        "maximum_full_scaled_state_relative_error": 0.0004920518222783994,
+        "median_full_scaled_state_relative_error": 0.00017128508075438958
+      },
+      "revealed_tuning_high": {
+        "maximum_full_scaled_state_relative_error": 0.000448579664548963,
+        "median_full_scaled_state_relative_error": 0.0001447166324129919
+      },
+      "revealed_tuning_low": {
+        "maximum_full_scaled_state_relative_error": 0.00011084347266084221,
+        "median_full_scaled_state_relative_error": 3.5505044037287536e-05
+      }
+    },
+    "rank_capacity": {
+      "0": {
+        "revealed_holdout": {
+          "maximum_full_scaled_state_relative_error": 0.004995866602670064,
+          "median_full_scaled_state_relative_error": 0.0014410044060191723
+        },
+        "revealed_training": {
+          "maximum_full_scaled_state_relative_error": 0.005788029537997313,
+          "median_full_scaled_state_relative_error": 0.0006838154000136966
+        },
+        "revealed_tuning_high": {
+          "maximum_full_scaled_state_relative_error": 0.00224471769005916,
+          "median_full_scaled_state_relative_error": 0.0005923583293270301
+        },
+        "revealed_tuning_low": {
+          "maximum_full_scaled_state_relative_error": 0.0005669155646853733,
+          "median_full_scaled_state_relative_error": 0.00014747278951003236
+        }
+      },
+      "1": {
+        "revealed_holdout": {
+          "maximum_full_scaled_state_relative_error": 0.001866071355394142,
+          "median_full_scaled_state_relative_error": 0.00073169180590443
+        },
+        "revealed_training": {
+          "maximum_full_scaled_state_relative_error": 0.0023713981639421266,
+          "median_full_scaled_state_relative_error": 0.00040744538128471256
+        },
+        "revealed_tuning_high": {
+          "maximum_full_scaled_state_relative_error": 0.0011542043702976446,
+          "median_full_scaled_state_relative_error": 0.0004773127950442723
+        },
+        "revealed_tuning_low": {
+          "maximum_full_scaled_state_relative_error": 0.00028671385345597437,
+          "median_full_scaled_state_relative_error": 0.00011872451858780869
+        }
+      },
+      "12": {
+        "revealed_holdout": {
+          "maximum_full_scaled_state_relative_error": 0.0001074504870705744,
+          "median_full_scaled_state_relative_error": 5.577762079697959e-05
+        },
+        "revealed_training": {
+          "maximum_full_scaled_state_relative_error": 5.038283645376302e-05,
+          "median_full_scaled_state_relative_error": 1.793226369940702e-05
+        },
+        "revealed_tuning_high": {
+          "maximum_full_scaled_state_relative_error": 6.392684661856904e-05,
+          "median_full_scaled_state_relative_error": 2.961486971223265e-05
+        },
+        "revealed_tuning_low": {
+          "maximum_full_scaled_state_relative_error": 1.589663020993041e-05,
+          "median_full_scaled_state_relative_error": 7.541210085149834e-06
+        }
+      },
+      "2": {
+        "revealed_holdout": {
+          "maximum_full_scaled_state_relative_error": 0.0018260685052844477,
+          "median_full_scaled_state_relative_error": 0.0006220429026623617
+        },
+        "revealed_training": {
+          "maximum_full_scaled_state_relative_error": 0.0013372202460939018,
+          "median_full_scaled_state_relative_error": 0.0002943090225128906
+        },
+        "revealed_tuning_high": {
+          "maximum_full_scaled_state_relative_error": 0.0009016845177191896,
+          "median_full_scaled_state_relative_error": 0.0002701145329985579
+        },
+        "revealed_tuning_low": {
+          "maximum_full_scaled_state_relative_error": 0.0002209825468503037,
+          "median_full_scaled_state_relative_error": 6.797102468710231e-05
+        }
+      },
+      "4": {
+        "revealed_holdout": {
+          "maximum_full_scaled_state_relative_error": 0.000578975337973285,
+          "median_full_scaled_state_relative_error": 0.00024969043537885396
+        },
+        "revealed_training": {
+          "maximum_full_scaled_state_relative_error": 0.0004913651991245952,
+          "median_full_scaled_state_relative_error": 0.00013275413130092593
+        },
+        "revealed_tuning_high": {
+          "maximum_full_scaled_state_relative_error": 0.0004375951847733588,
+          "median_full_scaled_state_relative_error": 0.00014104101771545785
+        },
+        "revealed_tuning_low": {
+          "maximum_full_scaled_state_relative_error": 0.00011010920464494923,
+          "median_full_scaled_state_relative_error": 3.526785047496122e-05
+        }
+      },
+      "6": {
+        "revealed_holdout": {
+          "maximum_full_scaled_state_relative_error": 0.00024318120371767164,
+          "median_full_scaled_state_relative_error": 0.00012015534718391377
+        },
+        "revealed_training": {
+          "maximum_full_scaled_state_relative_error": 0.00024685517628712973,
+          "median_full_scaled_state_relative_error": 7.205121993108253e-05
+        },
+        "revealed_tuning_high": {
+          "maximum_full_scaled_state_relative_error": 0.00010001679205665422,
+          "median_full_scaled_state_relative_error": 6.455665707754324e-05
+        },
+        "revealed_tuning_low": {
+          "maximum_full_scaled_state_relative_error": 2.4232700751111998e-05,
+          "median_full_scaled_state_relative_error": 1.567732749227261e-05
+        }
+      },
+      "8": {
+        "revealed_holdout": {
+          "maximum_full_scaled_state_relative_error": 0.0001709049289921802,
+          "median_full_scaled_state_relative_error": 7.452556089549849e-05
+        },
+        "revealed_training": {
+          "maximum_full_scaled_state_relative_error": 0.00011839508550746101,
+          "median_full_scaled_state_relative_error": 3.573760963119279e-05
+        },
+        "revealed_tuning_high": {
+          "maximum_full_scaled_state_relative_error": 7.825232477369045e-05,
+          "median_full_scaled_state_relative_error": 4.488655471272598e-05
+        },
+        "revealed_tuning_low": {
+          "maximum_full_scaled_state_relative_error": 1.932202721016819e-05,
+          "median_full_scaled_state_relative_error": 1.117320792243005e-05
+        }
+      }
+    },
+    "training_hidden_singular_energy_rank4": 0.9929529205923775,
+    "training_target_output_energy": {
+      "decoder_cubic_targets": {
+        "rank_1_energy_fraction": 0.8024931177241216,
+        "rank_2_energy_fraction": 0.9279092037128699,
+        "rank_4_energy_fraction": 0.9874925537757334,
+        "rank_6_energy_fraction": 0.99810393199849,
+        "rank_8_energy_fraction": 0.9994377497250485
+      },
+      "decoder_quartic_targets": {
+        "rank_1_energy_fraction": 0.5488218512509582,
+        "rank_2_energy_fraction": 0.8071515265376651,
+        "rank_4_energy_fraction": 0.9922840209244107,
+        "rank_6_energy_fraction": 0.9976424778263681,
+        "rank_8_energy_fraction": 0.9996329289467109
+      },
+      "rate_cubic_targets": {
+        "rank_1_energy_fraction": 0.9163566584771319,
+        "rank_2_energy_fraction": 0.9532881338983826,
+        "rank_4_energy_fraction": 0.9844659115146271,
+        "rank_6_energy_fraction": 0.9987093419355384,
+        "rank_8_energy_fraction": 0.9999888519332438
+      },
+      "rate_quadratic_targets": {
+        "rank_1_energy_fraction": 0.9961468873451786,
+        "rank_2_energy_fraction": 0.9977626427967714,
+        "rank_4_energy_fraction": 0.9992140385811423,
+        "rank_6_energy_fraction": 0.9998447204940969,
+        "rank_8_energy_fraction": 0.9999904695573413
+      }
+    }
+  },
+  "capacity_state_audit": {
+    "evaluated_candidate_count": 48,
+    "maximum_C_phys_residual_infinity": 1.221461315425998e-07,
+    "maximum_H_over_R": 0.09848116628838571,
+    "maximum_full_scaled_state_relative_error": 0.0005853829073018369,
+    "minimum_reconstruction_factor": 1.0,
+    "minimum_scattering_optical_depth": 19.239804787446616,
+    "records": [
+      {
+        "C_phys_residual_infinity": 1.1618417339320786e-10,
+        "candidate_index": 80,
+        "full_scaled_state_relative_error": 1.802585664480631e-05,
+        "maximum_H_over_R": 0.09789462859304028,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.255339513173876,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 1.1856038373281308e-10,
+        "candidate_index": 81,
+        "full_scaled_state_relative_error": 1.8208716965368713e-05,
+        "maximum_H_over_R": 0.09789736298578608,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.252135077909095,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 1.0803618111232538e-08,
+        "candidate_index": 82,
+        "full_scaled_state_relative_error": 0.0004248940205962411,
+        "maximum_H_over_R": 0.09800810957977926,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.251599909307146,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 1.6189524720822135e-08,
+        "candidate_index": 83,
+        "full_scaled_state_relative_error": 0.00044857966454913605,
+        "maximum_H_over_R": 0.09788184497254736,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.24613431893527,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 8.626927505694937e-09,
+        "candidate_index": 84,
+        "full_scaled_state_relative_error": 0.00024048537442542667,
+        "maximum_H_over_R": 0.09796200289492675,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.242044793466857,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 8.335670043102539e-09,
+        "candidate_index": 85,
+        "full_scaled_state_relative_error": 0.0002553311510855045,
+        "maximum_H_over_R": 0.09807754468389386,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.25373797907925,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 1.5416292686865063e-09,
+        "candidate_index": 86,
+        "full_scaled_state_relative_error": 3.923563660323625e-05,
+        "maximum_H_over_R": 0.09792130078465819,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.245300286166913,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 1.5611208992183379e-09,
+        "candidate_index": 87,
+        "full_scaled_state_relative_error": 3.941959522479422e-05,
+        "maximum_H_over_R": 0.09799973212202842,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.253520889630952,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 9.147127499886665e-09,
+        "candidate_index": 88,
+        "full_scaled_state_relative_error": 0.00012133664085251521,
+        "maximum_H_over_R": 0.09811590588977709,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.249360181290697,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 1.1044893943878975e-08,
+        "candidate_index": 89,
+        "full_scaled_state_relative_error": 0.0001487612961396487,
+        "maximum_H_over_R": 0.09798473243120047,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.249348041630107,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 1.8024832737495444e-09,
+        "candidate_index": 90,
+        "full_scaled_state_relative_error": 0.00012883053705156313,
+        "maximum_H_over_R": 0.09799074678894769,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.243321534911797,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 1.3225980310949126e-09,
+        "candidate_index": 91,
+        "full_scaled_state_relative_error": 0.00012410634970778334,
+        "maximum_H_over_R": 0.0981191027959476,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.25096517274118,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 2.458064862764786e-09,
+        "candidate_index": 92,
+        "full_scaled_state_relative_error": 0.00016333998084714824,
+        "maximum_H_over_R": 0.09805805296932686,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.247976822517018,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 1.7993765366597358e-09,
+        "candidate_index": 93,
+        "full_scaled_state_relative_error": 0.0001406719686862192,
+        "maximum_H_over_R": 0.09805722532859078,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.258853649474798,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 5.327624674755782e-09,
+        "candidate_index": 94,
+        "full_scaled_state_relative_error": 0.00030890578422541757,
+        "maximum_H_over_R": 0.09795470032019844,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.245826236696097,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 4.082563509477666e-09,
+        "candidate_index": 95,
+        "full_scaled_state_relative_error": 0.0003085993339680468,
+        "maximum_H_over_R": 0.09803494882181615,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.253709480302486,
+        "split": "revealed_tuning_high"
+      },
+      {
+        "C_phys_residual_infinity": 9.070779682929242e-09,
+        "candidate_index": 96,
+        "full_scaled_state_relative_error": 0.00012058820708602638,
+        "maximum_H_over_R": 0.09789757133316074,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.245301648489523,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 7.922675515636968e-09,
+        "candidate_index": 97,
+        "full_scaled_state_relative_error": 0.00011551839906409321,
+        "maximum_H_over_R": 0.09803305543891692,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.252421448628237,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 1.2920742031852228e-08,
+        "candidate_index": 98,
+        "full_scaled_state_relative_error": 0.0002489430336922968,
+        "maximum_H_over_R": 0.09805949456093979,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.25280299598792,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 1.651322567575164e-08,
+        "candidate_index": 99,
+        "full_scaled_state_relative_error": 0.0002589631297826722,
+        "maximum_H_over_R": 0.09798971999244778,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.247714637004396,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 3.767457484871173e-08,
+        "candidate_index": 100,
+        "full_scaled_state_relative_error": 0.00042108164686944854,
+        "maximum_H_over_R": 0.09820886791235521,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.24737637407554,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 1.0013067208713977e-08,
+        "candidate_index": 101,
+        "full_scaled_state_relative_error": 0.000292239770687584,
+        "maximum_H_over_R": 0.09814538588904774,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.246823789101864,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 1.3490260020176947e-09,
+        "candidate_index": 102,
+        "full_scaled_state_relative_error": 7.641441232614079e-05,
+        "maximum_H_over_R": 0.09796863293175921,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.24706099735396,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 1.3006175025864763e-09,
+        "candidate_index": 103,
+        "full_scaled_state_relative_error": 7.639671240230492e-05,
+        "maximum_H_over_R": 0.09803305372809391,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.258467932545418,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 1.1929144783096035e-08,
+        "candidate_index": 104,
+        "full_scaled_state_relative_error": 0.0003221400464751671,
+        "maximum_H_over_R": 0.09820855232800615,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.255792312407202,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 9.203177997463285e-09,
+        "candidate_index": 105,
+        "full_scaled_state_relative_error": 0.0003444304339255438,
+        "maximum_H_over_R": 0.0981582936504669,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.24596886172629,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 4.383208429548091e-08,
+        "candidate_index": 106,
+        "full_scaled_state_relative_error": 0.0004298948487954772,
+        "maximum_H_over_R": 0.0981267931088258,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.244806873964652,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 7.67507629118036e-08,
+        "candidate_index": 107,
+        "full_scaled_state_relative_error": 0.0005853829073018369,
+        "maximum_H_over_R": 0.09848116628838571,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.242152188867514,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 2.512801544618526e-08,
+        "candidate_index": 108,
+        "full_scaled_state_relative_error": 0.00021588591754778536,
+        "maximum_H_over_R": 0.09795530091483592,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.249190703428564,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 2.4486095373532635e-08,
+        "candidate_index": 109,
+        "full_scaled_state_relative_error": 0.00021056366853317886,
+        "maximum_H_over_R": 0.09792215554621804,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.251946515173774,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 1.1546694478337116e-07,
+        "candidate_index": 110,
+        "full_scaled_state_relative_error": 0.000582263054419134,
+        "maximum_H_over_R": 0.0979687633591881,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.239804787446616,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 1.221461315425998e-07,
+        "candidate_index": 111,
+        "full_scaled_state_relative_error": 0.0005440116401815729,
+        "maximum_H_over_R": 0.09809155882232562,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.24704149480816,
+        "split": "revealed_holdout"
+      },
+      {
+        "C_phys_residual_infinity": 6.327605106548617e-12,
+        "candidate_index": 112,
+        "full_scaled_state_relative_error": 4.452111003974763e-06,
+        "maximum_H_over_R": 0.09786418713901027,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.255414309364458,
+        "split": "revealed_tuning_low"
+      },
+      {
+        "C_phys_residual_infinity": 7.075506847087354e-12,
+        "candidate_index": 113,
+        "full_scaled_state_relative_error": 4.475605544955061e-06,
+        "maximum_H_over_R": 0.09786745748669161,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.253227606318976,
+        "split": "revealed_tuning_low"
+      },
+      {
+        "C_phys_residual_infinity": 7.682402491937523e-10,
+        "candidate_index": 114,
+        "full_scaled_state_relative_error": 0.00010776662632527841,
+        "maximum_H_over_R": 0.0979049756234651,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.25527182111324,
+        "split": "revealed_tuning_low"
+      },
+      {
+        "C_phys_residual_infinity": 9.425081826108794e-10,
+        "candidate_index": 115,
+        "full_scaled_state_relative_error": 0.00011084347266095964,
+        "maximum_H_over_R": 0.09785481858229315,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.251081555302026,
+        "split": "revealed_tuning_low"
+      },
+      {
+        "C_phys_residual_infinity": 5.25476329116259e-10,
+        "candidate_index": 116,
+        "full_scaled_state_relative_error": 6.0978112443554425e-05,
+        "maximum_H_over_R": 0.09789761448982878,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.249033066382356,
+        "split": "revealed_tuning_low"
+      },
+      {
+        "C_phys_residual_infinity": 5.180839091067924e-10,
+        "candidate_index": 117,
+        "full_scaled_state_relative_error": 6.291660962251896e-05,
+        "maximum_H_over_R": 0.09795247825309943,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.257949191661783,
+        "split": "revealed_tuning_low"
+      },
+      {
+        "C_phys_residual_infinity": 9.67905755544507e-11,
+        "candidate_index": 118,
+        "full_scaled_state_relative_error": 9.827209588025186e-06,
+        "maximum_H_over_R": 0.09786108286914619,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.24981053560278,
+        "split": "revealed_tuning_low"
+      },
+      {
+        "C_phys_residual_infinity": 9.739931083885267e-11,
+        "candidate_index": 119,
+        "full_scaled_state_relative_error": 9.850224063219041e-06,
+        "maximum_H_over_R": 0.0979134977981496,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.25477254455365,
+        "split": "revealed_tuning_low"
+      },
+      {
+        "C_phys_residual_infinity": 6.082166437160197e-10,
+        "candidate_index": 120,
+        "full_scaled_state_relative_error": 3.142145328535818e-05,
+        "maximum_H_over_R": 0.09797160950161139,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.25269086105674,
+        "split": "revealed_tuning_low"
+      },
+      {
+        "C_phys_residual_infinity": 6.67875810211882e-10,
+        "candidate_index": 121,
+        "full_scaled_state_relative_error": 3.494546760842738e-05,
+        "maximum_H_over_R": 0.09789324704226662,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.25183490312776,
+        "split": "revealed_tuning_low"
+      },
+      {
+        "C_phys_residual_infinity": 1.0558820484618536e-10,
+        "candidate_index": 122,
+        "full_scaled_state_relative_error": 3.195543355927445e-05,
+        "maximum_H_over_R": 0.09789040834625423,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.24882268535883,
+        "split": "revealed_tuning_low"
+      },
+      {
+        "C_phys_residual_infinity": 9.04551988867297e-11,
+        "candidate_index": 123,
+        "full_scaled_state_relative_error": 3.136327314867256e-05,
+        "maximum_H_over_R": 0.09797311344243209,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.256582327662898,
+        "split": "revealed_tuning_low"
+      },
+      {
+        "C_phys_residual_infinity": 1.282497996690779e-10,
+        "candidate_index": 124,
+        "full_scaled_state_relative_error": 3.895992361845156e-05,
+        "maximum_H_over_R": 0.09792988981123961,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.25205244931571,
+        "split": "revealed_tuning_low"
+      },
+      {
+        "C_phys_residual_infinity": 1.0432266162041515e-10,
+        "candidate_index": 125,
+        "full_scaled_state_relative_error": 3.6064620466030055e-05,
+        "maximum_H_over_R": 0.0979423148396006,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.256588230599323,
+        "split": "revealed_tuning_low"
+      },
+      {
+        "C_phys_residual_infinity": 3.17952553174905e-10,
+        "candidate_index": 126,
+        "full_scaled_state_relative_error": 7.782175712094965e-05,
+        "maximum_H_over_R": 0.09788615747929946,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.250075212169104,
+        "split": "revealed_tuning_low"
+      },
+      {
+        "C_phys_residual_infinity": 2.7766622334723934e-10,
+        "candidate_index": 127,
+        "full_scaled_state_relative_error": 7.778408880234352e-05,
+        "maximum_H_over_R": 0.09793434687179757,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.258225240092074,
+        "split": "revealed_tuning_low"
+      }
+    ],
+    "wall_seconds": 494.74221891583875
+  },
+  "checks": {
+    "cubic_feature_condition": true,
+    "cubic_feature_rank": true,
+    "naive_dynamic_augmentation_rejected": true,
+    "new_validation_separation": true,
+    "parent_model_rejection_preserved": true,
+    "parent_truth_database_passed": true,
+    "propagation_budget": true,
+    "quadratic_feature_rank": true,
+    "rank4_hidden_energy": true,
+    "rank4_odd_capacity_C_phys": true,
+    "rank4_odd_capacity_reconstruction": true,
+    "rank4_odd_capacity_state_error": true,
+    "root_budget": true,
+    "truth_call_budget": true
+  },
+  "design": {
+    "additional_training_direction_count": 64,
+    "cubic_feature_condition_number": 19.63614215261165,
+    "cubic_feature_rank": 120,
+    "design_seed": 2503,
+    "filtered_pool_size": 41992,
+    "maximum_absolute_new_direction_component": 0.748018086306,
+    "minimum_new_validation_mutual_projective_separation": 0.280446841262756,
+    "minimum_new_validation_to_training_projective_separation": 0.27588603299908177,
+    "new_candidate_count": 192,
+    "new_holdout_direction_count": 16,
+    "new_tuning_direction_count": 8,
+    "quadratic_feature_condition_number": 2.923497481157832,
+    "quadratic_feature_rank": 36,
+    "raw_pool_size": 50000,
+    "revealed_direction_count": 56,
+    "total_training_direction_count": 120,
+    "validation_selection_distances": [
+      0.29858583328224475,
+      0.2984540031484548,
+      0.29495011386957215,
+      0.29385247330275055,
+      0.29216957707306845,
+      0.2917779367093075,
+      0.2912295713589148,
+      0.28890639791390216,
+      0.2878620939025681,
+      0.28471668025373587,
+      0.2845219764000154,
+      0.2824957600767659,
+      0.28234329369272293,
+      0.28185738843720176,
+      0.2807621746759962,
+      0.280446841262756,
+      0.27956736536652516,
+      0.2789014464741517,
+      0.27859293667611496,
+      0.2777109688657321,
+      0.2763342827332558,
+      0.2762639174545328,
+      0.27592954960190574,
+      0.27588603299908177
+    ]
+  },
+  "new_nonbase_continuous_rate_evaluations": 0,
+  "new_nonlinear_roots": 0,
+  "parent_failed_model_metrics": {
+    "holdout_candidate_count": 16,
+    "holdout_maximum_departure_rate_relative_error": 0.5645239215794725,
+    "holdout_maximum_hidden_decoder_relative_error": 1.4245288967306975,
+    "holdout_median_departure_rate_relative_error": 0.06917715647010195,
+    "holdout_median_hidden_decoder_relative_error": 0.4369826476337527,
+    "maximum_full_departure_rate_increment_relative_error": 0.08101825043436071,
+    "maximum_full_scaled_state_decoder_relative_error": 0.0027934667787591614,
+    "maximum_reconstructed_C_phys_residual_infinity": 3.9223831616030935e-07,
+    "maximum_reconstructed_H_over_R": 0.09848193883392423,
+    "minimum_reconstructed_scattering_optical_depth": 19.239781155694057,
+    "minimum_reconstructed_state_reconstruction_factor": 1.0,
+    "training_cubic_kernel_condition_number": 3.7825923824857344,
+    "training_pair_count": 40,
+    "training_quadratic_feature_condition_number": 5.532957332531524,
+    "training_quadratic_feature_rank": 36,
+    "training_quartic_kernel_condition_number": 2.5211870087382304,
+    "tuning_candidate_count": 32,
+    "tuning_maximum_departure_rate_relative_error": 0.8020443216647893,
+    "tuning_maximum_hidden_decoder_relative_error": 4.032707842862054,
+    "tuning_median_departure_rate_relative_error": 0.05687228538790927,
+    "tuning_median_hidden_decoder_relative_error": 0.8443980509668243,
+    "validation": [
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 80,
+        "departure_rate_relative_error": 0.038459406353198895,
+        "full_departure_rate_increment_relative_error": 0.008473404149433103,
+        "full_scaled_state_decoder_relative_error": 0.0002821473598257994,
+        "hidden_decoder_relative_error": 1.2768370944940044,
+        "maximum_reconstructed_H_over_R": 0.0978946921718373,
+        "minimum_reconstructed_scattering_optical_depth": 19.255341193431715,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 40,
+        "reconstructed_C_phys_residual_infinity": 7.789699107974002e-09,
+        "sign": -1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 81,
+        "departure_rate_relative_error": 0.023942203512804038,
+        "full_departure_rate_increment_relative_error": 0.0059273009445717385,
+        "full_scaled_state_decoder_relative_error": 0.0002934848148382094,
+        "hidden_decoder_relative_error": 1.2839096869083968,
+        "maximum_reconstructed_H_over_R": 0.09789748978410281,
+        "minimum_reconstructed_scattering_optical_depth": 19.252133903053586,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 40,
+        "reconstructed_C_phys_residual_infinity": 8.131009976430903e-09,
+        "sign": 1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 82,
+        "departure_rate_relative_error": 0.036861654886957036,
+        "full_departure_rate_increment_relative_error": 0.051494827677311436,
+        "full_scaled_state_decoder_relative_error": 0.00133134046325168,
+        "hidden_decoder_relative_error": 0.6050275164554837,
+        "maximum_reconstructed_H_over_R": 0.09800749114159234,
+        "minimum_reconstructed_scattering_optical_depth": 19.251632032564213,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 41,
+        "reconstructed_C_phys_residual_infinity": 1.2770198332123783e-07,
+        "sign": -1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 83,
+        "departure_rate_relative_error": 0.03338482443808873,
+        "full_departure_rate_increment_relative_error": 0.022832526360159693,
+        "full_scaled_state_decoder_relative_error": 0.0012448435990917313,
+        "hidden_decoder_relative_error": 0.5913590933174918,
+        "maximum_reconstructed_H_over_R": 0.09788136850065303,
+        "minimum_reconstructed_scattering_optical_depth": 19.246142137138236,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 41,
+        "reconstructed_C_phys_residual_infinity": 1.1405341537873426e-07,
+        "sign": 1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 84,
+        "departure_rate_relative_error": 0.016599256045364538,
+        "full_departure_rate_increment_relative_error": 0.013021313476056073,
+        "full_scaled_state_decoder_relative_error": 0.0003428367705171669,
+        "hidden_decoder_relative_error": 0.15273046229170023,
+        "maximum_reconstructed_H_over_R": 0.09796199682814781,
+        "minimum_reconstructed_scattering_optical_depth": 19.242041567172897,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 42,
+        "reconstructed_C_phys_residual_infinity": 2.422030653814744e-08,
+        "sign": -1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 85,
+        "departure_rate_relative_error": 0.057899171417371526,
+        "full_departure_rate_increment_relative_error": 0.059846983914261645,
+        "full_scaled_state_decoder_relative_error": 0.00037039789573142177,
+        "hidden_decoder_relative_error": 0.16707011274172862,
+        "maximum_reconstructed_H_over_R": 0.0980774348054795,
+        "minimum_reconstructed_scattering_optical_depth": 19.253733839850533,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 42,
+        "reconstructed_C_phys_residual_infinity": 2.6498317651224568e-08,
+        "sign": 1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 86,
+        "departure_rate_relative_error": 0.4346666305507984,
+        "full_departure_rate_increment_relative_error": 0.009109883497465053,
+        "full_scaled_state_decoder_relative_error": 0.00022777053076601347,
+        "hidden_decoder_relative_error": 3.8480068145131767,
+        "maximum_reconstructed_H_over_R": 0.09792132915693455,
+        "minimum_reconstructed_scattering_optical_depth": 19.24530091066201,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 43,
+        "reconstructed_C_phys_residual_infinity": 3.3404986554685934e-09,
+        "sign": -1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 87,
+        "departure_rate_relative_error": 0.8020443216647893,
+        "full_departure_rate_increment_relative_error": 0.020331019707590936,
+        "full_scaled_state_decoder_relative_error": 0.0002375642214578825,
+        "hidden_decoder_relative_error": 4.032707842862054,
+        "maximum_reconstructed_H_over_R": 0.09799966340136562,
+        "minimum_reconstructed_scattering_optical_depth": 19.253516521300046,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 43,
+        "reconstructed_C_phys_residual_infinity": 3.531313352844734e-09,
+        "sign": 1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 88,
+        "departure_rate_relative_error": 0.03620181640968155,
+        "full_departure_rate_increment_relative_error": 0.009452727616885535,
+        "full_scaled_state_decoder_relative_error": 0.0004659732214790873,
+        "hidden_decoder_relative_error": 0.6350268485298782,
+        "maximum_reconstructed_H_over_R": 0.09811589024948235,
+        "minimum_reconstructed_scattering_optical_depth": 19.249343696439137,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 44,
+        "reconstructed_C_phys_residual_infinity": 2.460647363644597e-08,
+        "sign": -1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 89,
+        "departure_rate_relative_error": 0.038723930001681936,
+        "full_departure_rate_increment_relative_error": 0.017402725141774503,
+        "full_scaled_state_decoder_relative_error": 0.0004284863551936383,
+        "hidden_decoder_relative_error": 0.6347253517699506,
+        "maximum_reconstructed_H_over_R": 0.0979844151818638,
+        "minimum_reconstructed_scattering_optical_depth": 19.249359768157632,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 44,
+        "reconstructed_C_phys_residual_infinity": 2.1956101492470737e-08,
+        "sign": 1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 90,
+        "departure_rate_relative_error": 0.21427424920413768,
+        "full_departure_rate_increment_relative_error": 0.010875432474271545,
+        "full_scaled_state_decoder_relative_error": 0.00030203004152437265,
+        "hidden_decoder_relative_error": 0.851055528701158,
+        "maximum_reconstructed_H_over_R": 0.09799071713772307,
+        "minimum_reconstructed_scattering_optical_depth": 19.24332589537115,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 45,
+        "reconstructed_C_phys_residual_infinity": 1.0354224810882329e-08,
+        "sign": -1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 91,
+        "departure_rate_relative_error": 0.25475794422937625,
+        "full_departure_rate_increment_relative_error": 0.014040636107863711,
+        "full_scaled_state_decoder_relative_error": 0.0003004883386675221,
+        "hidden_decoder_relative_error": 0.8759990432511594,
+        "maximum_reconstructed_H_over_R": 0.0981190087587761,
+        "minimum_reconstructed_scattering_optical_depth": 19.25095544707161,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 45,
+        "reconstructed_C_phys_residual_infinity": 9.826021440950683e-09,
+        "sign": 1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 92,
+        "departure_rate_relative_error": 0.3509379184764921,
+        "full_departure_rate_increment_relative_error": 0.02815520619235443,
+        "full_scaled_state_decoder_relative_error": 0.000676165986157707,
+        "hidden_decoder_relative_error": 1.1433685688605364,
+        "maximum_reconstructed_H_over_R": 0.09805811976155901,
+        "minimum_reconstructed_scattering_optical_depth": 19.247971475491806,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 46,
+        "reconstructed_C_phys_residual_infinity": 1.9002530549094843e-08,
+        "sign": -1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 93,
+        "departure_rate_relative_error": 0.09763035206912213,
+        "full_departure_rate_increment_relative_error": 0.01638836095017817,
+        "full_scaled_state_decoder_relative_error": 0.0006800999561596796,
+        "hidden_decoder_relative_error": 1.2899526701612845,
+        "maximum_reconstructed_H_over_R": 0.09805698306342421,
+        "minimum_reconstructed_scattering_optical_depth": 19.258854030070903,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 46,
+        "reconstructed_C_phys_residual_infinity": 2.0642260345482555e-08,
+        "sign": 1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 94,
+        "departure_rate_relative_error": 0.03657297569371036,
+        "full_departure_rate_increment_relative_error": 0.010210822102184628,
+        "full_scaled_state_decoder_relative_error": 0.0004970616929123478,
+        "hidden_decoder_relative_error": 0.8377405732324907,
+        "maximum_reconstructed_H_over_R": 0.0979547091771149,
+        "minimum_reconstructed_scattering_optical_depth": 19.24582310145336,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 47,
+        "reconstructed_C_phys_residual_infinity": 2.1880220746339774e-08,
+        "sign": -1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 95,
+        "departure_rate_relative_error": 0.0651396435468926,
+        "full_departure_rate_increment_relative_error": 0.03629443859151008,
+        "full_scaled_state_decoder_relative_error": 0.0004987503666653972,
+        "hidden_decoder_relative_error": 0.8276734541260412,
+        "maximum_reconstructed_H_over_R": 0.0980348427221477,
+        "minimum_reconstructed_scattering_optical_depth": 19.25370224273026,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 47,
+        "reconstructed_C_phys_residual_infinity": 2.235091023372604e-08,
+        "sign": 1,
+        "split": "tuning_high"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 96,
+        "departure_rate_relative_error": 0.5645239215794725,
+        "full_departure_rate_increment_relative_error": 0.024646984074666225,
+        "full_scaled_state_decoder_relative_error": 0.00020660356492302283,
+        "hidden_decoder_relative_error": 0.30659582712960365,
+        "maximum_reconstructed_H_over_R": 0.09789762800047962,
+        "minimum_reconstructed_scattering_optical_depth": 19.245300036280405,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 48,
+        "reconstructed_C_phys_residual_infinity": 1.3764666850768492e-08,
+        "sign": -1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 97,
+        "departure_rate_relative_error": 0.17835287206495914,
+        "full_departure_rate_increment_relative_error": 0.008539707023904924,
+        "full_scaled_state_decoder_relative_error": 0.00016390299677861522,
+        "hidden_decoder_relative_error": 0.3127535009440392,
+        "maximum_reconstructed_H_over_R": 0.09803286553353778,
+        "minimum_reconstructed_scattering_optical_depth": 19.252417545300936,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 48,
+        "reconstructed_C_phys_residual_infinity": 5.702200045476502e-09,
+        "sign": 1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 98,
+        "departure_rate_relative_error": 0.07098495857876362,
+        "full_departure_rate_increment_relative_error": 0.0765965134047537,
+        "full_scaled_state_decoder_relative_error": 0.0018503345916085732,
+        "hidden_decoder_relative_error": 1.1852928786636852,
+        "maximum_reconstructed_H_over_R": 0.09805852302364194,
+        "minimum_reconstructed_scattering_optical_depth": 19.252755463594404,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 49,
+        "reconstructed_C_phys_residual_infinity": 2.0122199162475596e-07,
+        "sign": -1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 99,
+        "departure_rate_relative_error": 0.06769799349300865,
+        "full_departure_rate_increment_relative_error": 0.059754454001022805,
+        "full_scaled_state_decoder_relative_error": 0.0017867009445348822,
+        "hidden_decoder_relative_error": 1.2138368094346568,
+        "maximum_reconstructed_H_over_R": 0.09798972432028627,
+        "minimum_reconstructed_scattering_optical_depth": 19.247726908668735,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 49,
+        "reconstructed_C_phys_residual_infinity": 1.939100553460804e-07,
+        "sign": 1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 100,
+        "departure_rate_relative_error": 0.045603655656670766,
+        "full_departure_rate_increment_relative_error": 0.009220610528616405,
+        "full_scaled_state_decoder_relative_error": 0.0006582960627177308,
+        "hidden_decoder_relative_error": 0.5235448309355678,
+        "maximum_reconstructed_H_over_R": 0.09820924469340966,
+        "minimum_reconstructed_scattering_optical_depth": 19.247390990075203,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 50,
+        "reconstructed_C_phys_residual_infinity": 7.622141318108788e-08,
+        "sign": -1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 101,
+        "departure_rate_relative_error": 0.03435875864351901,
+        "full_departure_rate_increment_relative_error": 0.009540363373485497,
+        "full_scaled_state_decoder_relative_error": 0.0003903079231512497,
+        "hidden_decoder_relative_error": 0.4362631786618236,
+        "maximum_reconstructed_H_over_R": 0.09814498658843418,
+        "minimum_reconstructed_scattering_optical_depth": 19.24683202951723,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 50,
+        "reconstructed_C_phys_residual_infinity": 3.797974779118363e-08,
+        "sign": 1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 102,
+        "departure_rate_relative_error": 0.028008473202059472,
+        "full_departure_rate_increment_relative_error": 0.017390660546578306,
+        "full_scaled_state_decoder_relative_error": 0.0006171879431787466,
+        "hidden_decoder_relative_error": 0.43770211660568176,
+        "maximum_reconstructed_H_over_R": 0.09796820922483593,
+        "minimum_reconstructed_scattering_optical_depth": 19.247057441558606,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 51,
+        "reconstructed_C_phys_residual_infinity": 3.700715056620396e-08,
+        "sign": -1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 103,
+        "departure_rate_relative_error": 0.0455355308249599,
+        "full_departure_rate_increment_relative_error": 0.016818868358883937,
+        "full_scaled_state_decoder_relative_error": 0.0005945103333242882,
+        "hidden_decoder_relative_error": 0.4339705993133471,
+        "maximum_reconstructed_H_over_R": 0.09803285708823253,
+        "minimum_reconstructed_scattering_optical_depth": 19.258451922088465,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 51,
+        "reconstructed_C_phys_residual_infinity": 3.5493322725344e-08,
+        "sign": 1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 104,
+        "departure_rate_relative_error": 0.26566393419742107,
+        "full_departure_rate_increment_relative_error": 0.08101825043436071,
+        "full_scaled_state_decoder_relative_error": 0.0015981694378389582,
+        "hidden_decoder_relative_error": 1.4245288967306975,
+        "maximum_reconstructed_H_over_R": 0.09820786300789404,
+        "minimum_reconstructed_scattering_optical_depth": 19.255871304090604,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 52,
+        "reconstructed_C_phys_residual_infinity": 9.208560630691309e-08,
+        "sign": -1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 105,
+        "departure_rate_relative_error": 0.42275382868692646,
+        "full_departure_rate_increment_relative_error": 0.055177224441576155,
+        "full_scaled_state_decoder_relative_error": 0.0015839567455068883,
+        "hidden_decoder_relative_error": 1.369392708059516,
+        "maximum_reconstructed_H_over_R": 0.09815698785269343,
+        "minimum_reconstructed_scattering_optical_depth": 19.246008192690727,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 52,
+        "reconstructed_C_phys_residual_infinity": 8.480757618389845e-08,
+        "sign": 1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 106,
+        "departure_rate_relative_error": 0.037604025853739446,
+        "full_departure_rate_increment_relative_error": 0.041634044687307546,
+        "full_scaled_state_decoder_relative_error": 0.0008691764630579412,
+        "hidden_decoder_relative_error": 0.37144092667460055,
+        "maximum_reconstructed_H_over_R": 0.09812634348386778,
+        "minimum_reconstructed_scattering_optical_depth": 19.24480583846078,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 53,
+        "reconstructed_C_phys_residual_infinity": 9.545418161449604e-08,
+        "sign": -1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 107,
+        "departure_rate_relative_error": 0.10661366918304671,
+        "full_departure_rate_increment_relative_error": 0.04173372124248451,
+        "full_scaled_state_decoder_relative_error": 0.001121484633849661,
+        "hidden_decoder_relative_error": 0.4325655768615142,
+        "maximum_reconstructed_H_over_R": 0.09848193883392423,
+        "minimum_reconstructed_scattering_optical_depth": 19.242192275488897,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 53,
+        "reconstructed_C_phys_residual_infinity": 1.7428352949711012e-07,
+        "sign": 1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 108,
+        "departure_rate_relative_error": 0.03896202430731308,
+        "full_departure_rate_increment_relative_error": 0.05968883846012009,
+        "full_scaled_state_decoder_relative_error": 0.0027934667787591614,
+        "hidden_decoder_relative_error": 0.5591555982031716,
+        "maximum_reconstructed_H_over_R": 0.0979533921906396,
+        "minimum_reconstructed_scattering_optical_depth": 19.249203346512264,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 54,
+        "reconstructed_C_phys_residual_infinity": 3.9223831616030935e-07,
+        "sign": -1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 109,
+        "departure_rate_relative_error": 0.07065631944719526,
+        "full_departure_rate_increment_relative_error": 0.05409697871354051,
+        "full_scaled_state_decoder_relative_error": 0.002515541762902171,
+        "hidden_decoder_relative_error": 0.5422478255666596,
+        "maximum_reconstructed_H_over_R": 0.09792321573436735,
+        "minimum_reconstructed_scattering_optical_depth": 19.25195207406463,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 54,
+        "reconstructed_C_phys_residual_infinity": 3.50428370543554e-07,
+        "sign": 1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 110,
+        "departure_rate_relative_error": 0.05098580959161598,
+        "full_departure_rate_increment_relative_error": 0.06525992162954611,
+        "full_scaled_state_decoder_relative_error": 0.0011514297244789068,
+        "hidden_decoder_relative_error": 0.3259797056489289,
+        "maximum_reconstructed_H_over_R": 0.09796939689724052,
+        "minimum_reconstructed_scattering_optical_depth": 19.239781155694057,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 55,
+        "reconstructed_C_phys_residual_infinity": 1.5685834697798384e-07,
+        "sign": -1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p01",
+        "candidate_index": 111,
+        "departure_rate_relative_error": 0.09716170630000442,
+        "full_departure_rate_increment_relative_error": 0.06660765043433783,
+        "full_scaled_state_decoder_relative_error": 0.001051619038475925,
+        "hidden_decoder_relative_error": 0.3087307832522935,
+        "maximum_reconstructed_H_over_R": 0.09809303886745326,
+        "minimum_reconstructed_scattering_optical_depth": 19.247041370814877,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 55,
+        "reconstructed_C_phys_residual_infinity": 1.424504917357794e-07,
+        "sign": 1,
+        "split": "holdout"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 112,
+        "departure_rate_relative_error": 0.030083206983136334,
+        "full_departure_rate_increment_relative_error": 0.0034730905345223355,
+        "full_scaled_state_decoder_relative_error": 7.14003221627563e-05,
+        "hidden_decoder_relative_error": 1.2760037819272985,
+        "maximum_reconstructed_H_over_R": 0.09786419522816249,
+        "minimum_reconstructed_scattering_optical_depth": 19.255414449988134,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 56,
+        "reconstructed_C_phys_residual_infinity": 4.950257981306549e-10,
+        "sign": -1,
+        "split": "tuning_low"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 113,
+        "departure_rate_relative_error": 0.0065895999858029235,
+        "full_departure_rate_increment_relative_error": 0.0008084087918954732,
+        "full_scaled_state_decoder_relative_error": 7.282241694438648e-05,
+        "hidden_decoder_relative_error": 1.2794630237151376,
+        "maximum_reconstructed_H_over_R": 0.0978674731439527,
+        "minimum_reconstructed_scattering_optical_depth": 19.25322746145588,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 56,
+        "reconstructed_C_phys_residual_infinity": 5.058029550752963e-10,
+        "sign": 1,
+        "split": "tuning_low"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 114,
+        "departure_rate_relative_error": 0.049544983071905406,
+        "full_departure_rate_increment_relative_error": 0.034638154539464186,
+        "full_scaled_state_decoder_relative_error": 0.0003367233294268059,
+        "hidden_decoder_relative_error": 0.6005384039502378,
+        "maximum_reconstructed_H_over_R": 0.09790489807220643,
+        "minimum_reconstructed_scattering_optical_depth": 19.255272298644776,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 57,
+        "reconstructed_C_phys_residual_infinity": 8.22258949817467e-09,
+        "sign": -1,
+        "split": "tuning_low"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 115,
+        "departure_rate_relative_error": 0.02743004778052776,
+        "full_departure_rate_increment_relative_error": 0.01187958407249111,
+        "full_scaled_state_decoder_relative_error": 0.0003251650889218673,
+        "hidden_decoder_relative_error": 0.5937120497694907,
+        "maximum_reconstructed_H_over_R": 0.09785475741450603,
+        "minimum_reconstructed_scattering_optical_depth": 19.251082579424285,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 57,
+        "reconstructed_C_phys_residual_infinity": 7.761221332280854e-09,
+        "sign": 1,
+        "split": "tuning_low"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 116,
+        "departure_rate_relative_error": 0.057005164792317146,
+        "full_departure_rate_increment_relative_error": 0.031637918592384635,
+        "full_scaled_state_decoder_relative_error": 8.97301062675653e-05,
+        "hidden_decoder_relative_error": 0.15827772574435464,
+        "maximum_reconstructed_H_over_R": 0.09789758457276869,
+        "minimum_reconstructed_scattering_optical_depth": 19.249032716020523,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 58,
+        "reconstructed_C_phys_residual_infinity": 1.6258223656251403e-09,
+        "sign": -1,
+        "split": "tuning_low"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 117,
+        "departure_rate_relative_error": 0.07802944064033536,
+        "full_departure_rate_increment_relative_error": 0.054647134649706004,
+        "full_scaled_state_decoder_relative_error": 9.314432761912077e-05,
+        "hidden_decoder_relative_error": 0.1653837442420285,
+        "maximum_reconstructed_H_over_R": 0.09795246510246751,
+        "minimum_reconstructed_scattering_optical_depth": 19.25794911642816,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 58,
+        "reconstructed_C_phys_residual_infinity": 1.6957899529046472e-09,
+        "sign": 1,
+        "split": "tuning_low"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 118,
+        "departure_rate_relative_error": 0.10842689822020207,
+        "full_departure_rate_increment_relative_error": 0.0011731944894818789,
+        "full_scaled_state_decoder_relative_error": 5.757834458700633e-05,
+        "hidden_decoder_relative_error": 3.892306748378715,
+        "maximum_reconstructed_H_over_R": 0.09786108476415206,
+        "minimum_reconstructed_scattering_optical_depth": 19.24981061368682,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 59,
+        "reconstructed_C_phys_residual_infinity": 2.1215562640009011e-10,
+        "sign": -1,
+        "split": "tuning_low"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 119,
+        "departure_rate_relative_error": 0.5473108676511963,
+        "full_departure_rate_increment_relative_error": 0.006525406907649632,
+        "full_scaled_state_decoder_relative_error": 5.880334979769716e-05,
+        "hidden_decoder_relative_error": 3.984599309325259,
+        "maximum_reconstructed_H_over_R": 0.09791348931914995,
+        "minimum_reconstructed_scattering_optical_depth": 19.254772004656136,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 59,
+        "reconstructed_C_phys_residual_infinity": 2.1813018058480793e-10,
+        "sign": 1,
+        "split": "tuning_low"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 120,
+        "departure_rate_relative_error": 0.03384801190065856,
+        "full_departure_rate_increment_relative_error": 0.005169858268511006,
+        "full_scaled_state_decoder_relative_error": 0.00011399698398622495,
+        "hidden_decoder_relative_error": 0.6307018030410217,
+        "maximum_reconstructed_H_over_R": 0.09797160771929428,
+        "minimum_reconstructed_scattering_optical_depth": 19.252688885383453,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 60,
+        "reconstructed_C_phys_residual_infinity": 1.503570601357751e-09,
+        "sign": -1,
+        "split": "tuning_low"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 121,
+        "departure_rate_relative_error": 0.007114368715425531,
+        "full_departure_rate_increment_relative_error": 0.0014478390558389036,
+        "full_scaled_state_decoder_relative_error": 0.00010930382006328404,
+        "hidden_decoder_relative_error": 0.6306035402110357,
+        "maximum_reconstructed_H_over_R": 0.0978932072017627,
+        "minimum_reconstructed_scattering_optical_depth": 19.251836366245126,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 60,
+        "reconstructed_C_phys_residual_infinity": 1.4200280951115474e-09,
+        "sign": 1,
+        "split": "tuning_low"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 122,
+        "departure_rate_relative_error": 0.19046279781149275,
+        "full_departure_rate_increment_relative_error": 0.004925028350734406,
+        "full_scaled_state_decoder_relative_error": 7.56099557253092e-05,
+        "hidden_decoder_relative_error": 0.8570651843826428,
+        "maximum_reconstructed_H_over_R": 0.0978904045859927,
+        "minimum_reconstructed_scattering_optical_depth": 19.248823236706112,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 61,
+        "reconstructed_C_phys_residual_infinity": 6.423429566027039e-10,
+        "sign": -1,
+        "split": "tuning_low"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 123,
+        "departure_rate_relative_error": 0.218318238411801,
+        "full_departure_rate_increment_relative_error": 0.005886043449173334,
+        "full_scaled_state_decoder_relative_error": 7.540947043181648e-05,
+        "hidden_decoder_relative_error": 0.8694960975655646,
+        "maximum_reconstructed_H_over_R": 0.09797310172277575,
+        "minimum_reconstructed_scattering_optical_depth": 19.256581125823118,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 61,
+        "reconstructed_C_phys_residual_infinity": 6.256545281857484e-10,
+        "sign": 1,
+        "split": "tuning_low"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 124,
+        "departure_rate_relative_error": 0.21728129562568127,
+        "full_departure_rate_increment_relative_error": 0.010624951127204744,
+        "full_scaled_state_decoder_relative_error": 0.00016960837699791985,
+        "hidden_decoder_relative_error": 1.175737156316049,
+        "maximum_reconstructed_H_over_R": 0.09792989744862157,
+        "minimum_reconstructed_scattering_optical_depth": 19.25205235579194,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 62,
+        "reconstructed_C_phys_residual_infinity": 1.2037429386602128e-09,
+        "sign": -1,
+        "split": "tuning_low"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 125,
+        "departure_rate_relative_error": 0.056739405983501384,
+        "full_departure_rate_increment_relative_error": 0.004012452645903297,
+        "full_scaled_state_decoder_relative_error": 0.00017008578082487806,
+        "hidden_decoder_relative_error": 1.2491479664477563,
+        "maximum_reconstructed_H_over_R": 0.09794228507927194,
+        "minimum_reconstructed_scattering_optical_depth": 19.25658829396835,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 62,
+        "reconstructed_C_phys_residual_infinity": 1.2676295013669403e-09,
+        "sign": 1,
+        "split": "tuning_low"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 126,
+        "departure_rate_relative_error": 0.049719983931634036,
+        "full_departure_rate_increment_relative_error": 0.008031801492633085,
+        "full_scaled_state_decoder_relative_error": 0.00012480881518415714,
+        "hidden_decoder_relative_error": 0.8282569236484483,
+        "maximum_reconstructed_H_over_R": 0.09788615846152479,
+        "minimum_reconstructed_scattering_optical_depth": 19.25007482812628,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 63,
+        "reconstructed_C_phys_residual_infinity": 1.3901684248196489e-09,
+        "sign": -1,
+        "split": "tuning_low"
+      },
+      {
+        "amplitude_label": "0p005",
+        "candidate_index": 127,
+        "departure_rate_relative_error": 0.0665611197540439,
+        "full_departure_rate_increment_relative_error": 0.015181517030355954,
+        "full_scaled_state_decoder_relative_error": 0.00012499526240339402,
+        "hidden_decoder_relative_error": 0.82272469896453,
+        "maximum_reconstructed_H_over_R": 0.09793433395724686,
+        "minimum_reconstructed_scattering_optical_depth": 19.258224341782963,
+        "minimum_reconstructed_state_reconstruction_factor": 1.0,
+        "pair_index": 63,
+        "reconstructed_C_phys_residual_infinity": 1.404910299207529e-09,
+        "sign": 1,
+        "split": "tuning_low"
+      }
+    ]
+  },
+  "propagated_states": 0
+}

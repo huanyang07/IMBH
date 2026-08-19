@@ -1,0 +1,29 @@
+{
+  "claim_boundary": {
+    "new_tuning_and_holdout_must_remain_untouched_until_fit_is_frozen": true,
+    "no_predictive_trajectory_authorized": true,
+    "old_tuning_and_holdout_are_revealed_training_only": true,
+    "post_result_architecture_diagnosis": true
+  },
+  "coefficient_count": {
+    "rank4_curvature_cubic": 480,
+    "rate_cubic": 3360,
+    "rate_quadratic": 1008,
+    "total": 4848
+  },
+  "new_database": {
+    "additional_high_amplitude_training_directions": 64,
+    "new_signed_exact_geometry_and_rate_candidates": 192,
+    "new_tuning_directions_at_0p01_and_0p005": 8,
+    "new_untouched_holdout_directions_at_0p01": 16,
+    "reuse_revealed_high_amplitude_directions_as_training": 56,
+    "total_high_amplitude_training_directions": 120
+  },
+  "online_Newton_retractions_per_macrostep": 0,
+  "online_truth_calls_per_macrostep": 0,
+  "rate_closure": "full_28_output_homogeneous_quadratic_36_feature_plus_homogeneous_cubic_120_feature_tensor",
+  "selected_online_state": "q162_plus_z280_plus_a28_equals_470",
+  "stable_memory": "retain_inherited_certified_280D_descriptor_kernel",
+  "state_decoder": "rank4_slaved_curvature_basis_with_full_homogeneous_cubic_active8_coefficient_map; omit_revealed_small_even_and_remaining_hidden_terms_as_validation_error",
+  "unstable_departure": "retain_all_28_explicit_nonlinear_coordinates"
+}
