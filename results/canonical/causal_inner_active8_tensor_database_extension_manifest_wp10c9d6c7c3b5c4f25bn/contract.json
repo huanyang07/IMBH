@@ -1,0 +1,150 @@
+{
+  "binding_geometry_gates": {
+    "completed_candidate_count_equal": 192,
+    "failed_candidate_count_equal": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_coordinate_Jacobian_condition_number": 5000.0,
+    "maximum_coordinate_residual_infinity": 1e-10,
+    "maximum_departure_transverse_fraction": 0.05,
+    "maximum_final_scaled_component": 0.01,
+    "maximum_normalized_Q3_defect": 1e-10,
+    "maximum_pair_coordinate_odd_symmetry_defect": 0.02,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "minimum_departure_direction_alignment_cosine": 0.995,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "new_full_generator_assemblies_equal": 0,
+    "new_nonlinear_roots_equal": 0,
+    "nonbase_continuous_rate_evaluations_equal": 0,
+    "propagated_states_equal": 0
+  },
+  "binding_independent_model_gates": {
+    "holdout_maximum_full_departure_rate_relative_error": 0.05,
+    "holdout_maximum_nonlinear_departure_rate_relative_error": 0.25,
+    "holdout_median_full_departure_rate_relative_error": 0.02,
+    "holdout_median_nonlinear_departure_rate_relative_error": 0.1,
+    "maximum_curvature_prediction_error_over_full_state_delta": 0.0015,
+    "maximum_full_scaled_state_decoder_relative_error": 0.0025,
+    "maximum_reconstructed_C_phys_residual_infinity": 0.00025,
+    "maximum_reconstructed_H_over_R": 0.12,
+    "minimum_reconstructed_scattering_optical_depth": 1.0,
+    "minimum_reconstructed_state_reconstruction_factor": 0.999999999999,
+    "tuning_maximum_full_departure_rate_relative_error": 0.05,
+    "tuning_maximum_nonlinear_departure_rate_relative_error": 0.25,
+    "tuning_median_full_departure_rate_relative_error": 0.02,
+    "tuning_median_nonlinear_departure_rate_relative_error": 0.1
+  },
+  "binding_radial_consistency_gates": {
+    "maximum_cubic_rate_target_high_low_relative_difference": 0.15,
+    "maximum_curvature_cubic_target_high_low_relative_difference": 0.1,
+    "maximum_quadratic_target_high_low_relative_difference": 0.1
+  },
+  "binding_truth_rate_gates": {
+    "completed_nonbase_rate_evaluations_equal": 192,
+    "failed_rate_evaluations_equal": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_coordinate_Jacobian_condition_number": 5000.0,
+    "maximum_incoming_excision_characteristics_equal": 0,
+    "maximum_rate_tangency_relative_defect": 1e-08,
+    "maximum_raw_Schur_condition_number": 1000000.0,
+    "maximum_reaction_identity_defect": 1e-09,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "new_complete_generator_assemblies_equal": 0,
+    "new_nonlinear_roots_equal": 0,
+    "propagated_states_equal": 0
+  },
+  "claim_boundary": {
+    "all_new_directions_and_thresholds_frozen_before_new_results": true,
+    "architecture_selected_post_old_result": true,
+    "independent_validation_complete": false,
+    "old_kernel_model_remains_rejected": true,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "trajectory_authorized": false
+  },
+  "classification": "active8_full_cubic_rank4_curvature_database_extension_manifest_frozen_geometry_authorized",
+  "coefficient_fit": {
+    "curvature_cubic": "solve_120_by_120_cubic_features_to_4_frozen_curvature_coordinates",
+    "online_Newton_retractions": 0,
+    "online_truth_calls": 0,
+    "rate_cubic": "solve_120_by_120_cubic_features_to_28_outputs",
+    "rate_quadratic": "least_squares_120_by_36_symmetric_orthonormal_features_to_28_outputs",
+    "regularization": 0.0
+  },
+  "database_design": {
+    "additional_high_amplitude_training_directions": 64,
+    "direction_order": "additional_training_high_then_tuning_high_then_holdout_high_then_tuning_low;_negative_before_positive",
+    "high_component_bound": 0.01,
+    "low_component_bound": 0.005,
+    "new_holdout_candidates": 32,
+    "new_training_candidates": 128,
+    "new_tuning_candidates": 32,
+    "new_tuning_directions_at_0p01_and_0p005": 8,
+    "new_untouched_holdout_directions_at_0p01": 16,
+    "planned_total_candidates": 192,
+    "revealed_high_amplitude_directions_reused_as_training": 56,
+    "signs": [
+      -1,
+      1
+    ],
+    "total_high_amplitude_training_directions": 120
+  },
+  "decision": {
+    "geometry_fail": {
+      "authorizes_only": null,
+      "classification": "active8_tensor_geometry_extension_failed"
+    },
+    "geometry_pass": {
+      "authorizes_only": "WP10c9d6c7c3b5c4f25bp",
+      "classification": "active8_tensor_geometry_extension_passed"
+    },
+    "model_pass": {
+      "authorizes_only": "definitions_only_active8_short_reduced_vector_field_validation_manifest",
+      "classification": "active8_full_tensor_rate_and_rank4_slaved_curvature_independently_validated"
+    },
+    "truth_or_model_fail": {
+      "authorizes_only": null,
+      "classification": "active8_tensor_database_or_independent_validation_failed"
+    }
+  },
+  "definitions_only": true,
+  "design_gates": {
+    "cubic_feature_condition_number_max": 25.0,
+    "cubic_feature_rank_equal": 120,
+    "maximum_absolute_new_direction_component": 0.75,
+    "minimum_validation_mutual_projective_separation": 0.27,
+    "minimum_validation_to_training_projective_separation": 0.27,
+    "quadratic_feature_condition_number_max": 5.0,
+    "quadratic_feature_rank_equal": 36
+  },
+  "leakage_control": {
+    "coefficient_hash_precedes_any_new_validation_response_read": true,
+    "fit_may_read_new_training_responses_only": true,
+    "geometry_stage_may_test_only_admissibility_not_response_accuracy": true,
+    "holdout_cannot_change_any_coefficient_or_threshold": true,
+    "old_tuning_and_holdout": "revealed_training_only",
+    "rate_evaluation_order": [
+      "additional_training_high",
+      "freeze_and_hash_all_three_coefficient_maps",
+      "new_tuning_high_and_low",
+      "new_holdout_high"
+    ],
+    "tuning_cannot_change_architecture_features_rank_or_gates": true
+  },
+  "mathematical_architecture": {
+    "a_update": "inherited_linear_term_plus_full_28_output_homogeneous_quadratic36_and_cubic120_tensor_closure",
+    "curvature_is_algebraic_not_dynamic": true,
+    "online_Newton_retractions_per_macrostep": 0,
+    "online_state": "q162_plus_z280_plus_a28_equals_470",
+    "online_truth_calls_per_macrostep": 0,
+    "q_update": "exact_conservative_finite_volume",
+    "state_reconstruction": "linear_470_lifting_plus_frozen_rank4_curvature_basis_times_a_full_homogeneous_cubic120_coefficient_map",
+    "stored_nonlinear_coefficients": 4848,
+    "z_update": "inherited_certified_280D_stable_descriptor_kernel"
+  },
+  "objective": "independently_validate_a_zero_truth_call_active8_vector_field_using_full_quadratic_cubic_tensors_and_rank4_slaved_curvature",
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25bn"
+}
