@@ -1,0 +1,69 @@
+{
+  "binding_preflight_gates": {
+    "completed_candidate_count_equal": 16,
+    "failed_candidate_count_equal": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_coordinate_Jacobian_condition_number": 10000.0,
+    "maximum_coordinate_odd_symmetry_defect": 0.05,
+    "maximum_coordinate_residual_infinity": 1e-10,
+    "maximum_departure_transverse_fraction": 0.05,
+    "maximum_final_scaled_component": 0.01,
+    "maximum_normalized_Q3_defect": 1e-10,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "minimum_departure_direction_alignment_cosine": 0.99,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "new_full_generator_assemblies_equal": 0,
+    "new_nonlinear_roots_equal": 0,
+    "nonbase_continuous_rate_evaluations_equal": 0,
+    "propagated_states_equal": 0
+  },
+  "candidate_family": {
+    "anchor": "primary",
+    "direction_source": "hash_locked_original_eight_energy_directions",
+    "energy_directions": 8,
+    "maximum_scaled_component_bound": 0.01,
+    "planned_candidates": 16,
+    "signs": [
+      -1,
+      1
+    ]
+  },
+  "claim_boundary": {
+    "expanded_nonbase_rate_evaluations_executed": false,
+    "heldout_state_validated": false,
+    "nonlinear_closure_identified": false,
+    "online_trajectory_authorized": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "expanded_exact_departure_chart_amplitude_0p01_manifest_frozen_geometry_only",
+  "decision": {
+    "fail": "expanded_exact_departure_chart_amplitude_0p01_failed_nonlinear_amplitude_expansion_blocked",
+    "pass": "expanded_exact_departure_chart_amplitude_0p01_passed_sixteen_rate_screen_manifest_authorized",
+    "pass_authorizes_only": "definitions_only_expanded_amplitude_0p01_sixteen_rate_screen_manifest"
+  },
+  "definitions_only": true,
+  "exact_geometric_retraction": {
+    "coordinate_definition": "160_exact_integrated_mapped_only_R32_storage_coordinates_plus_2_frozen_stable_coordinates",
+    "coordinate_target_or_trial_projection_used": false,
+    "correction": "delta_x_equals_minus_JC_transpose_times_solve_JC_JC_transpose_coordinate_error",
+    "globalization": "monotone_coordinate_residual_backtracking",
+    "line_factors": [
+      1.0,
+      0.5,
+      0.25,
+      0.125,
+      0.0625,
+      0.03125
+    ],
+    "maximum_Newton_iterations": 8,
+    "maximum_radius_rescalings": 4,
+    "rate_reaction_lift_used": false,
+    "state_local_derivative": "exact_descriptor_coordinate_Jacobian",
+    "target": "C_phys_x_equals_C_phys_x0"
+  },
+  "objective": "test_exact_C_phys_chart_geometry_at_the_first_doubled_component_bound_before_any_expanded_nonbase_rate_call",
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25bb"
+}
