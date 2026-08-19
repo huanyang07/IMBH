@@ -35,6 +35,34 @@ GEOMETRY_COMMIT = "ca0d5daebd30ba3bfde518ce75d3b380cd4f56b6"
 GEOMETRY_PARENT = "d4a7453aed3cfe29675fb340842028a9283a8aea"
 GEOMETRY_TREE = "7b722df4cff21d04693c525533d905d0f83d6950"
 
+# The first binding execution completed every truth-rate evaluation, then
+# stopped in postprocessing because the adapter used ``maximum_H_over_R``
+# instead of the established ``maximum_h_over_r`` state-audit key.  Permit
+# exactly that immutable, complete checkpoint to resume under the adapter-only
+# repair.  Any partial, modified, or differently sourced checkpoint still
+# fails closed.
+POSTPROCESS_ADAPTER_FIX_RESUME_IDENTITY = {
+    "execution_commit": "a2afaa425e8e76979b2d08a14cf250aa96602789",
+    "geometry_commit": GEOMETRY_COMMIT,
+    "geometry_database_sha256": (
+        "0ba0c020427bacfbc9c6d0bc03af156b20638a84a6c0d4d38afa24b2f26c3e36"
+    ),
+    "runner_sha256": (
+        "87aca4754b0f08342d34184648ba656aba5f51f10b1544d9cb913f9374eeea68"
+    ),
+    "test_sha256": (
+        "1a65cc62b857597c60bb8f0cb1cdcdba7f25431c6d50c001d0bdf220ec0f2d51"
+    ),
+}
+POSTPROCESS_ADAPTER_FIX_RESUME_HASHES = {
+    "progress.json": (
+        "bb6df60ef88d415fce5506de1958160a9d15fc800d3d428ff4c4bb373af349ee"
+    ),
+    "progress.npz": (
+        "3749160acafd4f25562dceb267883d97dd51b7da6b9c0c24647b07372e70d2b8"
+    ),
+}
+
 PASS_CLASSIFICATION = (
     "active8_mixed_nonlinear_closure_and_decoder_locally_validated"
 )
@@ -243,6 +271,7 @@ def _progress_identity() -> dict:
 def _empty_progress(identity: dict) -> dict:
     return {
         "identity": identity,
+        "resume_lineage": None,
         "evaluations": [],
         "failures": [],
         "total_rates_per_second": np.empty((0, 560), dtype=float),
@@ -294,10 +323,27 @@ def _load_or_create_progress() -> dict:
     if not json_path.exists() or not npz_path.exists():
         raise RuntimeError("mixed parity rate scratch checkpoint is incomplete")
     recorded = _read(json_path)
+    resume_lineage = None
     if recorded["identity"] != identity:
-        raise RuntimeError("mixed parity rate scratch identity changed")
+        checkpoint_hashes = {
+            "progress.json": _sha(json_path),
+            "progress.npz": _sha(npz_path),
+        }
+        if (
+            recorded["identity"] != POSTPROCESS_ADAPTER_FIX_RESUME_IDENTITY
+            or checkpoint_hashes != POSTPROCESS_ADAPTER_FIX_RESUME_HASHES
+            or len(recorded["evaluations"]) != manifest.PLANNED_CANDIDATES
+            or recorded["failures"]
+        ):
+            raise RuntimeError("mixed parity rate scratch identity changed")
+        resume_lineage = {
+            "reason": "completed_truth_checkpoint_after_postprocess_adapter_failure",
+            "source_identity": recorded["identity"],
+            "source_checkpoint_hashes": checkpoint_hashes,
+        }
     progress = {
         "identity": identity,
+        "resume_lineage": resume_lineage,
         "evaluations": recorded["evaluations"],
         "failures": recorded["failures"],
         **_load_npz(npz_path),
@@ -305,6 +351,10 @@ def _load_or_create_progress() -> dict:
     count = len(progress["evaluations"])
     if any(progress[name].shape[0] != count for name in _progress_array_names()):
         raise RuntimeError("mixed parity rate scratch dimensions changed")
+    if resume_lineage is not None and [
+        item["candidate_index"] for item in progress["evaluations"]
+    ] != list(range(manifest.PLANNED_CANDIDATES)):
+        raise RuntimeError("adapter-fix resume candidate ordering changed")
     return progress
 
 
@@ -425,6 +475,7 @@ def _truth_evaluations(inputs: dict) -> tuple[dict, dict[str, np.ndarray]]:
         "failed_rate_evaluations": len(progress["failures"]),
         "failures": progress["failures"],
         "resumed_candidate_count": resumed_candidate_count,
+        "resume_lineage": progress["resume_lineage"],
         "maximum_state_rate_linear_relative_defect": maximum(
             "state_rate_linear_relative_defect"
         ),
@@ -682,7 +733,7 @@ def _fit_and_validate(
                 float(np.min(coordinate_factors)),
                 state_audit["minimum_reconstruction_factor"],
             ),
-            "maximum_reconstructed_H_over_R": state_audit["maximum_H_over_R"],
+            "maximum_reconstructed_H_over_R": state_audit["maximum_h_over_r"],
             "minimum_reconstructed_scattering_optical_depth": state_audit[
                 "minimum_scattering_optical_depth"
             ],
@@ -930,6 +981,7 @@ def _run() -> dict:
             "resumed_from_candidate_count": truth_metrics[
                 "resumed_candidate_count"
             ],
+            "truth_checkpoint_resume_lineage": truth_metrics["resume_lineage"],
             "runner": THIS_RUNNER,
             "test": THIS_TEST,
             "report": REPORT_RELATIVE,

@@ -75,3 +75,56 @@ def test_rate_progress_roundtrip_is_lossless(tmp_path, monkeypatch):
     assert loaded["identity"] == progress["identity"]
     assert loaded["evaluations"] == []
     assert loaded["total_rates_per_second"].shape == (0, 560)
+
+
+def test_only_exact_completed_adapter_failure_checkpoint_can_migrate(
+    tmp_path, monkeypatch
+):
+    scratch = tmp_path / "scratch"
+    old_identity = {"execution_commit": "old"}
+    new_identity = {"execution_commit": "new"}
+    monkeypatch.setattr(f25bl, "SCRATCH_DIRECTORY", scratch)
+    progress = f25bl._empty_progress(old_identity)
+    progress["evaluations"] = [
+        {"candidate_index": index}
+        for index in range(f25bl.manifest.PLANNED_CANDIDATES)
+    ]
+    for name in f25bl._progress_array_names():
+        shape = progress[name].shape[1:]
+        progress[name] = np.zeros(
+            (f25bl.manifest.PLANNED_CANDIDATES,) + shape, dtype=float
+        )
+    f25bl._save_progress(progress)
+    checkpoint_hashes = {
+        "progress.json": f25bl._sha(scratch / "progress.json"),
+        "progress.npz": f25bl._sha(scratch / "progress.npz"),
+    }
+    monkeypatch.setattr(f25bl, "_progress_identity", lambda: new_identity)
+    monkeypatch.setattr(
+        f25bl, "POSTPROCESS_ADAPTER_FIX_RESUME_IDENTITY", old_identity
+    )
+    monkeypatch.setattr(
+        f25bl, "POSTPROCESS_ADAPTER_FIX_RESUME_HASHES", checkpoint_hashes
+    )
+    loaded = f25bl._load_or_create_progress()
+    assert loaded["identity"] == new_identity
+    assert loaded["resume_lineage"]["source_identity"] == old_identity
+    assert loaded["resume_lineage"]["source_checkpoint_hashes"] == checkpoint_hashes
+
+    loaded["identity"] = old_identity
+    loaded["evaluations"].pop()
+    f25bl._save_progress(loaded)
+    monkeypatch.setattr(
+        f25bl,
+        "POSTPROCESS_ADAPTER_FIX_RESUME_HASHES",
+        {
+            "progress.json": f25bl._sha(scratch / "progress.json"),
+            "progress.npz": f25bl._sha(scratch / "progress.npz"),
+        },
+    )
+    try:
+        f25bl._load_or_create_progress()
+    except RuntimeError as error:
+        assert "identity changed" in str(error)
+    else:
+        raise AssertionError("partial adapter-fix checkpoint was accepted")
