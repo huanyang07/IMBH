@@ -1,0 +1,46 @@
+{
+  "checks": {
+    "Q3_rowspace": true,
+    "departure_rank": true,
+    "hidden_dimension": true,
+    "hidden_rate_fraction": true,
+    "memory_condition": true,
+    "memory_rank": true,
+    "online_condition": true,
+    "online_cost": true,
+    "online_rank": true,
+    "online_truth": true,
+    "stable_energy": true
+  },
+  "coordinate_geometry": {
+    "Q3_rowspace_relative_defect": 2.2804006829262596e-13,
+    "departure_minimum_principal_cosine": 0.9999999999999994,
+    "departure_projected_rank": 28,
+    "full_rate_norm_per_second": 107183.95853399516,
+    "hidden_remainder_dimension": 90,
+    "online_470_captured_rate_fraction": 0.9998908210449564,
+    "online_470_hidden_rate_norm_per_second": 1583.807527157727,
+    "online_470_hidden_rate_relative_fraction": 0.01477653511607706,
+    "online_coordinate_condition_number": 1535.9382912543795,
+    "online_coordinate_rank": 470,
+    "physical_162_hidden_rate_norm_per_second": 106512.74103986775,
+    "physical_memory_442_hidden_rate_norm_per_second": 75676.01717305754,
+    "restriction_hidden_annihilation_defect": 6.550925425216643e-16,
+    "restriction_lifting_identity_defect": 7.070242071356966e-12,
+    "stable_memory_projected_condition_number": 9077.24362727004,
+    "stable_memory_projected_rank": 280
+  },
+  "cost_and_inheritance": {
+    "exact_departure_dimension": 28,
+    "inherited_maximum_stable_spectral_abscissa_per_second": -0.8329611404776347,
+    "inherited_stable_energy_amplification_max": 0.0006858775015691203,
+    "inherited_stable_kernel_cycle_wall_seconds": 1573.0292070657015,
+    "nonlinear_28D_low_rank_kernel_median_wall_seconds_per_step": 5.082692950963974e-06,
+    "nonlinear_coefficients_identified": false,
+    "online_truth_calls_per_macrostep": 0,
+    "projected_additional_nonlinear_cycle_wall_seconds": 0.5082692950963974,
+    "projected_fraction_of_three_day_budget": 0.006070746436577152,
+    "projected_online_cycle_wall_days": 0.018212239309731457,
+    "projected_online_cycle_wall_seconds": 1573.5374763607979
+  }
+}
