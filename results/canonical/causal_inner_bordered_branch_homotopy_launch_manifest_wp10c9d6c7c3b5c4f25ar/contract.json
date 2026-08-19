@@ -1,0 +1,80 @@
+{
+  "anchor": {
+    "fixed_Q3": true,
+    "label": "primary_20ms",
+    "resolved_coordinates": "C0_equals_C_phys_x0",
+    "state": "hash_locked_preflight_primitive_anchor_x0"
+  },
+  "binding_gates": {
+    "complete_target_residual_infinity_max": 1e-08,
+    "coordinate_residual_infinity_max": 1e-08,
+    "equilibrated_initial_matrix_condition_number_max": 1000000.0,
+    "linear_predictor_maximum_scaled_component_max": 0.005,
+    "maximum_h_over_r_max": 0.3,
+    "maximum_new_rate_evaluations": 17,
+    "minimum_reconstruction_factor_min": 0.999999999999,
+    "minimum_scattering_optical_depth_min": 1.0,
+    "normalized_Q3_defect_max": 1e-10,
+    "raw_schur_condition_number_max": 100000000.0,
+    "raw_schur_rank_equal": 3,
+    "raw_schur_solve_relative_defect_max": 1e-10,
+    "stationarity_residual_infinity_max": 1e-08,
+    "tau_zero_complete_residual_infinity_max": 1e-12
+  },
+  "bordered_homotopy": {
+    "continuation_parameter_is_physical_time": false,
+    "coordinate_equations": "C_phys_x_minus_C0_equals_zero_in_R162",
+    "forward_BDF_history_is_used": false,
+    "mu0": "solve_D_C0_D_C0_transpose_mu0_equals_D_C0_F_Q_x0_divided_by_omega",
+    "r0": "F_Q_x0_divided_by_omega_minus_D_C0_transpose_mu0",
+    "rate_scale_omega": "RMS_norm_of_saved_anchor_fixed_Q_rate",
+    "stationarity_equations": "F_Q_x_divided_by_omega_minus_D_C_phys_x_transpose_mu_minus_one_minus_tau_times_r0_equals_zero_in_R560",
+    "tau_one_is_conditional_branch_but_is_not_attempted_here": true,
+    "tau_start": 0.0,
+    "tau_target": 0.015625,
+    "tau_zero_anchor_residual_required_exact": true,
+    "unknowns": {
+      "dimensionless_coordinate_multiplier_mu": 162,
+      "scaled_primitive_state_x": 560,
+      "total": 722
+    }
+  },
+  "claim_boundary": {
+    "normal_hyperbolicity_certified": false,
+    "physical_conditional_branch_found": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "tau_one_reached": false,
+    "transition_orbit_authorized": false
+  },
+  "classification": "bordered_hidden_residual_homotopy_launch_manifest_frozen_single_tau_1_over_64_rung_only",
+  "decision": {
+    "fail": "bordered_homotopy_launch_failed_conditional_branch_path_requires_diagnosis",
+    "pass": "bordered_homotopy_launch_tau_1_over_64_passed_definitions_only_adaptive_homotopy_continuation_manifest_authorized",
+    "pass_authorizes_only": "definitions_only_adaptive_bordered_homotopy_continuation_manifest"
+  },
+  "decisive_input_hashes": {
+    "preflight_diagnostics": "54d3025b239a88993018e706c0364f32a48e9370ef5bb45c5ecf77c2adc10422",
+    "preflight_metrics": "637d010b93878d762e5e4cfd318402d89162d8f01bf542029eb296f1179ec309"
+  },
+  "definitions_only": true,
+  "nonlinear_policy": {
+    "complete_residual_is_evaluated_at_every_candidate": true,
+    "initial_matrix": "frozen_anchor_Gauss_Newton_KKT_seed_using_saved_exact_A0_with_no_coordinate_Hessian_term",
+    "line_search_merit": "Euclidean_norm_of_complete_722_residual",
+    "line_search_relative_factors": [
+      1.0,
+      0.5,
+      0.25,
+      0.125
+    ],
+    "linear_equilibration": "eight_deterministic_Ruiz_row_column_passes",
+    "matrix_updates": "dense_good_Broyden_after_each_accepted_trial",
+    "maximum_iterations": 4,
+    "maximum_new_fixed_Q_rate_evaluations": 17,
+    "maximum_scaled_anchor_departure": 0.005,
+    "rejected_candidate_may_define_future_history": false
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25ar"
+}
