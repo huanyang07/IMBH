@@ -1,0 +1,75 @@
+{
+  "binding_preflight_gates": {
+    "completed_candidate_count_equal": 48,
+    "failed_candidate_count_equal": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_coordinate_Jacobian_condition_number": 10000.0,
+    "maximum_coordinate_odd_symmetry_defect": 0.05,
+    "maximum_coordinate_residual_infinity": 1e-10,
+    "maximum_departure_transverse_fraction": 0.05,
+    "maximum_final_scaled_component": 0.005,
+    "maximum_normalized_Q3_defect": 1e-10,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "minimum_departure_direction_alignment_cosine": 0.99,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "new_full_generator_assemblies_equal": 0,
+    "new_nonlinear_roots_equal": 0,
+    "nonbase_continuous_rate_evaluations_equal": 0,
+    "propagated_states_equal": 0
+  },
+  "candidate_family": {
+    "anchor": "primary",
+    "coordinate_space": "scaled_560_primitive_coordinates",
+    "departure_basis": "certified_28D_basis_projected_against_the_162_physical_and_280_stable_memory_coordinates",
+    "direction_count": 8,
+    "direction_selection": "largest_eigenvectors_of_the_symmetric_part_of_the_similarity_transformed_28D_linear_departure_operator",
+    "heldout_anchor_used": false,
+    "maximum_component_bounds": [
+      0.00025,
+      0.001,
+      0.005
+    ],
+    "planned_candidates": 48,
+    "signs": [
+      -1,
+      1
+    ]
+  },
+  "claim_boundary": {
+    "nonlinear_28D_closure_identified": false,
+    "nonlinear_rate_database_executed": false,
+    "online_integrator_implemented": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "exact_geometric_28D_departure_chart_preflight_manifest_frozen_no_rate_database_execution_authorized",
+  "decision": {
+    "fail": "exact_geometric_28D_departure_chart_preflight_failed_nonlinear_rate_database_blocked",
+    "pass": "exact_geometric_28D_departure_chart_preflight_passed_guarded_nonlinear_rate_database_manifest_authorized",
+    "pass_authorizes_only": "definitions_only_guarded_nonlinear_28D_rate_database_manifest"
+  },
+  "definitions_only": true,
+  "exact_geometric_retraction": {
+    "coordinate_definition": "160_exact_integrated_mapped_only_R32_storage_coordinates_plus_2_frozen_stable_coordinates",
+    "coordinate_target_or_trial_projection_used": false,
+    "correction": "delta_x_equals_minus_JC_transpose_times_solve_JC_JC_transpose_coordinate_error",
+    "globalization": "monotone_coordinate_residual_backtracking",
+    "line_factors": [
+      1.0,
+      0.5,
+      0.25,
+      0.125,
+      0.0625,
+      0.03125
+    ],
+    "maximum_Newton_iterations": 8,
+    "maximum_radius_rescalings": 4,
+    "rate_reaction_lift_used": false,
+    "state_local_derivative": "exact_descriptor_coordinate_Jacobian",
+    "target": "C_phys_x_equals_C_phys_x0"
+  },
+  "objective": "certify_a_finite_amplitude_chart_for_the_explicit_28D_departure_coordinates_before_spending_any_nonbase_rate_call",
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25ax"
+}
