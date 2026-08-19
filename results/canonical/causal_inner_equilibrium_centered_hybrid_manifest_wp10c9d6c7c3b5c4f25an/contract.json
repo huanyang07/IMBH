@@ -1,0 +1,132 @@
+{
+  "architecture": "equilibrium_centered_conservative_slow_fast_hybrid",
+  "binding_architecture_audit_gates": {
+    "conditional_branch_equation_count_equal": 560,
+    "conditional_branch_unknown_count_equal": 560,
+    "dimension_arithmetic_exact": true,
+    "finite_volume_global_telescoping_defect_max": 1e-14,
+    "legacy_descriptor_energy_amplification_max": 1.0,
+    "legacy_stable_kernel_projected_cycle_wall_seconds_max": 25920.0,
+    "minimum_norm_reset_constraint_defect_max": 1e-12,
+    "online_continuous_dimension_max": 442,
+    "online_truth_calls_per_macrostep_equal": 0
+  },
+  "claim_boundary": {
+    "cold_hot_branch_pair_found": false,
+    "equilibrium_centered_closure_coefficients_identified": false,
+    "fast_transition_orbit_found": false,
+    "legacy_442_coefficients_promoted_to_branch_closure": false,
+    "physical_conditional_branch_found": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "equilibrium_centered_conservative_slow_fast_hybrid_manifest_frozen_architecture_algebra_and_cost_audit_authorized",
+  "conditional_fast_branch": {
+    "coordinate_equations": "C_phys_x_minus_y_equals_zero_in_R162",
+    "fixed_Q_rate": "F_Q_x_is_the_exact_continuous_reaction_constrained_rate_with_DQ3_x_F_Q_x_equals_zero",
+    "hidden_basis": "H_x_spans_kernel_D_C_phys_x_and_has_398_columns",
+    "hidden_stationarity": "H_x_transpose_W_x_F_Q_x_equals_zero_in_R398",
+    "interpretation": "the_full_rate_may_be_nonzero_but_is_tangent_to_the_resolved_slow_manifold",
+    "moving_16ms_and_20ms_checkpoints_are_assumed_to_be_branch_roots": false,
+    "multiple_roots": "cold_and_hot_branches_are_separate_solutions_at_the_same_resolved_coordinates",
+    "solver": "damped_complete_Newton_with_pseudo_arclength_continuation_along_a_frozen_low_dimensional_resolved_path",
+    "square_equation_count": 560,
+    "unknown": "x_in_R560_at_fixed_resolved_y_in_R162_and_branch_sigma"
+  },
+  "decision": {
+    "fail": "hybrid_architecture_structural_audit_failed_reduced_slow_evolution_blocked",
+    "pass": "equilibrium_centered_conservative_slow_fast_hybrid_architecture_certified_offline_branch_seed_manifest_authorized",
+    "pass_authorizes_only": "definitions_only_first_conditional_fast_branch_seed_manifest"
+  },
+  "definitions_only": true,
+  "fast_transition_collocation": {
+    "boundary_conditions": "incoming_and_outgoing_branch_sections_plus_one_phase_condition",
+    "coordinates": "intrinsic_fixed_Q3_coordinates_of_dimension_557",
+    "equation": "M_x_dx_ds_equals_T_transition_F_Q_x_on_s_in_0_1",
+    "global_Q3_preserved_without_external_impulse": true,
+    "global_ledger": "sum_c_plus_minus_sum_c_minus_equals_integrated_boundary_and_source_impulse",
+    "method": "adaptive_orthogonal_collocation_BVP_with_a_square_bordered_Jacobian_reported_by_the_discretizer",
+    "reset": "c_plus_minus_c_minus_equals_integral_of_finite_volume_flux_divergence_and_sources_through_the_transition",
+    "state_history_is_synthesized_by_backward_projection": false,
+    "transition_is_computed_by_tiny_forward_BDF_microsteps": false,
+    "unknown_duration": true
+  },
+  "normal_hyperbolicity": {
+    "event_indicator": "loss_of_normal_hyperbolicity_or_independently_identified_basin_boundary",
+    "instantaneous_checkpoint_spectrum_is_binding": false,
+    "legacy_28_mode_spectrum_role": "diagnostic_seed_for_branch_and_event_search_only",
+    "mass_metric": "G_fast_equals_H_transpose_W_H_is_SPD",
+    "operator": "A_fast_equals_derivative_with_respect_to_hidden_coordinates_of_H_transpose_W_F_Q_at_a_conditional_branch_root",
+    "stable_branch_gate": "all_generalized_fast_eigenvalues_have_real_part_at_most_minus_gamma_min"
+  },
+  "offline_database": {
+    "branch_or_transition_existence_assumed": false,
+    "heldout_data_may_change_basis_events_or_tolerances": false,
+    "initial_training_path_anchors": 12,
+    "maximum_adaptive_training_anchors": 30,
+    "required_objects": [
+      "cold_and_hot_conditional_branch_states",
+      "equilibrium_centered_fast_spectra",
+      "conservative_face_flux_closure",
+      "stable_memory_descriptor_pairs",
+      "separate_up_and_down_event_surfaces",
+      "collocated_transition_orbits",
+      "conservative_reset_and_impulse_maps"
+    ],
+    "sealed_heldout_path_anchors": 6
+  },
+  "online_continuous_dynamics": {
+    "conservative_components": [
+      "mass",
+      "angular_momentum",
+      "energy"
+    ],
+    "conservative_law": "dot_c_equals_minus_D_volume_inverse_Phi_sigma_c_eta_z_plus_S_c",
+    "constitutive_and_memory_descriptor": "G_sigma_dot_w_equals_K_sigma_w_plus_B_sigma_dot_c_plus_f_sigma_with_w_in_R346",
+    "descriptor_conditions": "G_sigma_is_SPD_and_K_sigma_plus_K_sigma_transpose_is_negative_semidefinite_with_strict_decay_on_the_memory_subspace",
+    "descriptor_dimension": 346,
+    "finite_volume_cells": 32,
+    "linearly_macro_propagated_unstable_coordinates": 0,
+    "macro_integrator": "finite_volume_IMEX_for_c_coupled_to_exponential_or_L_stable_descriptor_update_for_w",
+    "online_full_order_truth_calls_per_macrostep": 0,
+    "step_controller": "slow_flux_error_and_event_localization_not_the_fastest_stable_pole"
+  },
+  "resolved_coordinate_map": {
+    "finite_amplitude_coordinates_are_physical_observables_not_a_linear_state_projection": true,
+    "global_Q3_is_determined_by": "global_sums_of_the_96_M_J_E_storage_coordinates",
+    "map": "C_phys_x_equals_160_nonlinear_coarse_mapped_storage_observables_plus_2_explicit_stable_coordinates",
+    "required_rank": 162
+  },
+  "runtime_contract": {
+    "all_online_algebra_budget_seconds": 129600.0,
+    "complete_cycle_budget_seconds": 259200.0,
+    "fiducial_cycle_seconds": 578880.0,
+    "maximum_expected_branch_events_per_cycle": 4,
+    "maximum_macrosteps": 100000,
+    "minimum_average_macrostep_seconds": 5.7888,
+    "offline_truth_cost_is_not_charged_to_online_cycle_runtime": true,
+    "stable_kernel_budget_seconds": 25920.0,
+    "wall_budget_seconds": 259200.0
+  },
+  "schema_version": 1,
+  "state_partition": {
+    "dimension_identities": [
+      "560_equals_162_plus_398",
+      "162_equals_96_plus_64_plus_2",
+      "398_equals_280_plus_28_plus_90",
+      "442_equals_162_plus_280"
+    ],
+    "event_eliminated_departure_bundle": 28,
+    "full_scaled_primitive_state": 560,
+    "hidden_full_order_fiber": 398,
+    "online_continuous_dimension_upper_bound": 442,
+    "online_discrete_state": "sigma_in_cold_hot_transition",
+    "resolved_constitutive_storage": 64,
+    "resolved_explicit_stable_coordinates": 2,
+    "resolved_physical_observables": 162,
+    "resolved_true_conservative_M_J_E_storage": 96,
+    "stable_memory_upper_bound": 280,
+    "truncated_stable_remainder": 90
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25an"
+}
