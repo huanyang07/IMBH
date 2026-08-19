@@ -70,6 +70,11 @@ def test_synthetic_complete_metrics_pass_all_geometry_gates():
 def test_inherited_retraction_receives_legacy_gate_alias():
     contract = f25bk._retraction_contract()
     assert contract["binding_preflight_gates"] is contract["binding_geometry_gates"]
+    inherited = contract["exact_geometric_retraction"]
+    assert inherited["line_factors"] == [1.0, 0.5, 0.25, 0.125, 0.0625, 0.03125]
+    assert inherited["maximum_Newton_iterations"] == 8
+    assert inherited["maximum_radius_rescalings"] == 4
+    assert not inherited["rate_reaction_lift_used"]
 
 
 def test_progress_roundtrip_is_lossless(tmp_path, monkeypatch):

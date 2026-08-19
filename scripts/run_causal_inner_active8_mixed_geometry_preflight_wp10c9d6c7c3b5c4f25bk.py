@@ -230,6 +230,9 @@ def _candidate_specifications() -> list[dict]:
 def _retraction_contract() -> dict:
     contract = manifest._contract()
     contract["binding_preflight_gates"] = contract["binding_geometry_gates"]
+    contract["exact_geometric_retraction"] = high_chart.manifest._contract()[
+        "exact_geometric_retraction"
+    ]
     return contract
 
 
