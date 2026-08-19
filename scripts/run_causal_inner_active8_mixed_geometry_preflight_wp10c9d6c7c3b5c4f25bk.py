@@ -227,6 +227,12 @@ def _candidate_specifications() -> list[dict]:
     return specifications
 
 
+def _retraction_contract() -> dict:
+    contract = manifest._contract()
+    contract["binding_preflight_gates"] = contract["binding_geometry_gates"]
+    return contract
+
+
 def _empty_progress(identity: dict) -> dict:
     return {
         "identity": identity,
@@ -330,7 +336,7 @@ def _execute() -> tuple[dict, dict[str, np.ndarray]]:
     family_metrics, family = chart_tools._departure_family()
     design = _load_npz(DESIGN_PATH)
     specifications = _candidate_specifications()
-    contract = manifest._contract()
+    contract = _retraction_contract()
     progress = _load_or_create_progress()
     began = time.perf_counter()
     split_codes = {"training": 0, "tuning_high": 1, "holdout": 2, "tuning_low": 3}

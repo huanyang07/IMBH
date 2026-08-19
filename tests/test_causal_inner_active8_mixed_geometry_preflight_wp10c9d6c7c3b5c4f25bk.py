@@ -67,6 +67,11 @@ def test_synthetic_complete_metrics_pass_all_geometry_gates():
     assert all(f25bk._gate_checks(metrics, gates).values())
 
 
+def test_inherited_retraction_receives_legacy_gate_alias():
+    contract = f25bk._retraction_contract()
+    assert contract["binding_preflight_gates"] is contract["binding_geometry_gates"]
+
+
 def test_progress_roundtrip_is_lossless(tmp_path, monkeypatch):
     monkeypatch.setattr(f25bk, "SCRATCH_DIRECTORY", tmp_path / "scratch")
     monkeypatch.setattr(f25bk, "_progress_identity", lambda: {"identity": "test"})
