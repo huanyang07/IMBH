@@ -1,0 +1,141 @@
+{
+  "binding_geometry_gates": {
+    "completed_candidate_count_equal": 128,
+    "failed_candidate_count_equal": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_coordinate_Jacobian_condition_number": 5000.0,
+    "maximum_coordinate_residual_infinity": 1e-10,
+    "maximum_departure_transverse_fraction": 0.05,
+    "maximum_final_scaled_component": 0.01,
+    "maximum_normalized_Q3_defect": 1e-10,
+    "maximum_pair_coordinate_odd_symmetry_defect": 0.02,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "minimum_departure_direction_alignment_cosine": 0.995,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "new_full_generator_assemblies_equal": 0,
+    "new_nonlinear_roots_equal": 0,
+    "nonbase_continuous_rate_evaluations_equal": 0,
+    "propagated_states_equal": 0
+  },
+  "binding_model_validation_gates": {
+    "holdout_maximum_departure_rate_relative_error": 0.25,
+    "holdout_maximum_hidden_decoder_relative_error": 0.35,
+    "holdout_median_departure_rate_relative_error": 0.1,
+    "holdout_median_hidden_decoder_relative_error": 0.15,
+    "maximum_full_scaled_state_decoder_relative_error": 0.0025,
+    "maximum_reconstructed_C_phys_residual_infinity": 0.00025,
+    "minimum_reconstructed_state_reconstruction_factor": 0.999999999999,
+    "tuning_maximum_departure_rate_relative_error": 0.25,
+    "tuning_maximum_hidden_decoder_relative_error": 0.35,
+    "tuning_median_departure_rate_relative_error": 0.1,
+    "tuning_median_hidden_decoder_relative_error": 0.15
+  },
+  "binding_truth_rate_gates": {
+    "completed_nonbase_rate_evaluations_equal": 128,
+    "failed_rate_evaluations_equal": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_coordinate_Jacobian_condition_number": 5000.0,
+    "maximum_incoming_excision_characteristics_equal": 0,
+    "maximum_rate_tangency_relative_defect": 1e-08,
+    "maximum_raw_Schur_condition_number": 1000000.0,
+    "maximum_reaction_identity_defect": 1e-09,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "new_complete_generator_assemblies_equal": 0,
+    "new_nonlinear_roots_equal": 0,
+    "propagated_states_equal": 0
+  },
+  "claim_boundary": {
+    "decoder_degree_selection_is_post_result": true,
+    "local_closure_validated": false,
+    "mixed_direction_coefficients_identified": false,
+    "mixed_direction_thresholds_selected_before_mixed_results": true,
+    "multi_anchor_atlas_built": false,
+    "online_integrator_implemented": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "active8_mixed_direction_parity_database_manifest_frozen_geometry_preflight_authorized",
+  "closure_models": {
+    "decoder_cubic": "full_90_output_degree3_polynomial_kernel_on_40_training_centers",
+    "decoder_quartic": "full_90_output_degree4_polynomial_kernel_on_40_training_centers",
+    "interpolation_regularization": 0.0,
+    "online_Newton_retractions": 0,
+    "online_truth_calls": 0,
+    "rate_cubic": "full_28_output_degree3_polynomial_kernel_on_40_training_centers",
+    "rate_quadratic": "full_28_output_least_squares_on_all_36_symmetric_homogeneous_quadratic_features",
+    "stored_coefficient_upper_bound": 9328
+  },
+  "database_design": {
+    "active_dimension": 8,
+    "deterministic_design_seed": 2502,
+    "direction_equivalence": "projective_because_each_direction_uses_both_signs",
+    "planned_high_amplitude_candidates": 112,
+    "planned_low_amplitude_candidates": 16,
+    "planned_total_candidates": 128,
+    "same_tuning_directions_at_0p005": 8,
+    "signs": [
+      -1,
+      1
+    ],
+    "training_directions_at_0p01": 40,
+    "tuning_directions_at_0p01": 8,
+    "untouched_holdout_directions_at_0p01": 8
+  },
+  "decision": {
+    "geometry_fail": {
+      "authorizes_only": null,
+      "classification": "active8_mixed_geometry_failed_rate_fit_blocked"
+    },
+    "geometry_pass": {
+      "authorizes_only": "WP10c9d6c7c3b5c4f25bl",
+      "classification": "active8_mixed_geometry_passed_rate_fit_authorized"
+    },
+    "model_fail": {
+      "authorizes_only": null,
+      "classification": "active8_mixed_model_validation_failed_adaptive_database_extension_required"
+    },
+    "model_pass": {
+      "authorizes_only": "definitions_only_local_470_closure_short_trajectory_manifest",
+      "classification": "active8_mixed_nonlinear_closure_and_decoder_locally_validated"
+    }
+  },
+  "definitions_only": true,
+  "design_gates": {
+    "cubic_kernel_condition_number_max": 10.0,
+    "cubic_kernel_rank_equal": 40,
+    "maximum_absolute_direction_component": 0.75,
+    "minimum_projective_separation": 0.3,
+    "quadratic_feature_condition_number_max": 8.0,
+    "quadratic_feature_rank_equal": 36,
+    "quartic_kernel_condition_number_max": 10.0,
+    "quartic_kernel_rank_equal": 40
+  },
+  "exact_geometry": {
+    "candidate_history_used": false,
+    "failure_policy": "stop_before_any_rate_evaluation",
+    "method": "inherited_exact_Newton_retraction_on_C_phys",
+    "propagated_states": 0,
+    "rate_or_reaction_lift_used": false
+  },
+  "fixed_online_architecture": {
+    "active_nonlinear_input": "xi8_equals_W8_transpose_times_a28",
+    "physical_update": "exact_conservative_finite_volume",
+    "stable_memory_update": "inherited_energy_stable_IMEX_or_ETD",
+    "state": "q162_plus_z280_plus_a28_equals_470",
+    "truncated_hidden_state": 90,
+    "truth_calls_per_online_macrostep": 0
+  },
+  "objective": "identify_and_independently_test_a_local_zero_truth_call_nonlinear_closure_and_decoder_on_mixed_active8_departures",
+  "parity_targets": {
+    "departure_rate_even": "quadratic",
+    "departure_rate_odd": "cubic",
+    "hidden_decoder_even": "quartic",
+    "hidden_decoder_odd": "cubic",
+    "higher_order_terms_are_measured_validation_error_not_silently_discarded": true
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25bj"
+}
