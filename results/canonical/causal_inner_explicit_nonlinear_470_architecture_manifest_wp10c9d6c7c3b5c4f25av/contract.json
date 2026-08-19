@@ -1,0 +1,77 @@
+{
+  "architecture": "explicit_nonlinear_conservative_IMEX_470",
+  "binding_structural_audit_gates": {
+    "Q3_rowspace_relative_defect_max": 1e-10,
+    "anchor_hidden_rate_relative_fraction_max": 0.05,
+    "departure_projected_rank_equal": 28,
+    "hidden_remainder_dimension_equal": 90,
+    "inherited_stable_energy_amplification_max": 1.0,
+    "online_coordinate_condition_number_max": 10000.0,
+    "online_coordinate_rank_equal": 470,
+    "online_truth_calls_equal": 0,
+    "projected_online_cycle_wall_seconds_max": 129600.0,
+    "stable_memory_projected_condition_number_max": 10000.0,
+    "stable_memory_projected_rank_equal": 280
+  },
+  "claim_boundary": {
+    "nonlinear_28D_closure_identified": false,
+    "online_integrator_implemented": false,
+    "physical_cycle_validated": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "explicit_nonlinear_470_state_conservative_IMEX_architecture_manifest_frozen_no_equilibrium_branch_assumption",
+  "coordinates": {
+    "departure": "28_exact_positive_growth_fiber_directions_projected_against_the_442_physical_memory_coordinates",
+    "finite_amplitude_unstable_chart": "geometric_Newton_retraction_on_exact_C_phys_not_the_rate_reaction_lift",
+    "physical": "160_exact_integrated_mapped_storage_coordinates_plus_2_explicit_stable_coordinates",
+    "stable_memory": "280_primary_Hermite_hidden_truth_trials_projected_into_the_kernel_of_the_exact_physical_coordinate_derivative"
+  },
+  "decision": {
+    "fail": "explicit_nonlinear_470_architecture_structural_audit_failed_reduced_evolution_blocked",
+    "pass": "explicit_nonlinear_470_architecture_structurally_certified_exact_geometric_departure_chart_manifest_authorized",
+    "pass_authorizes_only": "definitions_only_exact_geometric_28D_departure_chart_and_database_manifest"
+  },
+  "definitions_only": true,
+  "online_dynamics": {
+    "branch_events_may_be_derived_later_from_the_nonlinear_28D_dynamics": true,
+    "constitutive_and_stable_memory_346": "inherited_energy_stable_parametric_descriptor_IMEX_or_exponential_update",
+    "departure_28": "explicitly_retained_nonlinear_reduced_vector_field_with_physical_guarded_offline_identification",
+    "discrete_branch_label_required": false,
+    "physical_96_M_J_E": "exact_finite_volume_flux_divergence_plus_physical_sources",
+    "truncated_stable_90": "inherited_balanced_Hermite_residualization_and_closure_error_budget",
+    "truth_calls_per_online_macrostep": 0
+  },
+  "runtime_contract": {
+    "fiducial_cycle_seconds": 578880.0,
+    "maximum_macrosteps": 100000,
+    "offline_database_cost_is_not_online_cycle_cost": true,
+    "wall_budget_seconds": 259200.0
+  },
+  "schema_version": 1,
+  "state_partition": {
+    "balanced_truncated_stable_remainder": 90,
+    "exact_physical_coordinates": 162,
+    "explicit_nonlinear_departure_coordinates": 28,
+    "full_dimension": 560,
+    "identities": [
+      "470_equals_162_plus_280_plus_28",
+      "560_equals_470_plus_90"
+    ],
+    "online_continuous_dimension": 470,
+    "strictly_stable_memory_coordinates": 280
+  },
+  "time_integrator": {
+    "fast_full_order_microsteps_per_macrostep": 0,
+    "method": "conservative_finite_volume_IMEX_with_L_stable_or_exponential_stable_memory_update_and_adaptive_nonlinear_departure_update",
+    "step_controller": "resolved_flux_error_departure_error_and_physical_guard_margin"
+  },
+  "why_the_branch_architecture_is_superseded": {
+    "complete_KKT_homotopy_was_locally_ill_conditioned": true,
+    "complete_coordinate_curvature_was_required": true,
+    "equilibrium_branches_are_required_for_reduced_evolution": false,
+    "physical_branch_nonexistence_was_proved": false,
+    "retained_memory_was_incorrectly_forced_to_stationarity": true
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25av"
+}
