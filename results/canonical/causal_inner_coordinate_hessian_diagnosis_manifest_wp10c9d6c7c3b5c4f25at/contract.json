@@ -1,0 +1,50 @@
+{
+  "binding_gates": {
+    "complete_equilibrated_KKT_condition_number_max": 1000000.0,
+    "complete_linear_solve_relative_residual_max": 1e-10,
+    "complete_tau_1_over_64_tangent_maximum_scaled_component_max": 0.005,
+    "outside_declared_band_relative_leakage_max": 1e-10,
+    "random_direction_action_relative_defect_max": 0.0001,
+    "recovered_Hessian_relative_symmetry_defect_max": 1e-05
+  },
+  "claim_boundary": {
+    "failed_homotopy_candidate_reclassified": false,
+    "new_physical_rate_evaluated": false,
+    "normal_hyperbolicity_certified": false,
+    "physical_conditional_branch_found": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "coordinate_hessian_complete_KKT_diagnosis_manifest_frozen_zero_new_fixed_Q_rate_calls",
+  "decision": {
+    "pass": "coordinate_hessian_complete_KKT_tangent_certified_definitions_only_corrected_homotopy_launch_manifest_authorized",
+    "recovery_fail": "coordinate_hessian_recovery_failed_branch_solver_architecture_requires_revision",
+    "unsafe_tangent": "complete_KKT_tangent_requires_smaller_prospective_tau_manifest"
+  },
+  "decisive_input_hashes": {
+    "failed_launch_checkpoint": "aafdaa0c7222057ae8ae7267dfb19294183247644c5afe26fb8d8a83de90e11d",
+    "failed_launch_metrics": "cc24f73dfdad00c7ae7574d446a0bb2f01805f22129344503558da0ab045c081",
+    "preflight_diagnostics": "54d3025b239a88993018e706c0364f32a48e9370ef5bb45c5ecf77c2adc10422"
+  },
+  "definitions_only": true,
+  "diagnosis": {
+    "complete_stationarity_block": "A0_divided_by_omega_minus_H_C",
+    "mathematical_object": "H_C_equals_Hessian_x_of_mu0_transpose_C_phys_x",
+    "missing_complete_KKT_term": "D_of_D_C_phys_x_transpose_mu0_with_respect_to_scaled_x",
+    "physical_interpretation": "curvature_of_the_fixed_resolved_coordinate_fiber"
+  },
+  "schema_version": 1,
+  "sparse_recovery": {
+    "cell_color_count": 5,
+    "cell_half_bandwidth": 2,
+    "central_coordinate_jacobian_evaluations": 50,
+    "central_difference_step": 1e-05,
+    "colored_direction_count": 25,
+    "coloring": "cell_index_modulo_5_cross_each_of_5_fields",
+    "fields_per_cell": 5,
+    "new_complete_fixed_Q_generator_evaluations": 0,
+    "new_fixed_Q_rate_evaluations": 0,
+    "random_direction_validation_evaluations": 2,
+    "truth_grid_cells": 112
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25at"
+}
