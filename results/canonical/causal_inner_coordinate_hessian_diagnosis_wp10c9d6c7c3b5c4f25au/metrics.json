@@ -1,0 +1,33 @@
+{
+  "complete_tangent": {
+    "Gauss_Newton_predictor_maximum_scaled_component": 0.003253225074792719,
+    "column_scale_spread": 180.1133238055967,
+    "equilibrated_condition_number": 14145907.925383942,
+    "predictor_maximum_scaled_component": 0.4513628707615183,
+    "predictor_scaled_norm": 0.7739970784760323,
+    "relative_linear_residual": 9.743207635135328e-14,
+    "row_scale_spread": 5375.5057585501945,
+    "tangent_safe": false,
+    "tau": 0.015625
+  },
+  "recovery": {
+    "cell_color_count": 5,
+    "cell_half_bandwidth": 2,
+    "checks": {
+      "band_leakage": true,
+      "complete_condition": false,
+      "linear_solve": true,
+      "random_direction": true,
+      "symmetry": true
+    },
+    "colored_direction_count": 25,
+    "coordinate_jacobian_evaluations": 52,
+    "new_fixed_Q_rate_evaluations": 0,
+    "outside_band_relative_leakage": 0.0,
+    "random_direction_action_relative_defect": 1.3476111680881636e-09,
+    "raw_Hessian_norm": 146.26610041961086,
+    "relative_symmetry_defect": 2.43155465827679e-10,
+    "symmetrized_Hessian_norm": 146.26610041961084
+  },
+  "total_wall_seconds": 761.5213033342734
+}
