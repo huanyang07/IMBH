@@ -1,0 +1,41 @@
+{
+  "execution_commit": "8426540a70f21871ae62d8eb0c4b07e749d6480b",
+  "execution_tree": "3ef81d81cffc9b46fbde42b47c6e9aba5c590c1c",
+  "numpy": "2.3.5",
+  "platform": "macOS-14.8.3-arm64-arm-64bit",
+  "python": "3.12.13 (main, Aug  7 2026, 02:15:23) [Clang 22.1.3 ]",
+  "report": "docs/reports/current/CODEX_CAUSAL_INNER_ACTIVE8_MIXED_PARITY_RATE_FIT_WP10C9D6C7C3B5C4F25BL_2026-08-19.md",
+  "resumed_from_candidate_count": 128,
+  "runner": "scripts/run_causal_inner_active8_mixed_parity_rate_fit_wp10c9d6c7c3b5c4f25bl.py",
+  "schema_version": 1,
+  "scientific_status": "REJECTED",
+  "source_hashes": {
+    "scripts/run_causal_inner_active8_mixed_geometry_preflight_wp10c9d6c7c3b5c4f25bk.py": "652a8b498bd4a7e7bc6a9ebb3f1a8e5060b624c68882602f0c0c347bd33405fa",
+    "scripts/run_causal_inner_active8_mixed_parity_rate_fit_wp10c9d6c7c3b5c4f25bl.py": "9940ceedf98967ccd1a4986a48e052f141b0780c27caa512de4cf22eacf05317",
+    "tests/test_causal_inner_active8_mixed_geometry_preflight_wp10c9d6c7c3b5c4f25bk.py": "540e5d7e7b6d8b3225575ea3b39ae75f2aed36ff123a5866b88e68f32a9d3a3f",
+    "tests/test_causal_inner_active8_mixed_parity_rate_fit_wp10c9d6c7c3b5c4f25bl.py": "8c79784dd6cc6201a2e65537fde6f33177974b320ac3312f07b87b8ed6048dc6"
+  },
+  "test": "tests/test_causal_inner_active8_mixed_parity_rate_fit_wp10c9d6c7c3b5c4f25bl.py",
+  "thread_environment": {
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "tracked_worktree_clean_at_start": true,
+  "truth_checkpoint_resume_lineage": {
+    "reason": "completed_truth_checkpoint_after_postprocess_adapter_failure",
+    "source_checkpoint_hashes": {
+      "progress.json": "bb6df60ef88d415fce5506de1958160a9d15fc800d3d428ff4c4bb373af349ee",
+      "progress.npz": "3749160acafd4f25562dceb267883d97dd51b7da6b9c0c24647b07372e70d2b8"
+    },
+    "source_identity": {
+      "execution_commit": "a2afaa425e8e76979b2d08a14cf250aa96602789",
+      "geometry_commit": "ca0d5daebd30ba3bfde518ce75d3b380cd4f56b6",
+      "geometry_database_sha256": "0ba0c020427bacfbc9c6d0bc03af156b20638a84a6c0d4d38afa24b2f26c3e36",
+      "runner_sha256": "87aca4754b0f08342d34184648ba656aba5f51f10b1544d9cb913f9374eeea68",
+      "test_sha256": "1a65cc62b857597c60bb8f0cb1cdcdba7f25431c6d50c001d0bdf220ec0f2d51"
+    }
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25bl"
+}
