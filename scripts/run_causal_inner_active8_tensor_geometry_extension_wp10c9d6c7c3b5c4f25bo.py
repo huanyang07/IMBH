@@ -13,6 +13,7 @@ import platform
 import shutil
 import subprocess
 import sys
+from types import SimpleNamespace
 
 import numpy as np
 
@@ -221,8 +222,16 @@ def _fresh_engine():
         raise RuntimeError("could not load certified geometry engine")
     engine = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(engine)
+    manifest_adapter = SimpleNamespace(
+        **{
+            name: getattr(manifest, name)
+            for name in dir(manifest)
+            if not name.startswith("__")
+        },
+        ARTIFACT_DIRECTORY=manifest.CANONICAL_DIRECTORY,
+    )
     replacements = {
-        "manifest": manifest,
+        "manifest": manifest_adapter,
         "WORK_PACKAGE": WORK_PACKAGE,
         "MANIFEST_COMMIT": MANIFEST_COMMIT,
         "MANIFEST_PARENT": MANIFEST_PARENT,

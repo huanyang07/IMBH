@@ -54,7 +54,8 @@ def test_certified_retraction_policy_is_reused_without_rate_calls():
 
 def test_fresh_engine_is_isolated_and_uses_extension_identity():
     engine = f25bo._fresh_engine()
-    assert engine.manifest is f25bo.manifest
+    assert engine.manifest.CANONICAL_DIRECTORY == f25bo.manifest.CANONICAL_DIRECTORY
+    assert engine.manifest.ARTIFACT_DIRECTORY == f25bo.manifest.CANONICAL_DIRECTORY
     assert engine.WORK_PACKAGE == f25bo.WORK_PACKAGE
     assert engine.SCRATCH_DIRECTORY == f25bo.SCRATCH_DIRECTORY
     assert engine._candidate_specifications is f25bo._candidate_specifications
