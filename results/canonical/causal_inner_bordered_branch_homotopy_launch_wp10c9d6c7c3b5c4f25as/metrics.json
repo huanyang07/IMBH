@@ -1,0 +1,95 @@
+{
+  "algebraic_preflight": {
+    "anchor_hidden_residual_norm": 23.516126201240372,
+    "checks": {
+      "equilibrated_condition": true,
+      "linear_predictor_trust": true,
+      "linear_solve": true,
+      "tau_zero_residual": true
+    },
+    "column_scale_spread": 232.0039734020041,
+    "equilibrated_condition_number": 34328.09460588368,
+    "linear_predictor_maximum_scaled_component": 0.003253225074792719,
+    "linear_predictor_scaled_norm": 0.007034664151508036,
+    "rate_scale_per_second": 4529.3489296825455,
+    "relative_linear_residual": 1.8666190842466194e-13,
+    "row_scale_spread": 6397.136466067792,
+    "tau_zero_complete_residual_infinity": 0.0
+  },
+  "nonlinear": {
+    "checkpoint_roundtrip_bitwise": true,
+    "events": [
+      {
+        "call": 1,
+        "coordinate_residual_infinity": 3.3930777294521874e-06,
+        "label": "linear_predictor",
+        "maximum_scaled_anchor_departure": 0.003253225074792719,
+        "residual_infinity": 0.012150153620918092,
+        "residual_two_norm": 0.02334449680484974,
+        "stationarity_residual_infinity": 0.012150153620918092,
+        "wall_seconds": 66.75243754219264
+      }
+    ],
+    "iterations": [
+      {
+        "accepted": false,
+        "factor": 1.0,
+        "iteration": 1,
+        "reason": "trust_region"
+      },
+      {
+        "accepted": false,
+        "factor": 0.5,
+        "iteration": 1,
+        "reason": "trust_region"
+      },
+      {
+        "accepted": false,
+        "factor": 0.25,
+        "iteration": 1,
+        "reason": "trust_region"
+      },
+      {
+        "accepted": false,
+        "factor": 0.125,
+        "iteration": 1,
+        "reason": "trust_region"
+      }
+    ],
+    "rate_evaluations": 1,
+    "tau": 0.015625
+  },
+  "physical_and_binding_audit": {
+    "all_binding_checks_passed": false,
+    "checks": {
+      "Q3": false,
+      "complete_residual": false,
+      "coordinate_residual": false,
+      "height": true,
+      "incoming_excision_diagnostic": true,
+      "optical_depth": true,
+      "rate_evaluation_budget": true,
+      "raw_schur_condition": true,
+      "raw_schur_rank": true,
+      "raw_schur_solve": true,
+      "reaction_identity_diagnostic": true,
+      "reaction_ledger_diagnostic": true,
+      "reconstruction": true,
+      "stationarity_residual": false,
+      "trust_region": true
+    },
+    "complete_residual_infinity": 0.012150153620918092,
+    "coordinate_residual_infinity": 3.3930777294521874e-06,
+    "incoming_excision_characteristics": 0,
+    "maximum_h_over_r": 0.09786654210878452,
+    "maximum_scaled_anchor_departure": 0.003253225074792719,
+    "minimum_reconstruction_factor": 1.0,
+    "minimum_scattering_optical_depth": 19.254309674111777,
+    "normalized_Q3_defect": 2.7709863267408345e-06,
+    "raw_schur_condition_number": 34175.27911744038,
+    "raw_schur_numerical_rank": 3,
+    "raw_schur_solve_relative_defect": 9.337609889056802e-14,
+    "stationarity_residual_infinity": 0.012150153620918092
+  },
+  "total_wall_seconds": 125.28839312493801
+}
