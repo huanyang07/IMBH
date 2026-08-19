@@ -1,0 +1,77 @@
+{
+  "candidate_departure_architecture": {
+    "active_input": "xi_equals_W8_transpose_times_a28",
+    "compressed_full_polynomial_coefficient_upper_bound": 588,
+    "cubic_input_tensor_structure_must_be_selected_on_heldout_mixed_data": true,
+    "cubic_output_rank": 4,
+    "form": "a_dot_equals_La_plus_U2_B2_phi2_xi_plus_U3_C3_xi_plus_parametric_physical_memory_coupling",
+    "quadratic_output_rank": 3,
+    "symmetric_cubic_features": 120,
+    "symmetric_quadratic_features": 36
+  },
+  "claim_boundary": {
+    "cubic_input_tensor_structure_identified": false,
+    "heldout_mixed_direction_validation_completed": false,
+    "mixed_direction_coefficients_identified": false,
+    "online_integrator_implemented": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "thresholds_were_selected_blind_to_existing_results": false
+  },
+  "classification": "post_result_parity_low_rank_architecture_diagnosis_manifest_frozen_no_new_truth_calls",
+  "decision": {
+    "diagnosis_consistent": {
+      "authorizes_only": "definitions_only_active8_mixed_direction_parity_database_manifest",
+      "classification": "quadratic_cubic_low_rank_departure_architecture_diagnosed_mixed_direction_database_manifest_authorized"
+    },
+    "diagnosis_inconsistent": {
+      "authorizes_only": null,
+      "classification": "parity_low_rank_architecture_diagnosis_inconsistent_mixed_direction_database_blocked"
+    }
+  },
+  "definitions_only": true,
+  "diagnostic_consistency_gates": {
+    "amplitude_0p02_transverse_distortion_min": 0.05,
+    "cubic_row_normalized_rank4_energy_min": 0.95,
+    "maximum_cubic_coefficient_relative_change": 0.25,
+    "maximum_quadratic_coefficient_relative_change": 0.1,
+    "median_even_relative_amplification_max": 2.5,
+    "median_even_relative_amplification_min": 1.5,
+    "median_even_relative_signal_at_0p01_min": 0.1,
+    "median_odd_relative_amplification_max": 5.0,
+    "median_odd_relative_amplification_min": 3.0,
+    "minimum_cubic_coefficient_cosine": 0.995,
+    "minimum_quadratic_coefficient_cosine": 0.999,
+    "new_retractions_equal": 0,
+    "new_roots_equal": 0,
+    "new_truth_rate_evaluations_equal": 0,
+    "propagated_states_equal": 0,
+    "quadratic_row_normalized_rank3_energy_min": 0.95,
+    "signed_pairs_per_amplitude_equal": 8
+  },
+  "fixed_470_state_partition": {
+    "exact_physical_coordinates": 162,
+    "nonlinear_departure_coordinates": 28,
+    "online_truth_calls_per_macrostep": 0,
+    "stable_memory_coordinates": 280,
+    "truncated_stable_remainder": 90
+  },
+  "independent_validation_claimed": false,
+  "objective": "decompose_the_existing_signed_pair_rate_residuals_into_even_quadratic_and_odd_cubic_terms_and_select_a_testable_low_rank_nonlinear_departure_architecture_without_new_truth_calls",
+  "parity_decomposition": {
+    "amplitudes": [
+      0.005,
+      0.01
+    ],
+    "cubic_odd_term": "one_half_of_the_difference_of_positive_and_negative_nonlinear_departure_rate_residuals_divided_by_radius_cubed",
+    "new_retractions": 0,
+    "new_roots": 0,
+    "new_truth_rate_evaluations": 0,
+    "propagated_states": 0,
+    "quadratic_even_term": "one_half_of_the_sum_of_positive_and_negative_nonlinear_departure_rate_residuals_divided_by_radius_squared",
+    "signed_direction_pairs_per_amplitude": 8
+  },
+  "post_result_architecture_diagnosis": true,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25bh"
+}
