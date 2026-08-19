@@ -1,0 +1,91 @@
+{
+  "all_binding_architecture_gates_passed": true,
+  "dimension_and_coordinate_map": {
+    "all_dimension_identities_exact": true,
+    "both_resolved_coordinate_maps_full_rank": true,
+    "conditional_branch_equation_count": 560,
+    "conditional_branch_unknown_count": 560,
+    "identities": {
+      "conditional_branch_square": true,
+      "full_equals_resolved_plus_hidden": true,
+      "hidden_partition": true,
+      "online_partition": true,
+      "resolved_partition": true
+    },
+    "resolved_coordinate_maps": {
+      "heldout": {
+        "hidden_coordinate_annihilation_defect": 5.604381531099225e-15,
+        "resolved_coordinate_map_rank": 162,
+        "resolved_coordinate_map_smallest_singular_value": 0.0007557758396876208
+      },
+      "primary": {
+        "hidden_coordinate_annihilation_defect": 3.882190578109897e-15,
+        "resolved_coordinate_map_rank": 162,
+        "resolved_coordinate_map_smallest_singular_value": 0.0007852074454574375
+      }
+    }
+  },
+  "finite_volume_conservation": {
+    "cell_count": 32,
+    "conservative_component_count": 3,
+    "face_count": 33,
+    "global_telescoping_absolute_defect": 1.5543122344752192e-15,
+    "global_telescoping_relative_defect": 9.434657166006391e-16,
+    "incidence_rank": 32
+  },
+  "legacy_descriptor_method_witness": {
+    "energy_amplification_factors": [
+      0.00042252509887961146,
+      0.000235200195185854,
+      0.0006858775015691203
+    ],
+    "inherited_projected_stable_kernel_cycle_wall_seconds": 1573.0292070657015,
+    "legacy_coefficients_are_promoted_to_branch_closure": false,
+    "macrostep_seconds": 5.7888,
+    "maximum_energy_amplification_factor": 0.0006858775015691203,
+    "maximum_spectral_abscissa_per_second": -0.8440187890969534,
+    "parameters": [
+      0.0,
+      0.5,
+      1.0
+    ],
+    "role": "method_stability_and_cost_witness_only",
+    "spectral_abscissae_per_second": [
+      -0.9333248995805892,
+      -0.8880372915631489,
+      -0.8440187890969534
+    ]
+  },
+  "maximum_reset_constraint_relative_defect": 1.3060773708210849e-15,
+  "minimum_norm_hybrid_reset": {
+    "heldout": {
+      "augmented_jump_norm": 23.88897239412626,
+      "constraint_normal_identity_defect": 1.7763568394002505e-15,
+      "minimum_norm_jump_norm": 0.00015167035812087789,
+      "projector_constraint_defect": 5.38745457896218e-16,
+      "reset_constraint_absolute_defect": 1.3060773708210849e-15,
+      "reset_constraint_relative_defect": 1.3060773708210849e-15
+    },
+    "primary": {
+      "augmented_jump_norm": 24.59221688098554,
+      "constraint_normal_identity_defect": 1.6653345369377348e-15,
+      "minimum_norm_jump_norm": 0.0012374338467034925,
+      "projector_constraint_defect": 3.498637046636265e-16,
+      "reset_constraint_absolute_defect": 4.015444389753736e-16,
+      "reset_constraint_relative_defect": 4.015444389753736e-16
+    }
+  },
+  "online_algebra_cost": {
+    "dense_interpolation_flux_and_event_median_wall_seconds_per_step": 0.00018729176372289658,
+    "inherited_stable_exponential_cycle_wall_seconds": 1573.0292070657015,
+    "macrostep_count": 100000,
+    "minimum_average_macrostep_seconds": 5.7888,
+    "offline_database_generation_cost_included": false,
+    "online_continuous_dimension": 442,
+    "online_truth_calls_per_macrostep": 0,
+    "projected_additional_algebra_cycle_wall_seconds": 18.729176372289658,
+    "projected_fraction_of_three_day_wall_budget": 0.006141043145979904,
+    "projected_total_online_algebra_cycle_wall_days": 0.018423129437939712,
+    "projected_total_online_algebra_cycle_wall_seconds": 1591.7583834379911
+  }
+}
