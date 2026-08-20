@@ -1,0 +1,65 @@
+{
+  "checks": {
+    "anchor_rate": true,
+    "anchor_state": true,
+    "base_field": true,
+    "decoded_start": true,
+    "endpoint_a": true,
+    "endpoint_full": true,
+    "endpoint_q": true,
+    "endpoint_z": true,
+    "height": true,
+    "lifting": true,
+    "nonlinear_zero": true,
+    "optical_depth": true,
+    "reconstruction": true,
+    "step_refinement": true
+  },
+  "new_truth_roots_at_forecast_lock": 0,
+  "passed": true,
+  "prospective_forecast": {
+    "coarse_refined_endpoint_relative_difference": 7.684942041401218e-07,
+    "state_audit": {
+      "decoder_coordinate_relative_mismatch": {
+        "a28": 1.478891804880547e-13,
+        "full": 6.971508578557506e-05,
+        "q162": 0.041992387832833336,
+        "z280": 7.34414299749051e-13
+      },
+      "maximum_H_over_R": 0.09783791387022525,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.254480624064016
+    }
+  },
+  "retrospective": {
+    "coarse_refined_endpoint_relative_difference": 9.75507103860356e-07,
+    "decoded_start_full_scaled_state_relative_error": 0.015143564962146652,
+    "endpoint_relative_errors": {
+      "a28": 0.004286542990779044,
+      "full": 0.0030127603390475975,
+      "q162": 0.0003716820954671461,
+      "z280": 0.00017909854172191248
+    },
+    "state_audit": {
+      "decoder_coordinate_relative_mismatch": {
+        "a28": 5.755259014194954e-11,
+        "full": 2.525950584807195e-06,
+        "q162": 0.012348124326242124,
+        "z280": 3.8104245705911215e-09
+      },
+      "maximum_H_over_R": 0.0978374753184283,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.25432369826495
+    }
+  },
+  "schema_version": 1,
+  "structural": {
+    "anchor_base_rate_array_equal": true,
+    "anchor_state_array_equal": true,
+    "base_vector_field_relative_identity_defect": 3.2603745855220263e-16,
+    "nonlinear_departure_at_zero_norm": 0.0,
+    "restriction_lifting_identity_defect": 7.070242071356966e-12
+  },
+  "wall_seconds": 618.9827354168519,
+  "work_package": "WP10c9d6c7c3b5c4f25bz"
+}
