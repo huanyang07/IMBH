@@ -1,0 +1,98 @@
+{
+  "binding_per_rung_gates": {
+    "completed_candidate_count_equal": 20,
+    "failed_candidate_count_equal": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_coordinate_Jacobian_condition_number": 10000.0,
+    "maximum_coordinate_odd_symmetry_defect": 0.05,
+    "maximum_coordinate_residual_infinity": 1e-10,
+    "maximum_departure_transverse_fraction": 0.05,
+    "maximum_normalized_Q3_defect": 1e-10,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "minimum_departure_direction_alignment_cosine": 0.99,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0
+  },
+  "candidate_family": {
+    "anchor": "accepted_primary_warm_3",
+    "candidates_per_rung": 20,
+    "component_bound_rungs": [
+      0.015,
+      0.02,
+      0.03
+    ],
+    "direction_labels": [
+      "energy_0",
+      "energy_1",
+      "energy_2",
+      "energy_3",
+      "energy_4",
+      "energy_5",
+      "energy_6",
+      "energy_7",
+      "screen_escape",
+      "accepted_forward_rate"
+    ],
+    "directions": 10,
+    "maximum_planned_candidates": 60,
+    "rung_order": "strictly_increasing_fail_fast",
+    "signs": [
+      -1,
+      1
+    ]
+  },
+  "classification": "guarded_departure_amplitude_expansion_manifest_frozen",
+  "cost_and_truth_budget": {
+    "new_full_generator_assemblies_equal": 0,
+    "new_nonbase_continuous_rate_evaluations_equal": 0,
+    "new_nonlinear_fixed_Q_roots_equal": 0,
+    "propagated_physical_states_equal": 0
+  },
+  "definitions_only": true,
+  "exact_geometric_retraction": {
+    "coordinate_residual_tolerance": 1e-10,
+    "departure_seed": "signed_frozen_departure_basis_direction",
+    "equations": "C_phys_x_equals_C_phys_x_anchor",
+    "maximum_Newton_iterations": 8,
+    "maximum_line_search_iterations": 12,
+    "maximum_radius_rescalings": 6,
+    "rate_reaction_lift_used": false,
+    "stable_memory_seed": "zero",
+    "state_normal": "exact_state_local_derivative_of_C_phys"
+  },
+  "fail_fast_decision": {
+    "all_rungs_pass": {
+      "authorizes_only": "definitions_only_minimal_expanded_departure_rate_design_manifest",
+      "classification": "exact_departure_chart_geometry_reaches_component_bound_0p03"
+    },
+    "first_rung_fails": {
+      "authorizes_only": "definitions_only_authentic_trajectory_recentered_chart_manifest",
+      "classification": "radial_departure_chart_expansion_failed_at_0p015"
+    },
+    "partial_rungs_pass": {
+      "authorizes_only": "definitions_only_rate_design_within_largest_passing_departure_bound",
+      "classification": "exact_departure_chart_geometry_has_finite_guarded_amplitude_limit"
+    },
+    "physical_microburst_authorized": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "objective": "determine_the_exact_C_phys_geometric_reach_of_the_current_departure_chart_before_any_new_rate_or_trajectory_call",
+  "required_mathematical_architecture": {
+    "active_state": "q162_physical_coordinates",
+    "departure": "a28_nonlinear_multichart_transient_or_invariant_measure",
+    "eventual_cycle_closure": "multi_anchor_conservative_q_flux_plus_dynamic_stable_memory_plus_eliminated_or_averaged_departure",
+    "maximum_online_truth_calls_per_macrostep": 0,
+    "stable_memory": "z280_dynamic_exponential_or_L_stable_update",
+    "target_maximum_cycle_macrosteps": 100000
+  },
+  "schema_version": 1,
+  "scientific_interpretation": {
+    "current_local_field": "validated_short_transient_not_stationary_fast_graph",
+    "departure_amplitude_expansion_alone_proves_attractor": false,
+    "old_polynomial_extrapolation_is_binding": false,
+    "stable_memory_must_remain_dynamic": true,
+    "stationary_eliminated_memory_states_are_physical": false
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25cc"
+}
