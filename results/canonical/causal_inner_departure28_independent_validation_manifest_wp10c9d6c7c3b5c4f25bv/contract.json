@@ -1,0 +1,118 @@
+{
+  "binding_fit_gates": {
+    "even_system_condition_number": 100000000.0,
+    "even_system_rank_equal": 160,
+    "odd_system_condition_number": 10000000.0,
+    "odd_system_rank_equal": 160,
+    "stored_total_nonlinear_coefficient_count_equal": 9440
+  },
+  "binding_geometry_gates": {
+    "completed_candidate_count_equal": 48,
+    "failed_candidate_count_equal": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_coordinate_Jacobian_condition_number": 5000.0,
+    "maximum_coordinate_residual_infinity": 1e-10,
+    "maximum_departure_transverse_fraction": 0.05,
+    "maximum_final_scaled_component": 0.01,
+    "maximum_normalized_Q3_defect": 1e-10,
+    "maximum_pair_coordinate_odd_symmetry_defect": 0.02,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "minimum_departure_direction_alignment_cosine": 0.995,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "new_full_generator_assemblies_equal": 0,
+    "new_nonlinear_roots_equal": 0,
+    "nonbase_continuous_rate_evaluations_equal": 0,
+    "propagated_states_equal": 0
+  },
+  "binding_independent_model_gates": {
+    "holdout_maximum_full_departure_rate_relative_error": 0.05,
+    "holdout_maximum_nonlinear_departure_rate_relative_error": 0.25,
+    "holdout_median_full_departure_rate_relative_error": 0.02,
+    "holdout_median_nonlinear_departure_rate_relative_error": 0.1,
+    "maximum_curvature_prediction_error_over_full_state_delta": 0.0015,
+    "maximum_full_scaled_state_decoder_relative_error": 0.0025,
+    "maximum_reconstructed_C_phys_residual_infinity": 0.00025,
+    "maximum_reconstructed_H_over_R": 0.12,
+    "minimum_reconstructed_scattering_optical_depth": 1.0,
+    "minimum_reconstructed_state_reconstruction_factor": 0.999999999999
+  },
+  "binding_radial_consistency_gates": {
+    "maximum_cubic_rate_target_high_low_relative_difference": 0.15,
+    "maximum_curvature_cubic_target_high_low_relative_difference": 0.1,
+    "maximum_quadratic_target_high_low_relative_difference": 0.1
+  },
+  "binding_truth_rate_gates": {
+    "completed_nonbase_rate_evaluations_equal": 48,
+    "failed_rate_evaluations_equal": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_coordinate_Jacobian_condition_number": 5000.0,
+    "maximum_incoming_excision_characteristics_equal": 0,
+    "maximum_rate_tangency_relative_defect": 1e-08,
+    "maximum_raw_Schur_condition_number": 1000000.0,
+    "maximum_reaction_identity_defect": 1e-09,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "new_complete_generator_assemblies_equal": 0,
+    "new_nonlinear_roots_equal": 0,
+    "propagated_states_equal": 0
+  },
+  "classification": "departure28_independent_validation_manifest_frozen",
+  "database": {
+    "candidate_order": "new_holdout_high_negative_positive_then_first8_low_negative_positive",
+    "high_component_bound": 0.01,
+    "low_component_bound": 0.005,
+    "new_radial_subset_directions_high_and_low": 8,
+    "new_untouched_holdout_directions_high_radius": 16,
+    "planned_signed_candidates": 48,
+    "revealed_high_directions_reclassified_as_training": 160
+  },
+  "decision": {
+    "failure_authorizes_only": null,
+    "failure_classification": "departure28_dual_polynomial_independent_validation_failed",
+    "pass_authorizes_only": "definitions_only_departure28_short_reduced_vector_field_validation_manifest",
+    "pass_classification": "departure28_dual_polynomial_rate_and_rank4_decoder_independently_validated",
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "definitions_only": true,
+  "design_gates": {
+    "maximum_absolute_new_direction_component": 0.75,
+    "minimum_new_holdout_mutual_projective_separation": 0.28,
+    "minimum_new_holdout_to_revealed_projective_separation": 0.257,
+    "new_holdout_direction_count_equal": 16,
+    "new_radial_direction_count_equal": 8,
+    "planned_candidate_count_equal": 48,
+    "revealed_high_direction_count_equal": 160
+  },
+  "leakage_control": {
+    "all_parent_validation_responses": "revealed_training_only",
+    "all_rate_coefficients_frozen_and_hashed_before_new_rate_truth": true,
+    "architecture_and_hyperparameters_frozen_before_new_geometry": true,
+    "certified_rank4_decoder_remains_frozen": true,
+    "geometry_may_test_only_admissibility_not_rate_accuracy": true,
+    "new_holdout_cannot_change_any_coefficient_or_threshold": true
+  },
+  "mathematical_architecture": {
+    "departure_rate_input_dimension": 28,
+    "dynamic_curvature_augmentation": false,
+    "dynamic_state_dimension": 470,
+    "even_Tikhonov_regularization": 3.162277660168379e-06,
+    "even_rate_kernel": "dot_squared",
+    "even_target_weight_exponent": 1.0,
+    "odd_Tikhonov_regularization": 1e-06,
+    "odd_rate_kernel": "dot_cubed",
+    "odd_target_weight_exponent": 0.0,
+    "online_Newton_retractions_per_macrostep": 0,
+    "online_state": "q162_plus_z280_plus_a28_equals_470",
+    "online_truth_calls_per_macrostep": 0,
+    "stable_descriptor_kernel_dimension": 280,
+    "state_decoder": "certified_linear470_plus_frozen_rank4_algebraic_curvature",
+    "stored_rate_coefficients_after_refit": 8960,
+    "stored_total_nonlinear_coefficients": 9440
+  },
+  "objective": "independently_validate_the_frozen_departure28_dual_quadratic_cubic_rate_closure_on_new_untouched_directions",
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25bv"
+}
