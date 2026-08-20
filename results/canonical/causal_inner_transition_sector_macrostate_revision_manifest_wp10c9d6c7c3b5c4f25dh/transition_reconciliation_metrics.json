@@ -1,0 +1,85 @@
+{
+  "checks": {
+    "anchor_outside_prior_active_trust_radius": true,
+    "coordinate_rate_decomposition": true,
+    "explicit_amplitudes_have_no_hidden_action": true,
+    "gauge_fixed_physical_lift": true,
+    "generator_budget": true,
+    "hidden_block_energy_partition": true,
+    "hidden_fraction_reproduced": true,
+    "macro_lifting_identical": true,
+    "macro_restriction_identical": true,
+    "memory_and_departure_dominate_hidden_action": true,
+    "primary_anchor_identical": true,
+    "prior_three_mode_transition_interior_rejected": true,
+    "prior_two_mode_transition_interior_rejected": true,
+    "propagation_budget": true,
+    "root_budget": true,
+    "sealed_budget": true,
+    "truth_budget": true
+  },
+  "metrics": {
+    "anchor_active_coordinate_norm": 4.395216392969102,
+    "anchor_active_coordinates": [
+      -4.395105608181162,
+      0.010703651617469997,
+      -0.029313235933230312
+    ],
+    "anchor_active_radius_over_prior_validated_radius": 1.9443949438609365,
+    "anchor_state_bitwise_matches_primary_candidate": true,
+    "coordinate_rate_decomposition_relative_defect": 2.9452514304256264e-19,
+    "gauge_fixed_physical_hidden_field_energy_fractions": [
+      0.0004318967975066604,
+      0.001852049835157737,
+      0.008623942997560035,
+      0.9889949220524062,
+      9.718831736911048e-05
+    ],
+    "gauge_fixed_physical_hidden_lift_relative_residual": 3.946497729386947e-15,
+    "gauge_fixed_physical_hidden_radial_quartile_energy_fractions": [
+      4.139357713631286e-06,
+      1.5931638370206997e-05,
+      6.661953347800963e-05,
+      0.999913309470438
+    ],
+    "hidden_block_energy_fractions": {
+      "departure28": 0.375552973718233,
+      "explicit_amplitude2": 0.0,
+      "memory280": 0.6244462595029215,
+      "unresolved_storage80": 7.667788452900088e-07
+    },
+    "hidden_block_energy_sum_defect": 2.220446049250313e-16,
+    "hidden_block_norms_per_second": {
+      "departure28": 67318.67014991325,
+      "explicit_amplitude2": 0.0,
+      "memory280": 86805.543330177,
+      "unresolved_storage80": 96.19112118232849
+    },
+    "hidden_fraction_recomputed": 0.9999989977964868,
+    "hidden_fraction_recorded": 0.9999989977964868,
+    "macro_lifting_bitwise_matches_prior_transition_architecture": true,
+    "macro_restriction_bitwise_matches_prior_transition_architecture": true,
+    "memory_plus_departure_hidden_energy_fraction": 0.9999992332211545,
+    "new_chart_retractions": 0,
+    "new_complete_generator_assemblies": 0,
+    "new_exact_fixed_Q_rate_calls": 0,
+    "new_nonlinear_roots": 0,
+    "primary_candidate_index": 5,
+    "prior_transition_departure_energy_capture": {
+      "1": 0.0077982440539125,
+      "2": 0.10286047072240775,
+      "3": 0.9664329905160938
+    },
+    "prior_transition_total_energy_capture": {
+      "1": 0.0029286537442273675,
+      "2": 0.03862955565785747,
+      "3": 0.36294678348772386
+    },
+    "prior_validated_active_radius": 2.260454547491072,
+    "propagated_states": 0,
+    "residual_hidden_norm_fraction_after_prior_three_modes": 0.7981561354223091,
+    "sealed_16ms_truth_calls": 0,
+    "sealed_candidate_index_hash_only": 4
+  },
+  "passed": true
+}
