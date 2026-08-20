@@ -1,0 +1,114 @@
+{
+  "checks": {
+    "accepted_state_identity": true,
+    "all_physical_guards": true,
+    "all_unclassified": true,
+    "candidate_count": true,
+    "eligible_pair": true,
+    "forward_patch_not_mislabeled": true,
+    "height": true,
+    "no_propagation": true,
+    "no_roots": true,
+    "no_truth": true,
+    "optical_depth": true,
+    "path_has_more_than_one_effective_direction": true,
+    "reconstruction": true,
+    "selected_pair_separated": true
+  },
+  "geometry": {
+    "all_candidates_unclassified": true,
+    "candidate_count": 6,
+    "candidate_times_seconds": [
+      0.002,
+      0.005,
+      0.008,
+      0.012,
+      0.016,
+      0.02
+    ],
+    "decoder_relative_errors": [
+      0.16864634230259787,
+      0.14468403342864827,
+      0.11928829160217705,
+      0.08330211185837598,
+      0.04563404360057366,
+      0.029036400558232697
+    ],
+    "eligible_existing_atlas_geometry_times_seconds": [
+      0.016,
+      0.02
+    ],
+    "eligible_selection_matches_frozen_16ms_20ms_pair": true,
+    "forward_patch_labels_any_candidate": false,
+    "forward_patch_weights": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "macro_path_arclength": 0.2517253584218859,
+    "macro_path_effective_rank_at_relative_1e_3": 2,
+    "macro_path_singular_values": [
+      0.21218601123899575,
+      0.007782432403178535,
+      7.475922882413958e-05,
+      6.057884346108196e-07,
+      6.040047667940778e-08,
+      2.6282296067479596e-17
+    ],
+    "maximum_height_ratios": [
+      0.09868519402799739,
+      0.09854173312007315,
+      0.09839917318018021,
+      0.09821045677506066,
+      0.09802324886773972,
+      0.09783750054676484
+    ],
+    "maximum_scaled_decoder_mismatches": [
+      0.03681492954150123,
+      0.02548191638608155,
+      0.016254791914477096,
+      0.007192496907378221,
+      0.0017923369046710658,
+      0.0007103225872695518
+    ],
+    "minimum_reconstruction_factors": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "minimum_scattering_optical_depths": [
+      18.95873659395372,
+      19.00847187074739,
+      19.05790308019895,
+      19.123571296483775,
+      19.189030875613085,
+      19.2543109039531
+    ],
+    "physical_guard_passes": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "primary_time_seconds": 0.02,
+    "primary_to_sealed_macro_separation": 0.0520705175904874,
+    "sealed_time_seconds": 0.016
+  },
+  "new_complete_generator_assemblies": 0,
+  "new_exact_rate_calls": 0,
+  "new_nonlinear_fixed_Q_roots": 0,
+  "passed": true,
+  "propagated_states": 0,
+  "source": {
+    "all_output_states_equal_accepted_states_bitwise": true,
+    "candidate_count": 6
+  }
+}

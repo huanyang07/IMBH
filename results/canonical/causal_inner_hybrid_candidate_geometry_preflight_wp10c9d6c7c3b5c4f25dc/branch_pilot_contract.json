@@ -1,0 +1,63 @@
+{
+  "authorization_boundaries": {
+    "branch_root_execution_authorized": false,
+    "cycle_authorized": false,
+    "new_truth_authorized": false,
+    "online_solver_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "transition_execution_authorized": false
+  },
+  "candidate_inventory": {
+    "all_are_accepted_full_model_states": true,
+    "all_are_physically_admissible": true,
+    "branch_labels_assigned": false,
+    "earlier_states": "conservative_path_geometry_only_outside_current_decoder_trust_region_requires_new_branch_local_patches",
+    "existing_atlas_geometry_eligible_times_seconds": [
+      0.016,
+      0.02
+    ],
+    "times_seconds": [
+      0.002,
+      0.005,
+      0.008,
+      0.012,
+      0.016,
+      0.02
+    ]
+  },
+  "classification": "hybrid_candidate_geometry_passed_unclassified_20ms_primary_16ms_sealed_branch_pilot_manifest_authorized",
+  "next_definitions_only_manifest": {
+    "branch_label_remains_unclassified_until_stable_root_and_fold_geometry_pass": true,
+    "execution_budget_not_yet_authorized": true,
+    "mathematical_root": {
+      "hidden_residual": "Z_transpose_F_y_equals_zero",
+      "no_artificial_82_channel_physical_reaction": true,
+      "resolved_constraint": "R82_y_equals_X82_primary",
+      "solver": "surrogate_seeded_hidden_Newton_with_exact_truth_validation_separate",
+      "state_form": "y_equals_L82_X82_plus_Z_z"
+    },
+    "must_compare": [
+      "surrogate_candidate_to_exact_complete_residual",
+      "hidden_fast_stability_and_gap",
+      "slow_graph_invariance",
+      "physical_and_decoder_guards"
+    ],
+    "purpose": "freeze_one_primary_20ms_hidden_fast_branch_existence_pilot",
+    "work_package": "WP10c9d6c7c3b5c4f25dd"
+  },
+  "schema_version": 1,
+  "selected_candidates": {
+    "a2_coordinates_are_patch_local_not_global_branch_labels": true,
+    "primary": {
+      "id": "U20_unclassified_primary",
+      "role": "future_training_geometry_seed",
+      "time_seconds": 0.02
+    },
+    "sealed": {
+      "id": "U16_unclassified_sealed",
+      "role": "independent_geometry_holdout_not_solver_tuning",
+      "time_seconds": 0.016
+    }
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25dc"
+}
