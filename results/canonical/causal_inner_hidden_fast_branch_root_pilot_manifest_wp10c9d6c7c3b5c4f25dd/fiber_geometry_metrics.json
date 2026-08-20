@@ -1,0 +1,65 @@
+{
+  "checks": {
+    "candidates_unclassified": true,
+    "decoded_physical": true,
+    "exact_geometric_chart_required": true,
+    "fiber_reconstruction": true,
+    "hidden_annihilation": true,
+    "hidden_orthogonality": true,
+    "no_propagation": true,
+    "no_root": true,
+    "no_truth": true,
+    "old_invalid_field_not_reused": true,
+    "primary_decoder_geometry": true,
+    "raw_decoder_mismatch_detected": true,
+    "restriction_full_rank": true,
+    "restriction_lifting": true,
+    "sealed_decoder_geometry": true
+  },
+  "metrics": {
+    "chart_dimension": 470,
+    "decoded_physical": {
+      "all_selected_decoded_states_physically_admissible": true,
+      "primary": {
+        "candidate_index": 5,
+        "maximum_height_ratio": 0.09783750823206802,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.25340417631124,
+        "passed": true,
+        "raw_decoder_coordinate_closure_relative_defect": 0.00393077403289227,
+        "raw_decoder_macro_closure_infinity": 9.74791227203937e-05
+      },
+      "raw_decoder_is_exact_coordinate_chart": false,
+      "raw_decoder_maximum_macro_closure_infinity": 0.0003709730998642559,
+      "sealed": {
+        "candidate_index": 4,
+        "maximum_height_ratio": 0.09814183549773711,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.18767730531129,
+        "passed": true,
+        "raw_decoder_coordinate_closure_relative_defect": 0.012500049306336266,
+        "raw_decoder_macro_closure_infinity": 0.0003709730998642559
+      }
+    },
+    "exact_geometric_chart_required": true,
+    "full_physical_dimension": 560,
+    "hidden_basis_annihilation_infinity": 8.665336851951329e-16,
+    "hidden_basis_orthogonality_infinity": 8.575924810020018e-16,
+    "hidden_dimension": 388,
+    "macro_dimension": 82,
+    "maximum_candidate_fiber_reconstruction_relative_defect": 8.805720990182157e-17,
+    "primary_and_sealed_labels": "unclassified",
+    "primary_decoder_relative_error": 0.029036400558232697,
+    "primary_forward_patch_weight": 0.0,
+    "restriction_condition_number": 1.4073304087407117,
+    "restriction_lifting_identity_infinity": 2.220446049250313e-16,
+    "restriction_rank": 82,
+    "sealed_decoder_relative_error": 0.04563404360057366,
+    "sealed_forward_patch_weight": 0.0
+  },
+  "new_complete_generator_assemblies": 0,
+  "new_exact_rate_calls": 0,
+  "new_nonlinear_roots": 0,
+  "passed": true,
+  "propagated_states": 0
+}
