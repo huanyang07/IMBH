@@ -1,0 +1,90 @@
+{
+  "authorization_boundaries": {
+    "new_generator_assemblies": 0,
+    "new_nonlinear_roots": 0,
+    "new_truth_rate_calls": 0,
+    "physical_microburst_authorized": false,
+    "predictive_cycle_authorized": false,
+    "propagated_states": 0,
+    "reduced_slow_evolution_authorized": false,
+    "trajectory_authorized": false
+  },
+  "binding_revealed_geometry_gates": {
+    "maximum_compensated_full_rate_invariance_defect": 1e-12,
+    "maximum_inner_certificate_shell_weight": 0.0,
+    "maximum_kernel_condition_number": 10000.0,
+    "maximum_repaired_decoder_coordinate_relative_mismatch": 0.0005,
+    "maximum_repaired_decoder_relative_error": 1e-06,
+    "maximum_repaired_state_H_over_R": 0.12,
+    "minimum_repaired_state_reconstruction_factor": 0.999999999999,
+    "minimum_repaired_state_scattering_optical_depth": 1.0
+  },
+  "classification": "compensated_geometry_decoder_repair_manifest_frozen",
+  "decision": {
+    "fail_classification": "compensated_decoder_independent_geometry_failed",
+    "full_pass_authorizes_only": "definitions_only_recentered_transition_forecast_manifest",
+    "full_pass_classification": "compensated_decoder_independent_geometry_valid_to_0p015",
+    "partial_or_fail_authorizes_only": "definitions_only_decoder_architecture_revision_manifest",
+    "partial_pass_classification": "compensated_decoder_independent_geometry_valid_to_0p0125"
+  },
+  "decoder_repair": {
+    "input": "a28_departure_coordinate",
+    "kernel": "isotropic_Gaussian",
+    "length_scale": 0.015,
+    "output": "scaled_full_state_delta_560",
+    "regularization": 1e-08,
+    "shell_gate": {
+      "fully_extended_model_at_or_above": 0.013,
+      "hard_chart_limit": 0.015,
+      "identically_old_model_at_or_below": 0.01,
+      "load_definition": "linf_of_old_decoded_scaled_state_delta",
+      "recenter_trigger": 0.012,
+      "transition": "C2_quintic_smootherstep"
+    },
+    "training_geometry_count": 16,
+    "uses_new_rate_truth": false
+  },
+  "definitions_only": true,
+  "diagnosis": {
+    "exact_truth_layer_passed": true,
+    "independent_a28_rate_submodel_passed": true,
+    "independent_full_rate_submodel_passed": true,
+    "independent_radial_sign_submodel_passed": true,
+    "only_failed_binding_gate": "decoder_full_state_error"
+  },
+  "exact_field_compensation": {
+    "full_field_identity": "G_D_new_plus_N_new_equals_G_D_old_plus_N_old",
+    "independently_validated_full_state_rate_is_unchanged": true,
+    "new_closure": "N_new_equals_N_old_minus_G_times_C_geometry",
+    "new_decoder": "D_new_equals_D_old_plus_C_geometry"
+  },
+  "future_independent_geometry_gates": {
+    "completed_candidate_count_equal": 8,
+    "failed_candidate_count_equal": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_compensated_full_rate_invariance_defect": 1e-12,
+    "maximum_coordinate_Jacobian_condition_number": 5000.0,
+    "maximum_coordinate_residual_infinity": 5e-10,
+    "maximum_departure_transverse_fraction": 0.15,
+    "maximum_normalized_Q3_defect": 1e-10,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "maximum_repaired_decoder_coordinate_relative_mismatch": 0.005,
+    "maximum_repaired_decoder_full_state_relative_error": 0.005,
+    "minimum_departure_direction_alignment_cosine": 0.99,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0
+  },
+  "independent_holdout_geometry": {
+    "component_bounds": [
+      0.0125,
+      0.015
+    ],
+    "direction_count": 4,
+    "directions_revealed_after_repair_frozen": true,
+    "mixing_coefficient": 0.25,
+    "new_rate_calls_equal": 0,
+    "planned_candidate_count": 8
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25cl"
+}

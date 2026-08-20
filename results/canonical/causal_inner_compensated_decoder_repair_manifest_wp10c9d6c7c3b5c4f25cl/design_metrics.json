@@ -1,0 +1,38 @@
+{
+  "checks": {
+    "coordinate_mismatch": true,
+    "decoder_error": true,
+    "generator_budget": true,
+    "height": true,
+    "inner_preservation": true,
+    "kernel_condition": true,
+    "optical_depth": true,
+    "propagation_budget": true,
+    "rate_budget": true,
+    "rate_invariance": true,
+    "reconstruction": true,
+    "root_budget": true
+  },
+  "fit": {
+    "kernel_condition_number": 6565.42865849758,
+    "kernel_rank": 16,
+    "maximum_compensated_full_rate_invariance_defect": 1.2689308835500675e-19,
+    "maximum_inner_certificate_shell_weight": 0.0,
+    "maximum_old_decoder_relative_error": 0.011873649831490422,
+    "maximum_repaired_decoder_coordinate_relative_mismatch": 1.2969419275767502e-09,
+    "maximum_repaired_decoder_relative_error": 2.637632702048732e-09,
+    "maximum_repaired_state_H_over_R": 0.09887218850646197,
+    "median_repaired_decoder_relative_error": 4.5846425277141885e-10,
+    "minimum_repaired_state_reconstruction_factor": 1.0,
+    "minimum_repaired_state_scattering_optical_depth": 19.23344702122353,
+    "new_complete_generator_assemblies": 0,
+    "new_continuous_rate_evaluations": 0,
+    "new_nonlinear_roots": 0,
+    "propagated_states": 0,
+    "training_count": 16
+  },
+  "holdout": {
+    "maximum_holdout_to_training_absolute_cosine": 0.9809889388808024,
+    "minimum_holdout_pair_separation": 0.42571411305905876
+  }
+}
