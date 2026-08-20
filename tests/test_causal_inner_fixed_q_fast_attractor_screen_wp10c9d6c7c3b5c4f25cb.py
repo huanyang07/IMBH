@@ -30,6 +30,10 @@ def test_naive_split_is_rejected_but_memory_split_is_hurwitz():
     assert metrics["stable_memory_spectral_abscissa_per_second"] <= -1.0
     assert metrics["stable_memory_nonnegative_eigenvalue_count"] == 0
     assert metrics["stable_memory_condition_number"] <= 1.0e6
+    assert metrics["naive_eliminated_block_shape"] == [346, 346]
+    assert metrics["naive_eliminated_block_coordinate_selection"].startswith(
+        "cell_major_mapped_components_1_and_4"
+    )
     assert metrics["naive_eliminated_block_nonnegative_eigenvalue_count"] > 0
 
 

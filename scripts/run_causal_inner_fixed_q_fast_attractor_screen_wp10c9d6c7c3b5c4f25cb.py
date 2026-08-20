@@ -272,7 +272,27 @@ def _structure_metrics(model: FastAttractorModel) -> dict:
         @ model.vector_field.generator
         @ model.vector_field.lifting
     )
-    naive = full_linear[96:442, 96:442]
+    # The 160 mapped-storage coordinates are cell-major five-component
+    # blocks.  M/J/E are components 0/2/3; the constitutive coordinates are
+    # components 1/4.  They are not a contiguous 96/64 partition.
+    constitutive_indices = np.asarray(
+        [
+            5 * cell + component
+            for cell in range(32)
+            for component in (1, 4)
+        ]
+        + [160, 161],
+        dtype=int,
+    )
+    naive_indices = np.concatenate(
+        (
+            constitutive_indices,
+            np.arange(162, 442, dtype=int),
+        )
+    )
+    if constitutive_indices.size != 66 or naive_indices.size != 346:
+        raise RuntimeError("naive split coordinate selection changed")
+    naive = full_linear[np.ix_(naive_indices, naive_indices)]
     naive_eigenvalues = np.linalg.eigvals(naive)
     return {
         "stable_memory_shape": list(model.Azz.shape),
@@ -295,6 +315,10 @@ def _structure_metrics(model: FastAttractorModel) -> dict:
             )
         ),
         "naive_eliminated_block_shape": list(naive.shape),
+        "naive_eliminated_block_coordinate_selection": (
+            "cell_major_mapped_components_1_and_4_plus_two_explicit_"
+            "stable_plus_z280"
+        ),
         "naive_eliminated_block_condition_number": float(np.linalg.cond(naive)),
         "naive_eliminated_block_spectral_abscissa_per_second": float(
             np.max(naive_eigenvalues.real)
