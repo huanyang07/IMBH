@@ -1,0 +1,92 @@
+{
+  "binding_exact_rate_gates": {
+    "completed_nonbase_rate_evaluations_equal": 8,
+    "failed_rate_evaluations_equal": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_coordinate_Jacobian_condition_number": 5000.0,
+    "maximum_incoming_excision_characteristics_equal": 0,
+    "maximum_rate_tangency_relative_defect": 1e-08,
+    "maximum_raw_Schur_condition_number": 1000000.0,
+    "maximum_reaction_identity_defect": 1e-09,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "new_complete_generator_assemblies_equal": 0,
+    "new_nonlinear_roots_equal": 0,
+    "propagated_states_equal": 0
+  },
+  "candidate_design": {
+    "component_bound": 0.015,
+    "direction_indices": [
+      4,
+      6,
+      8,
+      9
+    ],
+    "direction_labels": [
+      "energy_4",
+      "energy_6",
+      "screen_escape",
+      "accepted_forward_rate"
+    ],
+    "forward_positive_local_index": 7,
+    "parent_candidate_indices": [
+      8,
+      9,
+      12,
+      13,
+      16,
+      17,
+      18,
+      19
+    ],
+    "planned_exact_rate_evaluations": 8,
+    "signs": [
+      -1,
+      1
+    ]
+  },
+  "classification": "certified_0p015_targeted_departure_rate_design_manifest_frozen",
+  "definitions_only": true,
+  "forward_boundary_decision": {
+    "inward": {
+      "classification_suffix": "forward_inward_turn",
+      "requires": "bounded_transient_saturation_validation"
+    },
+    "nearly_tangential": {
+      "classification_suffix": "forward_turn_unresolved",
+      "requires": "local_rate_extension_before_trajectory"
+    },
+    "outward": {
+      "classification_suffix": "forward_chart_exit",
+      "requires": "authentic_trajectory_recentered_chart_atlas"
+    },
+    "radial_direction_cosine_threshold": 0.02
+  },
+  "frozen_old_field_diagnostic": {
+    "maximum_full_departure_rate_relative_error": 0.15,
+    "model_refit_during_screen": false,
+    "old_field_pass_is_required_for_truth_classification": false
+  },
+  "objective": "measure_exact_boundary_departure_rates_and_choose_between_inward_turn_and_recentered_transient_atlas_architectures",
+  "schema_version": 1,
+  "scientific_boundaries": {
+    "amplitude_above_certified_bound": false,
+    "new_generator_assembly": false,
+    "new_nonlinear_fixed_Q_root": false,
+    "physical_microburst_authorized": false,
+    "predictive_cycle_authorized": false,
+    "propagated_state": false,
+    "reduced_slow_evolution_authorized": false,
+    "stationary_stable_memory_elimination": false
+  },
+  "target_mathematical_architecture": {
+    "active_state": "q162_physical_coordinates",
+    "departure": "a28_nonlinear_transient_atlas_then_invariant_measure_or_phase_closure",
+    "maximum_macrosteps_per_cycle": 100000,
+    "online_truth_calls_per_macrostep": 0,
+    "slow_closure": "multi_anchor_conservative_averaged_q_flux",
+    "stable_memory": "z280_dynamic_exponential_or_L_stable_update"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25ce"
+}
