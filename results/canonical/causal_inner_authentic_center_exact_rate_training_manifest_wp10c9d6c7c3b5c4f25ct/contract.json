@@ -1,0 +1,100 @@
+{
+  "authorization_boundaries": {
+    "fast_average_authorized": false,
+    "physical_microburst_authorized": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "binding_manifest_gates": {
+    "decoder_center_anchor_infinity_defect_max": 1e-14,
+    "decoder_new_holdout_coordinate_relative_mismatch_max": 0.075,
+    "decoder_new_holdout_relative_error_max": 0.05,
+    "decoder_new_training_relative_error_max": 0.02,
+    "decoder_regularized_normal_condition_number_max": 100.0,
+    "decoder_revealed_relative_error_max": 0.05,
+    "maximum_decoder_H_over_R": 0.12,
+    "minimum_decoder_reconstruction_factor": 0.999999999999,
+    "minimum_decoder_scattering_optical_depth": 1.0,
+    "readiness_a28_rate_relative_error_max": 0.05,
+    "readiness_full_coordinate_rate_relative_error_max": 0.05,
+    "readiness_full_state_rate_relative_error_max": 0.05,
+    "readiness_q162_rate_relative_error_max": 0.05,
+    "readiness_regularized_normal_condition_number_max": 1000.0,
+    "readiness_z280_rate_relative_error_max": 0.05
+  },
+  "classification": "authentic_center_exact_rate_training_manifest_frozen",
+  "coefficient_blind_holdout": {
+    "count": 4,
+    "rate_truth_forbidden_during_training_package": true,
+    "separate_future_work_package_required": true,
+    "states_and_geometry_hash_locked_before_training_truth": true
+  },
+  "cost_budget": {
+    "holdout_rate_calls_equal": 0,
+    "new_complete_generator_assemblies_equal": 0,
+    "new_exact_continuous_rate_calls_equal": 5,
+    "new_nonlinear_fixed_Q_roots_equal": 0,
+    "propagated_states_equal": 0
+  },
+  "decision": {
+    "fail_authorizes_only": "definitions_only_local_field_fit_revision",
+    "fail_classification": "authentic_center_local_field_training_failed",
+    "pass_authorizes_only": "WP10c9d6c7c3b5c4f25cv",
+    "pass_classification": "authentic_center_local_field_coefficients_frozen"
+  },
+  "definitions_only": true,
+  "execution_order": [
+    "authentic_center_exact_continuous_rate",
+    "training_0_exact_continuous_rate",
+    "training_1_exact_continuous_rate",
+    "training_2_exact_continuous_rate",
+    "training_3_exact_continuous_rate",
+    "fit_and_hash_local_field_coefficients"
+  ],
+  "fit_database": {
+    "authentic_center_new_exact_rate_samples": 1,
+    "coefficients_frozen_before_holdout_truth": true,
+    "forward_training_new_exact_rate_samples": 4,
+    "group_total_weights": {
+      "authentic_center": 1.0,
+      "new_forward_training": 1.0,
+      "revealed_overlap": 1.0
+    },
+    "revealed_overlap_samples": 16
+  },
+  "frozen_local_field": {
+    "active_coordinates": "three_center_local_departure_coordinates_divided_by_0p015",
+    "active_scale": 0.015,
+    "affine_ridge": 1e-08,
+    "decoder_correction": "center_zero_affine_three_active_coordinate_residual",
+    "decoder_prior": "translated_compensated_old_decoder_exactly_reanchored_at_authentic_center",
+    "full_rate_correction": "weighted_affine_constant_plus_three_active_coordinates",
+    "full_rate_prior": "independently_validated_old_direct_full_physical_rate",
+    "new_complete_generator_assemblies": 0,
+    "online_state_dependent_coordinate_Jacobian_calls": 0,
+    "q162_rate_correction": "weighted_affine_constant_plus_three_active_coordinates",
+    "q162_rate_prior": "fixed_authentic_center_physical_Jacobian_times_corrected_full_rate",
+    "z280_and_a28_rates": "fixed_projections_of_corrected_full_rate"
+  },
+  "schema_version": 1,
+  "training_execution_gates": {
+    "completed_exact_rate_calls_equal": 5,
+    "failed_exact_rate_calls_equal": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_coordinate_Jacobian_condition_number": 5000.0,
+    "maximum_incoming_excision_characteristics_equal": 0,
+    "maximum_rate_tangency_relative_defect": 1e-08,
+    "maximum_raw_Schur_condition_number": 1000000.0,
+    "maximum_reaction_identity_defect": 1e-09,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "maximum_regularized_normal_condition_number": 10000.0,
+    "maximum_training_a28_rate_relative_error": 0.075,
+    "maximum_training_full_coordinate_rate_relative_error": 0.075,
+    "maximum_training_full_state_rate_relative_error": 0.075,
+    "maximum_training_q162_rate_relative_error": 0.075,
+    "maximum_training_z280_rate_relative_error": 0.075,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25ct"
+}

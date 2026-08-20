@@ -1,0 +1,62 @@
+{
+  "checks": {
+    "decoder_anchor": true,
+    "decoder_condition": true,
+    "decoder_coordinate": true,
+    "decoder_height": true,
+    "decoder_holdout": true,
+    "decoder_optical_depth": true,
+    "decoder_reconstruction": true,
+    "decoder_revealed": true,
+    "decoder_training": true,
+    "readiness_a28": true,
+    "readiness_condition": true,
+    "readiness_full_coordinate": true,
+    "readiness_full_state": true,
+    "readiness_q162": true,
+    "readiness_z280": true
+  },
+  "decoder": {
+    "center_anchor_infinity_defect": 0.0,
+    "coefficient_norm": 0.0013550955153511905,
+    "design_rank": 3,
+    "maximum_new_holdout_H_over_R": 0.09823381044818655,
+    "maximum_new_holdout_baseline_relative_error": 0.11147426636526514,
+    "maximum_new_holdout_coordinate_relative_mismatch": 0.004384925824190361,
+    "maximum_new_holdout_corrected_relative_error": 0.033204226869945085,
+    "maximum_new_training_baseline_relative_error": 0.08403468538767792,
+    "maximum_new_training_corrected_relative_error": 0.007977724801767828,
+    "maximum_revealed_baseline_relative_error": 0.021239000615118592,
+    "maximum_revealed_corrected_relative_error": 0.03474876677472228,
+    "median_new_holdout_corrected_relative_error": 0.03041694987916906,
+    "minimum_new_holdout_reconstruction_factor": 1.0,
+    "minimum_new_holdout_scattering_optical_depth": 19.241975300441162,
+    "regularized_normal_condition_number": 8.298573195914438,
+    "regularized_normal_rank": 3
+  },
+  "passed": true,
+  "revealed_rate_cross_validation": {
+    "full_fit": {
+      "design_rank": 4,
+      "regularized_normal_condition_number": 535.7369750077847,
+      "regularized_normal_rank": 4
+    },
+    "maximum_a28_rate_relative_error": 0.014746578522626463,
+    "maximum_full_rate_relative_error": 0.011145302429607205,
+    "maximum_full_state_rate_relative_error": 0.011083637694016928,
+    "maximum_q162_rate_relative_error": 0.0037045049205081124,
+    "maximum_z280_rate_relative_error": 0.0028010246969301976,
+    "median_a28_rate_relative_error": 0.007617237886632841,
+    "median_full_rate_relative_error": 0.005659607162437793,
+    "median_full_state_rate_relative_error": 0.005625847419451823,
+    "median_q162_rate_relative_error": 0.001976741326810411,
+    "median_z280_rate_relative_error": 0.0012493952542661226,
+    "q_fit": {
+      "design_rank": 4,
+      "regularized_normal_condition_number": 535.7369750077847,
+      "regularized_normal_rank": 4
+    },
+    "revealed_control_sample_count": 8,
+    "training_sample_count": 8
+  }
+}
