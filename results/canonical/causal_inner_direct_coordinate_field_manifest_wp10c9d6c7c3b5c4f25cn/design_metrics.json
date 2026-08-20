@@ -1,0 +1,36 @@
+{
+  "checks": {
+    "a28_rate": true,
+    "full_coordinate_rate": true,
+    "generator_budget": true,
+    "implementation": true,
+    "kernel_condition": true,
+    "no_coordinate_Jacobian": true,
+    "origin": true,
+    "propagation_budget": true,
+    "q162_rate": true,
+    "rate_budget": true,
+    "root_budget": true,
+    "z280_rate": true
+  },
+  "fit": {
+    "direct_field_evaluation_count": 16,
+    "direct_field_wall_seconds": 0.006546374876052141,
+    "kernel_condition_number": 567.4567684014623,
+    "kernel_rank": 16,
+    "maximum_direct_field_implementation_relative_defect": 3.572722949109635e-16,
+    "maximum_training_a28_rate_relative_error": 0.04834234977420671,
+    "maximum_training_full_coordinate_rate_relative_error": 0.036108143623398335,
+    "maximum_training_q162_rate_relative_error": 3.901169335909398e-09,
+    "maximum_training_z280_rate_relative_error": 0.008030916846481101,
+    "median_training_full_coordinate_rate_relative_error": 0.0022746031242477,
+    "median_training_q162_rate_relative_error": 8.376742719624622e-10,
+    "new_complete_generator_assemblies": 0,
+    "new_continuous_rate_evaluations": 0,
+    "new_nonlinear_roots": 0,
+    "origin_q_rate_correction_norm": 0.0,
+    "propagated_states": 0,
+    "state_dependent_coordinate_Jacobian_calls": 0,
+    "training_count": 16
+  }
+}
