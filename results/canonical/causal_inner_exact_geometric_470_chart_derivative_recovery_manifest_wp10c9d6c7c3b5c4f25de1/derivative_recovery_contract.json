@@ -1,0 +1,98 @@
+{
+  "authorization_boundaries": {
+    "branch_root_execution_authorized": false,
+    "chart_reclassified_in_this_package": false,
+    "online_solver_authorized": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "sealed_16ms_opened": false,
+    "this_package_definitions_only": true
+  },
+  "binding_gates": {
+    "all_eight_algebraic_relative_defects_max": 1e-10,
+    "all_eight_common_scale_relative_defects_max": 1e-06,
+    "all_parent_non_derivative_gates_remain_passed": true,
+    "best_common_scale_relative_defect_max": 1e-07,
+    "minimum_common_scale_signal_norm": 1e-08,
+    "original_step_defect_reproduction_relative_max": 1e-09,
+    "roundoff_h_times_defect_coefficient_of_variation_max": 0.1,
+    "roundoff_loglog_R_squared_min": 0.99,
+    "roundoff_loglog_slope_max": -0.9,
+    "roundoff_loglog_slope_min": -1.1
+  },
+  "classification": "exact_geometric_470_chart_scale_aware_derivative_recovery_manifest_frozen_zero_truth",
+  "decision": {
+    "failure": {
+      "authorized_next": null,
+      "classification": "exact_geometric_470_chart_derivative_recovery_failed_hidden_root_blocked"
+    },
+    "pass": {
+      "authorized_next": "WP10c9d6c7c3b5c4f25df",
+      "authorizes_root_execution_directly": false,
+      "classification": "exact_geometric_470_chart_derivative_recovered_primary_hidden_root_manifest_authorized"
+    }
+  },
+  "decisive_input_hashes": {
+    "parent_arrays": "545821b68b07415efebed167ccd3a4f08d4be00032b8f1603ed83e2dacfd5f80",
+    "parent_metrics": "f018d7cbab5c72abf6727dd2a4c311f3a4090da0a0d29d4bdc7e53299c67a135",
+    "parent_summary": "96b57bdc69e50d3a5e67cf791a4f9dd696206fa6dccb49a4f0304a51b74b4f6b"
+  },
+  "definitions_only": true,
+  "preserved_negative_certificate": {
+    "classification": "exact_geometric_470_chart_preflight_failed_hidden_root_blocked",
+    "hidden_root_remains_blocked_in_this_package": true,
+    "only_failed_gate": "implicit_derivative",
+    "original_maximum_relative_defect": 1.459448248994989e-06,
+    "original_step": 0.0001,
+    "remains_failed": true,
+    "retroactive_gate_change": false,
+    "work_package": "WP10c9d6c7c3b5c4f25de"
+  },
+  "prospective_execution": {
+    "algebraic_identity": "A560_times_dx_equals_concatenate_dy470_and_zero90",
+    "budgets": {
+      "new_complete_generator_assemblies_equal": 0,
+      "new_coordinate_evaluations_max": 28,
+      "new_coordinate_jacobian_assemblies_equal": 0,
+      "new_coordinate_retractions_equal": 0,
+      "new_exact_fixed_Q_rate_evaluations_equal": 0,
+      "new_intrinsic_hidden_roots_equal": 0,
+      "propagated_states_equal": 0,
+      "sealed_16ms_truth_calls_equal": 0
+    },
+    "common_scale_direction_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "common_scale_step": 0.003,
+    "purpose": "scale_aware_exact_chart_derivative_recovery_only",
+    "roundoff_direction": {
+      "direction_index": 6,
+      "family": "macro",
+      "source_index": 53
+    },
+    "roundoff_ladder": [
+      0.003,
+      0.001,
+      0.0003,
+      0.0001,
+      3e-05,
+      1e-05
+    ],
+    "work_package": "WP10c9d6c7c3b5c4f25de2"
+  },
+  "schema_version": 1,
+  "selection_disclosure": {
+    "all_binding_values_must_be_recomputed_after_this_manifest_commit": true,
+    "exploratory_values_are_not_binding_evidence": true,
+    "no_exploratory_result_may_reclassify_the_parent": true,
+    "nonbinding_exploratory_read_only_ladder_informed_scale_range": true
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25de1"
+}
