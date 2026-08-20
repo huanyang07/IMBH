@@ -1,0 +1,75 @@
+{
+  "accepted_truth_roots": 2,
+  "checks": {
+    "accepted_roots": true,
+    "checkpoint_roundtrips": true,
+    "forecast_endpoints": true,
+    "hard_limit": true,
+    "root_contracts": true,
+    "translation_roundtrip": true,
+    "trigger_bracket": true
+  },
+  "new_truth_roots_attempted": 2,
+  "passed": true,
+  "root_records": [
+    {
+      "accepted": true,
+      "checkpoint_bitwise_roundtrip": true,
+      "conservative_transition_load": 0.008424673547573036,
+      "coordinate_Jacobian_condition_number": 1535.937377227107,
+      "coordinate_Jacobian_rank": 162,
+      "direct_field_vs_BDF_coordinate_rate_relative_errors": {
+        "a28": 0.053188471290248195,
+        "full": 0.039531623652489176,
+        "q162": 0.1488568094030378,
+        "z280": 0.0016591513871697938
+      },
+      "exact_Jacobian_assemblies": 1,
+      "exact_scaled_state_load": 0.008424673547573036,
+      "forecast_endpoint_coordinate_relative_errors": {
+        "a28": 0.03160260667376233,
+        "full": 0.023237101939045345,
+        "q162": 0.11630621715280297,
+        "z280": 0.0010281829505413818
+      },
+      "label": "warm_5",
+      "maximum_H_over_R": 0.09783746353847653,
+      "maximum_Q3_relative_defect": 1.171511327685836e-16,
+      "maximum_scaled_residual": 7.160158188399236e-13,
+      "minimum_coordinate_reconstruction_factor": 1.0,
+      "minimum_path_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.25432394384752,
+      "old_decoder_load": 0.008422786521966364
+    },
+    {
+      "accepted": true,
+      "checkpoint_bitwise_roundtrip": true,
+      "conservative_transition_load": 0.012894670845757454,
+      "coordinate_Jacobian_condition_number": 1535.9369045148505,
+      "coordinate_Jacobian_rank": 162,
+      "direct_field_vs_BDF_coordinate_rate_relative_errors": {
+        "a28": 0.02810450148539006,
+        "full": 0.022399545113527826,
+        "q162": 0.2101966252974387,
+        "z280": 0.010483327280188429
+      },
+      "exact_Jacobian_assemblies": 1,
+      "exact_scaled_state_load": 0.012894299525081365,
+      "forecast_endpoint_coordinate_relative_errors": {
+        "a28": 0.04682770935903768,
+        "full": 0.03483681830060893,
+        "q162": 0.14736008383318042,
+        "z280": 0.002450805072390035
+      },
+      "label": "warm_6",
+      "maximum_H_over_R": 0.097837458912415,
+      "maximum_Q3_relative_defect": 1.430243688090699e-16,
+      "maximum_scaled_residual": 5.027770646020599e-13,
+      "minimum_coordinate_reconstruction_factor": 1.0,
+      "minimum_path_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.25432557383383,
+      "old_decoder_load": 0.012894670845757454
+    }
+  ],
+  "translation_roundtrip_infinity_defect": 8.673617379884035e-19
+}
