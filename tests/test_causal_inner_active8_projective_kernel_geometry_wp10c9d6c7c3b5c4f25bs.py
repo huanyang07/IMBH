@@ -16,11 +16,9 @@ def test_manifest_is_frozen_and_authorizes_geometry_only():
 def test_candidate_specifications_match_frozen_order_and_count():
     specifications = f25bs._candidate_specifications()
     assert len(specifications) == 24
-    assert [item["split"] for item in specifications[:16]] == [
-        "holdout_high"
-    ] * 16
+    assert [item["split"] for item in specifications[:16]] == ["holdout"] * 16
     assert [item["split"] for item in specifications[16:]] == [
-        "holdout_low"
+        "tuning_low"
     ] * 8
     assert all(item["active_direction"].shape == (8,) for item in specifications)
     assert all(
@@ -47,4 +45,7 @@ def test_engine_adapter_uses_new_manifest_and_scratch():
     assert engine.WORK_PACKAGE == f25bs.WORK_PACKAGE
     assert engine.manifest.PLANNED_CANDIDATES == 48
     assert engine.SCRATCH_DIRECTORY == f25bs.SCRATCH_DIRECTORY
-    assert engine._candidate_specifications()[0]["split"] == "holdout_high"
+    assert engine._candidate_specifications()[0]["split"] == "holdout"
+    assert {
+        item["split"] for item in engine._candidate_specifications()
+    } <= {"training", "tuning_high", "holdout", "tuning_low"}

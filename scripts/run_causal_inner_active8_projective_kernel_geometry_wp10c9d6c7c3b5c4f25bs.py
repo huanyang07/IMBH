@@ -125,13 +125,13 @@ def _candidate_specifications() -> list[dict]:
     design = _load_npz(DESIGN_PATH)
     groups = (
         (
-            "holdout_high",
+            "holdout",
             design["new_holdout_directions_active8"],
             manifest.HIGH_COMPONENT_BOUND,
             "0p01",
         ),
         (
-            "holdout_low",
+            "tuning_low",
             design["new_radial_directions_active8"],
             manifest.LOW_COMPONENT_BOUND,
             "0p005",
