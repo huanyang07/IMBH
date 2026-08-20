@@ -1,0 +1,71 @@
+{
+  "authorization_boundaries": {
+    "geometry_candidate_may_become_atlas_center": false,
+    "physical_microburst_authorized": false,
+    "predictive_cycle_authorized": false,
+    "rate_truth_authorized_by_this_manifest": false,
+    "reduced_slow_evolution_authorized": false,
+    "trajectory_authorized": false
+  },
+  "binding_per_rung_gates": {
+    "completed_candidate_count_equal": 4,
+    "failed_candidate_count_equal": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_coordinate_Jacobian_condition_number": 10000.0,
+    "maximum_coordinate_residual_infinity": 1e-10,
+    "maximum_departure_transverse_fraction": 0.05,
+    "maximum_normalized_Q3_defect": 1e-10,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "minimum_departure_direction_alignment_cosine": 0.99,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0
+  },
+  "candidate_family": {
+    "candidates_per_rung": 4,
+    "component_bounds": [
+      0.0125,
+      0.015
+    ],
+    "direction_count": 4,
+    "maximum_planned_candidates": 8,
+    "rung_order": "strictly_increasing_fail_fast",
+    "signs": [
+      1
+    ]
+  },
+  "classification": "shell_gated_atlas_holdout_geometry_manifest_frozen",
+  "cost_budget": {
+    "new_complete_generator_assemblies_equal": 0,
+    "new_nonbase_continuous_rate_evaluations_equal": 0,
+    "new_nonlinear_fixed_Q_roots_equal": 0,
+    "propagated_physical_states_equal": 0
+  },
+  "decision": {
+    "both_rungs_pass": {
+      "authorizes_only": "definitions_only_full_mixed_holdout_exact_rate_manifest",
+      "classification": "shell_gated_atlas_mixed_geometry_valid_to_0p015"
+    },
+    "first_rung_fails": {
+      "authorizes_only": "definitions_only_alternative_local_chart_basis_manifest",
+      "classification": "shell_gated_atlas_mixed_geometry_failed_before_recenter_margin"
+    },
+    "only_first_rung_passes": {
+      "authorizes_only": "definitions_only_trigger_shell_exact_rate_manifest",
+      "classification": "shell_gated_atlas_mixed_geometry_valid_to_0p0125"
+    }
+  },
+  "definitions_only": true,
+  "exact_geometric_retraction": {
+    "coordinate_residual_tolerance": 1e-10,
+    "departure_seed": "frozen_positive_mixed_forward_sector_direction",
+    "equations": "C_phys_x_equals_C_phys_x_anchor",
+    "maximum_Newton_iterations": 8,
+    "maximum_line_search_iterations": 12,
+    "maximum_radius_rescalings": 6,
+    "rate_reaction_lift_used": false,
+    "stable_memory_seed": "zero",
+    "state_normal": "exact_state_local_derivative_of_C_phys"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25ch"
+}
