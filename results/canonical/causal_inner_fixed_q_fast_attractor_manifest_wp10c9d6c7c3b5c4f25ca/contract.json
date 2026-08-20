@@ -1,0 +1,104 @@
+{
+  "binding_fixed_graph_gates": {
+    "full_fast_minimum_attraction_rate_per_second": 1.0,
+    "full_fast_spectral_abscissa_max_per_second": -1.0,
+    "minimum_distinct_root_separation": 1e-06,
+    "root_full_fast_residual_relative_to_base_max": 1e-08,
+    "root_maximum_absolute_departure_component": 0.0099,
+    "root_reduced_residual_relative_to_base_max": 1e-08
+  },
+  "binding_structure_gates": {
+    "departure_projection_cross_block_norm_max": 1e-10,
+    "maximum_search_start_component": 0.008,
+    "new_generator_assemblies_equal": 0,
+    "new_nonlinear_roots_equal": 0,
+    "new_truth_calls_equal": 0,
+    "propagated_states_equal": 0,
+    "search_start_count_equal": 13,
+    "stable_memory_condition_number_max": 1000000.0,
+    "stable_memory_dimension_equal": 280,
+    "stable_memory_minimum_decay_rate_per_second": 1.0,
+    "stable_memory_spectral_abscissa_max_per_second": -1.0
+  },
+  "cheap_polynomial_field": {
+    "claim": "local_fast_attractor_screen_not_cycle_prediction",
+    "formula": "F_tilde_y_equals_R_r0_plus_R_G_L_y_plus_R_G_B4_kappa_a_plus_R_D28_N28_a",
+    "new_full_generator_assemblies": 0,
+    "new_nonlinear_fixed_Q_roots": 0,
+    "new_truth_calls": 0,
+    "propagated_physical_states": 0,
+    "uses_only_frozen_certified_coefficients": true
+  },
+  "classification": "fixed_Q_fast_attractor_normal_hyperbolicity_manifest_frozen",
+  "clear_nonclosure_gates": {
+    "accepted_root_count_equal": 0,
+    "boundary_fraction_threshold": 0.999,
+    "minimum_boundary_limited_solution_fraction": 0.75,
+    "minimum_screened_residual_relative_to_base_min": 0.05
+  },
+  "decision": {
+    "clear_nonclosure": {
+      "authorizes_only": "definitions_only_guarded_departure_amplitude_expansion_manifest",
+      "classification": "no_in_chart_stationary_fast_graph_found_departure_amplitude_expansion_required"
+    },
+    "inconclusive": {
+      "authorizes_only": null,
+      "classification": "fixed_Q_fast_attractor_screen_inconclusive"
+    },
+    "physical_microburst_authorized": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "root_not_attracting": {
+      "authorizes_only": "definitions_only_fast_invariant_measure_and_departure_chart_expansion_manifest",
+      "classification": "in_chart_fast_root_not_normally_attracting_invariant_measure_or_chart_expansion_required"
+    },
+    "stable_graph": {
+      "authorizes_only": "definitions_only_local_fast_graph_continuation_and_slow_flux_closure_manifest",
+      "classification": "in_chart_normally_attracting_fixed_Q_fast_graph_candidate_found"
+    }
+  },
+  "definitions_only": true,
+  "deterministic_search": {
+    "algorithm": "bounded_scipy_least_squares_trust_region_reflective",
+    "amplitudes": [
+      0.0025,
+      0.005,
+      0.008
+    ],
+    "departure_component_bound": 0.01,
+    "duplicate_root_distance": 1e-06,
+    "ftol": 1e-12,
+    "gtol": 1e-12,
+    "maximum_function_evaluations_per_start": 1000,
+    "seed": 20260819,
+    "start_count": 13,
+    "starts": "zero_plus_four_seeded_directions_at_each_of_three_amplitudes",
+    "xtol": 1e-12
+  },
+  "final_cycle_architecture_boundary": {
+    "direct_microsecond_marching": false,
+    "required_end_state": "multi_anchor_conservative_q162_slow_flux_closure_with_stable_memory_exponential_update_and_eliminated_or_averaged_a28",
+    "single_anchor_470_field_is_final_cycle_model": false,
+    "target_maximum_cycle_macrosteps": 100000
+  },
+  "mathematical_split": {
+    "a_remains_explicitly_nonlinear": true,
+    "active_physical_q_dimension": 162,
+    "identity": "470_equals_162_plus_280_plus_28",
+    "naive_96_slow_plus_374_fast_split_authorized": false,
+    "nonlinear_departure_a_dimension": 28,
+    "q_is_held_fixed_during_this_screen": true,
+    "reason_96_plus_374_is_blocked": "the_346_constitutive_memory_subblock_is_not_certified_Hurwitz",
+    "strictly_stable_memory_z_dimension": 280,
+    "z_is_the_only_block_authorized_for_linear_elimination": true
+  },
+  "objective": "determine_whether_the_certified_local_470_field_contains_an_in_chart_normally_attracting_fixed_Q_fast_graph",
+  "schema_version": 1,
+  "stable_memory_elimination": {
+    "equation": "z_star_a_equals_minus_Azz_inverse_times_b_z_plus_Aza_a_plus_Kz_kappa_a_plus_Pz_N28_a",
+    "method": "one_frozen_pivoted_LU_factorization_and_reused_solves",
+    "reduced_equation": "g_a_a_equals_b_a_plus_Aaz_z_star_a_plus_Aaa_a_plus_Ka_kappa_a_plus_Pa_N28_a_equals_zero",
+    "reduced_equation_dimension": 28
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25ca"
+}
