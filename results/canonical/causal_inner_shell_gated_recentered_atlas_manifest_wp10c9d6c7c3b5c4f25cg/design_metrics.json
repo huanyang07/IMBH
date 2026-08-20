@@ -1,0 +1,60 @@
+{
+  "checks": {
+    "coordinate_mismatch": true,
+    "decoder_error": true,
+    "decoder_even_condition": true,
+    "decoder_odd_condition": true,
+    "generator_budget": true,
+    "height": true,
+    "inner_preservation": true,
+    "optical_depth": true,
+    "outer_weight": true,
+    "propagation_budget": true,
+    "rate_budget": true,
+    "rate_error": true,
+    "rate_even_condition": true,
+    "rate_odd_condition": true,
+    "reconstruction": true,
+    "root_budget": true
+  },
+  "fit": {
+    "baseline_full_state_rate_maximum_relative_error": 0.3824688265306769,
+    "decoder_fit": {
+      "even_kernel_condition_number": 1.0601653129382753,
+      "even_kernel_rank": 4,
+      "maximum_training_radius": 0.052207015568590934,
+      "minimum_training_radius": 0.0235077247959922,
+      "odd_kernel_condition_number": 1.024439163237266,
+      "odd_kernel_rank": 4,
+      "pair_count": 4
+    },
+    "extended_decoder_maximum_relative_error": 0.0007177539118324922,
+    "extended_full_state_rate_maximum_relative_error": 0.0007693426262040382,
+    "extended_full_state_rate_median_relative_error": 0.00018346906598224892,
+    "maximum_extended_decoder_coordinate_relative_mismatch": 9.558454851325225e-05,
+    "maximum_extended_state_H_over_R": 0.09887163536430778,
+    "maximum_inner_certificate_shell_weight": 0.0,
+    "minimum_extended_state_reconstruction_factor": 1.0,
+    "minimum_extended_state_scattering_optical_depth": 19.233450536709608,
+    "minimum_outer_training_shell_weight": 1.0,
+    "new_complete_generator_assemblies": 0,
+    "new_continuous_rate_evaluations": 0,
+    "new_nonlinear_roots": 0,
+    "old_decoder_maximum_relative_error": 0.14482086411658393,
+    "propagated_states": 0,
+    "rate_fit": {
+      "even_kernel_condition_number": 1.0601653129382753,
+      "even_kernel_rank": 4,
+      "maximum_training_radius": 0.052207015568590934,
+      "minimum_training_radius": 0.0235077247959922,
+      "odd_kernel_condition_number": 1.024439163237266,
+      "odd_kernel_rank": 4,
+      "pair_count": 4
+    },
+    "rate_residual_leading_singular_energy_fraction": 0.7178418341377267
+  },
+  "holdout": {
+    "maximum_holdout_to_training_absolute_cosine": 0.9792810651359183,
+    "minimum_holdout_pair_separation": 0.31117121255274627
+  }
+}

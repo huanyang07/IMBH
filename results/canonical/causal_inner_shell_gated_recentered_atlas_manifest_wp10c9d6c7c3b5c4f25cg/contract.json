@@ -1,0 +1,80 @@
+{
+  "atlas_transition": {
+    "center_source": "accepted_authentic_propagated_state_only",
+    "coordinate_transition_requires_roundtrip_and_rate_parity": true,
+    "geometry_only_holdout_may_become_center": false,
+    "recenter_before_hard_chart_limit": true,
+    "stable_memory_transport": "exact_basis_transform_not_algebraic_elimination"
+  },
+  "authorization_boundaries": {
+    "new_generator_assemblies": 0,
+    "new_nonlinear_roots": 0,
+    "new_truth_calls": 0,
+    "physical_microburst_authorized": false,
+    "predictive_cycle_authorized": false,
+    "propagated_states": 0,
+    "reduced_slow_evolution_authorized": false,
+    "trajectory_authorized": false
+  },
+  "binding_revealed_fit_gates": {
+    "maximum_even_kernel_condition_number": 2.0,
+    "maximum_extended_decoder_coordinate_relative_mismatch": 0.0025,
+    "maximum_extended_decoder_relative_error": 0.001,
+    "maximum_extended_full_state_rate_relative_error": 0.005,
+    "maximum_extended_state_H_over_R": 0.12,
+    "maximum_inner_certificate_shell_weight": 0.0,
+    "maximum_odd_kernel_condition_number": 2.0,
+    "minimum_extended_state_reconstruction_factor": 0.999999999999,
+    "minimum_extended_state_scattering_optical_depth": 1.0,
+    "minimum_outer_training_shell_weight": 1.0
+  },
+  "classification": "shell_gated_degree45_recentered_atlas_manifest_frozen",
+  "definitions_only": true,
+  "future_independent_rate_gates": {
+    "maximum_a28_rate_relative_error": 0.15,
+    "maximum_decoder_coordinate_relative_mismatch": 0.005,
+    "maximum_decoder_full_state_relative_error": 0.005,
+    "maximum_full_state_rate_relative_error": 0.15,
+    "median_full_state_rate_relative_error": 0.075,
+    "radial_sign_disagreement_count_equal": 0
+  },
+  "independent_holdout_geometry": {
+    "component_bounds": [
+      0.0125,
+      0.015
+    ],
+    "direction_count": 4,
+    "mixing_coefficient": 0.25,
+    "new_rate_calls_during_geometry_equal": 0,
+    "planned_candidate_count": 8,
+    "positive_forward_sector_only": true,
+    "rung_order": "strictly_increasing_fail_fast"
+  },
+  "local_extension": {
+    "decoder_output": "scaled_full_state_delta_560",
+    "even_homogeneous_power": 4,
+    "input": "a28_departure_coordinate",
+    "kernel_regularization": 1e-10,
+    "model_refit_after_holdout_truth": false,
+    "odd_homogeneous_power": 5,
+    "rate_output": "scaled_full_state_rate_560_per_second",
+    "training_signed_pairs": 4
+  },
+  "schema_version": 1,
+  "shell_gate": {
+    "fully_extended_model_at_or_above": 0.013,
+    "hard_chart_limit": 0.015,
+    "identically_old_model_at_or_below": 0.01,
+    "load_definition": "linf_of_old_decoded_scaled_state_delta",
+    "recenter_trigger": 0.012,
+    "transition": "C2_quintic_smootherstep"
+  },
+  "target_cycle_architecture": {
+    "a28": "shell_gated_local_transient_atlas_then_phase_or_invariant_measure_closure",
+    "maximum_macrosteps_per_cycle": 100000,
+    "online_truth_calls_per_macrostep": 0,
+    "q162": "conservative_active_coordinates_with_multi_anchor_flux",
+    "z280": "dynamic_exponential_or_L_stable_memory_update"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25cg"
+}
