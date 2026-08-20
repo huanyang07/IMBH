@@ -27,6 +27,7 @@ def test_dual_consistent_rate_decomposition_is_exact() -> None:
 def test_fail_fast_threshold_and_budgets_are_unchanged() -> None:
     assert f25dg.HIDDEN_FRACTION_GATE == 0.25
     assert f25dg.PASS_AUTHORIZED_NEXT == "WP10c9d6c7c3b5c4f25dh"
+    assert not f25dg.IMPLEMENTATION_PARENT_COMMIT.startswith("__")
 
 
 def test_canonical_evidence_if_present() -> None:

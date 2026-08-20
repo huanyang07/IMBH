@@ -33,8 +33,7 @@ MANIFEST_COMMIT = "10c7bffdce6fa07c931a31793fba3f1b02908692"
 MANIFEST_PARENT = "d831aa88d7b47556c8380f181f11719295a80b78"
 MANIFEST_TREE = "b5d9014595a72580ffb6f069a49fd787905ffcd8"
 
-# Filled by the prospective implementation-freeze commit before truth runs.
-IMPLEMENTATION_PARENT_COMMIT = "__IMPLEMENTATION_PARENT_COMMIT__"
+IMPLEMENTATION_PARENT_COMMIT = "ce60c9268141e0bb62e6270c32e4ebdef26644a8"
 
 PASS_CLASSIFICATION = (
     "primary_anchor_hidden_fraction_passed_complete_tangent_stage_authorized"
