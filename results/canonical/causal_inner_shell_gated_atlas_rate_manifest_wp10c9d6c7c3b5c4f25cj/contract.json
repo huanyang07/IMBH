@@ -1,0 +1,74 @@
+{
+  "authorization_boundaries": {
+    "new_generator_assemblies": 0,
+    "new_nonlinear_roots": 0,
+    "new_truth_calls_during_manifest": 0,
+    "physical_microburst_authorized": false,
+    "predictive_cycle_authorized": false,
+    "propagated_states": 0,
+    "reduced_slow_evolution_authorized": false,
+    "trajectory_authorized": false
+  },
+  "binding_exact_rate_gates": {
+    "completed_nonbase_rate_evaluations_equal": 8,
+    "failed_rate_evaluations_equal": 0,
+    "maximum_H_over_R": 0.12,
+    "maximum_coordinate_Jacobian_condition_number": 5000.0,
+    "maximum_incoming_excision_characteristics_equal": 0,
+    "maximum_rate_tangency_relative_defect": 1e-08,
+    "maximum_raw_Schur_condition_number": 1000000.0,
+    "maximum_reaction_identity_defect": 1e-09,
+    "maximum_reconstruction_factor": 1.000000000001,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "new_complete_generator_assemblies_equal": 0,
+    "new_nonlinear_roots_equal": 0,
+    "propagated_states_equal": 0
+  },
+  "binding_independent_model_gates": {
+    "maximum_a28_rate_relative_error": 0.15,
+    "maximum_decoder_coordinate_relative_mismatch": 0.005,
+    "maximum_decoder_full_state_relative_error": 0.005,
+    "maximum_full_state_rate_relative_error": 0.15,
+    "median_full_state_rate_relative_error": 0.075,
+    "radial_sign_disagreement_count_equal": 0
+  },
+  "candidate_database": {
+    "coefficient_refit_after_truth": false,
+    "component_bounds": [
+      0.0125,
+      0.015
+    ],
+    "count": 8,
+    "directions_per_bound": 4,
+    "independent_of_extension_fit": true
+  },
+  "classification": "shell_gated_atlas_independent_rate_manifest_frozen",
+  "decision": {
+    "fail": {
+      "authorizes_only": "definitions_only_alternative_local_rate_extension_manifest",
+      "classification": "shell_gated_degree45_atlas_field_independent_validation_failed"
+    },
+    "pass": {
+      "authorizes_only": "definitions_only_authentic_recentered_transition_forecast_manifest",
+      "classification": "shell_gated_degree45_atlas_field_independently_validated"
+    }
+  },
+  "definitions_only": true,
+  "model_contract": {
+    "decoder_and_rate_coefficients_hash_locked_before_truth": true,
+    "inner_model": "frozen_certified_degree23_departure_field",
+    "online_truth_calls_per_macrostep": 0,
+    "outer_correction": "frozen_full_state_degree4_even_degree5_odd",
+    "shell_gate": {
+      "fully_extended_model_at_or_above": 0.013,
+      "hard_chart_limit": 0.015,
+      "identically_old_model_at_or_below": 0.01,
+      "load_definition": "linf_of_old_decoded_scaled_state_delta",
+      "recenter_trigger": 0.012,
+      "transition": "C2_quintic_smootherstep"
+    }
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25cj"
+}
