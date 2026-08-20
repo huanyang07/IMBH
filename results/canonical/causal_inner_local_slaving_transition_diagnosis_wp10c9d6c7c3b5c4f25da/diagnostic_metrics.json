@@ -1,0 +1,103 @@
+{
+  "active_tangent": {
+    "active_Jacobian_adjacent_relative_defects": [
+      2.513346325671963e-07,
+      6.552701157281628e-08
+    ],
+    "active_eigenvalues_per_second": [
+      -2026691.491842065,
+      -21000.901148004654,
+      6612.744874178813
+    ],
+    "active_finite_difference_steps": [
+      0.0001,
+      5e-05,
+      2.5e-05
+    ],
+    "all_active_slaving_is_stable": false,
+    "center_Schur_rate_per_second": [
+      567131.9093204194,
+      1659416.575900666,
+      5190047.489633488
+    ],
+    "center_active_rate_norm_per_second": 5478311.320068821,
+    "fast_affine_equilibrium_offset_in_normalized_active_coordinates": 2.5608473270474166,
+    "full_slaving_maximum_spectral_abscissa_per_second": 6612.744874178813,
+    "macro_active_Jacobian_adjacent_relative_defects": [
+      1.4637352966061137e-07,
+      3.653789276213512e-08
+    ],
+    "maximum_Jacobian_step_ladder_relative_defect": 2.513346325671963e-07,
+    "nonstable_active_dimension": 1,
+    "nonstable_only_promotion_gap_ratio": 3.1758220750369714,
+    "ordered_Schur_invariance_relative_defect": 1.5867753152463423e-16,
+    "remaining_fast_eigenvalue_per_second": -2026691.491842065,
+    "selected_fast_block_spectral_abscissa_per_second": -2026691.491842065,
+    "selected_fast_gap_ratio": 96.50497745591387,
+    "selected_transition_coordinate_dimension": 2,
+    "selected_transition_eigenvalues_per_second": [
+      -21000.901148004654,
+      6612.744874178813
+    ],
+    "strong_fast_e_folding_seconds": 4.934150086607891e-07,
+    "unstable_retained_e_folding_seconds": 0.0001512231333624802,
+    "weak_retained_e_folding_seconds": 4.7617004287219e-05
+  },
+  "checks": {
+    "field_Jacobian_step_ladder": true,
+    "full_slaving_rejected": true,
+    "global_M_J_E_lifting": true,
+    "global_M_J_E_restriction": true,
+    "macro_rate_prediction": true,
+    "macro_seed_does_not_claim_identifiability": true,
+    "nonstable_only_gap_rejected": true,
+    "one_nonstable_active_direction_detected": true,
+    "ordered_Schur_invariance": true,
+    "remaining_fast_block_stable": true,
+    "restriction_lifting_identity": true,
+    "storage_rank": true,
+    "total_rank": true,
+    "transition_rate_prediction": true,
+    "two_coordinate_transition_split_gap": true
+  },
+  "conservative": {
+    "fine_storage_dimension": 160,
+    "global_M_J_E_lifting_relative_defect": 0.0,
+    "global_M_J_E_restriction_relative_defect": 1.556601234693337e-17,
+    "macro_storage_dimension": 80,
+    "macro_total_dimension": 82,
+    "restriction_lifting_identity_infinity_defect": 2.220446049250313e-16,
+    "storage_restriction_rank": 80,
+    "total_restriction_rank": 82
+  },
+  "new_complete_generator_assemblies": 0,
+  "new_exact_rate_calls": 0,
+  "new_nonlinear_fixed_Q_roots": 0,
+  "passed": true,
+  "propagated_states": 0,
+  "seed": {
+    "macro_seed_effective_rank_at_1e_8": 0,
+    "macro_seed_singular_values": [
+      4.913932603382025e-11,
+      6.058951382626169e-12,
+      2.061372816556714e-12,
+      3.7200871105207634e-13,
+      5.069197048714185e-14,
+      3.554117678608737e-14,
+      2.5016253041056234e-14,
+      2.0460998620233675e-14,
+      6.702719742069748e-15,
+      1.830476945629795e-15,
+      8.682791653402321e-16,
+      7.56856869745592e-16,
+      4.053863027168967e-29
+    ],
+    "macro_to_active_seed_diameter_ratio": 1.5697482047359242e-11,
+    "maximum_normalized_active_coordinate_norm": 2.260454547491072,
+    "maximum_normalized_macro_coordinate_norm": 3.5483444678112663e-11,
+    "maximum_seed_macro_rate_relative_error": 0.027073404410296893,
+    "maximum_seed_transition_rate_relative_error": 0.012456360690826822,
+    "maximum_validated_active_radius": 2.260454547491072,
+    "seed_count": 13
+  }
+}
