@@ -1,0 +1,82 @@
+{
+  "authentic_execution": {
+    "accepted_history_only": true,
+    "checkpoint_every_accepted_root": true,
+    "equal_step_BDF2": true,
+    "first_accepted_state_crossing_trigger_becomes_center": true,
+    "predicted_center_may_not_become_center": true,
+    "root_budget": 2,
+    "sequence": "accepted_warm4_to_warm5_to_warm6_fail_fast",
+    "warm_policy": "carried_matrix_with_at_most_one_exact_refresh_per_root"
+  },
+  "authorization_boundaries": {
+    "new_continuous_rate_calls": 0,
+    "new_generator_assemblies": 0,
+    "new_truth_roots_during_manifest": 0,
+    "new_truth_roots_during_next_execution_max": 2,
+    "physical_microburst_authorized": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "binding_execution_gates": {
+    "accepted_roots_equal": 2,
+    "checkpoint_roundtrip_bitwise": true,
+    "forecast_endpoint_a28_relative_error_max": 0.15,
+    "forecast_endpoint_full_coordinate_relative_error_max": 0.15,
+    "forecast_endpoint_q162_relative_error_max": 0.15,
+    "forecast_endpoint_z280_relative_error_max": 0.15,
+    "maximum_H_over_R": 0.12,
+    "maximum_Q3_relative_defect": 1e-12,
+    "maximum_exact_Jacobian_assemblies_per_root": 1,
+    "maximum_scaled_residual": 1e-10,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "translation_roundtrip_infinity_defect_max": 1e-14,
+    "warm5_exact_load_below_trigger": 0.012,
+    "warm6_exact_load_at_least_trigger": 0.012,
+    "warm6_exact_load_below_hard_limit": 0.015
+  },
+  "binding_forecast_gates": {
+    "maximum_H_over_R": 0.12,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "prospective_coarse_refined_difference_max": 0.005,
+    "prospective_refined_audit_difference_max": 2e-05,
+    "retrospective_a28_relative_error_max": 0.01,
+    "retrospective_coarse_refined_difference_max": 1e-05,
+    "retrospective_full_coordinate_relative_error_max": 0.01,
+    "retrospective_q162_relative_error_max": 0.05,
+    "retrospective_refined_audit_difference_max": 1e-06,
+    "retrospective_z280_relative_error_max": 0.01
+  },
+  "classification": "direct_field_recenter_transition_forecast_frozen",
+  "decision": {
+    "fail_authorizes_only": "definitions_only_transition_diagnosis_manifest",
+    "fail_classification": "recenter_transition_forecast_or_truth_failed",
+    "pass_authorizes_only": "definitions_only_authentic_center_local_field_and_overlap_manifest",
+    "pass_classification": "one_authentic_recenter_transition_validated"
+  },
+  "definitions_only": true,
+  "forecast": {
+    "audit_substeps_per_root": 8,
+    "coarse_substeps_per_root": 1,
+    "forecast_must_be_hashed_before_truth": true,
+    "hard_old_chart_load": 0.015,
+    "maximum_root_intervals": 2,
+    "method": "classical_RK4",
+    "recenter_trigger_old_decoder_load": 0.012,
+    "refined_substeps_per_root": 4,
+    "start": "accepted_authentic_warm_4_checkpoint",
+    "timestep_seconds": 1e-07
+  },
+  "objective": "forecast_and_then_authenticate_exactly_one_recenter_transition",
+  "online_architecture": {
+    "field": "independently_validated_direct_470_coordinate_field",
+    "role": "offline_fast_transient_atlas_builder_not_final_cycle_integrator",
+    "state": "q162_plus_dynamic_z280_plus_a28",
+    "state_dependent_coordinate_Jacobian_per_online_evaluation": 0,
+    "truth_calls_per_online_evaluation": 0
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25cp"
+}
