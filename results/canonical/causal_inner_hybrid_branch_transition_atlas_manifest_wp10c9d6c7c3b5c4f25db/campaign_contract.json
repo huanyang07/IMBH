@@ -1,0 +1,64 @@
+{
+  "authorization_boundaries": {
+    "exploratory_cycle_authorized": false,
+    "online_reduced_solver_implementation_authorized": false,
+    "physical_microburst_authorized": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "truth_campaign_authorized": false
+  },
+  "classification": "hybrid_branch_transition_atlas_contract_frozen_candidate_geometry_preflight_authorized",
+  "counts": {
+    "branch_anchor_slots": 12,
+    "candidate_memory_orders": 4,
+    "transition_slots": 8
+  },
+  "definitions_only": true,
+  "fail_fast_dependencies": {
+    "heldout_branch_data_open_only_after_memory_order_frozen": true,
+    "heldout_transition_data_open_only_after_map_form_frozen": true,
+    "online_implementation_requires_both_database_certificates": true,
+    "transition_training_requires_stable_entry_and_exit_branches": true
+  },
+  "identification_sequence": [
+    "candidate_geometry_preflight_using_existing_artifacts_only",
+    "two_branch_existence_and_stability_pilot",
+    "branch_training_only_fit_and_memory_order_freeze",
+    "open_branch_heldouts_and_sparse_fine_validation",
+    "one_direction_one_transition_capture_pilot",
+    "transition_training_then_sealed_heldouts",
+    "online_hybrid_integrator_implementation_manifest",
+    "short_matched_time_replay_before_any_cycle"
+  ],
+  "next_package": {
+    "classification_on_pass": "hybrid_branch_transition_candidate_geometry_passed_branch_existence_pilot_manifest_authorized",
+    "new_exact_rate_calls": 0,
+    "new_nonlinear_roots": 0,
+    "propagated_states": 0,
+    "tasks": [
+      "inventory_existing_accepted_states_with_exact_U80_coordinates",
+      "freeze_unclassified_candidate_branch_pairs_without_assigning_labels",
+      "test_macro_path_span_and_physical_guards",
+      "freeze_event_surface_observables_independent_of_one_zone_switches",
+      "select_one_fail_fast_branch_existence_pilot_before_truth"
+    ],
+    "work_package": "WP10c9d6c7c3b5c4f25dc"
+  },
+  "runtime_contract": {
+    "fast_stability_scale_present_in_online_step_restriction": false,
+    "fiducial_cycle_seconds": 578880.0,
+    "maximum_online_macrosteps_per_cycle": 100000,
+    "maximum_transition_events_per_cycle_for_budgeting": 4,
+    "minimum_average_macrostep_seconds": 5.7888,
+    "transition_cost_online": "one_interpolated_reset_per_event",
+    "truth_and_470_field_online_calls": 0,
+    "wall_budget_seconds": 259200.0
+  },
+  "schema_version": 1,
+  "superseded_combined_database_design": {
+    "combined_cold_transition_hot_arclength_fit_rejected": true,
+    "prior_numerical_evidence_modified": false,
+    "reason": "the_validated_forward_patch_contains_an_unstable_transition_direction_and_is_not_a_quasi_steady_branch_graph"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25db"
+}

@@ -1,0 +1,130 @@
+{
+  "binding_gates": {
+    "capture_success_fraction": 1.0,
+    "complete_truth_residual_max": 1e-10,
+    "correct_exit_branch_required": true,
+    "fine_middle_transition_impulse_error_max": 0.2,
+    "global_M_J_E_jump_ledger_relative_defect_max": 1e-10,
+    "heldout_exit_macro_state_relative_error_max": 0.05,
+    "heldout_integrated_face_flux_relative_error_max": 0.1,
+    "heldout_transition_duration_relative_error_max": 0.2,
+    "trust_domain_containment_required": true
+  },
+  "directions": [
+    "cold_to_hot",
+    "hot_to_cold"
+  ],
+  "entry": {
+    "hysteresis_side_recorded": true,
+    "location": "bracketed_root_in_slow_macro_time",
+    "state_source": "accepted_stable_branch_endpoint",
+    "surface": "branch_fast_spectral_abscissa_zero_or_fold_discriminant_zero"
+  },
+  "exit": {
+    "branch_distance_and_stability_required": true,
+    "failure_to_capture": "transition_map_rejected_no_online_reset",
+    "fast_rate_decay_required": true,
+    "maximum_exit_graph_relative_distance": 0.05,
+    "target": "opposite_stable_branch_capture_tube"
+  },
+  "object": "fast_event_entry_to_exit_impulse_map",
+  "online_fast_microsteps": 0,
+  "online_operator": "T_direction:(X_minus,event_parameters)->(X_plus,integrated_ledger,new_branch)",
+  "online_transition_ODE_forbidden": true,
+  "online_truth_calls": 0,
+  "record_per_transition": [
+    "entry_and_exit_U80_a2",
+    "entry_and_exit_stable_memory_state",
+    "event_parameters_and_branch_labels",
+    "physical_transition_duration",
+    "integrated_single_valued_face_fluxes",
+    "integrated_cell_sources_and_constraint_work",
+    "Delta_global_M_J_E_ledger",
+    "three_internal_active_coordinates_for_offline_diagnosis_only"
+  ],
+  "schema_version": 1,
+  "transition_schedule": [
+    {
+      "direction": "cold_to_hot",
+      "event_surface_quantile": 0.2,
+      "fine_layout": false,
+      "middle_layout": true,
+      "role": "training",
+      "sealed": false,
+      "transition_id": "UT00"
+    },
+    {
+      "direction": "cold_to_hot",
+      "event_surface_quantile": 0.5,
+      "fine_layout": false,
+      "middle_layout": true,
+      "role": "training",
+      "sealed": false,
+      "transition_id": "UT01"
+    },
+    {
+      "direction": "cold_to_hot",
+      "event_surface_quantile": 0.8,
+      "fine_layout": false,
+      "middle_layout": true,
+      "role": "training",
+      "sealed": false,
+      "transition_id": "UT02"
+    },
+    {
+      "direction": "cold_to_hot",
+      "event_surface_quantile": 0.65,
+      "fine_layout": true,
+      "middle_layout": true,
+      "role": "heldout",
+      "sealed": true,
+      "transition_id": "UV00"
+    },
+    {
+      "direction": "hot_to_cold",
+      "event_surface_quantile": 0.2,
+      "fine_layout": false,
+      "middle_layout": true,
+      "role": "training",
+      "sealed": false,
+      "transition_id": "DT00"
+    },
+    {
+      "direction": "hot_to_cold",
+      "event_surface_quantile": 0.5,
+      "fine_layout": false,
+      "middle_layout": true,
+      "role": "training",
+      "sealed": false,
+      "transition_id": "DT01"
+    },
+    {
+      "direction": "hot_to_cold",
+      "event_surface_quantile": 0.8,
+      "fine_layout": false,
+      "middle_layout": true,
+      "role": "training",
+      "sealed": false,
+      "transition_id": "DT02"
+    },
+    {
+      "direction": "hot_to_cold",
+      "event_surface_quantile": 0.65,
+      "fine_layout": true,
+      "middle_layout": true,
+      "role": "heldout",
+      "sealed": true,
+      "transition_id": "DV00"
+    }
+  ],
+  "truth_budget": {
+    "fine_heldout_transitions": 2,
+    "first_execution_authorizes_only_one_direction_one_transition_pilot": true,
+    "full_schedule_requires_pilot_pass": true,
+    "middle_training_transitions": 6,
+    "sealed_middle_heldout_transitions": 2,
+    "stop_on_first_capture_or_ledger_failure": true
+  },
+  "validated_forward_patch_may_not_be_labeled_by_interpolation": true,
+  "validated_forward_patch_role": "unclassified_transition_geometry_seed"
+}

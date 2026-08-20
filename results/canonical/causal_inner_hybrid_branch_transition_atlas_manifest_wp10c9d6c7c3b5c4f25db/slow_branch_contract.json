@@ -1,0 +1,188 @@
+{
+  "anchor_schedule": [
+    {
+      "anchor_id": "C00",
+      "branch": "cold",
+      "fine_layout": false,
+      "middle_layout": true,
+      "normalized_branch_arclength": 0.0,
+      "role": "training",
+      "sealed_until_memory_order_frozen": false
+    },
+    {
+      "anchor_id": "C01",
+      "branch": "cold",
+      "fine_layout": false,
+      "middle_layout": true,
+      "normalized_branch_arclength": 0.2,
+      "role": "heldout",
+      "sealed_until_memory_order_frozen": true
+    },
+    {
+      "anchor_id": "C02",
+      "branch": "cold",
+      "fine_layout": false,
+      "middle_layout": true,
+      "normalized_branch_arclength": 0.4,
+      "role": "training",
+      "sealed_until_memory_order_frozen": false
+    },
+    {
+      "anchor_id": "C03",
+      "branch": "cold",
+      "fine_layout": false,
+      "middle_layout": true,
+      "normalized_branch_arclength": 0.6,
+      "role": "training",
+      "sealed_until_memory_order_frozen": false
+    },
+    {
+      "anchor_id": "C04",
+      "branch": "cold",
+      "fine_layout": true,
+      "middle_layout": true,
+      "normalized_branch_arclength": 0.8,
+      "role": "heldout",
+      "sealed_until_memory_order_frozen": true
+    },
+    {
+      "anchor_id": "C05",
+      "branch": "cold",
+      "fine_layout": false,
+      "middle_layout": true,
+      "normalized_branch_arclength": 1.0,
+      "role": "training",
+      "sealed_until_memory_order_frozen": false
+    },
+    {
+      "anchor_id": "H00",
+      "branch": "hot",
+      "fine_layout": false,
+      "middle_layout": true,
+      "normalized_branch_arclength": 0.0,
+      "role": "training",
+      "sealed_until_memory_order_frozen": false
+    },
+    {
+      "anchor_id": "H01",
+      "branch": "hot",
+      "fine_layout": false,
+      "middle_layout": true,
+      "normalized_branch_arclength": 0.2,
+      "role": "heldout",
+      "sealed_until_memory_order_frozen": true
+    },
+    {
+      "anchor_id": "H02",
+      "branch": "hot",
+      "fine_layout": false,
+      "middle_layout": true,
+      "normalized_branch_arclength": 0.4,
+      "role": "training",
+      "sealed_until_memory_order_frozen": false
+    },
+    {
+      "anchor_id": "H03",
+      "branch": "hot",
+      "fine_layout": false,
+      "middle_layout": true,
+      "normalized_branch_arclength": 0.6,
+      "role": "training",
+      "sealed_until_memory_order_frozen": false
+    },
+    {
+      "anchor_id": "H04",
+      "branch": "hot",
+      "fine_layout": true,
+      "middle_layout": true,
+      "normalized_branch_arclength": 0.8,
+      "role": "heldout",
+      "sealed_until_memory_order_frozen": true
+    },
+    {
+      "anchor_id": "H05",
+      "branch": "hot",
+      "fine_layout": false,
+      "middle_layout": true,
+      "normalized_branch_arclength": 1.0,
+      "role": "training",
+      "sealed_until_memory_order_frozen": false
+    }
+  ],
+  "binding_gates": {
+    "complete_truth_root_residual_max": 1e-10,
+    "fast_spectral_abscissa_max_per_second": 0.0,
+    "fine_middle_significant_flux_error_max": 0.2,
+    "global_M_J_E_telescope_relative_defect_max": 5e-12,
+    "heldout_face_flux_normalized_error_max": 0.15,
+    "heldout_memory_transfer_relative_error_max": 0.1,
+    "heldout_projected_macro_rate_relative_error_max": 0.1,
+    "passivity_or_declared_dissipation_required": true,
+    "restriction_lifting_identity_max": 5e-12,
+    "slow_graph_invariance_relative_defect_max": 0.1,
+    "spectral_gap_ratio_min": 10.0,
+    "stable_poles_required": true
+  },
+  "branch_state_definition": {
+    "branch_existence_is_not_assumed": true,
+    "constraints": "R82_y_equals_X82",
+    "construction": "constraint_consistent_pseudo_arclength_continuation_with_no_post_root_projection",
+    "fast_root": "Z_fast_transpose_F_atlas_y_equals_zero",
+    "maximum_relative_invariance_defect": 0.1,
+    "minimum_spectral_gap_ratio": 10.0,
+    "stability": "all_unresolved_fast_eigenvalues_strictly_negative"
+  },
+  "branches": [
+    "cold",
+    "hot"
+  ],
+  "local_conservative_closure": {
+    "boundary_faces": "separate_certified_inner_and_outer_boundary_maps",
+    "cell_derivative_regression_forbidden": true,
+    "fit_object": "one_single_valued_face_flux_per_radial_face",
+    "global_M_J_E_telescoping_exact_by_construction": true,
+    "independent_left_and_right_face_predictions_forbidden": true,
+    "interior_stencil": "neighboring_Q5_cells_plus_a2_plus_memory",
+    "pooled_locality": "shared_radius_conditioned_stencil_law_across_16_cells_rather_than_one_global_80_dimensional_polynomial"
+  },
+  "object": "quasi_steady_slow_branch_closure",
+  "online_state": "U80_Q5_plus_a2_plus_selected_stable_memory_mr",
+  "schema_version": 1,
+  "sealed_heldout_ids": [
+    "C01",
+    "C04",
+    "H01",
+    "H04"
+  ],
+  "stable_memory": {
+    "freeze_before_opening_heldout": true,
+    "if_order_6_fails": "expand_explicit_branch_state_not_memory_order",
+    "model": "stable_passive_shared_pole_rational_Mori_Zwanzig_kernel",
+    "orders": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "selection": "smallest_training_cross_validation_order_passing_all_gates",
+    "unstable_or_transition_coordinates_may_not_be_memory": true
+  },
+  "training_ids": [
+    "C00",
+    "C02",
+    "C03",
+    "C05",
+    "H00",
+    "H02",
+    "H03",
+    "H05"
+  ],
+  "truth_budget": {
+    "fine_heldout_anchors": 2,
+    "heldout_error_may_not_select_new_anchor": true,
+    "initial_middle_training_anchors": 8,
+    "maximum_adaptive_training_anchors_per_branch": 2,
+    "sealed_middle_heldout_anchors": 4,
+    "stop_on_first_branch_existence_stability_or_training_gate_failure": true
+  }
+}
