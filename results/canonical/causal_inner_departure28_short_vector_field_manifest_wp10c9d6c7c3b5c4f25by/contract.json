@@ -1,0 +1,106 @@
+{
+  "algebraic_decoder": {
+    "decoder_coordinate_mismatch_is_measured_not_silently_corrected": true,
+    "formula": "delta_hat_equals_L470_y_plus_B4_kappa8_of_E8_transpose_a",
+    "full_truth_state_dimension": 560,
+    "online_Newton_retractions_per_field_evaluation": 0,
+    "rank4_curvature_decoder_frozen": true
+  },
+  "architecture_role": {
+    "direct_microsecond_marching_for_one_cycle": false,
+    "final_cycle_integrator": "slow_physical_state_after_fast_elimination_or_averaging",
+    "model_470": "offline_fast_transient_and_closure_model",
+    "model_470_is_not_the_final_cycle_integrator": true
+  },
+  "binding_prospective_forecast_gates": {
+    "coarse_refined_endpoint_relative_difference_max": 0.001,
+    "endpoint_vector_field_a28_relative_error_max": 0.08,
+    "endpoint_vector_field_full_relative_error_max": 0.15,
+    "endpoint_vector_field_q162_relative_error_max": 0.15,
+    "endpoint_vector_field_z280_relative_error_max": 0.15,
+    "forecast_a28_relative_error_max": 0.05,
+    "forecast_full_coordinate_relative_error_max": 0.05,
+    "forecast_full_scaled_state_relative_error_max": 0.05,
+    "forecast_q162_relative_error_max": 0.05,
+    "forecast_z280_relative_error_max": 0.05,
+    "truth_root_accepted": true,
+    "truth_root_maximum_H_over_R": 0.12,
+    "truth_root_maximum_Q3_relative_defect": 1e-12,
+    "truth_root_maximum_exact_Jacobian_assemblies": 1,
+    "truth_root_maximum_scaled_residual": 1e-10,
+    "truth_root_minimum_reconstruction_factor": 0.999999999999,
+    "truth_root_minimum_scattering_optical_depth": 1.0
+  },
+  "binding_retrospective_readiness_gates": {
+    "coarse_refined_endpoint_relative_difference_max": 0.001,
+    "decoded_start_full_scaled_state_relative_error_max": 0.03,
+    "maximum_H_over_R": 0.12,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "refined_endpoint_a28_relative_error_max": 0.02,
+    "refined_endpoint_full_coordinate_relative_error_max": 0.02,
+    "refined_endpoint_q162_relative_error_max": 0.05,
+    "refined_endpoint_z280_relative_error_max": 0.02
+  },
+  "binding_structural_gates": {
+    "anchor_base_rate_array_equal": true,
+    "anchor_state_array_equal": true,
+    "base_vector_field_relative_identity_defect_max": 1e-10,
+    "coefficient_hash_frozen_before_forecast": true,
+    "forecast_hash_frozen_before_truth": true,
+    "nonlinear_departure_at_zero_norm_max": 0.0,
+    "restriction_lifting_identity_defect_max": 1e-10
+  },
+  "classification": "departure28_short_vector_field_validation_manifest_frozen",
+  "decision": {
+    "failure_classification": "departure28_short_reduced_vector_field_validation_failed",
+    "heldout_anchor_forecast_authorized": false,
+    "pass_authorizes_only": "definitions_only_fixed_Q_fast_attractor_and_normal_hyperbolicity_manifest",
+    "pass_classification": "departure28_short_reduced_vector_field_validated",
+    "physical_microburst_authorized": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "definitions_only": true,
+  "integration": {
+    "binding_forecast": "refined_RK4",
+    "coarse_substeps": 1,
+    "forecast_timestep_seconds": 1e-07,
+    "integration_error_measure": "coarse_to_refined_endpoint_difference",
+    "method": "classical_RK4",
+    "refined_substeps": 2
+  },
+  "objective": "validate_one_short_zero_online_truth_forecast_of_the_frozen_departure28_reduced_vector_field_before_fast_slow_elimination",
+  "reduced_vector_field": {
+    "decoded_full_rate": "r_hat_equals_r0_plus_G_delta_hat_plus_D28_N28_of_a",
+    "departure_nonlinearity": "N28_equals_frozen_dual_quadratic_plus_cubic_closure_with_N28_of_0_equal_0",
+    "departure_rate": "a_dot_equals_D28_transpose_times_r_hat",
+    "memory_rate": "z_dot_equals_Z280_transpose_times_r_hat",
+    "online_full_generator_assemblies": 0,
+    "online_nonlinear_fixed_Q_roots": 0,
+    "online_truth_calls_per_field_evaluation": 0,
+    "physical_rate": "q_dot_equals_D_Cphys_at_u_hat_times_r_hat",
+    "state_local_coordinate_Jacobian_is_geometry_not_PDE_truth": true
+  },
+  "reference_sequence": {
+    "forecast_must_be_serialized_and_hashed_before_truth_root": true,
+    "prospective_forecast": "accepted_warm_3_to_new_warm_4",
+    "readiness_interval": "accepted_warm_2_to_accepted_warm_3",
+    "readiness_is_retrospective_and_cannot_by_itself_certify_forecasting": true,
+    "rejected_truth_candidate_must_not_enter_history": true,
+    "truth_may_not_change_any_model_coefficient_threshold_or_forecast": true,
+    "truth_predictor": "accepted_history_predictor_not_reduced_forecast",
+    "truth_root": "one_authentic_equal_step_fixed_Q_BDF2_root_at_1e-7_seconds"
+  },
+  "schema_version": 1,
+  "state": {
+    "a_definition": "28_frozen_departure_dual_coordinates",
+    "anchor": "accepted_primary_warm_3_checkpoint",
+    "anchor_elapsed_seconds": 0.0200006,
+    "dimension": 470,
+    "partition": "y_equals_q162_plus_z280_plus_a28",
+    "q_definition": "exact_nonlinear_160_integrated_mapped_storage_values_plus_2_explicit_stable_coordinates_relative_to_warm_3",
+    "z_definition": "280_frozen_stable_memory_dual_coordinates"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25by"
+}
