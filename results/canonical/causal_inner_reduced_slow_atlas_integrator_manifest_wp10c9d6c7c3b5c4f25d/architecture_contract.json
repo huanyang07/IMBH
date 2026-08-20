@@ -1,0 +1,155 @@
+{
+  "atlas_and_domain_guard": {
+    "current_exact_seed_count": 13,
+    "current_patch_role": "local_forward_sector_seed_only",
+    "global_forward_half_space_claimed": false,
+    "global_tensor_product_grid_forbidden": true,
+    "leave_trust_domain_action": "stop_and_request_offline_patch_expansion",
+    "middle_layout_training": true,
+    "patch_expansion": "pathwise_active_learning_with_coefficients_and_holdouts_frozen_before_truth",
+    "sparse_fine_layout_validation": true,
+    "trust_domain": "union_of_validated_sample_hulls_with_decoder_physical_and_error_guards",
+    "unbounded_polynomial_extrapolation_forbidden": true
+  },
+  "authorization_boundaries": {
+    "exploratory_cycle_authorized": false,
+    "online_reduced_solver_implementation_authorized": false,
+    "physical_microburst_authorized": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "reduced_slow_atlas_integrator_architecture_frozen_local_slaving_preflight_authorized",
+  "conservative_macro_dynamics": {
+    "cell_balance": "dU_i/dt=Phi_(i-1/2)-Phi_(i+1/2)+S_i-W_i",
+    "constraint_projection": "weighted_minimum_norm_flux_source_correction",
+    "fit_face_fluxes_not_independent_cell_derivatives": true,
+    "inner_boundary": "certified_face36_exterior_partition",
+    "raw_horizon_face_flux_forbidden": true,
+    "responsive_height_one_form_is_not_an_absolute_coordinate": true,
+    "single_valued_interior_face_flux": true,
+    "telescoping_mass_angular_momentum_killing_energy_ledgers": true
+  },
+  "decision": {
+    "memory_fit_failure_classification": "finite_memory_order_six_insufficient_expand_conservative_macro_state",
+    "no_gap_classification": "compact_slow_graph_rejected_expand_conservative_macro_state",
+    "pass_authorizes_only": "definitions_only_pathwise_slow_atlas_expansion_manifest",
+    "pass_classification": "local_slow_graph_and_finite_memory_architecture_supported",
+    "unstable_fast_block_classification": "local_slow_reduction_rejected_unstable_fast_block"
+  },
+  "definitions_only": true,
+  "immediate_local_slaving_preflight": {
+    "binding_gates": {
+      "maximum_fast_spectral_abscissa_per_second": 0.0,
+      "maximum_field_Jacobian_step_ladder_relative_defect": 0.001,
+      "maximum_global_conservative_projection_defect": 1e-12,
+      "maximum_leave_one_seed_out_projected_rate_relative_error": 0.075,
+      "maximum_memory_transfer_relative_error": 0.1,
+      "maximum_relative_invariance_defect": 0.1,
+      "minimum_macro_restriction_rank": 80,
+      "minimum_spectral_gap_ratio": 10.0,
+      "stable_memory_poles_required": true
+    },
+    "new_complete_generator_assemblies_equal": 0,
+    "new_exact_rate_calls_equal": 0,
+    "new_nonlinear_fixed_Q_roots_equal": 0,
+    "propagated_physical_truth_states_equal": 0,
+    "tasks": [
+      "construct_16_cell_Q5_conservative_restriction_and_lifting",
+      "audit_exact_global_M_J_E_telescoping_rows",
+      "differentiate_validated_atlas_field_and_macro_map_on_seed_cloud",
+      "compute_resolved_unresolved_real_Schur_split",
+      "screen_stable_memory_orders_0_2_4_6",
+      "measure_slow_graph_invariance_and_transfer_fit_by_leave_one_seed_out",
+      "freeze_new_independent_patch_holdouts_before_any_future_truth"
+    ],
+    "work_package": "WP10c9d6c7c3b5c4f25da"
+  },
+  "online_integrator": {
+    "accepted_step_guards": [
+      "atlas_trust_domain",
+      "storage_positivity",
+      "height",
+      "optical_depth",
+      "mass_angular_momentum_energy_ledgers",
+      "memory_dissipation",
+      "branch_hysteresis"
+    ],
+    "adaptive_error_estimator": "embedded_first_order_and_step_doubling_controls",
+    "event_conservation": "U80_continuous_and_auxiliary_reset_ledger_exact",
+    "event_location": "bracketed_hysteresis_surface_root",
+    "family": "second_order_one_step_conservative_IMEX_ARK",
+    "linear_memory_update": "exact_exponential_or_L_stable_stage",
+    "rejected_step_never_propagated": true,
+    "restart_after_every_accepted_macrostep": true
+  },
+  "runtime_budget": {
+    "direct_surrogate_microsteps_per_cycle": 5788800000000.0,
+    "direct_surrogate_wall_years_per_cycle": 337.95404580053935,
+    "fiducial_cycle_seconds": 578880.0,
+    "maximum_macrosteps_per_cycle": 100000,
+    "minimum_average_macrostep_seconds": 5.7888,
+    "reference_100k_macrostep_rhs_wall_fraction": 0.005686277650112723,
+    "reference_100k_macrostep_rhs_wall_seconds": 1473.8831669092178,
+    "reference_microstep_seconds": 1e-07,
+    "reference_rhs_evaluations_per_macrostep": 8,
+    "required_architectural_change": "eliminate_fast_stability_scale_online",
+    "validated_field_median_rhs_wall_seconds": 0.0018423539586365223,
+    "wall_budget_seconds": 259200.0
+  },
+  "schema_version": 1,
+  "scientific_status": {
+    "forward_quadratic_local_field_independently_validated": true,
+    "local_field_is_direct_cycle_integrator": false,
+    "physical_failure_detected": false,
+    "remaining_bottleneck": "timescale_elimination_and_pathwise_domain_coverage"
+  },
+  "slow_graph_and_memory": {
+    "fallback": "increase_conservative_macro_state_before_increasing_memory_above_6",
+    "fast_block_requirement": "stable_real_Schur_block",
+    "lifting": "y=Psi_b(X)",
+    "macro_state_symbol": "X=(U80,a2,m_r,b)",
+    "maximum_relative_invariance_defect": 0.1,
+    "memory_equation": "dm/dt=-T_b_inverse_m+B_b(U,a)dU/dt",
+    "memory_model": "stable_passive_rational_Mori_Zwanzig_kernel",
+    "minimum_spectral_gap_ratio": 10.0,
+    "passivity_or_declared_dissipation_required": true,
+    "projected_invariance_equation": "D_Psi_b(X)G_b(X)=F_atlas(Psi_b(X))+controlled_residual",
+    "stable_poles_required": true
+  },
+  "three_layer_architecture": {
+    "offline_atlas_layer": {
+      "direct_cycle_integration_forbidden": true,
+      "field": "C2_partitioned_forward_quadratic_validated_local_surrogate",
+      "role": "local_slaving_memory_and_flux_identification",
+      "state": "y470_equal_q162_z280_a28"
+    },
+    "offline_truth_layer": {
+      "online_calls": 0,
+      "role": "sparse_anchor_and_heldout_validation_only",
+      "state": "primitive_560_with_exact_fixed_Q_rate_and_complete_Jacobian"
+    },
+    "online_macro_layer": {
+      "branch": [
+        "cold",
+        "hot",
+        "transition"
+      ],
+      "continuous_dimension_by_memory_order": {
+        "0": 82,
+        "2": 84,
+        "4": 86,
+        "6": 88
+      },
+      "memory_orders_to_screen": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "online_atlas_microbursts": 0,
+      "online_truth_calls": 0,
+      "state": "cellwise_Q5_on_16_radial_cells_plus_a2_plus_stable_memory_r_plus_branch"
+    }
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25d"
+}
