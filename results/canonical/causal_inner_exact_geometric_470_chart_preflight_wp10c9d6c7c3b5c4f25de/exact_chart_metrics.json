@@ -1,0 +1,580 @@
+{
+  "checks": {
+    "anchor_roundtrip": true,
+    "augmented_rank": true,
+    "component_trust": true,
+    "condition": true,
+    "coordinate_closure": true,
+    "coordinate_rank": true,
+    "gauge_closure": true,
+    "generator_budget": true,
+    "height": true,
+    "implicit_derivative": false,
+    "no_failures": true,
+    "optical_depth": true,
+    "physical_audits": true,
+    "propagation_budget": true,
+    "rate_budget": true,
+    "raw_decoder_repair": true,
+    "reconstruction": true,
+    "retraction_count": true,
+    "root_budget": true,
+    "sealed_untouched": true
+  },
+  "metrics": {
+    "all_physical_audits_passed": true,
+    "anchor_exact_seed_roundtrip_bitwise": true,
+    "augmented_geometry": {
+      "augmented_condition_number": 1535.9409660036056,
+      "augmented_rank": 560,
+      "condition_number": 1535.9409660035951,
+      "coordinate_partition_defect": 2.220446049250313e-16,
+      "coordinate_reconstruction_relative_defect": 2.3205875715984934e-16,
+      "maximum_singular_value": 8.582158692692706,
+      "minimum_singular_value": 0.005587557648796131,
+      "rank": 470
+    },
+    "candidates": [
+      {
+        "Newton_corrections": 0,
+        "accepted_line_factors": [],
+        "candidate_index": 0,
+        "coordinate_residual_infinity": 0.0,
+        "direction_index": -1,
+        "gauge_residual_infinity": 0.0,
+        "label": "anchor_exact_seed",
+        "maximum_augmented_condition_number": 0.0,
+        "maximum_height_ratio": 0.09783750054676484,
+        "maximum_scaled_anchor_departure": 0.0,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.2543109039531,
+        "passed": true,
+        "residual_history": [
+          0.0
+        ],
+        "sign": 0,
+        "wall_seconds": 10.48916270909831
+      },
+      {
+        "Newton_corrections": 3,
+        "accepted_line_factors": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "candidate_index": 1,
+        "coordinate_residual_infinity": 6.852970881737752e-16,
+        "direction_index": -1,
+        "gauge_residual_infinity": 6.142857013033423e-16,
+        "label": "anchor_raw_decoder_repair",
+        "maximum_augmented_condition_number": 1538.412759447093,
+        "maximum_height_ratio": 0.09783750054676484,
+        "maximum_scaled_anchor_departure": 9.658940314238862e-15,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.2543109039531,
+        "passed": true,
+        "residual_history": [
+          0.0003835313694584184,
+          2.1512356692676704e-06,
+          2.857600822636641e-10,
+          6.852970881737752e-16
+        ],
+        "sign": 0,
+        "wall_seconds": 103.49209516588598
+      },
+      {
+        "Newton_corrections": 2,
+        "accepted_line_factors": [
+          1.0,
+          1.0
+        ],
+        "candidate_index": 2,
+        "coordinate_residual_infinity": 1.4519718760652722e-11,
+        "direction_index": 0,
+        "gauge_residual_infinity": 5.070118993697956e-16,
+        "label": "direction_0_-1",
+        "maximum_augmented_condition_number": 1536.0800627369563,
+        "maximum_height_ratio": 0.09783760758297186,
+        "maximum_scaled_anchor_departure": 0.0023045656021412064,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.25430954148793,
+        "passed": true,
+        "residual_history": [
+          3.9279351465582035e-05,
+          2.748688652243203e-07,
+          1.4519718760652722e-11
+        ],
+        "sign": -1,
+        "wall_seconds": 72.14066129084677
+      },
+      {
+        "Newton_corrections": 3,
+        "accepted_line_factors": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "candidate_index": 3,
+        "coordinate_residual_infinity": 1.022077388002085e-15,
+        "direction_index": 0,
+        "gauge_residual_infinity": 5.731600197408995e-16,
+        "label": "direction_0_+1",
+        "maximum_augmented_condition_number": 1948.0759497869385,
+        "maximum_height_ratio": 0.09783749606356927,
+        "maximum_scaled_anchor_departure": 0.002861698122958889,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.25431092781333,
+        "passed": true,
+        "residual_history": [
+          3.930336207202956e-05,
+          6.063119332155864e-07,
+          1.586365483419172e-10,
+          1.022077388002085e-15
+        ],
+        "sign": 1,
+        "wall_seconds": 104.64234320772812
+      },
+      {
+        "Newton_corrections": 2,
+        "accepted_line_factors": [
+          1.0,
+          1.0
+        ],
+        "candidate_index": 4,
+        "coordinate_residual_infinity": 9.939965517347105e-16,
+        "direction_index": 1,
+        "gauge_residual_infinity": 4.1724335638360004e-16,
+        "label": "direction_1_-1",
+        "maximum_augmented_condition_number": 1569.9291113830413,
+        "maximum_height_ratio": 0.09822010000228897,
+        "maximum_scaled_anchor_departure": 0.0025007069107797404,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.23525974636965,
+        "passed": true,
+        "residual_history": [
+          5.68790532162744e-06,
+          1.608049471357731e-09,
+          9.939965517347105e-16
+        ],
+        "sign": -1,
+        "wall_seconds": 72.72252579079941
+      },
+      {
+        "Newton_corrections": 2,
+        "accepted_line_factors": [
+          1.0,
+          1.0
+        ],
+        "candidate_index": 5,
+        "coordinate_residual_infinity": 9.818534874028728e-16,
+        "direction_index": 1,
+        "gauge_residual_infinity": 4.903942588971769e-16,
+        "label": "direction_1_+1",
+        "maximum_augmented_condition_number": 1581.9593195382151,
+        "maximum_height_ratio": 0.09798743356186337,
+        "maximum_scaled_anchor_departure": 0.0024993194196805605,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.24286388455563,
+        "passed": true,
+        "residual_history": [
+          5.687994010683539e-06,
+          1.4461461472770054e-09,
+          9.818534874028728e-16
+        ],
+        "sign": 1,
+        "wall_seconds": 73.21080537512898
+      },
+      {
+        "Newton_corrections": 2,
+        "accepted_line_factors": [
+          1.0,
+          1.0
+        ],
+        "candidate_index": 6,
+        "coordinate_residual_infinity": 1.0096090630185017e-15,
+        "direction_index": 2,
+        "gauge_residual_infinity": 4.652944735584469e-16,
+        "label": "direction_2_-1",
+        "maximum_augmented_condition_number": 1534.2253856867112,
+        "maximum_height_ratio": 0.09819902573735362,
+        "maximum_scaled_anchor_departure": 0.0025023093199365576,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.249488492641554,
+        "passed": true,
+        "residual_history": [
+          7.289402389365485e-06,
+          1.4311798413046972e-09,
+          1.0096090630185017e-15
+        ],
+        "sign": -1,
+        "wall_seconds": 72.58564470801502
+      },
+      {
+        "Newton_corrections": 2,
+        "accepted_line_factors": [
+          1.0,
+          1.0
+        ],
+        "candidate_index": 7,
+        "coordinate_residual_infinity": 8.718069668955941e-16,
+        "direction_index": 2,
+        "gauge_residual_infinity": 4.358000707728522e-16,
+        "label": "direction_2_+1",
+        "maximum_augmented_condition_number": 1554.4997747788875,
+        "maximum_height_ratio": 0.0982065116131155,
+        "maximum_scaled_anchor_departure": 0.0024976559799991804,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.243928089128612,
+        "passed": true,
+        "residual_history": [
+          7.305505691723724e-06,
+          1.4588262819970055e-09,
+          8.718069668955941e-16
+        ],
+        "sign": 1,
+        "wall_seconds": 72.45377512509003
+      },
+      {
+        "Newton_corrections": 2,
+        "accepted_line_factors": [
+          1.0,
+          1.0
+        ],
+        "candidate_index": 8,
+        "coordinate_residual_infinity": 3.4983127505938683e-13,
+        "direction_index": 3,
+        "gauge_residual_infinity": 5.269222558279552e-16,
+        "label": "direction_3_-1",
+        "maximum_augmented_condition_number": 1625.132080029649,
+        "maximum_height_ratio": 0.09790645210201859,
+        "maximum_scaled_anchor_departure": 0.0025231933259105,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.24176360220352,
+        "passed": true,
+        "residual_history": [
+          1.5718044136137088e-05,
+          4.498466121827249e-08,
+          3.4983127505938683e-13
+        ],
+        "sign": -1,
+        "wall_seconds": 72.12090737512335
+      },
+      {
+        "Newton_corrections": 2,
+        "accepted_line_factors": [
+          1.0,
+          1.0
+        ],
+        "candidate_index": 9,
+        "coordinate_residual_infinity": 3.1874503036988244e-13,
+        "direction_index": 3,
+        "gauge_residual_infinity": 4.953782074552192e-16,
+        "label": "direction_3_+1",
+        "maximum_augmented_condition_number": 1558.0934799737713,
+        "maximum_height_ratio": 0.09791684514864667,
+        "maximum_scaled_anchor_departure": 0.0025057452984462714,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.24984876053837,
+        "passed": true,
+        "residual_history": [
+          1.582188902415904e-05,
+          4.40245017108154e-08,
+          3.1874503036988244e-13
+        ],
+        "sign": 1,
+        "wall_seconds": 71.94105095788836
+      },
+      {
+        "Newton_corrections": 2,
+        "accepted_line_factors": [
+          1.0,
+          1.0
+        ],
+        "candidate_index": 10,
+        "coordinate_residual_infinity": 2.2315482794965646e-14,
+        "direction_index": 4,
+        "gauge_residual_infinity": 5.464819327831731e-16,
+        "label": "direction_4_-1",
+        "maximum_augmented_condition_number": 1535.939887481761,
+        "maximum_height_ratio": 0.09783750475515822,
+        "maximum_scaled_anchor_departure": 0.0024189494072950346,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.254310849988915,
+        "passed": true,
+        "residual_history": [
+          3.1666069524594054e-05,
+          2.644323982003982e-08,
+          2.2315482794965646e-14
+        ],
+        "sign": -1,
+        "wall_seconds": 72.22510795807466
+      },
+      {
+        "Newton_corrections": 2,
+        "accepted_line_factors": [
+          1.0,
+          1.0
+        ],
+        "candidate_index": 11,
+        "coordinate_residual_infinity": 3.785860513971784e-14,
+        "direction_index": 4,
+        "gauge_residual_infinity": 7.114665489235462e-16,
+        "label": "direction_4_+1",
+        "maximum_augmented_condition_number": 1535.942158006448,
+        "maximum_height_ratio": 0.09783749596448656,
+        "maximum_scaled_anchor_departure": 0.0025905992078907314,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.25431096330806,
+        "passed": true,
+        "residual_history": [
+          3.151646632715277e-05,
+          3.178973406736674e-08,
+          3.785860513971784e-14
+        ],
+        "sign": 1,
+        "wall_seconds": 74.20007891673595
+      },
+      {
+        "Newton_corrections": 2,
+        "accepted_line_factors": [
+          1.0,
+          1.0
+        ],
+        "candidate_index": 12,
+        "coordinate_residual_infinity": 2.362554596402333e-13,
+        "direction_index": 5,
+        "gauge_residual_infinity": 4.921193660911705e-16,
+        "label": "direction_5_-1",
+        "maximum_augmented_condition_number": 1535.9845047167062,
+        "maximum_height_ratio": 0.0978372729515191,
+        "maximum_scaled_anchor_departure": 0.0026227776818017468,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.25431083824139,
+        "passed": true,
+        "residual_history": [
+          3.0487390633937572e-05,
+          5.823042625863195e-08,
+          2.362554596402333e-13
+        ],
+        "sign": -1,
+        "wall_seconds": 72.88169837463647
+      },
+      {
+        "Newton_corrections": 2,
+        "accepted_line_factors": [
+          1.0,
+          1.0
+        ],
+        "candidate_index": 13,
+        "coordinate_residual_infinity": 9.747758156208874e-14,
+        "direction_index": 5,
+        "gauge_residual_infinity": 5.939123975604033e-16,
+        "label": "direction_5_+1",
+        "maximum_augmented_condition_number": 1535.9005926239668,
+        "maximum_height_ratio": 0.09783771109906844,
+        "maximum_scaled_anchor_departure": 0.002395392727271406,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.254310935891812,
+        "passed": true,
+        "residual_history": [
+          3.0463744628894673e-05,
+          4.303906675495739e-08,
+          9.747758156208874e-14
+        ],
+        "sign": 1,
+        "wall_seconds": 72.11821958282962
+      },
+      {
+        "Newton_corrections": 3,
+        "accepted_line_factors": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "candidate_index": 14,
+        "coordinate_residual_infinity": 1.2542050731312315e-15,
+        "direction_index": 6,
+        "gauge_residual_infinity": 5.730261435184399e-16,
+        "label": "direction_6_-1",
+        "maximum_augmented_condition_number": 2005.123748099194,
+        "maximum_height_ratio": 0.09783816372332584,
+        "maximum_scaled_anchor_departure": 0.002867918664675284,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.254302139100606,
+        "passed": true,
+        "residual_history": [
+          3.4028612007311576e-05,
+          6.033622578923922e-07,
+          2.0345332387675281e-10,
+          1.2542050731312315e-15
+        ],
+        "sign": -1,
+        "wall_seconds": 103.00390150025487
+      },
+      {
+        "Newton_corrections": 2,
+        "accepted_line_factors": [
+          1.0,
+          1.0
+        ],
+        "candidate_index": 15,
+        "coordinate_residual_infinity": 1.62971717013443e-11,
+        "direction_index": 6,
+        "gauge_residual_infinity": 4.576639204165504e-16,
+        "label": "direction_6_+1",
+        "maximum_augmented_condition_number": 1530.559703213081,
+        "maximum_height_ratio": 0.09783698318647337,
+        "maximum_scaled_anchor_departure": 0.0022614700124097276,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.254317772249046,
+        "passed": true,
+        "residual_history": [
+          3.408813126186381e-05,
+          2.6236146709299776e-07,
+          1.62971717013443e-11
+        ],
+        "sign": 1,
+        "wall_seconds": 72.04922516690567
+      },
+      {
+        "Newton_corrections": 1,
+        "accepted_line_factors": [
+          1.0
+        ],
+        "candidate_index": 16,
+        "coordinate_residual_infinity": 5.211719944497872e-12,
+        "direction_index": 7,
+        "gauge_residual_infinity": 5.238187271092154e-16,
+        "label": "direction_7_-1",
+        "maximum_augmented_condition_number": 1536.4939425891444,
+        "maximum_height_ratio": 0.09783505806119104,
+        "maximum_scaled_anchor_departure": 0.002499824973077693,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.254336841778713,
+        "passed": true,
+        "residual_history": [
+          1.0504646936609907e-06,
+          5.211719944497872e-12
+        ],
+        "sign": -1,
+        "wall_seconds": 41.0653604157269
+      },
+      {
+        "Newton_corrections": 1,
+        "accepted_line_factors": [
+          1.0
+        ],
+        "candidate_index": 17,
+        "coordinate_residual_infinity": 5.175082584685242e-12,
+        "direction_index": 7,
+        "gauge_residual_infinity": 4.390646104069501e-16,
+        "label": "direction_7_+1",
+        "maximum_augmented_condition_number": 1535.4549441696288,
+        "maximum_height_ratio": 0.09783994094383142,
+        "maximum_scaled_anchor_departure": 0.0025001848672587274,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.254284997221202,
+        "passed": true,
+        "residual_history": [
+          1.0510430301369222e-06,
+          5.175082584685242e-12
+        ],
+        "sign": 1,
+        "wall_seconds": 41.29076929204166
+      }
+    ],
+    "completed_retraction_count": 18,
+    "coordinate_geometry": {
+      "condition_number": 1535.9409660035951,
+      "coordinate_partition_defect": 2.220446049250313e-16,
+      "coordinate_reconstruction_relative_defect": 2.3205875715984934e-16,
+      "maximum_singular_value": 8.582158692692706,
+      "minimum_singular_value": 0.005587557648796131,
+      "rank": 470
+    },
+    "direction_metadata": [
+      {
+        "coordinate_radius": 9.528557103557834e-05,
+        "family": "hidden",
+        "linear_maximum_scaled_physical_component": 0.0025,
+        "source_index": 0
+      },
+      {
+        "coordinate_radius": 0.01035567946704651,
+        "family": "hidden",
+        "linear_maximum_scaled_physical_component": 0.0025,
+        "source_index": 129
+      },
+      {
+        "coordinate_radius": 0.013710758995457923,
+        "family": "hidden",
+        "linear_maximum_scaled_physical_component": 0.0025,
+        "source_index": 258
+      },
+      {
+        "coordinate_radius": 0.009445593653707528,
+        "family": "hidden",
+        "linear_maximum_scaled_physical_component": 0.0025,
+        "source_index": 387
+      },
+      {
+        "coordinate_radius": 0.0005661417482615244,
+        "family": "macro",
+        "linear_maximum_scaled_physical_component": 0.0025,
+        "source_index": 0
+      },
+      {
+        "coordinate_radius": 0.00022110347195423757,
+        "family": "macro",
+        "linear_maximum_scaled_physical_component": 0.0025,
+        "source_index": 26
+      },
+      {
+        "coordinate_radius": 3.9585671856410425e-05,
+        "family": "macro",
+        "linear_maximum_scaled_physical_component": 0.0025,
+        "source_index": 53
+      },
+      {
+        "coordinate_radius": 0.006740919454555955,
+        "family": "macro",
+        "linear_maximum_scaled_physical_component": 0.0025,
+        "source_index": 81
+      }
+    ],
+    "failed_retraction_count": 0,
+    "failures": [],
+    "gauge_basis_coordinate_annihilation_infinity": 1.022990849438709e-14,
+    "gauge_basis_orthogonality_infinity": 1.0711823713893509e-14,
+    "implicit_derivative": {
+      "maximum_relative_defect": 1.459448248994989e-06,
+      "relative_defects": [
+        6.272012485807046e-07,
+        5.5829432308749295e-09,
+        4.157507770464297e-09,
+        5.576976710018611e-09,
+        1.0267454041104238e-07,
+        2.6478305450724894e-07,
+        1.459448248994989e-06,
+        9.042406689010073e-09
+      ],
+      "step": 0.0001
+    },
+    "maximum_augmented_condition_number": 2005.123748099194,
+    "maximum_coordinate_residual_infinity": 1.62971717013443e-11,
+    "maximum_gauge_residual_infinity": 7.114665489235462e-16,
+    "maximum_height_ratio": 0.09822010000228897,
+    "maximum_scaled_anchor_departure": 0.002867918664675284,
+    "minimum_reconstruction_factor": 1.0,
+    "minimum_scattering_optical_depth": 19.23525974636965,
+    "new_complete_generator_assemblies": 0,
+    "new_exact_fixed_Q_rate_evaluations": 0,
+    "new_intrinsic_hidden_roots": 0,
+    "planned_retraction_count": 18,
+    "propagated_states": 0,
+    "raw_decoder_repaired_to_anchor_scaled_infinity": 9.658940314238862e-15,
+    "sealed_state_was_not_evaluated": true,
+    "total_wall_seconds": 1491.6491053341888
+  },
+  "passed": false
+}
