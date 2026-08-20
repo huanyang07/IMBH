@@ -1,0 +1,151 @@
+{
+  "authorization_boundaries": {
+    "branch_root_in_this_package": false,
+    "new_truth_in_this_package": false,
+    "next_execution_is_single_primary_only": true,
+    "online_solver_authorized": false,
+    "physical_microburst_authorized": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "sealed_16ms_opened": false,
+    "this_package_definitions_only": true
+  },
+  "binding_gates": {
+    "complete_coordinate_tangent_JVP_relative_defect_max": 1e-06,
+    "critical_manifold_invariance_relative_defect_max": 0.1,
+    "dual_geometry_all_defects_max": 5e-12,
+    "equilibrated_hidden_Jacobian_condition_number_max": 100000000.0,
+    "exact_coordinate_closure_infinity_max": 1e-10,
+    "exact_gauge_closure_infinity_max": 1e-10,
+    "fast_spectral_abscissa_max_per_second": 0.0,
+    "fast_to_effective_slow_spectral_gap_ratio_min": 10.0,
+    "fixed_Q_relative_defect_max": 1e-12,
+    "initial_hidden_coordinate_rate_fraction_max": 0.25,
+    "linear_predictor_maximum_scaled_physical_component_max": 0.015,
+    "linear_predictor_relative_residual_max": 1e-10,
+    "maximum_height_ratio": 0.5,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "normalized_hidden_residual_infinity_max": 1e-10,
+    "reaction_and_constraint_action_relative_defect_max": 1e-12,
+    "surrogate_hidden_rate_relative_defect_max": 0.1
+  },
+  "classification": "dual_consistent_primary_hidden_fast_root_manifest_frozen_anchor_preflight_first",
+  "complete_hidden_tangent": {
+    "chart_lift": "Dchi_y_solves_stack_DC470_and_N90_transpose_times_dx_equals_stack_dy_and_zero90",
+    "complete_tangent_independent_JVP_audit_required": true,
+    "coordinate_Hessian_term_required": true,
+    "coordinate_field_tangent": "DF_y_dy=D2C470_x[Dchi_y_dy,fQ_x]+DC470_x_DfQ_x_Dchi_y_dy",
+    "hidden_Jacobian": "Azz=Qz_DF_y_Z388",
+    "macro_blocks": {
+      "Axx": "R82_DF_y_L82",
+      "Axz": "R82_DF_y_Z388",
+      "Azx": "Qz_DF_y_L82",
+      "Azz": "Qz_DF_y_Z388"
+    },
+    "physical_reaction_derivative_required": true
+  },
+  "decision": {
+    "anchor_hidden_fraction_fail": {
+      "authorizes_only": "definitions_only_transition_or_macro_state_revision_manifest",
+      "classification": "primary_anchor_not_near_frozen_macro_critical_manifold_root_not_attempted"
+    },
+    "converged_unstable": {
+      "authorizes_only": "definitions_only_transition_capture_manifest",
+      "classification": "primary_stationary_transition_or_fold_marker_not_slow_branch"
+    },
+    "full_pass": {
+      "authorizes_only": "definitions_only_one_direction_pseudo_arclength_continuation_manifest",
+      "classification": "primary_local_stable_critical_branch_seed_supported_unclassified"
+    },
+    "stable_but_invariance_or_gap_fail": {
+      "authorizes_only": "definitions_only_first_order_invariant_graph_or_memory_manifest",
+      "classification": "stable_frozen_macro_critical_root_not_sufficient_for_memoryless_slow_closure"
+    },
+    "tangent_or_root_fail": {
+      "authorizes_only": "diagnosis_only",
+      "classification": "primary_hidden_root_not_established"
+    }
+  },
+  "decisive_input_hashes": {
+    "derivative_certificate_metrics": "b065828d79ce3c4fc5d4ff595ab37bea646fe64d6f5ced8604fcb405bbc9cea1",
+    "derivative_certificate_summary": "56c25bd8d536311dc37ba1e31362cafeb0b373ccd7e32a8001e31d026fa48b39",
+    "exact_chart_arrays": "545821b68b07415efebed167ccd3a4f08d4be00032b8f1603ed83e2dacfd5f80",
+    "fiber_geometry": "902944e6ff80e0d59d481103b1fb68ca3e49e6951cb300994de8c9ea56f34fb4"
+  },
+  "definitions_only": true,
+  "mathematical_architecture": {
+    "coordinate_rate": "F(y)=DC470_at_chi(y)_times_fQ(chi(y))",
+    "exact_coordinate": "y=C470(x)_in_R470",
+    "exact_coordinate_decomposition": "y=L82_X+Z388_z",
+    "exact_rate_decomposition": "F=L82_G+Z388_H",
+    "fiber_projection": "P=I470-L82_R82",
+    "frozen_macro_critical_root": "H(Xstar,zstar)=0",
+    "hidden_coordinate": "z=Qz_y_with_Qz=Z388_transpose_P",
+    "hidden_rate": "H(X,z)=Qz_F(y)",
+    "macro_coordinate": "X=R82_y",
+    "macro_rate": "G(X,z)=R82_F(y)",
+    "measured_Z_transpose_L_infinity": 0.6244476844806647,
+    "naive_residual_Z_transpose_F_forbidden": true,
+    "physical_state": "x_in_R560",
+    "reason": "Z_transpose_L_is_nonzero_so_Z_transpose_F_mixes_macro_rate_into_the_hidden_coordinate_derivative"
+  },
+  "post_root_mathematics": {
+    "critical_graph_derivative": "Dh=-Azz_inverse_Azx",
+    "critical_manifold_invariance_defect": "norm_Z388_Dh_G_over_max_norm_F_and_tiny",
+    "effective_slow_Jacobian": "Aslow=Axx-Axz_Azz_inverse_Azx",
+    "fast_stability": "maximum_real_eigenvalue_of_Azz",
+    "root_is_not_automatically_an_invariant_slow_manifold": true,
+    "spectral_gap": "minimum_absolute_fast_real_decay_over_maximum_absolute_real_effective_slow_eigenvalue"
+  },
+  "prospective_execution": {
+    "anchor_truth_policy": {
+      "certified_reaction_modes_only": [
+        "raw",
+        "frozen_normalized"
+      ],
+      "fresh_anchor_rate_required": true,
+      "mismatched_continuation_endpoint_descriptor_reuse_forbidden": true,
+      "saved_rate_or_generator_reuse_requires_bitwise_anchor_state_match": true
+    },
+    "budgets": {
+      "new_complete_physical_generator_assemblies_max": 2,
+      "new_coordinate_chart_retractions_max": 12,
+      "new_exact_fixed_Q_rate_evaluations_max": 12,
+      "new_intrinsic_hidden_roots_max": 1,
+      "propagated_states_equal": 0,
+      "sealed_16ms_truth_calls_equal": 0
+    },
+    "candidate": "accepted_20ms_unclassified_primary",
+    "root_solver": {
+      "accepted_exact_chart_states_only": true,
+      "binding_residual": "H=Qz_F",
+      "initial_exact_hidden_Jacobian_assemblies": 1,
+      "line_search_factors": [
+        1.0,
+        0.5,
+        0.25,
+        0.125
+      ],
+      "no_post_candidate_projection": true,
+      "optional_exact_refreshes_after_complete_line_failure_max": 1,
+      "residual_scale": "RMS_norm_of_anchor_coordinate_rate_F0",
+      "unknown": "z_in_R388_at_fixed_Xstar",
+      "updates": "dense_good_Broyden_secant_updates"
+    },
+    "sealed_candidate": "accepted_16ms_unclassified_sealed",
+    "stage_order": [
+      "load_hash_locked_anchor_chart_and_dual_geometry",
+      "evaluate_one_fresh_exact_fixed_Q_rate_at_the_exact_20ms_anchor",
+      "compute_F0_G0_H0_and_apply_initial_hidden_fraction_gate",
+      "stop_without_generator_or_root_if_hidden_fraction_exceeds_0p25",
+      "assemble_complete_coordinate_and_hidden_tangent_if_preflight_passes",
+      "audit_complete_tangent_and_linear_predictor",
+      "solve_one_fixed_macro_hidden_root_with_dense_Broyden_updates",
+      "audit_physical_root_fast_stability_gap_and_critical_manifold_invariance"
+    ],
+    "work_package": "WP10c9d6c7c3b5c4f25dg"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25df"
+}

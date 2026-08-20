@@ -1,0 +1,32 @@
+{
+  "checks": {
+    "anchor_reconstruction": true,
+    "exact_decomposition": true,
+    "hidden_dual_annihilates_macro": true,
+    "hidden_dual_recovers_hidden": true,
+    "hidden_orthonormal": true,
+    "naive_projection_materially_coupled": true,
+    "naive_projection_rejected": true,
+    "projection_idempotent": true,
+    "projection_in_kernel": true,
+    "projection_preserves_hidden": true,
+    "restriction_hidden": true,
+    "restriction_lifting": true
+  },
+  "metrics": {
+    "anchor_coordinate_reconstruction_relative_defect": 1.5768791342567812e-19,
+    "correct_hidden_dual": "Qz_equals_Z_transpose_times_I_minus_LR",
+    "fiber_projection_hidden_identity_infinity": 8.881784197001252e-16,
+    "fiber_projection_idempotence_infinity": 2.220446049250313e-16,
+    "fiber_projection_restriction_infinity": 1.237682057855628e-16,
+    "hidden_dual_hidden_identity_infinity": 9.729823187352673e-16,
+    "hidden_dual_macro_annihilation_infinity": 2.220446049250313e-16,
+    "hidden_orthonormality_infinity": 8.575924810020018e-16,
+    "macro_hidden_decomposition_identity_infinity": 1.3011542704255276e-15,
+    "naive_Z_transpose_F_is_the_hidden_coordinate_derivative": false,
+    "naive_hidden_projection_macro_coupling_infinity": 0.6244476844806647,
+    "restriction_hidden_annihilation_infinity": 8.665336851951329e-16,
+    "restriction_lifting_identity_infinity": 2.220446049250313e-16
+  },
+  "passed": true
+}
