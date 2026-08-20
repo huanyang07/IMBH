@@ -1,0 +1,154 @@
+{
+  "checks": {
+    "all_eight_algebraic_identities": true,
+    "all_eight_common_scale_directions": true,
+    "common_scale_signal": true,
+    "coordinate_evaluation_budget": true,
+    "coordinate_jacobian_budget": true,
+    "generator_budget": true,
+    "original_defect_reproduction": true,
+    "parent_non_derivative_checks": true,
+    "propagation_budget": true,
+    "rate_budget": true,
+    "retraction_budget": true,
+    "root_budget": true,
+    "roundoff_R_squared": true,
+    "roundoff_scaled_coefficient": true,
+    "roundoff_slope": true,
+    "sealed_budget": true,
+    "strong_common_scale_accuracy": true
+  },
+  "metrics": {
+    "algebraic_relative_defects": [
+      2.0991913268410834e-13,
+      6.59807663793228e-15,
+      9.271031363062566e-15,
+      6.765043163014089e-15,
+      8.852007788571893e-15,
+      5.263948010574956e-14,
+      4.549075080158538e-13,
+      2.5062795215876724e-15
+    ],
+    "common_scale_records": [
+      {
+        "direction_index": 0,
+        "relative_defect": 1.9065712120864783e-08,
+        "signal_norm": 5.717134264582103e-07,
+        "step": 0.003
+      },
+      {
+        "direction_index": 1,
+        "relative_defect": 1.8783868385186633e-10,
+        "signal_norm": 6.213407680210027e-05,
+        "step": 0.003
+      },
+      {
+        "direction_index": 2,
+        "relative_defect": 1.3224870162234872e-10,
+        "signal_norm": 8.226455397165964e-05,
+        "step": 0.003
+      },
+      {
+        "direction_index": 3,
+        "relative_defect": 2.211573157867752e-10,
+        "signal_norm": 5.667356192267498e-05,
+        "step": 0.003
+      },
+      {
+        "direction_index": 4,
+        "relative_defect": 4.10767107394313e-09,
+        "signal_norm": 3.3968504876991093e-06,
+        "step": 0.003
+      },
+      {
+        "direction_index": 5,
+        "relative_defect": 8.820700519199528e-09,
+        "signal_norm": 1.326620832454207e-06,
+        "step": 0.003
+      },
+      {
+        "direction_index": 6,
+        "relative_defect": 4.6929932234118744e-08,
+        "signal_norm": 2.3751403262679057e-07,
+        "step": 0.003
+      },
+      {
+        "direction_index": 7,
+        "relative_defect": 2.7820649056351425e-10,
+        "signal_norm": 4.0445516727586246e-05,
+        "step": 0.003
+      }
+    ],
+    "common_scale_step": 0.003,
+    "direction_count": 8,
+    "maximum_algebraic_relative_defect": 4.549075080158538e-13,
+    "maximum_common_scale_relative_defect": 4.6929932234118744e-08,
+    "minimum_common_scale_signal_norm": 2.3751403262679057e-07,
+    "new_complete_generator_assemblies": 0,
+    "new_coordinate_evaluations": 26,
+    "new_coordinate_jacobian_assemblies": 0,
+    "new_coordinate_retractions": 0,
+    "new_exact_fixed_Q_rate_evaluations": 0,
+    "new_intrinsic_hidden_roots": 0,
+    "original_committed_relative_defect": 1.459448248994989e-06,
+    "original_defect_reproduction_relative": 0.0,
+    "original_reproduced_relative_defect": 1.459448248994989e-06,
+    "original_step": 0.0001,
+    "parent_non_derivative_checks_preserved": true,
+    "propagated_states": 0,
+    "roundoff_direction": {
+      "direction_index": 6,
+      "family": "macro",
+      "source_index": 53
+    },
+    "roundoff_ladder": [
+      {
+        "relative_defect": 4.6929932234118744e-08,
+        "signal_norm": 2.3751403262679057e-07,
+        "step": 0.003
+      },
+      {
+        "relative_defect": 1.436714926983577e-07,
+        "signal_norm": 7.917134365939857e-08,
+        "step": 0.001
+      },
+      {
+        "relative_defect": 4.778132337236119e-07,
+        "signal_norm": 2.3751403195952815e-08,
+        "step": 0.0003
+      },
+      {
+        "relative_defect": 1.459448248994989e-06,
+        "signal_norm": 7.917133953798927e-09,
+        "step": 0.0001
+      },
+      {
+        "relative_defect": 5.026378247897367e-06,
+        "signal_norm": 2.375140488409947e-09,
+        "step": 3e-05
+      },
+      {
+        "relative_defect": 1.3770115475738528e-05,
+        "signal_norm": 7.917135092858114e-10,
+        "step": 1e-05
+      }
+    ],
+    "roundoff_statistics": {
+      "h_times_defect": [
+        1.4078979670235624e-10,
+        1.4367149269835772e-10,
+        1.4334397011708356e-10,
+        1.459448248994989e-10,
+        1.5079134743692103e-10,
+        1.377011547573853e-10
+      ],
+      "h_times_defect_coefficient_of_variation": 0.02839545105723995,
+      "loglog_R_squared": 0.9997938084514304,
+      "loglog_intercept": -22.67546691251922,
+      "loglog_slope": -1.0013649405459726
+    },
+    "sealed_16ms_truth_calls": 0,
+    "total_wall_seconds": 301.2060224171728
+  },
+  "passed": true
+}
