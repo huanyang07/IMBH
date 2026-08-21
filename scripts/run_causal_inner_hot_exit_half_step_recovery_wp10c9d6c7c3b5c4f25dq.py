@@ -23,6 +23,7 @@ for path in (ROOT / "src", ROOT / "scripts"):
         sys.path.insert(0, str(path))
 
 import run_causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do as base  # noqa: E402
+import run_causal_inner_bounded_hot_exit_acquisition_manifest_wp10c9d6c7c3b5c4f25dn as original_manifest  # noqa: E402
 import run_causal_inner_hot_exit_half_step_recovery_manifest_wp10c9d6c7c3b5c4f25dp as manifest  # noqa: E402
 from imri_qpe.layer3_minidisk_1d.causal_inner_fixed_q import load_causal_five_field_fixed_q_continuation_state  # noqa: E402
 
