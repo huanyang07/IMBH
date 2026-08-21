@@ -34,3 +34,22 @@ def test_stage_paths_and_seed_are_isolated_from_failed_full_step() -> None:
     assert "step_05" in str(execution.manifest.SEED_CHECKPOINT)
     assert not (execution.manifest.PARENT_STEP_06 / "checkpoint_step_06.npz").exists()
     assert execution.base._stage_directory(1).name.endswith("step_01")
+
+
+def test_execution_identity_hashes_the_half_step_contract(tmp_path, monkeypatch) -> None:
+    checkpoint = tmp_path / "checkpoint.npz"
+    checkpoint.write_bytes(b"half-step-test-checkpoint")
+    lock_directory = tmp_path / "lock"
+    lock_directory.mkdir()
+    (lock_directory / "execution_lock.json").write_text("{}\n", encoding="utf-8")
+    monkeypatch.setattr(execution, "LOCK_DIRECTORY", lock_directory)
+    identity = execution._execution_identity(1, checkpoint)
+    assert identity["work_package"] == execution.WORK_PACKAGE
+    assert identity["manifest_contract_sha256"] == execution._sha(
+        execution.manifest.CANONICAL_DIRECTORY
+        / "half_step_recovery_contract.json"
+    )
+    assert identity["input_checkpoint_sha256"] == execution._sha(checkpoint)
+    assert identity["execution_lock_sha256"] == execution._sha(
+        lock_directory / "execution_lock.json"
+    )

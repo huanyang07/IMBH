@@ -38,9 +38,12 @@ BUDGET_CLASSIFICATION = "half_step_hot_exit_recovery_budget_exhausted_exit_not_r
 FAILURE_CLASSIFICATION = "half_step_hot_exit_recovery_failed_no_branch_truth_authorized"
 
 ARTIFACT_PREFIX = "causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq"
-LOCK_ARTIFACT = f"{ARTIFACT_PREFIX}_execution_lock"
+# The first lock remains immutable evidence of the pre-execution provenance
+# bug fixed below.  A distinct v2 lock prospectively binds the corrected
+# execution path before any nonlinear root is attempted.
+LOCK_ARTIFACT = f"{ARTIFACT_PREFIX}_execution_lock_v2"
 LOCK_DIRECTORY = ROOT / "results/canonical" / LOCK_ARTIFACT
-LOCK_REPORT_PATH = ROOT / "docs/reports/current/CODEX_CAUSAL_INNER_HOT_EXIT_HALF_STEP_RECOVERY_EXECUTION_LOCK_WP10C9D6C7C3B5C4F25DQ_2026-08-21.md"
+LOCK_REPORT_PATH = ROOT / "docs/reports/current/CODEX_CAUSAL_INNER_HOT_EXIT_HALF_STEP_RECOVERY_EXECUTION_LOCK_V2_WP10C9D6C7C3B5C4F25DQ_2026-08-21.md"
 THIS_RUNNER = "scripts/run_causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq.py"
 THIS_TEST = "tests/test_causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq.py"
 SCRATCH_ROOT = ROOT / "outputs/checkpoints" / ARTIFACT_PREFIX
@@ -205,6 +208,24 @@ def _root_policy(label: str) -> dict:
     }
 
 
+def _execution_identity(index: int, input_checkpoint: Path) -> dict:
+    """Bind a root to the half-step contract rather than the parent contract."""
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "work_package": WORK_PACKAGE,
+        "stage_index": index,
+        "execution_commit": _git("rev-parse", "HEAD"),
+        "execution_tree": _git("rev-parse", "HEAD^{tree}"),
+        "runner_sha256": _sha(ROOT / THIS_RUNNER),
+        "test_sha256": _sha(ROOT / THIS_TEST),
+        "execution_lock_sha256": _sha(LOCK_DIRECTORY / "execution_lock.json"),
+        "manifest_contract_sha256": _sha(
+            manifest.CANONICAL_DIRECTORY / "half_step_recovery_contract.json"
+        ),
+        "input_checkpoint_sha256": _sha(input_checkpoint),
+    }
+
+
 @contextmanager
 def _stage_runtime(scratch: Path):
     replacements = {"WORK_PACKAGE": WORK_PACKAGE, "ARTIFACT": ARTIFACT_PREFIX, "SCRATCH_DIRECTORY": scratch, "THIS_RUNNER": THIS_RUNNER, "THIS_TEST": THIS_TEST, "_root_policy": _root_policy}
@@ -282,7 +303,7 @@ def _run_step(index: int) -> dict:
     if scratch.exists():
         raise RuntimeError("half-step scratch stage already exists")
     scratch.mkdir(parents=True)
-    identity = base._execution_identity(index, input_checkpoint)
+    identity = _execution_identity(index, input_checkpoint)
     base._write_json(scratch / "execution_identity.json", identity)
     data = base.legacy.e14d.e1._state_data("primary_20ms")
     continuation = load_causal_five_field_fixed_q_continuation_state(input_checkpoint, data["context"])
