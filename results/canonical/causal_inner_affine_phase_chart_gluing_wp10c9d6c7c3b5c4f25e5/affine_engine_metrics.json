@@ -1,0 +1,43 @@
+{
+  "classification": "affine_glued_truth_free_hybrid_phase_engine_working_on_observed_modes_cost_feasible_complete_cycle_calibration_missing",
+  "complete_cycle_calibration_available": false,
+  "continuous_online_dimension": 83,
+  "gate_values": {
+    "absolute_entry_decoder_closure": 1.6136152944386664e-17,
+    "cold_hidden_embedding_rank": 2,
+    "cold_training_displacement_capture": 0.9999996791371945,
+    "event_macro_discontinuity": 1.1691749978728683e-17,
+    "event_state_jump_over_cold_path": 0.18512989291651227,
+    "maximum_cold_holdout_error_over_local_chord": 0.018458312668725756,
+    "maximum_cold_holdout_error_over_path": 0.008070365408511226,
+    "maximum_cold_macro_ledger_error_over_path": 0.0077105895431209435,
+    "maximum_macro_decoder_closure": 7.960347515482589e-21,
+    "online_table_bytes": 1786128,
+    "projected_100k_full_decode_wall_seconds": 2.4168333504348993,
+    "projected_100k_step_wall_seconds": 2.586271669715643,
+    "transition_endpoint_error_over_path": 4.6446169071772094e-05,
+    "transition_local_seed_norm": 0.0
+  },
+  "gates": {
+    "affine_entry_decoder": true,
+    "cold_capture": true,
+    "cold_holdout_local": true,
+    "cold_holdout_path": true,
+    "cold_macro_ledger": true,
+    "cold_rank": true,
+    "event_macro": true,
+    "local_seed_zero": true,
+    "macro_closure": true,
+    "online_cost": true,
+    "restart_bitwise": true,
+    "single_equals_staged": true,
+    "transition_endpoint": true,
+    "truth_free": true
+  },
+  "mode_count": 2,
+  "online_470_roots": 0,
+  "online_fixed_Q_microsteps": 0,
+  "online_truth_calls": 0,
+  "passed": true,
+  "predictive_cycle_authorized": false
+}

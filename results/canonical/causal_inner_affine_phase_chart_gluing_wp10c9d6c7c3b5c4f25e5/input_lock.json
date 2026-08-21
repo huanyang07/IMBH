@@ -1,0 +1,54 @@
+{
+  "contract": {
+    "binding_gates": {
+      "absolute_entry_decoder_closure_max": 5e-12,
+      "all_non_event_parent_gates_unchanged_and_pass": true,
+      "event_macro_continuity_max": 5e-12,
+      "event_state_continuity_max": 5e-12,
+      "projected_100k_step_wall_seconds_max": 86400.0,
+      "transition_local_seed_norm_max": 1e-14
+    },
+    "classification": "affine_cold_to_transition_phase_chart_gluing_manifest_frozen",
+    "corrected_gluing": {
+      "cold_decoder": "D_C(q,s)=L*q+Z*h_C(s)",
+      "event_reset": "q_plus=q_minus_and_s_plus=0",
+      "macro_ledger": "q_T=q_entry+ell_T_local(s)",
+      "no_fitted_event_jump": true,
+      "transition_decoder": "D_T(q,s)=L*q+Z*(h_entry_absolute+h_T_local(s))",
+      "transition_truth_alignment": "y_T_absolute=y_entry+y_T_local"
+    },
+    "diagnosis": {
+      "cold_coordinates": "absolute_y470",
+      "omitted_term": "Z*h_entry_absolute",
+      "only_failed_parent_gate": "event_state",
+      "rejected_decoder": "L*q_absolute+Z*h_transition_local",
+      "transition_coordinates": "local_delta_y470_with_seed_zero"
+    },
+    "frozen_source_hashes": {
+      "scripts/run_causal_inner_affine_phase_chart_gluing_manifest_wp10c9d6c7c3b5c4f25e4.py": "b5f32ec13e805cf22ba0f75b723ffd6e383f751cf8219c94d35a0d493b28b5ca",
+      "scripts/run_causal_inner_affine_phase_chart_gluing_wp10c9d6c7c3b5c4f25e5.py": "12ed050d9e94890f33be9822c6e19a1bb864f8831b4832829b3152782fdb0435",
+      "tests/test_causal_inner_affine_phase_chart_gluing_manifest_wp10c9d6c7c3b5c4f25e4.py": "f1038b2b0992904971c166d9079527e1098146a7add3c5365101fdf7ad7e6663",
+      "tests/test_causal_inner_affine_phase_chart_gluing_wp10c9d6c7c3b5c4f25e5.py": "a7094cba78c0e2e94cd3c962996676f0654e57ab84d68789e8e629220b564f3b"
+    },
+    "input_hashes": {
+      "rejected_arrays": "927b8b603fe842f670ab437d5d97ff58ee3d97a06d6b387aab170d465739c085",
+      "rejected_metrics": "721b803c5b3bb93653e38694f1e6d618ff09791501d8eaf0ed5d07c8b75a3754",
+      "rejected_summary": "170d195bd03bb380144fa7a1472b516cd5ea88f94d0ae96e7e854bb11d2ff4d8"
+    },
+    "schema_version": 1,
+    "scope": {
+      "complete_cycle_calibration_missing": true,
+      "coordinate_origin_repair_only": true,
+      "new_truth_calls": 0,
+      "no_gate_relaxed": true,
+      "predictive_cycle_authorized": false
+    },
+    "work_package": "WP10c9d6c7c3b5c4f25e4"
+  },
+  "manifest_hashes": {
+    "affine_gluing_contract.json": "c1110f5b41ddf5ff00934359c11dcc97213d149be1b8316a938bae8b899b771e",
+    "input_lock.json": "2c1dc80dfbc38e529d5a087aa9509ff4579c490353540cb0a184f079bb290083",
+    "provenance.json": "cceb5324399f4afd324a953048f5ecb18d8b8e27d240275e202127912b76d913",
+    "summary.json": "1f326cc882eedf4aa2445e36c01383ee9d932cff01bd0fa24183eca9e45c64c0"
+  }
+}
