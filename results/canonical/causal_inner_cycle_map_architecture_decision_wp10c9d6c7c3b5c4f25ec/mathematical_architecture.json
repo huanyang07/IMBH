@@ -1,0 +1,56 @@
+{
+  "classification": "conservative_hybrid_phase_cycle_map_architecture_selected_observed_three_mode_prefix_certified_complete_cycle_calibration_missing",
+  "computational_target": {
+    "maximum_online_macrosteps_per_cycle": 100000,
+    "measured_100k_decode_wall_seconds": 2.539022333920002,
+    "reason": "online work composes a small number of calibrated mode maps; expensive fixed-Q rates and roots occur offline only",
+    "several_day_cycle_target_is_architecturally_feasible": true
+  },
+  "current_boundary": {
+    "complete_predictive_cycle_authorized": false,
+    "hot_cooling_recovery_modes_calibrated": false,
+    "hot_exit_observed": false,
+    "observed_prefix_certified": true,
+    "slow_flux_closure_calibrated_across_q": false
+  },
+  "cycle_map": {
+    "mode_transfer": "M_sigma(q)=(q+Delta_q_sigma(q), T_sigma(q), waveform_sigma)",
+    "online_nanosecond_microsteps": 0,
+    "online_nonlinear_fixed_Q_roots": 0,
+    "online_truth_calls": 0,
+    "periodic_cycle": "solve P(q_star)-q_star=0 and assess eigenvalues of DP(q_star)",
+    "poincare_map": "P=M_recovery o M_cooling o M_hot o M_transition o M_cold"
+  },
+  "decoder": "Y_sigma(q,phi)=L q + Z_sigma c_sigma(q,phi)",
+  "events": {
+    "memory": "the pair (sigma,phi), not q alone, distinguishes hysteretic states",
+    "reset": "q_plus=q_minus+Delta_q_sigma_to_tau(q_minus), preserving the declared conservative ledger",
+    "surface": "g_sigma_to_tau(q,phi)=0 with bracketed phase localization"
+  },
+  "next_artifact": "definitions_only_adaptive_hot_exit_phase_atlas_extension_manifest",
+  "offline_calibration": {
+    "local_hidden_rank": "adaptive; rank 4 is certified for the observed post-transition window",
+    "method": "adaptive multiple-shooting Legendre-Gauss-Lobatto phase collocation",
+    "slow_anchor_interpolation": "conservative interpolation of T_sigma, Delta_q_sigma, event surfaces, and phase tables across prospectively selected q anchors",
+    "validation": "held-out anchors plus one independent full-cycle or event-to-event truth trajectory"
+  },
+  "online_state": {
+    "continuous": "q in R^82 plus scalar phase phi in [0,1]",
+    "continuous_dimension": 83,
+    "currently_observed_modes": [
+      "cold_observed",
+      "fixed_Q_transition_observed",
+      "post_transition_collocation_observed"
+    ],
+    "discrete": "mode sigma in {cold, transition, post-transition, hot, cooling, recovery}"
+  },
+  "schema_version": 1,
+  "selected_architecture": "conservative_event_driven_hybrid_phase_atlas_with_cycle_map",
+  "within_mode_equations": {
+    "fixed_Q_limit_used_here": "epsilon G_sigma=0 and omega_sigma partial_phi Y_sigma = F_fixedQ(Y_sigma;q)",
+    "offline_invariance_residual": "D_q Y_sigma G_sigma + omega_sigma partial_phi Y_sigma - F(Y_sigma;q)",
+    "phase": "dphi/dt = omega_sigma(q; forcing) > 0",
+    "slow_ledger": "dq/dt = epsilon G_sigma(q,phi; forcing)"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25ec"
+}

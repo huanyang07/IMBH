@@ -1,0 +1,47 @@
+{
+  "classification": "hybrid_phase_cycle_map_architecture_decision_rejected",
+  "complete_cycle_calibration_missing": true,
+  "continuous_online_dimension": 83,
+  "gate_values": {
+    "maximum_macro_closure": 2.911890213662162e-20,
+    "maximum_post_knot_reconstruction_error_over_path": 8.470811002181486e-16,
+    "measured_100k_decode_wall_seconds": 2.539022333920002,
+    "observed_prefix_duration_seconds": 0.0180013,
+    "post_endpoint_reconstruction_error": 9.566296771461616e-05,
+    "post_hidden_rank": 4,
+    "seconds_per_decode": 2.539022333920002e-05,
+    "transition_to_post_entry_gluing_error": 9.566296771461616e-05
+  },
+  "gates": {
+    "all_inherited_certificates": true,
+    "macro_closure": true,
+    "online_cost": true,
+    "post_endpoint": false,
+    "post_rank4_reconstruction": true,
+    "restart_bitwise": true,
+    "single_equals_staged": false,
+    "suffix_replay_bitwise": true,
+    "transition_post_gluing": false,
+    "truth_free_online_engine": true
+  },
+  "hot_exit_observed": false,
+  "inherited_certificates": {
+    "affine_gluing": true,
+    "cold_collocation": true,
+    "post_transition_collocation": true,
+    "transition_collocation": true
+  },
+  "observed_mode_count": 3,
+  "observed_mode_names": [
+    "cold_observed",
+    "fixed_Q_transition_observed",
+    "post_transition_collocation_observed"
+  ],
+  "online_BDF_microsteps": 0,
+  "online_nonlinear_fixed_Q_roots": 0,
+  "online_truth_calls": 0,
+  "passed": false,
+  "post_hidden_table_rank": 4,
+  "predictive_cycle_authorized": false,
+  "working_mathematical_architecture_selected": false
+}
