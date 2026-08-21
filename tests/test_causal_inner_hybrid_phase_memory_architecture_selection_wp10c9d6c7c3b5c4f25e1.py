@@ -32,7 +32,7 @@ def test_classification_preserves_missing_cycle_truth() -> None:
 
 
 def test_execution_repair_is_pre_evidence_and_truth_free() -> None:
-    assert selection.LOCK_ARTIFACT.endswith("execution_lock_v3")
+    assert selection.LOCK_ARTIFACT.endswith("execution_lock_v4")
     source = (ROOT / selection.THIS_RUNNER).read_text(encoding="utf-8")
     assert 'tube_summary["transition_dynamic_dimension"]' in source
     assert 'tube_metrics["gate_values"]["macro_decoder_closure"]' in source

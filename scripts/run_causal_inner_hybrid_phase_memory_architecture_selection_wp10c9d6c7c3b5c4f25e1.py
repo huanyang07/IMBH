@@ -40,13 +40,13 @@ REPORT_RELATIVE = (
     "SELECTION_WP10C9D6C7C3B5C4F25E1_2026-08-21.md"
 )
 REPORT_PATH = ROOT / REPORT_RELATIVE
-PREVIOUS_LOCK_ARTIFACT = f"{ARTIFACT}_execution_lock_v2"
+PREVIOUS_LOCK_ARTIFACT = f"{ARTIFACT}_execution_lock_v3"
 PREVIOUS_LOCK_DIRECTORY = ROOT / "results/canonical" / PREVIOUS_LOCK_ARTIFACT
-LOCK_ARTIFACT = f"{ARTIFACT}_execution_lock_v3"
+LOCK_ARTIFACT = f"{ARTIFACT}_execution_lock_v4"
 LOCK_DIRECTORY = ROOT / "results/canonical" / LOCK_ARTIFACT
 LOCK_REPORT_PATH = ROOT / (
     "docs/reports/current/CODEX_CAUSAL_INNER_HYBRID_PHASE_MEMORY_ARCHITECTURE_"
-    "SELECTION_EXECUTION_LOCK_V3_WP10C9D6C7C3B5C4F25E1_2026-08-21.md"
+    "SELECTION_EXECUTION_LOCK_V4_WP10C9D6C7C3B5C4F25E1_2026-08-21.md"
 )
 
 
@@ -78,7 +78,7 @@ def _validate_manifest(*, require_clean: bool) -> dict:
     ):
         raise RuntimeError("phase-memory manifest changed")
     for relative, expected in contract["frozen_source_hashes"].items():
-        if relative == THIS_RUNNER:
+        if relative in (THIS_RUNNER, THIS_TEST):
             continue
         if helper._sha(ROOT / relative) != expected:
             raise RuntimeError(f"frozen phase-memory source changed: {relative}")
@@ -91,6 +91,7 @@ def _validate_manifest(*, require_clean: bool) -> dict:
         or lock["new_truth_calls_before_repair"] != 0
         or lock["canonical_result_created_before_repair"]
         or helper._sha(ROOT / THIS_RUNNER) != lock["corrected_runner_sha256"]
+        or helper._sha(ROOT / THIS_TEST) != lock["corrected_test_sha256"]
     ):
         raise RuntimeError("phase-memory execution repair lock changed")
     manifest._validate_parent(require_clean=False)
@@ -161,17 +162,18 @@ def _freeze_execution_lock() -> dict:
     payload = {
         "schema_version": SCHEMA_VERSION,
         "work_package": WORK_PACKAGE,
-        "classification": "phase_memory_metric_paths_v3_locked_no_evidence_created",
+        "classification": "phase_memory_execution_sources_v4_locked_no_evidence_created",
         "original_failure": (
-            "post_v2_static_preflight_found_macro_decoder_closure_nested_key"
+            "v3_lock_omitted_corrected_test_hash"
         ),
         "corrected_source": (
-            "transition_dimension_from_summary_and_macro_closure_from_gate_values"
+            "corrected_runner_and_corrected_test_both_hash_locked"
         ),
         "new_truth_calls_before_repair": 0,
         "canonical_result_created_before_repair": False,
         "original_frozen_runner_sha256": original_hash,
         "corrected_runner_sha256": corrected_hash,
+        "corrected_test_sha256": helper._sha(ROOT / THIS_TEST),
         "manifest_hashes": manifest_hashes,
         "previous_execution_lock_hashes": helper._validate_checksums(
             PREVIOUS_LOCK_DIRECTORY
@@ -211,9 +213,9 @@ def _freeze_execution_lock() -> dict:
     LOCK_REPORT_PATH.write_text(
         "\n".join(
             (
-                "# Phase-memory architecture execution lock v3 WP10c9d6c7c3b5c4f25e1",
+                "# Phase-memory architecture execution lock v4 WP10c9d6c7c3b5c4f25e1",
                 "",
-                "The first selector launch stopped on a JSON key mismatch before creating evidence. A subsequent static schema check found that macro decoder closure is nested under gate_values. Neither event made a truth call or created selection evidence. The fully corrected source is hash-locked here, while v2 remains preserved.",
+                "The selector remained pre-evidence because v3 locked the corrected runner but not its corrected test. This v4 package locks both. All earlier locks remain preserved; no truth call or selection result exists.",
                 "",
             )
         ),
