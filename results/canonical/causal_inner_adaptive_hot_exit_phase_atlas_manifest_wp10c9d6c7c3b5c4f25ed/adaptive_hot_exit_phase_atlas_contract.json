@@ -1,0 +1,91 @@
+{
+  "binding_gates": {
+    "all_exact_rate_physical_gates_except_memoryless_hidden_fraction": true,
+    "maximum_Q3_relative_drift": 0.0005,
+    "maximum_decoder_coordinate_error_over_transition_path": 0.002,
+    "maximum_full_collocation_defect": 0.05,
+    "maximum_normal_rate_defect": 0.01,
+    "maximum_projected_collocation_defect": 0.05,
+    "maximum_training_normal_rate_defect": 0.0001,
+    "minimum_rate_direction_cosine": 0.995,
+    "minimum_reconstruction_factor": 0.999999999999
+  },
+  "classification": "adaptive_hot_exit_rank_adaptive_phase_atlas_manifest_frozen",
+  "decision": {
+    "budget_exhausted_without_event": "authorize only a terminal phase-atlas prognosis",
+    "complete_cycle_execution_authorized": false,
+    "event_observed": "authorize only a definitions-only hot-exit endpoint refinement manifest",
+    "reduced_slow_evolution_authorized": false,
+    "window_failure": "stop; preserve the last accepted endpoint and diagnose the failed geometry"
+  },
+  "decisive_input_hashes": {
+    "architecture_arrays": "87e966a31f9b149b5c4b6f5c1f7879018ce4cec2d4c79c690a9035ae334d54b6",
+    "architecture_metrics": "e3e14b3bc05dbe322da730a3f396d4f862b23e69ab7af392519b67cd4e53d7ed",
+    "architecture_summary": "70983f665c3322ec8f5a8549f2a6f5cd7bea30cea4b1bbb2996087d0c41a1ef6",
+    "hidden_tangent_arrays": "126bc2f34f3cfe8484d722f558237730e922395331c61f5229a4e4dae44a7d0c",
+    "legacy_hot_exit_contract": "309d798311de7b911dfeb3486ad239849bbec024dbdcc4882fdc16b06b29d933",
+    "post_metrics": "f8060f0f0bc02911c04eb965f0a16828326b88c6367b0e375dfb84edebcd7bd3",
+    "post_summary": "c2001a0c435d8edd22fc8a1eb0b3be57123d38b18983eccc9a908e6fa39ac7cf",
+    "post_witnesses": "de49008c0becc58cafb7f10d5ac458552965fea8e6a92a3fe718dd11ee61eb6d"
+  },
+  "frozen_source_hashes": {
+    "scripts/run_causal_inner_adaptive_hot_exit_phase_atlas_manifest_wp10c9d6c7c3b5c4f25ed.py": "147641a94ec2c82acb713996696841d34252f19809370b8e9d8ded524832f605",
+    "scripts/run_causal_inner_adaptive_hot_exit_phase_atlas_wp10c9d6c7c3b5c4f25ee.py": "1a1206c311193ac9a4f6d5dab585758f5927940bb9649b00d220e2403893b19a",
+    "scripts/run_causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do.py": "d17db2bfd63838eb7b9c4768bbf0629ad6d5f00f4db83aaa8ab2a261e74117c9",
+    "scripts/run_causal_inner_cold_branch_anchor_preflight_wp10c9d6c7c3b5c4f25dy.py": "c984ddd59670d7801c88e367924c8830ced8f8ea53ccd34efe9d740a52292420",
+    "scripts/run_causal_inner_post_transition_phase_window_wp10c9d6c7c3b5c4f25eb.py": "d9c1537a0c4f22a672d6d7aa679c4058ee2359ec58359643873d15fb1a294ffd",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_fixed_q.py": "fc95c932c86238e157492367310776d0cf0a6e940979592420d6f8b2122f18e0",
+    "src/imri_qpe/layer3_minidisk_1d/phase_collocation.py": "ab33de60337c8781b80eccf054377aaeb209faa9e12616a7a3a5d1cfd54b4d3b",
+    "tests/test_causal_inner_adaptive_hot_exit_phase_atlas_manifest_wp10c9d6c7c3b5c4f25ed.py": "4d0bba494ce85f5df17ee91c45246466cad715ffee346eabfcabb14ccf9037e9",
+    "tests/test_causal_inner_adaptive_hot_exit_phase_atlas_wp10c9d6c7c3b5c4f25ee.py": "5bf6758e0a86ade8bfbc8d487abe2d379c02358fa19262d69cfb7d81ee0e0b5c"
+  },
+  "growth_gates": {
+    "maximum_Q3_relative_drift": 0.00025,
+    "maximum_decoder_coordinate_error_over_transition_path": 0.001,
+    "maximum_full_collocation_defect": 0.01,
+    "maximum_normal_rate_defect": 0.005,
+    "minimum_rate_direction_cosine": 0.999
+  },
+  "hot_exit_event": {
+    "consecutive_accepted_windows_required": 2,
+    "event_positive_window_holds_duration_for_confirmation": true,
+    "event_requires_later_endpoint_refinement_and_held_out_replication": true,
+    "hidden_secant_fraction_max": 0.25,
+    "macro_drift_from_seed_max": 0.02,
+    "rank16_hidden_amplitude_min": 0.05,
+    "unchanged_from_legacy_exact_BDF_event_definition": true
+  },
+  "initial_condition": {
+    "coordinate": "certified Stage-4 two-half-window endpoint",
+    "fixed_Q_target": "losslessly inherited transition checkpoint target",
+    "primitive_state": "certified Stage-4 two-half-window decoded endpoint",
+    "prior_event_persistence": 0
+  },
+  "phase_atlas": {
+    "basis_selection": "minimum candidate rank whose inherited normalized exact-rate witnesses satisfy the training-normal gate",
+    "candidate_basis_ranks": [
+      4,
+      6,
+      8,
+      12,
+      16
+    ],
+    "duration_rule": "double after a strong-margin accepted window; hold otherwise; hold after first event-positive window",
+    "failed_window_never_propagates": true,
+    "initial_duration_seconds": 2e-07,
+    "maximum_duration_seconds": 6.4e-06,
+    "maximum_windows": 8,
+    "method": "one projected Picard update on eight Legendre-Gauss-Lobatto nodes",
+    "no_sequential_BDF_microsteps": true,
+    "node_count": 8,
+    "one_window_per_committed_stage": true
+  },
+  "schema_version": 1,
+  "truth_budget": {
+    "maximum_unique_exact_rate_states_per_window": 15,
+    "maximum_unique_exact_rate_states_total": 120,
+    "new_BDF_microsteps": 0,
+    "new_nonlinear_fixed_Q_roots": 0
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25ed"
+}
