@@ -1,0 +1,40 @@
+{
+  "classification": "cold_phase_collocation_exact_saved_vector_field_replay_passed",
+  "exact_saved_full_model_rate_witnesses": 4,
+  "gate_values": {
+    "maximum_constraint_condition_number": 91.96799845993802,
+    "maximum_full_rate_relative_defect": 5.2391983862377074e-05,
+    "maximum_hidden_rate_relative_defect": 0.0001366668918843028,
+    "maximum_interface_value_defect": 1.415324313415666e-17,
+    "maximum_macro_rate_relative_defect": 4.6028454415180743e-05,
+    "maximum_one_versus_two_window_rate_defect": 0.00016760410086025216,
+    "maximum_one_versus_two_window_state_defect": 5.9286198857869625e-05,
+    "maximum_state_error_over_cold_path": 1.2949513732847101e-05,
+    "minimum_full_rate_direction_cosine": 0.9999999990105076
+  },
+  "gates": {
+    "constraint_conditioning": true,
+    "full_vector_field": true,
+    "heldout_state": true,
+    "multiple_shooting_continuity": true,
+    "new_truth_calls_zero": true,
+    "rate_direction": true,
+    "saved_exact_rates_only": true,
+    "window_rate_refinement": true,
+    "window_state_refinement": true
+  },
+  "heldout_times_seconds": [
+    0.005,
+    0.012
+  ],
+  "new_truth_calls": 0,
+  "passed": true,
+  "polynomial_degrees": [
+    3,
+    3
+  ],
+  "post_transition_segment_authorized": false,
+  "predictive_cycle_authorized": false,
+  "segment_count": 2,
+  "transition_collocation_authorized": true
+}
