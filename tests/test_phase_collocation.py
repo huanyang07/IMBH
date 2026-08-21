@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 
 from imri_qpe.layer3_minidisk_1d.phase_collocation import (
     PiecewisePhaseCollocation,
     PolynomialPhaseSegment,
     direction_cosine,
     gauss_lobatto_nodes,
+    lagrange_differentiation_matrix,
+    lagrange_integration_matrix,
     relative_vector_defect,
 )
 
@@ -59,3 +62,23 @@ def test_vector_metrics() -> None:
     reference = np.asarray((3.0, 4.0))
     assert relative_vector_defect(reference, reference) == 0.0
     assert direction_cosine(reference, 2.0 * reference) == 1.0
+
+
+def test_lagrange_matrices_exactly_differentiate_and_integrate_polynomials() -> None:
+    nodes = gauss_lobatto_nodes(8)
+    differentiation = lagrange_differentiation_matrix(nodes)
+    integration = lagrange_integration_matrix(nodes)
+    values = 2.0 - 3.0 * nodes + 4.0 * nodes**3 - 0.5 * nodes**6
+    derivative = -3.0 + 12.0 * nodes**2 - 3.0 * nodes**5
+    antiderivative = 2.0 * nodes - 1.5 * nodes**2 + nodes**4 - nodes**7 / 14.0
+    np.testing.assert_allclose(differentiation @ values, derivative, atol=2.0e-12)
+    np.testing.assert_allclose(integration @ values, antiderivative, atol=2.0e-13)
+    np.testing.assert_array_equal(integration[0], np.zeros(len(nodes)))
+
+
+def test_lagrange_matrices_reject_duplicate_nodes() -> None:
+    duplicate = np.asarray((0.0, 0.5, 0.5, 1.0))
+    with pytest.raises(ValueError, match="distinct"):
+        lagrange_differentiation_matrix(duplicate)
+    with pytest.raises(ValueError, match="distinct"):
+        lagrange_integration_matrix(duplicate)

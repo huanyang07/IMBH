@@ -215,6 +215,48 @@ def gauss_lobatto_nodes(count: int) -> np.ndarray:
     return 0.5 * (np.concatenate(([-1.0], interior, [1.0])) + 1.0)
 
 
+def lagrange_differentiation_matrix(nodes: np.ndarray) -> np.ndarray:
+    """Return the nodal derivative matrix for distinct phase nodes.
+
+    If ``values`` contains samples of a polynomial of degree at most
+    ``len(nodes) - 1``, then ``D @ values`` is its derivative at the same
+    nodes.  The small dense construction is intentionally explicit: the
+    phase pilots use at most eight nodes and benefit from an independently
+    auditable Vandermonde definition.
+    """
+
+    phase = _finite_array(nodes, ndim=1, name="nodes")
+    if len(phase) < 2 or len(np.unique(phase)) != len(phase):
+        raise ValueError("differentiation nodes must be distinct")
+    powers = np.arange(len(phase))
+    vandermonde = phase[:, None] ** powers[None, :]
+    derivative = np.zeros_like(vandermonde)
+    derivative[:, 1:] = (
+        powers[None, 1:] * phase[:, None] ** (powers[None, 1:] - 1)
+    )
+    return derivative @ np.linalg.solve(vandermonde, np.eye(len(phase)))
+
+
+def lagrange_integration_matrix(nodes: np.ndarray) -> np.ndarray:
+    """Return integrals of nodal Lagrange polynomials from zero to each node.
+
+    ``A[i, j]`` equals the integral from zero to ``nodes[i]`` of the
+    Lagrange cardinal polynomial associated with ``nodes[j]``. Consequently
+    ``A @ values`` integrates the unique nodal interpolating polynomial.
+    """
+
+    phase = _finite_array(nodes, ndim=1, name="nodes")
+    if len(phase) < 2 or len(np.unique(phase)) != len(phase):
+        raise ValueError("integration nodes must be distinct")
+    powers = np.arange(len(phase))
+    vandermonde = phase[:, None] ** powers[None, :]
+    coefficients = np.linalg.solve(vandermonde, np.eye(len(phase)))
+    integrated_powers = (
+        phase[:, None] ** (powers[None, :] + 1) / (powers[None, :] + 1)
+    )
+    return integrated_powers @ coefficients
+
+
 def relative_vector_defect(predicted: np.ndarray, reference: np.ndarray) -> float:
     predicted_array = np.asarray(predicted, dtype=float)
     reference_array = np.asarray(reference, dtype=float)
