@@ -1,0 +1,163 @@
+{
+  "checks": {
+    "basis_orthonormality": true,
+    "current_hidden_capture": true,
+    "current_physical_capture": true,
+    "generator_budget": true,
+    "macro_annihilation": true,
+    "parent_inputs_reproduced": true,
+    "propagation_budget": true,
+    "retraction_budget": true,
+    "root_budget": true,
+    "sealed_budget": true,
+    "selected_rank": true,
+    "training_capture": true,
+    "truth_budget": true
+  },
+  "metrics": {
+    "authorized_next": "WP10c9d6c7c3b5c4f25dj",
+    "candidate_rank_metrics": [
+      {
+        "current_primary_gauge_fixed_physical_action_energy_capture": 0.9981108681143585,
+        "current_primary_gauge_fixed_physical_cosine_squared": 0.998112615278956,
+        "current_primary_gauge_fixed_physical_relative_error": 0.0434641448281399,
+        "current_primary_hidden_action_energy_capture": 0.9983329589112807,
+        "effective_data_supported_rank": 8,
+        "minimum_training_hidden_action_energy_capture": 0.9999999984747737,
+        "requested_rank": 8
+      },
+      {
+        "current_primary_gauge_fixed_physical_action_energy_capture": 0.9993889784614972,
+        "current_primary_gauge_fixed_physical_cosine_squared": 0.9993927420745529,
+        "current_primary_gauge_fixed_physical_relative_error": 0.02471884986205366,
+        "current_primary_hidden_action_energy_capture": 0.9998313829166798,
+        "effective_data_supported_rank": 13,
+        "minimum_training_hidden_action_energy_capture": 0.9999999999999992,
+        "requested_rank": 16
+      }
+    ],
+    "classification": "common_transition_hidden_basis_candidate_supported_definitions_only_tangent_manifest_authorized",
+    "current_hidden_action_matches_revision_relative_defect": 0.0,
+    "current_hidden_action_reproduction_relative_defect": 0.0,
+    "current_hidden_rate_reproduction_relative_defect": 0.0,
+    "current_primary_fieldwise_physical_action_energy_capture": [
+      0.9834623665600596,
+      0.9838052511861946,
+      0.9785655188669226,
+      0.9983191693381227,
+      0.9504763527221798
+    ],
+    "current_primary_gauge_fixed_physical_action_energy_capture": 0.9981108681143585,
+    "current_primary_gauge_fixed_physical_cosine_squared": 0.998112615278956,
+    "current_primary_gauge_fixed_physical_relative_error": 0.0434641448281399,
+    "current_primary_hidden_action_energy_capture": 0.9983329589112807,
+    "current_primary_radial_quartile_physical_action_energy_capture": [
+      0.9969803285749624,
+      0.997575741490979,
+      0.9978618027269754,
+      0.9981108979147132
+    ],
+    "dual_identity_infinity_defect": 9.729823187352673e-16,
+    "hidden_basis_isometry_infinity_defect": 8.575924810020018e-16,
+    "leave_family_out": {
+      "leave_one_snapshot_out": {
+        "heldout_hidden_action_energy_captures": [
+          0.9999996913977676,
+          0.9999999923179578,
+          0.9999999974156489,
+          0.9999999980533081,
+          0.9999999943550257,
+          0.9999999998447682,
+          0.9999999921970378,
+          0.9999999988650201,
+          0.9999999976771788,
+          0.9999999994701789,
+          0.9999999995448245,
+          0.9999999992999876,
+          0.9999999973946492
+        ],
+        "minimum_heldout_hidden_action_energy_capture": 0.9999996913977676
+      },
+      "prior_revealed_nine": {
+        "heldout_count": 9,
+        "heldout_hidden_action_energy_captures": [
+          0.9968188091101531,
+          0.999914123333869,
+          0.9999070263497402,
+          0.9999115258419601,
+          0.9999038682938656,
+          0.999999755171082,
+          0.9999977891124137,
+          0.9999995714041933,
+          0.9999978269283176
+        ],
+        "minimum_heldout_hidden_action_energy_capture": 0.9968188091101531,
+        "realized_rank": 4,
+        "training_count": 4
+      },
+      "prior_validation_four": {
+        "heldout_count": 4,
+        "heldout_hidden_action_energy_captures": [
+          0.9999999912466554,
+          0.9999999936340507,
+          0.9999999999660363,
+          0.9999999849158839
+        ],
+        "minimum_heldout_hidden_action_energy_capture": 0.9999999849158839,
+        "realized_rank": 8,
+        "training_count": 9
+      }
+    },
+    "minimum_training_hidden_action_energy_capture": 0.9999999984747737,
+    "new_chart_retractions": 0,
+    "new_complete_generator_assemblies": 0,
+    "new_exact_fixed_Q_rate_calls": 0,
+    "new_nonlinear_roots": 0,
+    "normalized_seed_hidden_action_data_rank": 13,
+    "normalized_seed_hidden_action_singular_values": [
+      3.6045953123088967,
+      0.05984303520823647,
+      0.044776087435944585,
+      0.036079984182963334,
+      0.002088779728917109,
+      0.0005581990899180057,
+      0.0002866885378775815,
+      0.00014352525467763348,
+      6.24043776787459e-05,
+      3.179110081387364e-05,
+      6.749900261907669e-06,
+      4.8517446182240406e-06,
+      1.4845414860968746e-06
+    ],
+    "primary_direction_added_as_atlas_center": false,
+    "propagated_states": 0,
+    "sealed_16ms_truth_calls": 0,
+    "seed_exact_rate_count": 13,
+    "seed_hidden_action_reconstruction_relative_defect": 0.0,
+    "seed_provenance_families": {
+      "prior_revealed_nine": 9,
+      "prior_validation_four": 4
+    },
+    "selected_action_macro_annihilation_infinity_defect": 8.172839457659622e-20,
+    "selected_basis_orthonormality_infinity_defect": 2.3637775764528968e-15,
+    "selected_basis_source": "prior_seed_only",
+    "selected_hidden_rank": 8,
+    "selected_requested_rank": 8,
+    "training_hidden_action_energy_captures": [
+      0.9999999999821835,
+      0.9999999994000551,
+      0.9999999996991351,
+      0.9999999998574605,
+      0.9999999984747737,
+      0.999999999976634,
+      0.9999999988324343,
+      0.999999999693186,
+      0.9999999997343055,
+      0.9999999998521812,
+      0.9999999998066509,
+      0.9999999998206374,
+      0.9999999998940772
+    ]
+  },
+  "passed": true
+}
