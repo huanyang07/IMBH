@@ -1,0 +1,131 @@
+{
+  "authorization_boundaries": {
+    "branch_root_authorized": false,
+    "online_solver_authorized": false,
+    "online_transition_ODE_authorized": false,
+    "physical_microburst_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "this_package_executes_the_tangent_diagnostic": false,
+    "transition_trajectory_authorized": false,
+    "transition_truth_campaign_authorized": false
+  },
+  "binding_gates": {
+    "checkpoint_coordinate_chart_condition_number_max": 10000000.0,
+    "maximum_selected_hidden_rank": 128,
+    "saved_complete_JVP_relative_defect_max": 1e-10,
+    "saved_generator_closure_relative_defect_max": 1e-12,
+    "selected_action_macro_annihilation_infinity_max": 5e-12,
+    "selected_basis_orthonormality_infinity_max": 5e-12,
+    "selected_hidden_physical_tangent_energy_capture_min": 0.9,
+    "selected_hidden_tangent_invariance_relative_defect_max": 0.1,
+    "tangent_step_convergence_relative_defect_max": 0.001
+  },
+  "classification": "common_transition_hidden_tangent_diagnostic_manifest_frozen_saved_complete_generator_execution_authorized",
+  "coordinate_Hessian_audit": {
+    "chart_retractions": 0,
+    "dimensionless_step_ladder": [
+      0.0002,
+      0.0001,
+      5e-05
+    ],
+    "maximum_adjacent_relative_defect": 0.001,
+    "method": "central_coordinate_Jacobian_difference_along_each_gauge_fixed_physical_basis_direction",
+    "new_complete_generator_assemblies": 0,
+    "new_fixed_Q_rate_calls": 0,
+    "response_convergence_measure": "adjacent_relative_Frobenius_defect_of_hidden_tangent_actions",
+    "signed_physical_component_radius": 0.0025
+  },
+  "decision": {
+    "chart_or_saved_operator_audit_fails": {
+      "authorizes_only": "diagnosis_only",
+      "classification": "transition_tangent_diagnostic_infrastructure_failed"
+    },
+    "enriched_rank_at_most_128_passes": {
+      "authorizes_only": "definitions_only_rank_adaptive_transition_sampling_design",
+      "classification": "rank_adaptive_common_transition_hidden_tangent_candidate_supported"
+    },
+    "no_rank_at_most_128_passes": {
+      "authorizes_only": "definitions_only_full470_offline_impulse_sampling_design",
+      "classification": "transition_hidden_tangent_reduction_rejected_full470_offline_impulse_reference_required"
+    },
+    "rank8_passes": {
+      "authorizes_only": "definitions_only_nonlinear_transition_impulse_sampling_design",
+      "classification": "common_rank8_transition_hidden_tangent_candidate_supported"
+    }
+  },
+  "decisive_input_hashes": {
+    "exact_chart_runner": "46b475da0fc23358186e95ac28ecf443b25d1213e7444e5f540c224399557eca",
+    "fixed_Q_source": "fc95c932c86238e157492367310776d0cf0a6e940979592420d6f8b2122f18e0",
+    "parent_arrays": "01ebb54863d97ab4ec96365608cb5b33400ab575255ac05b63e7a45b7153fcc0",
+    "parent_contract": "e44ff776dc696b318138b3f73fcbce5e72808dbccd9ede637c1ae73c6f62d8a1",
+    "parent_summary": "ff030ddcd0286cf9bc1d37776eeafbd275fefff76e7154953a1a9ceb4adbe290",
+    "saved_checkpoint": "c072942d8ca37b6ae5747d2b76a214725c79ecc1932fe233a91d84e0eb55b1f9",
+    "saved_generator": "483ecb52b4669343a223ebf5b3bec1ad6c07b80f3cf5d95f2f17c528227fdfc1",
+    "saved_generator_metrics": "d161deba61a744509b5f36cf93f57641edfb89fb4c4266e356be2531ab20c4bc",
+    "saved_generator_provenance": "e727c3d47f09ac5ea1c3c0e15c3c4b1d1b57406d7880c7b47be88654790a0b08",
+    "saved_generator_seed_lock": "ea92b12635950b5dbd0a144389bde135ad792d7499915814485c284fbf0e33f7",
+    "tangent_source": "23a958a894fc40188a0cda1e640f943bd00dc8070a64af4b2b2a56cd609ba0c4"
+  },
+  "definitions_only": true,
+  "exact_local_operator": {
+    "basis_action": "V470=Z388_B8",
+    "checkpoint_role": "accepted_unclassified_transition_checkpoint",
+    "checkpoint_time_seconds": 0.020000599999999997,
+    "coordinate_Hessian_term_required": true,
+    "coordinate_chart": "exact_geometric_y470_chart_evaluated_at_checkpoint",
+    "coordinate_field_tangent": "K_y_V=J470_A560_W560_plus_DJ470[W560]_fixed_Q_rate560",
+    "gauge": "canonical_null_basis_of_checkpoint_coordinate_Jacobian",
+    "hidden_tangent_action": "K_h_B=Q388_K_y_V",
+    "physical_lift": "W560=[J470;N90^T]^{-1}[V470;0]",
+    "rank8_invariance_defect": "norm_F((I-B8_B8^T)_K_h_B)/max(norm_F(K_h_B),tiny)",
+    "reduced_tangent": "K8=B8^T_K_h_B",
+    "transition_spectrum_role": "diagnostic_only_not_branch_stability"
+  },
+  "execution_budget": {
+    "maximum_coordinate_Jacobian_evaluations": 400,
+    "new_chart_retractions_equal": 0,
+    "new_complete_generator_assemblies_equal": 0,
+    "new_exact_fixed_Q_rate_evaluations_equal": 0,
+    "new_nonlinear_roots_equal": 0,
+    "propagated_states_equal": 0,
+    "sealed_16ms_truth_calls_equal": 0
+  },
+  "fail_fast_sequence": [
+    "validate_all_parent_and_saved_generator_hashes",
+    "rebuild_the_exact_checkpoint_coordinate_Jacobian_and_gauge",
+    "audit_the_rank8_Hessian_step_ladder",
+    "test_rank8_hidden_and_physical_tangent_closure",
+    "only_if_rank8_fails_apply_saved_operator_block_Arnoldi_enrichment",
+    "stop_at_the_first_rank_that_passes_or_at_rank128",
+    "construct_no_transition_trajectory_or_online_model"
+  ],
+  "input_separation": {
+    "full_y470_offline_reference_and_fallback_preserved": true,
+    "old_rejected_resolved_lifting_reused": false,
+    "old_rejected_transfer_model_reused": false,
+    "saved_generator_source_matches_current_fixed_Q_and_tangent_sources": true,
+    "selected_basis": "rank8_dual_consistent_hidden_basis_from_WP10c9d6c7c3b5c4f25di",
+    "tangent_reference": "hash_locked_complete_fixed_Q_generator_at_20p0006ms"
+  },
+  "objective": "test_local_tangent_closure_of_the_rank8_common_transition_hidden_basis_at_the_saved_20p0006ms_accepted_transition_checkpoint",
+  "rank_adaptive_fallback": {
+    "candidate_hidden_ranks": [
+      8,
+      12,
+      16,
+      24,
+      32,
+      48,
+      64,
+      96,
+      128
+    ],
+    "construction": "block_Arnoldi_enrichment_by_orthonormalized_hidden_tangent_residual_directions",
+    "maximum_coordinate_Jacobian_evaluations": 400,
+    "maximum_rank": 128,
+    "new_basis_vectors_must_remain_in_kernel_of_R82": true,
+    "rate_action_and_physical_localization_gates_remain_binding": true
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25dj"
+}
