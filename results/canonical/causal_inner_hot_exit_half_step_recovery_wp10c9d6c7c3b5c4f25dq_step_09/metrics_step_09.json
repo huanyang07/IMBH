@@ -1,0 +1,242 @@
+{
+  "Broyden_counter_semantics": "exact_reset_v2",
+  "Broyden_updates": 7,
+  "Broyden_updates_since_exact": 1,
+  "acceptance": {
+    "accepted": true,
+    "complete_residual_passed": true,
+    "constraint_action_ledger_passed": true,
+    "failure_reasons": [],
+    "incoming_excision_passed": true,
+    "nonlinear_root_passed": true,
+    "physical_height_passed": true,
+    "physical_optical_depth_passed": true,
+    "primitive_change_passed": true,
+    "q3_passed": true,
+    "reaction_conditioning_passed": true,
+    "reaction_ledger_passed": true,
+    "reconstruction_passed": true,
+    "storage_parity_passed": true
+  },
+  "accepted": true,
+  "checkpoint": {
+    "bitwise_roundtrip": true,
+    "bytes": 1247316,
+    "checkpoint_read_call_count": 1,
+    "checkpoint_read_wall_seconds": 0.007106791716068983,
+    "checkpoint_write_call_count": 1,
+    "checkpoint_write_wall_seconds": 0.06823762506246567,
+    "path": "outputs/checkpoints/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq/step_09/checkpoint_step_09.npz",
+    "process_seconds": 0.07349100000010367,
+    "sha256": "0d7c799c560f1a4dd5990eccb06467a5a34fdeb70c95c26d9bcf06b4a7093bca"
+  },
+  "elapsed_time_seconds": 0.020001550000000007,
+  "event_trace": [
+    {
+      "function_evaluations": 1,
+      "maximum_scaled_residual": 0.9359650865466033,
+      "stage": "initial_residual"
+    },
+    {
+      "function_evaluations": 1,
+      "iteration": 0,
+      "maximum_scaled_residual": 0.9359650865466033,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 1.0,
+      "function_evaluations": 2,
+      "iteration": 0,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 0.021712020036879286,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 2,
+      "iteration": 1,
+      "maximum_scaled_residual": 0.021712020036879286,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 1.0,
+      "function_evaluations": 3,
+      "iteration": 1,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 0.0003187461311315044,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 3,
+      "iteration": 2,
+      "maximum_scaled_residual": 0.0003187461311315044,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 1.0,
+      "function_evaluations": 4,
+      "iteration": 2,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 8.075251975658837e-06,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 4,
+      "iteration": 3,
+      "maximum_scaled_residual": 8.075251975658837e-06,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 1.0,
+      "function_evaluations": 5,
+      "iteration": 3,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 4.0392763480942075e-07,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 5,
+      "iteration": 4,
+      "maximum_scaled_residual": 4.0392763480942075e-07,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 1.0,
+      "function_evaluations": 6,
+      "iteration": 4,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 7.412563243671028e-08,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 6,
+      "iteration": 5,
+      "maximum_scaled_residual": 7.412563243671028e-08,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 1.0,
+      "function_evaluations": 7,
+      "iteration": 5,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 3.6372606873912325e-08,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 7,
+      "iteration": 6,
+      "maximum_scaled_residual": 3.6372606873912325e-08,
+      "stage": "newton_iteration"
+    },
+    {
+      "exact_jacobian_assemblies": 1,
+      "function_evaluations": 7,
+      "iteration": 6,
+      "maximum_scaled_residual": 3.6372606873912325e-08,
+      "reason": "iteration_reserve",
+      "stage": "exact_jacobian_refresh"
+    },
+    {
+      "alpha": 1.0,
+      "function_evaluations": 8,
+      "iteration": 6,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 8.010461163824982e-13,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 8,
+      "iteration": 7,
+      "maximum_scaled_residual": 8.010461163824982e-13,
+      "stage": "newton_iteration"
+    }
+  ],
+  "exact_Jacobian_assemblies": 1,
+  "exact_Jacobian_reasons": [
+    "iteration_reserve"
+  ],
+  "exact_assembly_budget_passed": true,
+  "failure_reasons": [],
+  "function_evaluations": 8,
+  "incoming_excision_characteristics": 0,
+  "iterations": 7,
+  "label": "step_09",
+  "linear_solves": 7,
+  "matrix_age_steps": 0,
+  "maximum_H_over_R": 0.09783742884303606,
+  "maximum_Q3_relative_defect": 2.8604873761813977e-16,
+  "maximum_constraint_action_ledger_relative_defect": 1.3323111644899723e-16,
+  "maximum_path_reconstruction_factor": 1.0,
+  "maximum_raw_Schur_solve_relative_defect": 5.303004587736461e-13,
+  "maximum_reaction_ledger_relative_defect": 1.8894334562555862e-16,
+  "maximum_scaled_primitive_change": 0.0030717444017460244,
+  "maximum_scaled_residual": 8.010461163824982e-13,
+  "maximum_storage_parity_relative_defect": 2.2567825253603337e-14,
+  "message": "residual gate passed",
+  "minimum_path_reconstruction_factor": 1.0,
+  "minimum_scattering_optical_depth": 19.254336168742512,
+  "policy": {
+    "cold": false,
+    "exact_jacobian_refresh_policy": "on_line_search_failure_or_iteration_reserve",
+    "initial_exact_jacobian_required": false,
+    "maximum_exact_jacobian_refreshes": 1,
+    "use_carried_solver_state": true
+  },
+  "raw_Schur_condition_number": 36540.903469336845,
+  "raw_Schur_rank": 3,
+  "residual_margin": 0.008010461163824981,
+  "root_passed": true,
+  "root_process_seconds": 1332.142123,
+  "root_wall_seconds": 1333.838280792348,
+  "solver_profiling": {
+    "activity_call_counts": {
+      "acceptance_descriptor_assembly": 1,
+      "acceptance_descriptor_sparse_lu": 1,
+      "acceptance_monolithic_residual": 1,
+      "acceptance_reaction_construction": 1,
+      "base_descriptor_assembly": 1,
+      "base_descriptor_sparse_lu": 1,
+      "bordered_linear_solve": 7,
+      "descriptor_assembly": 10,
+      "descriptor_sparse_lu": 10,
+      "exact_jacobian": 1,
+      "line_search_descriptor_assembly": 7,
+      "line_search_descriptor_sparse_lu": 7,
+      "line_search_monolithic_residual": 7,
+      "line_search_reaction_construction": 7,
+      "line_search_residual": 7,
+      "monolithic_residual": 9,
+      "physical_acceptance": 1,
+      "reaction_construction": 9,
+      "residual": 8,
+      "root_descriptor_assembly": 1,
+      "root_descriptor_sparse_lu": 1,
+      "root_monolithic_residual": 1,
+      "root_reaction_construction": 1,
+      "root_residual": 1
+    },
+    "bordered_linear_solve_wall_seconds": 0.026463167741894722,
+    "descriptor_assembly_wall_seconds": 142.6814208338037,
+    "descriptor_sparse_lu_wall_seconds": 0.019646040629595518,
+    "exact_jacobian_wall_seconds": 110.6299605416134,
+    "exclusive_wall_seconds": {
+      "bordered_linear_solve": 0.026463167741894722,
+      "descriptor_assembly": 142.6814208338037,
+      "descriptor_sparse_lu": 0.019646040629595518,
+      "exact_jacobian": 110.6299605416134,
+      "line_search_residual_wrapper": 0.0009990422986447811,
+      "monolithic_residual": 937.974222291261,
+      "physical_acceptance_other": 0.08031333377584815,
+      "reaction_without_descriptor_or_sparse_lu": 113.88698516506702,
+      "root_residual_wrapper": 0.0002094591036438942,
+      "solver_other": 28.536484624724835
+    },
+    "line_search_residual_wall_seconds": 882.4964548326097,
+    "monolithic_residual_wall_seconds": 937.974222291261,
+    "physical_acceptance_wall_seconds": 184.48129925038666,
+    "reaction_construction_wall_seconds": 256.5880520395003,
+    "residual_wall_seconds": 1010.1624969155528,
+    "total_wall_seconds": 1333.8367045000196
+  },
+  "timestep_seconds": 5e-08,
+  "total_Broyden_updates": 57
+}
