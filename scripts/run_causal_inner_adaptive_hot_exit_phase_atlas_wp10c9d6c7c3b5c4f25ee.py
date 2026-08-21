@@ -21,7 +21,7 @@ for path in (ROOT / "src", ROOT / "scripts"):
         sys.path.insert(0, str(path))
 
 from imri_qpe.layer3_minidisk_1d.causal_inner_fixed_q import causal_five_field_exterior_q3  # noqa: E402
-import run_causal_inner_adaptive_hot_exit_phase_atlas_manifest_wp10c9d6c7c3b5c4f25ed as manifest  # noqa: E402
+import run_causal_inner_adaptive_hot_exit_phase_atlas_manifest_v2_wp10c9d6c7c3b5c4f25ed as manifest  # noqa: E402
 import run_causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do as legacy_hot  # noqa: E402
 
 
@@ -33,7 +33,7 @@ BUDGET_CLASSIFICATION = "adaptive_hot_exit_phase_atlas_budget_exhausted_without_
 FAIL_CLASSIFICATION = "adaptive_hot_exit_phase_window_rejected_last_accepted_endpoint_preserved"
 FINAL_WORK_PACKAGE = "WP10c9d6c7c3b5c4f25ef"
 ARTIFACT_PREFIX = "causal_inner_adaptive_hot_exit_phase_atlas_wp10c9d6c7c3b5c4f25ee"
-SCRATCH_ROOT = ROOT / "outputs/checkpoints" / ARTIFACT_PREFIX
+SCRATCH_ROOT = ROOT / "outputs/checkpoints" / f"{ARTIFACT_PREFIX}_v2"
 THIS_RUNNER = "scripts/run_causal_inner_adaptive_hot_exit_phase_atlas_wp10c9d6c7c3b5c4f25ee.py"
 THIS_TEST = "tests/test_causal_inner_adaptive_hot_exit_phase_atlas_wp10c9d6c7c3b5c4f25ee.py"
 
@@ -70,7 +70,10 @@ def _validate_manifest(*, require_clean: bool) -> dict:
     )
     if (
         not summary["passed"]
-        or not summary["definitions_only"]
+        or not (
+            summary.get("definitions_only", False)
+            or summary.get("definitions_only_with_recovered_truth_cache", False)
+        )
         or not summary["adaptive_phase_atlas_execution_authorized"]
         or summary["authorized_next"] != WORK_PACKAGE
         or contract["work_package"] != manifest.WORK_PACKAGE
@@ -164,6 +167,7 @@ class _ExactField:
         identity: dict,
         seed_metrics: dict,
         seed_arrays: dict[str, np.ndarray],
+        recovered_records: list[tuple[dict, dict[str, np.ndarray]]],
     ) -> None:
         self.index = index
         self.scratch = _scratch_directory(index)
@@ -182,6 +186,8 @@ class _ExactField:
         self.arrays: dict[str, dict[str, np.ndarray]] = {}
         self.new_call_count = 0
         self._insert(seed_arrays["coordinate470"], seed_metrics, seed_arrays)
+        for metrics, arrays in recovered_records:
+            self._insert(arrays["coordinate470"], metrics, arrays)
         self._prepare_scratch()
 
     @staticmethod
@@ -382,16 +388,107 @@ def _seed_and_training(index: int, base: dict) -> dict:
     }
 
 
-def _event_features(start_state: np.ndarray, endpoint_state: np.ndarray) -> dict:
-    static = legacy_hot._static_feature_data()
+def _static_feature_data() -> dict:
+    helper = _helper()
+    source = manifest.legacy_exit
+    tangent_arrays = helper._load_npz(source.TANGENT_ARRAYS)
+    geometry_arrays = helper._load_npz(source.GEOMETRY_ARRAYS)
+    screen_arrays = helper._load_npz(source.PARENT_ARRAYS)
+    field_arrays = helper._load_npz(legacy_hot.screen.geometry.FIELD_ARRAYS)
+    field = legacy_hot.screen.geometry.field_manifest.ForwardQuadraticAuthenticCenterField(
+        field_arrays
+    )
+    labels = helper._read(source.PARENT_METRICS)["candidate_labels"]
+    if labels[-1] != "fixed_Q_warm_3":
+        raise RuntimeError("saved warm_3 coordinate label changed")
+    return {
+        "model": field.model,
+        "macro_restriction": tangent_arrays["macro_restriction_R82"],
+        "hidden_basis": tangent_arrays["hidden_basis_Z388"],
+        "hidden_dual": tangent_arrays["hidden_dual_Q388"],
+        "rank16_basis": tangent_arrays["selected_hidden_basis388"],
+        "anchor_coordinate": geometry_arrays["candidate_absolute_y470_coordinates"][5],
+        "seed_coordinate": screen_arrays["candidate_absolute_y470_coordinates"][-1],
+    }
+
+
+def _event_features(
+    start_state: np.ndarray,
+    endpoint_state: np.ndarray,
+    duration_seconds: float,
+) -> dict:
+    static = _static_feature_data()
     previous_coordinate = np.asarray(static["model"].coordinate(start_state)[0], dtype=float)
-    metrics, arrays = legacy_hot._exit_features(static, previous_coordinate, endpoint_state)
+    current_coordinate = np.asarray(static["model"].coordinate(endpoint_state)[0], dtype=float)
+    secant_rate = (current_coordinate - previous_coordinate) / duration_seconds
+    hidden_rate = static["hidden_dual"] @ secant_rate
+    hidden_action = static["hidden_basis"] @ hidden_rate
+    hidden_fraction = float(
+        np.linalg.norm(hidden_action)
+        / max(float(np.linalg.norm(secant_rate)), np.finfo(float).tiny)
+    )
+    rank16_capture = float(
+        np.linalg.norm(static["rank16_basis"].T @ hidden_rate)
+        / max(float(np.linalg.norm(hidden_rate)), np.finfo(float).tiny)
+    )
+    hidden_departure = static["hidden_dual"] @ (
+        current_coordinate - static["anchor_coordinate"]
+    )
+    rank16_amplitude = float(
+        np.linalg.norm(static["rank16_basis"].T @ hidden_departure)
+    )
+    macro_drift = float(
+        np.linalg.norm(
+            static["macro_restriction"]
+            @ (current_coordinate - static["seed_coordinate"])
+        )
+    )
+    metrics = {
+        "hidden_secant_fraction": hidden_fraction,
+        "rank16_secant_capture": rank16_capture,
+        "rank16_hidden_amplitude_from_20ms_anchor": rank16_amplitude,
+        "macro_drift_from_warm3_seed": macro_drift,
+        "hidden_fraction_gate_passed": hidden_fraction <= manifest.HIDDEN_SECANT_FRACTION_MAX,
+        "rank16_amplitude_gate_passed": rank16_amplitude >= manifest.RANK16_HIDDEN_AMPLITUDE_MIN,
+        "macro_drift_gate_passed": macro_drift <= manifest.MAXIMUM_MACRO_DRIFT_FROM_SEED,
+    }
+    arrays = {
+        "previous_coordinate470": previous_coordinate,
+        "current_coordinate470": current_coordinate,
+        "coordinate_secant_rate470_per_s": secant_rate,
+        "hidden_secant_rate388_per_s": hidden_rate,
+        "hidden_secant_action470_per_s": hidden_action,
+    }
     event_gate = bool(
         metrics["hidden_fraction_gate_passed"]
         and metrics["rank16_amplitude_gate_passed"]
         and metrics["macro_drift_gate_passed"]
     )
     return {"metrics": metrics, "arrays": arrays, "event_gate_passed": event_gate}
+
+
+def _recovered_records(index: int) -> list[tuple[dict, dict[str, np.ndarray]]]:
+    if index != 1:
+        return []
+    helper = _helper()
+    metrics = helper._read(manifest.RECOVERED_METRICS)["records"]
+    arrays = helper._load_npz(manifest.RECOVERED_ARRAYS)
+    names = (
+        "coordinate470",
+        "decoded_primitive_state",
+        "recovered_coordinate470",
+        "Q3",
+        "coordinate_rate470_per_s",
+        "scaled_fixed_Q_rate560_per_s",
+        "scaled_reaction_action560_per_s",
+    )
+    return [
+        (
+            dict(item),
+            {name: np.asarray(arrays[name][record_index]) for name in names},
+        )
+        for record_index, item in enumerate(metrics)
+    ]
 
 
 def _evaluate(index: int, locked: dict) -> tuple[dict, dict[str, np.ndarray]]:
@@ -421,6 +518,7 @@ def _evaluate(index: int, locked: dict) -> tuple[dict, dict[str, np.ndarray]]:
         identity=identity,
         seed_metrics=seed["seed_metrics"],
         seed_arrays=seed["seed_arrays"],
+        recovered_records=_recovered_records(index),
     )
     began = time.perf_counter()
     window = _post()._picard_window(
@@ -434,7 +532,7 @@ def _evaluate(index: int, locked: dict) -> tuple[dict, dict[str, np.ndarray]]:
     wall_seconds = float(time.perf_counter() - began)
     endpoint_coordinate = np.asarray(window["endpoint"], dtype=float)
     endpoint_state = field.decode(endpoint_coordinate)
-    event = _event_features(seed["state"], endpoint_state)
+    event = _event_features(seed["state"], endpoint_state, duration)
     required_physical = (
         "coordinate_decomposition", "coordinate_rank", "coordinate_condition",
         "fixed_Q_tangency", "reaction_ledger", "Schur_rank", "Schur_condition",
