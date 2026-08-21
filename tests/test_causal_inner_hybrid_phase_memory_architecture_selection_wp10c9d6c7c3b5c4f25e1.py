@@ -29,3 +29,9 @@ def test_unit_rows_are_normalized() -> None:
 
 def test_classification_preserves_missing_cycle_truth() -> None:
     assert "complete_cycle_truth_missing" in selection.PASS_CLASSIFICATION
+
+
+def test_execution_repair_is_pre_evidence_and_truth_free() -> None:
+    assert selection.LOCK_ARTIFACT.endswith("execution_lock_v2")
+    source = (ROOT / selection.THIS_RUNNER).read_text(encoding="utf-8")
+    assert 'tube_summary["transition_dynamic_dimension"]' in source

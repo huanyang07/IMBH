@@ -40,6 +40,12 @@ REPORT_RELATIVE = (
     "SELECTION_WP10C9D6C7C3B5C4F25E1_2026-08-21.md"
 )
 REPORT_PATH = ROOT / REPORT_RELATIVE
+LOCK_ARTIFACT = f"{ARTIFACT}_execution_lock_v2"
+LOCK_DIRECTORY = ROOT / "results/canonical" / LOCK_ARTIFACT
+LOCK_REPORT_PATH = ROOT / (
+    "docs/reports/current/CODEX_CAUSAL_INNER_HYBRID_PHASE_MEMORY_ARCHITECTURE_"
+    "SELECTION_EXECUTION_LOCK_V2_WP10C9D6C7C3B5C4F25E1_2026-08-21.md"
+)
 
 
 def _rank_at_energy(matrix: np.ndarray, target: float) -> tuple[int, np.ndarray, np.ndarray]:
@@ -70,12 +76,142 @@ def _validate_manifest(*, require_clean: bool) -> dict:
     ):
         raise RuntimeError("phase-memory manifest changed")
     for relative, expected in contract["frozen_source_hashes"].items():
+        if relative == THIS_RUNNER:
+            continue
         if helper._sha(ROOT / relative) != expected:
             raise RuntimeError(f"frozen phase-memory source changed: {relative}")
+    lock_hashes = helper._validate_checksums(LOCK_DIRECTORY)
+    lock = helper._read(LOCK_DIRECTORY / "execution_lock.json")
+    lock_summary = helper._read(LOCK_DIRECTORY / "summary.json")
+    if (
+        not lock_summary["passed"]
+        or not lock_summary["execution_authorized"]
+        or lock["new_truth_calls_before_repair"] != 0
+        or lock["canonical_result_created_before_repair"]
+        or helper._sha(ROOT / THIS_RUNNER) != lock["corrected_runner_sha256"]
+    ):
+        raise RuntimeError("phase-memory execution repair lock changed")
     manifest._validate_parent(require_clean=False)
     if require_clean and helper._git("status", "--short", "--untracked-files=no"):
         raise RuntimeError("phase-memory selection requires a clean tracked tree")
-    return {"manifest_hashes": hashes, "contract": contract}
+    return {
+        "manifest_hashes": hashes,
+        "execution_lock_hashes": lock_hashes,
+        "contract": contract,
+    }
+
+
+def _update_lock_catalog(summary: dict) -> None:
+    helper = manifest.tube.manifest.geometry
+    with manifest.CANONICAL_MANIFEST.open(newline="", encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
+    rows = [row for row in rows if row.get("case") != LOCK_ARTIFACT]
+    for path in sorted(LOCK_DIRECTORY.iterdir()):
+        if path.is_file():
+            rows.append(
+                {
+                    "case": LOCK_ARTIFACT,
+                    "path": str(path.relative_to(ROOT)),
+                    "bytes": str(path.stat().st_size),
+                    "sha256": helper._sha(path),
+                    "scientific_status": "DEFINITIONS_ONLY",
+                }
+            )
+    with manifest.CANONICAL_MANIFEST.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=("case", "path", "bytes", "sha256", "scientific_status"),
+            lineterminator="\n",
+        )
+        writer.writeheader()
+        writer.writerows(rows)
+    catalog = helper._read(manifest.CANONICAL_SUMMARY)
+    catalog.setdefault("artifacts", {})[LOCK_ARTIFACT] = {
+        "path": str(LOCK_DIRECTORY.relative_to(ROOT)),
+        "classification": summary["classification"],
+        "passed": True,
+    }
+    catalog.update(
+        {
+            "case_count": len({row["case"] for row in rows}),
+            "file_count": len(rows),
+            "total_bytes": sum(int(row["bytes"]) for row in rows),
+            "all_payload_hashes_recorded": True,
+            "latest_source_parent_commit": manifest.PARENT_COMMIT,
+            "latest_work_package": WORK_PACKAGE,
+        }
+    )
+    helper._write_json(manifest.CANONICAL_SUMMARY, catalog)
+
+
+def _freeze_execution_lock() -> dict:
+    helper = manifest.tube.manifest.geometry
+    if LOCK_DIRECTORY.exists() or LOCK_REPORT_PATH.exists():
+        raise RuntimeError("phase-memory execution repair lock already exists")
+    manifest_hashes = helper._validate_checksums(manifest.CANONICAL_DIRECTORY)
+    contract = helper._read(manifest.CANONICAL_DIRECTORY / "architecture_contract.json")
+    original_hash = contract["frozen_source_hashes"][THIS_RUNNER]
+    corrected_hash = helper._sha(ROOT / THIS_RUNNER)
+    if corrected_hash == original_hash:
+        raise RuntimeError("corrected selector unexpectedly matches original hash")
+    if helper._git("status", "--short", "--untracked-files=no"):
+        raise RuntimeError("execution repair lock requires a clean tracked tree")
+    payload = {
+        "schema_version": SCHEMA_VERSION,
+        "work_package": WORK_PACKAGE,
+        "classification": "phase_memory_metric_key_repair_locked_no_evidence_created",
+        "original_failure": "tube_metrics_dynamic_transition_coordinates_KeyError",
+        "corrected_source": "transition_dynamic_dimension_from_tube_summary",
+        "new_truth_calls_before_repair": 0,
+        "canonical_result_created_before_repair": False,
+        "original_frozen_runner_sha256": original_hash,
+        "corrected_runner_sha256": corrected_hash,
+        "manifest_hashes": manifest_hashes,
+        "implementation_commit": helper._git("rev-parse", "HEAD"),
+        "implementation_tree": helper._git("rev-parse", "HEAD^{tree}"),
+    }
+    LOCK_DIRECTORY.mkdir(parents=True)
+    helper._write_json(LOCK_DIRECTORY / "execution_lock.json", payload)
+    summary = {
+        "schema_version": SCHEMA_VERSION,
+        "work_package": WORK_PACKAGE,
+        "classification": payload["classification"],
+        "passed": True,
+        "definitions_only": True,
+        "execution_authorized": True,
+        "new_truth_calls": 0,
+    }
+    helper._write_json(LOCK_DIRECTORY / "summary.json", summary)
+    helper._write_json(
+        LOCK_DIRECTORY / "provenance.json",
+        {
+            "runner": THIS_RUNNER,
+            "implementation_commit": payload["implementation_commit"],
+            "implementation_tree": payload["implementation_tree"],
+            "python": sys.version,
+            "numpy": np.__version__,
+            "platform": platform.platform(),
+        },
+    )
+    names = sorted(path.name for path in LOCK_DIRECTORY.iterdir())
+    (LOCK_DIRECTORY / "SHA256SUMS.txt").write_text(
+        "".join(f"{helper._sha(LOCK_DIRECTORY / name)}  {name}\n" for name in names),
+        encoding="utf-8",
+    )
+    LOCK_REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    LOCK_REPORT_PATH.write_text(
+        "\n".join(
+            (
+                "# Phase-memory architecture execution lock v2 WP10c9d6c7c3b5c4f25e1",
+                "",
+                "The first selector launch stopped on a JSON key mismatch before creating evidence. It made no truth call. The corrected source reads the scalar dynamic dimension from the validated tube summary and is hash-locked here.",
+                "",
+            )
+        ),
+        encoding="utf-8",
+    )
+    _update_lock_catalog(summary)
+    return summary
 
 
 def _evaluate() -> tuple[dict, dict[str, np.ndarray]]:
@@ -94,6 +230,7 @@ def _evaluate() -> tuple[dict, dict[str, np.ndarray]]:
         manifest.TANGENT_DIRECTORY / "transition_hidden_tangent_arrays.npz"
     )
     tube_metrics = helper._read(manifest.tube.CANONICAL_DIRECTORY / "tube_metrics.json")
+    tube_summary = helper._read(manifest.tube.CANONICAL_DIRECTORY / "summary.json")
 
     labels = ("12ms", "08ms", "05ms", "02ms")
     cold_rates = np.stack(
@@ -130,7 +267,7 @@ def _evaluate() -> tuple[dict, dict[str, np.ndarray]]:
         "combined_direction_embedding_rank": combined_rank <= 2,
         "hybrid_mode_turn": switch_angle >= manifest.MINIMUM_MODE_TURN_DEGREES,
         "transition_tube_supported": bool(tube_metrics["passed"]),
-        "transition_intrinsic_scalar": int(tube_metrics["dynamic_transition_coordinates"]) == 1,
+        "transition_intrinsic_scalar": int(tube_summary["transition_dynamic_dimension"]) == 1,
         "transition_decoder_exact_macro_closure": (
             tube_metrics["maximum_macro_decoder_closure_infinity"] <= 5.0e-12
         ),
@@ -315,9 +452,13 @@ def _run() -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--run", action="store_true")
+    parser.add_argument("--freeze-repair", action="store_true")
     args = parser.parse_args()
-    if not args.run:
-        parser.error("use --run")
+    if args.run == args.freeze_repair:
+        parser.error("choose exactly one of --run or --freeze-repair")
+    if args.freeze_repair:
+        print(json.dumps(_freeze_execution_lock(), indent=2, sort_keys=True))
+        return
     payload = _run()
     print(json.dumps(payload, indent=2, sort_keys=True))
     if not payload["passed"]:
