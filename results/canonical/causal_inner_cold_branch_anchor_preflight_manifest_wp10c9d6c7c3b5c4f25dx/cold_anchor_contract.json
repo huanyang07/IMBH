@@ -1,0 +1,57 @@
+{
+  "binding_gates": {
+    "Schur_condition_max": 100000000.0,
+    "Schur_rank_equal": 3,
+    "coordinate_decomposition_max": 1e-10,
+    "coordinate_jacobian_condition_max": 100000000.0,
+    "coordinate_jacobian_rank_equal": 470,
+    "fixed_Q_tangency_max": 1e-12,
+    "hidden_coordinate_rate_fraction_max": 0.25,
+    "maximum_height_ratio": 0.5,
+    "minimum_optical_depth": 1.0,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "reaction_ledger_max": 1e-12
+  },
+  "budgets": {
+    "complete_generator_assemblies": 0,
+    "hidden_branch_roots": 0,
+    "maximum_exact_fixed_Q_rate_evaluations": 4,
+    "new_transition_microsteps": 0,
+    "propagated_states": 0
+  },
+  "candidate_policy": {
+    "20ms_transition_state_forbidden": true,
+    "all_states_previously_revealed_and_accepted": true,
+    "evaluate_one_candidate_at_a_time": true,
+    "sealed_16ms_state_forbidden": true,
+    "stop_at_first_complete_pass": true,
+    "times_seconds_in_fail_fast_order": [
+      0.012,
+      0.008,
+      0.005,
+      0.002
+    ]
+  },
+  "classification": "saved_cold_candidate_exact_fixed_Q_anchor_preflight_manifest_frozen",
+  "decision_policy": {
+    "first_complete_pass": "authorize_definitions_only_single_cold_hidden_root",
+    "hot_branch_and_complete_impulse_blocked": true,
+    "no_candidate_passes": "cold_branch_seed_not_established_stop_branch_root",
+    "reduced_cycle_blocked": true,
+    "root_not_executed_in_preflight": true
+  },
+  "frozen_source_hashes": {
+    "scripts/run_causal_inner_cold_branch_anchor_preflight_manifest_wp10c9d6c7c3b5c4f25dx.py": "2648544471609515255ea8c5e8366dd05eb8f8882a604a6914483326d429e1bd",
+    "scripts/run_causal_inner_cold_branch_anchor_preflight_wp10c9d6c7c3b5c4f25dy.py": "618f89ec9fbf7aa9ac8cbcc8208ce66a59c715d13e3e21f9f71a0bff6fe666a7",
+    "tests/test_causal_inner_cold_branch_anchor_preflight_manifest_wp10c9d6c7c3b5c4f25dx.py": "b55e364a731553b63bb0d8a544398fd5a5d6943c39ff395f5be026de61df37db",
+    "tests/test_causal_inner_cold_branch_anchor_preflight_wp10c9d6c7c3b5c4f25dy.py": "7ba01a17b8ed07af5a9b044aa42a95321188f72b10e5e0f99608f0aa4970e31d"
+  },
+  "input_hashes": {
+    "candidate_arrays": "8a8ffcda439ed97d9bc2b8cfcc5a3aade9edbef962778391ffa198ebf3da4e40",
+    "decision_summary": "908a046853939b4676649be36cc3a817bcb39217663638a0b97bab8f85cf4cb2",
+    "screen_arrays": "f9c10a5334c281d988b90aa8b5f3165126a84283df07cb75854d3fd69c8fa02a",
+    "tangent_arrays": "126bc2f34f3cfe8484d722f558237730e922395331c61f5229a4e4dae44a7d0c"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25dx"
+}
