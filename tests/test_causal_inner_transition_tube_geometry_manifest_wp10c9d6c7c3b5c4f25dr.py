@@ -36,6 +36,8 @@ def test_rejected_full_step_is_never_part_of_the_tube() -> None:
     assert trajectory["accepted_history_only"]
     assert trajectory["new_truth_calls"] == 0
     assert len(manifest._accepted_stage_directories()) == 17
+    assert "f25do_step_06" in manifest.REJECTED_FULL_STEP.name
+    assert "f25dq_step_01" in manifest._accepted_stage_directories()[5].name
 
 
 def test_no_impulse_or_reduced_cycle_is_authorized() -> None:

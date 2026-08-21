@@ -74,7 +74,23 @@ CANONICAL_MANIFEST = ROOT / "results/manifests/canonical_artifacts.csv"
 CANONICAL_SUMMARY = ROOT / "results/manifests/canonical_summary.json"
 
 TANGENT_ARRAYS = half_step.manifest.TANGENT_ARRAYS
-REJECTED_FULL_STEP = full_step._stage_directory(6)
+FULL_STEP_ARTIFACT_PREFIX = (
+    "causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do"
+)
+HALF_STEP_ARTIFACT_PREFIX = (
+    "causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq"
+)
+
+
+def _full_step_directory(index: int) -> Path:
+    return ROOT / "results/canonical" / f"{FULL_STEP_ARTIFACT_PREFIX}_step_{index:02d}"
+
+
+def _half_step_directory(index: int) -> Path:
+    return ROOT / "results/canonical" / f"{HALF_STEP_ARTIFACT_PREFIX}_step_{index:02d}"
+
+
+REJECTED_FULL_STEP = _full_step_directory(6)
 
 
 def _plain(value):
@@ -130,8 +146,8 @@ def _checksums(directory: Path) -> dict[str, str]:
 
 
 def _accepted_stage_directories() -> tuple[Path, ...]:
-    return tuple(full_step._stage_directory(index) for index in range(1, 6)) + tuple(
-        half_step.base._stage_directory(index) for index in range(1, 13)
+    return tuple(_full_step_directory(index) for index in range(1, 6)) + tuple(
+        _half_step_directory(index) for index in range(1, 13)
     )
 
 
@@ -167,7 +183,7 @@ def _validate_parents(*, require_clean: bool) -> dict:
     ):
         raise RuntimeError("rejected full-step candidate changed")
 
-    terminal = _read(half_step.base._stage_directory(12) / "summary.json")
+    terminal = _read(_half_step_directory(12) / "summary.json")
     if (
         terminal["classification"]
         != "half_step_hot_exit_recovery_budget_exhausted_exit_not_reached"
