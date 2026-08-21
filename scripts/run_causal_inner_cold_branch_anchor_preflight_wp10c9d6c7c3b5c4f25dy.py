@@ -40,11 +40,17 @@ REPORT_RELATIVE = (
     "WP10C9D6C7C3B5C4F25DY_2026-08-21.md"
 )
 REPORT_PATH = ROOT / REPORT_RELATIVE
+LOCK_ARTIFACT = f"{ARTIFACT}_execution_lock_v2"
+LOCK_DIRECTORY = ROOT / "results/canonical" / LOCK_ARTIFACT
+LOCK_REPORT_PATH = ROOT / (
+    "docs/reports/current/CODEX_CAUSAL_INNER_COLD_BRANCH_ANCHOR_PREFLIGHT_"
+    "EXECUTION_LOCK_V2_WP10C9D6C7C3B5C4F25DY_2026-08-21.md"
+)
 CANONICAL_MANIFEST = ROOT / "results/manifests/canonical_artifacts.csv"
 CANONICAL_SUMMARY = ROOT / "results/manifests/canonical_summary.json"
 
 
-def _validate_lock(*, require_clean: bool) -> dict:
+def _validate_manifest_contract(*, require_clean: bool) -> dict:
     helper = manifest.decision.manifest.tube.manifest.geometry
     hashes = helper._validate_checksums(manifest.CANONICAL_DIRECTORY)
     contract = helper._read(manifest.CANONICAL_DIRECTORY / "cold_anchor_contract.json")
@@ -57,12 +63,155 @@ def _validate_lock(*, require_clean: bool) -> dict:
     ):
         raise RuntimeError("cold-anchor manifest classification changed")
     for relative, expected in contract["frozen_source_hashes"].items():
+        if relative in (THIS_RUNNER, THIS_TEST):
+            continue
         if helper._sha(ROOT / relative) != expected:
             raise RuntimeError(f"frozen cold-anchor source changed: {relative}")
     manifest._validate_parent(require_clean=False)
     if require_clean and helper._git("status", "--short", "--untracked-files=no"):
         raise RuntimeError("cold-anchor execution requires a clean tracked tree")
     return {"manifest_hashes": hashes, "contract": contract}
+
+
+def _update_lock_catalog(summary: dict) -> None:
+    helper = manifest.decision.manifest.tube.manifest.geometry
+    with CANONICAL_MANIFEST.open(newline="", encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
+    rows = [row for row in rows if row.get("case") != LOCK_ARTIFACT]
+    for path in sorted(LOCK_DIRECTORY.iterdir()):
+        if path.is_file():
+            rows.append(
+                {
+                    "case": LOCK_ARTIFACT,
+                    "path": str(path.relative_to(ROOT)),
+                    "bytes": str(path.stat().st_size),
+                    "sha256": helper._sha(path),
+                    "scientific_status": "DEFINITIONS_ONLY",
+                }
+            )
+    with CANONICAL_MANIFEST.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=("case", "path", "bytes", "sha256", "scientific_status"),
+            lineterminator="\n",
+        )
+        writer.writeheader()
+        writer.writerows(rows)
+    catalog = helper._read(CANONICAL_SUMMARY)
+    catalog.setdefault("artifacts", {})[LOCK_ARTIFACT] = {
+        "path": str(LOCK_DIRECTORY.relative_to(ROOT)),
+        "classification": summary["classification"],
+        "passed": True,
+    }
+    catalog.update(
+        {
+            "case_count": len({row["case"] for row in rows}),
+            "file_count": len(rows),
+            "total_bytes": sum(int(row["bytes"]) for row in rows),
+            "all_payload_hashes_recorded": True,
+            "latest_source_parent_commit": manifest.PARENT_COMMIT,
+            "latest_work_package": WORK_PACKAGE,
+        }
+    )
+    helper._write_json(CANONICAL_SUMMARY, catalog)
+
+
+def _freeze_execution_lock() -> dict:
+    helper = manifest.decision.manifest.tube.manifest.geometry
+    if LOCK_DIRECTORY.exists() or LOCK_REPORT_PATH.exists():
+        raise RuntimeError("corrected cold-anchor execution lock already exists")
+    parent = _validate_manifest_contract(require_clean=True)
+    original_runner_hash = parent["contract"]["frozen_source_hashes"][THIS_RUNNER]
+    original_test_hash = parent["contract"]["frozen_source_hashes"][THIS_TEST]
+    corrected_runner_hash = helper._sha(ROOT / THIS_RUNNER)
+    if corrected_runner_hash == original_runner_hash:
+        raise RuntimeError("corrected execution runner unexpectedly matches original hash")
+    payload = {
+        "schema_version": SCHEMA_VERSION,
+        "work_package": WORK_PACKAGE,
+        "classification": "cold_anchor_preflight_execution_api_repair_locked_no_truth_executed",
+        "original_failure": "exact_chart__model_inputs_attribute_error_before_truth",
+        "original_manifest_preserved": True,
+        "new_truth_calls_before_repair": 0,
+        "canonical_result_created_before_repair": False,
+        "corrected_call": "exact_chart._model_and_inputs()",
+        "implementation_commit": helper._git("rev-parse", "HEAD"),
+        "implementation_tree": helper._git("rev-parse", "HEAD^{tree}"),
+        "original_frozen_runner_sha256": original_runner_hash,
+        "original_frozen_test_sha256": original_test_hash,
+        "corrected_runner_sha256": corrected_runner_hash,
+        "execution_test_sha256": helper._sha(ROOT / THIS_TEST),
+        "manifest_hashes": parent["manifest_hashes"],
+    }
+    LOCK_DIRECTORY.mkdir(parents=True)
+    helper._write_json(LOCK_DIRECTORY / "execution_lock.json", payload)
+    summary = {
+        "schema_version": SCHEMA_VERSION,
+        "work_package": WORK_PACKAGE,
+        "classification": payload["classification"],
+        "passed": True,
+        "definitions_only": True,
+        "new_truth_calls": 0,
+        "execution_authorized": True,
+    }
+    helper._write_json(LOCK_DIRECTORY / "summary.json", summary)
+    helper._write_json(
+        LOCK_DIRECTORY / "provenance.json",
+        {
+            "runner": THIS_RUNNER,
+            "test": THIS_TEST,
+            "python": sys.version,
+            "numpy": np.__version__,
+            "platform": platform.platform(),
+            "implementation_commit": payload["implementation_commit"],
+            "implementation_tree": payload["implementation_tree"],
+        },
+    )
+    names = sorted(path.name for path in LOCK_DIRECTORY.iterdir())
+    (LOCK_DIRECTORY / "SHA256SUMS.txt").write_text(
+        "".join(f"{helper._sha(LOCK_DIRECTORY / name)}  {name}\n" for name in names),
+        encoding="utf-8",
+    )
+    LOCK_REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    LOCK_REPORT_PATH.write_text(
+        "\n".join(
+            [
+                "# Cold-branch anchor execution lock v2 WP10c9d6c7c3b5c4f25dy",
+                "",
+                "The first launch stopped before truth because the exact-chart helper was called by the wrong name. No rate, Jacobian, root, state, or canonical result was created.",
+                "",
+                "The corrected `_model_and_inputs()` call and execution source are hash-locked prospectively. The original manifest remains immutable.",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    _update_lock_catalog(summary)
+    return summary
+
+
+def _validate_lock(*, require_clean: bool) -> dict:
+    helper = manifest.decision.manifest.tube.manifest.geometry
+    parent = _validate_manifest_contract(require_clean=False)
+    lock_hashes = helper._validate_checksums(LOCK_DIRECTORY)
+    lock = helper._read(LOCK_DIRECTORY / "execution_lock.json")
+    summary = helper._read(LOCK_DIRECTORY / "summary.json")
+    if (
+        not summary["passed"]
+        or not summary["execution_authorized"]
+        or lock["new_truth_calls_before_repair"] != 0
+        or lock["canonical_result_created_before_repair"]
+        or helper._sha(ROOT / THIS_RUNNER) != lock["corrected_runner_sha256"]
+        or helper._sha(ROOT / THIS_TEST) != lock["execution_test_sha256"]
+    ):
+        raise RuntimeError("corrected cold-anchor execution lock changed")
+    if require_clean and helper._git("status", "--short", "--untracked-files=no"):
+        raise RuntimeError("cold-anchor execution requires a clean tracked tree")
+    return {
+        "manifest_hashes": parent["manifest_hashes"],
+        "contract": parent["contract"],
+        "execution_lock_hashes": lock_hashes,
+    }
 
 
 def _candidate_states() -> dict[float, np.ndarray]:
@@ -291,7 +440,7 @@ def _execute() -> dict:
     lock = _validate_lock(require_clean=True)
     states = _candidate_states()
     geometry = _geometry()
-    model, _candidate, _fiber = exact_chart._model_inputs()
+    model, _candidate, _fiber = exact_chart._model_and_inputs()
     layout, configuration, _trajectory, *_unused = rate_source.c4f24._endpoint_data()
 
     candidate_metrics = []
@@ -407,10 +556,22 @@ def _execute() -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--freeze-lock", action="store_true")
     parser.add_argument("--run", action="store_true")
     args = parser.parse_args()
+    if args.freeze_lock:
+        print(
+            json.dumps(
+                manifest.decision.manifest.tube.manifest.geometry._plain(
+                    _freeze_execution_lock()
+                ),
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        return
     if not args.run:
-        parser.error("use --run")
+        parser.error("use --freeze-lock or --run")
     payload = _execute()
     print(
         json.dumps(

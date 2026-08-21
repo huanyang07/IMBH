@@ -42,3 +42,8 @@ def test_candidate_state_ladder_contains_only_four_revealed_times() -> None:
     states = preflight._candidate_states()
     assert tuple(states) == preflight.manifest.CANDIDATE_TIMES_SECONDS
     assert all(state.shape == (112, 5) for state in states.values())
+
+
+def test_correct_exact_chart_helper_exists() -> None:
+    assert hasattr(preflight.exact_chart, "_model_and_inputs")
+    assert not hasattr(preflight.exact_chart, "_model_inputs")
