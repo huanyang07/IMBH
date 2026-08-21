@@ -40,11 +40,13 @@ REPORT_RELATIVE = (
     "SELECTION_WP10C9D6C7C3B5C4F25E1_2026-08-21.md"
 )
 REPORT_PATH = ROOT / REPORT_RELATIVE
-LOCK_ARTIFACT = f"{ARTIFACT}_execution_lock_v2"
+PREVIOUS_LOCK_ARTIFACT = f"{ARTIFACT}_execution_lock_v2"
+PREVIOUS_LOCK_DIRECTORY = ROOT / "results/canonical" / PREVIOUS_LOCK_ARTIFACT
+LOCK_ARTIFACT = f"{ARTIFACT}_execution_lock_v3"
 LOCK_DIRECTORY = ROOT / "results/canonical" / LOCK_ARTIFACT
 LOCK_REPORT_PATH = ROOT / (
     "docs/reports/current/CODEX_CAUSAL_INNER_HYBRID_PHASE_MEMORY_ARCHITECTURE_"
-    "SELECTION_EXECUTION_LOCK_V2_WP10C9D6C7C3B5C4F25E1_2026-08-21.md"
+    "SELECTION_EXECUTION_LOCK_V3_WP10C9D6C7C3B5C4F25E1_2026-08-21.md"
 )
 
 
@@ -159,14 +161,21 @@ def _freeze_execution_lock() -> dict:
     payload = {
         "schema_version": SCHEMA_VERSION,
         "work_package": WORK_PACKAGE,
-        "classification": "phase_memory_metric_key_repair_locked_no_evidence_created",
-        "original_failure": "tube_metrics_dynamic_transition_coordinates_KeyError",
-        "corrected_source": "transition_dynamic_dimension_from_tube_summary",
+        "classification": "phase_memory_metric_paths_v3_locked_no_evidence_created",
+        "original_failure": (
+            "post_v2_static_preflight_found_macro_decoder_closure_nested_key"
+        ),
+        "corrected_source": (
+            "transition_dimension_from_summary_and_macro_closure_from_gate_values"
+        ),
         "new_truth_calls_before_repair": 0,
         "canonical_result_created_before_repair": False,
         "original_frozen_runner_sha256": original_hash,
         "corrected_runner_sha256": corrected_hash,
         "manifest_hashes": manifest_hashes,
+        "previous_execution_lock_hashes": helper._validate_checksums(
+            PREVIOUS_LOCK_DIRECTORY
+        ),
         "implementation_commit": helper._git("rev-parse", "HEAD"),
         "implementation_tree": helper._git("rev-parse", "HEAD^{tree}"),
     }
@@ -202,9 +211,9 @@ def _freeze_execution_lock() -> dict:
     LOCK_REPORT_PATH.write_text(
         "\n".join(
             (
-                "# Phase-memory architecture execution lock v2 WP10c9d6c7c3b5c4f25e1",
+                "# Phase-memory architecture execution lock v3 WP10c9d6c7c3b5c4f25e1",
                 "",
-                "The first selector launch stopped on a JSON key mismatch before creating evidence. It made no truth call. The corrected source reads the scalar dynamic dimension from the validated tube summary and is hash-locked here.",
+                "The first selector launch stopped on a JSON key mismatch before creating evidence. A subsequent static schema check found that macro decoder closure is nested under gate_values. Neither event made a truth call or created selection evidence. The fully corrected source is hash-locked here, while v2 remains preserved.",
                 "",
             )
         ),
@@ -269,7 +278,7 @@ def _evaluate() -> tuple[dict, dict[str, np.ndarray]]:
         "transition_tube_supported": bool(tube_metrics["passed"]),
         "transition_intrinsic_scalar": int(tube_summary["transition_dynamic_dimension"]) == 1,
         "transition_decoder_exact_macro_closure": (
-            tube_metrics["maximum_macro_decoder_closure_infinity"] <= 5.0e-12
+            tube_metrics["gate_values"]["macro_decoder_closure"] <= 5.0e-12
         ),
         "online_truth_free": True,
     }
