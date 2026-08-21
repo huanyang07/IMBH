@@ -1,0 +1,152 @@
+{
+  "candidate_metrics": [
+    {
+      "complete_pass": false,
+      "coordinate_jacobian_condition_number": 1561.7061150272007,
+      "coordinate_jacobian_rank": 470,
+      "coordinate_rate_decomposition_relative_defect": 3.011838015774569e-19,
+      "coordinate_reconstruction_relative_defect": 3.480483749841623e-16,
+      "failed_gates": [
+        "hidden_fraction"
+      ],
+      "fixed_Q_rate_tangency_relative_defect": 1.763399566059893e-13,
+      "gates": {
+        "Schur_condition": true,
+        "Schur_rank": true,
+        "coordinate_condition": true,
+        "coordinate_decomposition": true,
+        "coordinate_rank": true,
+        "fixed_Q_tangency": true,
+        "height": true,
+        "hidden_fraction": false,
+        "optical_depth": true,
+        "reaction_ledger": true,
+        "reconstruction": true
+      },
+      "hidden_coordinate_rate_fraction": 0.9999990165794272,
+      "maximum_height_ratio": 0.09821045677506066,
+      "maximum_reaction_ledger_relative_defect": 1.9053610299648958e-16,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.123571296483775,
+      "raw_Schur_condition_number": 35160.32931838761,
+      "raw_Schur_rank": 3,
+      "time_seconds": 0.012,
+      "wall_seconds": 157.56634512497112
+    },
+    {
+      "complete_pass": false,
+      "coordinate_jacobian_condition_number": 1575.0285992470679,
+      "coordinate_jacobian_rank": 470,
+      "coordinate_rate_decomposition_relative_defect": 1.4507911575746628e-19,
+      "coordinate_reconstruction_relative_defect": 2.320197538977056e-16,
+      "failed_gates": [
+        "hidden_fraction"
+      ],
+      "fixed_Q_rate_tangency_relative_defect": 5.669976978927569e-14,
+      "gates": {
+        "Schur_condition": true,
+        "Schur_rank": true,
+        "coordinate_condition": true,
+        "coordinate_decomposition": true,
+        "coordinate_rank": true,
+        "fixed_Q_tangency": true,
+        "height": true,
+        "hidden_fraction": false,
+        "optical_depth": true,
+        "reaction_ledger": true,
+        "reconstruction": true
+      },
+      "hidden_coordinate_rate_fraction": 0.999999025405907,
+      "maximum_height_ratio": 0.09839917318018021,
+      "maximum_reaction_ledger_relative_defect": 1.9134354969005164e-16,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.05790308019895,
+      "raw_Schur_condition_number": 35952.44738209743,
+      "raw_Schur_rank": 3,
+      "time_seconds": 0.008,
+      "wall_seconds": 161.66759966593236
+    },
+    {
+      "complete_pass": false,
+      "coordinate_jacobian_condition_number": 1585.2157591309528,
+      "coordinate_jacobian_rank": 470,
+      "coordinate_rate_decomposition_relative_defect": 1.5748594903500598e-19,
+      "coordinate_reconstruction_relative_defect": 3.480163347476032e-16,
+      "failed_gates": [
+        "hidden_fraction"
+      ],
+      "fixed_Q_rate_tangency_relative_defect": 2.7309570041619156e-13,
+      "gates": {
+        "Schur_condition": true,
+        "Schur_rank": true,
+        "coordinate_condition": true,
+        "coordinate_decomposition": true,
+        "coordinate_rank": true,
+        "fixed_Q_tangency": true,
+        "height": true,
+        "hidden_fraction": false,
+        "optical_depth": true,
+        "reaction_ledger": true,
+        "reconstruction": true
+      },
+      "hidden_coordinate_rate_fraction": 0.9999990317649642,
+      "maximum_height_ratio": 0.09854173312007315,
+      "maximum_reaction_ledger_relative_defect": 1.9195435914376196e-16,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.00847187074739,
+      "raw_Schur_condition_number": 36573.80674370901,
+      "raw_Schur_rank": 3,
+      "time_seconds": 0.005,
+      "wall_seconds": 160.08204558305442
+    },
+    {
+      "complete_pass": false,
+      "coordinate_jacobian_condition_number": 1595.5714487436203,
+      "coordinate_jacobian_rank": 470,
+      "coordinate_rate_decomposition_relative_defect": 1.5653760283020414e-19,
+      "coordinate_reconstruction_relative_defect": 2.3200323189725385e-16,
+      "failed_gates": [
+        "hidden_fraction"
+      ],
+      "fixed_Q_rate_tangency_relative_defect": 1.6399126668544097e-13,
+      "gates": {
+        "Schur_condition": true,
+        "Schur_rank": true,
+        "coordinate_condition": true,
+        "coordinate_decomposition": true,
+        "coordinate_rank": true,
+        "fixed_Q_tangency": true,
+        "height": true,
+        "hidden_fraction": false,
+        "optical_depth": true,
+        "reaction_ledger": true,
+        "reconstruction": true
+      },
+      "hidden_coordinate_rate_fraction": 0.9999990378920304,
+      "maximum_height_ratio": 0.09868519402799739,
+      "maximum_reaction_ledger_relative_defect": 1.7646536169816825e-22,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 18.95873659395372,
+      "raw_Schur_condition_number": 37220.10614988678,
+      "raw_Schur_rank": 3,
+      "time_seconds": 0.002,
+      "wall_seconds": 159.85375391691923
+    }
+  ],
+  "candidate_order_seconds": [
+    0.012,
+    0.008,
+    0.005,
+    0.002
+  ],
+  "classification": "saved_cold_candidates_not_near_fixed_macro_critical_manifold",
+  "complete_generator_assemblies": 0,
+  "evaluated_candidate_count": 4,
+  "exact_fixed_Q_rate_evaluations": 4,
+  "hidden_branch_roots": 0,
+  "new_transition_microsteps": 0,
+  "passed": false,
+  "propagated_states": 0,
+  "sealed_16ms_truth_calls": 0,
+  "selected_candidate_time_seconds": null
+}
