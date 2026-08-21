@@ -1,0 +1,136 @@
+{
+  "binding_gates": {
+    "all_exact_rate_physical_gates_except_memoryless_hidden_fraction": true,
+    "maximum_Q3_relative_drift": 0.0005,
+    "maximum_decoder_coordinate_error_over_transition_path": 0.002,
+    "maximum_full_collocation_defect": 0.05,
+    "maximum_normal_rate_defect": 0.01,
+    "maximum_projected_collocation_defect": 0.05,
+    "maximum_training_normal_rate_defect": 0.0001,
+    "minimum_rate_direction_cosine": 0.995,
+    "minimum_reconstruction_factor": 0.999999999999
+  },
+  "classification": "adaptive_hot_exit_phase_atlas_manifest_superseded_legacy_namespace_collision_repaired_window1_truth_cache_recovered_bitwise",
+  "decision": {
+    "budget_exhausted_without_event": "authorize only a terminal phase-atlas prognosis",
+    "complete_cycle_execution_authorized": false,
+    "event_observed": "authorize only a definitions-only hot-exit endpoint refinement manifest",
+    "reduced_slow_evolution_authorized": false,
+    "window_failure": "stop; preserve the last accepted endpoint and diagnose the failed geometry"
+  },
+  "decisive_input_hashes": {
+    "architecture_arrays": "87e966a31f9b149b5c4b6f5c1f7879018ce4cec2d4c79c690a9035ae334d54b6",
+    "architecture_metrics": "e3e14b3bc05dbe322da730a3f396d4f862b23e69ab7af392519b67cd4e53d7ed",
+    "architecture_summary": "70983f665c3322ec8f5a8549f2a6f5cd7bea30cea4b1bbb2996087d0c41a1ef6",
+    "hidden_tangent_arrays": "126bc2f34f3cfe8484d722f558237730e922395331c61f5229a4e4dae44a7d0c",
+    "legacy_hot_exit_contract": "309d798311de7b911dfeb3486ad239849bbec024dbdcc4882fdc16b06b29d933",
+    "original_manifest_contract": "d300ce3d92780e465591507257e01b4678a761c36b941002c9712de3c2587614",
+    "original_manifest_summary": "5e633fd868ed07c3addc7b6866223675bc3492b8a4c98a6d4d80a82a80174a78",
+    "post_metrics": "f8060f0f0bc02911c04eb965f0a16828326b88c6367b0e375dfb84edebcd7bd3",
+    "post_summary": "c2001a0c435d8edd22fc8a1eb0b3be57123d38b18983eccc9a908e6fa39ac7cf",
+    "post_witnesses": "de49008c0becc58cafb7f10d5ac458552965fea8e6a92a3fe718dd11ee61eb6d",
+    "recovered_truth_arrays": "3cdd6b24127942090bf0d6beb74571b957aed6a3ac22501bfc6b119f202acbe0",
+    "recovered_truth_metrics": "a4d55f99c85ea293d9cf1699d06908a2f6c88c6dfcaaf8b9f1e9df542560ece6"
+  },
+  "frozen_source_hashes": {
+    "scripts/run_causal_inner_adaptive_hot_exit_phase_atlas_manifest_v2_wp10c9d6c7c3b5c4f25ed.py": "134da5524018643d22a9b6040fc91091d859f2f89d98b5a2d24418a1b28291f3",
+    "scripts/run_causal_inner_adaptive_hot_exit_phase_atlas_wp10c9d6c7c3b5c4f25ee.py": "2b653df16db724a0db5bf92d1abaa51c39c21c3736cb63b0b66cd739bb46e962",
+    "scripts/run_causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do.py": "d17db2bfd63838eb7b9c4768bbf0629ad6d5f00f4db83aaa8ab2a261e74117c9",
+    "scripts/run_causal_inner_cold_branch_anchor_preflight_wp10c9d6c7c3b5c4f25dy.py": "c984ddd59670d7801c88e367924c8830ced8f8ea53ccd34efe9d740a52292420",
+    "scripts/run_causal_inner_post_transition_phase_window_wp10c9d6c7c3b5c4f25eb.py": "d9c1537a0c4f22a672d6d7aa679c4058ee2359ec58359643873d15fb1a294ffd",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_fixed_q.py": "fc95c932c86238e157492367310776d0cf0a6e940979592420d6f8b2122f18e0",
+    "src/imri_qpe/layer3_minidisk_1d/phase_collocation.py": "ab33de60337c8781b80eccf054377aaeb209faa9e12616a7a3a5d1cfd54b4d3b",
+    "tests/test_causal_inner_adaptive_hot_exit_phase_atlas_manifest_v2_wp10c9d6c7c3b5c4f25ed.py": "bd9fc47a5dfb763ec0f36037ba8d30c52de75ff1f80ea3a4d199ffb22f093583",
+    "tests/test_causal_inner_adaptive_hot_exit_phase_atlas_wp10c9d6c7c3b5c4f25ee.py": "5bf6758e0a86ade8bfbc8d487abe2d379c02358fa19262d69cfb7d81ee0e0b5c"
+  },
+  "growth_gates": {
+    "maximum_Q3_relative_drift": 0.00025,
+    "maximum_decoder_coordinate_error_over_transition_path": 0.001,
+    "maximum_full_collocation_defect": 0.01,
+    "maximum_normal_rate_defect": 0.005,
+    "minimum_rate_direction_cosine": 0.999
+  },
+  "hot_exit_event": {
+    "consecutive_accepted_windows_required": 2,
+    "event_positive_window_holds_duration_for_confirmation": true,
+    "event_requires_later_endpoint_refinement_and_held_out_replication": true,
+    "hidden_secant_fraction_max": 0.25,
+    "macro_drift_from_seed_max": 0.02,
+    "rank16_hidden_amplitude_min": 0.05,
+    "unchanged_from_legacy_exact_BDF_event_definition": true
+  },
+  "initial_condition": {
+    "coordinate": "certified Stage-4 two-half-window endpoint",
+    "fixed_Q_target": "losslessly inherited transition checkpoint target",
+    "primitive_state": "certified Stage-4 two-half-window decoded endpoint",
+    "prior_event_persistence": 0
+  },
+  "phase_atlas": {
+    "basis_selection": "minimum candidate rank whose inherited normalized exact-rate witnesses satisfy the training-normal gate",
+    "candidate_basis_ranks": [
+      4,
+      6,
+      8,
+      12,
+      16
+    ],
+    "duration_rule": "double after a strong-margin accepted window; hold otherwise; hold after first event-positive window",
+    "failed_window_never_propagates": true,
+    "initial_duration_seconds": 2e-07,
+    "maximum_duration_seconds": 6.4e-06,
+    "maximum_windows": 8,
+    "method": "one projected Picard update on eight Legendre-Gauss-Lobatto nodes",
+    "no_sequential_BDF_microsteps": true,
+    "node_count": 8,
+    "one_window_per_committed_stage": true
+  },
+  "recovered_scratch_hashes": {
+    "identity": "918d74769b3296c1163e9fead65667d8e27f8e7b01f01c457b929cf1f714a6d9",
+    "index": "38e5e52ac13dd730ae812656eb50ab6da64248080684f1dce5d90dedd073b5b5",
+    "record_01_arrays": "bf022a18cc950e42ba2e6fa55d18493901ef027ff46891983f7508727aae74ae",
+    "record_01_metrics": "c425a499a517715940297ed42307aaec88b5070ffc953f1681c17bd539ee341f",
+    "record_02_arrays": "65c35007dc8bf868594a46ce3809e932c7f5cd7c33303d44e2cb0c03412a04cc",
+    "record_02_metrics": "6b26a549222599fe0c5228d8f7ff9bcb553563f9fa3057dd0b547c6cf58bd162",
+    "record_03_arrays": "6e4191174989c1fdcca489b546c96f0c49f065b8a36c6011bfd826be4fca4335",
+    "record_03_metrics": "8ebf15107b3779da94577c05073b663c2e06917fd1c8d494bb93bf9d99ecb7e7",
+    "record_04_arrays": "0aaa572760bbea23fc01d8956cd553207aa17b3d81b4f974a9f94e7bc28f2c3f",
+    "record_04_metrics": "d5cdd6c3f736960247529c33e366bcbff249c96c07a0b0076e389742d8805042",
+    "record_05_arrays": "6d2c83348997f29fc2456fb0f5daf646ca35a21a6ec5e7797a1d015fd77e4bca",
+    "record_05_metrics": "93832aefab2562a85674f11970314627a87f18a7443e0d4095e7d5400d3b9d50",
+    "record_06_arrays": "b9d753277b3ca3bb3d54f69a07ecd39bf581e10277eeb177cfd709fe964e3b83",
+    "record_06_metrics": "bbd1ea4fe1d83c26a7cb46f576dd863271d263c72b3ae033e13973a386ec286c",
+    "record_07_arrays": "876dbb6a89395cf11b0f86ba01378ce4eb7eb18d958ac0a80779314e1594e6cd",
+    "record_07_metrics": "53577d24c017d7790e7ea77ec9f4083e636e4bca65744c7983ba0cb0f956c769",
+    "record_08_arrays": "72a939f629bf6219833eb1bfe74efe7c1362550834af8e5649f1b5fcb59abc80",
+    "record_08_metrics": "cde38260d6f884746e85e8879f6fab82ad409b6a0f039b1ab5f98ee6db29c624",
+    "record_09_arrays": "6ef50486dad3664abf8d99377fb755e2544c2847a539f218fbfef2e5013176ac",
+    "record_09_metrics": "dc6260820fc8a052e2ff2ea705d355bda282e767bb619e801ab776e5208534ec",
+    "record_10_arrays": "e30e320d14cd4306a6cab160ba5b078e18f73389878c79d1604349a38c71f276",
+    "record_10_metrics": "4b3ea02a7c6a13cbb5f6a36bffa524451e9fce0402c198bd22e3a77323ff0a05",
+    "record_11_arrays": "2fb8a28ec65276103cc0a02fe433a1542950e115c088260cd825d6e0be53236a",
+    "record_11_metrics": "b5cdd2f184b0aa8202d0566e7ccb77f0de1d98c12081931b536d660c13bb1c5a",
+    "record_12_arrays": "03564c2f1131cf2f2be58b229f00421e2d581c217f5414e9bee3c0174e1e8ee7",
+    "record_12_metrics": "098d6ab010a08c1367d4923bf068f7e35f8626c5d4f689d8e65d77d954839d13",
+    "record_13_arrays": "bf979b06b67069a9f2711b6cc8a4d0616a0cf850d1407f7523381d41b72fef62",
+    "record_13_metrics": "4cf301442aca41dd8919818d4297b8ae969aef80e849540eec58d061abf77e1d",
+    "record_14_arrays": "6d859291f39429470af20ce7efbcf2f7887f4d5ca1ed3f9b82e5d8b09810803d",
+    "record_14_metrics": "da99ee34deac2cb2bb9b793bb9a603edf24a6cd917fec65f951be0f2a400602e"
+  },
+  "runtime_repair": {
+    "cause": "legacy hot-exit helper module alias mutated by import-time half-step recovery configuration",
+    "failure_was_after_all_window1_truth_calls": true,
+    "failure_was_before_any_canonical_window_result_or_propagation": true,
+    "physical_equations_or_gates_changed": false,
+    "repair": "self-contained immutable event feature calculation",
+    "truth_cache_reused_bitwise": true
+  },
+  "schema_version": 2,
+  "supersedes": "results/canonical/causal_inner_adaptive_hot_exit_phase_atlas_manifest_wp10c9d6c7c3b5c4f25ed",
+  "truth_budget": {
+    "maximum_unique_exact_rate_states_per_window": 15,
+    "maximum_unique_exact_rate_states_total": 120,
+    "new_BDF_microsteps": 0,
+    "new_nonlinear_fixed_Q_roots": 0
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25ed"
+}
