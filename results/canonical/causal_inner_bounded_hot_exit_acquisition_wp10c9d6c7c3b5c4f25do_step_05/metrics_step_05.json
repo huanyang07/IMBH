@@ -1,0 +1,242 @@
+{
+  "Broyden_counter_semantics": "exact_reset_v2",
+  "Broyden_updates": 7,
+  "Broyden_updates_since_exact": 1,
+  "acceptance": {
+    "accepted": true,
+    "complete_residual_passed": true,
+    "constraint_action_ledger_passed": true,
+    "failure_reasons": [],
+    "incoming_excision_passed": true,
+    "nonlinear_root_passed": true,
+    "physical_height_passed": true,
+    "physical_optical_depth_passed": true,
+    "primitive_change_passed": true,
+    "q3_passed": true,
+    "reaction_conditioning_passed": true,
+    "reaction_ledger_passed": true,
+    "reconstruction_passed": true,
+    "storage_parity_passed": true
+  },
+  "accepted": true,
+  "checkpoint": {
+    "bitwise_roundtrip": true,
+    "bytes": 1235454,
+    "checkpoint_read_call_count": 1,
+    "checkpoint_read_wall_seconds": 0.006463583093136549,
+    "checkpoint_write_call_count": 1,
+    "checkpoint_write_wall_seconds": 0.06294708326458931,
+    "path": "outputs/checkpoints/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do/step_05/checkpoint_step_05.npz",
+    "process_seconds": 0.06814800000006471,
+    "sha256": "a4e63f082caeda84048cdce315febe023151f0500ff434d1229b30d03247e6e0"
+  },
+  "elapsed_time_seconds": 0.020001099999999994,
+  "event_trace": [
+    {
+      "function_evaluations": 1,
+      "maximum_scaled_residual": 2.0616274595251918,
+      "stage": "initial_residual"
+    },
+    {
+      "function_evaluations": 1,
+      "iteration": 0,
+      "maximum_scaled_residual": 2.0616274595251918,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 1.0,
+      "function_evaluations": 2,
+      "iteration": 0,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 0.052361094540885694,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 2,
+      "iteration": 1,
+      "maximum_scaled_residual": 0.052361094540885694,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 1.0,
+      "function_evaluations": 3,
+      "iteration": 1,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 0.0022557697881027405,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 3,
+      "iteration": 2,
+      "maximum_scaled_residual": 0.0022557697881027405,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 1.0,
+      "function_evaluations": 4,
+      "iteration": 2,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 6.0227451701061474e-05,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 4,
+      "iteration": 3,
+      "maximum_scaled_residual": 6.0227451701061474e-05,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 1.0,
+      "function_evaluations": 5,
+      "iteration": 3,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 2.2084108096953603e-06,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 5,
+      "iteration": 4,
+      "maximum_scaled_residual": 2.2084108096953603e-06,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 1.0,
+      "function_evaluations": 6,
+      "iteration": 4,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 3.505574596995853e-07,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 6,
+      "iteration": 5,
+      "maximum_scaled_residual": 3.505574596995853e-07,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 1.0,
+      "function_evaluations": 7,
+      "iteration": 5,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 7.595500980970644e-08,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 7,
+      "iteration": 6,
+      "maximum_scaled_residual": 7.595500980970644e-08,
+      "stage": "newton_iteration"
+    },
+    {
+      "exact_jacobian_assemblies": 1,
+      "function_evaluations": 7,
+      "iteration": 6,
+      "maximum_scaled_residual": 7.595500980970644e-08,
+      "reason": "iteration_reserve",
+      "stage": "exact_jacobian_refresh"
+    },
+    {
+      "alpha": 1.0,
+      "function_evaluations": 8,
+      "iteration": 6,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 6.400574039018135e-13,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 8,
+      "iteration": 7,
+      "maximum_scaled_residual": 6.400574039018135e-13,
+      "stage": "newton_iteration"
+    }
+  ],
+  "exact_Jacobian_assemblies": 1,
+  "exact_Jacobian_reasons": [
+    "iteration_reserve"
+  ],
+  "exact_assembly_budget_passed": true,
+  "failure_reasons": [],
+  "function_evaluations": 8,
+  "incoming_excision_characteristics": 0,
+  "iterations": 7,
+  "label": "step_05",
+  "linear_solves": 7,
+  "matrix_age_steps": 0,
+  "maximum_H_over_R": 0.09783744966029473,
+  "maximum_Q3_relative_defect": 1.430243688090699e-16,
+  "maximum_constraint_action_ledger_relative_defect": 1.3323042749869302e-16,
+  "maximum_path_reconstruction_factor": 1.0,
+  "maximum_raw_Schur_solve_relative_defect": 7.110001478819501e-14,
+  "maximum_reaction_ledger_relative_defect": 1.8894370187821929e-16,
+  "maximum_scaled_primitive_change": 0.004865996994232416,
+  "maximum_scaled_residual": 6.400574039018135e-13,
+  "maximum_storage_parity_relative_defect": 2.5563255349572358e-14,
+  "message": "residual gate passed",
+  "minimum_path_reconstruction_factor": 1.0,
+  "minimum_scattering_optical_depth": 19.254328833806163,
+  "policy": {
+    "cold": false,
+    "exact_jacobian_refresh_policy": "on_line_search_failure_or_iteration_reserve",
+    "initial_exact_jacobian_required": false,
+    "maximum_exact_jacobian_refreshes": 1,
+    "use_carried_solver_state": true
+  },
+  "raw_Schur_condition_number": 35624.7451310145,
+  "raw_Schur_rank": 3,
+  "residual_margin": 0.006400574039018134,
+  "root_passed": true,
+  "root_process_seconds": 1271.793851,
+  "root_wall_seconds": 1271.9232185422443,
+  "solver_profiling": {
+    "activity_call_counts": {
+      "acceptance_descriptor_assembly": 1,
+      "acceptance_descriptor_sparse_lu": 1,
+      "acceptance_monolithic_residual": 1,
+      "acceptance_reaction_construction": 1,
+      "base_descriptor_assembly": 1,
+      "base_descriptor_sparse_lu": 1,
+      "bordered_linear_solve": 7,
+      "descriptor_assembly": 10,
+      "descriptor_sparse_lu": 10,
+      "exact_jacobian": 1,
+      "line_search_descriptor_assembly": 7,
+      "line_search_descriptor_sparse_lu": 7,
+      "line_search_monolithic_residual": 7,
+      "line_search_reaction_construction": 7,
+      "line_search_residual": 7,
+      "monolithic_residual": 9,
+      "physical_acceptance": 1,
+      "reaction_construction": 9,
+      "residual": 8,
+      "root_descriptor_assembly": 1,
+      "root_descriptor_sparse_lu": 1,
+      "root_monolithic_residual": 1,
+      "root_reaction_construction": 1,
+      "root_residual": 1
+    },
+    "bordered_linear_solve_wall_seconds": 0.025476542301476002,
+    "descriptor_assembly_wall_seconds": 136.45714525366202,
+    "descriptor_sparse_lu_wall_seconds": 0.01732712285593152,
+    "exact_jacobian_wall_seconds": 104.97433104086667,
+    "exclusive_wall_seconds": {
+      "bordered_linear_solve": 0.025476542301476002,
+      "descriptor_assembly": 136.45714525366202,
+      "descriptor_sparse_lu": 0.01732712285593152,
+      "exact_jacobian": 104.97433104086667,
+      "line_search_residual_wrapper": 0.0007880022749304771,
+      "monolithic_residual": 894.1982654575258,
+      "physical_acceptance_other": 0.07776783313602209,
+      "reaction_without_descriptor_or_sparse_lu": 108.97219378920272,
+      "root_residual_wrapper": 0.0001237913966178894,
+      "solver_other": 27.198355208616704
+    },
+    "line_search_residual_wall_seconds": 843.8696719589643,
+    "monolithic_residual_wall_seconds": 894.1982654575258,
+    "physical_acceptance_wall_seconds": 175.42709795804694,
+    "reaction_construction_wall_seconds": 245.44666616572067,
+    "residual_wall_seconds": 964.2965132920071,
+    "total_wall_seconds": 1271.921774041839
+  },
+  "timestep_seconds": 1e-07,
+  "total_Broyden_updates": 62
+}
