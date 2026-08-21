@@ -1,0 +1,52 @@
+{
+  "anchor_specific_reset_generalization_missing": true,
+  "classification": "conservative_hybrid_phase_cycle_map_architecture_selected_accepted_anchor_three_mode_prefix_replayed_complete_cycle_calibration_missing",
+  "complete_cycle_calibration_missing": true,
+  "continuous_online_dimension": 83,
+  "gate_values": {
+    "cold_to_transition_gluing_error": 1.613663644474143e-17,
+    "cold_to_transition_macro_reset_norm": 6.872578656633456e-05,
+    "maximum_macro_closure": 2.911890213662162e-20,
+    "maximum_post_knot_error_over_path": 8.470811002181486e-16,
+    "maximum_transition_knot_error_over_path": 3.0681069025356725e-11,
+    "measured_100k_decode_wall_seconds": 3.2138524590991437,
+    "observed_prefix_duration_seconds": 0.0180013,
+    "post_endpoint_error": 2.76079889188518e-17,
+    "post_hidden_rank": 4,
+    "seconds_per_decode": 3.213852459099144e-05,
+    "single_staged_relative_defect": 3.905986645236226e-12,
+    "transition_hidden_rank": 8,
+    "transition_to_post_gluing_error": 1.613769424157039e-17
+  },
+  "gates": {
+    "cold_transition_gluing": true,
+    "inherited_exact_rate_certificates": true,
+    "macro_closure": true,
+    "online_cost": true,
+    "post_endpoint": true,
+    "post_rank4_reconstruction": true,
+    "restart_bitwise": true,
+    "single_equals_staged_with_roundoff_gate": true,
+    "suffix_replay_bitwise": true,
+    "transition_post_gluing": true,
+    "transition_rank8_reconstruction": true,
+    "truth_free_online_engine": true
+  },
+  "hot_exit_observed": false,
+  "inherited_certificates": {
+    "cold_exact_rate_collocation": true,
+    "post_transition_exact_rate_collocation": true,
+    "transition_exact_rate_collocation": true
+  },
+  "observed_mode_count": 3,
+  "observed_mode_names": [
+    "cold_observed",
+    "fixed_Q_transition_observed",
+    "post_transition_collocation_observed"
+  ],
+  "online_BDF_microsteps": 0,
+  "online_fixed_Q_roots": 0,
+  "online_truth_calls": 0,
+  "passed": true,
+  "predictive_cycle_authorized": false
+}

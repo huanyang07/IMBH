@@ -1,0 +1,38 @@
+{
+  "anchor_specific_cold_transition_reset": {
+    "interpretation": "observed ledger transfer required to join the cold endpoint to the accepted transition anchor; it is not yet a q-dependent predictive reset",
+    "norm": 6.872578656633456e-05,
+    "present": true
+  },
+  "computational_feasibility": {
+    "measured_100k_decode_wall_seconds": 3.2138524590991437,
+    "offline_truth_cost_not_counted_as_online_cycle_cost": true,
+    "online_macrostep_cap_per_cycle": 100000,
+    "several_day_target_supported_by_architecture": true
+  },
+  "continuous_online_dimension": 83,
+  "cycle_fixed_point": "P(q_star)-q_star=0; Floquet multipliers are eigenvalues of DP(q_star)",
+  "cycle_map": "P=M_recovery o M_cooling o M_hot o M_transition o M_cold",
+  "decoder": "Y_sigma(q,phi)=Lq+Z_sigma c_sigma(q,phi)",
+  "fixed_Q_evidence_equation": "omega_sigma partial_phi Y_sigma = F_fixedQ(Y_sigma;q)",
+  "invariance_equation": "D_qY_sigma G_sigma + omega_sigma partial_phi Y_sigma = F(Y_sigma;q)",
+  "missing_for_prediction": [
+    "hot-exit event",
+    "hot/cooling/recovery modes",
+    "q-dependent slow flux and reset maps",
+    "held-out complete-cycle validation"
+  ],
+  "mode_map": "M_sigma(q)=(q+Delta_q_sigma(q), flight_time T_sigma(q), waveform Y_sigma)",
+  "next_artifact": "definitions_only_adaptive_hot_exit_phase_atlas_extension_manifest",
+  "observed_modes": [
+    "cold_observed",
+    "fixed_Q_transition_observed",
+    "post_transition_collocation_observed"
+  ],
+  "offline_method": "rank-adaptive multiple-shooting Legendre-Gauss-Lobatto phase collocation at selected q anchors",
+  "online_method": "event-to-event map composition with optional phase interpolation; no fixed-Q truth, root, or nanosecond microstep",
+  "online_state": "(q in R^82, scalar phase phi, discrete mode sigma)",
+  "predictive_cycle_authorized": false,
+  "schema_version": 2,
+  "selected_architecture": "conservative_event_driven_hybrid_phase_atlas_with_cycle_map"
+}
