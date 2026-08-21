@@ -1,0 +1,252 @@
+{
+  "Broyden_counter_semantics": "exact_reset_v2",
+  "Broyden_updates": 8,
+  "Broyden_updates_since_exact": 2,
+  "acceptance": {
+    "accepted": false,
+    "complete_residual_passed": false,
+    "constraint_action_ledger_passed": true,
+    "failure_reasons": [
+      "nonlinear_root",
+      "complete_residual",
+      "Q3"
+    ],
+    "incoming_excision_passed": true,
+    "nonlinear_root_passed": false,
+    "physical_height_passed": true,
+    "physical_optical_depth_passed": true,
+    "primitive_change_passed": true,
+    "q3_passed": false,
+    "reaction_conditioning_passed": true,
+    "reaction_ledger_passed": true,
+    "reconstruction_passed": true,
+    "storage_parity_passed": true
+  },
+  "accepted": false,
+  "event_trace": [
+    {
+      "function_evaluations": 1,
+      "maximum_scaled_residual": 2.0231145148646044,
+      "stage": "initial_residual"
+    },
+    {
+      "function_evaluations": 1,
+      "iteration": 0,
+      "maximum_scaled_residual": 2.0231145148646044,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 0.6188207118497518,
+      "function_evaluations": 2,
+      "iteration": 0,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 0.7415505003798434,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 2,
+      "iteration": 1,
+      "maximum_scaled_residual": 0.7415505003798434,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 0.014946495372029866,
+      "function_evaluations": 3,
+      "iteration": 1,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 0.7303494518581527,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 3,
+      "iteration": 2,
+      "maximum_scaled_residual": 0.7303494518581527,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 0.0001500225109872346,
+      "function_evaluations": 4,
+      "iteration": 2,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 0.7302388725661575,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 4,
+      "iteration": 3,
+      "maximum_scaled_residual": 0.7302388725661575,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 1.4748246994255197e-06,
+      "function_evaluations": 5,
+      "iteration": 3,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 0.7302377885466963,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 5,
+      "iteration": 4,
+      "maximum_scaled_residual": 0.7302377885466963,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 2.0072481708603445e-08,
+      "function_evaluations": 6,
+      "iteration": 4,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 0.7302377740959288,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 6,
+      "iteration": 5,
+      "maximum_scaled_residual": 0.7302377740959288,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 2.6304609620324175e-10,
+      "function_evaluations": 7,
+      "iteration": 5,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 0.7302377738942938,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 7,
+      "iteration": 6,
+      "maximum_scaled_residual": 0.7302377738942938,
+      "stage": "newton_iteration"
+    },
+    {
+      "exact_jacobian_assemblies": 1,
+      "function_evaluations": 7,
+      "iteration": 6,
+      "maximum_scaled_residual": 0.7302377738942938,
+      "reason": "iteration_reserve",
+      "stage": "exact_jacobian_refresh"
+    },
+    {
+      "alpha": 1.461270040699007e-12,
+      "function_evaluations": 8,
+      "iteration": 6,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 0.7302377738932428,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 8,
+      "iteration": 7,
+      "maximum_scaled_residual": 0.7302377738932428,
+      "stage": "newton_iteration"
+    },
+    {
+      "alpha": 8.108545392071687e-15,
+      "function_evaluations": 9,
+      "iteration": 7,
+      "line_search_iteration": 0,
+      "maximum_scaled_residual": 0.7302377738932428,
+      "stage": "line_search"
+    },
+    {
+      "function_evaluations": 9,
+      "iteration": 8,
+      "maximum_scaled_residual": 0.7302377738932428,
+      "stage": "newton_iteration"
+    }
+  ],
+  "exact_Jacobian_assemblies": 1,
+  "exact_Jacobian_reasons": [
+    "iteration_reserve"
+  ],
+  "exact_assembly_budget_passed": true,
+  "failure_reasons": [
+    "nonlinear_root",
+    "complete_residual",
+    "Q3"
+  ],
+  "function_evaluations": 9,
+  "incoming_excision_characteristics": 0,
+  "iterations": 8,
+  "label": "step_06",
+  "linear_solves": 8,
+  "matrix_age_steps": 0,
+  "maximum_H_over_R": 0.09783744503423587,
+  "maximum_Q3_relative_defect": 1.2570733621682575e-07,
+  "maximum_constraint_action_ledger_relative_defect": 1.3305984815848154e-16,
+  "maximum_path_reconstruction_factor": 1.0,
+  "maximum_raw_Schur_solve_relative_defect": 5.875035794333158e-13,
+  "maximum_reaction_ledger_relative_defect": 7.537489308028673e-23,
+  "maximum_scaled_primitive_change": 0.005,
+  "maximum_scaled_residual": 0.7302377738932428,
+  "maximum_storage_parity_relative_defect": 6.846557511222222e-15,
+  "message": "maximum Newton iterations reached",
+  "minimum_path_reconstruction_factor": 1.0,
+  "minimum_scattering_optical_depth": 19.25433046379227,
+  "policy": {
+    "cold": false,
+    "exact_jacobian_refresh_policy": "on_line_search_failure_or_iteration_reserve",
+    "initial_exact_jacobian_required": false,
+    "maximum_exact_jacobian_refreshes": 1,
+    "use_carried_solver_state": true
+  },
+  "raw_Schur_condition_number": 35820.16696389225,
+  "raw_Schur_rank": 3,
+  "residual_margin": 7302377738.932428,
+  "root_passed": false,
+  "root_process_seconds": 1395.4665889999999,
+  "root_wall_seconds": 1395.644147458952,
+  "solver_profiling": {
+    "activity_call_counts": {
+      "acceptance_descriptor_assembly": 1,
+      "acceptance_descriptor_sparse_lu": 1,
+      "acceptance_monolithic_residual": 1,
+      "acceptance_reaction_construction": 1,
+      "base_descriptor_assembly": 1,
+      "base_descriptor_sparse_lu": 1,
+      "bordered_linear_solve": 8,
+      "descriptor_assembly": 11,
+      "descriptor_sparse_lu": 11,
+      "exact_jacobian": 1,
+      "line_search_descriptor_assembly": 8,
+      "line_search_descriptor_sparse_lu": 8,
+      "line_search_monolithic_residual": 8,
+      "line_search_reaction_construction": 8,
+      "line_search_residual": 8,
+      "monolithic_residual": 10,
+      "physical_acceptance": 1,
+      "reaction_construction": 10,
+      "residual": 9,
+      "root_descriptor_assembly": 1,
+      "root_descriptor_sparse_lu": 1,
+      "root_monolithic_residual": 1,
+      "root_reaction_construction": 1,
+      "root_residual": 1
+    },
+    "bordered_linear_solve_wall_seconds": 0.030993251595646143,
+    "descriptor_assembly_wall_seconds": 150.59983879094943,
+    "descriptor_sparse_lu_wall_seconds": 0.01937316544353962,
+    "exact_jacobian_wall_seconds": 105.44558295793831,
+    "exclusive_wall_seconds": {
+      "bordered_linear_solve": 0.030993251595646143,
+      "descriptor_assembly": 150.59983879094943,
+      "descriptor_sparse_lu": 0.01937316544353962,
+      "exact_jacobian": 105.44558295793831,
+      "line_search_residual_wrapper": 0.0008857101202011108,
+      "monolithic_residual": 989.6931279990822,
+      "physical_acceptance_other": 0.07786654168739915,
+      "reaction_without_descriptor_or_sparse_lu": 122.34652004297823,
+      "root_residual_wrapper": 0.00017029186710715294,
+      "solver_other": 27.42922070622444
+    },
+    "line_search_residual_wall_seconds": 966.2244459581561,
+    "monolithic_residual_wall_seconds": 989.6931279990822,
+    "physical_acceptance_wall_seconds": 175.52681474993005,
+    "reaction_construction_wall_seconds": 272.9657319993712,
+    "residual_wall_seconds": 1087.210967792198,
+    "total_wall_seconds": 1395.6435794578865
+  },
+  "timestep_seconds": 1e-07,
+  "total_Broyden_updates": 70
+}
