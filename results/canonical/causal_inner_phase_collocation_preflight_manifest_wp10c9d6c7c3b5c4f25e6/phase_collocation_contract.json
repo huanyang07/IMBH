@@ -1,0 +1,90 @@
+{
+  "classification": "phase_collocation_evidence_audited_and_cold_preflight_frozen",
+  "evidence_boundary": {
+    "audit": {
+      "cold_exact_full_model_rate_times_seconds": [
+        0.002,
+        0.005,
+        0.008,
+        0.012
+      ],
+      "cold_exact_full_model_rate_witnesses_available": true,
+      "cold_missing_keys": [],
+      "cold_state_count": 6,
+      "cold_state_times_seconds": [
+        0.002,
+        0.005,
+        0.008,
+        0.012,
+        0.016,
+        0.02
+      ],
+      "complete_cycle_event_sequence_available": false,
+      "hot_exit_state_available": false,
+      "post_transition_accepted_state_available": false,
+      "transition_interval_count": 17,
+      "transition_saved_accepted_bdf_witnesses_available": true,
+      "transition_saved_continuous_rate_witnesses_available": false,
+      "transition_state_count": 18
+    },
+    "cold_full_vector_field_replay_authorized": true,
+    "complete_cycle_calibration_missing": true,
+    "post_transition_extrapolation_as_truth_forbidden": true,
+    "predictive_cycle_authorized": false,
+    "transition_full_vector_field_claim_from_secants_forbidden": true
+  },
+  "frozen_source_hashes": {
+    "scripts/run_causal_inner_cold_phase_collocation_wp10c9d6c7c3b5c4f25e7.py": "376522b695feb132af1f34c2bc392b2db2f2534f24aa6d8598f6599dcf4d0b89",
+    "scripts/run_causal_inner_phase_collocation_preflight_manifest_wp10c9d6c7c3b5c4f25e6.py": "de75d15e25ea75a73bdf132c964cd4420eb4a48059150c4a37d90477508660fe",
+    "src/imri_qpe/layer3_minidisk_1d/phase_collocation.py": "8b60ef9d3d5d485a5d4029bc384229c04d09c277c4a6659a1a14db0ec6bbf786",
+    "tests/test_causal_inner_cold_phase_collocation_wp10c9d6c7c3b5c4f25e7.py": "3ec07e6a7d583ed86887f303b41bcf1b71a24a5cd9127064bef36380f391f459",
+    "tests/test_causal_inner_phase_collocation_preflight_manifest_wp10c9d6c7c3b5c4f25e6.py": "436919360b4d65ba4a4fa08d5812f1693cf32985371db2723c582a6b981797bc",
+    "tests/test_phase_collocation.py": "5a9fde7a5bda9cf3dd2018168b3bd184897062d31a5d1f96c3301df8013cc9f0"
+  },
+  "input_hashes": {
+    "candidate_arrays": "8a8ffcda439ed97d9bc2b8cfcc5a3aade9edbef962778391ffa198ebf3da4e40",
+    "cold_rate_arrays": "0352cfc1d14fe1c477da2664a8c41b6bd1d4798d077c0c4f0c39eb931b1f4813",
+    "parent_arrays": "b7db29dd86522d6fb15e909602ccd60d26f9ec7f880d5c4c404d9b05ad36ec29",
+    "parent_metrics": "7201c0a4eec3f0ccf42604a61a22eb4d7b3d8beb134df92e78c70df4a02f530c",
+    "parent_summary": "7c1b300972ec368cd2c832d8896b54e24caf7bd48da291a3587550e2f6160d47",
+    "tangent_arrays": "126bc2f34f3cfe8484d722f558237730e922395331c61f5229a4e4dae44a7d0c",
+    "transition_geometry": "f386b8330d465f01dc401f7a699ec7ef7c2890c18522906a641016a55d2fa427"
+  },
+  "mathematical_architecture": {
+    "decoder": "D_m(q,s)=L*q+Z*(h_m0+U_m*a_m(s))",
+    "full_coordinate_defect": "D_qD_m*g_m+D_sD_m*omega_m-F_m(D_m)",
+    "offline_discretization": "multiple_shooting_with_8_primary_and_16_refined_Legendre_Gauss_Lobatto_nodes",
+    "online_truth_calls": 0,
+    "phase_dynamics": "q_dot=g_m(q,s), s_dot=omega_m(q,s)>0",
+    "state": "(q_R82,s_scalar,m_discrete)"
+  },
+  "schema_version": 1,
+  "stage_2_cold_replay": {
+    "binding_gates": {
+      "maximum_constraint_condition_number": 10000.0,
+      "maximum_interface_value_defect": 5e-12,
+      "maximum_one_versus_two_window_rate_defect": 0.0005,
+      "maximum_one_versus_two_window_state_defect": 0.0001,
+      "maximum_rate_relative_defect": 0.001,
+      "maximum_state_error_over_local_path": 0.0001,
+      "minimum_rate_direction_cosine": 0.9999
+    },
+    "held_out_state_and_rate_times_seconds": [
+      0.005,
+      0.012
+    ],
+    "new_truth_calls": 0,
+    "rate_witness": "saved_exact_unconstrained_full_model_continuous_rate_mapped_by_saved_exact_coordinate_Jacobian",
+    "segments_seconds": [
+      [
+        0.002,
+        0.008
+      ],
+      [
+        0.008,
+        0.02
+      ]
+    ]
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25e6"
+}
