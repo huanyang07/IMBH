@@ -1,0 +1,76 @@
+{
+  "contract": {
+    "binding_gates": {
+      "cold_hidden_embedding_rank_max": 4,
+      "cold_holdout_error_over_local_chord_max": 0.05,
+      "cold_holdout_error_over_path_max": 0.02,
+      "cold_macro_ledger_error_over_path_max": 0.02,
+      "cold_training_energy_capture_min": 0.99999,
+      "event_macro_discontinuity_max": 5e-12,
+      "event_state_jump_over_cold_path_max": 0.005,
+      "macro_decoder_closure_max": 5e-12,
+      "projected_100k_step_wall_seconds_max": 86400.0,
+      "restart_bitwise": true,
+      "single_call_equals_staged_advance_bitwise": true,
+      "transition_endpoint_error_over_path_max": 0.005
+    },
+    "classification": "truth_free_hybrid_phase_engine_replay_and_cost_manifest_frozen",
+    "engine": {
+      "decoder": "L*q+Z*(h0+U*a_m(s))",
+      "event_integrator": "exact_event_crossing_with_piecewise_constant_phase_speed",
+      "macro_update": "q_new=q_old+ell_m(s_new)-ell_m(s_old)+event_reset",
+      "online_470_roots": 0,
+      "online_fixed_Q_microsteps": 0,
+      "online_state": "q_R82_plus_s_scalar_plus_mode_discrete",
+      "online_truth_calls": 0,
+      "restart": "lossless_JSON_float64_roundtrip"
+    },
+    "fit": {
+      "cold_held_out_indices": [
+        1,
+        3
+      ],
+      "cold_phase": "normalized_physical_time_from_2ms_to_20ms",
+      "cold_to_transition_event": "phase_equals_one_at_20ms",
+      "cold_training_indices": [
+        0,
+        2,
+        4,
+        5
+      ],
+      "energy_capture_target": 0.99999,
+      "event_macro_reset": "zero",
+      "maximum_hidden_embedding_rank": 4,
+      "transition_phase": "validated_rank_adaptive_progress_coordinate"
+    },
+    "frozen_source_hashes": {
+      "scripts/run_causal_inner_hybrid_phase_engine_manifest_wp10c9d6c7c3b5c4f25e2.py": "f7699b8cd4ede7e6edef96c644171d91bdb40a2dff7fd6d04e0de2d07a633394",
+      "scripts/run_causal_inner_hybrid_phase_engine_wp10c9d6c7c3b5c4f25e3.py": "79b5e95bff9487fd1733fb70a5a8a43aaf0db3bc556fb84705d6eb7edfd8b3f2",
+      "src/imri_qpe/layer3_minidisk_1d/hybrid_phase_memory.py": "04cc7aa40d49f68ee0ac70c289a575587e31475602951ca10f33f12bcce69192",
+      "tests/test_causal_inner_hybrid_phase_engine_manifest_wp10c9d6c7c3b5c4f25e2.py": "5c03b4d642e5b4b2a3024b359f1e356a654c1b0479133d019189b448a80406e7",
+      "tests/test_causal_inner_hybrid_phase_engine_wp10c9d6c7c3b5c4f25e3.py": "18625edf2548fddb93122e8498b54af18dfedc82ebb436209bafc74de9cbd4f3",
+      "tests/test_hybrid_phase_memory.py": "cb6b9a4ee1c4f8397ea1dd553da356897fa816b0978e0f696b497c05ea5f3a51"
+    },
+    "input_hashes": {
+      "architecture_arrays": "5dfeca19d0330ae2a97873f04e36d3ba8fb7d3943ddacaf6724a246ec1031abe",
+      "architecture_metrics": "34dd685ae3f429cd339d57e30bfe1247400d15f1bd35ac4eb3bfc085da3ba19f",
+      "architecture_summary": "475461a885279e6d135a3adf816336e099fe26b5d1f4b265efefc26734a58186"
+    },
+    "schema_version": 1,
+    "scope": {
+      "cold_observed_segment_only": true,
+      "complete_impulse_missing": true,
+      "hot_exit_missing": true,
+      "predictive_cycle_authorized": false,
+      "remaining_cycle_modes_missing": true,
+      "transition_observed_segment_only": true
+    },
+    "work_package": "WP10c9d6c7c3b5c4f25e2"
+  },
+  "manifest_hashes": {
+    "engine_contract.json": "8cb0fbea2b1cd715ff80c5452945b7c7a812a9cb84ec280fccffe2858fcd7502",
+    "input_lock.json": "4aba2a807a75e9d3fd4d2f1f8401caffc71c6696f0981bc74f6f6fa80af77c42",
+    "provenance.json": "b21bcfd20334053b6beff37c425d8157a3f8fd66c50edc6213614a7739d201ad",
+    "summary.json": "676f1d435e9e2580fedcc7480f518b6d06eeb1b5e11e87998bb200a01001ec56"
+  }
+}
