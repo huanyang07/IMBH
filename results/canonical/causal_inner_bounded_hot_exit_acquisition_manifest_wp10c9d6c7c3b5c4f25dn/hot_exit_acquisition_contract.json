@@ -1,0 +1,84 @@
+{
+  "authorization_boundaries": {
+    "branch_root_execution_authorized": false,
+    "execution_in_this_package": false,
+    "online_solver_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "stepwise_hot_exit_execution_in_next_package": true,
+    "transition_impulse_fit_authorized": false
+  },
+  "classification": "bounded_full_y470_hot_exit_acquisition_manifest_frozen_stepwise_execution_authorized",
+  "coordinate_diagnostic": {
+    "full470_fallback_is_binding": true,
+    "hidden_decomposition": "Z388_Q388_dual_consistent",
+    "hot_distance_uses_hidden_not_macro_displacement": true,
+    "rank16_is_not_used_as_the_binding_dynamics": true,
+    "reason": "cold_and_hot_fast_states_share_the_same_slow_fiber_so_a_large_macro_displacement_is_not_a_valid_hot_exit_requirement",
+    "reference": "full_exact_y470_coordinate_map",
+    "transition_feature_basis": "rank16_common_hidden_tangent_basis"
+  },
+  "decision": {
+    "branch_label_assigned_by_this_package": false,
+    "budget_exhausted_without_exit": "hot_exit_not_reached_within_bound_trend_diagnosis_required",
+    "persistent_exit_reached": "hot_side_candidate_supported_separate_exact_hot_branch_preflight_manifest_authorized",
+    "root_or_physical_failure": "hot_exit_acquisition_failed_no_branch_truth_authorized"
+  },
+  "decisive_input_hashes": {
+    "candidate_geometry_arrays": "8a8ffcda439ed97d9bc2b8cfcc5a3aade9edbef962778391ffa198ebf3da4e40",
+    "fixed_Q_source": "fc95c932c86238e157492367310776d0cf0a6e940979592420d6f8b2122f18e0",
+    "legacy_continuation_runner": "a22793a18ba8193e67d371b2fae9b8ed4130c4e0457d75f71a5324c09b2798f0",
+    "monolithic_source": "b6fdf1bafda43669ddb0210b069baa474a6ea98018fdb2f57d8a60ea3cc77dc5",
+    "parent_acquisition_contract": "cb2fc47a6d7d4f6cc4883cfb805741430a0250d3ed7e5619332f37bff85eeeba",
+    "parent_arrays": "f9c10a5334c281d988b90aa8b5f3165126a84283df07cb75854d3fd69c8fa02a",
+    "parent_metrics": "90bc246aba1385d7a2a92ee03124a063b31686f3d92e49e46ec0add94d6ef456",
+    "parent_summary": "30cad828107829da95a1dda8b6f9c545f6011de9c575a77895fa8e8b2d5f5c43",
+    "seed_checkpoint": "c072942d8ca37b6ae5747d2b76a214725c79ecc1932fe233a91d84e0eb55b1f9",
+    "seed_checkpoint_json": "369f28bb25f6fcf7b5f68efe16a78c63e7274f999d8d915a917a40ccf2ff59fc",
+    "seed_metrics": "cb7c88d6f9d06808cf8849d5a1d464353b43632aa53f15df66fb89029029f9ab",
+    "transition_tangent_arrays": "126bc2f34f3cfe8484d722f558237730e922395331c61f5229a4e4dae44a7d0c"
+  },
+  "execution_order": {
+    "checkpoint_every_accepted_root": true,
+    "commit_each_stage_before_the_next_root": true,
+    "fixed_equal_BDF2_timestep_seconds": 1e-07,
+    "maximum_new_BDF2_roots": 12,
+    "one_root_per_command": true,
+    "rejected_root_never_propagates": true
+  },
+  "hot_exit_gate": {
+    "all_step_acceptance_and_physical_gates_required": true,
+    "candidate_is_unclassified_until_exact_branch_preflight": true,
+    "consecutive_accepted_secants_required": 2,
+    "macro_drift_from_seed_max": 0.02,
+    "rank16_hidden_amplitude_from_20ms_anchor_min": 0.05,
+    "saved_secant_hidden_fraction_max": 0.25
+  },
+  "purpose": "acquire_the_first_persistent_hot_side_candidate_after_the_saved_20ms_transition_anchor_using_the_full_exact_fixed_Q_y470_reference",
+  "schema_version": 1,
+  "seed": {
+    "checkpoint": "results/canonical/causal_inner_face36_fixed_q_primary_retry_wp10c9d6c7c3b5c4f24e14l/checkpoint_warm_3.npz",
+    "checkpoint_sha256": "c072942d8ca37b6ae5747d2b76a214725c79ecc1932fe233a91d84e0eb55b1f9",
+    "completed_steps": 6,
+    "elapsed_time_seconds": 0.0200006,
+    "state_role": "transition_internal_not_hot_branch"
+  },
+  "solver_contract": {
+    "constraint_tolerance": 1e-12,
+    "failed_relative_backtrack_trigger": 4,
+    "forced_exact_assembly_at_iteration_zero": false,
+    "initial_matrix": "carried_exact_reset_v2_bordered_Broyden_state",
+    "iteration_reserve_trigger": 6,
+    "ledger_tolerance": 1e-12,
+    "maximum_exact_refreshes_per_root": 1,
+    "maximum_height_ratio": 0.12,
+    "maximum_line_search_iterations": 12,
+    "maximum_newton_iterations": 8,
+    "maximum_scaled_primitive_change": 0.005,
+    "maximum_schur_condition_number": 100000000.0,
+    "minimum_optical_depth": 1.0,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "refresh_policy": "on_line_search_failure_or_iteration_reserve",
+    "residual_tolerance": 1e-10
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25dn"
+}
