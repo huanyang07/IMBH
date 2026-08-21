@@ -1,0 +1,27 @@
+{
+  "canonical_result_created_before_repair": false,
+  "classification": "phase_memory_packaging_repair_v5_locked_math_preserved",
+  "corrected_runner_sha256": "68f575b8c9916d1fd99c9e5ae8e11dad0acdc4f76c6bbcf24d61aec63fb16283",
+  "corrected_source": "local_atomic_npz_writer_and_new_v2_result_identity",
+  "corrected_test_sha256": "83ce5228ef5de5bbab25d44c9ea5571fd8baf2306e353ef495fec17548711ad9",
+  "implementation_commit": "6e2fc809b1a9bbcb53f1b11b85f2ee5de8ec8429",
+  "implementation_tree": "4dde1caa489263cf15cd5a6e5a2eace3d1c077bb",
+  "manifest_hashes": {
+    "architecture_contract.json": "b9cba194f818c7feba505eba0c102ed6bbe013cc0255a2fadea0a4fd1c45cf2c",
+    "input_lock.json": "6fba1804a806c645d67ba2a0c59ca2e48bcf13837e08b576216954f8c14dfdbb",
+    "provenance.json": "1e7b4204a73feadc74816ab2525db2aea82591e572d19128695ba216b357a156",
+    "summary.json": "1b46c7a44157e01cb8442f1cbbaa63780361f4253ac65b386bdfdf2cbbf1c696"
+  },
+  "new_truth_calls_before_repair": 0,
+  "original_failure": "selection_math_passed_then_shared_helper_missing_write_npz",
+  "original_frozen_runner_sha256": "f778d89c8743d4ed6639927c271dffbe666b89e31f422adf081010c9f78dd011",
+  "partial_metrics_created_before_packaging_failure": true,
+  "partial_metrics_sha256": "34dd685ae3f429cd339d57e30bfe1247400d15f1bd35ac4eb3bfc085da3ba19f",
+  "previous_execution_lock_hashes": {
+    "execution_lock.json": "7db187b904f8c8cb36765a0028813e4279a24f458dbb1b1f5b4663c626257cf6",
+    "provenance.json": "1d7071a527479f344b1e45d9134a4e1897891cf34c48a20ac17919bbd0c94a07",
+    "summary.json": "6fdd5fb058ca9302c0dc51360d04409624917b634556ea65ff81330fa905fa63"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25e1"
+}

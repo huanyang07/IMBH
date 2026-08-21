@@ -1,0 +1,41 @@
+{
+  "checks": {
+    "cold_direction_intrinsic_scalar": true,
+    "combined_direction_embedding_rank": true,
+    "hybrid_mode_turn": true,
+    "memoryless_cold_graph_rejected": true,
+    "online_truth_free": true,
+    "transition_decoder_exact_macro_closure": true,
+    "transition_intrinsic_scalar": true,
+    "transition_tube_supported": true
+  },
+  "classification": "hybrid_conservative_scalar_phase_memory_architecture_selected_local_segments_supported_complete_cycle_truth_missing",
+  "cold_first_mode_energy_fraction": 0.9999998888464369,
+  "cold_hidden_fractions": [
+    0.9999990165794272,
+    0.999999025405907,
+    0.9999990317649642,
+    0.9999990378920304
+  ],
+  "cold_normalized_direction_rank_99p99": 1,
+  "combined_first_mode_energy_fraction": 0.9759935219688299,
+  "combined_first_two_mode_energy_fraction": 0.9999471847287781,
+  "combined_normalized_direction_rank_99p99": 2,
+  "complete_cycle_truth_available": false,
+  "complete_impulse_map_available": false,
+  "continuous_online_dimension": 83,
+  "discrete_mode_count_minimum": 2,
+  "full_model_to_fixed_Q_switch_angle_degrees": 89.56752387187998,
+  "full_model_to_fixed_Q_switch_cosine": 0.007548060697245996,
+  "hot_exit_truth_available": false,
+  "maximum_cold_to_transition_direction_cosine": 0.9847235623439564,
+  "minimum_average_macrostep_seconds": 5.7888,
+  "minimum_cold_direction_cosine": 0.9999995937787023,
+  "minimum_cold_hidden_fraction": 0.9999990165794272,
+  "minimum_cold_to_transition_direction_cosine": 0.8904127192686243,
+  "online_470_roots": 0,
+  "online_fixed_Q_microsteps": 0,
+  "online_truth_calls": 0,
+  "passed": true,
+  "reduced_cycle_authorized": false
+}
