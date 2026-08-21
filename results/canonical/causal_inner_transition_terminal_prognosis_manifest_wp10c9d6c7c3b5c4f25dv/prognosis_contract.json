@@ -1,0 +1,52 @@
+{
+  "classification": "transition_terminal_prognosis_and_branch_continuation_architecture_decision_frozen",
+  "decision_policy": {
+    "cold_branch_can_be_certified_without_hot_branch": true,
+    "hot_branch_and_complete_impulse_remain_blocked": true,
+    "if_extension_not_warranted": "stop_time_microstepping_and_authorize_cold_branch_root_manifest",
+    "if_extension_warranted": "authorize_only_bounded_additional_hot_exit_truth",
+    "reduced_cycle_remains_blocked": true
+  },
+  "frozen_source_hashes": {
+    "scripts/run_causal_inner_transition_terminal_prognosis_manifest_wp10c9d6c7c3b5c4f25dv.py": "573b2b2a5d5fa65499ae011c5acd7b773b741802eb2fcf868a62ef44e9359678",
+    "scripts/run_causal_inner_transition_terminal_prognosis_wp10c9d6c7c3b5c4f25dw.py": "0b0787794ae0cd97e894f2a7d6647c18f63a65f5dddfaf5b1ea692f69337b298",
+    "tests/test_causal_inner_transition_terminal_prognosis_manifest_wp10c9d6c7c3b5c4f25dv.py": "ccc83a04d75b95cd9dbf5a56e34fd505cee4053e141a568b59d390c70009de88",
+    "tests/test_causal_inner_transition_terminal_prognosis_wp10c9d6c7c3b5c4f25dw.py": "5ef0a557a303b3e54f352e9adb9e3ad7ffc5488d40f896026f74740ede799e1a"
+  },
+  "input_hashes": {
+    "cold_screen_metrics": "90bc246aba1385d7a2a92ee03124a063b31686f3d92e49e46ec0add94d6ef456",
+    "tube_arrays": "c7034e7ad906c98ec8af57e593d71a1607425060a62b985bf701af703b37c79b",
+    "tube_metrics": "4af712ab4ce23fa4b3bc12bb7c9b88301c7d9a7130ce5d124a402c86fc22371a",
+    "tube_summary": "56ae98490aa2cd5faa028742308640f398c29a1c48aa33cf45d4f8e51a57140d"
+  },
+  "online_feasibility": {
+    "cycle_seconds": 578880.0,
+    "maximum_macrosteps": 100000,
+    "minimum_average_macrostep_seconds": 5.7888,
+    "truth_engine_role": "offline_branch_and_transition_corrector_only"
+  },
+  "prognosis": {
+    "extension_requires_every_tail_fraction_to_decrease": true,
+    "extension_requires_linear_crossing_within_budget": true,
+    "extension_requires_projected_wall_time_within_budget": true,
+    "hidden_exit_fraction": 0.25,
+    "maximum_additional_half_step_roots": 24,
+    "maximum_extension_wall_hours": 10.0,
+    "tail_intervals": 6
+  },
+  "schema_version": 1,
+  "selected_mathematical_architecture": {
+    "branch_drift": "dq_dt=R*F(Lq+Z*h_b(q))",
+    "branch_equation": "G_b(q,h)=Q*F(Lq+Zh)=0",
+    "event_indicator": "smallest_singular_value_of_G_h_with_orientation",
+    "fold_continuation": "pseudo_arclength_bordered_G_equals_zero",
+    "online_full_truth_calls": 0,
+    "online_transition": "one_prevalidated_reset_or_small_scalar_tube_evaluation",
+    "online_y470_roots": 0,
+    "regular_branch_tangent": "G_h*dh_dq=-G_q",
+    "slow_state": "q_in_R82_conservative_finite_volume_coordinates",
+    "transition_lift": "y=L(q_entry+ell_q(s))+Z(h0+Ur*a(s))",
+    "transition_state": "(q_entry,s_scalar)"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25dv"
+}
