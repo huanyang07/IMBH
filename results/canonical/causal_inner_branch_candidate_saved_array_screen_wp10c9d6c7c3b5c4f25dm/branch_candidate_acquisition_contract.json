@@ -1,0 +1,26 @@
+{
+  "authorization_boundaries": {
+    "cold_branch_truth_execution_authorized": false,
+    "definitions_only_bounded_hot_exit_acquisition_manifest_authorized": true,
+    "hot_branch_truth_execution_authorized": false,
+    "online_solver_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "separate_branch_truth_manifests_authorized": false,
+    "transition_truth_execution_authorized": false
+  },
+  "classification": "saved_cold_side_candidate_supported_hot_side_not_observed_branch_truth_blocked_bounded_hot_exit_acquisition_manifest_authorized",
+  "observed_evidence": {
+    "cold_candidate": "full_model_12ms",
+    "hot_candidate": null,
+    "post_20ms_checkpoints_remain_transition_dominated": true
+  },
+  "required_next_manifest_if_hot_absent": {
+    "branch_root_execution_in_next_package": false,
+    "must_not_relabel_existing_transition_checkpoints_as_hot": true,
+    "must_stop_at_first_saved_secant_hidden_fraction_at_or_below": 0.25,
+    "purpose": "prospectively_bound_a_short_full_y470_fixed_Q_transition_exit_acquisition_with_fail_fast_hidden_fraction_and_physical_gates",
+    "work_package": "WP10c9d6c7c3b5c4f25dn"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25dm"
+}
