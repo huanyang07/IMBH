@@ -31,23 +31,33 @@ PASS_CLASSIFICATION = (
 FAIL_CLASSIFICATION = "available_evidence_does_not_support_low_dimensional_phase_architecture"
 AUTHORIZED_NEXT = "WP10c9d6c7c3b5c4f25e2"
 
-ARTIFACT = "causal_inner_hybrid_phase_memory_architecture_selection_wp10c9d6c7c3b5c4f25e1"
+PARTIAL_ARTIFACT = "causal_inner_hybrid_phase_memory_architecture_selection_wp10c9d6c7c3b5c4f25e1"
+PARTIAL_DIRECTORY = ROOT / "results/canonical" / PARTIAL_ARTIFACT
+ARTIFACT = f"{PARTIAL_ARTIFACT}_v2"
 CANONICAL_DIRECTORY = ROOT / "results/canonical" / ARTIFACT
 THIS_RUNNER = "scripts/run_causal_inner_hybrid_phase_memory_architecture_selection_wp10c9d6c7c3b5c4f25e1.py"
 THIS_TEST = "tests/test_causal_inner_hybrid_phase_memory_architecture_selection_wp10c9d6c7c3b5c4f25e1.py"
 REPORT_RELATIVE = (
     "docs/reports/current/CODEX_CAUSAL_INNER_HYBRID_PHASE_MEMORY_ARCHITECTURE_"
-    "SELECTION_WP10C9D6C7C3B5C4F25E1_2026-08-21.md"
+    "SELECTION_V2_WP10C9D6C7C3B5C4F25E1_2026-08-21.md"
 )
 REPORT_PATH = ROOT / REPORT_RELATIVE
-PREVIOUS_LOCK_ARTIFACT = f"{ARTIFACT}_execution_lock_v3"
+PREVIOUS_LOCK_ARTIFACT = f"{PARTIAL_ARTIFACT}_execution_lock_v4"
 PREVIOUS_LOCK_DIRECTORY = ROOT / "results/canonical" / PREVIOUS_LOCK_ARTIFACT
-LOCK_ARTIFACT = f"{ARTIFACT}_execution_lock_v4"
+LOCK_ARTIFACT = f"{PARTIAL_ARTIFACT}_execution_lock_v5"
 LOCK_DIRECTORY = ROOT / "results/canonical" / LOCK_ARTIFACT
 LOCK_REPORT_PATH = ROOT / (
     "docs/reports/current/CODEX_CAUSAL_INNER_HYBRID_PHASE_MEMORY_ARCHITECTURE_"
-    "SELECTION_EXECUTION_LOCK_V4_WP10C9D6C7C3B5C4F25E1_2026-08-21.md"
+    "SELECTION_EXECUTION_LOCK_V5_WP10C9D6C7C3B5C4F25E1_2026-08-21.md"
 )
+
+
+def _write_npz(path: Path, arrays: dict[str, np.ndarray]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    with temporary.open("wb") as handle:
+        np.savez_compressed(handle, **arrays)
+    temporary.replace(path)
 
 
 def _rank_at_energy(matrix: np.ndarray, target: float) -> tuple[int, np.ndarray, np.ndarray]:
@@ -108,18 +118,26 @@ def _update_lock_catalog(summary: dict) -> None:
     helper = manifest.tube.manifest.geometry
     with manifest.CANONICAL_MANIFEST.open(newline="", encoding="utf-8") as handle:
         rows = list(csv.DictReader(handle))
-    rows = [row for row in rows if row.get("case") != LOCK_ARTIFACT]
-    for path in sorted(LOCK_DIRECTORY.iterdir()):
-        if path.is_file():
-            rows.append(
-                {
-                    "case": LOCK_ARTIFACT,
-                    "path": str(path.relative_to(ROOT)),
-                    "bytes": str(path.stat().st_size),
-                    "sha256": helper._sha(path),
-                    "scientific_status": "DEFINITIONS_ONLY",
-                }
-            )
+    rows = [
+        row
+        for row in rows
+        if row.get("case") not in (LOCK_ARTIFACT, PARTIAL_ARTIFACT)
+    ]
+    for artifact, directory, status in (
+        (LOCK_ARTIFACT, LOCK_DIRECTORY, "DEFINITIONS_ONLY"),
+        (PARTIAL_ARTIFACT, PARTIAL_DIRECTORY, "INCOMPLETE_PACKAGING"),
+    ):
+        for path in sorted(directory.iterdir()):
+            if path.is_file():
+                rows.append(
+                    {
+                        "case": artifact,
+                        "path": str(path.relative_to(ROOT)),
+                        "bytes": str(path.stat().st_size),
+                        "sha256": helper._sha(path),
+                        "scientific_status": status,
+                    }
+                )
     with manifest.CANONICAL_MANIFEST.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(
             handle,
@@ -133,6 +151,11 @@ def _update_lock_catalog(summary: dict) -> None:
         "path": str(LOCK_DIRECTORY.relative_to(ROOT)),
         "classification": summary["classification"],
         "passed": True,
+    }
+    catalog.setdefault("artifacts", {})[PARTIAL_ARTIFACT] = {
+        "path": str(PARTIAL_DIRECTORY.relative_to(ROOT)),
+        "classification": "phase_memory_selection_math_passed_packaging_incomplete",
+        "passed": False,
     }
     catalog.update(
         {
@@ -159,18 +182,26 @@ def _freeze_execution_lock() -> dict:
         raise RuntimeError("corrected selector unexpectedly matches original hash")
     if helper._git("status", "--short", "--untracked-files=no"):
         raise RuntimeError("execution repair lock requires a clean tracked tree")
+    partial_files = sorted(path.name for path in PARTIAL_DIRECTORY.iterdir())
+    if partial_files != ["architecture_metrics.json"]:
+        raise RuntimeError(f"unexpected partial selector payload: {partial_files}")
+    partial_metrics_hash = helper._sha(
+        PARTIAL_DIRECTORY / "architecture_metrics.json"
+    )
     payload = {
         "schema_version": SCHEMA_VERSION,
         "work_package": WORK_PACKAGE,
-        "classification": "phase_memory_execution_sources_v4_locked_no_evidence_created",
+        "classification": "phase_memory_packaging_repair_v5_locked_math_preserved",
         "original_failure": (
-            "v3_lock_omitted_corrected_test_hash"
+            "selection_math_passed_then_shared_helper_missing_write_npz"
         ),
         "corrected_source": (
-            "corrected_runner_and_corrected_test_both_hash_locked"
+            "local_atomic_npz_writer_and_new_v2_result_identity"
         ),
         "new_truth_calls_before_repair": 0,
         "canonical_result_created_before_repair": False,
+        "partial_metrics_created_before_packaging_failure": True,
+        "partial_metrics_sha256": partial_metrics_hash,
         "original_frozen_runner_sha256": original_hash,
         "corrected_runner_sha256": corrected_hash,
         "corrected_test_sha256": helper._sha(ROOT / THIS_TEST),
@@ -213,11 +244,42 @@ def _freeze_execution_lock() -> dict:
     LOCK_REPORT_PATH.write_text(
         "\n".join(
             (
-                "# Phase-memory architecture execution lock v4 WP10c9d6c7c3b5c4f25e1",
+                "# Phase-memory architecture execution lock v5 WP10c9d6c7c3b5c4f25e1",
                 "",
-                "The selector remained pre-evidence because v3 locked the corrected runner but not its corrected test. This v4 package locks both. All earlier locks remain preserved; no truth call or selection result exists.",
+                "The selector completed its saved-array mathematics and wrote metrics, then stopped because the shared helper has no NPZ writer. The partial metrics are preserved under the original result identity and classified as incomplete packaging. V5 locks a local atomic writer and a new v2 result identity; no truth call occurred.",
                 "",
             )
+        ),
+        encoding="utf-8",
+    )
+    helper._write_json(
+        PARTIAL_DIRECTORY / "packaging_failure.json",
+        {
+            "classification": "phase_memory_selection_math_passed_packaging_incomplete",
+            "failure": "shared_geometry_helper_missing_write_npz",
+            "partial_metrics_sha256": partial_metrics_hash,
+            "new_truth_calls": 0,
+            "canonical_result": False,
+            "superseded_result_identity": ARTIFACT,
+        },
+    )
+    helper._write_json(
+        PARTIAL_DIRECTORY / "summary.json",
+        {
+            "schema_version": SCHEMA_VERSION,
+            "work_package": WORK_PACKAGE,
+            "classification": "phase_memory_selection_math_passed_packaging_incomplete",
+            "passed": False,
+            "packaging_complete": False,
+            "new_truth_calls": 0,
+            "authorized_next": None,
+        },
+    )
+    partial_names = sorted(path.name for path in PARTIAL_DIRECTORY.iterdir())
+    (PARTIAL_DIRECTORY / "SHA256SUMS.txt").write_text(
+        "".join(
+            f"{helper._sha(PARTIAL_DIRECTORY / name)}  {name}\n"
+            for name in partial_names
         ),
         encoding="utf-8",
     )
@@ -389,7 +451,7 @@ def _run() -> dict:
     metrics, arrays = _evaluate()
     CANONICAL_DIRECTORY.mkdir(parents=True)
     helper._write_json(CANONICAL_DIRECTORY / "architecture_metrics.json", metrics)
-    helper._write_npz(CANONICAL_DIRECTORY / "architecture_arrays.npz", arrays)
+    _write_npz(CANONICAL_DIRECTORY / "architecture_arrays.npz", arrays)
     helper._write_json(CANONICAL_DIRECTORY / "input_lock.json", locked)
     helper._write_json(
         CANONICAL_DIRECTORY / "architecture.json",

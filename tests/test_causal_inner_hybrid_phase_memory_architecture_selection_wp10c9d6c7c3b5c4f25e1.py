@@ -32,7 +32,13 @@ def test_classification_preserves_missing_cycle_truth() -> None:
 
 
 def test_execution_repair_is_pre_evidence_and_truth_free() -> None:
-    assert selection.LOCK_ARTIFACT.endswith("execution_lock_v4")
+    assert selection.LOCK_ARTIFACT.endswith("execution_lock_v5")
     source = (ROOT / selection.THIS_RUNNER).read_text(encoding="utf-8")
     assert 'tube_summary["transition_dynamic_dimension"]' in source
     assert 'tube_metrics["gate_values"]["macro_decoder_closure"]' in source
+
+
+def test_v2_result_uses_local_atomic_npz_writer() -> None:
+    assert selection.ARTIFACT.endswith("_v2")
+    assert selection.PARTIAL_ARTIFACT != selection.ARTIFACT
+    assert callable(selection._write_npz)
