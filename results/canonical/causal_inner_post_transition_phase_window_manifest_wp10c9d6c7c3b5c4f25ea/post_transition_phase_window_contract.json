@@ -1,0 +1,69 @@
+{
+  "binding_gates": {
+    "all_exact_rate_physical_gates_except_memoryless_hidden_fraction": true,
+    "maximum_Q3_relative_drift": 0.0005,
+    "maximum_decoder_coordinate_error_over_transition_path": 0.002,
+    "maximum_full_collocation_defect": 0.05,
+    "maximum_matched_endpoint_coordinate_defect": 0.05,
+    "maximum_matched_endpoint_macro_defect": 0.05,
+    "maximum_matched_endpoint_state_defect": 0.05,
+    "maximum_normal_rate_defect": 0.01,
+    "maximum_projected_collocation_defect": 0.05,
+    "maximum_training_normal_rate_defect": 0.0001,
+    "minimum_rate_direction_cosine": 0.995,
+    "minimum_reconstruction_factor": 0.999999999999
+  },
+  "classification": "bounded_post_transition_rank4_lobatto_window_manifest_frozen",
+  "decision": {
+    "either_outcome_authorizes": "definitions_only_cycle_map_architecture_decision",
+    "failure_classification": "bounded_post_transition_rank4_phase_window_rejected",
+    "pass_classification": "bounded_post_transition_rank4_phase_window_passed",
+    "pass_does_not_claim_hot_exit": true,
+    "predictive_cycle_execution_authorized": false,
+    "reduced_slow_evolution_authorized": false
+  },
+  "decisive_input_hashes": {
+    "terminal_checkpoint": "913abb0c176622eb18cca522dd1bb15f0d815188e2d6c7143931dc1d851d9dfb",
+    "terminal_result": "c1b320ebc3215c55fd2a0b800c54735e29a1c99a83c3d9507d53435a173507f1",
+    "transition_geometry": "f386b8330d465f01dc401f7a699ec7ef7c2890c18522906a641016a55d2fa427",
+    "transition_metrics": "74351a669d00a1860c2b3a9091e33ab73bf6c9601d5333190484a5a584506455",
+    "transition_summary": "fc053879273976605abfa4f0552517133a8d020d7e3b7b0ccd2f9eddfee73e2c",
+    "transition_witnesses": "6e96a775ca5ad25d63e8ba4ab30b5d08ebdc12bea4fe10e7dde41c515511ed22"
+  },
+  "frozen_source_hashes": {
+    "scripts/run_causal_inner_cold_branch_anchor_preflight_wp10c9d6c7c3b5c4f25dy.py": "c984ddd59670d7801c88e367924c8830ced8f8ea53ccd34efe9d740a52292420",
+    "scripts/run_causal_inner_exact_geometric_470_chart_preflight_wp10c9d6c7c3b5c4f25de.py": "46b475da0fc23358186e95ac28ecf443b25d1213e7444e5f540c224399557eca",
+    "scripts/run_causal_inner_face36_fixed_q_authentic_history_ladder_wp10c9d6c7c3b5c4f24e1.py": "70c965993e18035a8ad534bb1e1877dcb1427fd77fac4bd54f74bc242444301c",
+    "scripts/run_causal_inner_post_transition_phase_window_manifest_wp10c9d6c7c3b5c4f25ea.py": "907fa5358d4f5e67de93c0b987b8a2084826c53a9eb1346d22efadb1b830515a",
+    "scripts/run_causal_inner_post_transition_phase_window_wp10c9d6c7c3b5c4f25eb.py": "d9c1537a0c4f22a672d6d7aa679c4058ee2359ec58359643873d15fb1a294ffd",
+    "src/imri_qpe/layer3_minidisk_1d/causal_inner_fixed_q.py": "fc95c932c86238e157492367310776d0cf0a6e940979592420d6f8b2122f18e0",
+    "src/imri_qpe/layer3_minidisk_1d/phase_collocation.py": "ab33de60337c8781b80eccf054377aaeb209faa9e12616a7a3a5d1cfd54b4d3b",
+    "tests/test_causal_inner_post_transition_phase_window_manifest_wp10c9d6c7c3b5c4f25ea.py": "b75d9396e974c8aba4e758516e7a86398f72b840155437910bdaca69dba3cd5d",
+    "tests/test_causal_inner_post_transition_phase_window_wp10c9d6c7c3b5c4f25eb.py": "f434e978cf5beb7875d2dbdf13521e1d4504af0ab28e74109f4da546c4fe9053"
+  },
+  "initial_condition": {
+    "fixed_Q_target": "losslessly carried accepted checkpoint target",
+    "history_policy": "accepted history only; no rejected candidate enters the phase window",
+    "state": "last accepted transition state at local time 1.1e-6 s"
+  },
+  "phase_discretization": {
+    "accepted_endpoint_if_passed": "two-half-window endpoint",
+    "basis_rank": 4,
+    "decoder": "terminal-anchored nonlinear displacement decoder",
+    "full_duration_seconds": 2e-07,
+    "matched_shadow": "two contiguous half-duration windows",
+    "method": "rank4 projected integral Legendre-Gauss-Lobatto collocation",
+    "no_sequential_BDF_microsteps": true,
+    "node_count": 8,
+    "picard_updates": 1,
+    "rate_basis": "rank4 right singular basis of eight normalized exact transition rates"
+  },
+  "schema_version": 1,
+  "truth_budget": {
+    "candidate_states_are_not_accepted_until_all_gates_pass": true,
+    "maximum_exact_continuous_fixed_Q_rate_calls": 43,
+    "new_BDF_microsteps": 0,
+    "new_nonlinear_fixed_Q_roots": 0
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25ea"
+}
