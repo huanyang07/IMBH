@@ -490,17 +490,35 @@ def _update_catalog(summary: dict) -> None:
                 {
                     "case": ARTIFACT,
                     "path": str(path.relative_to(ROOT)),
+                    "bytes": str(path.stat().st_size),
                     "sha256": _sha(path),
-                    "status": summary["classification"],
+                    "scientific_status": "SCREEN_COMPLETED_COLD_ONLY",
                 }
             )
-    CANONICAL_MANIFEST.parent.mkdir(parents=True, exist_ok=True)
     with CANONICAL_MANIFEST.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=("case", "path", "sha256", "status"))
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=("case", "path", "bytes", "sha256", "scientific_status"),
+            lineterminator="\n",
+        )
         writer.writeheader()
         writer.writerows(rows)
-    catalog = _read(CANONICAL_SUMMARY) if CANONICAL_SUMMARY.exists() else {}
-    catalog[ARTIFACT] = summary
+    catalog = _read(CANONICAL_SUMMARY)
+    catalog.setdefault("artifacts", {})[ARTIFACT] = {
+        "path": str(CANONICAL_DIRECTORY.relative_to(ROOT)),
+        "classification": summary["classification"],
+        "passed": summary["passed"],
+    }
+    catalog.update(
+        {
+            "case_count": len({row["case"] for row in rows}),
+            "file_count": len(rows),
+            "total_bytes": sum(int(row["bytes"]) for row in rows),
+            "all_payload_hashes_recorded": True,
+            "latest_source_parent_commit": PARENT_COMMIT,
+            "latest_work_package": WORK_PACKAGE,
+        }
+    )
     _write_json(CANONICAL_SUMMARY, catalog)
 
 
