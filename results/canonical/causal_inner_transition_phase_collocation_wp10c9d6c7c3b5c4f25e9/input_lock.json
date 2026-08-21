@@ -1,0 +1,180 @@
+{
+  "contract": {
+    "binding_gates": {
+      "all_exact_rate_physical_gates_except_memoryless_hidden_fraction": true,
+      "maximum_affine_event_defect": 5e-12,
+      "maximum_constraint_condition_number": 10000.0,
+      "maximum_fine_coarse_rate_defect": 0.02,
+      "maximum_fine_coarse_state_defect": 0.002,
+      "maximum_full_rate_relative_defect": 0.1,
+      "maximum_hidden_rate_relative_defect": 0.1,
+      "maximum_interface_value_defect": 5e-12,
+      "maximum_macro_rate_relative_defect": 0.1,
+      "maximum_state_error_over_path": 0.005,
+      "minimum_full_rate_direction_cosine": 0.995
+    },
+    "classification": "transition_phase_collocation_exact_rate_replay_manifest_frozen",
+    "decision": {
+      "hot_exit_not_claimed": true,
+      "pass_authorizes_only": "definitions_only_bounded_post_transition_phase_window_manifest",
+      "post_transition_execution_not_yet_authorized": true,
+      "predictive_cycle_authorized": false
+    },
+    "decisive_input_hashes": {
+      "affine_parent_arrays": "b7db29dd86522d6fb15e909602ccd60d26f9ec7f880d5c4c404d9b05ad36ec29",
+      "affine_parent_summary": "7c1b300972ec368cd2c832d8896b54e24caf7bd48da291a3587550e2f6160d47",
+      "cold_metrics": "8bc50e5a562e46963ec57db58e8abbd7c6cac4a12bd1342a3c54ce5c28ed491b",
+      "cold_summary": "3b045d56d0cfd347395effb579e1abcd4ef18c0f8ec5104fb775af71bed3efd6",
+      "results/canonical/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do_step_01/checkpoint_step_01.npz": "c5551c5140e58c36875872e98db221246a1675af10abc92eda9e243d8dd84f99",
+      "results/canonical/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do_step_01/result_step_01.npz": "36cddc4eb6f80979d4eac2cc153221009b1573a49e866d74d7b210cb20a21d62",
+      "results/canonical/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do_step_01/summary.json": "0f0f1930a9286b9e4643056398c074dd0542929f4a93d44c4d487e5d9d054894",
+      "results/canonical/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do_step_02/checkpoint_step_02.npz": "d1d5af970ab40beb4136010cbe02f3d8a4d6bc222564099afed5f88b7a0b7f44",
+      "results/canonical/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do_step_02/result_step_02.npz": "32050a6282b3a4eda1cf33638ae48925d86c0fc12e4f5f807939a5122c7f95f4",
+      "results/canonical/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do_step_02/summary.json": "1a411c640ed1f645d56bd4faad33235a7c27e0d18495e1f3ebb4d54b45d624ab",
+      "results/canonical/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do_step_03/checkpoint_step_03.npz": "a2c28b2b2a2c247a9ba68d264a944906afe5599406f6c24e3e64078212317a9f",
+      "results/canonical/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do_step_03/result_step_03.npz": "76af08d5d973531373bb0d2354a4a63409bd2c54387b11148590d636d55a5a6e",
+      "results/canonical/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do_step_03/summary.json": "ed0302bf011342371636867e0dfd048210556629e1161ee479e6e867ec7346ff",
+      "results/canonical/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do_step_04/checkpoint_step_04.npz": "4cebccb2ae44ca1eedf8d45cfa180ddde2b5494796eb8f27c0b44372a8cac9b6",
+      "results/canonical/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do_step_04/result_step_04.npz": "f09214c4e4a9d84e10558b1b78363221b519b45bd448726f6f079116ed091790",
+      "results/canonical/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do_step_04/summary.json": "353b865d36be892562ee2c89fed030771e4629f196d294e05949b2e8e5041c6f",
+      "results/canonical/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do_step_05/checkpoint_step_05.npz": "a4e63f082caeda84048cdce315febe023151f0500ff434d1229b30d03247e6e0",
+      "results/canonical/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do_step_05/result_step_05.npz": "128f717652eb0a68f5ff76f8f03918b8df0b293a08c8892a73f1f20337838a3a",
+      "results/canonical/causal_inner_bounded_hot_exit_acquisition_wp10c9d6c7c3b5c4f25do_step_05/summary.json": "6ef71270d14401d0e4e741cab58ea1c3a71763d9f50047e439ca68729d31c3d1",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_01/checkpoint_step_01.npz": "6c0143d7bb362951cdfef8fe731e0410ce7bb8d38a13ef2e7293951f982af5fb",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_01/result_step_01.npz": "37934d2821ce8f2e284529a72bebaa6e4f9486654616f2733f312ac16f4b7719",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_01/summary.json": "6cec4fc02d213be56855f874804837b0904a820b93105d4cd927ef6c2fa1a653",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_02/checkpoint_step_02.npz": "f47dc9d0a7a78464f722e4ee19ae360841ce64a934f4ee4be971e8c381a1b4b2",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_02/result_step_02.npz": "92e418c128b31e95b58df897cb76c469b6b21cb97ea3e079474a2eeec7e1ee0b",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_02/summary.json": "083e3de21a2ac66b2464f192e036ffc3fece3fb2eca7196cf29b21b41fd14a4f",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_03/checkpoint_step_03.npz": "d7f419c3dc038c63ed6ef371b6a55c962dbd39cb8806390ac718f8d557ed443e",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_03/result_step_03.npz": "78767a2b1cb85a57b932f581462d5027557da4f5ec3179d13c4ada8a298f40e8",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_03/summary.json": "c7c9555845861c402b188a32b63c1b59bceb0d434dbde450b2da0090005d9ec3",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_04/checkpoint_step_04.npz": "9d651619dee20b8aaac776aa52d5a14407d39e3c6e5af9fd93c175c6c98a5184",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_04/result_step_04.npz": "e97af6fc2f6b986be69645352a3f74483408dedc6716c4c001beccb01a5d23d7",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_04/summary.json": "83ade376f115cc108223f7ef877c64a95d9850297a85241e69e4a2c9371a36ae",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_05/checkpoint_step_05.npz": "450d61eb075d80b923b27e2f8f0e8e7d1f4b8622bf589592dae8a2387cb7dc9b",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_05/result_step_05.npz": "3bdfd4c7d793d4f59920326e6006173a096290fe817638d0f8ccb2dc6671316b",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_05/summary.json": "8e6be7bdb69940258b1e7766cd32dfe99547a5bd2bb06f2695a171bd41e6d5df",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_06/checkpoint_step_06.npz": "df41e4eadb2c7f09ec4ae659b7ab50652e2170cb8fca87e762c99560e94ee09b",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_06/result_step_06.npz": "6a28937e37ec88a557d06f7d34defcbeb3647a8f07100f0cbce46f4fe5f5bef7",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_06/summary.json": "167e24afc91e3cc406c53d3fa271fa03f38b9021cb9ada37f4a69d9f2731b106",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_07/checkpoint_step_07.npz": "236ff1a442d44d6a06847c717f51425cbe3799284dc0c13841f9daba9075a2ae",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_07/result_step_07.npz": "30d0f1c3ce7a3ecf16b176272294c67d0797ab4fef2ee43a5a2232c389600411",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_07/summary.json": "0abcc41faf28042bc2714a7f3bfacae63c5f0fdb6d3890c56b3fc77812878b68",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_08/checkpoint_step_08.npz": "433b795209701a846a7701374a940186f8024b39e6baa559278db24862da8c5f",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_08/result_step_08.npz": "ee8a2d591904a96e4594ad3389c585dd949570371a766cf46c935d70f73e2fc1",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_08/summary.json": "26dc0ab811cc4e473642f100e7f2464517b65e349f2a6b5a16586f6a3ba410f8",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_09/checkpoint_step_09.npz": "0d7c799c560f1a4dd5990eccb06467a5a34fdeb70c95c26d9bcf06b4a7093bca",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_09/result_step_09.npz": "6cd3f5650a1eac480823ebca628039d8729909d14f8d0481567a388dff2a4b56",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_09/summary.json": "e9dec11d5fcd7e10ce3fff9f0f83574fc21223d6baf2ba5074ae8ce93852a35e",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_10/checkpoint_step_10.npz": "26a38c133935e29d81ee9c8d3d4c2becbbf3cce4d6482200e58c0b1bb8e6e2fe",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_10/result_step_10.npz": "f185bde182bce891bc50d065efc1d99e856171ee6dbaf7479e1712fd0e7d06c9",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_10/summary.json": "2a301441b983c5c5b2746a63e527d4582165f1670321dd48f6aa3eff4d769f70",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_11/checkpoint_step_11.npz": "2936d56273d1fe7be842690b05f2e97aa38e1de05c5946b2b265d736e4dbea94",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_11/result_step_11.npz": "17b7df3a69a55326e3a7cf5a4deac24fd33e6c9a86037b73aa00b9bd828870a8",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_11/summary.json": "e30811c8f8607c742929bd466a10f540ca0ef820cfa73e26e86bcc8bbf612486",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_12/checkpoint_step_12.npz": "913abb0c176622eb18cca522dd1bb15f0d815188e2d6c7143931dc1d851d9dfb",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_12/result_step_12.npz": "c1b320ebc3215c55fd2a0b800c54735e29a1c99a83c3d9507d53435a173507f1",
+      "results/canonical/causal_inner_hot_exit_half_step_recovery_wp10c9d6c7c3b5c4f25dq_step_12/summary.json": "a1255b04c1b8f770cede3139f2a44b561ade57407faa240f6002adcb4f1b0a7a",
+      "transition_geometry": "f386b8330d465f01dc401f7a699ec7ef7c2890c18522906a641016a55d2fa427",
+      "transition_seed_checkpoint": "a4e63f082caeda84048cdce315febe023151f0500ff434d1229b30d03247e6e0"
+    },
+    "frozen_source_hashes": {
+      "scripts/run_causal_inner_transition_phase_collocation_manifest_wp10c9d6c7c3b5c4f25e8.py": "1aeee4f970da5f8466c7d95b3514557c0ace2c3bd1389e800a4b66822e3ea38d",
+      "scripts/run_causal_inner_transition_phase_collocation_wp10c9d6c7c3b5c4f25e9.py": "a8a9960498b12b064d77f00efd929f4013da781d20be6ce0cbd2367db18a443a",
+      "tests/test_causal_inner_transition_phase_collocation_manifest_wp10c9d6c7c3b5c4f25e8.py": "ac2985dfe7cb457d4b812c995814ce8f29b1b7fa316d95e49d202cc97a27cc6b",
+      "tests/test_causal_inner_transition_phase_collocation_wp10c9d6c7c3b5c4f25e9.py": "8893de4132e42e38777a74f94eb1c25c59d3d5158d22575ff7409516c0e94aa4"
+    },
+    "schema_version": 1,
+    "trajectory": {
+      "accepted_history_only": true,
+      "coarse_segment_specs": [
+        [
+          0,
+          8,
+          [
+            0,
+            4,
+            8
+          ]
+        ],
+        [
+          8,
+          17,
+          [
+            8,
+            12,
+            16,
+            17
+          ]
+        ]
+      ],
+      "fine_segment_specs": [
+        [
+          0,
+          4,
+          [
+            0,
+            2,
+            4
+          ]
+        ],
+        [
+          4,
+          8,
+          [
+            4,
+            6,
+            8
+          ]
+        ],
+        [
+          8,
+          12,
+          [
+            8,
+            10,
+            12
+          ]
+        ],
+        [
+          12,
+          17,
+          [
+            12,
+            14,
+            16,
+            17
+          ]
+        ]
+      ],
+      "heldout_indices": [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11,
+        13,
+        15
+      ],
+      "rejected_full_step_06_excluded": true,
+      "state_count": 18
+    },
+    "vector_field_witness": {
+      "coordinate_map": "exact_geometric_470_coordinate_Jacobian_times_scaled_rate560",
+      "maximum_calls": 8,
+      "nonlinear_roots": 0,
+      "operator": "exact_continuous_constrained_fixed_Q_rate_at_saved_accepted_primitive_state",
+      "propagated_states": 0,
+      "secants_are_not_truth": true
+    },
+    "work_package": "WP10c9d6c7c3b5c4f25e8"
+  },
+  "manifest_hashes": {
+    "input_lock.json": "92a651eecaa83d77e09bafbe4ca71ac805742c390b0387bfc16f1dba28a55fa9",
+    "provenance.json": "ac296cf6f68dd4b92c69113394f8557f6f70c14ba8460f8e10714bfc3516aa09",
+    "summary.json": "949e21d5fdab3f14ce50aaacd84daaa0210da6c057271494e6ddc35dd6dba5be",
+    "transition_collocation_contract.json": "d507765c6dca640f657988bbb10420efbc591c283e2e2587e80f5626752dca54"
+  }
+}
