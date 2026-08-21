@@ -1,0 +1,42 @@
+{
+  "additional_hot_exit_microsteps_authorized": false,
+  "branch_pseudo_arclength_architecture_selected": true,
+  "classification": "continued_hot_exit_microstepping_not_cost_justified_cold_branch_pseudo_arclength_architecture_selected",
+  "cold_candidate_supported": true,
+  "complete_impulse_fit_authorized": false,
+  "hot_branch_truth_established": false,
+  "hot_candidate_supported": false,
+  "maximum_online_macrosteps": 100000,
+  "minimum_average_macrostep_seconds": 5.7888,
+  "new_truth_calls": 0,
+  "online_cycle_seconds": 578880.0,
+  "passed": true,
+  "prognosis": {
+    "bounded_extension_warranted": false,
+    "crossing_within_root_budget": false,
+    "crossing_within_wall_budget": false,
+    "every_tail_fraction_decreases": false,
+    "forecast_roots_to_hidden_exit": null,
+    "forecast_wall_hours_to_hidden_exit": null,
+    "linear_tail_slope_per_root": 8.633002346788485e-09,
+    "median_half_step_root_wall_seconds": 1341.5230495415162,
+    "tail_fraction_differences": [
+      5.774014488757473e-09,
+      7.185715689139727e-09,
+      8.622947023084748e-09,
+      1.0072774503377957e-08,
+      1.1522112042250399e-08
+    ],
+    "tail_hidden_fractions": [
+      0.9999990158072546,
+      0.9999990215812691,
+      0.9999990287669848,
+      0.9999990373899318,
+      0.9999990474627063,
+      0.9999990589848183
+    ]
+  },
+  "reduced_cycle_authorized": false,
+  "selected_cold_candidate": "full_model_12ms",
+  "selected_hot_candidate": null
+}
