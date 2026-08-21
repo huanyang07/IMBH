@@ -1,0 +1,115 @@
+{
+  "authorization_boundaries": {
+    "branch_candidate_saved_array_screen_authorized": true,
+    "branch_truth_execution_authorized": false,
+    "exploratory_cycle_authorized": false,
+    "online_hybrid_solver_authorized": false,
+    "predictive_cycle_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "transition_impulse_surrogate_fit_authorized": false,
+    "transition_truth_campaign_authorized": false
+  },
+  "branch_first_dependency": {
+    "branch_candidate_must_not_be_the_exact_20ms_transition_anchor": true,
+    "branch_certification_gates": {
+      "all_fixed_Q_physical_storage_reaction_and_ledger_gates": true,
+      "critical_manifold_invariance_relative_defect_max": 0.1,
+      "fast_block_requires_strictly_negative_real_spectrum": true,
+      "fast_to_effective_slow_spectral_gap_ratio_min": 10.0,
+      "state_robustness_requires_cold_and_hot_pass": true
+    },
+    "branch_root_fail_fast_preflight_hidden_fraction_max": 0.25,
+    "branch_truth_execution_requires_a_separate_prospective_manifest": true,
+    "candidate_selection_first_uses_saved_revealed_arrays_only": true,
+    "reason": "entry_and_exit_sections_cannot_be_defined_from_an_unclassified_transition_checkpoint",
+    "required_branch_labels": [
+      "cold",
+      "hot"
+    ]
+  },
+  "classification": "rank16_transition_internal_candidate_reconciled_branch_first_hybrid_impulse_sampling_architecture_frozen",
+  "decisive_input_hashes": {
+    "parent_arrays": "126bc2f34f3cfe8484d722f558237730e922395331c61f5229a4e4dae44a7d0c",
+    "parent_metrics": "49efa564a49b89246484a041a000277f4565754706f06d00a49faf86a70c72a6",
+    "parent_summary": "9c553875366395861932e75e4401be443eeceefc7f0444dc1cb952b90b19a737"
+  },
+  "definitions_only": true,
+  "evidence_reconciliation": {
+    "rank12_tangent_invariance_relative_defect": 0.13197661709404562,
+    "rank16_current_primary_physical_action_energy_capture": 0.9999462400342181,
+    "rank16_hidden_physical_tangent_energy_capture": 0.9989027619898101,
+    "rank16_is_a_certified_nonlinear_transition_model": false,
+    "rank16_nonstable_eigenvalue_count_diagnostic": 6,
+    "rank16_tangent_invariance_relative_defect": 0.0042563189090427,
+    "rank8_tangent_invariance_relative_defect": 0.4167574725644653,
+    "rate_action_basis_rank": 8,
+    "rate_action_basis_role": "kinematic_snapshot_compression_only",
+    "selected_transition_internal_rank": 16,
+    "transition_spectrum_is_branch_stability_evidence": false
+  },
+  "later_offline_transition_sampling": {
+    "authorized_in_this_package": false,
+    "heldout_requirements": [
+      "entry_state_holdout",
+      "event_parameter_holdout",
+      "transition_direction_holdout",
+      "spatial_layout_holdout_before_predictive_use"
+    ],
+    "internal_coordinate_policy": "rank16_is_initial_candidate_with_rank_adaptation_and_full470_fallback",
+    "prerequisite": "both_branch_certificates_and_entry_exit_sections",
+    "surrogate_must_enforce_conservation_by_construction": true,
+    "training_outputs": [
+      "exit_macrostate",
+      "integrated_single_valued_face_flux",
+      "integrated_physical_sources",
+      "integrated_constraint_work",
+      "transition_duration",
+      "destination_branch"
+    ]
+  },
+  "mathematical_architecture": {
+    "discrete_conservation": "macro_jump_equals_integrated_single_valued_face_flux_plus_physical_sources_plus_constraint_work",
+    "offline_full470_fallback_required": true,
+    "offline_transition_feature_state": "rank16_dual_consistent_hidden_coordinates_plus_event_parameters",
+    "offline_transition_reference": "full_exact_fixed_Q_y470_dynamics",
+    "online_branch_flow": "branch_specific_conservative_second_order_macro_integrator",
+    "online_event": "certified_fold_or_fast_stability_surface_with_hysteresis",
+    "online_exact_truth_calls": 0,
+    "online_fast_microsteps": 0,
+    "online_state": "s_b=(U80,a2,m_b,branch_label)",
+    "online_transition": "one_conservative_entry_to_exit_reset_map_evaluation",
+    "online_transition_ODE": false,
+    "transition_map": "T_b:(s_minus,theta_event)->(s_plus,Delta_face_flux,Delta_sources,Delta_constraint_work,duration,b_plus)"
+  },
+  "online_runtime_contract": {
+    "fiducial_cycle_seconds": 578880.0,
+    "full_transition_microintegration_online": false,
+    "maximum_macrosteps_per_cycle": 100000,
+    "maximum_transition_map_evaluations_per_event": 1,
+    "minimum_average_macrostep_seconds": 5.7888,
+    "target_wall_time_for_one_cycle": "several_days_not_months"
+  },
+  "prospective_branch_candidate_screen": {
+    "candidate_inputs": "existing_nonsealed_full_model_or_accepted_fixed_Q_checkpoint_states_with_hash_locked_times_and_ledgers",
+    "must_select_distinct_cold_and_hot_candidates": true,
+    "must_stop_if_no_nontransition_candidates_are_supported": true,
+    "new_chart_retractions_equal": 0,
+    "new_complete_generator_assemblies_equal": 0,
+    "new_exact_fixed_Q_rate_calls_equal": 0,
+    "new_nonlinear_roots_equal": 0,
+    "propagated_states_equal": 0,
+    "sealed_16ms_truth_calls_equal": 0,
+    "selection_features": [
+      "distance_before_or_after_the_identified_transition_sector",
+      "rank16_hidden_coordinate_amplitude",
+      "saved_rate_or_secant_hidden_fraction_proxy",
+      "physical_guard_margin",
+      "reconstruction_margin",
+      "availability_of_complete_authentic_history_and_provenance"
+    ],
+    "truth_policy": "saved_revealed_arrays_only",
+    "work_package": "WP10c9d6c7c3b5c4f25dm"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25dl"
+}
