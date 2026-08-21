@@ -1,0 +1,16 @@
+{
+  "cycle_map": "q_next=q+sum_m_integral(g_m/omega_m ds)+sum_event_Delta_q",
+  "cycle_time": "sum_m_integral(1/omega_m ds)",
+  "decoder": "D_m(q,s)=Lq+Z*(h_m0+U_m*a_m(q,s))",
+  "guard": "gamma_m(q,s)=0",
+  "macro_dynamics": "dq_dt=g_m(q,s)",
+  "normal_defect": "QF-D_qh*g_m-D_sh*omega_m",
+  "online_truth_calls": 0,
+  "phase_dynamics": "ds_dt=omega_m(q,s)>0",
+  "reset": "Psi_m with exact conservative macro ledger",
+  "state": [
+    "q_R82",
+    "s_scalar",
+    "mode_discrete"
+  ]
+}

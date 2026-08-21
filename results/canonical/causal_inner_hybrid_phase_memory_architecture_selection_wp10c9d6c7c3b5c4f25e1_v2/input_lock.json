@@ -1,0 +1,77 @@
+{
+  "contract": {
+    "classification": "hybrid_conservative_phase_memory_architecture_synthesis_frozen",
+    "decision_gates": {
+      "cold_direction_bundle_rank_at_energy": 0.9999,
+      "combined_direction_bundle_rank_at_energy": 0.9999,
+      "combined_rank_max": 2,
+      "macro_conservation_identity": "R*D_m(q,s)=q",
+      "memoryless_graph_rejected_if_all_cold_hidden_fractions_exceed": 0.25,
+      "mode_switch_turn_degrees_min": 45.0,
+      "transition_tube_parent_must_pass": true
+    },
+    "evidence_scope": {
+      "architecture_selection_only": true,
+      "complete_cycle_truth_available": false,
+      "complete_impulse_map_available": false,
+      "full_cycle_predictive_validation_available": false,
+      "hot_exit_truth_available": false,
+      "reduced_cycle_authorized": false
+    },
+    "frozen_source_hashes": {
+      "scripts/run_causal_inner_hybrid_phase_memory_architecture_manifest_wp10c9d6c7c3b5c4f25e0.py": "c570a9716d5c70d5f1f01370d5c0bf262bf793f65f7d1f40f1301c1a64b5cf40",
+      "scripts/run_causal_inner_hybrid_phase_memory_architecture_selection_wp10c9d6c7c3b5c4f25e1.py": "f778d89c8743d4ed6639927c271dffbe666b89e31f422adf081010c9f78dd011",
+      "tests/test_causal_inner_hybrid_phase_memory_architecture_manifest_wp10c9d6c7c3b5c4f25e0.py": "1fa47a795b0794adf529e89791a804bc1c4f5935a171f7a30833c5b996ead043",
+      "tests/test_causal_inner_hybrid_phase_memory_architecture_selection_wp10c9d6c7c3b5c4f25e1.py": "7edab8a19861151ab97e8cd071ae5b5c76cfcc11e7573407751f9773ee026bbb"
+    },
+    "hypotheses": {
+      "dynamic_phase_tube": "y=D_m(q,s)=Lq+Z*(h_m0+U_m*a_m(q,s))",
+      "hybrid_event": {
+        "guard": "gamma_m(q,s)=0",
+        "macro_reset": "q_plus=q_minus+Delta_q_event_from_conservative_ledger",
+        "reset": "(q_plus,s_plus,m_plus)=Psi_m(q_minus,s_minus)"
+      },
+      "memoryless_critical_graph": "H(q,h)=Q*F(Lq+Zh)=0",
+      "reduced_dynamics": {
+        "macro": "dq_dt=g_m(q,s)=R*F(D_m(q,s))",
+        "normal_defect": "r_perp=Q*F-D_qh*g_m-D_sh*omega_m",
+        "phase": "ds_dt=omega_m(q,s), fitted by tangent projection of Q*F-D_qh*g_m"
+      }
+    },
+    "input_hashes": {
+      "candidate_arrays": "8a8ffcda439ed97d9bc2b8cfcc5a3aade9edbef962778391ffa198ebf3da4e40",
+      "cold_arrays": "0352cfc1d14fe1c477da2664a8c41b6bd1d4798d077c0c4f0c39eb931b1f4813",
+      "cold_metrics": "61d0d77f9816d77a1ff96a59ecc104621c654aee094afd93f96c3e980b8da0f2",
+      "cold_summary": "3878f4c6dc3093c26eb99cb6f9e083eb8a1aac8713af6d3f995675945b602b59",
+      "geometry_arrays": "f386b8330d465f01dc401f7a699ec7ef7c2890c18522906a641016a55d2fa427",
+      "tangent_arrays": "126bc2f34f3cfe8484d722f558237730e922395331c61f5229a4e4dae44a7d0c",
+      "tube_arrays": "c7034e7ad906c98ec8af57e593d71a1607425060a62b985bf701af703b37c79b",
+      "tube_metrics": "4af712ab4ce23fa4b3bc12bb7c9b88301c7d9a7130ce5d124a402c86fc22371a",
+      "tube_summary": "56ae98490aa2cd5faa028742308640f398c29a1c48aa33cf45d4f8e51a57140d"
+    },
+    "online_contract": {
+      "cycle_seconds": 578880.0,
+      "error_control": "macro_ledger_plus_phase_plus_normal_tube_defect",
+      "integrator": "event_detecting_conservative_IMEX_or_RK_with_dense_output",
+      "maximum_macrosteps": 100000,
+      "minimum_average_macrostep_seconds": 5.7888,
+      "online_470_roots": 0,
+      "online_fixed_Q_microsteps": 0,
+      "online_truth_calls": 0,
+      "state": "(q_in_R82,s_scalar,mode_discrete)"
+    },
+    "schema_version": 1,
+    "work_package": "WP10c9d6c7c3b5c4f25e0"
+  },
+  "execution_lock_hashes": {
+    "execution_lock.json": "4059e93ac05d6858a2e25812c6684b886a5a613671537dcb1ffeaed6126dfff8",
+    "provenance.json": "4922b72fff5d0020290bb439c1951b7c59c12c8e362edd4b3098f3e91085086a",
+    "summary.json": "92de30f4ea014bdaa10238d896a35313e56a5bc4bbec335a9ae32139f07c4afa"
+  },
+  "manifest_hashes": {
+    "architecture_contract.json": "b9cba194f818c7feba505eba0c102ed6bbe013cc0255a2fadea0a4fd1c45cf2c",
+    "input_lock.json": "6fba1804a806c645d67ba2a0c59ca2e48bcf13837e08b576216954f8c14dfdbb",
+    "provenance.json": "1e7b4204a73feadc74816ab2525db2aea82591e572d19128695ba216b357a156",
+    "summary.json": "1b46c7a44157e01cb8442f1cbbaa63780361f4253ac65b386bdfdf2cbbf1c696"
+  }
+}
