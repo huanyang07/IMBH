@@ -1,0 +1,76 @@
+{
+  "adaptive_acquisition": {
+    "blind_rate_defect_maximum": 0.05,
+    "embedded_error_maximum": 0.05,
+    "hidden_rank_candidates": [
+      2,
+      4,
+      8,
+      16
+    ],
+    "macro_step_seconds_initial": 0.00025,
+    "maximum_exact_free_field_witnesses": 192,
+    "maximum_macrosteps": 100000,
+    "maximum_patches": 64,
+    "maximum_witnesses_per_patch": 3,
+    "patch_coordinate_maximum": 1.25,
+    "rank_rule": "smallest candidate rank passing all training and blind defects",
+    "rule": "reject before propagation on trust/error/event/guard failure; then retract exactly, audit physically, evaluate f_free, and recenter or enrich",
+    "witness_pattern": "anchor, half/full physical-axis witness, and periodic diagonal blind witness"
+  },
+  "authorized_execution": "WP10c9d6c7c3b5c4f25fe_complete_cycle_execution",
+  "classification": "conservative_event_driven_free_field_cycle_atlas_architecture_verified_complete_cycle_execution_manifest_frozen",
+  "cost": {
+    "conservative_seconds_per_exact_witness": 327.84852724988014,
+    "exact_anchor_seconds_per_patch": 14.165024292189628,
+    "maximum_complete_execution_wall_hours": 48.0,
+    "maximum_exact_free_field_witnesses": 192,
+    "maximum_offline_acquisition_wall_hours": 24.0,
+    "maximum_patches": 64,
+    "measured_100k_online_update_decode_wall_seconds": 7.440372875425965,
+    "offline_cost_gate_passed": true,
+    "online_cost_gate_passed": true,
+    "raw_offline_acquisition_wall_hours": 17.737077440743644,
+    "reserve_factor": 1.25,
+    "reserved_offline_acquisition_wall_hours": 22.171346800929555
+  },
+  "cycle_section": {
+    "crossing_orientation": "same positive orientation as departure",
+    "definition": "return to the cold/recovery Poincare section after one positive physical-driver phase winding",
+    "hidden_section_return_defect_maximum": 0.05,
+    "minimum_persistent_mode_switches": 2,
+    "output": "cycle duration, Delta_q82, event sequence, averaged physical fluxes, and uncertainty ledger",
+    "slow_macro_drift_allowed": true
+  },
+  "definitions_only": true,
+  "independent_validation": {
+    "blind_witness_policy": "exclude every fourth exact witness from fitting",
+    "maximum_blind_rate_defect": 0.05,
+    "maximum_cycle_duration_step_halving_defect": 0.02,
+    "maximum_cycle_map_step_halving_defect": 0.05,
+    "replay_at_half_macro_step": true,
+    "restart_and_suffix_replay_bitwise": true
+  },
+  "initialization": {
+    "discard_as_physical_time": "all fixed-Q transition/post-transition trajectories",
+    "hot_fixed_Q_samples": "geometry seeds only; they may not glue a physical trajectory",
+    "retain": "hash-validated accepted cold full-model phase and its terminal primitive state"
+  },
+  "outcomes": {
+    "budget": "complete_cycle_inconclusive_acquisition_budget_exhausted",
+    "no_return": "complete_cycle_not_observed_within_frozen_horizon",
+    "pass": "complete_cycle_atlas_acquired_and_independently_replayed",
+    "physical": "complete_cycle_original_free_field_physical_gate_failed",
+    "validation": "complete_cycle_atlas_blind_or_step_halving_validation_failed"
+  },
+  "physical_gates": {
+    "all_original_storage_reaction_free_ledgers": "binding at exact witnesses",
+    "exact_chart_coordinate_residual_maximum": 5e-10,
+    "maximum_height_ratio": 0.5,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0
+  },
+  "post_pass_authorization": "definitions-only multi-anchor cycle-map and slow-closure calibration; reduced slow evolution remains separately gated",
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fd"
+}

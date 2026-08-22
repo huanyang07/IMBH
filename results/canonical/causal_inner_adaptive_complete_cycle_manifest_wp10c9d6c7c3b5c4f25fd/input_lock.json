@@ -1,0 +1,63 @@
+{
+  "classifications": {
+    "cold_engine": "truth_free_hybrid_phase_engine_failed",
+    "hot_engine": "truth_free_conservative_hot_mode_engine_verified",
+    "prior_cycle_architecture": "conservative_hybrid_phase_cycle_map_architecture_selected_accepted_anchor_three_mode_prefix_replayed_complete_cycle_calibration_missing",
+    "reaction_diagnosis": "conservative_free_field_hidden_amplitude_rom_selected_fixed_Q_arclength_retained_sampling_only"
+  },
+  "cold_retained_gates": {
+    "cold_capture": true,
+    "cold_holdout_local": true,
+    "cold_holdout_path": true,
+    "cold_macro_ledger": true,
+    "cold_rank": true,
+    "macro_closure": true,
+    "online_cost": true,
+    "restart_bitwise": true,
+    "truth_free": true
+  },
+  "directory_hashes": {
+    "cold_observed_engine": {
+      "engine_metrics.json": "721b803c5b3bb93653e38694f1e6d618ff09791501d8eaf0ed5d07c8b75a3754",
+      "engine_model_and_replay.npz": "927b8b603fe842f670ab437d5d97ff58ee3d97a06d6b387aab170d465739c085",
+      "input_lock.json": "ef0c1d21a22a7848413750256c894bdef492ced43b3c96b005a2311a700f21b3",
+      "provenance.json": "5f407e171a6bc935bec373243256ef3f3bae33c62c69e67f0b6563f2996375ce",
+      "summary.json": "170d195bd03bb380144fa7a1472b516cd5ea88f94d0ae96e7e854bb11d2ff4d8"
+    },
+    "hot_axis_preflight": {
+      "hot_free_field_arrays.npz": "176590badac7ee8fc352fbbd2b70b73629aee1de88accbb87151c0056d4ed745",
+      "hot_free_field_metrics.json": "e54c49f46e20ab89dc8c0eef0f8f9815d3e825331e47db39239240659e690f67",
+      "provenance.json": "9a0781df34963e1f9c2121fad49730d1cfb921d6469315bb4676282fada948aa",
+      "summary.json": "4edb752c8156497b2939e2916166a78249ca40c2ea819b4f10421d865c7044e2"
+    },
+    "hot_off_axis_preflight": {
+      "hot_mode_off_axis_arrays.npz": "61bfe4b955662c6f30610aa0f5faf6889aa8d6ba2093ebd099df3c8f99545425",
+      "hot_mode_off_axis_metrics.json": "1c5b3b788164d85e35f8c87141328cb6219fe25e8da2e9daf53ac6a318e06d4f",
+      "provenance.json": "d2222b77f0c53bf350e94cc6637eff1b48ecc337f89bdd2531814a5482d5a174",
+      "summary.json": "c759ff45ef61a31bb9d435e97a824f6cfc39b91711911003ff95b942ed560975"
+    },
+    "prior_cycle_architecture": {
+      "architecture_arrays.npz": "87e966a31f9b149b5c4b6f5c1f7879018ce4cec2d4c79c690a9035ae334d54b6",
+      "architecture_metrics.json": "e3e14b3bc05dbe322da730a3f396d4f862b23e69ab7af392519b67cd4e53d7ed",
+      "input_lock.json": "e6e00ccd2561669bcc621b17d9ddc60d48b45196737a0df2fe26df940763913d",
+      "mathematical_architecture.json": "fb4379f0a293f51a7ed59ef3e7cf391215c69acbaad923f4ee64366b81653760",
+      "provenance.json": "1d1231484abc4caa20880cbf48c864b7a9f14538e6e632eeffc2b701c70304b4",
+      "summary.json": "70983f665c3322ec8f5a8549f2a6f5cd7bea30cea4b1bbb2996087d0c41a1ef6"
+    },
+    "reaction_free_architecture": {
+      "input_lock.json": "c1c77adcde0f98ccb994b41dc4d85f58055b5616c24894bec24cbb2543b129eb",
+      "mathematical_architecture.json": "4314723547917aaab9362fca5245107598054107cbc179abf62487fec838bf3b",
+      "provenance.json": "e92af6bb39ace0e70507673283e224520439b0a16acc3055f4852f59df6ec9ea",
+      "reaction_free_field_arrays.npz": "247725d57afaea85df330d6ee7366b8b70fb7bc6be293a677bcec8f5aa4eb37b",
+      "reaction_free_field_metrics.json": "8924728ad814dc7c37f0fe1ec083a8a7120776fcfb6f7313e6e110807a86fe47",
+      "summary.json": "9e7c7601d854878d1b83de2a5ad590bd420e1c7899cd3c31659cb7312664e608"
+    },
+    "truth_free_hot_engine": {
+      "hot_engine_arrays.npz": "9ee14a29141f9820a6d5b58a4b86c17654e8f0e0c49bce0aaab464f6ea350763",
+      "hot_engine_checkpoint.npz": "b00646e23b6aa15a2e072657aa7467c641dd1cba6fd5fb5b8711349eb72dc077",
+      "hot_engine_metrics.json": "b3d16d68ce980635b1c8e343bccb2bda9e9eec3c6ba9eea3c1bc5eeebce53f2e",
+      "provenance.json": "c3a54f2b5ab7e1eb97a04b632a793bc44a92fd5b070a2517651bc077b425d8b2",
+      "summary.json": "c68e17f967880907b28df7331ab99d99ac3004850342948337da4335a3563d0f"
+    }
+  }
+}

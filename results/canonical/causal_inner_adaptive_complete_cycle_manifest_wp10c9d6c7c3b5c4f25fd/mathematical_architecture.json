@@ -1,0 +1,36 @@
+{
+  "conservation": {
+    "cumulative_cycle_output": "Delta_q and cycle duration define the later slow cycle map",
+    "macro_ledger": "all 82 rates and event resets recorded exactly",
+    "macro_projection": "forbidden"
+  },
+  "decoder": "y=L*q+Z*(h_sigma_j+V_sigma_j*a_sigma)",
+  "dynamics": {
+    "hidden": "da/dt=V_sigma_j^T*Q*f_free(y,theta)",
+    "integrator": "explicit Heun with Euler embedded defect and exact event localization",
+    "local_surrogate": "anchor reduced rate plus certified physical-direction terms; add cross/quadratic terms only after blind validation",
+    "macro": "dq/dt=R*f_free(y,theta)",
+    "truth_field": "original unconstrained reaction-free monolithic field only"
+  },
+  "fixed_Q_scope": {
+    "arclength_use": "offline geometry and witness placement only",
+    "old_fixed_Q_transition_and_post_transition_timing": "superseded",
+    "physical_clock": "forbidden",
+    "reaction_in_cycle_dynamics": "forbidden",
+    "residual_and_jacobian_certificates_preserved": true
+  },
+  "mode_policy": {
+    "known_retained_mode": "accepted full-model cold segment only",
+    "no_chatter": true,
+    "post_cold_modes": "discovered from original-free-field trajectory; no fixed-Q time labels are inherited",
+    "switching": "nearest validated atlas with 10 percent margin and two accepted-step persistence"
+  },
+  "name": "conservative_event_driven_original_free_field_cycle_atlas",
+  "state": {
+    "a_sigma": "mode-local hidden amplitudes with rank selected from 2,4,8,16",
+    "j": "active local atlas patch identifier",
+    "q": "82 retained macro coordinates",
+    "sigma": "discrete physical mode",
+    "theta": "physical driver phase on S1; the 20 ms value was replay-only and is not imposed as a universal period"
+  }
+}
