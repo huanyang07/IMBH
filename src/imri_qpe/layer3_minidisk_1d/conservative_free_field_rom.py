@@ -10,7 +10,7 @@ reactions, or nonlinear solvers.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable
+from typing import Callable, Mapping
 
 import numpy as np
 
@@ -292,3 +292,253 @@ class ConservativeHiddenAmplitudeModel:
             / max(float(np.linalg.norm(hidden_rate)), np.finfo(float).tiny)
         )
         return macro_rate, amplitude_rate, defect
+
+
+@dataclass(frozen=True)
+class LocalAffineReducedPatch:
+    """Truth-free local operator with one resolved physical direction."""
+
+    anchor_macro: Array
+    anchor_amplitudes: Array
+    anchor_reduced_rate: Array
+    physical_rate_delta: Array
+    macro_step_seconds: float
+    mode: str
+    anchor_id: str
+    maximum_absolute_eta: float = 1.25
+
+    def __post_init__(self) -> None:
+        macro = _finite(self.anchor_macro, ndim=1, name="anchor_macro")
+        amplitudes = _finite(
+            self.anchor_amplitudes, ndim=1, name="anchor_amplitudes"
+        )
+        rate = _finite(
+            self.anchor_reduced_rate, ndim=1, name="anchor_reduced_rate"
+        )
+        delta = _finite(
+            self.physical_rate_delta, ndim=1, name="physical_rate_delta"
+        )
+        dimension = len(macro) + len(amplitudes)
+        if rate.shape != (dimension,) or delta.shape != (dimension,):
+            raise ValueError("local patch rate dimensions disagree")
+        step = float(self.macro_step_seconds)
+        trust = float(self.maximum_absolute_eta)
+        if not np.isfinite(step) or step <= 0.0:
+            raise ValueError("macro_step_seconds must be positive")
+        if not np.isfinite(trust) or trust <= 1.0:
+            raise ValueError("maximum_absolute_eta must exceed one")
+        if not self.mode or not self.anchor_id:
+            raise ValueError("mode and anchor_id must be nonempty")
+        physical_macro_increment = step * rate[: len(macro)]
+        denominator = float(physical_macro_increment @ physical_macro_increment)
+        if denominator <= np.finfo(float).tiny:
+            raise ValueError("local patch has no macro physical direction")
+        eta_dual = physical_macro_increment / denominator
+        for name, value in (
+            ("anchor_macro", macro),
+            ("anchor_amplitudes", amplitudes),
+            ("anchor_reduced_rate", rate),
+            ("physical_rate_delta", delta),
+        ):
+            value.setflags(write=False)
+            object.__setattr__(self, name, value)
+        eta_dual.setflags(write=False)
+        object.__setattr__(self, "_eta_dual", eta_dual)
+
+    @property
+    def macro_dimension(self) -> int:
+        return int(len(self.anchor_macro))
+
+    @property
+    def amplitude_dimension(self) -> int:
+        return int(len(self.anchor_amplitudes))
+
+    @property
+    def eta_dual(self) -> Array:
+        return self._eta_dual
+
+    def eta(self, macro: Array) -> float:
+        value = _finite(macro, ndim=1, name="macro")
+        if value.shape != self.anchor_macro.shape:
+            raise ValueError("macro has the wrong local-patch dimension")
+        return float(self.eta_dual @ (value - self.anchor_macro))
+
+    def evaluate(self, state: HiddenAmplitudeState) -> tuple[Array, float]:
+        if state.mode != self.mode:
+            raise ValueError("state mode and local patch mode disagree")
+        if state.macro.shape != self.anchor_macro.shape or state.amplitudes.shape != (
+            self.amplitude_dimension,
+        ):
+            raise ValueError("state and local patch dimensions disagree")
+        eta = self.eta(state.macro)
+        return self.anchor_reduced_rate + eta * self.physical_rate_delta, eta
+
+    def within_trust(self, eta: float) -> bool:
+        return bool(abs(float(eta)) <= self.maximum_absolute_eta)
+
+
+@dataclass(frozen=True)
+class ConservativeReducedStepResult:
+    candidate: HiddenAmplitudeState
+    accepted: bool
+    failure_reasons: tuple[str, ...]
+    embedded_error_fraction: float
+    start_eta: float
+    predictor_eta: float
+    endpoint_eta: float
+    macro_ledger_defect: float
+
+
+@dataclass(frozen=True)
+class ConservativeHeunEngine:
+    """Second-order explicit macro integrator over a certified local patch."""
+
+    model: ConservativeHiddenAmplitudeModel
+    patch: LocalAffineReducedPatch
+    forcing_angular_frequency: float
+    maximum_embedded_error_fraction: float = 5.0e-2
+
+    def __post_init__(self) -> None:
+        omega = float(self.forcing_angular_frequency)
+        tolerance = float(self.maximum_embedded_error_fraction)
+        if not np.isfinite(omega):
+            raise ValueError("forcing_angular_frequency must be finite")
+        if not np.isfinite(tolerance) or tolerance <= 0.0:
+            raise ValueError("maximum embedded error must be positive")
+        if self.patch.macro_dimension != self.model.split.macro_dimension:
+            raise ValueError("patch and conservative model macro dimensions disagree")
+        if self.patch.amplitude_dimension != self.model.amplitude_dimension:
+            raise ValueError("patch and conservative model amplitudes disagree")
+
+    @staticmethod
+    def _phase(phase: float, increment: float) -> float:
+        return float(np.mod(float(phase) + float(increment), 2.0 * np.pi))
+
+    def step(
+        self,
+        state: HiddenAmplitudeState,
+        timestep_seconds: float,
+    ) -> ConservativeReducedStepResult:
+        timestep = float(timestep_seconds)
+        if not np.isfinite(timestep) or timestep <= 0.0:
+            raise ValueError("timestep_seconds must be positive")
+        rate_start, eta_start = self.patch.evaluate(state)
+        macro_dimension = self.patch.macro_dimension
+        euler_macro = state.macro + timestep * rate_start[:macro_dimension]
+        euler_amplitudes = (
+            state.amplitudes + timestep * rate_start[macro_dimension:]
+        )
+        euler = HiddenAmplitudeState(
+            macro=euler_macro,
+            amplitudes=euler_amplitudes,
+            forcing_phase=self._phase(
+                state.forcing_phase, timestep * self.forcing_angular_frequency
+            ),
+            mode=state.mode,
+            elapsed_seconds=state.elapsed_seconds + timestep,
+        )
+        rate_end, eta_predictor = self.patch.evaluate(euler)
+        mean_rate = 0.5 * (rate_start + rate_end)
+        candidate_macro = state.macro + timestep * mean_rate[:macro_dimension]
+        candidate_amplitudes = (
+            state.amplitudes + timestep * mean_rate[macro_dimension:]
+        )
+        candidate = HiddenAmplitudeState(
+            macro=candidate_macro,
+            amplitudes=candidate_amplitudes,
+            forcing_phase=euler.forcing_phase,
+            mode=state.mode,
+            elapsed_seconds=euler.elapsed_seconds,
+        )
+        eta_endpoint = self.patch.eta(candidate.macro)
+        euler_vector = np.concatenate((euler.macro, euler.amplitudes))
+        candidate_vector = np.concatenate((candidate.macro, candidate.amplitudes))
+        start_vector = np.concatenate((state.macro, state.amplitudes))
+        embedded = float(
+            np.linalg.norm(candidate_vector - euler_vector)
+            / max(
+                float(np.linalg.norm(candidate_vector - start_vector)),
+                np.finfo(float).tiny,
+            )
+        )
+        expected_macro_increment = timestep * mean_rate[:macro_dimension]
+        macro_ledger = _relative(
+            candidate.macro - state.macro, expected_macro_increment
+        )
+        reasons = []
+        if not self.patch.within_trust(eta_start):
+            reasons.append("start_outside_patch")
+        if not self.patch.within_trust(eta_predictor):
+            reasons.append("predictor_outside_patch")
+        if not self.patch.within_trust(eta_endpoint):
+            reasons.append("endpoint_outside_patch")
+        if embedded > self.maximum_embedded_error_fraction:
+            reasons.append("embedded_error")
+        if macro_ledger > 5.0e-13:
+            reasons.append("macro_ledger")
+        return ConservativeReducedStepResult(
+            candidate=candidate,
+            accepted=not reasons,
+            failure_reasons=tuple(reasons),
+            embedded_error_fraction=embedded,
+            start_eta=eta_start,
+            predictor_eta=eta_predictor,
+            endpoint_eta=eta_endpoint,
+            macro_ledger_defect=macro_ledger,
+        )
+
+
+@dataclass(frozen=True)
+class ModeSelection:
+    mode: str
+    pending_mode: str | None
+    pending_count: int
+    switched: bool
+
+
+@dataclass(frozen=True)
+class HystereticModeSelector:
+    """Deterministic nearest-atlas switching with margin and persistence."""
+
+    relative_switch_margin: float = 0.1
+    persistence_steps: int = 2
+
+    def __post_init__(self) -> None:
+        margin = float(self.relative_switch_margin)
+        persistence = int(self.persistence_steps)
+        if not np.isfinite(margin) or margin < 0.0:
+            raise ValueError("relative_switch_margin must be nonnegative")
+        if persistence < 1:
+            raise ValueError("persistence_steps must be positive")
+
+    def update(
+        self,
+        *,
+        current_mode: str,
+        normalized_distances: Mapping[str, float],
+        pending_mode: str | None = None,
+        pending_count: int = 0,
+    ) -> ModeSelection:
+        if current_mode not in normalized_distances:
+            raise ValueError("current mode is absent from distance ledger")
+        distances = {
+            str(mode): float(distance)
+            for mode, distance in normalized_distances.items()
+        }
+        if not distances or any(
+            not np.isfinite(value) or value < 0.0 for value in distances.values()
+        ):
+            raise ValueError("mode distances must be finite and nonnegative")
+        winner = min(distances, key=lambda name: (distances[name], name))
+        current_distance = distances[current_mode]
+        materially_closer = (
+            winner != current_mode
+            and distances[winner]
+            < current_distance / (1.0 + self.relative_switch_margin)
+        )
+        if not materially_closer:
+            return ModeSelection(current_mode, None, 0, False)
+        count = int(pending_count) + 1 if pending_mode == winner else 1
+        if count >= self.persistence_steps:
+            return ModeSelection(winner, None, 0, True)
+        return ModeSelection(current_mode, winner, count, False)
