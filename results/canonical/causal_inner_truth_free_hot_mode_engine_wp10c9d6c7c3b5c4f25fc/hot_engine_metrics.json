@@ -1,0 +1,127 @@
+{
+  "classification": "truth_free_conservative_hot_mode_engine_verified",
+  "gate_values": {
+    "accepted_step": true,
+    "anchor_hidden_rate_projection_defect": 0.0006311075434121626,
+    "benchmark_checksum": 67.69501987675994,
+    "benchmark_steps": 100000,
+    "benchmark_steps_per_second": 13440.186624285945,
+    "benchmark_wall_seconds": 7.440372875425965,
+    "decoder_macro_closure": 1.1340078349255387e-16,
+    "embedded_error_fraction": 0.015725412905049987,
+    "endpoint_increment_defect": 0.0003821083808103553,
+    "endpoint_patch_coordinate": 0.9984306106852532,
+    "macro_increment_defect": 1.1998592586344861e-16,
+    "macro_ledger_defect": 1.6027263371329446e-17,
+    "mode_policy_passed": true,
+    "online_BDF_microsteps": 0,
+    "online_coordinate_retractions": 0,
+    "online_fixed_Q_reaction_calls": 0,
+    "online_nonlinear_roots": 0,
+    "online_truth_calls": 0,
+    "oversize_failure_reasons": [
+      "predictor_outside_patch",
+      "endpoint_outside_patch"
+    ],
+    "oversize_step_rejected": true,
+    "predictor_patch_coordinate": 1.0,
+    "replay_bitwise": true,
+    "restart_bitwise": true,
+    "start_patch_coordinate": 0.0
+  },
+  "gates": {
+    "accepted_macro_step": true,
+    "decoder_macro_closure": true,
+    "embedded_error": true,
+    "endpoint_increment": true,
+    "hidden_rate_projection": true,
+    "hysteretic_mode_policy": true,
+    "macro_increment": true,
+    "macro_ledger": true,
+    "online_cost": true,
+    "online_forbidden_work": true,
+    "oversize_fail_closed": true,
+    "patch_trust": true,
+    "replay_bitwise": true,
+    "restart_bitwise": true
+  },
+  "input_lock": {
+    "contract": {
+      "authorized_next": "WP10c9d6c7c3b5c4f25fc",
+      "binding_replay": {
+        "benchmark_update_plus_full_decode_steps": 100000,
+        "checkpoint_and_replay_bitwise": true,
+        "compare_to_certified_full_coordinate_Heun_endpoint": true,
+        "one_hot_macro_step": true,
+        "oversize_step_must_reject_without_propagation": true
+      },
+      "classification": "truth_free_conservative_hot_mode_engine_manifest_frozen",
+      "complete_cycle_execution_authorized": false,
+      "decisive_input_hashes": {
+        "hot_axis_arrays": "176590badac7ee8fc352fbbd2b70b73629aee1de88accbb87151c0056d4ed745",
+        "off_axis_arrays": "61bfe4b955662c6f30610aa0f5faf6889aa8d6ba2093ebd099df3c8f99545425",
+        "off_axis_metrics": "1c5b3b788164d85e35f8c87141328cb6219fe25e8da2e9daf53ac6a318e06d4f",
+        "off_axis_summary": "c759ff45ef61a31bb9d435e97a824f6cfc39b91711911003ff95b942ed560975"
+      },
+      "definitions_only": true,
+      "engine": {
+        "decoder": "L*q+Z*(h_anchor+V_hot*a)",
+        "forcing_phase_period_for_replay_seconds": 0.02,
+        "integrator": "explicit_Heun_with_Euler_embedded_error",
+        "macro_ledger": "all_82_coordinates_retained_without_projection",
+        "macro_step_seconds": 0.00025,
+        "mode_switch": "nearest_atlas_with_margin_and_two_step_persistence",
+        "operator": "anchor_reduced_free_rate_plus_eta_times_physical_rate_delta",
+        "patch_trust_coordinate_maximum": 1.25,
+        "state": "q82_plus_hot_hidden_amplitudes2_plus_phase_plus_mode_plus_anchor_id"
+      },
+      "fixed_Q_physical_phase_authorized": false,
+      "frozen_source_hashes": {
+        "scripts/run_causal_inner_hot_mode_off_axis_preflight_wp10c9d6c7c3b5c4f25fa.py": "ac13511d98088b71e2fab68377ffe62cde425448e66e80f6650ffdf28b91d0ed",
+        "scripts/run_causal_inner_truth_free_hot_mode_engine_manifest_wp10c9d6c7c3b5c4f25fb.py": "5b3ed8add24414dc4f1ec24818a8a291f583b606a4551ed1a96bfb874b286a35",
+        "scripts/run_causal_inner_truth_free_hot_mode_engine_wp10c9d6c7c3b5c4f25fc.py": "970133dba85f76aecf06ed81209f3c56dbf5d7a558607d374f52953eb9fe7b57",
+        "src/imri_qpe/layer3_minidisk_1d/conservative_free_field_rom.py": "6d896818d05b63ac661f6a62676e43483f06bd44ef15ff457feb759e6a98191e",
+        "tests/test_causal_inner_truth_free_hot_mode_engine_manifest_wp10c9d6c7c3b5c4f25fb.py": "55b302020f37c0d0593d5a7a222bfbeef14dded02b92ad6165c38874becb02b9",
+        "tests/test_causal_inner_truth_free_hot_mode_engine_wp10c9d6c7c3b5c4f25fc.py": "6385c763b7e71b9d96bc56e85fcd904c119198db66a4390443dcf174ff46216f"
+      },
+      "gates": {
+        "maximum_anchor_hidden_rate_projection_defect": 0.05,
+        "maximum_benchmark_wall_seconds": 60.0,
+        "maximum_decoder_macro_closure": 5e-12,
+        "maximum_embedded_error_fraction": 0.05,
+        "maximum_endpoint_increment_defect": 0.01,
+        "maximum_macro_increment_defect": 0.0001,
+        "maximum_macro_ledger_defect": 5e-13,
+        "oversize_rejection_factor": 2.0,
+        "restart_bitwise": true
+      },
+      "online_forbidden": {
+        "BDF_microsteps": 0,
+        "coordinate_retractions": 0,
+        "fixed_Q_reaction_calls": 0,
+        "nonlinear_roots": 0,
+        "truth_calls": 0
+      },
+      "parent_lock": {
+        "off_axis_hashes": {
+          "hot_mode_off_axis_arrays.npz": "61bfe4b955662c6f30610aa0f5faf6889aa8d6ba2093ebd099df3c8f99545425",
+          "hot_mode_off_axis_metrics.json": "1c5b3b788164d85e35f8c87141328cb6219fe25e8da2e9daf53ac6a318e06d4f",
+          "provenance.json": "d2222b77f0c53bf350e94cc6637eff1b48ecc337f89bdd2531814a5482d5a174",
+          "summary.json": "c759ff45ef61a31bb9d435e97a824f6cfc39b91711911003ff95b942ed560975"
+        },
+        "parent_classification": "hot_discrete_mode_off_axis_conservative_patch_passed"
+      },
+      "schema_version": 1,
+      "work_package": "WP10c9d6c7c3b5c4f25fb"
+    },
+    "manifest_hashes": {
+      "hot_engine_contract.json": "06a4346646722bd750196f91fa79a5c2c8e38a36af8508876aa94606ced5191f",
+      "input_lock.json": "003072d1a93d7421eec7b2ae033c6e6e47b7874e28b63d56db0b69e2b193c48f",
+      "provenance.json": "3602343e486698d9ef592355b18125ce4120adcb83b45131415ac129ec5fc47b",
+      "summary.json": "dbd6f5a4c8d524c8f7f7739b1be7115448a64e6132c4c0e0ca8538ebd3a2735b"
+    }
+  },
+  "passed": true,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fc"
+}
