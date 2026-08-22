@@ -1,0 +1,84 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25f8",
+  "classification": "hot_conservative_free_field_rom_preflight_manifest_frozen",
+  "complete_cycle_execution_authorized": false,
+  "decision": {
+    "cost_failure": "profile and optimize the direct free evaluator before complete-cycle acquisition",
+    "pass": "authorize a truth-free conservative hidden-amplitude engine replay",
+    "physical_subspace_failure": "separate the hot discrete mode; do not extrapolate the cold operator",
+    "rank_holdout_failure": "increase the prospectively declared hidden rank before any trajectory"
+  },
+  "decisive_input_hashes": {
+    "architecture_arrays": "247725d57afaea85df330d6ee7366b8b70fb7bc6be293a677bcec8f5aa4eb37b",
+    "architecture_metrics": "8924728ad814dc7c37f0fe1ec083a8a7120776fcfb6f7313e6e110807a86fe47",
+    "architecture_summary": "9e7c7601d854878d1b83de2a5ad590bd420e1c7899cd3c31659cb7312664e608",
+    "arclength_arrays": "ac0182dadef43cc061ac96e891880754834d145798430ff6c868cbf947f86d2e",
+    "arclength_metrics": "d035ee4c03513a866c61f81d6f569176ddba01faa4f64d30763e3b8f17523ac1",
+    "arclength_summary": "07fe7786a7dda12df544154d16ab863711fe60dcf2c52840d1979dd39daca27d"
+  },
+  "definitions_only": true,
+  "evaluation": {
+    "field": "original monolithic free tangent mapped by the exact coordinate Jacobian",
+    "fixed_Q_reaction_calls": 0,
+    "hidden_rate_candidate_ranks": [
+      2,
+      3
+    ],
+    "holdout_indices": [
+      1,
+      3
+    ],
+    "new_BDF_microsteps": 0,
+    "new_nonlinear_roots": 0,
+    "node_count": 5,
+    "states": "five accepted final Lobatto states from WP10c9d6c7c3b5c4f25f5",
+    "training_indices": [
+      0,
+      2,
+      4
+    ]
+  },
+  "fixed_Q_arclength_physical_time_authorized": false,
+  "frozen_source_hashes": {
+    "scripts/run_causal_inner_arclength_segment_wp10c9d6c7c3b5c4f25f5.py": "47ede669e31a5ec98f51fd0a754da3bf4750d1e8c458a87f96474fc4a646c4a1",
+    "scripts/run_causal_inner_exact_geometric_470_chart_preflight_wp10c9d6c7c3b5c4f25de.py": "46b475da0fc23358186e95ac28ecf443b25d1213e7444e5f540c224399557eca",
+    "scripts/run_causal_inner_face36_fixed_q_authentic_history_ladder_wp10c9d6c7c3b5c4f24e1.py": "70c965993e18035a8ad534bb1e1877dcb1427fd77fac4bd54f74bc242444301c",
+    "scripts/run_causal_inner_hot_free_field_rom_manifest_wp10c9d6c7c3b5c4f25f7.py": "a97b310574e31e1c251b4bf59aaf239da349fe0614381c37812decae643d48d7",
+    "scripts/run_causal_inner_hot_free_field_rom_preflight_wp10c9d6c7c3b5c4f25f8.py": "209bf94d15181f8193aaa1dd4873d99fe1b1be46fccd37972f53a46f4ba91cbe",
+    "scripts/run_causal_inner_reaction_free_field_architecture_diagnosis_wp10c9d6c7c3b5c4f25f6.py": "a65382cd97490e754a2bb6f2036fdf8280128bfe8b563738ff4a5d294561786f",
+    "src/imri_qpe/layer3_minidisk_1d/conservative_free_field_rom.py": "12166e5b0e83e1a37583edd07a83520f0a7936ca2991baa153a25b47ebc75fc8",
+    "tests/test_causal_inner_hot_free_field_rom_manifest_wp10c9d6c7c3b5c4f25f7.py": "eac2524f769cb799329a63c46bccc33f126e8d15a51014b51062da0218152383",
+    "tests/test_causal_inner_hot_free_field_rom_preflight_wp10c9d6c7c3b5c4f25f8.py": "486df37b30fa536f4024142165dbd4c939ab4102f45790cbf4f2dd57ecf6de73",
+    "tests/test_conservative_free_field_rom.py": "ad7c8fcbe698eba18760f73bbef473bd6b2f9faf3edc008d608c26605166f7a1"
+  },
+  "gates": {
+    "maximum_cold_physical_subspace_defect": 0.25,
+    "maximum_coordinate_decomposition_defect": 5e-12,
+    "maximum_coordinate_jacobian_condition_number": 2500.0,
+    "maximum_hidden_rate_holdout_defect": 0.05,
+    "maximum_new_exact_free_rate_calls": 5,
+    "maximum_polynomial_holdout_defect": 0.05,
+    "maximum_projected_256_witness_wall_hours": 24.0,
+    "maximum_split_identity_defect": 5e-11,
+    "reconstruction_and_physical_state_gates_unchanged": true
+  },
+  "parent_lock": {
+    "architecture_hashes": {
+      "input_lock.json": "c1c77adcde0f98ccb994b41dc4d85f58055b5616c24894bec24cbb2543b129eb",
+      "mathematical_architecture.json": "4314723547917aaab9362fca5245107598054107cbc179abf62487fec838bf3b",
+      "provenance.json": "e92af6bb39ace0e70507673283e224520439b0a16acc3055f4852f59df6ec9ea",
+      "reaction_free_field_arrays.npz": "247725d57afaea85df330d6ee7366b8b70fb7bc6be293a677bcec8f5aa4eb37b",
+      "reaction_free_field_metrics.json": "8924728ad814dc7c37f0fe1ec083a8a7120776fcfb6f7313e6e110807a86fe47",
+      "summary.json": "9e7c7601d854878d1b83de2a5ad590bd420e1c7899cd3c31659cb7312664e608"
+    },
+    "arclength_hashes": {
+      "arclength_segment_arrays.npz": "ac0182dadef43cc061ac96e891880754834d145798430ff6c868cbf947f86d2e",
+      "arclength_segment_checkpoint.npz": "de923ea99f7bf029fc0f96d8b8427f327ab9b12302d4e92d55059646f807dc52",
+      "arclength_segment_metrics.json": "d035ee4c03513a866c61f81d6f569176ddba01faa4f64d30763e3b8f17523ac1",
+      "provenance.json": "cad6b55d05044f2640a293991acdbfd581bebcd2b0d9d4ef31998adc96202fd6",
+      "summary.json": "07fe7786a7dda12df544154d16ab863711fe60dcf2c52840d1979dd39daca27d"
+    }
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25f7"
+}
