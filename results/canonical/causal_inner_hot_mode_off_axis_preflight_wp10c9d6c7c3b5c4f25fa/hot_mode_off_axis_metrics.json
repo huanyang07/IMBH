@@ -1,0 +1,300 @@
+{
+  "basis_attempts": {
+    "2": {
+      "maximum_holdout_defect": 0.01710293030730793,
+      "maximum_training_defect": 0.02608680101787586,
+      "training_cumulative_energy": [
+        0.9987188851943056,
+        0.9996875093493389,
+        0.9999999529206964,
+        1.0
+      ],
+      "training_singular_values": [
+        1.9987184746174798,
+        0.06224545461423925,
+        0.035352146829156585,
+        0.00043395531396520824
+      ]
+    }
+  },
+  "classification": "hot_discrete_mode_off_axis_conservative_patch_passed",
+  "gate_values": {
+    "anchor_exact_assembly_wall_seconds": 14.165024292189628,
+    "euler_heun_correction_fraction": 0.012096222316066873,
+    "maximum_coordinate_decomposition_defect": 1.543822294297282e-16,
+    "maximum_coordinate_jacobian_condition_number": 1570.8808627715605,
+    "maximum_coordinate_retraction_residual": 4.4329432702730487e-13,
+    "maximum_free_rate_variation": 0.024192444632133745,
+    "maximum_gauge_retraction_residual": 6.021342615890312e-16,
+    "maximum_height_ratio": 0.11328174578562611,
+    "maximum_hidden_rate_holdout_defect": 0.01710293030730793,
+    "maximum_hidden_rate_training_defect": 0.02608680101787586,
+    "maximum_scaled_anchor_departure": 0.015562001327094066,
+    "maximum_split_identity_defect": 1.2612231713551167e-15,
+    "minimum_reconstruction_factor": 1.0,
+    "minimum_scattering_optical_depth": 19.231929110229338,
+    "new_exact_free_rate_calls": 3,
+    "new_fixed_Q_reaction_calls": 0,
+    "physical_axis_linear_holdout_defect": 0.00032447743024537084,
+    "selected_hidden_rate_rank": 2,
+    "separable_diagonal_operator_defect": 5.748823725212496e-05
+  },
+  "gates": {
+    "coordinate_decomposition": true,
+    "coordinate_jacobian_condition": true,
+    "coordinate_jacobian_rank": true,
+    "coordinate_retraction": true,
+    "euler_heun_correction": true,
+    "free_rate_variation": true,
+    "gauge_retraction": true,
+    "height": true,
+    "hidden_rate_holdout": true,
+    "local_departure": true,
+    "no_roots_or_microsteps": true,
+    "optical_depth": true,
+    "physical_axis_linear_holdout": true,
+    "reaction_forbidden": true,
+    "reconstruction": true,
+    "separable_diagonal_operator": true,
+    "split_identities": true,
+    "truth_budget": true
+  },
+  "input_lock": {
+    "contract": {
+      "architecture": {
+        "continuous_state": "q82 plus hot hidden amplitudes",
+        "diagonal_arclength_index": 3,
+        "discrete_mode": "hot distinct from cold",
+        "hidden_rate_candidate_ranks": [
+          2,
+          3,
+          4
+        ],
+        "macro_ledger_projection": "forbidden; all 82 macro rates retained",
+        "physical_axis_fractions": [
+          0.5,
+          1.0
+        ],
+        "physical_field": "original unconstrained reaction-free tangent",
+        "physical_macro_step_seconds": 0.00025,
+        "sampling_axes": "artificial fixed-Q arclength is offline-only; the second axis is the original free-field direction"
+      },
+      "authorized_next": "WP10c9d6c7c3b5c4f25fa",
+      "classification": "hot_discrete_mode_off_axis_manifest_superseded_packaging_fixed",
+      "complete_cycle_execution_authorized": false,
+      "decision": {
+        "diagonal_failure": "replace the separable patch with an adaptive multidimensional local atlas",
+        "off_axis_rank_failure": "increase hot hidden rank prospectively",
+        "pass": "authorize a truth-free conservative hot-mode engine replay",
+        "physical_failure": "reject the sampled hot-mode region"
+      },
+      "decisive_input_hashes": {
+        "hot_preflight_arrays": "176590badac7ee8fc352fbbd2b70b73629aee1de88accbb87151c0056d4ed745",
+        "hot_preflight_metrics": "e54c49f46e20ab89dc8c0eef0f8f9815d3e825331e47db39239240659e690f67",
+        "hot_preflight_summary": "4edb752c8156497b2939e2916166a78249ca40c2ea819b4f10421d865c7044e2"
+      },
+      "definitions_only": true,
+      "execution_repair": {
+        "height_key": "maximum_height_ratio",
+        "partial_scientific_result_from_failed_attempt": false,
+        "per_witness_exact_scratch_required": true
+      },
+      "fixed_Q_physical_phase_authorized": false,
+      "frozen_source_hashes": {
+        "scripts/run_causal_inner_hot_mode_off_axis_manifest_wp10c9d6c7c3b5c4f25f9.py": "f1c0ecd5958d0d057ecfa5ac579da09718abf2b8a4b609de66e0697ef751ea6a",
+        "scripts/run_causal_inner_hot_mode_off_axis_manifest_wp10c9d6c7c3b5c4f25f9_v2.py": "3ffb8711ab8e63de3020750777ae4d7f01c03809b4b1eaa350b6b40221f0080a",
+        "scripts/run_causal_inner_hot_mode_off_axis_preflight_wp10c9d6c7c3b5c4f25fa.py": "ac13511d98088b71e2fab68377ffe62cde425448e66e80f6650ffdf28b91d0ed",
+        "src/imri_qpe/layer3_minidisk_1d/conservative_free_field_rom.py": "12166e5b0e83e1a37583edd07a83520f0a7936ca2991baa153a25b47ebc75fc8",
+        "tests/test_causal_inner_hot_mode_off_axis_manifest_wp10c9d6c7c3b5c4f25f9_v2.py": "877fb6b741ae2fb022be4e8c7032a41954afdd1a435d8e380c050ff19a775c11",
+        "tests/test_causal_inner_hot_mode_off_axis_preflight_wp10c9d6c7c3b5c4f25fa.py": "53aff3b89c2fd1c831f205b6b46f94066dbcb7fdf4c1bd1e72ae7cf3bcaa183f"
+      },
+      "gates": {
+        "maximum_coordinate_decomposition_defect": 5e-12,
+        "maximum_coordinate_jacobian_condition_number": 2500.0,
+        "maximum_coordinate_retraction_residual": 5e-10,
+        "maximum_euler_heun_correction_fraction": 0.05,
+        "maximum_free_rate_variation": 0.1,
+        "maximum_gauge_retraction_residual": 5e-10,
+        "maximum_hidden_rate_holdout_defect": 0.05,
+        "maximum_physical_axis_linear_holdout_defect": 0.02,
+        "maximum_scaled_anchor_departure": 0.05,
+        "maximum_separable_diagonal_operator_defect": 0.05,
+        "maximum_split_identity_defect": 5e-11,
+        "reconstruction_and_physical_state_gates_unchanged": true
+      },
+      "parent_lock": {
+        "execution_failure": "three exact witnesses completed but no scientific classification was written because the Heun audit used the wrong height-key spelling",
+        "superseded_manifest_hashes": {
+          "hot_mode_off_axis_contract.json": "d86379aa6967fa1cacbcb5ea428f9cb287e4658dce7be967ee72786de99956de",
+          "input_lock.json": "038cac4fc841508497b0dcf017ef7ab50dd706142a3c4476453a939a612bd6a8",
+          "provenance.json": "6bce4e955ff0d9934d8cb1d1c46e1d1e782464893929aa2a90a21b7353d851c4",
+          "summary.json": "acd539458c7dcd09233c80b256bdf5aca5b356164c6038f31785ee4696672dde"
+        },
+        "underlying_parent": {
+          "failed_parent_gates": [
+            "cold_physical_subspace_extension"
+          ],
+          "hot_preflight_hashes": {
+            "hot_free_field_arrays.npz": "176590badac7ee8fc352fbbd2b70b73629aee1de88accbb87151c0056d4ed745",
+            "hot_free_field_metrics.json": "e54c49f46e20ab89dc8c0eef0f8f9815d3e825331e47db39239240659e690f67",
+            "provenance.json": "9a0781df34963e1f9c2121fad49730d1cfb921d6469315bb4676282fada948aa",
+            "summary.json": "4edb752c8156497b2939e2916166a78249ca40c2ea819b4f10421d865c7044e2"
+          },
+          "parent_classification": "hot_exact_free_field_conservative_rom_preflight_rejected"
+        }
+      },
+      "schema_version": 1,
+      "scientific_contract_changed": false,
+      "supersedes": "WP10c9d6c7c3b5c4f25f9",
+      "truth_budget": {
+        "new_BDF_microsteps": 0,
+        "new_exact_free_rate_calls": 3,
+        "new_fixed_Q_reaction_calls": 0,
+        "new_nonlinear_roots": 0
+      },
+      "work_package": "WP10c9d6c7c3b5c4f25f9_v2"
+    },
+    "manifest_hashes": {
+      "hot_mode_off_axis_contract.json": "295866b76b2baabe8a8dc6a9a6cc090f512bd921aabd3afb347b17363d1a1fe0",
+      "input_lock.json": "47c3bedbef9ccb0aeb5059d0777b47d7739e97c072e11e50471e3602205bd2a1",
+      "provenance.json": "e2ebd4280fcfa23105b63d9e3dbabf1e265e7949aab26d3b4e663b0b6045fc35",
+      "summary.json": "a6d5600f9e514b05134d125674f2a2e0e459924e0efeffb84188651a95c65568"
+    }
+  },
+  "new_BDF_microsteps": 0,
+  "new_nonlinear_fixed_Q_roots": 0,
+  "passed": true,
+  "records": [
+    {
+      "coordinate_free_rate_norm_per_second": 17.876003888404078,
+      "coordinate_jacobian_condition_number": 1570.8291064878392,
+      "coordinate_jacobian_rank": 470,
+      "coordinate_jacobian_wall_seconds": 14.027887291740626,
+      "coordinate_reconstruction_relative_defect": 2.3205879253391978e-16,
+      "label": "physical_half",
+      "maximum_height_ratio": 0.11307228780165719,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.231929110229338,
+      "retraction": {
+        "accepted_line_factors": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "coordinate_residual_infinity": 1.6104739070099683e-14,
+        "gauge_residual_infinity": 6.021342615890312e-16,
+        "maximum_augmented_condition_number": 0.0,
+        "maximum_height_ratio": 0.11307228780165719,
+        "maximum_scaled_anchor_departure": 0.009426723394577508,
+        "minimum_decoder_reconstruction_factor": 1.0,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.231929110229338,
+        "passed": true,
+        "recovered_coordinate_relative_defect": 1.236986616128571e-13,
+        "residual_history": [
+          0.0028471941385981546,
+          1.1190319216006282e-05,
+          8.273210335980451e-08,
+          2.6539873348042226e-10,
+          1.6104739070099683e-14
+        ],
+        "target_exact_refreshes": 0,
+        "transport_corrections": 4,
+        "wall_seconds": 125.08565441565588
+      },
+      "retraction_wall_seconds": 139.02989916689694,
+      "scaled_free_rate_norm_per_second": 39.12550763221896,
+      "tangent_wall_seconds": 174.13154629198834,
+      "total_free_evaluation_wall_seconds": 188.15943358372897
+    },
+    {
+      "coordinate_free_rate_norm_per_second": 17.834792120024773,
+      "coordinate_jacobian_condition_number": 1570.8808627715605,
+      "coordinate_jacobian_rank": 470,
+      "coordinate_jacobian_wall_seconds": 13.93281887518242,
+      "coordinate_reconstruction_relative_defect": 2.3205899914790884e-16,
+      "label": "physical_full",
+      "maximum_height_ratio": 0.11306983951541898,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.234605965047457,
+      "retraction": {
+        "accepted_line_factors": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "coordinate_residual_infinity": 5.561566832068543e-14,
+        "gauge_residual_infinity": 5.122990790265569e-16,
+        "maximum_augmented_condition_number": 0.0,
+        "maximum_height_ratio": 0.11306983951541898,
+        "maximum_scaled_anchor_departure": 0.009178436121915823,
+        "minimum_decoder_reconstruction_factor": 1.0,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.234605965047457,
+        "passed": true,
+        "recovered_coordinate_relative_defect": 3.4608304685485875e-13,
+        "residual_history": [
+          0.0027741489173055364,
+          1.053244577108484e-05,
+          7.071313289533734e-08,
+          2.1588909379275344e-10,
+          5.561566832068543e-14
+        ],
+        "target_exact_refreshes": 0,
+        "transport_corrections": 4,
+        "wall_seconds": 125.69503229111433
+      },
+      "retraction_wall_seconds": 139.6364511246793,
+      "scaled_free_rate_norm_per_second": 39.01049929442198,
+      "tangent_wall_seconds": 176.69388575013727,
+      "total_free_evaluation_wall_seconds": 190.6267046253197
+    },
+    {
+      "coordinate_free_rate_norm_per_second": 17.84900439531277,
+      "coordinate_jacobian_condition_number": 1570.8707257638794,
+      "coordinate_jacobian_rank": 470,
+      "coordinate_jacobian_wall_seconds": 13.94957987498492,
+      "coordinate_reconstruction_relative_defect": 2.3205899696447586e-16,
+      "label": "diagonal_full",
+      "maximum_height_ratio": 0.11328174578562611,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.234597585059564,
+      "retraction": {
+        "accepted_line_factors": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "coordinate_residual_infinity": 4.4329432702730487e-13,
+        "gauge_residual_infinity": 5.214311046690847e-16,
+        "maximum_augmented_condition_number": 0.0,
+        "maximum_height_ratio": 0.11328174578562611,
+        "maximum_scaled_anchor_departure": 0.015562001327094066,
+        "minimum_decoder_reconstruction_factor": 1.0,
+        "minimum_reconstruction_factor": 1.0,
+        "minimum_scattering_optical_depth": 19.234597585059564,
+        "passed": true,
+        "recovered_coordinate_relative_defect": 3.5909855405094447e-12,
+        "residual_history": [
+          0.004789536255684217,
+          3.1335632213160225e-05,
+          5.897594735032152e-07,
+          5.006041446420405e-09,
+          4.4329432702730487e-13
+        ],
+        "target_exact_refreshes": 0,
+        "transport_corrections": 4,
+        "wall_seconds": 125.33609641576186
+      },
+      "retraction_wall_seconds": 139.56527220783755,
+      "scaled_free_rate_norm_per_second": 39.01791174113016,
+      "tangent_wall_seconds": 174.33367516705766,
+      "total_free_evaluation_wall_seconds": 188.28325504204258
+    }
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fa"
+}
