@@ -1,0 +1,39 @@
+{
+  "input_hashes": {
+    "arclength_segment": {
+      "arclength_segment_arrays.npz": "ac0182dadef43cc061ac96e891880754834d145798430ff6c868cbf947f86d2e",
+      "arclength_segment_checkpoint.npz": "de923ea99f7bf029fc0f96d8b8427f327ab9b12302d4e92d55059646f807dc52",
+      "arclength_segment_metrics.json": "d035ee4c03513a866c61f81d6f569176ddba01faa4f64d30763e3b8f17523ac1",
+      "provenance.json": "cad6b55d05044f2640a293991acdbfd581bebcd2b0d9d4ef31998adc96202fd6",
+      "summary.json": "07fe7786a7dda12df544154d16ab863711fe60dcf2c52840d1979dd39daca27d"
+    },
+    "cold_anchor": {
+      "cold_anchor_arrays.npz": "0352cfc1d14fe1c477da2664a8c41b6bd1d4798d077c0c4f0c39eb931b1f4813",
+      "cold_anchor_metrics.json": "61d0d77f9816d77a1ff96a59ecc104621c654aee094afd93f96c3e980b8da0f2",
+      "input_lock.json": "96857ba44139fd7265b00244993d33c728c83419474d6f71d92081c115d60d4d",
+      "provenance.json": "681ac8713706783565964a6b1622fec64b36b21a8b4cda27a73e7b9d7bdb66bc",
+      "summary.json": "3878f4c6dc3093c26eb99cb6f9e083eb8a1aac8713af6d3f995675945b602b59"
+    },
+    "hybrid_architecture": {
+      "architecture.json": "5af648b12b284d519dfbde73ab02defdb789923f8271fc3ac0a78bbca7e46e9a",
+      "architecture_arrays.npz": "5dfeca19d0330ae2a97873f04e36d3ba8fb7d3943ddacaf6724a246ec1031abe",
+      "architecture_metrics.json": "34dd685ae3f429cd339d57e30bfe1247400d15f1bd35ac4eb3bfc085da3ba19f",
+      "input_lock.json": "f243223616b7ade14ad554a4e1e194e8c7cfd1ec4fffdfd3a55ac6ca0a31e80f",
+      "provenance.json": "b3e476aca02afcbe52386fc81ff3d4ca45757fe8f530267990821780db877288",
+      "summary.json": "475461a885279e6d135a3adf816336e099fe26b5d1f4b265efefc26734a58186"
+    },
+    "primary_anchor": {
+      "input_lock.json": "c01c166896093417e86dc8c08a6ea186048febf82eea13513cfa11f4f29783c6",
+      "primary_anchor_rate_arrays.npz": "71f54e4b3a7e16d1a99c872a02c45074672fe869377d9cb95777b3aa4089a710",
+      "primary_anchor_rate_metrics.json": "ab92c3ca5ba1a5b5ef8cc1514737e0ae8513b08f9ca3bf84469758483d99beae",
+      "provenance.json": "f6794be1480e84a91710342893940def722e838a00bea464ffee7a30a028d741",
+      "summary.json": "97d50f08387ccf8f508fbe94a126c8626f20fb9d1601a0d9c1db85bf4b06f0ca"
+    }
+  },
+  "parent_classifications": {
+    "arclength": "moving_exact_arclength_segment_passed_continuing_fast_branch",
+    "cold": "saved_cold_candidates_not_near_fixed_macro_critical_manifold",
+    "hybrid": "hybrid_conservative_scalar_phase_memory_architecture_selected_local_segments_supported_complete_cycle_truth_missing",
+    "primary": "primary_anchor_not_near_frozen_macro_critical_manifold_root_not_attempted"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "classification": "conservative_free_field_hidden_amplitude_rom_selected_fixed_Q_arclength_retained_sampling_only",
+  "events": "bracket g_sigma_to_tau(q,a,theta)=0, refine in the reduced field, and apply a conservative macro reset",
+  "exact_coordinate_split": "y=L q + Z(h0_sigma + V_sigma a)",
+  "fixed_Q_interpretation": {
+    "arclength_retained_use": "offline_state_space_sampling_only",
+    "constrained_residual_and_jacobian_remain_valid": true,
+    "physical_phase_clock_rejected": true,
+    "reason": "the imposed reaction is aligned with the constrained tangent and supplies essentially the entire constrained rate, while the original free rate matches accepted full-model secants"
+  },
+  "next_verification": "prospective hot-state exact free-coordinate-rate and conservative hidden-amplitude ROM preflight",
+  "offline_sampling": "adaptive exact free-rate witnesses; constrained arclength may propose states but supplies neither physical time nor drift",
+  "online_forbidden": "fixed-Q reaction, monolithic truth calls, nonlinear roots, and nanosecond BDF microsteps",
+  "physical_vector_field": "r_free(y,t)=Dchi(u) f_free(u,t)",
+  "prior_fixed_Q_certificates_preserved": true,
+  "reduced_equations": {
+    "discarded_hidden_gate": "||(I-VV^T)Q r_free||/||Q r_free|| must remain below its prospectively frozen tolerance",
+    "forcing": "dtheta/dt=Omega_forcing",
+    "hidden": "da/dt=V_sigma^T Q r_hat_free(q,a,theta,sigma)",
+    "macro": "dq/dt=R r_hat_free(q,a,theta,sigma)"
+  },
+  "schema_version": 1,
+  "selected_online_state": "x=(q in R^82, hidden amplitudes a in R^r, forcing phase theta, discrete mode sigma)",
+  "work_package": "WP10c9d6c7c3b5c4f25f6"
+}

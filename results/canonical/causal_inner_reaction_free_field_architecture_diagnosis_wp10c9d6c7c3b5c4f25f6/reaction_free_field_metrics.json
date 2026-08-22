@@ -1,0 +1,151 @@
+{
+  "classification": "conservative_free_field_hidden_amplitude_rom_selected_fixed_Q_arclength_retained_sampling_only",
+  "gate_values": {
+    "free_direction_rank_two_energy": 0.9999995820355165,
+    "maximum_coordinate_additive_closure_relative_defect": 1.8537688096723898e-16,
+    "maximum_coordinate_free_to_fixed_rate_ratio": 0.0001724675701759691,
+    "maximum_coordinate_rate_parity_relative_defect": 0.0,
+    "maximum_free_physical_rank_two_subspace_defect": 0.0025244031274578582,
+    "maximum_nearest_physical_secant_relative_defect": 0.03594296512256501,
+    "maximum_state_additive_closure_relative_defect": 0.0,
+    "maximum_state_free_to_fixed_rate_ratio": 0.00043218450650478024,
+    "minimum_coordinate_reaction_fixed_direction_cosine": 0.9999999851292002,
+    "minimum_coordinate_reaction_to_fixed_rate_ratio": 0.9999979964215276,
+    "minimum_fixed_Q_physical_rank_two_subspace_defect": 0.9998863862233315,
+    "minimum_nearest_physical_secant_direction_cosine": 0.999565764879064,
+    "minimum_reaction_projection_on_fixed_tangent_fraction": 0.9999979830392899,
+    "physical_secant_direction_rank_two_energy": 0.9999988188410489,
+    "primary_20ms_state_free_to_fixed_rate_ratio": 0.0003501070957963648
+  },
+  "gates": {
+    "coordinate_additive_closure": true,
+    "coordinate_rate_parity": true,
+    "fixed_Q_rate_rejected_by_physical_subspace": true,
+    "free_direction_is_rank_two": true,
+    "free_rate_is_not_fixed_Q_rate": true,
+    "free_rate_matches_nearby_physical_secants": true,
+    "free_rate_matches_physical_subspace": true,
+    "no_new_truth_roots_or_microsteps": true,
+    "physical_secants_are_rank_two": true,
+    "primary_anchor_corroborates_reaction_dominance": true,
+    "reaction_aligned_with_fixed_Q_tangent": true,
+    "reaction_dominates_fixed_Q_rate": true,
+    "reaction_has_material_tangent_projection": true,
+    "state_additive_closure": true
+  },
+  "input_lock": {
+    "input_hashes": {
+      "arclength_segment": {
+        "arclength_segment_arrays.npz": "ac0182dadef43cc061ac96e891880754834d145798430ff6c868cbf947f86d2e",
+        "arclength_segment_checkpoint.npz": "de923ea99f7bf029fc0f96d8b8427f327ab9b12302d4e92d55059646f807dc52",
+        "arclength_segment_metrics.json": "d035ee4c03513a866c61f81d6f569176ddba01faa4f64d30763e3b8f17523ac1",
+        "provenance.json": "cad6b55d05044f2640a293991acdbfd581bebcd2b0d9d4ef31998adc96202fd6",
+        "summary.json": "07fe7786a7dda12df544154d16ab863711fe60dcf2c52840d1979dd39daca27d"
+      },
+      "cold_anchor": {
+        "cold_anchor_arrays.npz": "0352cfc1d14fe1c477da2664a8c41b6bd1d4798d077c0c4f0c39eb931b1f4813",
+        "cold_anchor_metrics.json": "61d0d77f9816d77a1ff96a59ecc104621c654aee094afd93f96c3e980b8da0f2",
+        "input_lock.json": "96857ba44139fd7265b00244993d33c728c83419474d6f71d92081c115d60d4d",
+        "provenance.json": "681ac8713706783565964a6b1622fec64b36b21a8b4cda27a73e7b9d7bdb66bc",
+        "summary.json": "3878f4c6dc3093c26eb99cb6f9e083eb8a1aac8713af6d3f995675945b602b59"
+      },
+      "hybrid_architecture": {
+        "architecture.json": "5af648b12b284d519dfbde73ab02defdb789923f8271fc3ac0a78bbca7e46e9a",
+        "architecture_arrays.npz": "5dfeca19d0330ae2a97873f04e36d3ba8fb7d3943ddacaf6724a246ec1031abe",
+        "architecture_metrics.json": "34dd685ae3f429cd339d57e30bfe1247400d15f1bd35ac4eb3bfc085da3ba19f",
+        "input_lock.json": "f243223616b7ade14ad554a4e1e194e8c7cfd1ec4fffdfd3a55ac6ca0a31e80f",
+        "provenance.json": "b3e476aca02afcbe52386fc81ff3d4ca45757fe8f530267990821780db877288",
+        "summary.json": "475461a885279e6d135a3adf816336e099fe26b5d1f4b265efefc26734a58186"
+      },
+      "primary_anchor": {
+        "input_lock.json": "c01c166896093417e86dc8c08a6ea186048febf82eea13513cfa11f4f29783c6",
+        "primary_anchor_rate_arrays.npz": "71f54e4b3a7e16d1a99c872a02c45074672fe869377d9cb95777b3aa4089a710",
+        "primary_anchor_rate_metrics.json": "ab92c3ca5ba1a5b5ef8cc1514737e0ae8513b08f9ca3bf84469758483d99beae",
+        "provenance.json": "f6794be1480e84a91710342893940def722e838a00bea464ffee7a30a028d741",
+        "summary.json": "97d50f08387ccf8f508fbe94a126c8626f20fb9d1601a0d9c1db85bf4b06f0ca"
+      }
+    },
+    "parent_classifications": {
+      "arclength": "moving_exact_arclength_segment_passed_continuing_fast_branch",
+      "cold": "saved_cold_candidates_not_near_fixed_macro_critical_manifold",
+      "hybrid": "hybrid_conservative_scalar_phase_memory_architecture_selected_local_segments_supported_complete_cycle_truth_missing",
+      "primary": "primary_anchor_not_near_frozen_macro_critical_manifold_root_not_attempted"
+    }
+  },
+  "new_BDF_microsteps": 0,
+  "new_exact_rate_calls": 0,
+  "new_nonlinear_fixed_Q_roots": 0,
+  "passed": true,
+  "records": [
+    {
+      "coordinate_additive_closure_relative_defect": 1.7247119232136464e-16,
+      "coordinate_fixed_Q_rate_norm_per_second": 116109.80703456604,
+      "coordinate_free_rate_norm_per_second": 18.99681696717419,
+      "coordinate_free_to_fixed_rate_ratio": 0.00016361078751529415,
+      "coordinate_rate_parity_relative_defect": 0.0,
+      "coordinate_reaction_fixed_direction_cosine": 0.9999999866177355,
+      "coordinate_reaction_to_fixed_rate_ratio": 0.9999979964215276,
+      "fixed_Q_physical_rank_two_subspace_defect": 0.999886498756523,
+      "free_physical_rank_two_subspace_defect": 0.001331876171308292,
+      "label": "12ms",
+      "nearest_physical_secant_direction_cosine": 0.999565764879064,
+      "nearest_physical_secant_relative_defect": 0.03594296512256501,
+      "reaction_projection_on_fixed_tangent_fraction": 0.9999979830392899,
+      "state_additive_closure_relative_defect": 0.0,
+      "state_free_to_fixed_rate_ratio": 0.00038245831917234965
+    },
+    {
+      "coordinate_additive_closure_relative_defect": 1.8537688096723898e-16,
+      "coordinate_fixed_Q_rate_norm_per_second": 119477.16905198018,
+      "coordinate_free_rate_norm_per_second": 19.901167611770635,
+      "coordinate_free_to_fixed_rate_ratio": 0.00016656879108938678,
+      "coordinate_rate_parity_relative_defect": 0.0,
+      "coordinate_reaction_fixed_direction_cosine": 0.9999999861292976,
+      "coordinate_reaction_to_fixed_rate_ratio": 0.9999980476491206,
+      "fixed_Q_physical_rank_two_subspace_defect": 0.9998864534272556,
+      "free_physical_rank_two_subspace_defect": 0.0010314521064168274,
+      "label": "08ms",
+      "nearest_physical_secant_direction_cosine": 0.9997576791579629,
+      "nearest_physical_secant_relative_defect": 0.02868811092800832,
+      "reaction_projection_on_fixed_tangent_fraction": 0.9999980337784453,
+      "state_additive_closure_relative_defect": 0.0,
+      "state_free_to_fixed_rate_ratio": 0.0004010251736447151
+    },
+    {
+      "coordinate_additive_closure_relative_defect": 1.7840755143937035e-16,
+      "coordinate_fixed_Q_rate_norm_per_second": 122116.74492706101,
+      "coordinate_free_rate_norm_per_second": 20.67396885739342,
+      "coordinate_free_to_fixed_rate_ratio": 0.00016929675672031508,
+      "coordinate_rate_parity_relative_defect": 0.0,
+      "coordinate_reaction_fixed_direction_cosine": 0.9999999856711083,
+      "coordinate_reaction_to_fixed_rate_ratio": 0.9999980859537153,
+      "fixed_Q_physical_rank_two_subspace_defect": 0.9998864197105317,
+      "free_physical_rank_two_subspace_defect": 0.00033046405916641676,
+      "label": "05ms",
+      "nearest_physical_secant_direction_cosine": 0.9997666079045014,
+      "nearest_physical_secant_relative_defect": 0.028680869267660197,
+      "reaction_projection_on_fixed_tangent_fraction": 0.999998071624851,
+      "state_additive_closure_relative_defect": 0.0,
+      "state_free_to_fixed_rate_ratio": 0.00041608865038440264
+    },
+    {
+      "coordinate_additive_closure_relative_defect": 1.7214098670055122e-16,
+      "coordinate_fixed_Q_rate_norm_per_second": 124860.58258043147,
+      "coordinate_free_rate_norm_per_second": 21.534401288402947,
+      "coordinate_free_to_fixed_rate_ratio": 0.0001724675701759691,
+      "coordinate_rate_parity_relative_defect": 0.0,
+      "coordinate_reaction_fixed_direction_cosine": 0.9999999851292002,
+      "coordinate_reaction_to_fixed_rate_ratio": 0.9999981241703216,
+      "fixed_Q_physical_rank_two_subspace_defect": 0.9998863862233315,
+      "free_physical_rank_two_subspace_defect": 0.0025244031274578582,
+      "label": "02ms",
+      "nearest_physical_secant_direction_cosine": 0.9997746421567677,
+      "nearest_physical_secant_relative_defect": 0.029280167064531668,
+      "reaction_projection_on_fixed_tangent_fraction": 0.9999981092995498,
+      "state_additive_closure_relative_defect": 0.0,
+      "state_free_to_fixed_rate_ratio": 0.00043218450650478024
+    }
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25f6"
+}
