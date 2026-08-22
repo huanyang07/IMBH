@@ -1,0 +1,107 @@
+{
+  "contract": {
+    "acceptance_gates": {
+      "maximum_Q3_relative_drift": 0.0005,
+      "maximum_full_collocation_defect": 0.05,
+      "maximum_normal_rate_defect": 0.01,
+      "maximum_projected_collocation_defect": 0.05,
+      "maximum_training_normal_rate_defect": 0.0001,
+      "minimum_rate_direction_cosine": 0.995,
+      "minimum_reconstruction_factor": 0.999999999999
+    },
+    "accepted_seed": "results/canonical/causal_inner_adaptive_hot_exit_phase_atlas_wp10c9d6c7c3b5c4f25ee_window_02",
+    "authorized_outcomes": [
+      "exact_retracted_hot_exit_phase_window_passed_event_not_yet_observed",
+      "persistent_hot_exit_candidate_observed_endpoint_refinement_authorized",
+      "exact_retracted_hot_exit_phase_atlas_budget_exhausted_without_event",
+      "exact_retracted_hot_exit_phase_window_rejected_last_accepted_endpoint_preserved"
+    ],
+    "classification": "moving_exact_chart_hot_exit_recovery_manifest_frozen_last_accepted_endpoint_preserved",
+    "complete_cycle_execution_authorized": false,
+    "decisive_input_hashes": {
+      "accepted_window_02_arrays": "367c029b36521b52325572b85aed7ee2bf19cf507ecd5ad435ad647491fbe8df",
+      "accepted_window_02_checkpoint": "0e957d9ad925601136cf09fd87775b7cb8a1694feea50eb25ddd4b314b58123a",
+      "accepted_window_02_metrics": "ec379fa9daa62c7d7115a66047769525923e5f63aea868bfb09370132b91a5ab",
+      "accepted_window_02_summary": "6ff99353dd3743489255e324f47635ddedea4d8e3f0b1c331dcf708858056f70",
+      "adaptive_manifest_summary": "ec3451fd1d2886e3b2665a9d7bb1496c0f053360caa5d1ec5770169dd0352dd0",
+      "rejected_window_03_arrays": "8e355f0607c81986fe2b4af4c05be2f1e85fc50ebf46c5a51cb2c3bd361ea78b",
+      "rejected_window_03_metrics": "de160df01a65913e497a9cb65e58f900174d1fe718b4af0e149366f13a1c2a52",
+      "rejected_window_03_summary": "916f67420c2f98b3de7ca9ca370ea1cb6cf061c1a78cfd6309cc0c46efe5576b"
+    },
+    "event_definition_unchanged": true,
+    "execution": {
+      "failed_window_never_propagates": true,
+      "first_window_index": 3,
+      "initial_duration_seconds": 2e-07,
+      "maximum_duration_seconds": 4e-07,
+      "maximum_unique_exact_rate_states_per_window": 15,
+      "maximum_window_index": 8,
+      "new_BDF_microsteps_equal": 0,
+      "new_nonlinear_fixed_Q_roots_equal": 0,
+      "node_count": 8,
+      "rate_basis_ranks": [
+        4,
+        6,
+        8,
+        12,
+        16
+      ]
+    },
+    "frozen_source_hashes": {
+      "scripts/run_causal_inner_adaptive_hot_exit_phase_atlas_wp10c9d6c7c3b5c4f25ee.py": "2b653df16db724a0db5bf92d1abaa51c39c21c3736cb63b0b66cd739bb46e962",
+      "scripts/run_causal_inner_cold_branch_anchor_preflight_wp10c9d6c7c3b5c4f25dy.py": "c984ddd59670d7801c88e367924c8830ced8f8ea53ccd34efe9d740a52292420",
+      "scripts/run_causal_inner_exact_geometric_470_chart_preflight_wp10c9d6c7c3b5c4f25de.py": "46b475da0fc23358186e95ac28ecf443b25d1213e7444e5f540c224399557eca",
+      "scripts/run_causal_inner_exact_retracted_hot_exit_phase_atlas_manifest_wp10c9d6c7c3b5c4f25ef.py": "7a08992814deff4aa5c0db52d34d1b8e4ccd47f73ebe8ed732fddb2e26785b56",
+      "scripts/run_causal_inner_exact_retracted_hot_exit_phase_atlas_wp10c9d6c7c3b5c4f25f0.py": "d39d9950fb36dfbaddfb4411eb6806c8617daf0895d600e648a78698e74a9256",
+      "src/imri_qpe/layer3_minidisk_1d/causal_inner_fixed_q.py": "fc95c932c86238e157492367310776d0cf0a6e940979592420d6f8b2122f18e0",
+      "src/imri_qpe/layer3_minidisk_1d/phase_collocation.py": "ab33de60337c8781b80eccf054377aaeb209faa9e12616a7a3a5d1cfd54b4d3b",
+      "tests/test_causal_inner_exact_retracted_hot_exit_phase_atlas_manifest_wp10c9d6c7c3b5c4f25ef.py": "ea061fea05380beb873578037250d6bd54dc04581b9b01dc9791088f6ab65b6d",
+      "tests/test_causal_inner_exact_retracted_hot_exit_phase_atlas_wp10c9d6c7c3b5c4f25f0.py": "451842bc60225d25e8a2d4437f3160963372180c3ac829bcc6adb0d1692e347b"
+    },
+    "moving_exact_chart": {
+      "anchor_coordinate_is_coordinate_of_accepted_anchor_state": true,
+      "coordinate_tolerance": 1e-10,
+      "every_new_truth_state_is_exactly_retracted": true,
+      "gauge_is_canonical_null_basis_at_anchor": true,
+      "gauge_tolerance": 1e-10,
+      "maximum_Newton_corrections": 4,
+      "maximum_augmented_condition_number": 10000000.0,
+      "maximum_scaled_anchor_departure": 0.05,
+      "recenter_at_every_accepted_window": true
+    },
+    "parent_hashes": {
+      "accepted_window_02_hashes": {
+        "input_lock.json": "13ce2383b4100488474c33b262b1ebb5db06385ddf369cef03f228c1690c7254",
+        "phase_window_arrays.npz": "367c029b36521b52325572b85aed7ee2bf19cf507ecd5ad435ad647491fbe8df",
+        "phase_window_checkpoint.npz": "0e957d9ad925601136cf09fd87775b7cb8a1694feea50eb25ddd4b314b58123a",
+        "phase_window_metrics.json": "ec379fa9daa62c7d7115a66047769525923e5f63aea868bfb09370132b91a5ab",
+        "provenance.json": "26e96e32c9992e7851b2a56fe400a3a6684107889911d29ee86345b7034394fe",
+        "summary.json": "6ff99353dd3743489255e324f47635ddedea4d8e3f0b1c331dcf708858056f70"
+      },
+      "rejected_window_03_hashes": {
+        "input_lock.json": "13ce2383b4100488474c33b262b1ebb5db06385ddf369cef03f228c1690c7254",
+        "phase_window_arrays.npz": "8e355f0607c81986fe2b4af4c05be2f1e85fc50ebf46c5a51cb2c3bd361ea78b",
+        "phase_window_checkpoint.npz": "2b0ff5da9c18bb95a6422fb2b1dc672592486996051aa64e2779a3881ac0e9f5",
+        "phase_window_metrics.json": "de160df01a65913e497a9cb65e58f900174d1fe718b4af0e149366f13a1c2a52",
+        "provenance.json": "e7cf0455165214ee27e38ae1de32f8b07ac594e2ff726f97b07824c70eb0cbea",
+        "summary.json": "916f67420c2f98b3de7ca9ca370ea1cb6cf061c1a78cfd6309cc0c46efe5576b"
+      }
+    },
+    "reduced_slow_evolution_authorized": false,
+    "rejected_diagnostic_only": "results/canonical/causal_inner_adaptive_hot_exit_phase_atlas_wp10c9d6c7c3b5c4f25ee_window_03",
+    "schema_version": 1,
+    "scientific_interpretation": {
+      "failure_localized_to_fixed_affine_decoder_range_and_collocation_window": true,
+      "last_accepted_endpoint_is_the_only_propagated_state": true,
+      "physical_fixed_Q_failure_selected": false,
+      "rejected_window_never_seeds_the_recovery": true
+    },
+    "work_package": "WP10c9d6c7c3b5c4f25ef"
+  },
+  "manifest_hashes": {
+    "exact_retracted_hot_exit_phase_atlas_contract.json": "ba78d658142112cb189724227d799aa0be83d6cffe5c799366c0a5e115267070",
+    "input_lock.json": "441f0a54a010e3520acf59359443461fda49c9f9df4ae06dd6341440bcee08fe",
+    "provenance.json": "a179543b752716568ec733215b041f5508cbff129be136eaa83386efa7385c3c",
+    "summary.json": "15b55a91b9a07c14d7bcd126ccdaee2177a47f381f588988f4314b5799052dfe"
+  }
+}
