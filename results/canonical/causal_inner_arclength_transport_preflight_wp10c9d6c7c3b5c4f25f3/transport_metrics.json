@@ -1,0 +1,576 @@
+{
+  "classification": "moving_exact_arclength_anchor_transport_replay_passed",
+  "gate_values": {
+    "anchor_assembly_wall_seconds": 14.327327749691904,
+    "anchor_exact_assemblies": 1,
+    "historical_exact_assemblies_for_same_targets": 47,
+    "maximum_augmented_condition_number": 1570.9833078572776,
+    "maximum_coordinate_residual_infinity": 8.297739581488058e-11,
+    "maximum_gauge_residual_infinity": 6.972172302335513e-16,
+    "maximum_scaled_anchor_departure": 0.0485770221537134,
+    "maximum_state_replay_scaled_infinity_defect": 6.970302113273874e-10,
+    "minimum_reconstruction_factor": 1.0,
+    "target_count": 15,
+    "target_exact_refreshes": 0,
+    "target_transport_wall_seconds": 1751.370992666576,
+    "transport_exact_assemblies": 1
+  },
+  "gates": {
+    "all_targets_converged": true,
+    "canonical_state_replay": true,
+    "conditioning": true,
+    "coordinate_replay": true,
+    "exact_assembly_reduction": true,
+    "gauge_replay": true,
+    "no_new_fixed_Q_rates_roots_or_microsteps": true,
+    "reconstruction": true,
+    "refresh_budget": true,
+    "retraction_neighborhood": true
+  },
+  "input_lock": {
+    "contract": {
+      "classification": "moving_exact_arclength_transport_preflight_manifest_frozen",
+      "collocation": {
+        "failed_segment_never_propagates": true,
+        "initial_arclength_span": 0.025,
+        "maximum_arclength_span": 0.05,
+        "maximum_retries": 2,
+        "minimum_arclength_span": 0.00625,
+        "node_count": 5,
+        "node_family": "Legendre-Gauss-Lobatto",
+        "projected_Picard_updates": 1
+      },
+      "complete_cycle_execution_authorized": false,
+      "decisive_input_hashes": {
+        "diagnosis_arrays": "fe6d110b9c2e6c60bcc57955f391442b6f9d524f0847b5f61334a9add30ab698",
+        "diagnosis_metrics": "144b5b286ad68e99580ac04b4db18b698ebaeaca0d38ee0939411474020b26f7",
+        "diagnosis_summary": "1989ff2f9f8e1c0e9c52746dcaf2c731fa85193ac587b3572d0630b686955aec",
+        "window_05_arrays": "45f45a669fcd1801eba5473208f7a7246c2b2a7b786d0946b244dd12591ed03c",
+        "window_05_metrics": "468a22d3a1c137d82b4738b09c880692adaf20494c3207a570f95ed79b5de3a2",
+        "window_05_summary": "07a5a3a950dd3750f23d4f14e18b2be78db9d33f0fc431448bf56ce4d78f4c5f"
+      },
+      "frozen_source_hashes": {
+        "scripts/run_causal_inner_arclength_transport_manifest_wp10c9d6c7c3b5c4f25f2.py": "d48fa478c213789dae40adcd96a729ed01ae1c07a914053be08856d5be062c09",
+        "scripts/run_causal_inner_arclength_transport_preflight_wp10c9d6c7c3b5c4f25f3.py": "4a96aed2a416b2150e069d0e43ac0c7b151aac674a368c26640b8a5bd202b4ae",
+        "scripts/run_causal_inner_exact_geometric_470_chart_preflight_wp10c9d6c7c3b5c4f25de.py": "46b475da0fc23358186e95ac28ecf443b25d1213e7444e5f540c224399557eca",
+        "scripts/run_causal_inner_exact_retracted_hot_exit_phase_atlas_wp10c9d6c7c3b5c4f25f0.py": "d39d9950fb36dfbaddfb4411eb6806c8617daf0895d600e648a78698e74a9256",
+        "scripts/run_causal_inner_hot_mode_arclength_event_diagnosis_wp10c9d6c7c3b5c4f25f1.py": "facf29246dbe2d3a54df065745eb159f2b8c2c78461ae999abe2a13672ce4191",
+        "src/imri_qpe/layer3_minidisk_1d/arclength_phase.py": "eae2c622283dbe53e7e29d0bf59e33c3278e562ff43bfaeab197752bf650d4b7",
+        "tests/test_arclength_phase.py": "9c789ddb671d597dfeb58cb9782ed1cb99a7eb16d40c8556939419fa1fa4e662",
+        "tests/test_causal_inner_arclength_transport_manifest_wp10c9d6c7c3b5c4f25f2.py": "55af26b2bbbd9fd1aca0e931e362cbb5ef557544421e6128b13014807c3a7376",
+        "tests/test_causal_inner_arclength_transport_preflight_wp10c9d6c7c3b5c4f25f3.py": "066ef0a7ac03ef31478a321ab15641444c8313f8353136f7b02c85e6bbded5b7"
+      },
+      "mathematical_system": {
+        "coordinate_equation": "dy/ds=f_Q(y,t)/nu(y,t)",
+        "coordinate_phase_speed": "nu(y,t)=||f_Q(y,t)||_2",
+        "equilibrium_candidate_if_nu_collapses": true,
+        "phase_is_strictly_monotone_while_nu_is_nonzero": true,
+        "time_equation": "dt/ds=1/nu(y,t)"
+      },
+      "moving_exact_chart_transport": {
+        "Broyden_updates_are_target_local": true,
+        "anchor_gauge_is_canonical_and_frozen_within_segment": true,
+        "anchor_matrix_initializes_every_target_retraction": true,
+        "binding_coordinate_residual": 1e-10,
+        "binding_gauge_residual": 1e-10,
+        "final_residual_and_physical_audits_are_exact": true,
+        "iteration_reserve_before_refresh": 2,
+        "maximum_augmented_condition_number": 10000000.0,
+        "maximum_exact_refreshes_per_target": 1,
+        "maximum_scaled_anchor_departure": 0.05,
+        "maximum_total_target_exact_refreshes": 4,
+        "maximum_transport_iterations": 8,
+        "one_exact_augmented_coordinate_Jacobian_at_anchor": true,
+        "state_replay_maximum_scaled_infinity_defect": 1e-08
+      },
+      "parent_lock": {
+        "diagnosis_hashes": {
+          "arclength_event_arrays.npz": "fe6d110b9c2e6c60bcc57955f391442b6f9d524f0847b5f61334a9add30ab698",
+          "arclength_event_metrics.json": "144b5b286ad68e99580ac04b4db18b698ebaeaca0d38ee0939411474020b26f7",
+          "input_lock.json": "19e0ba786f5f095feb159c75c3252e0c16a96b06e4c24243f3f454a9b755d077",
+          "provenance.json": "9574e282923d27f5bf259587c5bc58b2332206972069248de3ed6c1623a32adb",
+          "summary.json": "1989ff2f9f8e1c0e9c52746dcaf2c731fa85193ac587b3572d0630b686955aec"
+        },
+        "window_05_hashes": {
+          "input_lock.json": "6a828646a517cab2c3c923353f4526529a214fd2556c63bc0709a2bd7bb2479a",
+          "phase_window_arrays.npz": "45f45a669fcd1801eba5473208f7a7246c2b2a7b786d0946b244dd12591ed03c",
+          "phase_window_checkpoint.npz": "403a57538ad8b7225e80cd2fe6672cf56108cb9c9f64c2e6f7ef913a5102be0e",
+          "phase_window_metrics.json": "468a22d3a1c137d82b4738b09c880692adaf20494c3207a570f95ed79b5de3a2",
+          "provenance.json": "7b44013eefaae98d7eb36a04de456b7a891ed866ee7f909d555ae692cfe26499",
+          "summary.json": "07a5a3a950dd3750f23d4f14e18b2be78db9d33f0fc431448bf56ce4d78f4c5f"
+        }
+      },
+      "preflight": {
+        "canonical_exact_states_are_binding_replay_references": true,
+        "new_BDF_microsteps_equal": 0,
+        "new_exact_fixed_Q_rate_calls_equal": 0,
+        "new_nonlinear_fixed_Q_roots_equal": 0,
+        "replay_all_fifteen_Window_05_exact_chart_targets": true
+      },
+      "reduced_slow_evolution_authorized": false,
+      "regime_candidates": {
+        "equilibrium_requires_speed_collapse_then_stability_refinement": true,
+        "legacy_exit_requires_persistence_and_endpoint_refinement": true,
+        "no_candidate_is_a_certificate_without_separate_refinement": true,
+        "recurrence_requires_close_return_tangent_alignment_and_Poincare_refinement": true
+      },
+      "schema_version": 1,
+      "work_package": "WP10c9d6c7c3b5c4f25f2"
+    },
+    "manifest_hashes": {
+      "arclength_transport_contract.json": "e0a0e26c6255e44a233ca851bf20468b16ce1c6b06ccc248cc4a20aef9e72a50",
+      "input_lock.json": "6f915fa32616f6c89219e2bb9646a84ae287e32235035dc7201da9573599d3dc",
+      "provenance.json": "b44ec347f95573fcc95c00a94a5ea2532cae3fcb302e3394cf0f988ef9cd9008",
+      "summary.json": "a5c902abe75498102185a02c5b1e93a6acef095611ce89d8522e6f406419f48b"
+    }
+  },
+  "new_BDF_microsteps": 0,
+  "new_exact_fixed_Q_rate_calls": 0,
+  "new_nonlinear_fixed_Q_roots": 0,
+  "passed": true,
+  "schema_version": 1,
+  "target_records": [
+    {
+      "accepted_line_factors": [],
+      "coordinate_replay_infinity_defect": 0.0,
+      "coordinate_residual_infinity": 0.0,
+      "decoder_minimum_reconstruction_factor": 1.0,
+      "gauge_residual_infinity": 0.0,
+      "maximum_augmented_condition_number": 0.0,
+      "maximum_height_ratio": 0.11048511790314577,
+      "maximum_scaled_anchor_departure": 0.0,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.229363293711778,
+      "passed": true,
+      "residual_history": [
+        0.0
+      ],
+      "state_replay_scaled_infinity_defect": 0.0,
+      "target_exact_refreshes": 0,
+      "target_index": 0,
+      "transport_corrections": 0,
+      "wall_seconds": 0.0
+    },
+    {
+      "accepted_line_factors": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "coordinate_replay_infinity_defect": 4.1769905134540763e-14,
+      "coordinate_residual_infinity": 4.1769905134540763e-14,
+      "decoder_minimum_reconstruction_factor": 1.0,
+      "gauge_residual_infinity": 3.8256789919003406e-16,
+      "maximum_augmented_condition_number": 0.0,
+      "maximum_height_ratio": 0.11062945453532755,
+      "maximum_scaled_anchor_departure": 0.0026086803919636026,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.229357002022823,
+      "passed": true,
+      "residual_history": [
+        0.0005484316527384307,
+        4.196373883680484e-07,
+        2.7591648634102146e-10,
+        4.1769905134540763e-14
+      ],
+      "state_replay_scaled_infinity_defect": 5.454366958090873e-10,
+      "target_exact_refreshes": 0,
+      "target_index": 1,
+      "transport_corrections": 3,
+      "wall_seconds": 99.10624008392915
+    },
+    {
+      "accepted_line_factors": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "coordinate_replay_infinity_defect": 2.26383150439091e-11,
+      "coordinate_residual_infinity": 2.26383150439091e-11,
+      "decoder_minimum_reconstruction_factor": 1.0,
+      "gauge_residual_infinity": 5.199751033528122e-16,
+      "maximum_augmented_condition_number": 0.0,
+      "maximum_height_ratio": 0.11094520828270467,
+      "maximum_scaled_anchor_departure": 0.008304618823656185,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.229343241349824,
+      "passed": true,
+      "residual_history": [
+        0.0017924351365223913,
+        4.474748266945562e-06,
+        1.6524394428963686e-08,
+        2.26383150439091e-11
+      ],
+      "state_replay_scaled_infinity_defect": 1.6137935432425365e-10,
+      "target_exact_refreshes": 0,
+      "target_index": 2,
+      "transport_corrections": 3,
+      "wall_seconds": 99.08259641565382
+    },
+    {
+      "accepted_line_factors": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "coordinate_replay_infinity_defect": 5.457392960391168e-14,
+      "coordinate_residual_infinity": 5.457392960391168e-14,
+      "decoder_minimum_reconstruction_factor": 1.0,
+      "gauge_residual_infinity": 5.014292814511393e-16,
+      "maximum_augmented_condition_number": 0.0,
+      "maximum_height_ratio": 0.11137773661551527,
+      "maximum_scaled_anchor_departure": 0.01608297704705386,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.229324399898495,
+      "passed": true,
+      "residual_history": [
+        0.003596859625213054,
+        1.7911531053937402e-05,
+        2.1398168862319988e-07,
+        1.0735960681457235e-09,
+        5.457392960391168e-14
+      ],
+      "state_replay_scaled_infinity_defect": 1.737721078143295e-11,
+      "target_exact_refreshes": 0,
+      "target_index": 3,
+      "transport_corrections": 4,
+      "wall_seconds": 127.34394041728228
+    },
+    {
+      "accepted_line_factors": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "coordinate_replay_infinity_defect": 7.462589303019324e-13,
+      "coordinate_residual_infinity": 7.462589303019324e-13,
+      "decoder_minimum_reconstruction_factor": 1.0,
+      "gauge_residual_infinity": 4.330900541003833e-16,
+      "maximum_augmented_condition_number": 0.0,
+      "maximum_height_ratio": 0.11185301277314524,
+      "maximum_scaled_anchor_departure": 0.024598158071484022,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.229303709441737,
+      "passed": true,
+      "residual_history": [
+        0.005716598461072282,
+        4.4687186671120294e-05,
+        1.2354716612635101e-06,
+        1.490806815925797e-08,
+        7.462589303019324e-13
+      ],
+      "state_replay_scaled_infinity_defect": 6.970302113273874e-10,
+      "target_exact_refreshes": 0,
+      "target_index": 4,
+      "transport_corrections": 4,
+      "wall_seconds": 124.02880033291876
+    },
+    {
+      "accepted_line_factors": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "coordinate_replay_infinity_defect": 1.3973677304244397e-11,
+      "coordinate_residual_infinity": 1.3973677304244397e-11,
+      "decoder_minimum_reconstruction_factor": 1.0,
+      "gauge_residual_infinity": 5.62491710382005e-16,
+      "maximum_augmented_condition_number": 0.0,
+      "maximum_height_ratio": 0.11228884562805017,
+      "maximum_scaled_anchor_departure": 0.0323774706593305,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.229284750160033,
+      "passed": true,
+      "residual_history": [
+        0.007789642564430371,
+        8.150108328127634e-05,
+        4.045795422202381e-06,
+        8.854469305588078e-08,
+        1.3973677304244397e-11
+      ],
+      "state_replay_scaled_infinity_defect": 1.2554723927138411e-10,
+      "target_exact_refreshes": 0,
+      "target_index": 5,
+      "transport_corrections": 4,
+      "wall_seconds": 126.46538933413103
+    },
+    {
+      "accepted_line_factors": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "coordinate_replay_infinity_defect": 5.2192835285885114e-14,
+      "coordinate_residual_infinity": 5.2192835285885114e-14,
+      "decoder_minimum_reconstruction_factor": 1.0,
+      "gauge_residual_infinity": 5.321525375827308e-16,
+      "maximum_augmented_condition_number": 0.0,
+      "maximum_height_ratio": 0.11260902063891397,
+      "maximum_scaled_anchor_departure": 0.03807468777070078,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.229270831706568,
+      "passed": true,
+      "residual_history": [
+        0.00939304895946607,
+        0.00011639440228085178,
+        8.323042266623755e-06,
+        2.6235124949022614e-07,
+        1.4685898178291466e-10,
+        5.2192835285885114e-14
+      ],
+      "state_replay_scaled_infinity_defect": 6.222800053024002e-13,
+      "target_exact_refreshes": 0,
+      "target_index": 6,
+      "transport_corrections": 5,
+      "wall_seconds": 153.4786048331298
+    },
+    {
+      "accepted_line_factors": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "coordinate_replay_infinity_defect": 1.5841565933387772e-13,
+      "coordinate_residual_infinity": 1.5841565933387772e-13,
+      "decoder_minimum_reconstruction_factor": 1.0,
+      "gauge_residual_infinity": 4.0561087149133113e-16,
+      "maximum_augmented_condition_number": 0.0,
+      "maximum_height_ratio": 0.11275594716546121,
+      "maximum_scaled_anchor_departure": 0.04068411814846229,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.229264447517842,
+      "passed": true,
+      "residual_history": [
+        0.01015201490323961,
+        0.00013463443510651555,
+        1.1234212274211664e-05,
+        4.125496454586254e-07,
+        3.545024142469146e-10,
+        1.5841565933387772e-13
+      ],
+      "state_replay_scaled_infinity_defect": 1.592836973429712e-12,
+      "target_exact_refreshes": 0,
+      "target_index": 7,
+      "transport_corrections": 5,
+      "wall_seconds": 151.16588395787403
+    },
+    {
+      "accepted_line_factors": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "coordinate_replay_infinity_defect": 4.4240158140595315e-14,
+      "coordinate_residual_infinity": 4.4240158140595315e-14,
+      "decoder_minimum_reconstruction_factor": 1.0,
+      "gauge_residual_infinity": 6.972172302335513e-16,
+      "maximum_augmented_condition_number": 0.0,
+      "maximum_height_ratio": 0.1106293568171833,
+      "maximum_scaled_anchor_departure": 0.0026375878581781365,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.229357015962563,
+      "passed": true,
+      "residual_history": [
+        0.000553723537197274,
+        4.277575354505548e-07,
+        2.845063651424969e-10,
+        4.4240158140595315e-14
+      ],
+      "state_replay_scaled_infinity_defect": 5.668363556310396e-10,
+      "target_exact_refreshes": 0,
+      "target_index": 8,
+      "transport_corrections": 3,
+      "wall_seconds": 96.12616954185069
+    },
+    {
+      "accepted_line_factors": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "coordinate_replay_infinity_defect": 2.6955966416788123e-11,
+      "coordinate_residual_infinity": 2.6955966416788123e-11,
+      "decoder_minimum_reconstruction_factor": 1.0,
+      "gauge_residual_infinity": 5.589817398296247e-16,
+      "maximum_augmented_condition_number": 0.0,
+      "maximum_height_ratio": 0.11094422223299179,
+      "maximum_scaled_anchor_departure": 0.008602553904133003,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.229343381485926,
+      "passed": true,
+      "residual_history": [
+        0.001849883102922924,
+        4.765079673978365e-06,
+        1.8472194911398608e-08,
+        2.6955966416788123e-11
+      ],
+      "state_replay_scaled_infinity_defect": 1.926532267049197e-10,
+      "target_exact_refreshes": 0,
+      "target_index": 9,
+      "transport_corrections": 3,
+      "wall_seconds": 96.24294266663492
+    },
+    {
+      "accepted_line_factors": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "coordinate_replay_infinity_defect": 8.700819334765339e-14,
+      "coordinate_residual_infinity": 8.700819334765339e-14,
+      "decoder_minimum_reconstruction_factor": 1.0,
+      "gauge_residual_infinity": 6.306321228568244e-16,
+      "maximum_augmented_condition_number": 0.0,
+      "maximum_height_ratio": 0.11137406074045655,
+      "maximum_scaled_anchor_departure": 0.017226682320028885,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.2293249196507,
+      "passed": true,
+      "residual_history": [
+        0.0038334998263935154,
+        2.0320364470152574e-05,
+        2.7102792606021844e-07,
+        1.5373750468676626e-09,
+        8.700819334765339e-14
+      ],
+      "state_replay_scaled_infinity_defect": 2.8839930443780304e-11,
+      "target_exact_refreshes": 0,
+      "target_index": 10,
+      "transport_corrections": 4,
+      "wall_seconds": 123.61514895828441
+    },
+    {
+      "accepted_line_factors": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "coordinate_replay_infinity_defect": 5.922495363596715e-13,
+      "coordinate_residual_infinity": 5.922495363596715e-13,
+      "decoder_minimum_reconstruction_factor": 1.0,
+      "gauge_residual_infinity": 5.144159692750111e-16,
+      "maximum_augmented_condition_number": 0.0,
+      "maximum_height_ratio": 0.11184447280676364,
+      "maximum_scaled_anchor_departure": 0.02734346669570975,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.22930491017997,
+      "passed": true,
+      "residual_history": [
+        0.006329935546620511,
+        5.452450595563892e-05,
+        1.8186841775626625e-06,
+        2.6720136797425914e-08,
+        5.922495363596715e-13
+      ],
+      "state_replay_scaled_infinity_defect": 5.444977801971618e-12,
+      "target_exact_refreshes": 0,
+      "target_index": 11,
+      "transport_corrections": 4,
+      "wall_seconds": 124.74005649983883
+    },
+    {
+      "accepted_line_factors": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "coordinate_replay_infinity_defect": 8.297739581488058e-11,
+      "coordinate_residual_infinity": 8.297739581488058e-11,
+      "decoder_minimum_reconstruction_factor": 1.0,
+      "gauge_residual_infinity": 5.452555232853854e-16,
+      "maximum_augmented_condition_number": 0.0,
+      "maximum_height_ratio": 0.11227414525782448,
+      "maximum_scaled_anchor_departure": 0.037248790319633684,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.229286806421413,
+      "passed": true,
+      "residual_history": [
+        0.008956666713963187,
+        0.00010637409439539366,
+        6.906854034365056e-06,
+        1.9853719280396652e-07,
+        8.297739581488058e-11
+      ],
+      "state_replay_scaled_infinity_defect": 6.455226353452304e-10,
+      "target_exact_refreshes": 0,
+      "target_index": 12,
+      "transport_corrections": 4,
+      "wall_seconds": 124.95559791708365
+    },
+    {
+      "accepted_line_factors": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "coordinate_replay_infinity_defect": 5.063952729367216e-13,
+      "coordinate_residual_infinity": 5.063952729367216e-13,
+      "decoder_minimum_reconstruction_factor": 1.0,
+      "gauge_residual_infinity": 6.452678345525521e-16,
+      "maximum_augmented_condition_number": 0.0,
+      "maximum_height_ratio": 0.1125887902841526,
+      "maximum_scaled_anchor_departure": 0.04493140919953653,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.229273650679378,
+      "passed": true,
+      "residual_history": [
+        0.011121691093128825,
+        0.00015935056865392684,
+        1.5931612863196234e-05,
+        7.010849008889236e-07,
+        9.552137084783974e-10,
+        5.063952729367216e-13
+      ],
+      "state_replay_scaled_infinity_defect": 3.801181591711611e-12,
+      "target_exact_refreshes": 0,
+      "target_index": 13,
+      "transport_corrections": 5,
+      "wall_seconds": 151.23088533291593
+    },
+    {
+      "accepted_line_factors": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "coordinate_replay_infinity_defect": 1.898989612206161e-12,
+      "coordinate_residual_infinity": 1.898989612206161e-12,
+      "decoder_minimum_reconstruction_factor": 1.0,
+      "gauge_residual_infinity": 5.318992719688119e-16,
+      "maximum_augmented_condition_number": 0.0,
+      "maximum_height_ratio": 0.11273290105229998,
+      "maximum_scaled_anchor_departure": 0.0485770221537134,
+      "minimum_reconstruction_factor": 1.0,
+      "minimum_scattering_optical_depth": 19.229267653215643,
+      "passed": true,
+      "residual_history": [
+        0.012188882452783711,
+        0.0001881910036151766,
+        2.269526439142331e-05,
+        1.1987277959615495e-06,
+        2.5418591207215595e-09,
+        1.898989612206161e-12
+      ],
+      "state_replay_scaled_infinity_defect": 1.4349632593280148e-11,
+      "target_exact_refreshes": 0,
+      "target_index": 14,
+      "transport_corrections": 5,
+      "wall_seconds": 153.78873637504876
+    }
+  ],
+  "work_package": "WP10c9d6c7c3b5c4f25f3"
+}
