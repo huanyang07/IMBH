@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 from pathlib import Path
 import platform
@@ -27,7 +28,7 @@ from imri_qpe.layer3_minidisk_1d.conservative_free_field_rom import (  # noqa: E
 )
 import run_causal_inner_arclength_segment_wp10c9d6c7c3b5c4f25f5 as arclength  # noqa: E402
 import run_causal_inner_hot_free_field_rom_preflight_wp10c9d6c7c3b5c4f25f8 as hot  # noqa: E402
-import run_causal_inner_hot_mode_off_axis_manifest_wp10c9d6c7c3b5c4f25f9 as manifest  # noqa: E402
+import run_causal_inner_hot_mode_off_axis_manifest_wp10c9d6c7c3b5c4f25f9_v2 as manifest  # noqa: E402
 
 
 SCHEMA_VERSION = 1
@@ -37,6 +38,7 @@ PASS_CLASSIFICATION = "hot_discrete_mode_off_axis_conservative_patch_passed"
 FAIL_CLASSIFICATION = "hot_discrete_mode_off_axis_conservative_patch_rejected"
 ARTIFACT = "causal_inner_hot_mode_off_axis_preflight_wp10c9d6c7c3b5c4f25fa"
 CANONICAL_DIRECTORY = ROOT / "results/canonical" / ARTIFACT
+SCRATCH_DIRECTORY = ROOT / "outputs/checkpoints" / ARTIFACT
 REPORT_RELATIVE = (
     "docs/reports/current/CODEX_CAUSAL_INNER_HOT_MODE_OFF_AXIS_PREFLIGHT_"
     "WP10C9D6C7C3B5C4F25FA_2026-08-22.md"
@@ -222,6 +224,51 @@ def _target_coordinates(arrays: dict[str, np.ndarray]) -> dict[str, np.ndarray]:
     }
 
 
+def _evaluate_targets(
+    context: dict,
+    targets: dict[str, np.ndarray],
+    locked: dict,
+) -> tuple[list[dict], dict[str, dict[str, np.ndarray]]]:
+    helper = _helper()
+    identity = {
+        "work_package": WORK_PACKAGE,
+        "manifest_hashes": locked["manifest_hashes"],
+        "target_hashes": {
+            label: hashlib.sha256(
+                np.ascontiguousarray(coordinate).tobytes()
+            ).hexdigest()
+            for label, coordinate in targets.items()
+        },
+    }
+    identity_path = SCRATCH_DIRECTORY / "identity.json"
+    if SCRATCH_DIRECTORY.exists():
+        if not identity_path.exists() or helper._read(identity_path) != identity:
+            raise RuntimeError("off-axis scratch identity changed")
+    else:
+        SCRATCH_DIRECTORY.mkdir(parents=True)
+        helper._write_json(identity_path, identity)
+    records = []
+    evaluated = {}
+    for label, coordinate in targets.items():
+        metrics_path = SCRATCH_DIRECTORY / f"{label}.json"
+        arrays_path = SCRATCH_DIRECTORY / f"{label}.npz"
+        if metrics_path.exists() != arrays_path.exists():
+            raise RuntimeError(f"partial off-axis scratch witness: {label}")
+        if metrics_path.exists():
+            metrics = helper._read(metrics_path)
+            arrays = helper._load_npz(arrays_path)
+            np.testing.assert_array_equal(arrays["coordinate470"], coordinate)
+            print(f"off-axis {label}: reused exact scratch witness", flush=True)
+        else:
+            metrics, arrays = _evaluate_target(context, coordinate, label=label)
+            helper._write_json(metrics_path, metrics)
+            with arrays_path.open("wb") as handle:
+                np.savez_compressed(handle, **arrays)
+        records.append(metrics)
+        evaluated[label] = arrays
+    return records, evaluated
+
+
 def _evaluate(locked: dict) -> tuple[dict, dict[str, np.ndarray]]:
     helper = _helper()
     hot_arrays = helper._load_npz(
@@ -229,12 +276,7 @@ def _evaluate(locked: dict) -> tuple[dict, dict[str, np.ndarray]]:
     )
     context = _retraction_context()
     targets = _target_coordinates(hot_arrays)
-    records = []
-    evaluated = {}
-    for label, coordinate in targets.items():
-        metrics, arrays = _evaluate_target(context, coordinate, label=label)
-        records.append(metrics)
-        evaluated[label] = arrays
+    records, evaluated = _evaluate_targets(context, targets, locked)
 
     geometry = context["base"]["geometry"]
     split = ConservativeCoordinateSplit(
@@ -322,7 +364,7 @@ def _evaluate(locked: dict) -> tuple[dict, dict[str, np.ndarray]]:
         )),
         "maximum_height_ratio": float(max(
             [item["maximum_height_ratio"] for item in records]
-            + [heun_physical["maximum_h_over_r"]]
+            + [heun_physical["maximum_height_ratio"]]
         )),
         "minimum_scattering_optical_depth": float(min(
             [item["minimum_scattering_optical_depth"] for item in records]
