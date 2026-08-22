@@ -39,8 +39,13 @@ def test_canonical_package_when_present() -> None:
     metrics = helper._read(
         target.CANONICAL_DIRECTORY / "hot_free_field_metrics.json"
     )
-    assert summary["passed"]
-    assert summary["truth_free_hidden_amplitude_engine_manifest_authorized"]
+    assert summary["passed"] == metrics["passed"]
+    expected = target.CLASSIFICATION if metrics["passed"] else target.FAIL_CLASSIFICATION
+    assert summary["classification"] == expected
+    assert metrics["classification"] == expected
+    assert summary["truth_free_hidden_amplitude_engine_manifest_authorized"] == metrics["passed"]
     assert not summary["fixed_Q_physical_phase_authorized"]
     assert metrics["gate_values"]["new_fixed_Q_reaction_calls"] == 0
-    assert summary["authorized_next"] == target.AUTHORIZED_NEXT
+    assert summary["authorized_next"] == (
+        target.AUTHORIZED_NEXT if metrics["passed"] else None
+    )
