@@ -427,8 +427,8 @@ def _execution_contract(cost: dict) -> dict:
 def _update_catalog(summary: dict) -> None:
     helper = _helper()
     cold = (
-        diagnosis.parent.manifest.parent.arclength._source()._post().manifest
-        .transition.manifest.cold.manifest
+        diagnosis.parent.manifest.parent.manifest.parent.arclength
+        ._source()._post().manifest.transition.manifest.cold.manifest
     )
     with cold.CANONICAL_MANIFEST.open(newline="", encoding="utf-8") as handle:
         rows = list(csv.DictReader(handle))
