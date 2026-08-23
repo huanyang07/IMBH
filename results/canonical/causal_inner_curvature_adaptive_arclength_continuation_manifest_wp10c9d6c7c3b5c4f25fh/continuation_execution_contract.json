@@ -1,0 +1,117 @@
+{
+  "authorized_execution": "WP10c9d6c7c3b5c4f25fi_curvature_adaptive_arclength_continuation_execution",
+  "budgets": {
+    "maximum_accepted_segments": 216,
+    "maximum_exact_free_field_calls_including_rejections": 288,
+    "maximum_wall_hours": 30.0
+  },
+  "classification": "autonomous_curvature_adaptive_endpoint_collocation_continuation_manifest_frozen",
+  "cost": {
+    "cost_gate_passed": true,
+    "maximum_accepted_segments": 216,
+    "maximum_exact_free_field_calls": 288,
+    "maximum_execution_wall_hours": 30.0,
+    "maximum_horizon_at_four_milliseconds_seconds": 0.864,
+    "maximum_horizon_at_one_millisecond_seconds": 0.216,
+    "maximum_horizon_at_two_milliseconds_seconds": 0.432,
+    "no_rejection_exact_call_count": 271,
+    "observed_parent_wall_seconds_per_exact_call": 260.67309070204163,
+    "raw_projected_wall_hours": 20.85384725616333,
+    "rejection_call_reserve": 17,
+    "reserve_factor": 1.25,
+    "reserved_projected_wall_hours": 26.067309070204164
+  },
+  "definitions_only": true,
+  "endpoint_proposal": {
+    "all_rates": "exact original unconstrained reaction-free field",
+    "definition": "y_predict=y_n+h*f_n+h^2/(2*h_previous)*(f_n-f_previous)",
+    "derivation": "integrate the linear interpolation of the two most recent exact endpoint free rates across the proposed physical-time span",
+    "external_phase_used": false,
+    "fixed_Q_rate_used": false,
+    "initial_current_rate": "one new exact evaluation at the committed 16 ms terminal state",
+    "initial_previous_rate": "hash-validated exact anchor rate at 15.75 ms"
+  },
+  "initialization": {
+    "current_coordinate": "accepted parent terminal 470-coordinate state",
+    "current_rate": "evaluate exactly once before the first endpoint proposal",
+    "current_state": "accepted parent terminal primitive state",
+    "poincare_memory": "retain start coordinate, section normal, departure=true, negative_side=false, and the committed switch count",
+    "previous_rate": "committed exact 15.75 ms anchor rate",
+    "trajectory": "hash-validated accepted 0--16 ms parent trajectory"
+  },
+  "outcomes": {
+    "budget": "wide_continuation_inconclusive_acquisition_budget_exhausted",
+    "cycle": "wide_continuation_cycle_observed_local_transport_passed",
+    "equilibrium_candidate": "wide_continuation_equilibrium_candidate_requires_certificate",
+    "physical": "wide_continuation_original_free_field_physical_gate_failed",
+    "restart": "wide_continuation_restart_or_replay_failed",
+    "validation": "wide_continuation_endpoint_or_blind_validation_failed"
+  },
+  "outputs": {
+    "every_accepted_segment": "Hermite coefficients, primitive endpoint, coordinate endpoint, rate endpoint, elapsed time, Poincare state, and cumulative ledgers",
+    "every_attempt": "predictor, exact endpoint, exact rate, defects, physical audits, acceptance reasons, cost, and hashes",
+    "restart": "bitwise arbitrary-segment restart and suffix replay"
+  },
+  "path_parameterization": {
+    "clock": "dt/ds=1/nu(y)",
+    "geometry": "dy/ds=f_free(y)/nu(y)",
+    "implementation_note": "endpoint proposals use physical-time spans while accepted Hermite segments retain both arclength geometry and clock",
+    "speed": "nu(y)=||f_free(y)||_2"
+  },
+  "physical_gates": {
+    "accepted_history_only": true,
+    "all_original_storage_and_reaction_free_ledgers": "binding",
+    "exact_chart_coordinate_residual_maximum": 5e-10,
+    "exact_chart_gauge_residual_maximum": 1e-10,
+    "maximum_height_ratio": 0.5,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0
+  },
+  "post_cycle_authorization": "definitions-only matched-path refinement and global cycle-map certificate; no slow closure or reduced evolution yet",
+  "schema_version": 1,
+  "segment_validation": {
+    "blind_midpoint_every_nth_tentative_acceptance": 4,
+    "blind_midpoint_is_never_used_to_fit_or_correct": true,
+    "blind_midpoint_rate_defect": "||H'(1/2)-f_free(H(1/2))||_2/max(||f_free(H(1/2))||_2,tiny)",
+    "blind_midpoint_rate_defect_maximum": 0.02,
+    "endpoint_exact_before_propagation": true,
+    "endpoint_integral_defect": "||(y_1-y_0)/h-(f_0+f_1)/2||_2 / max(||(y_1-y_0)/h||_2,||(f_0+f_1)/2||_2,tiny)",
+    "endpoint_integral_defect_maximum": 0.02,
+    "failed_candidate_is_never_propagated": true,
+    "sequence": [
+      "propose endpoint coordinate with variable-step AB2",
+      "retract endpoint exactly and run every physical audit",
+      "evaluate exact original free field at the endpoint",
+      "form the cubic Hermite segment from exact endpoint states and rates",
+      "bind endpoint trapezoidal integral closure",
+      "on every fourth tentative acceptance, exact-retract and exact-evaluate the Hermite midpoint",
+      "accept and propagate only after every applicable gate passes"
+    ]
+  },
+  "step_policy": {
+    "accepted_segments_before_growth": 4,
+    "failure_at_minimum_span_is_binding": true,
+    "growth_requires_most_recent_blind_midpoint_pass": true,
+    "halve_after_numerical_or_physical_candidate_failure": true,
+    "initial_segment_seconds": 0.001,
+    "maximum_growth_factor": 2.0,
+    "maximum_segment_seconds": 0.004,
+    "minimum_segment_seconds": 0.00025,
+    "retry_from_last_accepted_endpoint": true
+  },
+  "terminal_events": {
+    "budget": "separate inconclusive classification",
+    "cycle": "after the inherited positive departure, first visit the negative side and then localize a same-positive-orientation return to the original Poincare section with an exact event audit",
+    "cycle_event_requires_exact_free_field_orientation_audit": true,
+    "cycle_hidden_return_defect_maximum": 0.05,
+    "equilibrium_candidate": "speed <=0.1 of the initial committed speed; this stops for a separate stationary-residual and stability certificate"
+  },
+  "truth_system": {
+    "autonomous": true,
+    "equation": "dy/dt=f_free(y)",
+    "external_clock_or_phase": "forbidden",
+    "field": "original unconstrained reaction-free monolithic field",
+    "fixed_Q_rate_or_reaction": "forbidden"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fh"
+}

@@ -1,0 +1,52 @@
+{
+  "four_millisecond_diagnostic_bound_passed": true,
+  "four_millisecond_predictor_is_diagnostic_only": true,
+  "maximum_diagnostic_four_millisecond_predictor_defect": 0.06,
+  "maximum_prevalidated_predictor_defect": 0.02,
+  "passed": true,
+  "records": {
+    "growth_2ms_from_1ms_history": {
+      "history_seconds": 0.001,
+      "maximum_relative_endpoint_defect": 0.007905443753680857,
+      "p95_relative_endpoint_defect": 0.007622980555631975,
+      "sample_count": 52,
+      "span_seconds": 0.002
+    },
+    "growth_4ms_from_2ms_history": {
+      "history_seconds": 0.002,
+      "maximum_relative_endpoint_defect": 0.037311423813955844,
+      "p95_relative_endpoint_defect": 0.036439358372024375,
+      "sample_count": 40,
+      "span_seconds": 0.004
+    },
+    "initial_1ms_from_0p25ms_history": {
+      "history_seconds": 0.00025,
+      "maximum_relative_endpoint_defect": 0.0035179124300602064,
+      "p95_relative_endpoint_defect": 0.003427682332077442,
+      "sample_count": 59,
+      "span_seconds": 0.001
+    },
+    "steady_1ms": {
+      "history_seconds": 0.001,
+      "maximum_relative_endpoint_defect": 0.0024491824692167573,
+      "p95_relative_endpoint_defect": 0.0024300739138853125,
+      "sample_count": 56,
+      "span_seconds": 0.001
+    },
+    "steady_2ms": {
+      "history_seconds": 0.002,
+      "maximum_relative_endpoint_defect": 0.01159012577879787,
+      "p95_relative_endpoint_defect": 0.01131217831521792,
+      "sample_count": 48,
+      "span_seconds": 0.002
+    },
+    "steady_4ms": {
+      "history_seconds": 0.004,
+      "maximum_relative_endpoint_defect": 0.04989161534917541,
+      "p95_relative_endpoint_defect": 0.04867763721567978,
+      "sample_count": 32,
+      "span_seconds": 0.004
+    }
+  },
+  "two_millisecond_endpoint_proposal_prevalidated": true
+}
