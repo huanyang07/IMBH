@@ -1,0 +1,42 @@
+{
+  "adaptive_policy_for_next_manifest": {
+    "blind_exact_midpoint_every_nth_accepted_segment": 4,
+    "coordinate_defect_maximum": 0.01,
+    "exact_endpoint_before_propagation": true,
+    "failed_segment_is_never_propagated": true,
+    "growth_factor_maximum": 2.0,
+    "halve_on_defect_or_physical_failure": true,
+    "initial_segment_seconds": 0.001,
+    "maximum_segment_seconds": 0.004,
+    "rate_defect_maximum": 0.02
+  },
+  "authorization_boundary": "definitions-only curvature-adaptive continuation manifest; neither cycle-map closure nor reduced slow evolution is authorized",
+  "forbidden_shortcuts": [
+    "fixed-Q physical clock",
+    "fixed-Q reaction action",
+    "unvalidated last-patch extrapolation",
+    "invented periodic forcing",
+    "cycle averaging before a return is observed"
+  ],
+  "path_system": {
+    "clock": "dt/ds=1/nu(y)",
+    "geometry": "dy/ds=f_free(y)/nu(y)",
+    "maximum_prevalidated_span_seconds": 0.004,
+    "segment": "cubic Hermite in physical coordinates from exact endpoint states and exact endpoint free rates",
+    "speed": "nu(y)=||f_free(y)||_2"
+  },
+  "schema_version": 1,
+  "selected_architecture": "autonomous_curvature_adaptive_arclength_hermite_continuation",
+  "terminal_events": {
+    "budget": "separate inconclusive classification",
+    "cycle": "same-orientation Poincare return with existing gates",
+    "equilibrium": "prospectively frozen small-speed plus stationary-residual and linear-stability certificate"
+  },
+  "truth_system": {
+    "autonomous": true,
+    "equation": "dy/dt=f_free(y)",
+    "external_forcing_phase_added": false,
+    "reason": "the executed truth evaluator has no external clock argument; adding one would change rather than reduce the physical model"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fg"
+}

@@ -1,0 +1,160 @@
+{
+  "classification": "autonomous_open_low_curvature_transient_wide_arclength_transport_supported",
+  "cycle_closure_supported": false,
+  "equilibrium_closure_supported": false,
+  "forecasts_are_diagnostic_only": true,
+  "gate_values": {
+    "cumulative_direction_turn_radians": 0.4547384227205834,
+    "cycle_return_distance_fraction": 0.03271740147912169,
+    "endpoint_distance": 0.2663961550204732,
+    "exact_anchor_rates": 64,
+    "first_pod_energy": 0.997586949040503,
+    "fixed_Q_calls": 0,
+    "initial_speed_per_second": 17.569935532366635,
+    "maximum_validated_hermite_duration_seconds": 0.004,
+    "maximum_validated_hermite_stride": 16,
+    "minimum_section_increment": 0.003879178371976044,
+    "minimum_section_velocity_per_second": 15.530892111971962,
+    "minimum_start_direction_cosine": 0.9601002945105214,
+    "net_direction_turn_radians": 0.28343569430094445,
+    "new_exact_free_field_calls": 0,
+    "new_physical_time_advanced_seconds": 0.0,
+    "new_retractions": 0,
+    "path_length": 0.2679178736239446,
+    "path_tortuosity": 1.0057122393652957,
+    "second_pod_energy": 0.0021780609154058565,
+    "section_endpoint": 0.26353931503515576,
+    "terminal_speed_per_second": 16.176322620429904,
+    "terminal_speed_ratio": 0.9206819564380602,
+    "trajectory_duration_seconds": 0.016,
+    "trajectory_points": 65
+  },
+  "hermite_replay": {
+    "16": {
+      "duration_seconds": 0.004,
+      "maximum_coordinate_defect": 0.0016590712501018028,
+      "maximum_rate_defect": 0.006893992303994025,
+      "p95_coordinate_defect": 0.0014293854544823138,
+      "p95_rate_defect": 0.006361494272201726,
+      "passed": true,
+      "sample_count": 720,
+      "stride": 16
+    },
+    "2": {
+      "duration_seconds": 0.0005,
+      "maximum_coordinate_defect": 0.0019328872143516507,
+      "maximum_rate_defect": 0.011582107945916192,
+      "p95_coordinate_defect": 0.0018131129779647413,
+      "p95_rate_defect": 0.010848077569649058,
+      "passed": true,
+      "sample_count": 62,
+      "stride": 2
+    },
+    "4": {
+      "duration_seconds": 0.001,
+      "maximum_coordinate_defect": 0.001548530875552882,
+      "maximum_rate_defect": 0.0077808930113162445,
+      "p95_coordinate_defect": 0.0013529442668854287,
+      "p95_rate_defect": 0.007465594326611784,
+      "passed": true,
+      "sample_count": 180,
+      "stride": 4
+    },
+    "8": {
+      "duration_seconds": 0.002,
+      "maximum_coordinate_defect": 0.00124923972568515,
+      "maximum_rate_defect": 0.007540075751962281,
+      "p95_coordinate_defect": 0.0009478240847506433,
+      "p95_rate_defect": 0.006986950279432819,
+      "passed": true,
+      "sample_count": 392,
+      "stride": 8
+    }
+  },
+  "input_lock": {
+    "parent_classification": "complete_cycle_inconclusive_acquisition_budget_exhausted",
+    "parent_hashes": {
+      "cycle_execution_arrays.npz": "cd262395c88e006f19c31122fa1ef49b70ebba179aead123c9cf78a1b94f5e9b",
+      "cycle_execution_metrics.json": "ee24e7766bd9ae7cf576e70dd3e4987d8d38cbbf4cfe244c85c6dce7c83c7346",
+      "exact_witness_arrays.npz": "a8f56fae8a21f0e2f2cfb06d8a3a0577fc6d38e56e65e68ee8df7c1cda0ae491",
+      "patch_atlas_arrays.npz": "a9d2febdd4dda23ac5119be8f7292301ee063b23be1bca86b9efc156f7616e96",
+      "provenance.json": "fc65f45e1333b83545fa6a0d2b5da0f3fceb950d64eb73b9853cd35a625f2fd5",
+      "summary.json": "ac596a234a86d23651d7c03ee933370425e70e252708853ca804ef5a23703b5a"
+    }
+  },
+  "linear_forecasts": {
+    "direction_orthogonal_to_start": [
+      {
+        "forecast_additional_seconds": 0.10649482899404471,
+        "forecast_target_time_seconds": 0.12224482899404471,
+        "sample_count": 16,
+        "slope_per_second": 12.082500962788938
+      },
+      {
+        "forecast_additional_seconds": 0.08736734212308533,
+        "forecast_target_time_seconds": 0.10311734212308533,
+        "sample_count": 32,
+        "slope_per_second": 14.67202439112257
+      },
+      {
+        "forecast_additional_seconds": 0.07007840707703146,
+        "forecast_target_time_seconds": 0.08582840707703146,
+        "sample_count": 64,
+        "slope_per_second": 18.106705891629137
+      }
+    ],
+    "section_velocity_zero": [
+      {
+        "forecast_additional_seconds": 0.1474022661005573,
+        "forecast_target_time_seconds": 0.16315226610055727,
+        "sample_count": 16,
+        "slope_per_second": -105.33472032332077
+      },
+      {
+        "forecast_additional_seconds": 0.13043756330770945,
+        "forecast_target_time_seconds": 0.14618756330770943,
+        "sample_count": 32,
+        "slope_per_second": -118.83947393815798
+      },
+      {
+        "forecast_additional_seconds": 0.11801026177575664,
+        "forecast_target_time_seconds": 0.13376026177575664,
+        "sample_count": 64,
+        "slope_per_second": -130.98749813824932
+      }
+    ]
+  },
+  "open_path_gates": {
+    "direction_alignment_passed": true,
+    "first_pod_energy": 0.997586949040503,
+    "first_pod_energy_passed": true,
+    "four_millisecond_transport_passed": true,
+    "maximum_validated_hermite_stride": 16,
+    "minimum_start_direction_cosine": 0.9601002945105214,
+    "path_tortuosity": 1.0057122393652957,
+    "path_tortuosity_passed": true,
+    "section_strictly_increasing": true,
+    "section_velocity_strictly_positive": true,
+    "terminal_speed_ratio": 0.9206819564380602,
+    "terminal_speed_remains_finite": true
+  },
+  "passed": true,
+  "schema_version": 1,
+  "source_audit": {
+    "external_clock_argument_present": false,
+    "interpretation": "any recurrence in the executed model must be generated by the autonomous physical state; no external clock was supplied",
+    "rom_forcing_angular_frequency_zero": true,
+    "truth_evaluator": "causal_five_field_monolithic_frozen_tangent",
+    "truth_field_autonomous": true,
+    "truth_parameter_names": [
+      "context",
+      "base_primitives",
+      "primitive_column_scales",
+      "conservation_row_scales",
+      "path_quadrature_order",
+      "centered_storage_action_scaled_step"
+    ]
+  },
+  "wide_arclength_transport_supported": true,
+  "work_package": "WP10c9d6c7c3b5c4f25fg"
+}
