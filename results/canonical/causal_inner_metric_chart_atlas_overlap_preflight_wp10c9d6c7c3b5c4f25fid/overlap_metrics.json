@@ -1,0 +1,257 @@
+{
+  "anchor_transform_metrics": {
+    "block_condition_numbers": [
+      2009.3650765804375,
+      1.0000000000000064,
+      1.0000000000000009
+    ],
+    "block_sizes": [
+      162,
+      280,
+      28
+    ],
+    "block_whitening_closure_defects": [
+      2.1150101447204276e-12,
+      6.065847873494159e-14,
+      9.247936686440793e-15
+    ],
+    "maximum_block_whitening_closure_defect": 2.1150101447204276e-12,
+    "metric_jacobian_condition_number": 1.974345256175829,
+    "metric_jacobian_maximum_singular_value": 1.2616153679225182,
+    "metric_jacobian_minimum_singular_value": 0.6390044314570291
+  },
+  "classification": "metric_chart_atlas_overlap_passed",
+  "forward_retraction": {
+    "accepted_line_factors": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "gauge_residual_infinity": 5.000069368960025e-16,
+    "maximum_height_ratio": 0.10989876630251613,
+    "maximum_metric_augmented_condition_number": 1.9743452561758281,
+    "maximum_scaled_anchor_departure": 0.000825986781334366,
+    "metric_coordinate_residual_infinity": 1.1341545482881846e-12,
+    "minimum_reconstruction_factor": 1.0,
+    "minimum_scattering_optical_depth": 19.68280739866647,
+    "original_coordinate_residual_infinity": 9.270362255620057e-13,
+    "passed": true,
+    "residual_history": [
+      {
+        "combined_infinity": 0.007137112549454569,
+        "gauge_infinity": 0.0009486485479770324,
+        "metric_coordinate_infinity": 0.007137112549454569,
+        "original_coordinate_infinity": 0.0029192858590689763
+      },
+      {
+        "combined_infinity": 0.0005832308256966084,
+        "gauge_infinity": 5.389526524595292e-16,
+        "metric_coordinate_infinity": 0.0005832308256966084,
+        "original_coordinate_infinity": 0.000475855338386455
+      },
+      {
+        "combined_infinity": 2.6919202621502653e-05,
+        "gauge_infinity": 4.2725697112222516e-16,
+        "metric_coordinate_infinity": 2.6919202621502653e-05,
+        "original_coordinate_infinity": 2.202055240796419e-05
+      },
+      {
+        "combined_infinity": 1.5454169866125257e-07,
+        "gauge_infinity": 6.258354619738731e-16,
+        "metric_coordinate_infinity": 1.5454169866125257e-07,
+        "original_coordinate_infinity": 1.1688404988330348e-07
+      },
+      {
+        "combined_infinity": 5.25109636924716e-10,
+        "gauge_infinity": 5.296838744917002e-16,
+        "metric_coordinate_infinity": 5.25109636924716e-10,
+        "original_coordinate_infinity": 3.9625913661467393e-10
+      },
+      {
+        "combined_infinity": 1.1341545482881846e-12,
+        "gauge_infinity": 5.000069368960025e-16,
+        "metric_coordinate_infinity": 1.1341545482881846e-12,
+        "original_coordinate_infinity": 9.270362255620057e-13
+      }
+    ],
+    "target_exact_refreshes": 0,
+    "transport_corrections": 5,
+    "wall_seconds": 112.1882187500596
+  },
+  "gate_values": {
+    "all_retractions_passed": true,
+    "execution_wall_seconds": 380.7792923329398,
+    "forward_coordinate_relative_defect": 1.0772383302636265e-12,
+    "forward_replay_bitwise": true,
+    "forward_saved_state_relative_defect": 1.3658522935661965e-14,
+    "maximum_gauge_residual_infinity": 6.936238102251828e-16,
+    "maximum_metric_augmented_condition": 1.9883057960764794,
+    "maximum_metric_coordinate_residual_infinity": 1.1341545482881846e-12,
+    "maximum_metric_jacobian_condition": 1.9883057960764812,
+    "maximum_original_coordinate_residual_infinity": 9.270362255620057e-13,
+    "maximum_original_coordinate_roundtrip_defect": 4.152203126774261e-17,
+    "maximum_rate_push_pull_defect": 1.4102349212106719e-14,
+    "maximum_transform_inverse_closure": 4.079000030990559e-13,
+    "new_exact_coordinate_jacobians": 2,
+    "new_exact_free_field_calls": 0,
+    "new_physical_time_seconds": 0.0,
+    "new_retractions": 3,
+    "new_trajectory_segments": 0,
+    "patch_transition_condition": 1.0141492532697285,
+    "reverse_coordinate_relative_defect": 1.0131047844030567e-12,
+    "transform_reproduction_relative_defect": 0.0
+  },
+  "input_lock": {
+    "manifest_classification": "conservative_metric_chart_atlas_overlap_manifest_frozen",
+    "manifest_hashes": {
+      "atlas_contract.json": "9df56b2f74ff725010b8e436ee41692357dab0e08df62bdc6a22f44fe3db0f9e",
+      "input_lock.json": "a15c8c8aa476c06612b1f21efee05eb90f20525c5cc18847c80c469e9d0345fc",
+      "provenance.json": "14529687dc42f534cbaad5e5a659f815b68e1f8ff090f9c21d000d8b06df6000",
+      "summary.json": "ad7e4a3ced2df46f691d97f2b57a8cfc3890a867480dddf272d3a0f751831972"
+    }
+  },
+  "overlap_transform_metrics": {
+    "block_condition_numbers": [
+      2014.8272635465555,
+      1.0000000000000064,
+      1.0000000000000009
+    ],
+    "block_sizes": [
+      162,
+      280,
+      28
+    ],
+    "block_whitening_closure_defects": [
+      1.9420370839895016e-12,
+      6.065847873494159e-14,
+      9.247936686440793e-15
+    ],
+    "maximum_block_whitening_closure_defect": 1.9420370839895016e-12,
+    "metric_jacobian_condition_number": 1.9883057960764812,
+    "metric_jacobian_maximum_singular_value": 1.2634214113493474,
+    "metric_jacobian_minimum_singular_value": 0.6354261069109458
+  },
+  "passed": true,
+  "replay_retraction": {
+    "accepted_line_factors": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "gauge_residual_infinity": 5.000069368960025e-16,
+    "maximum_height_ratio": 0.10989876630251613,
+    "maximum_metric_augmented_condition_number": 1.9743452561758281,
+    "maximum_scaled_anchor_departure": 0.000825986781334366,
+    "metric_coordinate_residual_infinity": 1.1341545482881846e-12,
+    "minimum_reconstruction_factor": 1.0,
+    "minimum_scattering_optical_depth": 19.68280739866647,
+    "original_coordinate_residual_infinity": 9.270362255620057e-13,
+    "passed": true,
+    "residual_history": [
+      {
+        "combined_infinity": 0.007137112549454569,
+        "gauge_infinity": 0.0009486485479770324,
+        "metric_coordinate_infinity": 0.007137112549454569,
+        "original_coordinate_infinity": 0.0029192858590689763
+      },
+      {
+        "combined_infinity": 0.0005832308256966084,
+        "gauge_infinity": 5.389526524595292e-16,
+        "metric_coordinate_infinity": 0.0005832308256966084,
+        "original_coordinate_infinity": 0.000475855338386455
+      },
+      {
+        "combined_infinity": 2.6919202621502653e-05,
+        "gauge_infinity": 4.2725697112222516e-16,
+        "metric_coordinate_infinity": 2.6919202621502653e-05,
+        "original_coordinate_infinity": 2.202055240796419e-05
+      },
+      {
+        "combined_infinity": 1.5454169866125257e-07,
+        "gauge_infinity": 6.258354619738731e-16,
+        "metric_coordinate_infinity": 1.5454169866125257e-07,
+        "original_coordinate_infinity": 1.1688404988330348e-07
+      },
+      {
+        "combined_infinity": 5.25109636924716e-10,
+        "gauge_infinity": 5.296838744917002e-16,
+        "metric_coordinate_infinity": 5.25109636924716e-10,
+        "original_coordinate_infinity": 3.9625913661467393e-10
+      },
+      {
+        "combined_infinity": 1.1341545482881846e-12,
+        "gauge_infinity": 5.000069368960025e-16,
+        "metric_coordinate_infinity": 1.1341545482881846e-12,
+        "original_coordinate_infinity": 9.270362255620057e-13
+      }
+    ],
+    "target_exact_refreshes": 0,
+    "transport_corrections": 5,
+    "wall_seconds": 113.52197350002825
+  },
+  "reverse_retraction": {
+    "accepted_line_factors": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "gauge_residual_infinity": 6.936238102251828e-16,
+    "maximum_height_ratio": 0.10984392455218722,
+    "maximum_metric_augmented_condition_number": 1.9883057960764794,
+    "maximum_scaled_anchor_departure": 0.0008260242316179972,
+    "metric_coordinate_residual_infinity": 1.0550823534003344e-12,
+    "minimum_reconstruction_factor": 1.0,
+    "minimum_scattering_optical_depth": 19.685609183686832,
+    "original_coordinate_residual_infinity": 8.564260411958458e-13,
+    "passed": true,
+    "residual_history": [
+      {
+        "combined_infinity": 0.006201432645255877,
+        "gauge_infinity": 0.0009544422094014649,
+        "metric_coordinate_infinity": 0.006201432645255877,
+        "original_coordinate_infinity": 0.001980779081980244
+      },
+      {
+        "combined_infinity": 0.0005478596788711978,
+        "gauge_infinity": 4.582852436540151e-16,
+        "metric_coordinate_infinity": 0.0005478596788711978,
+        "original_coordinate_infinity": 0.00046082025461235965
+      },
+      {
+        "combined_infinity": 2.2027891063173613e-05,
+        "gauge_infinity": 5.137220943779441e-16,
+        "metric_coordinate_infinity": 2.2027891063173613e-05,
+        "original_coordinate_infinity": 1.9090818433542545e-05
+      },
+      {
+        "combined_infinity": 1.240667170356226e-07,
+        "gauge_infinity": 6.823764044373054e-16,
+        "metric_coordinate_infinity": 1.240667170356226e-07,
+        "original_coordinate_infinity": 9.129336842050861e-08
+      },
+      {
+        "combined_infinity": 4.902174196504016e-10,
+        "gauge_infinity": 4.0732465463492526e-16,
+        "metric_coordinate_infinity": 4.902174196504016e-10,
+        "original_coordinate_infinity": 3.754958566304367e-10
+      },
+      {
+        "combined_infinity": 1.0550823534003344e-12,
+        "gauge_infinity": 6.936238102251828e-16,
+        "metric_coordinate_infinity": 1.0550823534003344e-12,
+        "original_coordinate_infinity": 8.564260411958458e-13
+      }
+    ],
+    "target_exact_refreshes": 0,
+    "transport_corrections": 5,
+    "wall_seconds": 114.15209904219955
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fid"
+}
