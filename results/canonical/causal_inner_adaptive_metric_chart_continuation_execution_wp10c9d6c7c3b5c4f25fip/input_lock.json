@@ -1,0 +1,50 @@
+{
+  "execution_identity": {
+    "implementation_commit": "6fc5318deb4cc0f5cbc7a10b0257bc79a017e584",
+    "implementation_tree": "fe54d1f21a1f0f0f21ffed42834d0a58d4c26672",
+    "manifest_hashes": {
+      "continuation_contract.json": "30645b4bde506026d925f56f803bfec8b4514a26f07302c5053d95c1909c9348",
+      "continuation_seed.npz": "22bc8c8f960513d0e7299361d8b3aa335d791abafcee3a4bab3ee840d90db848",
+      "cost_projection.json": "41ba5a88f1b4404aaa7820b81e711766a14c3ed54cfb27d393faf915eaa74dfe",
+      "input_lock.json": "f5551a17cc29a92813461aa09c5bc5b77e238e1da835b832d192c5adb27b4f98",
+      "provenance.json": "04cf964fb20b43fa327ccd97335b930e05f86e042c4798cc306fbabdda4af87a",
+      "summary.json": "bafba1ed2aebcd211e483a0e98755626f27d02b3e4fbff20c142d78c6e84316d"
+    },
+    "policy": {
+      "accepted_segments_before_growth": 4,
+      "blind_midpoint_frequency": 4,
+      "endpoint_or_midpoint_numerical_failure_halves_span": true,
+      "growth_factor": 2.0,
+      "growth_requires_blind_midpoint_pass": true,
+      "initial_segment_seconds": 0.001,
+      "maximum_segment_seconds": 0.002,
+      "minimum_segment_seconds": 0.00025,
+      "minimum_span_failure_stops": true,
+      "physical_failure_stops": true,
+      "physically_admissible_chart_failure_halves_span": true,
+      "rejected_candidate_is_never_propagated": true
+    },
+    "source_hashes": {
+      "scripts/run_causal_inner_adaptive_complete_cycle_execution_wp10c9d6c7c3b5c4f25fe.py": "a4e056711fd1792106572541a227465c419dc4359980ae0a3183c3652cbf1c89",
+      "scripts/run_causal_inner_adaptive_metric_chart_continuation_execution_wp10c9d6c7c3b5c4f25fip.py": "e166fb0cfb89776569d528e2c3e5b4f0ac3a414d23898197ece11fd57dac2a96",
+      "scripts/run_causal_inner_adaptive_metric_chart_continuation_manifest_wp10c9d6c7c3b5c4f25fio.py": "729f61f0c6755c74e3479c7ead600c56ea02f7211ae92b1df269ef2b98340ab2",
+      "scripts/run_causal_inner_adaptive_metric_chart_radius_recovery_execution_wp10c9d6c7c3b5c4f25fin.py": "1228183733726068e5ada105eaf42c45e76012f0928f78c2eed1b965724f9bda",
+      "scripts/run_causal_inner_metric_chart_short_suffix_execution_wp10c9d6c7c3b5c4f25fih.py": "ac15935846a087b106e92256e64515580d97fef00954592662ebc5078ae47633",
+      "src/imri_qpe/layer3_minidisk_1d/adaptive_metric_chart_continuation.py": "264a611238cf3717c16cb2a2757016d414a1e63ff9e964286bf51a0b95a1f748",
+      "src/imri_qpe/layer3_minidisk_1d/conservative_metric_chart_atlas_v2.py": "e49f08d00a6d896b34b6c404420c8b91e7b9c8080da4e807c047ea424a233da6",
+      "tests/test_adaptive_metric_chart_continuation.py": "4f01c3cca98d6cdbac5782db65788b1cad852e7af390f2c2177d0846a9f8a31d",
+      "tests/test_causal_inner_adaptive_metric_chart_continuation_execution_wp10c9d6c7c3b5c4f25fip.py": "96a508b0cccf1559f82547e7dc87403534b31785c4c7119682def835e74eefce",
+      "tests/test_causal_inner_adaptive_metric_chart_continuation_manifest_wp10c9d6c7c3b5c4f25fio.py": "f209395aca6a18e175c713b02ca257fa557b34824ecacce2b16592cd10ea2d5a"
+    },
+    "work_package": "WP10c9d6c7c3b5c4f25fip"
+  },
+  "manifest_classification": "adaptive_metric_chart_continuation_manifest_frozen",
+  "manifest_hashes": {
+    "continuation_contract.json": "30645b4bde506026d925f56f803bfec8b4514a26f07302c5053d95c1909c9348",
+    "continuation_seed.npz": "22bc8c8f960513d0e7299361d8b3aa335d791abafcee3a4bab3ee840d90db848",
+    "cost_projection.json": "41ba5a88f1b4404aaa7820b81e711766a14c3ed54cfb27d393faf915eaa74dfe",
+    "input_lock.json": "f5551a17cc29a92813461aa09c5bc5b77e238e1da835b832d192c5adb27b4f98",
+    "provenance.json": "04cf964fb20b43fa327ccd97335b930e05f86e042c4798cc306fbabdda4af87a",
+    "summary.json": "bafba1ed2aebcd211e483a0e98755626f27d02b3e4fbff20c142d78c6e84316d"
+  }
+}
