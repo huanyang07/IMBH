@@ -1,0 +1,73 @@
+{
+  "authorized_execution": "WP10c9d6c7c3b5c4f25fif_metric_chart_boundary_crossing_execution",
+  "chart_policy": {
+    "all_ledgers_remain_in_original_coordinates": true,
+    "all_original_physical_gates_except_raw_condition_remain_binding": true,
+    "endpoint_acceptance_patch": "new exact endpoint metric patch",
+    "historical_raw_condition": 2500.0,
+    "historical_raw_condition_role": "reported diagnostic, not binding",
+    "rank_470_remains_binding": true,
+    "retraction_patch": "accepted attempt-82 metric patch"
+  },
+  "decision": {
+    "numerical_failure": "metric_chart_boundary_crossing_numerical_gate_failed",
+    "pass": "metric_chart_boundary_crossing_passed_short_suffix_manifest_authorized",
+    "physical_failure": "metric_chart_boundary_crossing_original_physical_gate_failed"
+  },
+  "forbidden": [
+    "retroactively pass the rejected f25fi attempt 83",
+    "modify the original coordinate or physical field",
+    "relax rank, reconstruction, height, optical-depth, or ledger gates",
+    "propagate a rejected endpoint",
+    "authorize a cycle or reduced slow evolution"
+  ],
+  "gates": {
+    "checkpoint_roundtrip_bitwise": true,
+    "endpoint_retraction_replay_bitwise": true,
+    "gauge_residual_tolerance": 1e-10,
+    "maximum_blind_midpoint_rate_defect": 0.02,
+    "maximum_coordinate_reconstruction_defect": 5e-12,
+    "maximum_endpoint_integral_defect": 0.02,
+    "maximum_metric_augmented_condition": 10.0,
+    "maximum_metric_jacobian_condition": 10.0,
+    "maximum_patch_transition_condition": 10.0,
+    "maximum_saved_rate_relative_defect": 1e-09,
+    "maximum_saved_state_relative_defect": 1e-09,
+    "maximum_saved_target_relative_defect": 2e-12,
+    "maximum_transform_inverse_closure": 1e-10,
+    "metric_coordinate_residual_tolerance": 1e-09,
+    "original_coordinate_residual_tolerance": 1e-10
+  },
+  "history": {
+    "blind_midpoint_required": true,
+    "new_segment_seconds": 0.00025,
+    "parent_elapsed_seconds": 0.11125000000000008,
+    "predictor": "unchanged equal-step AB2 in original q",
+    "previous_and_current_rates": "hash-locked exact f25fi fields",
+    "previous_and_current_states": "hash-locked accepted f25fi history",
+    "previous_span_seconds": 0.00025,
+    "tentative_segment_number": 72
+  },
+  "schema_version": 1,
+  "scope": {
+    "BDF_microsteps": 0,
+    "fixed_Q_calls": 0,
+    "maximum_wall_hours": 2.0,
+    "new_accepted_segments_maximum": 1,
+    "new_exact_free_field_calls": 2,
+    "new_independent_metric_jacobian_audits": 2,
+    "new_physical_time_seconds_maximum": 0.00025,
+    "new_retractions": 3,
+    "nonlinear_roots": 0,
+    "reaction_calls": 0
+  },
+  "truth_system": {
+    "external_clock_or_phase": "forbidden",
+    "field": "autonomous original reaction-free field dy/dt=f_free(y)",
+    "fixed_Q_rate_or_reaction": "forbidden",
+    "metric_coordinate": "local z=W(q-q_anchor), numerical only",
+    "physical_coordinate": "original q=C(u)",
+    "state": "original primitive state u"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fie"
+}
