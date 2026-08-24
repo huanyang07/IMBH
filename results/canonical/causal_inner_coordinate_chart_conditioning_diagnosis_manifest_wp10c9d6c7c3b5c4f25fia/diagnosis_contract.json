@@ -1,0 +1,61 @@
+{
+  "authorized_execution": "WP10c9d6c7c3b5c4f25fib_coordinate_chart_conditioning_diagnosis",
+  "coordinate_blocks": {
+    "departure_rows": 28,
+    "memory_rows": 280,
+    "physical_rows": 162,
+    "scaled_primitive_columns": 560,
+    "total_rows": 470
+  },
+  "decision": {
+    "block_whitened_or_rank_fails": "intrinsic_chart_degeneracy_detected_no_continuation_authorized",
+    "equilibrated_and_block_whitened_pass": "coordinate_metric_artifact_supported_atlas_manifest_authorized",
+    "reproduction_or_method_gate_fails": "conditioning_diagnosis_failed_no_continuation_authorized",
+    "row_equilibrated_fails_but_block_whitened_passes": "interblock_chart_exhaustion_supported_tangent_atlas_manifest_authorized"
+  },
+  "forbidden": [
+    "relax the historical raw condition gate",
+    "retroactively accept attempt 83",
+    "advance or retract a new state",
+    "evaluate a new original free field",
+    "authorize a cycle or reduced slow evolution"
+  ],
+  "gates": {
+    "all_nonconditioning_physical_gates_passed": true,
+    "maximum_block_whitened_condition": 2500.0,
+    "maximum_row_equilibrated_condition": 2500.0,
+    "maximum_whitening_closure_defect": 1e-09,
+    "minimum_terminal_normalized_singular_ratio": 0.5,
+    "raw_condition_reproduction_relative_tolerance": 1e-10,
+    "raw_rank_equal": 470
+  },
+  "required_diagnostics": {
+    "block_interaction": "principal-angle singular values between the three row spaces",
+    "block_whitened": "independently inverse-square-root whiten the physical, memory, and departure row Gramians before stacking",
+    "rate_action": "compare recomputed J times the saved scaled free rate with the saved coordinate free rate",
+    "raw": "complete singular spectrum and critical left/right vectors",
+    "row_equilibrated": "divide every row by its Euclidean norm"
+  },
+  "schema_version": 1,
+  "scope": {
+    "BDF_microsteps": 0,
+    "fixed_Q_calls": 0,
+    "maximum_wall_hours": 1.0,
+    "new_exact_coordinate_jacobians": 6,
+    "new_exact_free_field_calls": 0,
+    "new_physical_time_seconds": 0.0,
+    "new_retractions": 0,
+    "new_trajectory_segments": 0,
+    "nonlinear_roots": 0,
+    "reaction_calls": 0,
+    "saved_attempts": [
+      78,
+      79,
+      80,
+      81,
+      82,
+      83
+    ]
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fia"
+}
