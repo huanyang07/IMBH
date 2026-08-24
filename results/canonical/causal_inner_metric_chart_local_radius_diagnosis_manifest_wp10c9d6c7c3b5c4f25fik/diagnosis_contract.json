@@ -1,0 +1,58 @@
+{
+  "authorized_execution": "WP10c9d6c7c3b5c4f25fil_metric_chart_local_radius_diagnosis_execution",
+  "decision": {
+    "negative": "no smaller span restored a strict well-conditioned patch",
+    "physical_failure": "local radius diagnosis physical gate failed",
+    "positive": "2 ms strict failure reproduced and a smaller strictly passed well-conditioned fresh patch identifies the local radius",
+    "positive_authorizes": "definitions-only adaptive chart-radius recovery manifest"
+  },
+  "forbidden": [
+    "propagate any diagnosed state",
+    "evaluate the slow free field",
+    "reinterpret a physical failure as chart-radius failure",
+    "relax any residual or conditioning gate",
+    "authorize complete-cycle or reduced slow execution directly"
+  ],
+  "gates": {
+    "gauge_residual_tolerance": 1e-10,
+    "maximum_height_ratio": 0.5,
+    "maximum_metric_augmented_condition": 10.0,
+    "maximum_metric_jacobian_condition": 10.0,
+    "maximum_patch_transition_condition": 10.0,
+    "metric_coordinate_residual_tolerance": 1e-09,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "original_coordinate_residual_tolerance": 1e-10,
+    "strict_status_requires_physical_closure_and_condition": true
+  },
+  "question": "Does the rejected 2 ms predictor exceed only the current local metric-patch radius, with strict closure restored at 1 or 0.5 ms?",
+  "schema_version": 1,
+  "scope": {
+    "BDF_microsteps": 0,
+    "accepted_history_mutation": false,
+    "exact_free_field_calls": 0,
+    "fixed_Q_calls": 0,
+    "initial_elapsed_seconds": 0.1325000000000001,
+    "maximum_fresh_patch_audits": 2,
+    "maximum_retractions": 3,
+    "maximum_wall_hours": 1.0,
+    "new_trajectory": false,
+    "nonlinear_roots": 0,
+    "reaction_calls": 0,
+    "span_ladder_seconds": [
+      0.002,
+      0.001,
+      0.0005
+    ]
+  },
+  "truth_system": {
+    "coordinate": "original conservative q=C(u)",
+    "exact_free_field_call": "forbidden",
+    "fixed_Q_rate_or_reaction": "forbidden",
+    "fresh_patch": "exact block whitening at each strictly passed smaller target",
+    "predictor": "variable-step AB2 from accepted original-coordinate history",
+    "retraction": "frozen metric transport with strict-v2 status semantics",
+    "state": "hash-validated accepted original primitive state at 132.5 ms"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fik"
+}
