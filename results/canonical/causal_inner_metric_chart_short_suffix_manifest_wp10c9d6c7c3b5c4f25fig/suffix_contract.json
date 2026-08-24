@@ -1,0 +1,79 @@
+{
+  "authorized_execution": "WP10c9d6c7c3b5c4f25fih_metric_chart_short_suffix_execution",
+  "decision": {
+    "numerical_failure": "metric_chart_short_suffix_numerical_or_restart_failed",
+    "pass": "metric_chart_short_suffix_passed_wide_resume_manifest_authorized",
+    "physical_failure": "metric_chart_short_suffix_original_physical_gate_failed"
+  },
+  "forbidden": [
+    "adapt or grow the timestep in this suffix",
+    "evaluate physics in metric coordinates",
+    "bind the historical raw condition after the prospective atlas switch",
+    "propagate a rejected endpoint",
+    "authorize a cycle or reduced slow evolution"
+  ],
+  "gates": {
+    "all_reaction_free_ledgers": true,
+    "gauge_residual_tolerance": 1e-10,
+    "maximum_blind_midpoint_rate_defect": 0.02,
+    "maximum_coordinate_reconstruction_defect": 5e-12,
+    "maximum_endpoint_integral_defect": 0.02,
+    "maximum_height_ratio": 0.5,
+    "maximum_metric_augmented_condition": 10.0,
+    "maximum_metric_jacobian_condition": 10.0,
+    "maximum_patch_transition_condition": 10.0,
+    "maximum_transform_inverse_closure": 1e-10,
+    "metric_coordinate_residual_tolerance": 1e-09,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "original_coordinate_residual_tolerance": 1e-10,
+    "rank": 470
+  },
+  "restart": {
+    "checkpoint_after_new_segments": 2,
+    "checkpoint_roundtrip_bitwise": true,
+    "remaining_two_segment_history_replay_bitwise": true,
+    "replay_uses_saved_exact_fields_without_new_field_calls": true
+  },
+  "schema_version": 1,
+  "scope": {
+    "BDF_microsteps": 0,
+    "fixed_Q_calls": 0,
+    "maximum_wall_hours": 2.0,
+    "new_accepted_segments_required": 4,
+    "new_exact_free_field_calls": 5,
+    "new_independent_metric_jacobian_audits": 5,
+    "new_metric_retractions": 5,
+    "new_physical_time_seconds": 0.001,
+    "nonlinear_roots": 0,
+    "reaction_calls": 0
+  },
+  "suffix": {
+    "blind_midpoint_segment": 76,
+    "failed_candidate_is_never_propagated": true,
+    "fixed_segment_seconds": 0.00025,
+    "initial_elapsed_seconds": 0.11150000000000009,
+    "interpolant": "cubic Hermite in original q",
+    "new_horizon_seconds": 0.001,
+    "new_segments": 4,
+    "predictor": "equal-step AB2 in original q",
+    "reanchor_after_every_accepted_endpoint": true,
+    "tentative_segment_numbers": [
+      73,
+      74,
+      75,
+      76
+    ],
+    "terminal_elapsed_seconds": 0.11250000000000009
+  },
+  "truth_system": {
+    "all_physics_and_ledgers_in_original_coordinates": true,
+    "external_clock_or_phase": "forbidden",
+    "field": "autonomous original reaction-free field dy/dt=f_free(y)",
+    "fixed_Q_rate_or_reaction": "forbidden",
+    "metric_chart": "invertible block-whitened numerical residual only",
+    "physical_coordinate": "original q=C(u)",
+    "state": "original primitive state u"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fig"
+}
