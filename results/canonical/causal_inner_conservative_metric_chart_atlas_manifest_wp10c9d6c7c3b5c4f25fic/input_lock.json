@@ -1,0 +1,29 @@
+{
+  "diagnosis_classification": "terminal_raw_condition_crossing_is_coordinate_metric_artifact",
+  "diagnosis_gate_values": {
+    "block_whitened_gate_passed": true,
+    "execution_wall_seconds": 61.83982641575858,
+    "maximum_block_whitened_condition_number": 2.0811243822878156,
+    "maximum_block_whitening_closure_defect": 2.1807902786707503e-12,
+    "maximum_coordinate_rate_action_relative_defect": 0.0,
+    "maximum_raw_condition_reproduction_relative_defect": 1.2180887605376058e-15,
+    "maximum_row_equilibrated_condition_number": 765.5162452536503,
+    "method_passed": true,
+    "new_exact_coordinate_jacobians": 6,
+    "new_exact_free_field_calls": 0,
+    "new_physical_time_seconds": 0.0,
+    "new_retractions": 0,
+    "new_trajectory_segments": 0,
+    "rank_passed": true,
+    "row_equilibrated_gate_passed": true,
+    "terminal_normalized_block_singular_ratio": 0.9889438375589414,
+    "witness_count": 6
+  },
+  "diagnosis_hashes": {
+    "conditioning_arrays.npz": "23e275382d8cb8592a4a3c0532a65c19b0043c12e4f7b6396499118dbc1a92c4",
+    "conditioning_metrics.json": "c40a98b815b6317efb76b72242b2b35f1bd5307666aa2b7cea94d5dc35e7f95b",
+    "input_lock.json": "05ef516b1eb205efc8bc61cc6b911fa9ee40863f6a6d881111409c7975587364",
+    "provenance.json": "8931f49997053430b9fd6ba62776cd4fc76e1aa2336f081bae0407c70e445f7e",
+    "summary.json": "9a4f0aa267631b723a083cfd61459730a64b245f3894fb64235acf2ae4e63a6a"
+  }
+}

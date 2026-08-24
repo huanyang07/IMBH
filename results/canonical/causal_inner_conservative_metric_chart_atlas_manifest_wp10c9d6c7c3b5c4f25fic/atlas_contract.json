@@ -1,0 +1,64 @@
+{
+  "anchors": {
+    "accepted_anchor_attempt": 82,
+    "historical_raw_hard_condition_preserved": 2500.0,
+    "overlap_candidate_attempt": 83,
+    "raw_warning_condition": 2000.0,
+    "switch_policy": "construct a new metric patch at the last accepted state once the raw diagnostic condition reaches the warning threshold"
+  },
+  "authorized_execution": "WP10c9d6c7c3b5c4f25fid_metric_chart_atlas_overlap_preflight",
+  "decision": {
+    "all_gates_pass": "metric_chart_atlas_overlap_passed_boundary_crossing_manifest_authorized",
+    "metric_or_transition_gate_fails": "metric_chart_atlas_failed_no_boundary_crossing_authorized",
+    "original_physical_gate_fails": "original_free_field_physical_failure_no_continuation_authorized"
+  },
+  "forbidden": [
+    "modify the original coordinate definition",
+    "evaluate physics in metric coordinates",
+    "relax the historical raw gate retroactively",
+    "advance physical time",
+    "authorize a cycle or reduced slow evolution"
+  ],
+  "gates": {
+    "all_original_physical_gates_except_historical_raw_condition": true,
+    "forward_replay_bitwise": true,
+    "gauge_residual_tolerance": 1e-10,
+    "maximum_metric_augmented_condition": 10.0,
+    "maximum_metric_jacobian_condition": 10.0,
+    "maximum_original_coordinate_roundtrip_defect": 1e-10,
+    "maximum_patch_transition_condition": 10.0,
+    "maximum_rate_push_pull_defect": 1e-10,
+    "maximum_saved_state_relative_defect": 1e-09,
+    "maximum_transform_inverse_closure": 1e-10,
+    "metric_coordinate_residual_tolerance": 1e-09,
+    "original_coordinate_residual_tolerance": 1e-10
+  },
+  "mathematical_chart": {
+    "conservation": "all ledgers, guards, Poincare events, stored observables, and physical acceptance remain in original primitive/original q space",
+    "metric_coordinate": "z_k=W_k(q-q_k)",
+    "metric_rate": "dz_k/dt=W_k DC(u) du/dt",
+    "original_coordinate": "q=C(u) in R^470 remains binding for physics",
+    "transform": "block diagonal inverse-square-root row-Gram whitening of the 162 physical, 280 memory, and 28 departure coordinate blocks",
+    "transition": "carry the primitive state, evaluate original q exactly, and encode it in the next accepted anchor chart",
+    "truth_state": "original primitive state u in R^560"
+  },
+  "required_retractions": [
+    "anchor82_to_saved_overlap83",
+    "bitwise_replay_anchor82_to_saved_overlap83",
+    "reanchored_overlap83_to_anchor82"
+  ],
+  "schema_version": 1,
+  "scope": {
+    "BDF_microsteps": 0,
+    "fixed_Q_calls": 0,
+    "maximum_wall_hours": 1.0,
+    "new_exact_coordinate_jacobians": 2,
+    "new_exact_free_field_calls": 0,
+    "new_physical_time_seconds": 0.0,
+    "new_retractions": 3,
+    "new_trajectory_segments": 0,
+    "nonlinear_roots": 0,
+    "reaction_calls": 0
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fic"
+}
