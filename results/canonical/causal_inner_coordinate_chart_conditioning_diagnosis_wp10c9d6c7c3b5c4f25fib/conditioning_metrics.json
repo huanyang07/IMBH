@@ -1,0 +1,287 @@
+{
+  "atlas_supported": true,
+  "authorized_next": "WP10c9d6c7c3b5c4f25fic_conservative_metric_chart_atlas_manifest",
+  "classification": "terminal_raw_condition_crossing_is_coordinate_metric_artifact",
+  "gate_values": {
+    "block_whitened_gate_passed": true,
+    "execution_wall_seconds": 61.83982641575858,
+    "maximum_block_whitened_condition_number": 2.0811243822878156,
+    "maximum_block_whitening_closure_defect": 2.1807902786707503e-12,
+    "maximum_coordinate_rate_action_relative_defect": 0.0,
+    "maximum_raw_condition_reproduction_relative_defect": 1.2180887605376058e-15,
+    "maximum_row_equilibrated_condition_number": 765.5162452536503,
+    "method_passed": true,
+    "new_exact_coordinate_jacobians": 6,
+    "new_exact_free_field_calls": 0,
+    "new_physical_time_seconds": 0.0,
+    "new_retractions": 0,
+    "new_trajectory_segments": 0,
+    "rank_passed": true,
+    "row_equilibrated_gate_passed": true,
+    "terminal_normalized_block_singular_ratio": 0.9889438375589414,
+    "witness_count": 6
+  },
+  "input_lock": {
+    "manifest_classification": "terminal_coordinate_conditioning_diagnosis_manifest_frozen",
+    "manifest_hashes": {
+      "conditioning_witnesses.npz": "804bbd07bc15640b9c2f988eb7b315f9c89f0293b4533933a28a099424cd1d00",
+      "diagnosis_contract.json": "03f3acb56cc6a535142537853b107e6cc3f379abb060f969af7cdf1b99301add",
+      "input_lock.json": "12cbcb916bc1b2369f7a99477b35a7a09524e94bc21a731347741a2e95dba4fc",
+      "provenance.json": "589cd648c16649195f6e5966694146846b64871c065590c876bca96b13587c60",
+      "summary.json": "2b494a727a38e00476bd5a30c4c2f688319866bf47a5071b2054268ea630642e",
+      "witness_lock.json": "d6b478b1d4ad8421d9636ab1f5a952b86b230355b99c07e996ba39af4314d880"
+    }
+  },
+  "interpretation": "The historical raw condition rejection remains binding. An atlas is supported only when the saved Jacobians reproduce exactly and their row- or block-metric forms remain full-rank and bounded.",
+  "passed": true,
+  "records": [
+    {
+      "attempt_index": 78,
+      "block_condition_numbers": {
+        "departure": 1.0000000000000009,
+        "memory": 1.000000000000004,
+        "physical": 2003.8606892037067
+      },
+      "block_whitened_condition_number": 1.9607231132687761,
+      "block_whitened_minimum_singular_value": 0.6425300232209336,
+      "block_whitening_closure_defects": {
+        "departure": 9.247936686440793e-15,
+        "memory": 6.065847873494159e-14,
+        "physical": 1.6984708595851424e-12
+      },
+      "condition_reproduction_relative_defect": 5.527862286275436e-16,
+      "coordinate_rate_action_relative_defect": 0.0,
+      "coordinate_reconstruction_relative_defect": 2.321217828908106e-16,
+      "maximum_block_whitening_closure_defect": 1.6984708595851424e-12,
+      "maximum_row_norm": 8.456612191545755,
+      "memory_departure_angles": {
+        "maximum_principal_cosine": 9.968043774630465e-14,
+        "minimum_principal_angle_radians": 1.5707963267947969
+      },
+      "minimum_row_norm": 0.8972673549304682,
+      "physical_departure_angles": {
+        "maximum_principal_cosine": 0.38629563022201385,
+        "minimum_principal_angle_radians": 1.1741842492052048
+      },
+      "physical_memory_angles": {
+        "maximum_principal_cosine": 0.49455338742006094,
+        "minimum_principal_angle_radians": 1.053475421783168
+      },
+      "raw_condition_number": 2467.937842891871,
+      "raw_maximum_singular_value": 8.600864924077596,
+      "raw_minimum_singular_value": 0.003485041144309902,
+      "raw_rank": 470,
+      "row_equilibrated_condition_number": 719.832173055823,
+      "row_equilibrated_minimum_singular_value": 0.002917233621591446,
+      "row_norm_ratio": 9.424852186003225,
+      "saved_condition_number": 2467.9378428918694
+    },
+    {
+      "attempt_index": 79,
+      "block_condition_numbers": {
+        "departure": 1.0000000000000009,
+        "memory": 1.000000000000004,
+        "physical": 2046.638470023603
+      },
+      "block_whitened_condition_number": 2.0811243822878156,
+      "block_whitened_minimum_singular_value": 0.6125019153725352,
+      "block_whitening_closure_defects": {
+        "departure": 9.247936686440793e-15,
+        "memory": 6.065847873494159e-14,
+        "physical": 2.1807902786707503e-12
+      },
+      "condition_reproduction_relative_defect": 1.2180887605376058e-15,
+      "coordinate_rate_action_relative_defect": 0.0,
+      "coordinate_reconstruction_relative_defect": 2.321139452665676e-16,
+      "maximum_block_whitening_closure_defect": 2.1807902786707503e-12,
+      "maximum_row_norm": 8.456612191545755,
+      "memory_departure_angles": {
+        "maximum_principal_cosine": 9.968043774630465e-14,
+        "minimum_principal_angle_radians": 1.5707963267947969
+      },
+      "minimum_row_norm": 0.8940817834583238,
+      "physical_departure_angles": {
+        "maximum_principal_cosine": 0.4038151587774902,
+        "minimum_principal_angle_radians": 1.1551130010164277
+      },
+      "physical_memory_angles": {
+        "maximum_principal_cosine": 0.5250450730910227,
+        "minimum_principal_angle_radians": 1.0180282543403878
+      },
+      "raw_condition_number": 2613.3000806938894,
+      "raw_maximum_singular_value": 8.60121280230005,
+      "raw_minimum_singular_value": 0.003291322288566354,
+      "raw_rank": 470,
+      "row_equilibrated_condition_number": 765.5162452536503,
+      "row_equilibrated_minimum_singular_value": 0.0027424787081005387,
+      "row_norm_ratio": 9.458432492423045,
+      "saved_condition_number": 2613.3000806938926
+    },
+    {
+      "attempt_index": 80,
+      "block_condition_numbers": {
+        "departure": 1.0000000000000009,
+        "memory": 1.000000000000004,
+        "physical": 2025.6703107508608
+      },
+      "block_whitened_condition_number": 2.0175500385553717,
+      "block_whitened_minimum_singular_value": 0.6280428199410744,
+      "block_whitening_closure_defects": {
+        "departure": 9.247936686440793e-15,
+        "memory": 6.065847873494159e-14,
+        "physical": 1.710386654393435e-12
+      },
+      "condition_reproduction_relative_defect": 8.960067750584113e-16,
+      "coordinate_rate_action_relative_defect": 0.0,
+      "coordinate_reconstruction_relative_defect": 2.321178553215601e-16,
+      "maximum_block_whitening_closure_defect": 1.710386654393435e-12,
+      "maximum_row_norm": 8.456612191545755,
+      "memory_departure_angles": {
+        "maximum_principal_cosine": 9.968043774630465e-14,
+        "minimum_principal_angle_radians": 1.5707963267947969
+      },
+      "minimum_row_norm": 0.8956722487529469,
+      "physical_departure_angles": {
+        "maximum_principal_cosine": 0.3947308228992857,
+        "minimum_principal_angle_radians": 1.1650214611328076
+      },
+      "physical_memory_angles": {
+        "maximum_principal_cosine": 0.5094032475261153,
+        "minimum_principal_angle_radians": 1.0363051514887152
+      },
+      "raw_condition_number": 2537.6334395285035,
+      "raw_maximum_singular_value": 8.601038809032433,
+      "raw_minimum_singular_value": 0.0033893937063780655,
+      "raw_rank": 470,
+      "row_equilibrated_condition_number": 741.7383500793928,
+      "row_equilibrated_minimum_singular_value": 0.002830734730019195,
+      "row_norm_ratio": 9.441636941771923,
+      "saved_condition_number": 2537.6334395285057
+    },
+    {
+      "attempt_index": 81,
+      "block_condition_numbers": {
+        "departure": 1.0000000000000009,
+        "memory": 1.000000000000004,
+        "physical": 2014.8393478962307
+      },
+      "block_whitened_condition_number": 1.9883483043868495,
+      "block_whitened_minimum_singular_value": 0.6354152647533738,
+      "block_whitening_closure_defects": {
+        "departure": 9.247936686440793e-15,
+        "memory": 6.065847873494159e-14,
+        "physical": 1.929900676387095e-12
+      },
+      "condition_reproduction_relative_defect": 9.0874422359796e-16,
+      "coordinate_rate_action_relative_defect": 0.0,
+      "coordinate_reconstruction_relative_defect": 2.321198169629932e-16,
+      "maximum_block_whitening_closure_defect": 1.929900676387095e-12,
+      "maximum_row_norm": 8.456612191545755,
+      "memory_departure_angles": {
+        "maximum_principal_cosine": 9.968043774630465e-14,
+        "minimum_principal_angle_radians": 1.5707963267947969
+      },
+      "minimum_row_norm": 0.8964692552820016,
+      "physical_departure_angles": {
+        "maximum_principal_cosine": 0.39043468952592,
+        "minimum_principal_angle_radians": 1.1696926163778518
+      },
+      "physical_memory_angles": {
+        "maximum_principal_cosine": 0.5018792232442235,
+        "minimum_principal_angle_radians": 1.045026248424162
+      },
+      "raw_condition_number": 2502.0646023256054,
+      "raw_maximum_singular_value": 8.600951853345189,
+      "raw_minimum_singular_value": 0.0034375418785553427,
+      "raw_rank": 470,
+      "row_equilibrated_condition_number": 730.5597044950167,
+      "row_equilibrated_minimum_singular_value": 0.0028742228253775407,
+      "row_norm_ratio": 9.433242848786337,
+      "saved_condition_number": 2502.064602325603
+    },
+    {
+      "attempt_index": 82,
+      "block_condition_numbers": {
+        "departure": 1.0000000000000009,
+        "memory": 1.000000000000004,
+        "physical": 2009.365076580414
+      },
+      "block_whitened_condition_number": 1.974345256175829,
+      "block_whitened_minimum_singular_value": 0.6390044314570291,
+      "block_whitening_closure_defects": {
+        "departure": 9.247936686440793e-15,
+        "memory": 6.065847873494159e-14,
+        "physical": 2.1150101447204276e-12
+      },
+      "condition_reproduction_relative_defect": 5.490295490590471e-16,
+      "coordinate_rate_action_relative_defect": 0.0,
+      "coordinate_reconstruction_relative_defect": 2.321207993965333e-16,
+      "maximum_block_whitening_closure_defect": 2.1150101447204276e-12,
+      "maximum_row_norm": 8.456612191545755,
+      "memory_departure_angles": {
+        "maximum_principal_cosine": 9.968043774630465e-14,
+        "minimum_principal_angle_radians": 1.5707963267947969
+      },
+      "minimum_row_norm": 0.8968681726336643,
+      "physical_departure_angles": {
+        "maximum_principal_cosine": 0.38834599736114606,
+        "minimum_principal_angle_radians": 1.1719602903135469
+      },
+      "physical_memory_angles": {
+        "maximum_principal_cosine": 0.49819158807260777,
+        "minimum_principal_angle_radians": 1.049284469691798
+      },
+      "raw_condition_number": 2484.824459808211,
+      "raw_maximum_singular_value": 8.600908385447658,
+      "raw_minimum_singular_value": 0.0034613746462039867,
+      "raw_rank": 470,
+      "row_equilibrated_condition_number": 725.1406898319553,
+      "row_equilibrated_minimum_singular_value": 0.002895789717323101,
+      "row_norm_ratio": 9.429047043461038,
+      "saved_condition_number": 2484.8244598082097
+    },
+    {
+      "attempt_index": 83,
+      "block_condition_numbers": {
+        "departure": 1.0000000000000009,
+        "memory": 1.000000000000004,
+        "physical": 2014.8272635465403
+      },
+      "block_whitened_condition_number": 1.9883057960764812,
+      "block_whitened_minimum_singular_value": 0.6354261069109458,
+      "block_whitening_closure_defects": {
+        "departure": 9.247936686440793e-15,
+        "memory": 6.065847873494159e-14,
+        "physical": 1.9420370839895016e-12
+      },
+      "condition_reproduction_relative_defect": 3.63504528091188e-16,
+      "coordinate_rate_action_relative_defect": 0.0,
+      "coordinate_reconstruction_relative_defect": 2.3211982252952814e-16,
+      "maximum_block_whitening_closure_defect": 1.9420370839895016e-12,
+      "maximum_row_norm": 8.456612191545755,
+      "memory_departure_angles": {
+        "maximum_principal_cosine": 9.968043774630465e-14,
+        "minimum_principal_angle_radians": 1.5707963267947969
+      },
+      "minimum_row_norm": 0.89646935172017,
+      "physical_departure_angles": {
+        "maximum_principal_cosine": 0.3904305203686624,
+        "minimum_principal_angle_radians": 1.1696971449619844
+      },
+      "physical_memory_angles": {
+        "maximum_principal_cosine": 0.5018680326950311,
+        "minimum_principal_angle_radians": 1.0450391863583455
+      },
+      "raw_condition_number": 2502.0175306998494,
+      "raw_maximum_singular_value": 8.600951853645363,
+      "raw_minimum_singular_value": 0.0034376065507580817,
+      "raw_rank": 470,
+      "row_equilibrated_condition_number": 730.5459093474783,
+      "row_equilibrated_minimum_singular_value": 0.0028742771015813984,
+      "row_norm_ratio": 9.43324183400021,
+      "saved_condition_number": 2502.0175306998485
+    }
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fib"
+}
