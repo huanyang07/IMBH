@@ -1,0 +1,677 @@
+{
+  "BDF_microsteps": 0,
+  "classification": "metric_chart_short_suffix_passed",
+  "fixed_Q_physical_rate_calls": 0,
+  "fixed_Q_reaction_calls": 0,
+  "gate_values": {
+    "all_exact_fields_physical_passed": true,
+    "all_segment_checkpoint_roundtrips_bitwise": true,
+    "exact_free_field_calls": 5,
+    "execution_wall_seconds": 1482.1804086249322,
+    "independent_metric_jacobian_audits": 5,
+    "initial_elapsed_seconds": 0.11150000000000009,
+    "maximum_blind_midpoint_rate_defect": 0.00015856569453284253,
+    "maximum_endpoint_integral_defect": 0.00012691856561875697,
+    "maximum_execution_wall_seconds": 7200.0,
+    "maximum_height_ratio": 0.11011979372113928,
+    "maximum_metric_coordinate_jacobian_condition": 2.0476871947126396,
+    "maximum_patch_transition_condition": 1.0143305908672664,
+    "maximum_raw_coordinate_jacobian_condition": 2573.888953029124,
+    "maximum_reaction_free_ledger_defect": 3.510695431396224e-10,
+    "metric_retractions": 5,
+    "minimum_raw_coordinate_jacobian_condition": 2519.5194590417545,
+    "minimum_reconstruction_factor": 1.0,
+    "minimum_scattering_optical_depth": 19.671305571297253,
+    "minimum_section_value": 1.3439619752467131,
+    "new_accepted_horizon_seconds": 0.001,
+    "new_accepted_segments": 4,
+    "remaining_suffix_history_replay_bitwise": true,
+    "restart_checkpoint_roundtrip_bitwise": true,
+    "terminal_elapsed_seconds": 0.11250000000000009,
+    "terminal_section_value": 1.3497346390951095
+  },
+  "input_lock": {
+    "manifest_classification": "metric_chart_short_suffix_manifest_frozen",
+    "manifest_hashes": {
+      "input_lock.json": "d065d1327a32580252fa9ab285502c805cd9a9157094e2729ea6dd3fc382bec7",
+      "provenance.json": "93a5cd8286c1a01a601329b6149ef99ca1d3bd803db1a66edd27cee09eeb84ce",
+      "suffix_contract.json": "1aa286b3ba0ea242751fb2d5f1813659da15b219b5f3e44a518e8b6fa3f782e9",
+      "suffix_seed.npz": "5608b23eb5714485e8eb9da864d1577cb93f0924f737358e7e82ae3c50d3fb6e",
+      "summary.json": "f5ca32c6616653ba3ff4f1bd5a1f704d39b77d93ea7b73d6a9f76dc43298a632"
+    }
+  },
+  "nonlinear_roots": 0,
+  "passed": true,
+  "schema_version": 1,
+  "segments": [
+    {
+      "accepted": true,
+      "blind_midpoint_rate_defect": null,
+      "blind_midpoint_required": false,
+      "elapsed_seconds_after": 0.11175000000000009,
+      "endpoint_field": {
+        "exact_free_field_call_wall_seconds": 140.75824975036085,
+        "free_field": {
+          "coordinate_free_rate_norm_per_second": 19.9056835917222,
+          "coordinate_jacobian_condition_number": 2519.5194590417545,
+          "coordinate_jacobian_rank": 470,
+          "coordinate_jacobian_wall_seconds": 10.64229549979791,
+          "coordinate_reconstruction_relative_defect": 2.3211884989876033e-16,
+          "maximum_height_ratio": 0.10995377716330493,
+          "minimum_reconstruction_factor": 1.0,
+          "minimum_scattering_optical_depth": 19.679975489156465,
+          "reaction_free_ledger_passed": true,
+          "reaction_free_ledger_values": {
+            "incoming_excision_characteristics": 0,
+            "maximum_base_rate_balance_defect": 2.4947122013906347e-16,
+            "maximum_centered_storage_action_relative_defect": 3.463931497233527e-10,
+            "maximum_descriptor_component_defect": 6.746682638329763e-18,
+            "maximum_generator_factorization_defect": 2.4264744024190156e-16,
+            "maximum_node_partition_of_unity_defect": 2.220446049250313e-16,
+            "maximum_node_reconstruction_relative_defect": 2.3211884989876033e-16,
+            "maximum_spatial_block_ledger_relative_defect": 0.0,
+            "maximum_storage_rate_component_defect": 4.0836093736060583e-17
+          },
+          "scaled_free_rate_norm_per_second": 29.02306686965343,
+          "tangent_wall_seconds": 130.05651425011456,
+          "total_free_evaluation_wall_seconds": 140.69880974991247
+        },
+        "historical_raw_condition_exceeded": true,
+        "metric_chart": {
+          "block_condition_numbers": [
+            2020.2407144063895,
+            1.0000000000000064,
+            1.0000000000000009
+          ],
+          "block_sizes": [
+            162,
+            280,
+            28
+          ],
+          "block_whitening_closure_defects": [
+            2.079012786497155e-12,
+            6.065847873494159e-14,
+            9.247936686440793e-15
+          ],
+          "independent_metric_jacobian_wall_seconds": 10.607373333070427,
+          "maximum_block_whitening_closure_defect": 2.079012786497155e-12,
+          "metric_augmented_condition_number": 2.0026127187971934,
+          "metric_jacobian_condition_number": 2.0026127187971916,
+          "metric_jacobian_maximum_singular_value": 1.2652410323550658,
+          "metric_jacobian_minimum_singular_value": 0.631795164626236,
+          "patch_transition_condition_number": 1.0141656717992702,
+          "raw_condition_reproduction_relative_defect": 0.0,
+          "transform_inverse_closure_defect": 2.6811290282061527e-13
+        },
+        "physical_passed": true,
+        "retraction": {
+          "accepted_line_factors": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "gauge_residual_infinity": 5.333535134697073e-16,
+          "maximum_height_ratio": 0.10995377716330493,
+          "maximum_metric_augmented_condition_number": 1.9883057960778072,
+          "maximum_scaled_anchor_departure": 0.0008270687582174543,
+          "metric_coordinate_residual_infinity": 1.1594086777032146e-12,
+          "minimum_reconstruction_factor": 1.0,
+          "minimum_scattering_optical_depth": 19.679975489156465,
+          "original_coordinate_residual_infinity": 9.45410416619552e-13,
+          "passed": true,
+          "residual_history": [
+            {
+              "combined_infinity": 0.0071496059780950276,
+              "gauge_infinity": 0.0009567484769017628,
+              "metric_coordinate_infinity": 0.0071496059780950276,
+              "original_coordinate_infinity": 0.0029293140717438493
+            },
+            {
+              "combined_infinity": 0.0005862596376704187,
+              "gauge_infinity": 4.534205493442729e-16,
+              "metric_coordinate_infinity": 0.0005862596376704187,
+              "original_coordinate_infinity": 0.0004792818998246573
+            },
+            {
+              "combined_infinity": 2.7119639685378617e-05,
+              "gauge_infinity": 3.5172659146287246e-16,
+              "metric_coordinate_infinity": 2.7119639685378617e-05,
+              "original_coordinate_infinity": 2.2226871826236394e-05
+            },
+            {
+              "combined_infinity": 1.5653033057338502e-07,
+              "gauge_infinity": 5.56858070374613e-16,
+              "metric_coordinate_infinity": 1.5653033057338502e-07,
+              "original_coordinate_infinity": 1.1859399734470699e-07
+            },
+            {
+              "combined_infinity": 5.329920711317056e-10,
+              "gauge_infinity": 5.334613501807584e-16,
+              "metric_coordinate_infinity": 5.329920711317056e-10,
+              "original_coordinate_infinity": 4.030164535429037e-10
+            },
+            {
+              "combined_infinity": 1.1594086777032146e-12,
+              "gauge_infinity": 5.333535134697073e-16,
+              "metric_coordinate_infinity": 1.1594086777032146e-12,
+              "original_coordinate_infinity": 9.45410416619552e-13
+            }
+          ],
+          "target_exact_refreshes": 0,
+          "transport_corrections": 5,
+          "wall_seconds": 111.07305762497708
+        },
+        "total_call_wall_seconds": 151.36562308343127
+      },
+      "endpoint_integral_defect": 0.00012636229425500327,
+      "endpoint_physical_passed": true,
+      "index": 0,
+      "midpoint_field": null,
+      "midpoint_physical_passed": null,
+      "physical_failure": false,
+      "span_seconds": 0.00025,
+      "tentative_segment_number": 73
+    },
+    {
+      "accepted": true,
+      "blind_midpoint_rate_defect": null,
+      "blind_midpoint_required": false,
+      "elapsed_seconds_after": 0.11200000000000009,
+      "endpoint_field": {
+        "exact_free_field_call_wall_seconds": 140.8406483330764,
+        "free_field": {
+          "coordinate_free_rate_norm_per_second": 19.94665554582177,
+          "coordinate_jacobian_condition_number": 2537.331715697799,
+          "coordinate_jacobian_rank": 470,
+          "coordinate_jacobian_wall_seconds": 10.511069208849221,
+          "coordinate_reconstruction_relative_defect": 2.3211788202012235e-16,
+          "maximum_height_ratio": 0.11000895051416279,
+          "minimum_reconstruction_factor": 1.0,
+          "minimum_scattering_optical_depth": 19.677113973110878,
+          "reaction_free_ledger_passed": true,
+          "reaction_free_ledger_values": {
+            "incoming_excision_characteristics": 0,
+            "maximum_base_rate_balance_defect": 2.2882395592751225e-16,
+            "maximum_centered_storage_action_relative_defect": 3.41111626640699e-10,
+            "maximum_descriptor_component_defect": 6.537922562607315e-18,
+            "maximum_generator_factorization_defect": 2.6299315917397944e-16,
+            "maximum_node_partition_of_unity_defect": 2.220446049250313e-16,
+            "maximum_node_reconstruction_relative_defect": 2.3211788202012235e-16,
+            "maximum_spatial_block_ledger_relative_defect": 0.0,
+            "maximum_storage_rate_component_defect": 3.9703453813476615e-17
+          },
+          "scaled_free_rate_norm_per_second": 29.09502114851493,
+          "tangent_wall_seconds": 130.27132545830682,
+          "total_free_evaluation_wall_seconds": 140.78239466715604
+        },
+        "historical_raw_condition_exceeded": true,
+        "metric_chart": {
+          "block_condition_numbers": [
+            2025.5983164441845,
+            1.0000000000000064,
+            1.0000000000000009
+          ],
+          "block_sizes": [
+            162,
+            280,
+            28
+          ],
+          "block_whitening_closure_defects": [
+            1.6210168082397626e-12,
+            6.065847873494159e-14,
+            9.247936686440793e-15
+          ],
+          "independent_metric_jacobian_wall_seconds": 10.44677845807746,
+          "maximum_block_whitening_closure_defect": 1.6210168082397626e-12,
+          "metric_augmented_condition_number": 2.0172737300664307,
+          "metric_jacobian_condition_number": 2.0172737300664307,
+          "metric_jacobian_maximum_singular_value": 1.2670735858448008,
+          "metric_jacobian_minimum_singular_value": 0.6281118754285641,
+          "patch_transition_condition_number": 1.0141904302353981,
+          "raw_condition_reproduction_relative_defect": 0.0,
+          "transform_inverse_closure_defect": 4.200367979670284e-13
+        },
+        "physical_passed": true,
+        "retraction": {
+          "accepted_line_factors": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "gauge_residual_infinity": 5.612785444547243e-16,
+          "maximum_height_ratio": 0.11000895051416279,
+          "maximum_metric_augmented_condition_number": 2.0026127187971934,
+          "maximum_scaled_anchor_departure": 0.0008278137332778171,
+          "metric_coordinate_residual_infinity": 1.1759233484572028e-12,
+          "minimum_reconstruction_factor": 1.0,
+          "minimum_scattering_optical_depth": 19.677113973110878,
+          "original_coordinate_residual_infinity": 9.643952303406422e-13,
+          "passed": true,
+          "residual_history": [
+            {
+              "combined_infinity": 0.0071618247359534724,
+              "gauge_infinity": 0.0009648875127266152,
+              "metric_coordinate_infinity": 0.0071618247359534724,
+              "original_coordinate_infinity": 0.0029394230393023357
+            },
+            {
+              "combined_infinity": 0.0005893095015454479,
+              "gauge_infinity": 5.553690103285436e-16,
+              "metric_coordinate_infinity": 0.0005893095015454479,
+              "original_coordinate_infinity": 0.00048273797724623924
+            },
+            {
+              "combined_infinity": 2.7321309977385694e-05,
+              "gauge_infinity": 3.8293026807518614e-16,
+              "metric_coordinate_infinity": 2.7321309977385694e-05,
+              "original_coordinate_infinity": 2.243491641368278e-05
+            },
+            {
+              "combined_infinity": 1.5854604760361215e-07,
+              "gauge_infinity": 5.516312044408986e-16,
+              "metric_coordinate_infinity": 1.5854604760361215e-07,
+              "original_coordinate_infinity": 1.2033068380601364e-07
+            },
+            {
+              "combined_infinity": 5.410375977042888e-10,
+              "gauge_infinity": 7.180399937828374e-16,
+              "metric_coordinate_infinity": 5.410375977042888e-10,
+              "original_coordinate_infinity": 4.099229289344919e-10
+            },
+            {
+              "combined_infinity": 1.1759233484572028e-12,
+              "gauge_infinity": 5.612785444547243e-16,
+              "metric_coordinate_infinity": 1.1759233484572028e-12,
+              "original_coordinate_infinity": 9.643952303406422e-13
+            }
+          ],
+          "target_exact_refreshes": 0,
+          "transport_corrections": 5,
+          "wall_seconds": 116.16436629090458
+        },
+        "total_call_wall_seconds": 151.28742679115385
+      },
+      "endpoint_integral_defect": 0.0001268994202996685,
+      "endpoint_physical_passed": true,
+      "index": 1,
+      "midpoint_field": null,
+      "midpoint_physical_passed": null,
+      "physical_failure": false,
+      "span_seconds": 0.00025,
+      "tentative_segment_number": 74
+    },
+    {
+      "accepted": true,
+      "blind_midpoint_rate_defect": null,
+      "blind_midpoint_required": false,
+      "elapsed_seconds_after": 0.11225000000000009,
+      "endpoint_field": {
+        "exact_free_field_call_wall_seconds": 142.5322832497768,
+        "free_field": {
+          "coordinate_free_rate_norm_per_second": 19.98844999637527,
+          "coordinate_jacobian_condition_number": 2555.454959269785,
+          "coordinate_jacobian_rank": 470,
+          "coordinate_jacobian_wall_seconds": 10.353241499979049,
+          "coordinate_reconstruction_relative_defect": 2.321169191236464e-16,
+          "maximum_height_ratio": 0.11006428857672357,
+          "minimum_reconstruction_factor": 1.0,
+          "minimum_scattering_optical_depth": 19.674223685424984,
+          "reaction_free_ledger_passed": true,
+          "reaction_free_ledger_values": {
+            "incoming_excision_characteristics": 0,
+            "maximum_base_rate_balance_defect": 2.557584914090424e-16,
+            "maximum_centered_storage_action_relative_defect": 3.510695431396224e-10,
+            "maximum_descriptor_component_defect": 6.614515982912077e-18,
+            "maximum_generator_factorization_defect": 2.5548001180009096e-16,
+            "maximum_node_partition_of_unity_defect": 2.220446049250313e-16,
+            "maximum_node_reconstruction_relative_defect": 2.321169191236464e-16,
+            "maximum_spatial_block_ledger_relative_defect": 0.0,
+            "maximum_storage_rate_component_defect": 4.0396777826992634e-17
+          },
+          "scaled_free_rate_norm_per_second": 29.167998734139132,
+          "tangent_wall_seconds": 132.1215651249513,
+          "total_free_evaluation_wall_seconds": 142.47480662493035
+        },
+        "historical_raw_condition_exceeded": true,
+        "metric_chart": {
+          "block_condition_numbers": [
+            2030.8925272261195,
+            1.0000000000000064,
+            1.0000000000000009
+          ],
+          "block_sizes": [
+            162,
+            280,
+            28
+          ],
+          "block_whitening_closure_defects": [
+            1.942111520956331e-12,
+            6.065847873494159e-14,
+            9.247936686440793e-15
+          ],
+          "independent_metric_jacobian_wall_seconds": 10.445497416891158,
+          "maximum_block_whitening_closure_defect": 1.942111520956331e-12,
+          "metric_augmented_condition_number": 2.0322962168932017,
+          "metric_jacobian_condition_number": 2.032296216893203,
+          "metric_jacobian_maximum_singular_value": 1.2689183473117456,
+          "metric_jacobian_minimum_singular_value": 0.6243766714537102,
+          "patch_transition_condition_number": 1.0142603464916098,
+          "raw_condition_reproduction_relative_defect": 0.0,
+          "transform_inverse_closure_defect": 3.38063666599623e-13
+        },
+        "physical_passed": true,
+        "retraction": {
+          "accepted_line_factors": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "gauge_residual_infinity": 5.007338000257238e-16,
+          "maximum_height_ratio": 0.11006428857672357,
+          "maximum_metric_augmented_condition_number": 2.0172737300664307,
+          "maximum_scaled_anchor_departure": 0.000828226658737892,
+          "metric_coordinate_residual_infinity": 1.2007203770026674e-12,
+          "minimum_reconstruction_factor": 1.0,
+          "minimum_scattering_optical_depth": 19.674223685424984,
+          "original_coordinate_residual_infinity": 9.836020886666574e-13,
+          "passed": true,
+          "residual_history": [
+            {
+              "combined_infinity": 0.007173770817020567,
+              "gauge_infinity": 0.0009730637161429554,
+              "metric_coordinate_infinity": 0.007173770817020567,
+              "original_coordinate_infinity": 0.002949570551529057
+            },
+            {
+              "combined_infinity": 0.0005923680062222858,
+              "gauge_infinity": 5.922657655109409e-16,
+              "metric_coordinate_infinity": 0.0005923680062222858,
+              "original_coordinate_infinity": 0.00048621426239253696
+            },
+            {
+              "combined_infinity": 2.752354739733453e-05,
+              "gauge_infinity": 4.548905739934495e-16,
+              "metric_coordinate_infinity": 2.752354739733453e-05,
+              "original_coordinate_infinity": 2.2644163301610565e-05
+            },
+            {
+              "combined_infinity": 1.6058192525338744e-07,
+              "gauge_infinity": 6.956516267282861e-16,
+              "metric_coordinate_infinity": 1.6058192525338744e-07,
+              "original_coordinate_infinity": 1.2208908112265604e-07
+            },
+            {
+              "combined_infinity": 5.491937572514091e-10,
+              "gauge_infinity": 5.230530093248975e-16,
+              "metric_coordinate_infinity": 5.491937572514091e-10,
+              "original_coordinate_infinity": 4.169500855688568e-10
+            },
+            {
+              "combined_infinity": 1.2007203770026674e-12,
+              "gauge_infinity": 5.007338000257238e-16,
+              "metric_coordinate_infinity": 1.2007203770026674e-12,
+              "original_coordinate_infinity": 9.836020886666574e-13
+            }
+          ],
+          "target_exact_refreshes": 0,
+          "transport_corrections": 5,
+          "wall_seconds": 113.57981266733259
+        },
+        "total_call_wall_seconds": 152.97778066666797
+      },
+      "endpoint_integral_defect": 0.0001268754284980077,
+      "endpoint_physical_passed": true,
+      "index": 2,
+      "midpoint_field": null,
+      "midpoint_physical_passed": null,
+      "physical_failure": false,
+      "span_seconds": 0.00025,
+      "tentative_segment_number": 75
+    },
+    {
+      "accepted": true,
+      "blind_midpoint_rate_defect": 0.00015856569453284253,
+      "blind_midpoint_required": true,
+      "elapsed_seconds_after": 0.11250000000000009,
+      "endpoint_field": {
+        "exact_free_field_call_wall_seconds": 140.4543784582056,
+        "free_field": {
+          "coordinate_free_rate_norm_per_second": 20.031060015640957,
+          "coordinate_jacobian_condition_number": 2573.888953029124,
+          "coordinate_jacobian_rank": 470,
+          "coordinate_jacobian_wall_seconds": 10.448511833325028,
+          "coordinate_reconstruction_relative_defect": 2.3211596146663156e-16,
+          "maximum_height_ratio": 0.11011979372113928,
+          "minimum_reconstruction_factor": 1.0,
+          "minimum_scattering_optical_depth": 19.671305571297253,
+          "reaction_free_ledger_passed": true,
+          "reaction_free_ledger_values": {
+            "incoming_excision_characteristics": 0,
+            "maximum_base_rate_balance_defect": 2.436197012823692e-16,
+            "maximum_centered_storage_action_relative_defect": 3.244351401703281e-10,
+            "maximum_descriptor_component_defect": 6.388694674724273e-18,
+            "maximum_generator_factorization_defect": 2.390408435307887e-16,
+            "maximum_node_partition_of_unity_defect": 2.220446049250313e-16,
+            "maximum_node_reconstruction_relative_defect": 2.3211596146663156e-16,
+            "maximum_spatial_block_ledger_relative_defect": 0.0,
+            "maximum_storage_rate_component_defect": 3.831485302543292e-17
+          },
+          "scaled_free_rate_norm_per_second": 29.242011257988356,
+          "tangent_wall_seconds": 129.9476145412773,
+          "total_free_evaluation_wall_seconds": 140.39612637460232
+        },
+        "historical_raw_condition_exceeded": true,
+        "metric_chart": {
+          "block_condition_numbers": [
+            2036.1153681572762,
+            1.0000000000000064,
+            1.0000000000000009
+          ],
+          "block_sizes": [
+            162,
+            280,
+            28
+          ],
+          "block_whitening_closure_defects": [
+            2.17436358013269e-12,
+            6.065847873494159e-14,
+            9.247936686440793e-15
+          ],
+          "independent_metric_jacobian_wall_seconds": 10.51461562467739,
+          "maximum_block_whitening_closure_defect": 2.17436358013269e-12,
+          "metric_augmented_condition_number": 2.04768719471264,
+          "metric_jacobian_condition_number": 2.0476871947126396,
+          "metric_jacobian_maximum_singular_value": 1.270774512035798,
+          "metric_jacobian_minimum_singular_value": 0.6205901542565104,
+          "patch_transition_condition_number": 1.0143305908672664,
+          "raw_condition_reproduction_relative_defect": 0.0,
+          "transform_inverse_closure_defect": 3.3137859162872147e-13
+        },
+        "physical_passed": true,
+        "retraction": {
+          "accepted_line_factors": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "gauge_residual_infinity": 5.74456050761972e-16,
+          "maximum_height_ratio": 0.11011979372113928,
+          "maximum_metric_augmented_condition_number": 2.0322962168932017,
+          "maximum_scaled_anchor_departure": 0.0008283144730551542,
+          "metric_coordinate_residual_infinity": 1.2165759078028403e-12,
+          "minimum_reconstruction_factor": 1.0,
+          "minimum_scattering_optical_depth": 19.671305571297253,
+          "original_coordinate_residual_infinity": 1.002864458143904e-12,
+          "passed": true,
+          "residual_history": [
+            {
+              "combined_infinity": 0.007185444401045709,
+              "gauge_infinity": 0.000981273964528785,
+              "metric_coordinate_infinity": 0.007185444401045709,
+              "original_coordinate_infinity": 0.002959761071231526
+            },
+            {
+              "combined_infinity": 0.0005954351711319942,
+              "gauge_infinity": 3.5819093142647177e-16,
+              "metric_coordinate_infinity": 0.0005954351711319942,
+              "original_coordinate_infinity": 0.0004897110681600925
+            },
+            {
+              "combined_infinity": 2.772633414565871e-05,
+              "gauge_infinity": 5.987336487443086e-16,
+              "metric_coordinate_infinity": 2.772633414565871e-05,
+              "original_coordinate_infinity": 2.2854615837952785e-05
+            },
+            {
+              "combined_infinity": 1.6263808231818757e-07,
+              "gauge_infinity": 6.76024235179751e-16,
+              "metric_coordinate_infinity": 1.6263808231818757e-07,
+              "original_coordinate_infinity": 1.2386946968145907e-07
+            },
+            {
+              "combined_infinity": 5.574715468010828e-10,
+              "gauge_infinity": 5.130025142181112e-16,
+              "metric_coordinate_infinity": 5.574715468010828e-10,
+              "original_coordinate_infinity": 4.241009765593162e-10
+            },
+            {
+              "combined_infinity": 1.2165759078028403e-12,
+              "gauge_infinity": 5.74456050761972e-16,
+              "metric_coordinate_infinity": 1.2165759078028403e-12,
+              "original_coordinate_infinity": 1.002864458143904e-12
+            }
+          ],
+          "target_exact_refreshes": 0,
+          "transport_corrections": 5,
+          "wall_seconds": 116.00378425000235
+        },
+        "total_call_wall_seconds": 150.968994082883
+      },
+      "endpoint_integral_defect": 0.00012691856561875697,
+      "endpoint_physical_passed": true,
+      "index": 3,
+      "midpoint_field": {
+        "exact_free_field_call_wall_seconds": 186.20397266699,
+        "free_field": {
+          "coordinate_free_rate_norm_per_second": 20.009650223273834,
+          "coordinate_jacobian_condition_number": 2564.6255550399314,
+          "coordinate_jacobian_rank": 470,
+          "coordinate_jacobian_wall_seconds": 13.710796333383769,
+          "coordinate_reconstruction_relative_defect": 2.3211643954383133e-16,
+          "maximum_height_ratio": 0.11009201899182976,
+          "minimum_reconstruction_factor": 1.0,
+          "minimum_scattering_optical_depth": 19.672768023897312,
+          "reaction_free_ledger_passed": true,
+          "reaction_free_ledger_values": {
+            "incoming_excision_characteristics": 0,
+            "maximum_base_rate_balance_defect": 2.326716977841778e-16,
+            "maximum_centered_storage_action_relative_defect": 3.416837228365936e-10,
+            "maximum_descriptor_component_defect": 6.7065268223709924e-18,
+            "maximum_generator_factorization_defect": 2.4219461649607535e-16,
+            "maximum_node_partition_of_unity_defect": 2.220446049250313e-16,
+            "maximum_node_reconstruction_relative_defect": 2.3211643954383133e-16,
+            "maximum_spatial_block_ledger_relative_defect": 0.0,
+            "maximum_storage_rate_component_defect": 3.976584249189348e-17
+          },
+          "scaled_free_rate_norm_per_second": 29.204872915038695,
+          "tangent_wall_seconds": 172.4149423330091,
+          "total_free_evaluation_wall_seconds": 186.12573866639286
+        },
+        "historical_raw_condition_exceeded": true,
+        "metric_chart": {
+          "block_condition_numbers": [
+            2033.5117102954646,
+            1.0000000000000064,
+            1.0000000000000009
+          ],
+          "block_sizes": [
+            162,
+            280,
+            28
+          ],
+          "block_whitening_closure_defects": [
+            2.4155590284930207e-12,
+            6.065847873494159e-14,
+            9.247936686440793e-15
+          ],
+          "independent_metric_jacobian_wall_seconds": 13.851519125048071,
+          "maximum_block_whitening_closure_defect": 2.4155590284930207e-12,
+          "metric_augmented_condition_number": 2.0399381202633777,
+          "metric_jacobian_condition_number": 2.0399381202633777,
+          "metric_jacobian_maximum_singular_value": 1.2698442011980424,
+          "metric_jacobian_minimum_singular_value": 0.6224915298088022,
+          "patch_transition_condition_number": 1.0071309426352228,
+          "raw_condition_reproduction_relative_defect": 0.0,
+          "transform_inverse_closure_defect": 2.9046780665604266e-13
+        },
+        "physical_passed": true,
+        "retraction": {
+          "accepted_line_factors": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "gauge_residual_infinity": 5.552661054311193e-16,
+          "maximum_height_ratio": 0.11009201899182976,
+          "maximum_metric_augmented_condition_number": 2.0322962168932017,
+          "maximum_scaled_anchor_departure": 0.0004141705211493582,
+          "metric_coordinate_residual_infinity": 8.772564678290824e-12,
+          "minimum_reconstruction_factor": 1.0,
+          "minimum_scattering_optical_depth": 19.672768023897312,
+          "original_coordinate_residual_infinity": 6.749711900511102e-12,
+          "passed": true,
+          "residual_history": [
+            {
+              "combined_infinity": 0.0034692126052883153,
+              "gauge_infinity": 0.0004903390146602897,
+              "metric_coordinate_infinity": 0.0034692126052883153,
+              "original_coordinate_infinity": 0.0013552648518734278
+            },
+            {
+              "combined_infinity": 0.00014675395834293779,
+              "gauge_infinity": 4.910180079298468e-16,
+              "metric_coordinate_infinity": 0.00014675395834293779,
+              "original_coordinate_infinity": 0.00012156310959887673
+            },
+            {
+              "combined_infinity": 3.295084535524553e-06,
+              "gauge_infinity": 7.557410862526623e-16,
+              "metric_coordinate_infinity": 3.295084535524553e-06,
+              "original_coordinate_infinity": 2.749932912826658e-06
+            },
+            {
+              "combined_infinity": 4.894777800523126e-09,
+              "gauge_infinity": 4.605854207822163e-16,
+              "metric_coordinate_infinity": 4.894777800523126e-09,
+              "original_coordinate_infinity": 3.767747447369629e-09
+            },
+            {
+              "combined_infinity": 8.772564678290824e-12,
+              "gauge_infinity": 5.552661054311193e-16,
+              "metric_coordinate_infinity": 8.772564678290824e-12,
+              "original_coordinate_infinity": 6.749711900511102e-12
+            }
+          ],
+          "target_exact_refreshes": 0,
+          "transport_corrections": 4,
+          "wall_seconds": 115.8639600421302
+        },
+        "total_call_wall_seconds": 200.05549179203808
+      },
+      "midpoint_physical_passed": true,
+      "physical_failure": false,
+      "span_seconds": 0.00025,
+      "tentative_segment_number": 76
+    }
+  ],
+  "work_package": "WP10c9d6c7c3b5c4f25fih"
+}
