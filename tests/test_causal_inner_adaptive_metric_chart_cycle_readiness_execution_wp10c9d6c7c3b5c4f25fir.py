@@ -32,6 +32,7 @@ def test_engine_context_is_isolated() -> None:
         assert target.engine.manifest is target.manifest
         assert target.engine.SCRATCH_DIRECTORY == target.SCRATCH_DIRECTORY
         assert target.engine._initial_progress is target._initial_progress
+        assert target.engine._helper() is target._BASE_HELPER_MODULE
     assert target.engine.manifest is original_manifest
     assert target.engine.SCRATCH_DIRECTORY == original_scratch
 

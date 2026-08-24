@@ -23,6 +23,7 @@ import run_causal_inner_adaptive_metric_chart_continuation_execution_wp10c9d6c7c
 import run_causal_inner_adaptive_metric_chart_cycle_readiness_manifest_wp10c9d6c7c3b5c4f25fiq as manifest  # noqa: E402
 
 
+_BASE_HELPER_MODULE = manifest._helper()
 SCHEMA_VERSION = 1
 WORK_PACKAGE = "WP10c9d6c7c3b5c4f25fir"
 TURN_CLASSIFICATION = "cycle_readiness_section_turn_bracketed"
@@ -160,7 +161,12 @@ _ENGINE_NAMES = (
     "AUTHORIZED_NEXT",
     "SCRATCH_DIRECTORY",
     "_initial_progress",
+    "_helper",
 )
+
+
+def _stable_engine_helper():
+    return _BASE_HELPER_MODULE
 
 
 @contextmanager
@@ -175,6 +181,7 @@ def _engine_context():
         "AUTHORIZED_NEXT": OPEN_AUTHORIZED_NEXT,
         "SCRATCH_DIRECTORY": SCRATCH_DIRECTORY,
         "_initial_progress": _initial_progress,
+        "_helper": _stable_engine_helper,
     }
     try:
         for name, value in replacements.items():
