@@ -1,0 +1,80 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fim_adaptive_metric_chart_radius_recovery_manifest",
+  "classification": "metric_chart_local_radius_identified",
+  "gate_values": {
+    "BDF_microsteps": 0,
+    "accepted_history_mutated": false,
+    "chart_condition_passed": [
+      false,
+      true,
+      true
+    ],
+    "exact_free_field_calls": 0,
+    "execution_wall_seconds": 577.2617957079783,
+    "fixed_Q_calls": 0,
+    "fresh_metric_condition_numbers": [
+      null,
+      3.845563710748497,
+      3.8020150844171847
+    ],
+    "fresh_patch_passed": [
+      null,
+      true,
+      true
+    ],
+    "fresh_transition_condition_numbers": [
+      null,
+      1.0796074519268943,
+      1.0388996908253088
+    ],
+    "gauge_residuals": [
+      0.014889359206906747,
+      6.204560821716941e-16,
+      4.954330523823285e-16
+    ],
+    "initial_elapsed_seconds": 0.1325000000000001,
+    "metric_augmented_condition_numbers": [
+      54.348970911834684,
+      3.856328282609691,
+      3.7634201631494233
+    ],
+    "metric_coordinate_residuals": [
+      0.12198988232282314,
+      2.0491049661845307e-14,
+      1.538076678240811e-11
+    ],
+    "new_trajectory": false,
+    "nonlinear_closure_passed": [
+      false,
+      true,
+      true
+    ],
+    "nonlinear_roots": 0,
+    "original_coordinate_residuals": [
+      0.07958537697225199,
+      8.959846753420209e-16,
+      1.6573409311604337e-12
+    ],
+    "physical_passed": [
+      true,
+      true,
+      true
+    ],
+    "reaction_calls": 0,
+    "seed_roundtrip_bitwise": true,
+    "selected_local_radius_seconds": 0.001,
+    "span_ladder_seconds": [
+      0.002,
+      0.001,
+      0.0005
+    ],
+    "strict_retraction_passed": [
+      false,
+      true,
+      true
+    ]
+  },
+  "passed": true,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fil"
+}
