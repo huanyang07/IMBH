@@ -1,0 +1,61 @@
+{
+  "cycle_observed": false,
+  "forecast_spread_seconds": 0.002212436148853969,
+  "interpretation": "the first section turning point is forecast near 0.240 s, but neither a negative section nor a cycle return has been observed",
+  "linear_zero_velocity_forecasts": {
+    "4": {
+      "forecast_additional_seconds": 0.10139753762861112,
+      "forecast_zero_velocity_time_seconds": 0.24189753762861121,
+      "sample_count": 4,
+      "section_acceleration_per_second2": -57.50284993330632
+    },
+    "6": {
+      "forecast_additional_seconds": 0.09918510147975715,
+      "forecast_zero_velocity_time_seconds": 0.23968510147975725,
+      "sample_count": 6,
+      "section_acceleration_per_second2": -58.77716424001129
+    },
+    "8": {
+      "forecast_additional_seconds": 0.09934096817449656,
+      "forecast_zero_velocity_time_seconds": 0.23984096817449665,
+      "sample_count": 8,
+      "section_acceleration_per_second2": -58.68730814429537
+    }
+  },
+  "recent_section_values": [
+    1.5009837608154926,
+    1.5071319880187526,
+    1.5132320016032728,
+    1.5192666495667142,
+    1.5252444289568634,
+    1.5311600710276625,
+    1.5340964542780329,
+    1.5370189580878892
+  ],
+  "recent_section_velocities_per_second": [
+    6.179594447561717,
+    6.126540538867777,
+    6.065278821916623,
+    6.006945867404972,
+    5.946076669667631,
+    5.887428527933311,
+    5.859147918816223,
+    5.831196417808637
+  ],
+  "recent_speeds_per_second": [
+    30.256107275085146,
+    31.63223971909933,
+    33.21770715238329,
+    35.026476210169896,
+    37.07900842716211,
+    39.38330967985649,
+    40.61655331580439,
+    41.90676334224823
+  ],
+  "section_negative_observed": false,
+  "section_turning_point_observed": false,
+  "terminal_section_value": 1.5370189580878892,
+  "terminal_section_velocity_per_second": 5.831196417808637,
+  "terminal_speed_per_second": 41.90676334224823,
+  "truth_field_autonomous": true
+}
