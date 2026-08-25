@@ -1,0 +1,15 @@
+{
+  "parent_classification": "cycle_readiness_open_transient_extended",
+  "parent_hashes": {
+    "cycle_readiness_arrays.npz": "242d397008f6a24584e8a0ad43652316dacb2335ea5c4d69f91ee88420d56e54",
+    "cycle_readiness_metrics.json": "a32b2f58853cdb2bfb850f7990538acc8341c75cc2f9166e37b7a33b34a08c59",
+    "input_lock.json": "2217ba760e211717a3c8c664b0224dfd8d05176881a98d81ef20350c1591c455",
+    "provenance.json": "ce1e6407e5d99229ea12bcccaebba3a214e09de8da337e66607d9689d829f292",
+    "summary.json": "c5e5823ae544380319206932fba53aef178d5d705ca7843dae482e8b4fb30647"
+  },
+  "terminal_span_override": {
+    "frozen_next_span_seconds": 0.00025,
+    "parent_proposed_next_span_seconds": 0.0005,
+    "reason": "three consecutive accepted-streak growth probes at 0.5 ms failed the strict chart condition and were never propagated"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "adaptive_policy": {
+    "accepted_segments_before_growth": 4,
+    "blind_midpoint_frequency": 4,
+    "endpoint_or_midpoint_numerical_failure_halves_span": true,
+    "growth_factor": 2.0,
+    "initial_segment_seconds": 0.00025,
+    "maximum_segment_seconds": 0.00025,
+    "maximum_span_frozen_from_three_consecutive_rejected_growth_probes": true,
+    "minimum_segment_seconds": 0.000125,
+    "minimum_span_failure_stops": true,
+    "physical_failure_stops": true,
+    "physically_admissible_chart_failure_halves_span": true,
+    "rejected_candidate_is_never_propagated": true
+  },
+  "authorized_execution": "WP10c9d6c7c3b5c4f25fit_adaptive_metric_chart_cycle_readiness_discrimination_execution",
+  "classification": "adaptive_metric_chart_cycle_readiness_reforecast_manifest_frozen",
+  "definitions_only": true,
+  "forbidden": [
+    "authorize a complete cycle before a negative section is observed",
+    "infer a turn from either forecast",
+    "propagate a rejected endpoint or midpoint",
+    "increase span above 0.25 ms in this tranche",
+    "alter or lag the original free field",
+    "invoke a fixed-Q physical clock or reaction",
+    "authorize reduced slow evolution"
+  ],
+  "forecast_discrimination": {
+    "binding_event": "accepted section velocity changes from positive to nonpositive",
+    "normalized_diagnostic": "orientation cosine=(n0 dot f)/norm(f); same zero as binding event",
+    "orientation_extrapolation_binding": false,
+    "raw_velocity_extrapolation_binding": false,
+    "record_orientation_cosine": true,
+    "record_secant_acceleration": true,
+    "record_speed": true,
+    "turn_may_only_be_declared_from_observed_accepted_sign_change": true
+  },
+  "gates": {
+    "all_accepted_checkpoints_roundtrip_bitwise": true,
+    "all_reaction_free_ledgers": true,
+    "gauge_residual_tolerance": 1e-10,
+    "maximum_blind_midpoint_rate_defect": 0.02,
+    "maximum_coordinate_reconstruction_defect": 5e-12,
+    "maximum_endpoint_integral_defect": 0.02,
+    "maximum_height_ratio": 0.5,
+    "maximum_metric_augmented_condition": 10.0,
+    "maximum_metric_jacobian_condition": 10.0,
+    "maximum_patch_transition_condition": 10.0,
+    "maximum_transform_inverse_closure": 1e-10,
+    "metric_coordinate_residual_tolerance": 1e-09,
+    "minimum_reconstruction_factor": 0.999999999999,
+    "minimum_scattering_optical_depth": 1.0,
+    "original_coordinate_residual_tolerance": 1e-10,
+    "suffix_history_replay_bitwise": true
+  },
+  "outcomes": {
+    "numerical_failure": "minimum-span, replay, acquisition, or wall gate failed",
+    "open_transient": "update orientation and raw-velocity forecasts before another tranche",
+    "physical_failure": "original physical gate failed",
+    "turn_bracketed": "authorize only a definitions-only negative-section acquisition manifest"
+  },
+  "schema_version": 1,
+  "scope": {
+    "BDF_microsteps": 0,
+    "fixed_Q_calls": 0,
+    "initial_accepted_segments": 132,
+    "initial_elapsed_seconds": 0.1520000000000001,
+    "maximum_accepted_segments": 48,
+    "maximum_attempted_segments": 51,
+    "maximum_exact_free_field_calls": 63,
+    "maximum_retractions": 63,
+    "maximum_wall_hours": 8.0,
+    "minimum_new_horizon_seconds": 0.006,
+    "nominal_new_horizon_seconds": 0.012,
+    "nonlinear_roots": 0,
+    "reaction_calls": 0
+  },
+  "truth_system": {
+    "chart": "fresh strict conservative metric patch at every accepted endpoint",
+    "field": "autonomous original reaction-free field dy/dt=f_free(y)",
+    "fixed_Q_rate_or_reaction": "forbidden",
+    "physical_coordinate": "original q=C(u)",
+    "state": "original primitive state u"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fis"
+}
