@@ -1,0 +1,80 @@
+{
+  "authorization_boundary": "neither a stage pass nor a coarse recurrence candidate is a cycle certificate; complete-cycle execution and reduced slow evolution remain unauthorized",
+  "authorized_execution": "WP10c9d6c7c3b5c4f25fix_tangent_phase_lap_recurrence_stage1_execution",
+  "binding_stage1_gates": {
+    "all_original_physical_and_retraction_gates_unchanged": true,
+    "checkpoint_roundtrip_bitwise": true,
+    "maximum_direction_prediction_defect_radians": 0.005,
+    "maximum_holdout_out_of_plane_defect": 0.005,
+    "maximum_holdout_relative_radial_defect": 0.002,
+    "maximum_local_phase_increment": 0.08,
+    "maximum_training_relative_radial_rms": 0.001,
+    "minimum_accepted_segments": 48,
+    "minimum_cumulative_phase_advance_radians": 1.5,
+    "minimum_local_phase_increment_strictly_greater_than": 0.0,
+    "minimum_training_two_plane_energy_fraction": 0.999,
+    "suffix_history_replay_bitwise": true
+  },
+  "classification": "bounded_tangent_phase_lap_recurrence_acquisition_selected_stage1_required",
+  "classification_branches": {
+    "coarse_recurrence_candidate_observed": "authorize only exact registered-section return refinement",
+    "phase_geometry_failed": "stop without propagating the rejected endpoint",
+    "phase_lap_without_coarse_recurrence": "reject periodic averaging and classify the trajectory as open/nonperiodic",
+    "physical_or_numerical_failed": "stop and preserve the original physical/numerical classification",
+    "stage1_passed_no_lap": "authorize only a definitions-only stage2 resume manifest"
+  },
+  "coarse_recurrence_candidate_requires": {
+    "all_original_physical_and_replay_gates": true,
+    "maximum_metric_state_return_distance_over_accumulated_path_length": 0.1,
+    "minimum_metric_tangent_cosine": 0.99,
+    "minimum_positive_section_derivative_fraction_of_reference_speed": 0.5,
+    "registered_section_bracket": "g_previous < 0 <= g_current",
+    "registered_section_definition": "g(q)=tau_0^T W_phase (q-q_0)",
+    "unwrapped_phase_at_crossing_within_radians_of_2pi": 0.25
+  },
+  "phase_registration": {
+    "local_observer": "trailing 12-tangent oriented affine two-plane circle in frozen W_164ms",
+    "phase_lap_radians": 6.283185307179586,
+    "phase_zero_elapsed_seconds": 0.16800000000000012,
+    "phase_zero_is_prospective": true,
+    "rejected_candidates_never_advance_phase_or_history": true,
+    "unwrapped_phase_is_sum_of_accepted_exact_local_increments": true
+  },
+  "schema_version": 1,
+  "staged_scope": {
+    "only_stage1_is_authorized_now": true,
+    "stage1": {
+      "accepted_segments": 48,
+      "blind_midpoint_frequency": 8,
+      "maximum_attempted_segments": 52,
+      "maximum_exact_free_field_calls": 54,
+      "maximum_retractions": 54,
+      "maximum_wall_hours": 7.0,
+      "segment_seconds": 0.00025
+    },
+    "stages": [
+      {
+        "accepted_segments": 48,
+        "physical_horizon_seconds": 0.012,
+        "stage": 1,
+        "terminal_elapsed_seconds_if_complete": 0.18000000000000013
+      },
+      {
+        "accepted_segments": 48,
+        "physical_horizon_seconds": 0.012,
+        "stage": 2,
+        "terminal_elapsed_seconds_if_complete": 0.19200000000000012
+      },
+      {
+        "accepted_segments": 48,
+        "physical_horizon_seconds": 0.012,
+        "stage": 3,
+        "terminal_elapsed_seconds_if_complete": 0.20400000000000013
+      }
+    ],
+    "stop_at_first_phase_lap_or_registered_return_candidate": true,
+    "stop_immediately_on_first_binding_failure": true
+  },
+  "truth_dynamics": "dq/dt=f_free(q) on the certified conservative atlas",
+  "work_package": "WP10c9d6c7c3b5c4f25fiw_tangent_phase_lap_recurrence_manifest"
+}

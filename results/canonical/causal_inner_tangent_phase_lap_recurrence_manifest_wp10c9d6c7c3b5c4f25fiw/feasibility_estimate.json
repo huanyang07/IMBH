@@ -1,0 +1,38 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fix_tangent_phase_lap_recurrence_stage1_execution",
+  "classification": "bounded_tangent_phase_lap_recurrence_acquisition_selected_stage1_required",
+  "complete_cycle_execution_authorized": false,
+  "definitions_only": true,
+  "input_lock": {
+    "parent_classification": "tangent_phase_atlas_prospective_holdout_passed",
+    "parent_hashes": {
+      "holdout_arrays.npz": "5736354f13cd05fa1165be690eac35f814268c12e5e6b9d171d4b2ed647d0eec",
+      "holdout_metrics.json": "642ebde7a6483c8b4909fa839e455b0bc3295eb8fc4fb1551676f38c62897b18",
+      "input_lock.json": "fd2f8881ba33e65a01aa6b92f0191f4d035749604f93a0812c331eddef9b5a0b",
+      "provenance.json": "aa3d9fba2da9bb890ca1a594e9ca6f9918311e2aa83c8161c050551ed1b012ed",
+      "summary.json": "5fd69e041f20e82b23770b2f3fe8b695f541e6b2fba0469bdd0aeb6c4d93a79f"
+    }
+  },
+  "new_truth_evaluations": 0,
+  "observations": {
+    "maximum_observed_phase_increment": 0.04947195459958542,
+    "mean_observed_phase_increment": 0.047984046151788584,
+    "measured_wall_seconds_per_exact_field_and_retraction_unit": 364.46954234580045,
+    "median_observed_phase_increment": 0.048719955732809295,
+    "minimum_observed_phase_increment": 0.04471378055643105,
+    "observed_holdout_phase_advance": 0.7677447384286173,
+    "planned_accepted_segments": 144,
+    "planned_exact_field_calls": 162,
+    "projected_full_acquisition_wall_hours": 16.40112940556102,
+    "projected_stage1_wall_hours": 5.467043135187007,
+    "segments_to_lap_at_observed_mean": 131,
+    "segments_to_lap_at_observed_minimum": 141,
+    "stage1_phase_advance_at_observed_minimum": 2.1462614667086903
+  },
+  "passed": true,
+  "phase_lap_observed": false,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "state_recurrence_observed": false,
+  "work_package": "WP10c9d6c7c3b5c4f25fiw_tangent_phase_lap_recurrence_manifest"
+}

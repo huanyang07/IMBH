@@ -1,0 +1,40 @@
+{
+  "cycle_refinement_if_coarse_candidate_passes": {
+    "equations": "exact free-field matching and periodic closure",
+    "method": "exact retracted registered-section root refinement",
+    "then": "phase-conditioned multiple shooting/collocation",
+    "unknowns": "orbit nodes, segment durations, and period"
+  },
+  "measured_feasibility": {
+    "maximum_observed_phase_increment": 0.04947195459958542,
+    "mean_observed_phase_increment": 0.047984046151788584,
+    "measured_wall_seconds_per_exact_field_and_retraction_unit": 364.46954234580045,
+    "median_observed_phase_increment": 0.048719955732809295,
+    "minimum_observed_phase_increment": 0.04471378055643105,
+    "observed_holdout_phase_advance": 0.7677447384286173,
+    "planned_accepted_segments": 144,
+    "planned_exact_field_calls": 162,
+    "projected_full_acquisition_wall_hours": 16.40112940556102,
+    "projected_stage1_wall_hours": 5.467043135187007,
+    "segments_to_lap_at_observed_mean": 131,
+    "segments_to_lap_at_observed_minimum": 141,
+    "stage1_phase_advance_at_observed_minimum": 2.1462614667086903
+  },
+  "no_recurrence_branch": "do not force cycle averaging; test equilibrium, transient, or nonperiodic-attractor closure",
+  "offline_truth_layer": {
+    "dynamics": "autonomous exact reaction-free conservative field",
+    "phase": "overlapping tangent-circle atlas",
+    "purpose": "one-time orbit or nonrecurrence identification",
+    "recurrence": "metric state return plus registered transverse section"
+  },
+  "phase_lap_is_not_a_cycle": true,
+  "schema_version": 1,
+  "slow_architecture_only_after_periodic_family_is_certified": {
+    "computational_intent": "the 15-17 hour acquisition is offline once; cycle-scale slow evolution must run from the tabulated macro model within days",
+    "offline": "continue periodic orbit over slow Q anchors and compute averaged drift plus bordered periodic adjoint",
+    "online_forbidden": "truth integration, fixed-Q reaction solves, nonlinear roots, micro-BDF steps, and phase-lap acquisition",
+    "online_rhs": "interpolated certified averaged drift Fbar(Q)",
+    "online_state": "slow Q, mode label, and event state only"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fiw_tangent_phase_lap_recurrence_manifest"
+}
