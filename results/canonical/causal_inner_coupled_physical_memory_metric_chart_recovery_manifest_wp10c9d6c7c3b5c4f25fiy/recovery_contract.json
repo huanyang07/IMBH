@@ -1,0 +1,73 @@
+{
+  "authorized_execution": "WP10c9d6c7c3b5c4f25fiz_coupled_physical_memory_metric_chart_boundary_recovery_execution",
+  "authorized_scope": {
+    "BDF_microsteps": 0,
+    "fixed_Q_calls": 0,
+    "maximum_exact_free_field_calls": 1,
+    "maximum_new_accepted_segments": 1,
+    "maximum_retractions": 1,
+    "maximum_wall_hours": 1.0,
+    "nonlinear_roots": 0,
+    "one_recomputed_AB2_candidate_from_last_accepted_history": true,
+    "reaction_calls": 0,
+    "segment_seconds": 0.00025
+  },
+  "binding_recovery_gates": {
+    "accepted_history_only_propagation": true,
+    "all_original_retraction_and_physical_gates_unchanged": true,
+    "all_phase_and_recurrence_gates_unchanged": true,
+    "checkpoint_roundtrip_bitwise": true,
+    "maximum_metric_augmented_condition": 10.0,
+    "maximum_metric_jacobian_condition": 10.0,
+    "maximum_patch_transition_condition": 10.0,
+    "maximum_transform_inverse_closure": 1e-10,
+    "suffix_history_replay_bitwise": true
+  },
+  "classification": "coupled_physical_memory_metric_chart_recovery_selected_definitions_only",
+  "deterministic_chart_hierarchy": [
+    [
+      162,
+      280,
+      28
+    ],
+    [
+      442,
+      28
+    ],
+    [
+      470
+    ]
+  ],
+  "failure_localization": {
+    "actual_physical_gates_passed": true,
+    "failed_conditions": [
+      "independent endpoint metric Jacobian condition <= 10",
+      "independent endpoint metric augmented condition <= 10"
+    ],
+    "rejected_candidate_propagated": false,
+    "residual_or_retraction_failure": false
+  },
+  "forbidden": [
+    "raise or remove the metric condition threshold",
+    "reinterpret the rejected endpoint as accepted",
+    "change the primitive state or original coordinate",
+    "change physical equations, ledgers, phase observer, or section",
+    "execute more than one recovery segment",
+    "authorize a phase lap, cycle, or reduced slow evolution"
+  ],
+  "preserved_negative_classification": "tangent_phase_lap_stage1_physical_gate_failed",
+  "schema_version": 1,
+  "selected_partition": [
+    442,
+    28
+  ],
+  "selected_partition_semantics": {
+    "first_block": "joint numerical whitening of the 162 physical and 280 causal-memory coordinate rows",
+    "original_coordinate_unchanged": true,
+    "physics_and_ledgers_remain_in_original_coordinates": true,
+    "primitive_state_unchanged": true,
+    "second_block": "separate whitening of 28 departure rows"
+  },
+  "selection_rule": "choose the first, least-mixing nested partition whose anchor metric and augmented conditions are <= 5, whose transition from the accepted parent chart is <= 10, and whose closures and roundtrips pass",
+  "work_package": "WP10c9d6c7c3b5c4f25fiy_coupled_physical_memory_metric_chart_recovery_manifest"
+}

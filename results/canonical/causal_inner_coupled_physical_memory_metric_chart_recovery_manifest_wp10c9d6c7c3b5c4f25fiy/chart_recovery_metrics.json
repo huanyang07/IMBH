@@ -1,0 +1,77 @@
+{
+  "anchor_jacobian_reconstruction_relative_defect": 1.0467788683328834e-14,
+  "anchor_raw_jacobian_condition_number": 8954.706269230506,
+  "authorized_next": "WP10c9d6c7c3b5c4f25fiz_coupled_physical_memory_metric_chart_boundary_recovery_execution",
+  "chart_candidates": [
+    {
+      "block_sizes": [
+        162,
+        280,
+        28
+      ],
+      "coordinate_roundtrip_relative_defect": 1.8004188015698956e-17,
+      "maximum_block_whitening_closure_defect": 1.9470577233304134e-12,
+      "metric_augmented_condition_number": 9.975767355429419,
+      "metric_jacobian_condition_number": 9.975767355429413,
+      "rate_push_pull_relative_defect": 3.0983951299036948e-15,
+      "selection_passed": false,
+      "transform_condition_number": 2384.98277196199,
+      "transform_inverse_closure_defect": 3.814864854472924e-13,
+      "transition_from_parent_condition_number": 1.0000000000003604
+    },
+    {
+      "block_sizes": [
+        442,
+        28
+      ],
+      "coordinate_roundtrip_relative_defect": 2.981672806477831e-17,
+      "maximum_block_whitening_closure_defect": 2.333467659637299e-11,
+      "metric_augmented_condition_number": 2.793884381136736,
+      "metric_jacobian_condition_number": 2.793884381136735,
+      "rate_push_pull_relative_defect": 4.7619388141123844e-15,
+      "selection_passed": true,
+      "transform_condition_number": 6731.369148931135,
+      "transform_inverse_closure_defect": 3.695388963220129e-12,
+      "transition_from_parent_condition_number": 8.369816443554647
+    },
+    {
+      "block_sizes": [
+        470
+      ],
+      "coordinate_roundtrip_relative_defect": 3.6745025589457084e-17,
+      "maximum_block_whitening_closure_defect": 2.1457519660175705e-11,
+      "metric_augmented_condition_number": 1.0000000000018747,
+      "metric_jacobian_condition_number": 1.0000000000018698,
+      "rate_push_pull_relative_defect": 4.715783810592259e-15,
+      "selection_passed": true,
+      "transform_condition_number": 8954.706269230497,
+      "transform_inverse_closure_defect": 1.7981299960245887e-12,
+      "transition_from_parent_condition_number": 9.975767355429587
+    }
+  ],
+  "classification": "coupled_physical_memory_metric_chart_recovery_selected_definitions_only",
+  "complete_cycle_execution_authorized": false,
+  "definitions_only": true,
+  "input_lock": {
+    "parent_classification": "tangent_phase_lap_stage1_physical_gate_failed",
+    "parent_hashes": {
+      "input_lock.json": "62f43a24a81b90e7a17f97808a585cb12f8a16cc205aa1cae96e913cc17e185e",
+      "provenance.json": "672e4c2a6e8028acb227b5c0cadbcecf33e668e8c897e6ca96463aa1f83e96ce",
+      "stage1_arrays.npz": "d0079b0ac9e7c68f0c7723548a35dce4bcd8a95b03b4719d4b0188f470d5b242",
+      "stage1_metrics.json": "39ab80ed802abd797c3644178290ba51bd15c67e37d7cb1556b970e988f2a091",
+      "summary.json": "9459206b8e4196c1bbfb49fd65f5567ac0e6f73ce7dd17e742a8aa12ff15584b"
+    }
+  },
+  "new_accepted_segments": 0,
+  "new_retractions": 0,
+  "new_truth_evaluations": 0,
+  "passed": true,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "selected_block_sizes": [
+    442,
+    28
+  ],
+  "selected_candidate_index": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fiy_coupled_physical_memory_metric_chart_recovery_manifest"
+}
