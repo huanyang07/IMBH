@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import json
 
 import numpy as np
 import pytest
@@ -141,6 +142,37 @@ def test_manifest_validation_preserves_no_complex_coercion() -> None:
     hyperbolicity = validated["contract"]["binding_hyperbolicity_gate"]
     assert hyperbolicity["no_complex_flux_split"]
     assert hyperbolicity["no_real_part_coercion"]
+
+
+def test_incomplete_current_attempt_is_not_prior_accepted_history(
+    tmp_path: Path, monkeypatch
+) -> None:
+    attempt = tmp_path / "attempt_0000"
+    attempt.mkdir()
+    metrics = {
+        "accepted": True,
+        "phase_geometry": None,
+        "recurrence_geometry": None,
+    }
+    (attempt / "attempt.json").write_text(json.dumps(metrics), encoding="utf-8")
+    with (attempt / "attempt.npz").open("wb") as handle:
+        np.savez(handle, accepted_coordinate_rate470_per_s=np.ones(470))
+    monkeypatch.setattr(target, "SCRATCH_DIRECTORY", tmp_path)
+    assert target._accepted_attempts() == []
+    metrics["phase_geometry"] = {"passed": True}
+    metrics["recurrence_geometry"] = {"passed": True}
+    (attempt / "attempt.json").write_text(json.dumps(metrics), encoding="utf-8")
+    assert len(target._accepted_attempts()) == 1
+
+
+def test_v1_partial_step1_field_is_valid_but_not_propagated() -> None:
+    snapshot = target._v1_partial_snapshot()
+    assert snapshot["strict_retraction_passed"]
+    assert snapshot["all_face_hyperbolicity_passed"]
+    assert snapshot["exact_field_physical_passed"]
+    assert not snapshot["phase_geometry_completed"]
+    assert not snapshot["accepted_checkpoint_written"]
+    assert not snapshot["candidate_propagated"]
 
 
 def test_execution_context_installs_and_restores_guarded_adapters() -> None:

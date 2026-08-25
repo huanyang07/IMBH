@@ -56,7 +56,10 @@ ARTIFACT = (
 )
 CANONICAL_DIRECTORY = ROOT / "results/canonical" / ARTIFACT
 SCRATCH_DIRECTORY = ROOT / "outputs/checkpoints" / ARTIFACT
-LOCK_ARTIFACT = f"{ARTIFACT}_lock"
+V1_LOCK_ARTIFACT = f"{ARTIFACT}_lock"
+V1_LOCK_DIRECTORY = ROOT / "results/canonical" / V1_LOCK_ARTIFACT
+V1_EXECUTION_COMMIT = "1a92db02312149dcf4334e948297c144d5dc5651"
+LOCK_ARTIFACT = f"{ARTIFACT}_lock_v2"
 LOCK_DIRECTORY = ROOT / "results/canonical" / LOCK_ARTIFACT
 REPORT_RELATIVE = (
     "docs/reports/current/CODEX_CAUSAL_INNER_TANGENT_PHASE_"
@@ -66,7 +69,7 @@ REPORT_RELATIVE = (
 REPORT_PATH = ROOT / REPORT_RELATIVE
 LOCK_REPORT_RELATIVE = (
     "docs/reports/current/CODEX_CAUSAL_INNER_TANGENT_PHASE_"
-    "HYPERBOLICITY_TWO_HALF_STEP_BRACKET_EXECUTION_LOCK_"
+    "HYPERBOLICITY_TWO_HALF_STEP_BRACKET_EXECUTION_LOCK_V2_"
     "WP10C9D6C7C3B5C4F25FIZDD_2026-08-25.md"
 )
 LOCK_REPORT_PATH = ROOT / LOCK_REPORT_RELATIVE
@@ -232,7 +235,8 @@ def _execution_lock_payload() -> dict:
         "schema_version": SCHEMA_VERSION,
         "work_package": WORK_PACKAGE,
         "classification": (
-            "two_half_step_execution_sources_locked_no_field_executed"
+            "two_half_step_phase_history_filter_repair_locked_"
+            "step1_field_reusable_not_propagated"
         ),
         "manifest_hashes": helper._validate_checksums(
             manifest.CANONICAL_DIRECTORY
@@ -245,6 +249,78 @@ def _execution_lock_payload() -> dict:
         ),
         "static_execution_contract": _static_execution_contract(),
         "source_hashes": _execution_source_hashes(),
+        "superseded_v1_partial_execution": _v1_partial_snapshot(),
+    }
+
+
+def _v1_partial_file(logical_name: str) -> Path:
+    directory = SCRATCH_DIRECTORY / "attempt_0000"
+    migrated = directory / f"{Path(logical_name).stem}_prephase_v1{Path(logical_name).suffix}"
+    original = directory / logical_name
+    if migrated.exists():
+        return migrated
+    return original
+
+
+def _v1_partial_snapshot() -> dict:
+    helper = _helper()
+    v1_hashes = helper._validate_checksums(V1_LOCK_DIRECTORY)
+    v1_lock = helper._read(V1_LOCK_DIRECTORY / "execution_lock.json")
+    identity_path = SCRATCH_DIRECTORY / "execution_identity.json"
+    if not identity_path.exists():
+        raise RuntimeError("v1 partial execution identity is missing")
+    identity = helper._read(identity_path)
+    if (
+        identity["implementation_commit"] != V1_EXECUTION_COMMIT
+        or identity["lock_hashes"] != v1_hashes
+        or identity["source_hashes"] != v1_lock["source_hashes"]
+        or identity["contract"] != _static_execution_contract()
+    ):
+        raise RuntimeError("v1 partial execution identity changed")
+    logical_names = (
+        "phase_prediction.json",
+        "phase_prediction.npz",
+        "endpoint_retraction.json",
+        "endpoint_retraction.npz",
+        "endpoint_field_hyperbolicity.json",
+        "endpoint_field_hyperbolicity.npz",
+        "endpoint_field.json",
+        "endpoint_field.npz",
+        "attempt.json",
+        "attempt.npz",
+    )
+    paths = {name: _v1_partial_file(name) for name in logical_names}
+    missing = [name for name, path in paths.items() if not path.exists()]
+    if missing:
+        raise RuntimeError(f"v1 partial artifact is missing: {missing[0]}")
+    attempt = helper._read(paths["attempt.json"])
+    field = helper._read(paths["endpoint_field.json"])
+    hyperbolicity = helper._read(paths["endpoint_field_hyperbolicity.json"])
+    checkpoint = SCRATCH_DIRECTORY / "attempt_0000/accepted_checkpoint.npz"
+    if (
+        not attempt["accepted"]
+        or attempt["physical_failure"]
+        or attempt.get("phase_geometry") is not None
+        or attempt.get("recurrence_geometry") is not None
+        or not field["physical_passed"]
+        or not hyperbolicity["passed"]
+        or checkpoint.exists()
+    ):
+        raise RuntimeError("v1 partial attempt was propagated or changed")
+    return {
+        "v1_lock_hashes": v1_hashes,
+        "v1_identity_sha256": helper._sha(identity_path),
+        "partial_artifact_hashes": {
+            name: helper._sha(path) for name, path in paths.items()
+        },
+        "attempt_index": 0,
+        "strict_retraction_passed": attempt["endpoint_retraction_passed"],
+        "all_face_hyperbolicity_passed": hyperbolicity["passed"],
+        "exact_field_physical_passed": field["physical_passed"],
+        "endpoint_integral_defect": attempt["endpoint_integral_defect"],
+        "phase_geometry_completed": False,
+        "accepted_checkpoint_written": False,
+        "candidate_propagated": False,
     }
 
 
@@ -314,6 +390,7 @@ def _freeze_lock() -> dict:
         "definitions_only": True,
         "new_free_field_calls": 0,
         "new_retractions": 0,
+        "v1_step1_prephase_field_reuse_authorized": True,
         "two_half_step_execution_authorized": True,
         "complete_cycle_execution_authorized": False,
         "reduced_slow_evolution_authorized": False,
@@ -341,10 +418,13 @@ def _freeze_lock() -> dict:
     )
     LOCK_REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     LOCK_REPORT_PATH.write_text(
-        "# Two-half-step hyperbolicity bracket execution lock\n\n"
-        "The manifest, accepted seed, runner, tests, characteristic sources, "
-        "and complete conservative field path are hash-locked before any new "
-        "retraction or field evaluation.\n",
+        "# Two-half-step hyperbolicity bracket execution lock v2\n\n"
+        "The v1 step-1 retraction, all-face hyperbolicity audit, and exact "
+        "physical field passed but orchestration stopped before phase "
+        "registration. No checkpoint was written and no candidate propagated. "
+        "Their hashes are frozen for exact reuse. The v2 runner changes only "
+        "the prior-history filter and remains bound to the same dynamics and "
+        "physical gates.\n",
         encoding="utf-8",
     )
     _update_catalog(LOCK_ARTIFACT, LOCK_DIRECTORY, summary, "DEFINITIONS_ONLY")
@@ -361,6 +441,7 @@ def _validate_lock(*, require_clean: bool) -> dict:
         not summary["passed"]
         or not summary["definitions_only"]
         or not summary["two_half_step_execution_authorized"]
+        or not summary["v1_step1_prephase_field_reuse_authorized"]
         or lock != _execution_lock_payload()
     ):
         raise RuntimeError("two-half-step execution lock changed")
@@ -386,13 +467,37 @@ def _identity(lock: dict) -> dict:
 def _prepare_scratch(lock: dict) -> dict:
     helper = _helper()
     identity = _identity(lock)
-    path = SCRATCH_DIRECTORY / "execution_identity.json"
-    if SCRATCH_DIRECTORY.exists():
-        if not path.exists() or helper._read(path) != identity:
-            raise RuntimeError("two-half-step scratch identity mismatch")
-    else:
-        SCRATCH_DIRECTORY.mkdir(parents=True)
-        helper._write_json(path, identity)
+    path = SCRATCH_DIRECTORY / "execution_identity_v2.json"
+    if not SCRATCH_DIRECTORY.exists():
+        raise RuntimeError("v1 partial scratch required for v2 execution")
+    if path.exists():
+        if helper._read(path) != identity:
+            raise RuntimeError("two-half-step v2 scratch identity mismatch")
+        return identity
+    snapshot = _v1_partial_snapshot()
+    if snapshot != lock["lock"]["superseded_v1_partial_execution"]:
+        raise RuntimeError("v1 partial reuse lock changed")
+    directory = SCRATCH_DIRECTORY / "attempt_0000"
+    for name in ("attempt.json", "attempt.npz"):
+        source = directory / name
+        destination = _v1_partial_file(name)
+        if source == destination:
+            destination = directory / (
+                f"{source.stem}_prephase_v1{source.suffix}"
+            )
+        if source.exists():
+            if destination.exists():
+                raise RuntimeError("v1 prephase migration target exists")
+            source.rename(destination)
+    helper._write_json(
+        SCRATCH_DIRECTORY / "v1_to_v2_migration.json",
+        {
+            "classification": "prephase_attempt_pair_preserved_not_propagated",
+            "snapshot": snapshot,
+            "moved_attempt_pair_out_of_engine_inventory": True,
+        },
+    )
+    helper._write_json(path, identity)
     return identity
 
 
@@ -432,7 +537,11 @@ def _accepted_attempts() -> list[tuple[dict, dict[str, np.ndarray]]]:
         arrays_path = directory / "attempt.npz"
         if metrics_path.exists() and arrays_path.exists():
             metrics = _helper()._read(metrics_path)
-            if metrics.get("accepted"):
+            if (
+                metrics.get("accepted")
+                and metrics.get("phase_geometry") is not None
+                and metrics.get("recurrence_geometry") is not None
+            ):
                 result.append((metrics, _load_npz(arrays_path)))
     return result
 
