@@ -1,0 +1,60 @@
+{
+  "authorized_execution": "WP10c9d6c7c3b5c4f25fizb_tangent_phase_lap_stage1_resume_execution",
+  "binding_completion_gates": {
+    "accepted_history_only_propagation": true,
+    "all_checkpoint_roundtrips_bitwise": true,
+    "all_new_local_phase_increments_strictly_positive": true,
+    "all_original_retraction_and_physical_gates_unchanged": true,
+    "combined_accepted_endpoints": 48,
+    "maximum_local_phase_increment": 0.08,
+    "maximum_phase_direction_prediction_defect_radians": 0.005,
+    "maximum_phase_out_of_plane_defect": 0.005,
+    "maximum_phase_radial_defect": 0.002,
+    "minimum_final_cumulative_phase_advance_radians": 1.5,
+    "suffix_history_replay_bitwise": true
+  },
+  "classification": "tangent_phase_lap_stage1_resume_selected_definitions_only",
+  "classification_branches": {
+    "any_physical_phase_numerical_or_replay_failure": "stop without propagating the failed endpoint",
+    "coarse_recurrence_candidate": "authorize only exact registered-section return refinement",
+    "five_endpoints_and_all_gates_pass": "stage1 complete; authorize only a definitions-only stage2 resume manifest",
+    "phase_lap_without_recurrence": "classify open/nonperiodic and do not continue stage acquisition"
+  },
+  "computational_chart": {
+    "all_physics_and_ledgers_in_original_coordinates": true,
+    "block_sizes": [
+      442,
+      28
+    ],
+    "maximum_metric_and_augmented_condition": 10.0,
+    "primitive_state_and_original_coordinate_unchanged": true
+  },
+  "forbidden": [
+    "retroactively pass the rejected f25fix execution",
+    "change the 10.0 metric condition gate",
+    "change the physical equations, phase observer, or section",
+    "execute more than the five remaining endpoints",
+    "authorize a complete cycle or reduced slow evolution"
+  ],
+  "preserved_classifications": {
+    "original_stage1_boundary": "tangent_phase_lap_stage1_physical_gate_failed",
+    "prospective_chart_recovery": "coupled_physical_memory_metric_chart_boundary_recovery_passed"
+  },
+  "schema_version": 1,
+  "scope": {
+    "blind_midpoint_frequency": 8,
+    "blind_midpoint_segment_numbers": [
+      240
+    ],
+    "complete_only_the_original_48_endpoint_stage1": true,
+    "maximum_attempted_endpoints": 5,
+    "maximum_exact_free_field_calls": 6,
+    "maximum_retractions": 6,
+    "maximum_wall_hours": 1.5,
+    "new_accepted_endpoints": 5,
+    "prior_accepted_endpoints": 43,
+    "segment_seconds": 0.00025,
+    "stop_immediately_on_first_binding_failure": true
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fiza_tangent_phase_lap_stage1_resume_manifest"
+}

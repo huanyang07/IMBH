@@ -1,0 +1,45 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizb_tangent_phase_lap_stage1_resume_execution",
+  "classification": "tangent_phase_lap_stage1_resume_selected_definitions_only",
+  "complete_cycle_execution_authorized": false,
+  "definitions_only": true,
+  "input_lock": {
+    "parent_classification": "coupled_physical_memory_metric_chart_boundary_recovery_passed",
+    "parent_hashes": {
+      "boundary_recovery_arrays.npz": "293acd65a44d5e984135b41ab852f7d30f42c86e4853ed1f13aba4082facc4cc",
+      "boundary_recovery_metrics.json": "9fb09f9de5946a5c7eb950d3de8baedf8877adb7cd341ade3e43e9084b758844",
+      "input_lock.json": "23248a48adbb02f8ec0233250a7f99c81a5c23e7c1a484fbd034a91a4e3cf16b",
+      "provenance.json": "1279d9e12ba05a4f3652ee75be167ba7bc747c20284055852f116819c7551f11",
+      "summary.json": "a383aeac6dad72ec92829411dca74028c3ec34d10f10031414e7101c5657febf"
+    }
+  },
+  "new_accepted_segments": 0,
+  "new_retractions": 0,
+  "new_truth_evaluations": 0,
+  "observations": {
+    "blind_midpoint_segment_numbers": [
+      240
+    ],
+    "boundary_recovery_accepted": 1,
+    "combined_accepted": 43,
+    "maximum_exact_field_and_retraction_units": 6,
+    "measured_recovery_wall_seconds_per_unit": 429.835995875299,
+    "prior_cumulative_metric_path_length": 1.1660412500047859,
+    "prior_cumulative_phase_advance_radians": 1.9933348518024736,
+    "prior_stage_accepted": 42,
+    "projected_resume_wall_hours": 0.7163933264588316,
+    "remaining_accepted": 5,
+    "resume_segment_numbers": [
+      240,
+      241,
+      242,
+      243,
+      244
+    ],
+    "terminal_elapsed_seconds_if_complete": 0.18000000000000013
+  },
+  "passed": true,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fiza_tangent_phase_lap_stage1_resume_manifest"
+}
