@@ -1,0 +1,113 @@
+{
+  "execution_identity": {
+    "contract": {
+      "authorized_execution": "WP10c9d6c7c3b5c4f25fiz_coupled_physical_memory_metric_chart_boundary_recovery_execution",
+      "authorized_scope": {
+        "BDF_microsteps": 0,
+        "fixed_Q_calls": 0,
+        "maximum_exact_free_field_calls": 1,
+        "maximum_new_accepted_segments": 1,
+        "maximum_retractions": 1,
+        "maximum_wall_hours": 1.0,
+        "nonlinear_roots": 0,
+        "one_recomputed_AB2_candidate_from_last_accepted_history": true,
+        "reaction_calls": 0,
+        "segment_seconds": 0.00025
+      },
+      "binding_recovery_gates": {
+        "accepted_history_only_propagation": true,
+        "all_original_retraction_and_physical_gates_unchanged": true,
+        "all_phase_and_recurrence_gates_unchanged": true,
+        "checkpoint_roundtrip_bitwise": true,
+        "maximum_metric_augmented_condition": 10.0,
+        "maximum_metric_jacobian_condition": 10.0,
+        "maximum_patch_transition_condition": 10.0,
+        "maximum_transform_inverse_closure": 1e-10,
+        "suffix_history_replay_bitwise": true
+      },
+      "classification": "coupled_physical_memory_metric_chart_recovery_selected_definitions_only",
+      "deterministic_chart_hierarchy": [
+        [
+          162,
+          280,
+          28
+        ],
+        [
+          442,
+          28
+        ],
+        [
+          470
+        ]
+      ],
+      "failure_localization": {
+        "actual_physical_gates_passed": true,
+        "failed_conditions": [
+          "independent endpoint metric Jacobian condition <= 10",
+          "independent endpoint metric augmented condition <= 10"
+        ],
+        "rejected_candidate_propagated": false,
+        "residual_or_retraction_failure": false
+      },
+      "forbidden": [
+        "raise or remove the metric condition threshold",
+        "reinterpret the rejected endpoint as accepted",
+        "change the primitive state or original coordinate",
+        "change physical equations, ledgers, phase observer, or section",
+        "execute more than one recovery segment",
+        "authorize a phase lap, cycle, or reduced slow evolution"
+      ],
+      "preserved_negative_classification": "tangent_phase_lap_stage1_physical_gate_failed",
+      "schema_version": 1,
+      "selected_partition": [
+        442,
+        28
+      ],
+      "selected_partition_semantics": {
+        "first_block": "joint numerical whitening of the 162 physical and 280 causal-memory coordinate rows",
+        "original_coordinate_unchanged": true,
+        "physics_and_ledgers_remain_in_original_coordinates": true,
+        "primitive_state_unchanged": true,
+        "second_block": "separate whitening of 28 departure rows"
+      },
+      "selection_rule": "choose the first, least-mixing nested partition whose anchor metric and augmented conditions are <= 5, whose transition from the accepted parent chart is <= 10, and whose closures and roundtrips pass",
+      "work_package": "WP10c9d6c7c3b5c4f25fiy_coupled_physical_memory_metric_chart_recovery_manifest"
+    },
+    "implementation_commit": "a8ba68c38f204157ddf1ddfb98d89b5d502e0036",
+    "implementation_tree": "aec85828cd116a3a007f3a9af7d60ce7829364b6",
+    "manifest_hashes": {
+      "chart_recovery_metrics.json": "df5b2e0ce0003d513cb8aa62579ae9cfef45a4ed4a946820f8d0281f1fca6632",
+      "input_lock.json": "671bd6429684a55d98a6e71b4c27f9371db3b793a5f05db5e7e7bc0118602a7a",
+      "mathematical_architecture.json": "7eb4e733b5a58294e91ea574e6495cec3ff597d9a6c305615cb3f8a51100a73d",
+      "provenance.json": "cd79721375d62f42f92f2024dd51628a154751712643d4571e75620da860ec9d",
+      "recovery_contract.json": "107151b5475ad142de6925916995fbe1658caca2d1f1447428bc561a2228a05c",
+      "recovery_seed.npz": "db8c28b54298bb8b0f889fd5a576035208eb3d2a11540f2596516b5ea8d01287",
+      "summary.json": "6e08348ae63842503baca6c83a492002bc122c592782c1c8010331c5c603926f"
+    },
+    "source_hashes": {
+      "scripts/run_causal_inner_adaptive_complete_cycle_execution_wp10c9d6c7c3b5c4f25fe.py": "a4e056711fd1792106572541a227465c419dc4359980ae0a3183c3652cbf1c89",
+      "scripts/run_causal_inner_adaptive_metric_chart_continuation_execution_wp10c9d6c7c3b5c4f25fip.py": "e166fb0cfb89776569d528e2c3e5b4f0ac3a414d23898197ece11fd57dac2a96",
+      "scripts/run_causal_inner_coupled_physical_memory_metric_chart_boundary_recovery_execution_wp10c9d6c7c3b5c4f25fiz.py": "dad4babd806b694825291c20b0b74c376b82615ff21694cd544984b98e811be7",
+      "scripts/run_causal_inner_coupled_physical_memory_metric_chart_recovery_manifest_wp10c9d6c7c3b5c4f25fiy.py": "578aaa0643bef1d49c2a2ebba0e70ff63db8cd82a03f1f830f5503024650258b",
+      "scripts/run_causal_inner_metric_chart_short_suffix_execution_wp10c9d6c7c3b5c4f25fih.py": "ac15935846a087b106e92256e64515580d97fef00954592662ebc5078ae47633",
+      "scripts/run_causal_inner_tangent_phase_lap_recurrence_manifest_wp10c9d6c7c3b5c4f25fiw.py": "45e6de7871b436f474ae0f48b38e44f43a4f1a8f706aafe91270a2bb5ff77e9a",
+      "scripts/run_causal_inner_tangent_phase_lap_recurrence_stage1_execution_wp10c9d6c7c3b5c4f25fix.py": "01f410a40e551491d4ae892768a41a85096f985506817f5e1453069490a64bb2",
+      "tests/test_causal_inner_adaptive_metric_chart_continuation_execution_wp10c9d6c7c3b5c4f25fip.py": "96a508b0cccf1559f82547e7dc87403534b31785c4c7119682def835e74eefce",
+      "tests/test_causal_inner_coupled_physical_memory_metric_chart_boundary_recovery_execution_wp10c9d6c7c3b5c4f25fiz.py": "bd11ed0a7b6e7db328bd740f588abbf65cb4b4084c8cb7fdfcc221fbfc59c26a",
+      "tests/test_causal_inner_coupled_physical_memory_metric_chart_recovery_manifest_wp10c9d6c7c3b5c4f25fiy.py": "9888ab143fb5d468a3022db078abbdef0ce245ef9d5be85cd689e38255b5bd13",
+      "tests/test_causal_inner_tangent_phase_lap_recurrence_manifest_wp10c9d6c7c3b5c4f25fiw.py": "7fe13e9cf617271bf27d7fca10a1dd632ca44d49df39717c1b8ecf88b4e7b081",
+      "tests/test_causal_inner_tangent_phase_lap_recurrence_stage1_execution_wp10c9d6c7c3b5c4f25fix.py": "2862c5cdd8b74e994e85f8ca95c47772a847b08f8852409f4e1539b02345afb1"
+    },
+    "work_package": "WP10c9d6c7c3b5c4f25fiz_coupled_physical_memory_metric_chart_boundary_recovery_execution"
+  },
+  "manifest_classification": "coupled_physical_memory_metric_chart_recovery_selected_definitions_only",
+  "manifest_hashes": {
+    "chart_recovery_metrics.json": "df5b2e0ce0003d513cb8aa62579ae9cfef45a4ed4a946820f8d0281f1fca6632",
+    "input_lock.json": "671bd6429684a55d98a6e71b4c27f9371db3b793a5f05db5e7e7bc0118602a7a",
+    "mathematical_architecture.json": "7eb4e733b5a58294e91ea574e6495cec3ff597d9a6c305615cb3f8a51100a73d",
+    "provenance.json": "cd79721375d62f42f92f2024dd51628a154751712643d4571e75620da860ec9d",
+    "recovery_contract.json": "107151b5475ad142de6925916995fbe1658caca2d1f1447428bc561a2228a05c",
+    "recovery_seed.npz": "db8c28b54298bb8b0f889fd5a576035208eb3d2a11540f2596516b5ea8d01287",
+    "summary.json": "6e08348ae63842503baca6c83a492002bc122c592782c1c8010331c5c603926f"
+  }
+}
