@@ -1,0 +1,89 @@
+{
+  "execution_identity": {
+    "contract": {
+      "authorization_boundary": "a pass authorizes only a phase-lap/recurrence acquisition manifest; it does not authorize a complete-cycle claim or reduced slow evolution",
+      "authorized_execution": "WP10c9d6c7c3b5c4f25fiv_conservative_tangent_phase_atlas_holdout_execution",
+      "binding_phase_gates": {
+        "all_original_physical_and_retraction_gates_unchanged": true,
+        "checkpoint_roundtrip_bitwise": true,
+        "maximum_direction_prediction_defect_radians": 0.005,
+        "maximum_holdout_out_of_plane_defect": 0.005,
+        "maximum_holdout_relative_radial_defect": 0.002,
+        "maximum_phase_increment": 0.08,
+        "maximum_training_relative_radial_rms": 0.001,
+        "minimum_phase_increment_strictly_greater_than": 0.0,
+        "minimum_training_two_plane_energy_fraction": 0.999,
+        "suffix_history_replay_bitwise": true
+      },
+      "classification": "conservative_overlapping_tangent_phase_atlas_selected_prospective_holdout_required",
+      "classification_branches": {
+        "phase_observer_geometry_failed": "physical continuation passes but a phase geometry gate fails",
+        "phase_observer_physical_or_numerical_failed": "any original continuation, physics, checkpoint, or replay gate fails",
+        "phase_observer_prospectively_validated": "all 16 exact holdouts and every numerical/physical/phase gate pass"
+      },
+      "phase_observer": {
+        "affine_plane_rank": 2,
+        "circle_fit": "linear least squares in the trailing affine plane",
+        "metric": "frozen terminal conservative transform W_164ms",
+        "phase_increment_predictor": "median of the last 4 accepted increments",
+        "phase_orientation": "strictly increasing training-time orientation",
+        "physical_vector_field": "autonomous original reaction-free field",
+        "prediction_is_frozen_before_holdout_tangent_is_seen": true,
+        "refit_after_each_accepted_exact_endpoint": true,
+        "rejected_candidate_never_enters_phase_history": true,
+        "trailing_window_samples": 12,
+        "unit_tangent": "tau=W f_free/||W f_free||_2"
+      },
+      "schema_version": 1,
+      "scope": {
+        "accepted_segments": 16,
+        "blind_midpoint_frequency": 4,
+        "initial_elapsed_seconds": 0.16400000000000012,
+        "initial_segment_seconds": 0.00025,
+        "maximum_attempted_segments": 18,
+        "maximum_exact_free_field_calls": 20,
+        "maximum_execution_wall_hours": 2.5,
+        "maximum_retractions": 20,
+        "maximum_segment_seconds": 0.00025,
+        "minimum_segment_seconds": 0.000125
+      },
+      "work_package": "WP10c9d6c7c3b5c4f25fiu_adaptive_metric_chart_cycle_readiness_reforecast_manifest"
+    },
+    "implementation_commit": "99e5571007d13ec9b9ad49f9fe958e455550b7ed",
+    "implementation_tree": "7cd85225df4e333a66e2f11aac1373c3d223bbe4",
+    "manifest_hashes": {
+      "continuation_seed.npz": "7efff017ab15eda0072f074ecd1ca1bcca327f60e8b1e86cff1302017eb0c37f",
+      "input_lock.json": "6e53e137d45bfa489ff2a5d47852bfadebcefcfd888b068f7e1c6689781ff5f2",
+      "mathematical_architecture.json": "76dc67ccfba606a8158cf9cdb8ae6ce3a0b6dbc6b3dba76c09c3e03ab51f56a7",
+      "phase_atlas_contract.json": "cffb41e3bfb1a31cbf021e496be9a3622264b19d1b49a5c29e5597efa8e8fc05",
+      "phase_atlas_diagnostic_arrays.npz": "d8342c77ea9fd55a446de92f0605bc623b0a1a144cc421c78ae2d98a1d954ddb",
+      "provenance.json": "735945450325591b8d70ec79590843e299f5e3ada8b42e2e68dff5e2ca5e8505",
+      "retrospective_phase_diagnosis.json": "923c11dd5ce179af6fce960524686a00b2d419619e34ae9edb668e2d37155c44",
+      "summary.json": "f68046cd67e9965f28ae9052ec5c57e7432db5b3a27dd9796c0b14f66e02d9cb"
+    },
+    "source_hashes": {
+      "scripts/run_causal_inner_adaptive_complete_cycle_execution_wp10c9d6c7c3b5c4f25fe.py": "a4e056711fd1792106572541a227465c419dc4359980ae0a3183c3652cbf1c89",
+      "scripts/run_causal_inner_adaptive_metric_chart_continuation_execution_wp10c9d6c7c3b5c4f25fip.py": "e166fb0cfb89776569d528e2c3e5b4f0ac3a414d23898197ece11fd57dac2a96",
+      "scripts/run_causal_inner_adaptive_metric_chart_cycle_readiness_phase_atlas_manifest_wp10c9d6c7c3b5c4f25fiu.py": "3e42bc7bce0c68b93f18e5e4c2e92e5733e38eec1acede1f778b49edd5ae0761",
+      "scripts/run_causal_inner_conservative_tangent_phase_atlas_holdout_execution_wp10c9d6c7c3b5c4f25fiv.py": "3ea3e12b8bb78867a438d5ae223d3f93e97c900d1e2e03c151ff3fbf8b26ba61",
+      "scripts/run_causal_inner_metric_chart_short_suffix_execution_wp10c9d6c7c3b5c4f25fih.py": "ac15935846a087b106e92256e64515580d97fef00954592662ebc5078ae47633",
+      "src/imri_qpe/layer3_minidisk_1d/tangent_phase_atlas.py": "deb5470f5091f712103c5d9316acf3db970e2104c44fb7d2848e2d36187f0934",
+      "tests/test_causal_inner_adaptive_metric_chart_continuation_execution_wp10c9d6c7c3b5c4f25fip.py": "96a508b0cccf1559f82547e7dc87403534b31785c4c7119682def835e74eefce",
+      "tests/test_causal_inner_adaptive_metric_chart_cycle_readiness_phase_atlas_manifest_wp10c9d6c7c3b5c4f25fiu.py": "c7c0cc207d0bcf6341d1dce712f2d2ab771ba98bf878747cd876f8c59b493988",
+      "tests/test_causal_inner_conservative_tangent_phase_atlas_holdout_execution_wp10c9d6c7c3b5c4f25fiv.py": "ce3d0b7811cbea83979cf7f939b6961d5732954a36021c6da89777ba2ee323d0",
+      "tests/test_tangent_phase_atlas.py": "d5156424f8975bbec7f749a6f0d9174a01b3128b10272f52116ec271b23de650"
+    },
+    "work_package": "WP10c9d6c7c3b5c4f25fiv_conservative_tangent_phase_atlas_holdout_execution"
+  },
+  "manifest_classification": "conservative_overlapping_tangent_phase_atlas_selected_prospective_holdout_required",
+  "manifest_hashes": {
+    "continuation_seed.npz": "7efff017ab15eda0072f074ecd1ca1bcca327f60e8b1e86cff1302017eb0c37f",
+    "input_lock.json": "6e53e137d45bfa489ff2a5d47852bfadebcefcfd888b068f7e1c6689781ff5f2",
+    "mathematical_architecture.json": "76dc67ccfba606a8158cf9cdb8ae6ce3a0b6dbc6b3dba76c09c3e03ab51f56a7",
+    "phase_atlas_contract.json": "cffb41e3bfb1a31cbf021e496be9a3622264b19d1b49a5c29e5597efa8e8fc05",
+    "phase_atlas_diagnostic_arrays.npz": "d8342c77ea9fd55a446de92f0605bc623b0a1a144cc421c78ae2d98a1d954ddb",
+    "provenance.json": "735945450325591b8d70ec79590843e299f5e3ada8b42e2e68dff5e2ca5e8505",
+    "retrospective_phase_diagnosis.json": "923c11dd5ce179af6fce960524686a00b2d419619e34ae9edb668e2d37155c44",
+    "summary.json": "f68046cd67e9965f28ae9052ec5c57e7432db5b3a27dd9796c0b14f66e02d9cb"
+  }
+}
