@@ -1,0 +1,72 @@
+{
+  "authorized_diagnostic": "WP10c9d6c7c3b5c4f25fizdb_tangent_phase_lap_stage2_hyperbolicity_boundary_diagnostic",
+  "classification": "tangent_phase_lap_stage2_hyperbolicity_boundary_diagnosis_selected_definitions_only",
+  "classification_branches": {
+    "analytic_tangent_only_defect": "authorize only an analytic-tangent repair manifest",
+    "genuine_local_complex_pair": "authorize only a definitions-only two-half-step boundary bracket manifest",
+    "not_reproducible": "stop with no continuation authorization"
+  },
+  "diagnostic_scope": {
+    "accepted_to_failed_state_chord_scan_fractions": [
+      0.0,
+      0.05,
+      0.1,
+      0.15000000000000002,
+      0.2,
+      0.25,
+      0.30000000000000004,
+      0.35000000000000003,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6000000000000001,
+      0.65,
+      0.7000000000000001,
+      0.75,
+      0.8,
+      0.8500000000000001,
+      0.9,
+      0.9500000000000001,
+      1.0
+    ],
+    "analytic_generalized_pencil": true,
+    "independent_five_point_relative_steps": [
+      0.001,
+      0.0002,
+      2e-05
+    ],
+    "locate_the_first_failing_characteristic_face": true,
+    "maximum_new_free_field_calls": 0,
+    "maximum_new_retractions": 0,
+    "maximum_wall_hours": 0.25,
+    "nonpropagating": true,
+    "reconstruct_only_the_saved_failed_retracted_state": true
+  },
+  "forbidden": [
+    "propagate the saved failed candidate",
+    "replace the complex pair by its real parts",
+    "relax the 1e-10 real-eigensystem tolerance",
+    "use a complex invariant subspace as a hyperbolic flux split",
+    "resume stage2 before a prospective boundary experiment",
+    "authorize a phase lap, complete cycle, or reduced slow evolution"
+  ],
+  "genuine_hyperbolicity_loss_requires": {
+    "analytic_maximum_imaginary_speed_at_least": 1e-08,
+    "each_independent_finite_difference_maximum_imaginary_speed_at_least": 1e-08,
+    "failed_chord_endpoint_complex": true,
+    "last_accepted_chord_endpoint_real": true,
+    "saved_retraction_and_physical_gates_pass": true,
+    "smallest_step_to_analytic_imaginary_relative_defect_at_most": 0.02
+  },
+  "preserved_execution": {
+    "accepted_stage2_endpoints": 23,
+    "combined_accepted_phase_endpoints": 71,
+    "failed_attempt_index": 23,
+    "failed_candidate_was_not_propagated": true,
+    "failed_total_segment": 268,
+    "implementation_commit": "215c618f"
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizda_tangent_phase_lap_stage2_hyperbolicity_boundary_manifest"
+}
