@@ -297,6 +297,10 @@ def _v1_partial_snapshot() -> dict:
     field = helper._read(paths["endpoint_field.json"])
     hyperbolicity = helper._read(paths["endpoint_field_hyperbolicity.json"])
     checkpoint = SCRATCH_DIRECTORY / "attempt_0000/accepted_checkpoint.npz"
+    v2_lifecycle = bool(
+        (SCRATCH_DIRECTORY / "execution_identity_v2.json").exists()
+        and (SCRATCH_DIRECTORY / "v1_to_v2_migration.json").exists()
+    )
     if (
         not attempt["accepted"]
         or attempt["physical_failure"]
@@ -304,7 +308,7 @@ def _v1_partial_snapshot() -> dict:
         or attempt.get("recurrence_geometry") is not None
         or not field["physical_passed"]
         or not hyperbolicity["passed"]
-        or checkpoint.exists()
+        or (checkpoint.exists() and not v2_lifecycle)
     ):
         raise RuntimeError("v1 partial attempt was propagated or changed")
     return {

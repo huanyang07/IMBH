@@ -173,6 +173,10 @@ def test_v1_partial_step1_field_is_valid_but_not_propagated() -> None:
     assert not snapshot["phase_geometry_completed"]
     assert not snapshot["accepted_checkpoint_written"]
     assert not snapshot["candidate_propagated"]
+    assert (
+        target.SCRATCH_DIRECTORY / "attempt_0000/accepted_checkpoint.npz"
+    ).exists()
+    assert (target.SCRATCH_DIRECTORY / "execution_identity_v2.json").exists()
 
 
 def test_execution_context_installs_and_restores_guarded_adapters() -> None:
