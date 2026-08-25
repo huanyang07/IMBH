@@ -1,0 +1,104 @@
+{
+  "execution_identity": {
+    "contract": {
+      "authorized_execution": "WP10c9d6c7c3b5c4f25fizb_tangent_phase_lap_stage1_resume_execution",
+      "binding_completion_gates": {
+        "accepted_history_only_propagation": true,
+        "all_checkpoint_roundtrips_bitwise": true,
+        "all_new_local_phase_increments_strictly_positive": true,
+        "all_original_retraction_and_physical_gates_unchanged": true,
+        "combined_accepted_endpoints": 48,
+        "maximum_local_phase_increment": 0.08,
+        "maximum_phase_direction_prediction_defect_radians": 0.005,
+        "maximum_phase_out_of_plane_defect": 0.005,
+        "maximum_phase_radial_defect": 0.002,
+        "minimum_final_cumulative_phase_advance_radians": 1.5,
+        "suffix_history_replay_bitwise": true
+      },
+      "classification": "tangent_phase_lap_stage1_resume_selected_definitions_only",
+      "classification_branches": {
+        "any_physical_phase_numerical_or_replay_failure": "stop without propagating the failed endpoint",
+        "coarse_recurrence_candidate": "authorize only exact registered-section return refinement",
+        "five_endpoints_and_all_gates_pass": "stage1 complete; authorize only a definitions-only stage2 resume manifest",
+        "phase_lap_without_recurrence": "classify open/nonperiodic and do not continue stage acquisition"
+      },
+      "computational_chart": {
+        "all_physics_and_ledgers_in_original_coordinates": true,
+        "block_sizes": [
+          442,
+          28
+        ],
+        "maximum_metric_and_augmented_condition": 10.0,
+        "primitive_state_and_original_coordinate_unchanged": true
+      },
+      "forbidden": [
+        "retroactively pass the rejected f25fix execution",
+        "change the 10.0 metric condition gate",
+        "change the physical equations, phase observer, or section",
+        "execute more than the five remaining endpoints",
+        "authorize a complete cycle or reduced slow evolution"
+      ],
+      "preserved_classifications": {
+        "original_stage1_boundary": "tangent_phase_lap_stage1_physical_gate_failed",
+        "prospective_chart_recovery": "coupled_physical_memory_metric_chart_boundary_recovery_passed"
+      },
+      "schema_version": 1,
+      "scope": {
+        "blind_midpoint_frequency": 8,
+        "blind_midpoint_segment_numbers": [
+          240
+        ],
+        "complete_only_the_original_48_endpoint_stage1": true,
+        "maximum_attempted_endpoints": 5,
+        "maximum_exact_free_field_calls": 6,
+        "maximum_retractions": 6,
+        "maximum_wall_hours": 1.5,
+        "new_accepted_endpoints": 5,
+        "prior_accepted_endpoints": 43,
+        "segment_seconds": 0.00025,
+        "stop_immediately_on_first_binding_failure": true
+      },
+      "work_package": "WP10c9d6c7c3b5c4f25fiza_tangent_phase_lap_stage1_resume_manifest"
+    },
+    "implementation_commit": "9c391d2523dc09d24cfa9f9f60dd7f447de67177",
+    "implementation_tree": "5cef3ad1be1232e1e54de72a1a8b7e35f4e3a8f0",
+    "manifest_hashes": {
+      "input_lock.json": "4d986ce35252db62b4658365cab75aef57aea597e69f569fdeecd56094c7722f",
+      "mathematical_architecture.json": "6ee927d0777a0ed14a6aff096a5b98bc7f805e2ab6844d4f87328ced2ea758dd",
+      "provenance.json": "63e827beae5816395c53d502413b4fb3d80071cb3daefc374e08d09dc6b29317",
+      "resume_contract.json": "eaedc9fba839e7c087bf4ed9dfd5861a4c5b9c9f811185641700ebaa74093892",
+      "resume_metrics.json": "f8779351b8a5868f937937d7b99be912fd0cdfe616818838c06fdf0e0acdc1b1",
+      "resume_seed.npz": "186886e34cc22e1803aefc032e45bd31d2a634b5ff724eebbddaa5c2cfcebdbb",
+      "summary.json": "ba1d201ae9a15e1f6c56b24eeb6d5ad174ae955892d72696dcf83393071754e9"
+    },
+    "source_hashes": {
+      "scripts/run_causal_inner_adaptive_complete_cycle_execution_wp10c9d6c7c3b5c4f25fe.py": "a4e056711fd1792106572541a227465c419dc4359980ae0a3183c3652cbf1c89",
+      "scripts/run_causal_inner_adaptive_metric_chart_continuation_execution_wp10c9d6c7c3b5c4f25fip.py": "e166fb0cfb89776569d528e2c3e5b4f0ac3a414d23898197ece11fd57dac2a96",
+      "scripts/run_causal_inner_coupled_physical_memory_metric_chart_boundary_recovery_execution_wp10c9d6c7c3b5c4f25fiz.py": "dad4babd806b694825291c20b0b74c376b82615ff21694cd544984b98e811be7",
+      "scripts/run_causal_inner_coupled_physical_memory_metric_chart_recovery_manifest_wp10c9d6c7c3b5c4f25fiy.py": "578aaa0643bef1d49c2a2ebba0e70ff63db8cd82a03f1f830f5503024650258b",
+      "scripts/run_causal_inner_metric_chart_short_suffix_execution_wp10c9d6c7c3b5c4f25fih.py": "ac15935846a087b106e92256e64515580d97fef00954592662ebc5078ae47633",
+      "scripts/run_causal_inner_tangent_phase_lap_recurrence_manifest_wp10c9d6c7c3b5c4f25fiw.py": "45e6de7871b436f474ae0f48b38e44f43a4f1a8f706aafe91270a2bb5ff77e9a",
+      "scripts/run_causal_inner_tangent_phase_lap_recurrence_stage1_execution_wp10c9d6c7c3b5c4f25fix.py": "01f410a40e551491d4ae892768a41a85096f985506817f5e1453069490a64bb2",
+      "scripts/run_causal_inner_tangent_phase_lap_stage1_resume_execution_wp10c9d6c7c3b5c4f25fizb.py": "f5ce7c0c00dd2ac8a75db56164ba00dce8d1f1a1dd98256f4bcbff0e707277fb",
+      "scripts/run_causal_inner_tangent_phase_lap_stage1_resume_manifest_wp10c9d6c7c3b5c4f25fiza.py": "a1dde6a60d845edf31a52fd85c21079839f1b06f9f49d6903be6c694b5d56f5c",
+      "tests/test_causal_inner_adaptive_metric_chart_continuation_execution_wp10c9d6c7c3b5c4f25fip.py": "96a508b0cccf1559f82547e7dc87403534b31785c4c7119682def835e74eefce",
+      "tests/test_causal_inner_coupled_physical_memory_metric_chart_boundary_recovery_execution_wp10c9d6c7c3b5c4f25fiz.py": "bd11ed0a7b6e7db328bd740f588abbf65cb4b4084c8cb7fdfcc221fbfc59c26a",
+      "tests/test_causal_inner_coupled_physical_memory_metric_chart_recovery_manifest_wp10c9d6c7c3b5c4f25fiy.py": "9888ab143fb5d468a3022db078abbdef0ce245ef9d5be85cd689e38255b5bd13",
+      "tests/test_causal_inner_tangent_phase_lap_recurrence_manifest_wp10c9d6c7c3b5c4f25fiw.py": "7fe13e9cf617271bf27d7fca10a1dd632ca44d49df39717c1b8ecf88b4e7b081",
+      "tests/test_causal_inner_tangent_phase_lap_recurrence_stage1_execution_wp10c9d6c7c3b5c4f25fix.py": "2862c5cdd8b74e994e85f8ca95c47772a847b08f8852409f4e1539b02345afb1",
+      "tests/test_causal_inner_tangent_phase_lap_stage1_resume_execution_wp10c9d6c7c3b5c4f25fizb.py": "f666ac29a59019d6bc84c254fc42f3013bbcaa881b0401593edb3f5e36851bae",
+      "tests/test_causal_inner_tangent_phase_lap_stage1_resume_manifest_wp10c9d6c7c3b5c4f25fiza.py": "11c19e64a58487cb830debaee5fb1efa942b7170c1eb49b3a2f014926055630d"
+    },
+    "work_package": "WP10c9d6c7c3b5c4f25fizb_tangent_phase_lap_stage1_resume_execution"
+  },
+  "manifest_classification": "tangent_phase_lap_stage1_resume_selected_definitions_only",
+  "manifest_hashes": {
+    "input_lock.json": "4d986ce35252db62b4658365cab75aef57aea597e69f569fdeecd56094c7722f",
+    "mathematical_architecture.json": "6ee927d0777a0ed14a6aff096a5b98bc7f805e2ab6844d4f87328ced2ea758dd",
+    "provenance.json": "63e827beae5816395c53d502413b4fb3d80071cb3daefc374e08d09dc6b29317",
+    "resume_contract.json": "eaedc9fba839e7c087bf4ed9dfd5861a4c5b9c9f811185641700ebaa74093892",
+    "resume_metrics.json": "f8779351b8a5868f937937d7b99be912fd0cdfe616818838c06fdf0e0acdc1b1",
+    "resume_seed.npz": "186886e34cc22e1803aefc032e45bd31d2a634b5ff724eebbddaa5c2cfcebdbb",
+    "summary.json": "ba1d201ae9a15e1f6c56b24eeb6d5ad174ae955892d72696dcf83393071754e9"
+  }
+}
