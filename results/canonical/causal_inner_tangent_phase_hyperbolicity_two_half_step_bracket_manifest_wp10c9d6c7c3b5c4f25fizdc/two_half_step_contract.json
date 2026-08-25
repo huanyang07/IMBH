@@ -1,0 +1,84 @@
+{
+  "authorized_execution": "WP10c9d6c7c3b5c4f25fizdd_tangent_phase_hyperbolicity_two_half_step_bracket_execution",
+  "binding_endpoint_sequence": [
+    "variable-step AB2 prediction from accepted history",
+    "strict metric-chart retraction",
+    "analytic all-face real-spectrum preflight",
+    "exact conservative free field",
+    "endpoint integral and all original physical gates",
+    "phase and recurrence geometry",
+    "accepted checkpoint roundtrip"
+  ],
+  "binding_hyperbolicity_gate": {
+    "all_113_face_generalized_pencils_checked": true,
+    "checked_after_retraction_before_exact_field": true,
+    "complex_boundary_diagnostic_threshold": 1e-08,
+    "maximum_imaginary_coordinate_speed": 1e-10,
+    "no_complex_flux_split": true,
+    "no_real_part_coercion": true
+  },
+  "classification": "tangent_phase_hyperbolicity_two_half_step_bracket_selected_definitions_only",
+  "classification_branches": {
+    "both_authentic_half_steps_pass": "full-step predictor overshoot supported; authorize only a definitions-only halved-step stage2 continuation manifest",
+    "first_half_step_is_complex": "hyperbolicity boundary lies before the first half step; propagate nothing and stop",
+    "first_passes_second_is_complex": "accept only the first half step, bracket the trajectory hyperbolicity boundary, and stop",
+    "physical_or_numerical_gate_fails": "preserve the original failure class and stop without propagating the failed candidate"
+  },
+  "comparison_if_both_pass": {
+    "compare_final_coordinate_and_primitive_state": true,
+    "comparison_is_not_an_acceptance_gate": true,
+    "old_failed_state_is_never_reclassified_or_propagated": true,
+    "saved_failed_full_step_state_is_diagnostic_only": true
+  },
+  "forbidden": [
+    "propagate the saved failed full-step candidate",
+    "propagate any endpoint with a complex characteristic pencil",
+    "replace a complex eigenvalue by its real part",
+    "relax any original physical, retraction, phase, or replay gate",
+    "add a blind midpoint not prospectively listed",
+    "authorize a phase lap, complete cycle, or reduced slow evolution"
+  ],
+  "preserved_boundary": {
+    "accepted_endpoint_count": 71,
+    "accepted_terminal_elapsed_seconds": 0.18575000000000014,
+    "accepted_total_segments": 267,
+    "diagnostic_classification": "genuine_local_hyperbolicity_loss_confirmed",
+    "failed_full_step_propagated": false,
+    "failed_full_step_remains_rejected": true,
+    "failed_full_step_seconds": 0.00025,
+    "failed_full_step_total_segment": 268
+  },
+  "schema_version": 1,
+  "scope": {
+    "blind_midpoint_segment_numbers": [],
+    "failed_full_step_is_diagnostic_only": true,
+    "first_step_uses_authentic_full_step_history": true,
+    "half_step_seconds": 0.000125,
+    "maximum_accepted_half_steps": 2,
+    "maximum_attempted_half_steps": 2,
+    "maximum_exact_free_field_calls": 2,
+    "maximum_retractions": 2,
+    "maximum_wall_hours": 1.0,
+    "second_step_uses_only_the_accepted_first_half_step_history": true,
+    "tentative_segment_numbers": [
+      268,
+      269
+    ],
+    "truth_dynamics": "dq/dt=f_free(q) on the certified conservative atlas"
+  },
+  "unchanged_original_gates": {
+    "all_original_physical_and_retraction_gates_unchanged": true,
+    "checkpoint_roundtrip_bitwise": true,
+    "maximum_direction_prediction_defect_radians": 0.005,
+    "maximum_holdout_out_of_plane_defect": 0.005,
+    "maximum_holdout_relative_radial_defect": 0.002,
+    "maximum_local_phase_increment": 0.08,
+    "maximum_training_relative_radial_rms": 0.001,
+    "minimum_accepted_segments": 48,
+    "minimum_cumulative_phase_advance_radians": 1.5,
+    "minimum_local_phase_increment_strictly_greater_than": 0.0,
+    "minimum_training_two_plane_energy_fraction": 0.999,
+    "suffix_history_replay_bitwise": true
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fizdc_tangent_phase_hyperbolicity_two_half_step_bracket_manifest"
+}
