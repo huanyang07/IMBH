@@ -1,0 +1,28 @@
+{
+  "cycle_certificate_requires": {
+    "all_physical_ledgers_and_restart_gates": true,
+    "same_orientation": true,
+    "state_return_distance_fraction_of_path_length_at_most": 0.1,
+    "transverse_registered_section_crossing": true,
+    "unwrapped_tangent_phase_advance_at_least": "2*pi"
+  },
+  "no_recurrence_branch": "classify the autonomous free trajectory as open/nonperiodic and prohibit cycle averaging; test equilibrium or nonperiodic attractor closure instead",
+  "offline_periodic_orbit_if_cycle_is_certified": {
+    "continuation": "continue the periodic solution over slow Q anchors",
+    "equations": "exact free-field flow matching plus periodic closure",
+    "method": "phase-conditioned multiple shooting/collocation",
+    "phase_condition": "one registered tangent-phase chart",
+    "unknowns": "orbit nodes, segment durations, and period"
+  },
+  "phase_lap_is_not_a_cycle": true,
+  "phase_observer": "overlapping oriented tangent-circle charts in a frozen conservative metric",
+  "reduced_slow_solver_if_orbits_are_certified": {
+    "averaged_drift": "Fbar(Q)=T(Q)^-1 integral_0^T F_slow(q_star(t;Q),Q) dt",
+    "online_forbidden": "exact truth calls, fixed-Q reactions, nonlinear roots, and micro-BDF steps",
+    "online_state": "slow macro Q plus discrete mode/event state",
+    "sensitivities": "bordered periodic adjoint"
+  },
+  "schema_version": 1,
+  "truth_dynamics": "dq/dt=f_free(q) on the certified conservative atlas",
+  "work_package": "WP10c9d6c7c3b5c4f25fiu_adaptive_metric_chart_cycle_readiness_reforecast_manifest"
+}

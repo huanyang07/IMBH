@@ -1,0 +1,49 @@
+{
+  "authorization_boundary": "a pass authorizes only a phase-lap/recurrence acquisition manifest; it does not authorize a complete-cycle claim or reduced slow evolution",
+  "authorized_execution": "WP10c9d6c7c3b5c4f25fiv_conservative_tangent_phase_atlas_holdout_execution",
+  "binding_phase_gates": {
+    "all_original_physical_and_retraction_gates_unchanged": true,
+    "checkpoint_roundtrip_bitwise": true,
+    "maximum_direction_prediction_defect_radians": 0.005,
+    "maximum_holdout_out_of_plane_defect": 0.005,
+    "maximum_holdout_relative_radial_defect": 0.002,
+    "maximum_phase_increment": 0.08,
+    "maximum_training_relative_radial_rms": 0.001,
+    "minimum_phase_increment_strictly_greater_than": 0.0,
+    "minimum_training_two_plane_energy_fraction": 0.999,
+    "suffix_history_replay_bitwise": true
+  },
+  "classification": "conservative_overlapping_tangent_phase_atlas_selected_prospective_holdout_required",
+  "classification_branches": {
+    "phase_observer_geometry_failed": "physical continuation passes but a phase geometry gate fails",
+    "phase_observer_physical_or_numerical_failed": "any original continuation, physics, checkpoint, or replay gate fails",
+    "phase_observer_prospectively_validated": "all 16 exact holdouts and every numerical/physical/phase gate pass"
+  },
+  "phase_observer": {
+    "affine_plane_rank": 2,
+    "circle_fit": "linear least squares in the trailing affine plane",
+    "metric": "frozen terminal conservative transform W_164ms",
+    "phase_increment_predictor": "median of the last 4 accepted increments",
+    "phase_orientation": "strictly increasing training-time orientation",
+    "physical_vector_field": "autonomous original reaction-free field",
+    "prediction_is_frozen_before_holdout_tangent_is_seen": true,
+    "refit_after_each_accepted_exact_endpoint": true,
+    "rejected_candidate_never_enters_phase_history": true,
+    "trailing_window_samples": 12,
+    "unit_tangent": "tau=W f_free/||W f_free||_2"
+  },
+  "schema_version": 1,
+  "scope": {
+    "accepted_segments": 16,
+    "blind_midpoint_frequency": 4,
+    "initial_elapsed_seconds": 0.16400000000000012,
+    "initial_segment_seconds": 0.00025,
+    "maximum_attempted_segments": 18,
+    "maximum_exact_free_field_calls": 20,
+    "maximum_execution_wall_hours": 2.5,
+    "maximum_retractions": 20,
+    "maximum_segment_seconds": 0.00025,
+    "minimum_segment_seconds": 0.000125
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fiu_adaptive_metric_chart_cycle_readiness_reforecast_manifest"
+}

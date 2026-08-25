@@ -1,0 +1,95 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fiv_conservative_tangent_phase_atlas_holdout_execution",
+  "classification": "conservative_overlapping_tangent_phase_atlas_selected_prospective_holdout_required",
+  "complete_cycle_execution_authorized": false,
+  "complete_cycle_observed": false,
+  "definitions_only": true,
+  "fixed_section_forecast_rejected": true,
+  "input_lock": {
+    "parent_classification": "cycle_readiness_orientation_discrimination_open",
+    "parent_hashes": {
+      "forecast_discrimination_arrays.npz": "b043c1fa978c1b601ff711c1c8b592c1e06ce647541cefbfac33c47376dcbae6",
+      "forecast_discrimination_metrics.json": "77dde9c364f0d004a99bece487827b638216c3cb6e7c2803af1fd8030b37fc88",
+      "input_lock.json": "14e79595ab566230132af4c981cd51f27e4899a35b92c6a671a661da4c6ef1d0",
+      "provenance.json": "62c1d4c2fd8694bc13f95681372552518550fd62b14a2f1d857dd9234e1f50ac",
+      "summary.json": "4816836ecd6a315487b6cb19fe85f58003eb39cb6d16619ca5ceae7963739e3f"
+    }
+  },
+  "new_truth_evaluations": 0,
+  "passed": true,
+  "reduced_slow_evolution_authorized": false,
+  "retrospective_cross_validation_is_binding_execution_evidence": false,
+  "schema_version": 1,
+  "selected_window": 12,
+  "selection_is_retrospective": true,
+  "terminal_chart": {
+    "circle_solve_condition_number": 94.07264811915383,
+    "predicted_phase_increment": 0.045144693162903704,
+    "training_relative_radial_rms": 0.00014494120268871804,
+    "training_samples": 12,
+    "two_plane_energy_fraction": 0.9999745792560704
+  },
+  "window_audits": {
+    "12": {
+      "all_phase_increments_positive": true,
+      "maximum_circle_solve_condition_number": 120.06269944489615,
+      "maximum_direction_prediction_defect_radians": 0.0017169450415640934,
+      "maximum_out_of_plane_defect": 0.00169206938265275,
+      "maximum_phase_increment": 0.045515420537486584,
+      "maximum_relative_radial_defect": 0.0006235103533709512,
+      "maximum_training_relative_radial_rms": 0.00014594908037192318,
+      "minimum_phase_increment": 0.04114738854156408,
+      "minimum_training_two_plane_energy_fraction": 0.9999737272058952,
+      "prediction_count": 37,
+      "predictor_increment_count": 4,
+      "rms_direction_prediction_defect_radians": 0.0015110899020242762,
+      "window_size": 12
+    },
+    "16": {
+      "all_phase_increments_positive": true,
+      "maximum_circle_solve_condition_number": 66.74432634620287,
+      "maximum_direction_prediction_defect_radians": 0.003509803189007166,
+      "maximum_out_of_plane_defect": 0.003487330247584667,
+      "maximum_phase_increment": 0.04455132163797337,
+      "maximum_relative_radial_defect": 0.0013378472948743783,
+      "maximum_training_relative_radial_rms": 0.0003299079688868115,
+      "minimum_phase_increment": 0.04098692644856894,
+      "minimum_training_two_plane_energy_fraction": 0.9999168366034852,
+      "prediction_count": 33,
+      "predictor_increment_count": 4,
+      "rms_direction_prediction_defect_radians": 0.0030958865283405427,
+      "window_size": 16
+    },
+    "20": {
+      "all_phase_increments_positive": true,
+      "maximum_circle_solve_condition_number": 42.58045191668898,
+      "maximum_direction_prediction_defect_radians": 0.0061629618937969,
+      "maximum_out_of_plane_defect": 0.006146686406977384,
+      "maximum_phase_increment": 0.04337033657549383,
+      "maximum_relative_radial_defect": 0.0024215453352536553,
+      "maximum_training_relative_radial_rms": 0.000601186414030761,
+      "minimum_phase_increment": 0.04060602518562839,
+      "minimum_training_two_plane_energy_fraction": 0.9998035656023252,
+      "prediction_count": 29,
+      "predictor_increment_count": 4,
+      "rms_direction_prediction_defect_radians": 0.005453168733490872,
+      "window_size": 20
+    },
+    "24": {
+      "all_phase_increments_positive": true,
+      "maximum_circle_solve_condition_number": 29.66112726748505,
+      "maximum_direction_prediction_defect_radians": 0.009690731060958392,
+      "maximum_out_of_plane_defect": 0.009650217704844501,
+      "maximum_phase_increment": 0.04202740211614131,
+      "maximum_relative_radial_defect": 0.0036885150627505373,
+      "maximum_training_relative_radial_rms": 0.0009587620289783253,
+      "minimum_phase_increment": 0.04006710949883141,
+      "minimum_training_two_plane_energy_fraction": 0.9996327881415489,
+      "prediction_count": 25,
+      "predictor_increment_count": 4,
+      "rms_direction_prediction_defect_radians": 0.008594981155329934,
+      "window_size": 24
+    }
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fiu_adaptive_metric_chart_cycle_readiness_reforecast_manifest"
+}
