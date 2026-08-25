@@ -232,7 +232,11 @@ def _accepted_attempts() -> list[tuple[dict, dict[str, np.ndarray]]]:
         if not metrics_path.exists() or not arrays_path.exists():
             continue
         metrics = _helper()._read(metrics_path)
-        if metrics.get("accepted"):
+        if (
+            metrics.get("accepted")
+            and metrics.get("phase_geometry") is not None
+            and metrics.get("recurrence_geometry") is not None
+        ):
             accepted.append((metrics, _load_npz(arrays_path)))
     return accepted
 

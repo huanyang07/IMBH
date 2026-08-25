@@ -135,6 +135,29 @@ def test_failed_phase_candidate_does_not_enter_accumulation(monkeypatch, tmp_pat
     }
 
 
+def test_provisional_engine_acceptance_does_not_enter_augmented_history(
+    monkeypatch,
+    tmp_path,
+) -> None:
+    monkeypatch.setattr(target, "SCRATCH_DIRECTORY", tmp_path)
+    directory = tmp_path / "attempt_0000"
+    directory.mkdir()
+    target._helper()._write_json(
+        directory / "attempt.json",
+        {"accepted": True, "numerical_passed": True, "stop_reason": None},
+    )
+    target._save_npz(
+        directory / "attempt.npz",
+        {
+            "accepted_coordinate_rate470_per_s": target._seed()[
+                "current_coordinate_rate470_per_s"
+            ]
+        },
+    )
+    assert target._accepted_attempts() == []
+    assert target._prior_accumulation()["cumulative_phase_advance_radians"] == 0.0
+
+
 def test_engine_context_is_isolated() -> None:
     original_manifest = target.engine.manifest
     original_attempt = target.engine._attempt
