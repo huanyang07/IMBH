@@ -39,6 +39,37 @@ def test_engine_context_is_isolated() -> None:
     assert target.engine.SCRATCH_DIRECTORY == original_scratch
 
 
+def test_forecast_range_records_windows_without_forward_zero() -> None:
+    forecasts = {
+        "4": {"forecast_zero_time_seconds": None},
+        "8": {"forecast_zero_time_seconds": 0.21},
+        "12": {"forecast_zero_time_seconds": 0.19},
+    }
+    interval, absent = target._finite_forecast_range(forecasts)
+    assert interval == [0.19, 0.21]
+    assert absent == ["4"]
+
+    interval, absent = target._finite_forecast_range(
+        {"4": {"forecast_zero_time_seconds": None}}
+    )
+    assert interval is None
+    assert absent == ["4"]
+
+
+def test_acquisition_commit_preserves_frozen_runner_blob() -> None:
+    assert (
+        target._helper()._git(
+            "rev-parse", f"{target.ACQUISITION_COMMIT}^{{tree}}"
+        )
+        == target.ACQUISITION_TREE
+    )
+    old_hash = target._git_blob_sha256(
+        target.ACQUISITION_COMMIT, target.THIS_RUNNER
+    )
+    assert len(old_hash) == 64
+    assert old_hash != target._helper()._sha(target.ROOT / target.THIS_RUNNER)
+
+
 def test_geometry_classification_detects_equivalent_turn_without_cycle() -> None:
     lock = target._validate_manifest(require_clean=False)
     seed = target._seed()

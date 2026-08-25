@@ -6,9 +6,11 @@ from __future__ import annotations
 import argparse
 from contextlib import contextmanager
 import csv
+import hashlib
 import json
 from pathlib import Path
 import platform
+import subprocess
 import sys
 
 import numpy as np
@@ -27,6 +29,8 @@ import run_causal_inner_adaptive_metric_chart_cycle_readiness_reforecast_manifes
 _BASE_HELPER_MODULE = parent._BASE_HELPER_MODULE
 SCHEMA_VERSION = 1
 WORK_PACKAGE = "WP10c9d6c7c3b5c4f25fit"
+ACQUISITION_COMMIT = "74086051673b111abc284704677947daa6f514e9"
+ACQUISITION_TREE = "e82d4e258b42e3de3fc6f89b2e4ebf134027a017"
 TURN_CLASSIFICATION = "cycle_readiness_orientation_turn_bracketed"
 OPEN_CLASSIFICATION = "cycle_readiness_orientation_discrimination_open"
 PHYSICAL_FAILURE_CLASSIFICATION = (
@@ -243,6 +247,55 @@ def _prepare_scratch(lock: dict) -> dict:
     return identity
 
 
+def _git_blob_sha256(commit: str, relative: str) -> str:
+    payload = subprocess.run(
+        ("git", "show", f"{commit}:{relative}"),
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+    ).stdout
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _validate_acquisition_scratch(lock: dict) -> dict:
+    """Validate the completed immutable acquisition before reclassification."""
+
+    helper = _helper()
+    path = SCRATCH_DIRECTORY / "execution_identity.json"
+    if not path.exists():
+        raise RuntimeError("cycle-readiness discrimination scratch is absent")
+    identity = helper._read(path)
+    if (
+        identity.get("work_package") != WORK_PACKAGE
+        or identity.get("implementation_commit") != ACQUISITION_COMMIT
+        or identity.get("implementation_tree") != ACQUISITION_TREE
+        or identity.get("manifest_hashes") != lock["hashes"]
+        or identity.get("adaptive_policy") != lock["contract"]["adaptive_policy"]
+    ):
+        raise RuntimeError("cycle-readiness discrimination acquisition changed")
+    if helper._git("rev-parse", f"{ACQUISITION_COMMIT}^{{tree}}") != ACQUISITION_TREE:
+        raise RuntimeError("cycle-readiness discrimination acquisition tree changed")
+    for relative, expected in identity["source_hashes"].items():
+        if _git_blob_sha256(ACQUISITION_COMMIT, relative) != expected:
+            raise RuntimeError(f"acquisition source changed: {relative}")
+    return identity
+
+
+def _finite_forecast_range(forecasts: dict) -> tuple[list[float] | None, list[str]]:
+    finite = []
+    absent = []
+    for name, item in forecasts.items():
+        value = item["forecast_zero_time_seconds"]
+        if value is None or not np.isfinite(value):
+            absent.append(name)
+        else:
+            finite.append(float(value))
+    return (
+        None if not finite else [float(np.min(finite)), float(np.max(finite))],
+        absent,
+    )
+
+
 def _forecast_bundle(
     lock: dict,
     accepted_times: np.ndarray,
@@ -260,10 +313,8 @@ def _forecast_bundle(
     orientations = velocities / speeds
     raw = manifest._linear_forecasts(times, velocities)
     normalized = manifest._linear_forecasts(times, orientations)
-    raw_zeros = [item["forecast_zero_time_seconds"] for item in raw.values()]
-    normalized_zeros = [
-        item["forecast_zero_time_seconds"] for item in normalized.values()
-    ]
+    raw_range, raw_absent = _finite_forecast_range(raw)
+    normalized_range, normalized_absent = _finite_forecast_range(normalized)
     secant_acceleration = np.diff(velocities) / np.diff(times)
     acceleration_left = np.concatenate(([-np.inf], secant_acceleration[:-1]))
     reversal_indices = np.flatnonzero(
@@ -273,14 +324,10 @@ def _forecast_bundle(
         "sample_count": int(times.size),
         "raw_velocity_linear_forecasts": raw,
         "orientation_linear_forecasts": normalized,
-        "raw_velocity_forecast_range_seconds": [
-            float(np.min(raw_zeros)),
-            float(np.max(raw_zeros)),
-        ],
-        "orientation_forecast_range_seconds": [
-            float(np.min(normalized_zeros)),
-            float(np.max(normalized_zeros)),
-        ],
+        "raw_velocity_forecast_range_seconds": raw_range,
+        "orientation_forecast_range_seconds": normalized_range,
+        "raw_velocity_windows_without_forward_zero": raw_absent,
+        "orientation_windows_without_forward_zero": normalized_absent,
         "terminal_secant_acceleration_per_second2": float(
             secant_acceleration[-1]
         ),
@@ -455,7 +502,8 @@ def _canonicalize(
     metrics: dict,
     arrays: dict[str, np.ndarray],
     lock: dict,
-    identity: dict,
+    acquisition_identity: dict,
+    classification_identity: dict,
 ) -> dict:
     helper = _helper()
     if CANONICAL_DIRECTORY.exists():
@@ -472,7 +520,8 @@ def _canonicalize(
         {
             "manifest_hashes": lock["hashes"],
             "manifest_classification": lock["summary"]["classification"],
-            "execution_identity": identity,
+            "acquisition_identity": acquisition_identity,
+            "classification_identity": classification_identity,
         },
     )
     values = metrics["gate_values"]
@@ -502,9 +551,14 @@ def _canonicalize(
         {
             "runner": THIS_RUNNER,
             "test": THIS_TEST,
-            "implementation_commit": identity["implementation_commit"],
-            "implementation_tree": identity["implementation_tree"],
-            "source_hashes": identity["source_hashes"],
+            "implementation_commit": classification_identity[
+                "implementation_commit"
+            ],
+            "implementation_tree": classification_identity["implementation_tree"],
+            "source_hashes": classification_identity["source_hashes"],
+            "acquisition_commit": acquisition_identity["implementation_commit"],
+            "acquisition_tree": acquisition_identity["implementation_tree"],
+            "acquisition_source_hashes": acquisition_identity["source_hashes"],
             "python": sys.version,
             "numpy": np.__version__,
             "platform": platform.platform(),
@@ -554,13 +608,24 @@ def _canonicalize(
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--run", action="store_true")
+    parser.add_argument("--finalize-existing", action="store_true")
     arguments = parser.parse_args()
-    if not arguments.run:
-        parser.error("--run is required")
+    if arguments.run == arguments.finalize_existing:
+        parser.error("choose exactly one of --run or --finalize-existing")
     lock = _validate_manifest(require_clean=True)
-    identity = _prepare_scratch(lock)
-    metrics, arrays = _execute(lock, identity)
-    summary = _canonicalize(metrics, arrays, lock, identity)
+    if arguments.finalize_existing:
+        acquisition_identity = _validate_acquisition_scratch(lock)
+    else:
+        acquisition_identity = _prepare_scratch(lock)
+    classification_identity = _identity(lock)
+    metrics, arrays = _execute(lock, acquisition_identity)
+    summary = _canonicalize(
+        metrics,
+        arrays,
+        lock,
+        acquisition_identity,
+        classification_identity,
+    )
     print(json.dumps(summary, indent=2, sort_keys=True))
     if not summary["passed"]:
         raise SystemExit(1)
