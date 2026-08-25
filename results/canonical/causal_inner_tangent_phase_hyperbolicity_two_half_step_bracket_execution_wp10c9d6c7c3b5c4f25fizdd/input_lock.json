@@ -1,0 +1,50 @@
+{
+  "execution_lock_hashes": {
+    "execution_lock.json": "a6ea9ccd45466b23c4cab7d35985909bc1aa6d64302c93576499152555155ef3",
+    "provenance.json": "f015f6ae900a93ff7bc8d168cb60229b72b34500c3930991613285b6c3ffb2e0",
+    "summary.json": "ebd359439523df99697617d9ddc5496680c67b2bb042a4af5b9d2b8f8ed48e83"
+  },
+  "identity": {
+    "contract": {
+      "all_face_hyperbolicity_preflight": true,
+      "failed_full_step_propagated": false,
+      "half_step_seconds": 0.000125,
+      "maximum_accepted_steps": 2,
+      "maximum_attempts": 2,
+      "maximum_real_spectrum_imaginary_speed": 1e-10,
+      "original_truth_dynamics_and_gates_unchanged": true,
+      "preflight_before_each_exact_field": true,
+      "real_characteristic_basis_required": true,
+      "rejected_half_step_never_propagates": true,
+      "work_package": "WP10c9d6c7c3b5c4f25fizdd_tangent_phase_hyperbolicity_two_half_step_bracket_execution"
+    },
+    "implementation_commit": "3b1d278ee9b155b3f50a2362be7937af839b825e",
+    "implementation_tree": "ff56b8b9272beb5eea363c30fdde569b79f32eca",
+    "lock_hashes": {
+      "execution_lock.json": "a6ea9ccd45466b23c4cab7d35985909bc1aa6d64302c93576499152555155ef3",
+      "provenance.json": "f015f6ae900a93ff7bc8d168cb60229b72b34500c3930991613285b6c3ffb2e0",
+      "summary.json": "ebd359439523df99697617d9ddc5496680c67b2bb042a4af5b9d2b8f8ed48e83"
+    },
+    "source_hashes": {
+      "scripts/run_causal_inner_adaptive_complete_cycle_execution_wp10c9d6c7c3b5c4f25fe.py": "a4e056711fd1792106572541a227465c419dc4359980ae0a3183c3652cbf1c89",
+      "scripts/run_causal_inner_adaptive_metric_chart_continuation_execution_wp10c9d6c7c3b5c4f25fip.py": "e166fb0cfb89776569d528e2c3e5b4f0ac3a414d23898197ece11fd57dac2a96",
+      "scripts/run_causal_inner_metric_chart_short_suffix_execution_wp10c9d6c7c3b5c4f25fih.py": "ac15935846a087b106e92256e64515580d97fef00954592662ebc5078ae47633",
+      "scripts/run_causal_inner_tangent_phase_hyperbolicity_two_half_step_bracket_execution_wp10c9d6c7c3b5c4f25fizdd.py": "7dac94db2ef871c1945f757e39e33444441aecfe2c55472de9ecede395df67c6",
+      "scripts/run_causal_inner_tangent_phase_hyperbolicity_two_half_step_bracket_manifest_wp10c9d6c7c3b5c4f25fizdc.py": "a94d3291feac091c2a9b6258d00dcf8ccf21c2f178c013feab50de588be5c8ec",
+      "scripts/run_causal_inner_tangent_phase_lap_recurrence_stage1_execution_wp10c9d6c7c3b5c4f25fix.py": "01f410a40e551491d4ae892768a41a85096f985506817f5e1453069490a64bb2",
+      "scripts/run_causal_inner_tangent_phase_lap_recurrence_stage2_execution_wp10c9d6c7c3b5c4f25fizd.py": "02fe29c81d9eff2143138f378fe6aac73e3e3dd2e930c26a3e526952fca06479",
+      "scripts/run_causal_inner_tangent_phase_lap_stage2_hyperbolicity_boundary_diagnostic_wp10c9d6c7c3b5c4f25fizdb.py": "bc9f79c9a03cfa37d27acb2f2a8e41506ad7dcb4e24fa2771f6735e7d7f49817",
+      "scripts/run_causal_inner_tangent_phase_lap_stage2_hyperbolicity_boundary_manifest_wp10c9d6c7c3b5c4f25fizda.py": "e46315585d90c669ceb6393585a3d7cca98961f7a9bb601cf0c5904acb821318",
+      "src/imri_qpe/layer3_minidisk_1d/causal_inner_characteristic_dissipation.py": "9f8333899627c42ae688b9894f9f52fd2d96bf7e17b114b8ff4c74e3076f3b71",
+      "src/imri_qpe/layer3_minidisk_1d/causal_inner_radial_linear_tangent.py": "f1ca6a2e13a942b202eda5ca24d1feddbdbf9e1a6fbc5bdc1e1e493e076e0ed6",
+      "tests/test_causal_inner_adaptive_metric_chart_continuation_execution_wp10c9d6c7c3b5c4f25fip.py": "96a508b0cccf1559f82547e7dc87403534b31785c4c7119682def835e74eefce",
+      "tests/test_causal_inner_tangent_phase_hyperbolicity_two_half_step_bracket_execution_wp10c9d6c7c3b5c4f25fizdd.py": "a9d25210c1d7888c702097041a7393c08a22f5dea44804b7d69fa8b071ad2661",
+      "tests/test_causal_inner_tangent_phase_hyperbolicity_two_half_step_bracket_manifest_wp10c9d6c7c3b5c4f25fizdc.py": "5aad582d1ad55e8a309255bd07f3e6f54b4cc5755ba251bb4f65a4bc27cf82ae",
+      "tests/test_causal_inner_tangent_phase_lap_recurrence_stage1_execution_wp10c9d6c7c3b5c4f25fix.py": "2862c5cdd8b74e994e85f8ca95c47772a847b08f8852409f4e1539b02345afb1",
+      "tests/test_causal_inner_tangent_phase_lap_recurrence_stage2_execution_wp10c9d6c7c3b5c4f25fizd.py": "cef6b489e4f840e29e2d695d1c1bab1642f8cfb5437bd5c33ab5cb6e010b9959",
+      "tests/test_causal_inner_tangent_phase_lap_stage2_hyperbolicity_boundary_diagnostic_wp10c9d6c7c3b5c4f25fizdb.py": "612bbdf2dba470ef9e79bdea0132571c18424c4c4ac3e7e1a035cf129f3badd9",
+      "tests/test_causal_inner_tangent_phase_lap_stage2_hyperbolicity_boundary_manifest_wp10c9d6c7c3b5c4f25fizda.py": "1801185b102eebdd0a5f2dbb9d287ee9916fcb3a38f6f1cdfa6a4b7490f4329e"
+    },
+    "work_package": "WP10c9d6c7c3b5c4f25fizdd_tangent_phase_hyperbolicity_two_half_step_bracket_execution"
+  }
+}
