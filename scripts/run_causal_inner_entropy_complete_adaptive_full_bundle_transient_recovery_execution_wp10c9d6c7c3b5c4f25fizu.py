@@ -82,6 +82,9 @@ THIS_TEST = (
 PARENT_CHECKSUM_MANIFEST_SHA256 = (
     "dee8e0d20b986c8786cc473f64ee7bd3ae046100704028c5a8950dcf3f1c3d96"
 )
+PRECANONICALIZATION_INVOCATION_COMMIT = (
+    "01364fb734ead80f22b3d9937abaeaee8ab342b9"
+)
 PARENT_ARRAYS = parent.PARENT_ARRAYS
 CANONICAL_MANIFEST = ROOT / "results/manifests/canonical_artifacts.csv"
 CANONICAL_SUMMARY = ROOT / "results/manifests/canonical_summary.json"
@@ -156,6 +159,10 @@ def _bitwise_roundtrip(arrays: dict[str, np.ndarray]) -> bool:
             np.array_equal(np.asarray(arrays[name]), np.asarray(loaded[name]))
             for name in arrays
         )
+
+
+def _is_hyperbolicity_failure(exception: Exception) -> bool:
+    return "not real within the declared tolerance" in str(exception)
 
 
 def _validate_parent(*, require_clean: bool) -> dict:
@@ -335,34 +342,73 @@ def _execute() -> tuple[dict, dict[str, np.ndarray]]:
             retry_count += 1
             low_defect_streak = 0
             continue
-        prefilter = truth_source.adaptive_diagnosis._midpoint_hyperbolicity_audit(
-            context, reconstruction.primitive_charts
-        )
-        operator = generalized_maxwell_cattaneo_radial_operator(
-            context, reconstruction.primitive_charts, quadrature_order=8
-        )
-        truth_calls += 1
-        physical = truth_source._operator_record(operator)
-        physical_checks = truth_source._physical_checks(physical, physical_gates)
-        physical_checks.update(
-            {
-                "prefilter_eigenvalue": prefilter[
-                    "maximum_eigenvalue_imaginary_ratio"
-                ]
-                <= 1.0e-10,
-                "prefilter_eigenvector": prefilter[
-                    "maximum_eigenvector_imaginary_ratio"
-                ]
-                <= 1.0e-10,
-                "hydrostatic_embedding": parent.parent.parent.parent.rejected_execution._hydrostatic_embedding_defect(
+        maximum_chart = float(np.max(np.abs(reconstruction.chart_coordinates)))
+        truth_call_started = False
+        try:
+            prefilter = (
+                truth_source.adaptive_diagnosis._midpoint_hyperbolicity_audit(
                     context, reconstruction.primitive_charts
                 )
-                <= 1.0e-10,
-            }
-        )
-        outputs = truth_outputs_from_radial_operator(operator)
-        packed_output = pack_macro_outputs(outputs)
-        candidate_rate = (rate_output @ packed_output).reshape(16, 5)
+            )
+            truth_calls += 1
+            truth_call_started = True
+            operator = generalized_maxwell_cattaneo_radial_operator(
+                context, reconstruction.primitive_charts, quadrature_order=8
+            )
+            physical = truth_source._operator_record(operator)
+            physical_checks = truth_source._physical_checks(
+                physical, physical_gates
+            )
+            physical_checks.update(
+                {
+                    "prefilter_eigenvalue": prefilter[
+                        "maximum_eigenvalue_imaginary_ratio"
+                    ]
+                    <= 1.0e-10,
+                    "prefilter_eigenvector": prefilter[
+                        "maximum_eigenvector_imaginary_ratio"
+                    ]
+                    <= 1.0e-10,
+                    "hydrostatic_embedding": parent.parent.parent.parent.rejected_execution._hydrostatic_embedding_defect(
+                        context, reconstruction.primitive_charts
+                    )
+                    <= 1.0e-10,
+                }
+            )
+            outputs = truth_outputs_from_radial_operator(operator)
+            packed_output = pack_macro_outputs(outputs)
+            candidate_rate = (rate_output @ packed_output).reshape(16, 5)
+        except Exception as exc:
+            message = f"{type(exc).__name__}: {exc}"
+            hyperbolicity_failure = _is_hyperbolicity_failure(exc)
+            record.update(
+                {
+                    "accepted": False,
+                    "retryable": False,
+                    "stage": "physical_truth_evaluation",
+                    "exception": message,
+                    "truth_call_performed": truth_call_started,
+                    "truth_call": truth_calls if truth_call_started else None,
+                    "maximum_chart_coordinate": maximum_chart,
+                    "macro_roundtrip_relative_defect": reconstruction.maximum_macro_state_roundtrip_relative_defect,
+                    "reconstruction_newton_corrections": reconstruction.newton_corrections,
+                    "physical_hyperbolicity_failure": hyperbolicity_failure,
+                    "wall_seconds": time.perf_counter() - step_start,
+                }
+            )
+            records.append(record)
+            stop_reason = (
+                "physical_hyperbolicity_truth_gate_failed"
+                if hyperbolicity_failure
+                else "truth_evaluation_failed_closed"
+            )
+            physical_failure = hyperbolicity_failure
+            print(
+                f"adaptive attempt {attempted_steps}: nonretryable truth "
+                f"failure at t={current_time + timestep:.6e}: {message}",
+                flush=True,
+            )
+            break
         embedded = parent.parent._embedded_defect(
             current_state,
             candidate_state,
@@ -379,7 +425,6 @@ def _execute() -> tuple[dict, dict[str, np.ndarray]]:
         ledger_defect = _relative(
             actual_change - ledger_change, actual_change, ledger_change
         )
-        maximum_chart = float(np.max(np.abs(reconstruction.chart_coordinates)))
         numerical_passed = bool(
             record["anchor_roundtrip_relative_defect"]
             <= gates["maximum_macro_roundtrip_relative_defect"]
@@ -594,6 +639,10 @@ def _execute() -> tuple[dict, dict[str, np.ndarray]]:
         "fixed_Q_reaction_calls": 0,
         "complete_cycle_execution_authorized": False,
         "reduced_slow_evolution_authorized": False,
+        "precanonicalization_invocation": {
+            "implementation_commit": PRECANONICALIZATION_INVOCATION_COMMIT,
+            "outcome": "uncaught truth hyperbolicity exception; no canonical artifacts written",
+        },
     }
     arrays = {
         "accepted_macro_states": np.asarray(state_history),
@@ -710,6 +759,8 @@ def _canonicalize(metrics: dict, arrays: dict[str, np.ndarray]) -> dict:
                 f"Accepted timesteps ranged from `{metrics['minimum_accepted_timestep_seconds']:.6e}` to `{metrics['maximum_accepted_timestep_seconds']:.6e}` s. Maximum chart/embedded/ledger defects were `{metrics['maximum_accepted_chart_coordinate']:.6e}`, `{metrics['maximum_accepted_embedded_defect']:.6e}`, and `{metrics['maximum_accepted_discrete_ledger_relative_defect']:.6e}`.",
                 "",
                 f"Persistent auxiliary slaving observed: `{metrics['persistent_auxiliary_slaving_observed']}`. Complete-cycle execution remains unauthorized.",
+                "",
+                f"Stop reason: `{metrics['stop_reason']}`. The first invocation at `{PRECANONICALIZATION_INVOCATION_COMMIT}` exposed an uncaught rejection-packaging exception and wrote no canonical artifacts; this rerun changed no scientific gate.",
                 "",
                 f"Authorized next: `{authorized_next}`.",
                 "",

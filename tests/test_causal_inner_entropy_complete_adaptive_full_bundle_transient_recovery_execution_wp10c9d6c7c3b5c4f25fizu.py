@@ -30,6 +30,12 @@ def test_checkpoint_roundtrip_is_bitwise():
     assert execution._bitwise_roundtrip(arrays)
 
 
+def test_truth_hyperbolicity_exception_is_classified_fail_closed():
+    exception = ValueError("generalized eigenvalues is not real within the declared tolerance")
+    assert execution._is_hyperbolicity_failure(exception)
+    assert not execution._is_hyperbolicity_failure(ValueError("unrelated failure"))
+
+
 def test_parent_authorizes_the_adaptive_execution():
     validated = execution._validate_parent(require_clean=False)
     assert validated["summary"]["adaptive_recovery_execution_authorized"]
