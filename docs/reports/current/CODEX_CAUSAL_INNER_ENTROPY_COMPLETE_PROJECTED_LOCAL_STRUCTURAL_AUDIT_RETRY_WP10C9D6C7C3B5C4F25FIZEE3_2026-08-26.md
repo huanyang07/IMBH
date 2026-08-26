@@ -1,0 +1,12 @@
+# Entropy-complete projected local structural audit retry
+
+Classification: `entropy_complete_projected_local_structural_audit_retry_hyperbolicity_failed`.
+
+The hash-locked original audit kernel evaluated 270 of 8401 base points and 0 unique off-equilibrium witnesses against the repaired physical principal. The original `entropy_complete_projected_strong_hyperbolicity_failed` result remains preserved and is not reclassified.
+
+Worst imaginary speed: `0.0`. Worst light-cone excess: `0.0`. Worst eigenvector condition: `936.1241520661706`. Minimum neighboring advective-subspace cosine: `0.7380714589652135`.
+
+First failure: `{'label': 'accepted_00_cell_045', 'scope': 'base', 'radius_cm': 6729339317.769789, 'chart7': [4.8497191077958, -0.11504099014619346, 0.6583764461476951, 14.893727530332326, 5.571117827765792e-05, 20.333405656468322, 0.0], 'reasons': ['strong_hyperbolicity:advective_subspace_continuity'], 'metrics': {'maximum_imaginary_speed_over_c': 0.0, 'maximum_light_cone_excess_over_c': 0.0, 'maximum_eigenpair_relative_defect': 3.5312961605535143e-16, 'eigenvector_condition_number': 16.332370653300924, 'maximum_biorthogonality_defect': 2.220446049250313e-16, 'maximum_projector_idempotence_defect': 2.169684381677178e-16, 'scaled_temporal_condition_number': 246.76539919496983, 'four_velocity_normalization_relative_defect': 2.220446049250313e-16, 'shear_tensor_trace_relative_defect': 3.047836584388336e-16, 'shear_tensor_orthogonality_relative_defect': 2.0468577241470536e-26, 'shear_radial_work_relative_defect': 1.2191346337553343e-16, 'reference_causality_minimum_margin': 0.0002936598568286564, 'dominant_energy_margin': 1.0099424923250189, 'vertical_total_energy_relative_defect': 0.0, 'vertical_reversible_exchange_relative_defect': 0.0, 'minimum_entropy_production_rate': 0.0}, 'eigenvalues_over_c': [{'real': -0.41290843949979034, 'imaginary': 0.0}, {'real': -0.3934733608841025, 'imaginary': 0.0}, {'real': -0.3849646743053551, 'imaginary': 0.0}, {'real': -0.3849646730791247, 'imaginary': 0.0}, {'real': -0.3849646730791245, 'imaginary': 0.0}, {'real': -0.3763411896459252, 'imaginary': 0.0}, {'real': -0.3569101132501229, 'imaginary': 0.0}]}`. Derivative ladders: `{}`.
+
+No later package is authorized; the first retry failure must be diagnosed prospectively.
+No spatial step, seven-field trajectory, fixed-Q invariant object, slow-flux atlas, reduced cycle, or complete-cycle execution is authorized by this local audit.
