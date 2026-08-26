@@ -1,0 +1,76 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizfk_entropy_complete_structure_preserving_macro_integrator_implementation",
+  "binding_gates": {
+    "endpoint_truth_all_physical_gates": true,
+    "maximum_checkpoint_roundtrip_relative_defect": 0.0,
+    "maximum_endpoint_truth_macro_rate_relative_defect_per_field": 0.05,
+    "maximum_endpoint_truth_output_relative_defect_per_block": 0.05,
+    "maximum_exact_integrated_ledger_relative_defect": 1e-12,
+    "maximum_semigroup_relative_defect": 1e-12,
+    "maximum_spectral_abscissa_per_second": 0.0,
+    "rejected_or_out_of_trust_state_never_propagated": true,
+    "state_MJE_positive": true,
+    "state_radial_velocity_subluminal": true,
+    "suffix_replay_bitwise": true
+  },
+  "bounded_pilot": {
+    "accepted_macrosteps": 4,
+    "anchor": "primary_20ms_base",
+    "atlas_absolute_trust_coordinate_infinity": 0.15,
+    "checkpoint_after_step": 2,
+    "complete_cycle_execution_authorized": false,
+    "complete_cycle_seconds": 578880.0,
+    "fixed_macrostep_seconds": 0.001,
+    "horizon_seconds": 0.004,
+    "maximum_new_truth_operator_calls": 1,
+    "one_dynamic_endpoint_truth_call": true,
+    "pilot_reserved_trust_coordinate_infinity": 0.12,
+    "same_horizon_one_step_comparison": true,
+    "suffix_steps_to_replay": 2
+  },
+  "claim_boundary": {
+    "bounded_macro_propagation_authorized": true,
+    "complete_cycle_execution_authorized": false,
+    "pathwise_patch_expansion_authorized": false,
+    "reduced_slow_cycle_claim_authorized": false
+  },
+  "classification": "entropy_complete_exact_affine_macro_integrator_bounded_pilot_manifest_frozen",
+  "decision": {
+    "pass": "authorize_definitions_only_pathwise_macro_atlas_expansion_manifest",
+    "scientific_fail": "reject_local_macro_integrator_or_affine_dynamic_closure",
+    "trust_exit": "stop_and_expand_offline_atlas_without_extrapolation"
+  },
+  "mathematical_system": {
+    "augmented_generator": "K=[[B,c],[0,0]]",
+    "conservative_rate": "dX/dt=R*y",
+    "exact_MJE_telescoping_ledger": true,
+    "inferred_chart": "z=Pq",
+    "integrated_output": "Gamma(dt)*[q,1] from one augmented exponential",
+    "nonlinear_roots_per_online_step": 0,
+    "normalized_affine_rate": "dq/dt=c+Bq",
+    "normalized_state": "q=(X-X_anchor)/S_X",
+    "online_state": "X=16_cell_exact_(M,J,E,beta_r,chi)",
+    "packed_output": "y=S_y*(y0+J_z*z)",
+    "single_valued_face_fluxes": true,
+    "state_transition": "[q_next,1]=exp(dt*K)*[q,1]",
+    "truth_calls_per_online_step": 0
+  },
+  "offline_endpoint_reconstruction": {
+    "finite_difference_step": 1e-05,
+    "initial_guess": "certified_linear_macro_chart_pullback",
+    "maximum_chart_coordinate_infinity": 0.12,
+    "maximum_macro_state_roundtrip_relative_defect": 1e-10,
+    "maximum_newton_corrections": 8,
+    "method": "cellwise_5x5_thermodynamic_chart_Newton",
+    "reconstruction_is_not_online": true
+  },
+  "online_cost": {
+    "benchmark_macrosteps": 100000,
+    "maximum_benchmark_wall_seconds": 10.0,
+    "maximum_macrosteps_per_cycle": 100000,
+    "minimum_average_physical_seconds_per_cycle_macrostep": 5.7888,
+    "precompute_transition_once_per_patch_and_timestep": true
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizfj_entropy_complete_structure_preserving_macro_integrator_manifest"
+}
