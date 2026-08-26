@@ -1,0 +1,96 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizee_entropy_complete_projected_local_structural_audit",
+  "binding_gates": {
+    "advective_neighbor_subspace_cosine_min": 0.9,
+    "all_points_and_all_gates_required": true,
+    "biorthogonality_and_projector_defect_max": 1e-08,
+    "derivative_ladder_relative_defect_max": 1e-07,
+    "dominant_energy_margin_min": 1e-08,
+    "eigenvector_condition_number_max": 100000000.0,
+    "entropy_production_min": 0.0,
+    "fail_closed": true,
+    "generalized_eigenpair_relative_defect_max": 1e-08,
+    "maximum_imaginary_speed_over_c": 1e-10,
+    "maximum_light_cone_excess_over_c": 1e-10,
+    "physical_tensor_constraint_relative_defect_max": 1e-10,
+    "reference_causality_margin_min": 1e-08,
+    "scaled_temporal_condition_number_max": 100000000.0,
+    "source_energy_ledger_relative_defect_max": 1e-10
+  },
+  "causality_and_hyperbolicity_standard": {
+    "Cordeiro_Corollary_5_full_tensor_frozen_coefficient_screen": "binding_conservative_reference_screen_but_not_theorem_equivalent_for_projected_model",
+    "binding_object": "complete_reduced_7_by_7_radial_quasilinear_pencil",
+    "characteristic_equation": "det(M^R-lambda*M^t)=0",
+    "complete_real_eigenbasis": true,
+    "direct_Kerr_Schild_light_cone_containment": true,
+    "no_isolated_signal_speed_certificate": true,
+    "no_post_hoc_symmetrization": true
+  },
+  "claim_boundary": {
+    "architecture_certified": false,
+    "architecture_selected": true,
+    "complete_cycle_execution_authorized": false,
+    "fixed_Q_invariant_object_authorized": false,
+    "local_structural_audit_authorized": true,
+    "reduced_slow_evolution_authorized": false,
+    "slow_flux_atlas_authorized": false,
+    "spatial_discretization_authorized": false,
+    "trajectory_authorized": false
+  },
+  "classification": "entropy_complete_projected_seven_field_architecture_manifest_frozen",
+  "derivative_and_constraint_audit": {
+    "derivative_step_factors": [
+      2.0,
+      1.0,
+      0.5
+    ],
+    "four_velocity_normalization_required": true,
+    "physical_state_and_flux_maps": "exact_covariant_formulas",
+    "principal_differentiation": "sixth_order_centered_chart_derivatives",
+    "representative_and_old_failed_face_ladders_required": true,
+    "shear_symmetry_trace_and_orthogonality_required": true,
+    "vertical_energy_exchange_and_entropy_sign_required": true
+  },
+  "entropy_complete_shear_equation": {
+    "both_temporal_and_radial_velocity_derivatives_retained": true,
+    "coefficient": "b=tau_pi/(nu_s*T)",
+    "equation": "tau_pi*D chi+chi=nu_s*gamma_Rphi-0.5*tau_pi*chi*D log(b)",
+    "extended_entropy_production": "Sigma*c^2*chi^2/(nu_s*T)>=0",
+    "gamma_Rphi": "-2*c*sigma_(R)(phi)",
+    "stress_density_expansion_terms_cancel_against_the_full_entropy_current_term": true,
+    "truncated_one_sided_expansion_term_forbidden": true
+  },
+  "frozen_envelope": {
+    "base_charts": 8401,
+    "deterministic_witnesses": 47,
+    "include_axis_height_vertical_velocity_and_stress_stencils": true,
+    "old_failed_face_is_nonpropagating_negative_control": true,
+    "reuse_stage2_audit_envelope_bitwise": true
+  },
+  "parent_architecture": {
+    "artifact": "causal_inner_generalized_maxwell_cattaneo_architecture_manifest_wp10c9d6c7c3b5c4f25fized",
+    "classification": "generalized_Maxwell_Cattaneo_seven_field_architecture_manifest_frozen",
+    "failed_Godunov_realization_preserved": true,
+    "generalized_Maxwell_Cattaneo_class_preserved": true,
+    "no_parent_numerical_result_is_reclassified": true
+  },
+  "precise_reduced_model": {
+    "conservative_rows": "rest mass and three Kerr-Schild Killing stress-energy rows",
+    "domain": "axisymmetric vertically integrated one-dimensional radial disk",
+    "material_rows": "projected shear, height, and vertical momentum",
+    "one_amplitude_model_is_a_projected_disk_closure": true,
+    "one_amplitude_model_is_not_claimed_invariant_under_the_full_five_component_shear_PDE": true,
+    "shear_tensor_background": "Sigma*c^2*chi_Rphi*(e_R e_phi+e_phi e_R)",
+    "variables": [
+      "lnSigma",
+      "beta_R",
+      "beta_phi",
+      "lnT",
+      "chi_Rphi",
+      "lnH",
+      "beta_H"
+    ]
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fized1_entropy_complete_projected_architecture_correction_manifest"
+}
