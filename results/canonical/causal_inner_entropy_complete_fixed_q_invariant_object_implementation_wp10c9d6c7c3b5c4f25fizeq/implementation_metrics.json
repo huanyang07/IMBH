@@ -1,0 +1,49 @@
+{
+  "base_colored_jacobian_spectral_abscissa_per_second_scaled_coordinates": 0.10716636284167155,
+  "base_fast_rate_norm_per_second": 53.4089712711338,
+  "base_field_wall_seconds": 32.06952366698533,
+  "base_normalized_fast_rate_infinity": 1.0,
+  "checks": {
+    "colored_JVP": true,
+    "colored_base": true,
+    "colored_shape": true,
+    "constraint_reconstruction": true,
+    "eigenbasis_condition": true,
+    "field_call_budget": true,
+    "height": true,
+    "imaginary_speed": true,
+    "inner_excision": true,
+    "light_cone": true,
+    "optical_depth": true,
+    "temporal_projection": true
+  },
+  "classification": "entropy_complete_cellwise_fixed_Q_projected_field_and_coloring_certified",
+  "colored_jacobian_wall_seconds": 378.52504725009203,
+  "expected_projected_field_calls": 21,
+  "independent_JVP_wall_seconds": 250.34457487473264,
+  "individual_colored_JVP_relative_defects": [
+    2.076657475483667e-06,
+    1.5585391616170117e-06,
+    4.463704948410588e-06,
+    2.1889018489421232e-06
+  ],
+  "maximum_colored_JVP_relative_defect": 4.463704948410588e-06,
+  "maximum_constraint_relative_defect": 0.0,
+  "maximum_temporal_projection_solve_relative_defect": 1.7203753128038286e-15,
+  "new_nonlinear_roots": 0,
+  "passed": true,
+  "physical": {
+    "incoming_inner_characteristics": 0,
+    "maximum_eigenvector_condition_number": 848.2976316852047,
+    "maximum_height_over_radius": 0.09783750054676474,
+    "maximum_imaginary_speed_over_c": 0.0,
+    "maximum_light_cone_excess_over_c": 0.0,
+    "minimum_height_over_radius": 0.04967940754328958,
+    "minimum_optical_depth": 19.2543109039531
+  },
+  "projected_field_calls": 21,
+  "propagated_states": 0,
+  "schema_version": 1,
+  "setup_wall_seconds": 63.03428383404389,
+  "work_package": "WP10c9d6c7c3b5c4f25fizeq_entropy_complete_fixed_Q_invariant_object_implementation"
+}
