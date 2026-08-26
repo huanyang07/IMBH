@@ -1,0 +1,99 @@
+{
+  "authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzb_eleven_field_nonlinear_master_potential_derivation_manifest",
+  "basis_derivative_audit": {
+    "basis_is_state_dependent": true,
+    "derivative_norms": [
+      29.615097692604557,
+      71.21658634141856,
+      13.998315078638061
+    ],
+    "derivative_stable": true,
+    "maximum_step_halving_relative_defect": 2.0433103606312495e-10,
+    "minimum_derivative_norm": 13.998315078638061,
+    "step_halving_relative_defects": [
+      3.607955486039794e-11,
+      2.0433103606312495e-10,
+      4.1398032153491947e-13
+    ]
+  },
+  "certificate_wall_seconds": 62.95318362535909,
+  "classification": "eleven_field_stf_basis_and_convex_normal_form_certified",
+  "complete_cycle_execution_authorized": false,
+  "context_construction_wall_seconds": 62.94634862523526,
+  "eleven_field_physical_closure_certified": false,
+  "eleven_field_trajectory_authorized": false,
+  "field_count": 11,
+  "fixture_is_physical_calibration": false,
+  "frame_audit": {
+    "amplitude_roundtrip_defect": 9.367506770274758e-17,
+    "basis_gram_defect": 2.3592239273284576e-15,
+    "basis_symmetry_defect": 0.0,
+    "basis_trace_defect": 7.771561172376096e-16,
+    "basis_velocity_orthogonality_defect": 7.30920891144404e-16,
+    "four_velocity_normalization_defect": 1.1102230246251565e-15,
+    "one_Rphi_embedding_defect": 2.168404344971009e-19,
+    "triad_orthonormality_defect": 8.881784197001252e-16,
+    "triad_velocity_orthogonality_defect": 4.996003610813204e-16
+  },
+  "full_shear_amplitude_count": 5,
+  "independent_radial_potential_gradient_relative_defect": 1.3343133913222137e-14,
+  "independent_state_potential_gradient_relative_defect": 8.628758287042358e-14,
+  "nonlinear_physical_master_potential_derived": false,
+  "normal_form_audit": {
+    "energy_metric_orthogonality_defect": 2.525920682464375e-15,
+    "full_characteristic_speeds_over_c": [
+      -0.13850432383046807,
+      -0.0707078722109418,
+      -0.06260011579094026,
+      0.004591237823819572,
+      0.05499999999999996,
+      0.05500000000000001,
+      0.05500000000000002,
+      0.09052201745210067,
+      0.1726001157909402,
+      0.18070787221094187,
+      0.2633910685545479
+    ],
+    "generalized_eigenpair_defect": 3.7205278040936156e-16,
+    "maximum_absolute_characteristic_speed_over_c": 0.2633910685545479,
+    "radial_gradient_defect": 0.0,
+    "radial_symmetry_defect": 3.2598265186100746e-18,
+    "reduced_characteristic_speeds_over_c": [
+      -0.13646919860931314,
+      -0.07070787221094185,
+      0.05499999999999997,
+      0.05500000000000001,
+      0.05500000000000001,
+      0.05500000000000001,
+      0.05500000000000002,
+      0.1807078722109418,
+      0.2464691986093131
+    ],
+    "reduced_generalized_eigenpair_defect": 1.7152442115668075e-16,
+    "reduced_temporal_minimum_eigenvalue": 0.9,
+    "source_entropy_positive_part": 0.0,
+    "state_gradient_defect": 0.0,
+    "subcharacteristic_interlacing_violation": 5.551115123125783e-17,
+    "temporal_condition_number": 9.304326382766767,
+    "temporal_minimum_eigenvalue": 0.3142359194138442,
+    "temporal_symmetry_defect": 8.02171393006057e-18,
+    "vertical_equilibrium_embedding_defect": 0.0,
+    "vertical_hamiltonian_entropy_defect": 0.0
+  },
+  "old_Rphi_tensor_embedding_relative_defect": 1.2832387431192589e-16,
+  "passed": true,
+  "reduced_slow_evolution_authorized": false,
+  "schema_version": 1,
+  "witness_cell": 6,
+  "witness_chart7": [
+    4.718011287267066,
+    0.059228133078858144,
+    0.8785842814260398,
+    15.028395706575715,
+    0.0008073892986809419,
+    18.615626710902585,
+    0.0
+  ],
+  "witness_radius_cm": 3035196434.9786267,
+  "work_package": "WP10c9d6c7c3b5c4f25fizza_eleven_field_stf_convex_normal_form_implementation"
+}
