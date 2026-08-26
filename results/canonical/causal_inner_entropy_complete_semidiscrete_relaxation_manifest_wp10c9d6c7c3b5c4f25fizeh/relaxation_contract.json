@@ -1,0 +1,106 @@
+{
+  "audit_scope": {
+    "accepted_preboundary_states": true,
+    "heldout_16ms": true,
+    "independent_source_directional_derivatives": true,
+    "no_radial_boundary_condition": true,
+    "no_time_step": true,
+    "old_failed_face_nonpropagating": true,
+    "periodic_constant_and_smooth_stencils": true,
+    "primary_20ms": true
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizei_entropy_complete_semidiscrete_relaxation_audit",
+  "binding_gates": {
+    "all_cases_and_all_gates_required": true,
+    "eigenvector_condition_number_max": 100000000.0,
+    "equilibrium_vertical_source_relative_defect_max": 1e-10,
+    "fail_closed": true,
+    "hydrostatic_height_relative_defect_max": 1e-12,
+    "maximum_imaginary_speed_over_c": 1e-10,
+    "maximum_light_cone_excess_over_c": 1e-10,
+    "minimum_fast_relaxation_observed_order": 0.8,
+    "periodic_constant_operator_absolute_defect_max": 1e-10,
+    "periodic_exact_flux_global_ledger_relative_defect_max": 1e-10,
+    "periodic_signed_split_relative_defect_max": 1e-08,
+    "source_derivative_ladder_relative_defect_max": 1e-08,
+    "temporal_solve_relative_residual_max": 1e-10,
+    "vertical_total_energy_ledger_relative_defect_max": 1e-10
+  },
+  "claim_boundary": {
+    "bounded_crossing_trajectory_authorized": false,
+    "complete_cycle_execution_authorized": false,
+    "fixed_Q_invariant_object_authorized": false,
+    "fixed_geometry_periodic_semidiscrete_implementation_authorized": true,
+    "local_source_implementation_authorized": true,
+    "nonpropagating_relaxation_audit_authorized": true,
+    "radial_boundary_implementation_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "slow_flux_atlas_authorized": false
+  },
+  "classification": "entropy_complete_semidiscrete_relaxation_manifest_frozen",
+  "equation_space": {
+    "chart": [
+      "log_surface_density",
+      "radial_velocity_over_c",
+      "azimuthal_velocity_over_c",
+      "log_temperature",
+      "specific_shear_stress",
+      "log_proper_half_thickness",
+      "vertical_velocity_over_c"
+    ],
+    "exact_flux_rows": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "projected_shear_row": 4,
+    "quasilinear_form": "M_t(q) dq/d(ct) + M_R(q) dq/dR = S_lower(q,R)"
+  },
+  "equilibrium_relaxation_limit": {
+    "causal_shear_remains_a_finite_rate_fifth_field": true,
+    "damping_multiplier": "kappa",
+    "equilibrium_embedding": "E_R(q5)=(q5,log(H_hydrostatic(Sigma,T,R)),beta_H=0)",
+    "fast_vertical_source_multipliers": [
+      1.0,
+      2.0,
+      4.0,
+      8.0
+    ],
+    "height_force_must_vanish_on_embedding": true,
+    "height_material_source_must_vanish_on_embedding": true,
+    "old_failed_face_equivalence_claim_forbidden": true,
+    "old_five_field_model_role": "pre_boundary_comparison_control_only",
+    "reason_tau_limit_forbidden": "it would increase the viscous signal speed and violate the already certified causal subcharacteristic calibration",
+    "restoring_multiplier": "kappa^2",
+    "tau_to_zero_at_fixed_viscosity_forbidden": true,
+    "well_prepared_limit_target": "hydrostatic_height_and_zero_vertical_velocity"
+  },
+  "local_lower_source": {
+    "height_row": "S_H=D*beta_H/u0",
+    "physical_rows": "Kerr_Schild_geometry_plus_radiative_cooling_only",
+    "reason": "vertical_kinetic_and_potential_energy_are_in_exact_total_energy_storage; pressure/gravity/damping exchange through_the coupled temporal map",
+    "shear_connection_evaluated_with_zero_explicit_state_derivative": true,
+    "shear_row": "S_chi=(nu_over_tau*gamma_connection-chi_over_tau)/c",
+    "stream_source_added_once_only_at_cell_integration": true,
+    "vertical_acceleration": "a_H=Pi/(Sigma*H)-Omega_perp^2*H-gamma_H*c*beta_H",
+    "vertical_damping": "gamma_H=alpha*Omega_perp",
+    "vertical_momentum_row": "S_PH=D*a_H/(c*u0)",
+    "vertical_pressure_work_is_not_an_extra_energy_source": true
+  },
+  "schema_version": 1,
+  "semidiscrete_operator": {
+    "cell_equation": "V_i*M_t(q_i)*dq_i/d(ct) + Dplus_left + Dminus_right = V_i*S_lower_i",
+    "exact_rows_equivalent_to_one_shared_flux_difference": true,
+    "first_order_audit_scheme": true,
+    "interior_interfaces": "certified_complete_DLM_signed_fluctuations",
+    "no_reconstruction_in_first_audit": true,
+    "no_source_or_interface_double_counting": true,
+    "nonconservative_shear_retained_as_signed_fluctuations": true,
+    "periodic_fixed_geometry_audit_before_radial_boundaries": true,
+    "temporal_solve": "equilibrated_dense_solve_per_cell"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fizeh_entropy_complete_semidiscrete_relaxation_manifest"
+}
