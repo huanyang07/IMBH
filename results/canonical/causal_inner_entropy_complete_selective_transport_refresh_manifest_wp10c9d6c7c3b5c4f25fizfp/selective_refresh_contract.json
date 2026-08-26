@@ -1,0 +1,84 @@
+{
+  "acquisition_cost": {
+    "full_patch_truth_calls": 39,
+    "maximum_selective_to_full_truth_call_fraction": 0.55,
+    "minimum_full_to_selective_speedup": 1.8,
+    "new_global_roots": 0,
+    "online_truth_calls_per_macrostep": 0,
+    "selectively_refreshed_patch_truth_calls": 21
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizfq_entropy_complete_selectively_refreshed_third_patch_execution",
+  "blind_validation": {
+    "central_JVP_chart_step": 0.01,
+    "independent_JVP_directions": 4,
+    "maximum_independent_JVP_relative_defect": 0.05,
+    "new_JVP_truth_calls": 8,
+    "validation_calls_must_not_refit_the_Jacobian": true
+  },
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "one_selective_refresh_execution_authorized": true,
+    "unbounded_atlas_growth_authorized": false
+  },
+  "classification": "entropy_complete_lnSigma_betaPhi_selective_refresh_manifest_frozen",
+  "decision": {
+    "derivative_or_endpoint_failure": "require_full_patch_rebuilds",
+    "no_retrospective_gate_change": true,
+    "pass": "authorize_definitions_only_adaptive_selective_refresh_cadence_manifest",
+    "physical_or_stability_failure": "stop_the_seven_field_cycle_path"
+  },
+  "dynamic_validation": {
+    "absolute_elapsed_endpoint_seconds": 0.012,
+    "atlas_trust_coordinate_infinity": 0.15,
+    "exact_integrated_ledger_relative_defect_max": 1e-12,
+    "fixed_macrostep_seconds": 0.001,
+    "macrosteps": 4,
+    "maximum_endpoint_macro_roundtrip_relative_defect": 1e-10,
+    "maximum_endpoint_truth_macro_rate_relative_defect_per_field": 0.05,
+    "maximum_endpoint_truth_output_relative_defect_per_block": 0.05,
+    "maximum_interpatch_macro_rate_relative_defect_per_field": 0.1,
+    "maximum_interpatch_output_relative_defect_per_block": 0.1,
+    "maximum_local_spectral_abscissa_per_second": 0.0,
+    "one_new_dynamic_endpoint_truth_call": true,
+    "overlap_witness": "certified_patch_2_7ms_state",
+    "reserved_trust_coordinate_infinity": 0.12
+  },
+  "preserved_rejection": {
+    "failed_12ms_candidate_not_accepted_or_propagated": true,
+    "no_gate_relaxed": true,
+    "physical_and_stability_diagnostics_remain_passing": true,
+    "unchanged_transport_rejected": true
+  },
+  "saved_evidence_selection": {
+    "comparison": "full_patch_1_tangent_transported_to_full_patch_2_tangent",
+    "maximum_selected_probe_relative_defect": 0.05,
+    "minimal_cardinality_selection_required": true,
+    "probe_directions": 128,
+    "probe_seed": 20260829,
+    "selected_input_field_indices": [
+      0,
+      1
+    ],
+    "selected_input_fields": [
+      "lnSigma",
+      "beta_phi"
+    ],
+    "unselected_input_fields": [
+      "lnT",
+      "beta_r",
+      "chi"
+    ]
+  },
+  "schema_version": 1,
+  "selective_colored_refresh": {
+    "all_truth_physical_gates_binding": true,
+    "cell_colors_per_selected_field": 3,
+    "central_colored_chart_step": 0.02,
+    "maximum_colored_support_leakage_ratio": 1e-12,
+    "new_colored_truth_calls": 12,
+    "replace_only_selected_field_columns": true,
+    "selected_fields": 2,
+    "source_tangent": "patch_2_chain_rule_transported_to_8ms_anchor"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fizfp_entropy_complete_selective_transport_refresh_manifest"
+}
