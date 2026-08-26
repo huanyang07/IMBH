@@ -1,0 +1,64 @@
+{
+  "audit_completed": true,
+  "authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fized_generalized_Maxwell_Cattaneo_architecture_manifest",
+  "binding_relative_symmetry_gate": 1e-10,
+  "classification": "seven_field_physical_closure_entropy_failed",
+  "dominant_obstruction_coordinates": [
+    "log_temperature",
+    "specific_shear_stress"
+  ],
+  "entropy_integrability_passed": false,
+  "fail_fast_before_eigenvalue_campaign": true,
+  "failed_candidate_propagated": false,
+  "failure_scope": "candidate nonlinear D*chi conservative/Godunov realization; not the Stage-1 local normal form and not a trajectory",
+  "likely_missing_structure": "thermodynamic nonlinear terms associated with the state-dependent shear modulus, or a conjugate shear-strain variable",
+  "minimum_relative_entropy_flux_curl_defect": 1.3683589179402538,
+  "new_nonlinear_roots": 0,
+  "new_trajectory_steps": 0,
+  "proper_vertical_frequency_per_second": 2.74915208392597,
+  "representative_cell": 36,
+  "representative_profile": "primary_20ms_base_charts5",
+  "representative_radius_cm": 5599841633.135499,
+  "reservoir_calibration": {
+    "calibration_relative_defect": 0.0,
+    "extended_specific_enthalpy_over_c2": 1.0110543700650334,
+    "reservoir_coefficient": 0.0003259177916807046,
+    "viscous_signal_speed_over_c": 0.01795422978613807
+  },
+  "schema_version": 1,
+  "scientific_passed": false,
+  "stable_order_unity_obstruction": true,
+  "step_ladder": [
+    {
+      "maximum_absolute_curl_component": 182.60572533897408,
+      "maximum_curl_pair": [
+        3,
+        4
+      ],
+      "relative_entropy_flux_curl_defect": 1.3700857565797004,
+      "state_jacobian_condition": 432454.4970381987,
+      "step_factor": 2.0
+    },
+    {
+      "maximum_absolute_curl_component": 182.6228965918041,
+      "maximum_curl_pair": [
+        3,
+        4
+      ],
+      "relative_entropy_flux_curl_defect": 1.3683589179402538,
+      "state_jacobian_condition": 432454.4974982639,
+      "step_factor": 1.0
+    },
+    {
+      "maximum_absolute_curl_component": 182.61535986617508,
+      "maximum_curl_pair": [
+        3,
+        4
+      ],
+      "relative_entropy_flux_curl_defect": 1.402245638834646,
+      "state_jacobian_condition": 432454.496236336,
+      "step_factor": 0.5
+    }
+  ],
+  "work_package": "WP10c9d6c7c3b5c4f25fizec_seven_field_physical_closure_local_structural_audit"
+}
