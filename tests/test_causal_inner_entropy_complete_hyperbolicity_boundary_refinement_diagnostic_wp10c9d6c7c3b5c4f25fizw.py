@@ -15,6 +15,14 @@ def test_imaginary_ratio_uses_the_declared_relative_scale():
     assert np.isclose(diagnostic._imaginary_ratio(values), 1.0e-9)
 
 
+def test_manifest_scan_includes_the_accepted_zero_step_endpoint():
+    scan = diagnostic._validate_manifest(require_clean=False)["contract"][
+        "diagnostic_scope"
+    ]["scan_timestep_seconds"]
+    assert scan[0] == 0.0
+    assert scan[-1] == 5.0e-4
+
+
 def test_outcomes_separate_overshoot_from_persistent_boundary():
     assert diagnostic.OVERSHOOT_CLASSIFICATION != diagnostic.BOUNDARY_CLASSIFICATION
     assert diagnostic.BOUNDARY_CLASSIFICATION != diagnostic.METHOD_CLASSIFICATION

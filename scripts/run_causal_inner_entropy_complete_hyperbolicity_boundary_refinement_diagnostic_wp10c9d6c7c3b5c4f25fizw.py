@@ -218,6 +218,21 @@ def _diagnose() -> tuple[dict, dict[str, np.ndarray]]:
         key = float(timestep)
         if key in cache:
             return cache[key]
+        if key == 0.0:
+            face, face_arrays = _face_principal_audit(context, current_charts)
+            result = {
+                "timestep_seconds": key,
+                "macro_state": np.array(current_state, copy=True),
+                "primitive_charts": np.array(current_charts, copy=True),
+                "chart_coordinates": np.zeros_like(current_state),
+                "maximum_chart_coordinate": 0.0,
+                "macro_roundtrip_relative_defect": anchor_defect,
+                "reconstruction_newton_corrections": 0,
+                "face_audit": face,
+                "face_eigenvalues": face_arrays["eigenvalues"],
+            }
+            cache[key] = result
+            return result
         macro = fizu._variable_ab2_candidate(
             current_state,
             current_rate,
