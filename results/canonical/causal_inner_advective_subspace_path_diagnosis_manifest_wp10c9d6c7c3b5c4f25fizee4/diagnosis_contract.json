@@ -1,0 +1,100 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizee5_advective_subspace_path_continuity_certificate",
+  "binding_gates": {
+    "all_gates_required": true,
+    "dominant_energy_margin_min": 1e-08,
+    "entropy_production_min": 0.0,
+    "fail_closed": true,
+    "maximum_biorthogonality_or_projector_defect": 1e-08,
+    "maximum_eigenpair_relative_defect": 1e-08,
+    "maximum_eigenvector_condition_number": 100000000.0,
+    "maximum_imaginary_speed_over_c": 1e-10,
+    "maximum_light_cone_excess_over_c": 1e-10,
+    "maximum_projector_jump_refinement_ratio": 0.6,
+    "maximum_temporal_condition_number": 100000000.0,
+    "minimum_adjacent_subspace_cosine": 0.99,
+    "minimum_cluster_complement_gap_over_c": 0.0001,
+    "physical_tensor_constraint_relative_defect_max": 1e-10,
+    "reference_causality_margin_min": 1e-08,
+    "source_energy_ledger_relative_defect_max": 1e-10
+  },
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "diagnostic_gate_replacement_authorized": false,
+    "fixed_Q_invariant_object_authorized": false,
+    "full_envelope_retry_authorized": false,
+    "path_diagnosis_authorized": true,
+    "reduced_slow_evolution_authorized": false,
+    "slow_flux_atlas_authorized": false,
+    "spatial_discretization_authorized": false,
+    "trajectory_authorized": false
+  },
+  "classification": "advective_subspace_path_diagnosis_manifest_frozen",
+  "frozen_path": {
+    "all_nodes_and_all_resolutions_binding": true,
+    "chart_interpolation": "affine_in_seven_primitive_charts",
+    "geometry_and_vertical_frequency": "recomputed_exactly_at_each_interpolated_radius",
+    "left_chart7": [
+      4.863366549793431,
+      -0.0986781519959265,
+      0.8014391603898786,
+      15.034538870445314,
+      0.0002998298955252985,
+      20.821641297092793,
+      0.0
+    ],
+    "left_label": "accepted_00_cell_044",
+    "left_radius_cm": 6593349987.183909,
+    "nested_node_counts": [
+      33,
+      65,
+      129
+    ],
+    "radius_interpolation": "affine",
+    "right_chart7": [
+      4.8497191077958,
+      -0.11504099014619346,
+      0.6583764461476951,
+      14.893727530332326,
+      5.571117827765792e-05,
+      20.333405656468322,
+      0.0
+    ],
+    "right_label": "accepted_00_cell_045",
+    "right_radius_cm": 6729339317.769789
+  },
+  "interpretation": {
+    "any_cluster_gap_closure_or_unbounded_condition_is_a_structural_failure": true,
+    "coarse_endpoint_cosine_is_recorded_but_nonbinding_in_this_path_test": true,
+    "positive_path_certificate_does_not_reclassify_parent": true,
+    "positive_path_certificate_would_diagnose_a_coarse_sampling_gate_not_a_physical_eigenbasis_loss": true
+  },
+  "mathematical_question": {
+    "advective_cluster_dimension": 3,
+    "cluster_selection": "three eigenvalues nearest exact material transport speed",
+    "coarse_endpoint_overlap_is_not_itself_a_pointwise_theorem": true,
+    "coordinate_scaling": [
+      1.0,
+      0.1,
+      0.1,
+      1.0,
+      0.0001,
+      1.0,
+      0.03
+    ],
+    "invariant_object": "orthogonal projector onto the scaled physical right invariant subspace",
+    "strong_hyperbolicity_is_pointwise_with_a_uniformly_bounded_smooth_eigenbasis": true
+  },
+  "parent_negative_result": {
+    "all_pointwise_spectra_real": true,
+    "artifact": "causal_inner_entropy_complete_projected_local_structural_audit_retry_wp10c9d6c7c3b5c4f25fizee3",
+    "classification": "entropy_complete_projected_local_structural_audit_retry_hyperbolicity_failed",
+    "coarse_endpoint_gate_remains_failed": true,
+    "coarse_endpoint_subspace_cosine": 0.7380714589652135,
+    "failure_reason": "strong_hyperbolicity:advective_subspace_continuity",
+    "preserved_as_binding": true,
+    "retroactive_reclassification_forbidden": true
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizee4_advective_subspace_path_diagnosis_manifest"
+}

@@ -1,0 +1,78 @@
+{
+  "parent_artifact": "causal_inner_entropy_complete_projected_local_structural_audit_retry_wp10c9d6c7c3b5c4f25fizee3",
+  "parent_checksum_manifest_sha256": "2a2dde4fddb6d831f54c1d1f8ba9a88562b647b88aa05d6e0f4ae6dd1a9ad879",
+  "parent_first_failure": {
+    "chart7": [
+      4.8497191077958,
+      -0.11504099014619346,
+      0.6583764461476951,
+      14.893727530332326,
+      5.571117827765792e-05,
+      20.333405656468322,
+      0.0
+    ],
+    "eigenvalues_over_c": [
+      {
+        "imaginary": 0.0,
+        "real": -0.41290843949979034
+      },
+      {
+        "imaginary": 0.0,
+        "real": -0.3934733608841025
+      },
+      {
+        "imaginary": 0.0,
+        "real": -0.3849646743053551
+      },
+      {
+        "imaginary": 0.0,
+        "real": -0.3849646730791247
+      },
+      {
+        "imaginary": 0.0,
+        "real": -0.3849646730791245
+      },
+      {
+        "imaginary": 0.0,
+        "real": -0.3763411896459252
+      },
+      {
+        "imaginary": 0.0,
+        "real": -0.3569101132501229
+      }
+    ],
+    "label": "accepted_00_cell_045",
+    "metrics": {
+      "dominant_energy_margin": 1.0099424923250189,
+      "eigenvector_condition_number": 16.332370653300924,
+      "four_velocity_normalization_relative_defect": 2.220446049250313e-16,
+      "maximum_biorthogonality_defect": 2.220446049250313e-16,
+      "maximum_eigenpair_relative_defect": 3.5312961605535143e-16,
+      "maximum_imaginary_speed_over_c": 0.0,
+      "maximum_light_cone_excess_over_c": 0.0,
+      "maximum_projector_idempotence_defect": 2.169684381677178e-16,
+      "minimum_entropy_production_rate": 0.0,
+      "reference_causality_minimum_margin": 0.0002936598568286564,
+      "scaled_temporal_condition_number": 246.76539919496983,
+      "shear_radial_work_relative_defect": 1.2191346337553343e-16,
+      "shear_tensor_orthogonality_relative_defect": 2.0468577241470536e-26,
+      "shear_tensor_trace_relative_defect": 3.047836584388336e-16,
+      "vertical_reversible_exchange_relative_defect": 0.0,
+      "vertical_total_energy_relative_defect": 0.0
+    },
+    "radius_cm": 6729339317.769789,
+    "reasons": [
+      "strong_hyperbolicity:advective_subspace_continuity"
+    ],
+    "scope": "base"
+  },
+  "parent_hashes": {
+    "audit_arrays.npz": "627dba3a0d15532035f5fcfe019de1db8d03c7de5e81c9422e5c22dd17656abf",
+    "audit_metrics.json": "ba5af8d54d4ed0781be6417878ab4c90a319e99731afd713fb82f83a5b17db75",
+    "input_lock.json": "a4bec8644685328bca3fa4f02285a84e7facb8a10b6c293b7e3824b7cbf8f4df",
+    "provenance.json": "f2f52747804affd82116318f322b10b1d23c5dcb2bf8cb9cb7af3d53f4da0ccf",
+    "summary.json": "676e3a065788d3ba97d107121c92f85c05f2e332af138c53f5762e53cdfdc34e"
+  },
+  "physical_source_sha256": "0b19c790ab32eee5c977b753ae82dfa25c788d312942ba55a4426ad4bb9dafe3",
+  "physical_test_sha256": "7121d4b52f1c1076fae4a98f1cfb1ecd8d4d8bea7b0ede34eb4a56cabff61291"
+}
