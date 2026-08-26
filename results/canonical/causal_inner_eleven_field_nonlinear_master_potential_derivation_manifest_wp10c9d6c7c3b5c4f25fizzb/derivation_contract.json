@@ -1,0 +1,101 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzc_equilibrium_column_thermodynamic_potential_implementation",
+  "budget": {
+    "complete_cycle_steps": 0,
+    "maximum_wall_minutes": 10,
+    "trajectory_steps": 0,
+    "truth_operator_calls": 0
+  },
+  "claim_boundary": {
+    "STF_and_quadratic_normal_form_certified": true,
+    "complete_cycle_execution_authorized": false,
+    "dynamic_height_potential_certified": false,
+    "eleven_field_local_closure_certified": false,
+    "eleven_field_trajectory_authorized": false,
+    "equilibrium_physical_potential_certified": false,
+    "full_shear_master_potential_certified": false
+  },
+  "classification": "eleven_field_nonlinear_master_potential_derivation_manifest_frozen",
+  "derivation_sequence": [
+    "exact fixed-height equilibrium gas+radiation potential",
+    "dynamic-height convex Legendre completion",
+    "five-STF shear invariant extension",
+    "source/entropy and full-tensor constraint propagation",
+    "complete nonlinear local structural audit"
+  ],
+  "entropy_variables_and_invariants": {
+    "height_affinity": "eta_H conjugate to Z_H=surface_mass*H",
+    "invariants": {
+      "I2": "zeta_mu_nu*zeta^{mu nu}",
+      "I3": "zeta^mu_nu*zeta^nu_rho*zeta^rho_mu",
+      "mu": "beta_mu*beta^mu<0",
+      "nu": "zeta^{mu nu} beta_mu beta_nu"
+    },
+    "inverse_temperature_four_vector": "beta_mu=u_mu/T",
+    "mass_affinity": "alpha=mu_mass/T",
+    "moving_STF_basis_differentiated": true,
+    "shear_affinity": "zeta_<mu nu> represented by five STF amplitudes",
+    "temperature": "T=(-beta_mu*beta^mu)^(-1/2)"
+  },
+  "equilibrium_thermodynamic_control": {
+    "exact_inversion": "ln(rho/rho0)=alpha/R-c^2/(R*T)-gamma/(gamma-1)+ln(T/T0)/(gamma-1)",
+    "fixed_height_potential_current": "X_eq^mu=2H*p(alpha,T)*beta^mu",
+    "gas_radiation_first_law_and_Gibbs_Duhem_binding": true,
+    "purpose": "certify the exact equilibrium thermodynamic sector before adding height dynamics or dissipative invariants",
+    "required_derivatives": "dX_eq^mu/dalpha=surface-mass current; dX_eq^mu/dbeta_nu=perfect-fluid column stress-energy",
+    "specific_chemical_potential": "mu_mass=c^2+e+p/rho-T*s",
+    "specific_entropy": "s=R/(gamma-1) ln(T/T0)-R ln(rho/rho0)+4a_rad*T^3/(3rho)",
+    "volume_EOS": "p=rho*R*T+a_rad*T^4/3; e=R*T/(gamma-1)+a_rad*T^4/rho"
+  },
+  "failure_avoidance": {
+    "dominant_failed_pair": "log_temperature,specific_shear_stress",
+    "minimum_failed_relative_curl": 1.3683589179402538,
+    "post_hoc_symmetrization_forbidden": true,
+    "preserved_negative_control": "the prior seven-field conservative D*chi candidate has an order-unity temperature-shear entropy-flux curl",
+    "repair_rule": "choose the master scalar first in entropy variables and derive every current and coefficient derivative from it",
+    "root_cause": "a state-dependent shear modulus was inserted after the thermodynamic potential, omitting its reciprocal mixed derivatives"
+  },
+  "frozen_envelope_for_complete_local_audit": {
+    "canonical_base_charts": 8401,
+    "coefficient_fit_to_witness_forbidden": true,
+    "deterministic_witnesses": 47,
+    "envelope_frozen_before_physical_eigenvalue_results": true,
+    "includes": "20ms primary; 16ms held-out; all accepted seven-field predecessor profiles; 179ms endpoint; 179.125ms cell-6 witness"
+  },
+  "full_shear_master_scalar": {
+    "coefficient_calibration_after_differentiation": true,
+    "currents": "N^mu=dchi^mu/dalpha; T^{mu nu}=dchi^mu/dbeta_nu; J_H^mu=dchi^mu/deta_H; A^{mu<nu rho>}=dchi^mu/dzeta_<nu rho>",
+    "nonlinear_terms": "I2,I3 and nu^2 retain amplitude dependence and provide the thermodynamic terms absent from the rejected D*chi construction",
+    "one_Rphi_projection_forbidden": true,
+    "physical_linear_stress": "the c1*nu mixed derivative supplies the complete five-component linear shear stress in T^{mu nu}",
+    "potential_current": "chi^mu=dchi/dbeta_mu",
+    "prospective_ansatz": "chi=chi_eq(alpha,mu,eta_H)+c1(alpha,mu,eta_H)*nu+c2(alpha,mu,eta_H)*I2+c3(alpha,mu,eta_H)*I3+c4(alpha,mu,eta_H)*nu^2+higher_convex_barrier"
+  },
+  "height_completion": {
+    "construction": "convex Legendre extension in eta_H; derive J_H from the same potential current rather than appending D*H advection",
+    "hydrostatic_force": "Pi/H-surface_mass*Omega_perp^2*H",
+    "state": "Z_H=surface_mass*H",
+    "total_column_energy_terms": "thermal+orbital+P_H^2/(2*surface_mass)+0.5*surface_mass*Omega_perp^2*H^2",
+    "vertical_damping_heats_internal_energy": true,
+    "vertical_exchange_entropy_neutral": true,
+    "vertical_momentum": "the beta_z stress-energy component"
+  },
+  "next_package": {
+    "add_height_or_shear_terms": false,
+    "derive_mass_and_stress_energy_currents": true,
+    "exact_physical_gas_radiation_EOS": true,
+    "fixed_height_only": true,
+    "independent_derivative_ladder": true,
+    "scope": "WP10c9d6c7c3b5c4f25fizzc_equilibrium_column_thermodynamic_potential_implementation",
+    "trajectory": false
+  },
+  "schema_version": 1,
+  "stage_gates": {
+    "complete_local": "A0 positive, radial Hessian symmetric, full spectrum real/causal, Cordeiro nonlinear inequalities, constraints propagated on every frozen envelope state",
+    "equilibrium": "current parity<=1e-10; first-law/Gibbs-Duhem<=1e-11; independent derivative parity<=1e-9",
+    "fail_closed_at_first_failed_stage": true,
+    "height": "A0 positive; exact height current; hydrostatic force/energy ledger<=1e-10",
+    "shear": "all mixed Hessians symmetric; old Rphi near-equilibrium parity; five-amplitude roundtrip; source entropy nonpositive"
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzb_eleven_field_nonlinear_master_potential_derivation_manifest"
+}
