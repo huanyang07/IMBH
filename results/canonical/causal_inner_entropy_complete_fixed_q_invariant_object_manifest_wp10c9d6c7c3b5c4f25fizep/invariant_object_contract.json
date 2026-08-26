@@ -1,0 +1,139 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizeq_entropy_complete_fixed_Q_invariant_object_implementation",
+  "binding_physical_gates": {
+    "eigenvector_condition_number_max": 100000000.0,
+    "fail_closed": true,
+    "inner_incoming_characteristics_equal": 0,
+    "maximum_height_over_radius": 0.5,
+    "maximum_imaginary_speed_over_c": 1e-10,
+    "maximum_light_cone_excess_over_c": 1e-10,
+    "maximum_temporal_projection_solve_relative_defect": 1e-10,
+    "minimum_height_over_radius": 0.0001,
+    "minimum_optical_depth": 1.0
+  },
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "implementation_authorized": true,
+    "nonlinear_root_execution_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "slow_flux_atlas_authorized": false
+  },
+  "classification": "entropy_complete_cellwise_fixed_Q_invariant_object_manifest_frozen",
+  "decision": {
+    "both_states_normally_attracting": "authorize_definitions_only_slow_flux_atlas_manifest",
+    "root_exists_but_not_attracting": "authorize_only_invariant_measure_diagnosis_manifest",
+    "root_or_physical_gate_failure": "stop_without_slow_atlas"
+  },
+  "fast_vector_field": {
+    "constraints": "D_Q_times_primitive_rate_equals_zero",
+    "dynamic_rows": [
+      1,
+      4,
+      5,
+      6
+    ],
+    "local_projected_temporal_solve": "stack_DQ_rows_with_fast_temporal_rows",
+    "same_boundaries_and_lower_sources": true,
+    "same_path_conservative_radial_operator": true,
+    "slow_drift_output": "C_times_cell_integrated_RHS_rows_0_2_3",
+    "stationary_condition": "projected_fast_chart_rate_equals_zero_equivalently_fast_RHS_equals_zero"
+  },
+  "fixed_slow_reconstruction": {
+    "accepted_history_only": true,
+    "constraints": "cell_integrated_exact_rows_0_2_3_equal_frozen_targets",
+    "maximum_Newton_corrections": 8,
+    "maximum_constraint_relative_defect": 1e-11,
+    "solver": "damped_local_three_by_three_Newton",
+    "unknown_local_charts": [
+      "logSigma",
+      "azimuthal_velocity",
+      "logPi"
+    ]
+  },
+  "mathematical_split": {
+    "fast_chart_indices_independent": [
+      1,
+      4,
+      5,
+      6
+    ],
+    "fast_chart_scales": [
+      0.1,
+      0.0001,
+      1.0,
+      0.03
+    ],
+    "fast_dimension": 448,
+    "fast_equation_rows": [
+      1,
+      4,
+      5,
+      6
+    ],
+    "fast_fields": [
+      "radial_momentum",
+      "causal_shear",
+      "column_height",
+      "vertical_momentum"
+    ],
+    "fixed_Q_means_cellwise_exact_M_J_E_not_only_three_global_ledgers": true,
+    "identity": "784_equals_336_plus_448",
+    "legacy_global_fixed_Q_reaction_used": false,
+    "primitive_chart_dimension_per_cell": 7,
+    "slow_chart_indices_reconstructed": [
+      0,
+      2,
+      3
+    ],
+    "slow_dimension": 336,
+    "slow_exact_fields": [
+      "column_mass",
+      "azimuthal_angular_momentum",
+      "total_energy"
+    ],
+    "slow_exact_rows": [
+      0,
+      2,
+      3
+    ]
+  },
+  "nonlinear_solver": {
+    "failed_candidate_must_not_define_an_invariant_object": true,
+    "maximum_colored_Jacobian_assemblies": 2,
+    "maximum_iterations": 10,
+    "maximum_normalized_fast_rate_infinity": 1e-08,
+    "maximum_scaled_fast_chart_correction_per_iteration": 0.25,
+    "method": "one_colored_Jacobian_then_dense_Broyden_with_bound_aware_line_search",
+    "one_refresh_only_after_complete_line_search_failure": true
+  },
+  "normal_hyperbolicity": {
+    "all_eigenvalues_finite": true,
+    "maximum_spectral_abscissa_per_second": -1.0,
+    "minimum_attraction_to_slow_relative_rate_ratio": 10.0,
+    "normally_attracting_fixed_point_required": true,
+    "operator": "fixed_Q_projected_fast_rate_Jacobian_per_second",
+    "periodic_or_statistical_invariant_measure_not_authorized_in_this_package": true
+  },
+  "objective": "find_a_normally_attracting_cellwise_fixed_Q_fast_graph_for_the_seven_field_balance_law",
+  "schema_version": 1,
+  "sparse_derivative": {
+    "cell_coloring_count": 3,
+    "fast_field_count": 4,
+    "forward_colored_residual_evaluations_per_assembly": 12,
+    "independent_central_directional_audits": 4,
+    "maximum_colored_JVP_relative_defect": 2e-05,
+    "maximum_off_stencil_absolute_entry": 1e-10,
+    "radial_stencil_radius": 1
+  },
+  "states": {
+    "corrected_terminal_is_dynamic_validation_not_a_root_training_target": true,
+    "execution_order": [
+      "primary",
+      "heldout"
+    ],
+    "heldout": "hash_locked_heldout_16ms_base_profile_hydrostatic_lift",
+    "primary": "hash_locked_primary_20ms_base_profile_hydrostatic_lift",
+    "stop_on_primary_failure": true
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fizep_entropy_complete_fixed_Q_invariant_object_manifest"
+}
