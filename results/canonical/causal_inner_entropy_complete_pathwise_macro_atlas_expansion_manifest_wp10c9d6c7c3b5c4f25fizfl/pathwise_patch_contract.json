@@ -1,0 +1,61 @@
+{
+  "anchor": {
+    "no_synthetic_or_projected_anchor": true,
+    "patch_1": "certified_primary_20ms_thermodynamic_chart_atlas",
+    "patch_2_base_output": "certified_full_truth_operator_at_4ms",
+    "patch_2_macro_state": "certified_patch_1_exact_affine_4ms_endpoint",
+    "patch_2_primitive_charts": "certified_exact_thermodynamic_reconstruction_at_4ms"
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizfm_entropy_complete_second_pathwise_macro_patch_execution",
+  "budgets": {
+    "accepted_new_macrosteps_max": 4,
+    "complete_cycle_execution_authorized": false,
+    "maximum_new_truth_operator_calls": 39,
+    "new_global_roots": 0
+  },
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "fixed_Q_invariant_object_certified": false,
+    "second_patch_execution_authorized": true,
+    "unbounded_pathwise_continuation_authorized": false
+  },
+  "classification": "entropy_complete_second_pathwise_macro_patch_manifest_frozen",
+  "decision": {
+    "failure": "stop_and_reassess_patch_coordinates_or_nonlinear_curvature",
+    "no_retrospective_gate_change": true,
+    "pass": "authorize_definitions_only_bounded_multi_patch_growth_and_fast_slaving_manifest"
+  },
+  "overlap_and_dynamic_validation": {
+    "absolute_elapsed_endpoint_seconds": 0.008,
+    "exact_integrated_ledger_relative_defect_max": 1e-12,
+    "maximum_endpoint_macro_roundtrip_relative_defect": 1e-10,
+    "maximum_endpoint_truth_macro_rate_relative_defect_per_field": 0.05,
+    "maximum_endpoint_truth_output_relative_defect_per_block": 0.05,
+    "maximum_interpatch_macro_rate_relative_defect_per_field": 0.1,
+    "maximum_interpatch_output_relative_defect_per_block": 0.1,
+    "maximum_local_spectral_abscissa_per_second": 0.0,
+    "one_new_dynamic_endpoint_truth_call": true,
+    "overlap_witness": "certified_patch_1_3ms_state",
+    "patch_2_fixed_macrostep_seconds": 0.001,
+    "patch_2_horizon_seconds": 0.004,
+    "patch_2_macrosteps": 4,
+    "reserved_trust_coordinate_infinity": 0.12
+  },
+  "patch_2_construction": {
+    "all_truth_physical_gates_binding": true,
+    "atlas_trust_coordinate_infinity": 0.15,
+    "cell_colors_per_field": 3,
+    "central_colored_chart_step": 0.02,
+    "colored_truth_calls": 30,
+    "coordinate_system": "local_(lnSigma,beta_phi,lnT,beta_r,chi)",
+    "independent_JVP_chart_step": 0.01,
+    "independent_JVP_directions": 4,
+    "independent_JVP_truth_calls": 8,
+    "maximum_colored_support_leakage_ratio": 1e-12,
+    "maximum_independent_JVP_relative_defect": 0.05,
+    "maximum_pullback_condition_number": 100000.0,
+    "pullback_derivative_step": 1e-05
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizfl_entropy_complete_pathwise_macro_atlas_expansion_manifest"
+}
