@@ -1,0 +1,74 @@
+{
+  "atlas_audit": {
+    "cell_colors_per_field": 3,
+    "central_colored_chart_step": 0.02,
+    "colored_truth_calls": 30,
+    "fail_on_any_truth_physical_or_hyperbolicity_gate": true,
+    "independent_JVP_chart_step": 0.01,
+    "independent_JVP_directions": 4,
+    "independent_JVP_truth_calls": 8,
+    "maximum_blind_inferred_chart_coordinate_infinity": 0.15,
+    "maximum_blind_macro_rate_relative_defect_per_field": 0.05,
+    "maximum_blind_output_relative_defect_per_block": 0.05,
+    "maximum_independent_JVP_relative_defect": 0.05,
+    "maximum_new_truth_operator_calls": 38,
+    "maximum_saved_near_witness_output_relative_defect": 0.01,
+    "maximum_truth_state_constraint_relative_defect": 1e-10,
+    "primary_training_anchor": "primary_20ms_base",
+    "strict_blind_profiles": [
+      "heldout_16ms_base",
+      "heldout_16ms_perturbed"
+    ]
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizfi_entropy_complete_thermodynamic_chart_atlas_execution",
+  "claim_boundary": {
+    "chart_atlas_execution_authorized": true,
+    "complete_cycle_execution_authorized": false,
+    "macro_integrator_authorized": false,
+    "state_propagation_authorized": false
+  },
+  "classification": "entropy_complete_thermodynamic_chart_conservative_atlas_recovery_manifest_frozen",
+  "coordinate_redesign": {
+    "exact_MJE_storage_and_face_flux_conservation_unchanged": true,
+    "fine_chart_scales": [
+      1.0,
+      0.1,
+      1.0,
+      0.1,
+      0.0001
+    ],
+    "height_recomputed_by_hydrostatic_EOS": true,
+    "local_atlas_coordinates": [
+      "delta_lnSigma",
+      "delta_beta_phi",
+      "delta_lnT",
+      "delta_beta_r",
+      "delta_chi"
+    ],
+    "maximum_pullback_condition_number": 100000.0,
+    "online_macro_to_chart_pullback": "inverse_of_cellwise_5x5_normalized_macro_chart_tangent",
+    "pullback_derivative_step": 1e-05,
+    "same_shift_applied_to_seven_fine_cells_in_each_macro_block": true,
+    "stored_online_state": "exact_16_cell_(M,J,E,beta_r,chi)",
+    "vertical_velocity_over_c": 0.0
+  },
+  "decision": {
+    "fail": "require_multiple_entropy_complete_training_anchors_or_nonlinear_local_chart_atlas",
+    "pass": "authorize_definitions_only_structure_preserving_macro_integrator_manifest"
+  },
+  "online_cost": {
+    "benchmark_evaluations": 100000,
+    "maximum_benchmark_wall_seconds": 10.0,
+    "maximum_macrosteps_per_cycle": 100000,
+    "state_dimension": 80,
+    "truth_calls_per_macrostep": 0
+  },
+  "preserved_rejection": {
+    "conservative_16_cell_macro_state_rejected": false,
+    "hydrostatic_inverse_rejected": false,
+    "new_truth_operator_calls_in_rejected_run": 0,
+    "raw_independent_MJE_coordinate_atlas_rejected": true
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizfh_entropy_complete_thermodynamic_chart_atlas_recovery_manifest"
+}
