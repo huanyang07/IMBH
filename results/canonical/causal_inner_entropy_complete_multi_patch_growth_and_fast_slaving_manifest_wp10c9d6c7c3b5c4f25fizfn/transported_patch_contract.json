@@ -1,0 +1,84 @@
+{
+  "acquisition_cost": {
+    "full_patch_truth_calls": 39,
+    "maximum_transported_to_full_truth_call_fraction": 0.25,
+    "new_global_roots": 0,
+    "online_truth_calls_per_macrostep": 0,
+    "transported_patch_truth_calls": 9,
+    "transported_to_full_truth_call_fraction": 0.23076923076923078
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizfo_entropy_complete_transported_third_macro_patch_execution",
+  "chain_rule_transport": {
+    "block_diagonal_transport_only": true,
+    "coordinate_transport_per_cell": "C_23=P_2*diag(S_X3/S_X2)*T_3",
+    "maximum_pullback_condition_number": 100000.0,
+    "maximum_pullback_inverse_closure_infinity": 1e-10,
+    "new_chart_tangent": "dX=diag(S_X3)*T_3*dz_3",
+    "new_normalized_tangent": "J_3=diag(1/S_Y3)*diag(S_Y2)*J_2*C_23",
+    "old_chart": "z_2=P_2*diag(1/S_X2)*(X-X_2)",
+    "physical_output_tangent": "dY_dz3=diag(S_Y2)*J_2*C_23",
+    "pullback_derivative_step": 1e-05,
+    "transport_must_preserve_single_valued_flux_rows": true
+  },
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "one_transported_patch_execution_authorized": true,
+    "reduced_slow_cycle_claim_authorized": false,
+    "unbounded_atlas_growth_authorized": false
+  },
+  "classification": "entropy_complete_transported_patch_growth_and_stable_bundle_manifest_frozen",
+  "decision": {
+    "no_retrospective_gate_change": true,
+    "pass": "authorize_definitions_only_adaptive_transported_atlas_cadence_and_heldout_readiness_manifest",
+    "physical_or_stability_failure": "stop_the_seven_field_cycle_path",
+    "transport_failure": "retain_full_colored_rebuilds_and_reassess_cycle_affordability"
+  },
+  "independent_transport_validation": {
+    "all_truth_physical_gates_binding": true,
+    "central_JVP_chart_step": 0.01,
+    "independent_JVP_directions": 4,
+    "maximum_independent_JVP_relative_defect": 0.05,
+    "new_JVP_truth_calls": 8,
+    "transported_Jacobian_is_not_refit_from_the_validation_calls": true
+  },
+  "overlap_and_dynamic_validation": {
+    "absolute_elapsed_endpoint_seconds": 0.012,
+    "atlas_trust_coordinate_infinity": 0.15,
+    "exact_integrated_ledger_relative_defect_max": 1e-12,
+    "maximum_endpoint_macro_roundtrip_relative_defect": 1e-10,
+    "maximum_endpoint_truth_macro_rate_relative_defect_per_field": 0.05,
+    "maximum_endpoint_truth_output_relative_defect_per_block": 0.05,
+    "maximum_interpatch_macro_rate_relative_defect_per_field": 0.1,
+    "maximum_interpatch_output_relative_defect_per_block": 0.1,
+    "maximum_local_spectral_abscissa_per_second": 0.0,
+    "one_new_dynamic_endpoint_truth_call": true,
+    "overlap_witness": "certified_patch_2_7ms_state",
+    "patch_3_fixed_macrostep_seconds": 0.001,
+    "patch_3_macrosteps": 4,
+    "reserved_trust_coordinate_infinity": 0.12
+  },
+  "patch_3_anchor": {
+    "base_output": "certified_full_truth_operator_at_8ms",
+    "macro_state": "certified_patch_2_exact_affine_8ms_endpoint",
+    "no_new_base_truth_call": true,
+    "no_synthetic_or_projected_anchor": true,
+    "primitive_charts": "certified_exact_thermodynamic_reconstruction_at_8ms"
+  },
+  "preserved_boundaries": {
+    "all_80_macro_coordinates_remain_dynamic": true,
+    "complete_cycle_execution_authorized": false,
+    "generic_fixed_slow_global_root_rejection_preserved": true,
+    "no_instantaneous_global_equilibrium_substitution": true,
+    "vertical_height_momentum_pair_only_is_analytically_eliminated": true
+  },
+  "schema_version": 1,
+  "stable_bundle_evidence_gates": {
+    "both_local_spectral_abscissae_per_second_max": 0.0,
+    "interpretation": "normally_stable_moving_full_macro_bundle_not_a_global_fixed_point",
+    "maximum_fast_efold_to_cycle_ratio": 1e-05,
+    "maximum_interpatch_stable_bundle_angle_degrees": 5.0,
+    "maximum_physical_rate_jacobian_relative_infinity_drift": 0.01,
+    "selected_stable_bundle_modes": 16
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fizfn_entropy_complete_multi_patch_growth_and_fast_slaving_manifest"
+}
