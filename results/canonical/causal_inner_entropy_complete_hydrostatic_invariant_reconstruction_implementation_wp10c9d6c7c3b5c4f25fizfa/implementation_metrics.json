@@ -1,0 +1,215 @@
+{
+  "classification": "entropy_complete_hydrostatic_Q3_plus_radial_stress_inverse_failed",
+  "execution_wall_seconds": 125.65411662496626,
+  "generic_global_fixed_Q_Newton_rejection_preserved": true,
+  "maximum_local_inverse_JVP_relative_defect": 2.2873090291353505e-05,
+  "maximum_scaled_local_inverse_condition_number": 987.791865380874,
+  "new_nonlinear_roots": 0,
+  "offline_seven_field_operator_calls": 4,
+  "passed": false,
+  "profiles": {
+    "heldout_16ms": {
+      "checks": {
+        "base_physical": true,
+        "base_prefilter": true,
+        "exact_anchor_chart_reproduction": true,
+        "exact_anchor_constraint": true,
+        "local_inverse_JVP": true,
+        "local_inverse_condition": true,
+        "perturbed_constraint": true,
+        "perturbed_physical": true,
+        "perturbed_prefilter": true
+      },
+      "exact_anchor_chart_reproduction_scaled_infinity": 0.0,
+      "exact_anchor_constraint_relative_defect": 0.0,
+      "local_inverse_JVP_relative_defects": [
+        1.0701738499287493e-10,
+        1.2685392123645876e-08,
+        2.764526878827213e-08,
+        2.7432291021972187e-08,
+        2.0775786926639448e-08,
+        6.546142311583245e-07,
+        5.285945619790254e-10
+      ],
+      "local_inverse_condition_numbers": [
+        41.968198029911576,
+        48.93328562543749,
+        61.5721820720906,
+        83.13651016006474,
+        119.55840178481645,
+        195.5578048578486,
+        986.7376308835986
+      ],
+      "maximum_local_inverse_JVP_relative_defect": 6.546142311583245e-07,
+      "maximum_local_inverse_condition_number": 986.7376308835986,
+      "midpoint_prefilters": {
+        "base": {
+          "evaluated_face_midpoints": 113,
+          "maximum_eigenvalue_imaginary_ratio": 0.0,
+          "maximum_eigenvector_condition_number": 155.61284780700916,
+          "maximum_eigenvector_imaginary_ratio": 0.0,
+          "minimum_specialized_causality_margin": 1.3305645464258169e-05,
+          "worst_eigenvalue_face": -1,
+          "worst_eigenvector_face": -1
+        },
+        "perturbed": {
+          "evaluated_face_midpoints": 113,
+          "maximum_eigenvalue_imaginary_ratio": 0.0,
+          "maximum_eigenvector_condition_number": 155.61284780700916,
+          "maximum_eigenvector_imaginary_ratio": 0.0,
+          "minimum_specialized_causality_margin": 1.3313137414071347e-05,
+          "worst_eigenvalue_face": -1,
+          "worst_eigenvector_face": -1
+        }
+      },
+      "operator_physical_checks": {
+        "base": {
+          "eigenbasis_condition": true,
+          "height": true,
+          "imaginary_speed": true,
+          "inner_excision": true,
+          "light_cone": true,
+          "optical_depth": true,
+          "temporal_solve": true
+        },
+        "perturbed": {
+          "eigenbasis_condition": true,
+          "height": true,
+          "imaginary_speed": true,
+          "inner_excision": true,
+          "light_cone": true,
+          "optical_depth": true,
+          "temporal_solve": true
+        }
+      },
+      "operator_records": {
+        "base": {
+          "incoming_inner_characteristics": 0,
+          "maximum_eigenvector_condition_number": 300.65007597467104,
+          "maximum_height_over_radius": 0.09802324886773983,
+          "maximum_imaginary_speed_over_c": 0.0,
+          "maximum_light_cone_excess_over_c": 0.0,
+          "maximum_temporal_solve_relative_defect": 4.355839769615712e-16,
+          "minimum_height_over_radius": 0.04970114326289303,
+          "minimum_optical_depth": 19.189030875613085
+        },
+        "perturbed": {
+          "incoming_inner_characteristics": 0,
+          "maximum_eigenvector_condition_number": 300.65007597467104,
+          "maximum_height_over_radius": 0.09802324886773983,
+          "maximum_imaginary_speed_over_c": 0.0,
+          "maximum_light_cone_excess_over_c": 0.0,
+          "maximum_temporal_solve_relative_defect": 4.355839769615712e-16,
+          "minimum_height_over_radius": 0.04972914864131218,
+          "minimum_optical_depth": 19.189030875613085
+        }
+      },
+      "perturbed_constraint_relative_defect": 1.0819135821790208e-15,
+      "perturbed_maximum_newton_corrections": 2,
+      "perturbed_maximum_scaled_unknown_correction": 0.0001419683356469152
+    },
+    "primary_20ms": {
+      "checks": {
+        "base_physical": true,
+        "base_prefilter": true,
+        "exact_anchor_chart_reproduction": true,
+        "exact_anchor_constraint": true,
+        "local_inverse_JVP": false,
+        "local_inverse_condition": true,
+        "perturbed_constraint": true,
+        "perturbed_physical": true,
+        "perturbed_prefilter": true
+      },
+      "exact_anchor_chart_reproduction_scaled_infinity": 0.0,
+      "exact_anchor_constraint_relative_defect": 0.0,
+      "local_inverse_JVP_relative_defects": [
+        3.404118658570597e-08,
+        1.7680400321925068e-08,
+        4.4458205001158406e-10,
+        1.7090505424558436e-07,
+        4.7727997651025756e-08,
+        1.537458403149268e-07,
+        2.2873090291353505e-05
+      ],
+      "local_inverse_condition_numbers": [
+        43.638820897066324,
+        50.28472745302952,
+        62.71288160631982,
+        84.12721282700193,
+        120.56241047084102,
+        196.80862097623412,
+        987.791865380874
+      ],
+      "maximum_local_inverse_JVP_relative_defect": 2.2873090291353505e-05,
+      "maximum_local_inverse_condition_number": 987.791865380874,
+      "midpoint_prefilters": {
+        "base": {
+          "evaluated_face_midpoints": 113,
+          "maximum_eigenvalue_imaginary_ratio": 0.0,
+          "maximum_eigenvector_condition_number": 848.2976316852047,
+          "maximum_eigenvector_imaginary_ratio": 0.0,
+          "minimum_specialized_causality_margin": 1.3299832947313585e-05,
+          "worst_eigenvalue_face": -1,
+          "worst_eigenvector_face": -1
+        },
+        "perturbed": {
+          "evaluated_face_midpoints": 113,
+          "maximum_eigenvalue_imaginary_ratio": 0.0,
+          "maximum_eigenvector_condition_number": 848.2976316852047,
+          "maximum_eigenvector_imaginary_ratio": 0.0,
+          "minimum_specialized_causality_margin": 1.330731304700533e-05,
+          "worst_eigenvalue_face": -1,
+          "worst_eigenvector_face": -1
+        }
+      },
+      "operator_physical_checks": {
+        "base": {
+          "eigenbasis_condition": true,
+          "height": true,
+          "imaginary_speed": true,
+          "inner_excision": true,
+          "light_cone": true,
+          "optical_depth": true,
+          "temporal_solve": true
+        },
+        "perturbed": {
+          "eigenbasis_condition": true,
+          "height": true,
+          "imaginary_speed": true,
+          "inner_excision": true,
+          "light_cone": true,
+          "optical_depth": true,
+          "temporal_solve": true
+        }
+      },
+      "operator_records": {
+        "base": {
+          "incoming_inner_characteristics": 0,
+          "maximum_eigenvector_condition_number": 848.2976316852047,
+          "maximum_height_over_radius": 0.09783750054676474,
+          "maximum_imaginary_speed_over_c": 0.0,
+          "maximum_light_cone_excess_over_c": 0.0,
+          "maximum_temporal_solve_relative_defect": 5.616977017681716e-16,
+          "minimum_height_over_radius": 0.04967940754328958,
+          "minimum_optical_depth": 19.2543109039531
+        },
+        "perturbed": {
+          "incoming_inner_characteristics": 0,
+          "maximum_eigenvector_condition_number": 848.2976316852047,
+          "maximum_height_over_radius": 0.09783750054676474,
+          "maximum_imaginary_speed_over_c": 0.0,
+          "maximum_light_cone_excess_over_c": 0.0,
+          "maximum_temporal_solve_relative_defect": 5.616977017681716e-16,
+          "minimum_height_over_radius": 0.04970736856575862,
+          "minimum_optical_depth": 19.2543109039531
+        }
+      },
+      "perturbed_constraint_relative_defect": 4.923658676146218e-16,
+      "perturbed_maximum_newton_corrections": 2,
+      "perturbed_maximum_scaled_unknown_correction": 0.0001418067288580618
+    }
+  },
+  "propagated_states": 0,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizfa_entropy_complete_hydrostatic_invariant_reconstruction_implementation"
+}
