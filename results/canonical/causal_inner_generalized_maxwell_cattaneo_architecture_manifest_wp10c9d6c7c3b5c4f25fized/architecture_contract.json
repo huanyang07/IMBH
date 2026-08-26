@@ -1,0 +1,173 @@
+{
+  "audit_order": [
+    "derive the specialized covariant quasilinear matrices symbolically",
+    "audit coefficient and physical-constraint identities",
+    "audit the primary and held-out profiles",
+    "audit every accepted pre-boundary profile",
+    "audit all deterministic off-equilibrium witnesses",
+    "audit the rejected profile and failed face without propagation",
+    "evaluate specialized nonlinear causality inequalities",
+    "evaluate complete strong-hyperbolicity and light-cone gates",
+    "freeze a positive or negative local certificate"
+  ],
+  "authorization_basis": {
+    "parent_classification": "seven_field_physical_closure_entropy_failed",
+    "parent_entropy_obstruction_preserved": true,
+    "parent_result_commit": "dc7a762aad8e78afa67d1717e829dda68d640a7a",
+    "scope_is_definitions_only": true
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizee_generalized_Maxwell_Cattaneo_local_structural_audit",
+  "budget": {
+    "maximum_manifest_wall_minutes": 10,
+    "new_complete_cycle_steps": 0,
+    "new_fixed_Q_roots": 0,
+    "new_nonlinear_roots": 0,
+    "new_trajectory_steps": 0
+  },
+  "claim_boundary": {
+    "complete_cycle_authorized": false,
+    "corrected_transient_architecture_certified": false,
+    "corrected_transient_architecture_selected": true,
+    "failed_Godunov_realization_preserved": true,
+    "fixed_Q_invariant_object_authorized": false,
+    "local_structural_audit_authorized": true,
+    "reduced_slow_evolution_authorized": false,
+    "seven_field_trajectory_authorized": false,
+    "slow_flux_atlas_authorized": false,
+    "spatial_discretization_authorized": false
+  },
+  "classification": "generalized_Maxwell_Cattaneo_seven_field_architecture_manifest_frozen",
+  "decision_classifications": {
+    "causality_failure": "generalized_Maxwell_Cattaneo_nonlinear_causality_failed",
+    "derivation_failure": "generalized_Maxwell_Cattaneo_derivation_failed",
+    "ledger_failure": "generalized_Maxwell_Cattaneo_energy_entropy_ledger_failed",
+    "pass": "generalized_Maxwell_Cattaneo_local_structural_audit_passed",
+    "strong_hyperbolicity_failure": "generalized_Maxwell_Cattaneo_strong_hyperbolicity_failed"
+  },
+  "entropy_and_energy_scope": {
+    "DNMR_terms_not_added_without_separate_entropy_accounting": true,
+    "entropy_production_nonnegative_on_frozen_stencil": true,
+    "equilibrium_EOS_entropy_exact": true,
+    "global_convex_entropy_or_symmetric_hyperbolicity_claimed": false,
+    "mass_angular_momentum_and_Killing_energy_ledgers_remain_binding": true,
+    "original_IS_quadratic_entropy_current_checked": true,
+    "strong_hyperbolicity_is_sufficient_for_local_well_posedness": true
+  },
+  "forbidden": [
+    "reinterpret the failed entropy curl as numerical noise",
+    "restore the rejected D*chi Godunov flux by post-hoc symmetrization",
+    "certify only the linearized or isolated shear cone",
+    "fit transport coefficients to the old failed face",
+    "hide a nonconservative product inside a lower-order source",
+    "advance any five-field or seven-field trajectory",
+    "construct a fixed-Q orbit, slow atlas, or complete cycle"
+  ],
+  "frozen_local_audit_envelope": {
+    "base_charts": 8401,
+    "deterministic_witnesses": 47,
+    "equilibrium_embedding_all_base_charts": true,
+    "failed_face_is_negative_control": true,
+    "mutable_scratch_forbidden": true,
+    "off_equilibrium_height_vertical_stress_stencils": true,
+    "reuse_parent_stage2_audit_envelope_bitwise": true
+  },
+  "future_spatial_discretization_if_local_audit_passes": {
+    "Riemann_dissipation_uses_complete_real_eigenbasis": true,
+    "conservative_rows": "mass and Kerr-Schild stress-energy",
+    "method": "path-conservative finite volume with a prospectively frozen straight entropy-scaled primitive path",
+    "nonconservative_rows": "projected shear and material height kinematics",
+    "path_consistency": "Dal Maso-LeFloch-Murat jump integral",
+    "smooth_limit_parity_required": true,
+    "this_manifest_authorizes_spatial_discretization": false
+  },
+  "nonlinear_causality_gates": {
+    "basic_transverse_ratio": "0<=eta_eff/(tau_pi*E)<=1",
+    "evaluate_all_specialized_necessary_and_sufficient_inequalities": true,
+    "finite_shear_eigenvalues": "Lambda=(-abs(Sigma*c^2*chi),0,+abs(...))",
+    "inequality_margin_min": 1e-08,
+    "no_linearized_only_certificate": true,
+    "paper": "https://arxiv.org/abs/2607.05639",
+    "require_E_plus_each_Lambda_positive": true,
+    "specialization": "zero bulk stress, one physical R-phi shear amplitude, baryon current retained, fixed Kerr-Schild background"
+  },
+  "nonlinear_principal_contract": {
+    "characteristic_equation": "det(M^R-lambda*M^t)=0",
+    "complete_symbol_not_isolated_shear_cone_is_binding": true,
+    "coordinate_light_cone_is_Kerr_Schild": true,
+    "derive_from": "covariant mass, energy-momentum, projected shear-relaxation, height-current, and vertical-momentum equations",
+    "normalization_orthogonality_and_trace_constraints_propagated": true,
+    "radial_matrix": "M^R(q;R)",
+    "temporal_matrix": "M^t(q;R)",
+    "transport_coefficients_differentiated_when_the_covariant_equation_requires": true,
+    "unknown_derivative_order": "lnSigma,beta_R,beta_phi,lnT,chi,lnH,beta_H"
+  },
+  "physical_variables": {
+    "dominant_energy_gate": "all principal stresses are below enthalpy",
+    "horizontal_velocity_gate": "beta_R^2+beta_phi^2<1",
+    "q7": [
+      "lnSigma",
+      "beta_R",
+      "beta_phi",
+      "lnT",
+      "chi",
+      "lnH",
+      "beta_H_equals_w_H_over_c"
+    ],
+    "shear_constraints": "symmetric, trace free, and orthogonal to u^a by construction",
+    "shear_tensor": "pi^{ab}=Sigma*c^2*chi*(e_R^a e_phi^b+e_phi^a e_R^b)",
+    "stress_is_not_an_added_isotropic_energy_reservoir": true,
+    "vertical_velocity_gate": "abs(beta_H)<1"
+  },
+  "preserved_scientific_boundary": {
+    "failed_Godunov_candidate_propagated": false,
+    "failed_five_field_candidate_propagated": false,
+    "five_field_accepted_endpoint_count": 72,
+    "five_field_accepted_terminal_seconds": 0.18587500000000012,
+    "five_field_trajectory_classification": "hyperbolicity_boundary_bracketed_after_first_half_step",
+    "no_trajectory_is_restarted_by_this_package": true
+  },
+  "schema_version": 1,
+  "selected_PDE_class": {
+    "dissipative_equation": "tau_pi Delta^{ab}_{cd} u^e nabla_e pi^{cd}+pi^{ab}=-2 eta sigma^{ab} plus prospectively declared nonlinear terms",
+    "exact_conservation": "nabla_a J^a=0 and nabla_b T_col^{ab}=external sources",
+    "global_Godunov_potential_required": false,
+    "mass_current": "J^a=Sigma*u^a",
+    "mathematical_standard": "nonlinear causality plus strong hyperbolicity of the complete quasilinear principal symbol",
+    "name": "one_shear_amplitude Landau-frame generalized Maxwell-Cattaneo/Israel-Stewart balance law",
+    "post_hoc_symmetrization_still_forbidden": true,
+    "reason_global_Godunov_requirement_is_removed": "the rejected D*chi state-dependent-modulus realization is not the general transient relativistic-fluid PDE class",
+    "stress_energy": "T_col^{ab}=epsilon*u^a*u^b+Pi*Delta^{ab}+pi^{ab}"
+  },
+  "strong_hyperbolicity_gates": {
+    "all_generalized_eigenvalues_real": true,
+    "constant_geometric_multiplicity_and_complete_eigenbasis_required": true,
+    "diagonally_equilibrated_eigenvector_condition_number_max": 100000000.0,
+    "generalized_eigenpair_relative_defect_max": 1e-08,
+    "left_right_projector_relative_defect_max": 1e-08,
+    "maximum_absolute_coordinate_speed_inside_local_light_cone": true,
+    "maximum_imaginary_coordinate_speed_over_c": 1e-10,
+    "neighboring_subspace_minimum_cosine_min": 0.9
+  },
+  "thermodynamic_and_vertical_sector": {
+    "density": "rho=Sigma/(2H)",
+    "gas_radiation_EOS_at_independent_H": true,
+    "height_and_vertical_velocity_are_advective_in_the_radial_principal": true,
+    "height_current": "nabla_a(Sigma*H*u^a)=Sigma*w_H",
+    "height_is_finite_inertia_not_algebraically_responsive": true,
+    "vertical_damping": "gamma_H=alpha*Omega_perp",
+    "vertical_energy_ledger": "vertical force and damping work are exchanged with the thermal energy equation with zero hidden total-energy defect",
+    "vertical_momentum_current": "nabla_a(Sigma*w_H*u^a)=Pi/H-Sigma*Omega_perp^2*H-gamma_H*Sigma*w_H"
+  },
+  "transport_calibration": {
+    "alpha_equilibrium_target": "chi_NS=alpha*Pi/(Sigma*c^2)",
+    "eta_positive": true,
+    "linear_signal_target": "eta/(tau_pi*E)=alpha*(c_s/c)^2",
+    "no_face_dependent_coefficient": true,
+    "no_hyperbolicity_floor_or_clip": true,
+    "reference_positive_shear": "gamma_dot_ref=1.5*Omega_perp",
+    "relaxation_time": "tau_pi=nu_s/(h_eff*alpha*(c_s/c)^2)",
+    "specific_viscosity": "nu_s=chi_NS/gamma_dot_ref",
+    "tau_pi_positive": true
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fized_generalized_Maxwell_Cattaneo_architecture_manifest"
+}
