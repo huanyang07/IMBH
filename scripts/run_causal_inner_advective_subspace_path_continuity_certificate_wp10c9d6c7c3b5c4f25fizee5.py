@@ -192,7 +192,7 @@ def _execute() -> tuple[dict, dict[str, np.ndarray]]:
     contract = validated["contract"]
     frozen_audit = parent.parent.frozen_audit
     source = (
-        frozen_audit.parent.parent.parent.parent.boundary_diagnostic.manifest.parent.engine.execution.source
+        frozen_audit.parent.parent.parent.boundary_diagnostic.manifest.parent.engine.execution.source
     )
     start = time.perf_counter()
     context = source._initial_inputs()["base"]["configuration"]["context"]
@@ -201,7 +201,7 @@ def _execute() -> tuple[dict, dict[str, np.ndarray]]:
     right_radius = float(parent.RIGHT_RADIUS_CM)
     left_chart = np.asarray(parent.LEFT_CHART7, dtype=float)
     right_chart = np.asarray(parent.RIGHT_CHART7, dtype=float)
-    radial = frozen_audit.parent.parent.parent.parent.boundary_diagnostic.radial
+    radial = frozen_audit.parent.parent.parent.boundary_diagnostic.radial
     fine_count = max(contract["frozen_path"]["nested_node_counts"])
     parameters = np.linspace(0.0, 1.0, fine_count)
     radii = left_radius + parameters * (right_radius - left_radius)
