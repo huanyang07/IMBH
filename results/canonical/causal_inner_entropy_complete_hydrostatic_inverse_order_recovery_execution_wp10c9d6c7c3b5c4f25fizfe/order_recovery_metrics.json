@@ -1,0 +1,43 @@
+{
+  "classification": "entropy_complete_hydrostatic_implicit_inverse_tangent_certified",
+  "execution_wall_seconds": 1.91837616590783,
+  "fixed_step_inverse_JVP_rejection_preserved": true,
+  "global_worst_raw_JVP_relative_defects": [
+    0.0003660470248178335,
+    9.149332726284113e-05,
+    2.2873090291353505e-05
+  ],
+  "global_worst_raw_defect_observed_orders": [
+    2.0002905639806956,
+    2.000015233803027
+  ],
+  "maximum_Richardson_JVP_relative_defect": 5.8089358598573044e-08,
+  "maximum_Richardson_pair_relative_disagreement": 5.5674315000085084e-08,
+  "maximum_reconstruction_constraint_relative_defect": 3.5335714417189426e-13,
+  "minimum_global_worst_raw_defect_order": 2.000015233803027,
+  "new_global_roots": 0,
+  "new_seven_field_operator_calls": 0,
+  "passed": true,
+  "profiles": {
+    "heldout_16ms": {
+      "maximum_Richardson_JVP_relative_defect": 6.1071812400921485e-09,
+      "maximum_Richardson_pair_relative_disagreement": 4.676059397536146e-10,
+      "maximum_raw_JVP_relative_defect": 1.0474949384221249e-05,
+      "maximum_reconstruction_constraint_relative_defect": 3.5335714417189426e-13,
+      "passed": true,
+      "raw_defects_nonincreasing": true
+    },
+    "primary_20ms": {
+      "maximum_Richardson_JVP_relative_defect": 5.8089358598573044e-08,
+      "maximum_Richardson_pair_relative_disagreement": 5.5674315000085084e-08,
+      "maximum_raw_JVP_relative_defect": 0.0003660470248178335,
+      "maximum_reconstruction_constraint_relative_defect": 2.7132957494797206e-13,
+      "passed": true,
+      "raw_defects_nonincreasing": true
+    }
+  },
+  "propagated_states": 0,
+  "requested_local_nonlinear_solves": 84,
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizfe_entropy_complete_hydrostatic_inverse_order_recovery_execution"
+}
