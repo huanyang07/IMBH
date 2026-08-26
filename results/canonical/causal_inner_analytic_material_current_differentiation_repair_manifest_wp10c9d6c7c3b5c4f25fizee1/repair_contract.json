@@ -1,0 +1,107 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizee2_saved_advective_degeneracy_repair_certificate",
+  "authorized_source_repair": {
+    "analytic_identity": "d(v*U)=v*dU+U*dv",
+    "differentiate_state_and_transport_with_the_same_centered_stencil": true,
+    "eigenvalue_clipping_forbidden": true,
+    "eigenvalue_projection_forbidden": true,
+    "height_and_vertical_physics_unchanged": true,
+    "matrix_symmetrization_forbidden": true,
+    "repaired_principal_rows": [
+      0,
+      5,
+      6
+    ],
+    "shear_row_unchanged": true,
+    "stress_energy_rows_other_than_rest_mass_unchanged": true,
+    "threshold_relaxation_forbidden": true
+  },
+  "binding_gates": {
+    "all_factors_and_all_gates_required": true,
+    "dominant_energy_margin_min": 1e-08,
+    "eigenvector_condition_number_max": 100000000.0,
+    "entropy_production_min": 0.0,
+    "fail_closed": true,
+    "material_product_identity_relative_defect_max": 1e-12,
+    "matrix_derivative_ladder_relative_defect_max": 1e-07,
+    "maximum_biorthogonality_defect": 1e-08,
+    "maximum_eigenpair_relative_defect": 1e-08,
+    "maximum_imaginary_speed_over_c": 1e-10,
+    "maximum_light_cone_excess_over_c": 1e-10,
+    "maximum_projector_idempotence_defect": 1e-08,
+    "physical_tensor_constraint_relative_defect_max": 1e-10,
+    "reference_causality_margin_min": 1e-08,
+    "scaled_temporal_condition_number_max": 100000000.0,
+    "source_energy_ledger_relative_defect_max": 1e-10
+  },
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "differentiation_repair_authorized": true,
+    "fixed_Q_invariant_object_authorized": false,
+    "full_envelope_retry_authorized": false,
+    "reduced_slow_evolution_authorized": false,
+    "saved_point_certificate_authorized": true,
+    "slow_flux_atlas_authorized": false,
+    "spatial_discretization_authorized": false,
+    "trajectory_authorized": false
+  },
+  "classification": "analytic_material_current_differentiation_repair_manifest_frozen",
+  "diagnosis": {
+    "all_non_hyperbolicity_parent_gates_passed_at_saved_point": true,
+    "exact_material_currents": [
+      "rest_mass",
+      "rest_mass_times_height",
+      "rest_mass_times_vertical_velocity"
+    ],
+    "exact_radial_flux_form": "F=v_transport*U",
+    "observed_split_is_not_stable_under_step_halving_or_doubling": true,
+    "observed_split_is_stencil_sensitive": true,
+    "repair_hypothesis": "independent finite differences violate the exact product identity at roundoff and split the repeated advective root"
+  },
+  "parent_negative_result": {
+    "artifact": "causal_inner_entropy_complete_projected_local_structural_audit_wp10c9d6c7c3b5c4f25fizee",
+    "classification": "entropy_complete_projected_strong_hyperbolicity_failed",
+    "first_failure_chart7": [
+      4.741144066935414,
+      -0.3258490203398499,
+      0.669416858133401,
+      15.03778152477332,
+      0.00024494031012566665,
+      19.915742072422567,
+      0.0
+    ],
+    "first_failure_label": "heldout_16ms_cell_027",
+    "first_failure_radius_cm": 4659926455.691107,
+    "frozen_gate": 1e-10,
+    "preserved_as_binding": true,
+    "recorded_maximum_imaginary_speed_over_c": 1.1962800308420447e-10,
+    "retroactive_reclassification_forbidden": true
+  },
+  "saved_point_certificate": {
+    "all_factors_binding": true,
+    "chart7": [
+      4.741144066935414,
+      -0.3258490203398499,
+      0.669416858133401,
+      15.03778152477332,
+      0.00024494031012566665,
+      19.915742072422567,
+      0.0
+    ],
+    "derivative_step_factors": [
+      2.0,
+      1.0,
+      0.5
+    ],
+    "label": "heldout_16ms_cell_027",
+    "radius_cm": 4659926455.691107,
+    "require_all_original_point_gates": true,
+    "require_exact_material_product_identity": true,
+    "save_complete_eigenvalues_and_diagnostics": true,
+    "save_complete_temporal_and_radial_matrices": true,
+    "scope": "one_saved_point_nonpropagating",
+    "trajectory_steps": 0
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizee1_analytic_material_current_differentiation_repair_manifest"
+}

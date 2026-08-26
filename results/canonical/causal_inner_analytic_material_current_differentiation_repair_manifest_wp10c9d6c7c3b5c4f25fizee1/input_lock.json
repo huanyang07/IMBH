@@ -1,0 +1,78 @@
+{
+  "old_physical_source_sha256": "d599d6d3e16f9bcdc3e67dbe7ba4004ee7459b334ec8c0189de5c37e21c2425e",
+  "old_physical_test_sha256": "92ec5feebe894dd711630d3b8a68f6577c74fde7ccde763967792733b3e96387",
+  "parent_artifact": "causal_inner_entropy_complete_projected_local_structural_audit_wp10c9d6c7c3b5c4f25fizee",
+  "parent_checksum_manifest_sha256": "7d17a66591ac87ccaf8516d32a1f199c5697b2cd9ff13331be1f216983222e28",
+  "parent_hashes": {
+    "audit_arrays.npz": "a5cbbb0b83241bfeb5d148109014c5453cd10e4678c49ee2cc777d5c73be600b",
+    "audit_metrics.json": "cd91e8dc7de2ac58e70804db5a26e2ecba3027a74bdda6edad1c46fddc15a9d4",
+    "input_lock.json": "8f35d73fb8254258baf17f5d206ea5e147c8f6d9a5f3cd3d7b08877db59baee2",
+    "provenance.json": "fe7ca4fe28b6ae84bd687ea5f4b84946ac7ef306bf73cade4101f58c29aeda27",
+    "summary.json": "7378fce0779b3cab3d0c8adf206b87f383464f712d8d2166518b56fcb13533db"
+  },
+  "saved_failure": {
+    "chart7": [
+      4.741144066935414,
+      -0.3258490203398499,
+      0.669416858133401,
+      15.03778152477332,
+      0.00024494031012566665,
+      19.915742072422567,
+      0.0
+    ],
+    "eigenvalues_over_c": [
+      {
+        "imaginary": 0.0,
+        "real": -0.612286885009291
+      },
+      {
+        "imaginary": 0.0,
+        "real": -0.5930563865216736
+      },
+      {
+        "imaginary": 1.1962800308420447e-10,
+        "real": -0.5873657833561642
+      },
+      {
+        "imaginary": -1.1962800308420445e-10,
+        "real": -0.5873657833561641
+      },
+      {
+        "imaginary": 0.0,
+        "real": -0.5873657833320132
+      },
+      {
+        "imaginary": 0.0,
+        "real": -0.5814875431015051
+      },
+      {
+        "imaginary": 0.0,
+        "real": -0.5620439031703628
+      }
+    ],
+    "label": "heldout_16ms_cell_027",
+    "metrics": {
+      "dominant_energy_margin": 1.0128145844210483,
+      "eigenvector_condition_number": 35.928345438532375,
+      "four_velocity_normalization_relative_defect": 0.0,
+      "maximum_biorthogonality_defect": 3.5387539803491384e-16,
+      "maximum_eigenpair_relative_defect": 2.7913368617978323e-16,
+      "maximum_imaginary_speed_over_c": 1.1962800308420447e-10,
+      "maximum_light_cone_excess_over_c": 0.0,
+      "maximum_projector_idempotence_defect": 3.671554084576427e-16,
+      "minimum_entropy_production_rate": 0.0,
+      "reference_causality_minimum_margin": 0.0003825389550670827,
+      "scaled_temporal_condition_number": 504.67217277740883,
+      "shear_radial_work_relative_defect": 1.1975912190099275e-16,
+      "shear_tensor_orthogonality_relative_defect": 1.0584115755740634e-25,
+      "shear_tensor_trace_relative_defect": 2.472733300728562e-16,
+      "vertical_reversible_exchange_relative_defect": 0.0,
+      "vertical_total_energy_relative_defect": 0.0
+    },
+    "radius_cm": 4659926455.691107,
+    "reasons": [
+      "strong_hyperbolicity:complex_speed"
+    ],
+    "scope": "base"
+  }
+}
