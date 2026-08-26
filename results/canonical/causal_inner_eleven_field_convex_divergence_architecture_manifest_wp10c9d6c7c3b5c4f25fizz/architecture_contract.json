@@ -1,0 +1,137 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizza_eleven_field_stf_convex_normal_form_implementation",
+  "budget": {
+    "complete_cycle_steps": 0,
+    "maximum_wall_minutes": 10,
+    "new_trajectory_steps": 0,
+    "truth_operator_calls": 0
+  },
+  "claim_boundary": {
+    "architecture_selected": true,
+    "complete_cycle_execution_authorized": false,
+    "eleven_field_local_closure_certified": false,
+    "eleven_field_trajectory_authorized": false,
+    "five_STF_basis_implemented": false,
+    "nonlinear_physical_master_potential_derived": false,
+    "quadratic_normal_form_certified": false,
+    "reduced_slow_evolution_authorized": false,
+    "slow_atlas_authorized": false
+  },
+  "classification": "eleven_field_convex_divergence_architecture_manifest_frozen",
+  "covariant_shear_representation": {
+    "basis": "five Frobenius-orthonormal symmetric-tracefree tensors: (RR-pp)/sqrt(2), (RR+pp-2zz)/sqrt(6), sqrt(2)R(p), sqrt(2)R(z), sqrt(2)p(z)",
+    "basis_frozen_inside_principal_part": false,
+    "constraint_propagation_binding": true,
+    "constraints": "pi^{mu nu}=pi^{nu mu}; g_mu_nu*pi^{mu nu}=0; u_mu*pi^{mu nu}=0",
+    "moving_basis_derivatives_included": true,
+    "reconstruction": "pi^{mu nu}=Sigma*c^2*sum_A zeta_A E_A^{mu nu}",
+    "rest_frame_triad": "e_R,e_phi,e_z orthonormal and orthogonal to u"
+  },
+  "decision_basis": {
+    "failure_is_derivative_stable": true,
+    "full_tensor_causality_screen_at_witness_positive": true,
+    "no_failed_candidate_may_be_propagated": true,
+    "seven_field_one_amplitude_closure_rejected": true,
+    "witness_cell": 6,
+    "witness_radius_cm": 3035196434.9786267
+  },
+  "external_mathematical_basis": {
+    "cordeiro_full_nonlinear_israel_stewart": "https://arxiv.org/abs/2607.05639",
+    "gavassino_onsager_symmetric_hyperbolicity": "https://arxiv.org/abs/2210.05067",
+    "geroch_lindblom_divergence_type": "https://doi.org/10.1103/PhysRevD.41.1855",
+    "lehner_reula_rubio_master_scalar": "https://arxiv.org/abs/1710.08033",
+    "literature_does_not_certify_this_disk_column_closure": true
+  },
+  "forbidden": [
+    "resume or refine the rejected seven-field trajectory",
+    "discard four shear amplitudes after forming the full tensor",
+    "freeze the moving STF basis inside a derivative",
+    "use the full-tensor causality screen as proof of this unimplemented closure",
+    "fit coefficients to repair only cell 6",
+    "claim a local normal form is the nonlinear physical disk model",
+    "run an eleven-field trajectory before the local structural certificate",
+    "execute a complete cycle"
+  ],
+  "local_theorem_contract": {
+    "causality": "all generalized speeds real and inside the Kerr-Schild light cone",
+    "constraints": "normalization, symmetry, trace, and orthogonality propagate",
+    "convexity": "minimum eigenvalue(A0)>0 on the complete frozen envelope",
+    "independent_derivatives": "analytic/automatic Hessians versus a frozen high-order finite-difference ladder",
+    "nonlinear_full_tensor_screen": "Cordeiro-et-al. necessary-and-sufficient causality inequalities and sufficient strong-hyperbolicity inequalities",
+    "subcharacteristic": "equilibrium compression interlaces the 11-field generalized spectrum",
+    "symmetric_hyperbolicity": "AR=AR.T in entropy variables"
+  },
+  "next_package": {
+    "implement_covariant_five_STF_basis": true,
+    "implement_quadratic_eleven_field_common_potential_normal_form": true,
+    "physical_coefficient_fit_or_trajectory": false,
+    "prove_A0_positive_AR_symmetric_entropy_dissipative": true,
+    "prove_basis_constraints_and_roundtrip": true,
+    "scope": "WP10c9d6c7c3b5c4f25fizza_eleven_field_stf_convex_normal_form_implementation"
+  },
+  "numerical_architecture_after_local_certificate": {
+    "admissibility": "convex-domain limiter applied to entropy variables before primitive recovery",
+    "restart": "all 11 fields, multistep/IMEX history, and local solver state",
+    "space": "entropy-stable finite-volume flux in entropy variables plus a path-conservative treatment of geometry and moving-frame products",
+    "time": "IMEX/AP: explicit causal transport; cell-local implicit five-shear and vertical relaxation; no global nonlinear truth root"
+  },
+  "physical_calibration": {
+    "alpha_calibration": "the Rphi Navier-Stokes target matches the existing alpha law; the other four components are not set to zero",
+    "coefficient_policy": "derive eta,tau_pi and nonlinear coefficients from the EOS/transport law on a prospectively frozen envelope; never fit the cell-6 witness",
+    "equilibrium_limit": "exact gas+radiation Kerr-Schild column EOS and perfect-fluid currents",
+    "relaxation_heating": "shear and vertical damping heat internal energy and do not delete total energy",
+    "shear_near_equilibrium": "tau_pi Delta D pi_<mu nu>+pi_mu_nu=2 eta sigma_mu_nu",
+    "vertical_energy": "P_H^2/(2*surface_mass)+0.5*surface_mass*Omega_perp^2*H^2"
+  },
+  "prospective_sequence": [
+    "STF representation and convex normal form",
+    "nonlinear physical master-potential derivation",
+    "complete local envelope structural certificate",
+    "entropy-stable interface and IMEX/AP certificate",
+    "bounded transient reacquisition through the prior boundary",
+    "fast-bundle normal-attraction certificate",
+    "multi-anchor slow-atlas cross-validation and cost certificate",
+    "definitions-only complete-cycle execution manifest"
+  ],
+  "reduction_architecture_after_truth_certificate": {
+    "cycle_cost_goal": "one complete cycle in no more than several wall days",
+    "offline": "certified 11-field truth microbursts at multiple Q/phase anchors; identify a normally attracting fast equilibrium or periodic bundle",
+    "online": "interpolate a certified slow flux/source atlas with uncertainty and domain guards; make no truth calls during the complete cycle",
+    "slow_coordinates": "conservative mass/angular-momentum/energy coordinates and phase; all other fields are slaved only after normal-attraction evidence"
+  },
+  "schema_version": 1,
+  "single_master_potential": {
+    "column_reduction": "integrate the four-dimensional currents over the proper vertical column only after differentiating the same master scalar",
+    "height_current": "J_H^mu=dchi^mu/deta_H",
+    "mass_current": "N^mu=dchi^mu/dalpha",
+    "nonlinear_invariant_domain": "strictly convex connected component containing equilibrium; I2 and I3 are retained rather than collapsed to the Rphi amplitude",
+    "potential_current": "chi^mu=dchi/dbeta_mu",
+    "radial_hessian": "AR_AB=s_R_mu*d2chi^mu/(dlambda_A dlambda_B) symmetric",
+    "reciprocity": "fluid-shear, shear-height, and vertical-work derivative couplings are mixed derivatives of chi and cannot be added post hoc",
+    "scalar": "chi(alpha,beta^2,eta_H,I2,I3,beta_mu*zeta^{mu nu}*beta_nu;g,z)",
+    "shear_current": "A^{mu nu rho}=dchi^mu/dzeta_<nu rho>",
+    "stress_energy": "T^{mu nu}=dchi^mu/dbeta_nu",
+    "temporal_hessian": "A0_AB=-n_mu*d2chi^mu/(dlambda_A dlambda_B) positive definite",
+    "variables": "lambda_A=(alpha,beta_mu,eta_H,zeta_A)"
+  },
+  "source_and_entropy_structure": {
+    "balances": "nabla_mu J_A^mu=S_A",
+    "entropy_inequality": "lambda_A*S_A<=0 for mathematical entropy",
+    "external_cooling_and_stream_sources": "audited in the complete total-energy and physical-entropy ledgers",
+    "geometry": "metric and tetrad derivatives are lower-order covariant sources",
+    "internal_source": "S=-M(lambda)*lambda_diss+J_H(lambda)*lambda with M symmetric positive semidefinite and J_H skew in A0",
+    "shear_entropy_production": "zeta_A M_AB zeta_B>=0",
+    "vertical_hamiltonian_exchange": "height/vertical-momentum pressure-gravity exchange is entropy neutral"
+  },
+  "state_architecture": {
+    "algebraic_height_foldback_forbidden": true,
+    "column_conserved_backbone": "surface rest mass; radial momentum; angular momentum; total column energy",
+    "dimension": 11,
+    "dissipative_completion": "five independent amplitudes of the spatial, symmetric, tracefree shear tensor in the instantaneous fluid rest frame",
+    "entropy_variables": "lambda=(alpha,beta_mu,eta_H,zeta_<mu nu>) with dimensions 1+4+1+5; beta_z is conjugate to vertical momentum",
+    "one_Rphi_projection_forbidden": true,
+    "primitive_chart": "lnSigma,beta_R,beta_phi,lnT,lnH,beta_H,zeta_1,...,zeta_5",
+    "vertical_completion": "height content Z_H=surface_mass*H and vertical momentum P_H=surface_mass*w_H"
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizz_eleven_field_convex_divergence_architecture_manifest"
+}
