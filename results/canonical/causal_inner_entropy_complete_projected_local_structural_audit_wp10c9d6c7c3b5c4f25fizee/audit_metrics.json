@@ -1,0 +1,165 @@
+{
+  "audit_wall_seconds": 65.10129124997184,
+  "base_points_audited": 140,
+  "base_points_planned": 8401,
+  "classification": "entropy_complete_projected_strong_hyperbolicity_failed",
+  "context_construction_wall_seconds": 61.80248337471858,
+  "derivative_ladders": {},
+  "extremes": {
+    "dominant_energy_margin": {
+      "label": "primary_20ms_cell_111",
+      "value": 1.000450892370353
+    },
+    "eigenvector_condition_number": {
+      "label": "primary_20ms_cell_003",
+      "value": 147.26607789248695
+    },
+    "four_velocity_normalization_relative_defect": {
+      "label": "heldout_16ms_cell_007",
+      "value": 2.220446049250313e-15
+    },
+    "maximum_biorthogonality_defect": {
+      "label": "primary_20ms_cell_030",
+      "value": 1.3009345763378168e-15
+    },
+    "maximum_eigenpair_relative_defect": {
+      "label": "primary_20ms_cell_089",
+      "value": 7.84251489979475e-16
+    },
+    "maximum_imaginary_speed_over_c": {
+      "label": "heldout_16ms_cell_027",
+      "value": 1.1962800308420447e-10
+    },
+    "maximum_light_cone_excess_over_c": {
+      "label": "primary_20ms_cell_000",
+      "value": 0.0
+    },
+    "maximum_projector_idempotence_defect": {
+      "label": "primary_20ms_cell_054",
+      "value": 6.748875863573479e-16
+    },
+    "minimum_entropy_production_rate": {
+      "label": "primary_20ms_cell_000",
+      "value": 0.0
+    },
+    "reference_causality_minimum_margin": {
+      "label": "primary_20ms_cell_111",
+      "value": 1.367578326888442e-05
+    },
+    "scaled_temporal_condition_number": {
+      "label": "primary_20ms_cell_111",
+      "value": 31962.006568589466
+    },
+    "shear_radial_work_relative_defect": {
+      "label": "primary_20ms_cell_091",
+      "value": 6.762984637262038e-16
+    },
+    "shear_tensor_orthogonality_relative_defect": {
+      "label": "primary_20ms_cell_000",
+      "value": 8.557972497252033e-25
+    },
+    "shear_tensor_trace_relative_defect": {
+      "label": "primary_20ms_cell_000",
+      "value": 2.081450933287831e-15
+    },
+    "vertical_reversible_exchange_relative_defect": {
+      "label": "primary_20ms_cell_000",
+      "value": 0.0
+    },
+    "vertical_total_energy_relative_defect": {
+      "label": "primary_20ms_cell_000",
+      "value": 0.0
+    }
+  },
+  "fail_fast": true,
+  "first_failure": {
+    "chart7": [
+      4.741144066935414,
+      -0.3258490203398499,
+      0.669416858133401,
+      15.03778152477332,
+      0.00024494031012566665,
+      19.915742072422567,
+      0.0
+    ],
+    "eigenvalues_over_c": [
+      {
+        "imaginary": 0.0,
+        "real": -0.612286885009291
+      },
+      {
+        "imaginary": 0.0,
+        "real": -0.5930563865216736
+      },
+      {
+        "imaginary": 1.1962800308420447e-10,
+        "real": -0.5873657833561642
+      },
+      {
+        "imaginary": -1.1962800308420445e-10,
+        "real": -0.5873657833561641
+      },
+      {
+        "imaginary": 0.0,
+        "real": -0.5873657833320132
+      },
+      {
+        "imaginary": 0.0,
+        "real": -0.5814875431015051
+      },
+      {
+        "imaginary": 0.0,
+        "real": -0.5620439031703628
+      }
+    ],
+    "label": "heldout_16ms_cell_027",
+    "metrics": {
+      "dominant_energy_margin": 1.0128145844210483,
+      "eigenvector_condition_number": 35.928345438532375,
+      "four_velocity_normalization_relative_defect": 0.0,
+      "maximum_biorthogonality_defect": 3.5387539803491384e-16,
+      "maximum_eigenpair_relative_defect": 2.7913368617978323e-16,
+      "maximum_imaginary_speed_over_c": 1.1962800308420447e-10,
+      "maximum_light_cone_excess_over_c": 0.0,
+      "maximum_projector_idempotence_defect": 3.671554084576427e-16,
+      "minimum_entropy_production_rate": 0.0,
+      "reference_causality_minimum_margin": 0.0003825389550670827,
+      "scaled_temporal_condition_number": 504.67217277740883,
+      "shear_radial_work_relative_defect": 1.1975912190099275e-16,
+      "shear_tensor_orthogonality_relative_defect": 1.0584115755740634e-25,
+      "shear_tensor_trace_relative_defect": 2.472733300728562e-16,
+      "vertical_reversible_exchange_relative_defect": 0.0,
+      "vertical_total_energy_relative_defect": 0.0
+    },
+    "radius_cm": 4659926455.691107,
+    "reasons": [
+      "strong_hyperbolicity:complex_speed"
+    ],
+    "scope": "base"
+  },
+  "maximum_advective_eigenvalue_gap": 1.6100055899581633e-08,
+  "minimum_advective_neighbor_subspace_cosine": 0.9994008445152828,
+  "minimum_advective_neighbor_subspace_pair": [
+    "primary_20ms_cell_096",
+    "primary_20ms_cell_097"
+  ],
+  "new_trajectory_steps": 0,
+  "old_failed_face": {
+    "new_model_eigenvalues_over_c": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "new_model_maximum_imaginary_speed_over_c": null,
+    "old_model_maximum_imaginary_speed_over_c": 9.743385503462173e-05
+  },
+  "passed": false,
+  "schema_version": 1,
+  "unique_witness_points": 0,
+  "witness_points_audited": 0,
+  "work_package": "WP10c9d6c7c3b5c4f25fizee_entropy_complete_projected_local_structural_audit"
+}
