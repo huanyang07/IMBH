@@ -1,0 +1,52 @@
+{
+  "adaptive_trust_candidates": {
+    "binding_midpoint_eigenvalue_imaginary_ratio": 1e-10,
+    "fixed_slow_reconstruction_required": true,
+    "largest_feasible_radius_evaluated_first": true,
+    "line_searching_the_old_radius_0p25_direction_is_not_used": true,
+    "maximum_full_physical_candidate_evaluations": 5,
+    "new_bounded_TRF_direction_at_each_radius": true,
+    "ordered_trust_radii": [
+      0.02,
+      0.01,
+      0.005,
+      0.0025,
+      0.001
+    ]
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizey_entropy_complete_fixed_Q_adaptive_trust_diagnosis_execution",
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "diagnosis_authorized": true,
+    "heldout_root_authorized": false,
+    "root_retry_authorized": false,
+    "slow_flux_atlas_authorized": false
+  },
+  "classification": "entropy_complete_fixed_Q_adaptive_trust_diagnosis_manifest_frozen",
+  "decision": {
+    "feasible_useful_progress": "authorize_definitions_only_adaptive_trust_primary_root_retry_manifest",
+    "no_feasible_useful_progress": "reject_generic_fixed_point_Newton_and_authorize_analytic_quasisteady_closure_manifest",
+    "no_threshold_may_be_relaxed_after_results": true
+  },
+  "diagnostic_state": "hash_locked_second_accepted_coordinate_and_residual",
+  "fresh_equation_linearization": {
+    "assembly_is_diagnostic_and_cannot_update_a_root": true,
+    "independent_central_JVP_directions": 2,
+    "maximum_JVP_relative_defect": 2e-05,
+    "one_12_color_equation_Jacobian": true
+  },
+  "preserved_rejection": {
+    "classification": "entropy_complete_fixed_Q_primary_inexact_Newton_root_failed",
+    "no_physical_failure_was_certified": true,
+    "no_root_was_found": true,
+    "no_state_was_propagated": true
+  },
+  "schema_version": 1,
+  "useful_progress": {
+    "all_physical_and_equation_rate_parity_gates_required": true,
+    "maximum_actual_infinity_norm_ratio": 0.98,
+    "maximum_actual_two_norm_ratio": 0.98,
+    "selected_candidate_is_not_a_root_and_must_not_be_propagated": true
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fizex_entropy_complete_fixed_Q_adaptive_trust_diagnosis_manifest"
+}
