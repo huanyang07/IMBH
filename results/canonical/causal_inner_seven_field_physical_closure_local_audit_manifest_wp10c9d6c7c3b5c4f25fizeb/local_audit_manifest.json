@@ -1,0 +1,246 @@
+{
+  "Kerr_Schild_state_and_flux": {
+    "column_stress_energy": "T_col^{ab}=((epsilon_col+Pi)/c**2)u^a u^b+(Pi/c**2)g^{ab}+pi^{ab}",
+    "existing_Kerr_Schild_projection_code_is_the_pre_boundary_control": true,
+    "first_four_flux_entries": "radial Kerr-Schild Killing fluxes of the same T_col",
+    "first_four_state_entries": "Kerr-Schild Killing projections of T_col and the rest-mass current",
+    "geometry_derivatives": "lower-order covariant-divergence sources",
+    "remaining_fluxes": "mass-current advection plus only couplings derived from the same entropy flux potential",
+    "remaining_state_entries": "(R_pi,Z_H,P_H)",
+    "shear_tensor": "pi^{ab}=Sigma*chi*(e_R^a e_phi^b+e_phi^a e_R^b), pi^a_a=0, pi^{ab}u_b=0"
+  },
+  "authorization_basis": {
+    "explicit_user_instruction": "proceed with Stage 1 and Stage 2",
+    "scope_is_definitions_only": true,
+    "stage1_authorized_this_definitions_only_manifest": true,
+    "stage1_classification": "seven_field_entropy_stage1_normal_form_derived_local_physical_closure_manifest_authorized"
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizec_seven_field_physical_closure_local_structural_audit",
+  "binding_local_audit_gates": {
+    "A0_diagonally_equilibrated_condition_number_max": 100000000.0,
+    "A0_diagonally_equilibrated_minimum_eigenvalue_min": 1e-10,
+    "A0_relative_symmetry_defect_max": 1e-10,
+    "A1_relative_symmetry_defect_max": 1e-10,
+    "all_points_and_all_gates_required": true,
+    "analytic_independent_Hessian_relative_defect_max": 1e-06,
+    "energy_metric_orthogonality_relative_defect_max": 1e-08,
+    "fail_closed": true,
+    "failed_face_new_model_maximum_imaginary_speed_over_c": 1e-10,
+    "failed_face_old_model_imaginary_speed_over_c_min": 1e-05,
+    "generalized_eigenpair_relative_defect_max": 1e-08,
+    "internal_relaxation_energy_ledger_relative_defect_max": 1e-10,
+    "maximum_absolute_characteristic_speed_over_c": 0.999999,
+    "maximum_characteristic_imaginary_speed_over_c": 1e-10,
+    "pre_boundary_compressed_principal_parity_relative_defect_max": 1e-06,
+    "pre_boundary_state_flux_source_parity_relative_defect_max": 1e-08,
+    "pre_boundary_subcharacteristic_interlacing_violation_max": 1e-08,
+    "source_entropy_positive_part_max": 1e-10,
+    "state_and_flux_potential_relative_gradient_defect_max": 1e-08,
+    "vertical_constraint_propagation_relative_defect_max": 1e-10
+  },
+  "budget": {
+    "maximum_stage2_manifest_wall_minutes": 10,
+    "new_complete_cycle_steps": 0,
+    "new_five_field_trajectory_steps": 0,
+    "new_fixed_Q_roots": 0,
+    "new_nonlinear_roots": 0,
+    "new_seven_field_trajectory_steps": 0
+  },
+  "claim_boundary": {
+    "complete_cycle_authorized": false,
+    "five_field_trajectory_restart_authorized": false,
+    "fixed_Q_invariant_object_authorized": false,
+    "local_structural_audit_authorized": true,
+    "nonlinear_global_symmetrizer_certified": false,
+    "physical_Kerr_Schild_seven_field_closure_certified": false,
+    "physical_audit_envelope_frozen": true,
+    "reduced_slow_evolution_authorized": false,
+    "seven_field_spatial_discretization_authorized": false,
+    "seven_field_trajectory_authorized": false,
+    "slow_flux_atlas_authorized": false,
+    "stage1_quadratic_normal_form_preserved": true
+  },
+  "classification": "seven_field_physical_closure_local_structural_audit_manifest_frozen",
+  "covariant_densitization": {
+    "Valencia_rest_mass_storage": "D=Sigma*W",
+    "conserved_height_content": "Z_H=D*H",
+    "conserved_shear_coordinate": "R_pi=D*chi",
+    "conserved_vertical_momentum": "P_H=D*w_H",
+    "height_and_vertical_velocity_recovered_from": "H=Z_H/D and w_H=P_H/D",
+    "no_redundant_algebraic_height_unknown": true,
+    "rest_frame_height_content": "Sigma*H",
+    "rest_frame_vertical_momentum": "Sigma*w_H",
+    "rest_surface_density": "Sigma",
+    "stage1_surface_mass_notation_resolved_as_D_in_coordinate_storage": true
+  },
+  "external_mathematical_basis": {
+    "Godunov_variable_relaxation_example": "https://arxiv.org/abs/2110.15223",
+    "literature_does_not_certify_this_column_closure": true,
+    "nonlinear_Israel_Stewart_shear_conditions": "https://arxiv.org/abs/2607.05639",
+    "relaxation_entropy_and_subcharacteristic_structure": "https://doi.org/10.1002/cpa.3160470602",
+    "symmetric_hyperbolicity_from_entropy_variables": "https://arxiv.org/abs/2210.05067"
+  },
+  "forbidden": [
+    "use mutable scratch output as a binding state",
+    "fit a_pi, tau_pi, gamma_H, or a signal speed to face 3",
+    "symmetrize a nonsymmetric Jacobian after differentiation",
+    "discard vertical or shear relaxation heat",
+    "force exact parity with the old complex failed-face pencil",
+    "run a seven-field spatial step or trajectory",
+    "restart the stopped five-field trajectory",
+    "construct a fixed-Q orbit, slow atlas, or complete cycle"
+  ],
+  "frozen_state_envelope": {
+    "accepted_terminal_profile": true,
+    "all_72_accepted_trajectory_profiles": true,
+    "canonical_sources_only": true,
+    "equilibrium_embedding_at_every_base_chart": true,
+    "five_field_axis_perturbation_fraction": 0.02,
+    "height_departure_stencil_log_H_over_H_eq": [
+      -0.1,
+      0.0,
+      0.1
+    ],
+    "heldout_16ms_profile": true,
+    "independently_diagnosed_failed_face": true,
+    "mutable_scratch_files_forbidden": true,
+    "no_continuous_hyperrectangle_claim": true,
+    "off_equilibrium_stencil_at_deterministic_witnesses": true,
+    "primary_20ms_profile": true,
+    "rejected_full_step_profile_nonpropagating": true,
+    "stress_amplitude_factors": [
+      0.0,
+      1.0,
+      1.25
+    ],
+    "stress_sign_reflection": true,
+    "vertical_velocity_over_c_stencil": [
+      -0.03,
+      0.0,
+      0.03
+    ]
+  },
+  "independent_derivative_audit": {
+    "Hessian_parity_audited": true,
+    "branch_and_limiter_pattern_frozen_per_stencil_point": true,
+    "differentiate_then_symmetrize_forbidden": true,
+    "flux_gradient_identity_audited": true,
+    "independent_code_path_required": true,
+    "independent_method": "sixth-order centered finite differences with two step ladders or a genuinely independent complex-step implementation",
+    "production_derivatives": "analytic or automatic derivatives of U7, F7, eta, psi, and phi",
+    "source_directional_derivative_audited": true,
+    "state_gradient_identity_audited": true
+  },
+  "old_model_parity_boundary": {
+    "failed_face_exact_principal_parity_forbidden": true,
+    "failed_face_new_finite_inertia_spectrum_must_be_real_and_causal": true,
+    "failed_face_old_complex_spectrum_is_a_negative_control": true,
+    "pre_boundary_equilibrium_embedding": "y_H=0 and beta_H=0",
+    "pre_boundary_five_field_compressed_principal_parity_required": true,
+    "pre_boundary_state_flux_source_parity_required": true,
+    "pre_boundary_subcharacteristic_interlacing_required": true
+  },
+  "physical_entropy_extension": {
+    "Legendre_flux_potential": "phi(w)=w dot F7-q_eta",
+    "Legendre_state_potential": "psi(w)=w dot U7-eta(U7)",
+    "entropy_flux": "q_eta is the radial flux of -S_ext",
+    "entropy_variables": "w=deta/dU7",
+    "flux_identity": "F7=dphi/dw",
+    "internal_energy_recovery": "subtract horizontal kinetic, vertical, gravitational, and stress reservoir energies from total column energy",
+    "mathematical_entropy": "eta(U7)=-S_ext",
+    "no_post_hoc_matrix_symmetrization": true,
+    "physical_entropy_density": "S_ext=D*s(rho,e_int)",
+    "spatial_symmetrizer": "A1=d2phi/dw2 symmetric",
+    "state_identity": "U7=dpsi/dw",
+    "temporal_symmetrizer": "A0=d2psi/dw2 positive definite"
+  },
+  "physical_primitives": {
+    "height_gate": "H>0",
+    "horizontal_velocity_gate": "beta_R**2+beta_phi**2<1",
+    "internal_energy_gate": "e_int>0 after reservoir subtraction",
+    "q7": [
+      "lnSigma",
+      "beta_R",
+      "beta_phi",
+      "lnT",
+      "chi",
+      "lnH",
+      "beta_H_equals_w_H_over_c"
+    ],
+    "rho": "Sigma/(2*H)",
+    "vertical_velocity_gate": "abs(beta_H)<1"
+  },
+  "preserved_boundary": {
+    "accepted_endpoint_count": 72,
+    "accepted_terminal_seconds": 0.18587500000000012,
+    "first_complex_face": 3,
+    "five_field_trajectory_classification": "hyperbolicity_boundary_bracketed_after_first_half_step",
+    "five_field_trajectory_remains_stopped": true,
+    "old_failed_candidate_propagated": false
+  },
+  "rest_frame_total_energy": {
+    "hydrostatic_limit": "Pi=Sigma*Omega_perp**2*H**2",
+    "integrated_pressure": "Pi is the thermodynamic derivative of Sigma*e at fixed column entropy and H",
+    "quadratic_vertical_energy_is_a_local_model_on_the_frozen_beta_H_stencil": true,
+    "reservoirs_contribute_to_relativistic_inertia": true,
+    "stress_reservoir": "E_pi=Sigma*chi**2/(2*a_pi), a_pi>0",
+    "surface_energy": "epsilon_col=Sigma*c**2+Sigma*e(rho,s)+E_H+E_pi",
+    "vertical_force": "Pi/H-Sigma*Omega_perp**2*H",
+    "vertical_reservoir": "E_H=0.5*Sigma*w_H**2+0.5*Sigma*Omega_perp**2*H**2"
+  },
+  "schema_version": 1,
+  "shear_relaxation_closure": {
+    "a_pi_is_fixed_by_entropy_conjugacy_and_the_same_nu_s_tau_pi_pair": true,
+    "alpha_target": "chi_alpha=alpha*Pi/(Sigma*c**2)",
+    "boundary_tuned_coefficient_or_floor_forbidden": true,
+    "dominant_energy_gate": "abs(chi)<h_eff",
+    "equation": "tau_pi*u^a*nabla_a(chi)+chi=nu_s*gamma_dot_Rphi plus covariantly required nonlinear terms",
+    "full_seven_field_spectrum_is_binding_not_isolated_c_nu": true,
+    "nonlinear_Israel_Stewart_conditions": "evaluate the exact one-shear-amplitude specialization of the Cordeiro-et-al. nonlinear causality and strong-hyperbolicity inequalities",
+    "positive_coefficients": "nu_s>0, tau_pi>0, a_pi>0",
+    "reference_shear": "gamma_dot_ref=1.5*Omega_perp",
+    "relaxation_time": "tau_pi=nu_s/(h_eff*(c_nu/c)**2)",
+    "signal_calibration": "c_nu/c=sqrt(alpha)*c_s/c",
+    "specific_viscosity": "nu_s=chi_alpha/gamma_dot_ref"
+  },
+  "source_and_energy_ledgers": {
+    "component_ledgers_may_not_hide_cancellation": true,
+    "geometry_source_identity_uses_the_same_T_col": true,
+    "internal_relaxation_total_energy_defect": "identically zero",
+    "mathematical_entropy_source": "w dot S<=0",
+    "physical_entropy_production": "nabla_a(S_ext*u^a)>=0",
+    "radiative_and_external_sources_remain_explicit": true,
+    "stress_relaxation_heat": "loss of E_pi plus mechanical shear work is added to internal energy",
+    "vertical_damping_heat": "gamma_H*Sigma*w_H**2 is added to internal energy"
+  },
+  "stage3_classifications": {
+    "derivation_failure": "seven_field_physical_closure_derivation_failed",
+    "entropy_failure": "seven_field_physical_closure_entropy_failed",
+    "hyperbolicity_failure": "seven_field_physical_closure_hyperbolicity_failed",
+    "no_failure_may_be_reclassified_as_a_trajectory_result": true,
+    "pass": "seven_field_physical_closure_local_structural_audit_passed",
+    "pre_boundary_parity_failure": "seven_field_pre_boundary_parity_failed"
+  },
+  "stage3_execution_order": [
+    "derive exact thermodynamic and Kerr-Schild state map",
+    "derive eta, psi, entropy flux, and phi before assembling matrices",
+    "prove vertical and shear source energy/entropy ledgers symbolically",
+    "evaluate primary and held-out equilibrium profiles",
+    "evaluate every accepted pre-boundary equilibrium profile",
+    "evaluate deterministic off-equilibrium witness stencils",
+    "evaluate rejected profile and failed face only in the new model",
+    "run independent derivative audits",
+    "freeze a positive or negative local structural certificate"
+  ],
+  "vertical_balance_laws": {
+    "constraint_definitions": "C_Z=Z_H-D*H and C_P=P_H-D*w_H",
+    "constraint_propagation": "C_Z=C_P=0 follows identically from the state map, rest-mass balance, and the two covariant scalar-current balances",
+    "damping_is_lower_order": true,
+    "height_current": "nabla_a(Sigma*H*u^a)=Sigma*w_H",
+    "structural_damping_calibration": "gamma_H=alpha*Omega_perp",
+    "vertical_damping_heats_internal_energy": true,
+    "vertical_exchange_is_entropy_conservative_when_gamma_H_zero": true,
+    "vertical_momentum_current": "nabla_a(Sigma*w_H*u^a)=Pi/H-Sigma*Omega_perp**2*H-gamma_H*Sigma*w_H"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fizeb_seven_field_physical_closure_local_audit_manifest"
+}
