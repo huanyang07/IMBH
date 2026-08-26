@@ -1,0 +1,87 @@
+{
+  "atlas_construction": {
+    "cell_colors_per_field": 3,
+    "central_colored_coordinate_step": 0.01,
+    "colored_truth_calls": 30,
+    "coordinate_scale_floor_fraction": 1e-12,
+    "coordinate_scales": "cellwise_absolute_primary_macro_coordinates",
+    "fail_on_any_truth_physical_or_hyperbolicity_gate": true,
+    "independent_JVP_coordinate_step": 0.005,
+    "independent_JVP_directions": 4,
+    "independent_JVP_truth_calls": 8,
+    "input_fields": 5,
+    "maximum_blind_coordinate_infinity": 0.05,
+    "maximum_blind_macro_rate_relative_defect_per_field": 0.05,
+    "maximum_blind_output_relative_defect_per_block": 0.05,
+    "maximum_colored_JVP_relative_defect": 0.05,
+    "maximum_new_truth_operator_calls": 38,
+    "maximum_saved_near_witness_output_relative_defect": 0.01,
+    "maximum_truth_reconstruction_relative_defect": 1e-10,
+    "primary_training_anchor": "primary_20ms_base",
+    "radius_one_block_stencil": true,
+    "saved_primary_near_witness": "primary_20ms_perturbed",
+    "strict_blind_profiles": [
+      "heldout_16ms_base",
+      "heldout_16ms_perturbed"
+    ]
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizfg_entropy_complete_conservative_macro_atlas_execution",
+  "claim_boundary": {
+    "atlas_execution_authorized": true,
+    "complete_cycle_execution_authorized": false,
+    "macro_integrator_authorized": false,
+    "offline_truth_sampling_authorized": true,
+    "state_propagation_authorized": false
+  },
+  "classification": "entropy_complete_conservative_16_cell_macro_atlas_manifest_frozen",
+  "conservative_outputs": {
+    "MJE_face_flux_components": 3,
+    "auxiliary_rate_components": [
+      "beta_r",
+      "chi"
+    ],
+    "cell_source_components": [
+      "J",
+      "E"
+    ],
+    "coarse_boundary_faces": 17,
+    "conservative_ledger_relative_defect_max": 1e-12,
+    "mass_cell_source_is_identically_zero": true,
+    "restriction_roundtrip_relative_defect_max": 1e-12
+  },
+  "decision": {
+    "fail": "reject_single_anchor_affine_atlas_and_require_additional_entropy_complete_truth_anchors",
+    "pass": "authorize_definitions_only_structure_preserving_macro_integrator_manifest"
+  },
+  "online_cost": {
+    "benchmark_evaluations": 100000,
+    "maximum_average_wall_seconds_per_macrostep": 1.0,
+    "maximum_benchmark_wall_seconds": 10.0,
+    "maximum_macrosteps_per_cycle": 100000,
+    "nonlinear_roots_per_macrostep": 0,
+    "truth_calls_per_macrostep": 0
+  },
+  "schema_version": 1,
+  "selected_architecture": {
+    "MJE_online_update": "single_valued_face_flux_difference_plus_cell_source",
+    "MJE_restriction": "exact_sum_of_seven_cell_integrals",
+    "auxiliary_online_update": "mass_weighted_exact_derivative_including_mass_weight_transport",
+    "auxiliary_restriction": "mass_weighted_mean",
+    "fine_cells_per_macro_cell": 7,
+    "five_field_characteristic_pencil_used": false,
+    "macro_fields_per_cell": [
+      "M",
+      "J",
+      "E",
+      "beta_r",
+      "chi"
+    ],
+    "maximum_online_state_dimension": 86,
+    "online_radial_cells": 16,
+    "online_state_dimension": 80,
+    "prolongation": "anchor_subcell_invariant_fractions_plus_uniform_mass_weighted_auxiliary_shift",
+    "prolonged_truth_state": "cellwise_hydrostatic_invariant_reconstruction",
+    "truth_radial_cells": 112
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizff_entropy_complete_local_slow_flux_atlas_manifest"
+}
