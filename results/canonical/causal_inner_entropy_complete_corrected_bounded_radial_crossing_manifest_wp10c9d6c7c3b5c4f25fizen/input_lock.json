@@ -1,0 +1,44 @@
+{
+  "parent_artifact": "causal_inner_entropy_complete_radial_substep_diagnosis_execution_wp10c9d6c7c3b5c4f25fizem",
+  "parent_checksum_manifest_sha256": "25631a66552b5c91d19accb9c9c62bb492f7724874d61b95c54a719f66a76463",
+  "parent_hashes": {
+    "execution_arrays.npz": "533a0d9f0244848bc72ec5d3c5d231c53256713065cccd353b403c3e22b8d7e2",
+    "execution_metrics.json": "06e6f93f6df15a4e98f8ff63dda7ec9366d075b88762d2e1686b076b928034ef",
+    "input_lock.json": "4ca27ae69472019322c8d7e9eb0b94f6fea6db33c77efbf1c26f752884db5fd8",
+    "provenance.json": "d826ba71bb9fd04ca297c428f16b8acd1b5c273da6819de617364e31be705dc4",
+    "summary.json": "01f16f5a4a2e8df65f4c7079c725abc9d589cabc51b79902b1363fe34a16bcf9"
+  },
+  "selected_substep_trial": {
+    "checkpoint_roundtrip_bitwise": true,
+    "componentwise_maximum_scaled_chart_change": [
+      0.00017844764140484415,
+      0.0017517220226213187,
+      0.0016989103335096623,
+      0.002089352386791532,
+      0.022042683276440746,
+      0.0022386803321232662,
+      1.675397696543154e-07
+    ],
+    "dominant_component": "chi",
+    "dominant_component_index": 4,
+    "exact_flux_balance_relative_defect": 3.1377953687876184e-08,
+    "failure_reasons": [],
+    "headroom_gate_passed": true,
+    "maximum_CFL": 0.0022841226726709168,
+    "maximum_eigenvector_condition_number": 8746.301282704399,
+    "maximum_height_over_radius": 0.21346613166048933,
+    "maximum_imaginary_speed_over_c": 0.0,
+    "maximum_incoming_inner_characteristics": 0,
+    "maximum_incoming_outer_characteristics": 7,
+    "maximum_light_cone_excess_over_c": 0.0,
+    "maximum_scaled_chart_change": 0.022042683276440746,
+    "maximum_temporal_solve_relative_residual": 2.959805276263418e-15,
+    "minimum_height_over_radius": 0.04332341446551822,
+    "minimum_optical_depth": 17.58552536931864,
+    "nonchart_failure_reasons": [],
+    "original_chart_gate_passed": true,
+    "passed": true,
+    "timestep_seconds": 7.8125e-06,
+    "wall_seconds": 86.23421033332124
+  }
+}
