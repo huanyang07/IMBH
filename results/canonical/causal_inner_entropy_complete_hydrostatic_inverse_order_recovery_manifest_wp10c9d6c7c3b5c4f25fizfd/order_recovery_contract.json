@@ -1,0 +1,62 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizfe_entropy_complete_hydrostatic_inverse_order_recovery_execution",
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "diagnostic_execution_authorized": true,
+    "online_macro_solver_authorized": false,
+    "slow_flux_atlas_authorized": false
+  },
+  "classification": "entropy_complete_hydrostatic_inverse_order_recovery_manifest_frozen",
+  "decision": {
+    "fail": "reject_partial_equilibrium_inverse_and_redesign_local_macro_coordinates",
+    "pass": "certify_implicit_local_inverse_tangent_and_authorize_saved_truth_atlas_manifest"
+  },
+  "diagnosis": {
+    "hypothesis": "central_inverse_difference_has_second_order_truncation_on_the_high_condition_outer_cell",
+    "observed_worst_defects_at_1e_5_5e_6_2e_6": [
+      0.0005720414141375823,
+      0.00014296297085423685,
+      2.2873090291353505e-05
+    ],
+    "required_discriminator": "independent_refinement_and_two_Richardson_limits"
+  },
+  "order_aware_inverse_audit": {
+    "maximum_Richardson_pair_relative_disagreement": 2e-05,
+    "maximum_each_Richardson_JVP_relative_defect": 2e-05,
+    "maximum_new_local_nonlinear_solves": 84,
+    "maximum_reconstruction_constraint_relative_defect": 1e-12,
+    "minimum_global_worst_defect_order": 1.8,
+    "new_global_roots": 0,
+    "new_seven_field_operator_calls": 0,
+    "ordered_central_steps": [
+      8e-06,
+      4e-06,
+      2e-06
+    ],
+    "profiles": [
+      "primary_20ms",
+      "heldout_16ms"
+    ],
+    "propagated_states": 0,
+    "raw_defects_must_be_nonincreasing_under_refinement": true,
+    "reconstruction_tolerance": 1e-12,
+    "richardson_formula": "D_R(h,h/2)=(4*D(h/2)-D(h))/3",
+    "same_deterministic_directions": true,
+    "selected_cells": [
+      0,
+      18,
+      36,
+      55,
+      74,
+      92,
+      111
+    ]
+  },
+  "preserved_rejections": {
+    "no_original_result_is_reclassified": true,
+    "original_fixed_step_refinement_remains_failed": true,
+    "original_maximum_defect": 0.0005720414141375823
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizfd_entropy_complete_hydrostatic_inverse_order_recovery_manifest"
+}
