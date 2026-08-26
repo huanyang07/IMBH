@@ -1,0 +1,113 @@
+{
+  "accepted_horizon_seconds": 0.004,
+  "accepted_macrosteps": 4,
+  "checkpoint_bytes": 127464,
+  "checkpoint_roundtrip_bitwise": true,
+  "classification": "entropy_complete_exact_affine_macro_integrator_bounded_pilot_certified",
+  "complete_cycle_execution_authorized": false,
+  "context_construction_wall_seconds": 62.40522425016388,
+  "cost_passed": true,
+  "cumulative_ledger_relative_defect": 2.3579499366396476e-14,
+  "endpoint_macro_rate_relative_defects": {
+    "E_rate": 6.332825148448868e-06,
+    "J_rate": 5.843986995544397e-06,
+    "M_rate": 6.786339318953626e-06,
+    "beta_r_rate": 0.0009114199014022785,
+    "chi_rate": 0.030792426974693733
+  },
+  "endpoint_maximum_macro_rate_relative_defect": 0.030792426974693733,
+  "endpoint_maximum_output_relative_defect": 0.030792426974693733,
+  "endpoint_output_block_relative_defects": {
+    "E_flux": 3.4466503432743357e-06,
+    "E_source": 0.004992593961504926,
+    "J_flux": 3.4809385050515845e-06,
+    "J_source": 0.00134734847714386,
+    "M_flux": 3.74700316615824e-06,
+    "beta_r_rate": 0.0009114199014022785,
+    "chi_rate": 0.030792426974693733
+  },
+  "endpoint_predicted_conservative_ledger_relative_defect": 1.1176254337624882e-16,
+  "endpoint_reconstruction_chart_coordinate_infinity": 0.10565559760339066,
+  "endpoint_reconstruction_maximum_local_condition_number": 2929.319377193377,
+  "endpoint_reconstruction_newton_corrections": 3,
+  "endpoint_reconstruction_roundtrip_relative_defect": 8.272439760364638e-16,
+  "endpoint_reconstruction_wall_seconds": 0.6467095413245261,
+  "endpoint_truth_all_physical_gates_passed": true,
+  "endpoint_truth_operator_wall_seconds": 28.68246449995786,
+  "endpoint_truth_physical": {
+    "incoming_inner_characteristics": 0,
+    "maximum_eigenvector_condition_number": 9545.10433385531,
+    "maximum_height_over_radius": 0.0975994794910794,
+    "maximum_imaginary_speed_over_c": 0.0,
+    "maximum_light_cone_excess_over_c": 0.0,
+    "maximum_temporal_solve_relative_defect": 4.514936938070756e-16,
+    "minimum_height_over_radius": 0.04987244865585381,
+    "minimum_optical_depth": 19.32102621830728
+  },
+  "endpoint_truth_physical_checks": {
+    "eigenbasis_condition": true,
+    "height": true,
+    "imaginary_speed": true,
+    "inner_excision": true,
+    "light_cone": true,
+    "optical_depth": true,
+    "prefilter_eigenvalue": true,
+    "prefilter_eigenvector": true,
+    "temporal_solve": true
+  },
+  "maximum_spectral_imaginary_magnitude_per_second": 4.937995979453689,
+  "maximum_step_ledger_relative_defect": 7.369818882401125e-16,
+  "minimum_spectral_real_part_per_second": -56.069173454303325,
+  "new_global_roots": 0,
+  "new_truth_operator_calls": 1,
+  "online_average_wall_seconds_per_macrostep": 3.6565346671268345e-05,
+  "online_benchmark_checksum": 1.1507683425300482e-11,
+  "online_benchmark_macrosteps": 100000,
+  "online_benchmark_wall_seconds": 3.6565346671268344,
+  "passed": true,
+  "same_horizon_semigroup_relative_defect": 4.066390044554587e-14,
+  "schema_version": 1,
+  "scientific_passed": true,
+  "spectral_abscissa_per_second": -0.5819300458629969,
+  "step_records": [
+    {
+      "elapsed_seconds": 0.001,
+      "exact_integrated_ledger_relative_defect": 1.1507683425303763e-16,
+      "maximum_absolute_beta_r": 0.3615558901697013,
+      "maximum_chart_coordinate": 0.027293727953269613,
+      "minimum_MJE": 1.9130733910458232e+21,
+      "passed": true,
+      "step": 1
+    },
+    {
+      "elapsed_seconds": 0.002,
+      "exact_integrated_ledger_relative_defect": 3.6836830054642213e-16,
+      "maximum_absolute_beta_r": 0.3608467391378937,
+      "maximum_chart_coordinate": 0.05404871221772605,
+      "minimum_MJE": 1.9183566748954025e+21,
+      "passed": true,
+      "step": 2
+    },
+    {
+      "elapsed_seconds": 0.003,
+      "exact_integrated_ledger_relative_defect": 7.369818882401125e-16,
+      "maximum_absolute_beta_r": 0.3601376152467994,
+      "maximum_chart_coordinate": 0.08019207579196472,
+      "minimum_MJE": 1.923617611512317e+21,
+      "passed": true,
+      "step": 3
+    },
+    {
+      "elapsed_seconds": 0.004,
+      "exact_integrated_ledger_relative_defect": 9.215345006316042e-17,
+      "maximum_absolute_beta_r": 0.3594285190034146,
+      "maximum_chart_coordinate": 0.10565551915215665,
+      "minimum_MJE": 1.92885628298799e+21,
+      "passed": true,
+      "step": 4
+    }
+  ],
+  "suffix_replay_bitwise": true,
+  "transition_construction_wall_seconds": 0.002413999754935503,
+  "work_package": "WP10c9d6c7c3b5c4f25fizfk_entropy_complete_structure_preserving_macro_integrator_implementation"
+}
