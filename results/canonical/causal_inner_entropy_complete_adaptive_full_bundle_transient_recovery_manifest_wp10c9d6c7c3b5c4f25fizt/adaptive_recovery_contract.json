@@ -1,0 +1,72 @@
+{
+  "adaptive_AB2": {
+    "growth_chart_coordinate_maximum": 0.06,
+    "growth_embedded_defect_maximum": 0.0025,
+    "growth_factor": 2.0,
+    "growth_requires_consecutive_low_defect_steps": 4,
+    "initial_timestep_seconds": 0.002,
+    "maximum_timestep_seconds": 0.004,
+    "minimum_timestep_seconds": 0.000125,
+    "physical_failure_is_not_retryable": true,
+    "posttruth_numerical_failure_is_retryable": true,
+    "pretruth_reconstruction_failure_is_retryable": true,
+    "shrink_factor": 0.5,
+    "variable_step_formula": "X_next=X+h*((1+r/2)*F_n-(r/2)*F_nm1), r=h/h_previous"
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizu_entropy_complete_adaptive_full_bundle_transient_recovery_execution",
+  "binding_gates": {
+    "all_existing_height_optical_depth_causality_hyperbolicity_and_excision_gates": true,
+    "maximum_AB2_trapezoidal_embedded_defect": 0.01,
+    "maximum_discrete_conservative_ledger_relative_defect": 1e-12,
+    "maximum_macro_roundtrip_relative_defect": 1e-10,
+    "minimum_timestep_failure_is_binding": true,
+    "reserved_reconstruction_chart_coordinate": 0.12,
+    "truth_call_budget_failure_is_inconclusive_not_a_physical_failure": true
+  },
+  "bounded_execution": {
+    "fixed_Q_reaction_calls": 0,
+    "initial_absolute_elapsed_seconds": 0.15600000000000003,
+    "maximum_attempted_steps": 160,
+    "maximum_new_truth_operator_calls": 128,
+    "new_global_roots": 0,
+    "stop_exactly_at_target_horizon": true,
+    "target_absolute_elapsed_seconds": 0.212
+  },
+  "claim_boundary": {
+    "48_coordinate_cycle_solver_authorized": false,
+    "complete_cycle_execution_authorized": false,
+    "one_adaptive_recovery_execution_authorized": true,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "entropy_complete_fixed_step_trust_rejection_preserved_adaptive_transient_recovery_manifest_frozen",
+  "decision": {
+    "budget_exhausted": "classify adaptive transient recovery inconclusive",
+    "no_retrospective_gate_change": true,
+    "physical_failure": "stop the seven-field cycle path",
+    "target_reached_with_persistent_slaving": "authorize definitions-only terminal fast-graph tangent manifest",
+    "target_reached_without_slaving": "authorize definitions-only transient-geometry and cost decision manifest"
+  },
+  "preserved_rejection": {
+    "accepted_horizon_seconds": 0.15600000000000003,
+    "all_36_accepted_steps_physical": true,
+    "failed_candidate_propagated": false,
+    "failure_was_reconstruction_trust_not_physical": true,
+    "fixed_4ms_step_37_rejected": true,
+    "no_gate_relaxed": true
+  },
+  "restart": {
+    "accepted_history_only": true,
+    "previous_timestep_seconds": 0.004,
+    "restart_roundtrip_bitwise_required": true,
+    "seed": "hash-validated final two accepted states, rates, outputs, and terminal primitive charts"
+  },
+  "schema_version": 1,
+  "slaving_observation": {
+    "fresh_normal_attraction_tangent_still_required": true,
+    "no_switch_during_this_execution": true,
+    "normalized_auxiliary_rate_infinity_per_second_maximum": 0.1,
+    "normalized_auxiliary_to_conservative_rate_ratio_maximum": 0.1,
+    "required_consecutive_accepted_steps": 8
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fizt_entropy_complete_adaptive_full_bundle_transient_recovery_manifest"
+}
