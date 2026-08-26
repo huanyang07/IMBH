@@ -4,8 +4,10 @@ import numpy as np
 
 from imri_qpe.layer3_minidisk_1d.causal_inner_generalized_maxwell_cattaneo import (
     GENERALIZED_MAXWELL_CATTANEO_PRIMITIVE_NAMES,
+    _sixth_order_centered_jacobian,
     audit_generalized_maxwell_cattaneo_source_ledger,
     audit_specialized_nonlinear_causality,
+    default_primitive_steps,
     generalized_maxwell_cattaneo_local_state,
     generalized_maxwell_cattaneo_principal,
 )
@@ -42,6 +44,12 @@ def test_local_state_has_exact_conservative_and_transient_split() -> None:
     assert len(GENERALIZED_MAXWELL_CATTANEO_PRIMITIVE_NAMES) == 7
     assert state.conservative_state6.shape == (6,)
     assert state.conservative_flux6_over_c.shape == (6,)
+    np.testing.assert_allclose(
+        state.conservative_flux6_over_c[[0, 4, 5]],
+        state.transport_velocity_over_c * state.conservative_state6[[0, 4, 5]],
+        rtol=0.0,
+        atol=0.0,
+    )
     assert state.specific_viscosity_seconds > 0.0
     assert state.relaxation_time_seconds > 0.0
     np.testing.assert_allclose(
@@ -101,6 +109,56 @@ def test_complete_principal_is_stable_under_derivative_step_halving() -> None:
         scale = max(float(np.linalg.norm(fine, ord=np.inf)), 1.0)
         assert np.linalg.norm(coarse - middle, ord=np.inf) / scale <= 1.0e-8
         assert np.linalg.norm(middle - fine, ord=np.inf) / scale <= 1.0e-8
+
+
+def test_material_current_principal_rows_use_exact_product_rule() -> None:
+    geometry, chart = _fixture()
+    omega = 2.7491520839259703
+    alpha = 0.1
+
+    def evaluate(candidate):
+        return generalized_maxwell_cattaneo_local_state(
+            geometry,
+            candidate,
+            proper_vertical_frequency=omega,
+            alpha=alpha,
+        )
+
+    base = evaluate(chart)
+    steps = default_primitive_steps(
+        chart,
+        equilibrium_specific_stress=base.equilibrium_specific_stress,
+    )
+    _, state_jacobian = _sixth_order_centered_jacobian(
+        lambda candidate: evaluate(candidate).conservative_state6,
+        chart,
+        steps,
+    )
+    _, transport_jacobian = _sixth_order_centered_jacobian(
+        lambda candidate: np.atleast_1d(
+            geometry.base.lapse
+            * float(candidate[1])
+            / np.sqrt(geometry.base.gamma_rr)
+            - geometry.base.radial_shift_over_c
+        ),
+        chart,
+        steps,
+    )
+    expected = np.asarray(
+        [
+            base.transport_velocity_over_c * state_jacobian[index]
+            + base.conservative_state6[index] * transport_jacobian.ravel()
+            for index in (0, 4, 5)
+        ]
+    )
+    principal = generalized_maxwell_cattaneo_principal(
+        geometry,
+        chart,
+        proper_vertical_frequency=omega,
+        alpha=alpha,
+    )
+    actual = principal.radial_matrix[[0, 5, 6]]
+    np.testing.assert_allclose(actual, expected, rtol=0.0, atol=0.0)
 
 
 def test_representative_nonlinear_causality_margins_are_positive() -> None:

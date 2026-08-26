@@ -54,6 +54,7 @@ class GeneralizedMaxwellCattaneoLocalState:
     integrated_pressure: float
     conservative_state6: np.ndarray
     conservative_flux6_over_c: np.ndarray
+    transport_velocity_over_c: float
     four_velocity: np.ndarray
     lower_four_velocity: np.ndarray
     specific_enthalpy_over_c2: float
@@ -263,6 +264,7 @@ def generalized_maxwell_cattaneo_local_state(
         integrated_pressure=float(thermodynamics.integrated_pressure),
         conservative_state6=np.asarray(state6, dtype=float),
         conservative_flux6_over_c=np.asarray(flux6, dtype=float),
+        transport_velocity_over_c=float(transport),
         four_velocity=np.asarray(four_velocity, dtype=float),
         lower_four_velocity=np.asarray(lower_velocity, dtype=float),
         specific_enthalpy_over_c2=float(enthalpy),
@@ -411,6 +413,33 @@ def generalized_maxwell_cattaneo_principal(
         values,
         steps,
     )
+    _transport, transport_jacobian = _sixth_order_centered_jacobian(
+        lambda candidate: np.atleast_1d(
+            geometry.base.lapse
+            * float(candidate[1])
+            / np.sqrt(geometry.base.gamma_rr)
+            - geometry.base.radial_shift_over_c
+        ),
+        values,
+        steps,
+    )
+    transport_gradient = transport_jacobian.ravel()
+    # Rest mass, height, and vertical momentum are exact material currents:
+    #
+    #     F(q) = v_transport(q) U(q).
+    #
+    # Differentiating F and U independently perturbs this identity at
+    # roundoff and can split the exactly repeated advective characteristic.
+    # Assemble these three flux rows from the analytic product rule instead.
+    # The remaining stress-energy flux rows keep their independent covariant
+    # derivatives, and no eigenvalue or matrix is altered after assembly.
+    for material_index in (0, 4, 5):
+        flux_jacobian[material_index] = (
+            float(base.transport_velocity_over_c)
+            * state_jacobian[material_index]
+            + float(base.conservative_state6[material_index])
+            * transport_gradient
+        )
     _lower, lower_velocity_jacobian = _sixth_order_centered_jacobian(
         lambda candidate: evaluate(candidate).lower_four_velocity,
         values,
