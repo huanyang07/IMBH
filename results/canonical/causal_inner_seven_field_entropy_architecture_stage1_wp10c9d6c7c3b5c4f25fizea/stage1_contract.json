@@ -1,0 +1,157 @@
+{
+  "authorization_basis": {
+    "explicit_user_instruction": "proceed with Stage 1 after review of the post-hyperbolicity architecture",
+    "parent_authorized_next_is_null": true,
+    "scope_is_model_design_only": true
+  },
+  "authorized_next": "definitions_only_seven_field_physical_closure_and_local_structural_audit_manifest",
+  "budget": {
+    "complete_cycle_steps": 0,
+    "maximum_stage1_wall_minutes": 10,
+    "new_five_field_trajectory_steps": 0,
+    "new_fixed_Q_roots": 0,
+    "new_nonlinear_roots": 0,
+    "new_seven_field_trajectory_steps": 0
+  },
+  "claim_boundary": {
+    "complete_cycle_authorized": false,
+    "definitions_only_stage2_manifest_authorized": true,
+    "fixed_Q_invariant_object_authorized": false,
+    "nonlinear_global_symmetrizer_certified": false,
+    "physical_Kerr_Schild_seven_field_closure_certified": false,
+    "quadratic_entropy_normal_form_certified": true,
+    "reduced_slow_evolution_authorized": false,
+    "seven_field_local_structural_audit_authorized": false,
+    "seven_field_trajectory_authorized": false,
+    "slow_flux_atlas_authorized": false
+  },
+  "classification": "seven_field_entropy_stage1_normal_form_derived_local_physical_closure_manifest_authorized",
+  "entropy_potential_architecture": {
+    "algebraic_height_derivative_foldback_forbidden": true,
+    "all_principal_derivative_couplings_must_come_from_phi": true,
+    "entropy_variables": "w=d_eta/dU",
+    "flux_potential": "F=d_phi(w)/dw",
+    "geometry_derivatives_are_lower_order_sources": true,
+    "source_inequality": "w dot S <= 0 for mathematical entropy",
+    "spatial_hessian": "A1=d2_phi/dw2 symmetric",
+    "state_potential": "U=d_psi(w)/dw",
+    "temporal_hessian": "A0=d2_psi/dw2 positive definite"
+  },
+  "external_mathematical_basis": {
+    "chen_levermore_liu_relaxation_entropy": "https://doi.org/10.1002/cpa.3160470602",
+    "godunov_variables_bulk_relaxation_example": "https://arxiv.org/abs/2110.15223",
+    "linear_onsager_symmetric_hyperbolicity": "https://arxiv.org/abs/2210.05067",
+    "literature_does_not_certify_this_column_reduction": true,
+    "nonlinear_israel_stewart_shear_conditions": "https://arxiv.org/abs/2607.05639"
+  },
+  "five_field_limit_boundary": {
+    "exact_equivalence_at_or_beyond_failed_face_forbidden": true,
+    "exact_equivalence_required_only_on_certified_pre_boundary_domain": true,
+    "finite_vertical_inertia_is_binding_beyond_old_validity_domain": true,
+    "old_model_remains_a_pre_boundary_comparison_control": true,
+    "reason": "an entropy-stable relaxation limit cannot be required to inherit the committed nonhyperbolic equilibrium pencil"
+  },
+  "forbidden": [
+    "resume the stopped five-field trajectory",
+    "fit coefficients to make only face 3 real",
+    "claim the quadratic normal form is the physical disk closure",
+    "force the new model to reproduce the nonhyperbolic old symbol",
+    "freeze height algebraically inside the seven-field principal part",
+    "discard vertical or stress relaxation heat from total energy",
+    "run a seven-field trajectory before the local structural certificate",
+    "authorize a fixed-Q orbit, slow atlas, or complete cycle"
+  ],
+  "parent_boundary_preserved": {
+    "accepted_endpoint_count": 72,
+    "accepted_terminal_seconds": 0.18587500000000012,
+    "classification": "hyperbolicity_boundary_bracketed_after_first_half_step",
+    "first_complex_face": 3,
+    "five_field_trajectory_remains_stopped": true,
+    "old_failed_candidate_may_not_be_propagated": true
+  },
+  "proved_local_normal_form": {
+    "chart_map": "r=L*q with det(L)=1",
+    "chart_spatial": "A1=L.T*K*L",
+    "chart_temporal": "A0=L.T*M*L",
+    "entropy_production": "-m_chi*r_pi*chi**2-m_w*gamma_H*w_H**2",
+    "height_departure": "y_H=dlnH-H_Sigma*dlnSigma-H_T*dlnT",
+    "positive_metric": "M=diag(m_i)>0",
+    "stress_source": "dchi/dt=-r_pi*chi plus entropy-paired shear principal coupling",
+    "subcharacteristic_theorem": "five-field vertical-equilibrium compression interlaces the seven-field symmetric generalized spectrum",
+    "symmetric_flux_hessian": "K=K.T",
+    "vertical_equilibrium": "y_H=0 and w_H=0",
+    "vertical_metric_relation": "m_H=m_w*omega_H**2",
+    "vertical_source": "dy_H/dt=w_H; dw_H/dt=-omega_H**2*y_H-gamma_H*w_H"
+  },
+  "schema_version": 1,
+  "seven_field_state": {
+    "conserved_names": [
+      "surface_rest_mass",
+      "radial_momentum",
+      "angular_momentum",
+      "total_column_energy",
+      "causal_shear_stress_coordinate",
+      "height_content_Z_H_equals_surface_mass_times_H",
+      "vertical_momentum_P_H_equals_surface_mass_times_w_H"
+    ],
+    "dimension": 7,
+    "height_and_vertical_momentum_are_independent": true,
+    "primitive_names": [
+      "log_surface_density",
+      "radial_velocity_over_c",
+      "azimuthal_velocity_over_c",
+      "log_temperature",
+      "specific_shear_stress",
+      "log_height",
+      "vertical_velocity_over_c"
+    ],
+    "shear_stress_remains_a_causal_relaxation_field": true,
+    "vertical_equilibrium_dimension": 5,
+    "vertical_equilibrium_names": [
+      "log_surface_density",
+      "radial_velocity_over_c",
+      "azimuthal_velocity_over_c",
+      "log_temperature",
+      "specific_shear_stress"
+    ]
+  },
+  "stage2_local_pass_gates": {
+    "A0_positive_on_entire_frozen_envelope": true,
+    "A1_symmetric_in_entropy_variables": true,
+    "all_characteristic_speeds_real_and_causal": true,
+    "analytic_independent_derivative_parity": true,
+    "failed_face_is_real_only_in_new_finite_inertia_model": true,
+    "old_pre_boundary_principal_and_source_parity": true,
+    "positive_vertical_subcharacteristic_margin_pre_boundary": true,
+    "source_entropy_production_nonpositive": true,
+    "uniform_energy_metric_condition_margin": true
+  },
+  "stage2_manifest_obligations": {
+    "audit_primary_heldout_boundary_and_failed_face_states": true,
+    "definitions_only": true,
+    "derive_exact_column_entropy_variables": true,
+    "derive_physical_Kerr_Schild_state_and_flux_potentials": true,
+    "derive_vertical_constraint_and_source_propagation": true,
+    "freeze_physical_parameter_envelope_before_eigenvalue_scan": true,
+    "independent_automatic_or_finite_difference_hessians": true,
+    "map_shear_coefficients_to_nonlinear_causality_conditions": true,
+    "no_spatial_discretization_change": true,
+    "no_trajectory": true
+  },
+  "total_energy_architecture": {
+    "damping_and_stress_relaxation_heat_internal_energy": true,
+    "density_relation": "rho=Sigma/(2*H)",
+    "hydrostatic_equilibrium": "Pi=Sigma*Omega_perp**2*H**2",
+    "matches_existing_gas_radiation_height_equation": true,
+    "terms": {
+      "internal": "Sigma*e(rho,s)",
+      "orbital": "E_KS(Sigma,m_r,L;g)",
+      "stress_relaxation": "R_pi**2/(2*Sigma*a_pi), a_pi>0",
+      "vertical_gravity": "0.5*Sigma*Omega_perp**2*H**2",
+      "vertical_kinetic": "P_H**2/(2*Sigma)"
+    },
+    "total_energy_loss_from_internal_relaxation": false,
+    "vertical_force_at_fixed_entropy": "-dE/dH=Pi/H-Sigma*Omega_perp**2*H"
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fizea_seven_field_entropy_architecture_stage1"
+}
