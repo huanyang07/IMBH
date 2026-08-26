@@ -1,0 +1,77 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizew_entropy_complete_fixed_Q_primary_inexact_Newton_root_execution",
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "heldout_root_execution_authorized": false,
+    "primary_root_execution_authorized": true,
+    "slow_flux_atlas_authorized": false
+  },
+  "classification": "entropy_complete_fixed_Q_primary_inexact_Newton_root_manifest_frozen",
+  "decision": {
+    "root_and_normal_attraction_pass": "authorize_definitions_only_heldout_root_replication_manifest",
+    "root_or_physical_gate_fails": "stop_without_heldout_or_slow_atlas",
+    "root_passes_but_normal_attraction_fails": "authorize_only_fixed_Q_invariant_measure_diagnosis_manifest"
+  },
+  "inexact_Newton_solver": {
+    "canonical_base_assembly_counts_as_one": true,
+    "failed_or_nonphysical_candidate_never_updates_Broyden_or_state": true,
+    "good_Broyden_secant_update_after_each_accepted_step": true,
+    "linear_subproblem": "500_iteration_bounded_TRF_descent_direction",
+    "maximum_inexact_forcing_two_norm": 0.95,
+    "maximum_scaled_step": 0.25,
+    "maximum_solver_colored_Jacobian_assemblies": 2,
+    "maximum_total_nonlinear_corrections": 12,
+    "negative_directional_derivative_required": true,
+    "one_refresh_trigger": [
+      "complete_physical_line_search_failure",
+      "beginning_of_correction_10_if_no_refresh_has_occurred",
+      "inexact_direction_forcing_or_descent_failure"
+    ],
+    "ordered_line_search_factors": [
+      1.0,
+      0.5,
+      0.25,
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+    ],
+    "refreshed_correction_retries_same_iteration": true,
+    "strict_infinity_norm_decrease_required": true,
+    "two_norm_Armijo_coefficient": 0.0001
+  },
+  "initial_state": {
+    "base_equation_Jacobian": "hash_locked_fizes_colored_Jacobian",
+    "first_accepted_trial": "hash_locked_fizeu_quarter_step",
+    "first_trial_counts_as_nonlinear_correction_one": true,
+    "fixed_slow_targets_and_equation_scales_unchanged": true,
+    "initial_Broyden_matrix": "good_Broyden_update_from_base_to_quarter_step"
+  },
+  "normal_attraction": {
+    "maximum_spectral_abscissa_per_second": -1.0,
+    "minimum_attraction_to_slow_relative_rate_ratio": 10.0,
+    "slow_relative_rate": "max_abs_slow_drift_per_second_divided_by_abs_slow_target",
+    "solver_normalized_equation_eigenvalues_are_nonphysical": true
+  },
+  "objective": "find_and_classify_the_primary_cellwise_fixed_Q_fast_equilibrium",
+  "post_root_certification": {
+    "all_eigenvalues_finite": true,
+    "central_relative_step": 2e-06,
+    "certification_assembly_cannot_change_the_root": true,
+    "certification_assembly_is_not_a_solver_refresh": true,
+    "independent_direct_physical_rate_central_JVP_directions": 4,
+    "maximum_physical_tangent_JVP_relative_defect": 2e-05,
+    "one_fresh_12_color_equation_Jacobian": true,
+    "physical_tangent_transform": "C_times_A_inverse_times_equation_Jacobian_with_similarity_chart_scaling"
+  },
+  "root_gates": {
+    "all_parent_physical_and_fixed_slow_gates_required": true,
+    "maximum_equation_rate_parity_relative_defect": 1e-10,
+    "maximum_normalized_equation_residual_infinity": 1e-08,
+    "maximum_physical_fast_coordinate_rate_infinity_per_second": 1e-08,
+    "root_is_saved_but_not_propagated": true
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizev_entropy_complete_fixed_Q_primary_inexact_Newton_root_execution_manifest"
+}
