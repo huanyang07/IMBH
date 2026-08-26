@@ -1,0 +1,217 @@
+{
+  "accepted_nonlinear_corrections": 2,
+  "certification": null,
+  "certification_colored_assemblies": 0,
+  "certification_physical_field_calls": 0,
+  "certification_wall_seconds": 3.3294782042503357e-07,
+  "classification": "entropy_complete_fixed_Q_primary_inexact_Newton_root_failed",
+  "equation_rate_parity_relative_defect": null,
+  "events": [
+    {
+      "accepted_factor": 0.25,
+      "correction": 1,
+      "residual_infinity": 16.56973463694466,
+      "residual_two_norm": 103.17904206885122,
+      "source": "hash_locked_fizeu_quarter_step"
+    },
+    {
+      "accepted_factor": 0.0078125,
+      "active_bound_count": 243,
+      "backend_iterations": 73,
+      "backend_status": 2,
+      "backend_success": true,
+      "correction": 2,
+      "forcing_infinity_norm": 0.719708836055235,
+      "forcing_two_norm": 0.7889890571282654,
+      "line_trials": [
+        {
+          "accepted": false,
+          "exception": "RuntimeError: fixed-slow local reconstruction line search failed",
+          "factor": 1.0
+        },
+        {
+          "accepted": false,
+          "exception": "LinAlgError: Singular matrix",
+          "factor": 0.5
+        },
+        {
+          "accepted": false,
+          "exception": "RuntimeError: fixed-slow local reconstruction did not converge",
+          "factor": 0.25
+        },
+        {
+          "accepted": false,
+          "exception": "LinAlgError: Singular matrix",
+          "factor": 0.125
+        },
+        {
+          "accepted": false,
+          "exception": "RuntimeError: fixed-slow local reconstruction did not converge",
+          "factor": 0.0625
+        },
+        {
+          "accepted": false,
+          "exception": "ValueError: generalized eigenvalues is not real within the declared tolerance",
+          "factor": 0.03125
+        },
+        {
+          "accepted": false,
+          "exception": "ValueError: generalized eigenvalues is not real within the declared tolerance",
+          "factor": 0.015625
+        },
+        {
+          "Armijo_two_norm": true,
+          "accepted": true,
+          "factor": 0.0078125,
+          "physical_checks": {
+            "constraint_reconstruction": true,
+            "eigenbasis_condition": true,
+            "height": true,
+            "imaginary_speed": true,
+            "inner_excision": true,
+            "light_cone": true,
+            "optical_depth": true,
+            "temporal_projection": true
+          },
+          "residual_infinity": 16.49706790834371,
+          "residual_two_norm": 102.96955847537582,
+          "strict_infinity_decrease": true
+        }
+      ],
+      "local_attempt": 1,
+      "maximum_absolute_step": 0.24999999999999997,
+      "normalized_directional_derivative": -0.2610895997333253,
+      "qualified": true
+    },
+    {
+      "active_bound_count": 240,
+      "backend_iterations": 135,
+      "backend_status": 2,
+      "backend_success": true,
+      "correction": 3,
+      "forcing_infinity_norm": 0.7201671330883826,
+      "forcing_two_norm": 0.7922113714486686,
+      "line_trials": [
+        {
+          "accepted": false,
+          "exception": "LinAlgError: Singular matrix",
+          "factor": 1.0
+        },
+        {
+          "accepted": false,
+          "exception": "RuntimeError: fixed-slow local reconstruction line search failed",
+          "factor": 0.5
+        },
+        {
+          "accepted": false,
+          "exception": "RuntimeError: fixed-slow local reconstruction line search failed",
+          "factor": 0.25
+        },
+        {
+          "accepted": false,
+          "exception": "RuntimeError: fixed-slow local reconstruction line search failed",
+          "factor": 0.125
+        },
+        {
+          "accepted": false,
+          "exception": "RuntimeError: fixed-slow local reconstruction did not converge",
+          "factor": 0.0625
+        },
+        {
+          "accepted": false,
+          "exception": "ValueError: generalized eigenvalues is not real within the declared tolerance",
+          "factor": 0.03125
+        },
+        {
+          "accepted": false,
+          "exception": "ValueError: generalized eigenvalues is not real within the declared tolerance",
+          "factor": 0.015625
+        },
+        {
+          "accepted": false,
+          "exception": "ValueError: generalized eigenvalues is not real within the declared tolerance",
+          "factor": 0.0078125
+        }
+      ],
+      "local_attempt": 1,
+      "maximum_absolute_step": 0.24999999999999997,
+      "normalized_directional_derivative": -0.25652831932966164,
+      "qualified": true
+    },
+    {
+      "correction": 3,
+      "event": "failure_triggered_exact_refresh"
+    },
+    {
+      "active_bound_count": 4,
+      "backend_iterations": 500,
+      "backend_status": 0,
+      "backend_success": false,
+      "correction": 3,
+      "forcing_infinity_norm": 0.726878087599771,
+      "forcing_two_norm": 0.803685576174751,
+      "line_trials": [
+        {
+          "accepted": false,
+          "exception": "RuntimeError: fixed-slow local reconstruction line search failed",
+          "factor": 1.0
+        },
+        {
+          "accepted": false,
+          "exception": "LinAlgError: Singular matrix",
+          "factor": 0.5
+        },
+        {
+          "accepted": false,
+          "exception": "RuntimeError: fixed-slow local reconstruction line search failed",
+          "factor": 0.25
+        },
+        {
+          "accepted": false,
+          "exception": "RuntimeError: fixed-slow local reconstruction did not converge",
+          "factor": 0.125
+        },
+        {
+          "accepted": false,
+          "exception": "RuntimeError: fixed-slow local reconstruction did not converge",
+          "factor": 0.0625
+        },
+        {
+          "accepted": false,
+          "exception": "ValueError: generalized eigenvalues is not real within the declared tolerance",
+          "factor": 0.03125
+        },
+        {
+          "accepted": false,
+          "exception": "ValueError: generalized eigenvalues is not real within the declared tolerance",
+          "factor": 0.015625
+        },
+        {
+          "accepted": false,
+          "exception": "ValueError: generalized eigenvalues is not real within the declared tolerance",
+          "factor": 0.0078125
+        }
+      ],
+      "local_attempt": 2,
+      "maximum_absolute_step": 0.24999999999999997,
+      "normalized_directional_derivative": -0.24092422211217285,
+      "qualified": true
+    }
+  ],
+  "failure_reason": "inexact_direction_or_complete_line_search_failed_after_refresh",
+  "final_normalized_equation_residual_infinity": 16.49706790834371,
+  "final_normalized_equation_residual_two_norm": 102.96955847537582,
+  "final_physical_fast_coordinate_rate_infinity_per_second": 664.3821022624641,
+  "new_nonlinear_roots": 0,
+  "new_physical_field_calls": 36,
+  "normally_attracting": false,
+  "passed": false,
+  "physical_tangent_certified": false,
+  "propagated_states": 0,
+  "root_exists": false,
+  "schema_version": 1,
+  "solve_wall_seconds": 568.796212958172,
+  "solver_exact_colored_assemblies": 2,
+  "solver_optional_refreshes": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizew_entropy_complete_fixed_Q_primary_inexact_Newton_root_execution"
+}
