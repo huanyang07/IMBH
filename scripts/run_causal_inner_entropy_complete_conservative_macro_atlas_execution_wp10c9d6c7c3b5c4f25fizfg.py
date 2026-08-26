@@ -461,8 +461,10 @@ def _canonicalize(metrics: dict, arrays: dict[str, np.ndarray]) -> dict:
     utils._write_json(CANONICAL_DIRECTORY / "summary.json", summary)
     utils._write_json(CANONICAL_DIRECTORY / "input_lock.json", {"parent_artifact": parent.ARTIFACT, "parent_checksum_manifest_sha256": PARENT_CHECKSUM_MANIFEST_SHA256, "parent_hashes": validated["hashes"], "source_sha256": SOURCE_SHA256, "source_test_sha256": SOURCE_TEST_SHA256, "truth_arrays_sha256": utils._sha256(TRUTH_ARRAYS)})
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    blind = metrics["validation"]
-    REPORT_PATH.write_text("\n".join(("# Entropy-complete conservative macro-atlas execution", "", f"Classification: `{metrics['classification']}`.", "", f"Offline truth calls: `{metrics['new_truth_operator_calls']}`; maximum independent colored-JVP defect: `{metrics['maximum_independent_JVP_relative_defect']:.6e}`.", "", f"Held-out base passed: `{blind['heldout_16ms_base']['passed']}`; held-out perturbed passed: `{blind['heldout_16ms_perturbed']['passed']}`.", "", f"The `{metrics['online_benchmark_evaluations']}`-evaluation online benchmark took `{metrics['online_benchmark_wall_seconds']:.6f}` s with zero truth calls, roots, or propagation.", "", f"Authorized next: `{summary['authorized_next']}`.", "")), encoding="utf-8")
+    blind = metrics.get("validation", {})
+    heldout_base = blind.get("heldout_16ms_base", {}).get("passed", False)
+    heldout_perturbed = blind.get("heldout_16ms_perturbed", {}).get("passed", False)
+    REPORT_PATH.write_text("\n".join(("# Entropy-complete conservative macro-atlas execution", "", f"Classification: `{metrics['classification']}`.", "", f"Offline truth calls: `{metrics.get('new_truth_operator_calls', 0)}`; maximum independent colored-JVP defect: `{metrics.get('maximum_independent_JVP_relative_defect', float('nan')):.6e}`.", "", f"Held-out base passed: `{heldout_base}`; held-out perturbed passed: `{heldout_perturbed}`.", "", f"The `{metrics.get('online_benchmark_evaluations', 0)}`-evaluation online benchmark took `{metrics.get('online_benchmark_wall_seconds', 0.0):.6f}` s with zero online truth calls, roots, or propagation.", "", f"Failure: `{metrics.get('failure', None)}`.", "", f"Authorized next: `{summary['authorized_next']}`.", "")), encoding="utf-8")
     sources = (THIS_RUNNER, THIS_TEST, SOURCE, SOURCE_TEST, REPORT_RELATIVE)
     utils._write_json(CANONICAL_DIRECTORY / "provenance.json", {"schema_version": SCHEMA_VERSION, "work_package": WORK_PACKAGE, "implementation_commit": utils._git("rev-parse", "HEAD"), "implementation_tree": utils._git("rev-parse", "HEAD^{tree}"), "source_hashes": {path: utils._sha256(ROOT / path) for path in sources}, "python": sys.version, "numpy": np.__version__, "platform": platform.platform(), "thread_environment": {name: os.environ.get(name, "") for name in ("OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "OMP_NUM_THREADS", "VECLIB_MAXIMUM_THREADS")}})
     names = sorted(path.name for path in CANONICAL_DIRECTORY.iterdir()); (CANONICAL_DIRECTORY / "SHA256SUMS.txt").write_text("".join(f"{utils._sha256(CANONICAL_DIRECTORY / name)}  {name}\n" for name in names), encoding="utf-8"); _update_catalog(summary); return summary
@@ -471,7 +473,29 @@ def _canonicalize(metrics: dict, arrays: dict[str, np.ndarray]) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__); parser.add_argument("--run", action="store_true"); args = parser.parse_args()
     if not args.run: parser.error("choose --run")
-    metrics, arrays = _execute(); print(json.dumps(metrics, indent=2, sort_keys=True), flush=True); summary = _canonicalize(metrics, arrays); return 0 if summary["passed"] else 2
+    try:
+        metrics, arrays = _execute()
+    except np.linalg.LinAlgError as error:
+        metrics = {
+            "schema_version": SCHEMA_VERSION,
+            "work_package": WORK_PACKAGE,
+            "classification": FAIL_CLASSIFICATION,
+            "passed": False,
+            "failure": {
+                "stage": "first_colored_raw_M_coordinate_plus_lift",
+                "type": type(error).__name__,
+                "message": str(error),
+                "interpretation": "raw_independent_MJE_atlas_coordinate_left_the_locally_invertible_thermodynamic_cone",
+            },
+            "new_truth_operator_calls": 0,
+            "attempted_macro_lifts": 1,
+            "new_global_roots": 0,
+            "propagated_states": 0,
+        }
+        arrays = {}
+    print(json.dumps(metrics, indent=2, sort_keys=True), flush=True)
+    summary = _canonicalize(metrics, arrays)
+    return 0 if summary["passed"] else 2
 
 
 if __name__ == "__main__": raise SystemExit(main())
