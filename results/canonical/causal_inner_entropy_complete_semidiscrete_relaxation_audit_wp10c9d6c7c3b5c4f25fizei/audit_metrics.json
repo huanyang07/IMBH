@@ -1,0 +1,111 @@
+{
+  "audit_wall_seconds": 65.02658154210076,
+  "cases": [
+    {
+      "eigenvector_condition_number": 21.857228711883664,
+      "equilibrium_vertical_source_relative_defect": 1.0317804280145739e-14,
+      "failure_reasons": [],
+      "label": "primary_20ms_cell036",
+      "maximum_imaginary_speed_over_c": 0.0,
+      "maximum_light_cone_excess_over_c": 0.0,
+      "minimum_fast_relaxation_observed_order": 1.999459575758349,
+      "passed": true,
+      "radius_cm": 5599841633.135499,
+      "source_derivative_ladder_relative_defect": 3.727878317704684e-11,
+      "vertical_reversible_exchange_relative_defect": 0.0,
+      "vertical_total_energy_ledger_relative_defect": 0.0
+    },
+    {
+      "eigenvector_condition_number": 22.331054848999596,
+      "equilibrium_vertical_source_relative_defect": 1.908611211635892e-14,
+      "failure_reasons": [],
+      "label": "heldout_16ms_cell036",
+      "maximum_imaginary_speed_over_c": 0.0,
+      "maximum_light_cone_excess_over_c": 0.0,
+      "minimum_fast_relaxation_observed_order": 1.9994595737903573,
+      "passed": true,
+      "radius_cm": 5599841633.135499,
+      "source_derivative_ladder_relative_defect": 3.5250750131214065e-11,
+      "vertical_reversible_exchange_relative_defect": 0.0,
+      "vertical_total_energy_ledger_relative_defect": 0.0
+    },
+    {
+      "eigenvector_condition_number": 15.734904093585936,
+      "equilibrium_vertical_source_relative_defect": 1.3689869243894522e-14,
+      "failure_reasons": [],
+      "label": "accepted00_cell044",
+      "maximum_imaginary_speed_over_c": 0.0,
+      "maximum_light_cone_excess_over_c": 0.0,
+      "minimum_fast_relaxation_observed_order": 1.9994594004550605,
+      "passed": true,
+      "radius_cm": 6593349987.183909,
+      "source_derivative_ladder_relative_defect": 4.7716582595830385e-11,
+      "vertical_reversible_exchange_relative_defect": 0.0,
+      "vertical_total_energy_ledger_relative_defect": 0.0
+    },
+    {
+      "eigenvector_condition_number": 22.688537739119678,
+      "equilibrium_vertical_source_relative_defect": 9.884522601272991e-14,
+      "failure_reasons": [],
+      "label": "accepted53_cell000",
+      "maximum_imaginary_speed_over_c": 0.0,
+      "maximum_light_cone_excess_over_c": 0.0,
+      "minimum_fast_relaxation_observed_order": 1.999459389574907,
+      "passed": true,
+      "radius_cm": 2685276524.3912225,
+      "source_derivative_ladder_relative_defect": 7.113756232140541e-11,
+      "vertical_reversible_exchange_relative_defect": 0.0,
+      "vertical_total_energy_ledger_relative_defect": 0.0
+    },
+    {
+      "eigenvector_condition_number": 15.542590285162989,
+      "equilibrium_vertical_source_relative_defect": 1.895736940387056e-14,
+      "failure_reasons": [],
+      "label": "accepted_terminal_cell055",
+      "maximum_imaginary_speed_over_c": 0.0,
+      "maximum_light_cone_excess_over_c": 0.0,
+      "minimum_fast_relaxation_observed_order": 1.9994594302209958,
+      "passed": true,
+      "radius_cm": 8253447785.319495,
+      "source_derivative_ladder_relative_defect": 2.6641832856075707e-11,
+      "vertical_reversible_exchange_relative_defect": 0.0,
+      "vertical_total_energy_ledger_relative_defect": 0.0
+    },
+    {
+      "eigenvector_condition_number": 19.211266227401484,
+      "equilibrium_vertical_source_relative_defect": 1.089810005310116e-14,
+      "failure_reasons": [],
+      "label": "old_failed_face",
+      "maximum_imaginary_speed_over_c": 0.0,
+      "maximum_light_cone_excess_over_c": 0.0,
+      "minimum_fast_relaxation_observed_order": 1.9994593661572777,
+      "passed": true,
+      "radius_cm": 2825886796.4406533,
+      "source_derivative_ladder_relative_defect": 6.714135535728473e-11,
+      "vertical_reversible_exchange_relative_defect": 0.0,
+      "vertical_total_energy_ledger_relative_defect": 0.0
+    }
+  ],
+  "cases_audited": 6,
+  "cases_planned": 6,
+  "classification": "entropy_complete_semidiscrete_relaxation_audit_passed",
+  "context_construction_wall_seconds": 62.684543000068516,
+  "fast_vertical_multipliers": [
+    1.0,
+    2.0,
+    4.0,
+    8.0
+  ],
+  "first_failure": null,
+  "passed": true,
+  "periodic_operator": {
+    "constant_operator_absolute_defect": 0.0,
+    "failure_reasons": [],
+    "global_exact_flux_ledger_relative_defect": 1.3455493417422861e-11,
+    "maximum_interface_split_relative_defect": 1.3840513601714345e-16,
+    "maximum_temporal_solve_relative_residual": 1.7741866424213336e-15,
+    "passed": true
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizei_entropy_complete_semidiscrete_relaxation_audit"
+}
