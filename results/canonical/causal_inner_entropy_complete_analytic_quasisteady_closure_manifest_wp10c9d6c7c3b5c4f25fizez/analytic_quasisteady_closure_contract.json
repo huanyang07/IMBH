@@ -1,0 +1,100 @@
+{
+  "analytic_reconstruction": {
+    "accepted_state_template_may_seed_Newton_but_not_change_the_solution": true,
+    "exact_constraints": "cell_measure*U7[M,J,E]=(M,J,E)_target",
+    "given": "(M,J,E,beta_r,chi)_per_cell",
+    "height_relation": "Pi(Sigma,T,H)=Sigma*Omega_perp**2*H**2",
+    "implementation_height_map": "QuasiHydrostaticGasRadiationColumnEOS",
+    "maximum_constraint_relative_defect": 1e-10,
+    "maximum_local_inverse_JVP_relative_defect": 2e-05,
+    "maximum_newton_corrections": 8,
+    "maximum_scaled_local_inverse_condition_number": 100000000.0,
+    "unknown_local_charts": [
+      "lnSigma",
+      "beta_phi",
+      "lnT"
+    ],
+    "vertical_velocity_over_c": 0.0
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizfa_entropy_complete_hydrostatic_invariant_reconstruction_implementation",
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "local_reconstruction_implementation_authorized": true,
+    "online_macro_solver_authorized": false,
+    "predictive_reduced_slow_evolution_authorized": false,
+    "slow_flux_atlas_authorized": false
+  },
+  "classification": "entropy_complete_partial_equilibrium_Q3_plus_radial_stress_architecture_manifest_frozen",
+  "differential_auxiliary_closure": {
+    "L_stable_implicit_or_IMEX_macro_update_required": true,
+    "beta_r_rate": "projected_seven_field_radial_momentum_equation_or_certified_atlas",
+    "chi_rate": "projected_Maxwell_Cattaneo_shear_equation_or_certified_atlas",
+    "every_offline_truth_state_is_a_reconstructed_seven_field_state": true,
+    "exact_MJE_rates": "single_valued_conservative_face_fluxes_plus_sources",
+    "five_field_reduced_characteristic_pencil_must_not_be_used": true,
+    "height_and_vertical_momentum_rates": "eliminated_by_the_proved_local_equilibrium_pair"
+  },
+  "mathematical_state": {
+    "causal_stress_is_not_forced_to_its_instantaneous_alpha_target": true,
+    "cellwise_exact_slow_invariants": [
+      "mass_M",
+      "angular_momentum_J",
+      "total_column_energy_E"
+    ],
+    "cellwise_online_dimension": 5,
+    "cellwise_resolved_auxiliaries": [
+      "radial_velocity_over_c_beta_r",
+      "causal_specific_shear_stress_chi"
+    ],
+    "no_global_fast_fixed_point_is_assumed": true,
+    "radial_drift_is_not_forced_to_zero": true,
+    "vertical_height_is_local_algebraic_equilibrium": true,
+    "vertical_velocity_over_c_is_zero": true
+  },
+  "offline_online_split": {
+    "conservative_restriction_and_prolongation_required": true,
+    "global_finite_memory_candidates": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "heldout_anchor_required_before_cycle_manifest": true,
+    "maximum_average_wall_seconds_per_macrostep": 1.0,
+    "maximum_macrosteps_per_cycle": 100000,
+    "maximum_online_dimension": 86,
+    "online_cellwise_dimension": 5,
+    "online_primary_radial_cells": 16,
+    "online_truth_calls_per_macrostep": 0,
+    "target_complete_cycle_wall_days": 3.0,
+    "truth_model": "112_cell_entropy_complete_seven_field_operator"
+  },
+  "offline_validation": {
+    "all_reconstructed_center_and_face_pencils_must_be_real": true,
+    "anchor_chart_reproduction_relative_defect": 1e-11,
+    "existing_height_optical_depth_excision_and_causality_gates_retained": true,
+    "heldout_profile": "heldout_16ms",
+    "midpoint_eigenvalue_imaginary_ratio_max": 1e-10,
+    "primary_profile": "primary_20ms",
+    "radial_velocity_chart_perturbation": 1e-06,
+    "relative_invariant_perturbation": 1e-06,
+    "selected_cell_indices": [
+      0,
+      18,
+      36,
+      55,
+      74,
+      92,
+      111
+    ],
+    "stress_relative_perturbation": 0.0001
+  },
+  "preserved_negative_result": {
+    "absence_of_a_physical_fast_attractor_not_claimed": true,
+    "generic_global_fixed_Q_Newton_rejected": true,
+    "no_failed_candidate_propagated": true,
+    "no_threshold_relaxed": true
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizez_entropy_complete_analytic_quasisteady_closure_manifest"
+}
