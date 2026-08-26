@@ -1,0 +1,71 @@
+{
+  "parent_artifact": "causal_inner_entropy_complete_bounded_radial_crossing_execution_wp10c9d6c7c3b5c4f25fizek",
+  "parent_checksum_manifest_sha256": "e5e3ac4c67ab818df2735fa29b1c14dc7bebb41724eb95e19bf3861ebe49bb0e",
+  "parent_hashes": {
+    "execution_arrays.npz": "36e51de2008d768519519f111f320c8f1f6c33324592b550970c867aa1f2f8bc",
+    "execution_metrics.json": "51fc3a1bded6bb658632e5a6e3d044689e74ce1ccfe1a2d981370e2dfefbe94a",
+    "input_lock.json": "5cf8107eaffd20c4ca075c6a696e751cc8182873aa79361fa3aa4863bdb07a86",
+    "provenance.json": "bb4456520799b3887e108bf6227e934d291cd89f6ea760330e29b3902348b045",
+    "summary.json": "2aa0f627ce08f879abb4c9c68ca02a94f7475e259c5066f3e28d99a5c6a71c40"
+  },
+  "parent_metrics": {
+    "accepted_new_horizon_seconds": 0.0,
+    "accepted_new_steps": 0,
+    "accepted_terminal_elapsed_seconds": 0.18587500000000012,
+    "classification": "entropy_complete_bounded_radial_crossing_physical_failed",
+    "context_construction_wall_seconds": 61.57458745781332,
+    "crossed_old_rejected_time": false,
+    "execution_wall_seconds": 147.23094229074195,
+    "first_failure": {
+      "checkpoint_roundtrip_bitwise": true,
+      "exact_flux_balance_relative_defect": 1.6884026506931549e-06,
+      "failure_reasons": [
+        "physical:chart_change"
+      ],
+      "maximum_CFL": 0.018272981381367334,
+      "maximum_eigenvector_condition_number": 484.2234948231045,
+      "maximum_height_over_radius": 0.21346613166048933,
+      "maximum_imaginary_speed_over_c": 0.0,
+      "maximum_incoming_inner_characteristics": 0,
+      "maximum_incoming_outer_characteristics": 7,
+      "maximum_light_cone_excess_over_c": 0.0,
+      "maximum_scaled_chart_change": 0.17443160649335754,
+      "maximum_temporal_solve_relative_residual": 2.1588329833882127e-15,
+      "minimum_height_over_radius": 0.04332341446551822,
+      "minimum_optical_depth": 17.58552536931864,
+      "passed": false,
+      "step": 1,
+      "wall_seconds": 85.65520645771176
+    },
+    "legacy_seed_elapsed_seconds": 0.18587500000000012,
+    "matched_endpoint": null,
+    "old_rejected_candidate_elapsed_seconds": 0.186,
+    "passed": false,
+    "schema_version": 1,
+    "steps": [
+      {
+        "checkpoint_roundtrip_bitwise": true,
+        "exact_flux_balance_relative_defect": 1.6884026506931549e-06,
+        "failure_reasons": [
+          "physical:chart_change"
+        ],
+        "maximum_CFL": 0.018272981381367334,
+        "maximum_eigenvector_condition_number": 484.2234948231045,
+        "maximum_height_over_radius": 0.21346613166048933,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_incoming_inner_characteristics": 0,
+        "maximum_incoming_outer_characteristics": 7,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_scaled_chart_change": 0.17443160649335754,
+        "maximum_temporal_solve_relative_residual": 2.1588329833882127e-15,
+        "minimum_height_over_radius": 0.04332341446551822,
+        "minimum_optical_depth": 17.58552536931864,
+        "passed": false,
+        "step": 1,
+        "wall_seconds": 85.65520645771176
+      }
+    ],
+    "suffix_replay_bitwise": false,
+    "work_package": "WP10c9d6c7c3b5c4f25fizek_entropy_complete_bounded_radial_crossing_execution"
+  }
+}
