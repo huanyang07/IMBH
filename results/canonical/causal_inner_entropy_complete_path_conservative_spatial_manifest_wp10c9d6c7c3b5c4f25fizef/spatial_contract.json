@@ -1,0 +1,106 @@
+{
+  "DLM_path": {
+    "binding_quadrature_order": 8,
+    "conservative_row_exact_flux_difference_parity_required": true,
+    "constant_state_zero_jump_required": true,
+    "fixed_chart_scales": [
+      1.0,
+      0.1,
+      0.1,
+      1.0,
+      0.0001,
+      1.0,
+      0.03
+    ],
+    "interface_geometry_and_transport_coefficients_recomputed_at_each_path_node": true,
+    "path": "straight_line_in_fixed_entropy_scaled_seven_primitive_chart",
+    "path_reversal_antisymmetry_required": true,
+    "quadrature_ladder": [
+      4,
+      8,
+      16
+    ],
+    "total_jump": "integral_0^1 M_R(Psi(s))*Psi_s ds"
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizeg_entropy_complete_path_conservative_interface_audit",
+  "binding_gates": {
+    "all_cases_and_all_gates_required": true,
+    "characteristic_quadratic_dissipation_min": 0.0,
+    "conservative_and_material_flux_parity_relative_defect_max": 1e-08,
+    "constant_state_absolute_jump_max": 1e-12,
+    "eigenvector_condition_number_max": 100000000.0,
+    "fail_closed": true,
+    "maximum_imaginary_speed_over_c": 1e-10,
+    "maximum_light_cone_excess_over_c": 1e-10,
+    "path_partition_and_split_relative_defect_max": 1e-08,
+    "path_reversal_relative_defect_max": 1e-08,
+    "quadrature_ladder_relative_defect_max": 1e-07,
+    "shared_flux_relative_defect_max": 1e-08,
+    "smooth_limit_relative_defect_max": 1e-06
+  },
+  "certified_parent": {
+    "advective_cluster_certified": true,
+    "all_parent_positive_and_negative_results_preserved": true,
+    "artifact": "causal_inner_invariant_cluster_local_structural_audit_wp10c9d6c7c3b5c4f25fizee7",
+    "classification": "invariant_cluster_local_structural_audit_passed",
+    "complete_reduced_principal_certified": true
+  },
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "fixed_Q_invariant_object_authorized": false,
+    "nonpropagating_interface_audit_authorized": true,
+    "reduced_slow_evolution_authorized": false,
+    "relaxation_limit_audit_authorized": false,
+    "semidiscrete_cell_operator_authorized": false,
+    "slow_flux_atlas_authorized": false,
+    "spatial_operator_implementation_authorized": true,
+    "trajectory_authorized": false
+  },
+  "classification": "entropy_complete_path_conservative_spatial_manifest_frozen",
+  "complete_eigenbasis_dissipation": {
+    "basis": "complete_midpoint_generalized_eigenbasis",
+    "characteristic_quadratic_dissipation_nonnegative": true,
+    "dissipation": "M_t R abs(Lambda) R_inverse delta_q",
+    "eigenvalue_clipping_or_post_hoc_matrix_modification_forbidden": true,
+    "negative_fluctuation": "0.5*(path_jump-dissipation)",
+    "negative_plus_positive_equals_total_path_jump": true,
+    "positive_fluctuation": "0.5*(path_jump+dissipation)",
+    "scalar_max_speed_Rusanov_forbidden": true,
+    "shared_flux_from_both_sides_required_on_exact_flux_rows": true
+  },
+  "interface_audit_scope": {
+    "certified_large_jump_pair": true,
+    "deterministic_off_equilibrium_witnesses": true,
+    "finite_amplitude_reversal_tests": true,
+    "no_cell_residual_or_time_advance": true,
+    "old_five_field_failed_face": true,
+    "primary_and_heldout_representatives": true,
+    "saved_complex_split_point": true,
+    "smooth_small_jump_ladders": [
+      0.001,
+      0.0005,
+      0.00025
+    ]
+  },
+  "mixed_spatial_form": {
+    "equation": "M_t(q) q_t + M_R(q) q_R = S_lower(q,R)",
+    "exact_material_current_rows": [
+      5,
+      6
+    ],
+    "height_and_vertical_momentum_use_exact_shared_material_fluxes": true,
+    "no_nonconservative_derivative_hidden_as_a_lower_order_source": true,
+    "nonconservative_projected_shear_row": [
+      4
+    ],
+    "physical_conservation_claim_limited_to_mass_and_Kerr_Schild_stress_energy": true,
+    "physical_conservative_rows": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizef_entropy_complete_path_conservative_spatial_manifest"
+}
