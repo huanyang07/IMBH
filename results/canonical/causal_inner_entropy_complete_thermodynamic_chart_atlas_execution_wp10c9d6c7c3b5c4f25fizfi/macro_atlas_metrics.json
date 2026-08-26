@@ -1,0 +1,1257 @@
+{
+  "all_saved_and_blind_validations_passed": true,
+  "all_truth_physical_gates_passed": true,
+  "base_anchor_chart_reproduction_scaled_infinity": 0.0,
+  "classification": "entropy_complete_thermodynamic_chart_conservative_atlas_blindly_validated",
+  "context_construction_wall_seconds": 61.728126833215356,
+  "independent_JVP_relative_defects": [
+    0.005033062938360639,
+    0.006775479014768085,
+    0.005577973479235253,
+    0.00799107961186394
+  ],
+  "maximum_colored_support_leakage_ratio": 0.0,
+  "maximum_independent_JVP_relative_defect": 0.00799107961186394,
+  "maximum_pullback_condition_number": 2955.7789401606706,
+  "maximum_truth_hydrostatic_embedding_scaled_defect": 0.0,
+  "new_global_roots": 0,
+  "new_truth_operator_calls": 38,
+  "online_average_wall_seconds_per_evaluation": 2.1936129587702454e-05,
+  "online_benchmark_checksum": 5.161841152411426e+37,
+  "online_benchmark_evaluations": 100000,
+  "online_benchmark_wall_seconds": 2.1936129587702453,
+  "passed": true,
+  "propagated_states": 0,
+  "pullback_condition_numbers": [
+    46.09191431354899,
+    48.42716989846267,
+    51.567776740651944,
+    55.584938726237525,
+    60.5693351410359,
+    66.62905878607299,
+    73.8935650071068,
+    82.5149244674939,
+    92.73206479613683,
+    105.23355201844478,
+    121.27207183139656,
+    142.74824103538165,
+    172.61892400460533,
+    226.49288625889855,
+    643.1497957524049,
+    2955.7789401606706
+  ],
+  "pullback_construction_wall_seconds": 2.7571870000101626,
+  "pullback_inverse_closure_infinity": 4.304736147142639e-14,
+  "schema_version": 1,
+  "truth_records": [
+    {
+      "call": 1,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f0_c0_plus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9463071457074812e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 202.17761349401158,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 7.256762970068368e-16,
+        "minimum_height_over_radius": 0.048700472807756585,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 2,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f0_c0_minus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.869991350942451e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 730.3357269084771,
+        "maximum_height_over_radius": 0.09980259623522873,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 9.87128937617181e-16,
+        "minimum_height_over_radius": 0.05067821378494168,
+        "minimum_optical_depth": 18.912943168996
+      }
+    },
+    {
+      "call": 3,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f0_c1_plus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 1.1158410805232069e-15,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 4,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f0_c1_minus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09957286246834367,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 7.90024488260583e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 18.897511498440085
+      }
+    },
+    {
+      "call": 5,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f0_c2_plus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09782729366475373,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 1.5839924107459312e-15,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.279266553879594
+      }
+    },
+    {
+      "call": 6,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f0_c2_minus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09981301916098537,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 1.2117035399018836e-15,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 18.87305000349063
+      }
+    },
+    {
+      "call": 7,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f1_c0_plus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9146072761660463e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 253.71568333689896,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 5.616977017681716e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 8,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f1_c0_minus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9010195541287837e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 655.8013720534398,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 6.202527062887589e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 9,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f1_c1_plus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 1768.1000933808957,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 5.616977017681716e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 10,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f1_c1_minus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 5.616977017681716e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 11,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f1_c2_plus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 4.837410699153654e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 12,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f1_c2_minus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 4.837410699153654e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 13,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f2_c0_plus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 2821.902136738836,
+        "maximum_height_over_radius": 0.1059717169827915,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 5.616977017681716e-16,
+        "minimum_height_over_radius": 0.05380012975324647,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 14,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f2_c0_minus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 175.21634353515245,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 5.616977017681716e-16,
+        "minimum_height_over_radius": 0.045876456724077336,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 15,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f2_c1_plus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 1937.7712714273723,
+        "maximum_height_over_radius": 0.10572795644419303,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 5.616977017681716e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 16,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f2_c1_minus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 5.616977017681716e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 17,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f2_c2_plus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.10598280881892584,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 5.987064478822513e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 18,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f2_c2_minus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 7932.029542657074,
+        "maximum_height_over_radius": 0.09782729366475373,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 4.837410699153654e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 19,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f3_c0_plus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.905167254975e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 175.21634353515245,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 5.616977017681716e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 20,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f3_c0_minus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.910397731322007e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 262.1630322412368,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 7.49408869897123e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 21,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f3_c1_plus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 5.807782772787396e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 22,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f3_c1_minus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 5.693736988871887e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 23,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f3_c2_plus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 5.930806177345258e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 24,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f3_c2_minus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 4.837410699153654e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 25,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f4_c0_plus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 205.232281139686,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 6.153216128378351e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 26,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f4_c0_minus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 202.3749086984597,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 6.691284184235215e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 27,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f4_c1_plus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 5.616977017681716e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 28,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f4_c1_minus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 5.616977017681716e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 29,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f4_c2_plus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 4.837410699153654e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 30,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "colored_f4_c2_minus",
+      "maximum_chart_coordinate": 0.02,
+      "minimum_macro_MJE": 1.9077676820699312e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 848.2976316852047,
+        "maximum_height_over_radius": 0.09783750054676474,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 4.837410699153654e-16,
+        "minimum_height_over_radius": 0.04967940754328958,
+        "minimum_optical_depth": 19.2543109039531
+      }
+    },
+    {
+      "call": 31,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "JVP_0_plus",
+      "maximum_chart_coordinate": 0.01,
+      "minimum_macro_MJE": 1.9116909240656588e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 205.35699400988605,
+        "maximum_height_over_radius": 0.09814967448548224,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 4.286052334299333e-16,
+        "minimum_height_over_radius": 0.05019136354783605,
+        "minimum_optical_depth": 19.23100227583351
+      }
+    },
+    {
+      "call": 32,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "JVP_0_minus",
+      "maximum_chart_coordinate": 0.01,
+      "minimum_macro_MJE": 1.903853272045219e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 1245.8256718954656,
+        "maximum_height_over_radius": 0.09814490745973946,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 4.879140296312597e-16,
+        "minimum_height_over_radius": 0.049172721903111324,
+        "minimum_optical_depth": 19.244359019568105
+      }
+    },
+    {
+      "call": 33,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "JVP_1_plus",
+      "maximum_chart_coordinate": 0.01,
+      "minimum_macro_MJE": 1.9073099707589717e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 228.55133126447333,
+        "maximum_height_over_radius": 0.09976452009720725,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 6.408346771415008e-16,
+        "minimum_height_over_radius": 0.049707245938110045,
+        "minimum_optical_depth": 19.174484915517304
+      }
+    },
+    {
+      "call": 34,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "JVP_1_minus",
+      "maximum_chart_coordinate": 0.01,
+      "minimum_macro_MJE": 1.9082262362813217e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 129.49048080692828,
+        "maximum_height_over_radius": 0.09947294585663201,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 4.644990376823802e-16,
+        "minimum_height_over_radius": 0.04965158486559761,
+        "minimum_optical_depth": 19.147938428492417
+      }
+    },
+    {
+      "call": 35,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "JVP_2_plus",
+      "maximum_chart_coordinate": 0.01,
+      "minimum_macro_MJE": 1.909094678991251e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 200.03151074466638,
+        "maximum_height_over_radius": 0.10154932050900202,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 4.486883839338726e-16,
+        "minimum_height_over_radius": 0.048217880517078274,
+        "minimum_optical_depth": 19.15640672108583
+      }
+    },
+    {
+      "call": 36,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "JVP_2_minus",
+      "maximum_chart_coordinate": 0.01,
+      "minimum_macro_MJE": 1.9064437179066428e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 5608.101437067619,
+        "maximum_height_over_radius": 0.09721103978849759,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 4.757739009910261e-16,
+        "minimum_height_over_radius": 0.05118558440867073,
+        "minimum_optical_depth": 19.25822838097554
+      }
+    },
+    {
+      "call": 37,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "JVP_3_plus",
+      "maximum_chart_coordinate": 0.01,
+      "minimum_macro_MJE": 1.9103035196316826e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 920.6980616993884,
+        "maximum_height_over_radius": 0.09874805839534007,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 4.2934394372470525e-16,
+        "minimum_height_over_radius": 0.04843799624027599,
+        "minimum_optical_depth": 19.2068127480127
+      }
+    },
+    {
+      "call": 38,
+      "checks": {
+        "eigenbasis_condition": true,
+        "height": true,
+        "hydrostatic_embedding": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "prefilter_eigenvalue": true,
+        "prefilter_eigenvector": true,
+        "temporal_solve": true
+      },
+      "hydrostatic_embedding_scaled_defect": 0.0,
+      "label": "JVP_3_minus",
+      "maximum_chart_coordinate": 0.01,
+      "minimum_macro_MJE": 1.9052353506165806e+21,
+      "passed": true,
+      "physical": {
+        "incoming_inner_characteristics": 0,
+        "maximum_eigenvector_condition_number": 295.1358876020386,
+        "maximum_height_over_radius": 0.09863604551751759,
+        "maximum_imaginary_speed_over_c": 0.0,
+        "maximum_light_cone_excess_over_c": 0.0,
+        "maximum_temporal_solve_relative_defect": 5.589927354543361e-16,
+        "minimum_height_over_radius": 0.05095288060336174,
+        "minimum_optical_depth": 19.271072463342104
+      }
+    }
+  ],
+  "validation": {
+    "heldout_16ms_base": {
+      "conservative_ledger_relative_defect": 1.1172759353605228e-16,
+      "inferred_chart_coordinate_infinity": 0.10346593440434926,
+      "macro_rate_relative_defects": {
+        "E_rate": 7.974141158927293e-05,
+        "J_rate": 0.00019641542038873115,
+        "M_rate": 0.00010679962365171135,
+        "beta_r_rate": 0.0011993179816377451,
+        "chi_rate": 0.031814388462050563
+      },
+      "output_block_relative_defects": {
+        "E_flux": 7.366149942513738e-05,
+        "E_source": 0.007329236034501561,
+        "J_flux": 0.00011590149489187843,
+        "J_source": 0.008564331085244748,
+        "M_flux": 6.0575140347023976e-05,
+        "beta_r_rate": 0.0011993179816377451,
+        "chi_rate": 0.031814388462050563
+      },
+      "passed": true,
+      "strict_blind": true
+    },
+    "heldout_16ms_perturbed": {
+      "conservative_ledger_relative_defect": 6.503401879216368e-27,
+      "inferred_chart_coordinate_infinity": 0.10346463542644316,
+      "macro_rate_relative_defects": {
+        "E_rate": 7.936433344243518e-05,
+        "J_rate": 0.00019588966437899193,
+        "M_rate": 0.00010650361608786798,
+        "beta_r_rate": 0.0012104821745127102,
+        "chi_rate": 0.032309858910769124
+      },
+      "output_block_relative_defects": {
+        "E_flux": 7.366151663397941e-05,
+        "E_source": 0.0072896500118998534,
+        "J_flux": 0.00011559107876180557,
+        "J_source": 0.008521525491843185,
+        "M_flux": 6.057513892687351e-05,
+        "beta_r_rate": 0.0012104821745127102,
+        "chi_rate": 0.032309858910769124
+      },
+      "passed": true,
+      "strict_blind": true
+    },
+    "primary_20ms_perturbed": {
+      "conservative_ledger_relative_defect": 6.504423241456732e-27,
+      "inferred_chart_coordinate_infinity": 4.083386814887921e-05,
+      "macro_rate_relative_defects": {
+        "E_rate": 3.769900341648667e-07,
+        "J_rate": 5.2753682247878e-07,
+        "M_rate": 2.956399961984884e-07,
+        "beta_r_rate": 1.1043652307508452e-05,
+        "chi_rate": 0.0004518222770252578
+      },
+      "output_block_relative_defects": {
+        "E_flux": 1.9679109188404648e-07,
+        "E_source": 3.968734536164496e-05,
+        "J_flux": 3.106368147557933e-07,
+        "J_source": 4.2834469308825034e-05,
+        "M_flux": 1.6235976092119808e-07,
+        "beta_r_rate": 1.1043652307508452e-05,
+        "chi_rate": 0.0004518222770252578
+      },
+      "passed": true,
+      "strict_blind": false
+    }
+  },
+  "work_package": "WP10c9d6c7c3b5c4f25fizfi_entropy_complete_thermodynamic_chart_atlas_execution"
+}
