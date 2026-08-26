@@ -1,0 +1,130 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizes_entropy_complete_fixed_Q_equation_form_root_preflight",
+  "binding_physical_gates": {
+    "eigenvector_condition_number_max": 100000000.0,
+    "fail_closed": true,
+    "inner_incoming_characteristics_equal": 0,
+    "maximum_fixed_slow_reconstruction_relative_defect": 1e-11,
+    "maximum_height_over_radius": 0.5,
+    "maximum_imaginary_speed_over_c": 1e-10,
+    "maximum_light_cone_excess_over_c": 1e-10,
+    "maximum_temporal_projection_solve_relative_defect": 1e-10,
+    "minimum_height_over_radius": 0.0001,
+    "minimum_optical_depth": 1.0
+  },
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "equation_form_preflight_authorized": true,
+    "heldout_root_execution_authorized": false,
+    "primary_nonlinear_root_execution_authorized": false,
+    "slow_flux_atlas_authorized": false
+  },
+  "classification": "entropy_complete_fixed_Q_primary_root_preflight_manifest_frozen",
+  "decision": {
+    "derivative_or_trust_step_failure": "stop_and_redesign_equation_scaling_or_structured_solver",
+    "no_threshold_may_be_relaxed_after_observing_results": true,
+    "preflight_pass": "authorize_definitions_only_primary_nonlinear_root_execution_manifest"
+  },
+  "equation_row_scaling": {
+    "base_projected_rate_magnitude_is_not_a_row_scale": true,
+    "coordinate": "x_equals_fast_chart_minus_base_divided_by_fast_chart_scale",
+    "floor_relative_to_global_maximum": 1e-12,
+    "one_second_equation_scale_per_cm": "max_column_abs_A_times_fast_chart_scale_divided_by_c",
+    "projected_chart_tangent": "P_fast_equals_I_and_P_slow_equals_minus_Tss_inverse_Tsf",
+    "projected_fast_temporal_block": "A_equals_T_fast_rows_times_P",
+    "scales_frozen_at_hash_locked_primary_base": true
+  },
+  "future_nonlinear_policy_if_preflight_passes": {
+    "failed_candidate_must_not_define_an_invariant_object": true,
+    "initial_exact_colored_assembly": true,
+    "line_search_reductions": 12,
+    "maximum_colored_Jacobian_assemblies": 2,
+    "maximum_iterations": 12,
+    "maximum_physical_fast_coordinate_rate_per_second": 1e-08,
+    "maximum_scaled_equation_residual_infinity": 1e-08,
+    "one_refresh_trigger": [
+      "complete_scaled_infinity_merit_line_search_failure",
+      "beginning_of_iteration_maximum_iterations_minus_2"
+    ],
+    "reason": "prospectively_preserve_two_post_refresh_corrections_and_avoid_the_already_certified_stale_matrix_iteration_exhaustion_mode",
+    "refresh_trigger_supersedes_parent_generic_failure_only_trigger": true
+  },
+  "future_root_attraction_audit": {
+    "fresh_colored_tangent_and_independent_JVP_audit_required": true,
+    "maximum_spectral_abscissa_per_second": -1.0,
+    "minimum_attraction_to_slow_relative_rate_ratio": 10.0,
+    "physical_coordinate_rate": "projected_fast_rate_per_second_divided_by_fast_chart_scale",
+    "physical_tangent": "derivative_of_physical_coordinate_rate_with_respect_to_x",
+    "slow_relative_rate": "max_abs_cell_integrated_slow_drift_divided_by_abs_slow_target",
+    "solver_row_normalized_Jacobian_eigenvalues_are_not_physical": true
+  },
+  "linearization_preflight": {
+    "all_singular_values_and_numerical_ranks_recorded": true,
+    "cell_colors": 3,
+    "central_relative_step": 2e-06,
+    "condition_number_is_diagnostic_not_a_pass_by_itself": true,
+    "fast_fields": 4,
+    "forward_colored_equation_evaluations": 12,
+    "forward_relative_step": 1e-06,
+    "independent_central_JVP_directions": 4,
+    "maximum_colored_JVP_relative_defect": 2e-05,
+    "no_nonlinear_candidate_or_state_propagation": true,
+    "radial_stencil_radius": 1
+  },
+  "objective": "certify_a_conditioned_equation_form_linearization_before_any_448_variable_primary_fixed_Q_root_is_executed",
+  "preserved_science": {
+    "cellwise_slow_exact_rows": [
+      0,
+      2,
+      3
+    ],
+    "fast_chart_indices": [
+      1,
+      4,
+      5,
+      6
+    ],
+    "fast_chart_scales": [
+      0.1,
+      0.0001,
+      1.0,
+      0.03
+    ],
+    "fast_equation_rows": [
+      1,
+      4,
+      5,
+      6
+    ],
+    "legacy_three_global_ledger_reaction_used": false,
+    "parent_logPi_label_is_metadata_only_and_is_corrected_here": true,
+    "same_entropy_complete_path_conservative_radial_operator": true,
+    "same_primary_20ms_hydrostatic_lift": true,
+    "slow_chart_indices": [
+      0,
+      2,
+      3
+    ],
+    "slow_chart_names": [
+      "log_surface_density",
+      "azimuthal_velocity_over_c",
+      "log_temperature"
+    ]
+  },
+  "prospective_linear_step": {
+    "maximum_predicted_infinity_merit_ratio": 0.95,
+    "maximum_predicted_two_norm_merit_ratio": 0.9,
+    "maximum_scaled_fast_chart_correction": 0.25,
+    "problem": "minimize_norm2_Js_plus_F_subject_to_abs_s_le_0p25",
+    "solver": "scipy_optimize_lsq_linear_trf_exact_dense",
+    "step_and_active_bounds_recorded": true
+  },
+  "root_equivalence": {
+    "binding_stationary_equations": "radial_operator_equation_RHS_rows_1_4_5_6_equal_zero",
+    "maximum_equation_rate_parity_relative_defect": 1e-10,
+    "projected_fast_rate_zero_is_mathematically_equivalent": true,
+    "projected_rate_is_independent_post_evaluation_parity_audit": true
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizer_entropy_complete_fixed_Q_primary_root_execution_manifest"
+}
