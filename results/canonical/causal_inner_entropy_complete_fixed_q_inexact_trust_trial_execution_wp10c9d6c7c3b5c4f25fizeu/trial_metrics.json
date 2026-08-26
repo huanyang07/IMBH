@@ -1,0 +1,49 @@
+{
+  "base_infinity_norm": 19.156902307812604,
+  "base_two_norm": 110.4442014698435,
+  "classification": "entropy_complete_fixed_Q_inexact_trust_physical_trial_passed",
+  "equation_form_preflight_rejection_preserved": true,
+  "execution_wall_seconds": 35.01453695818782,
+  "maximum_physical_field_calls": 8,
+  "new_nonlinear_roots": 0,
+  "passed": true,
+  "physical_field_calls": 3,
+  "propagated_states": 0,
+  "schema_version": 1,
+  "selected_step_factor": 0.25,
+  "trial_records": [
+    {
+      "accepted": false,
+      "exception": "RuntimeError: fixed-slow local reconstruction line search failed",
+      "factor": 1.0
+    },
+    {
+      "accepted": false,
+      "exception": "RuntimeError: fixed-slow local reconstruction did not converge",
+      "factor": 0.5
+    },
+    {
+      "Armijo_two_norm": true,
+      "accepted": true,
+      "equation_rate_parity_relative_defect": 3.706936736908701e-15,
+      "factor": 0.25,
+      "infinity_norm": 16.56973463694466,
+      "infinity_norm_ratio": 0.8649485376446879,
+      "physical_checks": {
+        "constraint_reconstruction": true,
+        "eigenbasis_condition": true,
+        "equation_rate_parity": true,
+        "height": true,
+        "imaginary_speed": true,
+        "inner_excision": true,
+        "light_cone": true,
+        "optical_depth": true,
+        "temporal_projection": true
+      },
+      "strict_infinity_decrease": true,
+      "two_norm": 103.17904206885122,
+      "two_norm_ratio": 0.9342187339461545
+    }
+  ],
+  "work_package": "WP10c9d6c7c3b5c4f25fizeu_entropy_complete_fixed_Q_inexact_trust_trial_execution"
+}
