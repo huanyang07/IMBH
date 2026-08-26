@@ -1,0 +1,69 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizw_entropy_complete_hyperbolicity_boundary_refinement_diagnostic",
+  "binding_gates": {
+    "accepted_179ms_endpoint_remains_hyperbolic": true,
+    "all_existing_physical_gates_on_refined_probes": true,
+    "coarse_0p5ms_nonreal_face_reproduced": true,
+    "maximum_face_imaginary_ratio_for_hyperbolic_probe": 1e-10,
+    "maximum_macro_roundtrip_relative_defect": 1e-10,
+    "maximum_reconstruction_chart_coordinate": 0.12,
+    "refined_0p125ms_full_truth_operator_passes": true,
+    "refined_0p25ms_full_truth_operator_passes": true
+  },
+  "claim_boundary": {
+    "adaptive_recovery_reopened": false,
+    "complete_cycle_execution_authorized": false,
+    "diagnostic_only": true,
+    "reduced_slow_evolution_authorized": false
+  },
+  "classification": "entropy_complete_179p5ms_hyperbolicity_boundary_refinement_manifest_frozen",
+  "decision": {
+    "coarse_does_not_reproduce": "method/reproducibility failure only",
+    "coarse_fails_both_refined_pass": "classify explicit_AB2_candidate_overshoot; authorize definitions-only event-aware hyperbolicity-retry recovery manifest",
+    "no_probe_is_propagated": true,
+    "refined_probe_fails": "classify unresolved/genuine local hyperbolicity boundary and stop the seven-field cycle path"
+  },
+  "diagnostic_scope": {
+    "fixed_Q_reaction_calls": 0,
+    "maximum_new_truth_operator_calls": 3,
+    "new_global_roots": 0,
+    "nonpropagating": true,
+    "probe_timestep_seconds": [
+      0.0005,
+      0.00025,
+      0.000125
+    ],
+    "restart_from_hash_validated_179ms_checkpoint": true,
+    "scan_timestep_seconds": [
+      0.0,
+      3.125e-05,
+      6.25e-05,
+      9.375e-05,
+      0.000125,
+      0.00015625,
+      0.0001875,
+      0.00021875,
+      0.00025,
+      0.00028125000000000003,
+      0.0003125,
+      0.00034375,
+      0.000375,
+      0.00040625000000000004,
+      0.0004375,
+      0.00046875,
+      0.0005
+    ],
+    "variable_AB2_formula_unchanged": true
+  },
+  "preserved_parent_rejection": {
+    "accepted_horizon_seconds": 0.17900000000000005,
+    "classification": "entropy_complete_adaptive_transient_recovery_failed",
+    "failed_candidate_elapsed_seconds": 0.17950000000000005,
+    "failed_candidate_propagated": false,
+    "failed_candidate_timestep_seconds": 0.0005,
+    "no_parent_gate_relaxed": true,
+    "physical_hyperbolicity_failure": true
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizv_entropy_complete_hyperbolicity_boundary_refinement_manifest"
+}
