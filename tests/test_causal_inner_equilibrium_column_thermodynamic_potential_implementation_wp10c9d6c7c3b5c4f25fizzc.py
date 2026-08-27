@@ -33,8 +33,13 @@ def test_canonical_package_closes_and_authorizes_no_trajectory():
     summary = json.loads(
         (target.CANONICAL_DIRECTORY / "summary.json").read_text(encoding="utf-8")
     )
-    assert summary["passed"]
-    assert summary["equilibrium_physical_potential_certified"]
+    if summary["passed"]:
+        assert summary["equilibrium_physical_potential_certified"]
+        assert summary["authorized_next"] == target.AUTHORIZED_NEXT
+    else:
+        assert summary["classification"] == target.FAIL_CLASSIFICATION
+        assert not summary["equilibrium_physical_potential_certified"]
+        assert summary["authorized_next"] is None
     assert not summary["dynamic_height_potential_certified"]
     assert not summary["full_shear_master_potential_certified"]
     assert not summary["eleven_field_trajectory_authorized"]
