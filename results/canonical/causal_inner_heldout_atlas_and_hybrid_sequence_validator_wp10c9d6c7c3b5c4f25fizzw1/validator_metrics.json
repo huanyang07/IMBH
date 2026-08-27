@@ -1,0 +1,61 @@
+{
+  "authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzx_reduced_hybrid_cycle_kernel_manifest",
+  "certificate_wall_seconds": 0.014431917108595371,
+  "checkpoint_roundtrip_bitwise": true,
+  "classification": "heldout_atlas_and_hybrid_sequence_validator_certified_synthetic_fixture_only",
+  "complete_cycle_execution_authorized": false,
+  "complete_cycle_steps": 0,
+  "heldout_audit": {
+    "all_structure_gates_passed": true,
+    "discrete_modes_and_event_order_exact": true,
+    "maximum_branch_rate_relative_defect": 0.0030000000000000343,
+    "maximum_branch_state_relative_defect": 0.0019960079840319585,
+    "maximum_event_ledger_relative_defect": 0.0019960079840319793,
+    "maximum_event_post_state_relative_defect": 0.005000000000000012,
+    "maximum_event_time_relative_defect": 0.0009999999999998899,
+    "maximum_port_action_relative_defect": 0.003984063745019962,
+    "restart_suffix_replay_bitwise": true,
+    "sequence_endpoint_relative_defect": 0.003984063745019945,
+    "sequence_ledger_relative_defect": 0.003000000000000061
+  },
+  "heldout_audit_passed": true,
+  "heldout_physical_validation_complete": false,
+  "hybrid_accepted_steps": 8,
+  "hybrid_endpoint_relative_defect": 2.0872509401530443e-13,
+  "hybrid_event_count": 2,
+  "hybrid_event_entry_times_seconds": [
+    0.9999999999906867,
+    2.0000000000141362
+  ],
+  "hybrid_event_names": [
+    "cold_to_hot",
+    "hot_to_recovery"
+  ],
+  "hybrid_rejected_steps": 0,
+  "maximum_event_entry_time_relative_defect": 9.31332788667305e-12,
+  "maximum_event_phase_advance_defect": 1.6653345369377348e-16,
+  "minimum_smooth_observed_order": 5.226865762061716,
+  "passed": true,
+  "physical_model_complete": false,
+  "physical_payloads_acquired": false,
+  "reduced_ledger_relative_defect": 0.0,
+  "restart_suffix_replay_bitwise": true,
+  "schema_version": 1,
+  "smooth_observed_orders": [
+    5.441028891105222,
+    5.226865762061716
+  ],
+  "smooth_relative_errors": [
+    2.7184218193848746e-09,
+    6.257544459113515e-11,
+    1.6709388867542816e-12
+  ],
+  "smooth_step_counts": [
+    16,
+    32,
+    64
+  ],
+  "synthetic_fixture_only": true,
+  "work_package": "WP10c9d6c7c3b5c4f25fizzw1_heldout_atlas_and_hybrid_sequence_validator",
+  "wrong_event_order_rejected": true
+}
