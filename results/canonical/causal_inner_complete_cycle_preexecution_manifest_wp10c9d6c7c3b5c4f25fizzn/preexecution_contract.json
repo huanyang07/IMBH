@@ -1,0 +1,104 @@
+{
+  "adaptive_step_controller": {
+    "accepted_error_estimator": "one macrostep versus two half macrosteps",
+    "event_steps_may_be_shorter_than_cycle_average": true,
+    "maximum_step_ratio": 2.0,
+    "reject_on": [
+      "atlas trust-domain exit",
+      "entropy/conservation gate failure",
+      "loss of source spectral gap",
+      "unlocalized event guard",
+      "boundary-port admissibility failure",
+      "restart/checksum mismatch"
+    ]
+  },
+  "authorized_next": null,
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "complete_cycle_steps": 0,
+    "local_mathematical_architecture_verified": true,
+    "predictive_complete_cycle_model_verified": false
+  },
+  "classification": "complete_cycle_preexecution_architecture_frozen_inputs_blocked",
+  "cycle_execution_budget": {
+    "certified_local_100k_step_projection_seconds": 5.355125722417142,
+    "global_projection_status": "not certified until production N_R dry run",
+    "maximum_online_macrosteps": 100000,
+    "maximum_wall_days": 3.0,
+    "minimum_average_macrostep_seconds": 5.7888,
+    "physical_cycle_seconds": 578880.0
+  },
+  "decision": {
+    "complete_cycle_runner_must_not_exist_yet": true,
+    "reason": "the online AP engine is locally certified and cost-feasible, but the cycle-wide physical atlas, boundaries, forcing, and event reset data do not exist",
+    "required_next_artifact": "WP10c9d6c7c3b5c4f25fizzo_cycle_wide_offline_atlas_boundary_event_acquisition_and_global_dry_run",
+    "status": "blocked_before_complete_cycle_execution"
+  },
+  "offline_acquisition_contract": {
+    "all_payloads_hash_locked_before_cycle_run": true,
+    "held_out_validation": "prospectively withheld anchors and phase windows must pass state, reaction/port action, conservation, entropy, and event-time gates",
+    "phase_coverage": "full [0,2*pi] in every discrete physical mode",
+    "required_boundaries": [
+      "inner_excision",
+      "outer_loading_or_outflow"
+    ],
+    "required_events": [
+      "impact",
+      "hot_exit",
+      "mode_entry",
+      "mode_exit"
+    ],
+    "required_payload_per_anchor": [
+      "physical state and geometry",
+      "entropy metric and congruence",
+      "A_port and S_port",
+      "slow forcing b",
+      "trust radius and spectral gap",
+      "physical guard margins"
+    ],
+    "state_coverage": "adaptive overlap cover of every accepted q trajectory tube"
+  },
+  "preexecution_readiness": {
+    "architecture_complete": true,
+    "certified_components": {
+      "Kerr_Schild_Valencia_characteristics": true,
+      "arbitrary_step_bitwise_restart": true,
+      "bounded_two_anchor_AP_trajectory": true,
+      "conservative_entropy_projection_microstep": true,
+      "eleven_field_symmetric_port_and_dissipative_source": true,
+      "exponential_AP_stiff_limit": true,
+      "physical_four_current_entropy_congruence": true,
+      "second_order_matched_refinement": true,
+      "zero_online_truth_calls": true
+    },
+    "complete_cycle_execution_ready": false,
+    "global_dry_run_complete": false,
+    "inputs_complete": false,
+    "missing_binding_inputs": {
+      "cycle_wide_physical_coefficient_atlas": true,
+      "full_cycle_slow_forcing_and_loading": true,
+      "global_spatial_exponential_action_benchmark": true,
+      "held_out_full_cycle_or_phase_window_truth": true,
+      "hot_exit_guard_and_conservative_reset": true,
+      "impact_impulse_map": true,
+      "production_radial_boundary_port_maps": true
+    }
+  },
+  "schema_version": 1,
+  "selected_mathematical_architecture": {
+    "AP_rule": "neutral and weak modes remain explicit; only spectrally separated stable coordinates are exponentially slaved, never microstepped",
+    "global_fast_operator": "L(q,s,m)=-D_R^ES*A_port+S_port with physical boundary ports; D_R^ES is the certified entropy-stable conservative spatial operator",
+    "hybrid_events": "dense-output guard localization followed by hash-locked conservative reset maps for impact and hot-exit transitions",
+    "macrostep": "second-order commutator-free exponential/phi action for L and b, followed by the conservative nonlinear entropy projection",
+    "name": "hybrid conservative entropy-port AP slow-cycle solver",
+    "offline_atlas": "hash-locked maps (q,s,m,R)->(H,A_port,S_port,b,trust_radius,guards,resets)",
+    "online_prohibitions": {
+      "fixed_Q_microsteps": 0,
+      "large_nonlinear_roots": 0,
+      "truth_residual_calls": 0,
+      "unlocked_extrapolation": 0
+    },
+    "online_state": "z in R^(11*N_R), retained slow invariants q=Cz, orbital phase s, and a discrete physical mode m"
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzn_complete_cycle_preexecution_manifest"
+}
