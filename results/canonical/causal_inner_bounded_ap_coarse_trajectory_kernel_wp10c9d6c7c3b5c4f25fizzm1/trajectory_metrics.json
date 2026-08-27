@@ -1,0 +1,161 @@
+{
+  "all_checkpoints_bitwise": true,
+  "all_suffix_replays_bitwise": true,
+  "authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzn_complete_cycle_preexecution_manifest",
+  "case_count": 2,
+  "certificate_wall_seconds": 47.25115145789459,
+  "classification": "bounded_AP_coarse_trajectory_kernel_certified",
+  "complete_cycle_execution_authorized": false,
+  "cycle_wide_coefficient_atlas_complete": false,
+  "maximum_homogeneous_step_expansivity": 7.061018436615996e-14,
+  "maximum_projected_100k_step_wall_days": 6.198062178723544e-05,
+  "maximum_state_norm": 0.08826995446168144,
+  "maximum_stiff_fast_slaving_defect": 2.5076753698185425e-07,
+  "minimum_matched_refinement_order": 2.001346936546596,
+  "minimum_source_nullity": 4,
+  "offline_anchor_wall_seconds": 47.181307166814804,
+  "offline_physical_anchor_builds": 4,
+  "online_truth_calls": 0,
+  "passed": true,
+  "passing_case_count": 2,
+  "rows": [
+    {
+      "anchor_indices": [
+        20,
+        30
+      ],
+      "case": "held_out",
+      "checkpoint_roundtrip_bitwise": true,
+      "maximum_homogeneous_step_expansivity": 5.0182080713057076e-14,
+      "maximum_state_norm": 0.08826995446168144,
+      "maximum_stiff_fast_slaving_defect": 2.4915969217100577e-07,
+      "median_online_step_wall_seconds": 5.355125722417142e-05,
+      "minimum_matched_refinement_order": 2.001346936546596,
+      "online_truth_calls": 0,
+      "passed": true,
+      "projected_100k_step_wall_days": 6.198062178723544e-05,
+      "rows": [
+        {
+          "checkpoint_roundtrip_bitwise": true,
+          "fast_slaving_defect": 0.23993518063546992,
+          "matched_orders": [
+            2.001346936546596,
+            2.0643964685144054
+          ],
+          "relative_errors": [
+            0.0014978011788861591,
+            0.00037410086160932776,
+            8.944240090488535e-05
+          ],
+          "stiffness_ratio": 1.0,
+          "suffix_replay_bitwise": true
+        },
+        {
+          "checkpoint_roundtrip_bitwise": true,
+          "fast_slaving_defect": 2.5441890314179564e-06,
+          "matched_orders": [
+            2.025956916264262,
+            2.0724469058817276
+          ],
+          "relative_errors": [
+            0.0014600035518716578,
+            0.0003584925300147819,
+            8.523371686225736e-05
+          ],
+          "stiffness_ratio": 100.0,
+          "suffix_replay_bitwise": true
+        },
+        {
+          "checkpoint_roundtrip_bitwise": true,
+          "fast_slaving_defect": 2.4915969217100577e-07,
+          "matched_orders": [
+            2.026026185242147,
+            2.072617025077534
+          ],
+          "relative_errors": [
+            0.0014599651989636144,
+            0.00035846590110575195,
+            8.521733646206037e-05
+          ],
+          "stiffness_ratio": 1000.0,
+          "suffix_replay_bitwise": true
+        }
+      ],
+      "source_nullities": [
+        4,
+        4
+      ],
+      "suffix_replay_bitwise": true
+    },
+    {
+      "anchor_indices": [
+        0,
+        10
+      ],
+      "case": "primary",
+      "checkpoint_roundtrip_bitwise": true,
+      "maximum_homogeneous_step_expansivity": 7.061018436615996e-14,
+      "maximum_state_norm": 0.08826995446168144,
+      "maximum_stiff_fast_slaving_defect": 2.5076753698185425e-07,
+      "median_online_step_wall_seconds": 5.348241393221542e-05,
+      "minimum_matched_refinement_order": 2.0017068502739233,
+      "online_truth_calls": 0,
+      "passed": true,
+      "projected_100k_step_wall_days": 6.190094205117525e-05,
+      "rows": [
+        {
+          "checkpoint_roundtrip_bitwise": true,
+          "fast_slaving_defect": 0.24106800591807626,
+          "matched_orders": [
+            2.0017068502739233,
+            2.064456009105386
+          ],
+          "relative_errors": [
+            0.001486680887111024,
+            0.00037123075932753174,
+            8.875253576481207e-05
+          ],
+          "stiffness_ratio": 1.0,
+          "suffix_replay_bitwise": true
+        },
+        {
+          "checkpoint_roundtrip_bitwise": true,
+          "fast_slaving_defect": 2.560421780136056e-06,
+          "matched_orders": [
+            2.0265860223396723,
+            2.0726276327410624
+          ],
+          "relative_errors": [
+            0.0014497572048974355,
+            0.0003558214246855907,
+            8.458804875518889e-05
+          ],
+          "stiffness_ratio": 100.0,
+          "suffix_replay_bitwise": true
+        },
+        {
+          "checkpoint_roundtrip_bitwise": true,
+          "fast_slaving_defect": 2.5076753698185425e-07,
+          "matched_orders": [
+            2.026637356899475,
+            2.0727693942997116
+          ],
+          "relative_errors": [
+            0.0014497285193071183,
+            0.00035580172372606843,
+            8.457505443183696e-05
+          ],
+          "stiffness_ratio": 1000.0,
+          "suffix_replay_bitwise": true
+        }
+      ],
+      "source_nullities": [
+        4,
+        4
+      ],
+      "suffix_replay_bitwise": true
+    }
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizzm1_bounded_AP_coarse_trajectory_kernel"
+}
