@@ -9,6 +9,7 @@ from imri_qpe.layer3_minidisk_1d.causal_inner_geometry import (
 )
 from imri_qpe.layer3_minidisk_1d.causal_inner_nonlinear_port_atlas import (
     equilibrium_entropy_point_from_primitive,
+    equilibrium_temporal_conserved,
 )
 
 
@@ -74,3 +75,29 @@ def test_projection_rejects_invalid_courant_factor():
             pass
         else:
             raise AssertionError("invalid Courant factor was accepted")
+
+
+def test_projection_preserves_matched_endpoint_rk2_order():
+    def advance(courant, count):
+        geometry, height, points, seeds = _three_cell_patch()
+        for _ in range(count):
+            result = conservative_entropy_projected_midpoint_microstep(
+                geometry=geometry,
+                proper_half_thickness=height,
+                points=points,
+                seeds=seeds,
+                courant_factor=courant,
+            )
+            assert result.passed
+            points, seeds = result.points, result.seeds
+        return np.asarray(
+            [equilibrium_temporal_conserved(point) for point in points]
+        )
+
+    full = advance(0.02, 1)
+    half = advance(0.01, 2)
+    quarter = advance(0.005, 4)
+    scales = np.maximum(np.max(np.abs(quarter), axis=0), 1.0)
+    coarse_defect = np.linalg.norm((full - half) / scales)
+    refined_defect = np.linalg.norm((half - quarter) / scales)
+    assert np.log2(coarse_defect / refined_defect) >= 1.8

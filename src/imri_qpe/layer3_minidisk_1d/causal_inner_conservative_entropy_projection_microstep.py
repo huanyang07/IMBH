@@ -276,7 +276,11 @@ def conservative_entropy_projected_midpoint_microstep(
 
     value_zero = evaluate(0.0)
     theta = 0.0
-    converged = abs(value_zero) <= 2.0e-11
+    # The entropy tolerance is an acceptance gate, not a reason to turn the
+    # projection off.  Skipping a small but resolvable defect at refined
+    # substeps introduces a tolerance-dependent branch and can destroy the
+    # matched-endpoint RK2 order.
+    converged = value_zero == 0.0
     bracket: tuple[float, float] | None = None
     if not converged and normalized_slope < 0.0:
         estimate = -value_zero / normalized_slope
@@ -305,6 +309,11 @@ def conservative_entropy_projected_midpoint_microstep(
         )
         theta = float(solution.root)
         converged = bool(solution.converged)
+    elif abs(value_zero) <= 2.0e-11:
+        # At the arithmetic/recovery floor a sign-changing bracket may not be
+        # representable.  Such a point is still admissible under the frozen
+        # entropy gate, while the attempted projection remains recorded.
+        converged = True
 
     final_points, final_seeds, final_recovery, final_entropy = cache.get(
         theta,
