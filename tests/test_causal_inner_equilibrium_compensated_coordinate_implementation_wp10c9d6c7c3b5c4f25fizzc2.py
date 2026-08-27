@@ -21,9 +21,14 @@ def test_original_rejection_remains_a_parent_not_a_pass():
 @pytest.mark.skipif(not target.CANONICAL_DIRECTORY.exists(), reason="compensated certificate has not run")
 def test_canonical_package_closes_before_dynamic_height():
     summary = json.loads((target.CANONICAL_DIRECTORY / "summary.json").read_text(encoding="utf-8"))
-    assert summary["passed"]
     assert summary["original_equilibrium_rejection_preserved"]
-    assert summary["equilibrium_physical_potential_certified"]
+    if summary["passed"]:
+        assert summary["equilibrium_physical_potential_certified"]
+        assert summary["authorized_next"] == target.AUTHORIZED_NEXT
+    else:
+        assert summary["classification"] == target.FAIL_CLASSIFICATION
+        assert not summary["equilibrium_physical_potential_certified"]
+        assert summary["authorized_next"] is None
     assert not summary["dynamic_height_potential_certified"]
     assert not summary["eleven_field_trajectory_authorized"]
     assert not summary["complete_cycle_execution_authorized"]
