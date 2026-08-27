@@ -1,0 +1,72 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzu1_nonperiodic_native_global_AP_boundary_action_structure_certificate",
+  "binding_energy_identity": {
+    "affine_power": "outer loading contributes 2 z^T H B_out a_in and is reported separately",
+    "formula": "H L+L^T H = -sum_boundary E |A_n| E^T - 2 G^T R G + H(L_S+L_S^T)",
+    "interpretation": "homogeneous action is nonexpansive in the H entropy norm",
+    "no_sample_only_claim": true
+  },
+  "certificate": {
+    "checkpoint_roundtrip_bitwise": true,
+    "complete_cycle_steps": 0,
+    "inner_incoming_count": 0,
+    "maximum_affine_action_defect": 5e-12,
+    "maximum_energy_identity_relative_defect": 5e-12,
+    "maximum_homogeneous_entropy_growth_eigenvalue": 5e-11,
+    "maximum_sbp_identity_defect": 5e-14,
+    "minimum_native_cells": 112,
+    "minimum_source_nullity": 4,
+    "native_profile": "selected_profile_index=0 at every one of 112 cells",
+    "outer_incoming_count": 11
+  },
+  "classification": "nonperiodic_native_global_AP_boundary_action_structure_manifest_frozen",
+  "decision": {
+    "failure_classification": "nonperiodic_native_global_AP_boundary_action_structure_failed",
+    "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzv_cycle_physical_driver_branch_and_event_interpolator_manifest",
+    "pass_classification": "nonperiodic_native_global_AP_boundary_action_structure_certified"
+  },
+  "definitions_only": true,
+  "maximally_dissipative_sat": {
+    "affine_control": "+H^-1 E_boundary P V_in a_in",
+    "homogeneous_sat": "-H^-1 E_boundary P E_boundary^T z",
+    "incoming_penalty": "P=(-A_n)_+",
+    "inner_edge": "pure excision: zero incoming eigenvalues, zero SAT control columns",
+    "outer_edge": "eleven incoming entropy-characteristic amplitudes",
+    "outward_matrix": "A_n=n A_boundary"
+  },
+  "native_state": {
+    "entropy_fields_per_cell": 11,
+    "entropy_weight": "H=diag(m_i I_11), m_i>0 from normalized native cell measures",
+    "global_dimension": 1232,
+    "principal_and_source_payload": "one frozen certified 11-field port per native cell",
+    "radial_cells": 112
+  },
+  "sbp_split_form": {
+    "coefficient_policy": "all A_i,S_i,H,R and boundary eigenspaces frozen within one accepted action",
+    "difference": "Q_ii=(-1/2,0,...,0,+1/2), Q_i,i+1=+1/2, Q_i+1,i=-1/2",
+    "identities": [
+      "Q+Q^T=B=diag(-1,0,...,0,+1)",
+      "Q 1=0"
+    ],
+    "interior_viscosity": "L_D=-H^-1 G^T R G, R_face=nu_face I_11, nu_face>=rho((A_i+A_i+1)/2)",
+    "principal_operator": "L_A=-(1/2)H^-1[(Q tensor I)A+A(Q tensor I)]",
+    "source_operator": "L_S=blockdiag(S_i), symmetric(S_i)<=0"
+  },
+  "schema_version": 1,
+  "scientific_boundary": {
+    "certifies": [
+      "native 1232-state nonperiodic sparse action structure",
+      "pure inner excision",
+      "affine eleven-characteristic outer loading",
+      "exact semidiscrete entropy identity"
+    ],
+    "complete_cycle_execution_authorized": false,
+    "does_not_certify": [
+      "physical cycle-wide driver payload",
+      "radial accuracy or nonlinear atlas interpolation",
+      "physical event calibration or heldout cycle prediction",
+      "complete-cycle execution"
+    ]
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzu_nonperiodic_native_global_AP_boundary_action_structure_manifest"
+}
