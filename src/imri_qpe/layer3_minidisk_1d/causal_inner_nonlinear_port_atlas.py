@@ -7,6 +7,7 @@ from decimal import Decimal, localcontext
 
 import numpy as np
 from numpy.polynomial.legendre import leggauss
+from scipy.optimize import least_squares
 
 from imri_qpe.constants import C, DEFAULT_MU_MOL
 
@@ -118,6 +119,18 @@ class ConditionedDiscreteGradientFluxAudit:
         )
 
 
+@dataclass(frozen=True)
+class EquilibriumPrimitiveRecovery:
+    point: EquilibriumEntropyPoint
+    density: float
+    temperature: float
+    radial_velocity_over_c: float
+    azimuthal_velocity_over_c: float
+    scaled_residual_norm: float
+    function_evaluations: int
+    converged: bool
+
+
 def equilibrium_entropy_point_from_primitive(
     geometry: KerrSchildColumnGeometry,
     *,
@@ -225,6 +238,126 @@ def _radial_current_gradient(point: EquilibriumEntropyPoint) -> np.ndarray:
             *state.column_stress_energy[_RADIAL_INDEX, _ENTROPY_BETA_INDICES],
         ),
         dtype=float,
+    )
+
+
+def equilibrium_temporal_conserved(point: EquilibriumEntropyPoint) -> np.ndarray:
+    """Return ``(J^t,T^tt,T^tR,T^tphi)`` for the four-field core."""
+
+    if not isinstance(point, EquilibriumEntropyPoint):
+        raise TypeError("point must be EquilibriumEntropyPoint")
+    return np.asarray(
+        (
+            point.state.surface_mass_current[0],
+            *point.state.column_stress_energy[0, _ENTROPY_BETA_INDICES],
+        ),
+        dtype=float,
+    )
+
+
+def equilibrium_mathematical_entropy_decimal(
+    point: EquilibriumEntropyPoint,
+) -> Decimal:
+    """Return ``-J^t s`` in a cancellation-free physical representation.
+
+    The certified Gibbs identity makes this algebraically identical to
+    ``v.U-X^t``.  Evaluating the reduced physical expression avoids losing
+    the RK-scale entropy change to rest-mass cancellation.
+    """
+
+    with localcontext() as context:
+        context.prec = 50
+        return -Decimal.from_float(
+            float(point.state.surface_mass_current[0])
+        ) * Decimal.from_float(float(point.state.specific_entropy))
+
+
+def _rapidity_from_velocity(radial: float, azimuthal: float) -> tuple[float, float]:
+    speed = float(np.hypot(radial, azimuthal))
+    if speed >= 1.0:
+        raise ValueError("horizontal velocity must be subluminal")
+    if speed == 0.0:
+        return 0.0, 0.0
+    factor = np.arctanh(speed) / speed
+    return float(factor * radial), float(factor * azimuthal)
+
+
+def _velocity_from_rapidity(first: float, second: float) -> tuple[float, float]:
+    magnitude = float(np.hypot(first, second))
+    if magnitude == 0.0:
+        return 0.0, 0.0
+    factor = np.tanh(magnitude) / magnitude
+    return float(factor * first), float(factor * second)
+
+
+def recover_equilibrium_point_from_temporal_conserved(
+    geometry: KerrSchildColumnGeometry,
+    *,
+    proper_half_thickness: float,
+    target_conserved,
+    initial_density: float,
+    initial_temperature: float,
+    initial_radial_velocity_over_c: float,
+    initial_azimuthal_velocity_over_c: float,
+    maximum_function_evaluations: int = 100,
+) -> EquilibriumPrimitiveRecovery:
+    """Invert the temporal current with positive logs and bounded rapidity."""
+
+    target = np.asarray(target_conserved, dtype=float)
+    if target.shape != (4,) or np.any(~np.isfinite(target)):
+        raise ValueError("target conserved state must be finite and length four")
+    rapidity = _rapidity_from_velocity(
+        initial_radial_velocity_over_c, initial_azimuthal_velocity_over_c
+    )
+    initial = np.asarray(
+        (
+            np.log(float(initial_density)),
+            np.log(float(initial_temperature)),
+            *rapidity,
+        )
+    )
+    def point_from_unknown(unknown):
+        radial, azimuthal = _velocity_from_rapidity(unknown[2], unknown[3])
+        return equilibrium_entropy_point_from_primitive(
+            geometry,
+            density=float(np.exp(unknown[0])),
+            temperature=float(np.exp(unknown[1])),
+            proper_half_thickness=proper_half_thickness,
+            radial_velocity_over_c=radial,
+            azimuthal_velocity_over_c=azimuthal,
+        ), radial, azimuthal
+
+    initial_point, _, _ = point_from_unknown(initial)
+    initial_conserved = equilibrium_temporal_conserved(initial_point)
+    scales = np.maximum(np.maximum(np.abs(target), np.abs(initial_conserved)), 1.0)
+
+    def residual(unknown):
+        try:
+            point, _, _ = point_from_unknown(unknown)
+            return (equilibrium_temporal_conserved(point) - target) / scales
+        except (ValueError, FloatingPointError, OverflowError):
+            return np.full(4, 1.0e12)
+
+    solution = least_squares(
+        residual,
+        initial,
+        method="trf",
+        xtol=1.0e-13,
+        ftol=1.0e-13,
+        gtol=1.0e-13,
+        max_nfev=int(maximum_function_evaluations),
+    )
+    point, radial, azimuthal = point_from_unknown(solution.x)
+    defect = float(np.linalg.norm(residual(solution.x), ord=np.inf))
+    return EquilibriumPrimitiveRecovery(
+        point,
+        float(np.exp(solution.x[0])),
+        float(np.exp(solution.x[1])),
+        radial,
+        azimuthal,
+        defect,
+        int(solution.nfev),
+        bool(solution.success and defect <= 1.0e-11),
     )
 
 
@@ -470,6 +603,7 @@ __all__ = [
     "ConditionedDiscreteGradientFlux",
     "ConditionedDiscreteGradientFluxAudit",
     "EntropyPathFluxAudit",
+    "EquilibriumPrimitiveRecovery",
     "EquilibriumEntropyPoint",
     "STFPolarConnection",
     "STFPolarConnectionAudit",
@@ -477,7 +611,10 @@ __all__ = [
     "audit_conditioned_discrete_gradient_radial_flux",
     "audit_stf_polar_connection",
     "equilibrium_entropy_conservative_radial_flux",
+    "equilibrium_mathematical_entropy_decimal",
+    "equilibrium_temporal_conserved",
     "equilibrium_entropy_point_from_primitive",
+    "recover_equilibrium_point_from_temporal_conserved",
     "conditioned_discrete_gradient_radial_flux",
     "stf_polar_connection",
 ]
