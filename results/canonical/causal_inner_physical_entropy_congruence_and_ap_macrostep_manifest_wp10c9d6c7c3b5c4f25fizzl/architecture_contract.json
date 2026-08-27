@@ -1,0 +1,82 @@
+{
+  "AP_macrostep": {
+    "fast_generator": "L_k=-i k A_port+S_port for each coarse radial mode",
+    "gates": {
+      "maximum_composition_defect": 2e-11,
+      "maximum_semigroup_expansivity": 1e-10,
+      "maximum_stiff_limit_defect": 2e-08
+    },
+    "kernel_step_ratios": [
+      0.001,
+      1.0,
+      1000.0
+    ],
+    "mode_policy": "retain neutral and weakly damped modes explicitly; eliminate only stable modes separated by a prospectively verified gap",
+    "propagator": "exact or rational-Krylov exponential/phi action",
+    "slow_forcing": "conservative loading, radiation, tide, wind and boundary ports enter through phi_1(dt L) forcing, followed by entropy retraction",
+    "stiff_limit": "stable fast coordinates converge to their forced slow manifold without shrinking the macrostep"
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzl1_physical_entropy_congruence_and_AP_kernel",
+  "claim_boundary": {
+    "bounded_AP_trajectory_authorized": false,
+    "complete_cycle_execution_authorized": false
+  },
+  "classification": "physical_entropy_congruence_and_AP_macrostep_manifest_frozen",
+  "corrected_eleven_field_port": {
+    "coordinate_map": "spectral Valencia map including lapse, radial shift, radial velocity, and transverse velocity",
+    "core_orientation": "orthogonal spectral congruence aligns the four rest-core coordinates with the physical H-whitened core",
+    "gates": {
+      "local_light_cone_margin": 2e-12,
+      "source_positive_part": 2e-12,
+      "symmetry": 2e-12
+    },
+    "rest_matrix": "certified acoustic plus five-STF incidence matrix",
+    "source": "same dissipative five-shear plus damped Hamiltonian height port"
+  },
+  "cycle_cost_contract": {
+    "coefficients": "offline hash-locked physical atlas only",
+    "cycle_seconds": 578880.0,
+    "maximum_online_macrosteps": 100000,
+    "maximum_wall_days": 3.0,
+    "online_fixed_Q_microsteps": 0,
+    "online_truth_residual_calls": 0
+  },
+  "decision": {
+    "failure_classification": "physical_entropy_congruence_and_AP_kernel_failed",
+    "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzm_bounded_AP_coarse_trajectory_manifest",
+    "pass_classification": "physical_entropy_congruence_and_AP_kernel_certified"
+  },
+  "diagnosis": {
+    "old_algebraic_kernel_preserved": true,
+    "old_coordinate_map_status": "the special-relativistic scalar Mobius map is only an algebraic rest-frame fixture; it is not the physical Kerr-Schild congruence when shift and transverse velocity are nonzero",
+    "required_repair": "derive the four-current entropy metric from physical tangents and use the exact Valencia/Kerr-Schild characteristic map"
+  },
+  "physical_congruence": {
+    "gates": {
+      "maximum_Valencia_spectrum_defect": 2e-06,
+      "maximum_core_reconstruction_defect": 2e-06,
+      "maximum_whitened_symmetry_defect": 2e-06,
+      "minimum_scaled_entropy_metric_eigenvalue": 1e-12
+    },
+    "matrices": {
+      "F_q": "derivative of (J^R,T^Rt,T^RR,T^Rphi)",
+      "H": "v_q U_q^{-1}=partial v/partial U",
+      "K": "H-whitened physical flux Jacobian F_q U_q^{-1}",
+      "U_q": "derivative of (J^t,T^tt,T^tR,T^tphi)",
+      "v_q": "derivative of compensated (alpha,beta_t,beta_R,beta_phi)"
+    },
+    "primitive_chart": "q=(log rho, log T, v_R/c, v_phi/c)",
+    "primitive_step": 0.0003,
+    "tangents": "fourth-order centered physical-primitive stencil",
+    "witness_indices": [
+      0,
+      10,
+      20,
+      30,
+      40,
+      46
+    ]
+  },
+  "schema_version": 1,
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzl_physical_entropy_congruence_and_AP_macrostep_manifest"
+}
