@@ -1,0 +1,33 @@
+#!/usr/bin/env python3
+"""Freeze compensated storage for the discrete-gradient flux closure."""
+from __future__ import annotations
+import argparse,csv,json,sys
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1]
+for p in (ROOT/"src",ROOT/"scripts"):
+ if str(p) not in sys.path:sys.path.insert(0,str(p))
+import run_causal_inner_conditioned_discrete_gradient_flux_kernel_wp10c9d6c7c3b5c4f25fizzi3 as parent  # noqa:E402
+WORK_PACKAGE="definitions_only_WP10c9d6c7c3b5c4f25fizzi4_compensated_discrete_gradient_flux_manifest";CLASSIFICATION="compensated_discrete_gradient_flux_manifest_frozen";AUTHORIZED_NEXT="WP10c9d6c7c3b5c4f25fizzi5_compensated_discrete_gradient_flux_kernel";PASS_NEXT="definitions_only_WP10c9d6c7c3b5c4f25fizzj_bounded_nonlinear_split_microstep_manifest";ARTIFACT="causal_inner_compensated_discrete_gradient_flux_manifest_wp10c9d6c7c3b5c4f25fizzi4";CANONICAL_DIRECTORY=ROOT/"results/canonical"/ARTIFACT;REPORT_RELATIVE="docs/reports/current/CODEX_CAUSAL_INNER_COMPENSATED_DISCRETE_GRADIENT_FLUX_MANIFEST_WP10C9D6C7C3B5C4F25FIZZI4_2026-08-26.md";REPORT_PATH=ROOT/REPORT_RELATIVE;THIS_RUNNER="scripts/run_causal_inner_compensated_discrete_gradient_flux_manifest_wp10c9d6c7c3b5c4f25fizzi4.py";THIS_TEST="tests/test_causal_inner_compensated_discrete_gradient_flux_manifest_wp10c9d6c7c3b5c4f25fizzi4.py";PARENT_SHA256="6fb70131c6947b278a76590e1a827dfd83561a21dc76781b03201b4330cd5b9d";CANONICAL_MANIFEST=ROOT/"results/manifests/canonical_artifacts.csv";CANONICAL_SUMMARY=ROOT/"results/manifests/canonical_summary.json"
+def _u():return parent._u()
+def _validate_parent(clean=False):
+ u=_u()
+ if u._sha256(parent.CANONICAL_DIRECTORY/"SHA256SUMS.txt")!=PARENT_SHA256:raise RuntimeError("double flux rejection checksum changed")
+ h=u._validate_checksums(parent.CANONICAL_DIRECTORY);s=u._read_json(parent.CANONICAL_DIRECTORY/"summary.json");m=u._read_json(parent.CANONICAL_DIRECTORY/"kernel_metrics.json")
+ if s["passed"] or m["passing_endpoint_pair_count"]!=374 or m["maximum_tadmor_relative_defect"]<=2e-12 or m["maximum_weighted_correction_relative_norm"]>=.05 or m["maximum_swap_symmetry_relative_defect"]!=0 or s["complete_cycle_execution_authorized"]:raise RuntimeError("double flux rejection changed")
+ if clean and u._git("status","--short","--untracked-files=no"):raise RuntimeError("compensated flux manifest needs clean tracked tree")
+ return h
+def _contract():return {"schema_version":1,"work_package":WORK_PACKAGE,"classification":CLASSIFICATION,"preserved":{"straight_entropy_path_rejected":True,"ordinary_double_discrete_gradient_rejected":True,"discrete_gradient_formula_unchanged":True,"Tadmor_gate_unchanged":2e-12},"repair":{"representation":"each of four flux coordinates is stored as nonoverlapping high and low binary64 components","construction":"split the extended-precision discrete-gradient result into high=float(value), low=float(value-high)","contraction":"entropy and flux-divergence ledgers accumulate high and low separately in extended precision","physical_flux":"high+low; no equation, endpoint, correction weight, or dissipation change","downstream_contract":"checkpoints and interface exchanges persist both components losslessly"},"kernel":{"same_endpoint_pairs":376,"required_passing_pairs":376,"Tadmor_relative_gate":2e-12,"swap_symmetry_gate":2e-13,"consistency_gate":2e-13,"maximum_weighted_correction_relative_norm":.05,"maximum_low_over_high_norm":2e-15,"trajectory_steps":0},"decision":{"pass_classification":"compensated_discrete_gradient_flux_kernel_certified","pass_authorized_next":PASS_NEXT,"failure_classification":"compensated_discrete_gradient_flux_kernel_failed"},"claim_boundary":{"definitions_only":True,"trajectory_authorized":False,"complete_cycle_execution_authorized":False},"authorized_next":AUTHORIZED_NEXT}
+def _update(s):
+ u=_u();rows=list(csv.DictReader(CANONICAL_MANIFEST.open(newline="",encoding="utf-8")));rows=[r for r in rows if r.get("case")!=ARTIFACT]
+ for p in sorted(CANONICAL_DIRECTORY.iterdir()):
+  if p.is_file():rows.append({"case":ARTIFACT,"path":str(p.relative_to(ROOT)),"bytes":str(p.stat().st_size),"sha256":u._sha256(p),"scientific_status":"SUPPORTED"})
+ with CANONICAL_MANIFEST.open("w",newline="",encoding="utf-8") as h:w=csv.DictWriter(h,fieldnames=("case","path","bytes","sha256","scientific_status"),lineterminator="\n");w.writeheader();w.writerows(rows)
+ c=u._read_json(CANONICAL_SUMMARY);c.setdefault("artifacts",{})[ARTIFACT]={"path":str(CANONICAL_DIRECTORY.relative_to(ROOT)),"classification":CLASSIFICATION,"passed":True};c.update({"case_count":len({r['case'] for r in rows}),"file_count":len(rows),"total_bytes":sum(int(r['bytes']) for r in rows),"all_payload_hashes_recorded":True,"latest_source_parent_commit":u._git("rev-parse","HEAD"),"latest_work_package":WORK_PACKAGE});u._write_json(CANONICAL_SUMMARY,c)
+def _freeze():
+ if CANONICAL_DIRECTORY.exists() or REPORT_PATH.exists():raise RuntimeError("compensated flux manifest exists")
+ h=_validate_parent(True);u=_u();CANONICAL_DIRECTORY.mkdir(parents=True);u._write_json(CANONICAL_DIRECTORY/"compensated_flux_contract.json",_contract());s={"schema_version":1,"work_package":WORK_PACKAGE,"classification":CLASSIFICATION,"passed":True,"definitions_only":True,"prior_rejections_preserved":True,"compensated_discrete_gradient_flux_certified":False,"trajectory_authorized":False,"complete_cycle_execution_authorized":False,"authorized_next":AUTHORIZED_NEXT};u._write_json(CANONICAL_DIRECTORY/"summary.json",s);u._write_json(CANONICAL_DIRECTORY/"input_lock.json",{"parent_artifact":parent.ARTIFACT,"parent_checksum_manifest_sha256":PARENT_SHA256,"parent_hashes":h});REPORT_PATH.parent.mkdir(parents=True,exist_ok=True);REPORT_PATH.write_text("# Compensated discrete-gradient flux manifest\n\nThe flux formula and 2e-12 gate are unchanged. Only its numerical representation changes: each physical component is carried as a high/low binary64 pair so the small entropy-closing correction is not rounded out of a large base flux. Both prior rejections remain binding. No trajectory is authorized.\n",encoding="utf-8");src=(THIS_RUNNER,THIS_TEST,REPORT_RELATIVE);u._write_json(CANONICAL_DIRECTORY/"provenance.json",{"implementation_commit":u._git("rev-parse","HEAD"),"source_hashes":{p:u._sha256(ROOT/p) for p in src}});names=sorted(p.name for p in CANONICAL_DIRECTORY.iterdir());(CANONICAL_DIRECTORY/"SHA256SUMS.txt").write_text("".join(f"{u._sha256(CANONICAL_DIRECTORY/n)}  {n}\n" for n in names));_update(s);return s
+def main():
+ p=argparse.ArgumentParser();p.add_argument("--freeze",action="store_true");a=p.parse_args();
+ if not a.freeze:p.error("choose --freeze")
+ print(json.dumps(_freeze(),indent=2,sort_keys=True));return 0
+if __name__=="__main__":raise SystemExit(main())
