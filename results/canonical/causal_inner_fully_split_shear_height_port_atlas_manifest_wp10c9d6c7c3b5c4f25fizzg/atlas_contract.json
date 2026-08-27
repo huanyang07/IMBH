@@ -1,0 +1,72 @@
+{
+  "architecture": {
+    "anchor_policy": "all thermodynamic metrics, bases and coefficients frozen within an accepted substep and recomputed only at an explicit atlas reanchor",
+    "fields": "4 equilibrium Godunov + 5 physical STF shear ports + 2 vertical ports = 11",
+    "full_tensor_no_projection": true,
+    "global_common_potential_required": false,
+    "physical_tensor": "pi^{mu nu}=sum_A pi_A E_A^{mu nu}(u,g)",
+    "type": "state-local symmetric-hyperbolic GENERIC/port-Hamiltonian atlas"
+  },
+  "atlas": {
+    "anchors": "same frozen physical envelope, later extended prospectively",
+    "interpolation": "structure-preserving interpolation only after a separate certificate",
+    "outside_overlap": "fail closed and request a new offline anchor",
+    "overlap": "nearest certified anchor only inside a prospectively audited trust radius",
+    "stored": "primitive anchor, entropy congruence, STF frame, A0, Ar, source J-R, EOS and coefficient hashes"
+  },
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzg1_fully_split_physical_port_atlas_kernel",
+  "claim_boundary": {
+    "cycle_execution_authorized": false,
+    "definitions_only": true,
+    "discretization_certified": false,
+    "trajectory_authorized": false
+  },
+  "classification": "fully_split_shear_height_port_atlas_manifest_frozen",
+  "decision": {
+    "failure_classification": "fully_split_physical_port_atlas_kernel_failed",
+    "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzh_entropy_stable_split_discretization_manifest",
+    "pass_classification": "fully_split_physical_port_atlas_kernel_certified"
+  },
+  "kernel": {
+    "STF_constraint_gate": 2e-13,
+    "energy_ledger_gate": 1e-12,
+    "maximum_speed_gate": 0.999,
+    "source_positive_part_gate": 1e-12,
+    "symmetry_gate": 1e-12,
+    "temporal_minimum_eigenvalue_gate": 1e-10,
+    "trajectory_steps": 0,
+    "witnesses": 47
+  },
+  "normalized_local_principal_form": {
+    "A0": "identity after the anchor's fixed entropy-coordinate congruence",
+    "causality": "every eigenvalue strictly inside (-1,1)",
+    "coordinate_matrix": "A_r=(beta_r*I+K)*(I+beta_r*K)^(-1), the symmetric relativistic spectral map",
+    "radial_STF_incidence": "C_iA=E_A^{R i} for i=(R,phi,z)",
+    "rest_acoustic_speed": "c_s/c from the exact gas+radiation EOS",
+    "rest_matrix": "symmetric acoustic plus velocity--five-STF incidence couplings",
+    "shear_signal_speed": "c_nu/c=sqrt(alpha)*c_s/c"
+  },
+  "ports": {
+    "height": {
+      "Omega_H_squared": "Omega_perp**2+R*T/H**2",
+      "damping_heat": "gamma_H times vertical reservoir",
+      "gamma_H": "alpha*Omega_perp",
+      "normalized_source": "[[0,Omega_H],[-Omega_H,-gamma_H]]"
+    },
+    "shear": {
+      "heat": "sum_A reservoir_loss_A is deposited into thermal energy",
+      "physical_entropy": "nonnegative",
+      "relaxation": "-pi_A/tau_pi",
+      "reversible": "symmetric spatial stress/work incidence is skew-adjoint in the energy ledger"
+    }
+  },
+  "preserved": {
+    "fixed_height_equilibrium_potential_certified": true,
+    "height_port_kernel_certified": true,
+    "moving_five_STF_basis_certified": true,
+    "one_piece_height_potential_rejected": true,
+    "restricted_five_STF_scalar_potential_rejected": true
+  },
+  "schema_version": 1,
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzg_fully_split_shear_height_port_atlas_manifest"
+}
