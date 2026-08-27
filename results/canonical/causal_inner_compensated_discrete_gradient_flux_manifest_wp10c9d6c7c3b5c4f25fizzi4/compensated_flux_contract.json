@@ -1,0 +1,39 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzi5_compensated_discrete_gradient_flux_kernel",
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "definitions_only": true,
+    "trajectory_authorized": false
+  },
+  "classification": "compensated_discrete_gradient_flux_manifest_frozen",
+  "decision": {
+    "failure_classification": "compensated_discrete_gradient_flux_kernel_failed",
+    "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzj_bounded_nonlinear_split_microstep_manifest",
+    "pass_classification": "compensated_discrete_gradient_flux_kernel_certified"
+  },
+  "kernel": {
+    "Tadmor_relative_gate": 2e-12,
+    "consistency_gate": 2e-13,
+    "maximum_low_over_high_norm": 2e-15,
+    "maximum_weighted_correction_relative_norm": 0.05,
+    "required_passing_pairs": 376,
+    "same_endpoint_pairs": 376,
+    "swap_symmetry_gate": 2e-13,
+    "trajectory_steps": 0
+  },
+  "preserved": {
+    "Tadmor_gate_unchanged": 2e-12,
+    "discrete_gradient_formula_unchanged": true,
+    "ordinary_double_discrete_gradient_rejected": true,
+    "straight_entropy_path_rejected": true
+  },
+  "repair": {
+    "construction": "split the extended-precision discrete-gradient result into high=float(value), low=float(value-high)",
+    "contraction": "entropy and flux-divergence ledgers accumulate high and low separately in extended precision",
+    "downstream_contract": "checkpoints and interface exchanges persist both components losslessly",
+    "physical_flux": "high+low; no equation, endpoint, correction weight, or dissipation change",
+    "representation": "each of four flux coordinates is stored as nonoverlapping high and low binary64 components"
+  },
+  "schema_version": 1,
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzi4_compensated_discrete_gradient_flux_manifest"
+}
