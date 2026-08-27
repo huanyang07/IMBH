@@ -1,0 +1,39 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzv1_cycle_physical_driver_branch_and_event_interpolator_structure_certificate",
+  "binding_correction": {
+    "affine_hull_gate": "ambient reconstruction residual <= 2e-12",
+    "curvature_policy": "adjacent elements may rotate normals; no off-sheet volumetric interpolation",
+    "event_guard_ambient_dimension": 5,
+    "event_guard_intrinsic_dimension": 4,
+    "event_simplices5": "five truth vertices per class-pure piecewise-affine guard sheet element",
+    "event_simplices6_forbidden": true,
+    "locator": "nonnegative barycentric weights in the four-dimensional affine hull",
+    "oriented_normal": "null vector of the four edge tangents, oriented by the truth normals",
+    "signed_guard": "oriented normal dot (query-guard projection)",
+    "transversality": "oriented normal dot reduced flow has absolute value >= 1e-8"
+  },
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "complete_cycle_steps": 0,
+    "heldout_physical_validation_complete": false,
+    "numerical_interpolator_executed": false,
+    "physical_payloads_acquired": false
+  },
+  "classification": "cycle_interpolator_guard_sheet_dimension_correction_manifest_frozen",
+  "definitions_only": true,
+  "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzw_heldout_atlas_and_hybrid_sequence_validation_manifest",
+  "preserved_without_change": [
+    "periodic driver interpolation",
+    "four-dimensional driver q simplices with five vertices",
+    "five-dimensional mode-pure branch simplices with six vertices",
+    "invariant-exact state correction",
+    "convex radial/source/forcing interpolation",
+    "common four-coordinate source kernel",
+    "fail-closed hull, trust, gap, boundary, reset, and provenance gates",
+    "all numerical tolerances and the no-cycle-execution boundary"
+  ],
+  "reason": "an event guard is codimension one in the five-dimensional reduced coordinate space",
+  "schema_version": 1,
+  "supersedes_artifact": "causal_inner_cycle_physical_driver_branch_and_event_interpolator_manifest_wp10c9d6c7c3b5c4f25fizzv",
+  "work_package": "WP10c9d6c7c3b5c4f25fizzv1_cycle_physical_driver_branch_and_event_interpolator_structure_certificate"
+}
