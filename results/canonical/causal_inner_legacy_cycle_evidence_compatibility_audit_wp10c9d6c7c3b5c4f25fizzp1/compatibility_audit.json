@@ -1,0 +1,139 @@
+{
+  "authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzq_cycle_wide_eleven_field_anchor_coverage_and_lift_manifest",
+  "binding_negative_evidence_classes": 1,
+  "candidate_seed_classes_after_lift": 3,
+  "classification": "legacy_cycle_evidence_partitioned_no_direct_eleven_field_cycle_input",
+  "compatibility_inventory": [
+    {
+      "classification": "candidate_seed_after_deterministic_lift_and_new_audit",
+      "label": "legacy_five_field_profiles",
+      "payloads": [
+        "65 accepted trajectory profiles",
+        "192 exact-witness profiles"
+      ],
+      "required_before_binding_use": [
+        "conservative 112-node to 94-cell radial remap",
+        "physical five-to-eleven-field entropy-port lift",
+        "missing shear/vertical coordinate initialization audit",
+        "new local port, source, trust-radius, and guard audits"
+      ]
+    },
+    {
+      "classification": "candidate_seed_after_deterministic_lift_and_new_audit",
+      "label": "legacy_fixed_exterior_characteristics",
+      "payloads": [
+        "Kerr-Schild geometry",
+        "inner all-outgoing/excision sign evidence"
+      ],
+      "required_before_binding_use": [
+        "eleven-field characteristic decomposition",
+        "eleven-field entropy-stable SAT/port closure",
+        "physical outer loading or outflow data"
+      ]
+    },
+    {
+      "classification": "diagnostic_only",
+      "label": "legacy_transition_tube_and_phase_path",
+      "payloads": [
+        "470-coordinate local tube",
+        "82-coordinate phase/mode prefix"
+      ],
+      "reason": "only a 1.1 microsecond observed local segment; hot exit and full reset were not observed"
+    },
+    {
+      "classification": "candidate_seed_after_deterministic_lift_and_new_audit",
+      "label": "legacy_hot_terminal_state",
+      "payloads": [
+        "accepted 20.0017 ms five-field checkpoint"
+      ],
+      "reason": "valid physical seed, but not an exit section or reset endpoint"
+    },
+    {
+      "classification": "diagnostic_only",
+      "label": "legacy_branch_and_cycle_architectures",
+      "payloads": [
+        "branch-first reset specification",
+        "83-dimensional cycle-map prefix"
+      ],
+      "reason": "definitions/prefix only; complete-cycle calibration and anchor-specific reset are missing"
+    },
+    {
+      "classification": "binding_negative_evidence",
+      "label": "unobserved_hot_exit_and_complete_cycle",
+      "payloads": [
+        "no hot exit",
+        "no cycle return",
+        "no complete impulse map"
+      ],
+      "reason": "these absent observations may not be imputed or extrapolated"
+    }
+  ],
+  "complete_cycle_execution_authorized": false,
+  "complete_cycle_steps": 0,
+  "cycle_wide_inputs_complete": false,
+  "diagnostic_only_classes": 2,
+  "direct_binding_reuse_count": 0,
+  "facts": {
+    "accepted_macrosteps": 64,
+    "boundary_trace_shape": [
+      513,
+      2,
+      5
+    ],
+    "branch_truth_executed": false,
+    "cycle_map_complete_calibration_missing": true,
+    "exact_free_field_witnesses": 192,
+    "exact_witness_primitive_shape": [
+      192,
+      112,
+      5
+    ],
+    "legacy_complete_attempt_passed": false,
+    "observed_physical_seconds": 0.016,
+    "old_boundary_field_count": 5,
+    "old_boundary_inner_incoming_characteristics": 0,
+    "old_boundary_maximum_closure_defect": 1.5476028132169645e-15,
+    "old_cycle_observed": false,
+    "old_hot_exit_observed": false,
+    "target_cycle_seconds": 578880.0,
+    "target_field_count": 11,
+    "terminal_budget_exhausted": true,
+    "terminal_elapsed_seconds": 0.02000170000000001,
+    "terminal_primitive_shape": [
+      112,
+      5
+    ],
+    "time_coverage_fraction": 2.7639579878385848e-08,
+    "trajectory_coordinate_shape": [
+      65,
+      470
+    ],
+    "trajectory_macro_shape": [
+      65,
+      82
+    ],
+    "trajectory_primitive_shape": [
+      65,
+      112,
+      5
+    ],
+    "transition_coordinate_shape": [
+      18,
+      470
+    ],
+    "transition_duration_seconds": 1.0999999999999994e-06
+  },
+  "input_package_count": 7,
+  "new_trajectory_steps": 0,
+  "new_truth_calls": 0,
+  "passed": true,
+  "required_new_work": [
+    "conservative radial remap and physical five-to-eleven-field lift",
+    "cycle-wide anchor coverage and withheld-window plan",
+    "eleven-field inner/outer physical boundary port certificate",
+    "impact and hot-exit guard/reset acquisition",
+    "held-out global phase-window validation"
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizzp1_legacy_cycle_evidence_compatibility_and_reusable_input_audit"
+}
