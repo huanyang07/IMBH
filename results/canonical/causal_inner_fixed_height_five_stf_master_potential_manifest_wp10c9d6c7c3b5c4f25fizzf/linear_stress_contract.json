@@ -1,0 +1,54 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzf1_restricted_five_STF_linear_stress_diagnostic",
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "definitions_only": true,
+    "fully_split_port_atlas_certified": false,
+    "physical_five_STF_potential_certified": false,
+    "trajectory_authorized": false
+  },
+  "classification": "fixed_height_five_STF_master_potential_manifest_frozen",
+  "decision": {
+    "fail": {
+      "authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzg_fully_split_shear_height_port_atlas_manifest",
+      "classification": "restricted_five_STF_master_potential_linear_stress_obstructed",
+      "interpretation": "reject only the scalar invariant realization on the constrained five-dimensional moving basis"
+    },
+    "pass": {
+      "authorized_next": "WP10c9d6c7c3b5c4f25fizzf2_fixed_height_five_STF_physical_potential_implementation",
+      "classification": "restricted_five_STF_master_potential_viable"
+    }
+  },
+  "diagnostic": {
+    "coefficient_independent_no_go_allowed": true,
+    "invariant_identity_gate": 2e-13,
+    "linear_stress_map_relative_defect_gate": 1e-10,
+    "same_47_witnesses": true,
+    "trajectory_steps": 0,
+    "transversality_gate": 2e-13
+  },
+  "necessary_physical_condition": {
+    "all_five_components_required": true,
+    "desired_linear_stress_map": "d T_shear^{mu nu}/d zeta_A at zeta=0 equals a nonzero multiple of E_A^{mu nu}",
+    "one_Rphi_projection_is_not_sufficient": true
+  },
+  "preserved_certificates": {
+    "fixed_height_equilibrium_potential": true,
+    "moving_five_STF_basis": true,
+    "split_height_port_kernel": true
+  },
+  "restricted_candidate": {
+    "coefficients": "arbitrary smooth functions of alpha and beta^2; no witness fit",
+    "constraints": "zeta symmetric, tracefree, and beta_mu*zeta^{mu nu}=0 identically",
+    "invariants": {
+      "I2": "zeta_mu_nu*zeta^{mu nu}",
+      "I3": "zeta^mu_nu*zeta^nu_rho*zeta^rho_mu",
+      "nu": "zeta^{mu nu}*beta_mu*beta_nu"
+    },
+    "moving_basis_differentiated": true,
+    "scalar_ansatz": "chi=chi_eq+c1*nu+c2*I2+c3*I3+c4*nu**2+higher invariant barrier",
+    "shear_coordinates": "five amplitudes in the moving spatial STF basis E_A^{mu nu}(beta)"
+  },
+  "schema_version": 1,
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzf_fixed_height_five_STF_master_potential_manifest"
+}
