@@ -1,0 +1,102 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzs1_conservative_entropy_reset_and_guard_localization_structure_certificate",
+  "binding_negative_evidence": {
+    "continued_hot_exit_microstepping_cost_justified": false,
+    "interpretation": "local prefix geometry is useful, but uniform microstepping did not identify a hot exit or a cycle and is not the acquisition architecture",
+    "median_old_half_step_root_wall_seconds": 1341.5230495415162,
+    "old_acquisition_wall_seconds": 50049.23341479199,
+    "old_completed_patches": 64,
+    "old_cycle_return_observed": false,
+    "old_exact_witnesses": 192,
+    "old_hot_exit_observed": false,
+    "old_mode_switches": 18
+  },
+  "certified_now": {
+    "global_state_dimension": 1232,
+    "inner_entropy_characteristic_excision": true,
+    "native_radial_cells": 112,
+    "outer_entropy_characteristic_operator": true,
+    "outer_physical_loading": false,
+    "periodic_and_native_size_global_AP_method_proofs": true,
+    "prefix_cycle_fraction": 2.7639579878385848e-08,
+    "prefix_physical_anchor_payloads": 913,
+    "prefix_physical_seconds": 0.016,
+    "prefix_saved_profiles": 257
+  },
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "complete_cycle_steps": 0,
+    "cycle_wide_physical_inputs_complete": false,
+    "events_and_resets_physically_calibrated": false,
+    "heldout_cycle_validation_complete": false,
+    "reset_and_guard_structure_certified": false
+  },
+  "classification": "cycle_wide_missing_input_acquisition_and_conservative_event_reset_manifest_frozen",
+  "conservative_reset_structure": {
+    "entropy_weight": "W=blockdiag(cell_measure_i*I_11)",
+    "global_ledger_map": "Delta Q = C z using native cell measures",
+    "identity": "C(z_plus-z_minus)=DeltaQ_event",
+    "ledger_null_projector": "P=I-NC",
+    "minimum_norm_normal": "N=W^-1 C^T (C W^-1 C^T)^-1",
+    "online_state": "z in R^(112*11) in anchor-local physical entropy coordinates",
+    "physical_calibration_missing": [
+      "impact/hot-exit guard surfaces and orientation",
+      "integrated physical ledger impulse DeltaQ_event",
+      "ledger-null constitutive jump xi_event",
+      "destination mode and event duration"
+    ],
+    "physical_increment_map": "delta U_cell = diag(conserved_scales) * entropy_root_inverse * z_core",
+    "reset": "z_plus=z_minus+N DeltaQ_event+P xi_event"
+  },
+  "event_localization_structure": {
+    "dense_state": "cubic Hermite state from endpoint states and rates",
+    "fail_closed": [
+      "unbracketed or tangential event",
+      "multiple unresolved guard crossings",
+      "event outside atlas trust domain",
+      "reset ledger or physical guard failure"
+    ],
+    "root": "bracketed scalar guard root on theta in [0,1]"
+  },
+  "execution_order": [
+    "certify conservative entropy reset and dense guard localization structure",
+    "freeze physical driver, outer loading, branch, and event truth acquisition",
+    "acquire revealed training payloads with prospective heldouts",
+    "certify nonperiodic 112-cell global AP action with physical boundary operators",
+    "validate matched regular segments and calibrated event resets",
+    "freeze final complete-cycle execution manifest and stop before running it"
+  ],
+  "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzt_cycle_wide_physical_driver_boundary_loading_and_event_truth_acquisition_manifest",
+  "physical_target": {
+    "cycle_seconds": 578880.0,
+    "maximum_online_macrosteps": 100000,
+    "maximum_wall_days": 3.0,
+    "minimum_average_macrostep_seconds": 5.7888,
+    "online_truth_calls": 0
+  },
+  "prohibitions": {
+    "complete_cycle_runner_or_step": true,
+    "continue_old_hot_exit_microstepping": true,
+    "fit_event_reset_without_entry_exit_truth": true,
+    "infer_cycle_from_prefix": true,
+    "manufacture_slow_forcing_or_outer_loading": true,
+    "online_truth_or_fixed_Q_calls": true
+  },
+  "required_physical_inputs": {
+    "cooling_recovery_branch_sheet": false,
+    "cycle_wide_outer_incoming_loading": false,
+    "cycle_wide_slow_forcing_b": false,
+    "heldout_event_sequence_or_cycle_truth": false,
+    "hot_exit_guard_and_reset_truth": false,
+    "impact_guard_and_reset_truth": false
+  },
+  "schema_version": 1,
+  "selected_acquisition_architecture": {
+    "events": "dense-output guard localization followed by one calibrated conservative entry-to-exit reset evaluation",
+    "heldout": "prospectively withheld branch anchors, phase windows, event parameters, and one full-cycle or complete event-sequence truth trajectory",
+    "regular_segments": "adaptive overlap atlas of physical entropy ports, slow forcing, outer incoming loading, trust radii, spectral gaps, and guard margins",
+    "slow_branches": "offline pseudo-arclength branch sheets parameterized by retained physical invariants, orbital phase, and discrete mode",
+    "transition_truth": "offline event-to-event solves with full physical ledger integration; never an online nanosecond ODE"
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzs_cycle_wide_missing_input_acquisition_and_event_reset_manifest"
+}
