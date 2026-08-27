@@ -1,0 +1,140 @@
+{
+  "all_checkpoints_bitwise": true,
+  "all_suffix_replays_bitwise": true,
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzp_legacy_cycle_evidence_compatibility_and_reusable_input_audit",
+  "case_count": 2,
+  "certificate_wall_seconds": 64.15898687485605,
+  "classification": "production_size_global_AP_dry_run_certified",
+  "complete_cycle_execution_authorized": false,
+  "cycle_wide_inputs_complete": false,
+  "global_state_dimension": 1034,
+  "maximum_core_total_conservation_defect": 6.1767506807123145e-15,
+  "maximum_homogeneous_mode_expansivity": 0.0,
+  "maximum_projected_100k_step_wall_days": 0.008258584178596115,
+  "maximum_state_norm": 0.25780018910000824,
+  "minimum_matched_refinement_order": 2.0238957078137902,
+  "minimum_source_nullity": 4,
+  "offline_anchor_wall_seconds": 61.7151617500931,
+  "offline_physical_anchor_builds": 4,
+  "online_truth_calls": 0,
+  "passed": true,
+  "passing_case_count": 2,
+  "physical_boundary_ports_certified": false,
+  "radial_cells": 94,
+  "rows": [
+    {
+      "anchor_indices": [
+        20,
+        30
+      ],
+      "case": "held_out",
+      "checkpoint_roundtrip_bitwise": true,
+      "global_state_dimension": 1034,
+      "maximum_core_total_conservation_defect": 6.1767506807123145e-15,
+      "maximum_homogeneous_mode_expansivity": 0.0,
+      "maximum_online_step_wall_seconds": 0.0071160937659442425,
+      "maximum_state_norm": 0.25780018910000824,
+      "minimum_matched_refinement_order": 2.0238957078137902,
+      "online_truth_calls": 0,
+      "passed": true,
+      "projected_100k_step_wall_days": 0.00823621963650954,
+      "rows": [
+        {
+          "checkpoint_roundtrip_bitwise": true,
+          "matched_orders": [
+            3.009435287346912,
+            2.0238957078137902
+          ],
+          "maximum_core_total_conservation_defect": 1.2065124012699749e-15,
+          "maximum_homogeneous_mode_expansivity": 0.0,
+          "relative_errors": [
+            0.006532657429493604,
+            0.0008112591217535257,
+            0.000199483177289044
+          ],
+          "stiffness_ratio": 1.0,
+          "suffix_replay_bitwise": true
+        },
+        {
+          "checkpoint_roundtrip_bitwise": true,
+          "matched_orders": [
+            2.0970030545103953,
+            2.0897263026967754
+          ],
+          "maximum_core_total_conservation_defect": 1.4169517080029102e-15,
+          "maximum_homogeneous_mode_expansivity": 0.0,
+          "relative_errors": [
+            0.0007540961588002957,
+            0.00017626492810652507,
+            4.140908253718939e-05
+          ],
+          "stiffness_ratio": 1000.0,
+          "suffix_replay_bitwise": true
+        }
+      ],
+      "source_nullities": [
+        4,
+        4
+      ],
+      "suffix_replay_bitwise": true
+    },
+    {
+      "anchor_indices": [
+        0,
+        10
+      ],
+      "case": "primary",
+      "checkpoint_roundtrip_bitwise": true,
+      "global_state_dimension": 1034,
+      "maximum_core_total_conservation_defect": 3.452822772929009e-15,
+      "maximum_homogeneous_mode_expansivity": 0.0,
+      "maximum_online_step_wall_seconds": 0.007135416730307043,
+      "maximum_state_norm": 0.25780018910000824,
+      "minimum_matched_refinement_order": 2.0247730860407556,
+      "online_truth_calls": 0,
+      "passed": true,
+      "projected_100k_step_wall_days": 0.008258584178596115,
+      "rows": [
+        {
+          "checkpoint_roundtrip_bitwise": true,
+          "matched_orders": [
+            2.9983594000517133,
+            2.0247730860407556
+          ],
+          "maximum_core_total_conservation_defect": 1.4830234656783156e-15,
+          "maximum_homogeneous_mode_expansivity": 0.0,
+          "relative_errors": [
+            0.006529705339890269,
+            0.0008171418744661508,
+            0.0002008075480253165
+          ],
+          "stiffness_ratio": 1.0,
+          "suffix_replay_bitwise": true
+        },
+        {
+          "checkpoint_roundtrip_bitwise": true,
+          "matched_orders": [
+            2.0971874054868285,
+            2.0897793737839483
+          ],
+          "maximum_core_total_conservation_defect": 9.268491515785058e-16,
+          "maximum_homogeneous_mode_expansivity": 0.0,
+          "relative_errors": [
+            0.0008710890903482788,
+            0.00020358522627279873,
+            4.7825551103839495e-05
+          ],
+          "stiffness_ratio": 1000.0,
+          "suffix_replay_bitwise": true
+        }
+      ],
+      "source_nullities": [
+        4,
+        4
+      ],
+      "suffix_replay_bitwise": true
+    }
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizzo1_production_size_global_AP_dry_run"
+}
