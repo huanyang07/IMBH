@@ -37,10 +37,14 @@ class APAtlasPath:
         )
         if any(matrix.shape != (11, 11) for matrix in matrices):
             raise ValueError("the AP atlas path requires four 11x11 matrices")
-        if any(np.linalg.norm(matrix - matrix.T) > 2.0e-11 for matrix in matrices):
-            raise ValueError("the AP atlas matrices must be symmetric")
+        if any(
+            np.linalg.norm(matrix - matrix.T) > 2.0e-11
+            for matrix in (matrices[0], matrices[2])
+        ):
+            raise ValueError("the AP radial matrices must be symmetric")
         for source in (matrices[1], matrices[3]):
-            if np.max(np.linalg.eigvalsh(source)) > 2.0e-11:
+            symmetric_source = 0.5 * (source + source.T)
+            if np.max(np.linalg.eigvalsh(symmetric_source)) > 2.0e-11:
                 raise ValueError("the AP source must be entropy dissipative")
         for name, matrix in zip(
             ("radial_start", "source_start", "radial_end", "source_end"),
@@ -172,7 +176,9 @@ def integrate_ap_trajectory(
 
 
 def source_nullity(source: np.ndarray, tolerance: float = 1.0e-11) -> int:
-    return int(np.count_nonzero(np.abs(np.linalg.eigvalsh(source)) <= tolerance))
+    singular_values = np.linalg.svd(np.asarray(source), compute_uv=False)
+    threshold = float(tolerance) * max(float(np.max(singular_values)), 1.0)
+    return int(np.count_nonzero(singular_values <= threshold))
 
 
 def save_ap_checkpoint(checkpoint: APTrajectoryCheckpoint, path) -> None:
