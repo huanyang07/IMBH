@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from decimal import Decimal, localcontext
 
 import numpy as np
 from numpy.polynomial.legendre import leggauss
@@ -79,9 +80,21 @@ class STFPolarConnectionAudit:
 @dataclass(frozen=True)
 class ConditionedDiscreteGradientFlux:
     flux: np.ndarray
+    flux_low: np.ndarray
     base_flux: np.ndarray
     correction: np.ndarray
     flux_scales: np.ndarray
+
+    def as_longdouble(self) -> np.ndarray:
+        return np.asarray(self.flux, dtype=np.longdouble) + np.asarray(
+            self.flux_low, dtype=np.longdouble
+        )
+
+    def as_decimal(self) -> tuple[Decimal, ...]:
+        return tuple(
+            Decimal.from_float(float(high)) + Decimal.from_float(float(low))
+            for high, low in zip(self.flux, self.flux_low, strict=True)
+        )
 
 
 @dataclass(frozen=True)
@@ -91,6 +104,7 @@ class ConditionedDiscreteGradientFluxAudit:
     endpoint_consistency_relative_defect: float
     weighted_correction_relative_norm: float
     entropy_penalty_positive_part: float
+    low_over_high_norm: float
 
     @property
     def passed(self) -> bool:
@@ -100,6 +114,7 @@ class ConditionedDiscreteGradientFluxAudit:
             and self.endpoint_consistency_relative_defect <= 2.0e-13
             and self.weighted_correction_relative_norm <= 0.05
             and self.entropy_penalty_positive_part <= 0.0
+            and self.low_over_high_norm <= 2.0e-15
         )
 
 
@@ -246,6 +261,26 @@ def _entropy_jump(left: EquilibriumEntropyPoint, right: EquilibriumEntropyPoint)
     return np.asarray((alpha_jump, *beta_jump[list(_ENTROPY_BETA_INDICES)]), dtype=np.longdouble)
 
 
+def _entropy_jump_decimal(
+    left: EquilibriumEntropyPoint, right: EquilibriumEntropyPoint
+) -> tuple[Decimal, ...]:
+    with localcontext() as context:
+        context.prec = 50
+        c_squared = Decimal.from_float(float(C)) ** 2
+        alpha_jump = c_squared * (
+            Decimal(1) / Decimal.from_float(float(right.state.temperature))
+            - Decimal(1) / Decimal.from_float(float(left.state.temperature))
+        ) + Decimal.from_float(
+            float(right.mass_affinity.thermal_part)
+        ) - Decimal.from_float(float(left.mass_affinity.thermal_part))
+        beta_jump = tuple(
+            Decimal.from_float(float(right.inverse_temperature_covector[index]))
+            - Decimal.from_float(float(left.inverse_temperature_covector[index]))
+            for index in _ENTROPY_BETA_INDICES
+        )
+        return (alpha_jump, *beta_jump)
+
+
 def conditioned_discrete_gradient_radial_flux(
     left: EquilibriumEntropyPoint,
     right: EquilibriumEntropyPoint,
@@ -263,16 +298,44 @@ def conditioned_discrete_gradient_radial_flux(
     base = 0.5 * (left_flux + right_flux)
     largest = max(float(np.max(np.abs(left_flux))), float(np.max(np.abs(right_flux))), 1.0)
     scales = np.maximum(np.maximum(np.abs(left_flux), np.abs(right_flux)), largest * 1.0e-14)
-    jump = _entropy_jump(left, right)
-    potential_jump = np.longdouble(right.state.potential_current[_RADIAL_INDEX]) - np.longdouble(left.state.potential_current[_RADIAL_INDEX])
-    residual = potential_jump - np.sum(jump * np.asarray(base, dtype=np.longdouble))
-    dual = np.asarray(scales, dtype=np.longdouble) ** 2 * jump
-    denominator = np.sum(jump * dual)
-    if denominator == 0.0:
-        correction = np.zeros_like(base)
-    else:
-        correction = np.asarray(residual * dual / denominator, dtype=float)
-    return ConditionedDiscreteGradientFlux(base + correction, base, correction, scales)
+    with localcontext() as context:
+        context.prec = 50
+        jump_decimal = _entropy_jump_decimal(left, right)
+        base_decimal = tuple(Decimal.from_float(float(value)) for value in base)
+        scale_decimal = tuple(Decimal.from_float(float(value)) for value in scales)
+        potential_jump = Decimal.from_float(
+            float(right.state.potential_current[_RADIAL_INDEX])
+        ) - Decimal.from_float(float(left.state.potential_current[_RADIAL_INDEX]))
+        residual = potential_jump - sum(
+            jump * value for jump, value in zip(jump_decimal, base_decimal, strict=True)
+        )
+        dual = tuple(
+            scale * scale * jump
+            for scale, jump in zip(scale_decimal, jump_decimal, strict=True)
+        )
+        denominator = sum(
+            jump * value for jump, value in zip(jump_decimal, dual, strict=True)
+        )
+        if denominator == 0:
+            correction_decimal = (Decimal(0),) * len(base_decimal)
+        else:
+            correction_decimal = tuple(residual * value / denominator for value in dual)
+        full_decimal = tuple(
+            value + correction
+            for value, correction in zip(base_decimal, correction_decimal, strict=True)
+        )
+        flux_high = np.asarray([float(value) for value in full_decimal], dtype=float)
+        flux_low = np.asarray(
+            [
+                float(value - Decimal.from_float(float(high)))
+                for value, high in zip(full_decimal, flux_high, strict=True)
+            ],
+            dtype=float,
+        )
+        correction = np.asarray([float(value) for value in correction_decimal], dtype=float)
+    return ConditionedDiscreteGradientFlux(
+        flux_high, flux_low, base, correction, scales
+    )
 
 
 def audit_conditioned_discrete_gradient_radial_flux(
@@ -284,10 +347,39 @@ def audit_conditioned_discrete_gradient_radial_flux(
     consistent = conditioned_discrete_gradient_radial_flux(left, left)
     physical_left = _radial_current_gradient(left)
     jump = _entropy_jump(left, right)
-    potential_jump = np.longdouble(right.state.potential_current[_RADIAL_INDEX]) - np.longdouble(left.state.potential_current[_RADIAL_INDEX])
-    contraction = np.sum(jump * np.asarray(forward.flux, dtype=np.longdouble))
-    tadmor_scale = max(float(abs(contraction)), float(abs(potential_jump)), np.finfo(float).tiny)
-    flux_scale = max(float(np.linalg.norm(forward.flux)), float(np.linalg.norm(reverse.flux)), np.finfo(float).tiny)
+    with localcontext() as context:
+        context.prec = 50
+        jump_decimal = _entropy_jump_decimal(left, right)
+        forward_decimal = forward.as_decimal()
+        reverse_decimal = reverse.as_decimal()
+        consistent_decimal = consistent.as_decimal()
+        potential_jump_decimal = Decimal.from_float(
+            float(right.state.potential_current[_RADIAL_INDEX])
+        ) - Decimal.from_float(float(left.state.potential_current[_RADIAL_INDEX]))
+        contraction_decimal = sum(
+            value * flux
+            for value, flux in zip(jump_decimal, forward_decimal, strict=True)
+        )
+        tadmor_scale = max(
+            abs(contraction_decimal),
+            abs(potential_jump_decimal),
+            Decimal.from_float(np.finfo(float).tiny),
+        )
+        tadmor_defect = float(
+            abs(contraction_decimal - potential_jump_decimal) / tadmor_scale
+        )
+        swap_vector = np.asarray(
+            [float(a - b) for a, b in zip(forward_decimal, reverse_decimal, strict=True)]
+        )
+        consistent_vector = np.asarray(
+            [
+                float(value - Decimal.from_float(float(physical)))
+                for value, physical in zip(consistent_decimal, physical_left, strict=True)
+            ]
+        )
+    forward_extended = forward.as_longdouble()
+    reverse_extended = reverse.as_longdouble()
+    flux_scale = max(float(np.linalg.norm(forward_extended)), float(np.linalg.norm(reverse_extended)), np.finfo(float).tiny)
     consistency_scale = max(float(np.linalg.norm(physical_left)), np.finfo(float).tiny)
     weighted_correction = float(
         np.linalg.norm(forward.correction / forward.flux_scales)
@@ -297,11 +389,15 @@ def audit_conditioned_discrete_gradient_radial_flux(
         jump * (np.asarray(forward.flux_scales, dtype=np.longdouble) ** 2 * jump)
     )
     return ConditionedDiscreteGradientFluxAudit(
-        float(abs(contraction - potential_jump) / tadmor_scale),
-        float(np.linalg.norm(forward.flux - reverse.flux) / flux_scale),
-        float(np.linalg.norm(consistent.flux - physical_left) / consistency_scale),
+        tadmor_defect,
+        float(np.linalg.norm(swap_vector) / flux_scale),
+        float(np.linalg.norm(consistent_vector) / consistency_scale),
         weighted_correction,
         max(float(penalty_contraction), 0.0),
+        float(
+            np.linalg.norm(forward.flux_low)
+            / max(np.linalg.norm(forward.flux), np.finfo(float).tiny)
+        ),
     )
 
 
