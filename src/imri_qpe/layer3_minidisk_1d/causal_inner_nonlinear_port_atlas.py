@@ -272,6 +272,31 @@ def equilibrium_mathematical_entropy_decimal(
         ) * Decimal.from_float(float(point.state.specific_entropy))
 
 
+def equilibrium_entropy_variables_decimal(
+    point: EquilibriumEntropyPoint,
+) -> tuple[Decimal, ...]:
+    """Return the four equilibrium entropy variables without alpha cancellation.
+
+    The first coordinate is stored as a compensated rest-mass and thermal
+    pair.  Converting the two binary64 components separately to ``Decimal``
+    preserves their represented sum when cell-to-cell centered differences
+    are formed for the conservative entropy projection.
+    """
+
+    if not isinstance(point, EquilibriumEntropyPoint):
+        raise TypeError("point must be EquilibriumEntropyPoint")
+    with localcontext() as context:
+        context.prec = 50
+        alpha = Decimal.from_float(
+            float(point.mass_affinity.rest_mass_part)
+        ) + Decimal.from_float(float(point.mass_affinity.thermal_part))
+        beta = tuple(
+            Decimal.from_float(float(point.inverse_temperature_covector[index]))
+            for index in _ENTROPY_BETA_INDICES
+        )
+        return (alpha, *beta)
+
+
 def _rapidity_from_velocity(radial: float, azimuthal: float) -> tuple[float, float]:
     speed = float(np.hypot(radial, azimuthal))
     if speed >= 1.0:
@@ -611,6 +636,7 @@ __all__ = [
     "audit_conditioned_discrete_gradient_radial_flux",
     "audit_stf_polar_connection",
     "equilibrium_entropy_conservative_radial_flux",
+    "equilibrium_entropy_variables_decimal",
     "equilibrium_mathematical_entropy_decimal",
     "equilibrium_temporal_conserved",
     "equilibrium_entropy_point_from_primitive",
