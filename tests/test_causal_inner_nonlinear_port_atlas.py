@@ -3,6 +3,7 @@ import numpy as np
 from imri_qpe.layer3_minidisk_1d.causal_inner_eleven_field_convex import full_shear_rest_frame
 from imri_qpe.layer3_minidisk_1d.causal_inner_geometry import kerr_schild_column_geometry
 from imri_qpe.layer3_minidisk_1d.causal_inner_nonlinear_port_atlas import (
+    audit_conditioned_discrete_gradient_radial_flux,
     audit_equilibrium_entropy_path_flux,
     audit_stf_polar_connection,
     equilibrium_entropy_point_from_primitive,
@@ -29,3 +30,11 @@ def test_moving_STF_polar_connection_is_an_isometric_roundtrip():
     assert audit.passed
     assert audit.orthogonality_defect <= 2e-12
     assert audit.reverse_roundtrip_defect <= 2e-12
+
+
+def test_conditioned_discrete_gradient_is_symmetric_consistent_and_conservative():
+    geometry = _geometry(); height = 2.4e8
+    left = equilibrium_entropy_point_from_primitive(geometry, density=2.1e-7, temperature=4.3e6, proper_half_thickness=height, radial_velocity_over_c=-0.21, azimuthal_velocity_over_c=0.31)
+    right = equilibrium_entropy_point_from_primitive(geometry, density=2.12e-7, temperature=4.28e6, proper_half_thickness=height, radial_velocity_over_c=-0.209, azimuthal_velocity_over_c=0.309)
+    audit = audit_conditioned_discrete_gradient_radial_flux(left, right)
+    assert audit.passed

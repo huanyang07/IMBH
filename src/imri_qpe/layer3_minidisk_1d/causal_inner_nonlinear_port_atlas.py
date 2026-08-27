@@ -76,6 +76,33 @@ class STFPolarConnectionAudit:
         )
 
 
+@dataclass(frozen=True)
+class ConditionedDiscreteGradientFlux:
+    flux: np.ndarray
+    base_flux: np.ndarray
+    correction: np.ndarray
+    flux_scales: np.ndarray
+
+
+@dataclass(frozen=True)
+class ConditionedDiscreteGradientFluxAudit:
+    tadmor_relative_defect: float
+    swap_symmetry_relative_defect: float
+    endpoint_consistency_relative_defect: float
+    weighted_correction_relative_norm: float
+    entropy_penalty_positive_part: float
+
+    @property
+    def passed(self) -> bool:
+        return (
+            self.tadmor_relative_defect <= 2.0e-12
+            and self.swap_symmetry_relative_defect <= 2.0e-13
+            and self.endpoint_consistency_relative_defect <= 2.0e-13
+            and self.weighted_correction_relative_norm <= 0.05
+            and self.entropy_penalty_positive_part <= 0.0
+        )
+
+
 def equilibrium_entropy_point_from_primitive(
     geometry: KerrSchildColumnGeometry,
     *,
@@ -219,6 +246,65 @@ def _entropy_jump(left: EquilibriumEntropyPoint, right: EquilibriumEntropyPoint)
     return np.asarray((alpha_jump, *beta_jump[list(_ENTROPY_BETA_INDICES)]), dtype=np.longdouble)
 
 
+def conditioned_discrete_gradient_radial_flux(
+    left: EquilibriumEntropyPoint,
+    right: EquilibriumEntropyPoint,
+) -> ConditionedDiscreteGradientFlux:
+    """Return a symmetric weighted discrete gradient of ``X^R``.
+
+    No interior entropy-path state is evaluated.  The rank-one correction is
+    the minimum-norm correction in endpoint-flux-scaled coordinates subject
+    to the exact discrete chain rule.
+    """
+
+    _require_compatible_points(left, right)
+    left_flux = _radial_current_gradient(left)
+    right_flux = _radial_current_gradient(right)
+    base = 0.5 * (left_flux + right_flux)
+    largest = max(float(np.max(np.abs(left_flux))), float(np.max(np.abs(right_flux))), 1.0)
+    scales = np.maximum(np.maximum(np.abs(left_flux), np.abs(right_flux)), largest * 1.0e-14)
+    jump = _entropy_jump(left, right)
+    potential_jump = np.longdouble(right.state.potential_current[_RADIAL_INDEX]) - np.longdouble(left.state.potential_current[_RADIAL_INDEX])
+    residual = potential_jump - np.sum(jump * np.asarray(base, dtype=np.longdouble))
+    dual = np.asarray(scales, dtype=np.longdouble) ** 2 * jump
+    denominator = np.sum(jump * dual)
+    if denominator == 0.0:
+        correction = np.zeros_like(base)
+    else:
+        correction = np.asarray(residual * dual / denominator, dtype=float)
+    return ConditionedDiscreteGradientFlux(base + correction, base, correction, scales)
+
+
+def audit_conditioned_discrete_gradient_radial_flux(
+    left: EquilibriumEntropyPoint,
+    right: EquilibriumEntropyPoint,
+) -> ConditionedDiscreteGradientFluxAudit:
+    forward = conditioned_discrete_gradient_radial_flux(left, right)
+    reverse = conditioned_discrete_gradient_radial_flux(right, left)
+    consistent = conditioned_discrete_gradient_radial_flux(left, left)
+    physical_left = _radial_current_gradient(left)
+    jump = _entropy_jump(left, right)
+    potential_jump = np.longdouble(right.state.potential_current[_RADIAL_INDEX]) - np.longdouble(left.state.potential_current[_RADIAL_INDEX])
+    contraction = np.sum(jump * np.asarray(forward.flux, dtype=np.longdouble))
+    tadmor_scale = max(float(abs(contraction)), float(abs(potential_jump)), np.finfo(float).tiny)
+    flux_scale = max(float(np.linalg.norm(forward.flux)), float(np.linalg.norm(reverse.flux)), np.finfo(float).tiny)
+    consistency_scale = max(float(np.linalg.norm(physical_left)), np.finfo(float).tiny)
+    weighted_correction = float(
+        np.linalg.norm(forward.correction / forward.flux_scales)
+        / max(np.linalg.norm(forward.base_flux / forward.flux_scales), 1.0)
+    )
+    penalty_contraction = -0.5 * np.sum(
+        jump * (np.asarray(forward.flux_scales, dtype=np.longdouble) ** 2 * jump)
+    )
+    return ConditionedDiscreteGradientFluxAudit(
+        float(abs(contraction - potential_jump) / tadmor_scale),
+        float(np.linalg.norm(forward.flux - reverse.flux) / flux_scale),
+        float(np.linalg.norm(consistent.flux - physical_left) / consistency_scale),
+        weighted_correction,
+        max(float(penalty_contraction), 0.0),
+    )
+
+
 def audit_equilibrium_entropy_path_flux(
     left: EquilibriumEntropyPoint, right: EquilibriumEntropyPoint
 ) -> EntropyPathFluxAudit:
@@ -285,13 +371,17 @@ def audit_stf_polar_connection(
 
 
 __all__ = [
+    "ConditionedDiscreteGradientFlux",
+    "ConditionedDiscreteGradientFluxAudit",
     "EntropyPathFluxAudit",
     "EquilibriumEntropyPoint",
     "STFPolarConnection",
     "STFPolarConnectionAudit",
     "audit_equilibrium_entropy_path_flux",
+    "audit_conditioned_discrete_gradient_radial_flux",
     "audit_stf_polar_connection",
     "equilibrium_entropy_conservative_radial_flux",
     "equilibrium_entropy_point_from_primitive",
+    "conditioned_discrete_gradient_radial_flux",
     "stf_polar_connection",
 ]
