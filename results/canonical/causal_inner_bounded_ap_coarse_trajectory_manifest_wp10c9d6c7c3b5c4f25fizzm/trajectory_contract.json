@@ -1,0 +1,62 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzm1_bounded_AP_coarse_trajectory_kernel",
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "cycle_wide_coefficient_atlas_complete": false,
+    "physical_nonlinear_cycle_trajectory_certified": false
+  },
+  "classification": "bounded_AP_coarse_trajectory_manifest_frozen",
+  "decision": {
+    "failure_classification": "bounded_AP_coarse_trajectory_kernel_failed",
+    "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzn_complete_cycle_preexecution_manifest",
+    "pass_classification": "bounded_AP_coarse_trajectory_kernel_certified"
+  },
+  "gates": {
+    "checkpoint_roundtrip": "bitwise",
+    "maximum_homogeneous_step_expansivity": 2e-10,
+    "maximum_projected_100k_step_wall_days": 3.0,
+    "maximum_state_norm": 0.5,
+    "maximum_stiff_fast_slaving_defect": 0.02,
+    "minimum_matched_refinement_order": 1.7,
+    "online_truth_calls": 0,
+    "required_source_nullity": 4,
+    "suffix_replay": "bitwise"
+  },
+  "offline_physical_atlas": {
+    "case_anchor_indices": {
+      "held_out": [
+        20,
+        30
+      ],
+      "primary": [
+        0,
+        10
+      ]
+    },
+    "claim": "local two-anchor interpolation only; no cycle-wide atlas is implied",
+    "interpolation": "convex midpoint interpolation of hash-locked symmetric A and dissipative S",
+    "online_truth_calls": 0
+  },
+  "schema_version": 1,
+  "trajectory": {
+    "checkpoint_fraction": 0.5,
+    "coordinates": "complex Fourier amplitudes in the corrected eleven-field entropy port",
+    "generator": "L(t)=-i*kappa(t)*A(t)+stiffness*S(t)",
+    "initial_fast_perturbation_nonzero": true,
+    "integrator": "exponential midpoint affine macrostep",
+    "normalized_horizon": 2.0,
+    "reference_step_count": 128,
+    "smooth_slow_forcing_nonzero": true,
+    "step_counts": [
+      8,
+      16,
+      32
+    ],
+    "stiffness_ratios": [
+      1.0,
+      100.0,
+      1000.0
+    ]
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzm_bounded_AP_coarse_trajectory_manifest"
+}
