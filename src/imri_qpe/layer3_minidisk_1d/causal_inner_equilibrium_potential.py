@@ -21,10 +21,27 @@ from imri_qpe.scales import gas_constant_per_gram
 
 
 @dataclass(frozen=True)
+class CompensatedMassAffinity:
+    """Two-component representation of the single coordinate ``alpha``.
+
+    This is software extended precision for one severely conditioned scalar,
+    not an additional thermodynamic field.  Perturbations of ``alpha`` act on
+    the sum of these two components with unit derivative.
+    """
+
+    rest_mass_part: float
+    thermal_part: float
+
+    @property
+    def total(self) -> float:
+        return float(self.rest_mass_part + self.thermal_part)
+
+
+@dataclass(frozen=True)
 class EquilibriumColumnPotentialState:
     """Thermodynamics and currents generated at one entropy-variable state."""
 
-    mass_affinity: float
+    mass_affinity: CompensatedMassAffinity | float
     inverse_temperature_covector: np.ndarray
     temperature: float
     density: float
@@ -120,7 +137,7 @@ def gas_radiation_specific_chemical_potential(
 
 
 def density_from_mass_affinity(
-    mass_affinity: float,
+    mass_affinity: CompensatedMassAffinity | float,
     temperature: float,
     *,
     mu_mol: float = DEFAULT_MU_MOL,
@@ -130,24 +147,37 @@ def density_from_mass_affinity(
 ) -> float:
     """Invert ``alpha=mu_mass/T`` analytically for the density."""
 
-    alpha = np.longdouble(mass_affinity)
-    temp = np.longdouble(temperature)
+    compensated = isinstance(mass_affinity, CompensatedMassAffinity)
+    alpha = (
+        float(mass_affinity.total)
+        if compensated
+        else float(mass_affinity)
+    )
+    temp = float(temperature)
     if not np.isfinite(alpha) or not np.isfinite(temp) or temp <= 0.0:
         raise ValueError("mass affinity and temperature must be physical")
     # The two leading terms below are O(c^2/(R T)) and nearly cancel.  Carry
     # the scalar inversion in extended precision; returning a float is safe
     # only after the logarithmic density has been recovered.
-    gas_constant = np.longdouble(gas_constant_per_gram(mu_mol))
-    alpha_extended = alpha
-    temp_extended = temp
-    log_density_ratio = (
-        alpha_extended / gas_constant
-        - np.longdouble(C) ** 2 / (gas_constant * temp_extended)
-        - np.longdouble(gamma_gas) / np.longdouble(gamma_gas - 1.0)
-        + np.log(temp_extended / np.longdouble(reference_temperature))
-        / np.longdouble(gamma_gas - 1.0)
-    )
-    density = np.longdouble(reference_density) * np.exp(log_density_ratio)
+    gas_constant = float(gas_constant_per_gram(mu_mol))
+    if compensated:
+        affinity_without_rest_mass = (
+            (mass_affinity.rest_mass_part - C**2 / temp)
+            + mass_affinity.thermal_part
+        )
+        log_density_ratio = (
+            affinity_without_rest_mass / gas_constant
+            - gamma_gas / (gamma_gas - 1.0)
+            + np.log(temp / reference_temperature) / (gamma_gas - 1.0)
+        )
+    else:
+        log_density_ratio = (
+            alpha / gas_constant
+            - C**2 / (gas_constant * temp)
+            - gamma_gas / (gamma_gas - 1.0)
+            + np.log(temp / reference_temperature) / (gamma_gas - 1.0)
+        )
+    density = reference_density * np.exp(log_density_ratio)
     if not np.isfinite(density) or density <= 0.0:
         raise ValueError("mass affinity maps outside positive density")
     return float(density)
@@ -163,12 +193,12 @@ def entropy_variables_from_primitive(
     gamma_gas: float = 5.0 / 3.0,
     reference_density: float = 1.0,
     reference_temperature: float = 1.0,
-) -> tuple[float, np.ndarray]:
+) -> tuple[CompensatedMassAffinity, np.ndarray]:
     metric_array = np.asarray(metric, dtype=float)
     velocity = np.asarray(four_velocity, dtype=float)
     if metric_array.shape != (4, 4) or velocity.shape != (4,):
         raise ValueError("metric must be 4x4 and four_velocity length four")
-    normalization = float(velocity @ metric_array @ velocity)
+    normalization = velocity @ metric_array @ velocity
     if abs(normalization + 1.0) > 2.0e-12:
         raise ValueError("four_velocity must be unit timelike")
     # Canonicalize the admissible floating-point representative before
@@ -177,15 +207,35 @@ def entropy_variables_from_primitive(
     # physical state but prevents that coordinate artefact from entering the
     # master-potential audit.
     velocity = velocity / np.sqrt(-normalization)
-    chemical = gas_radiation_specific_chemical_potential(
-        density,
-        temperature,
-        mu_mol=mu_mol,
-        gamma_gas=gamma_gas,
-        reference_density=reference_density,
-        reference_temperature=reference_temperature,
+    rho_extended = float(density)
+    requested_temperature = float(temperature)
+    beta = metric_array @ velocity / requested_temperature
+    inverse_metric = np.asarray(
+        np.linalg.inv(metric_array), dtype=np.longdouble
     )
-    return chemical / temperature, metric_array @ velocity / temperature
+    beta_for_inversion = np.asarray(beta, dtype=np.longdouble)
+    # The covector is the primary entropy coordinate.  Build alpha from the
+    # temperature represented by that exact floating-point beta, which differs
+    # from the requested primitive temperature by at most roundoff.
+    represented_temperature = 1.0 / np.sqrt(
+        -(beta_for_inversion @ (inverse_metric @ beta_for_inversion))
+    )
+    gas_constant = float(gas_constant_per_gram(mu_mol))
+    gamma_extended = float(gamma_gas)
+    gamma_minus_one = float(gamma_gas - 1.0)
+    thermal_affinity = gas_constant * (
+        gamma_extended / gamma_minus_one
+        - np.log(
+            represented_temperature / reference_temperature
+        )
+        / gamma_minus_one
+        + np.log(rho_extended / reference_density)
+    )
+    mass_affinity = CompensatedMassAffinity(
+        rest_mass_part=C**2 / float(represented_temperature),
+        thermal_part=float(thermal_affinity),
+    )
+    return mass_affinity, beta
 
 
 def _raw_potential_current(
@@ -198,6 +248,7 @@ def _raw_potential_current(
     gamma_gas: float,
     reference_density: float,
     reference_temperature: float,
+    mass_affinity_increment=0.0,
 ):
     gas_constant = np.longdouble(gas_constant)
     gamma_extended = np.longdouble(gamma_gas)
@@ -239,29 +290,61 @@ def _raw_potential_current(
         logarithmic_temperature = np.log(
             temperature / reference_temperature_extended
         )
-    if np.iscomplexobj(temperature) or np.iscomplexobj(mass_affinity):
+    compensated = isinstance(mass_affinity, CompensatedMassAffinity)
+    if np.iscomplexobj(temperature) or np.iscomplexobj(mass_affinity_increment):
         reciprocal_temperature_raw = 1.0 / temperature
         reciprocal_temperature = np.clongdouble(
             1.0 / np.real(temperature)
             + 1j * np.imag(reciprocal_temperature_raw)
         )
-        rest_coefficient = np.longdouble(C) ** 2 / gas_constant
+        rest_coefficient = np.longdouble(C) ** 2
+        if compensated:
+            real_affinity_without_rest = (
+                mass_affinity.rest_mass_part
+                - C**2 / float(np.real(temperature))
+                + mass_affinity.thermal_part
+                + np.real(mass_affinity_increment)
+            )
+            imaginary_affinity_without_rest = (
+                -rest_coefficient * np.imag(reciprocal_temperature)
+                + np.imag(mass_affinity_increment)
+            )
+        else:
+            real_affinity_without_rest = (
+                np.real(mass_affinity)
+                + np.real(mass_affinity_increment)
+                - rest_coefficient * np.real(reciprocal_temperature)
+            )
+            imaginary_affinity_without_rest = (
+                np.imag(mass_affinity)
+                + np.imag(mass_affinity_increment)
+                - rest_coefficient * np.imag(reciprocal_temperature)
+            )
         log_density_ratio = np.clongdouble(
-            np.real(mass_affinity) / gas_constant
-            - rest_coefficient * np.real(reciprocal_temperature)
+            real_affinity_without_rest / gas_constant
             - gamma_extended / gamma_minus_one
             + np.real(logarithmic_temperature) / gamma_minus_one
             + 1j
             * (
-                np.imag(mass_affinity) / gas_constant
-                - rest_coefficient * np.imag(reciprocal_temperature)
+                imaginary_affinity_without_rest / gas_constant
                 + np.imag(logarithmic_temperature) / gamma_minus_one
             )
         )
     else:
+        if compensated:
+            affinity_without_rest = (
+                mass_affinity.rest_mass_part
+                - C**2 / float(temperature)
+                + mass_affinity.thermal_part
+                + mass_affinity_increment
+            )
+        else:
+            affinity_without_rest = (
+                mass_affinity + mass_affinity_increment
+                - np.longdouble(C) ** 2 / temperature
+            )
         log_density_ratio = (
-            mass_affinity / gas_constant
-            - np.longdouble(C) ** 2 / (gas_constant * temperature)
+            affinity_without_rest / gas_constant
             - gamma_extended / gamma_minus_one
             + logarithmic_temperature / gamma_minus_one
         )
@@ -281,7 +364,7 @@ def _raw_potential_current(
 
 def equilibrium_column_potential_state(
     metric,
-    mass_affinity: float,
+    mass_affinity: CompensatedMassAffinity | float,
     inverse_temperature_covector,
     *,
     proper_half_thickness: float,
@@ -291,7 +374,7 @@ def equilibrium_column_potential_state(
     reference_temperature: float = 1.0,
 ) -> EquilibriumColumnPotentialState:
     metric_array = np.asarray(metric, dtype=float)
-    beta = np.asarray(inverse_temperature_covector, dtype=float)
+    beta = np.asarray(inverse_temperature_covector, dtype=np.longdouble)
     height = float(proper_half_thickness)
     if metric_array.shape != (4, 4) or beta.shape != (4,):
         raise ValueError("metric must be 4x4 and beta length four")
@@ -352,7 +435,7 @@ def equilibrium_column_potential_state(
         + pressure * inverse_metric
     )
     return EquilibriumColumnPotentialState(
-        mass_affinity=float(mass_affinity),
+        mass_affinity=mass_affinity,
         inverse_temperature_covector=beta.copy(),
         temperature=temperature,
         density=density,
@@ -378,7 +461,7 @@ def analytic_potential_current_jacobian(
 
 def complex_step_potential_current_jacobian(
     metric,
-    mass_affinity: float,
+    mass_affinity: CompensatedMassAffinity | float,
     inverse_temperature_covector,
     *,
     proper_half_thickness: float,
@@ -389,11 +472,9 @@ def complex_step_potential_current_jacobian(
 ) -> np.ndarray:
     metric_array = np.asarray(metric, dtype=float)
     inverse_metric = np.asarray(np.linalg.inv(metric_array), dtype=np.longdouble)
-    beta = np.asarray(inverse_temperature_covector, dtype=float)
+    beta = np.asarray(inverse_temperature_covector, dtype=np.longdouble)
     gas_constant = gas_constant_per_gram(mu_mol)
-    coordinates = np.asarray(
-        np.concatenate(([float(mass_affinity)], beta)), dtype=np.longdouble
-    )
+    coordinates = np.concatenate(([0.0], beta)).astype(np.longdouble)
     steps = np.concatenate(
         ((1.0e-20 * gas_constant,), 1.0e-20 * np.maximum(np.abs(beta), 1.0))
     )
@@ -403,13 +484,14 @@ def complex_step_potential_current_jacobian(
         perturbed[index] += 1j * step
         value = _raw_potential_current(
             inverse_metric,
-            perturbed[0],
+            mass_affinity,
             perturbed[1:],
             proper_half_thickness,
             gas_constant=gas_constant,
             gamma_gas=gamma_gas,
             reference_density=reference_density,
             reference_temperature=reference_temperature,
+            mass_affinity_increment=perturbed[0],
         )
         jacobian[:, index] = np.imag(value) / step
     return jacobian
@@ -417,7 +499,7 @@ def complex_step_potential_current_jacobian(
 
 def finite_difference_potential_current_jacobian(
     metric,
-    mass_affinity: float,
+    mass_affinity: CompensatedMassAffinity | float,
     inverse_temperature_covector,
     *,
     proper_half_thickness: float,
@@ -429,22 +511,22 @@ def finite_difference_potential_current_jacobian(
 ) -> np.ndarray:
     metric_array = np.asarray(metric, dtype=float)
     inverse_metric = np.asarray(np.linalg.inv(metric_array), dtype=np.longdouble)
-    beta = np.asarray(inverse_temperature_covector, dtype=float)
+    beta = np.asarray(inverse_temperature_covector, dtype=np.longdouble)
     gas_constant = gas_constant_per_gram(mu_mol)
-    coordinates = np.asarray(
-        np.concatenate(([float(mass_affinity)], beta)), dtype=np.longdouble
-    )
-    beta_scale = max(float(np.max(np.abs(beta))), np.finfo(float).tiny)
-    temperature = float((-(beta @ inverse_metric @ beta)) ** -0.5)
+    coordinates = np.concatenate(([0.0], beta)).astype(np.longdouble)
+    temperature = float(1.0 / np.sqrt(-(beta @ inverse_metric @ beta)))
     rest_mass_condition = C**2 / (gas_constant * temperature)
     # At fixed alpha a relative beta perturbation is amplified by
     # c^2/(R T) in log(rho).  Scale it so every stencil point remains in the
     # same thermodynamic neighbourhood instead of crossing density e-folds.
-    beta_steps = (
-        2.0e-4
-        * np.maximum(np.abs(beta), 0.25 * beta_scale)
-        / rest_mass_condition
+    inverse_diagonal = np.abs(np.diag(inverse_metric))
+    metric_covector_scale = 1.0 / (
+        np.longdouble(temperature)
+        * np.sqrt(np.maximum(inverse_diagonal, np.finfo(float).tiny))
     )
+    beta_steps = 2.0e-4 * np.maximum(
+        np.abs(beta), 0.25 * metric_covector_scale
+    ) / rest_mass_condition
     # A 0.06 logarithmic-density scale is large enough to dominate
     # subtraction noise in the rest-mass-conditioned chart while the
     # sixth-order stencil keeps truncation error small.
@@ -457,13 +539,14 @@ def finite_difference_potential_current_jacobian(
         return np.asarray(
             _raw_potential_current(
                 inverse_metric,
-                point[0],
+                mass_affinity,
                 point[1:],
                 proper_half_thickness,
                 gas_constant=gas_constant,
                 gamma_gas=gamma_gas,
                 reference_density=reference_density,
                 reference_temperature=reference_temperature,
+                mass_affinity_increment=point[0],
             ),
             dtype=np.longdouble,
         )
@@ -560,9 +643,12 @@ def audit_equilibrium_column_potential(
     temperature_first = de_dtemp - temp * ds_dtemp
     density_gibbs = dp_drho - rho * dmu_drho
     temperature_gibbs = dp_dtemp - (entropy_volume + rho * dmu_dtemp)
+    alpha_total = (
+        alpha.total if isinstance(alpha, CompensatedMassAffinity) else float(alpha)
+    )
     return EquilibriumColumnPotentialAudit(
         density_affinity_roundtrip_relative_defect=abs(state.density - rho) / rho,
-        chemical_affinity_relative_defect=abs(state.specific_chemical_potential / temp - alpha) / max(abs(alpha), 1.0),
+        chemical_affinity_relative_defect=abs(state.specific_chemical_potential / temp - alpha_total) / max(abs(alpha_total), 1.0),
         four_velocity_normalization_defect=abs(float(state.four_velocity @ metric_array @ state.four_velocity) + 1.0),
         first_law_density_relative_defect=abs(density_first) / max(abs(de_drho), abs(temp * ds_drho), abs(pressure / rho**2), 1.0),
         first_law_temperature_relative_defect=abs(temperature_first) / max(abs(de_dtemp), abs(temp * ds_dtemp), 1.0),
@@ -574,6 +660,7 @@ def audit_equilibrium_column_potential(
 
 
 __all__ = [
+    "CompensatedMassAffinity",
     "EquilibriumColumnPotentialAudit",
     "EquilibriumColumnPotentialState",
     "analytic_potential_current_jacobian",

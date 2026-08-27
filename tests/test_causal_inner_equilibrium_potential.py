@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 from imri_qpe.layer3_minidisk_1d.causal_inner_equilibrium_potential import (
+    CompensatedMassAffinity,
     analytic_potential_current_jacobian,
     audit_equilibrium_column_potential,
     density_from_mass_affinity,
@@ -32,6 +33,7 @@ def test_potential_derivatives_generate_mass_and_stress_energy():
     alpha, beta = entropy_variables_from_primitive(
         metric, velocity, density=rho, temperature=temperature
     )
+    assert isinstance(alpha, CompensatedMassAffinity)
     state = equilibrium_column_potential_state(
         metric,
         alpha,
@@ -41,6 +43,26 @@ def test_potential_derivatives_generate_mass_and_stress_energy():
     jacobian = analytic_potential_current_jacobian(state)
     np.testing.assert_allclose(jacobian[:, 0], state.surface_mass_current)
     np.testing.assert_allclose(jacobian[:, 1:], state.column_stress_energy)
+
+
+def test_compensated_affinity_and_metric_local_stencil_handle_kerr_like_units():
+    radius = 5.0e9
+    metric = np.diag((-1.0, 1.0, radius**2, 1.0))
+    physical_velocity = np.asarray((0.05, 0.82, 0.0))
+    gamma = 1.0 / np.sqrt(1.0 - physical_velocity @ physical_velocity)
+    velocity = np.asarray(
+        (gamma, gamma * physical_velocity[0], gamma * physical_velocity[1] / radius, 0.0)
+    )
+    audit = audit_equilibrium_column_potential(
+        metric,
+        velocity,
+        density=2.5e-7,
+        temperature=3.2e6,
+        proper_half_thickness=4.0e8,
+    )
+    assert audit.density_affinity_roundtrip_relative_defect <= 1.0e-12
+    assert audit.complex_step_current_jacobian_relative_defect <= 1.0e-9
+    assert audit.finite_difference_current_jacobian_relative_defect <= 2.0e-5
 
 
 def test_complete_equilibrium_audit_passes_on_disk_like_states():
