@@ -1,0 +1,44 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzi3_conditioned_discrete_gradient_flux_kernel",
+  "claim_boundary": {
+    "bounded_nonlinear_microstep_authorized": false,
+    "complete_cycle_execution_authorized": false,
+    "definitions_only": true,
+    "straight_path_rescued": false,
+    "trajectory_authorized": false
+  },
+  "classification": "conditioned_discrete_gradient_flux_manifest_frozen",
+  "decision": {
+    "failure_classification": "conditioned_discrete_gradient_flux_kernel_failed",
+    "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzj_bounded_nonlinear_split_microstep_manifest",
+    "pass_classification": "conditioned_discrete_gradient_flux_kernel_certified"
+  },
+  "kernel": {
+    "Tadmor_relative_gate": 2e-12,
+    "consistency_gate": 2e-13,
+    "maximum_weighted_correction_relative_norm": 0.05,
+    "penalty_positive_gate": 0.0,
+    "same_frozen_endpoint_pairs": 376,
+    "swap_symmetry_gate": 2e-13,
+    "trajectory_steps": 0
+  },
+  "preserved": {
+    "STF_polar_connection_supported": true,
+    "endpoint_port_atlases_supported": true,
+    "entropy_stable_frozen_discretization_certified": true,
+    "straight_entropy_path_rejected": true
+  },
+  "repair": {
+    "base_flux": "symmetric arithmetic mean of the two physical endpoint radial-current gradients",
+    "consistency": "f_DG(U,U)=physical radial flux(U)",
+    "correction": "minimum weighted-norm rank-one correction parallel to W^{-1} Delta v",
+    "entropy_residual": "Delta X^R - Delta v dot f_base, evaluated with compensated alpha differences",
+    "entropy_stable_extension": "subtract one-half lambda W^{-1} Delta v; its entropy production is non-positive",
+    "identity": "Delta v dot f_DG = Delta X^R by construction",
+    "path_integration": false,
+    "symmetry": "f_DG(L,R)=f_DG(R,L)",
+    "weight": "diagonal endpoint physical-flux scale, frozen symmetrically"
+  },
+  "schema_version": 1,
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzi2_conditioned_discrete_gradient_flux_manifest"
+}
