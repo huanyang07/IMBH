@@ -1,0 +1,57 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzh1_entropy_stable_split_discretization_kernel",
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "definitions_only": true,
+    "nonlinear_trust_region_certified": false,
+    "trajectory_authorized": false
+  },
+  "classification": "entropy_stable_split_discretization_manifest_frozen",
+  "decision": {
+    "failure_classification": "entropy_stable_split_discretization_kernel_failed",
+    "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzi_local_nonlinear_atlas_trust_region_manifest",
+    "pass_classification": "entropy_stable_split_discretization_kernel_certified"
+  },
+  "kernel": {
+    "constant_state_gate": 2e-13,
+    "deterministic_state_probes_per_anchor": 3,
+    "energy_ledger_gate": 2e-12,
+    "operator_symmetry_gate": 2e-13,
+    "physical_anchors": 47,
+    "proof_grid_cells": 7,
+    "second_order_gate": 1.8,
+    "time_step_factors": [
+      0.2,
+      0.1,
+      0.05,
+      0.025
+    ],
+    "trajectory_steps": 0
+  },
+  "nonlinear_policy": {
+    "acceptance": "all substeps and the combined step must close their entropy/heat ledgers",
+    "coefficients": "frozen for one accepted split step",
+    "reanchor": "explicit only after the step; no mid-step coefficient mutation",
+    "rejection": "rejected states never enter history"
+  },
+  "parent_architecture": "certified state-local 4+5+2 physical port atlas",
+  "schema_version": 1,
+  "spatial_discretization": {
+    "constant_state_preservation": true,
+    "entropy_coordinates": "the frozen anchor coordinates with A0=I",
+    "entropy_dissipation": "-(lambda/2)*(yR-yL), lambda >= spectral_radius(A_r)",
+    "equivalent_operator": "skew centered derivative tensor A_r plus symmetric negative jump penalty",
+    "grid": "periodic uniform proof grid; boundaries require a later SAT certificate",
+    "interface_entropy_inequality": true,
+    "two_point_flux": "f*(yL,yR)=A_r*(yL+yR)/2"
+  },
+  "time_discretization": {
+    "composition": "source half-step, transport full-step, source half-step",
+    "formal_order": 2,
+    "local_ports": "implicit midpoint/Cayley update of the frozen source generator",
+    "reversible_transport": "implicit midpoint/Cayley update",
+    "source_ledger": "reservoir loss equals thermal heat deposit exactly at the midpoint",
+    "transport_ledger": "energy change equals midpoint numerical-interface dissipation"
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzh_entropy_stable_split_discretization_manifest"
+}
