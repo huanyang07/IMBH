@@ -507,7 +507,7 @@ def finite_difference_potential_current_jacobian(
     gamma_gas: float = 5.0 / 3.0,
     reference_density: float = 1.0,
     reference_temperature: float = 1.0,
-    step_factor: float = 1.0,
+    step_factor: float = 0.5,
 ) -> np.ndarray:
     metric_array = np.asarray(metric, dtype=float)
     inverse_metric = np.asarray(np.linalg.inv(metric_array), dtype=np.longdouble)
