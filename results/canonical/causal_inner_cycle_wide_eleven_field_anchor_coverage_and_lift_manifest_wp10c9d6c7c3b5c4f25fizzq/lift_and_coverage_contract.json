@@ -1,0 +1,111 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzq1_physical_112_cell_global_AP_dry_run",
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "complete_cycle_steps": 0,
+    "cycle_wide_inputs_complete": false,
+    "events_and_resets_certified": false,
+    "physical_boundaries_certified": false
+  },
+  "classification": "native_112_cell_eleven_field_lift_and_coverage_manifest_frozen",
+  "coverage": {
+    "binding_metric": "nearest certified anchor in the frozen nonlinear trust metric, not componentwise envelope alone",
+    "first_audit": "all saved 65 trajectory profiles and 192 exact witnesses",
+    "full_cycle_requirement": "phase [0,2pi], every physical mode, every accepted q-tube, impact and hot-exit neighborhoods",
+    "prefix_coverage_cannot_establish_cycle_coverage": true
+  },
+  "decision": {
+    "complete_cycle_execution_authorized": false,
+    "physical_grid_pass_authorized_next": "WP10c9d6c7c3b5c4f25fizzq2_native_grid_five_to_eleven_field_lift_and_prefix_coverage_audit"
+  },
+  "grid_correction": {
+    "eleven_field_global_dimension": 1232,
+    "legacy_primitive_profile_shape": [
+      112,
+      5
+    ],
+    "physical_context_cells": 112,
+    "previous_certificate_scope_preserved": "94-cell periodic scalability proof",
+    "previous_periodic_proof_cells": 94,
+    "previous_periodic_proof_dimension": 1034,
+    "production_size_claim_superseded": true,
+    "radial_remap_required_for_native_lift": false,
+    "reason": "470 is an implicit constrained-coordinate dimension, not 94 physical radial cells"
+  },
+  "native_lift": {
+    "accepted_history_only": true,
+    "height": "recover the accepted hydrostatic responsive height cellwise",
+    "native_cellwise_lift": true,
+    "new_fields": [
+      "four equilibrium entropy-current coordinates",
+      "five physical STF shear amplitudes",
+      "log height over anchor",
+      "vertical velocity"
+    ],
+    "old_fields": [
+      "log_surface_density",
+      "radial_velocity_over_c",
+      "azimuthal_velocity_over_c",
+      "log_temperature",
+      "specific_Rphi_stress"
+    ],
+    "shear_embedding": "old R-phi stress maps to sqrt(2) times the normalized STF R-phi amplitude",
+    "vertical_velocity": "zero only as an anchor coordinate; source and heldout audits remain binding"
+  },
+  "physical_grid_global_AP_dry_run": {
+    "boundary": "periodic scalability proof only",
+    "fields_per_cell": 11,
+    "gates": {
+      "checkpoint_and_suffix_replay": "bitwise",
+      "maximum_core_total_conservation_defect": 2e-11,
+      "maximum_homogeneous_mode_expansivity": 2e-10,
+      "maximum_projected_100k_step_wall_days": 3.0,
+      "maximum_state_norm": 2.0,
+      "minimum_matched_refinement_order": 1.7,
+      "minimum_source_nullity": 4,
+      "online_truth_calls": 0
+    },
+    "global_state_dimension": 1232,
+    "normalized_horizon": 2.0,
+    "physical_anchor_paths": {
+      "held_out": [
+        20,
+        30
+      ],
+      "primary": [
+        0,
+        10
+      ]
+    },
+    "radial_cells": 112,
+    "reference_step_count": 64,
+    "step_counts": [
+      4,
+      8,
+      16
+    ],
+    "stiffness_ratios": [
+      1.0,
+      1000.0
+    ]
+  },
+  "schema_version": 1,
+  "stages": [
+    {
+      "name": "physical_112_cell_global_AP_dry_run",
+      "new_truth_calls": 0,
+      "stage": 1
+    },
+    {
+      "name": "native_grid_five_to_eleven_field_lift_and_prefix_coverage",
+      "new_truth_calls": 0,
+      "stage": 2
+    },
+    {
+      "name": "cycle_wide_missing_anchor_acquisition",
+      "new_truth_required": true,
+      "stage": 3
+    }
+  ],
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzq_cycle_wide_eleven_field_anchor_coverage_and_lift_manifest"
+}
