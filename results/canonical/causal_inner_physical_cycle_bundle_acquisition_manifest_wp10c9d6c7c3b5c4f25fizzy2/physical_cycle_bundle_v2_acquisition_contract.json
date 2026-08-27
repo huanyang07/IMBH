@@ -1,0 +1,300 @@
+{
+  "authorized_next": "external_input_WP10c9d6c7c3b5c4f25fizzy3_physical_model_declaration_and_prospective_split_lock",
+  "canonical_physical_cycle_bundle_v2": {
+    "SHA256SUMS.txt": "every decisive file; one canonical aggregate bundle digest",
+    "atlas_topology.npz": {
+      "branch_simplex_modes": "(N_branch_simplex,)",
+      "branch_simplices": "(N_branch_simplex,6) mode-pure",
+      "event_simplex_classes": "(N_event_simplex,)",
+      "event_simplices": "(N_event_simplex,5)",
+      "phase_scale": "positive scalar",
+      "q_scales": "(4,) positive physical scales",
+      "q_simplices": "(N_q_simplex,5)"
+    },
+    "branch_holdout.npz": [
+      "independent 1232-state anchors, rates, port/source matrices, ledgers, and guards",
+      "no identifier or sample duplicated in any training payload"
+    ],
+    "branch_train.npz": {
+      "anchor_invariants4": "(N_branch,4)",
+      "anchor_mode_index": "(N_branch,)",
+      "anchor_phase": "(N_branch,)",
+      "anchor_states1232": "(N_branch,1232)",
+      "forcing1232_per_second": "(N_branch,1232)",
+      "guard_margins": "(N_branch,N_transition)",
+      "pseudo_arclength_tangents": "(N_branch,1237)",
+      "radial_matrices112x11x11": "(N_branch,112,11,11)",
+      "source_matrices112x11x11": "(N_branch,112,11,11)",
+      "stable_spectral_gaps_per_second": "(N_branch,) positive",
+      "trust_radii": "(N_branch,) positive"
+    },
+    "driver.npz": {
+      "boundary_ledger_rate4": "(N_phi,N_q,N_mode,4)",
+      "distributed_source_ledger_rate4": "(N_phi,N_q,N_mode,4)",
+      "mode_labels": "(N_mode,) unique physical labels",
+      "outer_incoming_characteristics11": "(N_phi,N_q,N_mode,11)",
+      "phase_nodes": "(N_phi,) exact 0..2*pi periodic grid",
+      "phase_rate_per_second": "(N_phi,) positive physical ephemeris",
+      "retained_invariant_nodes4": "(N_q,4)",
+      "slow_forcing1232_per_second": "(N_phi,N_q,N_mode,1232)"
+    },
+    "event_holdout.npz": [
+      "independent entry/exit states, event times, modes, impulses, and guard truth",
+      "no event used to construct a guard sheet or reset fit"
+    ],
+    "events_train.npz": {
+      "destination_guard_margin": "(N_event,) positive",
+      "destination_mode_index": "(N_event,)",
+      "duration_seconds": "(N_event,) positive",
+      "guard_value_and_direction": "(N_event,2)",
+      "integrated_ledger_impulse4": "(N_event,4)",
+      "integrated_phase_advance": "(N_event,) positive",
+      "ledger_null_constitutive_jump1232": "(N_event,1232)",
+      "phase": "(N_event,)",
+      "post_states1232": "(N_event,1232)",
+      "pre_invariants4": "(N_event,4)",
+      "pre_states1232": "(N_event,1232)",
+      "reduced_guard_normals5": "(N_event,5) oriented",
+      "source_mode_index": "(N_event,)",
+      "transition_class_index": "(N_event,)"
+    },
+    "initial_condition.npz": [
+      "physical state1232, invariants4, phase, mode, epoch, and transition inventory",
+      "bitwise roundtrip and physical bundle hash"
+    ],
+    "metadata.json": {
+      "required": [
+        "schema_version=2",
+        "physical_model_id",
+        "physical_model_complete=true",
+        "synthetic_fixture=false",
+        "unit_system=cgs",
+        "source_citations",
+        "source_code_commit",
+        "parameter_hash",
+        "split_frozen_before_fit=true",
+        "independent_spatial_holdout_complete=true only after validation",
+        "independent_sequence_or_cycle_holdout_complete=true only after validation",
+        "heldout_physical_validation_complete=true only after validation",
+        "physical_payload_hashes_complete=true only after final checksums close",
+        "physical_bundle_sha256 only after canonicalization"
+      ]
+    },
+    "production_benchmark.json": [
+      "at least 1000 mixed driver/branch/guard/reset queries",
+      "exact machine, dependency, and thread configuration",
+      "query counts, wall time, projected 100000-step wall days, and peak memory"
+    ],
+    "sequence_holdout.npz": [
+      "one independent full event sequence or full cycle",
+      "mode order, event times, endpoint, port actions, and cumulative ledgers"
+    ],
+    "spatial_holdout.npz": [
+      "one independently generated native or refined grid with at least 112 cells",
+      "state, rate, port action, physical guards, and resolution provenance"
+    ],
+    "split_lock.json": [
+      "training and holdout identifiers for phase, Q, branch, and every event class",
+      "two or more contiguous withheld phase windows",
+      "at least 20 percent branch anchors including fold-adjacent cases",
+      "at least 20 percent of each event class plus a parameter-edge case",
+      "hash and timestamp fixed before the first interpolation or reset fit"
+    ],
+    "transition_specs.json": [
+      "unique transition name and class index",
+      "source and destination mode index",
+      "crossing direction +/-1",
+      "hysteresis and re-entry policy"
+    ]
+  },
+  "classification": "physical_cycle_bundle_v2_acquisition_manifest_frozen_external_model_declaration_required",
+  "cost_and_execution_boundary": {
+    "complete_cycle_runner_in_this_package": false,
+    "maximum_future_complete_cycle_wall_days": 3.0,
+    "maximum_future_online_macrosteps": 100000,
+    "minimum_average_physical_seconds_per_macrostep_for_fiducial_target": 5.7888,
+    "new_complete_cycle_steps": 0,
+    "new_physical_truth_calls_in_this_package": 0,
+    "runtime_target_is_not_physical_period_evidence": true
+  },
+  "current_status": {
+    "complete_cycle_execution_authorized": false,
+    "complete_cycle_preexecution_readiness_passed": false,
+    "complete_cycle_steps": 0,
+    "heldout_physical_validation_complete": false,
+    "physical_cycle_bundle_v2_acquired": false,
+    "physical_initial_condition_locked": false,
+    "physical_model_declaration_received": false,
+    "production_runtime_benchmark_complete": false,
+    "prospective_split_locked": false,
+    "repository_seed_evidence_preserved": [
+      {
+        "binding_limit": "short five-field prefix; no full cycle or hot exit",
+        "count": 65,
+        "evidence": "accepted short physical trajectory profiles",
+        "observed_physical_seconds": 0.016,
+        "shape": [
+          65,
+          112,
+          5
+        ]
+      },
+      {
+        "binding_limit": "five-field witnesses; no cycle-wide branch coverage",
+        "count": 192,
+        "evidence": "exact short-time witness profiles",
+        "shape": [
+          192,
+          112,
+          5
+        ]
+      },
+      {
+        "binding_limit": "per-cell prefix anchors; no 1232-state cycle branch sheets, slow forcing, or physical outer loading",
+        "count": 913,
+        "evidence": "local eleven-field port/source anchors",
+        "native_radial_cells": 112
+      },
+      {
+        "binding_limit": "physical seed only; not a transition or reset endpoint",
+        "count": 1,
+        "evidence": "accepted 20.0017-ms terminal checkpoint"
+      }
+    ]
+  },
+  "definitions_only": true,
+  "external_physical_model_declaration": {
+    "constitutive_modes_and_events": [
+      "cold, hot, cooling, recovery, or other physically chosen mode definitions",
+      "oriented transition guards, hysteresis, and destination-mode policy",
+      "entry-to-exit physical event solver and dense guard localization",
+      "event duration, phase advance, four-ledger impulse, and constitutive jump"
+    ],
+    "distributed_and_boundary_physics": [
+      "1232-state distributed forcing over (Q,phase,mode)",
+      "four retained-ledger source rates with mass/angular-momentum/energy bookkeeping",
+      "physical exterior state or incoming-flux law",
+      "all eleven incoming outer entropy-characteristic amplitudes",
+      "inner excision ledger and any tide, torque, wind, heating, or cooling terms"
+    ],
+    "identity_and_provenance": [
+      "physical_model_id and semantic version",
+      "source-code repository, exact commit, dependency lock, and license",
+      "citable sources for every external constitutive or forcing law",
+      "CGS units, coordinate conventions, sign conventions, and parameter table",
+      "declared uncertainty ranges and which parameters are calibrated"
+    ],
+    "initial_condition": [
+      "physical 1232-state profile and retained invariants",
+      "unwrapped phase, discrete mode, next transition inventory, and epoch",
+      "source artifact hashes and parameter realization"
+    ],
+    "orbital_driver": [
+      "ephemeris phi(t), strictly positive dphi/dt, and physical period",
+      "impact geometry, orientation, and phase-zero convention",
+      "derivation and provenance independent of the runtime target"
+    ]
+  },
+  "fail_closed_decision": {
+    "automatic_progression": "after each stage passes, proceed to the next stage; stop immediately on any scientific, heldout, provenance, or cost failure",
+    "blocked_on": "external physical model declaration and raw truth acquisition",
+    "complete_cycle_execution_authorized": false,
+    "first_required_delivery": "external_input_WP10c9d6c7c3b5c4f25fizzy3_physical_model_declaration_and_prospective_split_lock"
+  },
+  "heldout_acceptance_gates": {
+    "discrete_modes_and_event_order_exact": true,
+    "maximum_branch_rate_relative_defect": 0.05,
+    "maximum_branch_state_relative_defect": 0.02,
+    "maximum_event_ledger_relative_defect": 0.02,
+    "maximum_event_post_state_relative_defect": 0.05,
+    "maximum_event_time_relative_defect": 0.02,
+    "maximum_port_action_relative_defect": 0.05,
+    "maximum_sequence_endpoint_relative_defect": 0.05,
+    "maximum_sequence_ledger_relative_defect": 0.02
+  },
+  "prospective_acquisition_sequence": [
+    {
+      "binding_pass": "all physical equations, ephemeris, sources, boundary environment, modes, transitions, citations, parameters, and initial-condition provenance are supplied without repository-invented defaults",
+      "name": "external model declaration",
+      "stage": 0
+    },
+    {
+      "binding_pass": "training/holdout identifiers and raw truth hashes are committed before any coefficient, simplex, guard, or reset fit",
+      "name": "prospective split lock",
+      "stage": 1
+    },
+    {
+      "binding_pass": "positive periodic phase law, exact four-ledger closure, physical outer incoming characteristics, and all thermodynamic guards pass",
+      "name": "sparse driver and outer-boundary preflight",
+      "stage": 2
+    },
+    {
+      "binding_pass": "mode-pure pseudo-arclength anchors cover the declared cold Q/phase tube with positive trust radii and normal-hyperbolic gaps",
+      "name": "cold branch continuation preflight",
+      "stage": 3
+    },
+    {
+      "binding_pass": "each additional physical mode passes the cold-sheet structure and prospective branch holdout gates before the next mode is acquired",
+      "name": "remaining branch sheets",
+      "stage": 4
+    },
+    {
+      "binding_pass": "each transition class separately passes oriented guard, duration, phase advance, ledger impulse, reset, and event-holdout gates",
+      "name": "event classes",
+      "stage": 5
+    },
+    {
+      "binding_pass": "every prospective cycle query lies inside a mode-pure trusted driver/branch/guard simplex; no fallback or extrapolation exists",
+      "name": "atlas topology and hull closure",
+      "stage": 6
+    },
+    {
+      "binding_pass": "all frozen heldout thresholds pass without refitting",
+      "name": "independent spatial and sequence validation",
+      "stage": 7
+    },
+    {
+      "binding_pass": "the exact final payload projects at most three wall days for 100000 macrosteps and the initial checkpoint closes bitwise",
+      "name": "production payload benchmark and initial-state lock",
+      "stage": 8
+    },
+    {
+      "binding_pass": "all prior stage artifacts are independently checksum-validated; only then may a definitions-only single-cycle execution package be frozen",
+      "name": "physical pre-execution readiness certificate",
+      "stage": 9
+    }
+  ],
+  "schema_version": 2,
+  "scientific_authority_boundary": {
+    "external_scientific_authority_required": true,
+    "forbidden_defaults": [
+      "do not treat 578880 seconds as a measured period or phase law",
+      "do not extend the 0.016-second no-tide/no-wind prefix around a cycle",
+      "do not promote the static exterior candidate into physical outer loading",
+      "do not infer hot/cooling/recovery modes or resets from unobserved events",
+      "do not label any deterministic or synthetic fixture as physical truth"
+    ],
+    "repository_may_define_numerical_schema_and_validation": true,
+    "repository_may_select_unprovided_physical_forcing_or_modes": false
+  },
+  "structure_and_conservation_gates": {
+    "branch_invariant_relative_defect_maximum": 2e-12,
+    "driver_periodicity_and_first_derivative_close": true,
+    "event_constitutive_null_relative_defect_maximum": 2e-12,
+    "event_reset_ledger_relative_defect_maximum": 2e-12,
+    "forcing_ledger_relative_defect_maximum": 2e-12,
+    "inner_incoming_characteristic_count_exact": 0,
+    "no_unlocked_extrapolation_or_fallback": true,
+    "outer_incoming_characteristic_count_exact": 11,
+    "phase_rate_strictly_positive": true,
+    "radial_symmetry_defect_maximum": 2e-12,
+    "source_nullity_exact": 4,
+    "source_positive_eigenvalue_maximum": 2e-12,
+    "stable_spectral_gap_strictly_positive": true
+  },
+  "supersedes": {
+    "artifact": "causal_inner_cycle_wide_physical_driver_boundary_loading_and_event_truth_acquisition_manifest_wp10c9d6c7c3b5c4f25fizzt",
+    "reason": "the final five-coordinate reduced-hybrid production kernel now requires explicit atlas topology, finite phase-advancing resets, independent truth payloads, a locked initial state, and a production runtime benchmark in addition to the original schema"
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzy2_physical_cycle_bundle_acquisition_manifest"
+}
