@@ -1,0 +1,121 @@
+{
+  "already_certified": {
+    "branch_invariant_correction_and_structure_preservation": true,
+    "convex_driver_interpolation_and_ledger_closure": true,
+    "fail_closed_synthetic_production_rejection": true,
+    "fifth_order_smooth_reduced_integrator": true,
+    "finite_duration_phase_advancing_conservative_resets": true,
+    "five_vertex_event_guard_sheet_geometry": true,
+    "four_invariant_conservation_geometry": true,
+    "native_1232_state_global_entropy_boundary_action": true,
+    "production_adapter_code_path_and_endpoint_reaudit": true,
+    "synthetic_100000_step_cost_projection_wall_days": 0.003974278728935967,
+    "two_event_hybrid_sequence_and_bitwise_restart": true
+  },
+  "authorized_next": "physical_WP10c9d6c7c3b5c4f25fizzy1_complete_cycle_preexecution_readiness_certificate",
+  "classification": "reduced_hybrid_complete_cycle_preexecution_architecture_frozen_external_physics_blocked",
+  "current_readiness": {
+    "complete_cycle_execution_ready": false,
+    "independent_sequence_or_cycle_holdout_complete": false,
+    "independent_spatial_holdout_complete": false,
+    "mathematical_architecture_verified": true,
+    "physical_cycle_bundle_v2_acquired": false,
+    "physical_initial_condition_locked": false,
+    "physical_payload_hashes_complete": false,
+    "physical_runtime_benchmark_complete": false,
+    "production_adapter_structure_verified": true
+  },
+  "decision": {
+    "blocking_condition": "the external nonsynthetic physical driver/branch/event bundle, independent heldouts, and production runtime benchmark do not exist",
+    "complete_cycle_execution_authorized": false,
+    "complete_cycle_runner_command_available": false,
+    "complete_cycle_steps": 0,
+    "required_next_artifact": "physical_WP10c9d6c7c3b5c4f25fizzy1_complete_cycle_preexecution_readiness_certificate",
+    "status": "blocked_before_complete_cycle_execution"
+  },
+  "heldout_readiness_gates": {
+    "discrete_modes_and_event_order_exact": true,
+    "maximum_branch_rate_relative_defect": 0.05,
+    "maximum_branch_state_relative_defect": 0.02,
+    "maximum_event_ledger_relative_defect": 0.02,
+    "maximum_event_post_state_relative_defect": 0.05,
+    "maximum_event_time_relative_defect": 0.02,
+    "maximum_port_action_relative_defect": 0.05,
+    "maximum_sequence_endpoint_relative_defect": 0.05,
+    "maximum_sequence_ledger_relative_defect": 0.02,
+    "restart_suffix_replay_bitwise": true
+  },
+  "required_external_physical_evidence": {
+    "independent_sequence_or_cycle_holdout": "a prospectively withheld event sequence or full cycle with exact mode order, event times, endpoint, port action, and ledger truth",
+    "independent_spatial_holdout": "at least one independently resolved >=112-cell truth package not used for fitting",
+    "initial_condition": "one hash-locked physical Q, phase, mode, transition inventory, and checkpoint provenance",
+    "physical_cycle_bundle_v2": [
+      "complete nonsynthetic model metadata and source citations",
+      "canonical SHA-256 for metadata, driver, branch, events, heldout truth, and topology",
+      "full [0,2*pi] driver coverage for every physical mode",
+      "overlapping mode-pure branch simplices over the entire prospective Q tube",
+      "positive trust radii and stable spectral gaps at every anchor",
+      "physical inner excision and outer incoming characteristic data",
+      "outgoing transition guard sheets with direction and class",
+      "event duration, integrated phase advance, ledger impulse, constitutive jump, and destination margin"
+    ],
+    "physical_runtime_benchmark": "at least 1000 driver, branch, guard, and reset queries on the exact production payload and machine/thread configuration"
+  },
+  "schema_version": 1,
+  "selected_mathematical_architecture": {
+    "algebraic_fast_reconstruction": "z_star(Q,phase,mode) is reconstructed from a mode-pure branch simplex and corrected only in the certified minimum-norm conservation normal",
+    "hybrid_events": "oriented codimension-one guard sheets are localized with dense output; duration, phase advance, ledger impulse, constitutive reset, and destination mode are one atomic transition",
+    "name": "structure-preserving normally-hyperbolic reduced hybrid cycle",
+    "normal_hyperbolicity": "every accepted endpoint re-audits positive stable spectral gap, four-coordinate source kernel, symmetric radial ports, and 0/11 inner/outer characteristic counts",
+    "online_integrator": "adaptive Dormand-Prince 5(4) with cubic-Hermite event localization",
+    "online_prohibitions": {
+      "fixed_Q_microsteps": 0,
+      "large_nonlinear_roots": 0,
+      "nearest_neighbor_fallback": 0,
+      "truth_residual_calls": 0,
+      "unlocked_extrapolation": 0
+    },
+    "online_state": "y=(Q1,Q2,Q3,Q4,unwrapped_phase) plus one discrete mode",
+    "smooth_dynamics": "Qdot=C*b(Q,phase,mode), phidot=omega(phase); all values are convex interpolants of a hash-locked physical driver atlas"
+  },
+  "single_cycle_execution_contract": {
+    "absolute_tolerance": {
+      "Q_coordinates": "1e-10 times the four physical Q scales",
+      "unwrapped_phase": 1e-10
+    },
+    "binding_acceptance": [
+      "phase advances exactly one cycle within tolerance",
+      "discrete mode returns to the declared cycle mode",
+      "event order matches the physical heldout inventory",
+      "every query remains inside a certified hull and trust region",
+      "every endpoint passes invariant, source, port, boundary, and physical guards",
+      "Q change equals cumulative smooth plus event ledger within 2e-10 relative",
+      "no truth call, microstep, large nonlinear root, extrapolation, or fallback occurs",
+      "wall time and step count remain inside the frozen budget",
+      "checkpoint hashes close and suffix replays are bitwise"
+    ],
+    "checkpoint_interval_accepted_steps": 100,
+    "important_non_gate": "Q is a slow evolving state and is not required to return to its initial value after one physical cycle",
+    "maximum_online_macrosteps": 100000,
+    "maximum_step_ratio": 2.0,
+    "maximum_wall_days": 3.0,
+    "physical_cycle_seconds": 578880.0,
+    "relative_tolerance": 1e-08,
+    "required_average_physical_seconds_per_macrostep": 5.7888,
+    "required_cycle_outputs": [
+      "every accepted reduced checkpoint and endpoint structure audit",
+      "every localized event entry/exit and atomic reset record",
+      "cumulative smooth, boundary, distributed, and event ledgers",
+      "minimum atlas barycentric weight, trust margin, spectral gap, and guard margin",
+      "mode/event sequence and final phase defect",
+      "wall profile and physical seconds per wall second",
+      "bitwise suffix replay from at least three cycle checkpoints"
+    ],
+    "terminal_condition": "unwrapped phase equals initial phase plus 2*pi"
+  },
+  "supersedes": {
+    "artifact": "causal_inner_complete_cycle_preexecution_manifest_wp10c9d6c7c3b5c4f25fizzn",
+    "reason": "subsequent structure certificates selected a five-coordinate normally-hyperbolic hybrid slow atlas instead of evolving all 1232 fast coordinates online"
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzy_complete_cycle_preexecution_manifest"
+}
