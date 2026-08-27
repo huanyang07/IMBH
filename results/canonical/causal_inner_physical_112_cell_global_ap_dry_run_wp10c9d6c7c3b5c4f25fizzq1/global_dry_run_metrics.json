@@ -1,0 +1,143 @@
+{
+  "all_checkpoints_bitwise": true,
+  "all_suffix_replays_bitwise": true,
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzq2_native_grid_five_to_eleven_field_lift_and_prefix_coverage_audit",
+  "certificate_wall_seconds": 125.62956304103136,
+  "classification": "physical_112_cell_global_AP_dry_run_certified",
+  "complete_cycle_execution_authorized": false,
+  "complete_cycle_steps": 0,
+  "cycle_wide_inputs_complete": false,
+  "fields_per_cell": 11,
+  "global_state_dimension": 1232,
+  "maximum_core_total_conservation_defect": 7.459954641659649e-15,
+  "maximum_homogeneous_mode_expansivity": 0.0,
+  "maximum_projected_100k_step_wall_days": 0.009879400480443749,
+  "maximum_state_norm": 0.28140273630510415,
+  "minimum_matched_refinement_order": 2.0232528732784205,
+  "minimum_source_nullity": 4,
+  "native_five_to_eleven_lift_certified": false,
+  "offline_anchor_wall_seconds": 61.2628936660476,
+  "offline_physical_anchor_builds": 4,
+  "online_truth_calls": 0,
+  "passed": true,
+  "physical_boundaries_certified": false,
+  "physical_context_cells": 112,
+  "previous_94_cell_scalability_certificate_preserved": true,
+  "radial_cells": 112,
+  "rows": [
+    {
+      "anchor_indices": [
+        20,
+        30
+      ],
+      "case": "held_out",
+      "checkpoint_roundtrip_bitwise": true,
+      "global_state_dimension": 1232,
+      "maximum_core_total_conservation_defect": 7.459954641659649e-15,
+      "maximum_homogeneous_mode_expansivity": 0.0,
+      "maximum_online_step_wall_seconds": 0.008458156255073845,
+      "maximum_state_norm": 0.28140273630510415,
+      "minimum_matched_refinement_order": 2.0232528732784205,
+      "online_truth_calls": 0,
+      "passed": true,
+      "projected_100k_step_wall_days": 0.009789532702631765,
+      "rows": [
+        {
+          "checkpoint_roundtrip_bitwise": true,
+          "matched_orders": [
+            3.0212770160653704,
+            2.0232528732784205
+          ],
+          "maximum_core_total_conservation_defect": 2.3842030718282315e-15,
+          "maximum_homogeneous_mode_expansivity": 0.0,
+          "relative_errors": [
+            0.0065423648446750055,
+            0.0008058231735315232,
+            0.00019823482366554792
+          ],
+          "stiffness_ratio": 1.0,
+          "suffix_replay_bitwise": true
+        },
+        {
+          "checkpoint_roundtrip_bitwise": true,
+          "matched_orders": [
+            2.0970961531719956,
+            2.089714850784791
+          ],
+          "maximum_core_total_conservation_defect": 2.5479377188645213e-15,
+          "maximum_homogeneous_mode_expansivity": 0.0,
+          "relative_errors": [
+            0.000635328120966477,
+            0.00014849411167449703,
+            3.488529342057644e-05
+          ],
+          "stiffness_ratio": 1000.0,
+          "suffix_replay_bitwise": true
+        }
+      ],
+      "source_nullities": [
+        4,
+        4
+      ],
+      "suffix_replay_bitwise": true
+    },
+    {
+      "anchor_indices": [
+        0,
+        10
+      ],
+      "case": "primary",
+      "checkpoint_roundtrip_bitwise": true,
+      "global_state_dimension": 1232,
+      "maximum_core_total_conservation_defect": 7.265164849241234e-15,
+      "maximum_homogeneous_mode_expansivity": 0.0,
+      "maximum_online_step_wall_seconds": 0.0085358020151034,
+      "maximum_state_norm": 0.28140273630510415,
+      "minimum_matched_refinement_order": 2.023920641585201,
+      "online_truth_calls": 0,
+      "passed": true,
+      "projected_100k_step_wall_days": 0.009879400480443749,
+      "rows": [
+        {
+          "checkpoint_roundtrip_bitwise": true,
+          "matched_orders": [
+            3.012867649442204,
+            2.023920641585201
+          ],
+          "maximum_core_total_conservation_defect": 1.7488517455237568e-15,
+          "maximum_homogeneous_mode_expansivity": 0.0,
+          "relative_errors": [
+            0.006538260754854068,
+            0.0008100255195983272,
+            0.00019917640044196278
+          ],
+          "stiffness_ratio": 1.0,
+          "suffix_replay_bitwise": true
+        },
+        {
+          "checkpoint_roundtrip_bitwise": true,
+          "matched_orders": [
+            2.097281643640689,
+            2.0897784251814606
+          ],
+          "maximum_core_total_conservation_defect": 2.0229409792849713e-15,
+          "maximum_homogeneous_mode_expansivity": 0.0,
+          "relative_errors": [
+            0.0007345414502993007,
+            0.00017166099442187158,
+            4.0326045311190706e-05
+          ],
+          "stiffness_ratio": 1000.0,
+          "suffix_replay_bitwise": true
+        }
+      ],
+      "source_nullities": [
+        4,
+        4
+      ],
+      "suffix_replay_bitwise": true
+    }
+  ],
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizzq1_physical_112_cell_global_AP_dry_run"
+}
