@@ -1,0 +1,65 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzj1_bounded_nonlinear_split_microstep_kernel",
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false
+  },
+  "classification": "bounded_nonlinear_split_microstep_manifest_frozen",
+  "decision": {
+    "failure_classification": "bounded_nonlinear_split_microstep_kernel_failed",
+    "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzk_short_restartable_nonlinear_atlas_trajectory_manifest",
+    "pass_classification": "bounded_nonlinear_split_microstep_kernel_certified"
+  },
+  "kernel": {
+    "CFL_factors": [
+      0.02,
+      0.01
+    ],
+    "accepted_microsteps_per_case": 1,
+    "conservation_gate": 2e-12,
+    "conserved_recovery_gate": 1e-11,
+    "entropy_gate": 2e-11,
+    "patches_per_witness": 2,
+    "selected_witness_indices": [
+      0,
+      10,
+      20,
+      30,
+      40,
+      46
+    ],
+    "step_halving_order_gate": 1.8,
+    "trajectory_authorized": false,
+    "trust_radius_gate": 1.0
+  },
+  "ports": {
+    "STF_connection": "certified polar isometry",
+    "composition": "source half, relaxed equilibrium transport full, source half",
+    "source_heat": "exact midpoint reservoir-loss deposit"
+  },
+  "recovery": {
+    "accepted_state_only": true,
+    "map": "primitive -> compensated entropy point -> temporal currents",
+    "residual_gate": 1e-11,
+    "solver": "scaled trust-region least squares seeded by the accepted old primitive",
+    "unknowns": "log rho, log T, and two unconstrained rapidity coordinates"
+  },
+  "schema_version": 1,
+  "spatial_step": {
+    "coefficient_policy": "reanchor only after an accepted full split step",
+    "entropy_relaxation": "one scalar gamma applied to the full RK increment so total discrete eta equals its prospectively declared target",
+    "gamma_interval": [
+      0.8,
+      1.2
+    ],
+    "grid": "three-cell periodic frozen-geometry local patch",
+    "interface_flux": "certified compensated discrete-gradient radial flux",
+    "proposal": "explicit midpoint RK2",
+    "residual": "conservative flux difference accumulated high and low separately"
+  },
+  "state": {
+    "entropy": "eta(v)=v dot U(v)-X^t(v), evaluated with compensated alpha and flux arithmetic",
+    "equilibrium_core": "four temporal currents U=(J^t,T^tt,T^tR,T^tphi)",
+    "shear_height": "five STF and two height-port coordinates advanced by the certified midpoint/Cayley split"
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzj_bounded_nonlinear_split_microstep_manifest"
+}
