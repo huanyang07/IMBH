@@ -1,0 +1,88 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzo1_production_size_global_AP_dry_run",
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "complete_cycle_steps": 0,
+    "cycle_wide_atlas_complete": false,
+    "physical_production_boundaries_certified": false
+  },
+  "classification": "cycle_wide_inputs_and_global_AP_dry_run_decomposition_frozen",
+  "decision": {
+    "complete_cycle_execution_authorized": false,
+    "global_dry_run_pass_authorized_next": "WP10c9d6c7c3b5c4f25fizzp_legacy_cycle_evidence_compatibility_and_reusable_input_audit"
+  },
+  "decomposition": [
+    {
+      "name": "production_size_global_AP_dry_run",
+      "purpose": "clear the global spatial exponential-action and cost blocker independently",
+      "requires_new_truth": false,
+      "stage": 1
+    },
+    {
+      "name": "legacy_cycle_evidence_compatibility_audit",
+      "purpose": "classify old 82/470-dimensional boundary, event, forcing, and path artifacts for reuse",
+      "requires_new_truth": false,
+      "stage": 2
+    },
+    {
+      "name": "cycle_wide_eleven_field_atlas_and_event_acquisition",
+      "purpose": "acquire only inputs not supplied by compatible legacy evidence",
+      "requires_new_truth": true,
+      "stage": 3
+    },
+    {
+      "name": "held_out_global_phase_window_validation",
+      "purpose": "validate interpolation, boundaries, events, ledgers, restart, and step refinement",
+      "requires_new_truth": true,
+      "stage": 4
+    }
+  ],
+  "global_AP_dry_run": {
+    "boundary": "periodic proof kernel only",
+    "fields_per_cell": 11,
+    "gates": {
+      "checkpoint_and_suffix_replay": "bitwise",
+      "maximum_core_total_conservation_defect": 2e-11,
+      "maximum_homogeneous_mode_expansivity": 2e-10,
+      "maximum_projected_100k_step_wall_days": 3.0,
+      "maximum_state_norm": 2.0,
+      "minimum_matched_refinement_order": 1.7,
+      "minimum_source_nullity": 4,
+      "online_truth_calls": 0
+    },
+    "global_state_dimension": 1034,
+    "normalized_horizon": 2.0,
+    "physical_anchor_paths": {
+      "held_out": [
+        20,
+        30
+      ],
+      "primary": [
+        0,
+        10
+      ]
+    },
+    "radial_cells": 94,
+    "reference_step_count": 64,
+    "spatial_symbol": "centered conservative derivative plus Rusanov entropy dissipation; each Fourier mode is an exact 11-field affine exponential action",
+    "step_counts": [
+      4,
+      8,
+      16
+    ],
+    "stiffness_ratios": [
+      1.0,
+      1000.0
+    ]
+  },
+  "legacy_evidence_frozen_observations": {
+    "old_complete_cycle_attempt_patches": 64,
+    "old_exact_free_field_witnesses": 192,
+    "old_hot_exit_observed": false,
+    "old_online_state_dimension": 82,
+    "old_physical_time_advanced_seconds": 0.016,
+    "reuse_requires_explicit_eleven_field_lift_and_new_hash_lock": true
+  },
+  "schema_version": 1,
+  "work_package": "WP10c9d6c7c3b5c4f25fizzo_cycle_wide_offline_atlas_boundary_event_acquisition_and_global_dry_run"
+}
