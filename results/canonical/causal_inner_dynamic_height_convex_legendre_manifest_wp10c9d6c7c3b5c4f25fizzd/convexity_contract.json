@@ -1,0 +1,54 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzd1_dynamic_height_physical_entropy_convexity_diagnostic",
+  "candidate_common_potential": {
+    "density": "rho=surface_mass**2/(2*Z_H)",
+    "force_identity": "-dE/dH|surface_mass,entropy,P_H=Pi/H-surface_mass*Omega_perp**2*H",
+    "height_affinity": "eta_H=d eta/d Z_H",
+    "hydrostatic_witness": "P_H=0 and Pi=surface_mass*Omega_perp**2*H**2",
+    "mathematical_entropy": "eta=-surface_mass*s(rho,T)",
+    "necessary_legendre_condition": "the Hessian d2 eta/dU_H2 is positive definite",
+    "rest_frame_conserved_coordinates": "surface_mass, thermal_plus_vertical_energy, Z_H=surface_mass*H, P_H=surface_mass*w_H",
+    "specific_entropy": "R/(gamma-1)*ln(T/T0)-R*ln(rho/rho0)+4*a_rad*T**3/(3*rho)",
+    "thermal_energy": "surface_mass*(R*T/(gamma-1)+a_rad*T**4/rho)",
+    "vertical_energy": "P_H**2/(2*surface_mass)+0.5*Omega_perp**2*Z_H**2/surface_mass"
+  },
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "definitions_only": true,
+    "dynamic_height_potential_certified": false,
+    "eleven_field_local_closure_certified": false,
+    "full_shear_master_potential_certified": false,
+    "trajectory_authorized": false
+  },
+  "classification": "dynamic_height_convex_legendre_manifest_frozen",
+  "decision": {
+    "fail": {
+      "authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizze_split_Godunov_port_Hamiltonian_architecture_manifest",
+      "classification": "dynamic_height_common_potential_convexity_obstructed",
+      "interpretation": "reject only the one-piece common-potential height completion; preserve the fixed-height potential"
+    },
+    "pass": {
+      "authorized_next": "WP10c9d6c7c3b5c4f25fizzd2_dynamic_height_common_potential_implementation",
+      "classification": "dynamic_height_common_potential_convex"
+    }
+  },
+  "diagnostic": {
+    "Hessian_symmetry_gate": 1e-11,
+    "centered_Hessian_step_factors": [
+      0.002,
+      0.001,
+      0.0005
+    ],
+    "diagonal_equilibration": true,
+    "force_identity_relative_gate": 1e-10,
+    "linear_coordinate_scales": "surface_mass, surface_mass*e_thermal, Z_H, surface_mass*c",
+    "no_coefficient_fit": true,
+    "positive_minimum_eigenvalue_gate": 1e-08,
+    "same_frozen_physical_witnesses": 47,
+    "stable_sign_rule": "the minimum eigenvalue must have the same sign at all three step factors for every classified witness",
+    "trajectory_steps": 0
+  },
+  "parent_fixed_height_potential_certified": true,
+  "schema_version": 1,
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzd_dynamic_height_convex_legendre_manifest"
+}
