@@ -1,0 +1,52 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzi1_local_nonlinear_atlas_trust_region_kernel",
+  "claim_boundary": {
+    "bounded_nonlinear_microstep_authorized": false,
+    "complete_cycle_execution_authorized": false,
+    "definitions_only": true,
+    "trajectory_authorized": false
+  },
+  "classification": "local_nonlinear_atlas_trust_region_manifest_frozen",
+  "decision": {
+    "failure_classification": "local_nonlinear_atlas_trust_region_kernel_failed",
+    "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzj_bounded_nonlinear_split_microstep_manifest",
+    "pass_classification": "local_nonlinear_atlas_trust_region_kernel_certified"
+  },
+  "kernel": {
+    "STF_connection_orthogonality_gate": 2e-12,
+    "STF_connection_roundtrip_gate": 2e-12,
+    "deterministic_endpoint_pairs_per_anchor": 8,
+    "physical_anchors": 47,
+    "quadrature_refinement_gate": 2e-09,
+    "tadmor_relative_gate": 2e-09,
+    "trajectory_steps": 0
+  },
+  "moving_five_STF_connection": {
+    "connection": "orthogonal polar factor of the cross-Gram matrix",
+    "cross_gram": "metric contraction of left and right moving STF frames",
+    "energy_property": "the connection is an isometry in the five-amplitude reservoir norm",
+    "physical_representation": "full spacetime shear tensor reconstructed from five rest-frame amplitudes",
+    "polar_stretch": "stored as a geometric-work diagnostic and bounded by the trust gate",
+    "roundtrip": "right-to-left is the transpose of left-to-right"
+  },
+  "nonlinear_equilibrium_interface": {
+    "entropy_conservative_flux": "16-node Gauss-Legendre integral of grad_v X^R along the straight entropy-variable segment",
+    "entropy_stable_flux": "f_ec minus one-half lambda times the entropy-coordinate jump",
+    "metric_policy": "one frozen Kerr-Schild geometry per local proof interface; geometric interfaces require a later path-conservative source certificate",
+    "potential": "certified X^R=2Hp beta^R",
+    "tadmor_identity": "Delta v dot f_ec = X^R(v_R)-X^R(v_L)",
+    "variables": "four fixed-height entropy variables (alpha,beta_t,beta_R,beta_phi); beta_z is owned by the height port"
+  },
+  "schema_version": 1,
+  "trust_region": {
+    "endpoint_atlases_must_remain_causal_and_entropy_dissipative": true,
+    "horizontal_velocity_radius_over_c": 0.002,
+    "log_height_radius": 0.005,
+    "maximum_STF_polar_stretch": 0.08,
+    "maximum_normalized_atlas_change": 0.08,
+    "path_nodes_must_remain_physical": true,
+    "primitive_log_density_radius": 0.01,
+    "primitive_log_temperature_radius": 0.01
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzi_local_nonlinear_atlas_trust_region_manifest"
+}
