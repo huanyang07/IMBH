@@ -1,0 +1,65 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzk1_short_restartable_equilibrium_core_trajectory",
+  "cases": {
+    "dimensionless_horizon": 0.32,
+    "held_out": {
+      "patch_index": 1,
+      "witness_index": 30
+    },
+    "matched_ladder": [
+      {
+        "courant": 0.02,
+        "steps": 16
+      },
+      {
+        "courant": 0.01,
+        "steps": 32
+      },
+      {
+        "courant": 0.005,
+        "steps": 64
+      }
+    ],
+    "primary": {
+      "patch_index": 0,
+      "witness_index": 0
+    }
+  },
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "full_eleven_field_trajectory_certified": false,
+    "physical_time_horizon_claimed": false
+  },
+  "classification": "short_restartable_nonlinear_atlas_trajectory_manifest_frozen",
+  "decision": {
+    "failure_classification": "short_restartable_equilibrium_core_trajectory_failed",
+    "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzl_physical_entropy_congruence_and_AP_macrostep_manifest",
+    "pass_classification": "short_restartable_equilibrium_core_trajectory_certified"
+  },
+  "gates": {
+    "all_microsteps_pass": true,
+    "checkpoint_roundtrip_bitwise": true,
+    "maximum_cumulative_conservation_defect": 2e-10,
+    "maximum_cumulative_entropy_defect": 2e-10,
+    "maximum_trust_radius_fraction": 1.0,
+    "minimum_matched_endpoint_order": 1.8,
+    "state_robustness": "both primary and held-out cases pass",
+    "suffix_replay_bitwise": true
+  },
+  "restart": {
+    "checkpoint": "middle-ladder state after 16 accepted steps",
+    "payload": "density, temperature, radial and azimuthal velocity in every cell; height; accepted-step count; accumulated Courant time; initial conserved totals and entropy; source/config hashes",
+    "rejected_state_propagation": false,
+    "roundtrip": "bitwise primitive payload",
+    "suffix_replay": "remaining 16 middle-ladder steps bitwise"
+  },
+  "schema_version": 1,
+  "scope": {
+    "advanced_state": "three-cell periodic four-current equilibrium core",
+    "atlas_policy": "recover and reanchor every accepted endpoint",
+    "excluded": "the five shear and two height ports remain algebraic/split-kernel certificates until a physical entropy congruence is constructed",
+    "nonlinear_flux": "certified compensated discrete-gradient flux",
+    "time_step": "certified conservative entropy-projected midpoint RK2"
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzk_short_restartable_nonlinear_atlas_trajectory_manifest"
+}
