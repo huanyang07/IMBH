@@ -1,0 +1,73 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizze1_split_Godunov_port_Hamiltonian_proof_kernel",
+  "claim_boundary": {
+    "cycle_execution_authorized": false,
+    "definitions_only": true,
+    "full_shear_physical_potential_certified": false,
+    "split_discretization_certified": false,
+    "trajectory_authorized": false
+  },
+  "classification": "split_Godunov_port_Hamiltonian_architecture_manifest_frozen",
+  "composition": {
+    "accepted_history_only": true,
+    "discrete_physical_entropy_non_decrease_binding": true,
+    "discrete_total_energy_ledger_binding": true,
+    "matched_endpoint_half_step_audit_binding": true,
+    "method": "symmetric V(dt/2) G(dt) V(dt/2) Strang composition",
+    "state_dependent_coefficients": "recomputed only at declared substep boundaries; no hidden lagging inside a substep"
+  },
+  "decision": {
+    "failure_authorized_next": null,
+    "failure_classification": "split_Godunov_port_Hamiltonian_kernel_failed",
+    "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzf_fixed_height_five_STF_master_potential_manifest",
+    "pass_classification": "split_Godunov_port_Hamiltonian_kernel_certified"
+  },
+  "field_decomposition": {
+    "Godunov_transport_fields": 9,
+    "field_count_identity": "4 equilibrium + 5 STF + 2 vertical = 11",
+    "total_fields": 11,
+    "transport_coordinates": "surface mass, radial momentum, angular momentum, total energy, five STF shear amplitudes",
+    "vertical_coordinates": "log(H/H_anchor), w_H/c",
+    "vertical_port_fields": 2
+  },
+  "preserved_results": {
+    "five_STF_basis_and_quadratic_normal_form_certified": true,
+    "fixed_height_equilibrium_potential_certified": true,
+    "one_piece_dynamic_height_common_potential_rejected": true,
+    "rejected_candidate_reintroduced": false
+  },
+  "proof_kernel": {
+    "abstract_nine_field_Godunov_block": "the certified vertical-equilibrium restriction of the eleven-field quadratic normal form",
+    "gates": {
+      "matrix_symmetry_relative": 1e-12,
+      "maximum_characteristic_speed_over_c": 0.999,
+      "port_skew_relative": 1e-12,
+      "source_entropy_positive_part": 1e-12,
+      "temporal_minimum_eigenvalue": 1e-10,
+      "vertical_energy_ledger_relative": 1e-12
+    },
+    "height_entropy_metric": "M_H=diag(H*Omega_H**2/c,c/H)",
+    "height_rate_matrix": "L_H=[[0,c/H],[-H*Omega_H**2/c,-gamma_H]]",
+    "physical_vertical_frequency_squared": "Omega_H**2=Omega_perp**2+R*T/H**2",
+    "same_47_physical_witnesses": true,
+    "trajectory_steps": 0
+  },
+  "schema_version": 1,
+  "transport_generator": {
+    "equilibrium_potential": "X_eq^mu=2*H*p*beta^mu",
+    "height_policy": "H is a frozen positive coefficient during each hyperbolic transport substep",
+    "requirements": "A_G^0 positive definite; A_G^r symmetric; full radial spectrum real and strictly causal",
+    "shear_completion": "a prospective five-STF common potential in the nine-field transport block only"
+  },
+  "vertical_port_generator": {
+    "damping": "gamma_H=alpha*Omega_perp",
+    "dissipative_operator": "R_H=R_H^T positive_semidefinite",
+    "energy_ledger": "reversible pressure/gravity work plus kinetic work is zero; gamma_H*P_H**2/surface_mass is deposited as heat",
+    "entropy_ledger": "reversible contribution is zero and damping produces gamma_H*P_H**2/(surface_mass*T)>=0",
+    "height_kinematics": "D ln(H)=w_H/H",
+    "momentum": "D P_H=F_H-gamma_H*P_H",
+    "physical_force_per_area": "F_H=Pi/H-surface_mass*Omega_perp**2*H",
+    "reversible_operator": "J_H=-J_H^T"
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizze_split_Godunov_port_Hamiltonian_architecture_manifest"
+}
