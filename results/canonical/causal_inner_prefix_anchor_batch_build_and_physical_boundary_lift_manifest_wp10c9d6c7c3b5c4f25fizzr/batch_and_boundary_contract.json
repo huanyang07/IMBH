@@ -1,0 +1,72 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzr1_prefix_port_payload_and_boundary_structure_certificate",
+  "boundary_lift": {
+    "gates": {
+      "maximum_absolute_speed_over_c": 0.999,
+      "maximum_characteristic_reconstruction_defect": 2e-12,
+      "maximum_projector_idempotence_defect": 2e-12,
+      "maximum_symmetry_defect": 2e-12,
+      "minimum_penalty_eigenvalue": -2e-12
+    },
+    "incoming_definition": "negative eigenvalues of outward-normal A_n",
+    "inner": {
+      "cell": 0,
+      "expected_candidate_anchors": 17,
+      "expected_incoming_count": 0,
+      "mode": "pure excision/outflow"
+    },
+    "outer": {
+      "candidate_loading": "lifted frozen old exterior chart",
+      "cell": 111,
+      "cycle_wide_loading_complete": false,
+      "expected_candidate_anchors": 2,
+      "expected_incoming_count": 11,
+      "mode": "prescribed incoming physical loading"
+    },
+    "penalty": "D_in=V diag(max(-lambda_n,0)) V^T",
+    "representation": "symmetric entropy-port characteristic decomposition of outward-normal A_n"
+  },
+  "claim_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "complete_cycle_steps": 0,
+    "cycle_wide_inputs_complete": false,
+    "events_and_resets_certified": false,
+    "full_slow_forcing_complete": false,
+    "outer_cycle_loading_complete": false,
+    "prefix_port_payloads_built": false
+  },
+  "classification": "prefix_913_port_payload_batch_and_eleven_field_boundary_lift_manifest_frozen",
+  "decision": {
+    "failure_classification": "prefix_port_payload_or_boundary_structure_failed",
+    "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzs_cycle_wide_missing_input_acquisition_and_event_reset_manifest",
+    "pass_classification": "prefix_913_port_payloads_and_eleven_field_boundary_structure_certified_outer_cycle_loading_missing"
+  },
+  "prefix_port_batch": {
+    "binding_audits": [
+      "equilibrium entropy congruence",
+      "full port causality and reciprocity",
+      "corrected physical core reconstruction",
+      "Rphi-to-five-STF embedding",
+      "finite payload and lineage",
+      "maximum build wall hours"
+    ],
+    "candidate_anchor_count": 913,
+    "claim": "prefix port/coefficient payload only; full slow forcing remains a later input",
+    "maximum_build_wall_hours": 1.0,
+    "native_radial_cells": 112,
+    "new_truth_calls": 0,
+    "payload_per_anchor": [
+      "cell and source lineage",
+      "radius and primitive chart5/chart7",
+      "anchor-local state11",
+      "physical entropy congruence",
+      "corrected symmetric radial matrix11x11",
+      "dissipative/reversible source matrix11x11",
+      "characteristic speeds and source nullity",
+      "trust and physical guard diagnostics"
+    ],
+    "slow_forcing_b_included": false
+  },
+  "schema_version": 1,
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzr_prefix_anchor_batch_build_and_physical_boundary_lift_manifest"
+}
