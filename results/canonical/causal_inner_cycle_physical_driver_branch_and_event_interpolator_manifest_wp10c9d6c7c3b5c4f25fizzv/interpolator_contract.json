@@ -1,0 +1,114 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzv1_cycle_physical_driver_branch_and_event_interpolator_structure_certificate",
+  "binding_structure_gates": {
+    "checkpoint_roundtrip_bitwise": true,
+    "complete_cycle_steps": 0,
+    "driver_and_branch_anchor_reproduction_bitwise": true,
+    "maximum_coordinate_reproduction_defect": 2e-12,
+    "maximum_event_reset_ledger_relative_defect": 2e-12,
+    "maximum_forcing_ledger_relative_defect": 2e-12,
+    "maximum_invariant_reconstruction_relative_defect": 2e-12,
+    "maximum_radial_symmetry_defect": 2e-12,
+    "maximum_source_positive_eigenvalue": 2e-12,
+    "maximum_weight_sum_defect": 2e-13,
+    "minimum_barycentric_weight": -2e-13,
+    "minimum_fast_spectral_gap_per_second": 0.0,
+    "minimum_guard_transversality": 1e-08,
+    "minimum_source_nullity": 4,
+    "outside_hull_rejected": true
+  },
+  "branch_interpolation": {
+    "boundary_reaudit": "interpolated inner/outer incoming counts must remain 0/11",
+    "forcing_and_guards": "same convex weights",
+    "locator": "one mode-pure 5-simplex in scaled (q4,unwrapped phi)",
+    "normal_hyperbolicity": "interpolated fast spectral gap must remain strictly positive",
+    "outside_hull_or_trust": "fail closed",
+    "radial_matrix": "convex interpolation, preserving entropy symmetry",
+    "source_matrix": "convex interpolation with the common first-four-coordinate nullspace verified before use",
+    "state": "convex state interpolation followed by z<-z+N(q-Cz)",
+    "trust": "query distance and simplex diameter must remain inside every contributing trust radius",
+    "weights": "six nonnegative barycentric coordinates summing to one"
+  },
+  "certificate_fixture": {
+    "heldout_points": true,
+    "minimum_branch_anchors_per_mode": 8,
+    "minimum_driver_q_nodes": 6,
+    "minimum_event_truths_per_class": 8,
+    "minimum_modes": 2,
+    "physical_claim": false,
+    "synthetic_structure_only": true
+  },
+  "classification": "cycle_physical_driver_branch_and_event_interpolator_manifest_frozen",
+  "decision": {
+    "failure_classification": "cycle_driver_branch_event_interpolator_structure_failed",
+    "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzw_heldout_atlas_and_hybrid_sequence_validation_manifest",
+    "pass_classification": "cycle_driver_branch_event_interpolator_structure_certified_synthetic_fixture_only"
+  },
+  "definitions_only": true,
+  "driver_interpolation": {
+    "invariants": "nonnegative barycentric weights on one precomputed 4-simplex",
+    "outside_hull": "fail closed; nearest-neighbor or extrapolated fallback forbidden",
+    "phase": "periodic piecewise-linear interpolation on S1 using two adjacent nodes",
+    "preserved": [
+      "positive phase rate",
+      "periodicity",
+      "C b=ledger rate"
+    ],
+    "same_weights_for": [
+      "phase rate",
+      "slow forcing",
+      "distributed and boundary ledger rates",
+      "outer incoming characteristic amplitudes"
+    ],
+    "tensor_weights": "ten nonnegative products summing to one"
+  },
+  "event_and_reset_interpolation": {
+    "destination_mode": "single-valued and fixed within each transition class",
+    "event_map": "convex duration, ledger impulse and ledger-null constitutive jump",
+    "guard": "class-pure convex interpolation of reduced guard normals and offsets",
+    "orientation": "all contributing normals have positive dot product after frozen orientation",
+    "outside_guard_sheet": "fail closed",
+    "reset": "certified weighted reset geometry re-enforces C(z_plus-z_minus)=Delta q_event exactly",
+    "transversality": "grad(g) dot (qdot,phidot) has prospectively frozen nonzero margin"
+  },
+  "online_hybrid_state": {
+    "continuous": "(q,phi) in R^4 x S1, q=Cz",
+    "discrete": "physical branch mode m",
+    "large_nonlinear_roots_online": 0,
+    "reconstruction": "z_star(q,phi,m) plus optional certified fast correction",
+    "truth_calls_online": 0
+  },
+  "schema_v2_extension": {
+    "branch_additions": {
+      "branch_phase_scale": "positive frozen local phase scale",
+      "branch_q_scales4": "positive frozen coordinate scales",
+      "branch_simplex_mode_index": "one mode per simplex",
+      "branch_simplices6": "precomputed mode-pure simplices in local (q4,unwrapped phi)",
+      "common_local_source_null_coordinates": "indices [0,1,2,3] at every radial cell"
+    },
+    "driver_additions": {
+      "q_scales4": "positive frozen coordinate scales",
+      "q_simplices5": "precomputed 4-D invariant simplices, five vertices each"
+    },
+    "event_additions": {
+      "event_simplex_class_index": "one transition class per simplex",
+      "event_simplices6": "class-pure convex simplices on each guard sheet",
+      "reduced_guard_normals5": "normalized gradients with respect to (q4,unwrapped phi)",
+      "reduced_guard_offsets": "signed affine offsets at each event truth point",
+      "transition_class_labels": "fixed source-mode/destination-mode/event-class label"
+    },
+    "heldout_additions": {
+      "withheld_full_sequence": "never used for simplex construction or coefficient fitting",
+      "withheld_guard_points": "signed values on both sides plus transverse crossing times"
+    },
+    "reason": "schema v1 records event crossing direction but no reduced guard normal; it cannot define an online guard surface"
+  },
+  "schema_version": 1,
+  "scientific_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "complete_cycle_steps": 0,
+    "heldout_physical_validation_complete": false,
+    "physical_payloads_acquired": false
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzv_cycle_physical_driver_branch_and_event_interpolator_manifest"
+}
