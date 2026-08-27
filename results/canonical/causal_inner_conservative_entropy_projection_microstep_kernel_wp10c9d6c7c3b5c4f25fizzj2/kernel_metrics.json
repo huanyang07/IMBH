@@ -1,0 +1,1082 @@
+{
+  "accepted_state_only": true,
+  "all_projection_entropy_slopes_nonpositive": true,
+  "authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzk_short_restartable_nonlinear_atlas_trajectory_manifest",
+  "certificate_wall_seconds": 50.68668750021607,
+  "classification": "conservative_entropy_projection_microstep_kernel_certified",
+  "complete_cycle_execution_authorized": false,
+  "maximum_absolute_projection_theta": 3.1782064669081102e-06,
+  "maximum_conservation_relative_defect": 2.3100174167267865e-14,
+  "maximum_entropy_relative_defect": 2.0219532314901348e-13,
+  "maximum_projection_correction_relative_norm": 3.1782064669081102e-06,
+  "maximum_recovery_residual": 1.5190149920392592e-13,
+  "maximum_trust_radius_fraction": 0.20770645340421307,
+  "microstep_evaluation_count": 84,
+  "minimum_matched_step_halving_order": 1.967040911373593,
+  "minimum_projection_entropy_slope": -0.4981804943063779,
+  "passed": true,
+  "passing_patch_count": 12,
+  "patch_count": 12,
+  "physical_anchor_count": 6,
+  "rows": [
+    {
+      "four_quarter_steps": [
+        {
+          "conservation_relative_defect": 5.034900781027704e-15,
+          "correction_relative_norm": 2.1478966797490902e-07,
+          "entropy_relative_defect": 1.4599437576443007e-14,
+          "maximum_recovery_residual": 5.5465302912247544e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.24175966764829487,
+          "projection_theta": -2.14789667974909e-07,
+          "proposal_entropy_relative_defect": 5.247759043359188e-08
+        },
+        {
+          "conservation_relative_defect": 5.2746559309150435e-15,
+          "correction_relative_norm": 1.6695191824947352e-12,
+          "entropy_relative_defect": 3.691027755690291e-15,
+          "maximum_recovery_residual": 6.437638760721455e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.247061759463812,
+          "projection_theta": 1.6695191824947352e-12,
+          "proposal_entropy_relative_defect": 4.1873665036259836e-13
+        },
+        {
+          "conservation_relative_defect": 7.432468292391617e-15,
+          "correction_relative_norm": 1.2541006451890958e-12,
+          "entropy_relative_defect": 3.916318144892398e-15,
+          "maximum_recovery_residual": 5.69193708654687e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.2472157345093823,
+          "projection_theta": 1.2541006451890958e-12,
+          "proposal_entropy_relative_defect": 2.731270802288628e-13
+        },
+        {
+          "conservation_relative_defect": 5.754167947030888e-15,
+          "correction_relative_norm": 8.072874108550439e-13,
+          "entropy_relative_defect": 2.9001579121093302e-15,
+          "maximum_recovery_residual": 6.409830128266552e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.24738518875668114,
+          "projection_theta": 8.072874108550439e-13,
+          "proposal_entropy_relative_defect": 2.1694632172328798e-13
+        }
+      ],
+      "full_step": [
+        {
+          "conservation_relative_defect": 7.911986941614962e-15,
+          "correction_relative_norm": 3.1782064669081102e-06,
+          "entropy_relative_defect": 2.0219532314901348e-13,
+          "maximum_recovery_residual": 1.165458982235014e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.2072232143227424,
+          "projection_theta": -3.1782064669081102e-06,
+          "proposal_entropy_relative_defect": 7.860016473156182e-07
+        }
+      ],
+      "initial_trust_radius_fraction": 0.2000000000000099,
+      "matched_coarse_defect": 1.2713038850268082e-05,
+      "matched_refined_defect": 3.1522874700838897e-06,
+      "matched_step_halving_order": 2.0118379137172027,
+      "maximum_trust_radius_fraction": 0.20714963766739336,
+      "passed": true,
+      "patch_index": 0,
+      "radius_cm": 2685276524.3912225,
+      "two_half_steps": [
+        {
+          "conservation_relative_defect": 9.470408611933061e-15,
+          "correction_relative_norm": 8.460527072087968e-07,
+          "entropy_relative_defect": 1.5261545783760306e-15,
+          "maximum_recovery_residual": 7.048040131371687e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.23452105295998857,
+          "projection_theta": -8.460527072087968e-07,
+          "proposal_entropy_relative_defect": 2.070172631192845e-07
+        },
+        {
+          "conservation_relative_defect": 2.0379337214542174e-15,
+          "correction_relative_norm": 1.6820919747223875e-12,
+          "entropy_relative_defect": 1.5531560470769675e-15,
+          "maximum_recovery_residual": 7.052180662086935e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.2555235749013023,
+          "projection_theta": 1.6820919747223875e-12,
+          "proposal_entropy_relative_defect": 4.454382434993849e-13
+        }
+      ],
+      "witness_index": 0,
+      "witness_label": "primary_20ms_cell_000"
+    },
+    {
+      "four_quarter_steps": [
+        {
+          "conservation_relative_defect": 3.595017923357312e-15,
+          "correction_relative_norm": 1.9584214785081749e-13,
+          "entropy_relative_defect": 5.447044645569711e-14,
+          "maximum_recovery_residual": 6.718159117270511e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.3803107373822991,
+          "projection_theta": -1.9584214785081749e-13,
+          "proposal_entropy_relative_defect": 1.3168306285421298e-14
+        },
+        {
+          "conservation_relative_defect": 1.7975121693689802e-15,
+          "correction_relative_norm": 2.3921266064024683e-13,
+          "entropy_relative_defect": 5.1297567194686046e-14,
+          "maximum_recovery_residual": 7.08392902490885e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.38054272002445905,
+          "projection_theta": -2.3921266064024683e-13,
+          "proposal_entropy_relative_defect": 2.656527118546504e-14
+        },
+        {
+          "conservation_relative_defect": 1.4380123163438668e-15,
+          "correction_relative_norm": 3.5497043771799577e-13,
+          "entropy_relative_defect": 1.528149524259278e-13,
+          "maximum_recovery_residual": 7.003166950434817e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.3807783960692214,
+          "projection_theta": 3.549704377179957e-13,
+          "proposal_entropy_relative_defect": 2.2939564938036845e-14
+        },
+        {
+          "conservation_relative_defect": 1.4380149118676392e-15,
+          "correction_relative_norm": 2.7909469674537767e-13,
+          "entropy_relative_defect": 9.363733444870252e-14,
+          "maximum_recovery_residual": 7.342573831760989e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.3810177591734881,
+          "projection_theta": -2.7909469674537767e-13,
+          "proposal_entropy_relative_defect": 1.6735950010167477e-14
+        }
+      ],
+      "full_step": [
+        {
+          "conservation_relative_defect": 4.91319116192166e-15,
+          "correction_relative_norm": 1.719137637612444e-13,
+          "entropy_relative_defect": 4.186829219004316e-14,
+          "maximum_recovery_residual": 7.900524715744495e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.38101777623060584,
+          "projection_theta": -1.719137637612444e-13,
+          "proposal_entropy_relative_defect": 2.547473026870181e-14
+        }
+      ],
+      "initial_trust_radius_fraction": 0.1500000000000091,
+      "matched_coarse_defect": 5.724898853143681e-10,
+      "matched_refined_defect": 1.4296388315657683e-10,
+      "matched_step_halving_order": 2.001599477844073,
+      "maximum_trust_radius_fraction": 0.1502918554996713,
+      "passed": true,
+      "patch_index": 1,
+      "radius_cm": 2685276524.3912225,
+      "two_half_steps": [
+        {
+          "conservation_relative_defect": 2.3966786155715413e-16,
+          "correction_relative_norm": 2.3078177950258446e-13,
+          "entropy_relative_defect": 7.676722420797964e-14,
+          "maximum_recovery_residual": 7.362746232018666e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.3805427168063605,
+          "projection_theta": -2.3078177950258446e-13,
+          "proposal_entropy_relative_defect": 3.467937988229062e-14
+        },
+        {
+          "conservation_relative_defect": 5.033043107277496e-15,
+          "correction_relative_norm": 3.191552876600512e-14,
+          "entropy_relative_defect": 1.350210411496093e-14,
+          "maximum_recovery_residual": 3.6956713862584475e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.3810177668258814,
+          "projection_theta": 3.191552876600512e-14,
+          "proposal_entropy_relative_defect": 1.3697360925698087e-14
+        }
+      ],
+      "witness_index": 0,
+      "witness_label": "primary_20ms_cell_000"
+    },
+    {
+      "four_quarter_steps": [
+        {
+          "conservation_relative_defect": 4.587891791854889e-15,
+          "correction_relative_norm": 1.3684765286969186e-07,
+          "entropy_relative_defect": 5.987035390302913e-16,
+          "maximum_recovery_residual": 4.307839214402337e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.12163370728927447,
+          "projection_theta": -1.3684765286969186e-07,
+          "proposal_entropy_relative_defect": 1.6739841548141833e-08
+        },
+        {
+          "conservation_relative_defect": 2.367939620016367e-15,
+          "correction_relative_norm": 3.0555173422834497e-12,
+          "entropy_relative_defect": 6.807901521493397e-16,
+          "maximum_recovery_residual": 4.779948032296358e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.12306394608454678,
+          "projection_theta": 3.0555173422834493e-12,
+          "proposal_entropy_relative_defect": 4.0582093052486397e-13
+        },
+        {
+          "conservation_relative_defect": 3.699899112105578e-15,
+          "correction_relative_norm": 1.6048146365556772e-12,
+          "entropy_relative_defect": 3.4758014836263195e-17,
+          "maximum_recovery_residual": 6.784507899646192e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.12305259587331673,
+          "projection_theta": 1.6048146365556772e-12,
+          "proposal_entropy_relative_defect": 2.211569338272419e-13
+        },
+        {
+          "conservation_relative_defect": 7.695776602534223e-15,
+          "correction_relative_norm": 1.1498606864529494e-12,
+          "entropy_relative_defect": 2.6426846141549522e-15,
+          "maximum_recovery_residual": 8.000203409972917e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.12304501568888736,
+          "projection_theta": 1.1498606864529494e-12,
+          "proposal_entropy_relative_defect": 1.4321928253554248e-13
+        }
+      ],
+      "full_step": [
+        {
+          "conservation_relative_defect": 3.2559232071228248e-15,
+          "correction_relative_norm": 2.1450598382213515e-06,
+          "entropy_relative_defect": 1.169633816986901e-15,
+          "maximum_recovery_residual": 1.5385081633596198e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.11205595674963971,
+          "projection_theta": -2.1450598382213515e-06,
+          "proposal_entropy_relative_defect": 2.6315015818189955e-07
+        }
+      ],
+      "initial_trust_radius_fraction": 0.1999999999999988,
+      "matched_coarse_defect": 8.348751045638445e-06,
+      "matched_refined_defect": 2.0983224356439666e-06,
+      "matched_step_halving_order": 1.9923240052278892,
+      "maximum_trust_radius_fraction": 0.206415304441522,
+      "passed": true,
+      "patch_index": 0,
+      "radius_cm": 2685276524.3912225,
+      "two_half_steps": [
+        {
+          "conservation_relative_defect": 1.2431706790832602e-14,
+          "correction_relative_norm": 5.464029255040386e-07,
+          "entropy_relative_defect": 3.823159052806211e-15,
+          "maximum_recovery_residual": 1.034681178005388e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.11967020599581968,
+          "projection_theta": -5.464029255040386e-07,
+          "proposal_entropy_relative_defect": 6.688879545343243e-08
+        },
+        {
+          "conservation_relative_defect": 1.3763619062831613e-14,
+          "correction_relative_norm": 3.851371634791051e-12,
+          "entropy_relative_defect": 5.03306688518216e-16,
+          "maximum_recovery_residual": 7.230955607123688e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.12541948176505754,
+          "projection_theta": 3.851371634791051e-12,
+          "proposal_entropy_relative_defect": 4.863274695876981e-13
+        }
+      ],
+      "witness_index": 10,
+      "witness_label": "accepted_terminal_cell_000"
+    },
+    {
+      "four_quarter_steps": [
+        {
+          "conservation_relative_defect": 1.2127429426460435e-14,
+          "correction_relative_norm": 1.0059030095206034e-13,
+          "entropy_relative_defect": 7.182431194691829e-15,
+          "maximum_recovery_residual": 1.0895230846107123e-13,
+          "passed": true,
+          "projection_entropy_slope": -0.28883546921433173,
+          "projection_theta": -1.0059030095206032e-13,
+          "proposal_entropy_relative_defect": 7.182431194691829e-15
+        },
+        {
+          "conservation_relative_defect": 1.4198009171634369e-14,
+          "correction_relative_norm": 5.3380892115310524e-14,
+          "entropy_relative_defect": 5.9630019091794566e-15,
+          "maximum_recovery_residual": 5.901346135786172e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.2889536778192081,
+          "projection_theta": 5.338089211531052e-14,
+          "proposal_entropy_relative_defect": 6.218706331659236e-15
+        },
+        {
+          "conservation_relative_defect": 1.0796435621169693e-14,
+          "correction_relative_norm": 5.746579123176001e-14,
+          "entropy_relative_defect": 5.085320829375058e-15,
+          "maximum_recovery_residual": 6.255328460384044e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.2890733988518311,
+          "projection_theta": 5.746579123176001e-14,
+          "proposal_entropy_relative_defect": 5.085320829375058e-15
+        },
+        {
+          "conservation_relative_defect": 1.3310714638022363e-15,
+          "correction_relative_norm": 6.054440964489856e-14,
+          "entropy_relative_defect": 1.0818132166952722e-14,
+          "maximum_recovery_residual": 6.50627427355809e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.28919463513028987,
+          "projection_theta": -6.054440964489856e-14,
+          "proposal_entropy_relative_defect": 1.0818132166952722e-14
+        }
+      ],
+      "full_step": [
+        {
+          "conservation_relative_defect": 1.0352683656734518e-14,
+          "correction_relative_norm": 6.24612890539182e-14,
+          "entropy_relative_defect": 5.01777675355874e-15,
+          "maximum_recovery_residual": 6.421254352405334e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.2891946413303205,
+          "projection_theta": -6.24612890539182e-14,
+          "proposal_entropy_relative_defect": 5.01777675355874e-15
+        }
+      ],
+      "initial_trust_radius_fraction": 0.1500000000000091,
+      "matched_coarse_defect": 4.3431970384080557e-10,
+      "matched_refined_defect": 1.0852393675004651e-10,
+      "matched_step_halving_order": 2.0007441171853517,
+      "maximum_trust_radius_fraction": 0.15022178825050506,
+      "passed": true,
+      "patch_index": 1,
+      "radius_cm": 2685276524.3912225,
+      "two_half_steps": [
+        {
+          "conservation_relative_defect": 1.331059327294438e-15,
+          "correction_relative_norm": 8.100428582064837e-14,
+          "entropy_relative_defect": 4.470950565806393e-16,
+          "maximum_recovery_residual": 8.368393293830132e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.28895367841317815,
+          "projection_theta": -8.100428582064837e-14,
+          "proposal_entropy_relative_defect": 1.0840480430583716e-15
+        },
+        {
+          "conservation_relative_defect": 8.873782702459556e-16,
+          "correction_relative_norm": 3.86474290171868e-14,
+          "entropy_relative_defect": 1.3712458482099231e-14,
+          "maximum_recovery_residual": 4.4755096769977906e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.2891946363551396,
+          "projection_theta": -3.86474290171868e-14,
+          "proposal_entropy_relative_defect": 1.3712458482099231e-14
+        }
+      ],
+      "witness_index": 10,
+      "witness_label": "accepted_terminal_cell_000"
+    },
+    {
+      "four_quarter_steps": [
+        {
+          "conservation_relative_defect": 1.3913473655537057e-14,
+          "correction_relative_norm": 1.8170641461482772e-07,
+          "entropy_relative_defect": 1.3514147701051654e-14,
+          "maximum_recovery_residual": 9.491952694186439e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.14879104866433898,
+          "projection_theta": -1.8170641461482772e-07,
+          "proposal_entropy_relative_defect": 2.7391164283027142e-08
+        },
+        {
+          "conservation_relative_defect": 8.249558049195738e-15,
+          "correction_relative_norm": 1.1744019912590816e-12,
+          "entropy_relative_defect": 1.3839894898820283e-15,
+          "maximum_recovery_residual": 5.632864047394654e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.1527653077355329,
+          "projection_theta": 1.1744019912590816e-12,
+          "proposal_entropy_relative_defect": 1.4352630527993298e-13
+        },
+        {
+          "conservation_relative_defect": 8.24953594170523e-15,
+          "correction_relative_norm": 8.530901744333482e-13,
+          "entropy_relative_defect": 1.8940359209894227e-15,
+          "maximum_recovery_residual": 8.243080367022106e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.1527353888956793,
+          "projection_theta": 8.530901744333482e-13,
+          "proposal_entropy_relative_defect": 1.397661617838571e-13
+        },
+        {
+          "conservation_relative_defect": 3.2013039038898564e-15,
+          "correction_relative_norm": 5.545739974541532e-13,
+          "entropy_relative_defect": 1.7694487397313528e-15,
+          "maximum_recovery_residual": 1.0842918319463804e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.15271028211089618,
+          "projection_theta": 5.545739974541532e-13,
+          "proposal_entropy_relative_defect": 9.06799633394217e-14
+        }
+      ],
+      "full_step": [
+        {
+          "conservation_relative_defect": 1.3913473655537057e-14,
+          "correction_relative_norm": 2.7428272843915983e-06,
+          "entropy_relative_defect": 5.516596967085206e-15,
+          "maximum_recovery_residual": 1.134144143883584e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.1284260232181615,
+          "projection_theta": -2.742827284391598e-06,
+          "proposal_entropy_relative_defect": 4.2392690603357364e-07
+        }
+      ],
+      "initial_trust_radius_fraction": 0.1999999999999988,
+      "matched_coarse_defect": 1.0360167207753171e-05,
+      "matched_refined_defect": 2.6025394123414715e-06,
+      "matched_step_halving_order": 1.993055370875177,
+      "maximum_trust_radius_fraction": 0.20591352284445194,
+      "passed": true,
+      "patch_index": 0,
+      "radius_cm": 2685276524.3912225,
+      "two_half_steps": [
+        {
+          "conservation_relative_defect": 2.5856897943918427e-15,
+          "correction_relative_norm": 7.170953285083251e-07,
+          "entropy_relative_defect": 8.262095971024371e-15,
+          "maximum_recovery_residual": 6.6432354651900495e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.14422615638104438,
+          "projection_theta": -7.170953285083251e-07,
+          "proposal_entropy_relative_defect": 1.0880599423320304e-07
+        },
+        {
+          "conservation_relative_defect": 1.8469100434459155e-15,
+          "correction_relative_norm": 1.2387718737151898e-12,
+          "entropy_relative_defect": 2.2312738533695293e-16,
+          "maximum_recovery_residual": 1.0241487412677176e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.15963254019592504,
+          "projection_theta": 1.2387718737151898e-12,
+          "proposal_entropy_relative_defect": 1.9013267260243716e-13
+        }
+      ],
+      "witness_index": 20,
+      "witness_label": "accepted_00_cell_000"
+    },
+    {
+      "four_quarter_steps": [
+        {
+          "conservation_relative_defect": 5.290083577349631e-15,
+          "correction_relative_norm": 7.737533101819533e-14,
+          "entropy_relative_defect": 1.4480546661050672e-14,
+          "maximum_recovery_residual": 8.379325407177422e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.49762895506824667,
+          "projection_theta": 7.737533101819533e-14,
+          "proposal_entropy_relative_defect": 1.4480546661050672e-14
+        },
+        {
+          "conservation_relative_defect": 7.25851664690369e-15,
+          "correction_relative_norm": 7.856468986348203e-14,
+          "entropy_relative_defect": 3.369533098270192e-14,
+          "maximum_recovery_residual": 8.180294136549857e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.4978101688226617,
+          "projection_theta": 7.856468986348203e-14,
+          "proposal_entropy_relative_defect": 2.992740909303715e-14
+        },
+        {
+          "conservation_relative_defect": 7.381572820114729e-15,
+          "correction_relative_norm": 6.333239428294959e-14,
+          "entropy_relative_defect": 1.0582206656174153e-14,
+          "maximum_recovery_residual": 6.587160880670663e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.49799401104438307,
+          "projection_theta": 6.333239428294959e-14,
+          "proposal_entropy_relative_defect": 1.13580413444909e-14
+        },
+        {
+          "conservation_relative_defect": 1.0334244718342806e-14,
+          "correction_relative_norm": 6.1441203432105e-14,
+          "entropy_relative_defect": 1.8746469195846238e-14,
+          "maximum_recovery_residual": 6.697227341556071e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.4981804861580625,
+          "projection_theta": -6.1441203432105e-14,
+          "proposal_entropy_relative_defect": 1.8746469195846238e-14
+        }
+      ],
+      "full_step": [
+        {
+          "conservation_relative_defect": 1.3655797141530443e-14,
+          "correction_relative_norm": 7.099275702713815e-14,
+          "entropy_relative_defect": 2.244971400967635e-15,
+          "maximum_recovery_residual": 8.242219265902986e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.4981804943063779,
+          "projection_theta": 7.099275702713815e-14,
+          "proposal_entropy_relative_defect": 2.244971400967635e-15
+        }
+      ],
+      "initial_trust_radius_fraction": 0.1500000000000091,
+      "matched_coarse_defect": 5.375605449592663e-10,
+      "matched_refined_defect": 1.3432603949047407e-10,
+      "matched_step_halving_order": 2.000688250820153,
+      "maximum_trust_radius_fraction": 0.15022078058696023,
+      "passed": true,
+      "patch_index": 1,
+      "radius_cm": 2685276524.3912225,
+      "two_half_steps": [
+        {
+          "conservation_relative_defect": 4.921007978929889e-16,
+          "correction_relative_norm": 8.135283363800973e-14,
+          "entropy_relative_defect": 1.5593858026493168e-15,
+          "maximum_recovery_residual": 8.440182452614081e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.4978101695889006,
+          "projection_theta": 8.135283363800971e-14,
+          "proposal_entropy_relative_defect": 8.977085398405917e-16
+        },
+        {
+          "conservation_relative_defect": 3.8138126238011585e-15,
+          "correction_relative_norm": 0.0,
+          "entropy_relative_defect": 4.3081352246710746e-16,
+          "maximum_recovery_residual": 6.350766625581535e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.4981804877590329,
+          "projection_theta": 0.0,
+          "proposal_entropy_relative_defect": 4.3081352246710746e-16
+        }
+      ],
+      "witness_index": 20,
+      "witness_label": "accepted_00_cell_000"
+    },
+    {
+      "four_quarter_steps": [
+        {
+          "conservation_relative_defect": 7.511910656165537e-15,
+          "correction_relative_norm": 1.5668196094342415e-07,
+          "entropy_relative_defect": 7.894127899692838e-15,
+          "maximum_recovery_residual": 8.0849914659891e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.12997992517415927,
+          "projection_theta": -1.5668196094342415e-07,
+          "proposal_entropy_relative_defect": 2.0549695635777065e-08
+        },
+        {
+          "conservation_relative_defect": 6.0872226819509286e-15,
+          "correction_relative_norm": 2.111266059490549e-12,
+          "entropy_relative_defect": 1.0526779951524033e-15,
+          "maximum_recovery_residual": 9.158344607405372e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.13242771884737425,
+          "projection_theta": 2.111266059490549e-12,
+          "proposal_entropy_relative_defect": 2.834388429041257e-13
+        },
+        {
+          "conservation_relative_defect": 6.475753639859683e-17,
+          "correction_relative_norm": 1.1199841369248593e-12,
+          "entropy_relative_defect": 8.624139061836157e-16,
+          "maximum_recovery_residual": 6.755739988736636e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.1324397815156145,
+          "projection_theta": 1.119984136924859e-12,
+          "proposal_entropy_relative_defect": 1.5712170091366823e-13
+        },
+        {
+          "conservation_relative_defect": 9.584093014585901e-15,
+          "correction_relative_norm": 9.56358723303874e-13,
+          "entropy_relative_defect": 3.1852352869024688e-15,
+          "maximum_recovery_residual": 4.303263908759688e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.1324590783710186,
+          "projection_theta": 9.56358723303874e-13,
+          "proposal_entropy_relative_defect": 1.3371326736288308e-13
+        }
+      ],
+      "full_step": [
+        {
+          "conservation_relative_defect": 1.0879318881343193e-14,
+          "correction_relative_norm": 2.4322346718468884e-06,
+          "entropy_relative_defect": 2.0670178408806226e-15,
+          "maximum_recovery_residual": 1.6558186075580507e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.11541278049206531,
+          "projection_theta": -2.4322346718468884e-06,
+          "proposal_entropy_relative_defect": 3.2175600406521757e-07
+        }
+      ],
+      "initial_trust_radius_fraction": 0.1999999999999988,
+      "matched_coarse_defect": 9.334615924521005e-06,
+      "matched_refined_defect": 2.3576672151226754e-06,
+      "matched_step_halving_order": 1.9852305673756174,
+      "maximum_trust_radius_fraction": 0.20770645340421307,
+      "passed": true,
+      "patch_index": 0,
+      "radius_cm": 2685276524.3912225,
+      "two_half_steps": [
+        {
+          "conservation_relative_defect": 4.403533832924625e-15,
+          "correction_relative_norm": 6.208377285569281e-07,
+          "entropy_relative_defect": 7.634851577843185e-15,
+          "maximum_recovery_residual": 9.140022009645e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.12749699339882997,
+          "projection_theta": -6.208377285569281e-07,
+          "proposal_entropy_relative_defect": 8.204955636050654e-08
+        },
+        {
+          "conservation_relative_defect": 7.641385750088279e-15,
+          "correction_relative_norm": 1.789297757422202e-12,
+          "entropy_relative_defect": 1.7769207985714245e-15,
+          "maximum_recovery_residual": 1.0040950810182342e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.13724528718775936,
+          "projection_theta": 1.7892977574222017e-12,
+          "proposal_entropy_relative_defect": 2.764789786742797e-13
+        }
+      ],
+      "witness_index": 30,
+      "witness_label": "accepted_35_cell_000"
+    },
+    {
+      "four_quarter_steps": [
+        {
+          "conservation_relative_defect": 6.341307934202124e-15,
+          "correction_relative_norm": 5.395616407211807e-14,
+          "entropy_relative_defect": 3.449416931810053e-14,
+          "maximum_recovery_residual": 5.916559808039996e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.3825658510960586,
+          "projection_theta": 5.395616407211807e-14,
+          "proposal_entropy_relative_defect": 3.179320944571123e-14
+        },
+        {
+          "conservation_relative_defect": 3.364788017912511e-15,
+          "correction_relative_norm": 1.3244068292361103e-13,
+          "entropy_relative_defect": 2.8577415580520073e-15,
+          "maximum_recovery_residual": 1.3766235375030249e-13,
+          "passed": true,
+          "projection_entropy_slope": -0.38271142761231486,
+          "projection_theta": 1.3244068292361103e-13,
+          "proposal_entropy_relative_defect": 3.3755412448537257e-16
+        },
+        {
+          "conservation_relative_defect": 6.470770063173288e-16,
+          "correction_relative_norm": 6.319495857633541e-14,
+          "entropy_relative_defect": 1.596340327592431e-15,
+          "maximum_recovery_residual": 6.581244525494838e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.38285898333543705,
+          "projection_theta": 6.319495857633541e-14,
+          "proposal_entropy_relative_defect": 1.596340327592431e-15
+        },
+        {
+          "conservation_relative_defect": 3.2353970031842617e-15,
+          "correction_relative_norm": 9.613692944290328e-14,
+          "entropy_relative_defect": 1.9647367110031058e-14,
+          "maximum_recovery_residual": 9.825973128062384e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.3830085217380134,
+          "projection_theta": -9.613692944290328e-14,
+          "proposal_entropy_relative_defect": 1.8938831042745297e-14
+        }
+      ],
+      "full_step": [
+        {
+          "conservation_relative_defect": 1.4106174792408806e-14,
+          "correction_relative_norm": 6.631764802467885e-14,
+          "entropy_relative_defect": 2.7377688436831085e-14,
+          "maximum_recovery_residual": 7.281795289857703e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.38300852878053954,
+          "projection_theta": -6.631764802467885e-14,
+          "proposal_entropy_relative_defect": 2.7377688436831085e-14
+        }
+      ],
+      "initial_trust_radius_fraction": 0.1500000000000091,
+      "matched_coarse_defect": 4.870883723904754e-10,
+      "matched_refined_defect": 1.2173696604990112e-10,
+      "matched_step_halving_order": 2.000416227782838,
+      "maximum_trust_radius_fraction": 0.1502189951392529,
+      "passed": true,
+      "patch_index": 1,
+      "radius_cm": 2685276524.3912225,
+      "two_half_steps": [
+        {
+          "conservation_relative_defect": 1.2941444763677804e-15,
+          "correction_relative_norm": 9.333984375000015e-14,
+          "entropy_relative_defect": 7.521046369826178e-16,
+          "maximum_recovery_residual": 9.713434420114509e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.3827114282845294,
+          "projection_theta": -9.333984375000015e-14,
+          "proposal_entropy_relative_defect": 6.090043624052444e-16
+        },
+        {
+          "conservation_relative_defect": 5.82369305695659e-16,
+          "correction_relative_norm": 1.0835760988254552e-13,
+          "entropy_relative_defect": 2.931415562957607e-14,
+          "maximum_recovery_residual": 1.1347907257467978e-13,
+          "passed": true,
+          "projection_entropy_slope": -0.3830085231284492,
+          "projection_theta": 1.0835760988254552e-13,
+          "proposal_entropy_relative_defect": 2.7858603561298256e-14
+        }
+      ],
+      "witness_index": 30,
+      "witness_label": "accepted_35_cell_000"
+    },
+    {
+      "four_quarter_steps": [
+        {
+          "conservation_relative_defect": 3.186916904105339e-15,
+          "correction_relative_norm": 1.0867352632032813e-07,
+          "entropy_relative_defect": 1.332708540659073e-15,
+          "maximum_recovery_residual": 5.517487920070087e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.09703190379843571,
+          "projection_theta": -1.0867352632032813e-07,
+          "proposal_entropy_relative_defect": 1.0587088570444042e-08
+        },
+        {
+          "conservation_relative_defect": 4.5891521211151634e-15,
+          "correction_relative_norm": 4.173218473266404e-12,
+          "entropy_relative_defect": 7.108166951573036e-16,
+          "maximum_recovery_residual": 6.1822762536417936e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.09784580034137506,
+          "projection_theta": 4.173218473266404e-12,
+          "proposal_entropy_relative_defect": 4.069833260059442e-13
+        },
+        {
+          "conservation_relative_defect": 5.099049339135094e-16,
+          "correction_relative_norm": 2.206185148130629e-12,
+          "entropy_relative_defect": 5.770351119177479e-16,
+          "maximum_recovery_residual": 5.586011386977056e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.09790791204544101,
+          "projection_theta": 2.206185148130629e-12,
+          "proposal_entropy_relative_defect": 2.0795019033495422e-13
+        },
+        {
+          "conservation_relative_defect": 2.549520400322807e-15,
+          "correction_relative_norm": 1.112387147556798e-12,
+          "entropy_relative_defect": 1.7432185154740983e-16,
+          "maximum_recovery_residual": 6.9080491268280645e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.0979766659588241,
+          "projection_theta": 1.1123871475567977e-12,
+          "proposal_entropy_relative_defect": 1.1074699481533905e-13
+        }
+      ],
+      "full_step": [
+        {
+          "conservation_relative_defect": 1.147290085477922e-15,
+          "correction_relative_norm": 1.687626054653014e-06,
+          "entropy_relative_defect": 1.9818409527676132e-16,
+          "maximum_recovery_residual": 8.000302656556327e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.09307950826541284,
+          "projection_theta": -1.687626054653014e-06,
+          "proposal_entropy_relative_defect": 1.6748726733668221e-07
+        }
+      ],
+      "initial_trust_radius_fraction": 0.2000000000000099,
+      "matched_coarse_defect": 6.534055035453953e-06,
+      "matched_refined_defect": 1.657155762447758e-06,
+      "matched_step_halving_order": 1.9792693930586844,
+      "maximum_trust_radius_fraction": 0.2052322375195805,
+      "passed": true,
+      "patch_index": 0,
+      "radius_cm": 2825886796.4406533,
+      "two_half_steps": [
+        {
+          "conservation_relative_defect": 4.461683665747474e-16,
+          "correction_relative_norm": 4.348951166621634e-07,
+          "entropy_relative_defect": 9.4945618746622e-16,
+          "maximum_recovery_residual": 4.616900333407079e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.09626143563848402,
+          "projection_theta": -4.348951166621633e-07,
+          "proposal_entropy_relative_defect": 4.254389260953621e-08
+        },
+        {
+          "conservation_relative_defect": 2.2945714817976746e-15,
+          "correction_relative_norm": 6.193917937562861e-12,
+          "entropy_relative_defect": 5.119312113472621e-16,
+          "maximum_recovery_residual": 6.1974448911832416e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.09948139690925212,
+          "projection_theta": 6.193917937562861e-12,
+          "proposal_entropy_relative_defect": 6.265917809258544e-13
+        }
+      ],
+      "witness_index": 40,
+      "witness_label": "failed_face_003"
+    },
+    {
+      "four_quarter_steps": [
+        {
+          "conservation_relative_defect": 2.2928090742866272e-15,
+          "correction_relative_norm": 2.146207714374587e-13,
+          "entropy_relative_defect": 4.072591283342505e-14,
+          "maximum_recovery_residual": 7.732715307228146e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.2539099307223693,
+          "projection_theta": 2.146207714374587e-13,
+          "proposal_entropy_relative_defect": 9.73931236004915e-15
+        },
+        {
+          "conservation_relative_defect": 3.1844661334639854e-15,
+          "correction_relative_norm": 1.0795484456486159e-13,
+          "entropy_relative_defect": 1.3633669281508556e-14,
+          "maximum_recovery_residual": 1.1073901688595844e-13,
+          "passed": true,
+          "projection_entropy_slope": -0.25395395254266756,
+          "projection_theta": -1.0795484456486157e-13,
+          "proposal_entropy_relative_defect": 1.3633669281508556e-14
+        },
+        {
+          "conservation_relative_defect": 4.458265344388078e-15,
+          "correction_relative_norm": 1.857512924975557e-13,
+          "entropy_relative_defect": 4.506045751093764e-14,
+          "maximum_recovery_residual": 7.537430431088332e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.2539990470029999,
+          "projection_theta": -1.857512924975557e-13,
+          "proposal_entropy_relative_defect": 6.085138957107896e-15
+        },
+        {
+          "conservation_relative_defect": 2.4202081327284236e-15,
+          "correction_relative_norm": 1.4556160030082783e-13,
+          "entropy_relative_defect": 7.568979108756326e-15,
+          "maximum_recovery_residual": 1.5190149920392592e-13,
+          "passed": true,
+          "projection_entropy_slope": -0.2540452144570846,
+          "projection_theta": 1.4556160030082783e-13,
+          "proposal_entropy_relative_defect": 7.568979108756326e-15
+        }
+      ],
+      "full_step": [
+        {
+          "conservation_relative_defect": 3.057078765715503e-15,
+          "correction_relative_norm": 2.403888634321025e-13,
+          "entropy_relative_defect": 7.103376938972856e-14,
+          "maximum_recovery_residual": 8.423581884964777e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.2540452168014619,
+          "projection_theta": 2.403888634321025e-13,
+          "proposal_entropy_relative_defect": 3.1005393754158088e-15
+        }
+      ],
+      "initial_trust_radius_fraction": 0.1500000000000091,
+      "matched_coarse_defect": 3.226473607553878e-10,
+      "matched_refined_defect": 8.077696313171012e-11,
+      "matched_step_halving_order": 1.997942411322458,
+      "maximum_trust_radius_fraction": 0.15019560781101646,
+      "passed": true,
+      "patch_index": 1,
+      "radius_cm": 2825886796.4406533,
+      "two_half_steps": [
+        {
+          "conservation_relative_defect": 8.78910145143207e-15,
+          "correction_relative_norm": 2.5953028194030783e-13,
+          "entropy_relative_defect": 7.252479144591107e-14,
+          "maximum_recovery_residual": 1.2119386821487572e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.253953954140046,
+          "projection_theta": -2.5953028194030783e-13,
+          "proposal_entropy_relative_defect": 4.0400064982573784e-15
+        },
+        {
+          "conservation_relative_defect": 2.802338216503048e-15,
+          "correction_relative_norm": 1.0782256679767149e-13,
+          "entropy_relative_defect": 1.576789469570443e-14,
+          "maximum_recovery_residual": 1.1075000214841276e-13,
+          "passed": true,
+          "projection_entropy_slope": -0.2540452167559,
+          "projection_theta": 1.0782256679767148e-13,
+          "proposal_entropy_relative_defect": 1.5305914750710563e-14
+        }
+      ],
+      "witness_index": 40,
+      "witness_label": "failed_face_003"
+    },
+    {
+      "four_quarter_steps": [
+        {
+          "conservation_relative_defect": 4.052662134608397e-15,
+          "correction_relative_norm": 7.076738696646977e-08,
+          "entropy_relative_defect": 1.0503491645586305e-14,
+          "maximum_recovery_residual": 7.400261693872317e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.22863239360512225,
+          "projection_theta": -7.076738696646977e-08,
+          "proposal_entropy_relative_defect": 1.6214240118414117e-08
+        },
+        {
+          "conservation_relative_defect": 1.5197488095121308e-16,
+          "correction_relative_norm": 2.0587590679918705e-12,
+          "entropy_relative_defect": 1.8884049946164345e-15,
+          "maximum_recovery_residual": 9.092257387747674e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.22964659551291364,
+          "projection_theta": 2.0587590679918705e-12,
+          "proposal_entropy_relative_defect": 4.889365518223367e-13
+        },
+        {
+          "conservation_relative_defect": 6.078997557540605e-15,
+          "correction_relative_norm": 1.3201178182557598e-12,
+          "entropy_relative_defect": 2.4123326152578097e-16,
+          "maximum_recovery_residual": 1.1197267823771046e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.2296914320282353,
+          "projection_theta": 1.3201178182557596e-12,
+          "proposal_entropy_relative_defect": 2.7739601289160583e-13
+        },
+        {
+          "conservation_relative_defect": 8.105333188171415e-16,
+          "correction_relative_norm": 7.454529435747535e-13,
+          "entropy_relative_defect": 1.4024220294216865e-15,
+          "maximum_recovery_residual": 5.315457165556339e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.2297434446097899,
+          "projection_theta": 7.454529435747535e-13,
+          "proposal_entropy_relative_defect": 1.7289635425751945e-13
+        }
+      ],
+      "full_step": [
+        {
+          "conservation_relative_defect": 2.3100174167267865e-14,
+          "correction_relative_norm": 1.1817315839039768e-06,
+          "entropy_relative_defect": 1.7674494054918842e-15,
+          "maximum_recovery_residual": 1.2176983474078952e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.21764974454055538,
+          "projection_theta": -1.1817315839039768e-06,
+          "proposal_entropy_relative_defect": 2.668502559075562e-07
+        }
+      ],
+      "initial_trust_radius_fraction": 0.2000000000000099,
+      "matched_coarse_defect": 3.3845833608573523e-06,
+      "matched_refined_defect": 8.656989644873556e-07,
+      "matched_step_halving_order": 1.967040911373593,
+      "maximum_trust_radius_fraction": 0.20264012935431722,
+      "passed": true,
+      "patch_index": 0,
+      "radius_cm": 6729339317.769789,
+      "two_half_steps": [
+        {
+          "conservation_relative_defect": 5.065827668260496e-15,
+          "correction_relative_norm": 2.965507067143756e-07,
+          "entropy_relative_defect": 2.1671627695551327e-14,
+          "maximum_recovery_residual": 1.4568307111380104e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.22643676290497305,
+          "projection_theta": -2.965507067143756e-07,
+          "proposal_entropy_relative_defect": 6.775663493561172e-08
+        },
+        {
+          "conservation_relative_defect": 4.863197355696331e-15,
+          "correction_relative_norm": 4.306331602507789e-12,
+          "entropy_relative_defect": 4.742218694883944e-16,
+          "maximum_recovery_residual": 8.372792601906878e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.2306685281875574,
+          "projection_theta": 4.306331602507789e-12,
+          "proposal_entropy_relative_defect": 9.966604487460406e-13
+        }
+      ],
+      "witness_index": 46,
+      "witness_label": "empirical_min_field_4"
+    },
+    {
+      "four_quarter_steps": [
+        {
+          "conservation_relative_defect": 1.2151908290928894e-15,
+          "correction_relative_norm": 8.436499333279527e-14,
+          "entropy_relative_defect": 4.966515174245247e-15,
+          "maximum_recovery_residual": 7.833169116678789e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.2809692675570898,
+          "projection_theta": -8.436499333279527e-14,
+          "proposal_entropy_relative_defect": 3.753690664748379e-14
+        },
+        {
+          "conservation_relative_defect": 2.6329150543550024e-15,
+          "correction_relative_norm": 1.0285754310254488e-13,
+          "entropy_relative_defect": 2.5140322453969737e-15,
+          "maximum_recovery_residual": 6.610461353601159e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.2810977672471198,
+          "projection_theta": -1.0285754310254487e-13,
+          "proposal_entropy_relative_defect": 1.694030266677123e-14
+        },
+        {
+          "conservation_relative_defect": 5.265833302057801e-15,
+          "correction_relative_norm": 8.617295271176453e-14,
+          "entropy_relative_defect": 5.460398990013446e-14,
+          "maximum_recovery_residual": 5.595083389852797e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.281227096187126,
+          "projection_theta": -8.617295271176453e-14,
+          "proposal_entropy_relative_defect": 1.5329749633870576e-16
+        },
+        {
+          "conservation_relative_defect": 1.5189912998378824e-16,
+          "correction_relative_norm": 7.560159723178524e-14,
+          "entropy_relative_defect": 9.080465852532937e-15,
+          "maximum_recovery_residual": 5.89063614561011e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.28135725543900847,
+          "projection_theta": 7.560159723178524e-14,
+          "proposal_entropy_relative_defect": 1.7207981760649956e-14
+        }
+      ],
+      "full_step": [
+        {
+          "conservation_relative_defect": 4.860763316371558e-15,
+          "correction_relative_norm": 1.8251201020130973e-13,
+          "entropy_relative_defect": 3.6696654320537073e-16,
+          "maximum_recovery_residual": 7.007781386225696e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.2813572560756737,
+          "projection_theta": -1.825120102013097e-13,
+          "proposal_entropy_relative_defect": 8.406179610624004e-15
+        }
+      ],
+      "initial_trust_radius_fraction": 0.1500000000000091,
+      "matched_coarse_defect": 4.449316896592946e-11,
+      "matched_refined_defect": 1.107043858349426e-11,
+      "matched_step_halving_order": 2.006871476907164,
+      "maximum_trust_radius_fraction": 0.150146819836628,
+      "passed": true,
+      "patch_index": 1,
+      "radius_cm": 6729339317.769789,
+      "two_half_steps": [
+        {
+          "conservation_relative_defect": 6.278485950313262e-15,
+          "correction_relative_norm": 8.708665329400777e-14,
+          "entropy_relative_defect": 1.871856762885845e-14,
+          "maximum_recovery_residual": 4.860763316371559e-15,
+          "passed": true,
+          "projection_entropy_slope": -0.28109776647546864,
+          "projection_theta": -8.708665329400777e-14,
+          "proposal_entropy_relative_defect": 4.702190189197666e-14
+        },
+        {
+          "conservation_relative_defect": 2.6329166510328363e-15,
+          "correction_relative_norm": 2.408877026608476e-14,
+          "entropy_relative_defect": 5.8870667771072686e-15,
+          "maximum_recovery_residual": 3.20670229169427e-14,
+          "passed": true,
+          "projection_entropy_slope": -0.2813572536540736,
+          "projection_theta": -2.408877026608476e-14,
+          "proposal_entropy_relative_defect": 5.5139876037512875e-15
+        }
+      ],
+      "witness_index": 46,
+      "witness_label": "empirical_min_field_4"
+    }
+  ],
+  "schema_version": 1,
+  "trajectory_steps": 0,
+  "work_package": "WP10c9d6c7c3b5c4f25fizzj2_conservative_entropy_projection_microstep_kernel"
+}
