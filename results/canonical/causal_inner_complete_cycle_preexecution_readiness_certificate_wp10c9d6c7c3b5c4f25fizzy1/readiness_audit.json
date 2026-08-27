@@ -1,0 +1,100 @@
+{
+  "authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzy2_physical_cycle_bundle_acquisition_manifest",
+  "binding_interpretation": {
+    "external_physical_acquisition_block_selected": true,
+    "legacy_prefix_may_be_used_as_binding_cycle_truth": false,
+    "mathematical_architecture_failure_selected": false,
+    "physical_model_failure_selected": false,
+    "repository_corruption_or_unreadable_payload_selected": false,
+    "synthetic_fixture_may_be_relabeled_physical": false
+  },
+  "classification": "complete_cycle_preexecution_readiness_audit_passed_external_physical_bundle_absent",
+  "complete_cycle_preexecution_readiness_passed": false,
+  "decision": {
+    "authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzy2_physical_cycle_bundle_acquisition_manifest",
+    "complete_cycle_execution_authorized": false,
+    "complete_cycle_steps": 0,
+    "reason": "no complete nonsynthetic physical driver, branch, event, heldout, runtime-benchmark, and initial-condition package exists",
+    "status": "blocked_before_physical_complete_cycle_preexecution"
+  },
+  "evidence_disposition": {
+    "candidate_seed_only": [
+      {
+        "binding_limit": "short five-field prefix; no full cycle or hot exit",
+        "count": 65,
+        "evidence": "accepted short physical trajectory profiles",
+        "observed_physical_seconds": 0.016,
+        "shape": [
+          65,
+          112,
+          5
+        ]
+      },
+      {
+        "binding_limit": "five-field witnesses; no cycle-wide branch coverage",
+        "count": 192,
+        "evidence": "exact short-time witness profiles",
+        "shape": [
+          192,
+          112,
+          5
+        ]
+      },
+      {
+        "binding_limit": "per-cell prefix anchors; no 1232-state cycle branch sheets, slow forcing, or physical outer loading",
+        "count": 913,
+        "evidence": "local eleven-field port/source anchors",
+        "native_radial_cells": 112
+      },
+      {
+        "binding_limit": "physical seed only; not a transition or reset endpoint",
+        "count": 1,
+        "evidence": "accepted 20.0017-ms terminal checkpoint"
+      }
+    ],
+    "direct_binding_cycle_payloads": [],
+    "structure_only": [
+      "four-invariant conservation map and minimum-norm correction",
+      "native 112-cell/1232-state AP operator structure",
+      "inner excision and eleven-incoming outer characteristic structure",
+      "reduced hybrid driver/branch/guard/reset production interfaces"
+    ],
+    "synthetic_only": [
+      "complete physical-input schema fixture",
+      "reduced driver/branch/event kernel fixtures and runtime projections"
+    ]
+  },
+  "genuinely_missing_external_evidence": {
+    "calibrated_transition_guard_and_reset_truth": true,
+    "cycle_wide_distributed_forcing": true,
+    "cycle_wide_outer_incoming_loading": true,
+    "external_physical_model_metadata": true,
+    "hash_locked_initial_phase_mode_state_and_transition_inventory": true,
+    "independent_full_sequence_or_cycle_truth": true,
+    "independent_spatial_truth": true,
+    "mode_pure_1232_state_branch_sheets": true,
+    "physical_orbital_ephemeris_and_phase_law": true,
+    "physical_production_payload_runtime_benchmark": true,
+    "prospectively_split_branch_event_and_phase_holdouts": true,
+    "stable_spectral_gap_and_trust_data_over_full_tube": true
+  },
+  "inventory_audit_passed": true,
+  "readiness_gates": {
+    "complete_branch_group_present": false,
+    "complete_driver_group_present": false,
+    "complete_event_group_present": false,
+    "complete_heldout_group_present": false,
+    "complete_nonsynthetic_metadata_present": false,
+    "complete_physical_bundle_directory_present": false,
+    "independent_sequence_or_cycle_holdout_complete": false,
+    "independent_spatial_holdout_complete": false,
+    "mathematical_architecture_verified": true,
+    "physical_bundle_schema_and_fail_closed_validator_verified": true,
+    "physical_initial_condition_locked": false,
+    "physical_runtime_benchmark_complete": false,
+    "prior_evidence_hash_locked": true,
+    "repository_inventory_complete": true
+  },
+  "schema_version": 1,
+  "work_package": "physical_WP10c9d6c7c3b5c4f25fizzy1_complete_cycle_preexecution_readiness_certificate"
+}

@@ -1,0 +1,67 @@
+{
+  "parent_artifact": "causal_inner_complete_cycle_preexecution_manifest_wp10c9d6c7c3b5c4f25fizzy",
+  "parent_checksum_manifest_sha256": "a572d1030313a0af2e66ee6e7cb75f04659d204a516f85bd546a3da1e2f0ac3d",
+  "parent_hashes": {
+    "input_lock.json": "24a84e5abb4dcb56bd3121fbc413effe5ac43c53f591ffb4851ca29ecdd3bd72",
+    "preexecution_contract.json": "e40637b23d98066ce128afbd04428cf73de6b95c6b7912667ba0ff5b5d8a8f35",
+    "provenance.json": "19cfcca25490ce32a38244993b33efbcb466a5739800ebd02f62039956d3a379",
+    "readiness_status.json": "04f6fc3277ea97eafd340ec2baaa63f97eaefece89518072236302b43d5d265d",
+    "summary.json": "4492f80077cbb60ff780a5a14475236cdecba54380a55a8130f644cf8d09e066"
+  },
+  "support_artifacts": {
+    "legacy_cycle_evidence": {
+      "artifact": "causal_inner_legacy_cycle_evidence_compatibility_audit_wp10c9d6c7c3b5c4f25fizzp1",
+      "checksum_manifest_sha256": "d6b1b2c6afe76b56a407e9b2baa0a319b6ec6a111a24668938e253b8cb7e5ac3",
+      "payload_hashes": {
+        "compatibility_audit.json": "e7b8993d1aa2826411c535e703196efea52c4bdf77f7eaa7986b7d33df108248",
+        "input_lock.json": "9c984752463036e4c8829241231d09cd5d08be89904f42ea1f89a675f3a5e526",
+        "provenance.json": "f2f79be0b137ebe53a69a6e988d6a1168135768c2ddaa2de5ebf17eafeabc065",
+        "summary.json": "a33fcf2315d8db9811aa2027d8431985ed5e967ed08668feef940762d1fea0e3"
+      }
+    },
+    "native_global_AP": {
+      "artifact": "causal_inner_physical_112_cell_global_ap_dry_run_wp10c9d6c7c3b5c4f25fizzq1",
+      "checksum_manifest_sha256": "85d5da9b89ffe0fe261bda7e6da89b2ee677cc88f74c3edeea30a7958e83ac01",
+      "payload_hashes": {
+        "global_dry_run_arrays.npz": "a182d7ae12aafaeb6e4e6552617701a31f33bdaaf275db0b252df2ac53097d8d",
+        "global_dry_run_metrics.json": "515ba02fa815d1600d3dca00b4cb757a94194b342bc30a6a90feb53efaa3e08c",
+        "input_lock.json": "967a21c17ea67c30aaae35d5e8b8abc1312bbeba0570810c033f5b721eaf8093",
+        "provenance.json": "aeb5dfbab1d7cfce2da9a2fbad882f1cf05d584b4042d1b53d40aae5e0aec6d4",
+        "summary.json": "c140af6d365b63409410f0b1745bec1e404aa8b5636e1ed9dfa990d5042dac8b"
+      }
+    },
+    "physical_bundle_acquisition_contract": {
+      "artifact": "causal_inner_cycle_wide_physical_driver_boundary_loading_and_event_truth_acquisition_manifest_wp10c9d6c7c3b5c4f25fizzt",
+      "checksum_manifest_sha256": "af99169da4ceb552d48779245f8505a6a78ada7b4b54541f6940c9b1a8f1b1d4",
+      "payload_hashes": {
+        "input_lock.json": "22c8600278f9301913045449c1acb68eb4924365d28af570cd436b696261ac0f",
+        "physical_input_acquisition_contract.json": "2d04e4bfdc07a029f3cef7e4d464ea780e1f1c5c9677bc705d2c1fe09a285691",
+        "provenance.json": "4ae9628c7681dfa4fdc0eba4b51039491df877d86509642a873d3bc536a922b0",
+        "summary.json": "ffefb6154f8cf83889f15f63d9dc2801148c25c01f799375747fe9e7c57f48dd"
+      }
+    },
+    "physical_bundle_schema": {
+      "artifact": "causal_inner_cycle_physical_input_bundle_schema_and_validator_certificate_wp10c9d6c7c3b5c4f25fizzt1",
+      "checksum_manifest_sha256": "f852d2b520700e81444c5472d2c00d426c133111de4247739362d0f8fb1e8a1c",
+      "payload_hashes": {
+        "input_lock.json": "55beb15137baf98579c948e9163086a70df47f80dcebf9dd118d0349a49d6420",
+        "provenance.json": "0459f176747ebb36d9e5c924ddc93a48f12f236ec4b5b36f5511718cbb2c7b58",
+        "summary.json": "f3a0572bc1a5c0849c76c6b3b1f2f8f2b2759d7c3bdff383643ea903058853eb",
+        "synthetic_fixture_arrays.npz": "1ddb409ca2456ee8f1af00e53d0c8ed0bbd4c9f4da02d40ab3e7451070c66c10",
+        "synthetic_fixture_metadata.json": "d631772e48f334362f27d4cca0749f18533ba5aed0e858b5a5b8cf45e2edf924",
+        "validator_metrics.json": "44448f61d5478b5a91be62d85b0af98dd779d9a656c7982c541e9af69a53482b"
+      }
+    },
+    "prefix_ports_and_boundaries": {
+      "artifact": "causal_inner_prefix_port_payload_and_boundary_structure_certificate_wp10c9d6c7c3b5c4f25fizzr1",
+      "checksum_manifest_sha256": "4b491cbba2440f6106da7ae69c54c494ecaa5c15137f8fd4aa808cf305b3d9c6",
+      "payload_hashes": {
+        "input_lock.json": "2e32c1aa0f71e8613ad8e7180e87d56f599c114dbef3623dd0e2bdc497c9435f",
+        "port_and_boundary_metrics.json": "a5d66624e65ebba7e4acaa15e22052945a67bd46e5cc4f5011ec880ccf97aad1",
+        "prefix_port_payloads.npz": "05e160d795c4101bf8647d8c57fc49a3b89351868b1cfbc5e084e54772371881",
+        "provenance.json": "03784d21c3d915045df92c7142273d594ea0a00cc01a55888f7a569468fe1ddc",
+        "summary.json": "85869dc54d6628fdf5ef66b9f12631c57f402b7fd21ead88c06b4b1c40d2043b"
+      }
+    }
+  }
+}
