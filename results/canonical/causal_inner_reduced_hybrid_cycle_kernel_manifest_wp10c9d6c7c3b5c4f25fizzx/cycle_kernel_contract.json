@@ -1,0 +1,72 @@
+{
+  "authorized_next": "WP10c9d6c7c3b5c4f25fizzx1_reduced_hybrid_cycle_kernel_certificate",
+  "classification": "reduced_hybrid_cycle_kernel_manifest_frozen",
+  "cost_projection": {
+    "fiducial_period_seconds": 578880.0,
+    "maximum_online_macrosteps": 100000,
+    "maximum_wall_days": 3.0,
+    "report": [
+      "driver RHS query wall time",
+      "branch endpoint query wall time",
+      "guard/reset query wall time",
+      "checkpoint I/O",
+      "projected cycle wall time",
+      "projected physical seconds per wall second"
+    ],
+    "required_mean_physical_seconds_per_step": 5.7888
+  },
+  "decision": {
+    "failure_classification": "reduced_hybrid_cycle_kernel_or_cost_failed",
+    "pass_authorized_next": "definitions_only_WP10c9d6c7c3b5c4f25fizzy_complete_cycle_preexecution_manifest",
+    "pass_classification": "reduced_hybrid_cycle_kernel_structure_and_cost_certified_synthetic_fixture_only"
+  },
+  "definitions_only": true,
+  "prefix_and_cost_certificate": {
+    "assumed_endpoint_branch_queries_per_step": 1,
+    "assumed_rhs_queries_per_step": 7,
+    "complete_cycle_steps": 0,
+    "maximum_prefix_ledger_relative_defect": 2e-12,
+    "maximum_projected_100000_step_wall_days": 3.0,
+    "minimum_benchmark_queries": 1000,
+    "minimum_endpoint_structure_audits": 16,
+    "minimum_prefix_accepted_steps": 16,
+    "minimum_prefix_events": 2,
+    "restart_suffix_replay_bitwise": true,
+    "synthetic_fixture_only": true
+  },
+  "production_adapter": {
+    "branch_endpoint": "accepted endpoint reconstructs z_star,A,S,b and repeats hull/trust/gap/source/boundary audits",
+    "event_guard": "all outgoing class-pure guard sheets evaluated in reduced coordinates",
+    "event_reset": "interpolated impulse, duration, phase advance and destination mode become one atomic accepted transition",
+    "history": "accepted checkpoints persist y,mode,next step,cumulative smooth/event ledgers and provenance",
+    "inputs": [
+      "validated cycle physical input bundle v2",
+      "hash-locked driver/branch/event simplices",
+      "certified conservation map and minimum-norm normal",
+      "validated heldout decision"
+    ],
+    "online_large_nonlinear_roots": 0,
+    "online_truth_calls": 0,
+    "rhs": "driver interpolation returns (qdot,phidot) for every Dormand-Prince stage"
+  },
+  "production_fail_closed": {
+    "ambiguous_event": "reject step",
+    "cycle_runner_available_in_certificate": false,
+    "outside_hull_trust_or_guard_sheet": "reject step",
+    "reject_synthetic_fixture": true,
+    "require_all_physical_payload_hashes": true,
+    "require_heldout_physical_validation_complete": true,
+    "require_one_independent_full_sequence_or_cycle_holdout": true,
+    "require_one_independent_spatial_holdout": true,
+    "require_physical_model_complete": true
+  },
+  "schema_version": 1,
+  "scientific_boundary": {
+    "complete_cycle_execution_authorized": false,
+    "complete_cycle_steps": 0,
+    "heldout_physical_validation_complete": false,
+    "physical_model_complete": false,
+    "physical_payloads_acquired": false
+  },
+  "work_package": "definitions_only_WP10c9d6c7c3b5c4f25fizzx_reduced_hybrid_cycle_kernel_manifest"
+}
